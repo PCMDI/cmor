@@ -1,0 +1,114 @@
+2010-04-27 : updated examples to reflect new required things
+2010-04-27 : colored Makefile output for fortran testing, makes it eaiser to see what's being tested
+2010-04-27 : API changes for Jamie, close_variable can now preserve a variable and redefine it for later use (new file) by user. See doc and test_python_max_variables_2.py for details.
+2010-04-27 : when creating new variable, looks for the first available in the list instead of always adding one. This helps preventing users to run into "maximum number of variables" when opeing/closing a lot of files. See test_python_max_variables.py for details.
+2010-04-27 : model_id must now match begining of source if CMIP5
+2010-04-27 : institute_id is now required in tables
+2010-04-27 : changed history from "reverted axes" to "inverted axis"
+2010-04-27 : "hyphenized model_id has nor more "-" at the end
+2010-04-27 : comment: original_table_comment changed to [project_id]_table_comment where [project_id] is what the table specifies
+2010-04-27 : "singleton" replaced with "scalr" in history output
+2010-04-27 : zfactor_bnds are now reverted if needed. 
+2010-04-27 : "height" scalar dimension is now defined in the file BEFORE the actual variable (so it looks better on an ncdump)
+2010-04-27 : "converted type to" was written only to the the last variable (multiple times) instead of the correct variable(s)
+2010-04-21 : fixed appendix in doc to reflect newest values of include files
+2010-04-21 : fixed ippc_test_code.f90 that somehow stayed CMOR1 for the most part
+2010-04-15 : reverted axes did not result in flipping data!
+2010-04-02 : updated all examples FORTRAN, C and Python to run with newer tables
+2010-04-02 : allowed user to pass 1D bounds for time in cmor.write in Python, automagically converts to 2D
+2010-04-02 : updated tables
+2010-04-02 : contact is now required (that might change...)
+2010-04-02 : removed a test that was wrong and was allowing to define variable with wrong dimension (as long as axis (T) attribute matched)
+2010-04-01 : fixed associated_files attribute, the file names are now constructed correctly
+2010-03-31 : non_standard calendar must have "non_standard" as calendar name
+2010-03-25 : value of forcing is now checked and returns a CRITICAL_ERROR if wrong
+2010-03-25 : added parent_Experiment to list of required_global attributes in table
+2010-03-24 : fixed a bug when user was declaring multiple zfactor with same name
+2010-03-24 : fixed issue for alternate hybrid level being stored as infinite
+2010-03-22 : fixed configure with  Jamie's patch
+2010-03-22 : fixed alternate_hybrid_sigma code thx to Joerg for spotting the bug
+2010-03-22 : fixed a bug in definition of alternate_hybrid_sigma in tables
+2010-03-19 : fixed bug when starting from appending file, wasn't reseting the "last_time" written, this caused error when writing time values less than the default -999
+2010-03-19 : fixed configure to always add -lm since it wans't added in case of NetCDF3 libary use
+2010-03-16 : cleaned test_sophie , some int wasn't intialized
+2010-03-16 : Python interface now checks that the data passed somewhat check the expected shape (ignores 1 length dims)
+2010-03-12 : cleaned up configure, thx to Stephen Pascoe
+2010-03-12 : works for windows messed up files. But the md5 will probably come out wrong in that case
+2010-03-12 : tweaked grid table to remove some attributes
+2010-03-12 : check validity of parent_experiment_id
+2010-03-09 : Now accepting "generic" exp_ids ending with YYYYMMDDHH
+2010-03-09 : Storing md5 for Tables used by user, this should help detecting "tweaking of tables"
+2010-03-04 : 'rip' convention is now in place no matter if physics_method and _nitialisation_method' are passed or not
+2010-03-04 : file suffix no longer allowed for table made for cmor 2.0 and up
+2010-03-04 : associated_files attribute is now smart enough to use areacell/volumcell in agreement with cell_measures attribute
+2010-03-04 : appending to file fixed, was broken becasue of new DRS
+2010-03-04 : axis flipping no checks first vs last values not just first and second, in case we have a bunch of 0. to start.
+2010-02-23 : if a critical error happens during cmor_write or cmor_close_variable cleans up the file it was trying to produce
+2010-02-23 : cleans up cvalues if they were malloced
+2010-02-22 : links against either NetCDF4 or NetCDF3
+2010-02-19 : if ref variable defines "positive" and user does not pass it to cmor_variable, changed from WARNING to CRITICAL error[:]
+2010-02-19 : checking that "output" directory is indeed a directory and that you have read/write permissions to it
+2010-02-19 : added more experiement ids to tables
+2010-02-19 : added a note in install file about not mixing 32bit and 64bit compilers (mac transition to 10.6)
+2010-02-18 : fixed a bug with variable not being completely cleared after closing/setup.
+2010-02-18 : added possibility of "cell_measures" attribute.
+2010-02-18 : fixed MAJOR bug with grids, all reference tables were mixed, it was a miracle it even worked on examples.
+2010-02-17 : added Tables/CMIP5_grids file that contains "irregular" grid informations
+2010-02-17 : fixed bug when comparing exp_id with the ones in the table
+2010-02-17 : fixed "must have bounds check" was returning an error when user was sending time values via axis definition.
+2010-02-17 : do not store "positive" attribute on variables any longer.
+2010-02-16 : fixed tables_generator and updated tables
+2010-02-09 : cleaned-up table genrators add_dims2.txt
+2010-02-09 : for "region" (char) coordinates, now recognizes "coords_attrib" table definiton which defines name of the coordinate variable (still geo_'coord' if not defined)
+2010-02-01 : removed warnings in _cmormodule.c
+2010-02-01 : fixed error in cf3hr table
+2010-02-01 : fixed a small leak in python wrapper
+2010-02-01 : added some python example to the test suite
+2010-01-28 : fixed add_dims.txt (hybrid stuff) tables
+2010-01-28 : zfactors can now reference to axis values in formula
+2010-01-20 : fixed tables generator. Dims are not repeated anymore. fixed "climatology" keyword for dime time2
+2010-01-17 : add "eq" unit to udunits2 not convertible to anything, but won't die when reading in from tables
+2010-01-15 : newer table containing ocean sigma coords and some updtes from Karl
+2010-01-06 : added option to turn off coloring : --disable-color
+2010-01-05 : reset default values for shuffle/deflate/defalte_level to 0 (can be changed via table)
+2010-01-05 : fixed table generator to replace zlevel with appropriate alevel or olevel
+2010-01-05 : added colors to output to easily spot error and warnings
+2010-01-04 : added traceback through C calls
+2009-12-22 : model_id can now contain any character BUT they will be converted to "-" in directory structure
+2009-12-22 : exposed cmor_set_cur_dataset_attribute
+2009-12-22 : newer set of tables
+2009-12-22 : documented above changes into CMOR users guide
+2009-11-25 : updated acknowledgment
+2009-11-25 : history is not copied over multiple times any longer
+2009-11-25 : CMOR checker now checks for file directory structure
+2009-11-23 : updated documentation to reflect nvertices argument to Fortran and python. Also added this optional arg to python
+2009-11-23 : fixed bug for python wrapper that had the missing_value converted to the wrong type
+2009-11-22 : preserve mode fixed (can't know the name of the final file until closing, it now checks then as well)
+2009-11-22 : time varying grids are now accepted, see cmor_time_varying_grid_coordinate new function
+2009-11-22 : put back in use of nc-config at build time, which should allow for misc builds of netcdf
+2009-11-10 : allowed fortran to write fixed field (no time) w/o passing ntimes_passed=0
+2009-11-10 : now catching grid defined with time varying axes, not allowed at the moment
+2009-11-10 : fixed bug spoted by Kostas, when zfactor axis was created w/o bounds extra attributes were added to the previous dimension
+2009-11-10 : improved error messages when incompatible units in cmor_axes and cmor_variables
+2009-11-09 : updated python interface's keywords for cmor.variable: axes is now axis_ids and missing is now missing_value, this make it the same as C and Fortran versions
+2009-11-05 : unique id generated by uuid is now different fr each file (instead of being the same for every var generated nder a call to cmor_dataset). Appending to files will now change the tracking_id (uuid) number
+2009-11-05 : cmor_create_output_directory now return 1 in C only if the variable is a fixed frequency, no changes for Fortran and Python
+2009-11-05 : 30min frequency renamed "subhr"
+2009-11-05 : examples adapted to reflect new directory/names structure
+2009-11-05 : "output" directory added to directory structure between "project_id" and "institution_id" dirs, to prepare for future "derived" products
+2009-11-05 : Newer CMOR tables
+2009-11-05 : fixed fields are stored under realization "0" no matter which realization number is passed
+2009-11-05 : "fixed" is now "fx"
+2009-11-05 : removed area from cmor_grid, it is now supposed to be stored in a separate file
+2009-11-05 : updated "associated_files" to point to the gridspec/cellArea/cellVolume files + baseURL instead of "self"
+2009-10-20 : fixed paramters type for fortran they used to be real where integer was needed
+2009-10-15 : Patch from Jamie Kettleborough that fixes a bug in cmor.write that was returning incomplete bounds
+2009-08-25 : Fixed a bug with cell_method that would always add interval even if user did not pass it.
+2009-08-25 : Updated documenation of cmor_write to reflect the cell_method order difference in Fortran vs C/Python
+2009-08-25 : fixed a bug with python interface when passing 1 time slice bounds only.
+2009-08-25 : nc-config flags are different from 1 version unitl another, so until it is stabalized, commented code out
+2009-08-25 : Fixed a typo in doc of cmor_setup
+2009-08-24 : Tagged as release candidate 3
+2009-08-24 : Fixed a bug with realms being mangled with memory while construcitng path, added jamie's test for it
+2009-08-24 : Edited configure.ac to take advantage of nc-config if present
+2009-08-24 : Added this file RELEASES-NOTES

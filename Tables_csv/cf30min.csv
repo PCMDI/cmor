@@ -1,0 +1,48 @@
+CMOR Table cf30min: CFMIP 30-Minute Cloud Diagnostic Fields,,,,,cf30min,,,,,,,,,,,,,
+(All Saved on the Atmospheric Grid),,,,,,,,,,,,,,,,,,
+"For further guidance, please see http://www.cfmip.net",,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,
+"The spread sheet ""CFMIP expts."" specifies the simulations and time-periods for which the cloud diagnostic fields listed on this spread sheet should be saved.",,,,,,,,,,,,,,,,,,
+"CMOR Table cf30Min: ""CFMIP 30-min"" -- 2-D and 3-D fields on model levels sampled approximately every half-hour at specified locations (about 115 stations)",,,,,,,,,,,,,,,,,,
+"The sampling interval must be the integer multiple of the model time-step that is nearest a half hour. Outputs should be instantaneous (not time mean) and from nearest gridbox (no spatial interpolation.)  Note that except for the quantities appearing in the Amon spreadsheet (first line of table below), all other fields are 3-D. ",,,,,,,,,,,,,,,,,,
+priority,long name,units ,comment ,questions,output variable name ,confirmed or likely to be confirmed standard name,unconfirmed or proposed standard name,unformatted units,cell_methods,valid min,valid max,mean absolute min,mean absolute max,positive,type,CMOR dimensions,CMOR variable name,realm
+1,"see the ""Amon"" spreadsheet for list of quantities",,"This table includes the 2-D variables listed in the ""Amon"" spreadsheet, omitting, however, the daily maximum and minimum temperatures.  All variables should be reported as synoptic fields, not daily means.  ",,?,,,,time: point,,,,,,real,"site, time1",,atmos
+1,Cloud Area Fraction,%,Include both large-scale and convective cloud.,,cl,cloud_area_fraction_in_atmosphere_layer,,%,time: point,,,,,,real,"alevel, site, time1",cl,atmos
+1,Mass Fraction of Cloud Liquid Water,1,Include both large-scale and convective cloud.  Calculate as the mass of  cloud liquid water in the grid cell divided by the mass of air (including the water in all phases) in the grid cell.,,clw,mass_fraction_of_cloud_liquid_water__in_air,,1,time: point,,,,,,real,"alevel, site, time1",clw,atmos
+1,Mass Fraction of Cloud Ice,1,Include both large-scale and convective cloud. Calculate as the mass of  cloud ice  in the grid cell divided by the mass of air (including the water in all phases) in the grid cell.,,cli,mass_fraction_of_cloud_ice_in_air,,1,time: point,,,,,,real,"alevel, site, time1",cli,atmos
+1,Convective Mass Flux,kg m-2 s-1,"The atmosphere convective mass flux is the vertical transport of mass for a field of cumulus clouds or cloudless thermals, given by the product of air density and vertical velocity. Calculate as the convective mass flux divided by the area of the whole grid cell (not just the area of the updrafts).",,mc,convective_mass_flux,,kg m-2 s-1,time: point,,,,,,real,"alevel, site, time1",mc,atmos
+1,Air Temperature,K,,,ta,air_temperature,,K,time: point,,,,,,real,"alevel, site, time1",ta,atmos
+1,Eastward Wind,m s-1,,,ua,eastward_wind,,m s-1,time: point,,,,,,real,"alevel, site, time1",ua,atmos
+1,Northward Wind,m s-1,,,va,northward_wind,,m s-1,time: point,,,,,,real,"alevel, site, time1",va,atmos
+1,Specific Humidity,1,,,hus,specific_humidity,,1,time: point,,,,,,real,"alevel, site, time1",hus,atmos
+1,Relative Humidity,%,"This is the relative humidity with respect to liquid water for T> 0 C, and with respect to ice for T<0 C.",,hur,relative_humidity,,%,time: point,,,,,,real,"alevel, site, time1",hur,atmos
+1,omega (=dp/dt),Pa s-1,"commonly referred to as ""omega"", this represents the vertical component of velocity in pressure coordinates (positive down)",,wap,lagrangian_tendency_of_air_pressure,,Pa s-1,time: point,,,,,,real,"alevel, site, time1",wap,atmos
+1,Geopotential Height,m,,,zg,geopotential_height,,m,time: point,,,,,,real,"alevel, site, time1",zg,atmos
+1,Upwelling Longwave Radiation,W m-2,,,rlu,upwelling_longwave_flux_in_air,,W m-2,time: point,,,,,up,real,"alevel, site, time1",rlu,atmos
+1,Upwelling Shortwave Radiation,W m-2,,,rsu,upwelling_shortwave_flux_in_air,,W m-2,time: point,,,,,up,real,"alevel, site, time1",rsu,atmos
+1,Downwelling Longwave Radiation,W m-2,,,rld,downwelling_longwave_flux_in_air,,W m-2,time: point,,,,,down,real,"alevel, site, time1",rld,atmos
+1,Downwelling Shortwave Radiation,W m-2,,,rsd,downwelling_shortwave_flux_in_air,,W m-2,time: point,,,,,down,real,"alevel, site, time1",rsd,atmos
+1,Upwelling Clear-Sky Longwave Radiation,W m-2,,,rlucs,upwelling_longwave_flux_in_air_assuming_clear_sky,,W m-2,time: point,,,,,up,real,"alevel, site, time1",rlucs,atmos
+1,Upwelling Clear-Sky Shortwave Radiation,W m-2,,,rsucs,upwelling_shortwave_flux_in_air_assuming_clear_sky,,W m-2,time: point,,,,,up,real,"alevel, site, time1",rsucs,atmos
+1,Downwelling Clear-Sky Longwave Radiation,W m-2,,,rldcs,downwelling_longwave_flux_in_air_assuming_clear_sky,,W m-2,time: point,,,,,down,real,"alevel, site, time1",rldcs,atmos
+1,Downwelling Clear-Sky Shortwave Radiation,W m-2,,,rsdcs,downwelling_shortwave_flux_in_air_assuming_clear_sky,,W m-2,time: point,,,,,down,real,"alevel, site, time1",rsdcs,atmos
+1,Tendency of Air Temperature,K s-1,,,tnt ,,tendency_of_air_temperature,K s-1,time: point,,,,,,real,"alevel, site, time1",tnt ,atmos
+1,Tendency of Air Temperature due to Advection,K s-1,,,tnta ,,tendency_of_air_temperature_due_to_advection,K s-1,time: point,,,,,,real,"alevel, site, time1",tnta ,atmos
+1,Tendency of Air Temperature due to Diabatic Processes,K s-1,,,tntdp ,,tendency_of_air_temperature_due_to_diabatic_processes,K s-1,time: point,,,,,,real,"alevel, site, time1",tntdp ,atmos
+1,Tendency of Air Temperature due to Stratiform Cloud Condensation and Evaporation,K s-1,,,tntscce ,,tendency_of_air_temperature_due_to_stratiform_cloud_condensation_and_evaporation,K s-1,time: point,,,,,,real,"alevel, site, time1",tntscce ,atmos
+1,Tendency of Air Temperature due to Radiative Heating,K s-1,,,tntr ,,tendency_of_air_temperature_due_to_radiative_heating,K s-1,time: point,,,,,,real,"alevel, site, time1",tntr ,atmos
+1,Tendency of Air Temperature due to Moist Convection,K s-1,,,tntmc ,,tendency_of_air_temperature_due_to_moist_convection,K s-1,time: point,,,,,,real,"alevel, site, time1",tntmc ,atmos
+1,Tendency of Specific Humidity,s-1,,,tnhus,,tendency_of_specific_humidity,s-1,time: point,,,,,,real,"alevel, site, time1",tnhus,atmos
+1,Tendency of Specific Humidity due to Advection,s-1,,,tnhusa ,,tendency_of_specific_humidity_due_to_advection,s-1,time: point,,,,,,real,"alevel, site, time1",tnhusa ,atmos
+1,Tendency of Specific Humidity due to Convection,s-1,,,tnhusc ,,tendency_of_specific_humidity_due_to_convection,s-1,time: point,,,,,,real,"alevel, site, time1",tnhusc ,atmos
+1,Tendency of Specific Humidity due to Diffusion,s-1,,,tnhusd ,,tendency_of_specific_humidity_due_to_diffusion,s-1,time: point,,,,,,real,"alevel, site, time1",tnhusd ,atmos
+1,Tendency of Specific Humidity due to Stratiform Cloud Condensation and Evaporation,s-1,,,tnhusscce ,,tendency_of_specific_humidity_due_to_stratiform_cloud_condensation_and_evaporation,s-1,time: point,,,,,,real,"alevel, site, time1",tnhusscce ,atmos
+1,Tendency of Specific Humidity due to Model Physics,s-1,,,tnhusmp ,,tendency_of_specific_humidity_due_to_model_physics,s-1,time: point,,,,,,real,"alevel, site, time1",tnhusmp ,atmos
+1,Eddy Viscosity Coefficient for Momentum Variables,m2 s-1,,,evu,,eddy_viscosity_coefficients_for_momentum_variables,m2 s-1,time: point,,,,,,real,"alevel, site, time1",evu,atmos
+1,Eddy Diffusivity Coefficient for Temperature Variable,m2 s-1,,,edt,,eddy_diffusivity_coefficients_for_temperature_variable,m2 s-1,time: point,,,,,,real,"alevel, site, time1",edt,atmos
+1,Eddy Diffusivity Coefficient for Water Variables,m2 s-1,,,edw,,eddy_diffusivity_coefficients_for_water_variables,m2 s-1,time: point,,,,,,real,"alevel, site, time1",edw,atmos
