@@ -1,3 +1,4 @@
+2010-04-29 : updated repo to git
 2010-04-27 : updated examples to reflect new required things
 2010-04-27 : colored Makefile output for fortran testing, makes it eaiser to see what's being tested
 2010-04-27 : API changes for Jamie, close_variable can now preserve a variable and redefine it for later use (new file) by user. See doc and test_python_max_variables_2.py for details.
