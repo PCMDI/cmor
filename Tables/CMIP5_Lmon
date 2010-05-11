@@ -6,7 +6,7 @@ frequency: mon
 cmor_version: 2.0         ! version of CMOR that can read this table
 cf_version:   1.4         ! version of CF that output conforms to
 project_id:   CMIP5  ! project id
-table_date:   29 April 2010 ! date this table was constructed
+table_date:   11 May 2010 ! date this table was constructed
 
 missing_value: 1.e20      ! value used to indicate a missing value
                           !   in arrays output by netCDF as 32-bit IEEE 
@@ -90,8 +90,8 @@ long_name:        longitude
 ! Additional axis information:
 !----------------------------------
 out_name:         lon
-valid_min:        0         
-valid_max:        360 
+valid_min:        0.0         
+valid_max:        360.0 
 stored_direction: increasing
 type:             double
 must_have_bounds: yes
@@ -113,8 +113,8 @@ long_name:        latitude
 ! Additional axis information:
 !----------------------------------
 out_name:         lat
-valid_min:        -90         
-valid_max:        90 
+valid_min:        -90.0         
+valid_max:        90.0 
 stored_direction: increasing
 type:             double
 must_have_bounds: yes
@@ -158,8 +158,8 @@ long_name:        depth
 ! Additional axis information:
 !----------------------------------
 out_name:         depth
-valid_min:        0         
-valid_max:        200 
+valid_min:        0.0         
+valid_max:        200.0 
 stored_direction: increasing
 type:             double
 must_have_bounds: yes
@@ -182,7 +182,7 @@ long_name:        depth
 ! Additional axis information:
 !----------------------------------
 out_name:         depth
-valid_min:        0         
+valid_min:        0.0         
 valid_max:        0.2 
 stored_direction: increasing
 type:             double
@@ -1068,7 +1068,7 @@ units:             kg m-2
 cell_methods:      time: mean area: mean where land
 cell_measures:      area: areacella
 long_name:         Carbon Mass in Other Living Compartments on Land
-comment:           e.g., labile, fruits, reserves, _. 
+comment:           e.g., labile, fruits, reserves, .. 
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
@@ -1149,7 +1149,7 @@ units:             kg m-2
 cell_methods:      time: mean area: mean where land
 cell_measures:      area: areacella
 long_name:         Carbon Mass in Fast Soil Pool
-comment:           fast is meant as lifetime of less than 10 years for  reference climate conditions (20øC, no water limitations).
+comment:           fast is meant as lifetime of less than 10 years for  reference climate conditions (20C, no water limitations).
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
@@ -1170,7 +1170,7 @@ units:             kg m-2
 cell_methods:      time: mean area: mean where land
 cell_measures:      area: areacella
 long_name:         Carbon Mass in Medium Soil Pool
-comment:           medium is meant as lifetime of more than than 10 years and less than 100 years for  reference climate conditions (20øC, no water limitations)
+comment:           medium is meant as lifetime of more than than 10 years and less than 100 years for  reference climate conditions (20C, no water limitations)
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
@@ -1191,7 +1191,7 @@ units:             kg m-2
 cell_methods:      time: mean area: mean where land
 cell_measures:      area: areacella
 long_name:         Carbon Mass in Slow Soil Pool
-comment:           fast is meant as lifetime of more than 100 years for  reference climate conditions (20øC, no water limitations)
+comment:           fast is meant as lifetime of more than 100 years for  reference climate conditions (20C, no water limitations)
 !----------------------------------
 ! Additional variable information:
 !----------------------------------

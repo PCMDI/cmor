@@ -633,21 +633,11 @@ static PyObject *
     return NULL;
   }
   else {
-    if (dopreserve==1) {
-      if (dofile==1) {
-	return Py_BuildValue("si",file_name,preserved_id);
-      }
-      else {
-	return Py_BuildValue("i",preserved_id);
-      }
+    if (dofile==1) {
+      return Py_BuildValue("s",file_name);
     }
     else {
-      if (dofile==1) {
-	return Py_BuildValue("s",file_name);
-      }
-      else {
-	return Py_BuildValue("i",ierr);
-      }
+      return Py_BuildValue("i",ierr);
     }
   }
 }

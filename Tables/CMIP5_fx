@@ -6,7 +6,7 @@ frequency: fx
 cmor_version: 2.0         ! version of CMOR that can read this table
 cf_version:   1.4         ! version of CF that output conforms to
 project_id:   CMIP5  ! project id
-table_date:   29 April 2010 ! date this table was constructed
+table_date:   11 May 2010 ! date this table was constructed
 
 missing_value: 1.e20      ! value used to indicate a missing value
                           !   in arrays output by netCDF as 32-bit IEEE 
@@ -90,8 +90,8 @@ long_name:        longitude
 ! Additional axis information:
 !----------------------------------
 out_name:         lon
-valid_min:        0         
-valid_max:        360 
+valid_min:        0.0         
+valid_max:        360.0 
 stored_direction: increasing
 type:             double
 must_have_bounds: yes
@@ -113,29 +113,8 @@ long_name:        latitude
 ! Additional axis information:
 !----------------------------------
 out_name:         lat
-valid_min:        -90         
-valid_max:        90 
-stored_direction: increasing
-type:             double
-must_have_bounds: yes
-!----------------------------------
-!
-
-
-!============
-axis_entry: time
-!============
-!----------------------------------
-! Axis attributes:
-!----------------------------------
-standard_name:    time
-units:            days since ?
-axis:             T             ! X, Y, Z, T (default: undeclared)
-long_name:        time
-!----------------------------------
-! Additional axis information:
-!----------------------------------
-out_name:         time
+valid_min:        -90.0         
+valid_max:        90.0 
 stored_direction: increasing
 type:             double
 must_have_bounds: yes
@@ -543,8 +522,8 @@ long_name:         Atmosphere Grid-Cell Area
 dimensions:        longitude latitude
 out_name:          areacella
 type:              real
-valid_min:         500
-valid_max:         2.50E+05
+valid_min:         500.0
+valid_max:         250000.0
 !----------------------------------
 !
 
@@ -566,8 +545,8 @@ comment:           height above the geoid; as defined here, ""the geoid"" is a s
 dimensions:        longitude latitude
 out_name:          orog
 type:              real
-valid_min:         -700
-valid_max:         1.00E+04
+valid_min:         -700.0
+valid_max:         10000.0
 !----------------------------------
 !
 
@@ -588,8 +567,8 @@ long_name:         Land Area Fraction
 dimensions:        longitude latitude
 out_name:          sftlf
 type:              real
-valid_min:         0
-valid_max:         100
+valid_min:         0.0
+valid_max:         100.0
 !----------------------------------
 !
 
@@ -611,8 +590,8 @@ comment:           fraction of grid cell occupied by ""permanent"" ice (i.e., gl
 dimensions:        longitude latitude
 out_name:          sftgif
 type:              real
-valid_min:         0
-valid_max:         100
+valid_min:         0.0
+valid_max:         100.0
 !----------------------------------
 !
 
@@ -655,8 +634,8 @@ comment:           report the maximum soil depth reachable by plant roots (if de
 dimensions:        longitude latitude
 out_name:          rootd
 type:              real
-valid_min:         0
-valid_max:         30
+valid_min:         0.0
+valid_max:         30.0
 !----------------------------------
 !
 
@@ -678,10 +657,34 @@ comment:           Ocean bathymetry.   Report here the sea floor depth for prese
 dimensions:        longitude latitude
 out_name:          deptho
 type:              real
-valid_min:         0
-valid_max:         10000
-ok_min_mean_abs:   2000
-ok_max_mean_abs:   5000
+valid_min:         0.0
+valid_max:         10000.0
+ok_min_mean_abs:   2000.0
+ok_max_mean_abs:   5000.0
+!----------------------------------
+!
+
+!============
+variable_entry:    volcello
+!============
+modeling_realm:    ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     ocean_volume
+units:             m3
+long_name:         Ocean Grid-Cell Volume
+comment:           3-D field: grid-cell volume ca. 2000.  
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude olevel
+out_name:          volcello
+type:              real
+valid_min:         1000.0
+valid_max:         1e+15
+ok_min_mean_abs:   10000000000.0
+ok_max_mean_abs:   1e+15
 !----------------------------------
 !
 
@@ -701,8 +704,8 @@ long_name:         Ocean Grid-Cell Area
 dimensions:        longitude latitude
 out_name:          areacello
 type:              real
-valid_min:         10
-valid_max:         2.50E+05
+valid_min:         10.0
+valid_max:         250000.0
 !----------------------------------
 !
 
@@ -724,8 +727,8 @@ comment:           Report on the same grid that ocean fields are reported (i.e.,
 dimensions:        longitude latitude
 out_name:          sftof
 type:              real
-valid_min:         0
-valid_max:         100
+valid_min:         0.0
+valid_max:         100.0
 !----------------------------------
 !
 
@@ -747,8 +750,8 @@ comment:           Report on the same grid as the temperature field.  flag_value
 dimensions:        longitude latitude
 out_name:          basin
 type:              integer
-valid_min:         1
-valid_max:         10
+valid_min:         1.0
+valid_max:         10.0
 !----------------------------------
 !
 
@@ -769,8 +772,8 @@ comment:           Report on the same grid as the ocean flag_values=0,1,2,3,4,5,
 dimensions:        longitude latitude
 out_name:          basinv
 type:              integer
-valid_min:         1
-valid_max:         10
+valid_min:         1.0
+valid_max:         10.0
 !----------------------------------
 !
 

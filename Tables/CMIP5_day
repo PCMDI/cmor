@@ -6,7 +6,7 @@ frequency: day
 cmor_version: 2.0         ! version of CMOR that can read this table
 cf_version:   1.4         ! version of CF that output conforms to
 project_id:   CMIP5  ! project id
-table_date:   29 April 2010 ! date this table was constructed
+table_date:   11 May 2010 ! date this table was constructed
 
 missing_value: 1.e20      ! value used to indicate a missing value
                           !   in arrays output by netCDF as 32-bit IEEE 
@@ -90,8 +90,8 @@ long_name:        longitude
 ! Additional axis information:
 !----------------------------------
 out_name:         lon
-valid_min:        0         
-valid_max:        360 
+valid_min:        0.0         
+valid_max:        360.0 
 stored_direction: increasing
 type:             double
 must_have_bounds: yes
@@ -113,8 +113,8 @@ long_name:        latitude
 ! Additional axis information:
 !----------------------------------
 out_name:         lat
-valid_min:        -90         
-valid_max:        90 
+valid_min:        -90.0         
+valid_max:        90.0 
 stored_direction: increasing
 type:             double
 must_have_bounds: yes
@@ -183,8 +183,8 @@ long_name:        height
 ! Additional axis information:
 !----------------------------------
 out_name:         height
-valid_min:        1         
-valid_max:        10 
+valid_min:        1.0         
+valid_max:        10.0 
 stored_direction: increasing
 type:             double
 value:            2.            ! of scalar (singleton) dimension 
@@ -208,8 +208,8 @@ long_name:        height
 ! Additional axis information:
 !----------------------------------
 out_name:         height
-valid_min:        1         
-valid_max:        30 
+valid_min:        1.0         
+valid_max:        30.0 
 stored_direction: increasing
 type:             double
 value:            10.            ! of scalar (singleton) dimension 
@@ -425,7 +425,7 @@ standard_name:     ocean_mixed_layer_thickness_defined_by_mixing_scheme
 units:             m 
 cell_methods:      time: maximum
 cell_measures:      area: areacella
-long_name:         Daily Maximum Ocean Mixed Layer Thickness De_ned by Mixing Scheme 
+long_name:         Daily Maximum Ocean Mixed Layer Thickness Defined by Mixing Scheme 
 comment:           This variable appears in WGOMD Table 2.2 
 !----------------------------------
 ! Additional variable information:

@@ -931,10 +931,25 @@ module cmor_users_functions
   interface cmor_zfactor
      module procedure cmor_zfactor_double
      module procedure cmor_zfactor_double_0dvalues
+     module procedure cmor_zfactor_double_2dvalues
+     module procedure cmor_zfactor_double_3dvalues
+     module procedure cmor_zfactor_double_4dvalues
+     module procedure cmor_zfactor_double_5dvalues
+     module procedure cmor_zfactor_double_6dvalues
      module procedure cmor_zfactor_real
      module procedure cmor_zfactor_real_0dvalues
+     module procedure cmor_zfactor_real_2dvalues
+     module procedure cmor_zfactor_real_3dvalues
+     module procedure cmor_zfactor_real_4dvalues
+     module procedure cmor_zfactor_real_5dvalues
+     module procedure cmor_zfactor_real_6dvalues
      module procedure cmor_zfactor_int
      module procedure cmor_zfactor_int_0dvalues
+     module procedure cmor_zfactor_int_2dvalues
+     module procedure cmor_zfactor_int_3dvalues
+     module procedure cmor_zfactor_int_4dvalues
+     module procedure cmor_zfactor_int_5dvalues
+     module procedure cmor_zfactor_int_6dvalues
 !!$     module procedure cmor_zfactor_long
 !!$     module procedure cmor_zfactor_long_0dvalues
      module procedure cmor_zfactor_novals
@@ -1079,7 +1094,7 @@ contains
     integer ndims
     integer i,j,k,error_code
     integer out
-    character(200) msg
+    character(600) msg
     j=1
     dshape = shape(data)
     ndims=0
@@ -1148,7 +1163,7 @@ contains
     integer ndims
     integer i,j,k,error_code
     integer out
-    character(200) msg
+    character(600) msg
     j=1
     dshape = shape(data)
     ndims=0
@@ -1219,7 +1234,7 @@ contains
     integer ndims
     integer i,j,k,l,error_code
     integer out
-    character(200) msg
+    character(600) msg
     j=1
     dshape = shape(data)
     ndims=0
@@ -1293,7 +1308,7 @@ contains
     integer ndims
     integer i,j,k,l,m,error_code
     integer out
-    character(200) msg
+    character(600) msg
     j=1
     dshape = shape(data)
     ndims=0
@@ -1370,7 +1385,7 @@ contains
     integer ndims
     integer i,j,k,l,m,n,error_code
     integer out
-    character(200) msg
+    character(600) msg
     j=1
     dshape = shape(data)
     ndims=0
@@ -1448,7 +1463,7 @@ contains
     integer ndims
     integer i,j,k,l,m,n,o,error_code
     integer out
-    character(200) msg
+    character(600) msg
     j=1
     dshape = shape(data)
     ndims=0
@@ -1556,7 +1571,7 @@ contains
     integer ndims
     integer i,j,k,error_code
     integer out
-    character(200) msg
+    character(600) msg
     j=1
     dshape = shape(data)
     ndims=0
@@ -1625,7 +1640,7 @@ contains
     integer ndims
     integer i,j,k,error_code
     integer out
-    character(200) msg
+    character(600) msg
     j=1
     dshape = shape(data)
     ndims=0
@@ -1699,7 +1714,7 @@ contains
     integer ndims
     integer i,j,k,l,error_code
     integer out
-    character(200) msg
+    character(600) msg
     j=1
     dshape = shape(data)
     ndims=0
@@ -1772,7 +1787,7 @@ contains
     integer ndims
     integer i,j,k,l,m,error_code
     integer out
-    character(200) msg
+    character(600) msg
     j=1
     dshape = shape(data)
     ndims=0
@@ -1848,7 +1863,7 @@ contains
     integer ndims
     integer i,j,k,l,m,n,error_code
     integer out
-    character(200) msg
+    character(600) msg
     j=1
     dshape = shape(data)
     ndims=0
@@ -1926,7 +1941,7 @@ contains
     integer ndims
     integer i,j,k,l,m,n,o,error_code
     integer out
-    character(200) msg
+    character(600) msg
     j=1
     dshape = shape(data)
     ndims=0
@@ -2035,7 +2050,7 @@ contains
     integer ndims
     integer i,j,k,error_code
     integer out
-    character(200) msg
+    character(600) msg
     j=1
     dshape = shape(data)
     ndims=0
@@ -2104,7 +2119,7 @@ contains
     integer ndims
     integer i,j,k,error_code
     integer out
-    character(200) msg
+    character(600) msg
     j=1
     dshape = shape(data)
     ndims=0
@@ -2175,7 +2190,7 @@ contains
     integer ndims
     integer i,j,k,l,error_code
     integer out
-    character(200) msg
+    character(600) msg
     j=1
     dshape = shape(data)
     ndims=0
@@ -2248,7 +2263,7 @@ contains
     integer ndims
     integer i,j,k,l,m,error_code
     integer out
-    character(200) msg
+    character(600) msg
     j=1
     dshape = shape(data)
     ndims=0
@@ -2324,7 +2339,7 @@ contains
     integer ndims
     integer i,j,k,l,m,n,error_code
     integer out
-    character(200) msg
+    character(600) msg
     j=1
     dshape = shape(data)
     ndims=0
@@ -2402,7 +2417,7 @@ contains
     integer ndims
     integer i,j,k,l,m,n,o,error_code
     integer out
-    character(200) msg
+    character(600) msg
     j=1
     dshape = shape(data)
     ndims=0
@@ -2469,17 +2484,17 @@ contains
   end function cmor_ftn_map_data_7d_d
 
 
-  function cmor_close(var_id,file_name, preserved_var_id) result(ierr)
-    integer, optional :: var_id,preserved_var_id
+  function cmor_close(var_id,file_name, preserve) result(ierr)
+    integer, optional :: var_id,preserve
     character (*), optional :: file_name
     integer ierr
     if (present(var_id)) then
-       if (present(preserved_var_id)) then
+       if (present(preserve)) then
           if (present(file_name)) then
              ierr = cmor_close_var_fnm_preserve_cff(var_id,file_name,&
-                  preserved_var_id)
+                  preserve)
           else
-             ierr = cmor_close_var_nofnm_preserve_cff(var_id,preserved_var_id)
+             ierr = cmor_close_var_nofnm_preserve_cff(var_id,preserve)
           endif
        else
           if (present(file_name)) then
@@ -5840,6 +5855,255 @@ contains
        ierr = -ierr
     end if
   end function cmor_zfactor_double
+  function cmor_zfactor_double_2dvalues(zaxis_id,zfactor_name,axis_ids,&
+       units,zfactor_values,zfactor_bounds) result(ierr)
+    implicit none
+    integer zaxis_id
+    character(*) zfactor_name
+    integer, intent(in), optional :: axis_ids(:)
+    character(*) , optional :: units
+    double precision :: zfactor_values(:,:)
+    double precision, optional :: zfactor_bounds(:,:)
+    integer ierr,ndims,zfactor
+    character(1024) msg,unit,zfnm
+    integer axes_ids(1)
+    integer error_code
+    
+    zfnm = trim(zfactor_name)//char(0)
+    if (present(axis_ids)) then
+       ndims = size(axis_ids)
+       if (ndims.ne.1) then
+          msg = 'cmor_zfactor (fortran):: you passed ndims greater than 1 and zfactor_values, this '&
+               //'is not acceptable, use cmor_write to write zfactor_values'//char(0)
+          error_code = CMOR_CRITICAL
+          call cmor_handle_error(msg,error_code)
+       endif
+       axes_ids(1)=axis_ids(1)
+    else
+       ndims = 0
+       if (size(zfactor_values).ne.1) then
+          msg = 'cmor_zfactor(fortran):: ndims and zfactor_values length do not match'//char(0)
+          error_code = CMOR_CRITICAL
+          call cmor_handle_error(msg,error_code)
+       endif
+       axes_ids(1)=0
+    endif
+    if (present(units)) then
+       unit = trim(units)//char(0)
+    else 
+       unit=char(0)
+    endif
+    if (present(zfactor_bounds)) then
+       ierr = cmor_zfactor_cff_double(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),zfactor_values(1,1),zfactor_bounds(1,1))
+    else
+       ierr = cmor_zfactor_cff_double_nobnds(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),zfactor_values(1,1))
+    endif
+    if (ierr.eq.0) then
+       ierr = zfactor
+    else
+       ierr = -ierr
+    end if
+  end function cmor_zfactor_double_2dvalues
+  function cmor_zfactor_double_3dvalues(zaxis_id,zfactor_name,axis_ids,&
+       units,zfactor_values,zfactor_bounds) result(ierr)
+    implicit none
+    integer zaxis_id
+    character(*) zfactor_name
+    integer, intent(in), optional :: axis_ids(:)
+    character(*) , optional :: units
+    double precision :: zfactor_values(:,:,:)
+    double precision, optional :: zfactor_bounds(:,:,:)
+    integer ierr,ndims,zfactor
+    character(1024) msg,unit,zfnm
+    integer axes_ids(1)
+    integer error_code
+    
+    zfnm = trim(zfactor_name)//char(0)
+    if (present(axis_ids)) then
+       ndims = size(axis_ids)
+       if (ndims.ne.1) then
+          msg = 'cmor_zfactor (fortran):: you passed ndims greater than 1 and zfactor_values, this '&
+               //'is not acceptable, use cmor_write to write zfactor_values'//char(0)
+          error_code = CMOR_CRITICAL
+          call cmor_handle_error(msg,error_code)
+       endif
+       axes_ids(1)=axis_ids(1)
+    else
+       ndims = 0
+       if (size(zfactor_values).ne.1) then
+          msg = 'cmor_zfactor(fortran):: ndims and zfactor_values length do not match'//char(0)
+          error_code = CMOR_CRITICAL
+          call cmor_handle_error(msg,error_code)
+       endif
+       axes_ids(1)=0
+    endif
+    if (present(units)) then
+       unit = trim(units)//char(0)
+    else 
+       unit=char(0)
+    endif
+    if (present(zfactor_bounds)) then
+       ierr = cmor_zfactor_cff_double(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),zfactor_values(1,1,1),zfactor_bounds(1,1,1))
+    else
+       ierr = cmor_zfactor_cff_double_nobnds(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),zfactor_values(1,1,1))
+    endif
+    if (ierr.eq.0) then
+       ierr = zfactor
+    else
+       ierr = -ierr
+    end if
+  end function cmor_zfactor_double_3dvalues
+  function cmor_zfactor_double_4dvalues(zaxis_id,zfactor_name,axis_ids,&
+       units,zfactor_values,zfactor_bounds) result(ierr)
+    implicit none
+    integer zaxis_id
+    character(*) zfactor_name
+    integer, intent(in), optional :: axis_ids(:)
+    character(*) , optional :: units
+    double precision :: zfactor_values(:,:,:,:)
+    double precision, optional :: zfactor_bounds(:,:,:,:)
+    integer ierr,ndims,zfactor
+    character(1024) msg,unit,zfnm
+    integer axes_ids(1)
+    integer error_code
+    
+    zfnm = trim(zfactor_name)//char(0)
+    if (present(axis_ids)) then
+       ndims = size(axis_ids)
+       if (ndims.ne.1) then
+          msg = 'cmor_zfactor (fortran):: you passed ndims greater than 1 and zfactor_values, this '&
+               //'is not acceptable, use cmor_write to write zfactor_values'//char(0)
+          error_code = CMOR_CRITICAL
+          call cmor_handle_error(msg,error_code)
+       endif
+       axes_ids(1)=axis_ids(1)
+    else
+       ndims = 0
+       if (size(zfactor_values).ne.1) then
+          msg = 'cmor_zfactor(fortran):: ndims and zfactor_values length do not match'//char(0)
+          error_code = CMOR_CRITICAL
+          call cmor_handle_error(msg,error_code)
+       endif
+       axes_ids(1)=0
+    endif
+    if (present(units)) then
+       unit = trim(units)//char(0)
+    else 
+       unit=char(0)
+    endif
+    if (present(zfactor_bounds)) then
+       ierr = cmor_zfactor_cff_double(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),zfactor_values(1,1,1,1),zfactor_bounds(1,1,1,1))
+    else
+       ierr = cmor_zfactor_cff_double_nobnds(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),zfactor_values(1,1,1,1))
+    endif
+    if (ierr.eq.0) then
+       ierr = zfactor
+    else
+       ierr = -ierr
+    end if
+  end function cmor_zfactor_double_4dvalues
+  function cmor_zfactor_double_5dvalues(zaxis_id,zfactor_name,axis_ids,&
+       units,zfactor_values,zfactor_bounds) result(ierr)
+    implicit none
+    integer zaxis_id
+    character(*) zfactor_name
+    integer, intent(in), optional :: axis_ids(:)
+    character(*) , optional :: units
+    double precision :: zfactor_values(:,:,:,:,:)
+    double precision, optional :: zfactor_bounds(:,:,:,:,:)
+    integer ierr,ndims,zfactor
+    character(1024) msg,unit,zfnm
+    integer axes_ids(1)
+    integer error_code
+    
+    zfnm = trim(zfactor_name)//char(0)
+    if (present(axis_ids)) then
+       ndims = size(axis_ids)
+       if (ndims.ne.1) then
+          msg = 'cmor_zfactor (fortran):: you passed ndims greater than 1 and zfactor_values, this '&
+               //'is not acceptable, use cmor_write to write zfactor_values'//char(0)
+          error_code = CMOR_CRITICAL
+          call cmor_handle_error(msg,error_code)
+       endif
+       axes_ids(1)=axis_ids(1)
+    else
+       ndims = 0
+       if (size(zfactor_values).ne.1) then
+          msg = 'cmor_zfactor(fortran):: ndims and zfactor_values length do not match'//char(0)
+          error_code = CMOR_CRITICAL
+          call cmor_handle_error(msg,error_code)
+       endif
+       axes_ids(1)=0
+    endif
+    if (present(units)) then
+       unit = trim(units)//char(0)
+    else 
+       unit=char(0)
+    endif
+    if (present(zfactor_bounds)) then
+       ierr = cmor_zfactor_cff_double(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),&
+            zfactor_values(1,1,1,1,1),zfactor_bounds(1,1,1,1,1))
+    else
+       ierr = cmor_zfactor_cff_double_nobnds(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),&
+            zfactor_values(1,1,1,1,1))
+    endif
+    if (ierr.eq.0) then
+       ierr = zfactor
+    else
+       ierr = -ierr
+    end if
+  end function cmor_zfactor_double_5dvalues
+  function cmor_zfactor_double_6dvalues(zaxis_id,zfactor_name,axis_ids,&
+       units,zfactor_values,zfactor_bounds) result(ierr)
+    implicit none
+    integer zaxis_id
+    character(*) zfactor_name
+    integer, intent(in), optional :: axis_ids(:)
+    character(*) , optional :: units
+    double precision :: zfactor_values(:,:,:,:,:,:)
+    double precision, optional :: zfactor_bounds(:,:,:,:,:,:)
+    integer ierr,ndims,zfactor
+    character(1024) msg,unit,zfnm
+    integer axes_ids(1)
+    integer error_code
+    
+    zfnm = trim(zfactor_name)//char(0)
+    if (present(axis_ids)) then
+       ndims = size(axis_ids)
+       if (ndims.ne.1) then
+          msg = 'cmor_zfactor (fortran):: you passed ndims greater than 1 and zfactor_values, this '&
+               //'is not acceptable, use cmor_write to write zfactor_values'//char(0)
+          error_code = CMOR_CRITICAL
+          call cmor_handle_error(msg,error_code)
+       endif
+       axes_ids(1)=axis_ids(1)
+    else
+       ndims = 0
+       if (size(zfactor_values).ne.1) then
+          msg = 'cmor_zfactor(fortran):: ndims and zfactor_values length do not match'//char(0)
+          error_code = CMOR_CRITICAL
+          call cmor_handle_error(msg,error_code)
+       endif
+       axes_ids(1)=0
+    endif
+    if (present(units)) then
+       unit = trim(units)//char(0)
+    else 
+       unit=char(0)
+    endif
+    if (present(zfactor_bounds)) then
+       ierr = cmor_zfactor_cff_double(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),&
+            zfactor_values(1,1,1,1,1,1),zfactor_bounds(1,1,1,1,1,1))
+    else
+       ierr = cmor_zfactor_cff_double_nobnds(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),&
+            zfactor_values(1,1,1,1,1,1))
+    endif
+    if (ierr.eq.0) then
+       ierr = zfactor
+    else
+       ierr = -ierr
+    end if
+  end function cmor_zfactor_double_6dvalues
   function cmor_zfactor_double_0dvalues(zaxis_id,zfactor_name,axis_ids,&
        units,zfactor_values,zfactor_bounds) result(ierr)
     implicit none
@@ -5876,9 +6140,11 @@ contains
        unit=char(0)
     endif
     if (present(zfactor_bounds)) then
-       ierr = cmor_zfactor_cff_double(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),zfactor_value(1),zfactor_bounds(1))
+       ierr = cmor_zfactor_cff_double(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),&
+            zfactor_value(1),zfactor_bounds(1))
     else
-       ierr = cmor_zfactor_cff_double_nobnds(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),zfactor_value(1))
+       ierr = cmor_zfactor_cff_double_nobnds(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),&
+            zfactor_value(1))
     endif
     if (ierr.eq.0) then
        ierr = zfactor
@@ -5940,7 +6206,262 @@ contains
        ierr = -ierr
     end if
  end function cmor_zfactor_real
-  function cmor_zfactor_real_0dvalues(zaxis_id,zfactor_name,axis_ids,&
+   function cmor_zfactor_real_2dvalues(zaxis_id,zfactor_name,axis_ids,&
+       units,zfactor_values,zfactor_bounds) result(ierr)
+    implicit none
+    integer zaxis_id
+    character(*) zfactor_name
+    integer, intent(in), optional :: axis_ids(:)
+    character(*) , optional :: units
+    real :: zfactor_values(:,:)
+    real, optional :: zfactor_bounds(:,:)
+    integer ierr,ndims,zfactor
+    character(1024) msg,unit,zfnm
+    integer axes_ids(1)
+    integer error_code
+    
+    zfnm = trim(zfactor_name)//char(0)
+    if (present(axis_ids)) then
+       ndims = size(axis_ids)
+       if (ndims.ne.1) then
+          msg = 'cmor_zfactor (fortran):: you passed ndims greater than 1 and zfactor_values, this '&
+               //'is not acceptable, use cmor_write to write zfactor_values'//char(0)
+          error_code = CMOR_CRITICAL
+          call cmor_handle_error(msg,error_code)
+       endif
+       axes_ids(1)=axis_ids(1)
+    else
+       ndims = 0
+       if (size(zfactor_values).ne.1) then
+          msg = 'cmor_zfactor(fortran):: ndims and zfactor_values length do not match'//char(0)
+          error_code = CMOR_CRITICAL
+          call cmor_handle_error(msg,error_code)
+       endif
+       axes_ids(1)=0
+    endif
+    if (present(units)) then
+       unit = trim(units)//char(0)
+    else 
+       unit=char(0)
+    endif
+    if (present(zfactor_bounds)) then
+       ierr = cmor_zfactor_cff_real(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),&
+            zfactor_values(1,1),zfactor_bounds(1,1))
+    else
+       ierr = cmor_zfactor_cff_real_nobnds(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),&
+            zfactor_values(1,1))
+    endif
+    if (ierr.eq.0) then
+       ierr = zfactor
+    else
+       ierr = -ierr
+    end if
+  end function cmor_zfactor_real_2dvalues
+  function cmor_zfactor_real_3dvalues(zaxis_id,zfactor_name,axis_ids,&
+       units,zfactor_values,zfactor_bounds) result(ierr)
+    implicit none
+    integer zaxis_id
+    character(*) zfactor_name
+    integer, intent(in), optional :: axis_ids(:)
+    character(*) , optional :: units
+    real :: zfactor_values(:,:,:)
+    real, optional :: zfactor_bounds(:,:,:)
+    integer ierr,ndims,zfactor
+    character(1024) msg,unit,zfnm
+    integer axes_ids(1)
+    integer error_code
+    
+    zfnm = trim(zfactor_name)//char(0)
+    if (present(axis_ids)) then
+       ndims = size(axis_ids)
+       if (ndims.ne.1) then
+          msg = 'cmor_zfactor (fortran):: you passed ndims greater than 1 and zfactor_values, this '&
+               //'is not acceptable, use cmor_write to write zfactor_values'//char(0)
+          error_code = CMOR_CRITICAL
+          call cmor_handle_error(msg,error_code)
+       endif
+       axes_ids(1)=axis_ids(1)
+    else
+       ndims = 0
+       if (size(zfactor_values).ne.1) then
+          msg = 'cmor_zfactor(fortran):: ndims and zfactor_values length do not match'//char(0)
+          error_code = CMOR_CRITICAL
+          call cmor_handle_error(msg,error_code)
+       endif
+       axes_ids(1)=0
+    endif
+    if (present(units)) then
+       unit = trim(units)//char(0)
+    else 
+       unit=char(0)
+    endif
+    if (present(zfactor_bounds)) then
+       ierr = cmor_zfactor_cff_real(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),&
+            zfactor_values(1,1,1),zfactor_bounds(1,1,1))
+    else
+       ierr = cmor_zfactor_cff_real_nobnds(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),&
+            zfactor_values(1,1,1))
+    endif
+    if (ierr.eq.0) then
+       ierr = zfactor
+    else
+       ierr = -ierr
+    end if
+  end function cmor_zfactor_real_3dvalues
+  function cmor_zfactor_real_4dvalues(zaxis_id,zfactor_name,axis_ids,&
+       units,zfactor_values,zfactor_bounds) result(ierr)
+    implicit none
+    integer zaxis_id
+    character(*) zfactor_name
+    integer, intent(in), optional :: axis_ids(:)
+    character(*) , optional :: units
+    real :: zfactor_values(:,:,:,:)
+    real, optional :: zfactor_bounds(:,:,:,:)
+    integer ierr,ndims,zfactor
+    character(1024) msg,unit,zfnm
+    integer axes_ids(1)
+    integer error_code
+    
+    zfnm = trim(zfactor_name)//char(0)
+    if (present(axis_ids)) then
+       ndims = size(axis_ids)
+       if (ndims.ne.1) then
+          msg = 'cmor_zfactor (fortran):: you passed ndims greater than 1 and zfactor_values, this '&
+               //'is not acceptable, use cmor_write to write zfactor_values'//char(0)
+          error_code = CMOR_CRITICAL
+          call cmor_handle_error(msg,error_code)
+       endif
+       axes_ids(1)=axis_ids(1)
+    else
+       ndims = 0
+       if (size(zfactor_values).ne.1) then
+          msg = 'cmor_zfactor(fortran):: ndims and zfactor_values length do not match'//char(0)
+          error_code = CMOR_CRITICAL
+          call cmor_handle_error(msg,error_code)
+       endif
+       axes_ids(1)=0
+    endif
+    if (present(units)) then
+       unit = trim(units)//char(0)
+    else 
+       unit=char(0)
+    endif
+    if (present(zfactor_bounds)) then
+       ierr = cmor_zfactor_cff_real(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),&
+            zfactor_values(1,1,1,1),zfactor_bounds(1,1,1,1))
+    else
+       ierr = cmor_zfactor_cff_real_nobnds(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),&
+            zfactor_values(1,1,1,1))
+    endif
+    if (ierr.eq.0) then
+       ierr = zfactor
+    else
+       ierr = -ierr
+    end if
+  end function cmor_zfactor_real_4dvalues
+  function cmor_zfactor_real_5dvalues(zaxis_id,zfactor_name,axis_ids,&
+       units,zfactor_values,zfactor_bounds) result(ierr)
+    implicit none
+    integer zaxis_id
+    character(*) zfactor_name
+    integer, intent(in), optional :: axis_ids(:)
+    character(*) , optional :: units
+    real :: zfactor_values(:,:,:,:,:)
+    real, optional :: zfactor_bounds(:,:,:,:,:)
+    integer ierr,ndims,zfactor
+    character(1024) msg,unit,zfnm
+    integer axes_ids(1)
+    integer error_code
+    
+    zfnm = trim(zfactor_name)//char(0)
+    if (present(axis_ids)) then
+       ndims = size(axis_ids)
+       if (ndims.ne.1) then
+          msg = 'cmor_zfactor (fortran):: you passed ndims greater than 1 and zfactor_values, this '&
+               //'is not acceptable, use cmor_write to write zfactor_values'//char(0)
+          error_code = CMOR_CRITICAL
+          call cmor_handle_error(msg,error_code)
+       endif
+       axes_ids(1)=axis_ids(1)
+    else
+       ndims = 0
+       if (size(zfactor_values).ne.1) then
+          msg = 'cmor_zfactor(fortran):: ndims and zfactor_values length do not match'//char(0)
+          error_code = CMOR_CRITICAL
+          call cmor_handle_error(msg,error_code)
+       endif
+       axes_ids(1)=0
+    endif
+    if (present(units)) then
+       unit = trim(units)//char(0)
+    else 
+       unit=char(0)
+    endif
+    if (present(zfactor_bounds)) then
+       ierr = cmor_zfactor_cff_real(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),&
+            zfactor_values(1,1,1,1,1),zfactor_bounds(1,1,1,1,1))
+    else
+       ierr = cmor_zfactor_cff_real_nobnds(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),&
+            zfactor_values(1,1,1,1,1))
+    endif
+    if (ierr.eq.0) then
+       ierr = zfactor
+    else
+       ierr = -ierr
+    end if
+  end function cmor_zfactor_real_5dvalues
+  function cmor_zfactor_real_6dvalues(zaxis_id,zfactor_name,axis_ids,&
+       units,zfactor_values,zfactor_bounds) result(ierr)
+    implicit none
+    integer zaxis_id
+    character(*) zfactor_name
+    integer, intent(in), optional :: axis_ids(:)
+    character(*) , optional :: units
+    real :: zfactor_values(:,:,:,:,:,:)
+    real, optional :: zfactor_bounds(:,:,:,:,:,:)
+    integer ierr,ndims,zfactor
+    character(1024) msg,unit,zfnm
+    integer axes_ids(1)
+    integer error_code
+    
+    zfnm = trim(zfactor_name)//char(0)
+    if (present(axis_ids)) then
+       ndims = size(axis_ids)
+       if (ndims.ne.1) then
+          msg = 'cmor_zfactor (fortran):: you passed ndims greater than 1 and zfactor_values, this '&
+               //'is not acceptable, use cmor_write to write zfactor_values'//char(0)
+          error_code = CMOR_CRITICAL
+          call cmor_handle_error(msg,error_code)
+       endif
+       axes_ids(1)=axis_ids(1)
+    else
+       ndims = 0
+       if (size(zfactor_values).ne.1) then
+          msg = 'cmor_zfactor(fortran):: ndims and zfactor_values length do not match'//char(0)
+          error_code = CMOR_CRITICAL
+          call cmor_handle_error(msg,error_code)
+       endif
+       axes_ids(1)=0
+    endif
+    if (present(units)) then
+       unit = trim(units)//char(0)
+    else 
+       unit=char(0)
+    endif
+    if (present(zfactor_bounds)) then
+       ierr = cmor_zfactor_cff_real(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),&
+            zfactor_values(1,1,1,1,1,1),zfactor_bounds(1,1,1,1,1,1))
+    else
+       ierr = cmor_zfactor_cff_real_nobnds(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),&
+            zfactor_values(1,1,1,1,1,1))
+    endif
+    if (ierr.eq.0) then
+       ierr = zfactor
+    else
+       ierr = -ierr
+    end if
+  end function cmor_zfactor_real_6dvalues
+ function cmor_zfactor_real_0dvalues(zaxis_id,zfactor_name,axis_ids,&
        units,zfactor_values,zfactor_bounds) result(ierr)
     implicit none
     integer zaxis_id
@@ -5976,9 +6497,11 @@ contains
        unit=char(0)
     endif
     if (present(zfactor_bounds)) then
-       ierr = cmor_zfactor_cff_real(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),zfactor_value(1),zfactor_bounds(1))
+       ierr = cmor_zfactor_cff_real(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),&
+            zfactor_value(1),zfactor_bounds(1))
     else
-       ierr = cmor_zfactor_cff_real_nobnds(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),zfactor_value(1))
+       ierr = cmor_zfactor_cff_real_nobnds(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),&
+            zfactor_value(1))
     endif
      if (ierr.eq.0) then
        ierr = zfactor
@@ -6040,6 +6563,255 @@ contains
        ierr = -ierr
     end if
   end function cmor_zfactor_int
+   function cmor_zfactor_int_2dvalues(zaxis_id,zfactor_name,axis_ids,&
+       units,zfactor_values,zfactor_bounds) result(ierr)
+    implicit none
+    integer zaxis_id
+    character(*) zfactor_name
+    integer, intent(in), optional :: axis_ids(:)
+    character(*) , optional :: units
+    integer :: zfactor_values(:,:)
+    integer, optional :: zfactor_bounds(:,:)
+    integer ierr,ndims,zfactor
+    character(1024) msg,unit,zfnm
+    integer axes_ids(1)
+    integer error_code
+    
+    zfnm = trim(zfactor_name)//char(0)
+    if (present(axis_ids)) then
+       ndims = size(axis_ids)
+       if (ndims.ne.1) then
+          msg = 'cmor_zfactor (fortran):: you passed ndims greater than 1 and zfactor_values, this '&
+               //'is not acceptable, use cmor_write to write zfactor_values'//char(0)
+          error_code = CMOR_CRITICAL
+          call cmor_handle_error(msg,error_code)
+       endif
+       axes_ids(1)=axis_ids(1)
+    else
+       ndims = 0
+       if (size(zfactor_values).ne.1) then
+          msg = 'cmor_zfactor(fortran):: ndims and zfactor_values length do not match'//char(0)
+          error_code = CMOR_CRITICAL
+          call cmor_handle_error(msg,error_code)
+       endif
+       axes_ids(1)=0
+    endif
+    if (present(units)) then
+       unit = trim(units)//char(0)
+    else 
+       unit=char(0)
+    endif
+    if (present(zfactor_bounds)) then
+       ierr = cmor_zfactor_cff_int(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),zfactor_values(1,1),zfactor_bounds(1,1))
+    else
+       ierr = cmor_zfactor_cff_int_nobnds(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),zfactor_values(1,1))
+    endif
+    if (ierr.eq.0) then
+       ierr = zfactor
+    else
+       ierr = -ierr
+    end if
+  end function cmor_zfactor_int_2dvalues
+  function cmor_zfactor_int_3dvalues(zaxis_id,zfactor_name,axis_ids,&
+       units,zfactor_values,zfactor_bounds) result(ierr)
+    implicit none
+    integer zaxis_id
+    character(*) zfactor_name
+    integer, intent(in), optional :: axis_ids(:)
+    character(*) , optional :: units
+    integer :: zfactor_values(:,:,:)
+    integer, optional :: zfactor_bounds(:,:,:)
+    integer ierr,ndims,zfactor
+    character(1024) msg,unit,zfnm
+    integer axes_ids(1)
+    integer error_code
+    
+    zfnm = trim(zfactor_name)//char(0)
+    if (present(axis_ids)) then
+       ndims = size(axis_ids)
+       if (ndims.ne.1) then
+          msg = 'cmor_zfactor (fortran):: you passed ndims greater than 1 and zfactor_values, this '&
+               //'is not acceptable, use cmor_write to write zfactor_values'//char(0)
+          error_code = CMOR_CRITICAL
+          call cmor_handle_error(msg,error_code)
+       endif
+       axes_ids(1)=axis_ids(1)
+    else
+       ndims = 0
+       if (size(zfactor_values).ne.1) then
+          msg = 'cmor_zfactor(fortran):: ndims and zfactor_values length do not match'//char(0)
+          error_code = CMOR_CRITICAL
+          call cmor_handle_error(msg,error_code)
+       endif
+       axes_ids(1)=0
+    endif
+    if (present(units)) then
+       unit = trim(units)//char(0)
+    else 
+       unit=char(0)
+    endif
+    if (present(zfactor_bounds)) then
+       ierr = cmor_zfactor_cff_int(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),zfactor_values(1,1,1),zfactor_bounds(1,1,1))
+    else
+       ierr = cmor_zfactor_cff_int_nobnds(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),zfactor_values(1,1,1))
+    endif
+    if (ierr.eq.0) then
+       ierr = zfactor
+    else
+       ierr = -ierr
+    end if
+  end function cmor_zfactor_int_3dvalues
+  function cmor_zfactor_int_4dvalues(zaxis_id,zfactor_name,axis_ids,&
+       units,zfactor_values,zfactor_bounds) result(ierr)
+    implicit none
+    integer zaxis_id
+    character(*) zfactor_name
+    integer, intent(in), optional :: axis_ids(:)
+    character(*) , optional :: units
+    integer :: zfactor_values(:,:,:,:)
+    integer, optional :: zfactor_bounds(:,:,:,:)
+    integer ierr,ndims,zfactor
+    character(1024) msg,unit,zfnm
+    integer axes_ids(1)
+    integer error_code
+    
+    zfnm = trim(zfactor_name)//char(0)
+    if (present(axis_ids)) then
+       ndims = size(axis_ids)
+       if (ndims.ne.1) then
+          msg = 'cmor_zfactor (fortran):: you passed ndims greater than 1 and zfactor_values, this '&
+               //'is not acceptable, use cmor_write to write zfactor_values'//char(0)
+          error_code = CMOR_CRITICAL
+          call cmor_handle_error(msg,error_code)
+       endif
+       axes_ids(1)=axis_ids(1)
+    else
+       ndims = 0
+       if (size(zfactor_values).ne.1) then
+          msg = 'cmor_zfactor(fortran):: ndims and zfactor_values length do not match'//char(0)
+          error_code = CMOR_CRITICAL
+          call cmor_handle_error(msg,error_code)
+       endif
+       axes_ids(1)=0
+    endif
+    if (present(units)) then
+       unit = trim(units)//char(0)
+    else 
+       unit=char(0)
+    endif
+    if (present(zfactor_bounds)) then
+       ierr = cmor_zfactor_cff_int(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),zfactor_values(1,1,1,1),zfactor_bounds(1,1,1,1))
+    else
+       ierr = cmor_zfactor_cff_int_nobnds(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),zfactor_values(1,1,1,1))
+    endif
+    if (ierr.eq.0) then
+       ierr = zfactor
+    else
+       ierr = -ierr
+    end if
+  end function cmor_zfactor_int_4dvalues
+  function cmor_zfactor_int_5dvalues(zaxis_id,zfactor_name,axis_ids,&
+       units,zfactor_values,zfactor_bounds) result(ierr)
+    implicit none
+    integer zaxis_id
+    character(*) zfactor_name
+    integer, intent(in), optional :: axis_ids(:)
+    character(*) , optional :: units
+    integer :: zfactor_values(:,:,:,:,:)
+    integer, optional :: zfactor_bounds(:,:,:,:,:)
+    integer ierr,ndims,zfactor
+    character(1024) msg,unit,zfnm
+    integer axes_ids(1)
+    integer error_code
+    
+    zfnm = trim(zfactor_name)//char(0)
+    if (present(axis_ids)) then
+       ndims = size(axis_ids)
+       if (ndims.ne.1) then
+          msg = 'cmor_zfactor (fortran):: you passed ndims greater than 1 and zfactor_values, this '&
+               //'is not acceptable, use cmor_write to write zfactor_values'//char(0)
+          error_code = CMOR_CRITICAL
+          call cmor_handle_error(msg,error_code)
+       endif
+       axes_ids(1)=axis_ids(1)
+    else
+       ndims = 0
+       if (size(zfactor_values).ne.1) then
+          msg = 'cmor_zfactor(fortran):: ndims and zfactor_values length do not match'//char(0)
+          error_code = CMOR_CRITICAL
+          call cmor_handle_error(msg,error_code)
+       endif
+       axes_ids(1)=0
+    endif
+    if (present(units)) then
+       unit = trim(units)//char(0)
+    else 
+       unit=char(0)
+    endif
+    if (present(zfactor_bounds)) then
+       ierr = cmor_zfactor_cff_int(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),&
+            zfactor_values(1,1,1,1,1),zfactor_bounds(1,1,1,1,1))
+    else
+       ierr = cmor_zfactor_cff_int_nobnds(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),&
+            zfactor_values(1,1,1,1,1))
+    endif
+    if (ierr.eq.0) then
+       ierr = zfactor
+    else
+       ierr = -ierr
+    end if
+  end function cmor_zfactor_int_5dvalues
+  function cmor_zfactor_int_6dvalues(zaxis_id,zfactor_name,axis_ids,&
+       units,zfactor_values,zfactor_bounds) result(ierr)
+    implicit none
+    integer zaxis_id
+    character(*) zfactor_name
+    integer, intent(in), optional :: axis_ids(:)
+    character(*) , optional :: units
+    integer :: zfactor_values(:,:,:,:,:,:)
+    integer, optional :: zfactor_bounds(:,:,:,:,:,:)
+    integer ierr,ndims,zfactor
+    character(1024) msg,unit,zfnm
+    integer axes_ids(1)
+    integer error_code
+    
+    zfnm = trim(zfactor_name)//char(0)
+    if (present(axis_ids)) then
+       ndims = size(axis_ids)
+       if (ndims.ne.1) then
+          msg = 'cmor_zfactor (fortran):: you passed ndims greater than 1 and zfactor_values, this '&
+               //'is not acceptable, use cmor_write to write zfactor_values'//char(0)
+          error_code = CMOR_CRITICAL
+          call cmor_handle_error(msg,error_code)
+       endif
+       axes_ids(1)=axis_ids(1)
+    else
+       ndims = 0
+       if (size(zfactor_values).ne.1) then
+          msg = 'cmor_zfactor(fortran):: ndims and zfactor_values length do not match'//char(0)
+          error_code = CMOR_CRITICAL
+          call cmor_handle_error(msg,error_code)
+       endif
+       axes_ids(1)=0
+    endif
+    if (present(units)) then
+       unit = trim(units)//char(0)
+    else 
+       unit=char(0)
+    endif
+    if (present(zfactor_bounds)) then
+       ierr = cmor_zfactor_cff_int(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),&
+            zfactor_values(1,1,1,1,1,1),zfactor_bounds(1,1,1,1,1,1))
+    else
+       ierr = cmor_zfactor_cff_int_nobnds(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),&
+            zfactor_values(1,1,1,1,1,1))
+    endif
+    if (ierr.eq.0) then
+       ierr = zfactor
+    else
+       ierr = -ierr
+    end if
+  end function cmor_zfactor_int_6dvalues
   function cmor_zfactor_int_0dvalues(zaxis_id,zfactor_name,axis_ids,&
        units,zfactor_values,zfactor_bounds) result(ierr)
     implicit none
@@ -6076,9 +6848,11 @@ contains
        unit=char(0)
     endif
     if (present(zfactor_bounds)) then
-       ierr = cmor_zfactor_cff_int(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),zfactor_value(1),zfactor_bounds(1))
+       ierr = cmor_zfactor_cff_int(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),&
+            zfactor_value(1),zfactor_bounds(1))
     else
-       ierr = cmor_zfactor_cff_int_nobnds(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),zfactor_value(1))
+       ierr = cmor_zfactor_cff_int_nobnds(zfactor,zaxis_id,zfnm,unit,ndims,axes_ids(1),&
+            zfactor_value(1))
     endif
     if (ierr.eq.0) then
        ierr = zfactor

@@ -416,7 +416,7 @@ void cmor_handle_error(char error_msg[CMOR_MAX_STRING],int level)
     fprintf (output_logfile,"\n\n");
   }
   if ((CMOR_MODE == CMOR_EXIT_ON_WARNING) || (level == CMOR_CRITICAL ) ) {
-    if (cleanup_varid!=-1) remove(cmor_vars[cleanup_varid].current_path);
+    //if (cleanup_varid!=-1) remove(cmor_vars[cleanup_varid].current_path);
     exit(1);
   }
 }
@@ -1360,7 +1360,7 @@ int cmor_define_zfactors_vars(int var_id,int ncid, int *nc_dim,char *formula_ter
     /* here we try to match with the actual variable */
     l=-1;
     for (k=0;k<cmor_nvars+1;k++) {
-        /* printf("checking: %s vs %s\n",ctmp,cmor_vars[k].id); */
+      /* printf("checking: %s vs %s\n",ctmp,cmor_vars[k].id); */
       if (strcmp(ctmp,cmor_vars[k].id)==0) {
 	/* ok that is not enough! We need to know if the dims match! */
 	nelts=0;
@@ -1415,6 +1415,7 @@ int cmor_define_zfactors_vars(int var_id,int ncid, int *nc_dim,char *formula_ter
 	found = 0;
 	/* printf("checking for axis: %s on var: %i, %s\n",cmor_axes[cmor_vars[l].axes_ids[k]].id,l,cmor_vars[l].id); */
 	for (m=0;m<cmor_vars[var_id].ndims;m++) {
+	  /* printf("ok comparing: %i,%s and %i,%s\n",cmor_vars[var_id].axes_ids[m],cmor_axes[cmor_vars[var_id].axes_ids[m]].id,cmor_vars[l].axes_ids[k],cmor_axes[cmor_vars[l].axes_ids[k]].id); */
 	  if (strcmp(cmor_axes[cmor_vars[var_id].axes_ids[m]].id,cmor_axes[cmor_vars[l].axes_ids[k]].id)==0) {
 	    found =1;
 	    dim_holder[k]=nc_dim[m];
@@ -2101,7 +2102,9 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
 	ctmp6[i-k]='\0';
 	
 	/* now appends the part to the area file */
-	strncat(ctmp," cellAreaFile: ",CMOR_MAX_STRING-strlen(ctmp));
+	strncat(ctmp," ",CMOR_MAX_STRING-strlen(ctmp));
+	strncat(ctmp,ctmp6,CMOR_MAX_STRING-strlen(ctmp));
+	strncat(ctmp,": ",CMOR_MAX_STRING-strlen(ctmp));
 	/* add the variable name */
 	/*     strncat(ctmp3,"cellArea/r0/cellArea_",CMOR_MAX_STRING-strlen(ctmp3)); */
 	strncpy(ctmp3,ctmp6,CMOR_MAX_STRING);
@@ -2146,7 +2149,9 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
 	}
 	ctmp6[i-k]='\0';
 	/* now appends the part to the volume file */	
-	strncat(ctmp," cellVolumeFile: ",CMOR_MAX_STRING-strlen(ctmp));
+	strncat(ctmp," ",CMOR_MAX_STRING-strlen(ctmp));
+	strncat(ctmp,ctmp6,CMOR_MAX_STRING-strlen(ctmp));
+	strncat(ctmp,": ",CMOR_MAX_STRING-strlen(ctmp));
 	/* add the variable name */
 	/*     strncat(ctmp3,"cellVolume/r0/cellVolume_",CMOR_MAX_STRING-strlen(ctmp3)); */
 	strncpy(ctmp3,ctmp6,CMOR_MAX_STRING);
@@ -3414,7 +3419,7 @@ int cmor_create_output_path(int var_id,char *outpath)
   return isfixed;
 }
 
-int cmor_close_variable(int var_id, char *file_name, int *preserved_var_id) 
+int cmor_close_variable(int var_id, char *file_name, int *preserve) 
 {
   int ierr;
   extern int cmor_nvars;
@@ -3636,103 +3641,25 @@ int cmor_close_variable(int var_id, char *file_name, int *preserved_var_id)
       strncpy(file_name,outname,CMOR_MAX_STRING);
     }
 
-    if (preserved_var_id != NULL) {
-      /* ok we want to redefine the var to use it in another file */
-      strncpy(msg,cmor_vars[var_id].id,CMOR_MAX_STRING);
-      strncpy(iunits,cmor_vars[var_id].iunits,CMOR_MAX_STRING);
-      ndims = cmor_vars[var_id].ndims;
-      for (i=0;i<ndims;i++) {
-	axes_ids[i]=cmor_vars[var_id].original_order[i];
+    if (preserve != NULL) {
+      cmor_vars[var_id].initialized=-1;
+      cmor_vars[var_id].ntimes_written=0;
+      cmor_vars[var_id].time_nc_id=-999;
+      cmor_vars[var_id].time_bnds_nc_id=-999;
+      for (i=0;i<10;i++) {
+	cmor_vars[var_id].ntimes_written_coords[i]=-1;
+	cmor_vars[var_id].ntimes_written_associated[i]=0;
+	cmor_vars[var_id].associated_ids[i]=-1;
+	cmor_vars[var_id].nc_var_id=-999;
       }
-      itype = cmor_vars[var_id].itype;
-      miss = cmor_vars[var_id].missing;
-      tolerance=cmor_vars[var_id].tolerance;
-      if (cmor_vars[var_id].sign==1) {
-	positive = cmor_tables[cmor_vars[var_id].ref_table_id].vars[cmor_vars[var_id].ref_var_id].positive;
-      }
-      else {
-	if (cmor_tables[cmor_vars[var_id].ref_table_id].vars[cmor_vars[var_id].ref_var_id].positive=='u') {
-	  positive='d';
-	}
-	else {
-	  positive='u';
+      for (i=0;i<cmor_vars[var_id].nattributes;i++) {
+	if (strcmp(cmor_vars[var_id].attributes[i],"cell_methods")==0) {
+	  cmor_set_variable_attribute(var_id,"cell_methods",'c',cmor_tables[cmor_vars[var_id].ref_table_id].vars[cmor_vars[var_id].ref_var_id].cell_methods);
 	}
       }
-      msg2[0]='\0';
-      if (cmor_has_variable_attribute(var_id,"history")==0) {
-	cmor_get_variable_attribute(var_id,"history",msg2);
-	for (i=0;i<strlen(msg2);i++) {
-	  if (strncmp(&msg2[i],"altered by CMOR",15)==0) {
-	    /* ok we found the first spot of alteration */
-	    break;
-	  }
-	}
-	if (i!=strlen(msg2)) {/*ok we found it*/
-	  i-=21;
-	}
-	for (j=0;j<i;j++) {
-	  ctmp[j]=msg2[j];
-	}
-	ctmp[j]='\0';
-	strcpy(msg2,ctmp);
-      }
-      ctmp2[0]='\0';
-      if (cmor_has_variable_attribute(var_id,"comment")==0) {
-	cmor_get_variable_attribute(var_id,"comment",ctmp2);
-	for (i=0;i<strlen(ctmp2);i++) {
-	  if (strncmp(&ctmp2[i],"_table_comment",14)==0) {
-	    /* ok we found the first spot of alteration */
-	    break;
-	  }
-	}
-	if (i!=strlen(ctmp2)) {/*ok we found it*/
-	  i-=strlen(cmor_tables[cmor_vars[var_id].ref_table_id].project_id)+2;
-	}
-	for (j=0;j<i;j++) {
-	  ctmp[j]=ctmp2[j];
-	}
-	ctmp[j]='\0';
-	strcpy(ctmp2,ctmp);
-      }
-      nattributes = cmor_vars[var_id].nattributes;
-      for (i=0;i<nattributes;i++) {
-	attribute_types[i]=cmor_vars[var_id].attributes_type[i];
-	strcpy(attributes[i],cmor_vars[var_id].attributes[i]);
-	if (attribute_types[i]=='c') {
-	  strcpy(attributes_values_char[i],cmor_vars[var_id].attributes_values_char[i]);
-	}
-	else {
-	  attributes_values_num[i]=cmor_vars[var_id].attributes_values_num[i];
-	}
-      }
-    }
-
-    cmor_reset_variable(var_id);
-
-    if (preserved_var_id != NULL) {
-      if (itype=='d') {
-	cmor_variable(preserved_var_id,msg,iunits,ndims,axes_ids,itype,&miss,&tolerance,&positive,NULL,msg2,ctmp);
-      }
-      else if (itype=='f') {
-	cmor_variable(preserved_var_id,msg,iunits,ndims,axes_ids,itype,(float *)&miss,&tolerance,&positive,NULL,msg2,ctmp);
-      }
-      else if (itype=='i') {
-	cmor_variable(preserved_var_id,msg,iunits,ndims,axes_ids,itype,(int *)&miss,&tolerance,&positive,NULL,msg2,ctmp);
-      }
-      for (i=0;i<nattributes;i++) {
-	if (strcmp(attributes[i],"cell_methods")==0) continue;
-	if (attribute_types[i]=='c') {
-	  cmor_set_variable_attribute(*preserved_var_id,attributes[i],'c',attributes_values_char[i]);
-	}
-	else {
-	  cmor_set_variable_attribute(*preserved_var_id,attributes[i],attribute_types[i],&attributes_values_num[i]);
-	}
-      }
-      if (msg2[0]!='\0') cmor_set_variable_attribute(*preserved_var_id,"history",'c',msg2);
-      if (ctmp2[0]!='\0')cmor_set_variable_attribute(*preserved_var_id,"comment",'c',ctmp2);
-
     }
     else {
+      cmor_reset_variable(var_id);
       cmor_vars[var_id].closed=1;
     }
   }

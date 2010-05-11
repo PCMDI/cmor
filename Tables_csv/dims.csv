@@ -1,8 +1,8 @@
 CMOR Dimensions,,,,,,,,,,,,,,,,,,,,
-
+,,,,,,,,,,,,,,,,,,,,
 CMOR table(s),CMOR dimension,output dimension name,description,standard name,long name,axis,units,index axis?,coords_attrib,bounds?,stored direction,valid_min,valid_max,type,positive,value,bounds _values,requested,bounds_ requested,tol_on_requests: variance from requested values that is tolerated
-"fx, Amon, Lmon, LImon, OImon, aero, day, 6hrLev, 6hrPlev, 3hr,  Oclim, Oyr, Omon, cfMon, cfOff, cfDay, cf3hr",longitude,lon,,longitude,longitude,X,degrees_east,,,yes,increasing,0,360,double,,,,,,
-"fx, Amon, Lmon, LImon, OImon, aero, day, 6hrLev, 6hrPlev, 3hr,  Oclim, Oyr, Omon, cfMon, cfOff, cfDay, cf3hr",latitude,lat,,latitude,latitude,Y,degrees_north,,,yes,increasing,-90,90,double,,,,,,
+"fx, Amon, Lmon, LImon, OImon, aero, day, 6hrLev, 6hrPlev, 3hr,  Oclim, Oyr, Omon, cfMon, cfOff, cfDay, cf3hr",longitude,lon,,longitude,longitude,X,degrees_east,,,yes,increasing,0.0,360.0,double,,,,,,
+"fx, Amon, Lmon, LImon, OImon, aero, day, 6hrLev, 6hrPlev, 3hr,  Oclim, Oyr, Omon, cfMon, cfOff, cfDay, cf3hr",latitude,lat,,latitude,latitude,Y,degrees_north,,,yes,increasing,-90.0,90.0,double,,,,,,
 Amon,plevs,plev,There are 17 mandatory levels and up to 6 additional levels requested of models with sufficient resolution in the stratosphere.,air_pressure,pressure,Z,Pa,,,no,decreasing,,,double,down,,,100000. 92500. 85000. 70000. 60000. 50000. 40000. 30000. 25000. 20000. 15000. 10000. 7000. 5000. 3000. 2000. 1000.,,0.001
 day,plev8,plev,,air_pressure,pressure,Z,Pa,,,no,decreasing,,,double,down,,,100000. 85000. 70000. 50000. 25000. 10000. 5000. 1000.,,0.001
 6hrPlev,plev3,plev,,air_pressure,pressure,Z,Pa,,,no,decreasing,,,double,down,,,85000. 50000. 25000. ,,0.001
@@ -16,23 +16,25 @@ cfDay,p700,plev,700 hPa,air_pressure,pressure,Z,Pa,,,no,decreasing,,,double,down
 "Amon, cfMon, cfDay, cf3hr, cfSites",alevhalf,lev,"atmospheric model ""half"" level",,atmospheric model half-level,Z,,ok,,no,,,,double,up,,,,,
 aero,alev1,lev,atmospheric model's lowest level,,lowest atmospheric model level,Z,,ok,,yes,increasing,,,double,,,,,,
 "cfMon, cfOff, cfDay, cf3hr",alt40,alt40,CloudSat vertical coordinate heights,altitude,altitude,Z,m,,,yes,increasing,,,double,up,,,240. 720. 1200. 1680. 2160. 2640. 3120. 3600. 4080. 4560. 5040. 5520. 6000. 6480. 6960. 7440. 7920. 8400. 8880. 9360. 9840. 10320. 10800. 11280. 11760. 12240. 12720. 13200. 13680. 14160. 14640. 15120. 15600. 16080. 16560. 17040. 17520. 18000. 18480. 18960.,. 0. 480. 480. 960. 960. 1440. 1440. 1920. 1920. 2400. 2400. 2880. 2880. 3360. 3360. 3840. 3840. 4320. 4320. 4800. 4800. 5280. 5280. 5760. 5760. 6240. 6240. 6720. 6720. 7200. 7200. 7680. 7680. 8160. 8160. 8640. 8640. 9120. 9120. 9600. 9600. 10080. 10080. 10560. 10560. 11040. 11040. 11520. 11520. 12000. 12000. 12480. 12480. 12960. 12960. 13440. 13440. 13920. 13920. 14400. 14400. 14880. 14880. 15360. 15360. 15840. 15840. 16320. 16320. 16800. 16800. 17280. 17280. 17760. 17760. 18240. 18240. 18720. . 18720. 19200.,0.001
-"fx,Oyr, Amon, Lmon, LImon, OImon, aero, day, 3hr, Omon, cfMon, cfOff, cfDay, cf3hr",time,time,for time-mean fields,time,time,T,days since ?,,,yes,increasing,,,double,,,,,,
+"Oyr, Amon, Lmon, LImon, OImon, aero, day, 3hr, Omon, cfMon, cfOff, cfDay, cf3hr",time,time,for time-mean fields,time,time,T,days since ?,,,yes,increasing,,,double,,,,,,
 "6hrLev, 6hrPlev, 3hr, cf3hr, cfSites",time1,time,synoptic times (for fields that are not time-means),time,time,T,days since ?,,,no,increasing,,,double,,,,,,
 "Oclim, Amon",time2,time,climatological times,time,time,T,days since ?,,,yes,increasing,,,double,,,,,,
-"Amon, day, 3hr, cf3hr, cfSites",height2m,height,~2 m standard surface air temperature and surface humidity  height,height,height,Z,m,,,no,increasing,1,10,double,up,2.,,,,
-"Amon, day, 3hr, cf3hr, cfSites",height10m,height,~10 m standard wind speed height,height,height,Z,m,,,no,increasing,1,30,double,up,10.,,,,
-"Lmon, LImon",sdepth,depth,coordinate values for soil layers (depth),depth,depth,Z,m,,,yes,increasing,0,200,double,down,,,,,
-Lmon,sdepth1 ,depth,coordinate value for topmost 0.1 meter layer of soil,depth,depth,Z,m,,,yes,increasing,0,0.2,double,down,0.05,0.0 0.1,,,
-"cfMon, cfDay",tau,tau,isccp optical depth categories,atmosphere_optical_thickness_due_to_cloud,cloud optical thickness,,1,,,yes,increasing,,,double,,,,0.15 0.8 2.45 6.5 16.2 41.5 100.,0.0  0.3  0.3  1.3  1.3  3.6  3.6  9.4 9.4 23.0 23.0 60.0 60.0 100000.,0.001
-"cfOff, cf3hr",scatratio,scatratio,15 bins of scattering ratio for the CALIPSO simulator CFAD,backscattering_ratio,lidar backscattering ratio,,1,,,yes,increasing,,,double,,,,,0.01 1.2 3 5 7 10 15 20 25 30 40 50 60 80 999 1009,0.001
+"Amon, day, 3hr, cf3hr, cfSites",height2m,height,~2 m standard surface air temperature and surface humidity  height,height,height,Z,m,,,no,increasing,1.0,10.0,double,up,2.,,,,
+"Amon, day, 3hr, cf3hr, cfSites",height10m,height,~10 m standard wind speed height,height,height,Z,m,,,no,increasing,1.0,30.0,double,up,10.,,,,
+"Lmon, LImon",sdepth,depth,coordinate values for soil layers (depth),depth,depth,Z,m,,,yes,increasing,0.0,200.0,double,down,,,,,
+Lmon,sdepth1 ,depth,coordinate value for topmost 0.1 meter layer of soil,depth,depth,Z,m,,,yes,increasing,0.0,0.2,double,down,0.05,0.0 0.1,,,
+"cfMon, cfDay",tau,tau,isccp optical depth categories,atmosphere_optical_thickness_due_to_cloud,cloud optical thickness,,1.0,,,yes,increasing,,,double,,,,0.15 0.8 2.45 6.5 16.2 41.5 100.,0.0  0.3  0.3  1.3  1.3  3.6  3.6  9.4 9.4 23.0 23.0 60.0 60.0 100000.,0.001
+"cfOff, cf3hr",scatratio,scatratio,15 bins of scattering ratio for the CALIPSO simulator CFAD,backscattering_ratio,lidar backscattering ratio,,1.0,,,yes,increasing,,,double,,,,,0.01 1.2 3 5 7 10 15 20 25 30 40 50 60 80 999 1009,0.001
 "cfOff, cf3hr",dbze,dbze,15 bins of radar reflectivity for CloudSat simulator CFAD,equivalent_reflectivity_factor,CloudSat simulator equivalent radar reflectivity factor,,dBZ,,,yes,increasing,,,double,,,,-47.5 -42.5 -37.5 -32.5 -27.5 -22.5 -17.5 -12.5 -7.5 -2.5 2.5 7.5 12.5 17.5 22.5,-50 -45 -40 -35 -30 -25 -20 -15 -10 -5 0 5 10 15 20 25,0.001
 "cfMon, cfOff, cfDay cf3hr",sza5,sza,5 solar zenith angles for PARASOL reflectances,solar_zenith_angle,solar zenith angle,,degree,,,no,increasing,,,double,,,,0. 20. 40. 60. 80.,,0.001
-cfSites,site,site,an integer assigned to each of 118 stations (standard) and 73 stations (aquaplanet),,site index,,1,ok,,no,,,,integer,,,,,,
-Omon,basin,basin,,region,ocean basin,,1,,region,no,,,,character,,,,atlantic_arctic_ocean indian_pacific_ocean global_ocean,,
+cfSites,site,site,an integer assigned to each of 118 stations (standard) and 73 stations (aquaplanet),,site index,,1.0,ok,,no,,,,integer,,,,,,
+Omon,basin,basin,,region,ocean basin,,1.0,,region,no,,,,character,,,,atlantic_arctic_ocean indian_pacific_ocean global_ocean,,
 Omon,rho,rho,density?  Potential density++++? ,,density++++?,Z,?,,,yes,decreasing,,,double,down,,, ,,
 "fx, Oclim, Oyr, Omon",olevel,lev,generic ocean model vertical coordinate (nondimensional or dimensional),,ocean model level,Z,,ok,,yes,,,,double,down,,,,,
-Omon,oline,line,"opening, passage, strait, channel, etc. ",,ocean passage ,,1,,passage,no,,,,character,,,,barents_opening bering_strait canadian_archipelago denmark_strait drake_passage english_channel pacific_equatorial_undercurrent faroe_scotland_channel florida_bahamas_strait fram_strait iceland_faroe_channel indonesian_thoughflow mozambique_channel taiwan_luzon_straits windward_passage,,
-cf3hr,location,loc,COSP profile in instantaneous curtain mode,,location index,,1,ok,,no,increasing,,,integer,,,,,,
-Lmon,vegtype,type,plant functional type ,,plant functional type,,1,,type_description,no,,,,character,,,,,,
-Omon,olayer100m,depth,coordinate for 100 m ocean surface layer,depth,depth,Z,m,,,no,increasing,0,100,double,down,50.,0. 100.,,,
-Omon,depth100m,depth,coordinate value for 100 m ocean depth,depth,depth,Z,m,,,no,increasing,80,120,double,down,100.,,,,
+Omon,oline,line,"opening, passage, strait, channel, etc. ",,ocean passage ,,1.0,,passage,no,,,,character,,,,barents_opening bering_strait canadian_archipelago denmark_strait drake_passage english_channel pacific_equatorial_undercurrent faroe_scotland_channel florida_bahamas_strait fram_strait iceland_faroe_channel indonesian_thoughflow mozambique_channel taiwan_luzon_straits windward_passage,,
+cf3hr,location,loc,COSP profile in instantaneous curtain mode,,location index,,1.0,ok,,no,increasing,,,integer,,,,,,
+Lmon,vegtype,type,plant functional type ,,plant functional type,,1.0,,type_description,no,,,,character,,,,,,
+Omon,olayer100m,depth,coordinate for 100 m ocean surface layer,depth,depth,Z,m,,,no,increasing,0.0,100.0,double,down,50.,0. 100.,,,
+Omon,depth100m,depth,coordinate value for 100 m ocean depth,depth,depth,Z,m,,,no,increasing,80.0,120.0,double,down,100.,,,,
+
+

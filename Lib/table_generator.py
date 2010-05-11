@@ -197,6 +197,9 @@ def process_template(tmpl,cnames,cols,voids={}):
                 setattr(F,"climatology","yes")
                 if "climatology" in keys: keys.remove("climatology")
             if val.strip()!="":
+                if c in ['units','unformatted units'] and val=='1.0':
+                    val='1'
+                print 'c:',c,'V:',val
                 setattr(F,c,val)
                 keys.remove(c)
 ##                 print
@@ -205,6 +208,8 @@ def process_template(tmpl,cnames,cols,voids={}):
 ##         else:
 ##             print
     if "CMOR dimension" in keys:
+        print 'Keys:',keys
+        print 'cnames:',cnames
         raise "crap"
     for k in keys:
         setattr(F,k,"!CRAP WE NEED TO REMOVE THAT LINE")
@@ -277,7 +282,7 @@ def create_table_header(tbnm, table_file, dims_file, fqcy):
                           !   coordinate.""" % interval
 
     D = open(dims_file)
-    dlines = D.readlines()[1:]
+    dlines = D.readlines()[2:]
     i=0
     while dlines[i].strip()=="":
         i+=1
@@ -332,9 +337,9 @@ def create_table(table_file, dims_file):
     dlines2=[]
     for i in range(len(dlines)):
         if dlines[i].find("include Amon 2D")>-1:
-            f=open("Tables_csv/amon_2D.csv")
+            f=open("Tables_csv/Amon_2D.csv")
             add_lines = f.readlines()
-            if table_file[-11:-4] in ['cfsites','v/cf3hr']:
+            if table_file[-11:-4] in ['cfSites','v/cf3hr']:
                 tmplines=[]
                 for aline in add_lines:
                     a_line =aline.strip()
@@ -362,12 +367,13 @@ def create_table(table_file, dims_file):
                 add_lines = tmplines
             dlines2=dlines2+add_lines
         elif dlines[i].find("include Oyr")>-1:
-            f=open("Tables_csv/oyr_tracer.csv")
+            f=open("Tables_csv/Oyr_tracer.csv")
             dlines2=dlines2+f.readlines()
         else:
             dlines2.append(dlines[i])
     dlines=dlines2
     for l in dlines:
+        #print 'processing:',l.strip()
         sp = process_a_line(l)
         if 0<=sp[0].find("CMOR Table")<=1 and foundnm == False: # line that will give us the table name
             i=1
@@ -386,9 +392,10 @@ def create_table(table_file, dims_file):
             if tbnm in tables.keys():
                 fo = tables[tbnm]
             else: # New table
+                print 'Creating table:',tbnm
                 fo = create_table_header(tbnm,table_file,dims_file,fqcy)
                 tables[tbnm]=fo
-            print >> fo, process_template(var_tmpl,cnms,sp,{'CMOR variable name':['?','0']})
+            print >> fo, process_template(var_tmpl,cnms,sp,{'CMOR variable name':['?','0','0.0']})
     print 'Created tables:',tables.keys()
                 
         
@@ -405,11 +412,20 @@ if __name__== "__main__" :
         print sys.argv
         create_table(sys.argv[1],dims_table)
     else:
-        tables_nms = """Tables_csv/3hr.csv      Tables_csv/amon.csv     Tables_csv/cfMon.csv    Tables_csv/oclim.csv
-Tables_csv/6hrLev.csv   Tables_csv/cfsites.csv  Tables_csv/cfOff.csv    Tables_csv/fx.csv       Tables_csv/olmon.csv
-Tables_csv/6hrPlev.csv  Tables_csv/cf3hr.csv    Tables_csv/llmon.csv    Tables_csv/omon.csv
-Tables_csv/aero.csv     Tables_csv/cfDa.csv     Tables_csv/da.csv       Tables_csv/lmon.csv     Tables_csv/oyr.csv
+        tables_nms = """
+Tables_csv/cfOff.csv    Tables_csv/Omon.csv     Tables_csv/Amon.csv
+Tables_csv/cfMon.csv    Tables_csv/Oclim.csv    Tables_csv/6hrPlev.csv
+Tables_csv/fx.csv       Tables_csv/cfDay.csv    Tables_csv/OImon.csv    
+Tables_csv/cf3hr.csv    Tables_csv/Lmon.csv     Tables_csv/3hr.csv
+Tables_csv/day.csv      Tables_csv/aero.csv     Tables_csv/LImon.csv
+Tables_csv/cfSites.csv  Tables_csv/Oyr.csv      Tables_csv/6hrLev.csv
 """.split()
+
+##         tables_nms = """Tables_csv/3hr.csv      Tables_csv/amon.csv     Tables_csv/cfMon.csv    Tables_csv/oclim.csv
+## Tables_csv/6hrLev.csv   Tables_csv/cfsites.csv  Tables_csv/cfOff.csv    Tables_csv/fx.csv       Tables_csv/olmon.csv
+## Tables_csv/6hrPlev.csv  Tables_csv/cf3hr.csv    Tables_csv/llmon.csv    Tables_csv/omon.csv
+## Tables_csv/aero.csv     Tables_csv/cfDa.csv     Tables_csv/da.csv       Tables_csv/lmon.csv     Tables_csv/oyr.csv
+## """.split()
         for nm in tables_nms:
             print 'Processing:',nm
             create_table(nm,dims_table)

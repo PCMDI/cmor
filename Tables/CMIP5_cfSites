@@ -6,7 +6,7 @@ frequency: subhr
 cmor_version: 2.0         ! version of CMOR that can read this table
 cf_version:   1.4         ! version of CF that output conforms to
 project_id:   CMIP5  ! project id
-table_date:   29 April 2010 ! date this table was constructed
+table_date:   11 May 2010 ! date this table was constructed
 
 missing_value: 1.e20      ! value used to indicate a missing value
                           !   in arrays output by netCDF as 32-bit IEEE 
@@ -132,8 +132,8 @@ long_name:        height
 ! Additional axis information:
 !----------------------------------
 out_name:         height
-valid_min:        1         
-valid_max:        10 
+valid_min:        1.0         
+valid_max:        10.0 
 stored_direction: increasing
 type:             double
 value:            2.            ! of scalar (singleton) dimension 
@@ -157,8 +157,8 @@ long_name:        height
 ! Additional axis information:
 !----------------------------------
 out_name:         height
-valid_min:        1         
-valid_max:        30 
+valid_min:        1.0         
+valid_max:        30.0 
 stored_direction: increasing
 type:             double
 value:            10.            ! of scalar (singleton) dimension 
@@ -560,7 +560,7 @@ comment:           near-surface (usually, 2 meter) air temperature.
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1 height2m
+dimensions:        longitude latitude time1 height2m
 out_name:          tas
 type:              real
 !----------------------------------
@@ -582,7 +582,7 @@ comment:           ""skin"" temperature (i.e., SST for open ocean)
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          ts
 type:              real
 !----------------------------------
@@ -603,7 +603,7 @@ comment:           not, in general, the same as surface pressure
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          psl
 type:              real
 !----------------------------------
@@ -624,7 +624,7 @@ comment:           not, in general, the same as mean sea-level pressure
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          ps
 type:              real
 !----------------------------------
@@ -645,7 +645,7 @@ comment:           near-surface (usually, 10 meters) eastward component of wind.
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1 height10m
+dimensions:        longitude latitude time1 height10m
 out_name:          uas
 type:              real
 !----------------------------------
@@ -666,7 +666,7 @@ comment:           near-surface (usually, 10 meters) northward component of wind
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1 height10m
+dimensions:        longitude latitude time1 height10m
 out_name:          vas
 type:              real
 !----------------------------------
@@ -687,7 +687,7 @@ comment:           near-surface (usually, 10 meters) wind speed.  This is the me
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1 height10m
+dimensions:        longitude latitude time1 height10m
 out_name:          sfcWind
 type:              real
 !----------------------------------
@@ -708,7 +708,7 @@ comment:           near-surface (usually, 2meters) relative humidity expressed a
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1 height2m
+dimensions:        longitude latitude time1 height2m
 out_name:          hurs
 type:              real
 !----------------------------------
@@ -729,7 +729,7 @@ comment:           near-surface (usually, 2 meters) specific humidity.
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1 height2m
+dimensions:        longitude latitude time1 height2m
 out_name:          huss
 type:              real
 !----------------------------------
@@ -750,7 +750,7 @@ comment:           at surface; includes both liquid and solid phases from all ty
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          pr
 type:              real
 !----------------------------------
@@ -771,7 +771,7 @@ comment:           at surface; includes precipitation of all forms of water in t
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          prsn
 type:              real
 !----------------------------------
@@ -792,7 +792,7 @@ comment:           at surface; includes both liquid and solid phases.
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          prc
 type:              real
 !----------------------------------
@@ -813,7 +813,7 @@ comment:           at surface; flux of water into the atmosphere due to conversi
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          evspsbl
 type:              real
 !----------------------------------
@@ -834,7 +834,7 @@ comment:           The snow and ice sublimation flux is the loss of snow and ice
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          sbl
 type:              real
 !----------------------------------
@@ -854,7 +854,7 @@ long_name:         Surface Downward Eastward Wind Stress
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          tauu
 type:              real
 positive:          down
@@ -875,7 +875,7 @@ long_name:         Surface Downward Northward Wind Stress
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          tauv
 type:              real
 positive:          down
@@ -897,7 +897,7 @@ comment:           includes both evaporation and sublimation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          hfls
 type:              real
 positive:          up
@@ -918,7 +918,7 @@ long_name:         Surface Upward Sensible Heat Flux
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          hfss
 type:              real
 positive:          up
@@ -939,7 +939,7 @@ long_name:         Surface Downwelling Longwave Radiation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          rlds
 type:              real
 positive:          down
@@ -960,7 +960,7 @@ long_name:         Surface Upwelling Longwave Radiation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          rlus
 type:              real
 positive:          up
@@ -981,7 +981,7 @@ long_name:         Surface Downwelling Shortwave Radiation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          rsds
 type:              real
 positive:          down
@@ -1002,7 +1002,7 @@ long_name:         Surface Upwelling Shortwave Radiation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          rsus
 type:              real
 positive:          up
@@ -1023,7 +1023,7 @@ long_name:         Surface Downwelling Clear-Sky Shortwave Radiation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          rsdscs
 type:              real
 positive:          down
@@ -1044,7 +1044,7 @@ long_name:         Surface Upwelling Clear-Sky Shortwave Radiation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          rsuscs
 type:              real
 positive:          up
@@ -1065,7 +1065,7 @@ long_name:         Surface Downwelling Clear-Sky Longwave Radiation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          rldscs
 type:              real
 positive:          down
@@ -1087,7 +1087,7 @@ comment:           incident shortwave at the top of the atmosphere
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          rsdt
 type:              real
 positive:          down
@@ -1109,7 +1109,7 @@ comment:           at the top of the atmosphere
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          rsut
 type:              real
 positive:          up
@@ -1131,7 +1131,7 @@ comment:           at the top of the atmosphere (to be compared with satellite m
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          rlut
 type:              real
 positive:          up
@@ -1152,7 +1152,7 @@ long_name:         TOA Outgoing Clear-Sky Longwave Radiation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          rlutcs
 type:              real
 positive:          up
@@ -1173,7 +1173,7 @@ long_name:         TOA Outgoing Clear-Sky Shortwave Radiation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          rsutcs
 type:              real
 positive:          up
@@ -1195,7 +1195,7 @@ comment:           vertically integrated through the atmospheric column
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          prw
 type:              real
 !----------------------------------
@@ -1216,7 +1216,7 @@ comment:           for the whole atmospheric column, as seen from the surface or
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          clt
 type:              real
 !----------------------------------
@@ -1237,7 +1237,7 @@ comment:           calculate mass of condensed (liquid + ice) water in the colum
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          clwvi
 type:              real
 !----------------------------------
@@ -1258,7 +1258,7 @@ comment:           calculate mass of ice water in the column divided by the area
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          clivi
 type:              real
 !----------------------------------
@@ -1279,7 +1279,7 @@ comment:           i.e., at the top of that portion of the atmosphere where dyna
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          rtmt
 type:              real
 positive:          down
@@ -1300,7 +1300,7 @@ long_name:         Air Pressure at Convective Cloud Base
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          ccb
 type:              real
 !----------------------------------
@@ -1320,7 +1320,7 @@ long_name:         Air Pressure at Convective Cloud Top
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          cct
 type:              real
 !----------------------------------
@@ -1340,7 +1340,7 @@ comment:           Fraction of time that convection occurs in the grid cell .
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          ci 
 type:              real
 !----------------------------------
@@ -1360,7 +1360,7 @@ comment:           Fraction of time that shallow convection occurs in the grid c
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          sci
 type:              real
 !----------------------------------
@@ -1380,7 +1380,7 @@ comment:           This is requested only for the emission-driven coupled carbon
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          fco2antt
 type:              real
 positive:          up
@@ -1401,7 +1401,7 @@ comment:           This is requested only for the emission-driven coupled carbon
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          fco2fos
 type:              real
 positive:          up
@@ -1422,7 +1422,7 @@ comment:           Report from all simulations (both emission-driven and concent
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        site time1
+dimensions:        longitude latitude time1
 out_name:          fco2nat
 type:              real
 positive:          up

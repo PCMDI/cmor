@@ -1,0 +1,10 @@
+*.[oa]
+*~
+*.nc
+Test/CMIP5
+Makefile
+build
+config.log
+compile_line.txt
+config.status
+setup.py

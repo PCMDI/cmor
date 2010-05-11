@@ -6,7 +6,7 @@ frequency: mon
 cmor_version: 2.0         ! version of CMOR that can read this table
 cf_version:   1.4         ! version of CF that output conforms to
 project_id:   CMIP5  ! project id
-table_date:   02 April 2010 ! date this table was constructed
+table_date:   11 May 2010 ! date this table was constructed
 
 missing_value: 1.e20      ! value used to indicate a missing value
                           !   in arrays output by netCDF as 32-bit IEEE 
@@ -15,7 +15,7 @@ missing_value: 1.e20      ! value used to indicate a missing value
 baseURL: http://cmip-pcmdi.llnl.gov/CMIP5/dataLocation 
 product: output
 
-required_global_attributes: creation_date tracking_id forcing model_id parent_experiment_id branch_time contact ! space separated required global attribute 
+required_global_attributes: creation_date tracking_id forcing model_id parent_experiment_id branch_time contact institute_id ! space separated required global attribute 
 
 forcings:   N/A Nat Ant GHG SD SI SA TO SO Oz LU Sl Vl SS Ds BC MD OC AA
 
@@ -90,8 +90,8 @@ long_name:        longitude
 ! Additional axis information:
 !----------------------------------
 out_name:         lon
-valid_min:        0         
-valid_max:        360 
+valid_min:        0.0         
+valid_max:        360.0 
 stored_direction: increasing
 type:             double
 must_have_bounds: yes
@@ -113,8 +113,8 @@ long_name:        latitude
 ! Additional axis information:
 !----------------------------------
 out_name:         lat
-valid_min:        -90         
-valid_max:        90 
+valid_min:        -90.0         
+valid_max:        90.0 
 stored_direction: increasing
 type:             double
 must_have_bounds: yes
@@ -220,8 +220,8 @@ long_name:        depth
 ! Additional axis information:
 !----------------------------------
 out_name:         depth
-valid_min:        0         
-valid_max:        100 
+valid_min:        0.0         
+valid_max:        100.0 
 stored_direction: increasing
 type:             double
 value:            50.            ! of scalar (singleton) dimension 
@@ -246,8 +246,8 @@ long_name:        depth
 ! Additional axis information:
 !----------------------------------
 out_name:         depth
-valid_min:        80         
-valid_max:        120 
+valid_min:        80.0         
+valid_max:        120.0 
 stored_direction: increasing
 type:             double
 value:            100.            ! of scalar (singleton) dimension 
@@ -2654,7 +2654,7 @@ standard_name:     ocean_mixed_layer_thickness_defined_by_sigma_t
 units:             m 
 cell_methods:      time: mean
 cell_measures:      area: areacello
-long_name:         Ocean Mixed Layer Thickness De_ned by Sigma T 
+long_name:         Ocean Mixed Layer Thickness Defined by Sigma T 
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
@@ -2675,7 +2675,7 @@ standard_name:     square_of_ocean_mixed_layer_thickness_defined_by_sigma_t
 units:             m2
 cell_methods:      time: mean
 cell_measures:      area: areacello
-long_name:         Square of Ocean Mixed Layer Thickness De_ned by Sigma T 
+long_name:         Square of Ocean Mixed Layer Thickness Defined by Sigma T 
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
@@ -2696,7 +2696,7 @@ standard_name:     ocean_mixed_layer_thickness_defined_by_mixing_scheme
 units:             m 
 cell_methods:      time: maximum within days time: mean over days
 cell_measures:      area: areacello
-long_name:         Mean Daily Maximum Ocean Mixed Layer Thickness De_ned by Mixing Scheme 
+long_name:         Mean Daily Maximum Ocean Mixed Layer Thickness Defined by Mixing Scheme 
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
@@ -2717,7 +2717,7 @@ standard_name:     ocean_mixed_layer_thickness_defined_by_mixing_scheme
 units:             m 
 cell_methods:      time: maximum
 cell_measures:      area: areacello
-long_name:         Monthly Maximum Ocean Mixed Layer Thickness De_ned by Mixing Scheme 
+long_name:         Monthly Maximum Ocean Mixed Layer Thickness Defined by Mixing Scheme 
 !----------------------------------
 ! Additional variable information:
 !----------------------------------

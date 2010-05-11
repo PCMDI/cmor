@@ -195,8 +195,9 @@ int cmor_zfactor (int *zvar_id,int axis_id, char *name, char *units, int ndims, 
   extern cmor_var_t cmor_vars[];
 
   int i,j,k;
-  int n;
+  int n,gid;
   int var_id;
+
   char msg[CMOR_MAX_STRING];
   extern ut_system *ut_read;
   ut_unit *user_units, *cmor_units;
@@ -208,14 +209,26 @@ int cmor_zfactor (int *zvar_id,int axis_id, char *name, char *units, int ndims, 
   cmor_is_setup();
 
   /* first check if we need to convert values */
-/*   printf("in zf:%s, %s, %i, %i\n",name,cmor_axes[axis_id].id,cmor_axes[axis_id].hybrid_out,cmor_axes[axis_id].hybrid_in); */
+  /* printf("in zf:%s, %s, %i, %i\n",name,cmor_axes[axis_id].id,ndims,axes_ids[0]); */
+  /* printf("in zf:%s, %s, %i, %i\n",name,cmor_axes[axis_id].id,cmor_axes[axis_id].hybrid_out,cmor_axes[axis_id].hybrid_in); */
   if (cmor_axes[axis_id].hybrid_out==cmor_axes[axis_id].hybrid_in) { /* no it's a normal hybrid, no conv */
     i = cmor_variable(&var_id,name,units,ndims,axes_ids,type,NULL,NULL,NULL,NULL,NULL,NULL);
     cmor_vars[var_id].needsinit=0;
     cmor_vars[var_id].zaxis=axis_id;
     if (values != NULL) {
       n=1;
-      for (i=0;i<ndims;i++) n*=cmor_axes[axes_ids[i]].length;
+      for (i=0;i<ndims;i++) {
+	if (axes_ids[i]>-1) {
+	  n*=cmor_axes[axes_ids[i]].length;
+	}
+	else {
+	  /* ok irregular grid */
+	  gid = -axes_ids[i]-10;
+	  for (j=0;j<cmor_grids[gid].ndims;j++) {
+	    n*=cmor_axes[cmor_grids[gid].axes_ids[j]].length;
+	  }
+	}
+      }
       cmor_vars[var_id].values = malloc(n*sizeof(double));
       if (cmor_vars[var_id].values == NULL) {
 	snprintf(msg,CMOR_MAX_STRING,"cmor_zfactor: cannot allocate memory for %i double elts %s var '%s'",n,cmor_vars[*zvar_id].id,cmor_vars[var_id].id);
@@ -272,6 +285,30 @@ int cmor_zfactor (int *zvar_id,int axis_id, char *name, char *units, int ndims, 
       *zvar_id= var_id; 
     }
     else {
+      /* Ok let's check to make sure it has a time axis! */
+      int k=0; 
+      for (i=0;i<ndims;i++) {
+	if (axes_ids[i]>-1) {
+	  if (cmor_axes[axes_ids[i]].axis=='T') {
+	    k=1;
+	    break;
+	  }
+	}
+	else {
+	  /* ok irregular grid */
+	  gid = -axes_ids[i]-10;
+	  for (j=0;j<cmor_grids[gid].ndims;j++) {
+	    if (cmor_axes[cmor_grids[gid].axes_ids[j]].axis=='T') {
+	      k=1;
+	      break;
+	    }
+	  }
+	}
+      }
+      if (k==0) {
+	snprintf(msg,CMOR_MAX_STRING,"zfactor: %s, is not time dependent and you did not provide any values",name);
+	cmor_handle_error(msg,CMOR_CRITICAL);
+      }
       *zvar_id = var_id;
     }
     if (bounds != NULL) {
@@ -672,6 +709,7 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
       /* ok now we need to insert the grid dimensions */
       lndims +=k;
       for (j=0;j<cmor_grids[grid_id].ndims;j++) {
+	/* printf("adding axis: %i at pos: %i\n",cmor_grids[grid_id].original_axes_ids[j],i+j); */
 	laxes_ids[i+j] = cmor_grids[grid_id].original_axes_ids[j];
       }
     }
@@ -812,7 +850,8 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
 	}
 	/* -2 means it is a zaxis */
 	if (refvar.dimensions[i]==-2) {
-	  if (cmor_axes[axes_ids[j]].axis=='Z') cmor_vars[vrid].axes_ids[i]=laxes_ids[j];
+	  /* printf("i: %i, j: %i, axid: %i, laxesid: %i, axes_ids: %i\n",i,j,cmor_vars[vrid].axes_ids[i],laxes_ids[j],axes_ids[j]); */
+	  if (cmor_axes[laxes_ids[j]].axis=='Z') cmor_vars[vrid].axes_ids[i]=laxes_ids[j];
 	}
       }
       k++;
@@ -1562,6 +1601,10 @@ int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int 
   }
   
   if (avar->isbounds) {counts[avar->ndims]=2;starts[avar->ndims]=0;}
+  /* printf("writing: %s with: \n",avar->id); */
+  /* for (i=0;i<avar->ndims;i++) { */
+  /*   printf("dim: %i, starts: %i, counts: %i\n",i,starts[i],counts[i]); */
+  /* } */
   if (mtype=='d') ierr = nc_put_vara_double(ncid,avar->nc_var_id,starts,counts,data_tmp);
   else if (mtype=='f') ierr = nc_put_vara_float(ncid,avar->nc_var_id,starts,counts,fdata_tmp);
   else if (mtype=='l') ierr = nc_put_vara_long(ncid,avar->nc_var_id,starts,counts,ldata_tmp);

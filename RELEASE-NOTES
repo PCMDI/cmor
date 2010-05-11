@@ -1,3 +1,8 @@
+2010-05-11 : updated tables
+2010-05-11 : created a xls2csv script MUCH improved my life when Karl changes tables from now on.
+2010-05-11 : sigma coord and irregular girds: implemented
+2010-05-11 : cmor_lose new preserves the original  variable id
+2010-05-11 : cmor_zfactor MUST have values if zfactor is not time dependent
 2010-04-29 : updated repo to git
 2010-04-27 : updated examples to reflect new required things
 2010-04-27 : colored Makefile output for fortran testing, makes it eaiser to see what's being tested

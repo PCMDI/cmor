@@ -146,11 +146,11 @@ def grid(axis_ids,latitude=None,longitude=None,latitude_vertices=None,longitude_
 ##         print 'longitude_vert type:',longitude_vertices.dtype.char
         if longitude_vertices.dtype.char!=type:
             longitude_vertices = longitude_vertices.astype(type)
-        nvert2 = longitude.shape[-1]
+        nvert2 = longitude_vertices.shape[-1]
         if latitude_vertices is None:
             nvert = nvert2
         elif nvert!=nvert2:
-            raise Exception, "error in shape longitude_vertices and latitude_vertices seem to have different # of vertices"
+            raise Exception, "error in shape longitude_vertices and latitude_vertices seem to have different # of vertices: %i vs %i, %s" % (nvert,nvert2, str(longitude_vertices.shape ))
         if nvertices is not None:
             if nvert!=nvertices:
                 raise Exception,"you passed nvertices as: %i, but from your longitude_vertices it seems to be: %i" % (nvertices,nvert)
@@ -826,19 +826,19 @@ def set_table(table):
         raise Exception, "error you need to pass and integer as the table id"
     return _cmor.set_table(table)
 
-def close(var_id=None,file_name=False, preserved=False):
+def close(var_id=None,file_name=False, preserve=False):
     """ Close CMOR variables/file
     Usage:
       cmor.close(varid=None)
     Where:
-      var_id: id of variable to closee, if passing None, means close every open ones.
+      var_id: id of variable to close, if passing None, means close every open ones.
       [file_name] True/False (default False) if True: return name of the file just closed
-      [preserved] True/False (default close) if True: close the file but return a new var_id to write more data with this variable (into a new file)
+      [preserve] True/False (default False) if True: close the file but preserve the var definition in CMOR to write more data with this variable (into a new file)
       """
     if var_id is not None and not isinstance(var_id,int):
         raise Exception, "Error var_id must be none or a integer"
 
-    if (preserved is False):
+    if (preserve is False):
         if (file_name is False):
             return _cmor.close(var_id,0,0)
         else:

@@ -10,8 +10,9 @@ CMOR Table 6hrPlev: Fields (Sampled Every 6 Hours) for Storm-Track Analysis and 
 ,,,mid-Holocene paleo- run,last 30 years,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,
 priority,long name,units ,comment ,questions,output variable name ,standard name,unconfirmed or proposed standard name,unformatted units,cell_methods,valid min,valid max,mean absolute min,mean absolute max,positive,type,CMOR dimensions,CMOR variable name,realm,frequency,cell_measures,flag_values,flag_meanings
-1,Eastward Wind,m s-1,"on the following pressure levels: 850, 500, 250 hPa",,ua,eastward_wind,,m s-1,,,,,,,real,longitude latitude plev3 time1,ua,atmos,,area: areacella,,
-1,Northward Wind,m s-1,"on the following pressure levels: 850, 500, 250 hPa",,va,northward_wind,,m s-1,,,,,,,real,longitude latitude plev3 time1,va,atmos,,area: areacella,,
-1,Air Temperature,K,"on the following pressure levels: 850, 500, 250 hPa",,ta,air_temperature,,K,,,,,,,real,longitude latitude plev3 time1,ta,atmos,,area: areacella,,
-1,Sea Level Pressure,Pa,,,psl,air_pressure_at_sea_level,,Pa,,,,,,,real,longitude latitude time1,psl,atmos,,area: areacella,,
-,,,,,,,,
+1.0,Eastward Wind,m s-1,"on the following pressure levels: 850, 500, 250 hPa",,ua,eastward_wind,,m s-1,,,,,,,real,longitude latitude plev3 time1,ua,atmos,,area: areacella,,
+1.0,Northward Wind,m s-1,"on the following pressure levels: 850, 500, 250 hPa",,va,northward_wind,,m s-1,,,,,,,real,longitude latitude plev3 time1,va,atmos,,area: areacella,,
+1.0,Air Temperature,K,"on the following pressure levels: 850, 500, 250 hPa",,ta,air_temperature,,K,,,,,,,real,longitude latitude plev3 time1,ta,atmos,,area: areacella,,
+1.0,Sea Level Pressure,Pa,,,psl,air_pressure_at_sea_level,,Pa,,,,,,,real,longitude latitude time1,psl,atmos,,area: areacella,,
+
+

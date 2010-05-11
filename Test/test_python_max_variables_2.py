@@ -85,10 +85,10 @@ for it in range(ntimes):
         print it,fnm
     else:
         if (it%50)== 0:
-            fnm , var3d_ids = cmor.close(var3d_ids, True, True)
+            fnm = cmor.close(var3d_ids, True, True)
             print it,fnm
         else:
-            var3d_ids = cmor.close(var3d_ids, False, True)
+            ierr = cmor.close(var3d_ids, False, True)
 
 
   
