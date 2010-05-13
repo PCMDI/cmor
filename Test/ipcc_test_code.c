@@ -294,7 +294,7 @@ int main()
        "abrupt 4XCO2",
        "GICC (Generic International Climate Center, Geneva, Switzerland)",
        "GICCM1(2002): atmosphere:  GICAM3 (gicam_0_brnchT_itea_2, T63L32); ocean: MOM (mom3_ver_3.5.2, 2x3L15); sea ice: GISIM4; land: GILSM2.5",
-       "standard",
+       "360_day",
        1,
        "Rusty Koder (koder@middle_earth.net)",
        "Output from archive/giccm_03_std_2xCO2_2256.",

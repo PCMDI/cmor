@@ -1144,7 +1144,7 @@ int cmor_dataset(char *outpath,
     if (found == 1 ) {
     snprintf(msg,CMOR_MAX_STRING,"CMOR_DATASET: you passed calendar: %s therefore we will ignore any user defined value you also set for month_lentgths and leap_months", calendar);
     cmor_handle_error(msg,CMOR_WARNING);
-  }
+    }
     else {
       if (strcmp(calendar,"non_standard")!=0) {
 	snprintf(msg,CMOR_MAX_STRING,"CMOR_DATASET: You defined a non_standard calendar, its name should be: 'non_standard', you passed: '%s'",calendar);
@@ -1188,6 +1188,10 @@ int cmor_dataset(char *outpath,
 	}
       }
     }
+  }
+  else if (found==0) {
+    snprintf(msg,CMOR_MAX_STRING,"Unknown calendar: %s (calendar are case sensitive)", calendar);
+    cmor_handle_error(msg,CMOR_CRITICAL);
   }
   cmor_set_cur_dataset_attribute("contact",contact,1);
   cmor_set_cur_dataset_attribute("history",history,1);

@@ -199,7 +199,6 @@ def process_template(tmpl,cnames,cols,voids={}):
             if val.strip()!="":
                 if c in ['units','unformatted units'] and val=='1.0':
                     val='1'
-                print 'c:',c,'V:',val
                 setattr(F,c,val)
                 keys.remove(c)
 ##                 print
@@ -308,6 +307,8 @@ def create_table_header(tbnm, table_file, dims_file, fqcy):
                 addLines = True
                 zlevel_name = 'olevel'
                 file_add = 'Tables_csv/add_dims2.txt'
+                if tbnm=='fx':
+                    file_add= "Tables_csv/add_dims2_notime.txt"
             else:
                 print >> fo, process_template(axis_tmpl,cnms,sp)
     if addLines is True:

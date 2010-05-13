@@ -1,3 +1,5 @@
+2010-05-12 : CMIP5_fx add time dependency, fixed
+2010-05-12 : user could pass any calendar name! Now has to match valid ones!
 2010-05-11 : updated tables
 2010-05-11 : created a xls2csv script MUCH improved my life when Karl changes tables from now on.
 2010-05-11 : sigma coord and irregular girds: implemented

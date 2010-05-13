@@ -6,7 +6,7 @@ frequency: fx
 cmor_version: 2.0         ! version of CMOR that can read this table
 cf_version:   1.4         ! version of CF that output conforms to
 project_id:   CMIP5  ! project id
-table_date:   11 May 2010 ! date this table was constructed
+table_date:   12 May 2010 ! date this table was constructed
 
 missing_value: 1.e20      ! value used to indicate a missing value
                           !   in arrays output by netCDF as 32-bit IEEE 
@@ -172,86 +172,6 @@ z_factors:        sigma: sigma depth: depth z1: z1 z2: z2 a: a_coeff href: href 
 z_bounds_factors: sigma: sigma_bnds depth: depth z1: z1 z2: z2 a: a href: href k_c: k_c
 !----------------------------------	
 !
-!============
-axis_entry: ocean_sigma_z
-!============
-!
-!------------
-!
-! Axis attributes:
-!----------------------------------	
-standard_name:    ocean_sigma_z
-axis:             Z
-long_name:        ocean sigma over z coordinate
-!----------------------------------	
-!
-! Additional axis information:
-!----------------------------------	
-out_name:         lev
-must_have_bounds: yes
-formula:          for k <= nsigma: z(n,k,j,i) = eta(n,j,i) + sigma(k)*(min(depth_c,depth(j,i))+eta(n,j,i)) ; for k > nsigma: z(n,k,j,i) = zlev(k)
-z_factors:        sigma: sigma eta: eta depth: depth depth_c: depth_c nsigma: nsigma zlev: zlev
-z_bounds_factors: sigma: sigma_bnds eta: eta depth: depth depth_c: depth_c nsigma: nsigma zlev: zlev_bnds
-!----------------------------------	
-!
-!============
-axis_entry: ocean_s
-!============
-!
-!  This coordinate is dimensionless and varies from 0 at the surface to -1. at the ocean floor.
-!  The values of s(k), which appears in the formula below, should be stored as ocean_s.  
-!  Note that in the netCDF file the variable will be named "lev", not ocean_s.
-!
-!------------
-!
-! Axis attributes:
-!----------------------------------	
-standard_name:    ocean_s_coordinate
-axis:             Z
-positive:	  up
-long_name:        ocean s-coordinate
-!----------------------------------	
-!
-! Additional axis information:
-!----------------------------------	
-out_name:         lev
-must_have_bounds: yes
-stored_direction: decreasing
-valid_min:        -1.
-valid_max:        0.
-formula:          z(n,k,j,i) = eta(n,j,i)*(1+s(k)) + depth_c*s(k) + (depth(j,i)-depth_c)*C(k) \n where \n C(k)=(1-b)*sinh(a*s(k))/sinh(a) +\n           b*(tanh(a*(s(k)+0.5))/(2*tanh(0.5*a)) - 0.5)
-z_factors:        s: lev eta: eta depth: depth a: a_coeff b: b_coeff depth_c: depth_c
-z_bounds_factors: s: lev_bnds eta: eta depth: depth a: a b: b depth_c: depth_c
-!----------------------------------	
-!
-!============
-axis_entry: ocean_sigma
-!============
-!
-!  This coordinate is dimensionless and varies from 0 at the surface to -1. at the ocean floor.
-!  The values of sigma(k), which appears in the formula below, should be stored as ocean_sigma.  
-!  Note that in the netCDF file the variable will be named "lev", not ocean_sigma.
-!
-!------------
-!
-! Axis attributes:
-!----------------------------------	
-standard_name:    ocean_sigma_coordinate
-axis:             Z
-positive:	      up
-long_name:        ocean sigma coordinate
-!----------------------------------	
-!
-! Additional axis information:
-!----------------------------------	
-out_name:         lev
-must_have_bounds: yes
-stored_direction: decreasing
-valid_min:        -1.
-valid_max:        0.
-formula:          z(n,k,j,i) = eta(n,j,i) + sigma(k)*(depth(j,i)+eta(n,j,i))
-z_factors:        sigma: lev eta: eta depth: depth
-z_bounds_factors: sigma: lev_bnds eta: eta depth: depth
 !----------------------------------	
 !
 !
@@ -260,23 +180,6 @@ z_bounds_factors: sigma: lev_bnds eta: eta depth: depth
 ! Vertical coordinate formula_terms:
 !
 ! ***************************************************************
-!
-!============
-variable_entry: eta
-!============
-!----------------------------------
-! Variable attributes:
-!----------------------------------
-units:            m
-cell_methods:     time: mean
-long_name:        Sea Surface Height
-!----------------------------------
-! Additional variable information:
-!----------------------------------
-dimensions:      longitude latitude time
-type:      real
-!----------------------------------
-!
 !
 !============
 variable_entry: depth

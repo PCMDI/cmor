@@ -10,7 +10,7 @@ VERBOSE=-999
 
 class CMORError(Exception):
     def __init__(self,value=None):
-        self.value=value[0]
+        self.value=value
     def __str__(self):
         color=31
         msg = "%c[%d;%d;%dm%s%c[%dm" % (0X1B,2,color,47,self.value,0X1B,0)
@@ -227,7 +227,7 @@ def checkCMOR(fout,file,table,noerror=cmor.CMOR_CRITICAL,variable=None,from_boun
     spver = ver.split('.')
     major = int(spver[0])
     if major>1:
-        req_glbl_att+=["contact",'experiment_id','physics_version','initialization_method','institute_id','institution','tracking_id','product','frequency','model_id','forcing','creation_date','frequency','modeling_realm']
+        req_glbl_att+=["contact",'experiment_id','physics_version','initialization_method','institute_id','institution','tracking_id','product','frequency','model_id','creation_date','frequency','modeling_realm']
     else:
         opt_glbl_att+=["contact",'experiment_id','physics_version','initialization_method','institute_id','institution','tracking_id','product','frequency','model_id','forcing','creation_date','frequency','modeling_realm']
     if isinstance(file,str):
@@ -1176,10 +1176,10 @@ def checkCMOR(fout,file,table,noerror=cmor.CMOR_CRITICAL,variable=None,from_boun
                 ## ???
                 manageLog(fout,VERBOSE, '\t\tChecking positive attribute')
                 p=getattr(ax,'positive',None)
-                if not gnm in [ 'zlevel', 'alevel','olevel']:
+                if not nm in [ 'zlevel', 'alevel','olevel']:
                     ncheck+=1
                 if p is None:
-                    if gnm in ['zlevel','alevel','olevel']:
+                    if nm in ['zlevel','alevel','olevel']:
                         nerr+=manageLog(fout, noerror, 'vertical dimensions must have positive attribute')
                     else:
                         nwarn+=1
@@ -1483,7 +1483,8 @@ def checkCMOR(fout,file,table,noerror=cmor.CMOR_CRITICAL,variable=None,from_boun
             nerr+=nerr
         manageLog(fout,cmor.CMOR_WARNING, '%d warnings issued out of %d checked for (%5.2f%%)' % (nwarn,ncheck,float(nwarn)/ncheck*100))
         if nerr!=0:
-            raise CMORError, str(nerr)+' CMOR errors were raise, please check output and correct your file !!!!'
+            print 'Nerr:',nerr
+            raise CMORError,'%i CMOR errors were raise, please check output and correct your file !!!!' % (nerr)
 
         file.close()
     return nwarn,ncheck,nerr
