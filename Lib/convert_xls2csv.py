@@ -14,12 +14,17 @@ for i in range(bk.nsheets):
                 try:
                     cell=str(cell)
                 except:
-                    cell=cell.replace(u"\ufb01","fi")
-                    cell=cell.replace(u"\u2013","-")
-                    cell=cell.replace(u"\u2026","...")
-                    cell=cell.replace(u"\xb0","") #degree o
-                    cell=cell.replace(u"\u201c",'"')
-                    cell=cell.replace(u"\u201d",'"')
+                    #ok this bit is for Karl showing the problem
+                    for (bad,rpl) in  [ (u"\ufb01","fi"),
+                                        (u"\u2013","-"),
+                                        (u"\u2026","..."),
+                                        (u"\xb0",""),
+                                        (u"\u201c",'"'),
+                                        (u"\u201d",'"'),
+                                        ]:
+                        while cell.find(bad)>-1:
+                            print 'Bad character row %i, col %s, value: %s' % (r+1,chr(c+65),sh.cell(r,c))
+                            cell=cell.replace(bad,rpl,1)
                     cell=str(cell)
                 cell=cell.replace('"','""')
                 if cell.find(",")>-1 or cell.find('"')>-1:
@@ -28,6 +33,7 @@ for i in range(bk.nsheets):
                     line+='%s,' % cell
         except Exception,err:
             print 'Error row: %i, col: %i, value: %s' % (r,c,sh.cell(r,c))
+            print err
             line+=','
         line=line[:-1]
         print >> f,line

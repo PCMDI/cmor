@@ -7,8 +7,11 @@ CMOR Table cfSites: CFMIP high frequency Cloud Diagnostic Fields,,,,,cfSites,sub
 ,,,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,
 "The spread sheet ""CFMIP output"" specifies the simulations and time-periods for which the cloud diagnostic fields listed on this spread sheet should be saved.",,,,,,,,,,,,,,,,,,,,,,
-"CMOR Table cfSites: ""CFMIP Timestep Station Data"" -- 2-D fields from the Amon table and 3-D fields on model levels sampled at 20 to 30 minute intervals at 118 specified locations (see http://cfmip.metoffice.com/cfmip2/pointlocations.txt)",,,,,,,,,,,,,,,,,,,,,,
+"CMOR Table cfSites: ""CFMIP Timestep Station Data"" -- 2-D fields from the Amon table and 3-D fields on model levels sampled at 20 to 30 minute intervals at 73 specified locations for aquaplanet experiments and 119 specified locations for other experiments (see http://cfmip.metoffice.com/cfmip2/pointlocations.txt.",,,,,,,,,,,,,,,,,,,,,,
 "The sampling interval should be the integer multiple of the model time-step that is nearest to 30 minutes and divides into 60 minutes with no remainder. e.g. (30->30,20->20,15->30,10->30).   Outputs should be instantaneous (not time mean) and from nearest gridbox (no spatial interpolation.) Note that except for the quantities appearing in the Amon spreadsheet (first line of table below), all other fields are 3-D.",,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
 priority,long name,units ,comment ,questions,output variable name ,standard name,unconfirmed or proposed standard name,unformatted units,cell_methods,valid min,valid max,mean absolute min,mean absolute max,positive,type,CMOR dimensions,CMOR variable name,realm,frequency,cell_measures,flag_values,flag_meanings
 1.0,(use names from Amon 2D table),,"This table includes the 2-D variables listed in the ""Amon"" spreadsheet, omitting, however, the daily maximum and minimum temperatures.  All variables should be reported as synoptic fields, not daily means.  ",,include Amon 2D,,,,time: point,,,,,,real,site time1,,atmos,,,,
 1.0,Cloud Area Fraction,%,Include both large-scale and convective cloud.,,cl,cloud_area_fraction_in_atmosphere_layer,,%,time: point,,,,,,real,alevel site time1,cl,atmos,,,,
@@ -44,5 +47,7 @@ priority,long name,units ,comment ,questions,output variable name ,standard name
 1.0,Tendency of Specific Humidity due to Model Physics,s-1,,,tnhusmp ,tendency_of_specific_humidity_due_to_model_physics,,s-1,time: point,,,,,,real,alevel site time1,tnhusmp ,atmos,,,,
 1.0,Eddy Viscosity Coefficient for Momentum Variables,m2 s-1,,,evu,atmosphere_momentum_diffusivity,,m2 s-1,time: point,,,,,,real,alevel site time1,evu,atmos,,,,
 1.0,Eddy Diffusivity Coefficient for Temperature Variable,m2 s-1,,,edt,atmosphere_heat_diffusivity,,m2 s-1,time: point,,,,,,real,alevel site time1,edt,atmos,,,,
+1.0,Pressure on Model Levels,Pa,"This field is needed only for models in which the pressure can't be calculated from the vertical coordinate information stored already for each variable.  Thus, the pressures are needed for height or theta-coordinate models, for example, but not sigma- or eta-coordinate models.",,pfull,air_pressure,,Pa,time: point,,,,,,real,"alevel, site, time1",pfull,atmos,,,,
+1.0,Pressure on Model Half-Levels,Pa,"This field is needed only for models in which the pressure can't be calculated from the vertical coordinate information stored already for each variable.  Thus, the pressures are needed for height or theta-coordinate models, for example, but not sigma- or eta-coordinate models.",,phalf,air_pressure,,Pa,time: point,,,,,,real,"alevel, site, time1",phalf,atmos,,,,
 
 

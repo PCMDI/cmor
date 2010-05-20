@@ -6,7 +6,7 @@ frequency: mon
 cmor_version: 2.0         ! version of CMOR that can read this table
 cf_version:   1.4         ! version of CF that output conforms to
 project_id:   CMIP5  ! project id
-table_date:   12 May 2010 ! date this table was constructed
+table_date:   20 May 2010 ! date this table was constructed
 
 missing_value: 1.e20      ! value used to indicate a missing value
                           !   in arrays output by netCDF as 32-bit IEEE 
@@ -161,6 +161,8 @@ comment:           fraction of grid cell covered by sea ice.
 dimensions:        longitude latitude time
 out_name:          sic
 type:              real
+valid_min:         -0.00015
+valid_max:         1.4e+02
 !----------------------------------
 !
 
@@ -182,6 +184,29 @@ comment:           Compute the mean thickness of sea ice in the ocean portion of
 !----------------------------------
 dimensions:        longitude latitude time
 out_name:          sit
+type:              real
+valid_min:         -0.0045
+valid_max:         91
+!----------------------------------
+!
+
+!============
+variable_entry:    sim
+!============
+modeling_realm:    seaIce ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+units:             kg m-2
+cell_methods:      time: mean area: mean where sea
+cell_measures:      area: areacello
+long_name:         Frozen Water Mass
+comment:           Compute the  mass per unit area of sea ice plus snow in the ocean portion of the grid cell (averaging over the entire ocean portion, including the ice-free fraction).  Report as 0.0 in regions free of sea ice.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+out_name:          sim
 type:              real
 !----------------------------------
 !
@@ -739,8 +764,8 @@ modeling_realm:    seaIce
 units:             kg s-1
 cell_methods:      time: mean
 cell_measures:      area: areacello
-long_name:         Eastward Sea Ice Transport
-comment:           The sea ice transport is 0.0 in ice-free regions of the ocean.
+long_name:         X-Component of Sea Ice Mass Transport
+comment:           The sea ice transport is 0.0 in ice-free regions of the ocean.  Include snow is calculation of mass.
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
@@ -760,8 +785,8 @@ modeling_realm:    seaIce
 units:             kg s-1
 cell_methods:      time: mean
 cell_measures:      area: areacello
-long_name:         Northward Sea Ice Transport
-comment:           The sea ice transport is 0.0 in ice-free regions of the ocean.
+long_name:         Y-Component of Sea Ice Transport
+comment:           The sea ice transport is 0.0 in ice-free regions of the ocean.  Include snow is calculation of mass.
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
@@ -801,7 +826,7 @@ modeling_realm:    seaIce
 units:             N m-2
 cell_methods:      time: mean (weighted by area of sea ice)
 cell_measures:      area: areacello
-long_name:         Eastward Atmospheric Stress On Sea Ice
+long_name:         X-Component of Atmospheric Stress On Sea Ice
 comment:           When computing the time-mean here, the time samples, weighted by the area of sea ice, are accumulated and then divided by the sum of the weights.   Report as ""missing"" in regions free of sea ice. 
 !----------------------------------
 ! Additional variable information:
@@ -823,7 +848,7 @@ modeling_realm:    seaIce
 units:             N m-2
 cell_methods:      time: mean (weighted by area of sea ice)
 cell_measures:      area: areacello
-long_name:         Northward Atmospheric Stress On Sea Ice
+long_name:         Y-Component of Atmospheric Stress On Sea Ice
 comment:           When computing the time-mean here, the time samples, weighted by the area of sea ice, are accumulated and then divided by the sum of the weights.   Report as ""missing"" in regions free of sea ice. 
 !----------------------------------
 ! Additional variable information:
@@ -845,7 +870,7 @@ modeling_realm:    seaIce ocean
 units:             N m-2
 cell_methods:      time: mean (weighted by area of sea ice)
 cell_measures:      area: areacello
-long_name:         Eastward Ocean Stress On Sea Ice
+long_name:         X-Component of Ocean Stress On Sea Ice
 comment:           When computing the time-mean here, the time samples, weighted by the area of sea ice, are accumulated and then divided by the sum of the weights.   Report as ""missing"" in regions free of sea ice. 
 !----------------------------------
 ! Additional variable information:
@@ -866,7 +891,7 @@ modeling_realm:    seaIce ocean
 units:             N m-2
 cell_methods:      time: mean (weighted by area of sea ice)
 cell_measures:      area: areacello
-long_name:         Northward Ocean Stress On Sea Ice
+long_name:         Y-Component of Ocean Stress On Sea Ice
 comment:           When computing the time-mean here, the time samples, weighted by the area of sea ice, are accumulated and then divided by the sum of the weights.   Report as ""missing"" in regions free of sea ice. 
 !----------------------------------
 ! Additional variable information:

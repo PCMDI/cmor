@@ -15,13 +15,15 @@ lons = numpy.arange(0+dlon/2.,360.,dlon)
 blons = numpy.arange(0,360.+dlon,dlon)
 
 cmor.setup(inpath='.',netcdf_file_action=cmor.CMOR_REPLACE)
-cmor.dataset('historical', 'ukmo', 'HadCM3', 'gregorian',model_id='pcmdi-10b',outpath='Test',forcing='TO, Nat', contact="Jonathan sanchez",parent_experiment_id="lgm",branch_time=0)
+cmor.dataset('historical', 'ukmo', 'HadCM3', 'gregorian',model_id='HadCM3',outpath='Test',forcing='TO, Nat', contact="Jonathan sanchez",parent_experiment_id="lgm",branch_time=0,institute_id='pcmdi')
 table='Tables/CMIP5_Amon'
 cmor.load_table(table)
 
 data = lats[:,numpy.newaxis]*lons[numpy.newaxis,:]
 
-print data.shape
+data = ( data + 29000 ) / 700. + 200.
+
+print data.shape,data.min(),data.max()
 
 ilat = cmor.axis(table_entry='latitude',coord_vals=lats,cell_bounds=blats,units='degrees_north')
 ilat2 = cmor.axis(table_entry='latitude',coord_vals=lats2,cell_bounds=blats2,units='degrees_north')
@@ -39,7 +41,7 @@ ivar2 = cmor.variable(table_entry='tasmin',units='K',axis_ids=[itim,ilat2,ilon])
 cmor.write(ivar2,data,ntimes_passed=1,time_vals=[1.],time_bnds=[1.,2.])
 fnm2 = cmor.close(ivar2,file_name=True)
 
-import vcs,cdms2
+import cdms2,vcs
 x=vcs.init()
 x.portrait()
 import EzTemplate

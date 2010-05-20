@@ -4,8 +4,8 @@ General information,,,
 "The specifications for archiving model output, as described in the following tables, assume the following (please advise us if the assumptions are incorrect): ",,Key,
 ,,,questions
 1. Sea ice fields and ocean biogeochemistry fields will be archived on the same grid as ocean fields.,,,need standard name
-,,,modified between 16 November 2009 and 13 January 2010
-2. Land fields (including ice and snow on land) and land biogeochemistry fields will be archived on the same grid as the atmosphere.,,,modified since 13 January 2010
+,,,modified between 13 January 2010 and 2 April 2010
+2. Land fields (including ice and snow on land) and land biogeochemistry fields will be archived on the same grid as the atmosphere.,,,modified after 2 April 2010
 ,,,
 ,,,
 The following rules and recommendations for how to  calculate quantities should be followed unless a different method is explicitly indicated in the notes that appear in the following tables.,,,

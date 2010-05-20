@@ -6,7 +6,7 @@ frequency: day
 cmor_version: 2.0         ! version of CMOR that can read this table
 cf_version:   1.4         ! version of CF that output conforms to
 project_id:   CMIP5  ! project id
-table_date:   12 May 2010 ! date this table was constructed
+table_date:   20 May 2010 ! date this table was constructed
 
 missing_value: 1.e20      ! value used to indicate a missing value
                           !   in arrays output by netCDF as 32-bit IEEE 
@@ -236,6 +236,8 @@ comment:           near-surface (usually, 2 meter) specific humidity.
 dimensions:        longitude latitude time height2m
 out_name:          huss
 type:              real
+valid_min:         -4.8e-06
+valid_max:         0.029
 !----------------------------------
 !
 
@@ -258,6 +260,8 @@ comment:           daily-minimum near-surface (usually, 2 meter) air temperature
 dimensions:        longitude latitude time height2m
 out_name:          tasmin
 type:              real
+valid_min:         1.9e+02
+valid_max:         3.1e+02
 !----------------------------------
 !
 
@@ -280,6 +284,8 @@ comment:           daily-maximum near-surface (usually, 2 meter) air temperature
 dimensions:        longitude latitude time height2m
 out_name:          tasmax
 type:              real
+valid_min:         1.9e+02
+valid_max:         3.3e+02
 !----------------------------------
 !
 
@@ -302,6 +308,8 @@ comment:           daily-mean near-surface (usually, 2 meter) air temperature.
 dimensions:        longitude latitude time height2m
 out_name:          tas
 type:              real
+valid_min:         1.8e+02
+valid_max:         3.2e+02
 !----------------------------------
 !
 
@@ -324,6 +332,8 @@ comment:           at surface; includes both liquid and solid phases from all ty
 dimensions:        longitude latitude time
 out_name:          pr
 type:              real
+valid_min:         -1.3e-09
+valid_max:         0.0011
 !----------------------------------
 !
 
@@ -345,6 +355,8 @@ long_name:         Sea Level Pressure
 dimensions:        longitude latitude time
 out_name:          psl
 type:              real
+valid_min:         9.5e+04
+valid_max:         1.1e+05
 !----------------------------------
 !
 
@@ -359,7 +371,7 @@ standard_name:     wind_speed
 units:             m s-1
 cell_methods:      time: mean
 cell_measures:      area: areacella
-long_name:         Daily-Mean Wind Speed
+long_name:         Daily-Mean Near-Surface Wind Speed
 comment:           near-surface (usually, 10 meters) wind speed.
 !----------------------------------
 ! Additional variable information:
@@ -380,7 +392,7 @@ modeling_realm:    ocean
 standard_name:     square_of_sea_surface_temperature
 units:             K2
 cell_methods:      time:mean
-cell_measures:      area: areacella
+cell_measures:      area: areacello
 long_name:         Square of Sea Surface Temperature
 comment:           square of temperature of liquid ocean, averaged over the day. Report on the ocean grid.  This variable appears in WGOMD Table 2.2 
 !----------------------------------
@@ -402,7 +414,7 @@ modeling_realm:    ocean
 standard_name:     surface_temperature
 units:             K
 cell_methods:      time: mean
-cell_measures:      area: areacella
+cell_measures:      area: areacello
 long_name:         Sea Surface Temperature
 comment:           temperature of liquid ocean. Report on the ocean grid.  This variable appears in WGOMD Table 2.2 
 !----------------------------------
@@ -411,6 +423,8 @@ comment:           temperature of liquid ocean. Report on the ocean grid.  This 
 dimensions:        longitude latitude time
 out_name:          tos
 type:              real
+valid_min:         2.7e+02
+valid_max:         3.1e+02
 !----------------------------------
 !
 
@@ -424,9 +438,9 @@ modeling_realm:    ocean
 standard_name:     ocean_mixed_layer_thickness_defined_by_mixing_scheme
 units:             m 
 cell_methods:      time: maximum
-cell_measures:      area: areacella
+cell_measures:      area: areacello
 long_name:         Daily Maximum Ocean Mixed Layer Thickness Defined by Mixing Scheme 
-comment:           This variable appears in WGOMD Table 2.2 
+comment:           Report on the ocean grid.  This variable appears in WGOMD Table 2.2 
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
@@ -455,6 +469,8 @@ comment:           Compute the mass of water in all phases in the upper 0.1 mete
 dimensions:        longitude latitude time
 out_name:          mrsos
 type:              real
+valid_min:         -1.3
+valid_max:         1.3e+02
 !----------------------------------
 !
 
@@ -542,6 +558,8 @@ long_name:         Snow Area Fraction
 dimensions:        longitude latitude time
 out_name:          snc
 type:              real
+valid_min:         0
+valid_max:         1e+02
 !----------------------------------
 !
 
@@ -564,6 +582,8 @@ comment:           for the whole atmospheric column, as seen from the surface or
 dimensions:        longitude latitude time
 out_name:          clt
 type:              real
+valid_min:         -0.00012
+valid_max:         1e+02
 !----------------------------------
 !
 
@@ -608,6 +628,8 @@ comment:           Compute as the mass of surface snow on the land portion of th
 dimensions:        longitude latitude time
 out_name:          snw
 type:              real
+valid_min:         -0.005
+valid_max:         8e+05
 !----------------------------------
 !
 
@@ -630,6 +652,8 @@ comment:           at surface; includes both liquid and solid phases.
 dimensions:        longitude latitude time
 out_name:          prc
 type:              real
+valid_min:         -8.1e-10
+valid_max:         0.00057
 !----------------------------------
 !
 
@@ -652,6 +676,8 @@ comment:           at surface; includes precipitation of all forms of water in t
 dimensions:        longitude latitude time
 out_name:          prsn
 type:              real
+valid_min:         -2.2e-10
+valid_max:         0.00027
 !----------------------------------
 !
 
@@ -674,6 +700,8 @@ comment:           "compute as the total runoff (including ""drainage"" through 
 dimensions:        longitude latitude time
 out_name:          mrro
 type:              real
+valid_min:         -0.00017
+valid_max:         0.00093
 !----------------------------------
 !
 
@@ -688,7 +716,7 @@ standard_name:     eastward_wind
 units:             m s-1
 cell_methods:      time: mean
 cell_measures:      area: areacella
-long_name:         Eastward Wind
+long_name:         Eastward Near-Surface Wind
 comment:           near-surface (usually, 10 meters) eastward component of wind.
 !----------------------------------
 ! Additional variable information:
@@ -696,6 +724,8 @@ comment:           near-surface (usually, 10 meters) eastward component of wind.
 dimensions:        longitude latitude time height10m
 out_name:          uas
 type:              real
+valid_min:         -18
+valid_max:         18
 !----------------------------------
 !
 
@@ -710,7 +740,7 @@ standard_name:     northward_wind
 units:             m s-1
 cell_methods:      time: mean
 cell_measures:      area: areacella
-long_name:         Northward Wind
+long_name:         Northward Near-Surface Wind
 comment:           near-surface (usually, 10 meters) northward component of wind.  
 !----------------------------------
 ! Additional variable information:
@@ -718,6 +748,8 @@ comment:           near-surface (usually, 10 meters) northward component of wind
 dimensions:        longitude latitude time height10m
 out_name:          vas
 type:              real
+valid_min:         -17
+valid_max:         21
 !----------------------------------
 !
 
@@ -732,7 +764,7 @@ standard_name:     wind_speed
 units:             m s-1
 cell_methods:      time: maximum
 cell_measures:      area: areacella
-long_name:         Daily Maximum Wind Speed
+long_name:         Daily Maximum Near-Surface Wind Speed
 comment:           near-surface (usually, 10 meters) wind speed.  
 !----------------------------------
 ! Additional variable information:
@@ -762,6 +794,8 @@ dimensions:        longitude latitude time
 out_name:          hfls
 type:              real
 positive:          up
+valid_min:         -67
+valid_max:         7.3e+02
 !----------------------------------
 !
 
@@ -784,6 +818,8 @@ dimensions:        longitude latitude time
 out_name:          hfss
 type:              real
 positive:          up
+valid_min:         -2.4e+02
+valid_max:         7.6e+02
 !----------------------------------
 !
 
@@ -806,6 +842,8 @@ dimensions:        longitude latitude time
 out_name:          rlds
 type:              real
 positive:          down
+valid_min:         36
+valid_max:         5.1e+02
 !----------------------------------
 !
 
@@ -828,6 +866,8 @@ dimensions:        longitude latitude time
 out_name:          rlus
 type:              real
 positive:          up
+valid_min:         51
+valid_max:         6.4e+02
 !----------------------------------
 !
 
@@ -850,6 +890,8 @@ dimensions:        longitude latitude time
 out_name:          rsds
 type:              real
 positive:          down
+valid_min:         -0.002
+valid_max:         5.1e+02
 !----------------------------------
 !
 
@@ -872,6 +914,8 @@ dimensions:        longitude latitude time
 out_name:          rsus
 type:              real
 positive:          up
+valid_min:         -0.0057
+valid_max:         4.1e+02
 !----------------------------------
 !
 
@@ -895,6 +939,8 @@ dimensions:        longitude latitude time
 out_name:          rlut
 type:              real
 positive:          up
+valid_min:         73
+valid_max:         3.8e+02
 !----------------------------------
 !
 
@@ -917,6 +963,8 @@ comment:           "Report on ocean's grid.  Report as ""missing"" in regions fr
 dimensions:        longitude latitude time
 out_name:          usi
 type:              real
+valid_min:         -1.3
+valid_max:         1.4
 !----------------------------------
 !
 
@@ -939,6 +987,8 @@ comment:           "Report on ocean's grid.  Report as ""missing"" in regions fr
 dimensions:        longitude latitude time
 out_name:          vsi
 type:              real
+valid_min:         -1.8
+valid_max:         1.9
 !----------------------------------
 !
 
@@ -961,6 +1011,8 @@ comment:           fraction of grid cell covered by sea ice. Report on ocean's g
 dimensions:        longitude latitude time
 out_name:          sic
 type:              real
+valid_min:         -0.00015
+valid_max:         1.4e+02
 !----------------------------------
 !
 
@@ -983,6 +1035,8 @@ comment:           Report on ocean's grid.  Compute the mean thickness of sea ic
 dimensions:        longitude latitude time
 out_name:          sit
 type:              real
+valid_min:         -0.0045
+valid_max:         91
 !----------------------------------
 !
 
@@ -1004,6 +1058,8 @@ long_name:         Air Temperature
 dimensions:        longitude latitude plev8 time
 out_name:          ta
 type:              real
+valid_min:         1.6e+02
+valid_max:         3.2e+02
 !----------------------------------
 !
 
@@ -1026,6 +1082,8 @@ comment:           This is the relative humidity with respect to liquid water fo
 dimensions:        longitude latitude plev8 time
 out_name:          hur
 type:              real
+valid_min:         -1.8
+valid_max:         1.3e+02
 !----------------------------------
 !
 
@@ -1047,6 +1105,8 @@ long_name:         Specific Humidity
 dimensions:        longitude latitude plev8 time
 out_name:          hus
 type:              real
+valid_min:         -0.00029
+valid_max:         0.028
 !----------------------------------
 !
 
@@ -1069,6 +1129,8 @@ comment:           commonly referred to as ""omega"", this represents the vertic
 dimensions:        longitude latitude plev8 time
 out_name:          wap
 type:              real
+valid_min:         -1.1
+valid_max:         2.2
 !----------------------------------
 !
 
@@ -1090,6 +1152,8 @@ long_name:         Northward Wind
 dimensions:        longitude latitude plev8 time
 out_name:          va
 type:              real
+valid_min:         -68
+valid_max:         67
 !----------------------------------
 !
 
@@ -1111,6 +1175,8 @@ long_name:         Eastward Wind
 dimensions:        longitude latitude plev8 time
 out_name:          ua
 type:              real
+valid_min:         -65
+valid_max:         1.3e+02
 !----------------------------------
 !
 
@@ -1132,6 +1198,8 @@ long_name:         Geopotential Height
 dimensions:        longitude latitude plev8 time
 out_name:          zg
 type:              real
+valid_min:         -5.7e+02
+valid_max:         3.3e+04
 !----------------------------------
 !
 

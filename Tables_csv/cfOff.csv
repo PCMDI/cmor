@@ -9,6 +9,9 @@
 "The spread sheet ""CFMIP output"" specifies the simulations and time-periods for which the cloud diagnostic fields listed on this spread sheet should be saved.",,,,,,,,,,,,,,,,,,,,,,
 "CMOR Table cfOff: ""CFMIP monthly offline"" -- monthly mean CloudSat/CALIPSO/PARASOL simulator output",,,,,,,,,,,,,,,,,,,,,,
 "(Calculate monthly means by averaging the orbital curtain output from CFMIP_orbital_offline.  The difference between similar variables appearing in this and the previous table is in the spatial sampling and time period requested. The previous table builds monthly means from global fields, whereas this table below uses only data along the satellite track for a short period of time (one year). This will enable studies of the impact of the satellite sampling in the comparisons.)",,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
 priority,long name,units ,comment ,questions,output variable name ,standard name,unconfirmed or proposed standard name,unformatted units,cell_methods,valid min,valid max,mean absolute min,mean absolute max,positive,type,CMOR dimensions,CMOR variable name,realm,frequency,cell_measures,flag_values,flag_meanings
 1.0,CALIPSO Cloud Fraction,%,(40 height levels),,  clcalipso ,cloud_area_fraction_in_atmosphere_layer,,%,time: mean,,,,,,real,longitude latitude alt40 time,  clcalipso ,atmos,,area: areacella,,
 1.0,CALIPSO Cloud Fraction Undetected by CloudSat,%,(40 height levels)  Clouds detected by CALIPSO but below the detectability threshold of CloudSat,,clcalipso2  ,cloud_area_fraction_in_atmosphere_layer,,%,time: mean,,,,,,real,longitude latitude alt40 time,clcalipso2  ,atmos,,area: areacella,,

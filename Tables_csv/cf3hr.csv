@@ -9,6 +9,9 @@ CMOR Table cf3hr: CFMIP 3-Hourly Cloud Diagnostic Fields,,,,,cf3hr,3hr,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,
 "The spread sheet ""CFMIP output"" specifies the simulations and time-periods for which the cloud diagnostic fields listed on this spread sheet should be saved.",,,,,,,,,,,,,,,,,,,,,,
 "In CMOR Table cf3hr: ""CFMIP 3-hourly orbital offline"" -- CloudSat/CALIPSO/PARASOL simulator output in orbital curtain format",,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
 "(For most of these variables, extract simulator input variables from models along A-train orbits, and run COSP on these in 'offline' mode.)",,,,,,,,,,,,,,,,,,,,,,
 priority,long name,units ,comment ,questions,output variable name ,standard name,unconfirmed or proposed standard name,unformatted units,cell_methods,valid min,valid max,mean absolute min,mean absolute max,positive,type,CMOR dimensions,CMOR variable name,realm,frequency,cell_measures,flag_values,flag_meanings
 1.0,CALIPSO Cloud Area Fraction,%,(40 height levels),,  clcalipso ,cloud_area_fraction_in_atmosphere_layer,,%,time: point,,,,,,real,location alt40 time1,  clcalipso ,atmos,,,,
@@ -55,5 +58,7 @@ priority,long name,units ,comment ,questions,output variable name ,standard name
 2.0,Convective Cloud Optical Depth,1.0,This is the in-cloud optical depth obtained by considering only the cloudy portion of the grid cell,,dtauc,atmosphere_optical_thickness_due_to_convective_cloud,,1.0,time: point,,,,,,real,longitude latitude alevel time1,dtauc,atmos,,area: areacella,,
 2.0,Stratiform Cloud Emissivity,1.0,This is the in-cloud emissivity obtained by considering only the cloudy portion of the grid cell.,,dems,stratiform_cloud_longwave_emissivity,,1.0,time: point,,,,,,real,longitude latitude alevel time1,dems,atmos,,area: areacella,,
 2.0,Convective Cloud Emissivity,1.0,This is the in-cloud emissivity obtained by considering only the cloudy portion of the grid cell.,,demc,convective_cloud_longwave_emissivity,,1.0,time: point,,,,,,real,longitude latitude alevel time1,demc,atmos,,area: areacella,,
+2.0,Convective Cloud Area Fraction,%,,,clc,convective_cloud_area_fraction_in_atmosphere_layer,,%,time: point,,,,,,real,longitude latitude alevel time1,clc,atmos,,area: areacella,,
+2.0,Stratiform Cloud Area Fraction,%,,,cls,stratiform_cloud_area_fraction_in_atmosphere_layer,,%,time: point,,,,,,real,longitude latitude alevel time1,cls,atmos,,area: areacella,,
 
 

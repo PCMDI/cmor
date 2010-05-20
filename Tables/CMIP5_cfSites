@@ -6,7 +6,7 @@ frequency: subhr
 cmor_version: 2.0         ! version of CMOR that can read this table
 cf_version:   1.4         ! version of CF that output conforms to
 project_id:   CMIP5  ! project id
-table_date:   12 May 2010 ! date this table was constructed
+table_date:   20 May 2010 ! date this table was constructed
 
 missing_value: 1.e20      ! value used to indicate a missing value
                           !   in arrays output by netCDF as 32-bit IEEE 
@@ -563,6 +563,8 @@ comment:           near-surface (usually, 2 meter) air temperature.
 dimensions:        longitude latitude time1 height2m
 out_name:          tas
 type:              real
+valid_min:         1.8e+02
+valid_max:         3.2e+02
 !----------------------------------
 !
 
@@ -585,6 +587,8 @@ comment:           ""skin"" temperature (i.e., SST for open ocean)
 dimensions:        longitude latitude time1
 out_name:          ts
 type:              real
+valid_min:         1.8e+02
+valid_max:         3.3e+02
 !----------------------------------
 !
 
@@ -606,6 +610,8 @@ comment:           not, in general, the same as surface pressure
 dimensions:        longitude latitude time1
 out_name:          psl
 type:              real
+valid_min:         9.5e+04
+valid_max:         1.1e+05
 !----------------------------------
 !
 
@@ -627,6 +633,8 @@ comment:           not, in general, the same as mean sea-level pressure
 dimensions:        longitude latitude time1
 out_name:          ps
 type:              real
+valid_min:         4.9e+04
+valid_max:         1.1e+05
 !----------------------------------
 !
 
@@ -648,6 +656,8 @@ comment:           near-surface (usually, 10 meters) eastward component of wind.
 dimensions:        longitude latitude time1 height10m
 out_name:          uas
 type:              real
+valid_min:         -18
+valid_max:         18
 !----------------------------------
 !
 
@@ -669,6 +679,8 @@ comment:           near-surface (usually, 10 meters) northward component of wind
 dimensions:        longitude latitude time1 height10m
 out_name:          vas
 type:              real
+valid_min:         -17
+valid_max:         21
 !----------------------------------
 !
 
@@ -732,6 +744,8 @@ comment:           near-surface (usually, 2 meters) specific humidity.
 dimensions:        longitude latitude time1 height2m
 out_name:          huss
 type:              real
+valid_min:         -4.8e-06
+valid_max:         0.029
 !----------------------------------
 !
 
@@ -753,6 +767,8 @@ comment:           at surface; includes both liquid and solid phases from all ty
 dimensions:        longitude latitude time1
 out_name:          pr
 type:              real
+valid_min:         -1.3e-09
+valid_max:         0.0011
 !----------------------------------
 !
 
@@ -774,6 +790,8 @@ comment:           at surface; includes precipitation of all forms of water in t
 dimensions:        longitude latitude time1
 out_name:          prsn
 type:              real
+valid_min:         -2.2e-10
+valid_max:         0.00027
 !----------------------------------
 !
 
@@ -795,6 +813,8 @@ comment:           at surface; includes both liquid and solid phases.
 dimensions:        longitude latitude time1
 out_name:          prc
 type:              real
+valid_min:         -8.1e-10
+valid_max:         0.00057
 !----------------------------------
 !
 
@@ -837,6 +857,8 @@ comment:           The snow and ice sublimation flux is the loss of snow and ice
 dimensions:        longitude latitude time1
 out_name:          sbl
 type:              real
+valid_min:         -0.004
+valid_max:         0.00083
 !----------------------------------
 !
 
@@ -858,6 +880,8 @@ dimensions:        longitude latitude time1
 out_name:          tauu
 type:              real
 positive:          down
+valid_min:         -2.4
+valid_max:         2.6
 !----------------------------------
 !
 
@@ -879,6 +903,8 @@ dimensions:        longitude latitude time1
 out_name:          tauv
 type:              real
 positive:          down
+valid_min:         -2.2
+valid_max:         2.2
 !----------------------------------
 !
 
@@ -901,6 +927,8 @@ dimensions:        longitude latitude time1
 out_name:          hfls
 type:              real
 positive:          up
+valid_min:         -67
+valid_max:         7.3e+02
 !----------------------------------
 !
 
@@ -922,6 +950,8 @@ dimensions:        longitude latitude time1
 out_name:          hfss
 type:              real
 positive:          up
+valid_min:         -2.4e+02
+valid_max:         7.6e+02
 !----------------------------------
 !
 
@@ -943,6 +973,8 @@ dimensions:        longitude latitude time1
 out_name:          rlds
 type:              real
 positive:          down
+valid_min:         36
+valid_max:         5.1e+02
 !----------------------------------
 !
 
@@ -964,6 +996,8 @@ dimensions:        longitude latitude time1
 out_name:          rlus
 type:              real
 positive:          up
+valid_min:         51
+valid_max:         6.4e+02
 !----------------------------------
 !
 
@@ -985,6 +1019,8 @@ dimensions:        longitude latitude time1
 out_name:          rsds
 type:              real
 positive:          down
+valid_min:         -0.002
+valid_max:         5.1e+02
 !----------------------------------
 !
 
@@ -1006,6 +1042,8 @@ dimensions:        longitude latitude time1
 out_name:          rsus
 type:              real
 positive:          up
+valid_min:         -0.0057
+valid_max:         4.1e+02
 !----------------------------------
 !
 
@@ -1027,6 +1065,8 @@ dimensions:        longitude latitude time1
 out_name:          rsdscs
 type:              real
 positive:          down
+valid_min:         -1.5e+30
+valid_max:         5.1e+02
 !----------------------------------
 !
 
@@ -1048,6 +1088,8 @@ dimensions:        longitude latitude time1
 out_name:          rsuscs
 type:              real
 positive:          up
+valid_min:         -0.012
+valid_max:         4.5e+02
 !----------------------------------
 !
 
@@ -1069,6 +1111,8 @@ dimensions:        longitude latitude time1
 out_name:          rldscs
 type:              real
 positive:          down
+valid_min:         37
+valid_max:         5.3e+02
 !----------------------------------
 !
 
@@ -1091,6 +1135,8 @@ dimensions:        longitude latitude time1
 out_name:          rsdt
 type:              real
 positive:          down
+valid_min:         0
+valid_max:         5.5e+02
 !----------------------------------
 !
 
@@ -1113,6 +1159,8 @@ dimensions:        longitude latitude time1
 out_name:          rsut
 type:              real
 positive:          up
+valid_min:         -0.023
+valid_max:         4.1e+02
 !----------------------------------
 !
 
@@ -1135,6 +1183,8 @@ dimensions:        longitude latitude time1
 out_name:          rlut
 type:              real
 positive:          up
+valid_min:         73
+valid_max:         3.8e+02
 !----------------------------------
 !
 
@@ -1156,6 +1206,8 @@ dimensions:        longitude latitude time1
 out_name:          rlutcs
 type:              real
 positive:          up
+valid_min:         75
+valid_max:         3.7e+02
 !----------------------------------
 !
 
@@ -1177,6 +1229,8 @@ dimensions:        longitude latitude time1
 out_name:          rsutcs
 type:              real
 positive:          up
+valid_min:         0
+valid_max:         4.3e+02
 !----------------------------------
 !
 
@@ -1198,6 +1252,8 @@ comment:           vertically integrated through the atmospheric column
 dimensions:        longitude latitude time1
 out_name:          prw
 type:              real
+valid_min:         0.012
+valid_max:         75
 !----------------------------------
 !
 
@@ -1219,6 +1275,8 @@ comment:           for the whole atmospheric column, as seen from the surface or
 dimensions:        longitude latitude time1
 out_name:          clt
 type:              real
+valid_min:         -0.00012
+valid_max:         1e+02
 !----------------------------------
 !
 
@@ -1240,6 +1298,8 @@ comment:           calculate mass of condensed (liquid + ice) water in the colum
 dimensions:        longitude latitude time1
 out_name:          clwvi
 type:              real
+valid_min:         -2.6e-06
+valid_max:         2.9
 !----------------------------------
 !
 
@@ -1261,6 +1321,8 @@ comment:           calculate mass of ice water in the column divided by the area
 dimensions:        longitude latitude time1
 out_name:          clivi
 type:              real
+valid_min:         -1.2e-06
+valid_max:         1.3
 !----------------------------------
 !
 
@@ -1283,6 +1345,8 @@ dimensions:        longitude latitude time1
 out_name:          rtmt
 type:              real
 positive:          down
+valid_min:         -2.3e+02
+valid_max:         2.1e+02
 !----------------------------------
 !
 
@@ -1447,6 +1511,8 @@ comment:           Include both large-scale and convective cloud.
 dimensions:        alevel site time1
 out_name:          cl
 type:              real
+valid_min:         0
+valid_max:         1e+02
 !----------------------------------
 !
 
@@ -1531,6 +1597,8 @@ long_name:         Air Temperature
 dimensions:        alevel site time1
 out_name:          ta
 type:              real
+valid_min:         1.6e+02
+valid_max:         3.2e+02
 !----------------------------------
 !
 
@@ -1551,6 +1619,8 @@ long_name:         Eastward Wind
 dimensions:        alevel site time1
 out_name:          ua
 type:              real
+valid_min:         -65
+valid_max:         1.3e+02
 !----------------------------------
 !
 
@@ -1571,6 +1641,8 @@ long_name:         Northward Wind
 dimensions:        alevel site time1
 out_name:          va
 type:              real
+valid_min:         -68
+valid_max:         67
 !----------------------------------
 !
 
@@ -1591,6 +1663,8 @@ long_name:         Specific Humidity
 dimensions:        alevel site time1
 out_name:          hus
 type:              real
+valid_min:         -0.00029
+valid_max:         0.028
 !----------------------------------
 !
 
@@ -1612,6 +1686,8 @@ comment:           This is the relative humidity with respect to liquid water fo
 dimensions:        alevel site time1
 out_name:          hur
 type:              real
+valid_min:         -1.8
+valid_max:         1.3e+02
 !----------------------------------
 !
 
@@ -1633,6 +1709,8 @@ comment:           commonly referred to as ""omega"", this represents the vertic
 dimensions:        alevel site time1
 out_name:          wap
 type:              real
+valid_min:         -1.1
+valid_max:         2.2
 !----------------------------------
 !
 
@@ -1653,6 +1731,8 @@ long_name:         Geopotential Height
 dimensions:        alevel site time1
 out_name:          zg
 type:              real
+valid_min:         -5.7e+02
+valid_max:         3.3e+04
 !----------------------------------
 !
 
@@ -2100,6 +2180,48 @@ long_name:         Eddy Diffusivity Coefficient for Temperature Variable
 !----------------------------------
 dimensions:        alevel site time1
 out_name:          edt
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    pfull
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     air_pressure
+units:             Pa
+cell_methods:      time: point
+long_name:         Pressure on Model Levels
+comment:           This field is needed only for models in which the pressure can't be calculated from the vertical coordinate information stored already for each variable.  Thus, the pressures are needed for height or theta-coordinate models, for example, but not sigma- or eta-coordinate models.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        alevel, site, time1
+out_name:          pfull
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    phalf
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     air_pressure
+units:             Pa
+cell_methods:      time: point
+long_name:         Pressure on Model Half-Levels
+comment:           This field is needed only for models in which the pressure can't be calculated from the vertical coordinate information stored already for each variable.  Thus, the pressures are needed for height or theta-coordinate models, for example, but not sigma- or eta-coordinate models.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        alevel, site, time1
+out_name:          phalf
 type:              real
 !----------------------------------
 !

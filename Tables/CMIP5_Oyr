@@ -6,7 +6,7 @@ frequency: yr
 cmor_version: 2.0         ! version of CMOR that can read this table
 cf_version:   1.4         ! version of CF that output conforms to
 project_id:   CMIP5  ! project id
-table_date:   12 May 2010 ! date this table was constructed
+table_date:   20 May 2010 ! date this table was constructed
 
 missing_value: 1.e20      ! value used to indicate a missing value
                           !   in arrays output by netCDF as 32-bit IEEE 
@@ -534,6 +534,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     mole_concentration_of_dissolved_inorganic_carbon_in_sea_water
 units:             mol m-3
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -555,6 +556,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     mole_concentration_of_dissolved_organic_carbon_in_sea_water
 units:             mol m-3
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -576,6 +578,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     mole_concentration_of_phytoplankton_expressed_as_carbon_in_sea_water
 units:             mol m-3
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -597,6 +600,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     mole_concentration_of_zooplankton_expressed_as_carbon_in_sea_water
 units:             mol m-3
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -618,6 +622,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     mole_concentration_of_bacteria_expressed_as_carbon_in_sea_water
 units:             mol m-3
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -639,6 +644,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     mole_concentration_of_organic_detritus_expressed_as_carbon_in_sea_water
 units:             mol m-3
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -660,6 +666,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     mole_concentration_of_calcite_expressed_as_carbon_in_sea_water
 units:             mol m-3
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -681,6 +688,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     mole_concentration_of_aragonite_expressed_as_carbon_in_sea_water
 units:             mol m-3
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -709,6 +717,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     mole_concentration_of_miscellaneous_zooplankton_expressed_as_carbon_in_sea_water
 units:             mol m-3
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -730,6 +739,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     sea_water_alkalinity_expressed_as_mole_equivalent
 units:             mol m-3
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -751,6 +761,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     sea_water_ph_reported_on_total_scale
 units:             1
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -772,6 +783,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     mole_concentration_of_molecular_oxygen_in_sea_water
 units:             mol m-3
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -859,6 +871,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     mole_concentration_of_dissolved_iron_in_sea_water
 units:             mol m-3
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -924,6 +937,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     mass_concentration_of_diatoms_expressed_as_chlorophyll_in_sea_water
 units:             kg m-3
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -948,6 +962,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     mass_concentration_of_miscellaneous_phytoplankton_expressed_as_chlorophyll_in_sea_water
 units:             kg m-3
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -969,6 +984,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     mole_concentration_of_particulate_organic_matter_expressed_as_nitrogen_in_sea_water
 units:             mol m-3
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -990,6 +1006,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     mole_concentration_of_particulate_organic_matter_expressed_as_phosphorus_in_sea_water
 units:             mol m-3
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -1011,6 +1028,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     mole_concentration_of_particulate_organic_matter_expressed_as_iron_in_sea_water
 units:             mol m-3
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -1032,6 +1050,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     mole_concentration_of_particulate_matter_expressed_as_silicon_in_sea_water
 units:             mol m-3
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -1075,6 +1094,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     mole_concentration_of_phytoplankton_expressed_as_phosphorus_in_sea_water
 units:             mol m-3
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -1096,6 +1116,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     mole_concentration_of_phytoplankton_expressed_as_iron_in_sea_water
 units:             mol m-3
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -1117,6 +1138,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     mole_concentration_of_phytoplankton_expressed_as_silicon_in_sea_water
 units:             mol m-3
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -1138,6 +1160,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     mole_concentration_of_dimethyl_sulfide_in_sea_water
 units:             mol m-3
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -1162,6 +1185,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     tendency_of_mole_concentration_of_particulate_organic_matter_expressed_as_carbon_in_sea_water_due_to_net_primary_production
 units:             mol m-3 s-1
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -1177,22 +1201,23 @@ type:              real
 !
 
 !============
-variable_entry:    pnew
+variable_entry:    pnitrate
 !============
 modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     tendency_of_mole_concentration_of_particulate_organic_carbon_expressed_as_carbon_in_sea_water_due_to_nitrate_utilization
 units:             mol m-3 s-1
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
-long_name:         Primary Carbon Production by Phytoplankton Based on NO3 Alone
-comment:           Primary (organic carbon) production by phytoplankton based on NO3 alone
+long_name:         Primary Carbon Production by Phytoplankton due to Nitrate Uptake Alone
+comment:           Primary (organic carbon) production by phytoplankton due to nitrate uptake alone
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
 dimensions:        longitude latitude olevel time
-out_name:          pnew
+out_name:          pnitrate
 type:              real
 !----------------------------------
 !
@@ -1204,6 +1229,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     tendency_of_mole_concentration_of_iron_in_sea_water_due_to_biological_production
 units:             mol m-3 s-1
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -1225,6 +1251,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     tendency_of_mole_concentration_of_silicon_in_sea_water_due_to_biological_production
 units:             mol m-3 s-1
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -1246,6 +1273,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     tendency_of_mole_concentration_of_calcite_expressed_as_carbon_in_sea_water_due_to_biological_production
 units:             mol m-3 s-1
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -1267,6 +1295,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     tendency_of_mole_concentration_of_aragonite_expressed_as_carbon_in_sea_water_due_to_biological_production
 units:             mol m-3 s-1
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -1288,6 +1317,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     sinking_mole_flux_of_particulate_organic_matter_expressed_as_carbon_in_sea_water
 units:             mol m-2 s-1
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -1310,6 +1340,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     sinking_mole_flux_of_particulate_organic_nitrogen_in_sea_water
 units:             mol m-2 s-1
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -1332,6 +1363,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     sinking_mole_flux_of_particulate_organic_phosphorus_in_sea_water
 units:             mol m-2 s-1
 cell_methods:      time: mean area: mean where sea 
 long_name:         Sinking Particulate Organic Phosphorus Flux
@@ -1353,6 +1385,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     sinking_mole_flux_of_particulate_iron_in_sea_water
 units:             mol m-2 s-1
 cell_methods:      time: mean area: mean where sea 
 long_name:         Sinking Particulate Iron Flux
@@ -1374,6 +1407,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     sinking_mole_flux_of_particulate_silicon_in_sea_water
 units:             mol m-2 s-1
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -1396,6 +1430,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     sinking_mole_flux_of_calcite_expressed_as_carbon_in_sea_water
 units:             mol m-2 s-1
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -1418,6 +1453,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     sinking_mole_flux_of_aragonite_expressed_as_carbon_in_sea_water
 units:             mol m-2 s-1
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -1440,6 +1476,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     tendency_of_mole_concentration_of_calcite_expressed_as_carbon_in_sea_water_due_to_dissolution
 units:             mol m-3 s-1
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -1461,6 +1498,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     tendency_of_mole_concentration_of_aragonite_expressed_as_carbon_in_sea_water_due_to_dissolution
 units:             mol m-3 s-1
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -1482,6 +1520,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     tendency_of_mole_concentration_of_particulate_organic_matter_expressed_as_carbon_in_sea_water_due_to_net_primary_production_by_diatoms
 units:             mol m-3 s-1
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -1506,6 +1545,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     tendency_of_mole_concentration_of_particulate_organic_matter_expressed_as_carbon_in_sea_water_due_to_net_primary_production_by_miscellaneous_phytoplankton
 units:             mol m-3 s-1
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -1527,6 +1567,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     tendency_of_mole_concentration_of_dissolved_inorganic_carbon_in_sea_water_due_to_biological_processes
 units:             mol m-3 s-1
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -1548,6 +1589,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     tendency_of_mole_concentration_of_dissolved_inorganic_nitrogen_in_sea_water_due_to_biological_processes
 units:             mol m-3 s-1
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -1569,6 +1611,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     tendency_of_mole_concentration_of_dissolved_inorganic_phosphate_in_sea_water_due_to_biological_processes
 units:             mol m-3 s-1
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -1590,6 +1633,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     tendency_of_mole_concentration_of_dissolved_inorganic_iron_in_sea_water_due_to_biological_processes
 units:             mol m-3 s-1
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -1611,6 +1655,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     tendency_of_mole_concentration_of_dissolved_inorganic_silicate_in_sea_water_due_to_biological_processes
 units:             mol m-3 s-1
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -1632,6 +1677,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     tendency_of_sea_water_alkalinity_expressed_as_mole_equivalent_due_to_biological_processes
 units:             mol m-3 s-1
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -1653,6 +1699,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     tendency_of_mole_concentration_of_dissolved_iron_in_sea_water_due_to_scavenging_by_inorganic_particles
 units:             mol m-3 s-1
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -1674,6 +1721,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     tendency_of_mole_concentration_of_dissolved_iron_in_sea_water_due_to_dissolution_from_inorganic_particles
 units:             mol m-3 s-1
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello
@@ -1695,6 +1743,7 @@ modeling_realm:    ocnBgchem
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+standard_name:     tendency_of_mole_concentration_of_dissolved_iron_in_sea_water_due_to_grazing_of_phytoplankton
 units:             mol m-3 s-1
 cell_methods:      time: mean area: mean where sea 
 cell_measures:      area: areacello volume: volcello

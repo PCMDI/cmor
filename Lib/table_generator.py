@@ -179,7 +179,7 @@ def process_a_line(line):
     return sp
 
 
-def process_template(tmpl,cnames,cols,voids={}):
+def process_template(tmpl,cnames,cols,voids={},minmax={}):
     F = genutil.StringConstructor(tmpl)
 
     keys = F.keys()
@@ -206,10 +206,40 @@ def process_template(tmpl,cnames,cols,voids={}):
 ##                 print ' but empty'
 ##         else:
 ##             print
+    #print 'Keys:',keys
     if "CMOR dimension" in keys:
         print 'Keys:',keys
         print 'cnames:',cnames
         raise "crap"
+    ve = getattr(F,"CMOR variable name","yep not that guy") 
+    if ve in minmax.keys():
+        if 'valid min' in keys:
+        #ok let's see if we can figure this one out
+            mnmx = minmax[ve]
+            val=1.e20
+            std=0.
+            for mlev in mnmx.keys():
+                mn=mnmx[mlev]['Min']
+                val = min(mn['min'],val)
+                std +=mn['std']
+            std/=len(mnmx.keys())
+            setattr(F,"valid min","%.2g" % (val-2*std))
+            keys.remove("valid min")
+        if 'valid max' in keys:
+        #ok let's see if we can figure this one out
+            mnmx = minmax[ve]
+            val=-1.e20
+            std=0.
+            for mlev in mnmx.keys():
+                mn=mnmx[mlev]['Max']
+                val = max(mn['max'],val)
+                std +=mn['std']
+            std/=len(mnmx.keys())
+            setattr(F,"valid max","%.2g" % (val+2*std))
+            keys.remove("valid max")
+
+        ### Need to add lines for absolute mean min/max
+                
     for k in keys:
         setattr(F,k,"!CRAP WE NEED TO REMOVE THAT LINE")
 
@@ -326,7 +356,7 @@ def create_table_header(tbnm, table_file, dims_file, fqcy):
     return fo
 
 
-def create_table(table_file, dims_file):
+def create_table(table_file, dims_file,minmax={}):
     tables = {}
     foundnm= False
     D = open(table_file)
@@ -396,7 +426,7 @@ def create_table(table_file, dims_file):
                 print 'Creating table:',tbnm
                 fo = create_table_header(tbnm,table_file,dims_file,fqcy)
                 tables[tbnm]=fo
-            print >> fo, process_template(var_tmpl,cnms,sp,{'CMOR variable name':['?','0','0.0']})
+            print >> fo, process_template(var_tmpl,cnms,sp,{'CMOR variable name':['?','0','0.0']},minmax=minmax)
     print 'Created tables:',tables.keys()
                 
         
@@ -404,6 +434,7 @@ def create_table(table_file, dims_file):
     
 
 if __name__== "__main__" :
+    import extract_min_max
     if len(sys.argv)>2:
         dims_table = sys.argv[2]
     else:
@@ -427,6 +458,9 @@ Tables_csv/cfSites.csv  Tables_csv/Oyr.csv      Tables_csv/6hrLev.csv
 ## Tables_csv/6hrPlev.csv  Tables_csv/cf3hr.csv    Tables_csv/llmon.csv    Tables_csv/omon.csv
 ## Tables_csv/aero.csv     Tables_csv/cfDa.csv     Tables_csv/da.csv       Tables_csv/lmon.csv     Tables_csv/oyr.csv
 ## """.split()
+        import pickle
+        f=open("Tables_csv/minmax.pickled")
+        minmax = pickle.load(f)
         for nm in tables_nms:
             print 'Processing:',nm
-            create_table(nm,dims_table)
+            create_table(nm,dims_table,minmax=minmax)

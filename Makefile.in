@@ -26,7 +26,7 @@ LIBFILES = @LIBFILES@
 INCFILES = @INCFILES@
 
 # Temporary Files
-TMPFILES = *~ $(LIBFILES) *.mod a.out *.stb Test/IPCC_Fourth_Assessment *.LOG* *.dSYM Test/IPCC Test/CMIP5 CMIP5
+TMPFILES = *~ $(LIBFILES) *.mod a.out *.stb Test/*.nc Test/IPCC_Fourth_Assessment *.LOG* *.dSYM Test/IPCC Test/CMIP5 CMIP5
 DISTFILES = libcmor.a
 DEPEND= makedepend -c @DEBUG@ @CFLAGS@  @NCCFLAGS@ @UDUNITS2FLAGS@ @UUIDFLAGS@ @ZFLAGS@
 

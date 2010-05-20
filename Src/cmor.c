@@ -3449,7 +3449,9 @@ int cmor_close_variable(int var_id, char *file_name, int *preserve)
   int ndims;
   double tolerance;
   char positive;
-
+  struct stat buf;
+  off_t sz;
+  long maxsz=(long) pow(2,32) -1;
   cmor_add_traceback("cmor_close_variable");
   cmor_is_setup();
 
@@ -3643,6 +3645,14 @@ int cmor_close_variable(int var_id, char *file_name, int *preserve)
     }
     if (file_name!=NULL) {
       strncpy(file_name,outname,CMOR_MAX_STRING);
+    }
+
+    /* At this point we need to check the file's size and issue a warning if greater than 4Gb*/
+    stat(outname,&buf);
+    sz = buf.st_size;
+    if (sz > maxsz) {
+      sprintf(msg,"Closing file: %s, size is greater than 4Gb, while this is acceptable it may be unreadable on older file systems",outname);
+      cmor_handle_error(msg,CMOR_WARNING);
     }
 
     if (preserve != NULL) {

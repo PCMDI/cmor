@@ -9,6 +9,9 @@ CMOR Table Oclim: Monthly Mean Ocean Climatology (Jan. 1986-Dec. 2005 of histori
 ,,,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,
 In CMOR Table Oclim: WGOMD Table 2.9,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
 priority,long name,units ,comment ,questions,output variable name ,standard name,unconfirmed or proposed standard name,unformatted units,cell_methods,valid min,valid max,mean absolute min,mean absolute max,positive,type,CMOR dimensions,CMOR variable name,realm,frequency,cell_measures,flag_values,flag_meanings
 3.0,Ocean Vertical Heat Diffusivity,m2 s-1,,,difvho,ocean_vertical_heat_diffusivity,,m2 s-1,time: mean within years time: mean over years,,,,,,real,longitude latitude olevel time2,difvho,ocean,,area: areacello volume: volcello,,
 3.0,Ocean Vertical Salt Diffusivity ,m2 s-1,,,difvso,ocean_vertical_salt_diffusivity,ocean_vertical_salt_diffusivity_due_to_background,m2 s-1,time: mean within years time: mean over years,,,,,,real,longitude latitude olevel time2,difvso,ocean,,area: areacello volume: volcello,,

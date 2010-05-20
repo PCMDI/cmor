@@ -19,7 +19,7 @@ blons = numpy.arange(0,360.+dlon,dlon)
 
 
 cmor.setup(inpath='.',netcdf_file_action=cmor.CMOR_REPLACE)
-cmor.dataset('historical', 'ukmo', 'HadCM3', 'gregorian',model_id='pcmdi-10b',outpath='Test',forcing='CH4', parent_experiment_id="lgm",branch_time=0)
+cmor.dataset('historical', 'ukmo', 'HadCM3', 'gregorian',model_id='HadCM3',outpath='Test',forcing='N/A', parent_experiment_id="lgm",branch_time=0,contact="Juan Uribe",institute_id="myinst")
 table='Tables/CMIP5_Amon'
 cmor.load_table(table)
 
@@ -32,7 +32,7 @@ ilev = cmor.axis(table_entry='plevs',coord_vals=numpy.array([1000.,925,850,700,6
 axes=[itim,ilev,ilat,ilon]
 
 var = cmor.variable(table_entry='ta',units='K',axis_ids=axes)
-ntimes=180
+ntimes=250
 
 data = numpy.random.random((nlev,nlat,nlon))*30+273.15
 
