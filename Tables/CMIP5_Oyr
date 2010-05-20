@@ -703,12 +703,159 @@ type:              real
 !----------------------------------
 !
 
+!============
+variable_entry:    phydiat
+!============
+modeling_realm:    ocnBgchem
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     mole_concentration_of_diatoms_expressed_as_carbon_in_sea_water
+units:             mol m-3
+cell_methods:      time: mean area: mean where sea 
+cell_measures:      area: areacello volume: volcello
+long_name:         Mole Concentration of Diatoms expressed as Carbon in Sea Water
+comment:           carbon from the diatom phytoplankton component concentration alone
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude olevel time
+out_name:          phydiat
+type:              real
+!----------------------------------
+!
 
+!============
+variable_entry:    phydiaz
+!============
+modeling_realm:    ocnBgchem
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     mole_concentration_of_diazotrophs_expressed_as_carbon_in_sea_water
+units:             mol m-3
+cell_methods:      time: mean area: mean where sea 
+cell_measures:      area: areacello volume: volcello
+long_name:         Mole Concentration of Diazotrophs Expressed as Carbon in Sea Water
+comment:           carbon concentration from the diazotrophic phytoplankton component alone
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude olevel time
+out_name:          phydiaz
+type:              real
+!----------------------------------
+!
 
+!============
+variable_entry:    phycalc
+!============
+modeling_realm:    ocnBgchem
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     mole_concentration_of_calcareous_phytoplankton_expressed_as_carbon_in_sea_water
+units:             mol m-3
+cell_methods:      time: mean area: mean where sea 
+cell_measures:      area: areacello volume: volcello
+long_name:         Mole Concentration of Calcareous Phytoplankton expressed as Carbon in Sea Water
+comment:           carbon concentration from calcareous (calcite-producing) phytoplankton component alone
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude olevel time
+out_name:          phycalc
+type:              real
+!----------------------------------
+!
 
+!============
+variable_entry:    phypico
+!============
+modeling_realm:    ocnBgchem
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     mole_concentration_of_picophytoplankton_expressed_as_carbon_in_sea_water
+units:             mol m-3
+cell_methods:      time: mean area: mean where sea 
+cell_measures:      area: areacello volume: volcello
+long_name:         Mole Concentration of Picophytoplankton expressed as Carbon in Sea Water
+comment:           carbon concentration from the picophytoplankton (<2 um) component alone
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude olevel time
+out_name:          phypico
+type:              real
+!----------------------------------
+!
 
+!============
+variable_entry:    phymisc
+!============
+modeling_realm:    ocnBgchem
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     mole_concentration_of_miscellaneous_phytoplankton_expressed_as_carbon_in_sea_water
+units:             mol m-3
+cell_methods:      time: mean area: mean where sea 
+cell_measures:      area: areacello volume: volcello
+long_name:         Mole Concentration of Miscellaneous Phytoplankton expressed as Carbon in Sea Water
+comment:           carbon concentration from additional phytoplankton component alone
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude olevel time
+out_name:          phymisc
+type:              real
+!----------------------------------
+!
 
+!============
+variable_entry:    zmicro
+!============
+modeling_realm:    ocnBgchem
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     mole_concentration_of_microzooplankton_expressed_as_carbon_in_sea_water
+units:             mol m-3
+cell_methods:      time: mean area: mean where sea 
+cell_measures:      area: areacello volume: volcello
+long_name:         Mole Concentration of Microzooplankton expressed as Carbon in Sea Water
+comment:           carbon  concentration from the microzooplankton (<20 um) component alone
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude olevel time
+out_name:          zmicro
+type:              real
+!----------------------------------
+!
 
+!============
+variable_entry:    zmeso
+!============
+modeling_realm:    ocnBgchem
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     mole_concentration_of_mesozooplankton_expressed_as_carbon_in_sea_water
+units:             mol m-3
+cell_methods:      time: mean area: mean where sea 
+cell_measures:      area: areacello volume: volcello
+long_name:         Mole Concentration of Mesozooplankton expressed as Carbon in Sea Water
+comment:           carbon  concentration from mesozooplankton (20-200 um) component alone
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude olevel time
+out_name:          zmeso
+type:              real
+!----------------------------------
+!
 
 !============
 variable_entry:    zoocmisc
@@ -952,8 +1099,71 @@ type:              real
 !----------------------------------
 !
 
+!============
+variable_entry:    chldiaz
+!============
+modeling_realm:    ocnBgchem
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     mass_concentration_of_diazotrophs_expressed_as_chlorophyll_in_sea_water
+units:             kg m-3
+cell_methods:      time: mean area: mean where sea 
+cell_measures:      area: areacello volume: volcello
+long_name:         Mass Concentration of Diazotrophs expressed as Chlorophyll in Sea Water
+comment:           chlorophyll concentration from the diazotrophic phytoplankton component alone
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude olevel time
+out_name:          chldiaz
+type:              real
+!----------------------------------
+!
 
+!============
+variable_entry:    chlcalc
+!============
+modeling_realm:    ocnBgchem
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     mass_concentration_of_calcareous_phytoplankton_expressed_as_chlorophyll_in_sea_water
+units:             kg m-3
+cell_methods:      time: mean area: mean where sea 
+cell_measures:      area: areacello volume: volcello
+long_name:         Mass Concentration of Calcareous Phytoplankton expressed as Chlorophyll in Sea Water
+comment:           chlorophyll concentration from the calcite-producing phytoplankton component alone
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude olevel time
+out_name:          chlcalc
+type:              real
+!----------------------------------
+!
 
+!============
+variable_entry:    chlpico
+!============
+modeling_realm:    ocnBgchem
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     mass_concentration_of_picophytoplankton_expressed_as_chlorophyll_in_sea_water
+units:             kg m-3
+cell_methods:      time: mean area: mean where sea 
+cell_measures:      area: areacello volume: volcello
+long_name:         Mass Concentration of Picophytoplankton expressed as Chlorophyll in Sea Water
+comment:           chlorophyll concentration from the picophytoplankton (<2 um) component alone
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude olevel time
+out_name:          chlpico
+type:              real
+!----------------------------------
+!
 
 !============
 variable_entry:    chlmisc
@@ -1175,8 +1385,71 @@ type:              real
 !----------------------------------
 !
 
+!============
+variable_entry:    co3
+!============
+modeling_realm:    ocnBgchem
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     mole_concentration_of_carbonate_expressed_as_carbon_in_sea_water
+units:             mol m-3
+cell_methods:      time: mean area: mean where sea 
+cell_measures:      area: areacello volume: volcello
+long_name:         Mole Concentration of Carbonate expressed as Carbon in Sea Water
+comment:           carbonate ion concentration
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude olevel time
+out_name:          co3
+type:              real
+!----------------------------------
+!
 
+!============
+variable_entry:    co3satcalc
+!============
+modeling_realm:    ocnBgchem
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     mole_concentration_of_calcite_expressed_as_carbon_in_sea_water_at_saturation
+units:             mol m-3
+cell_methods:      time: mean area: mean where sea 
+cell_measures:      area: areacello volume: volcello
+long_name:         Mole Concentration of Calcite expressed as Carbon in Sea Water at Saturation
+comment:           carbonate ion concentration at calcite solution saturation
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude olevel time
+out_name:          co3satcalc
+type:              real
+!----------------------------------
+!
 
+!============
+variable_entry:    co3satarag
+!============
+modeling_realm:    ocnBgchem
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     mole_concentration_of_aragonite_expressed_as_carbon_in_sea_water_at_saturation
+units:             mol m-3
+cell_methods:      time: mean area: mean where sea 
+cell_measures:      area: areacello volume: volcello
+long_name:         Mole Concentration of Aragonite expressed as Carbon in Sea Water at Saturation
+comment:           carbonate ion concentration at aragonite solution saturation
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude olevel time
+out_name:          co3satarag
+type:              real
+!----------------------------------
+!
 
 !============
 variable_entry:    pp
@@ -1535,8 +1808,71 @@ type:              real
 !----------------------------------
 !
 
+!============
+variable_entry:    dpocdtdiaz
+!============
+modeling_realm:    ocnBgchem
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     tendency_of_mole_concentration_of_particulate_organic_matter_expressed_as_carbon_in_sea_water_due_to_net_primary_production_by_diazatrophs
+units:             mol m-3 s-1
+cell_methods:      time: mean area: mean where sea 
+cell_measures:      area: areacello volume: volcello
+long_name:         Tendency of Mole Concentration of Organic Carbon in Sea Water due to Net Primary Production by Diazatrophs
+comment:           Primary (organic carbon) production by the diazotrophic phytoplankton component alone
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude olevel time
+out_name:          dpocdtdiaz
+type:              real
+!----------------------------------
+!
 
+!============
+variable_entry:    dpocdtcalc
+!============
+modeling_realm:    ocnBgchem
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     tendency_of_mole_concentration_of_particulate_organic_matter_expressed_as_carbon_in_sea_water_due_to_net_primary_production_by_calcareous_phytoplankton
+units:             mol m-3 s-1
+cell_methods:      time: mean area: mean where sea 
+cell_measures:      area: areacello volume: volcello
+long_name:         Tendency of Mole Concentration of Organic Carbon in Sea Water due to Net Primary Production by Picophytoplankton
+comment:           Primary (organic carbon) production by the calcite-producing phytoplankton component alone
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude olevel time
+out_name:          dpocdtcalc
+type:              real
+!----------------------------------
+!
 
+!============
+variable_entry:    dpocdtpico
+!============
+modeling_realm:    ocnBgchem
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     tendency_of_mole_concentration_of_particulate_organic_matter_expressed_as_carbon_in_sea_water_due_to_net_primary_production_by_picophytoplankton
+units:             mol m-3 s-1
+cell_methods:      time: mean area: mean where sea 
+cell_measures:      area: areacello volume: volcello
+long_name:         Tendency of Mole Concentration of Organic Carbon in Sea Water due to Net Primary Production by Picophytoplankton
+comment:           Primary (organic carbon) production by the picophytoplankton (<2 um) component alone
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude olevel time
+out_name:          dpocdtpico
+type:              real
+!----------------------------------
+!
 
 !============
 variable_entry:    phypmisc

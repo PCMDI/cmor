@@ -532,12 +532,13 @@ def zfactor(zaxis_id,zfactor_name,units="",axis_ids=None,type=None,zfactor_value
             if zfactor_bounds.shape[1]!=2:
                 raise Exception, "error zfactor_bounds' 2nd dimension must be of length 2"
             bnds =[]
-            for i in range(zfactor_bounds.shape[0]-1):
+            b = zfactor_bounds[0]
+            for i in range(zfactor_bounds.shape[0]):
                 b = zfactor_bounds[i]
                 bnds.append(b[0])
-                if b[1]!=zfactor_bounds[i+1][0]:
+                if (i<zfactor_bounds.shape[0]-1) and (b[1]!=zfactor_bounds[i+1][0]):
                     raise Exception, "error zfactor_bounds have gaps between them"
-            bnds.append(b[1])
+            bnds.append(zfactor_bounds[-1][1])
             zfactor_bounds=numpy.array(bnds)
     axis_ids = axis_ids.astype('i')
     return _cmor.zfactor(zaxis_id,zfactor_name,units,ndims,axis_ids,type,zfactor_values,zfactor_bounds)

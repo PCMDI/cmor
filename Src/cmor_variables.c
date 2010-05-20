@@ -651,13 +651,17 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
     }
     if (refvar.positive=='u') {
       if (cmor_is_required_variable_attribute(refvar,"positive")==0) cmor_set_variable_attribute(vrid,"positive",'c',"up");
-      if (positive[0]!='u') cmor_vars[vrid].sign=-1;
-      cmor_update_history(vrid,"Changed sign");
+      if (positive[0]!='u') {
+	cmor_vars[vrid].sign=-1;
+	cmor_update_history(vrid,"Changed sign");
+      }
     }
     else if (refvar.positive=='d') {
       if (cmor_is_required_variable_attribute(refvar,"positive")==0) cmor_set_variable_attribute(vrid,"positive",'c',"down");
-      if (positive[0]!='d') cmor_vars[vrid].sign=-1;
-      cmor_update_history(vrid,"Changed sign");
+      if (positive[0]!='d') {
+	cmor_vars[vrid].sign=-1;
+	cmor_update_history(vrid,"Changed sign");
+      }
     }
     else { 
       snprintf(msg,CMOR_MAX_STRING,"variable '%s' you passed positive value:%s, but table does not mention it, will be ignored, if you really want this in your variable output use cmor_set_variable_attribute function",cmor_vars[vrid].id,positive); 

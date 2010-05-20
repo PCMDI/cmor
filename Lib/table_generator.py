@@ -265,6 +265,7 @@ def process_template(tmpl,cnames,cols,voids={},minmax={}):
             vals = [vals,]
         for V in vals:
             if V == v:
+                print 'Skipping:',sp
                 out = ""
     return out
 

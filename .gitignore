@@ -1,10 +1,13 @@
 *.[oa]
 *~
 *.nc
+*.pyc
 Test/CMIP5
+CMIP5
 Makefile
 build
 config.log
 compile_line.txt
 config.status
 setup.py
+Tables_csv/standard_output.xls
