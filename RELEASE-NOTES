@@ -1,3 +1,4 @@
+2010-05-20 : fake release for testing
 2010-05-20 : newer tables
 2010-05-12 : CMIP5_fx add time dependency, fixed
 2010-05-12 : user could pass any calendar name! Now has to match valid ones!
