@@ -6,7 +6,7 @@ frequency: fx
 cmor_version: 2.0         ! version of CMOR that can read this table
 cf_version:   1.4         ! version of CF that output conforms to
 project_id:   CMIP5  ! project id
-table_date:   20 May 2010 ! date this table was constructed
+table_date:   24 May 2010 ! date this table was constructed
 
 missing_value: 1.e20      ! value used to indicate a missing value
                           !   in arrays output by netCDF as 32-bit IEEE 
@@ -425,8 +425,10 @@ long_name:         Atmosphere Grid-Cell Area
 dimensions:        longitude latitude
 out_name:          areacella
 type:              real
-valid_min:         500.0
-valid_max:         250000.0
+valid_min:         100000.0
+valid_max:         1e+12
+ok_min_mean_abs:   100000.0
+ok_max_mean_abs:   1e+12
 !----------------------------------
 !
 
@@ -609,8 +611,10 @@ long_name:         Ocean Grid-Cell Area
 dimensions:        longitude latitude
 out_name:          areacello
 type:              real
-valid_min:         10.0
-valid_max:         250000.0
+valid_min:         100000.0
+valid_max:         1e+12
+ok_min_mean_abs:   100000.0
+ok_max_mean_abs:   1e+12
 !----------------------------------
 !
 

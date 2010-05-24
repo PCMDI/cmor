@@ -197,6 +197,8 @@ def process_template(tmpl,cnames,cols,voids={},minmax={}):
                 setattr(F,"climatology","yes")
                 if "climatology" in keys: keys.remove("climatology")
             if val.strip()!="":
+                ## if c=="valid max":
+                ##     print 'ok we havew a val max predefined at:',cols
                 if c in ['units','unformatted units'] and val=='1.0':
                     val='1'
                 setattr(F,c,val)
@@ -236,6 +238,7 @@ def process_template(tmpl,cnames,cols,voids={},minmax={}):
                 std +=mn['std']
             std/=len(mnmx.keys())
             setattr(F,"valid max","%.2g" % (val+2*std))
+            ## print 'Setting valid max for %s to %.2g' % (ve,val)
             keys.remove("valid max")
 
         ### Need to add lines for absolute mean min/max
