@@ -490,6 +490,8 @@ void cmor_reset_variable(int var_id) {
   cmor_vars[var_id].values = NULL;
   cmor_vars[var_id].first_time=-999.;
   cmor_vars[var_id].last_time=-999.;
+  cmor_vars[var_id].first_bound=1.e20;
+  cmor_vars[var_id].last_bound=1.e20;
   cmor_vars[var_id].base_path[0]='\0';
   cmor_vars[var_id].current_path[0]='\0';
   cmor_vars[var_id].suffix[0]='\0';
@@ -3520,8 +3522,12 @@ int cmor_close_variable(int var_id, char *file_name, int *preserve)
       }
       
       /* ok makes a comptime out of input */
-      cdRel2Comp(icalo,msg,cmor_vars[var_id].first_time,&comptime);
-      
+      if (cmor_vars[var_id].first_bound!=1.e20) {
+	cdRel2Comp(icalo,msg,cmor_vars[var_id].first_bound,&comptime);
+      }
+      else {
+	cdRel2Comp(icalo,msg,cmor_vars[var_id].first_time,&comptime);
+      }
       /* need to figure out the approximate interval */
       interval  = cmor_convert_interval_to_seconds(cmor_tables[cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_table_id].interval,cmor_tables[cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_table_id].axes[cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_axis_id].units);
       
@@ -3553,7 +3559,12 @@ int cmor_close_variable(int var_id, char *file_name, int *preserve)
       }
       
       
-      cdRel2Comp(icalo,msg,cmor_vars[var_id].last_time,&comptime);
+      if (cmor_vars[var_id].last_bound!=1.e20) {
+	cdRel2Comp(icalo,msg,cmor_vars[var_id].last_bound,&comptime);
+      }
+      else {
+	cdRel2Comp(icalo,msg,cmor_vars[var_id].last_time,&comptime);
+      }
       
       /* separator between first and last time */
       strncat(outname,"-",CMOR_MAX_STRING-strlen(outname));
