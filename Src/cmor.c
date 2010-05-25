@@ -3566,6 +3566,13 @@ int cmor_close_variable(int var_id, char *file_name, int *preserve)
 	cdRel2Comp(icalo,msg,cmor_vars[var_id].last_time,&comptime);
       }
       
+      /* ok apparently we don't like the new time format if it's ending at midnight exactly so I'm removing one second...*/
+      if (icalo==cdMixed) {
+	cdCompAddMixed(comptime,-1./3600.,&comptime);
+      }
+      else{
+	cdCompAdd(comptime,-1./3600.,icalo,&comptime);
+      }
       /* separator between first and last time */
       strncat(outname,"-",CMOR_MAX_STRING-strlen(outname));
       
