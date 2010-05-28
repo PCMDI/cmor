@@ -192,7 +192,7 @@ if __name__=="__main__":
     myvars={}
     for fnm in sys.argv[1:]:
         print 'Processing:',fnm
-        myvars = process_file(fnm,doavg=False,results=myvars,verbose=False)
+        myvars = process_file(fnm,doavg=True,results=myvars,verbose=False)
         print len(myvars)
 
     pickle.dump(myvars,f)

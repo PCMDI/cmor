@@ -6,7 +6,7 @@ frequency: mon
 cmor_version: 2.0         ! version of CMOR that can read this table
 cf_version:   1.4         ! version of CF that output conforms to
 project_id:   CMIP5  ! project id
-table_date:   24 May 2010 ! date this table was constructed
+table_date:   28 May 2010 ! date this table was constructed
 
 missing_value: 1.e20      ! value used to indicate a missing value
                           !   in arrays output by netCDF as 32-bit IEEE 
@@ -187,6 +187,8 @@ out_name:          snc
 type:              real
 valid_min:         0
 valid_max:         1e+02
+ok_min_mean_abs:   -18
+ok_max_mean_abs:   67
 !----------------------------------
 !
 
@@ -211,6 +213,8 @@ out_name:          snw
 type:              real
 valid_min:         -0.005
 valid_max:         8e+05
+ok_min_mean_abs:   -4e+03
+ok_max_mean_abs:   1e+04
 !----------------------------------
 !
 
@@ -235,6 +239,8 @@ out_name:          snd
 type:              real
 valid_min:         0
 valid_max:         8.1e+02
+ok_min_mean_abs:   -1.3
+ok_max_mean_abs:   3.8
 !----------------------------------
 !
 
@@ -346,6 +352,8 @@ out_name:          snm
 type:              real
 valid_min:         0
 valid_max:         0.00036
+ok_min_mean_abs:   -1.1e-06
+ok_max_mean_abs:   5.2e-06
 !----------------------------------
 !
 
@@ -370,6 +378,8 @@ out_name:          sbl
 type:              real
 valid_min:         -0.004
 valid_max:         0.00083
+ok_min_mean_abs:   -3.6e-05
+ok_max_mean_abs:   7.7e-05
 !----------------------------------
 !
 

@@ -1,3 +1,5 @@
+2010-05-28 : cmor_checker now checks table md5s in file vs the one passed and vs our control online
+2010-05-28 : new tables that include the ok_min/max_mean_absolute value
 2010-05-28 : reverted file name construction to use first/last time. BUT added precision for daily and higher frequencies
 2010-05-28 : fixed a bug in cmor checker when variable entry was "pop" would break
 2010-05-28 : fixed default values of noerror in script from True to cmor.CMOR_CRITICAL

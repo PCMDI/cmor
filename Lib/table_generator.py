@@ -240,6 +240,28 @@ def process_template(tmpl,cnames,cols,voids={},minmax={}):
             setattr(F,"valid max","%.2g" % (val+2*std))
             ## print 'Setting valid max for %s to %.2g' % (ve,val)
             keys.remove("valid max")
+        if "mean absolute min" in keys:
+            mnmx = minmax[ve]
+            val=1.e20
+            std=0.
+            for mlev in mnmx.keys():
+                aavg = mnmx[mlev]['AAvg']
+                val = min(aavg['min'],val)
+                std+=aavg['std']
+            std/=len(mnmx.keys())
+            setattr(F,"mean absolute min","%.2g" % (val-2*std))
+            keys.remove("mean absolute min")
+        if "mean absolute max" in keys:
+            mnmx = minmax[ve]
+            val=-1.e20
+            std=0.
+            for mlev in mnmx.keys():
+                aavg = mnmx[mlev]['AAvg']
+                val = max(aavg['max'],val)
+                std+=aavg['std']
+            std/=len(mnmx.keys())
+            setattr(F,"mean absolute max","%.2g" % (val+2*std))
+            keys.remove("mean absolute max")
 
         ### Need to add lines for absolute mean min/max
                 

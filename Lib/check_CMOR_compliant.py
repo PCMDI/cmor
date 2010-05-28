@@ -8,6 +8,21 @@ import cmor
 import time
 VERBOSE=-999
 
+#ok now we are going online to pull the file that has the control md5s
+try:
+    f=open("Tables/md5s")
+    ctrl_md5s=eval(f.read())
+except:
+    try:
+        import urllib2
+        url=urllib2.urlopen("http://esg-repo.llnl.gov/gitweb/?p=cmor.git;a=blob_plain;f=Tables/md5s;hb=HEAD")
+        ctrl_md5s=eval(url.read())
+        url.close()
+        del(url)
+    except:
+        ctrl_md5s={}
+
+
 class CMORError(Exception):
     def __init__(self,value=None):
         self.value=value
@@ -444,15 +459,52 @@ def checkCMOR(fout,file,table,noerror=cmor.CMOR_CRITICAL,variable=None,from_boun
                 tmp_tbl_nm = getattr(file,'table_id')
                 tbl_id = tmp_tbl_nm.split()[1]
                 tbl_date= tmp_tbl_nm.split('(')[1].split(')')[0].strip()
+                try:
+                    tbl_md5 = tmp_tbl_nm.split('(')[1].split(')')[1].strip()
+                    if len(tbl_md5)==32:
+                        ncheck+=1
+                        #ok it looks like we got an md5 tag
+                        if tbl_md5!=e['general']['actual_md5']:
+                            nwarn+=1
+                            manageLog(fout,cmor.CMOR_WARNING, '\t\tYour file claims it has been generated with a table whose md5 was %s, but you are sending a table with md5: %s to the checker ' % (tbl_md5,e['general']['actual_md5']))
+                        ncheck+=1
+                        pmd5s=ctrl_md5s.get(file.project_id,{})
+                        if pmd5s=={}:
+                            nwarn+=1
+                            manageLog(fout,cmor.CMOR_WARNING, '\t\tCould not obtain any control md5s for any table for project %s ' % (file.project_id))
+                        else:
+                            ncheck+=1
+                            tmd5s=pmd5s.get(tbl_id,{})
+                            if tmd5s=={}:
+                                nwarn+=1
+                                manageLog(fout,cmor.CMOR_WARNING, '\t\tCould not obtain any control md5s for table %s for project %s ' % (tbl_id,file.project_id))
+                            else:
+                                ncheck+=1
+                                ctrlmd5=tmd5s.get(tbl_date,None)
+                                if ctrlmd5 is None:
+                                    nwarn+=1
+                                    manageLog(fout,cmor.CMOR_WARNING, '\t\tCould not obtain control md5s for table %s for project %s dated on %s, valid tables dates are: ' % (tbl_id,file.project_id,tbl_date),sorted(tmd5s.keys()))
+                                else:
+                                    ncheck+=1
+                                    if ctrlmd5!=tbl_md5:
+                                        nwarn+=1
+                                        manageLog(fout,cmor.CMOR_WARNING, '\t\tYour file claims it has been ran through table id %s, dated %s for project_id %s, with an md5 of: %s, but our control files indicate the md5 should be: %s' % (tbl_id,tbl_date,file.project_id,tbl_md5,ctrlmd5))
+                                        
+
+                        
+                except Exception,err:
+                    #no md5 stored in file
+                    pass
                 ttbl_id = e['general'].get("table_id").split()[1]
                 ttbl_date = e['general'].get("table_date").strip()
                 if tbl_date!=ttbl_date:
                     nwarn+=1
                     ncheck+=1
-                    manageLog(fout,cmor.CMOR_WARNING,"File says table date was %s, but your table is dated from: %s" %( tbl_date,ttbl_date))
+                    manageLog(fout,cmor.CMOR_WARNING,"File says table date was %s, but the table you passed to the checker is dated from: %s" %( tbl_date,ttbl_date))
 
                 if tbl_id!=ttbl_id:
                     nerr+=manageLog(fout, noerror, 'your file indicates a table id of %s while your table id is %s' % (tbl_id,ttbl_id))
+                
             except:
                 manageLog(fout,VERBOSE,"File says table is %s, this is not a correct name, correct format is something like: Table 3hr (24 May 2010) af8b1d3d63376942a55d779d0fb9f504" % (tmp_tbl_nm))
 
