@@ -216,8 +216,8 @@ typedef struct cmor_var_ {
   double *values;
   double first_time;
   double last_time;
-  double first_bound;
-  double last_bound;
+  /* double first_bound; */
+  /* double last_bound; */
   char base_path[CMOR_MAX_STRING];
   char current_path[CMOR_MAX_STRING];
   char suffix[CMOR_MAX_STRING];

@@ -490,8 +490,8 @@ void cmor_reset_variable(int var_id) {
   cmor_vars[var_id].values = NULL;
   cmor_vars[var_id].first_time=-999.;
   cmor_vars[var_id].last_time=-999.;
-  cmor_vars[var_id].first_bound=1.e20;
-  cmor_vars[var_id].last_bound=1.e20;
+  /* cmor_vars[var_id].first_bound=1.e20; */
+  /* cmor_vars[var_id].last_bound=1.e20; */
   cmor_vars[var_id].base_path[0]='\0';
   cmor_vars[var_id].current_path[0]='\0';
   cmor_vars[var_id].suffix[0]='\0';
@@ -3522,12 +3522,12 @@ int cmor_close_variable(int var_id, char *file_name, int *preserve)
       }
       
       /* ok makes a comptime out of input */
-      if (cmor_vars[var_id].first_bound!=1.e20) {
-	cdRel2Comp(icalo,msg,cmor_vars[var_id].first_bound,&comptime);
-      }
-      else {
+      /* if (cmor_vars[var_id].first_bound!=1.e20) { */
+      /* 	cdRel2Comp(icalo,msg,cmor_vars[var_id].first_bound,&comptime); */
+      /* } */
+      /* else { */
 	cdRel2Comp(icalo,msg,cmor_vars[var_id].first_time,&comptime);
-      }
+      /* } */
       /* need to figure out the approximate interval */
       interval  = cmor_convert_interval_to_seconds(cmor_tables[cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_table_id].interval,cmor_tables[cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_table_id].axes[cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_axis_id].units);
       
@@ -3546,33 +3546,32 @@ int cmor_close_variable(int var_id, char *file_name, int *preserve)
 	strncat(outname,msg2,CMOR_MAX_STRING-strlen(outname));
       }
       if (interval<86000) { /* less than a day */
+	/* from now on add 1 more level of precision since that frequency */
 	snprintf(msg2,CMOR_MAX_STRING,"%.2i",(int)comptime.hour);
+	strncat(outname,msg2,CMOR_MAX_STRING-strlen(outname));
+	snprintf(msg2,CMOR_MAX_STRING,"%.2i",(int)((comptime.hour-(int)(comptime.hour))*60.));
 	strncat(outname,msg2,CMOR_MAX_STRING-strlen(outname));
       }
       if (interval<3000) { /* less than an hour */
-	snprintf(msg2,CMOR_MAX_STRING,"%.2i",(int)comptime.hour*60);
-	strncat(outname,msg2,CMOR_MAX_STRING-strlen(outname));
-      }
-      if (interval<50) { /* less than an minute */
-	snprintf(msg2,CMOR_MAX_STRING,"%.2i",(int)comptime.hour*3600);
+	snprintf(msg2,CMOR_MAX_STRING,"%.2i",(int)((comptime.hour-(int)(comptime.hour))*3600.));
 	strncat(outname,msg2,CMOR_MAX_STRING-strlen(outname));
       }
       
       
-      if (cmor_vars[var_id].last_bound!=1.e20) {
-	cdRel2Comp(icalo,msg,cmor_vars[var_id].last_bound,&comptime);
-      }
-      else {
+      /* if (cmor_vars[var_id].last_bound!=1.e20) { */
+      /* 	cdRel2Comp(icalo,msg,cmor_vars[var_id].last_bound,&comptime); */
+      /* } */
+      /* else { */
 	cdRel2Comp(icalo,msg,cmor_vars[var_id].last_time,&comptime);
-      }
+      /* } */
       
-      /* ok apparently we don't like the new time format if it's ending at midnight exactly so I'm removing one second...*/
-      if (icalo==cdMixed) {
-	cdCompAddMixed(comptime,-1./3600.,&comptime);
-      }
-      else{
-	cdCompAdd(comptime,-1./3600.,icalo,&comptime);
-      }
+      /* /\* ok apparently we don't like the new time format if it's ending at midnight exactly so I'm removing one second...*\/ */
+      /* if (icalo==cdMixed) { */
+      /* 	cdCompAddMixed(comptime,-1./3600.,&comptime); */
+      /* } */
+      /* else{ */
+      /* 	cdCompAdd(comptime,-1./3600.,icalo,&comptime); */
+      /* } */
       /* separator between first and last time */
       strncat(outname,"-",CMOR_MAX_STRING-strlen(outname));
       
@@ -3588,15 +3587,14 @@ int cmor_close_variable(int var_id, char *file_name, int *preserve)
 	strncat(outname,msg2,CMOR_MAX_STRING-strlen(outname));
       }
       if (interval<86000) { /* less than a day */
+	/* from now on add 1 more level of precision since that frequency */
 	snprintf(msg2,CMOR_MAX_STRING,"%.2i",(int)comptime.hour);
+	strncat(outname,msg2,CMOR_MAX_STRING-strlen(outname));
+	snprintf(msg2,CMOR_MAX_STRING,"%.2i",(int)((comptime.hour-(int)(comptime.hour))*60.));
 	strncat(outname,msg2,CMOR_MAX_STRING-strlen(outname));
       }
       if (interval<3000) { /* less than an hour */
-	snprintf(msg2,CMOR_MAX_STRING,"%.2i",(int)comptime.hour*60);
-	strncat(outname,msg2,CMOR_MAX_STRING-strlen(outname));
-      }
-      if (interval<50) { /* less than an minute */
-	snprintf(msg2,CMOR_MAX_STRING,"%.2i",(int)comptime.hour*3600);
+	snprintf(msg2,CMOR_MAX_STRING,"%.2i",(int)((comptime.hour-(int)(comptime.hour))*3600.));
 	strncat(outname,msg2,CMOR_MAX_STRING-strlen(outname));
       }
       

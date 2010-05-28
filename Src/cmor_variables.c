@@ -1479,12 +1479,12 @@ int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int 
 	ierr = cmor_check_values_inside_bounds(&time_vals[0],&time_bounds[0], ntimes_passed, "time");
 	ierr = nc_put_vara_double(ncid,avar->time_bnds_nc_id,starts,counts2,tmp_vals);
 	if (ierr != NC_NOERR) {snprintf(msg,CMOR_MAX_STRING,"NetCDF error (%i) writing time bounds for variable '%s', already written in file: %i",ierr,avar->id,avar->ntimes_written);cmor_handle_error(msg,CMOR_CRITICAL);}
-	/* ok first time around the we need to store bounds */
-	if (avar->ntimes_written == 0) {
-	  /* ok first time we're putting data  in */
-	  avar->first_bound = tmp_vals[0];
-	}
-	avar->last_bound = tmp_vals[ntimes_passed*2-1];
+	/* /\* ok first time around the we need to store bounds *\/ */
+	/* if (avar->ntimes_written == 0) { */
+	/*   /\* ok first time we're putting data  in *\/ */
+	/*   avar->first_bound = tmp_vals[0]; */
+	/* } */
+	/* avar->last_bound = tmp_vals[ntimes_passed*2-1]; */
 	
 	
 	/* ok since we have bounds we need to set time in the middle */
@@ -1531,8 +1531,8 @@ int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int 
 	  snprintf(msg,CMOR_MAX_STRING,"in cmor_write, time axis must have bounds, please pass them to cmor_write along with time values");
 	  cmor_handle_error(msg,CMOR_CRITICAL);
 	}
-	avar->first_bound=1.e20;
-	avar->last_bound=1.e20;
+	/* avar->first_bound=1.e20; */
+	/* avar->last_bound=1.e20; */
 	cmor_get_axis_attribute(avar->axes_ids[0],"units",'c',&msg);
 	cmor_get_cur_dataset_attribute("calendar",msg2);
 	tmp_vals = malloc(ntimes_passed*sizeof(double));
@@ -1564,11 +1564,11 @@ int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int 
 	counts2[1]=2;
 	ierr = nc_put_vara_double(ncid,avar->time_bnds_nc_id,starts,counts2,&cmor_axes[avar->axes_ids[0]].bounds[starts[0]*2]);
 	if (ierr != NC_NOERR) {snprintf(msg,CMOR_MAX_STRING,"NCError (%i) writting time bounds values for variable '%s'",ierr,avar->id);cmor_handle_error(msg,CMOR_CRITICAL);}
-	/* ok we need to store first and last bounds */
-	if (avar->ntimes_written==0) {
-	  avar->first_bound=cmor_axes[avar->axes_ids[0]].bounds[starts[0]*2];
-	}
-	avar->last_bound=cmor_axes[avar->axes_ids[0]].bounds[(starts[0]+counts[0])*2];
+	/* /\* ok we need to store first and last bounds *\/ */
+	/* if (avar->ntimes_written==0) { */
+	/*   avar->first_bound=cmor_axes[avar->axes_ids[0]].bounds[starts[0]*2]; */
+	/* } */
+	/* avar->last_bound=cmor_axes[avar->axes_ids[0]].bounds[(starts[0]+counts[0])*2]; */
       }
       else {
 	/* checks wether you need bounds or not */
@@ -1576,8 +1576,8 @@ int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int 
 	  snprintf(msg,CMOR_MAX_STRING,"in cmor_write, time axis must have bounds, you defined it w/o");
 	  cmor_handle_error(msg,CMOR_CRITICAL);
 	}
-	avar->first_bound=1.e20;
-	avar->last_bound=1.e20;
+	/* avar->first_bound=1.e20; */
+	/* avar->last_bound=1.e20; */
       }
       ierr = nc_put_vara_double(ncid,avar->time_nc_id,starts,counts,&cmor_axes[avar->axes_ids[0]].values[starts[0]]);
       if (ierr != NC_NOERR) {snprintf(msg,CMOR_MAX_STRING,"NCError (%i) writting time values for variable '%s'",ierr,avar->id);cmor_handle_error(msg,CMOR_CRITICAL);}
@@ -1603,8 +1603,8 @@ int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int 
 	snprintf(msg,CMOR_MAX_STRING,"in cmor_write: variable '%s' you are passing %i times but no values and you did not define them via cmor_axis",avar->id,ntimes_passed);
 	cmor_handle_error(msg,CMOR_CRITICAL);
       }
-      avar->first_bound=1.e20;
-      avar->last_bound=1.e20;
+      /* avar->first_bound=1.e20; */
+      /* avar->last_bound=1.e20; */
       if (cmor_axes[avar->axes_ids[ierr]].bounds!=NULL) {
 	/* ok at that stage the recentering must already be done so we just need to write the bounds */
 	counts2[0]=counts[0];
@@ -1613,8 +1613,8 @@ int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int 
 	starts[1]=0;
 	ierr = nc_put_vara_double(ncid,avar->time_bnds_nc_id,starts,counts2,&cmor_axes[avar->axes_ids[0]].bounds[starts[0]*2]);
 	if (ierr != NC_NOERR) {snprintf(msg,CMOR_MAX_STRING,"NCError (%i) writting time bounds values for variable '%s'",ierr,avar->id);cmor_handle_error(msg,CMOR_CRITICAL);}
-	avar->first_bound=cmor_axes[avar->axes_ids[0]].bounds[0];
-	avar->last_bound=cmor_axes[avar->axes_ids[0]].bounds[counts[0]*2];
+	/* avar->first_bound=cmor_axes[avar->axes_ids[0]].bounds[0]; */
+	/* avar->last_bound=cmor_axes[avar->axes_ids[0]].bounds[counts[0]*2]; */
       }
       ierr = nc_put_vara_double(ncid,avar->time_nc_id,starts,counts,&cmor_axes[avar->axes_ids[0]].values[starts[0]]);
       if (ierr != NC_NOERR) {snprintf(msg,CMOR_MAX_STRING,"NCError (%i) writting time values for variable '%s'",ierr,avar->id);cmor_handle_error(msg,CMOR_CRITICAL);}

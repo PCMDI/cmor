@@ -143,7 +143,8 @@ def readTable(table):
         entry=sp[1].strip()
         if not e.has_key(entry_type):
             e[entry_type]={}
-        e[entry_type][entry]=getattr(e[entry_type],entry,{})
+        e[entry_type][entry]=e[entry_type].get(entry,{})
+            
 ##         print >>fout, e[entry_type][entry]
         cont=1
         while cont:
@@ -160,7 +161,7 @@ def readTable(table):
             sp=l.split(':')
             kw=sp[0].strip()
             val=":".join(sp[1:]).split('!')[0].strip()
-##             print >>fout, 'dic is:',e[entry_type][entry]
+            ## print  'dic is:',e[entry_type][entry]
             if e[entry_type][entry].has_key(kw):
                 if kw in lists_kw:
                     e[entry_type][entry][kw]="".join(e[entry_type][entry][kw])
@@ -439,18 +440,23 @@ def checkCMOR(fout,file,table,noerror=cmor.CMOR_CRITICAL,variable=None,from_boun
 
 
         if major>=2: # more file structure there
-            tbl_id = getattr(file,'table_id').split()[1]
-            tbl_date= getattr(file,'table_id').split('(')[1].split(')')[0].strip()
-            ttbl_id = e['general'].get("table_id").split()[1]
-            ttbl_date = e['general'].get("table_date").strip()
+            try:
+                tmp_tbl_nm = getattr(file,'table_id')
+                tbl_id = tmp_tbl_nm.split()[1]
+                tbl_date= tmp_tbl_nm.split('(')[1].split(')')[0].strip()
+                ttbl_id = e['general'].get("table_id").split()[1]
+                ttbl_date = e['general'].get("table_date").strip()
+                if tbl_date!=ttbl_date:
+                    nwarn+=1
+                    ncheck+=1
+                    manageLog(fout,cmor.CMOR_WARNING,"File says table date was %s, but your table is dated from: %s" %( tbl_date,ttbl_date))
 
-            if tbl_date!=ttbl_date:
-                nwarn+=1
-                ncheck+=1
-                manageLog(fout,cmor.CMOR_WARNING,"File says table date was %s, but your table is dated from: %s" %( tbl_date,ttbl_date))
+                if tbl_id!=ttbl_id:
+                    nerr+=manageLog(fout, noerror, 'your file indicates a table id of %s while your table id is %s' % (tbl_id,ttbl_id))
+            except:
+                manageLog(fout,VERBOSE,"File says table is %s, this is not a correct name, correct format is something like: Table 3hr (24 May 2010) af8b1d3d63376942a55d779d0fb9f504" % (tmp_tbl_nm))
 
-            if tbl_id!=ttbl_id:
-                nerr+=manageLog(fout, noerror, 'your file indicates a table id of %s while your table id is %s' % (tbl_id,ttbl_id))
+
 
             sp = shrt_fnm.split(v)[1].split("_")
             t = file[v].getTime()
@@ -606,27 +612,21 @@ def checkCMOR(fout,file,table,noerror=cmor.CMOR_CRITICAL,variable=None,from_boun
                     d0=ft0.day
 
                 if interval < 86000:
-                    
-                    if len(dates[0])<10:
-                        nerr+=manageLog(fout, noerror, 'your file name indicates a start time with years, months and days only when the approximate interval says it should have hours')
+                    if len(dates[0])<12:
+                        nerr+=manageLog(fout, noerror, 'your file name indicates a start time with years, months, days and hours only when the approximate interval says it should have minutes')
                     try:
                         h0 = int(dates[0][8:10])
                     except:
                         nerr+=manageLog(fout, noerror, 'could not convert the hours section start date iun your file',dates[0][8:10])
-                else:
-                    h0= ft0.hour
-
-                if interval < 3000:
-                    if len(dates[0])<12:
-                        nerr+=manageLog(fout, noerror, 'your file name indicates a start time with years, months, days and hours only when the approximate interval says it should have minutes')
                     try:
                         mn0 = int(dates[0][10:12])
                     except:
                         nerr+=manageLog(fout, noerror, 'could not convert the miuntes section start date iun your file',dates[0][10:12])
-
                 else:
+                    h0= ft0.hour
                     mn0=ft0.minute
-                if interval < 50:
+
+                if interval < 3000:
                     if len(dates[0])<14:
                         nerr+=manageLog(fout, noerror, 'your file name indicates a start time with years, months, days, hours and minutes only when the approximate interval says it should have seconds')
                     try:
@@ -1128,7 +1128,7 @@ def checkCMOR(fout,file,table,noerror=cmor.CMOR_CRITICAL,variable=None,from_boun
                     nerr+=manageLog(fout, noerror, 'first longitude must be >= 0 degrees_east')
                 manageLog(fout,VERBOSE, '\t\tChecking that the longitude are in degrees (not rads)')
                 min,max=genutil.minmax(ax[:])
-                if max-min<6.3:
+                if 0.<max-min<6.3:
                     nerr+=manageLog(fout, noerror, 'longitude must be stored in degree span is:'+str(max-min)+' looks like rad')
             elif ax.isLatitude():
                 manageLog(fout,VERBOSE, '\t\tChecking for axis attribute')
@@ -1147,7 +1147,7 @@ def checkCMOR(fout,file,table,noerror=cmor.CMOR_CRITICAL,variable=None,from_boun
 ##                         manageLog(fout,cmor.CMOR_WARNING, '\t\t\tWe recomend latitude axis name to be: "lat"')
                 manageLog(fout,VERBOSE, '\t\tChecking that the latitude are in degrees (not rads)')
                 min,max=genutil.minmax(ax[:])
-                if max-min<3.2:
+                if 0.<max-min<3.2:
                     print ax[:]
                     nerr+=manageLog(fout, noerror, 'latitude must be stored in degree span is:'+str(max-min)+' looks like rad')
             elif ax.isTime() and len(ax[:])>1:
@@ -1500,7 +1500,7 @@ if __name__=='__main__':
     
     grid_table = None
     
-    noerror=True
+    noerror=cmor.CMOR_CRITICAL
     out='screen'
     
     help="""
@@ -1537,9 +1537,9 @@ if __name__=='__main__':
             sys.exit()
         if o in ['--noerror','-e']:
             if p.lower() in ['off','0']:
-                noerror=False
+                noerror=cmor.VERBOSE
             elif p.lower() in ['on','1']:
-                noerror=True
+                noerror=cmor.CMOR_CRITICAL
         if o in ['--out','-o']:
             out=p
 
@@ -1560,7 +1560,7 @@ if __name__=='__main__':
             fout=open(fout,'w')
         else:
             fout=open(out,'w')
-        if noerror:
+        if noerror==VERBOSE:
             checkCMOR(fout,file.strip(),table,other_tables=[grid_table,],noerror=noerror,variable=var)
         else:
             try:
