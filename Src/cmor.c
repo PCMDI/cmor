@@ -350,7 +350,7 @@ int cmor_have_NetCDF363(void) {
   int major,minor,patch;
   strncpy(version,nc_inq_libvers(),50);
   sscanf(version,"%*c%1d%*c%1d%*c%1d%*s",&major,&minor,&patch);
-  if ( (major==3) && (minor==6) && (patch=3)) return 0;
+  if ( (major==3) && (minor==6) && (patch==3)) return 0;
   return 1;
 }
 

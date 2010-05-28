@@ -1718,10 +1718,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 
-SVN_TAG="rev"`./get_svn_version.sh`
-if test ${SVN_TAG} == "rev" ; then
-  SVN_TAG=""
-fi
+GIT_TAG=`./get_git_version.sh`
 
 ac_aux_dir=
 for ac_dir in "$srcdir" "$srcdir/.." "$srcdir/../.."; do
@@ -1891,7 +1888,7 @@ case ${target_os} in
  ;;
 esac
 
-CMOR_VERSION=${PACKAGE_VERSION}${SVN_TAG}
+CMOR_VERSION=${PACKAGE_VERSION}" (commit: ${GIT_TAG})"
 
 
 ac_config_files="$ac_config_files Makefile setup.py compile_line.txt"

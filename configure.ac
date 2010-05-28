@@ -4,10 +4,7 @@ dnl  Process this file with autoconf to produce a configure script.
 dnl AC_PREREQ(2.59)
 AC_INIT(cmor, 2.0, doutriaux1@llnl.gov)
 
-SVN_TAG="rev"`./get_svn_version.sh`
-if test ${SVN_TAG} == "rev" ; then
-  SVN_TAG=""
-fi
+GIT_TAG=`./get_git_version.sh`
 
 AC_CANONICAL_TARGET
 echo "TARGET: "${target_os}
@@ -21,7 +18,7 @@ case ${target_os} in
  ;;
 esac
 
-CMOR_VERSION=${PACKAGE_VERSION}${SVN_TAG}
+CMOR_VERSION=${PACKAGE_VERSION}" (commit: ${GIT_TAG})"
 
 AC_PREFIX_DEFAULT([/usr/local/cmor])
 AC_CONFIG_FILES([Makefile setup.py compile_line.txt])

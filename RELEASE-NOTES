@@ -1,3 +1,5 @@
+2010-05-27 : switch version tagging from svn to git
+2010-05-27 : fixed  abug in test patch number of NetCDF3 version i was using = instead of ==
 2010-05-25 : trying a new way to store date in file names for Jamie. Probably going to be reverted
 2010-05-24 : changed the way the final file name is constructed, uses time bounds if present, otherwise as before uses time values
 2010-05-20 : tagging RC9
