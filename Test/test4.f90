@@ -57,65 +57,7 @@ CONTAINS
     RETURN
   END SUBROUTINE read_time
   
-  SUBROUTINE read_3d_input_files(it, varname, field)
-    
-    INTEGER, INTENT(IN) :: it
-    CHARACTER(len=*), INTENT(IN) :: varname
-    REAL, INTENT(OUT), DIMENSION(:,:,:) :: field
-    
-    INTEGER :: i, j, k
-    REAL :: factor, offset
-    
-    SELECT CASE (TRIM(ADJUSTL(varname)))
-    CASE ('U')  
-       factor = 1.
-       offset = 100.
-    CASE ('T')
-       factor = 0.5
-       offset = -150.
-    END SELECT
-    
-    DO k=1,SIZE(field, 3)
-       DO j=1,SIZE(field, 2)
-          DO i=1,SIZE(field, 1)
-             field(i,j,k) = ((k-1)*64 + (j-1)*16 + (i-1)*4 + it)*factor - offset
-             if (TRIM(ADJUSTL(varname)).eq.'T') field(i,j,k) = field(i,j,k)*1.8 - 459.67
-          END DO
-       END DO
-    END DO
-    
-  END SUBROUTINE read_3d_input_files
-  
-  SUBROUTINE read_2d_input_files(it, varname, field)                  
-    
-    INTEGER, INTENT(IN) :: it
-    CHARACTER(len=*), INTENT(IN) :: varname
-    REAL, INTENT(OUT), DIMENSION(:,:) :: field
-    
-    INTEGER :: i, j
-    REAL :: factor, offset
-    
-    
-    SELECT CASE (TRIM(ADJUSTL(varname)))
-    CASE ('LATENT')  
-       
-       factor = 1.5
-       offset = 20.
-    CASE ('TSURF')
-       factor = 2.2
-       offset = -220.
-    CASE ('SOIL_WET')
-       factor = 10.
-       offset = 0.
-    END SELECT
-    
-    DO j=1,SIZE(field, 2)
-       DO i=1,SIZE(field, 1)
-          field(i,j) = ((j-1)*16 + (i-1)*4 + it)*factor - offset
-       END DO
-    END DO
-
-  END SUBROUTINE read_2d_input_files
+INCLUDE "reader_2D_3D.f90"
 
 END MODULE local_subs
 
@@ -217,6 +159,7 @@ PROGRAM mip_contribution
   DOUBLE PRECISION, DIMENSION(lat) :: alats
   DOUBLE PRECISION, DIMENSION(lon) :: alons
   DOUBLE PRECISION, DIMENSION(lev) :: plevs
+  DOUBLE PRECISION, DIMENSION(lev*lon*lat) :: mydata
   DOUBLE PRECISION :: time,bt
   DOUBLE PRECISION, DIMENSION(2):: bnds_time
   DOUBLE PRECISION, DIMENSION(2,lat) :: bnds_lat
@@ -228,9 +171,13 @@ PROGRAM mip_contribution
   !  Other variables:
   !  ---------------------
   
-  INTEGER :: it, m
+  INTEGER :: it, m,i
   
   character(256) outputpath
+
+  real mymax,mytmp
+
+  mymax=0.
 
   bt=0.
   ! ================================
@@ -371,6 +318,7 @@ print*, 'finished defining 2-d axes'
           missing_value=1.0e20,       &
           positive=positive3d(m),     &
           original_name=varin3d(m))
+     print*, m,'varind',varin3d(m),var3d_ids(m)
   ENDDO
   
 
@@ -434,6 +382,7 @@ print*, 'completed everything up to writing output fields '
         ! that will be passed to CMOR.  The following line is simply a
         ! a place-holder for the user's code, which should replace it.
 
+       print*, 'Calling',m,'varind:',varin3d(m),var3d_ids(m)
         call read_3d_input_files(it, varin3d(m), data3d)
 
        
@@ -441,8 +390,15 @@ print*, 'completed everything up to writing output fields '
         ! the appropriate netCDF file.
         call cmor_create_output_path(var3d_ids(m),outputpath)
         print*, 'Test Code: we are dumping this varialbe ',var3d_ids(m),'to:',outputpath
+        mydata = RESHAPE(data3d, (/ lat*lon*lev /))
+        if (m.eq.2) then
+           do i=1,lat*lon*lev
+              mydata(i)=(mydata(i)-273.15)*9./5.+32.
+           enddo
+        endif
+        print*,'Done converting units for',m
         error_flag = cmor_write(var_id =        var3d_ids(m),   &
-                                data =          RESHAPE(data3d, (/ lat*lon*lev /)),          &
+                                data =          mydata, &
                                 ntimes_passed = 1,              &
                                 time_vals =     (/ time /),           &
                                 time_bnds =     RESHAPE(bnds_time, (/ 2,1 /)))
@@ -484,7 +440,7 @@ print*, '    error flag = ', error_flag
                                 time_vals =     (/ time /),           &
                                 time_bnds =     RESHAPE(bnds_time, (/ 2,1 /)))
         
-print*, 'after writing variable, ', var2d_ids(m)
+print*, 'after writing variable 2d, ', var2d_ids(m)
 print*, '    error flag = ', error_flag
        IF (error_flag < 0) THEN
            ! write diagnostic messages to standard output device

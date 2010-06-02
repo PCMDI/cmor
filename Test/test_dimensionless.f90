@@ -57,76 +57,7 @@ CONTAINS
     RETURN
   END SUBROUTINE read_time
   
-  SUBROUTINE read_3d_input_files(it, varname, field)
-    
-    INTEGER, INTENT(IN) :: it
-    CHARACTER(len=*), INTENT(IN) :: varname
-    REAL, INTENT(OUT), DIMENSION(:,:,:) :: field
-    
-    INTEGER :: i, j, k
-    REAL :: factor, offset
-    CHARACTER(len=LEN(varname)) :: tmp
-    
-    tmp = TRIM(ADJUSTL(varname))
-    SELECT CASE (tmp)
-    CASE ('CLOUD')  
-       factor = 0.1
-       offset = -50.
-    CASE ('U')  
-       factor = 1.
-       offset = 100.
-    CASE ('T')
-       factor = 0.5
-       offset = -150.
-    CASE ('tro3')
-       factor = 1.
-       offset = 0.
-    END SELECT
-    
-    DO k=1,SIZE(field, 1)
-       DO j=1,SIZE(field, 3)
-          DO i=1,SIZE(field, 2)
-             field(k,i,j) = ((SIZE(field, 1) - k)*64 + (j-1)*16 + (i-1)*4 + it)*factor - offset
-          END DO
-       END DO
-    END DO
-    
-  END SUBROUTINE read_3d_input_files
-  
-  SUBROUTINE read_2d_input_files(it, varname, field)                  
-    
-    INTEGER, INTENT(IN) :: it
-    CHARACTER(len=*), INTENT(IN) :: varname
-    REAL, INTENT(OUT), DIMENSION(:,:) :: field
-    
-    INTEGER :: i, j
-    REAL :: factor, offset
-    CHARACTER(len=LEN(varname)) :: tmp
-    
-    tmp = TRIM(ADJUSTL(varname))
-    SELECT CASE (tmp)
-    CASE ('LATENT')  
-       
-       factor = 2.8
-       offset = 10.
-    CASE ('TSURF')
-       factor = 2.2
-       offset = -220.
-    CASE ('SOIL_WET')
-       factor = 10.
-       offset = 0.
-    CASE ('PSURF')
-       factor = 100.
-       offset = -9.7e4
-    END SELECT
-    
-    DO j=1,SIZE(field, 2)
-       DO i=1,SIZE(field, 1)
-          field(i,j) = ((j-1)*16 + (i-1)*4 + it)*factor - offset
-       END DO
-    END DO
-
-  END SUBROUTINE read_2d_input_files
+INCLUDE "reader_2D_3D.f90"
 
 END MODULE local_subs
 

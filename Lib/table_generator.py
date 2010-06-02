@@ -1,4 +1,4 @@
-import sys,time,os,genutil
+import sys,time,os,genutil,numpy
 
 
 prefix = "CMIP5"
@@ -225,7 +225,9 @@ def process_template(tmpl,cnames,cols,voids={},minmax={}):
                 val = min(mn['min'],val)
                 std +=mn['std']
             std/=len(mnmx.keys())
-            setattr(F,"valid min","%.2g" % (val-2*std))
+            if numpy.allclose(std,0.):
+                std=val*.005
+            setattr(F,"valid min","%.4g" % (val-2*std))
             keys.remove("valid min")
         if 'valid max' in keys:
         #ok let's see if we can figure this one out
@@ -237,8 +239,9 @@ def process_template(tmpl,cnames,cols,voids={},minmax={}):
                 val = max(mn['max'],val)
                 std +=mn['std']
             std/=len(mnmx.keys())
-            setattr(F,"valid max","%.2g" % (val+2*std))
-            ## print 'Setting valid max for %s to %.2g' % (ve,val)
+            if numpy.allclose(std,0.):
+                std=val*.005
+            setattr(F,"valid max","%.4g" % (val+2*std))
             keys.remove("valid max")
         if "mean absolute min" in keys:
             mnmx = minmax[ve]
@@ -249,7 +252,9 @@ def process_template(tmpl,cnames,cols,voids={},minmax={}):
                 val = min(aavg['min'],val)
                 std+=aavg['std']
             std/=len(mnmx.keys())
-            setattr(F,"mean absolute min","%.2g" % (val-2*std))
+            if numpy.allclose(std,0.):
+                std=val*.005
+            setattr(F,"mean absolute min","%.4g" % (val-2*std))
             keys.remove("mean absolute min")
         if "mean absolute max" in keys:
             mnmx = minmax[ve]
@@ -260,7 +265,9 @@ def process_template(tmpl,cnames,cols,voids={},minmax={}):
                 val = max(aavg['max'],val)
                 std+=aavg['std']
             std/=len(mnmx.keys())
-            setattr(F,"mean absolute max","%.2g" % (val+2*std))
+            if numpy.allclose(std,0.):
+                std=val*.005
+            setattr(F,"mean absolute max","%.4g" % (val+2*std))
             keys.remove("mean absolute max")
 
         ### Need to add lines for absolute mean min/max
@@ -461,6 +468,9 @@ def create_table(table_file, dims_file,minmax={}):
 
 if __name__== "__main__" :
     import extract_min_max
+    import pickle
+    f=open("Tables_csv/minmax.pickled")
+    minmax = pickle.load(f)
     if len(sys.argv)>2:
         dims_table = sys.argv[2]
     else:
@@ -468,7 +478,7 @@ if __name__== "__main__" :
 
     if len(sys.argv)>1:
         print sys.argv
-        create_table(sys.argv[1],dims_table)
+        create_table(sys.argv[1],dims_table,minmax=minmax)
     else:
         tables_nms = """
 Tables_csv/cfOff.csv    Tables_csv/Omon.csv     Tables_csv/Amon.csv
@@ -484,9 +494,6 @@ Tables_csv/cfSites.csv  Tables_csv/Oyr.csv      Tables_csv/6hrLev.csv
 ## Tables_csv/6hrPlev.csv  Tables_csv/cf3hr.csv    Tables_csv/llmon.csv    Tables_csv/omon.csv
 ## Tables_csv/aero.csv     Tables_csv/cfDa.csv     Tables_csv/da.csv       Tables_csv/lmon.csv     Tables_csv/oyr.csv
 ## """.split()
-        import pickle
-        f=open("Tables_csv/minmax.pickled")
-        minmax = pickle.load(f)
         for nm in tables_nms:
             print 'Processing:',nm
             create_table(nm,dims_table,minmax=minmax)

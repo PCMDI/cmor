@@ -6,7 +6,7 @@ frequency: 6hr
 cmor_version: 2.0         ! version of CMOR that can read this table
 cf_version:   1.4         ! version of CF that output conforms to
 project_id:   CMIP5  ! project id
-table_date:   28 May 2010 ! date this table was constructed
+table_date:   01 June 2010 ! date this table was constructed
 
 missing_value: 1.e20      ! value used to indicate a missing value
                           !   in arrays output by netCDF as 32-bit IEEE 
@@ -519,10 +519,10 @@ comment:           on all model levels
 dimensions:        longitude latitude alevel time1
 out_name:          ta
 type:              real
-valid_min:         1.6e+02
-valid_max:         3.2e+02
-ok_min_mean_abs:   2e+02
-ok_max_mean_abs:   2.9e+02
+valid_min:         160.7
+valid_max:         324.4
+ok_min_mean_abs:   201.7
+ok_max_mean_abs:   288.4
 !----------------------------------
 !
 
@@ -544,10 +544,10 @@ comment:           on all model levels
 dimensions:        longitude latitude alevel time1
 out_name:          ua
 type:              real
-valid_min:         -65
-valid_max:         1.3e+02
-ok_min_mean_abs:   1.8
-ok_max_mean_abs:   22
+valid_min:         -65.36
+valid_max:         132.2
+ok_min_mean_abs:   1.833
+ok_max_mean_abs:   21.69
 !----------------------------------
 !
 
@@ -569,10 +569,10 @@ comment:           on all model levels
 dimensions:        longitude latitude alevel time1
 out_name:          va
 type:              real
-valid_min:         -68
-valid_max:         67
-ok_min_mean_abs:   1.2
-ok_max_mean_abs:   4.5
+valid_min:         -67.77
+valid_max:         66.74
+ok_min_mean_abs:   1.175
+ok_max_mean_abs:   4.492
 !----------------------------------
 !
 
@@ -594,10 +594,10 @@ comment:           on all model levels
 dimensions:        longitude latitude alevel time1
 out_name:          hus
 type:              real
-valid_min:         -0.00029
-valid_max:         0.028
-ok_min_mean_abs:   -0.00024
-ok_max_mean_abs:   0.01
+valid_min:         -0.0002854
+valid_max:         0.02777
+ok_min_mean_abs:   -0.0002359
+ok_max_mean_abs:   0.01015
 !----------------------------------
 !
 
@@ -619,10 +619,10 @@ comment:           surface pressure, not mean sea level pressure
 dimensions:        longitude latitude time1
 out_name:          ps
 type:              real
-valid_min:         4.9e+04
-valid_max:         1.1e+05
-ok_min_mean_abs:   9.6e+04
-ok_max_mean_abs:   9.7e+04
+valid_min:         4.876e+04
+valid_max:         1.084e+05
+ok_min_mean_abs:   9.62e+04
+ok_max_mean_abs:   9.729e+04
 !----------------------------------
 !
 

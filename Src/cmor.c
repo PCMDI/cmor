@@ -1139,7 +1139,8 @@ int cmor_dataset(char *outpath,
   /* check if calendar is actually valid! */
   found=0;
   for (i=0;i<CMOR_N_VALID_CALS;i++) {
-    if (strcmp(calendar,CMOR_VALID_CALENDARS[i])==0) found=1;
+    strncpytrim(msg,calendar,CMOR_MAX_STRING);
+    if (strcmp(msg,CMOR_VALID_CALENDARS[i])==0) found=1;
   }
   if ((month_lengths!=NULL) || (leap_year!=0) || (leap_month!=0)) {
     /* user passed calendar definitions */

@@ -6,7 +6,7 @@ frequency: mon
 cmor_version: 2.0         ! version of CMOR that can read this table
 cf_version:   1.4         ! version of CF that output conforms to
 project_id:   CMIP5  ! project id
-table_date:   28 May 2010 ! date this table was constructed
+table_date:   01 June 2010 ! date this table was constructed
 
 missing_value: 1.e20      ! value used to indicate a missing value
                           !   in arrays output by netCDF as 32-bit IEEE 
@@ -162,9 +162,9 @@ dimensions:        longitude latitude time
 out_name:          sic
 type:              real
 valid_min:         -0.00015
-valid_max:         1.4e+02
-ok_min_mean_abs:   -8.8
-ok_max_mean_abs:   32
+valid_max:         144.1
+ok_min_mean_abs:   -8.827
+ok_max_mean_abs:   32.15
 !----------------------------------
 !
 
@@ -187,10 +187,10 @@ comment:           Compute the mean thickness of sea ice in the ocean portion of
 dimensions:        longitude latitude time
 out_name:          sit
 type:              real
-valid_min:         -0.0045
-valid_max:         91
-ok_min_mean_abs:   -0.56
-ok_max_mean_abs:   2.2
+valid_min:         -0.004466
+valid_max:         90.6
+ok_min_mean_abs:   -0.5643
+ok_max_mean_abs:   2.225
 !----------------------------------
 !
 

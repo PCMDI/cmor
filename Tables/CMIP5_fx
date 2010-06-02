@@ -6,7 +6,7 @@ frequency: fx
 cmor_version: 2.0         ! version of CMOR that can read this table
 cf_version:   1.4         ! version of CF that output conforms to
 project_id:   CMIP5  ! project id
-table_date:   28 May 2010 ! date this table was constructed
+table_date:   01 June 2010 ! date this table was constructed
 
 missing_value: 1.e20      ! value used to indicate a missing value
                           !   in arrays output by netCDF as 32-bit IEEE 
@@ -452,8 +452,8 @@ out_name:          orog
 type:              real
 valid_min:         -700.0
 valid_max:         10000.0
-ok_min_mean_abs:   3.4e+02
-ok_max_mean_abs:   4.2e+02
+ok_min_mean_abs:   339
+ok_max_mean_abs:   420.3
 !----------------------------------
 !
 
@@ -476,8 +476,8 @@ out_name:          sftlf
 type:              real
 valid_min:         0.0
 valid_max:         100.0
-ok_min_mean_abs:   31
-ok_max_mean_abs:   36
+ok_min_mean_abs:   31.25
+ok_max_mean_abs:   36.39
 !----------------------------------
 !
 
@@ -501,8 +501,8 @@ out_name:          sftgif
 type:              real
 valid_min:         0.0
 valid_max:         100.0
-ok_min_mean_abs:   8.1
-ok_max_mean_abs:   14
+ok_min_mean_abs:   8.119
+ok_max_mean_abs:   14.14
 !----------------------------------
 !
 
@@ -524,10 +524,10 @@ comment:           """where land"": divide the total water holding capacity of a
 dimensions:        longitude latitude
 out_name:          mrsofc
 type:              real
-valid_min:         -35
-valid_max:         4.3e+03
-ok_min_mean_abs:   -5.2e+02
-ok_max_mean_abs:   1.9e+03
+valid_min:         -35.1
+valid_max:         4306
+ok_min_mean_abs:   -519.1
+ok_max_mean_abs:   1874
 !----------------------------------
 !
 
@@ -551,8 +551,8 @@ out_name:          rootd
 type:              real
 valid_min:         0.0
 valid_max:         30.0
-ok_min_mean_abs:   2
-ok_max_mean_abs:   2
+ok_min_mean_abs:   1.98
+ok_max_mean_abs:   2.02
 !----------------------------------
 !
 

@@ -60,70 +60,7 @@ void read_time(it, time, time_bnds)
 
 }
   
-void read_3d_input_files(it, varname, field,n0,n1,n2)
-     int it,n0,n1,n2;
-     char *varname;
-     double field[];
-{
-  int i,j,k;
-  float factor,offset;
-    
-  if (strcmp(varname,"CLOUD")==0) {
-    factor = 0.1;
-    offset = -50.;
-  }
-  else if (strcmp(varname,"U")==0) {
-    factor = 1.;
-    offset = 100.;
-  }
-  else if (strcmp(varname,"T")==0) {
-    factor = 0.5;
-    offset = -150.;
-  }
-    
-  for (k=0;k<n2;k++) {
-    for (j=0;j<n1;j++) {
-      for (i=0;i<n0;i++) {
-        field[k*(n0*n1)+j*n0+i] = (k*64 + j*16 + i*4 + it)*factor - offset;
-      }
-    }
-  }
-}
-
-void read_2d_input_files(it, varname, field, n0, n1)
-  int it,n0,n1;
-  char *varname;
-  double field[];
-{    
-  int i, j,k;
-  double factor, offset;
-  double tmp;
-  
-  if (strcmp(varname,"LATENT")==0){
-    factor = 1.;
-    offset = 120.;
-  }
-  else if (strcmp(varname,"TSURF")==0){
-    factor = 2.0;
-    offset = -230.;
-  }
-  else if (strcmp(varname,"SOIL_WET")==0){
-    factor = 10.;
-    offset = 0.;
-  }
-  else if (strcmp(varname,"PSURF")==0){
-    factor = 1.;
-    offset = -9.7e2;
-  }
-
-  for (j=0;j<n0;j++){
-    for (i=0;i<n1;i++) {
-      tmp = ((double)j*16. + (double)(i)*4. + (double)it)*factor - offset;
-      k= (n0-1-j)*n1+i;
-      field[k] = tmp;
-    }
-  }
-}
+#include "reader_2D_3D.h"
 
 int main()
      /*
@@ -431,13 +368,14 @@ int main()
     printf("3d zfactor\n");
     read_3d_input_files(i, varin3d[0], &data3d,5,lat,lon);
     ierr = cmor_write(myvars[2],&data3d,'d',NULL,1,NULL,NULL,NULL);
+
     printf("writing ps\n");
     read_2d_input_files(i, varin2d[3], &data2d,lat,lon);
     ierr = cmor_write(myvars[3],&data2d,'d',NULL,1,NULL,NULL,&myvars[2]);
 
     /* rereading hfls to fake hfogo */
     printf("2d region\n");
-    read_2d_input_files(i, varin2d[0], &data2d,lat,lon);
+    read_2d_input_files(i, "htov", &data2d,lat,lon);
     ierr = cmor_write(myvars[4],&data2d,'d',NULL,1,NULL,NULL,NULL);
   }
   ierr = cmor_close_variable(myvars[0],NULL,NULL);

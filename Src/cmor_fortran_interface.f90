@@ -5788,7 +5788,7 @@ contains
        axes_ids(i) = axis_ids(ndims-i+1)
     enddo
     
-    zfnm = zfactor_name//char(0)
+    zfnm = trim(zfactor_name)//char(0)
     if (present(units)) then
        unit = trim(units)//char(0)
     else 
@@ -7356,7 +7356,7 @@ contains
     endif
     
     if (present(interval)) then
-       interv = interval//char(0)
+       interv = trim(interval)//char(0)
     else
        interv = char(0)
     endif
@@ -7391,7 +7391,7 @@ contains
        bnds(2*i-1) = cell_bounds(1,i)
        bnds(2*i) = cell_bounds(2,i)
     enddo
-    ierr = cmor_axis_cff_int(axis_id,table_entry//char(0),trim(units)//char(0),l,&
+    ierr = cmor_axis_cff_int(axis_id,trim(table_entry)//char(0),trim(units)//char(0),l,&
          coord_vals(1),bnds(1),2,interv)
     deallocate(bnds)
     if (ierr.eq.0) then 
@@ -7736,66 +7736,66 @@ contains
        lm =0
     endif
     if (present(contact)) then
-       cntct = contact//char(0)
+       cntct = trim(contact)//char(0)
     else
        cntct = char(0)
     endif
     if (present(history)) then
-       hist = history//char(0)
+       hist = trim(history)//char(0)
     else
        hist = char(0)
     endif
     if (present(comment)) then
-       comt = comment//char(0)
+       comt = trim(comment)//char(0)
     else
        comt = char(0)
     endif
     if (present(references)) then
-       ref = references//char(0)
+       ref = trim(references)//char(0)
     else
        ref = char(0)
     endif
     if (present(model_id)) then
-       mnm = model_id//char(0)
+       mnm = trim(model_id)//char(0)
     else
        mnm  = char(0)
     endif
     if (present(forcing)) then
-       fnm = forcing//char(0)
+       fnm = trim(forcing)//char(0)
     else
        fnm  = char(0)
     endif
     if (present(institute_id)) then
-       instid = institute_id//char(0)
+       instid = trim(institute_id)//char(0)
     else
        instid= char(0)
     endif
     if (present(parent_experiment_id)) then
-       peid = parent_experiment_id//char(0)
+       peid = trim(parent_experiment_id)//char(0)
     else
        peid= char(0)
     endif
     if (present(month_lengths)) then
        if (present(branch_time)) then
-          ierr = cmor_dataset_cff(outpath//char(0),experiment_id//char(0),&
-               institution//char(0),source//char(0),calendar//char(0),r,&
+          ierr = cmor_dataset_cff(trim(outpath)//char(0),trim(experiment_id)//char(0),&
+               trim(institution)//char(0),trim(source)//char(0),trim(calendar)//char(0),r,&
                cntct,hist,comt,ref,&
                ly,lm,month_lengths(1),mnm,fnm,im,pv,instid,peid,branch_time)
        else
-          ierr = cmor_dataset_cff_nobrch(outpath//char(0),experiment_id//char(0),&
-               institution//char(0),source//char(0),calendar//char(0),r,&
+          ierr = cmor_dataset_cff_nobrch(trim(outpath)//char(0),trim(experiment_id)//char(0),&
+               trim(institution)//char(0),trim(source)//char(0),trim(calendar)//char(0),r,&
                cntct,hist,comt,ref,&
                ly,lm,month_lengths(1),mnm,fnm,im,pv,instid,peid)
        endif
     else
        if (present(branch_time)) then
-          ierr = cmor_dataset_cff_null(outpath//char(0),experiment_id//char(0),&
-               institution//char(0),source//char(0),calendar//char(0),r,&
+          ierr = cmor_dataset_cff_null(trim(outpath)//char(0),trim(experiment_id)//char(0),&
+               trim(institution)//char(0),trim(source)//char(0),trim(calendar)//char(0),r,&
                cntct,hist,comt,ref,&
                ly,lm,mnm,fnm,im,pv,instid,peid,branch_time)
        else
-          ierr = cmor_dataset_cff_null_nobrch(outpath//char(0),experiment_id//char(0),&
-               institution//char(0),source//char(0),calendar//char(0),r,&
+          ierr = cmor_dataset_cff_null_nobrch(trim(outpath)//char(0),trim(experiment_id)//char(0),&
+               trim(institution)//char(0),trim(source)//char(0),trim(calendar)//char(0),r,&
                cntct,hist,comt,ref,&
                ly,lm,mnm,fnm,im,pv,instid,peid)
        endif

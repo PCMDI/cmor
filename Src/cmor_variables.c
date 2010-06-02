@@ -1378,7 +1378,7 @@ int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int 
       if ((avar->valid_min!=(float)1.e20) && (tmp<avar->valid_min)) {
 	n_lower_min+=1;
 	if (n_lower_min==1) { /*first time */
-	  snprintf(msg_min,CMOR_MAX_STRING, "Invalid value(s) detected for variable '%s': %%i values were lower than minimum valid value (%lf). First encountered bad value (%lf) was at indices:" , avar->id, avar->valid_min,tmp);
+	  snprintf(msg_min,CMOR_MAX_STRING, "Invalid value(s) detected for variable '%s': %%i values were lower than minimum valid value (%.4g). First encountered bad value (%.5g) was at indices:" , avar->id, avar->valid_min,tmp);
 	  for (j=0;j<avar->ndims;j++) {
 	    snprintf(msg2, CMOR_MAX_STRING, " %s: %i" , cmor_axes[avar->axes_ids[j]].id,counter2[j]);
 	    strncat(msg_min,msg2,CMOR_MAX_STRING-strlen(msg));
@@ -1388,7 +1388,7 @@ int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int 
       if ((avar->valid_max!=(float)1.e20) && (tmp>avar->valid_max)) {
 	n_greater_max+=1;
 	if (n_greater_max==1) {
-	  snprintf(msg_max,CMOR_MAX_STRING, "Invalid value(s) detected for variable '%s': %%i values were greater than maximum valid value (%lf). First encountered bad value (%lf) is at indices:" , avar->id, avar->valid_max,tmp);
+	  snprintf(msg_max,CMOR_MAX_STRING, "Invalid value(s) detected for variable '%s': %%i values were greater than maximum valid value (%.4g). First encountered bad value (%.5g) is at indices:" , avar->id, avar->valid_max,tmp);
 	  for (j=0;j<avar->ndims;j++) {
 	    snprintf(msg2, CMOR_MAX_STRING, " %s: %i" , cmor_axes[avar->axes_ids[j]].id,counter2[j]);
 	    strncat(msg_max,msg2,CMOR_MAX_STRING-strlen(msg));
@@ -1412,11 +1412,11 @@ int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int 
     cmor_handle_error(msg,CMOR_NORMAL);
   }
   if ((avar->ok_min_mean_abs!=(float)1.e20) && (amean/nelts<avar->ok_min_mean_abs)) {
-    snprintf(msg,CMOR_MAX_STRING, "Invalid Absolute Mean for variable '%s' (%lf) is lower than minimum allowed: %lf" , avar->id, amean/nelts, avar->ok_min_mean_abs);
+    snprintf(msg,CMOR_MAX_STRING, "Invalid Absolute Mean for variable '%s' (%.5g) is lower than minimum allowed: %.4g" , avar->id, amean/nelts, avar->ok_min_mean_abs);
     cmor_handle_error(msg,CMOR_CRITICAL);
   }
   if ((avar->ok_max_mean_abs!=(float)1.e20) && (amean/nelts>avar->ok_max_mean_abs)) {
-    snprintf(msg,CMOR_MAX_STRING, "Invalid Absolute Mean for variable '%s' (%lf) is greater than maximum allowed: %lf" , avar->id, amean/nelts, avar->ok_max_mean_abs);
+    snprintf(msg,CMOR_MAX_STRING, "Invalid Absolute Mean for variable '%s' (%.5g) is greater than maximum allowed: %.4g" , avar->id, amean/nelts, avar->ok_max_mean_abs);
     cmor_handle_error(msg,CMOR_CRITICAL);
   }
   if (dounits==1) {

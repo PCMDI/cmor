@@ -60,70 +60,7 @@ CONTAINS
     RETURN
   END SUBROUTINE read_time
   
-  SUBROUTINE read_3d_input_files(it, varname, field)
-    
-    INTEGER, INTENT(IN) :: it
-    CHARACTER(len=*), INTENT(IN) :: varname
-    REAL, INTENT(OUT), DIMENSION(:,:,:) :: field
-    
-    INTEGER :: i, j, k, irev, ioff
-    REAL :: factor, offset
-    
-    SELECT CASE (TRIM(ADJUSTL(varname)))
-    CASE ('U')  
-       factor = 1.
-       offset = 100.
-    CASE ('T')
-       factor = 0.5
-       offset = -150.
-    END SELECT
-    
-    DO k=1,SIZE(field, 1)
-       DO j=1,SIZE(field, 3)
-          DO i=1,SIZE(field, 2)
-             irev = SIZE(field, 2) + 1 - i
-             ioff = irev + 2
-             IF (ioff > SIZE(field,2)) ioff = ioff - SIZE(field,2)
-             field(k,ioff,j) = ((k-1)*64 + (j-1)*16 + (i-1)*4 + it)*factor - offset
-          END DO
-       END DO
-    END DO
-    
-  END SUBROUTINE read_3d_input_files
-  
-  SUBROUTINE read_2d_input_files(it, varname, field)                  
-    
-    INTEGER, INTENT(IN) :: it
-    CHARACTER(len=*), INTENT(IN) :: varname
-    REAL, INTENT(OUT), DIMENSION(:,:) :: field
-    
-    INTEGER :: i, j, irev, ioff
-    REAL :: factor, offset
-    
-    
-    SELECT CASE (TRIM(ADJUSTL(varname)))
-    CASE ('LATENT')  
-       
-       factor = 1.5
-       offset = 20.
-    CASE ('TSURF')
-       factor = 2.2
-       offset = -220.
-    CASE ('SOIL_WET')
-       factor = 10.
-       offset = 0.
-    END SELECT
-    
-    DO j=1,SIZE(field, 1)
-       DO i=1,SIZE(field, 2)
-          irev = SIZE(field, 2) + 1 - i
-          ioff = irev + 2
-          IF (ioff > SIZE(field,2)) ioff = ioff - SIZE(field,2)
-         field(j,ioff) = ((j-1)*16 + (i-1)*4 + it)*factor - offset
-       END DO
-    END DO
-
-  END SUBROUTINE read_2d_input_files
+INCLUDE "reader_2D_3D.f90"
 
 END MODULE local_subs
 

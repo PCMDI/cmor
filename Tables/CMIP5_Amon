@@ -6,7 +6,7 @@ frequency: mon
 cmor_version: 2.0         ! version of CMOR that can read this table
 cf_version:   1.4         ! version of CF that output conforms to
 project_id:   CMIP5  ! project id
-table_date:   28 May 2010 ! date this table was constructed
+table_date:   01 June 2010 ! date this table was constructed
 
 missing_value: 1.e20      ! value used to indicate a missing value
                           !   in arrays output by netCDF as 32-bit IEEE 
@@ -637,10 +637,10 @@ comment:           near-surface (usually, 2 meter) air temperature.
 dimensions:        longitude latitude time height2m
 out_name:          tas
 type:              real
-valid_min:         1.8e+02
-valid_max:         3.2e+02
-ok_min_mean_abs:   2.7e+02
-ok_max_mean_abs:   2.8e+02
+valid_min:         184.6
+valid_max:         323.6
+ok_min_mean_abs:   274.4
+ok_max_mean_abs:   280.8
 !----------------------------------
 !
 
@@ -663,10 +663,10 @@ comment:           ""skin"" temperature (i.e., SST for open ocean)
 dimensions:        longitude latitude time
 out_name:          ts
 type:              real
-valid_min:         1.8e+02
-valid_max:         3.3e+02
-ok_min_mean_abs:   2.7e+02
-ok_max_mean_abs:   2.8e+02
+valid_min:         180.6
+valid_max:         329
+ok_min_mean_abs:   275
+ok_max_mean_abs:   281
 !----------------------------------
 !
 
@@ -689,10 +689,10 @@ comment:           monthly mean of the daily-minimum near-surface (usually, 2 me
 dimensions:        longitude latitude time height2m
 out_name:          tasmin
 type:              real
-valid_min:         1.9e+02
-valid_max:         3.1e+02
-ok_min_mean_abs:   2.7e+02
-ok_max_mean_abs:   2.8e+02
+valid_min:         186.6
+valid_max:         309.1
+ok_min_mean_abs:   272.8
+ok_max_mean_abs:   278.7
 !----------------------------------
 !
 
@@ -715,10 +715,10 @@ comment:           monthly mean of the daily-maximum near-surface (usually, 2 me
 dimensions:        longitude latitude time height2m
 out_name:          tasmax
 type:              real
-valid_min:         1.9e+02
-valid_max:         3.3e+02
-ok_min_mean_abs:   2.8e+02
-ok_max_mean_abs:   2.8e+02
+valid_min:         186.4
+valid_max:         328.9
+ok_min_mean_abs:   277.8
+ok_max_mean_abs:   280.9
 !----------------------------------
 !
 
@@ -741,10 +741,10 @@ comment:           not, in general, the same as surface pressure
 dimensions:        longitude latitude time
 out_name:          psl
 type:              real
-valid_min:         9.5e+04
-valid_max:         1.1e+05
-ok_min_mean_abs:   1e+05
-ok_max_mean_abs:   1e+05
+valid_min:         9.519e+04
+valid_max:         1.11e+05
+ok_min_mean_abs:   1.004e+05
+ok_max_mean_abs:   1.016e+05
 !----------------------------------
 !
 
@@ -767,10 +767,10 @@ comment:           not, in general, the same as mean sea-level pressure
 dimensions:        longitude latitude time
 out_name:          ps
 type:              real
-valid_min:         4.9e+04
-valid_max:         1.1e+05
-ok_min_mean_abs:   9.6e+04
-ok_max_mean_abs:   9.7e+04
+valid_min:         4.876e+04
+valid_max:         1.084e+05
+ok_min_mean_abs:   9.62e+04
+ok_max_mean_abs:   9.729e+04
 !----------------------------------
 !
 
@@ -793,10 +793,10 @@ comment:           near-surface (usually, 10 meters) eastward component of wind.
 dimensions:        longitude latitude time height10m
 out_name:          uas
 type:              real
-valid_min:         -18
-valid_max:         18
-ok_min_mean_abs:   1.9
-ok_max_mean_abs:   3.8
+valid_min:         -17.76
+valid_max:         17.68
+ok_min_mean_abs:   1.927
+ok_max_mean_abs:   3.847
 !----------------------------------
 !
 
@@ -819,10 +819,10 @@ comment:           near-surface (usually, 10 meters) northward component of wind
 dimensions:        longitude latitude time height10m
 out_name:          vas
 type:              real
-valid_min:         -17
-valid_max:         21
-ok_min_mean_abs:   1.2
-ok_max_mean_abs:   2.5
+valid_min:         -16.93
+valid_max:         20.82
+ok_min_mean_abs:   1.239
+ok_max_mean_abs:   2.505
 !----------------------------------
 !
 
@@ -889,10 +889,10 @@ comment:           near-surface (usually, 2 meters) specific humidity.
 dimensions:        longitude latitude time height2m
 out_name:          huss
 type:              real
-valid_min:         -4.8e-06
-valid_max:         0.029
-ok_min_mean_abs:   0.0067
-ok_max_mean_abs:   0.0085
+valid_min:         -4.806e-06
+valid_max:         0.0287
+ok_min_mean_abs:   0.006655
+ok_max_mean_abs:   0.008485
 !----------------------------------
 !
 
@@ -915,10 +915,10 @@ comment:           at surface; includes both liquid and solid phases from all ty
 dimensions:        longitude latitude time
 out_name:          pr
 type:              real
-valid_min:         -1.3e-09
-valid_max:         0.0011
-ok_min_mean_abs:   2.3e-05
-ok_max_mean_abs:   3.1e-05
+valid_min:         0
+valid_max:         0.001127
+ok_min_mean_abs:   2.269e-05
+ok_max_mean_abs:   3.102e-05
 !----------------------------------
 !
 
@@ -941,10 +941,10 @@ comment:           at surface; includes precipitation of all forms of water in t
 dimensions:        longitude latitude time
 out_name:          prsn
 type:              real
-valid_min:         -2.2e-10
-valid_max:         0.00027
-ok_min_mean_abs:   2e-06
-ok_max_mean_abs:   5.6e-06
+valid_min:         0
+valid_max:         0.0002653
+ok_min_mean_abs:   1.952e-06
+ok_max_mean_abs:   5.607e-06
 !----------------------------------
 !
 
@@ -967,10 +967,10 @@ comment:           at surface; includes both liquid and solid phases.
 dimensions:        longitude latitude time
 out_name:          prc
 type:              real
-valid_min:         -8.1e-10
-valid_max:         0.00057
-ok_min_mean_abs:   1.2e-06
-ok_max_mean_abs:   2.8e-05
+valid_min:         0
+valid_max:         0.0005749
+ok_min_mean_abs:   1.174e-06
+ok_max_mean_abs:   2.839e-05
 !----------------------------------
 !
 
@@ -1015,10 +1015,10 @@ comment:           The snow and ice sublimation flux is the loss of snow and ice
 dimensions:        longitude latitude time
 out_name:          sbl
 type:              real
-valid_min:         -0.004
-valid_max:         0.00083
-ok_min_mean_abs:   -3.6e-05
-ok_max_mean_abs:   7.7e-05
+valid_min:         -0.003967
+valid_max:         0.0008264
+ok_min_mean_abs:   -3.63e-05
+ok_max_mean_abs:   7.718e-05
 !----------------------------------
 !
 
@@ -1041,10 +1041,10 @@ dimensions:        longitude latitude time
 out_name:          tauu
 type:              real
 positive:          down
-valid_min:         -2.4
-valid_max:         2.6
-ok_min_mean_abs:   0.047
-ok_max_mean_abs:   0.099
+valid_min:         -2.415
+valid_max:         2.576
+ok_min_mean_abs:   0.04688
+ok_max_mean_abs:   0.09945
 !----------------------------------
 !
 
@@ -1067,10 +1067,10 @@ dimensions:        longitude latitude time
 out_name:          tauv
 type:              real
 positive:          down
-valid_min:         -2.2
-valid_max:         2.2
-ok_min_mean_abs:   0.022
-ok_max_mean_abs:   0.074
+valid_min:         -2.163
+valid_max:         2.24
+ok_min_mean_abs:   0.0215
+ok_max_mean_abs:   0.0743
 !----------------------------------
 !
 
@@ -1094,10 +1094,10 @@ dimensions:        longitude latitude time
 out_name:          hfls
 type:              real
 positive:          up
-valid_min:         -67
-valid_max:         7.3e+02
-ok_min_mean_abs:   53
-ok_max_mean_abs:   71
+valid_min:         -66.63
+valid_max:         729.1
+ok_min_mean_abs:   52.91
+ok_max_mean_abs:   70.68
 !----------------------------------
 !
 
@@ -1120,10 +1120,10 @@ dimensions:        longitude latitude time
 out_name:          hfss
 type:              real
 positive:          up
-valid_min:         -2.4e+02
-valid_max:         7.6e+02
-ok_min_mean_abs:   13
-ok_max_mean_abs:   32
+valid_min:         -235.7
+valid_max:         760.8
+ok_min_mean_abs:   13.12
+ok_max_mean_abs:   32.42
 !----------------------------------
 !
 
@@ -1146,10 +1146,10 @@ dimensions:        longitude latitude time
 out_name:          rlds
 type:              real
 positive:          down
-valid_min:         36
-valid_max:         5.1e+02
-ok_min_mean_abs:   2.8e+02
-ok_max_mean_abs:   3.2e+02
+valid_min:         35.71
+valid_max:         506.9
+ok_min_mean_abs:   276.6
+ok_max_mean_abs:   318.2
 !----------------------------------
 !
 
@@ -1172,10 +1172,10 @@ dimensions:        longitude latitude time
 out_name:          rlus
 type:              real
 positive:          up
-valid_min:         51
-valid_max:         6.4e+02
-ok_min_mean_abs:   3.4e+02
-ok_max_mean_abs:   3.7e+02
+valid_min:         50.7
+valid_max:         638.4
+ok_min_mean_abs:   335
+ok_max_mean_abs:   366.1
 !----------------------------------
 !
 
@@ -1198,10 +1198,10 @@ dimensions:        longitude latitude time
 out_name:          rsds
 type:              real
 positive:          down
-valid_min:         -0.002
-valid_max:         5.1e+02
-ok_min_mean_abs:   1.5e+02
-ok_max_mean_abs:   1.8e+02
+valid_min:         -0.001964
+valid_max:         511.9
+ok_min_mean_abs:   147.9
+ok_max_mean_abs:   177.6
 !----------------------------------
 !
 
@@ -1224,10 +1224,10 @@ dimensions:        longitude latitude time
 out_name:          rsus
 type:              real
 positive:          up
-valid_min:         -0.0057
-valid_max:         4.1e+02
-ok_min_mean_abs:   28
-ok_max_mean_abs:   42
+valid_min:         -0.005695
+valid_max:         411.7
+ok_min_mean_abs:   28.03
+ok_max_mean_abs:   41.97
 !----------------------------------
 !
 
@@ -1250,10 +1250,10 @@ dimensions:        longitude latitude time
 out_name:          rsdscs
 type:              real
 positive:          down
-valid_min:         -1.5e+30
-valid_max:         5.1e+02
-ok_min_mean_abs:   2.1e+02
-ok_max_mean_abs:   2.3e+02
+valid_min:         -1.499e+30
+valid_max:         511.1
+ok_min_mean_abs:   210.5
+ok_max_mean_abs:   234.9
 !----------------------------------
 !
 
@@ -1276,10 +1276,10 @@ dimensions:        longitude latitude time
 out_name:          rsuscs
 type:              real
 positive:          up
-valid_min:         -0.012
-valid_max:         4.5e+02
-ok_min_mean_abs:   35
-ok_max_mean_abs:   58
+valid_min:         -0.01239
+valid_max:         449.6
+ok_min_mean_abs:   34.89
+ok_max_mean_abs:   58.35
 !----------------------------------
 !
 
@@ -1302,10 +1302,10 @@ dimensions:        longitude latitude time
 out_name:          rldscs
 type:              real
 positive:          down
-valid_min:         37
-valid_max:         5.3e+02
-ok_min_mean_abs:   2.4e+02
-ok_max_mean_abs:   2.9e+02
+valid_min:         36.67
+valid_max:         525.2
+ok_min_mean_abs:   244.2
+ok_max_mean_abs:   288.2
 !----------------------------------
 !
 
@@ -1330,9 +1330,9 @@ out_name:          rsdt
 type:              real
 positive:          down
 valid_min:         0
-valid_max:         5.5e+02
-ok_min_mean_abs:   3e+02
-ok_max_mean_abs:   3e+02
+valid_max:         554.6
+ok_min_mean_abs:   295.4
+ok_max_mean_abs:   302.8
 !----------------------------------
 !
 
@@ -1356,10 +1356,10 @@ dimensions:        longitude latitude time
 out_name:          rsut
 type:              real
 positive:          up
-valid_min:         -0.023
-valid_max:         4.1e+02
-ok_min_mean_abs:   99
-ok_max_mean_abs:   1.1e+02
+valid_min:         -0.02332
+valid_max:         411.9
+ok_min_mean_abs:   98.59
+ok_max_mean_abs:   112.2
 !----------------------------------
 !
 
@@ -1383,10 +1383,10 @@ dimensions:        longitude latitude time
 out_name:          rlut
 type:              real
 positive:          up
-valid_min:         73
-valid_max:         3.8e+02
-ok_min_mean_abs:   2.2e+02
-ok_max_mean_abs:   2.3e+02
+valid_min:         73.04
+valid_max:         376.2
+ok_min_mean_abs:   215.5
+ok_max_mean_abs:   226.1
 !----------------------------------
 !
 
@@ -1409,10 +1409,10 @@ dimensions:        longitude latitude time
 out_name:          rlutcs
 type:              real
 positive:          up
-valid_min:         75
-valid_max:         3.7e+02
-ok_min_mean_abs:   2.4e+02
-ok_max_mean_abs:   2.5e+02
+valid_min:         74.96
+valid_max:         368.1
+ok_min_mean_abs:   237.1
+ok_max_mean_abs:   251.8
 !----------------------------------
 !
 
@@ -1436,9 +1436,9 @@ out_name:          rsutcs
 type:              real
 positive:          up
 valid_min:         0
-valid_max:         4.3e+02
-ok_min_mean_abs:   57
-ok_max_mean_abs:   71
+valid_max:         434.2
+ok_min_mean_abs:   56.72
+ok_max_mean_abs:   71.33
 !----------------------------------
 !
 
@@ -1461,9 +1461,9 @@ comment:           vertically integrated through the atmospheric column
 dimensions:        longitude latitude time
 out_name:          prw
 type:              real
-valid_min:         0.012
-valid_max:         75
-ok_min_mean_abs:   14
+valid_min:         0.01199
+valid_max:         75.33
+ok_min_mean_abs:   13.84
 ok_max_mean_abs:   22
 !----------------------------------
 !
@@ -1487,10 +1487,10 @@ comment:           for the whole atmospheric column, as seen from the surface or
 dimensions:        longitude latitude time
 out_name:          clt
 type:              real
-valid_min:         -0.00012
-valid_max:         1e+02
-ok_min_mean_abs:   44
-ok_max_mean_abs:   80
+valid_min:         -0.0001214
+valid_max:         100.1
+ok_min_mean_abs:   44.09
+ok_max_mean_abs:   80.27
 !----------------------------------
 !
 
@@ -1513,10 +1513,10 @@ comment:           calculate mass of condensed (liquid + ice) water in the colum
 dimensions:        longitude latitude time
 out_name:          clwvi
 type:              real
-valid_min:         -2.6e-06
-valid_max:         2.9
-ok_min_mean_abs:   -0.0028
-ok_max_mean_abs:   0.25
+valid_min:         -2.551e-06
+valid_max:         2.95
+ok_min_mean_abs:   -0.002773
+ok_max_mean_abs:   0.2519
 !----------------------------------
 !
 
@@ -1539,10 +1539,10 @@ comment:           calculate mass of ice water in the column divided by the area
 dimensions:        longitude latitude time
 out_name:          clivi
 type:              real
-valid_min:         -1.2e-06
+valid_min:         -1.248e-06
 valid_max:         1.3
-ok_min_mean_abs:   -0.019
-ok_max_mean_abs:   0.1
+ok_min_mean_abs:   -0.01934
+ok_max_mean_abs:   0.1033
 !----------------------------------
 !
 
@@ -1566,10 +1566,10 @@ dimensions:        longitude latitude time
 out_name:          rtmt
 type:              real
 positive:          down
-valid_min:         -2.3e+02
-valid_max:         2.1e+02
-ok_min_mean_abs:   79
-ok_max_mean_abs:   87
+valid_min:         -227.4
+valid_max:         211.7
+ok_min_mean_abs:   78.74
+ok_max_mean_abs:   87.22
 !----------------------------------
 !
 
@@ -1743,9 +1743,9 @@ dimensions:        longitude latitude alevel time
 out_name:          cl
 type:              real
 valid_min:         0
-valid_max:         1e+02
-ok_min_mean_abs:   -0.03
-ok_max_mean_abs:   25
+valid_max:         100.1
+ok_min_mean_abs:   -0.02986
+ok_max_mean_abs:   24.86
 !----------------------------------
 !
 
@@ -1834,10 +1834,10 @@ long_name:         Air Temperature
 dimensions:        longitude latitude plevs time
 out_name:          ta
 type:              real
-valid_min:         1.6e+02
-valid_max:         3.2e+02
-ok_min_mean_abs:   2e+02
-ok_max_mean_abs:   2.9e+02
+valid_min:         160.7
+valid_max:         324.4
+ok_min_mean_abs:   201.7
+ok_max_mean_abs:   288.4
 !----------------------------------
 !
 
@@ -1859,10 +1859,10 @@ long_name:         Eastward Wind
 dimensions:        longitude latitude plevs time
 out_name:          ua
 type:              real
-valid_min:         -65
-valid_max:         1.3e+02
-ok_min_mean_abs:   1.8
-ok_max_mean_abs:   22
+valid_min:         -65.36
+valid_max:         132.2
+ok_min_mean_abs:   1.833
+ok_max_mean_abs:   21.69
 !----------------------------------
 !
 
@@ -1884,10 +1884,10 @@ long_name:         Northward Wind
 dimensions:        longitude latitude plevs time
 out_name:          va
 type:              real
-valid_min:         -68
-valid_max:         67
-ok_min_mean_abs:   1.2
-ok_max_mean_abs:   4.5
+valid_min:         -67.77
+valid_max:         66.74
+ok_min_mean_abs:   1.175
+ok_max_mean_abs:   4.492
 !----------------------------------
 !
 
@@ -1909,10 +1909,10 @@ long_name:         Specific Humidity
 dimensions:        longitude latitude plevs time
 out_name:          hus
 type:              real
-valid_min:         -0.00029
-valid_max:         0.028
-ok_min_mean_abs:   -0.00024
-ok_max_mean_abs:   0.01
+valid_min:         -0.0002854
+valid_max:         0.02777
+ok_min_mean_abs:   -0.0002359
+ok_max_mean_abs:   0.01015
 !----------------------------------
 !
 
@@ -1935,10 +1935,10 @@ comment:           This is the relative humidity with respect to liquid water fo
 dimensions:        longitude latitude plevs time
 out_name:          hur
 type:              real
-valid_min:         -1.8
-valid_max:         1.3e+02
-ok_min_mean_abs:   -6.8
-ok_max_mean_abs:   94
+valid_min:         -1.762
+valid_max:         126.1
+ok_min_mean_abs:   -6.834
+ok_max_mean_abs:   93.53
 !----------------------------------
 !
 
@@ -1961,10 +1961,10 @@ comment:           commonly referred to as ""omega"", this represents the vertic
 dimensions:        longitude latitude plevs time
 out_name:          wap
 type:              real
-valid_min:         -1.1
+valid_min:         -1.055
 valid_max:         2.2
-ok_min_mean_abs:   -0.0033
-ok_max_mean_abs:   0.041
+ok_min_mean_abs:   -0.003335
+ok_max_mean_abs:   0.04081
 !----------------------------------
 !
 
@@ -1986,10 +1986,10 @@ long_name:         Geopotential Height
 dimensions:        longitude latitude plevs time
 out_name:          zg
 type:              real
-valid_min:         -5.7e+02
-valid_max:         3.3e+04
-ok_min_mean_abs:   -40
-ok_max_mean_abs:   3.2e+04
+valid_min:         -574.3
+valid_max:         3.295e+04
+ok_min_mean_abs:   -39.68
+ok_max_mean_abs:   3.157e+04
 !----------------------------------
 !
 
@@ -2012,10 +2012,10 @@ comment:           If this does not change over time (except possibly to vary id
 dimensions:        longitude latitude plevs time
 out_name:          tro3
 type:              real
-valid_min:         -2.8e+02
-valid_max:         1.1e+04
-ok_min_mean_abs:   -94
-ok_max_mean_abs:   7.3e+03
+valid_min:         -279.5
+valid_max:         1.143e+04
+ok_min_mean_abs:   -94.21
+ok_max_mean_abs:   7308
 !----------------------------------
 !
 

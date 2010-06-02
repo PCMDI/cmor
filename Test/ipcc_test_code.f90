@@ -57,77 +57,7 @@ CONTAINS
     RETURN
   END SUBROUTINE read_time
   
-  SUBROUTINE read_3d_input_files(it, varname, field)
-
-    IMPLICIT NONE
-    
-    INTEGER, INTENT(IN) :: it
-    CHARACTER(len=*), INTENT(IN) :: varname
-    REAL, INTENT(OUT), DIMENSION(:,:,:) :: field
-    
-    INTEGER :: i, j, k
-    REAL :: factor, offset
-    CHARACTER(len=LEN(varname)) :: tmp
-    
-    tmp = TRIM(ADJUSTL(varname))
-    SELECT CASE (tmp)
-    CASE ('CLOUD')  
-       factor = 0.1
-       offset = -50.
-    CASE ('U')  
-       factor = 1.
-       offset = 100.
-    CASE ('T')
-       factor = 0.5
-       offset = -150.
-    END SELECT
-    
-    DO k=1,SIZE(field, 3)
-       DO j=1,SIZE(field, 2)
-          DO i=1,SIZE(field, 1)
-             field(i,j,k) = ((k-1)*64 + (j-1)*16 + (i-1)*4 + it)*factor - offset
-          END DO
-       END DO
-    END DO
-    
-  END SUBROUTINE read_3d_input_files
-  
-  SUBROUTINE read_2d_input_files(it, varname, field)
-
-    IMPLICIT NONE
-    
-    INTEGER, INTENT(IN) :: it
-    CHARACTER(len=*), INTENT(IN) :: varname
-    REAL, INTENT(OUT), DIMENSION(:,:) :: field
-    
-    INTEGER :: i, j
-    REAL :: factor, offset
-    CHARACTER(len=LEN(varname)) :: tmp
-    
-    tmp = TRIM(ADJUSTL(varname))
-    SELECT CASE (tmp)
-    CASE ('LATENT')  
-       
-       factor = 1.
-       offset = 20.
-    CASE ('TSURF')
-       factor = 2.0
-       offset = -220.
-    CASE ('SOIL_WET')
-       factor = 10.
-       offset = 0.
-    CASE ('PSURF')
-       factor = 100.
-       offset = -9.7e4
-    END SELECT
-    
-    DO j=1,SIZE(field, 2)
-       DO i=1,SIZE(field, 1)
-          field(i,size(field,2)+1-j) = ((j-1)*16 + (i-1)*4 + it)*factor - offset
-       END DO
-    END DO
-
-  END SUBROUTINE read_2d_input_files
+INCLUDE "reader_2D_3D.f90"
 
 END MODULE local_subs
 
@@ -248,7 +178,7 @@ PROGRAM ipcc_test_code
   INTEGER :: ilon, ilat, ipres, ilev, itim, itim2, ilon2,ilat2
   DOUBLE PRECISION bt
 
-  character(256)::  outpath
+  character(256)::  outpath,mycal
   
   !  Other variables:
   !  ---------------------
@@ -285,6 +215,8 @@ PROGRAM ipcc_test_code
   !   experiment conditions, and provide information to be included as 
   !   attributes in all CF-netCDF files written as part of this dataset.
 
+  mycal = '360_day'
+
   error_flag = cmor_dataset(                                   &
        outpath='Test',                                         &
        experiment_id='abrupt 4XCO2',           &
@@ -295,7 +227,7 @@ PROGRAM ipcc_test_code
        'atmosphere:  GICAM3 (gicam_0_brnchT_itea_2, T63L32); '// &
        'ocean: MOM (mom3_ver_3.5.2, 2x3L15); '             //  &
        'sea ice: GISIM4; land: GILSM2.5',                      &
-       calendar='360_day',                                      &
+       calendar=mycal,                                      &
        realization=1,                                          &
        history='Output from archive/giccm_03_std_2xCO2_2256.', &
        institute_id = 'PCMDI', &

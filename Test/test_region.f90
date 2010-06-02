@@ -41,32 +41,7 @@ CONTAINS
     RETURN
   END SUBROUTINE read_time
   
-  SUBROUTINE read_1d_input_files(it, varname, field) 
-
-    IMPLICIT NONE
-    
-    INTEGER, INTENT(IN) :: it
-    CHARACTER(len=*), INTENT(IN) :: varname
-    REAL, INTENT(OUT), DIMENSION(:,:) :: field
-    
-    INTEGER :: i, j
-    REAL :: factor, offset
-    CHARACTER(len=LEN(varname)) :: tmp
-    
-    tmp = TRIM(ADJUSTL(varname))
-    SELECT CASE (tmp)
-    CASE ('OFLUX')  
-       factor = 1.e14
-       offset = 20.e14
-    END SELECT
-    
-    DO j=1,SIZE(field, 2)
-       DO i=1,SIZE(field, 1)
-          field(i,j) = ((j-1)*16 + (i-1)*4 + it)*factor - offset
-       END DO
-    END DO
-
-  END SUBROUTINE read_1d_input_files
+include "reader_2D_3D.f90"
 
 END MODULE local_subs
 

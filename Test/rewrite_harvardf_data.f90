@@ -117,7 +117,7 @@ USE cmor_users_functions
       print *, 'Writing CMOR output ...',shape(x)
       ierrorflag = cmor_write(                                 &
                       var_id    = ivarb,                       &
-                      data      = x(:,1,1))
+                      data      = x(:,1,1)+2.5)
 
       print *, 'Closing file(s) created by CMOR ...'
       ierrorflag = cmor_close()
