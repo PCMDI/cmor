@@ -469,7 +469,7 @@ int cmor_check_monotonic(double *values,int length, char *name,int isbounds, int
 	  break;
 	}
 	else {
-	  snprintf(msg,CMOR_MAX_STRING,"axis %s has non monotonic values : %lf, %lf and  %lf, %lf",name,values[2*i],values[2*i+1],values[2*i+2],values[2*i+3]);
+	  snprintf(msg,CMOR_MAX_STRING,"axis %s has non monotonic values : %lf, %lf and  %lf",name,values[i],values[i+1],values[i+2]);
 	  cmor_handle_error(msg,CMOR_CRITICAL);
 	}
       }
@@ -553,7 +553,7 @@ int cmor_check_monotonic(double *values,int length, char *name,int isbounds, int
       /* ok now check the monotonic again */
       for (i=0;i<length-2;i++) {
 	if (((values[i]-values[i+1])/(values[i+1]-values[i+2]))<0.) {
-	  snprintf(msg,CMOR_MAX_STRING,"axis %s has non monotonic values : %lf, %lf and  %lf, %lf",name,values[2*i],values[2*i+1],values[2*i+2],values[2*i+3]);
+	  snprintf(msg,CMOR_MAX_STRING,"axis %s has non monotonic values : %lf, %lf and  %lf",name,values[i],values[i+1],values[i+2]);
 	  cmor_handle_error(msg,CMOR_CRITICAL);
 	}
       }

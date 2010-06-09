@@ -1,3 +1,4 @@
+2010-06-09 : cmor_axis non-monotnic error was showing incoorect set of bad values
 2010-06-09 : changed absolute mean error from CRITICAL to NORMAL if less than an order of magnitude off
 2010-06-09 : tables generated with min/max now being 3 sigma (from 2) and (20% form 5%)
 2010-06-09 : Coord: depth_coord was wrongly defined as positive up, fixed
