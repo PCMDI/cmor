@@ -4,7 +4,7 @@ axis_entry: depth_coord
 !
 !  This vertical coordinate is used in z-coordinate models 
 !   The units are meters (m), and it has a value of 0. at the surface
-!   and becomes more and more negative with depth.
+!   and becomes more and more positive with depth.
 !
 !------------
 !
@@ -13,7 +13,7 @@ axis_entry: depth_coord
 standard_name:    depth
 units:            m
 axis:             Z
-positive:	      up
+positive:	  down
 long_name:        ocean depth coordinate
 !----------------------------------	
 !
@@ -22,8 +22,8 @@ long_name:        ocean depth coordinate
 out_name:         lev
 must_have_bounds: yes
 stored_direction: decreasing
-valid_min:        -12000.
-valid_max:        0.
+valid_min:        0.
+valid_max:        12000.
 !----------------------------------	
 !
 !============
@@ -71,12 +71,12 @@ comment:      Ocean bathymetry.
 ! Additional variable information:
 !----------------------------------
 dimensions:      longitude latitude
-out_name:  depth
-type:      real
-valid_min:        0
-valid_max:        10000
-ok_min_mean_abs:  2000
-ok_max_mean_abs:  5000
+out_name:        depth
+type:            real
+valid_min:        0.
+valid_max:        12000.
+ok_min_mean_abs:  2000.
+ok_max_mean_abs:  5000.
 !----------------------------------
 !
 !

@@ -6,7 +6,7 @@ frequency: mon
 cmor_version: 2.0         ! version of CMOR that can read this table
 cf_version:   1.4         ! version of CF that output conforms to
 project_id:   CMIP5  ! project id
-table_date:   01 June 2010 ! date this table was constructed
+table_date:   09 June 2010 ! date this table was constructed
 
 missing_value: 1.e20      ! value used to indicate a missing value
                           !   in arrays output by netCDF as 32-bit IEEE 
@@ -913,10 +913,10 @@ long_name:         Air Temperature
 dimensions:        longitude latitude alevel time
 out_name:          ta
 type:              real
-valid_min:         160.7
-valid_max:         324.4
-ok_min_mean_abs:   201.7
-ok_max_mean_abs:   288.4
+valid_min:         157.1
+valid_max:         326.4
+ok_min_mean_abs:   200.2
+ok_max_mean_abs:   289.9
 !----------------------------------
 !
 
@@ -1064,10 +1064,10 @@ long_name:         Specific Humidity
 dimensions:        longitude latitude alevel time
 out_name:          hus
 type:              real
-valid_min:         -0.0002854
-valid_max:         0.02777
-ok_min_mean_abs:   -0.0002359
-ok_max_mean_abs:   0.01015
+valid_min:         -0.000299
+valid_max:         0.02812
+ok_min_mean_abs:   -0.0003539
+ok_max_mean_abs:   0.01027
 !----------------------------------
 !
 
@@ -2657,9 +2657,9 @@ dimensions:        longitude latitude plev7, tau, time
 out_name:          clisccp
 type:              real
 valid_min:         0
-valid_max:         0.883
-ok_min_mean_abs:   0.001092
-ok_max_mean_abs:   0.03072
+valid_max:         1.399
+ok_min_mean_abs:   0.0004413
+ok_max_mean_abs:   0.04866
 !----------------------------------
 !
 

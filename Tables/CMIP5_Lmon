@@ -6,7 +6,7 @@ frequency: mon
 cmor_version: 2.0         ! version of CMOR that can read this table
 cf_version:   1.4         ! version of CF that output conforms to
 project_id:   CMIP5  ! project id
-table_date:   01 June 2010 ! date this table was constructed
+table_date:   09 June 2010 ! date this table was constructed
 
 missing_value: 1.e20      ! value used to indicate a missing value
                           !   in arrays output by netCDF as 32-bit IEEE 
@@ -230,10 +230,10 @@ comment:           Compute the mass of water in all phases in the upper 0.1 mete
 dimensions:        longitude latitude time sdepth1
 out_name:          mrsos
 type:              real
-valid_min:         -1.339
-valid_max:         128.2
-ok_min_mean_abs:   -18.67
-ok_max_mean_abs:   106.1
+valid_min:         -2.008
+valid_max:         146.5
+ok_min_mean_abs:   -35.89
+ok_max_mean_abs:   123.3
 !----------------------------------
 !
 
@@ -256,10 +256,10 @@ comment:           Compute the mass per unit area  (summed over all soil layers)
 dimensions:        longitude latitude time
 out_name:          mrso
 type:              real
-valid_min:         -44.32
-valid_max:         4956
-ok_min_mean_abs:   -935.4
-ok_max_mean_abs:   2549
+valid_min:         -64.17
+valid_max:         5717
+ok_min_mean_abs:   -1424
+ok_max_mean_abs:   3038
 !----------------------------------
 !
 
@@ -283,9 +283,9 @@ dimensions:        longitude latitude time
 out_name:          mrfso
 type:              real
 valid_min:         0
-valid_max:         4986
-ok_min_mean_abs:   -272.7
-ok_max_mean_abs:   793.9
+valid_max:         5763
+ok_min_mean_abs:   -419
+ok_max_mean_abs:   940.3
 !----------------------------------
 !
 
@@ -308,10 +308,10 @@ comment:           Compute the total surface runoff leaving the land portion of 
 dimensions:        longitude latitude time
 out_name:          mrros
 type:              real
-valid_min:         -5.864e-06
-valid_max:         0.0008576
-ok_min_mean_abs:   -3.831e-06
-ok_max_mean_abs:   1.098e-05
+valid_min:         -6.802e-06
+valid_max:         0.0009825
+ok_min_mean_abs:   -5.867e-06
+ok_max_mean_abs:   1.302e-05
 !----------------------------------
 !
 
@@ -334,10 +334,10 @@ comment:           "compute the total runoff (including ""drainage"" through the
 dimensions:        longitude latitude time
 out_name:          mrro
 type:              real
-valid_min:         -0.0001729
-valid_max:         0.0009312
-ok_min_mean_abs:   -3.818e-06
-ok_max_mean_abs:   1.589e-05
+valid_min:         -0.0002019
+valid_max:         0.001065
+ok_min_mean_abs:   -6.668e-06
+ok_max_mean_abs:   1.874e-05
 !----------------------------------
 !
 

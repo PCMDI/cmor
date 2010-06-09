@@ -6,7 +6,7 @@ frequency: mon
 cmor_version: 2.0         ! version of CMOR that can read this table
 cf_version:   1.4         ! version of CF that output conforms to
 project_id:   CMIP5  ! project id
-table_date:   01 June 2010 ! date this table was constructed
+table_date:   09 June 2010 ! date this table was constructed
 
 missing_value: 1.e20      ! value used to indicate a missing value
                           !   in arrays output by netCDF as 32-bit IEEE 
@@ -286,7 +286,7 @@ axis_entry: depth_coord
 !
 !  This vertical coordinate is used in z-coordinate models 
 !   The units are meters (m), and it has a value of 0. at the surface
-!   and becomes more and more negative with depth.
+!   and becomes more and more positive with depth.
 !
 !------------
 !
@@ -295,7 +295,7 @@ axis_entry: depth_coord
 standard_name:    depth
 units:            m
 axis:             Z
-positive:	      up
+positive:	  down 
 long_name:        ocean depth coordinate
 !----------------------------------	
 !
@@ -304,8 +304,8 @@ long_name:        ocean depth coordinate
 out_name:         lev
 must_have_bounds: yes
 stored_direction: decreasing
-valid_min:        -12000.
-valid_max:        0.
+valid_min:        0.
+valid_max:        12000.
 !----------------------------------	
 !
 !============
@@ -397,7 +397,7 @@ axis_entry: ocean_sigma
 !----------------------------------	
 standard_name:    ocean_sigma_coordinate
 axis:             Z
-positive:	      up
+positive:	  up
 long_name:        ocean sigma coordinate
 !----------------------------------	
 !
@@ -450,12 +450,12 @@ comment:      Ocean bathymetry.
 ! Additional variable information:
 !----------------------------------
 dimensions:      longitude latitude
-out_name:  depth
-type:      real
-valid_min:        0
-valid_max:        10000
-ok_min_mean_abs:  2000
-ok_max_mean_abs:  5000
+out_name:        depth
+type:            real
+valid_min:        0.
+valid_max:        12000.
+ok_min_mean_abs:  2000.
+ok_max_mean_abs:  5000.
 !----------------------------------
 !
 !
@@ -2709,10 +2709,10 @@ long_name:         Sea Surface Height Above Geoid
 dimensions:        longitude latitude time
 out_name:          zos
 type:              real
-valid_min:         -12.17
-valid_max:         8.338
-ok_min_mean_abs:   0.1651
-ok_max_mean_abs:   1.416
+valid_min:         -13.97
+valid_max:         9.575
+ok_min_mean_abs:   0.008384
+ok_max_mean_abs:   1.572
 !----------------------------------
 !
 
@@ -2754,10 +2754,10 @@ long_name:         Global Average Sea Level Change
 dimensions:        time
 out_name:          zosga
 type:              real
-valid_min:         -0.09497
-valid_max:         0.334
-ok_min_mean_abs:   -0.03944
-ok_max_mean_abs:   0.2786
+valid_min:         -0.1426
+valid_max:         0.382
+ok_min_mean_abs:   -0.09124
+ok_max_mean_abs:   0.3304
 !----------------------------------
 !
 
@@ -2798,10 +2798,10 @@ long_name:         Global Average Thermosteric Sea Level Change
 dimensions:        time
 out_name:          zostoga
 type:              real
-valid_min:         -0.0917
-valid_max:         0.3209
-ok_min_mean_abs:   -0.009455
-ok_max_mean_abs:   0.2581
+valid_min:         -0.1375
+valid_max:         0.3734
+ok_min_mean_abs:   -0.0511
+ok_max_mean_abs:   0.2998
 !----------------------------------
 !
 
@@ -2865,10 +2865,10 @@ long_name:         Sea Water Potential Temperature
 dimensions:        longitude latitude olevel time
 out_name:          thetao
 type:              real
-valid_min:         -6.247e+17
-valid_max:         1.006e+20
-ok_min_mean_abs:   -6.247e+17
-ok_max_mean_abs:   1.006e+20
+valid_min:         -9.37e+17
+valid_max:         1.009e+20
+ok_min_mean_abs:   -9.37e+17
+ok_max_mean_abs:   1.009e+20
 !----------------------------------
 !
 
@@ -2911,10 +2911,10 @@ comment:           "this may differ from ""surface temperature"" in regions of s
 dimensions:        longitude latitude time
 out_name:          tos
 type:              real
-valid_min:         270.7
-valid_max:         312.5
-ok_min_mean_abs:   284.6
-ok_max_mean_abs:   290.8
+valid_min:         270.6
+valid_max:         313.9
+ok_min_mean_abs:   283.7
+ok_max_mean_abs:   291.7
 !----------------------------------
 !
 
@@ -2957,10 +2957,10 @@ long_name:         Sea Water Salinity
 dimensions:        longitude latitude olevel time
 out_name:          so
 type:              real
-valid_min:         -6.247e+17
-valid_max:         1.006e+20
-ok_min_mean_abs:   -6.247e+17
-ok_max_mean_abs:   1.006e+20
+valid_min:         -9.37e+17
+valid_max:         1.009e+20
+ok_min_mean_abs:   -9.37e+17
+ok_max_mean_abs:   1.009e+20
 !----------------------------------
 !
 
@@ -3023,10 +3023,10 @@ long_name:         Sea Water Potential Density
 dimensions:        longitude latitude olevel time
 out_name:          rhopoto
 type:              real
-valid_min:         1.92
-valid_max:         1052
-ok_min_mean_abs:   15.13
-ok_max_mean_abs:   1037
+valid_min:         -3.257
+valid_max:         1057
+ok_min_mean_abs:   10.38
+ok_max_mean_abs:   1042
 !----------------------------------
 !
 
@@ -3196,10 +3196,10 @@ long_name:         Sea Water X Velocity
 dimensions:        longitude latitude olevel time
 out_name:          uo
 type:              real
-valid_min:         -6.939e+17
-valid_max:         1.007e+20
-ok_min_mean_abs:   -6.939e+17
-ok_max_mean_abs:   1.007e+20
+valid_min:         -1.041e+18
+valid_max:         1.01e+20
+ok_min_mean_abs:   -1.041e+18
+ok_max_mean_abs:   1.01e+20
 !----------------------------------
 !
 
@@ -3221,10 +3221,10 @@ long_name:         Sea Water Y Velocity
 dimensions:        longitude latitude olevel time
 out_name:          vo
 type:              real
-valid_min:         -6.939e+17
-valid_max:         1.007e+20
-ok_min_mean_abs:   -6.939e+17
-ok_max_mean_abs:   1.007e+20
+valid_min:         -1.041e+18
+valid_max:         1.01e+20
+ok_min_mean_abs:   -1.041e+18
+ok_max_mean_abs:   1.01e+20
 !----------------------------------
 !
 
@@ -3755,10 +3755,10 @@ comment:           function of latitude, basin
 dimensions:        latitude basin time
 out_name:          htovgyre
 type:              real
-valid_min:         -1.671e+15
-valid_max:         1.698e+15
-ok_min_mean_abs:   1.463e+14
-ok_max_mean_abs:   1.492e+14
+valid_min:         -6.75e+14
+valid_max:         2.691e+15
+ok_min_mean_abs:   5.91e+13
+ok_max_mean_abs:   2.364e+14
 !----------------------------------
 !
 
@@ -3780,10 +3780,10 @@ comment:           function of latitude, basin
 dimensions:        latitude basin time
 out_name:          htovovrt
 type:              real
-valid_min:         -5.905e+15
-valid_max:         8.235e+15
-ok_min_mean_abs:   5.047e+14
-ok_max_mean_abs:   5.149e+14
+valid_min:         -2.386e+15
+valid_max:         1.305e+16
+ok_min_mean_abs:   2.039e+14
+ok_max_mean_abs:   8.156e+14
 !----------------------------------
 !
 
@@ -3805,10 +3805,10 @@ comment:           function of latitude, basin
 dimensions:        latitude basin time
 out_name:          sltovgyre
 type:              real
-valid_min:         -5.277e+10
-valid_max:         3.366e+10
-ok_min_mean_abs:   3.719e+09
-ok_max_mean_abs:   3.794e+09
+valid_min:         -2.132e+10
+valid_max:         5.333e+10
+ok_min_mean_abs:   1.503e+09
+ok_max_mean_abs:   6.01e+09
 !----------------------------------
 !
 
@@ -3830,10 +3830,10 @@ comment:           function of latitude, basin
 dimensions:        latitude basin time
 out_name:          sltovovrt
 type:              real
-valid_min:         -4.086e+11
-valid_max:         4.613e+11
-ok_min_mean_abs:   2.646e+10
-ok_max_mean_abs:   2.699e+10
+valid_min:         -1.651e+11
+valid_max:         7.307e+11
+ok_min_mean_abs:   1.069e+10
+ok_max_mean_abs:   4.276e+10
 !----------------------------------
 !
 
@@ -3876,9 +3876,9 @@ dimensions:        longitude latitude time
 out_name:          pr
 type:              real
 valid_min:         0
-valid_max:         0.001127
-ok_min_mean_abs:   2.269e-05
-ok_max_mean_abs:   3.102e-05
+valid_max:         0.001254
+ok_min_mean_abs:   2.156e-05
+ok_max_mean_abs:   3.215e-05
 !----------------------------------
 !
 
@@ -3902,9 +3902,9 @@ dimensions:        longitude latitude time
 out_name:          prsn
 type:              real
 valid_min:         0
-valid_max:         0.0002653
-ok_min_mean_abs:   1.952e-06
-ok_max_mean_abs:   5.607e-06
+valid_max:         0.0002987
+ok_min_mean_abs:   1.449e-06
+ok_max_mean_abs:   6.11e-06
 !----------------------------------
 !
 
@@ -4015,10 +4015,10 @@ comment:           compute as the water  flux into the ocean divided by the area
 dimensions:        longitude latitude time
 out_name:          wfo
 type:              real
-valid_min:         -0.004655
-valid_max:         0.03406
-ok_min_mean_abs:   2.262e-05
-ok_max_mean_abs:   5.62e-05
+valid_min:         -0.005411
+valid_max:         0.03952
+ok_min_mean_abs:   1.831e-05
+ok_max_mean_abs:   6.051e-05
 !----------------------------------
 !
 
@@ -4435,10 +4435,10 @@ dimensions:        longitude latitude time
 out_name:          rlds
 type:              real
 positive:          down
-valid_min:         35.71
-valid_max:         506.9
-ok_min_mean_abs:   276.6
-ok_max_mean_abs:   318.2
+valid_min:         30.71
+valid_max:         520.5
+ok_min_mean_abs:   271.2
+ok_max_mean_abs:   323.6
 !----------------------------------
 !
 
@@ -4462,10 +4462,10 @@ dimensions:        longitude latitude time
 out_name:          hfls
 type:              real
 positive:          down
-valid_min:         -66.63
-valid_max:         729.1
-ok_min_mean_abs:   52.91
-ok_max_mean_abs:   70.68
+valid_min:         -76.77
+valid_max:         790.7
+ok_min_mean_abs:   50.39
+ok_max_mean_abs:   73.2
 !----------------------------------
 !
 
@@ -4489,10 +4489,10 @@ dimensions:        longitude latitude time
 out_name:          hfss
 type:              real
 positive:          down
-valid_min:         -235.7
-valid_max:         760.8
-ok_min_mean_abs:   13.12
-ok_max_mean_abs:   32.42
+valid_min:         -264.5
+valid_max:         844.8
+ok_min_mean_abs:   10.7
+ok_max_mean_abs:   34.84
 !----------------------------------
 !
 
@@ -4538,10 +4538,10 @@ dimensions:        longitude latitude olevel time
 out_name:          rsds
 type:              real
 positive:          down
-valid_min:         -0.001964
-valid_max:         511.9
-ok_min_mean_abs:   147.9
-ok_max_mean_abs:   177.6
+valid_min:         -0.002946
+valid_max:         524.4
+ok_min_mean_abs:   143.9
+ok_max_mean_abs:   181.6
 !----------------------------------
 !
 

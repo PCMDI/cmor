@@ -6,7 +6,7 @@ frequency: mon
 cmor_version: 2.0         ! version of CMOR that can read this table
 cf_version:   1.4         ! version of CF that output conforms to
 project_id:   CMIP5  ! project id
-table_date:   01 June 2010 ! date this table was constructed
+table_date:   09 June 2010 ! date this table was constructed
 
 missing_value: 1.e20      ! value used to indicate a missing value
                           !   in arrays output by netCDF as 32-bit IEEE 
@@ -186,9 +186,9 @@ dimensions:        longitude latitude time
 out_name:          snc
 type:              real
 valid_min:         0
-valid_max:         101.4
-ok_min_mean_abs:   -17.63
-ok_max_mean_abs:   67.08
+valid_max:         102.1
+ok_min_mean_abs:   -29.01
+ok_max_mean_abs:   78.46
 !----------------------------------
 !
 
@@ -211,10 +211,10 @@ comment:           Compute as the mass of surface snow on the land portion of th
 dimensions:        longitude latitude time
 out_name:          snw
 type:              real
-valid_min:         -0.005028
-valid_max:         7.952e+05
-ok_min_mean_abs:   -4012
-ok_max_mean_abs:   1.012e+04
+valid_min:         -0.007542
+valid_max:         9.555e+05
+ok_min_mean_abs:   -6025
+ok_max_mean_abs:   1.213e+04
 !----------------------------------
 !
 
@@ -238,9 +238,9 @@ dimensions:        longitude latitude time
 out_name:          snd
 type:              real
 valid_min:         0
-valid_max:         815
-ok_min_mean_abs:   -1.272
-ok_max_mean_abs:   3.814
+valid_max:         962.9
+ok_min_mean_abs:   -1.961
+ok_max_mean_abs:   4.503
 !----------------------------------
 !
 
@@ -351,9 +351,9 @@ dimensions:        longitude latitude time
 out_name:          snm
 type:              real
 valid_min:         0
-valid_max:         0.0003599
-ok_min_mean_abs:   -1.131e-06
-ok_max_mean_abs:   5.162e-06
+valid_max:         0.0003926
+ok_min_mean_abs:   -2.092e-06
+ok_max_mean_abs:   6.123e-06
 !----------------------------------
 !
 
@@ -376,10 +376,10 @@ comment:           The snow and ice sublimation flux is the loss of snow and ice
 dimensions:        longitude latitude time
 out_name:          sbl
 type:              real
-valid_min:         -0.003967
-valid_max:         0.0008264
-ok_min_mean_abs:   -3.63e-05
-ok_max_mean_abs:   7.718e-05
+valid_min:         -0.004959
+valid_max:         0.0009936
+ok_min_mean_abs:   -5.521e-05
+ok_max_mean_abs:   9.61e-05
 !----------------------------------
 !
 

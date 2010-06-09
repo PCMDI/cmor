@@ -6,7 +6,7 @@ frequency: fx
 cmor_version: 2.0         ! version of CMOR that can read this table
 cf_version:   1.4         ! version of CF that output conforms to
 project_id:   CMIP5  ! project id
-table_date:   01 June 2010 ! date this table was constructed
+table_date:   09 June 2010 ! date this table was constructed
 
 missing_value: 1.e20      ! value used to indicate a missing value
                           !   in arrays output by netCDF as 32-bit IEEE 
@@ -127,7 +127,7 @@ axis_entry: depth_coord
 !
 !  This vertical coordinate is used in z-coordinate models 
 !   The units are meters (m), and it has a value of 0. at the surface
-!   and becomes more and more negative with depth.
+!   and becomes more and more positive with depth.
 !
 !------------
 !
@@ -136,7 +136,7 @@ axis_entry: depth_coord
 standard_name:    depth
 units:            m
 axis:             Z
-positive:	      up
+positive:	  down
 long_name:        ocean depth coordinate
 !----------------------------------	
 !
@@ -145,8 +145,8 @@ long_name:        ocean depth coordinate
 out_name:         lev
 must_have_bounds: yes
 stored_direction: decreasing
-valid_min:        -12000.
-valid_max:        0.
+valid_min:        0.
+valid_max:        12000.
 !----------------------------------	
 !
 !============
@@ -194,12 +194,12 @@ comment:      Ocean bathymetry.
 ! Additional variable information:
 !----------------------------------
 dimensions:      longitude latitude
-out_name:  depth
-type:      real
-valid_min:        0
-valid_max:        10000
-ok_min_mean_abs:  2000
-ok_max_mean_abs:  5000
+out_name:        depth
+type:            real
+valid_min:        0.
+valid_max:        12000.
+ok_min_mean_abs:  2000.
+ok_max_mean_abs:  5000.
 !----------------------------------
 !
 !
@@ -452,8 +452,8 @@ out_name:          orog
 type:              real
 valid_min:         -700.0
 valid_max:         10000.0
-ok_min_mean_abs:   339
-ok_max_mean_abs:   420.3
+ok_min_mean_abs:   327.9
+ok_max_mean_abs:   431.3
 !----------------------------------
 !
 
@@ -476,8 +476,8 @@ out_name:          sftlf
 type:              real
 valid_min:         0.0
 valid_max:         100.0
-ok_min_mean_abs:   31.25
-ok_max_mean_abs:   36.39
+ok_min_mean_abs:   30.58
+ok_max_mean_abs:   37.07
 !----------------------------------
 !
 
@@ -501,8 +501,8 @@ out_name:          sftgif
 type:              real
 valid_min:         0.0
 valid_max:         100.0
-ok_min_mean_abs:   8.119
-ok_max_mean_abs:   14.14
+ok_min_mean_abs:   7.328
+ok_max_mean_abs:   14.93
 !----------------------------------
 !
 
@@ -524,10 +524,10 @@ comment:           """where land"": divide the total water holding capacity of a
 dimensions:        longitude latitude
 out_name:          mrsofc
 type:              real
-valid_min:         -35.1
-valid_max:         4306
-ok_min_mean_abs:   -519.1
-ok_max_mean_abs:   1874
+valid_min:         -52.65
+valid_max:         4910
+ok_min_mean_abs:   -865
+ok_max_mean_abs:   2220
 !----------------------------------
 !
 
@@ -551,8 +551,8 @@ out_name:          rootd
 type:              real
 valid_min:         0.0
 valid_max:         30.0
-ok_min_mean_abs:   1.98
-ok_max_mean_abs:   2.02
+ok_min_mean_abs:   0.8
+ok_max_mean_abs:   3.2
 !----------------------------------
 !
 

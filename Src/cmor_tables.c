@@ -95,7 +95,7 @@ int cmor_set_dataset_att(cmor_table_t *table, char att[CMOR_MAX_STRING],char val
     strncpy(table->URL,value,CMOR_MAX_STRING);
   }
   else if (strcmp(att,"forcings")==0) {
-    cmor_convert_string_to_list(value,'c',&table->forcings,&table->nforcings);
+    cmor_convert_string_to_list(value,'c',(void **)&table->forcings,&table->nforcings);
   }
   else if (strcmp(att,"product")==0) {
     strncpy(table->product,value,CMOR_MAX_STRING);

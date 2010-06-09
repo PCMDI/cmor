@@ -6,7 +6,7 @@ frequency: 6hr
 cmor_version: 2.0         ! version of CMOR that can read this table
 cf_version:   1.4         ! version of CF that output conforms to
 project_id:   CMIP5  ! project id
-table_date:   01 June 2010 ! date this table was constructed
+table_date:   09 June 2010 ! date this table was constructed
 
 missing_value: 1.e20      ! value used to indicate a missing value
                           !   in arrays output by netCDF as 32-bit IEEE 
@@ -185,10 +185,10 @@ comment:           on the following pressure levels: 850, 500, 250 hPa
 dimensions:        longitude latitude plev3 time1
 out_name:          ua
 type:              real
-valid_min:         -65.36
-valid_max:         132.2
-ok_min_mean_abs:   1.833
-ok_max_mean_abs:   21.69
+valid_min:         -68.65
+valid_max:         136.6
+ok_min_mean_abs:   1.101
+ok_max_mean_abs:   22.42
 !----------------------------------
 !
 
@@ -210,10 +210,10 @@ comment:           on the following pressure levels: 850, 500, 250 hPa
 dimensions:        longitude latitude plev3 time1
 out_name:          va
 type:              real
-valid_min:         -67.77
-valid_max:         66.74
-ok_min_mean_abs:   1.175
-ok_max_mean_abs:   4.492
+valid_min:         -71.1
+valid_max:         69.93
+ok_min_mean_abs:   0.9886
+ok_max_mean_abs:   4.679
 !----------------------------------
 !
 
@@ -235,10 +235,10 @@ comment:           on the following pressure levels: 850, 500, 250 hPa
 dimensions:        longitude latitude plev3 time1
 out_name:          ta
 type:              real
-valid_min:         160.7
-valid_max:         324.4
-ok_min_mean_abs:   201.7
-ok_max_mean_abs:   288.4
+valid_min:         157.1
+valid_max:         326.4
+ok_min_mean_abs:   200.2
+ok_max_mean_abs:   289.9
 !----------------------------------
 !
 
@@ -259,10 +259,10 @@ long_name:         Sea Level Pressure
 dimensions:        longitude latitude time1
 out_name:          psl
 type:              real
-valid_min:         9.519e+04
-valid_max:         1.11e+05
-ok_min_mean_abs:   1.004e+05
-ok_max_mean_abs:   1.016e+05
+valid_min:         9.477e+04
+valid_max:         1.124e+05
+ok_min_mean_abs:   1.003e+05
+ok_max_mean_abs:   1.017e+05
 !----------------------------------
 !
 

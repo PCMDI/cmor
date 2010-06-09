@@ -1,3 +1,6 @@
+2010-06-09 : changed absolute mean error from CRITICAL to NORMAL if less than an order of magnitude off
+2010-06-09 : tables generated with min/max now being 3 sigma (from 2) and (20% form 5%)
+2010-06-09 : Coord: depth_coord was wrongly defined as positive up, fixed
 2010-06-01 : table generation was sometimes gen same value for valid_min and valid_max, fixed
 2010-06-01 : table generation using %.4g instead of %.2g for valid min/max
 2010-06-01 : new tables to reflect that

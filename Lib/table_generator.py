@@ -213,6 +213,8 @@ def process_template(tmpl,cnames,cols,voids={},minmax={}):
         print 'Keys:',keys
         print 'cnames:',cnames
         raise "crap"
+    nstd  = 3.0
+    pmean = 0.2
     ve = getattr(F,"CMOR variable name","yep not that guy") 
     if ve in minmax.keys():
         if 'valid min' in keys:
@@ -226,8 +228,8 @@ def process_template(tmpl,cnames,cols,voids={},minmax={}):
                 std +=mn['std']
             std/=len(mnmx.keys())
             if numpy.allclose(std,0.):
-                std=val*.005
-            setattr(F,"valid min","%.4g" % (val-2*std))
+                std=val*pmean
+            setattr(F,"valid min","%.4g" % (val-nstd*std))
             keys.remove("valid min")
         if 'valid max' in keys:
         #ok let's see if we can figure this one out
@@ -240,8 +242,8 @@ def process_template(tmpl,cnames,cols,voids={},minmax={}):
                 std +=mn['std']
             std/=len(mnmx.keys())
             if numpy.allclose(std,0.):
-                std=val*.005
-            setattr(F,"valid max","%.4g" % (val+2*std))
+                std=val*pmean
+            setattr(F,"valid max","%.4g" % (val+nstd*std))
             keys.remove("valid max")
         if "mean absolute min" in keys:
             mnmx = minmax[ve]
@@ -253,8 +255,8 @@ def process_template(tmpl,cnames,cols,voids={},minmax={}):
                 std+=aavg['std']
             std/=len(mnmx.keys())
             if numpy.allclose(std,0.):
-                std=val*.005
-            setattr(F,"mean absolute min","%.4g" % (val-2*std))
+                std=val*pmean
+            setattr(F,"mean absolute min","%.4g" % (val-nstd*std))
             keys.remove("mean absolute min")
         if "mean absolute max" in keys:
             mnmx = minmax[ve]
@@ -266,8 +268,8 @@ def process_template(tmpl,cnames,cols,voids={},minmax={}):
                 std+=aavg['std']
             std/=len(mnmx.keys())
             if numpy.allclose(std,0.):
-                std=val*.005
-            setattr(F,"mean absolute max","%.4g" % (val+2*std))
+                std=val*pmean
+            setattr(F,"mean absolute max","%.4g" % (val+nstd*std))
             keys.remove("mean absolute max")
 
         ### Need to add lines for absolute mean min/max

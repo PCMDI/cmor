@@ -9,6 +9,7 @@
 #include <udunits2.h>
 #include <time.h>
 #include <errno.h>
+#include <math.h>
 
 #include <sys/types.h>
 
@@ -66,7 +67,7 @@ void  cmor_check_forcing_validity(int table_id,char *value) {
   for (i=0;i<strlen(astr);i++) {
     if (astr[i]==',') astr[i]=' ';
   }
-  cmor_convert_string_to_list(astr,'c',&bstr,&n);
+  cmor_convert_string_to_list(astr,'c',(void **)&bstr,&n);
   if (n==0) return;
 
   for (i=0;i<n;i++) {

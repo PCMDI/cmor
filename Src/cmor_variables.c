@@ -1411,13 +1411,25 @@ int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int 
     snprintf(msg,CMOR_MAX_STRING,msg_max,n_greater_max);
     cmor_handle_error(msg,CMOR_NORMAL);
   }
-  if ((avar->ok_min_mean_abs!=(float)1.e20) && (amean/nelts<avar->ok_min_mean_abs)) {
-    snprintf(msg,CMOR_MAX_STRING, "Invalid Absolute Mean for variable '%s' (%.5g) is lower than minimum allowed: %.4g" , avar->id, amean/nelts, avar->ok_min_mean_abs);
-    cmor_handle_error(msg,CMOR_CRITICAL);
+  if (avar->ok_min_mean_abs!=(float)1.e20) {
+    if (amean/nelts<.1*avar->ok_min_mean_abs) {
+      snprintf(msg,CMOR_MAX_STRING, "Invalid Absolute Mean for variable '%s' (%.5g) is lower by more than an order of magnitude than minimum allowed: %.4g" , avar->id, amean/nelts, avar->ok_min_mean_abs);
+      cmor_handle_error(msg,CMOR_CRITICAL);
+    }
+    if (amean/nelts<avar->ok_min_mean_abs) {
+      snprintf(msg,CMOR_MAX_STRING, "Invalid Absolute Mean for variable '%s' (%.5g) is lower than minimum allowed: %.4g" , avar->id, amean/nelts, avar->ok_min_mean_abs);
+      cmor_handle_error(msg,CMOR_NORMAL);
+    }
   }
-  if ((avar->ok_max_mean_abs!=(float)1.e20) && (amean/nelts>avar->ok_max_mean_abs)) {
-    snprintf(msg,CMOR_MAX_STRING, "Invalid Absolute Mean for variable '%s' (%.5g) is greater than maximum allowed: %.4g" , avar->id, amean/nelts, avar->ok_max_mean_abs);
+  if (avar->ok_max_mean_abs!=(float)1.e20) {
+    if  (amean/nelts>10.*avar->ok_max_mean_abs) {
+      snprintf(msg,CMOR_MAX_STRING, "Invalid Absolute Mean for variable '%s' (%.5g) is greater by more than an order of magnitude than maximum allowed: %.4g" , avar->id, amean/nelts, avar->ok_max_mean_abs);
     cmor_handle_error(msg,CMOR_CRITICAL);
+    }
+    if  (amean/nelts>avar->ok_max_mean_abs) {
+      snprintf(msg,CMOR_MAX_STRING, "Invalid Absolute Mean for variable '%s' (%.5g) is greater than maximum allowed: %.4g" , avar->id, amean/nelts, avar->ok_max_mean_abs);
+    cmor_handle_error(msg,CMOR_NORMAL);
+    }
   }
   if (dounits==1) {
     cv_free(ut_cmor_converter);

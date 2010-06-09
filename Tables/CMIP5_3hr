@@ -6,7 +6,7 @@ frequency: 3hr
 cmor_version: 2.0         ! version of CMOR that can read this table
 cf_version:   1.4         ! version of CF that output conforms to
 project_id:   CMIP5  ! project id
-table_date:   01 June 2010 ! date this table was constructed
+table_date:   09 June 2010 ! date this table was constructed
 
 missing_value: 1.e20      ! value used to indicate a missing value
                           !   in arrays output by netCDF as 32-bit IEEE 
@@ -233,9 +233,9 @@ dimensions:        longitude latitude time
 out_name:          pr
 type:              real
 valid_min:         0
-valid_max:         0.001127
-ok_min_mean_abs:   2.269e-05
-ok_max_mean_abs:   3.102e-05
+valid_max:         0.001254
+ok_min_mean_abs:   2.156e-05
+ok_max_mean_abs:   3.215e-05
 !----------------------------------
 !
 
@@ -258,10 +258,10 @@ comment:           near-surface (usually, 2 meter) air temperature, sampled syno
 dimensions:        longitude latitude time1 height2m
 out_name:          tas
 type:              real
-valid_min:         184.6
-valid_max:         323.6
-ok_min_mean_abs:   274.4
-ok_max_mean_abs:   280.8
+valid_min:         180.6
+valid_max:         325.7
+ok_min_mean_abs:   273.5
+ok_max_mean_abs:   281.7
 !----------------------------------
 !
 
@@ -285,10 +285,10 @@ dimensions:        longitude latitude time
 out_name:          hfls
 type:              real
 positive:          up
-valid_min:         -66.63
-valid_max:         729.1
-ok_min_mean_abs:   52.91
-ok_max_mean_abs:   70.68
+valid_min:         -76.77
+valid_max:         790.7
+ok_min_mean_abs:   50.39
+ok_max_mean_abs:   73.2
 !----------------------------------
 !
 
@@ -312,10 +312,10 @@ dimensions:        longitude latitude time
 out_name:          hfss
 type:              real
 positive:          up
-valid_min:         -235.7
-valid_max:         760.8
-ok_min_mean_abs:   13.12
-ok_max_mean_abs:   32.42
+valid_min:         -264.5
+valid_max:         844.8
+ok_min_mean_abs:   10.7
+ok_max_mean_abs:   34.84
 !----------------------------------
 !
 
@@ -339,10 +339,10 @@ dimensions:        longitude latitude time
 out_name:          rlds
 type:              real
 positive:          down
-valid_min:         35.71
-valid_max:         506.9
-ok_min_mean_abs:   276.6
-ok_max_mean_abs:   318.2
+valid_min:         30.71
+valid_max:         520.5
+ok_min_mean_abs:   271.2
+ok_max_mean_abs:   323.6
 !----------------------------------
 !
 
@@ -366,10 +366,10 @@ dimensions:        longitude latitude time
 out_name:          rlus
 type:              real
 positive:          up
-valid_min:         50.7
-valid_max:         638.4
-ok_min_mean_abs:   335
-ok_max_mean_abs:   366.1
+valid_min:         43.75
+valid_max:         658
+ok_min_mean_abs:   331.1
+ok_max_mean_abs:   369.9
 !----------------------------------
 !
 
@@ -393,10 +393,10 @@ dimensions:        longitude latitude time
 out_name:          rsds
 type:              real
 positive:          down
-valid_min:         -0.001964
-valid_max:         511.9
-ok_min_mean_abs:   147.9
-ok_max_mean_abs:   177.6
+valid_min:         -0.002946
+valid_max:         524.4
+ok_min_mean_abs:   143.9
+ok_max_mean_abs:   181.6
 !----------------------------------
 !
 
@@ -420,10 +420,10 @@ dimensions:        longitude latitude time
 out_name:          rsus
 type:              real
 positive:          up
-valid_min:         -0.005695
-valid_max:         411.7
-ok_min_mean_abs:   28.03
-ok_max_mean_abs:   41.97
+valid_min:         -0.006589
+valid_max:         422.2
+ok_min_mean_abs:   26.22
+ok_max_mean_abs:   43.77
 !----------------------------------
 !
 
@@ -446,10 +446,10 @@ comment:           sampled synoptically.
 dimensions:        longitude latitude time1 height2m
 out_name:          uas
 type:              real
-valid_min:         -17.76
-valid_max:         17.68
-ok_min_mean_abs:   1.927
-ok_max_mean_abs:   3.847
+valid_min:         -19.01
+valid_max:         18.68
+ok_min_mean_abs:   1.668
+ok_max_mean_abs:   4.106
 !----------------------------------
 !
 
@@ -472,10 +472,10 @@ comment:           sampled synoptically.
 dimensions:        longitude latitude time1 height2m
 out_name:          vas
 type:              real
-valid_min:         -16.93
-valid_max:         20.82
-ok_min_mean_abs:   1.239
-ok_max_mean_abs:   2.505
+valid_min:         -18.04
+valid_max:         22.84
+ok_min_mean_abs:   1.065
+ok_max_mean_abs:   2.678
 !----------------------------------
 !
 
@@ -498,10 +498,10 @@ comment:           near-surface (usually 2 m) specific humidity, sampled synopti
 dimensions:        longitude latitude time1 height2m
 out_name:          huss
 type:              real
-valid_min:         -4.806e-06
-valid_max:         0.0287
-ok_min_mean_abs:   0.006655
-ok_max_mean_abs:   0.008485
+valid_min:         -7.21e-06
+valid_max:         0.02992
+ok_min_mean_abs:   0.006391
+ok_max_mean_abs:   0.008749
 !----------------------------------
 !
 
@@ -524,10 +524,10 @@ comment:           Compute the mass of water in all phases in the upper 0.1 mete
 dimensions:        longitude latitude time1
 out_name:          mrsos
 type:              real
-valid_min:         -1.339
-valid_max:         128.2
-ok_min_mean_abs:   -18.67
-ok_max_mean_abs:   106.1
+valid_min:         -2.008
+valid_max:         146.5
+ok_min_mean_abs:   -35.89
+ok_max_mean_abs:   123.3
 !----------------------------------
 !
 
@@ -595,9 +595,9 @@ dimensions:        longitude latitude time
 out_name:          prc
 type:              real
 valid_min:         0
-valid_max:         0.0005749
-ok_min_mean_abs:   1.174e-06
-ok_max_mean_abs:   2.839e-05
+valid_max:         0.0006323
+ok_min_mean_abs:   -2.528e-06
+ok_max_mean_abs:   3.209e-05
 !----------------------------------
 !
 
@@ -621,9 +621,9 @@ dimensions:        longitude latitude time
 out_name:          prsn
 type:              real
 valid_min:         0
-valid_max:         0.0002653
-ok_min_mean_abs:   1.952e-06
-ok_max_mean_abs:   5.607e-06
+valid_max:         0.0002987
+ok_min_mean_abs:   1.449e-06
+ok_max_mean_abs:   6.11e-06
 !----------------------------------
 !
 
@@ -646,10 +646,10 @@ comment:           compute the total runoff (including ""drainage"" through the 
 dimensions:        longitude latitude time
 out_name:          mrro
 type:              real
-valid_min:         -0.0001729
-valid_max:         0.0009312
-ok_min_mean_abs:   -3.818e-06
-ok_max_mean_abs:   1.589e-05
+valid_min:         -0.0002019
+valid_max:         0.001065
+ok_min_mean_abs:   -6.668e-06
+ok_max_mean_abs:   1.874e-05
 !----------------------------------
 !
 
@@ -673,10 +673,10 @@ dimensions:        longitude latitude time
 out_name:          rldscs
 type:              real
 positive:          down
-valid_min:         36.67
-valid_max:         525.2
-ok_min_mean_abs:   244.2
-ok_max_mean_abs:   288.2
+valid_min:         33.55
+valid_max:         543.6
+ok_min_mean_abs:   238.6
+ok_max_mean_abs:   293.8
 !----------------------------------
 !
 
@@ -700,10 +700,10 @@ dimensions:        longitude latitude time
 out_name:          rsdscs
 type:              real
 positive:          down
-valid_min:         -1.499e+30
-valid_max:         511.1
-ok_min_mean_abs:   210.5
-ok_max_mean_abs:   234.9
+valid_min:         -1.748e+30
+valid_max:         518
+ok_min_mean_abs:   206.9
+ok_max_mean_abs:   238.6
 !----------------------------------
 !
 
@@ -749,10 +749,10 @@ comment:           sampled synoptically to diagnose atmospheric tides, this is b
 dimensions:        longitude latitude time1
 out_name:          ps
 type:              real
-valid_min:         4.876e+04
-valid_max:         1.084e+05
-ok_min_mean_abs:   9.62e+04
-ok_max_mean_abs:   9.729e+04
+valid_min:         4.792e+04
+valid_max:         1.093e+05
+ok_min_mean_abs:   9.606e+04
+ok_max_mean_abs:   9.743e+04
 !----------------------------------
 !
 
@@ -775,10 +775,10 @@ comment:           for the whole atmospheric column, as seen from the surface or
 dimensions:        longitude latitude time
 out_name:          clt
 type:              real
-valid_min:         -0.0001214
-valid_max:         100.1
-ok_min_mean_abs:   44.09
-ok_max_mean_abs:   80.27
+valid_min:         -0.0001822
+valid_max:         100.2
+ok_min_mean_abs:   39.37
+ok_max_mean_abs:   84.98
 !----------------------------------
 !
 
