@@ -10,6 +10,7 @@
 2010-06-01 : edited example to have only 1 file to edit when tweaking the data generation in test fortran/C samples.
 2010-06-01 : changed cmor_dataset to trim input arguments, revelant mostly for calendar that was declared as wrong if it had extra spaces
 2010-06-01 : fixed error message formating for value less or greater than valid_min/max, now uses nice formatting %.4g instead of unreadable for big numbers: %lf
+2010-06-09 : yep
 2010-05-28 : Tagging RC10
 2010-05-28 : cmor_checker now checks table md5s in file vs the one passed and vs our control online
 2010-05-28 : new tables that include the ok_min/max_mean_absolute value
