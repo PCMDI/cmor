@@ -11,14 +11,14 @@ int cuErrOpts =CU_VERBOSE;
 int cmor_calendar_c2i(char *calendar, cdCalenType *ical) {
   cmor_add_traceback("cmor_calendar_c2i");
   cmor_is_setup();
-  if ((strcmp(calendar,"gregorian")==0) || ((strcmp(calendar,"GREGORIAN")==0) ))*ical = cdStandard;
-  else if ((strcmp(calendar,"standard")==0) || ((strcmp(calendar,"STANDARD")==0) )) *ical = cdStandard;
-  else if ((strcmp(calendar,"proleptic_gregorian")==0) || ((strcmp(calendar,"PROLEPTIC_GREGORIAN")==0) )) *ical = cdMixed;
-  else if ((strcmp(calendar,"noleap")==0) || ((strcmp(calendar,"NOLEAP")==0) )) *ical = cdNoLeap;
-  else if ((strcmp(calendar,"365_day")==0) || ((strcmp(calendar,"365_DAY")==0) )) *ical = cdNoLeap;
-  else if ((strcmp(calendar,"360_day")==0) || ((strcmp(calendar,"360_DAY")==0) )) *ical = cd360;
-  else if ((strcmp(calendar,"julian")==0) || ((strcmp(calendar,"JULIAN")==0) )) *ical = cdJulian;
-  else if ((strcmp(calendar,"none")==0) || ((strcmp(calendar,"NONE")==0) )) *ical = cdClim;
+  if (strcmp(calendar,"gregorian")==0)*ical = cdStandard;
+  else if (strcmp(calendar,"standard")==0) *ical = cdStandard;
+  else if (strcmp(calendar,"proleptic_gregorian")==0) *ical = cdMixed;
+  else if (strcmp(calendar,"noleap")==0) *ical = cdNoLeap;
+  else if (strcmp(calendar,"365_day")==0) *ical = cdNoLeap;
+  else if (strcmp(calendar,"360_day")==0) *ical = cd360;
+  else if (strcmp(calendar,"julian")==0) *ical = cdJulian;
+  else if (strcmp(calendar,"none")==0) *ical = cdClim;
   else {
     cmor_pop_traceback();
     return 1;
@@ -1433,7 +1433,7 @@ int cmor_set_axis_def_att(cmor_axis_def_t *axis,char att[CMOR_MAX_STRING],char v
   else if (strcmp(att,"coords_attrib")==0) {
     strncpytrim(axis->cname,val,CMOR_MAX_STRING);
   }
-  else if (strcmp(att,"bounds_requested")==0) { /* requested values for axis */
+  else if ((strcmp(att,"bounds_requested")==0) || (strcmp(att,"requested_bounds")==0)) { /* requested values for axis */
     dim[0]='\0';
     n=0;
     for(i=0;i<strlen(val);i++) {
