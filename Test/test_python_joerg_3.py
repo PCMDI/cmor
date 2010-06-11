@@ -131,7 +131,7 @@ for d in range(2):
         data=data.astype("f")
         cmor.write(ivar1,data,time_vals=tval,time_bnds=tbnd,file_suffix=file_suffix1)
         print 'wrote var 1 time:',i
-        data=numpy.random.random((ntimes,nlev,nlat,nlon))*100.
+        data=numpy.random.random((ntimes,nlev,nlat,nlon))
         data=data.astype("f")
         cmor.write(ivar2,data,time_vals=tval,time_bnds=tbnd,file_suffix=file_suffix2)
         print 'wrote var 2 time:',i

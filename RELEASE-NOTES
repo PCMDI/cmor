@@ -1,3 +1,6 @@
+2010-06-11 : shorten the TestTables to a minimum so they can't be confused with the real one and used in production
+2010-06-11 : removed tables unused by examples
+2010-06-11 : add ${Prefix}/share to the list of locations where to search for tables
 2010-06-09 : removing files related to Tables, moving the Tables dir to TestTables
 2010-06-09 : cmor axis entry "requested_bounds" now is also valid used to be "bounds_requested"
 2010-06-09 : cmor_axis non-monotnic error was showing incoorect set of bad values

@@ -3,7 +3,7 @@ import cmor,numpy
 
 
 
-vars ={'hfls' : ['W.m-2',1.,0.],'tas':['K',25,273.15],'clt':['%',100.,0.],'ta':['K',25,273.15]}
+vars ={'hfls' : ['W.m-2',25.,30.],'tas':['K',25,273.15],'clt':['%',100.,0.],'ta':['K',25,273.15]}
 
 
 nlat = 90
@@ -19,15 +19,14 @@ lons = numpy.arange(0+dlon/2.,360.,dlon)
 blons = numpy.arange(0,360.+dlon,dlon)
 
 
-tvars=['hfls','tas','clt','ta']
-
+tvars= ['hfls','tas','clt','ta']
 
 cmor.setup(inpath='.',netcdf_file_action=cmor.CMOR_REPLACE)
 cmor.dataset('historical', 'ukmo', 'HadCM3', 'gregorian',
              model_id='HadCM3',outpath='Test',forcing='TO, Nat',
              institute_id="PCMDI",
              contact="Matt Cain",parent_experiment_id="lgm",branch_time=0)
-table='Tables/CMIP5_Amon'
+table='TestTables/CMIP5_Amon'
 cmor.load_table(table)
 
 for var in tvars:

@@ -5,6 +5,7 @@
 #include <netcdf.h>
 #include <udunits2.h>
 #include <stdlib.h>
+#include "cmor_locale.h"
 
 int wfgetc(FILE *afile) {
   int i = fgetc(afile);
@@ -230,6 +231,10 @@ int cmor_load_table(char table[CMOR_MAX_STRING], int *table_id) {
       table_file=fopen(word,"r");
     }
     if (table_file == NULL) {
+      snprintf(word,CMOR_MAX_STRING,"%s/share/%s",CMOR_PREFIX,table);
+      table_file=fopen(word,"r");
+    }
+    if (table_file == NULL ) {
       snprintf(word,CMOR_MAX_STRING,"Could not find table: %s",table);
       cmor_handle_error(word,CMOR_NORMAL);
       cmor_ntables-=1;

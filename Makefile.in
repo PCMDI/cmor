@@ -132,7 +132,7 @@ test_case:
 	@./${TEST_NAME} @VERB@ < ${INPUT_FILE} ;
 	@ rm ./${TEST_NAME}
 ifeq (@MAKEDEPPYTHON@,python)
-	@env TEST_NAME=Test/check_results.py ${TEST_NAME} make test_a_python
+	@env TEST_NAME="Test/check_results.py ${TEST_NAME}" make test_a_python
 endif
 test_case_old_cmor_tables:
 	@echo "Testing: "${TEST_NAME}" with input file: "${INPUT_FILE}
@@ -140,7 +140,7 @@ test_case_old_cmor_tables:
 	@./${TEST_NAME} @VERB@ < ${INPUT_FILE} ;
 	@ rm ./${TEST_NAME}
 ifeq (@MAKEDEPPYTHON@,python)
-	@env TEST_NAME=Test/check_results.py old_cmor_tables_${TEST_NAME} make test_a_python
+	@env TEST_NAME="Test/check_results.py old_cmor_tables_${TEST_NAME}" make test_a_python
 endif
 test_fortran_old_cmor_tables: cmor
 	@env TEST_NAME="test_any_from_asc" INPUT_FILE="Test/tas_3D_noreorder.input" make test_case_old_cmor_tables

@@ -27,7 +27,7 @@ itim = cmor.axis(table_entry='time',units='months since 2030',interval='1 month'
 
 var = cmor.variable(table_entry='htovgyre',units='W',axis_ids=numpy.array([itim,ireg,ilat]))
 
-data = numpy.random.random((ntime,nreg,nlat))*50+200.
+data = numpy.random.random((ntime,nreg,nlat))*3.E14
 
 cmor.write(var,data)
 cmor.close()

@@ -21,7 +21,7 @@ esac
 CMOR_VERSION=${PACKAGE_VERSION}" (commit: ${GIT_TAG})"
 
 AC_PREFIX_DEFAULT([/usr/local/cmor])
-AC_CONFIG_FILES([Makefile setup.py compile_line.txt])
+AC_CONFIG_FILES([Makefile setup.py compile_line.txt include/cmor_locale.h])
 
 
 INCFILES="include/cmor.h  include/cmor_func_def.h include/cmor_md5.h "`ls -x --width=10000 include/cdTime/*.h include/cdTime/cdunifpp/*.h`

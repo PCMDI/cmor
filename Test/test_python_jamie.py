@@ -1,7 +1,7 @@
 import cmor
 
 def path_test():
-    cmor.setup(inpath='../trunk/Tables',netcdf_file_action=cmor.CMOR_REPLACE)
+    cmor.setup(inpath='TestTables',netcdf_file_action=cmor.CMOR_REPLACE)
 
     cmor.dataset('historical', 'ukmo', 'HadCM3', '360_day',model_id='HadCM3',forcing='Nat',
                  contact="J.T. Snow",

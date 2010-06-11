@@ -27,18 +27,18 @@ def main():
               'cell_bounds': [89, 91]},
              ]
 
-    values = numpy.array([0.], numpy.float32)
     axis_ids = list()
     for axis in axes:
         axis_id = cmor.axis(**axis)
         axis_ids.append(axis_id)
 
-    for var, units in (('ts', 'K'),  ('ps', 'hPa')):
+    for var, units, val in (('ts', 'K',278),  ('ps', 'hPa',974.2)):
         varid = cmor.variable(var,
                               units,
                               axis_ids,
                               )
 
+        values = numpy.array([val], numpy.float32)
         cmor.write(varid, values, time_vals = [15], time_bnds = [ [0,30] ])
 
     cmor.close()

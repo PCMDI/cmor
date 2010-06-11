@@ -1891,7 +1891,7 @@ esac
 CMOR_VERSION=${PACKAGE_VERSION}" (commit: ${GIT_TAG})"
 
 
-ac_config_files="$ac_config_files Makefile setup.py compile_line.txt"
+ac_config_files="$ac_config_files Makefile setup.py compile_line.txt include/cmor_locale.h"
 
 
 
@@ -5134,6 +5134,7 @@ do
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "setup.py") CONFIG_FILES="$CONFIG_FILES setup.py" ;;
     "compile_line.txt") CONFIG_FILES="$CONFIG_FILES compile_line.txt" ;;
+    "include/cmor_locale.h") CONFIG_FILES="$CONFIG_FILES include/cmor_locale.h" ;;
 
   *) { { echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
 echo "$as_me: error: invalid argument: $ac_config_target" >&2;}
