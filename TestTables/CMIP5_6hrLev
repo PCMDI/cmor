@@ -525,4 +525,52 @@ ok_min_mean_abs:   -0.0003539
 ok_max_mean_abs:   0.01027
 !----------------------------------
 !
+!============
+variable_entry:    ta
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     air_temperature
+units:             K
+cell_measures:      area: areacella
+long_name:         Air Temperature
+comment:           on all model levels
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude alevel time1
+out_name:          ta
+type:              real
+valid_min:         157.1
+valid_max:         326.4
+ok_min_mean_abs:   200.2
+ok_max_mean_abs:   289.9
+!----------------------------------
+
+!============
+variable_entry:    ps
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     surface_air_pressure
+units:             Pa
+cell_measures:      area: areacella
+long_name:         Surface Air Pressure
+comment:           surface pressure, not mean sea level pressure
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time1
+out_name:          ps
+type:              real
+valid_min:         4.792e+04
+valid_max:         1.093e+05
+ok_min_mean_abs:   9.606e+04
+ok_max_mean_abs:   9.743e+04
+!----------------------------------
+!
 

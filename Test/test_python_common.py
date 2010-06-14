@@ -112,8 +112,8 @@ def read_3d_input_files(it, varname, n0, n1, n2, ntimes):
 def read_2d_input_files(it, varname, n0, n1):
 
     if varname=="LATENT":
-        factor = 1.;
-        offset = 120.;
+        factor = 1.25;
+        offset = 100.;
     elif varname == "TSURF":
         factor = 2.0;
         offset = -230.;

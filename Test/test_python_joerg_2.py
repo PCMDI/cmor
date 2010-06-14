@@ -56,7 +56,7 @@ def test_mode(mode,i,suffix=''):
               'coord_vals': levels},
              ]
     
-    values = numpy.array(range(len(levels)), numpy.float32)+175
+    values = numpy.array(range(len(levels)), numpy.float32)+195
     axis_ids = list()
     for axis in axes:
         axis_id = cmor.axis(**axis)

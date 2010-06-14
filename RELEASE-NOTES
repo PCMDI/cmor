@@ -1,3 +1,5 @@
+2010-06-14 : expanded the CMOR_MAX_GRIDS to 100 form 10. And replaced the "10" in the code with CMOR_MAX_GRIDS
+2010-06-14 : updated python example and testtable to work w/o error about abs mean
 2010-06-11 : shorten the TestTables to a minimum so they can't be confused with the real one and used in production
 2010-06-11 : removed tables unused by examples
 2010-06-11 : add ${Prefix}/share to the list of locations where to search for tables

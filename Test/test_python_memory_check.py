@@ -114,13 +114,13 @@ def memory_check():
     memi,resi,stki = memory_usage(sys.stdout)
     
     for time in range(ntimes):
-        a = [273]
+        a = [275]
         if passtime:
             tval = [15 + time*30]
             tbounds = [time*30, (time + 1)*30]
-            cmor.write(varid, [273], time_vals = tval, time_bnds = tbounds)
+            cmor.write(varid, [275], time_vals = tval, time_bnds = tbounds)
         else:
-            cmor.write(varid, [273])
+            cmor.write(varid, [275])
         mem,res,stk = memory_usage(sys.stdout,mem,res,stk)
         #mem,res,stk = memory_usage(sys.stdout,memi,resi,stki)
         print '---'

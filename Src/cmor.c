@@ -2666,7 +2666,7 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
 	ierr = cmor_put_nc_char_attribute(ncafid,m,"grid_mapping_name",cmor_grids[cmor_vars[var_id].grid_id].mapping,cmor_vars[var_id].id);
 	for (k=0;k<cmor_grids[cmor_vars[var_id].grid_id].nattributes;k++){
 	  if (strcmp(cmor_grids[cmor_vars[var_id].grid_id].attributes_names[k],"standard_parallel1")==0 ||strcmp(cmor_grids[cmor_vars[var_id].grid_id].attributes_names[k],"standard_parallel2")==0 ){
-	    i = -cmor_vars[var_id].grid_id-10;
+	    i = -cmor_vars[var_id].grid_id-CMOR_MAX_GRIDS;
 	    if ((cmor_has_grid_attribute(i,"standard_parallel1")==0) && (cmor_has_grid_attribute(i,"standard_parallel2")==0)) {
 	      cmor_get_grid_attribute(i,"standard_parallel1",&tmps[0]);
 	      cmor_get_grid_attribute(i,"standard_parallel2",&tmps[1]);

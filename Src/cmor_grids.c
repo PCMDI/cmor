@@ -52,7 +52,7 @@ int cmor_copy_data(double **dest1, void *data, char type, int nelts) {
 int cmor_has_grid_attribute(int gid, char *name) {
   int i;
   int grid_id;
-  grid_id=-gid-10;
+  grid_id=-gid-CMOR_MAX_GRIDS;
   for (i=0;i<cmor_grids[grid_id].nattributes;i++) {
     if (strcmp(name,cmor_grids[grid_id].attributes_names[i])==0) return 0;
   }
@@ -62,7 +62,7 @@ int cmor_has_grid_attribute(int gid, char *name) {
 int cmor_get_grid_attribute(int gid, char *name, double *value) {
   int i,j;
   int grid_id;
-  grid_id=-gid-10;
+  grid_id=-gid-CMOR_MAX_GRIDS;
   j=-1;
   for (i=0;i<cmor_grids[grid_id].nattributes;i++) {
     if (strcmp(name,cmor_grids[grid_id].attributes_names[i])==0) j=i;
@@ -120,7 +120,7 @@ int cmor_set_grid_attribute(int gid, char *name, double *value, char *units) {
   double tmp;
 
   cmor_add_traceback("cmor_set_grid_attribute");
-  grid_id=-gid-10;
+  grid_id=-gid-CMOR_MAX_GRIDS;
   iatt = cmor_grids[grid_id].nattributes;
   tmp = *value;
 
@@ -429,7 +429,7 @@ int cmor_set_grid_mapping(int gid, char *name, int nparam, char **attributes_nam
     bchar += lnunits;
   }
 /*   for(i=0;i<nparam;i++) printf("ok paramter: %i is: %s, with value %lf and units '%s'\n",i,lattributes_names[i],attributes_values[i],lunits[i]); */
-  grid_id =  -gid-10;
+  grid_id =  -gid-CMOR_MAX_GRIDS;
 
   /* reads in grid definitions */
   cmor_grid_valid_mapping_attribute_names(name, &nattributes, grid_attributes,&ndims,grid_dimensions);
@@ -502,7 +502,7 @@ int cmor_time_varying_grid_coordinate(int *coord_grid_id, int  grid_id, char *ta
   char msg[CMOR_MAX_STRING];
   int ctype=-1;
   double *dummy_values;
-  int nvertices=cmor_grids[-grid_id-10].nvertices;
+  int nvertices=cmor_grids[-grid_id-CMOR_MAX_GRIDS].nvertices;
 
   axes[0]=grid_id;
 
@@ -511,9 +511,9 @@ int cmor_time_varying_grid_coordinate(int *coord_grid_id, int  grid_id, char *ta
 
   strcpy(msg,"not found");
   if (coordinate_type == NULL) {
-    for (j=0;j<cmor_tables[cmor_axes[cmor_grids[-grid_id-10].axes_ids[0]].ref_table_id].nvars;j++) {
-      if (strcmp(cmor_tables[cmor_axes[cmor_grids[-grid_id-10].axes_ids[0]].ref_table_id].vars[j].id,table_entry)==0) {
-	strncpy(msg,cmor_tables[cmor_axes[cmor_grids[-grid_id-10].axes_ids[0]].ref_table_id].vars[j].standard_name,CMOR_MAX_STRING);
+    for (j=0;j<cmor_tables[cmor_axes[cmor_grids[-grid_id-CMOR_MAX_GRIDS].axes_ids[0]].ref_table_id].nvars;j++) {
+      if (strcmp(cmor_tables[cmor_axes[cmor_grids[-grid_id-CMOR_MAX_GRIDS].axes_ids[0]].ref_table_id].vars[j].id,table_entry)==0) {
+	strncpy(msg,cmor_tables[cmor_axes[cmor_grids[-grid_id-CMOR_MAX_GRIDS].axes_ids[0]].ref_table_id].vars[j].standard_name,CMOR_MAX_STRING);
 	break;
       }
     }
@@ -546,10 +546,10 @@ int cmor_time_varying_grid_coordinate(int *coord_grid_id, int  grid_id, char *ta
       for (j=0;j<nvertices;j++) dummy_values[j]=(double)j;
       cmor_axis(&axes[1],"vertices","1",nvertices,dummy_values,'d',NULL,0,NULL);
       free(dummy_values);
-      cmor_grids[-grid_id-10].nvertices = axes[1];
+      cmor_grids[-grid_id-CMOR_MAX_GRIDS].nvertices = axes[1];
     }
     else {
-      axes[1] = cmor_grids[-grid_id-10].nvertices;
+      axes[1] = cmor_grids[-grid_id-CMOR_MAX_GRIDS].nvertices;
     }
     ierr = cmor_variable(coord_grid_id,table_entry,units,2,axes,type,missing,NULL,NULL,NULL,NULL,NULL);
     cmor_grids[cmor_vars[*coord_grid_id].grid_id].associated_variables[2] = *coord_grid_id;
@@ -574,10 +574,10 @@ int cmor_time_varying_grid_coordinate(int *coord_grid_id, int  grid_id, char *ta
       for (j=0;j<nvertices;j++) dummy_values[j]=(double)j;
       cmor_axis(&axes[1],"vertices","1",nvertices,dummy_values,'d',NULL,0,NULL);
       free(dummy_values);
-      cmor_grids[-grid_id-10].nvertices = axes[1];
+      cmor_grids[-grid_id-CMOR_MAX_GRIDS].nvertices = axes[1];
     }
     else {
-      axes[1] = cmor_grids[-grid_id-10].nvertices;
+      axes[1] = cmor_grids[-grid_id-CMOR_MAX_GRIDS].nvertices;
     }
     ierr = cmor_variable(coord_grid_id,table_entry,units,2,axes,type,missing,NULL,NULL,NULL,NULL,NULL);
     cmor_grids[cmor_vars[*coord_grid_id].grid_id].associated_variables[3] = *coord_grid_id;
@@ -644,7 +644,7 @@ int cmor_grid(int *grid_id, int ndims, int *axes_ids, char type, void *lat, void
     }
   }
   else {
-    axes[0]=-cmor_ngrids-10;
+    axes[0]=-cmor_ngrids-CMOR_MAX_GRIDS;
     if (cmor_grids[cmor_ngrids].istimevarying != 1) {
       cmor_copy_data(&cmor_grids[cmor_ngrids].lats,lat,type,n);
       cmor_variable(&cmor_grids[cmor_ngrids].associated_variables[0],"latitude","degrees_north",1,&axes[0],'d',NULL,NULL,NULL,NULL,NULL,NULL);
@@ -662,7 +662,7 @@ int cmor_grid(int *grid_id, int ndims, int *axes_ids, char type, void *lat, void
   }
   else {
     cmor_copy_data(&cmor_grids[cmor_ngrids].lons,lon,type,n);
-    axes[0]=-cmor_ngrids-10;
+    axes[0]=-cmor_ngrids-CMOR_MAX_GRIDS;
     /*     for (i=0;i<5;i++) printf("%i:  %lf\n",i,cmor_grids[cmor_ngrids].lons[i]); */
     cmor_variable(&cmor_grids[cmor_ngrids].associated_variables[1],"longitude","degrees_east",1,&axes[0],'d',NULL,NULL,NULL,NULL,NULL,NULL);
     cmor_vars[cmor_grids[cmor_ngrids].associated_variables[1]].needsinit=0;
@@ -727,7 +727,7 @@ int cmor_grid(int *grid_id, int ndims, int *axes_ids, char type, void *lat, void
   /*     cmor_variable(&cmor_grids[cmor_ngrids].associated_variables[4],"area","m2",1,&axes[0],'d',NULL,NULL,NULL,NULL,NULL,NULL); */
   /*     cmor_vars[cmor_grids[cmor_ngrids].associated_variables[4]].needsinit=0; */
   /*   } */
-  *grid_id = -cmor_ngrids-10;
+  *grid_id = -cmor_ngrids-CMOR_MAX_GRIDS;
   cmor_pop_traceback();
   return 0;
 }

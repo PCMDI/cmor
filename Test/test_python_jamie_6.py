@@ -155,7 +155,7 @@ for it in range(ntimes):
 
     time = numpy.array((it))
     bnds_time = numpy.array((it,it+1))
-    data3d = numpy.random.random((5,360,180)).astype('f')*100.
+    data3d = numpy.random.random((5,360,180)).astype('f')*40.
     
     error_flag = cmor.write(                                  
         var_id        = var3d_ids,                        

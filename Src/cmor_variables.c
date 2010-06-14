@@ -223,7 +223,7 @@ int cmor_zfactor (int *zvar_id,int axis_id, char *name, char *units, int ndims, 
 	}
 	else {
 	  /* ok irregular grid */
-	  gid = -axes_ids[i]-10;
+	  gid = -axes_ids[i]-CMOR_MAX_GRIDS;
 	  for (j=0;j<cmor_grids[gid].ndims;j++) {
 	    n*=cmor_axes[cmor_grids[gid].axes_ids[j]].length;
 	  }
@@ -296,7 +296,7 @@ int cmor_zfactor (int *zvar_id,int axis_id, char *name, char *units, int ndims, 
 	}
 	else {
 	  /* ok irregular grid */
-	  gid = -axes_ids[i]-10;
+	  gid = -axes_ids[i]-CMOR_MAX_GRIDS;
 	  for (j=0;j<cmor_grids[gid].ndims;j++) {
 	    if (cmor_axes[cmor_grids[gid].axes_ids[j]].axis=='T') {
 	      k=1;
@@ -695,13 +695,13 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
   /* ok we need to replace grids definitions with the grid axes */
   for (i=0;i<ndims;i++) {
     if (laxes_ids[i]<-9) { /* grid definition */
-      grid_id = -laxes_ids[i]-10;
+      grid_id = -laxes_ids[i]-CMOR_MAX_GRIDS;
       /* here we need to know if the refvar has been defined with lat/lon or in the grid space */
       k=0;
       for (j=0;j<refvar.ndims;j++) {
 	if (strcmp(cmor_tables[refvar.table_id].axes[refvar.dimensions[j]].id,"longitude")==0) k++;
 	if (strcmp(cmor_tables[refvar.table_id].axes[refvar.dimensions[j]].id,"latitude")==0) k++;
-	if (refvar.dimensions[j]==-10) k++;
+	if (refvar.dimensions[j]==-CMOR_MAX_GRIDS) k++;
       }
       if (k==2) { 
 	aint = cmor_grids[grid_id].ndims-2; /* basically replaces the lat/lon with the number of dims in our grid */
@@ -860,7 +860,7 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
       }
       k++;
     }
-    else if (refvar.dimensions[i]==-10) {
+    else if (refvar.dimensions[i]==-CMOR_MAX_GRIDS) {
       /* ok this is either a lat/lon */
       for(j=0;j<ndims;j++) if (axes_ids[j]<-9) break;
       l=j;
@@ -1012,7 +1012,7 @@ int cmor_set_var_def_att(cmor_var_def_t *var,char att[CMOR_MAX_STRING],char val[
 	  snprintf(msg,CMOR_MAX_STRING,"Reading table: axis name: '%s' for variable: '%s' is not defined in table. Table defines dimensions: '%s' for this variable",dim,var->id,val);cmor_handle_error(msg,CMOR_CRITICAL);
 	  }
 	  else {
-	    var->dimensions[var->ndims]=-10;
+	    var->dimensions[var->ndims]=-CMOR_MAX_GRIDS;
 	  }
 	}
       }

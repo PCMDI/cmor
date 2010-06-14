@@ -897,12 +897,12 @@ module cmor_users_functions
   integer, parameter:: CMOR_MAX_ELEMENTS = 500
   integer, parameter:: CMOR_MAX_AXES = CMOR_MAX_ELEMENTS*3
   integer, parameter:: CMOR_MAX_VARIABLES = CMOR_MAX_ELEMENTS
-  integer, parameter:: CMOR_MAX_GRIDS = 10
+  integer, parameter:: CMOR_MAX_GRIDS = 100
   integer, parameter:: CMOR_MAX_DIMENSIONS = 7
   integer, parameter:: CMOR_MAX_ATTRIBUTES = 100
   integer, parameter:: CMOR_MAX_ERRORS = 10
   integer, parameter:: CMOR_MAX_TABLES = 10
-  integer, parameter:: CMOR_MAX_GRID_ATTRIBUTES = 15
+  integer, parameter:: CMOR_MAX_GRID_ATTRIBUTES = 25
 
   integer, parameter:: CMOR_QUIET = 0
 

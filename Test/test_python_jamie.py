@@ -30,7 +30,7 @@ def path_test():
         axis_id = cmor.axis(**axis)
         axis_ids.append(axis_id)
     varid = cmor.variable('ts', 'K', axis_ids)
-    cmor.write(varid, [273])
+    cmor.write(varid, [275])
     path=cmor.close(varid, file_name=True)
 
     print path
