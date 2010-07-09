@@ -966,7 +966,7 @@ void cmor_init_var_def(cmor_var_def_t *var, int table_id)
 }
 
 int cmor_set_var_def_att(cmor_var_def_t *var,char att[CMOR_MAX_STRING],char val[CMOR_MAX_STRING] ){
-  int i,n,j,n0;
+  int i,n,j,n0,k;
   char dim[CMOR_MAX_STRING];
   char msg[CMOR_MAX_STRING];
 
@@ -988,6 +988,7 @@ int cmor_set_var_def_att(cmor_var_def_t *var,char att[CMOR_MAX_STRING],char val[
     strncpy(var->comment,val,CMOR_MAX_STRING);
   }
   else if (strcmp(att,"dimensions")==0) {
+    printf("var: %s, dims: %s\n",var->id,val);
     n0=strlen(val);
     for (i=0;i<n0;i++) {
       j=0;
@@ -1003,7 +1004,16 @@ int cmor_set_var_def_att(cmor_var_def_t *var,char att[CMOR_MAX_STRING],char val[
 	if (strcmp(dim,cmor_tables[var->table_id].axes[j].id)==0) {n=j;break;}
       }
       if (n==-1) {
-	if ((strcmp("zlevel",dim)==0)||(strcmp("olevel",dim)==0)||(strcmp("alevel",dim)==0)) {
+	printf("dim is: %s\n",dim);
+	j = strcmp("zlevel",dim);
+        j *= strcmp("alevel",dim);
+        j *= strcmp("olevel",dim);
+	for (k=0;k<CMOR_MAX_ELEMENTS;k++) {
+	  if (cmor_tables[var->table_id].generic_levels[k][0]=='\0') break;
+	  j*=strcmp(dim,cmor_tables[var->table_id].generic_levels[k]);
+	}
+
+	if (j==0) {
 	  /* printf("ignoring zlevel for now\n");*/
 	  var->dimensions[var->ndims]=-2;
 	}

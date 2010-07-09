@@ -966,7 +966,7 @@ def checkCMOR(fout,file,table,noerror=cmor.CMOR_CRITICAL,variable=None,from_boun
         for nm in axes_nmes:
             req_Att=['standard_name','units']
             anm = nm
-            if nm in [ 'alevel','olevel','zlevel']:
+            if nm in [ 'zlevel',]+e['general'].get('generic_levels','').split():
                 gnm=nm
                 manageLog(fout,VERBOSE, '\tChecking special case %s, i.e' % (nm),'')
                 tmpax=V.getLevel()

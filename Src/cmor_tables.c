@@ -43,6 +43,7 @@ void cmor_init_table(cmor_table_t *table, int id)
   for (i=0;i<CMOR_MAX_ELEMENTS;i++) {
     table->expt_ids[i][0]='\0';
     table->sht_expt_ids[i][0]='\0';
+    table->generic_levels[i][0]='\0';
   }
 
   cmor_pop_traceback();
@@ -75,6 +76,21 @@ int cmor_set_dataset_att(cmor_table_t *table, char att[CMOR_MAX_STRING],char val
       return 1;
     }
     table->cmor_version=d;
+  }
+  else if (strcmp(att,"generic_levels")==0) {
+    n=0;
+    i=0;
+    while(i<strlen(value)) {
+      while(value[i]==' ') i++;
+      j=0;
+      while (i<strlen(value) && value[i]!=' ') {
+	table->generic_levels[n][j]=value[i];
+	j++;
+	i++;
+      }
+      table->generic_levels[n][j]='\0';
+      n+=1;
+    }
   }
   else if (strcmp(att,"cf_version")==0) {
     d = atof(value);

@@ -20,7 +20,7 @@
 
 #define CMOR_VERSION_MAJOR 2
 #define CMOR_VERSION_MINOR 0
-#define CMOR_VERSION_PATCH 0
+#define CMOR_VERSION_PATCH 1
 #define CMOR_CF_VERSION_MAJOR 1
 #define CMOR_CF_VERSION_MINOR 4
 
@@ -260,6 +260,7 @@ typedef struct cmor_table_ {
   char **forcings;
   int nforcings;
   unsigned char md5[16];
+  char generic_levels[CMOR_MAX_ELEMENTS][CMOR_MAX_STRING];
 } cmor_table_t;
 
 extern cmor_table_t cmor_tables[CMOR_MAX_TABLES];
