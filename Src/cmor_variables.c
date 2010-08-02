@@ -988,7 +988,6 @@ int cmor_set_var_def_att(cmor_var_def_t *var,char att[CMOR_MAX_STRING],char val[
     strncpy(var->comment,val,CMOR_MAX_STRING);
   }
   else if (strcmp(att,"dimensions")==0) {
-    printf("var: %s, dims: %s\n",var->id,val);
     n0=strlen(val);
     for (i=0;i<n0;i++) {
       j=0;
@@ -1004,7 +1003,6 @@ int cmor_set_var_def_att(cmor_var_def_t *var,char att[CMOR_MAX_STRING],char val[
 	if (strcmp(dim,cmor_tables[var->table_id].axes[j].id)==0) {n=j;break;}
       }
       if (n==-1) {
-	printf("dim is: %s\n",dim);
 	j = strcmp("zlevel",dim);
         j *= strcmp("alevel",dim);
         j *= strcmp("olevel",dim);
