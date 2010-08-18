@@ -694,8 +694,16 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
   aint=0; /* just to know if we deal with  a grid */
   /* ok we need to replace grids definitions with the grid axes */
   for (i=0;i<ndims;i++) {
+    if (laxes_ids[i]>cmor_naxes) {
+      sprintf(msg,"For variable (%s) you requested axis_id (%i) that has not been defined yet",cmor_vars[vrid].id,laxes_ids[i]);
+      cmor_handle_error(msg,CMOR_CRITICAL);
+    }
     if (laxes_ids[i]<-9) { /* grid definition */
       grid_id = -laxes_ids[i]-CMOR_MAX_GRIDS;
+      if (grid_id>cmor_ngrids) {
+	sprintf(msg,"For variable (%s) you requested grid_id (%i) that has not been defined yet",cmor_vars[vrid].id,laxes_ids[i]);
+	cmor_handle_error(msg,CMOR_CRITICAL);
+      }
       /* here we need to know if the refvar has been defined with lat/lon or in the grid space */
       k=0;
       for (j=0;j<refvar.ndims;j++) {
@@ -1413,11 +1421,11 @@ int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int 
   }
   if (n_lower_min!=0) {
     snprintf(msg,CMOR_MAX_STRING,msg_min,n_lower_min);
-    cmor_handle_error(msg,CMOR_NORMAL);
+    cmor_handle_error(msg,CMOR_WARNING);
   }
   if (n_greater_max!=0) {
     snprintf(msg,CMOR_MAX_STRING,msg_max,n_greater_max);
-    cmor_handle_error(msg,CMOR_NORMAL);
+    cmor_handle_error(msg,CMOR_WARNING);
   }
   if (avar->ok_min_mean_abs!=(float)1.e20) {
     if (amean/nelts<.1*avar->ok_min_mean_abs) {
@@ -1426,7 +1434,7 @@ int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int 
     }
     if (amean/nelts<avar->ok_min_mean_abs) {
       snprintf(msg,CMOR_MAX_STRING, "Invalid Absolute Mean for variable '%s' (%.5g) is lower than minimum allowed: %.4g" , avar->id, amean/nelts, avar->ok_min_mean_abs);
-      cmor_handle_error(msg,CMOR_NORMAL);
+      cmor_handle_error(msg,CMOR_WARNING);
     }
   }
   if (avar->ok_max_mean_abs!=(float)1.e20) {
@@ -1436,7 +1444,7 @@ int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int 
     }
     if  (amean/nelts>avar->ok_max_mean_abs) {
       snprintf(msg,CMOR_MAX_STRING, "Invalid Absolute Mean for variable '%s' (%.5g) is greater than maximum allowed: %.4g" , avar->id, amean/nelts, avar->ok_max_mean_abs);
-    cmor_handle_error(msg,CMOR_NORMAL);
+    cmor_handle_error(msg,CMOR_WARNING);
     }
   }
   if (dounits==1) {

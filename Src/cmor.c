@@ -734,7 +734,7 @@ int cmor_setup(char *path,int *netcdf, int *verbosity, int *mode, char *logfile,
     cmor_handle_error(msg,CMOR_CRITICAL);
   }
   /* initialized dataset */
-  for (i=0;i<CMOR_MAX_ELEMENTS;i++) {
+  for (i=0;i<CMOR_MAX_ATTRIBUTES;i++) {
     cmor_current_dataset.attributes_names[i][0]='\0';
     cmor_current_dataset.attributes_values[i][0]='\0';
   }

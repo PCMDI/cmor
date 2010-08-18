@@ -1,3 +1,7 @@
+2010-08-18 : added a check for cmor_variables making sure axes/grid ids passed are valid
+2010-08-18 : downgraded abs min/max CRITICAL error to NORMAL
+2010-08-18 : dowgraded invalid min/max from NORMAL error to WARNING
+2010-08-10 : cmor_setup, was initalizing strings beyhond the max number fo elts, cause seg fault with python (loop was to CMOR_MAX_ELEMENTS when it should have been CMOR_MAX_ATTRIBUTES)
 2010-06-14 : expanded the CMOR_MAX_GRIDS to 100 form 10. And replaced the "10" in the code with CMOR_MAX_GRIDS
 2010-06-14 : updated python example and testtable to work w/o error about abs mean
 2010-06-11 : shorten the TestTables to a minimum so they can't be confused with the real one and used in production
