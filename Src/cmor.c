@@ -3223,6 +3223,7 @@ int cmor_create_output_path(int var_id,char *outpath)
   for (i=0;i<nurls;i++) {
     if (strncmp(outpath,urls[i],strlen(urls[i]))==0) createdirs=0;
   }
+  if (CMOR_CREATE_SUBDIRECTORIES == 1) createdirs=0;
   /* activity */
   strncpytrim(tmp,cmor_tables[cmor_vars[var_id].ref_table_id].project_id,CMOR_MAX_STRING);
   /* make sure you replace spaces with "_" */
