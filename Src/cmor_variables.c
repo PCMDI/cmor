@@ -212,6 +212,7 @@ int cmor_zfactor (int *zvar_id,int axis_id, char *name, char *units, int ndims, 
   /* printf("in zf:%s, %s, %i, %i\n",name,cmor_axes[axis_id].id,ndims,axes_ids[0]); */
   /* printf("in zf:%s, %s, %i, %i\n",name,cmor_axes[axis_id].id,cmor_axes[axis_id].hybrid_out,cmor_axes[axis_id].hybrid_in); */
   if (cmor_axes[axis_id].hybrid_out==cmor_axes[axis_id].hybrid_in) { /* no it's a normal hybrid, no conv */
+    printf("this cmor var: %s, %s, %i, %i, %c\n",name,units,ndims,axes_ids[0],type);
     i = cmor_variable(&var_id,name,units,ndims,axes_ids,type,NULL,NULL,NULL,NULL,NULL,NULL);
     cmor_vars[var_id].needsinit=0;
     cmor_vars[var_id].zaxis=axis_id;
@@ -688,12 +689,13 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
   /* before anything we copy axes_ids into laxes_ids */
   for (i=0;i<ndims;i++) {
     laxes_ids[i] = axes_ids[i];
-    /* printf("%s: axes[%i] = %i\n",cmor_vars[vrid].id,i,laxes_ids[i]); */
+    printf("%s: axes[%i] = %i\n",cmor_vars[vrid].id,i,laxes_ids[i]);
   }
   lndims=ndims;
   aint=0; /* just to know if we deal with  a grid */
   /* ok we need to replace grids definitions with the grid axes */
   for (i=0;i<ndims;i++) {
+    printf("ok lookinga t axes: %i, %s\n",laxes_ids[i],refvar.id);
     if (laxes_ids[i]>cmor_naxes) {
       sprintf(msg,"For variable (%s) you requested axis_id (%i) that has not been defined yet",cmor_vars[vrid].id,laxes_ids[i]);
       cmor_handle_error(msg,CMOR_CRITICAL);
@@ -728,6 +730,7 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
   }
   /* for(i=0;i<refvar.ndims;i++) fprintf(stderr,"after the grid id section: %i, id: %i\n",i,laxes_ids[i]); */
   olndims = lndims;
+  printf("ok: %i, %i, %i\n",refvar.ndims,aint,lndims);
   if (refvar.ndims+aint!=lndims) {
     lndims=0;
     /* ok before we panic we check if there is a "dummy" dim */
@@ -755,9 +758,11 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
 	  j-=1;
 	  /* ok then we create a dummy axis that we will add at the end of the axes */
 	  if (cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].bounds_value[0]!=1.e20) {
+	    printf("what!!!!\n");
 	    ierr = cmor_axis(&k,cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].id,cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].units,1,&cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].value,'d',&cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].bounds_value[0],2,"");
 	  }
 	  else {
+	    printf("CRAPPY\n");
 	    ierr = cmor_axis(&k,cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].id,cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].units,1,&cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].value,'d',NULL,0,"");
 	  }
 	  laxes_ids[ndims+lndims]=k;

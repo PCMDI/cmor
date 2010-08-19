@@ -1,3 +1,8 @@
+2010-08-19 : dimensions were always stored as double regardless of what the table wanted. Fixed
+2010-08-19 : go thru cmor_create_path to figure out isfixed and set frequency, even if directory layout is not required.
+2010-08-19 : checker: works with version number of format major.minor.patch
+2010-08-19 : checker: update git url from wich to fetch md5s tables
+2010-08-19 : forcings attribute can now end with notes in between parenthesis
 2010-08-18 : added a check for cmor_variables making sure axes/grid ids passed are valid
 2010-08-18 : downgraded abs min/max CRITICAL error to NORMAL
 2010-08-18 : dowgraded invalid min/max from NORMAL error to WARNING

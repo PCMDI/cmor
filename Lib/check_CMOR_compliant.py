@@ -15,7 +15,7 @@ try:
 except:
     try:
         import urllib2
-        url=urllib2.urlopen("http://esg-repo.llnl.gov/gitweb/?p=cmor.git;a=blob_plain;f=Tables/md5s;hb=HEAD")
+        url=urllib2.urlopen("http://esgf.org/gitweb/?p=cmip5-cmor-tables.git;a=blob_plain;f=Tables/md5s;hb=HEAD")
         ctrl_md5s=eval(url.read())
         url.close()
         del(url)
@@ -239,7 +239,6 @@ def checkCMOR(fout,file,table,noerror=cmor.CMOR_CRITICAL,variable=None,from_boun
     ##             Axes[a]['out_name']='eta'
 
     ver = e['general'].get('cmor_version',2.0)
-    ver = '%g' % float(ver)
     spver = ver.split('.')
     major = int(spver[0])
     if major>1:
@@ -386,7 +385,7 @@ def checkCMOR(fout,file,table,noerror=cmor.CMOR_CRITICAL,variable=None,from_boun
                 if not ok: 
                     nerr+=manageLog(fout, noerror, 'parent_experiment_id file attribute must be one of : %s, you have: %s' % (str(shrt_vals), fval) )
             elif att == 'forcing':
-                sp = fval.split(',')
+                sp = fval.split("(")[0].split(',')
                 forcings=e['general'].get("forcings")
                 for vl in sp:
                     if not vl.strip() in forcings:

@@ -64,8 +64,11 @@ void  cmor_check_forcing_validity(int table_id,char *value) {
   if (cmor_tables[table_id].nforcings==0) return;
 
   strcpy(astr,value);
+  found=0;
   for (i=0;i<strlen(astr);i++) {
     if (astr[i]==',') astr[i]=' ';
+    /* removes everything  after first paranthesis */
+    if (astr[i]=='(') astr[i]='\0';
   }
   cmor_convert_string_to_list(astr,'c',(void **)&bstr,&n);
   if (n==0) return;
@@ -1772,6 +1775,7 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
       isfixed = cmor_create_output_path(var_id,outname);
     }
     else {
+      isfixed = cmor_create_output_path(var_id,msg);
       strncpytrim(outname,cmor_current_dataset.outpath,CMOR_MAX_STRING);
     }
     strncat(outname,"/",CMOR_MAX_STRING-strlen(outname));
@@ -2433,7 +2437,22 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
     for (i=0;i<cmor_vars[var_id].ndims;i++) {
       if (cmor_axes[cmor_vars[var_id].axes_ids[i]].store_in_netcdf == 0) continue;
       if (cmor_axes[cmor_vars[var_id].axes_ids[i]].cvalues == NULL) {
-	ierr = nc_def_var(ncid,cmor_axes[cmor_vars[var_id].axes_ids[i]].id,NC_DOUBLE,1,&nc_dim[i],&nc_vars[i]);
+	/* first we need to figure out the output type */
+	switch (cmor_tables[cmor_axes[cmor_vars[var_id].axes_ids[i]].ref_table_id].axes[cmor_axes[cmor_vars[var_id].axes_ids[i]].ref_axis_id].type) {
+	case ('f') :
+	  j = NC_FLOAT;
+	  break;
+	case('d') :
+	  j = NC_DOUBLE;
+	  break;
+	case ('i') :
+	  j= NC_INT;
+	  break;
+	default:
+	  j=NC_DOUBLE;
+	  break;
+	}
+	ierr = nc_def_var(ncid,cmor_axes[cmor_vars[var_id].axes_ids[i]].id,j,1,&nc_dim[i],&nc_vars[i]);
 	if (ierr != NC_NOERR) {snprintf(msg,CMOR_MAX_STRING, "NetCDF Error (%i) for variable %s error defining dim var: %i (%s)",ierr,cmor_vars[var_id].id,i,cmor_axes[cmor_vars[var_id].axes_ids[i]].id);cmor_handle_error(msg,CMOR_CRITICAL);}
 
 	/* /\* table are different ? *\/ */
@@ -2462,7 +2481,7 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
 
 	nc_vars_af[i]=nc_vars[i];
 	if (ncid!=ncafid) {
-	  ierr = nc_def_var(ncafid,cmor_axes[cmor_vars[var_id].axes_ids[i]].id,NC_DOUBLE,1,&nc_dim_af[i],&nc_vars_af[i]);
+	  ierr = nc_def_var(ncafid,cmor_axes[cmor_vars[var_id].axes_ids[i]].id,j,1,&nc_dim_af[i],&nc_vars_af[i]);
 	  if (ierr != NC_NOERR) {snprintf(msg,CMOR_MAX_STRING, "NetCDF Error (%i) for variable %s error defining dim var: %i (%s) in metafile",ierr,cmor_vars[var_id].id,i,cmor_axes[cmor_vars[var_id].axes_ids[i]].id);cmor_handle_error(msg,CMOR_CRITICAL);}
 
 	  /* Compression stuff */
@@ -2534,7 +2553,21 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
 	}
 	dims_bnds_ids[0]=nc_dim[i];
 	dims_bnds_ids[1]=dim_bnds;
-	ierr = nc_def_var(ncafid,ctmp,NC_DOUBLE,2,&dims_bnds_ids[0],&nc_bnds_vars[i]);
+	switch (cmor_tables[cmor_axes[cmor_vars[var_id].axes_ids[i]].ref_table_id].axes[cmor_axes[cmor_vars[var_id].axes_ids[i]].ref_axis_id].type) {
+	case ('f') :
+	  j = NC_FLOAT;
+	  break;
+	case('d') :
+	  j = NC_DOUBLE;
+	  break;
+	case ('i') :
+	  j= NC_INT;
+	  break;
+	default:
+	  j=NC_DOUBLE;
+	  break;
+	}
+	ierr = nc_def_var(ncafid,ctmp,j,2,&dims_bnds_ids[0],&nc_bnds_vars[i]);
 	if (ierr != NC_NOERR) {snprintf(msg,CMOR_MAX_STRING, "NetCDF Error (%i) for variable %s error defining bounds dim var: %i (%s)",ierr,cmor_vars[var_id].id,i,cmor_axes[cmor_vars[var_id].axes_ids[i]].id);cmor_handle_error(msg,CMOR_CRITICAL);}
 
 	/* Compression stuff */
@@ -3351,6 +3384,7 @@ int cmor_create_output_path(int var_id,char *outpath)
       cmor_handle_error(tmp,CMOR_CRITICAL);
     }
   }
+
   cmor_set_cur_dataset_attribute("frequency",tmp,1);
   
   /* realm */
