@@ -212,7 +212,7 @@ int cmor_zfactor (int *zvar_id,int axis_id, char *name, char *units, int ndims, 
   /* printf("in zf:%s, %s, %i, %i\n",name,cmor_axes[axis_id].id,ndims,axes_ids[0]); */
   /* printf("in zf:%s, %s, %i, %i\n",name,cmor_axes[axis_id].id,cmor_axes[axis_id].hybrid_out,cmor_axes[axis_id].hybrid_in); */
   if (cmor_axes[axis_id].hybrid_out==cmor_axes[axis_id].hybrid_in) { /* no it's a normal hybrid, no conv */
-    printf("this cmor var: %s, %s, %i, %i, %c\n",name,units,ndims,axes_ids[0],type);
+    /*printf("this cmor var: %s, %s, %i, %i, %c\n",name,units,ndims,axes_ids[0],type);*/
     i = cmor_variable(&var_id,name,units,ndims,axes_ids,type,NULL,NULL,NULL,NULL,NULL,NULL);
     cmor_vars[var_id].needsinit=0;
     cmor_vars[var_id].zaxis=axis_id;
