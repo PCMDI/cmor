@@ -3295,6 +3295,13 @@ int cmor_create_output_path(int var_id,char *outpath)
 
   /* experiment id */
   cmor_get_cur_dataset_attribute("experiment_id",tmp);
+  /* ok here we check the exptid is ok */
+  if (cmor_check_expt_id(tmp,cmor_vars[var_id].ref_table_id,"experiment","experiment_id")!=0) {
+    snprintf(tmp2,CMOR_MAX_STRING,"Invalid dataset experiment id: %s, check against table: %s",tmp,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
+    cmor_handle_error(tmp2,CMOR_NORMAL);
+    cmor_pop_traceback();
+    return 1;
+  }
   /* ok here we need to reset the expt id to the shrt name if necessary */
   for (i=0;i<=cmor_tables[cmor_vars[var_id].ref_table_id].nexps;i++) {
 /*     printf("i: %i, lng expt: %s\n",i,cmor_tables[cmor_vars[var_id].ref_table_id].expt_ids[i]); */

@@ -695,7 +695,6 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
   aint=0; /* just to know if we deal with  a grid */
   /* ok we need to replace grids definitions with the grid axes */
   for (i=0;i<ndims;i++) {
-    printf("ok lookinga t axes: %i, %s\n",laxes_ids[i],refvar.id);
     if (laxes_ids[i]>cmor_naxes) {
       sprintf(msg,"For variable (%s) you requested axis_id (%i) that has not been defined yet",cmor_vars[vrid].id,laxes_ids[i]);
       cmor_handle_error(msg,CMOR_CRITICAL);
@@ -730,7 +729,6 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
   }
   /* for(i=0;i<refvar.ndims;i++) fprintf(stderr,"after the grid id section: %i, id: %i\n",i,laxes_ids[i]); */
   olndims = lndims;
-  printf("ok: %i, %i, %i\n",refvar.ndims,aint,lndims);
   if (refvar.ndims+aint!=lndims) {
     lndims=0;
     /* ok before we panic we check if there is a "dummy" dim */

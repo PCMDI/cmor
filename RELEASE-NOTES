@@ -1,3 +1,5 @@
+2010-08-23 : tagging 2.1
+2010-08-23 : create_output_path doesn't need to be called b4 cmor_write any more.
 2010-08-19 : dimensions were always stored as double regardless of what the table wanted. Fixed
 2010-08-19 : go thru cmor_create_path to figure out isfixed and set frequency, even if directory layout is not required.
 2010-08-19 : checker: works with version number of format major.minor.patch
