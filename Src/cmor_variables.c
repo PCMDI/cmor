@@ -1480,9 +1480,9 @@ int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int 
       }
       
       if (time_bounds!=NULL) {
-	
 	counts2[0]=counts[0];
 	counts2[1]=2;
+	starts[1]=0;
 	cmor_get_axis_attribute(avar->axes_ids[0],"units",'c',&msg);
 	cmor_get_cur_dataset_attribute("calendar",msg2);
 	
@@ -1592,6 +1592,7 @@ int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int 
 	/* ok at that stage the recentering must already be done so we just need to write the bounds */
 	counts2[0]=counts[0];
 	counts2[1]=2;
+	starts[1]=0;
 	ierr = nc_put_vara_double(ncid,avar->time_bnds_nc_id,starts,counts2,&cmor_axes[avar->axes_ids[0]].bounds[starts[0]*2]);
 	if (ierr != NC_NOERR) {snprintf(msg,CMOR_MAX_STRING,"NCError (%i) writting time bounds values for variable '%s'",ierr,avar->id);cmor_handle_error(msg,CMOR_CRITICAL);}
 	/* /\* ok we need to store first and last bounds *\/ */

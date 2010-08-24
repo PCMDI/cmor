@@ -1,3 +1,4 @@
+2010-08-24 : when writing time only variables, the time_bnds would fail to write if passed at cmor_write time.
 2010-08-23 : tagging 2.2
 2010-08-23 : DRS was wrongly constructed for table Oclim
 2010-08-23 : tagging 2.1
