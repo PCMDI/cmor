@@ -467,7 +467,6 @@ static PyObject *
     bounds = (void *)bounds_array->data;
   }
   
-  printf("ok sending %i, %i, %s, %s, %i, %i, %c\n",zvar_id,axis_id, name, units, ndims, axes_ids[0], type);
   ierr = cmor_zfactor(&zvar_id,axis_id, name, units, ndims, axes_ids, type, values, bounds);
   if (axes!=NULL) {Py_DECREF(axes);}
   if (values_array!=NULL) {Py_DECREF(values_array);}

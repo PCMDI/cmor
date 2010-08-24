@@ -3382,7 +3382,16 @@ int cmor_create_output_path(int var_id,char *outpath)
 
   /*Ok in case of climatology needs to add "clim" to it */
   if (cmor_tables[cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_table_id].axes[cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_axis_id].climatology==1) {
-	strncat(tmp,"Clim",CMOR_MAX_STRING-strlen(tmp));	
+    /* ok in some case the table fqcy already has the clim in it..... */
+    j=-1;
+    for (i=0;i<strlen(cmor_tables[cmor_vars[var_id].ref_table_id].frequency)-3;i++) {
+      if (strncmp(&cmor_tables[cmor_vars[var_id].ref_table_id].frequency[i],"Clim",4)==0) {
+	j=1;
+	break;
+      }
+    }
+    if (j==-1) strncat(tmp,"Clim",CMOR_MAX_STRING-strlen(tmp));
+    else strncpy(tmp,cmor_tables[cmor_vars[var_id].ref_table_id].frequency,CMOR_MAX_STRING);
   }
   strncattrim(outpath,tmp,CMOR_MAX_STRING-strlen(outpath));
   strncat(outpath,"/",CMOR_MAX_STRING-strlen(outpath));

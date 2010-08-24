@@ -689,7 +689,6 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
   /* before anything we copy axes_ids into laxes_ids */
   for (i=0;i<ndims;i++) {
     laxes_ids[i] = axes_ids[i];
-    printf("%s: axes[%i] = %i\n",cmor_vars[vrid].id,i,laxes_ids[i]);
   }
   lndims=ndims;
   aint=0; /* just to know if we deal with  a grid */

@@ -1,3 +1,5 @@
+2010-08-23 : tagging 2.2
+2010-08-23 : DRS was wrongly constructed for table Oclim
 2010-08-23 : tagging 2.1
 2010-08-23 : create_output_path doesn't need to be called b4 cmor_write any more.
 2010-08-19 : dimensions were always stored as double regardless of what the table wanted. Fixed
