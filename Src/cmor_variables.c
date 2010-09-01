@@ -731,7 +731,7 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
   if (refvar.ndims+aint!=lndims) {
     lndims=0;
     /* ok before we panic we check if there is a "dummy" dim */
-    j=refvar.ndims-ndims+aint;
+    j=refvar.ndims-olndims+aint;
     for (i=0;i<refvar.ndims;i++) {
 /*       printf("ok none matchng # of dims, i: %d, id: %s, value: %lf, lndims is: %d\n",i,cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].id,cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].value,olndims); */
       if (cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].value!=1.e20) {

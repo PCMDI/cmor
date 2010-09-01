@@ -19,17 +19,17 @@ xmlns:css="http://macVmlSchemaUri" xmlns="http://www.w3.org/TR/REC-html40">
   <o:Template>Normal.dotm</o:Template>
   <o:LastAuthor>Default</o:LastAuthor>
   <o:Revision>2</o:Revision>
-  <o:TotalTime>0</o:TotalTime>
-  <o:LastPrinted>2010-08-18T15:33:00Z</o:LastPrinted>
-  <o:Created>2010-08-18T15:33:00Z</o:Created>
-  <o:LastSaved>2010-08-18T15:33:00Z</o:LastSaved>
-  <o:Pages>13</o:Pages>
-  <o:Words>23780</o:Words>
-  <o:Characters>135551</o:Characters>
+  <o:TotalTime>1</o:TotalTime>
+  <o:LastPrinted>2010-09-01T23:33:00Z</o:LastPrinted>
+  <o:Created>2010-09-01T23:34:00Z</o:Created>
+  <o:LastSaved>2010-09-01T23:34:00Z</o:LastSaved>
+  <o:Pages>6</o:Pages>
+  <o:Words>23769</o:Words>
+  <o:Characters>135487</o:Characters>
   <o:Company>PCMDI</o:Company>
   <o:Lines>1129</o:Lines>
-  <o:Paragraphs>271</o:Paragraphs>
-  <o:CharactersWithSpaces>166466</o:CharactersWithSpaces>
+  <o:Paragraphs>270</o:Paragraphs>
+  <o:CharactersWithSpaces>166387</o:CharactersWithSpaces>
   <o:Version>12.0</o:Version>
  </o:DocumentProperties>
  <o:OfficeDocumentSettings>
@@ -81,7 +81,6 @@ xmlns:css="http://macVmlSchemaUri" xmlns="http://www.w3.org/TR/REC-html40">
 	panose-1:5 2 1 2 1 8 4 8 7 8;
 	mso-font-charset:2;
 	mso-generic-font-family:auto;
-	mso-font-format:other;
 	mso-font-pitch:variable;
 	mso-font-signature:0 0 65536 0 -2147483648 0;}
 @font-face
@@ -1390,7 +1389,7 @@ style='font-size:14.0pt'>Charles Doutriaux, Karl E. Taylor<o:p></o:p></span></p>
 style='font-size:14.0pt'><span style='mso-element:field-begin'></span><span
 style="mso-spacerun: yes">&nbsp;</span>TIME \@ &quot;MMMM d, yyyy&quot; <span
 style='mso-element:field-separator'></span></span><![endif]--><span
-style='font-size:14.0pt'><span style='mso-no-proof:yes'>August 18, 2010</span></span><!--[if supportFields]><span
+style='font-size:14.0pt'><span style='mso-no-proof:yes'>September 1, 2010</span></span><!--[if supportFields]><span
 style='font-size:14.0pt'><span style='mso-element:field-end'></span></span><![endif]--><span
 style='font-size:14.0pt'><o:p></o:p></span></p>
 
@@ -3561,7 +3560,7 @@ values can be made only if CMOR is built with CDMS.) These units must be
 recognized by udunits or must be identical to the units specified in the MIP
 table.<span style="mso-spacerun: yes">&nbsp; </span>In the case of a
 dimensionless vertical coordinate or in the case of a non-numerical axis (like
-geographical region), either set units='none', or, optionally, set units='1'.</p>
+geographical region), either set units=’’, or, optionally, set units='1'.</p>
 
 <p class=MsoNormal style='margin-left:1.0in;text-align:justify;text-indent:
 -.5in'>[length] = integer specifying the number of elements that CMOR should
@@ -4238,8 +4237,7 @@ indicate missing data for this variable.<span style="mso-spacerun: yes">&nbsp;
 style="mso-spacerun: yes">&nbsp; </span>This missing_value will in general be
 replaced by a standard missing_value specified in the MIP table.<span
 style="mso-spacerun: yes">&nbsp; </span>If there are no missing data, and the
-user chooses not to declare the missing value, then this argument may be either
-omitted or assigned the value 'none' (i.e., missing_value='none').<o:p></o:p></span></p>
+user chooses not to declare the missing value, then this argument may be omitted.<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:1.0in;text-align:justify;text-indent:
 -.5in'><span style='color:blue;background:silver;mso-highlight:silver'>[coordinate_type]
@@ -4358,7 +4356,7 @@ written to the netCDF file by CMOR.) .<span style="mso-spacerun: yes">&nbsp;
 </span>These units must be recognized by udunits or must be identical to the
 units specified in the MIP table.<span style="mso-spacerun: yes">&nbsp;
 </span>In the case of a dimensionless z-factors, either omit this argument, or
-set units='none', or set units='1'.</p>
+set units=’’, or set units='1'.</p>
 
 <p class=MsoNormal style='margin-left:1.0in;text-align:justify;text-indent:
 -.5in'><span style='color:blue'>type = type of the zfactor_values and zfactor_bounds
@@ -4533,8 +4531,9 @@ that will be passed to cmor_write.<span style="mso-spacerun: yes">&nbsp;
 </span>This missing_value will in general be replaced by a standard
 missing_value specified in the MIP table.<span style="mso-spacerun: yes">&nbsp;
 </span>If there are no missing data, and the user chooses not to declare the
-missing value, then this argument may be either omitted or assigned the value
-'none' (i.e., missing_value='none').</p>
+missing value, then this argument may be omitted <s><span style='background:
+silver;mso-highlight:silver'>or assigned the value 'none' (i.e.,
+missing_value='none'</span>).</s></p>
 
 <p class=MsoNormal style='margin-left:1.0in;text-align:justify;text-indent:
 -.5in'>[tolerance] = scalar (type real) indicating fractional tolerance allowed
@@ -5597,8 +5596,8 @@ many axes (see annex on CMOR limits)<o:p></o:p></span></p>
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.25in;mso-list:l36 level1 lfo25'><![if !supportLists]><span
 style='font-size:10.0pt;mso-bidi-font-size:14.0pt'><span style='mso-list:Ignore'>78.<span
 style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></span></span><![endif]><span
-style='font-size:10.0pt;mso-bidi-font-size:14.0pt'>Defining variable with axes ids
-that are not valid.<o:p></o:p></span></p>
+style='font-size:10.0pt;mso-bidi-font-size:14.0pt'>Defining variable with axes
+ids that are not valid.<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.25in;mso-list:l36 level1 lfo25'><![if !supportLists]><span
 style='font-size:10.0pt;mso-bidi-font-size:14.0pt'><span style='mso-list:Ignore'>79.<span
@@ -6033,8 +6032,8 @@ INTENT(OUT), DIMENSION(:,:) :: bnds_lat<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>DOUBLE PRECISION,
-INTENT(OUT), DIMENSION(:,:) :: bnds_lon<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>DOUBLE PRECISION, INTENT(OUT),
+DIMENSION(:,:) :: bnds_lon<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -6054,8 +6053,8 @@ style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>DO i = 1, SIZE(alons)<o:p></
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>alons(i) =
-(i-1)*360./SIZE(alons)<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>alons(i)
+= (i-1)*360./SIZE(alons)<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -6091,9 +6090,8 @@ style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;</span><span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>bnds_lat(2,i) = (size(alats)+1-i)*10
-- 5.<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>bnds_lat(2,i) = (size(alats)+1-i)*10 - 5.<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -6165,7 +6163,8 @@ style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span><o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>INTEGER, INTENT(IN) :: it<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;</span><span style="mso-spacerun:
+yes">&nbsp;&nbsp; </span>INTEGER, INTENT(IN) :: it<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -6174,8 +6173,8 @@ INTENT(OUT) :: time<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>DOUBLE PRECISION, INTENT(OUT),
-DIMENSION(2,1) :: time_bnds<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>DOUBLE PRECISION,
+INTENT(OUT), DIMENSION(2,1) :: time_bnds<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -6403,7 +6402,8 @@ style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span><o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>INTEGER :: i, j<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp; </span><span style="mso-spacerun:
+yes">&nbsp;</span>INTEGER :: i, j<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -6420,7 +6420,8 @@ style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span><o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>tmp = TRIM(ADJUSTL(varname))<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>tmp =
+TRIM(ADJUSTL(varname))<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -6456,8 +6457,8 @@ style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>factor =
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>offset =
--220.<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style="mso-spacerun: yes">&nbsp;&nbsp;</span>offset = -220.<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -6479,8 +6480,8 @@ style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>CASE ('PSURF')<o:p></o:p></s
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp; </span><span
-style="mso-spacerun: yes">&nbsp;&nbsp;</span>factor = 100.<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>factor =
+100.<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -6712,8 +6713,10 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>!<span
 style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>with evolving code design<o:p></o:p></span></p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>with
+evolving code design<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><o:p>&nbsp;</o:p></span></p>
@@ -6758,9 +6761,8 @@ process<o:p></o:p></span></p>
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
 style="mso-spacerun: yes">&nbsp; </span>INTEGER, PARAMETER :: lon = 4<span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
-style="mso-spacerun: yes">&nbsp;</span>! number of longitude grid cells<span
-style="mso-spacerun: yes">&nbsp; </span><o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>! number
+of longitude grid cells<span style="mso-spacerun: yes">&nbsp; </span><o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -6802,8 +6804,8 @@ of IPCC Table A1c fields to <o:p></o:p></span></p>
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
 style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>!<span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp; </span>be output.<span
-style="mso-spacerun: yes">&nbsp; </span><o:p></o:p></span></p>
+</span>!<span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp; </span>be
+output.<span style="mso-spacerun: yes">&nbsp; </span><o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><o:p>&nbsp;</o:p></span></p>
@@ -6857,9 +6859,8 @@ style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier N
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
 style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span><span style="mso-spacerun: yes">&nbsp;</span>! My variable names for
-IPCC Table A1c fields<o:p></o:p></span></p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>! My variable names for IPCC Table A1c fields<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -6871,7 +6872,8 @@ style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier N
 style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>varin3d=(/'CLOUD', 'U<span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
-</span>', 'T<span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>'/)<o:p></o:p></span></p>
+</span>', 'T<span style="mso-spacerun: yes">&nbsp;&nbsp; </span><span
+style="mso-spacerun: yes">&nbsp;</span>'/)<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><o:p>&nbsp;</o:p></span></p>
@@ -6916,10 +6918,8 @@ style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier N
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
 style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span><span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>! My
-variable names for IPCC Table A1a fields<o:p></o:p></span></p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>! My variable names for IPCC Table A1a fields<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -6966,9 +6966,10 @@ style="mso-spacerun: yes">&nbsp;&nbsp; </span>CHARACTER (LEN=4), DIMENSION(n2d)
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
 style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>positive2d= (/<span style="mso-spacerun: yes">&nbsp; </span>'down',<span
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>positive2d=
+(/<span style="mso-spacerun: yes">&nbsp; </span>'down',<span
 style="mso-spacerun: yes">&nbsp; </span>'<span style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp; </span>', '<span style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp; </span>', '<span style="mso-spacerun:
@@ -7006,7 +7007,8 @@ communicating with CMOR:<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>!<span
-style="mso-spacerun: yes">&nbsp; </span>---------------------------------------------------------<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;
+</span>---------------------------------------------------------<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><o:p>&nbsp;</o:p></span></p>
@@ -7177,10 +7179,9 @@ pressure coordinate values into <o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;</span><span style="mso-spacerun:
-yes">&nbsp;</span>!<span style="mso-spacerun: yes">&nbsp;&nbsp; </span>alats,
-alons, and plevs, respectively.<span style="mso-spacerun: yes">&nbsp;
-</span>Also generate latitude and <o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp; </span>!<span style="mso-spacerun:
+yes">&nbsp;&nbsp; </span>alats, alons, and plevs, respectively.<span
+style="mso-spacerun: yes">&nbsp; </span>Also generate latitude and <o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -7307,8 +7308,8 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>experiment_id='abrupt 4XCO2',<span style="mso-spacerun:
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>experiment_id='abrupt
+4XCO2',<span style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&amp;<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
@@ -7320,9 +7321,8 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp; </span><span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>'GICC (Generic International Climate
-Center, ' //<span style="mso-spacerun:
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>'GICC
+(Generic International Climate Center, ' //<span style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&amp;<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
@@ -7370,9 +7370,8 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
 style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>realization=1,<span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span><span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&amp;<o:p></o:p></span></p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&amp;<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -7410,8 +7409,8 @@ style="mso-spacerun: yes">&nbsp;&nbsp; </span>&amp;<o:p></o:p></span></p>
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
 style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>'(J.
-Geophys. Res., 2001, 576-591).<span style="mso-spacerun: yes">&nbsp;
-</span>Also '<span style="mso-spacerun:
+Geophys. Res., 2001, 576-591). <span style="mso-spacerun:
+yes">&nbsp;</span>Also '<span style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>//<span
 style="mso-spacerun: yes">&nbsp;&nbsp; </span>&amp;<o:p></o:p></span></p>
 
@@ -7424,9 +7423,10 @@ yes">&nbsp;&nbsp; </span>&amp;<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>' 2XCO2 simulation
-described in Dorkey et al. '<span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
-</span>//<span style="mso-spacerun: yes">&nbsp;&nbsp; </span>&amp;<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>' 2XCO2
+simulation described in Dorkey et al. '<span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp; </span>//<span style="mso-spacerun: yes">&nbsp;&nbsp;
+</span>&amp;<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -7440,8 +7440,8 @@ style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>parent_experiment_id=&quot;N/A&quot;,branch_time=bt)<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp; </span><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>parent_experiment_id=&quot;N/A&quot;,branch_time=bt)<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -7505,8 +7505,7 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span><span style="mso-spacerun:
-yes">&nbsp;&nbsp;</span><o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -7534,9 +7533,9 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>units='degrees_east',<span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&amp;<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>units='degrees_east',<span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&amp;<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -7581,8 +7580,9 @@ style="mso-spacerun: yes">&nbsp; </span><o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>length=lat,<span style="mso-spacerun:
+style="mso-spacerun: yes">&nbsp;</span><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>length=lat,<span
+style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>&amp;<o:p></o:p></span></p>
 
@@ -7624,8 +7624,8 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&amp;<o:p></o:p></span></p>
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
 style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>length=lon,<span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>&amp;<o:p></o:p></span></p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;</span>&amp;<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -7671,8 +7671,9 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&amp;<o:p></o:p></span></p>
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
 style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>units='Pa',<span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>&amp;<o:p></o:p></span></p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&amp;<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -7728,8 +7729,9 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&amp;<o
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>units='days
-since 2030-1-1',<span style="mso-spacerun: yes">&nbsp; </span>&amp;<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>units='days since 2030-1-1',<span style="mso-spacerun: yes">&nbsp;
+</span>&amp;<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -7924,8 +7926,8 @@ style="mso-spacerun: yes">&nbsp; </span>&amp;<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>zaxis_id=ilev,<span
-style="mso-spacerun:
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>zaxis_id=ilev,<span style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>&amp; <o:p></o:p></span></p>
 
@@ -7966,8 +7968,8 @@ style="mso-spacerun: yes">&nbsp; </span>&amp;<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>zaxis_id=ilev,<span
-style="mso-spacerun:
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>zaxis_id=ilev,<span style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>&amp;<o:p></o:p></span></p>
 
@@ -8007,8 +8009,8 @@ style="mso-spacerun: yes">&nbsp; </span>&amp;<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>zaxis_id=ilev,<span
-style="mso-spacerun:
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>zaxis_id=ilev,<span style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>&amp;<o:p></o:p></span></p>
 
@@ -8067,7 +8069,8 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp; </span>&amp;<o:p></o:p></span></p>
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
 style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>units=units3d(1),<span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&amp;<o:p></o:p></span></p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;</span>&amp;<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -8150,8 +8153,7 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&amp;<o:p></o:p></span></p>
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
 style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>original_name=varin3d(m))<o:p></o:p></span></p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>original_name=varin3d(m))<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -8171,8 +8173,7 @@ style="mso-spacerun: yes">&nbsp; </span>!<span style="mso-spacerun: yes">&nbsp;
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;</span><span style="mso-spacerun:
-yes">&nbsp;</span><o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp; </span><o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -8216,9 +8217,10 @@ ilon, ilat, itim /), &amp;<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
-style="mso-spacerun: yes">&nbsp;&nbsp;</span>missing_value=1.0e28,<span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&amp;<o:p></o:p></span></p>
+style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>missing_value=1.0e28,<span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&amp;<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -8241,7 +8243,8 @@ style="mso-spacerun: yes">&nbsp; </span>else<o:p></o:p></span></p>
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
 style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp; </span>var2d_ids(m) =
-cmor_variable(<span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>&amp;<o:p></o:p></span></p>
+cmor_variable(<span style="mso-spacerun: yes">&nbsp; </span><span
+style="mso-spacerun: yes">&nbsp;&nbsp;</span>&amp;<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -8260,8 +8263,8 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp; </span>&amp; <o:p></o:p></span></p>
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
 style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>units=units2d(m),<span
-style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>units=units2d(m),<span style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&amp; <o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
@@ -8372,8 +8375,8 @@ table A1c and table A1a fields and store them in <o:p></o:p></span></p>
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
 style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp; </span>! data3d and data2d,
-respectively.<span style="mso-spacerun: yes">&nbsp; </span>In addition a
-user-written code <o:p></o:p></span></p>
+respectively.<span style="mso-spacerun: yes">&nbsp; </span>In addition a user-written
+code <o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -8456,18 +8459,18 @@ style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
 style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>data<span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>=
-data3d,<span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>data<span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>= data3d,<span
+style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>&amp;<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
 style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>ntimes_passed = 1,<span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span><span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&amp;<o:p></o:p></span></p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&amp;<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -8505,11 +8508,10 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
-style="mso-spacerun: yes">&nbsp;</span>var_id<span style="mso-spacerun:
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>var_id<span style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>= zfactor_id,<span
-style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>&amp;<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
@@ -8524,8 +8526,8 @@ data2d,<span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
 style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>ntimes_passed = 1,<span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>&amp;<o:p></o:p></span></p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&amp;<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -8537,9 +8539,9 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
-style="mso-spacerun: yes">&nbsp;</span>time_bnds<span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp; </span>= bnds_time,<span style="mso-spacerun:
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>time_bnds<span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;
+</span>= bnds_time,<span style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>&amp;<o:p></o:p></span></p>
 
@@ -8643,12 +8645,12 @@ style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
 style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>data<span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>= data3d,<span
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>data<span
 style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>=
+data3d,<span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>&amp;<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
@@ -8656,9 +8658,8 @@ style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier N
 style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>ntimes_passed = 1,<span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
-style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&amp;<o:p></o:p></span></p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&amp;<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -8681,8 +8682,8 @@ style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><o:p
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>IF
-(error_flag &lt; 0) THEN<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style="mso-spacerun: yes">&nbsp;</span>IF (error_flag &lt; 0) THEN<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -8693,8 +8694,8 @@ write diagnostic messages to standard output device<o:p></o:p></span></p>
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
 style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>write(*,*)
-' Error encountered writing IPCC Table A1c ' &amp;<o:p></o:p></span></p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>write(*,*) ' Error encountered writing IPCC Table A1c ' &amp;<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -8790,8 +8791,8 @@ append a single time sample of data for a single field to <o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;</span><span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>! the appropriate netCDF file.<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>!
+the appropriate netCDF file.<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><o:p>&nbsp;</o:p></span></p>
@@ -8809,8 +8810,9 @@ style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>var_id<span style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>= var2d_ids(m),<span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>&amp;<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&amp;<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -8891,8 +8893,7 @@ IF<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp; </span><span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -8933,8 +8934,7 @@ style="mso-spacerun: yes">&nbsp; </span>print*, ' '<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp; </span>print*,
-'******************************'<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp; </span>print*, '******************************'<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -9012,8 +9012,7 @@ read_time(it, time, time_bnds)<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp; </span><span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;</span>int it;<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp; </span>int it;<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -9160,8 +9159,8 @@ style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>for (j=0;j&lt;n1;j++) {<o:p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>for
-(i=0;i&lt;n0;i++) {<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>for (i=0;i&lt;n0;i++)
+{<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -9542,8 +9541,8 @@ style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>x[i]=i;<o:p></o:
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>lon_coords[i+j*lon] = lon0+delta_lon*(j+1+i);<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>lon_coords[i+j*lon]
+= lon0+delta_lon*(j+1+i);<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -9572,8 +9571,8 @@ style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>lon_vertices[i*4+j*lon*4+1] = lon_coords[i+j*lon];<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>lon_vertices[i*4+j*lon*4+1]
+= lon_coords[i+j*lon];<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -9597,8 +9596,9 @@ style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>lat_vertices[i*4+j*lon*4+1] = lat_coords[i+j*lon]-delta_lat;<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;</span><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp; </span>lat_vertices[i*4+j*lon*4+1] =
+lat_coords[i+j*lon]-delta_lat;<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -9703,8 +9703,8 @@ output starting with nominal date of January 2030&quot;,<o:p></o:p></span></p>
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
 style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>&quot;Model described by Koder and Tolkien (J. Geophys. Res., 2001,
-576-591).<span style="mso-spacerun: yes">&nbsp; </span>Also see
+</span>&quot;Model described by Koder and Tolkien (J. Geophys. Res., 2001, 576-591).<span
+style="mso-spacerun: yes">&nbsp; </span>Also see
 http://www.GICC.su/giccm/doc/index.html<span style="mso-spacerun: yes">&nbsp;
 </span>2XCO2 simulation described in Dorkey et al. '(Clim. Dyn., 2003,
 323-357.)&quot;,<o:p></o:p></span></p>
@@ -9738,7 +9738,8 @@ cmor_load_table(&quot;Tables/CMIP5_Amon&quot;,&amp;tables[1]);<o:p></o:p></span>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp; </span>printf(&quot;Test code: ok load cmor table(s)\n&quot;);<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp; </span>printf(&quot;Test code: ok load cmor
+table(s)\n&quot;);<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -9764,8 +9765,8 @@ style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier N
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp; </span>/* first define grid axes (x/y/rlon/rlat,etc...
-*/<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp; </span>/* first define grid axes
+(x/y/rlon/rlat,etc... */<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -9779,7 +9780,8 @@ style="mso-spacerun: yes">&nbsp; </span>printf(&quot;Test code: ok got axes id:
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp; </span>ierr =
+style="mso-spacerun: yes">&nbsp;</span><span style="mso-spacerun:
+yes">&nbsp;</span>ierr =
 cmor_axis(&amp;myaxes[1],&quot;y&quot;,&quot;m&quot;,lat,&amp;y[0],'d',NULL,0,NULL);<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
@@ -9979,8 +9981,8 @@ style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>read_2d_input_files(i,
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>//for(j=0;j&lt;10;j++) printf(&quot;Test
-code: %i out of %i : %lf\n&quot;,j,9,data2d[j]);<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>//for(j=0;j&lt;10;j++)
+printf(&quot;Test code: %i out of %i : %lf\n&quot;,j,9,data2d[j]);<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -10110,9 +10112,8 @@ style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier N
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
 style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>units=
-'degrees_east',<o:p></o:p></span></p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>units= 'degrees_east',<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -10198,7 +10199,8 @@ style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>delta_lon = 10.;<o:p></o:p><
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>delta_lat = 10.;<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp; </span><span style="mso-spacerun:
+yes">&nbsp;&nbsp;</span>delta_lat = 10.;<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -10210,7 +10212,8 @@ style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>x = numpy.arange(lon)<o:p></
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>lon_coords = numpy.zeros((lat,lon))<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>lon_coords =
+numpy.zeros((lat,lon))<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -10289,9 +10292,9 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>lat_vertices[j,i,1] = lat_coords[j,i]-delta_lat;<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;</span>lat_vertices[j,i,1] = lat_coords[j,i]-delta_lat;<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -10449,8 +10452,7 @@ Nat&quot;,<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
-</span>institute_id=&quot;pcmdi&quot;,<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>institute_id=&quot;pcmdi&quot;,<o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -10541,9 +10543,8 @@ style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier N
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
 style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span><span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>latitude = lat_coords, <o:p></o:p></span></p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>latitude = lat_coords, <o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-left:.5in;text-indent:-.5in'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -10771,9 +10772,9 @@ style="mso-spacerun: yes">&nbsp;</span><o:p></o:p></span></b></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>cmor_version:
-0.8<span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span><span style="mso-spacerun: yes">&nbsp;</span>! version of CMOR that can
-read this table<o:p></o:p></span></p>
+0.8<span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>! version of CMOR
+that can read this table<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>cf_version:<span
@@ -10882,9 +10883,11 @@ official version.<o:p></o:p></span></p>
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
 style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>!<span style="mso-spacerun: yes">&nbsp;&nbsp; </span>should be set to
-number of non-blank <o:p></o:p></span></p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>!<span
+style="mso-spacerun: yes">&nbsp;&nbsp; </span>should be set to number of
+non-blank <o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -10909,8 +10912,10 @@ of the output time <o:p></o:p></span></p>
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
 style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>!<span style="mso-spacerun: yes">&nbsp;&nbsp; </span>coordinate.<o:p></o:p></span></p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>!<span
+style="mso-spacerun: yes">&nbsp;&nbsp; </span>coordinate.<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>missing_value:
@@ -10919,10 +10924,10 @@ value used to indicate a missing value<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp; </span><span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>!<span
-style="mso-spacerun: yes">&nbsp;&nbsp; </span>in arrays output by netCDF as
-32-bit IEEE <o:p></o:p></span></p>
+style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>!<span style="mso-spacerun: yes">&nbsp;&nbsp; </span>in arrays output by
+netCDF as 32-bit IEEE <o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -11264,11 +11269,11 @@ used in the formula:<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
 style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>!<span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp; </span>eps =<span
-style="mso-spacerun: yes">&nbsp; </span>MIN(( tol*interval between grid-points)<o:p></o:p></span></p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>!<span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp; </span>eps
+=<span style="mso-spacerun: yes">&nbsp; </span>MIN(( tol*interval between
+grid-points)<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -11279,9 +11284,9 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>!value:<span
-style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>! of scalar (singleton) dimension <o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp; </span><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>!
+of scalar (singleton) dimension <o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>!bounds_values:<span
@@ -11331,9 +11336,9 @@ style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier N
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>!<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
-style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>!
-<span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;</span>Override default
-argument specifications for cmor_variable<o:p></o:p></span></p>
+style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>!<span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>Override default argument
+specifications for cmor_variable<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>!------------<o:p></o:p></span></p>
@@ -11345,10 +11350,10 @@ style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>file_suffix missing_value tolerance <o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
-style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>!<span
-style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>original_name history comment positive<o:p></o:p></span></p>
+style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>!
+<span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>original_name
+history comment positive<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>!required:<span
@@ -11446,10 +11451,9 @@ dimension(s) should appear<o:p></o:p></span></p>
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
 style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span><span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>!<span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>last in list)<o:p></o:p></span></p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>!<span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>last in list)<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>!out_name:<span
@@ -11607,9 +11611,11 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
 style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>!<span style="mso-spacerun: yes">&nbsp; </span>longitudes are in proper
-range.<span style="mso-spacerun: yes">&nbsp; </span>The<o:p></o:p></span></p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>!<span
+style="mso-spacerun: yes">&nbsp; </span>longitudes are in proper range.<span
+style="mso-spacerun: yes">&nbsp; </span>The<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
@@ -11843,8 +11849,9 @@ style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>air_pressure<o:p></o:p></spa
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>units:<span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span><span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>Pa <o:p></o:p></span></p>
+style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Pa <o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>axis:<span
@@ -12061,8 +12068,8 @@ style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>height<o:p></o:p></span></p>
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>units:<span
 style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>m<o:p></o:p></span></p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style="mso-spacerun: yes">&nbsp;&nbsp;</span>m<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>axis:<span
@@ -12110,9 +12117,8 @@ style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>30.<
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>value:<span
-style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>10.<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>10.<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>!----------------------------------<span
@@ -12624,8 +12630,8 @@ air_temperature<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>units:<span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>K<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;</span>K<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>cell_methods:<span
@@ -12662,8 +12668,8 @@ style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>valid_max:<span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>350.<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp; </span><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>350.<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>ok_min_mean_abs:<span
@@ -12835,8 +12841,8 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.0<o:p></o:p
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>valid_max:<span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span><span style="mso-spacerun: yes">&nbsp;</span>100.0<o:p></o:p></span></p>
+style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>100.0<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>ok_min_mean_abs:<span
@@ -13180,8 +13186,9 @@ of the output time <o:p></o:p></span></p>
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><span
 style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>!<span style="mso-spacerun: yes">&nbsp;&nbsp; </span>coordinate.<o:p></o:p></span></p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="mso-spacerun: yes">&nbsp;&nbsp;</span>!<span
+style="mso-spacerun: yes">&nbsp;&nbsp; </span>coordinate.<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'><o:p>&nbsp;</o:p></span></p>
@@ -13422,8 +13429,7 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>! up or down
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>long_name:<span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>pressure<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>pressure<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>!----------------------------------<o:p></o:p></span></p>
@@ -13504,9 +13510,9 @@ style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier N
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>axis:<span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>Z<span
 style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Z<span style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>! X, Y, Z, T (default: undeclared)<o:p></o:p></span></p>
 
@@ -13699,8 +13705,8 @@ style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier N
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>out_name:<span
-style="mso-spacerun: yes">&nbsp; </span><span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>time<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>time<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>stored_direction:
@@ -13927,10 +13933,10 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>double<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
-style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>value:<span
+style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>value:
+<span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>10.<span
 style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>10.<span style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>! of scalar (singleton) dimension <o:p></o:p></span></p>
 
@@ -14186,9 +14192,8 @@ style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>20.<
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>formula:<span
-style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>p(k) = p0 *
-exp(-lev(k))<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>p(k) = p0 * exp(-lev(k))<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>z_factors:<span
@@ -14258,8 +14263,9 @@ style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>atmosphere_sigma_coordinate<
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>axis:<span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;</span>Z<o:p></o:p></span></p>
+style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Z<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>positive:<span
@@ -14301,8 +14307,7 @@ decreasing<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>valid_min:<span
-style="mso-spacerun: yes">&nbsp; </span><span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>0.0<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0.0<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>valid_max:<span
@@ -14352,9 +14357,9 @@ This coordinate is dimensionless and varies from a small value at the model top
 to 1.0 at the surface.<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
-style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>!<span
-style="mso-spacerun: yes">&nbsp; </span>The values of a(k)+ b(k), which appear
-in the formula below, should be stored as standard_hybrid_sigma.<span
+style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>!
+<span style="mso-spacerun: yes">&nbsp;</span>The values of a(k)+ b(k), which
+appear in the formula below, should be stored as standard_hybrid_sigma.<span
 style="mso-spacerun: yes">&nbsp; </span><o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
@@ -14508,7 +14513,8 @@ style='mso-tab-count:1'> </span><o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>standard_name:<span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>atmosphere_hybrid_sigma_pressure_coordinate<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>atmosphere_hybrid_sigma_pressure_coordinate<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>units:<span
@@ -15446,8 +15452,8 @@ style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier N
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>dimensions:<span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>longitude
-latitude time height2m<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>longitude latitude time height2m<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>out_name:<span
@@ -15544,9 +15550,10 @@ style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>tasmin<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
-style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>type:
-<span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>real<o:p></o:p></span></p>
+style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>type:<span
+style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>real<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>!----------------------------------<o:p></o:p></span></p>
@@ -15632,9 +15639,8 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>pr<o:p></o:p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>type:<span
-style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>real<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp; </span><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>real<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>!----------------------------------<o:p></o:p></span></p>
@@ -15677,8 +15683,7 @@ style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier N
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>standard_name:<span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;
-</span>surface_upward_latent_heat_flux<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp; </span>surface_upward_latent_heat_flux<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>units:<span
@@ -15718,8 +15723,8 @@ style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>out_name:<span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;</span>hfls<o:p></o:p></span></p>
+style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>hfls<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>type:<span
@@ -16059,8 +16064,8 @@ starting with January, even if the values don't vary seasonally.<span
 style="mso-spacerun: yes">&nbsp; </span>When calling CMOR, identify this
 variable as co2Clim, not co2.<span style="mso-spacerun: yes">&nbsp;&nbsp;
 </span>If<span style="mso-spacerun: yes">&nbsp; </span>CO2 is spatially
-uniform, omit this field, but report Total Atmospheric Mass of CO2 (see the
-table entry after the next).<o:p></o:p></span></p>
+uniform, omit this field, but report Total Atmospheric Mass of CO2 (see the table
+entry after the next).<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>!----------------------------------<o:p></o:p></span></p>
@@ -16133,8 +16138,8 @@ style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>time: mean<o:p><
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>long_name:<span
-style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>Total Atmospheric Mass of CO2<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp; </span><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>Total Atmospheric Mass of CO2<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>comment:<span
@@ -16162,9 +16167,9 @@ style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>time<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
-style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>out_name:<span
-style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>co2mass<o:p></o:p></span></p>
+style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>out_name:
+<span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>co2mass<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>type:<span
@@ -16218,9 +16223,8 @@ within years time: mean over years<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>long_name:<span
-style="mso-spacerun: yes">&nbsp; </span><span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>Total Atmospheric Mass of
-CO2<o:p></o:p></span></p>
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Total Atmospheric Mass of CO2<o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>comment:<span
@@ -16231,8 +16235,8 @@ the CO2 does not vary from one year to the next. Report 12 monthly values,
 starting with January, even if the values don't vary seasonally.<span
 style="mso-spacerun: yes">&nbsp; </span>When calling CMOR, identify this
 variable as co2massClim, not co2mass.<span style="mso-spacerun: yes">&nbsp;
-</span>If CO2 is spatially nonuniform, omit this field, but report Mole Fraction
-of CO2 (see the table entry before the previous one). <o:p></o:p></span></p>
+</span>If CO2 is spatially nonuniform, omit this field, but report Mole
+Fraction of CO2 (see the table entry before the previous one). <o:p></o:p></span></p>
 
 <p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
 style='font-size:9.0pt;font-family:"Courier New";mso-bidi-font-family:"Courier New"'>!----------------------------------<o:p></o:p></span></p>
@@ -16377,9 +16381,9 @@ style='font-size:10.0pt'> <span style='background:silver;mso-highlight:silver'>N
 For CMIP5 model_id and forcing are required. For backward compatibility with
 the original CMOR code, the model_id and forcing are “optionally” required by
 CMOR2, meaning they become mandatory only if they appear as
-“required_global_attributes” in the CMOR table. For this reason, a call to
-cmor_dataset without these would not return an error until a call is made to
-cmor_write, since it is table-dependent. <o:p></o:p></span></span></p>
+“required_global_attributes” in the CMOR table. For this reason, a call to cmor_dataset
+without these would not return an error until a call is made to cmor_write,
+since it is table-dependent. <o:p></o:p></span></span></p>
 
 <p class=MsoFootnoteText><o:p>&nbsp;</o:p></p>
 

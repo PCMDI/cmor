@@ -345,6 +345,7 @@ int cmor_have_NetCDF3(void) {
   char version[50];
   int major;
   strncpy(version,nc_inq_libvers(),50);
+  if (version[0]!='"') return 1;
   sscanf(version,"%*c%1d%*s",&major);
   if (major!=3) return 1;
   return 0;
