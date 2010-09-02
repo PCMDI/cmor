@@ -1,6 +1,7 @@
 2010-09-01 : fixed a bug on mac 32bit when reading in net3 version string
 2010-09-01 : some vars with grid and singleton dims were wrongly analyzed by cmor_variable has not being defined with the right number of dimmensions.
 2010-09-01 : updated doc. Was saying you can pass "none" for units when it really is: ""
+2010-09-01 : updated doc. Was wrongly stating you can pass "none" if no missing_value
 2010-08-24 : when writing time only variables, the time_bnds would fail to write if passed at cmor_write time.
 2010-08-23 : tagging 2.2
 2010-08-23 : DRS was wrongly constructed for table Oclim

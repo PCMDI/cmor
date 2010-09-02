@@ -542,7 +542,7 @@ def zfactor(zaxis_id,zfactor_name,units="",axis_ids=None,type=None,zfactor_value
             zfactor_bounds=numpy.array(bnds)
     axis_ids = axis_ids.astype('i')
 
-    print "sending",zaxis_id,zfactor_name,units,ndims,axis_ids,type,zfactor_values,zfactor_bounds
+##     print "sending",zaxis_id,zfactor_name,units,ndims,axis_ids,type,zfactor_values,zfactor_bounds
     return _cmor.zfactor(zaxis_id,zfactor_name,units,ndims,axis_ids,type,zfactor_values,zfactor_bounds)
 
 def write(var_id,data,ntimes_passed=None,file_suffix="",time_vals=None,time_bnds=None,store_with=None):
