@@ -755,11 +755,9 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
 	  j-=1;
 	  /* ok then we create a dummy axis that we will add at the end of the axes */
 	  if (cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].bounds_value[0]!=1.e20) {
-	    printf("what!!!!\n");
 	    ierr = cmor_axis(&k,cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].id,cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].units,1,&cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].value,'d',&cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].bounds_value[0],2,"");
 	  }
 	  else {
-	    printf("CRAPPY\n");
 	    ierr = cmor_axis(&k,cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].id,cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].units,1,&cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].value,'d',NULL,0,"");
 	  }
 	  laxes_ids[ndims+lndims]=k;
