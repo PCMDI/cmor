@@ -321,7 +321,7 @@ def checkCMOR(fout,file,table,noerror=cmor.CMOR_CRITICAL,variable=None,from_boun
                 
         ## 32bit systems only
         ## if os.uname()[-1].find("64")==-1: # old way would fail on some system
-        if int(platform.architecture()[0].replace('bit', '')) < 64
+        if int(platform.architecture()[0].replace('bit', '')) < 64:
             sz=os.path.getsize(fnm)
             manageLog(fout,VERBOSE, 'Checking file size (32bit systems only):',sz)
             if sz>2**31:
