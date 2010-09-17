@@ -347,7 +347,7 @@ int cmor_have_NetCDF3(void) {
   strncpy(version,nc_inq_libvers(),50);
   if (version[0]!='"') return 1;
   sscanf(version,"%*c%1d%*s",&major);
-  if (major!=3) return 1;
+  if (major!=3) { printf("not nc3 returned\n");return 1;}
   return 0;
 }
 int cmor_have_NetCDF363(void) {

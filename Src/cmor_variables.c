@@ -691,6 +691,7 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
     laxes_ids[i] = axes_ids[i];
   }
   lndims=ndims;
+/*   printf("ok ndims is actually: %i\n",ndims); */
   aint=0; /* just to know if we deal with  a grid */
   /* ok we need to replace grids definitions with the grid axes */
   for (i=0;i<ndims;i++) {
@@ -698,7 +699,7 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
       sprintf(msg,"For variable (%s) you requested axis_id (%i) that has not been defined yet",cmor_vars[vrid].id,laxes_ids[i]);
       cmor_handle_error(msg,CMOR_CRITICAL);
     }
-    if (laxes_ids[i]<-9) { /* grid definition */
+    if (laxes_ids[i]<-CMOR_MAX_GRIDS+1) { /* grid definition */
       grid_id = -laxes_ids[i]-CMOR_MAX_GRIDS;
       if (grid_id>cmor_ngrids) {
 	sprintf(msg,"For variable (%s) you requested grid_id (%i) that has not been defined yet",cmor_vars[vrid].id,laxes_ids[i]);
@@ -726,12 +727,14 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
       }
     }
   }
-  /* for(i=0;i<refvar.ndims;i++) fprintf(stderr,"after the grid id section: %i, id: %i\n",i,laxes_ids[i]); */
+/*   printf("&&&&&&&&&&&&&&&&&&&&&&&&&&&&& refvar (%s), has: %i dimensions! aint: %i, lndims: %i\n",refvar.id,refvar.ndims,aint,lndims); */
+/*   for(i=0;i<lndims;i++) fprintf(stderr,"after the grid id section: %i, id: %i\n",i,laxes_ids[i]); */
   olndims = lndims;
   if (refvar.ndims+aint!=lndims) {
     lndims=0;
     /* ok before we panic we check if there is a "dummy" dim */
     j=refvar.ndims-olndims+aint;
+/*     printf("at the start: refvar: %i, ndims: %i, aint: %i, lndims: %i, olndims: %i, j:%i\n",refvar.ndims,ndims,aint,lndims,olndims,j); */
     for (i=0;i<refvar.ndims;i++) {
 /*       printf("ok none matchng # of dims, i: %d, id: %s, value: %lf, lndims is: %d\n",i,cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].id,cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].value,olndims); */
       if (cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].value!=1.e20) {
@@ -744,7 +747,7 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
 	    else {
 	      strcpy(msg,"nope");
 	    }
-	  /* printf("k: %d, axes_id: %d, stdnm: %s, ref stdnm: %s\n",k,laxes_ids[k],msg,cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].standard_name); */
+/* 	  printf("k: %d, axes_id: %d, stdnm: %s, ref stdnm: %s\n",k,laxes_ids[k],msg,cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].standard_name); */
 	  if (strcmp(msg,cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].standard_name)==0) {
 	    /* ok user did define this one on its own */
 	    l=k;
@@ -760,11 +763,14 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
 	  else {
 	    ierr = cmor_axis(&k,cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].id,cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].units,1,&cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].value,'d',NULL,0,"");
 	  }
-	  laxes_ids[ndims+lndims]=k;
+/* 	  printf("messing up laxes: %i, replacing from %i to %i\n",olndims,laxes_ids[olndims],k); */
+	  laxes_ids[olndims]=k;
 	  lndims+=1;
 	}
+/* 	printf("after l is :%i, j is: %i\n",l,j); */
       }
     }
+
     if (j!=0) {
       snprintf(msg,CMOR_MAX_STRING,"You are defining variable '%s' with %i dimensions, when it should have %i",name,ndims,refvar.ndims);
       cmor_handle_error(msg,CMOR_CRITICAL);
@@ -779,6 +785,7 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
   k=-1;
   for (i=0;i<lndims;i++) {
     for (j=0;j<refvar.ndims;j++) {
+/*       printf("i,j: %i, %i, laxes_ids[i]: %i\n",i,j,laxes_ids[i]); */
       if ((strcmp(cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].axes[cmor_axes[laxes_ids[i]].ref_axis_id].id,cmor_tables[CMOR_TABLE].axes[refvar.dimensions[j]].id)==0) ||((cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].axes[cmor_axes[laxes_ids[i]].ref_axis_id].axis=='Z') && (refvar.dimensions[j]==-2))){ 
 /* || ((cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].axes[cmor_axes[laxes_ids[i]].ref_axis_id].axis==cmor_tables[CMOR_TABLE].axes[refvar.dimensions[j]].axis) && cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].axes[cmor_axes[laxes_ids[i]].ref_axis_id].axis!='\0'))  { */
 	k++;
@@ -804,6 +811,7 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
   /* ok now loop thru axes */    
 /*   printf("lndims is: %i\n",lndims); */
   for (i=0;i<lndims;i++) { 
+/*     printf("i and k: %i, %i, %i \n",i,k,laxes_ids[i]); */
     if (laxes_ids[i]>cmor_naxes) {
       snprintf(msg,CMOR_MAX_STRING,"Axis %i not defined",axes_ids[i]);
       cmor_handle_error(msg,CMOR_CRITICAL);
@@ -814,6 +822,8 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
       snprintf(msg,CMOR_MAX_STRING,"You are passing axis %i (named %s) which has been defined using table %i (%s) but the current table is %i (%s) (and isgridaxis says: %i)",laxes_ids[i],cmor_axes[laxes_ids[i]].id,cmor_axes[laxes_ids[i]].ref_table_id,cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].table_id,CMOR_TABLE,cmor_tables[CMOR_TABLE].table_id,cmor_axes[laxes_ids[i]].isgridaxis);
       cmor_handle_error(msg,CMOR_CRITICAL);
     }
+/*     printf("ok: %s \n" , cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].axes[cmor_axes[laxes_ids[i]].ref_axis_id].id); */
+/*     printf("ok: %lf \n" , cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].axes[cmor_axes[laxes_ids[i]].ref_axis_id].value); */
     if (cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].axes[cmor_axes[laxes_ids[i]].ref_axis_id].value != 1.e20) {
       /*singleton dim */
       snprintf(msg,CMOR_MAX_STRING,"Treated scalar dimension: '%s'",cmor_axes[laxes_ids[i]].id);
@@ -834,6 +844,7 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
       cmor_set_variable_attribute(vrid,"coordinates",'c',&ctmp[0]);
     }
     else {
+/*       printf("in else\n"); */
       cmor_vars[vrid].original_order[k]=laxes_ids[i];
       k++;
     }
@@ -841,6 +852,9 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
   /* Now figures out the real order... */
   k=0;
 
+/*   for (i=0;i<lndims;i++) {  */
+/*     printf("OK IN CMOR VAR (%s),ORIGINAL ORDER FOR %i is: %i\n",cmor_vars[vrid].id,i,cmor_vars[vrid].original_order[i]); */
+/*   } */
 
   for (i=0;i<lndims;i++) { 
     if (((strcmp(cmor_tables[refvar.table_id].axes[refvar.dimensions[i]].id,"latitude")==0) ||
@@ -870,7 +884,7 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
     }
     else if (refvar.dimensions[i]==-CMOR_MAX_GRIDS) {
       /* ok this is either a lat/lon */
-      for(j=0;j<ndims;j++) if (axes_ids[j]<-9) break;
+      for(j=0;j<ndims;j++) if (axes_ids[j]<-CMOR_MAX_GRIDS+1) break;
       l=j;
       for (j=0;j<cmor_grids[grid_id].ndims;j++) {
 	cmor_vars[vrid].axes_ids[k]=cmor_grids[grid_id].axes_ids[j];
@@ -881,6 +895,7 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
     }
   }
 
+/*   printf("OK WE ARE SAYING THAT THIS VARIABLE HAS %i DIMENSIONS\n",k); */
   cmor_vars[vrid].ndims=k;
   cmor_vars[vrid].itype=type;
   k=0;
@@ -1230,10 +1245,15 @@ int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int 
     nelements = nelements*counts[i];
   }
   if (avar->isbounds==1) nelements*=2;
-/*   printf("we detected: %i elts over %i dims\n",nelements,avar->ndims); */
+/*   printf("we detected: %i elts over %i dims, var: %s\n",nelements,avar->ndims,avar->id); */
   /* This section counts how many elements are needed before you increase the index in each dimension */
   counter[avar->ndims]=1; /* dummy */
   counter_orig[avar->ndims]=1; /*dummy */
+
+/*   for (i=0;i<avar->ndims;i++) { */
+/*     printf("dimension: %i, alength: %i, id: %s, counts:%i\n",i,cmor_axes[avar->axes_ids[i]].length,cmor_axes[avar->axes_ids[i]].id,counts[i]); */
+/*     printf("dimension: %i, olength: %i, id: %s, counts:%i\n",i,cmor_axes[avar->original_order[i]].length,cmor_axes[avar->original_order[i]].id,counts[i]); */
+/*   } */
   for (i=avar->ndims-1;i>=0;i--) {
     /* we need to do this for the order in which we will write and the order the user defined its variable */
     if (cmor_axes[avar->axes_ids[i]].axis!='T') counter[i]=cmor_axes[avar->axes_ids[i]].length*counter[i+1];
@@ -1241,6 +1261,9 @@ int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int 
     if (cmor_axes[avar->original_order[i]].axis!='T') counter_orig[i]=cmor_axes[avar->original_order[i]].length*counter_orig[i+1];
     else counter_orig[i]=counts[0]*counter_orig[i+1];
   }
+/*   for (i=0;i<avar->ndims;i++) { */
+/*     printf("dimension: %i, counter_orig:%i\n",i,counter_orig[i]); */
+/*   } */
   /* Now we need to map, i.e going ahead by 2 eleemnts of final array eq going ahaead of n elements originally */
   for (i=0;i<avar->ndims;i++) {
     for (j=0;j<avar->ndims;j++) {
