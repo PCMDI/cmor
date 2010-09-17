@@ -320,7 +320,8 @@ def checkCMOR(fout,file,table,noerror=cmor.CMOR_CRITICAL,variable=None,from_boun
                 nwarn+=manageLog(fout,cmor.CMOR_WARNING,"You are using cmor version: %i.%i.%i, these files have been written with version: %i.%i.%i, you should consider rewriting these files" % (cmor.CMOR_VERSION_MAJOR,cmor.CMOR_VERSION_MINOR,cmor.CMOR_VERSION_PATCH,fmajor,minor,patch))
                 
         ## 32bit systems only
-        if os.uname()[-1].find("64")==-1:
+        ## if os.uname()[-1].find("64")==-1: # old way would fail on some system
+        if int(platform.architecture()[0].replace('bit', '')) < 64:
             sz=os.path.getsize(fnm)
             manageLog(fout,VERBOSE, 'Checking file size (32bit systems only):',sz)
             if sz>2**31:

@@ -736,7 +736,7 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
     j=refvar.ndims-olndims+aint;
 /*     printf("at the start: refvar: %i, ndims: %i, aint: %i, lndims: %i, olndims: %i, j:%i\n",refvar.ndims,ndims,aint,lndims,olndims,j); */
     for (i=0;i<refvar.ndims;i++) {
-/*       printf("ok none matchng # of dims, i: %d, id: %s, value: %lf, lndims is: %d\n",i,cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].id,cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].value,olndims); */
+      /* printf("ok none matchng # of dims, i: %d, id: %s, value: %lf, lndims is: %d\n",i,cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].id,cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].value,olndims); */
       if (cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].value!=1.e20) {
 	/* ok it could be a dummy but we need to check if the user already defined this dummy dimension or not */
 	l=-1;
