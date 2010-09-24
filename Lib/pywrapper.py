@@ -547,6 +547,10 @@ def zfactor(zaxis_id,zfactor_name,units="",axis_ids=None,type=None,zfactor_value
 
 def write(var_id,data,ntimes_passed=None,file_suffix="",time_vals=None,time_bnds=None,store_with=None):
 
+    """ write data to a cmor variable
+    Usage:
+    ierr = write(var_id,data,ntimes_passed=None,file_suffix="",time_vals=None,time_bnds=None,store_with=None
+    """
     if not isinstance(var_id,(int,numpy.int,numpy.int32)):
         raise Exception, "error var_id must be an integer"
     var_id = int(var_id)
@@ -666,7 +670,7 @@ def write(var_id,data,ntimes_passed=None,file_suffix="",time_vals=None,time_bnds
             else:
                 ltv=len(time_vals)
             if len(time_bnds)!=ltv+1:
-                raise Excpetion,"error time_bnds if 1D must be 1 elt greater than time_vals, you have %i vs %i" % (len(time_bnds),ltv)
+                raise Exception,"error time_bnds if 1D must be 1 elt greater than time_vals, you have %i vs %i" % (len(time_bnds),ltv)
             bnds=[]
             for i in range(ltv):
                 bnds.append([time_bnds[i],time_bnds[i+1]])
