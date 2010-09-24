@@ -34,20 +34,20 @@ axes=numpy.zeros(2,numpy.int32)
 axes[0] = cmor.axis(                            
     table_entry        = 'i_index',               
     length             = nlon,                    
-    coord_vals         = numpy.arange(0,nlon,1,numpy.int32),                     
+    coord_vals         = numpy.arange(0,nlon,1,numpy.float32),                     
     units              = '1')
   
 axes[1] = cmor.axis(                            
     table_entry        = 'j_index',               
     length             = nlat,                    
-    coord_vals         = numpy.arange(0,nlat,1,numpy.int32),                     
+    coord_vals         = numpy.arange(0,nlat,1,numpy.float32),                     
     units              = '1')
 
 
-olat_val  = f("grid_center_lat").filled()
-olon_val  = f("grid_center_lon").filled()
-bnds_olat = f("grid_corner_lat").filled()
-bnds_olon = f("grid_corner_lon").filled()
+olat_val  = f("grid_center_lat").filled().astype('f')
+olon_val  = f("grid_center_lon").filled().astype('f')
+bnds_olat = f("grid_corner_lat").filled().astype('f')
+bnds_olon = f("grid_corner_lon").filled().astype('f')
 
 grid_id = cmor.grid(                            
     axis_ids           = axes,                    
@@ -63,8 +63,8 @@ ntimes=12
 
 tim_id = cmor.axis( table_entry="time",
                     units="months since 2010")
-time_vals = numpy.arange(ntimes)
-bnds_time = numpy.arange(ntimes+1)
+time_vals = numpy.arange(ntimes).astype('f')
+bnds_time = numpy.arange(ntimes+1).astype('f')
 
 var_ids              = cmor.variable(           
     table_entry        = "sic",           

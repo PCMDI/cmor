@@ -871,7 +871,7 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
     else if ((refvar.dimensions[i]==-2) || (cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].value == 1.e20)) { /* not a singleton dim */
       iref=-1;
       for (j=0;j<lndims;j++) {
-	if (refvar.dimensions[i]==cmor_axes[laxes_ids[j]].ref_axis_id) {
+	if ((refvar.table_id==cmor_axes[laxes_ids[j]].ref_table_id) && (refvar.dimensions[i]==cmor_axes[laxes_ids[j]].ref_axis_id)) {
 	  cmor_vars[vrid].axes_ids[k]=laxes_ids[j];
 	}
 	/* -2 means it is a zaxis */

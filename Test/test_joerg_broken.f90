@@ -3,7 +3,7 @@ program joerg
   USE cmor_users_functions
   IMPLICIT NONE
 
-  integer axes(10),error_flag,ntables(2)
+  integer axes(2),error_flag,ntables(2)
 
   integer,parameter ::  nlon = 122, nlat=101, ntim=1
   integer tim_id,i,j,grid_id,var_ids
@@ -41,7 +41,7 @@ program joerg
   read(10,*) blon
 
   close(10)
-  error_flag = cmor_setup(inpath='Test', netcdf_file_action='append')
+  error_flag = cmor_setup(inpath='Test', netcdf_file_action='replace')
 
   error_flag = cmor_dataset(                                    &
        outpath='Test',                                          &
@@ -85,6 +85,7 @@ program joerg
        coord_vals         = yii,                                &
        units              = '1')
   
+  print*, 'Axes:',axes
   grid_id = cmor_grid(                                          &
        axis_ids           = axes,                               &
        latitude           = alat,                               &
