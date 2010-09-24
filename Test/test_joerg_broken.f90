@@ -17,6 +17,9 @@ program joerg
   real anum
 
   double precision bt
+  double precision times(1)
+  double precision time_bounds(2,1)
+
   bt=0.
   do i =1,nlon 
      xii(i)=i
@@ -101,13 +104,16 @@ program joerg
        axis_ids           = (/ grid_id, tim_id /),              &
        missing_value      = 1.e20 )
   
+  times(1)=1.
+  time_bounds(1,1)=1.
+  time_bounds(2,1)=2.
   error_flag = cmor_write(                                      &
        var_id            = var_ids,                             &
        data              = mydata,                              &
        file_suffix       = "",                                  &
        ntimes_passed     = ntim,                                &
-       time_vals         = (/1./),                              &
-       time_bnds         = (/0.00,1./))
+       time_vals         = times,                              &
+       time_bnds         = time_bounds)
 
   error_flag = cmor_close()
 
