@@ -69,7 +69,7 @@ int cmor_set_dataset_att(cmor_table_t *table, char att[CMOR_MAX_STRING],char val
     d2+=d;
     sscanf(value,"%f",&d);
     if (d>d2) {
-      snprintf(value2,CMOR_MAX_STRING,"Table is defined for cmor_version %f, this library verson is: %i.%i.%i, %f",d,CMOR_VERSION_MAJOR,CMOR_VERSION_MINOR,CMOR_VERSION_PATCH,d2);
+      snprintf(value2,CMOR_MAX_STRING,"Table %s is defined for cmor_version %f, this library verson is: %i.%i.%i, %f",table->table_id,d,CMOR_VERSION_MAJOR,CMOR_VERSION_MINOR,CMOR_VERSION_PATCH,d2);
       cmor_handle_error(value2,CMOR_CRITICAL);
       cmor_ntables--;
       cmor_pop_traceback();
@@ -123,7 +123,8 @@ int cmor_set_dataset_att(cmor_table_t *table, char att[CMOR_MAX_STRING],char val
   else if (strcmp(att,"table_id")==0) {
     for (n=0;n==cmor_ntables;n++) {
      if (strcmp(cmor_tables[n].table_id,value)==0) {
-	cmor_handle_error("Table already defined",CMOR_CRITICAL);
+        snprintf(value2,CMOR_MAX_STRING,"Table %s is already defined",table->table_id);
+	cmor_handle_error(value2,CMOR_CRITICAL);
 	cmor_ntables--;
 	cmor_pop_traceback();
 	return 1;
@@ -143,7 +144,8 @@ int cmor_set_dataset_att(cmor_table_t *table, char att[CMOR_MAX_STRING],char val
   else if (strcmp(att,"expt_id_ok")==0) {
     table->nexps++;
     if (table->nexps>CMOR_MAX_ELEMENTS) {
-      cmor_handle_error("Too many experiments defined",CMOR_CRITICAL);
+      snprintf(value2,CMOR_MAX_STRING,"Table %s: Too many experiments defined",table->table_id);
+      cmor_handle_error(value2,CMOR_CRITICAL);
       cmor_ntables--;
       cmor_pop_traceback();
       return 1;
@@ -194,7 +196,7 @@ int cmor_set_dataset_att(cmor_table_t *table, char att[CMOR_MAX_STRING],char val
     /* Never actually implemented supposed to control table has not been altered */
   }
   else {
-    snprintf(value,CMOR_MAX_STRING,"unknown keyword for dataset: %s (%s)",att,value);
+    snprintf(value,CMOR_MAX_STRING,"table: %s, unknown keyword for dataset: %s (%s)",table->table_id,att,value);
     cmor_handle_error(value,CMOR_WARNING);
   }
   cmor_pop_traceback();
@@ -210,7 +212,10 @@ int cmor_set_table(int table) {
     snprintf(msg,CMOR_MAX_STRING,"Invalid table number: %i",table);
     cmor_handle_error(msg,CMOR_CRITICAL);
   }
-  if (cmor_tables[table].table_id=='\0') cmor_handle_error("Invalid table , not loaded yet!",CMOR_CRITICAL);
+  if (cmor_tables[table].table_id=='\0') {
+    snprintf(msg,CMOR_MAX_STRING,"Invalid table: %i , not loaded yet!",table);
+    cmor_handle_error(msg,CMOR_CRITICAL);
+  }
   CMOR_TABLE = table;
   cmor_pop_traceback();
   return 0;
@@ -308,7 +313,8 @@ int cmor_load_table(char table[CMOR_MAX_STRING], int *table_id) {
 	  do_mapping=0;
 	  cmor_tables[cmor_ntables].naxes++;
 	  if (cmor_tables[cmor_ntables].naxes>=CMOR_MAX_ELEMENTS) {
-	    cmor_handle_error("Too many axes defined for table",CMOR_CRITICAL);
+	    snprintf(msg,CMOR_MAX_STRING,"Too many axes defined for table: %s",cmor_tables[cmor_ntables].table_id);
+	    cmor_handle_error(msg,CMOR_CRITICAL);
 	    cmor_ntables--;
 	    cmor_pop_traceback();
 	    return 1;
@@ -325,7 +331,8 @@ int cmor_load_table(char table[CMOR_MAX_STRING], int *table_id) {
 	  do_mapping=0;
 	  cmor_tables[cmor_ntables].nvars++;
 	  if (cmor_tables[cmor_ntables].nvars>=CMOR_MAX_ELEMENTS) {
-	    cmor_handle_error("Too many variables defined for table",CMOR_CRITICAL);
+	    snprintf(msg,CMOR_MAX_STRING,"Too many variables defined for table: %s",cmor_tables[cmor_ntables].table_id);
+	    cmor_handle_error(msg,CMOR_CRITICAL);
 	    cmor_ntables--;
 	    cmor_pop_traceback();
 	    return 1;
@@ -342,13 +349,14 @@ int cmor_load_table(char table[CMOR_MAX_STRING], int *table_id) {
 	  do_mapping=1;
 	  cmor_tables[cmor_ntables].nmappings++;
 	  if (cmor_tables[cmor_ntables].nmappings>=CMOR_MAX_ELEMENTS) {
-	    cmor_handle_error("Too many mappings defined for table",CMOR_CRITICAL);
+	    snprintf(msg,CMOR_MAX_STRING,"Too many mappings defined for table: %s",cmor_tables[cmor_ntables].table_id);
+	    cmor_handle_error(msg,CMOR_CRITICAL);
 	    cmor_ntables--;
 	    cmor_pop_traceback();
 	    return 1;
 	  }
 	  for(n=0;n<cmor_tables[cmor_ntables].nmappings-1;n++) if (strcmp(cmor_tables[cmor_ntables].mappings[cmor_tables[cmor_ntables].nmappings].id,cmor_tables[cmor_ntables].mappings[n].id)==0) {
-	      snprintf(msg,CMOR_MAX_STRING,"mapping: %s already defined within this table",cmor_tables[cmor_ntables].mappings[n].id);
+	      snprintf(msg,CMOR_MAX_STRING,"mapping: %s already defined within this table (%s)",cmor_tables[cmor_ntables].mappings[n].id,cmor_tables[cmor_ntables].table_id);
 	      cmor_handle_error(msg,CMOR_CRITICAL);
 	    };
 
@@ -356,7 +364,7 @@ int cmor_load_table(char table[CMOR_MAX_STRING], int *table_id) {
 	  cmor_init_grid_mapping(&cmor_tables[cmor_ntables].mappings[cmor_tables[cmor_ntables].nmappings],word2);
 	}
 	else { /* nothing knwon we will not be setting any attributes! */
-	  snprintf(msg,CMOR_MAX_STRING,"unknown section: %s",word);
+	  snprintf(msg,CMOR_MAX_STRING,"unknown section: %s, for table: %s",word,cmor_tables[cmor_ntables].table_id);
 	  cmor_handle_error(msg,CMOR_WARNING);
 	  do_dataset=0;
 	  do_var=0;
@@ -416,7 +424,7 @@ int cmor_load_table(char table[CMOR_MAX_STRING], int *table_id) {
       cmor_set_mapping_attribute(&cmor_tables[cmor_ntables].mappings[cmor_tables[cmor_ntables].nmappings],word,word2);
     }
     else {
-      snprintf(msg,CMOR_MAX_STRING,"attribute for unknown section: %s,%s",word,word2);
+      snprintf(msg,CMOR_MAX_STRING,"attribute for unknown section: %s,%s (table: %s)",word,word2,cmor_tables[cmor_ntables].table_id);
       cmor_handle_error(msg,CMOR_WARNING);
       /*printf("attribute for unknown section\n");*/
     }

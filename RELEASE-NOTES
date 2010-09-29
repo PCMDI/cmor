@@ -1,3 +1,5 @@
+2010-09-29 : Cleaned up error messages, now tries to output var/axis it was working on as well as table used.
+2010-09-29 : When value that exceeds valid_min/max is found, now returns location of extreme point instead of first point encountered, as well as actuall coordinates values (not just indices)
 2010-09-22 : Joerg found a bug that was due to checking only the refvar.dimension w/o checking the actual tables as well
 2010-09-01 : fixed a bug on mac 32bit when reading in net3 version string
 2010-09-01 : some vars with grid and singleton dims were wrongly analyzed by cmor_variable has not being defined with the right number of dimmensions.

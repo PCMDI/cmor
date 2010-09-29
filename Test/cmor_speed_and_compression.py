@@ -98,6 +98,7 @@ mincdms=1000
 c0=st
 s2=s*1
 sh=list(s.shape)
+print 'shape:',sh
 sh.insert(0,1)
 s2=MV2.reshape(s2,sh)
 s2.setAxis(1,s.getLatitude())
