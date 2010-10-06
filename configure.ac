@@ -309,7 +309,7 @@ fi
 AC_MSG_NOTICE([........................................................................])
 AC_MSG_NOTICE([...                             EXTERNALS                            ...])
 AC_MSG_NOTICE([........................................................................])
-if [test ${SZLIBFLAGS} != "nosz" ]; then
+if [test ${SZLIBFLAGS}!="nosz" ]; then
   AC_MSG_NOTICE([])
   AC_MSG_NOTICE([SZLIB])
   AC_MSG_NOTICE([ CFLAGS  : ${SZLIBFLAGS}])
