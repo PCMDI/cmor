@@ -2097,9 +2097,9 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
 
     strncat(ctmp,ctmp3,CMOR_MAX_STRING-strlen(ctmp));
 
-    if (cmor_has_variable_attribute(var_id,"cell_measures")==0) {
+    if (cmor_has_variable_attribute(var_id,"ext_cell_measures")==0) {
       /*Ok does it contain "area" */
-      cmor_get_variable_attribute(var_id,"cell_measures",&ctmp5[0]);
+      cmor_get_variable_attribute(var_id,"ext_cell_measures",&ctmp5[0]);
       k=-1;
       for (i=0;i<strlen(ctmp5)-5;i++) {
 	if (strncmp(&ctmp5[i],"area:",5)==0) {
@@ -3112,7 +3112,7 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
 	}
       }
     }
-	
+
     /* ok now write the zfactor values if necessary */
     for(i=0;i<nzfactors;i++) {
       if (cmor_vars[zfactors[i]].values != NULL) {/* ok this one has value defined we need to store it */

@@ -78,17 +78,24 @@ int cmor_set_variable_attribute(int id, char *attribute_name, char type, void *v
   int i,index;
   char msg[CMOR_MAX_STRING];
   cmor_add_traceback("cmor_set_variable_attribute");
+
+  if (type=='c') printf("in C: setting %s, to %s on var: %i\n",attribute_name, value, id);
   cmor_is_setup();
   index=-1;
   cmor_trim_string(attribute_name,msg);
   for (i=0;i<cmor_vars[id].nattributes;i++) {
     if (strcmp(cmor_vars[id].attributes[i],msg)==0) {index=i;break;} /* we found it */
   }
+  printf("ok it is found at index: %i\n",index);
   if (index==-1) {index=cmor_vars[id].nattributes; cmor_vars[id].nattributes+=1;}
+  printf("ok we now operate on index: %i, i is: %i\n",index,i);
   strncpy(cmor_vars[id].attributes[index],msg,CMOR_MAX_STRING); /*stores the name */
-  cmor_vars[id].attributes_type[i]=type;
+  printf("copied attribute name (%s)\n",cmor_vars[id].attributes[index]);
+  cmor_vars[id].attributes_type[index]=type;
+  printf("copied type: %c\n",type);
   if (type=='c')  {
     if (strlen(value)>0) {
+      printf("strlen is: %i\n",strlen(value));
       strncpytrim(cmor_vars[id].attributes_values_char[index],value,CMOR_MAX_STRING);
     }
     else {
@@ -643,7 +650,7 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
     cmor_update_history(vrid,msg);
   }
   cmor_set_variable_attribute(vrid,"cell_methods",'c',refvar.cell_methods);
-  cmor_set_variable_attribute(vrid,"cell_measures",'c',refvar.cell_measures);
+  cmor_set_variable_attribute(vrid,"ext_cell_measures",'c',refvar.cell_measures);
   /*if ((refvar.positive!='\0') && (positive!=NULL) && (positive[0]!=refvar.positive)) cmor_vars[vrid].sign=-1;*/
   if ((positive!=NULL) && (positive[0]!='\0')) {
     if ((positive[0]!='d') && positive[0]!='u') {
@@ -691,7 +698,7 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
     laxes_ids[i] = axes_ids[i];
   }
   lndims=ndims;
-/*   printf("ok ndims is actually: %i\n",ndims); */
+  /* printf("ok ndims is actually: %i\n",ndims); */
   aint=0; /* just to know if we deal with  a grid */
   /* ok we need to replace grids definitions with the grid axes */
   for (i=0;i<ndims;i++) {
@@ -727,14 +734,14 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
       }
     }
   }
-/*   printf("&&&&&&&&&&&&&&&&&&&&&&&&&&&&& refvar (%s), has: %i dimensions! aint: %i, lndims: %i\n",refvar.id,refvar.ndims,aint,lndims); */
-/*   for(i=0;i<lndims;i++) fprintf(stderr,"after the grid id section: %i, id: %i\n",i,laxes_ids[i]); */
+  /* printf("&&&&&&&&&&&&&&&&&&&&&&&&&&&&& refvar (%s), has: %i dimensions! aint: %i, lndims: %i\n",refvar.id,refvar.ndims,aint,lndims); */
+  /* for(i=0;i<lndims;i++) fprintf(stderr,"after the grid id section: %i, id: %i\n",i,laxes_ids[i]); */
   olndims = lndims;
   if (refvar.ndims+aint!=lndims) {
     lndims=0;
     /* ok before we panic we check if there is a "dummy" dim */
     j=refvar.ndims-olndims+aint;
-/*     printf("at the start: refvar: %i, ndims: %i, aint: %i, lndims: %i, olndims: %i, j:%i\n",refvar.ndims,ndims,aint,lndims,olndims,j); */
+    /* printf("at the start: refvar: %i, ndims: %i, aint: %i, lndims: %i, olndims: %i, j:%i\n",refvar.ndims,ndims,aint,lndims,olndims,j); */
     for (i=0;i<refvar.ndims;i++) {
       /* printf("ok none matchng # of dims, i: %d, id: %s, value: %lf, lndims is: %d\n",i,cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].id,cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].value,olndims); */
       if (cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].value!=1.e20) {
@@ -747,12 +754,13 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
 	    else {
 	      strcpy(msg,"nope");
 	    }
-/* 	  printf("k: %d, axes_id: %d, stdnm: %s, ref stdnm: %s\n",k,laxes_ids[k],msg,cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].standard_name); */
+	  /* printf("k: %d, axes_id: %d, stdnm: %s, ref stdnm: %s\n",k,laxes_ids[k],msg,cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].standard_name); */
 	  if (strcmp(msg,cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].standard_name)==0) {
 	    /* ok user did define this one on its own */
 	    l=k;
 	    break;
 	  }
+	  /* printf("And now l is: %i\n",l); */
 	}
 	if (l==-1) { /* ok it is a singleton dimension */
 	  j-=1;
@@ -763,11 +771,11 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
 	  else {
 	    ierr = cmor_axis(&k,cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].id,cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].units,1,&cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].value,'d',NULL,0,"");
 	  }
-/* 	  printf("messing up laxes: %i, replacing from %i to %i\n",olndims,laxes_ids[olndims],k); */
+	  /* printf("messing up laxes: %i, replacing from %i to %i\n",olndims,laxes_ids[olndims],k); */
 	  laxes_ids[olndims]=k;
 	  lndims+=1;
 	}
-/* 	printf("after l is :%i, j is: %i\n",l,j); */
+	/* printf("after l is :%i, j is: %i\n",l,j); */
       }
     }
 
@@ -779,6 +787,12 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
     }
     else {
       lndims += ndims;
+      for (j=0;j<ndims;j++) {
+	/* printf("ok laxes_ids is: %i\n",axes_ids[j]); */
+	if (axes_ids[j]<-CMOR_MAX_GRIDS+1) { /* grid definition */
+	  lndims+=cmor_grids[grid_id].ndims-1;
+	}
+      }
     }
   }
   /* At that point we need to check that the dims we passed match what's in the refvar */
@@ -809,9 +823,9 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
   }
   k=0;
   /* ok now loop thru axes */    
-/*   printf("lndims is: %i\n",lndims); */
+  /* printf("lndims is: %i\n",lndims); */
   for (i=0;i<lndims;i++) { 
-/*     printf("i and k: %i, %i, %i \n",i,k,laxes_ids[i]); */
+    /* printf("i and k: %i, %i, %i \n",i,k,laxes_ids[i]); */
     if (laxes_ids[i]>cmor_naxes) {
       snprintf(msg,CMOR_MAX_STRING,"Axis %i not defined",axes_ids[i]);
       cmor_handle_error(msg,CMOR_CRITICAL);
@@ -822,8 +836,8 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
       snprintf(msg,CMOR_MAX_STRING,"While creating variable %s, you are passing axis %i (named %s) which has been defined using table %i (%s) but the current table is %i (%s) (and isgridaxis says: %i)",cmor_vars[vrid].id,laxes_ids[i],cmor_axes[laxes_ids[i]].id,cmor_axes[laxes_ids[i]].ref_table_id,cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].table_id,CMOR_TABLE,cmor_tables[CMOR_TABLE].table_id,cmor_axes[laxes_ids[i]].isgridaxis);
       cmor_handle_error(msg,CMOR_CRITICAL);
     }
-/*     printf("ok: %s \n" , cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].axes[cmor_axes[laxes_ids[i]].ref_axis_id].id); */
-/*     printf("ok: %lf \n" , cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].axes[cmor_axes[laxes_ids[i]].ref_axis_id].value); */
+    /* printf("ok: %s \n" , cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].axes[cmor_axes[laxes_ids[i]].ref_axis_id].id); */
+    /* printf("ok: %lf \n" , cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].axes[cmor_axes[laxes_ids[i]].ref_axis_id].value); */
     if (cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].axes[cmor_axes[laxes_ids[i]].ref_axis_id].value != 1.e20) {
       /*singleton dim */
       snprintf(msg,CMOR_MAX_STRING,"Treated scalar dimension: '%s'",cmor_axes[laxes_ids[i]].id);
@@ -852,9 +866,9 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
   /* Now figures out the real order... */
   k=0;
 
-/*   for (i=0;i<lndims;i++) {  */
-/*     printf("OK IN CMOR VAR (%s),ORIGINAL ORDER FOR %i is: %i\n",cmor_vars[vrid].id,i,cmor_vars[vrid].original_order[i]); */
-/*   } */
+  for (i=0;i<lndims;i++) {
+    /* printf("OK IN CMOR VAR (%s),ORIGINAL ORDER FOR %i is: %i\n",cmor_vars[vrid].id,i,cmor_vars[vrid].original_order[i]); */
+  }
 
   for (i=0;i<lndims;i++) { 
     if (((strcmp(cmor_tables[refvar.table_id].axes[refvar.dimensions[i]].id,"latitude")==0) ||
@@ -1065,6 +1079,9 @@ int cmor_set_var_def_att(cmor_var_def_t *var,char att[CMOR_MAX_STRING],char val[
   }
   else if (strcmp(att,"cell_methods")==0) {
     strncpy(var->cell_methods,val,CMOR_MAX_STRING);
+  }
+  else if (strcmp(att,"ext_cell_measures")==0) {
+    strncpy(var->cell_measures,val,CMOR_MAX_STRING);
   }
   else if (strcmp(att,"cell_measures")==0) {
     strncpy(var->cell_measures,val,CMOR_MAX_STRING);

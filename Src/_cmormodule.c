@@ -70,6 +70,47 @@ static PyObject *
   return Py_BuildValue("i",ierr);
 }
 
+
+static PyObject *
+  PyCMOR_set_variable_attribute(PyObject *self,PyObject *args)
+{
+  char *name;
+  char *value;
+  int ierr, var_id;
+  if (!PyArg_ParseTuple(args,"iss",&var_id,&name,&value))
+    return NULL;
+  printf("ok set %s, to %s on %i\n",name,value,var_id);
+  ierr = cmor_set_variable_attribute(var_id,name,'c',(void *)value);
+  printf("ok we got err: %i\n",ierr);
+  if (ierr != 0 ) return NULL;
+  /* Return NULL Python Object */
+  Py_INCREF(Py_None);
+  return Py_None;
+}
+static PyObject *
+  PyCMOR_get_variable_attribute(PyObject *self,PyObject *args)
+{
+  char *name;
+  char value[CMOR_MAX_STRING];
+  int ierr, *var_id;
+  if (!PyArg_ParseTuple(args,"is",&var_id,&name))
+    return NULL;
+  ierr = cmor_get_variable_attribute(*var_id,name,(void *)value);
+  if (ierr != 0 ) return NULL;
+  return Py_BuildValue("s",value);
+}
+
+static PyObject *
+  PyCMOR_has_variable_attribute(PyObject *self,PyObject *args)
+{
+  char *name;
+  int ierr, *var_id;
+  if (!PyArg_ParseTuple(args,"is",&var_id,&name))
+    return NULL;
+  ierr = cmor_has_variable_attribute(*var_id,name);
+  return Py_BuildValue("i",ierr);
+}
+
 static PyObject *
   PyCMOR_setup(PyObject *self,PyObject *args)
 {
@@ -749,6 +790,9 @@ static PyMethodDef MyExtractMethods[]= {
   {"set_cur_dataset_attribute",PyCMOR_set_cur_dataset_attribute, METH_VARARGS},
   {"get_cur_dataset_attribute",PyCMOR_get_cur_dataset_attribute, METH_VARARGS},
   {"has_cur_dataset_attribute",PyCMOR_has_cur_dataset_attribute, METH_VARARGS},
+  {"set_variable_attribute",PyCMOR_set_variable_attribute, METH_VARARGS},
+  {"get_variable_attribute",PyCMOR_get_variable_attribute, METH_VARARGS},
+  {"has_variable_attribute",PyCMOR_has_variable_attribute, METH_VARARGS},
   {"create_output_path",PyCMOR_create_output_path, METH_VARARGS},
   {"get_original_shape",PyCMOR_get_original_shape, METH_VARARGS},
   {NULL, NULL} /*sentinel */

@@ -871,7 +871,7 @@ def set_cur_dataset_attribute(name,value):
         val = str(value)
     return _cmor.set_cur_dataset_attribute(name,val)
 
-def has_cur_dataset_attribute(name,value):
+def has_cur_dataset_attribute(name):
     """determines if the current cmor dataset has an attribute
     Usage:
       cmor.het_cur_dataset_attribute(name)
@@ -886,7 +886,7 @@ def has_cur_dataset_attribute(name,value):
         return False
 
 def get_cur_dataset_attribute(name):
-    """Gets an attribute onto the current cmor dataset
+    """Gets an attribute from the current cmor dataset
     Usage:
       cmor.get_cur_dataset_attribute(name)
     Where:
@@ -895,6 +895,50 @@ def get_cur_dataset_attribute(name):
     """
     if has_cur_dataset_attribute(name):
         return _cmor.get_cur_dataset_attribute(name)
+    else:
+        return None
+    
+def set_variable_attribute(var_id,name,value):
+    """Sets an attribute onto a cmor variable
+    Usage:
+      cmor.set_variable_attribute(var_id,name,value)
+    Where:
+      var_id: is cmor variable id
+      name  : is the name of the attribute
+      value : is the value for this attribute
+    """
+    if value is None:
+        val=""
+    else:
+        val = str(value)
+    return _cmor.set_variable_attribute(var_id,name,val)
+
+def has_variable_attribute(var_id,name):
+    """determines if the a cmor variable has an attribute
+    Usage:
+      cmor.het_variable_attribute(name)
+    Where:
+      var_id: is cmor variable id
+      name: is the name of the attribute
+    Returns True if the dataset has the attribute, False otherwise
+    """
+    test = _cmor.has_variable_attribute(var_id,name)
+    if test == 0 :
+        return True
+    else:
+        return False
+
+def get_variable_attribute(var_id,name):
+    """Gets an attribute from a cmor variable
+    Usage:
+      cmor.get_variable_attribute(name)
+    Where:
+      var_id: is cmor variable id
+      name: is the name of the attribute
+    Returns none if attribute is non-existant
+    """
+    if has_variable_attribute(name):
+        return _cmor.get_variable_attribute(var_id,name)
     else:
         return None
     
