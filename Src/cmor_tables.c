@@ -55,7 +55,6 @@ int cmor_set_dataset_att(cmor_table_t *table, char att[CMOR_MAX_STRING],char val
   char value[CMOR_MAX_STRING];
   char value2[CMOR_MAX_STRING];
   extern int cmor_ntables;
-  char **bstr;
 
   cmor_add_traceback("cmor_set_dataset_att");
   cmor_is_setup();

@@ -79,9 +79,7 @@ static PyObject *
   int ierr, var_id;
   if (!PyArg_ParseTuple(args,"iss",&var_id,&name,&value))
     return NULL;
-  printf("ok set %s, to %s on %i\n",name,value,var_id);
   ierr = cmor_set_variable_attribute(var_id,name,'c',(void *)value);
-  printf("ok we got err: %i\n",ierr);
   if (ierr != 0 ) return NULL;
   /* Return NULL Python Object */
   Py_INCREF(Py_None);

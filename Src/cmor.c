@@ -1668,6 +1668,7 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
   size_t uuidlen;
   extern int cmor_convert_char_to_hyphen(char c);
 
+
   cmor_add_traceback("cmor_write");
 
   strcpy(appending_to,""); /* initialize to nothing */
@@ -2101,10 +2102,12 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
       /*Ok does it contain "area" */
       cmor_get_variable_attribute(var_id,"ext_cell_measures",&ctmp5[0]);
       k=-1;
-      for (i=0;i<strlen(ctmp5)-5;i++) {
-	if (strncmp(&ctmp5[i],"area:",5)==0) {
-	  k=i+6;
-	  break;
+      if (strlen(ctmp5)>5) {
+	for (i=0;i<strlen(ctmp5)-5;i++) {
+	  if (strncmp(&ctmp5[i],"area:",5)==0) {
+	    k=i+6;
+	    break;
+	  }
 	}
       }
       if (k!=-1) { /*ok we have this guy, let's figure out the name */
@@ -2149,10 +2152,12 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
 	strncat(ctmp,ctmp3,CMOR_MAX_STRING-strlen(ctmp));
       }
       k=-1;
-      for (i=0;i<strlen(ctmp5)-7;i++) {
-	if (strncmp(&ctmp5[i],"volume:",7)==0) {
-	  k=i+8;
-	  break;
+      if (strlen(ctmp5)>7) {
+	for (i=0;i<strlen(ctmp5)-7;i++) {
+	  if (strncmp(&ctmp5[i],"volume:",7)==0) {
+	    k=i+8;
+	    break;
+	  }
 	}
       }
       if (k!=-1) { /*ok we have this guy, let's figureout the name */
@@ -2829,7 +2834,7 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
       if (j!=-1) {
 	ierr = nc_def_var(ncid,cmor_axes[j].id,NC_DOUBLE,0,&nc_singletons[i],&nc_singletons[i]);
 	if (ierr != NC_NOERR) {
-	  snprintf(msg,CMOR_MAX_STRING,"NetCDF Error (%i: %s) defining scalar variable %s for variable %s (table: %s)",ierr,nc_strerror(ierr),cmor_axes[j].id,cmor_vars[var_id].id,cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
+	  snprintf(msg,CMOR_MAX_STRING,"NetCDF Error (%i: %s) defining scalar variable %s for variable %s (table: %s)",ierr,nc_strerror(ierr),cmor_axes[j].id,cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
 	  cmor_handle_error(msg,CMOR_CRITICAL);
 	}
 	/* now  puts on its attributes */
@@ -3492,19 +3497,6 @@ int cmor_close_variable(int var_id, char *file_name, int *preserve)
   cdCompTime comptime;
   int i,j,n;
   double interval;
-  /* these are for recopying in case of preserve */
-  char attribute_types[CMOR_MAX_ATTRIBUTES]; /*stores attributes type */
-  char attributes[CMOR_MAX_ATTRIBUTES][CMOR_MAX_STRING]; /*stores attributes names */
-  char attributes_values_char[CMOR_MAX_ATTRIBUTES][CMOR_MAX_STRING];
-  double attributes_values_num[CMOR_MAX_ATTRIBUTES];
-  int nattributes ; /* number of  attributes */
-  char itype;
-  double miss;
-  char iunits[CMOR_MAX_STRING];
-  int axes_ids[CMOR_MAX_DIMENSIONS];
-  int ndims;
-  double tolerance;
-  char positive;
   struct stat buf;
   off_t sz;
   long maxsz=(long) pow(2,32) -1;

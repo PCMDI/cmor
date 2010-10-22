@@ -79,23 +79,17 @@ int cmor_set_variable_attribute(int id, char *attribute_name, char type, void *v
   char msg[CMOR_MAX_STRING];
   cmor_add_traceback("cmor_set_variable_attribute");
 
-  if (type=='c') printf("in C: setting %s, to %s on var: %i\n",attribute_name, value, id);
   cmor_is_setup();
   index=-1;
   cmor_trim_string(attribute_name,msg);
   for (i=0;i<cmor_vars[id].nattributes;i++) {
     if (strcmp(cmor_vars[id].attributes[i],msg)==0) {index=i;break;} /* we found it */
   }
-  printf("ok it is found at index: %i\n",index);
   if (index==-1) {index=cmor_vars[id].nattributes; cmor_vars[id].nattributes+=1;}
-  printf("ok we now operate on index: %i, i is: %i\n",index,i);
   strncpy(cmor_vars[id].attributes[index],msg,CMOR_MAX_STRING); /*stores the name */
-  printf("copied attribute name (%s)\n",cmor_vars[id].attributes[index]);
   cmor_vars[id].attributes_type[index]=type;
-  printf("copied type: %c\n",type);
   if (type=='c')  {
     if (strlen(value)>0) {
-      printf("strlen is: %i\n",strlen(value));
       strncpytrim(cmor_vars[id].attributes_values_char[index],value,CMOR_MAX_STRING);
     }
     else {
@@ -1238,6 +1232,8 @@ int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int 
   cmor_add_traceback("cmor_write_var_to_file");
   cmor_is_setup();
 
+  emax = 0.;
+  emin = 0.;
 /*   type = avar->itype; /\* stores input type for variable *\/ */
 
   if (strcmp(avar->ounits,avar->iunits)==0) dounits=0;
