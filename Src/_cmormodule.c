@@ -256,6 +256,7 @@ static PyObject *
   char *forcing; 
   char *institute_id;	 
   char *parent_exp_id;	 
+  char *parent_exp_rip;	 
   int  leap_year; 
   int  leap_month; 
   int  *month_lengths;
@@ -267,7 +268,7 @@ static PyObject *
   PyObject *branch_time_obj;
   PyArrayObject *month_lengths_array_obj=NULL;
 
-  if (!PyArg_ParseTuple(args,"sssssissssiiOssiissO",&outpath,&experiment_id,&institution,&source,&calendar,&realization,&contact,&history,&comment,&references,&leap_year,&leap_month,&month_lengths_obj,&model_id,&forcing,&initialization_method,&physics_version,&institute_id,&parent_exp_id,&branch_time_obj))
+  if (!PyArg_ParseTuple(args,"sssssissssiiOssiissOs",&outpath,&experiment_id,&institution,&source,&calendar,&realization,&contact,&history,&comment,&references,&leap_year,&leap_month,&month_lengths_obj,&model_id,&forcing,&initialization_method,&physics_version,&institute_id,&parent_exp_id,&branch_time_obj,&parent_exp_rip))
     return NULL;
   if (month_lengths_obj == Py_None) {
     month_lengths = NULL;
@@ -284,7 +285,7 @@ static PyObject *
     branch_time = &bt;
   }
     
-  ierr = cmor_dataset(outpath,experiment_id,institution,source,calendar,realization,contact,history,comment,references,leap_year,leap_month,month_lengths,model_id,forcing,initialization_method,physics_version,institute_id,parent_exp_id,branch_time);
+  ierr = cmor_dataset(outpath,experiment_id,institution,source,calendar,realization,contact,history,comment,references,leap_year,leap_month,month_lengths,model_id,forcing,initialization_method,physics_version,institute_id,parent_exp_id,branch_time,parent_exp_rip);
   if (month_lengths_array_obj!=NULL) {Py_DECREF(month_lengths_array_obj);}
   if (ierr != 0 ) return NULL;
   /* Return NULL Python Object */

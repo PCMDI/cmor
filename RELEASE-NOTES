@@ -1,3 +1,6 @@
+2010-10-22 : updated docs to reflect all these changes
+2010-10-22 : exposed cmor_set/get/has_variable in Fortran interface, just like Python works only on "string" variables
+2010-10-22 : add optional "parent_experiment_rip" to cmor_dataset (C,Fortran,Python)
 2010-10-22 : fixed bug with variables using "grids" and singleton dimensions
 2010-10-22 : upgraded to 2.4 in devel branch
 2010-10-22 : exposed cmor_set_variable_attribute to users in Python

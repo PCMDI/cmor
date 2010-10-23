@@ -750,10 +750,10 @@ def load_table(table):
 ##         raise Exception, "Error, the table you specified (%s) does not exists" % table
     return _cmor.load_table(table)
 
-def dataset(experiment_id,institution,source,calendar,outpath='.',realization=1,contact="",history="",comment="",references="",leap_year=0,leap_month=0,month_lengths=None,model_id="",forcing="",initialization_method=None,physics_version=None,institute_id="",parent_experiment_id="",branch_time=None):
+def dataset(experiment_id,institution,source,calendar,outpath='.',realization=1,contact="",history="",comment="",references="",leap_year=0,leap_month=0,month_lengths=None,model_id="",forcing="",initialization_method=None,physics_version=None,institute_id="",parent_experiment_id="",branch_time=None,parent_experiment_rip=""):
     """ Initialize a cmor dataset 
     Usage:
-    dataset(experiment_id,institution,source,outpath='.',calendar=None,realization=None,contact=None,history="",comment="",references="",leap_year=None,leap_month=None,month_lengths=None,model_id="",forcing="",initialization_method=None,physics_version=None,institute_id="",parent_experiment_id="",branch_time=None)
+    dataset(experiment_id,institution,source,outpath='.',calendar=None,realization=None,contact=None,history="",comment="",references="",leap_year=None,leap_month=None,month_lengths=None,model_id="",forcing="",initialization_method=None,physics_version=None,institute_id="",parent_experiment_id="",branch_time=None,parent_experiment_rip="")
     """
 
     if isinstance(calendar,int):
@@ -779,7 +779,7 @@ def dataset(experiment_id,institution,source,calendar,outpath='.',realization=1,
     elif calendar is None:
         calendar ="none"
                 
-    for st in [outpath,experiment_id,institution,source,contact,history,comment,references,model_id,forcing,institute_id,parent_experiment_id]:
+    for st in [outpath,experiment_id,institution,source,contact,history,comment,references,model_id,forcing,institute_id,parent_experiment_id,parent_experiment_rip]:
         if not isinstance(st,str):
             for o in dir():
                 if locals()[o] is st:
@@ -826,7 +826,7 @@ def dataset(experiment_id,institution,source,calendar,outpath='.',realization=1,
         else:
             branch_time=float(branch_time)
 
-    return _cmor.dataset(outpath,experiment_id,institution,source,calendar,realization,contact,history,comment,references,leap_year,leap_month,month_lengths,model_id,forcing,initialization_method,physics_version,institute_id,parent_experiment_id,branch_time)
+    return _cmor.dataset(outpath,experiment_id,institution,source,calendar,realization,contact,history,comment,references,leap_year,leap_month,month_lengths,model_id,forcing,initialization_method,physics_version,institute_id,parent_experiment_id,branch_time,parent_experiment_rip)
 
 def set_table(table):
     if not isinstance(table,int):

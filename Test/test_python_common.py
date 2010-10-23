@@ -1,7 +1,7 @@
 import numpy
 # this test tries to mimic ippc_test_code.c but from python
 # This one is using direct C calls from python not the python around it
-ntimes=5
+ntimes=2
 lon=4
 lat=3
 lev=5

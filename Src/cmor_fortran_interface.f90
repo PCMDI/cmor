@@ -27,6 +27,26 @@ module cmor_users_functions
      end function cmor_has_cur_dset_attribute_cff
   end interface
   interface 
+     function cmor_set_variable_attribute_cff(id, nm, value) result (ierr)
+       character(*) nm
+       character (*) value
+       integer ierr,id
+     end function cmor_set_variable_attribute_cff
+  end interface
+  interface 
+     function cmor_get_variable_attribute_cff(id, name, value) result (ierr)
+       character(*) name
+       character(*) value
+       integer ierr,id
+     end function cmor_get_variable_attribute_cff
+  end interface
+  interface 
+     function cmor_has_variable_attribute_cff(id, name) result (ierr)
+       character(*) name
+       integer ierr,id
+     end function cmor_has_variable_attribute_cff
+  end interface
+  interface 
      subroutine cmor_get_original_shape_cff(var_id,shape_array)
        integer var_id,shape_array
      end subroutine cmor_get_original_shape_cff
@@ -74,10 +94,10 @@ module cmor_users_functions
           source,calendar,realization,contact,history,comment,&
           references, leap_year,leap_month,month_lengths,model_id,&
           forcing,initialization_method,physics_version,institute_id,&
-          parent_exp_id,branch_time) result (ierr)
+          parent_exp_id,branch_time,parent_experiment_rip) result (ierr)
        character(*) :: outpath,experiment_id,institution,source,calendar,contact
        character(*) :: history,comment,references,model_id,forcing,institute_id
-       character(*) :: parent_exp_id
+       character(*) :: parent_exp_id,parent_experiment_rip
        integer :: realization,leap_year,leap_month,month_lengths
        integer :: ierr,initialization_method,physics_version
        double precision branch_time
@@ -86,10 +106,10 @@ module cmor_users_functions
           source,calendar,realization,contact,history,comment,&
           references, leap_year,leap_month,model_id,forcing,&
           initialization_method,physics_version,institute_id, &
-          parent_exp_id,branch_time) result (ierr)
+          parent_exp_id,branch_time,parent_experiment_rip) result (ierr)
        character(*) :: outpath,experiment_id,institution,source,calendar,contact
        character(*) :: history,comment,references,model_id,forcing,institute_id
-       character(*) :: parent_exp_id
+       character(*) :: parent_exp_id,parent_experiment_rip
        integer :: realization,leap_year,leap_month
        integer :: ierr,initialization_method,physics_version
        double precision branch_time
@@ -98,10 +118,10 @@ module cmor_users_functions
           source,calendar,realization,contact,history,comment,&
           references, leap_year,leap_month,month_lengths,model_id,&
           forcing,initialization_method,physics_version,institute_id, &
-          parent_exp_id) result (ierr)
+          parent_exp_id,parent_experiment_rip) result (ierr)
        character(*) :: outpath,experiment_id,institution,source,calendar,contact
        character(*) :: history,comment,references,model_id,forcing,institute_id
-       character(*) :: parent_exp_id
+       character(*) :: parent_exp_id,parent_experiment_rip
        integer :: realization,leap_year,leap_month,month_lengths
        integer :: ierr,initialization_method,physics_version
      end function cmor_dataset_cff_nobrch
@@ -109,10 +129,10 @@ module cmor_users_functions
           source,calendar,realization,contact,history,comment,&
           references, leap_year,leap_month,model_id,forcing,&
           initialization_method,physics_version,institute_id, &
-          parent_exp_id) result (ierr)
+          parent_exp_id,parent_experiment_rip) result (ierr)
        character(*) :: outpath,experiment_id,institution,source,calendar,contact
        character(*) :: history,comment,references,model_id,forcing,institute_id
-       character(*) :: parent_exp_id
+       character(*) :: parent_exp_id,parent_experiment_rip
        integer :: realization,leap_year,leap_month
        integer :: ierr,initialization_method,physics_version
      end function cmor_dataset_cff_null_nobrch
@@ -7526,6 +7546,31 @@ contains
     integer ierr
     ierr = cmor_set_cur_dset_attribute_cff(trim(name)//char(0), trim(value)//char(0))
   end function cmor_set_cur_dataset_attribute
+  function cmor_has_variable_attribute(var_id, value) result (ierr)
+    implicit none
+    character (*), intent (in) :: value
+    integer, intent (in) :: var_id
+    integer ierr
+    ierr = cmor_has_variable_attribute_cff(var_id, trim(value)//char(0))
+  end function cmor_has_variable_attribute
+
+  function cmor_get_variable_attribute(var_id, name, value) result (ierr)
+    implicit none
+    character (*), intent (in) :: name
+    character (*), intent (out) :: value
+    integer, intent (in) :: var_id
+    integer ierr
+    ierr = cmor_get_variable_attribute_cff(var_id,trim(name)//char(0), value)
+  end function cmor_get_variable_attribute
+
+  function cmor_set_variable_attribute(var_id, name, value) result (ierr)
+    implicit none
+    character (*), intent (in) :: name
+    character (*), intent (in) :: value
+    integer, intent (in) :: var_id
+    integer ierr
+    ierr = cmor_set_variable_attribute_cff(var_id,trim(name)//char(0), trim(value)//char(0))
+  end function cmor_set_variable_attribute
 
   function cmor_setup_ints(inpath,netcdf_file_action, set_verbosity,&
        exit_control, logfile, create_subdirectories) result(ierr)
@@ -7697,16 +7742,16 @@ contains
        realization,&
        contact,history,comment,references,&
        leap_year,leap_month,month_lengths,model_id,forcing, &
-       initialization_method,physics_version,institute_id,parent_experiment_id,branch_time) result (ierr)
+       initialization_method,physics_version,institute_id,parent_experiment_id,branch_time,parent_experiment_rip) result (ierr)
     implicit none
     character(*), INTENT(in) :: outpath,experiment_id,institution,source,calendar
     character(*), optional, intent(in) :: model_id,forcing
     character(*), optional, intent(in) :: contact,history,comment,references,institute_id
-    character(*), optional, intent(in) :: parent_experiment_id
+    character(*), optional, intent(in) :: parent_experiment_id,parent_experiment_rip
     integer, optional,intent(in) :: leap_year,leap_month,month_lengths(12)
     integer r,ly,lm,im,pv
     integer, optional, intent(in) :: realization,initialization_method,physics_version
-    character(1024) cntct,hist,comt,ref,mnm,fnm,instid,peid
+    character(1024) cntct,hist,comt,ref,mnm,fnm,instid,peid,perip
     integer ierr
     double precision, optional, intent(in) :: branch_time
 
@@ -7775,29 +7820,34 @@ contains
     else
        peid= char(0)
     endif
+    if (present(parent_experiment_rip)) then
+       perip = trim(parent_experiment_rip)//char(0)
+    else
+       perip= char(0)
+    endif
     if (present(month_lengths)) then
        if (present(branch_time)) then
           ierr = cmor_dataset_cff(trim(outpath)//char(0),trim(experiment_id)//char(0),&
                trim(institution)//char(0),trim(source)//char(0),trim(calendar)//char(0),r,&
                cntct,hist,comt,ref,&
-               ly,lm,month_lengths(1),mnm,fnm,im,pv,instid,peid,branch_time)
+               ly,lm,month_lengths(1),mnm,fnm,im,pv,instid,peid,branch_time,perip)
        else
           ierr = cmor_dataset_cff_nobrch(trim(outpath)//char(0),trim(experiment_id)//char(0),&
                trim(institution)//char(0),trim(source)//char(0),trim(calendar)//char(0),r,&
                cntct,hist,comt,ref,&
-               ly,lm,month_lengths(1),mnm,fnm,im,pv,instid,peid)
+               ly,lm,month_lengths(1),mnm,fnm,im,pv,instid,peid,perip)
        endif
     else
        if (present(branch_time)) then
           ierr = cmor_dataset_cff_null(trim(outpath)//char(0),trim(experiment_id)//char(0),&
                trim(institution)//char(0),trim(source)//char(0),trim(calendar)//char(0),r,&
                cntct,hist,comt,ref,&
-               ly,lm,mnm,fnm,im,pv,instid,peid,branch_time)
+               ly,lm,mnm,fnm,im,pv,instid,peid,branch_time,perip)
        else
           ierr = cmor_dataset_cff_null_nobrch(trim(outpath)//char(0),trim(experiment_id)//char(0),&
                trim(institution)//char(0),trim(source)//char(0),trim(calendar)//char(0),r,&
                cntct,hist,comt,ref,&
-               ly,lm,mnm,fnm,im,pv,instid,peid)
+               ly,lm,mnm,fnm,im,pv,instid,peid,perip)
        endif
     endif
     ierr = -ierr

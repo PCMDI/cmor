@@ -26,7 +26,7 @@ cmor._cmor.dataset( \
     "Model described by Koder and Tolkien (J. Geophys. Res., 2001, 576-591).  Also see http://www.GICC.su/giccm/doc/index.html  2XCO2 simulation described in Dorkey et al. '(Clim. Dyn., 2003, 323-357.)",\
     0,\
     0,\
-    None,"GICCM1","Nat",0,0,"PCMDI","N/A",0)
+    None,"GICCM1","Nat",0,0,"PCMDI","N/A",0,"r1i1p1")
 
 tables=[]
 a = cmor._cmor.load_table("Tables/CMIP5_Omon")

@@ -42,7 +42,8 @@ extern int cmor_dataset(char *outpath,
 			int physics_version,
 			char *institute_id,
 			char *parent_experiment_id,
-			double *branch_time);
+			double *branch_time,
+			char *parent_experiment_rip);
 extern int strncpytrim(char *out, char *in, int max);
 extern int cmor_convert_string_to_list(char *values,char type, void **target, int *nelts);
 extern int cmor_define_zfactors_vars(int var_id,int ncid, int *nc_dim,char *formula_terms,int *nzfactors, int *zfactors, int *nc_zfactors,int i,int dim_bnds);

@@ -241,7 +241,7 @@ int main()
        0,
        &tmpmo[0],&c1[0],&c2[0],
        0,
-       0,"GICC","N/A",&bt);
+       0,"GICC","N/A",&bt,"r1i1p1");
 
   printf("Test code: ok load cmor table(s)\n");
   ierr = cmor_load_table("Tables/CMIP5_Omon",&tables[0]);

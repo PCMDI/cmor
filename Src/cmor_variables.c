@@ -140,18 +140,30 @@ int cmor_has_variable_attribute(int id, char *attribute_name)
 {
   extern cmor_var_t cmor_vars[];
   int i,index;
+  char type;
+  char msg[CMOR_MAX_STRING];
   cmor_add_traceback("cmor_has_variable_attribute");
   cmor_is_setup();
   index=-1;
   for (i=0;i<cmor_vars[id].nattributes;i++) {
     if (strcmp(cmor_vars[id].attributes[i],attribute_name)==0) {index=i;break;} /* we found it */
   }
-  if (index==-1) {
+  if ((index==-1) || strlen(attribute_name)==0)  {
    cmor_pop_traceback();
     return 1;
   }
+  i=0;
+  /* if it is empty we assume not defined */
+  cmor_get_variable_attribute_type(id,attribute_name,&type);
+  if (type=='c') {
+    cmor_get_variable_attribute(id,attribute_name,msg);
+    if (strlen(msg)==0) {
+      /* empty string attribute has been deleted */
+      i=1;
+    }
+  }
   cmor_pop_traceback();
-  return 0;
+  return i;
 }
 
 int cmor_get_variable_attribute_names(int id, int *nattributes,char attributes_names[][CMOR_MAX_STRING])

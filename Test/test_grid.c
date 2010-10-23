@@ -109,7 +109,7 @@ int main()
        0,
        0,
        tmpmo,
-       "GICCM1\0","N/A",0,0,"GICC","N/A",&tmpf);
+       "GICCM1\0","N/A",0,0,"GICC","N/A",&tmpf,"r1i1p1");
   printf("Test code: ok load cmor table(s)\n");
   ierr = cmor_load_table("Tables/CMIP5_Amon",&tables[1]);
   printf("Test code: ok load cmor table(s)\n");

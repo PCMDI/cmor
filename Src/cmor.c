@@ -1056,7 +1056,8 @@ int cmor_dataset(char *outpath,
 		 int physics_version,
 		 char *institute_id,
 		 char *parent_experiment_id,
-		 double *branch_time)
+		 double *branch_time,
+		 char *parent_experiment_rip)
 {
   extern cmor_dataset_def cmor_current_dataset;
   char msg[CMOR_MAX_STRING];
@@ -1130,6 +1131,7 @@ int cmor_dataset(char *outpath,
   cmor_set_cur_dataset_attribute("model_id",model_id,1);
   cmor_set_cur_dataset_attribute("forcing",forcing,1);
   cmor_set_cur_dataset_attribute("parent_experiment_id",parent_experiment_id,1);
+  cmor_set_cur_dataset_attribute("parent_experiment_rip",parent_experiment_rip,1);
   if (branch_time == NULL) {
     if (cmor_is_required_global_attribute("branch_time",CMOR_TABLE)==0) {
       sprintf(msg,"You did not provide required attribute: branch_time");
@@ -1477,6 +1479,11 @@ int cmor_define_zfactors_vars(int var_id,int ncid, int *nc_dim,char *formula_ter
 
 	/* Creates attribute related to that variable */
 	for (k=0;k<cmor_vars[l].nattributes;k++){
+	    /* first of all we need to make sure it is not an empty attribute */
+	    if (cmor_has_variable_attribute(l,cmor_vars[l].attributes[k])!=0) {
+	      /* deleted attribute continue on */
+	      continue;
+	    }
 	  if (strcmp(cmor_vars[l].attributes[k],"flag_values")==0) {
 	    /* ok we need to convert the string to a list of int */
 	    ierr = cmor_convert_string_to_list(cmor_vars[l].attributes_values_char[k],'i',(void *)&int_list,&nelts);
@@ -1521,6 +1528,11 @@ int cmor_define_zfactors_vars(int var_id,int ncid, int *nc_dim,char *formula_ter
 
 	/* Creates attribute related to that variable */
 	for (k=0;k<cmor_vars[l].nattributes;k++){
+	    /* first of all we need to make sure it is not an empty attribute */
+	    if (cmor_has_variable_attribute(l,cmor_vars[l].attributes[k])!=0) {
+	      /* deleted attribute continue on */
+	      continue;
+	    }
 	  if (strcmp(cmor_vars[l].attributes[k],"flag_values")==0) {
 	    /* ok we need to convert the string to a list of int */
 	    ierr = cmor_convert_string_to_list(cmor_vars[l].attributes_values_char[k],'i',(void *)&int_list,&nelts);
@@ -2792,6 +2804,11 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
 	  /* } */
 	  /* Creates attributes related to that variable */
 	  for (k=0;k<cmor_vars[j].nattributes;k++){
+	    /* first of all we need to make sure it is not an empty attribute */
+	    if (cmor_has_variable_attribute(j,cmor_vars[j].attributes[k])!=0) {
+	      /* deleted attribute continue on */
+	      continue;
+	    }
 	    if (strcmp(cmor_vars[j].attributes[k],"flag_values")==0) {
 	      /* ok we need to convert the string to a list of int */
 	      ierr = cmor_convert_string_to_list(cmor_vars[j].attributes_values_char[k],'i',(void *)&int_list,&nelts);
@@ -2877,6 +2894,11 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
 
     /* Creates attributes related to that variable */
     for (j=0;j<cmor_vars[var_id].nattributes;j++){
+      /* first of all we need to make sure it is not an empty attribute */
+      if (cmor_has_variable_attribute(var_id,cmor_vars[var_id].attributes[j])!=0) {
+	/* deleted attribute continue on */
+	continue;
+      }
       if (strcmp(cmor_vars[var_id].attributes[j],"flag_values")==0) {
 	/* ok we need to convert the string to a list of int */
 	ierr = cmor_convert_string_to_list(cmor_vars[var_id].attributes_values_char[j],'i',(void *)&int_list,&nelts);

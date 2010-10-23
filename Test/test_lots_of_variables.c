@@ -287,7 +287,7 @@ int main()
        "Model described by Koder and Tolkien (J. Geophys. Res., 2001, 576-591).  Also see http://www.GICC.su/giccm/doc/index.html  2XCO2 simulation described in Dorkey et al. '(Clim. Dyn., 2003, 323-357.)",
        0,
        0,
-       &tmpmo[0],&c1[0],&c2[0],3,0,"GICC","N/A",&bt);
+       &tmpmo[0],&c1[0],&c2[0],3,0,"GICC","N/A",&bt,"r1i1p1");
 
 
 /*   cmor_set_cur_dataset_attribute("initialization_method","3",1); */
