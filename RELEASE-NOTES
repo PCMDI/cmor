@@ -1,3 +1,4 @@
+2010-10-22 : Tagging 2.4.0
 2010-10-22 : updated docs to reflect all these changes
 2010-10-22 : exposed cmor_set/get/has_variable in Fortran interface, just like Python works only on "string" variables
 2010-10-22 : add optional "parent_experiment_rip" to cmor_dataset (C,Fortran,Python)
