@@ -1063,6 +1063,7 @@ int cmor_dataset(char *outpath,
   char msg[CMOR_MAX_STRING];
   int i,found;
   struct stat buf;
+  FILE *test_file=NULL;
 
   cmor_add_traceback("cmor_dataset");
   cmor_is_setup();
@@ -1081,20 +1082,29 @@ int cmor_dataset(char *outpath,
     }
     /* ok if not root then test permssions */
     if (getuid()!=0) {
-      if (buf.st_uid == getuid()) {
-	if (!((buf.st_mode & S_IRUSR) && (buf.st_mode & S_IWUSR))) {
-	  sprintf(msg,"You defined your output directory to be: '%s', but you do not have read/write permissions on it",cmor_current_dataset.outpath);
-	  cmor_handle_error(msg,CMOR_CRITICAL);
-	}
-      }
-      else if (buf.st_gid == getgid()) {
-	if (!((buf.st_mode & S_IRGRP) && (buf.st_mode & S_IWGRP))) {
-	  sprintf(msg,"You defined your output directory to be: '%s', but you do not have read/write permissions on it",cmor_current_dataset.outpath);
-	  cmor_handle_error(msg,CMOR_CRITICAL);
-	}
-      } else if (!((buf.st_mode & S_IROTH) && (buf.st_mode & S_IWOTH))) {
+      strcpy(msg,cmor_current_dataset.outpath);
+      strncat(msg,"tmp.cmor.test",CMOR_MAX_STRING);
+      test_file = fopen(msg,"w");
+      if (test_file == NULL) {
+
+      /* if (buf.st_uid == getuid()) { */
+      /* 	if (!((buf.st_mode & S_IRUSR) && (buf.st_mode & S_IWUSR))) { */
+      /* 	  sprintf(msg,"You defined your output directory to be: '%s', but you do not have read/write permissions on it",cmor_current_dataset.outpath); */
+      /* 	  cmor_handle_error(msg,CMOR_CRITICAL); */
+      /* 	} */
+      /* } */
+      /* else if (buf.st_gid == getgid()) { */
+      /* 	if (!((buf.st_mode & S_IRGRP) && (buf.st_mode & S_IWGRP))) { */
+      /* 	  sprintf(msg,"You defined your output directory to be: '%s', but you do not have read/write permissions on it",cmor_current_dataset.outpath); */
+      /* 	  cmor_handle_error(msg,CMOR_CRITICAL); */
+      /* 	} */
+      /* } else if (!((buf.st_mode & S_IROTH) && (buf.st_mode & S_IWOTH))) { */
 	sprintf(msg,"You defined your output directory to be: '%s', but you do not have read/write permissions on it",cmor_current_dataset.outpath);
 	cmor_handle_error(msg,CMOR_CRITICAL);
+      }
+      else {
+	fclose(test_file);
+	remove(msg);
       }
       /* /\* Ok now we need to see if we can read/write/access the directory *\/ */
       /* if (buf.st_uid == getuid()) { */

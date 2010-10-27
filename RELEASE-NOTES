@@ -1,3 +1,4 @@
+2010-10-27 : edited the test for permission on output directory, used to fail if you had group write privileges but that wasnt your main group
 2010-10-22 : Tagging 2.4.0
 2010-10-22 : updated docs to reflect all these changes
 2010-10-22 : exposed cmor_set/get/has_variable in Fortran interface, just like Python works only on "string" variables
