@@ -2120,9 +2120,9 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
 
     strncat(ctmp,ctmp3,CMOR_MAX_STRING-strlen(ctmp));
 
-    if (cmor_has_variable_attribute(var_id,"ext_cell_measures")==0) {
+    if (cmor_has_variable_attribute(var_id,"cell_measures")==0) {
       /*Ok does it contain "area" */
-      cmor_get_variable_attribute(var_id,"ext_cell_measures",&ctmp5[0]);
+      cmor_get_variable_attribute(var_id,"cell_measures",&ctmp5[0]);
       k=-1;
       if (strlen(ctmp5)>5) {
 	for (i=0;i<strlen(ctmp5)-5;i++) {

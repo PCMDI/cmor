@@ -656,7 +656,7 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
     cmor_update_history(vrid,msg);
   }
   cmor_set_variable_attribute(vrid,"cell_methods",'c',refvar.cell_methods);
-  cmor_set_variable_attribute(vrid,"ext_cell_measures",'c',refvar.cell_measures);
+  cmor_set_variable_attribute(vrid,"cell_measures",'c',refvar.cell_measures);
   /*if ((refvar.positive!='\0') && (positive!=NULL) && (positive[0]!=refvar.positive)) cmor_vars[vrid].sign=-1;*/
   if ((positive!=NULL) && (positive[0]!='\0')) {
     if ((positive[0]!='d') && positive[0]!='u') {
