@@ -2,7 +2,7 @@ import cmor
 import numpy
 
 def cmor_initialisation():
-    cmor.setup(inpath='/data/local/hadju/test/mip_tables',
+    cmor.setup(inpath='/git/cmip5-cmor-tables/Tables',
                netcdf_file_action = cmor.CMOR_REPLACE_3,
                create_subdirectories = 0)
     cmor.dataset('pre-industrial control', 'ukmo', 'HadCM3', '360_day',
@@ -14,7 +14,7 @@ def cmor_initialisation():
                  parent_experiment_rip = 'N/A',
                  branch_time = 0.,
                  contact = 'bob',
-                 outpath = '/data/local/hadju/test')
+                 outpath = 'Test')
 
 def setup_data():
     axes = [ {'table_entry': 'time1',
@@ -32,11 +32,16 @@ def cmor_define_and_write(values, axes):
     table = 'CMIP5_cfSites'
     cmor.load_table(table)
 
-    axis_ids = list()
-    for axis in axes:
-        axis_id = cmor.axis(**axis)
-        axis_ids.append(axis_id)
+    time_axis_id = cmor.axis(**axes[0])
+    cmor.load_table("CMIP5_grids")
+    site_axis_id = cmor.axis(**axes[1])
 
+    gid = cmor.grid([site_axis_id,],latitude=numpy.array([-20,]),longitude=numpy.array([150,]))
+
+    table = 'CMIP5_cfSites'
+    cmor.load_table(table)
+
+    axis_ids = [time_axis_id,gid]
     varid = cmor.variable('rlut',
                           'W m-2',
                           axis_ids,
