@@ -839,11 +839,11 @@ def close(var_id=None,file_name=False, preserve=False):
       cmor.close(varid=None)
     Where:
       var_id: id of variable to close, if passing None, means close every open ones.
-      [file_name] True/False (default False) if True: return name of the file just closed
+      [file_name] True/False (default False) if True: return name of the file just closed, works only if var_id is not None
       [preserve] True/False (default False) if True: close the file but preserve the var definition in CMOR to write more data with this variable (into a new file)
       """
     if var_id is not None and not isinstance(var_id,int):
-        raise Exception, "Error var_id must be none or a integer"
+        raise Exception, "Error var_id must be None or a integer"
 
     if (preserve is False):
         if (file_name is False):

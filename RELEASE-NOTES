@@ -1,3 +1,4 @@
+2010-11-05 : file_name=True ignored in python if no var_id is passed to it as well.
 2010-11-05 : added realm to gridspec file names
 2010-11-05 : reverted ext_cell_measures to cell_measures
 2010-10-27 : edited the test for permission on output directory, used to fail if you had group write privileges but that wasnt your main group

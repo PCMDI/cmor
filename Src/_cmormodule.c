@@ -632,24 +632,26 @@ static PyObject *
   PyCMOR_close(PyObject *self,PyObject *args)
 {
   PyObject *var;
-  PyObject *file;
-  PyObject *preserve;
   int varid,ierr;
   int dofile=0;
   int dopreserve=0;
   int preserved_id;
   char file_name[CMOR_MAX_STRING];
-  if (!PyArg_ParseTuple(args,"OOO",&var,&file,&preserve)) {
+  if (!PyArg_ParseTuple(args,"Oii",&var,&dofile,&dopreserve)) {
     return NULL;
   }
   
   if (var == Py_None ) {
     ierr = cmor_close();
+    if (ierr!=0) {
+      return NULL;
+    }
+    else {
+      return Py_BuildValue("i",ierr);
+    }
   }
   else {
     varid = (int)PyInt_AsLong(var);
-    dofile =(int)PyInt_AsLong(file);
-    dopreserve =(int)PyInt_AsLong(preserve);
 
     if (dopreserve==1) {
       if (dofile==1) { 
