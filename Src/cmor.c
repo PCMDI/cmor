@@ -84,9 +84,9 @@ void  cmor_check_forcing_validity(int table_id,char *value) {
     if (found==0) {
       sprintf(msg,"forcing attribute elt %i (%s) is not valid for table %s, valid values are:",i,bstr[i],cmor_tables[table_id].table_id);
       for(j=0;j<cmor_tables[table_id].nforcings;j++) {
-	strncat(msg," ",CMOR_MAX_STRING);
-	strncat(msg,cmor_tables[table_id].forcings[j],CMOR_MAX_STRING);
-	strncat(msg,",",CMOR_MAX_STRING);
+	strncat(msg," ",CMOR_MAX_STRING-strlen(msg));
+	strncat(msg,cmor_tables[table_id].forcings[j],CMOR_MAX_STRING-strlen(msg));
+	strncat(msg,",",CMOR_MAX_STRING-strlen(msg));
       }
       msg[strlen(msg)-1]='\0';
       cmor_handle_error(msg,CMOR_CRITICAL);
@@ -2066,27 +2066,27 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
 
     }
 
-/*     /\* prepares the common suffix for all fixed file *\/ */
-/*     strcpy(ctmp2,"../../../../fx/"); */
-/*     /\* realm *\/ */
-/*     /\* first check if the variable itslef has a realm *\/ */
-/*     if (cmor_tables[cmor_vars[var_id].ref_table_id].vars[cmor_vars[var_id].ref_var_id].realm[0]!='\0') { */
-/*       /\* we want to copy only the first realm here *\/ */
-/*       for (i=0;i<strlen(cmor_tables[cmor_vars[var_id].ref_table_id].vars[cmor_vars[var_id].ref_var_id].realm);i++) { */
-/* 	if (cmor_tables[cmor_vars[var_id].ref_table_id].vars[cmor_vars[var_id].ref_var_id].realm[i]!=' ') { */
-/* 	  ctmp3[i]=cmor_tables[cmor_vars[var_id].ref_table_id].vars[cmor_vars[var_id].ref_var_id].realm[i]; */
-/* 	  ctmp3[i+1]='\0'; */
-/* 	} */
-/* 	else { */
-/* 	  break; */
-/* 	} */
-/*       } */
-/*       strncattrim(ctmp2,ctmp3,CMOR_MAX_STRING-strlen(ctmp2)); */
-/*     } */
-/*     else { /\*ok it didn't so we're using the value from the table *\/ */
-/*       strncattrim(ctmp2,cmor_tables[cmor_vars[var_id].ref_table_id].realm,CMOR_MAX_STRING-strlen(ctmp2)); */
-/*     } */
-/*     strncattrim(ctmp2,"/",CMOR_MAX_STRING-strlen(ctmp2)); */
+    /* prepares the common suffix for all fixed file */
+    strcpy(ctmp2,"");
+    /* realm */
+    /* first check if the variable itslef has a realm */
+    if (cmor_tables[cmor_vars[var_id].ref_table_id].vars[cmor_vars[var_id].ref_var_id].realm[0]!='\0') {
+      /* we want to copy only the first realm here */
+      for (i=0;i<strlen(cmor_tables[cmor_vars[var_id].ref_table_id].vars[cmor_vars[var_id].ref_var_id].realm);i++) {
+	if (cmor_tables[cmor_vars[var_id].ref_table_id].vars[cmor_vars[var_id].ref_var_id].realm[i]!=' ') {
+	  ctmp3[i]=cmor_tables[cmor_vars[var_id].ref_table_id].vars[cmor_vars[var_id].ref_var_id].realm[i];
+	  ctmp3[i+1]='\0';
+	}
+	else {
+	  break;
+	}
+      }
+      strncattrim(ctmp2,ctmp3,CMOR_MAX_STRING-strlen(ctmp2));
+    }
+    else { /*ok it didn't so we're using the value from the table */
+      strncattrim(ctmp2,cmor_tables[cmor_vars[var_id].ref_table_id].realm,CMOR_MAX_STRING-strlen(ctmp2));
+    }
+    strncattrim(ctmp2,"_",CMOR_MAX_STRING-strlen(ctmp2));
     
     /* now appends the part to the gridspec file */
     strncat(ctmp,"gridspecFile: ",CMOR_MAX_STRING-strlen(ctmp));
@@ -2095,7 +2095,9 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
     /* strncat(ctmp3,"gridspec",CMOR_MAX_STRING-strlen(ctmp3)); */
     /* strncat(ctmp3,cmor_tables[cmor_vars[var_id].ref_table_id].table_id,CMOR_MAX_STRING-strlen(ctmp3)); */
     /* Put here code for gridspec name */
-    strncpy(ctmp3,"gridspec_fx_",CMOR_MAX_STRING);
+    strncpy(ctmp3,"gridspec_",CMOR_MAX_STRING);
+    strncat(ctmp3,ctmp2,CMOR_MAX_STRING-strlen(ctmp3));
+    strncat(ctmp3,"fx_",CMOR_MAX_STRING-strlen(ctmp3));
     cmor_get_cur_dataset_attribute("model_id",msg);
     for (i=0;i<strlen(msg);i++) {
       if (cmor_convert_char_to_hyphen(msg[i])==1) {
