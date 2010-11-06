@@ -1162,51 +1162,53 @@ int cmor_dataset(char *outpath,
   if ((month_lengths!=NULL) || (leap_year!=0) || (leap_month!=0)) {
     /* user passed calendar definitions */
     if (found == 1 ) {
-    snprintf(msg,CMOR_MAX_STRING,"CMOR_DATASET: you passed calendar: %s therefore we will ignore any user defined value you also set for month_lentgths and leap_months", calendar);
+    snprintf(msg,CMOR_MAX_STRING,"You passed calendar: %s therefore we will ignore any user defined value you also set for month_lentgths and leap_months", calendar);
     cmor_handle_error(msg,CMOR_WARNING);
     }
     else {
-      if (strcmp(calendar,"non_standard")!=0) {
-	snprintf(msg,CMOR_MAX_STRING,"CMOR_DATASET: You defined a non_standard calendar, its name should be: 'non_standard', you passed: '%s'",calendar);
-	cmor_handle_error(msg,CMOR_CRITICAL);
-      }
-      /* dealing with user specified calendar */
-      if (month_lengths!=NULL) {
-	/* user defined months length */
-	for (i=0;i<12;i++) {
-	  if ((month_lengths[i]>50)||(month_lengths[i]<20)) {
-	    snprintf(msg,CMOR_MAX_STRING,"CMOR_DATASET: month_lengths must be between 20 and 50, index %i has value %i",i,month_lengths[i]);
-	    cmor_handle_error(msg,CMOR_WARNING);
-	  }
-	  cmor_current_dataset.month_lengths[i]=month_lengths[i];
-	}
-      }
-      if (leap_year!=0) {
-	if ((leap_month>12) || (leap_month<1)) {
-	  snprintf(msg,CMOR_MAX_STRING,"CMOR_DATASET: user defined a leap_year (%i), but an invalid corresponding leap_month (%i)",leap_year,leap_month) ;
-	  cmor_handle_error(msg,CMOR_CRITICAL);
-	  cmor_pop_traceback();
-	  return 1;
-	}
-	cmor_current_dataset.leap_year = leap_year;
-	cmor_current_dataset.leap_month = leap_month;
-      }
-      else {
-	if (leap_month!=0) {
-	  /* user defined a leap_month */
-	  if ((leap_month>12) || (leap_month<1)) {
-	    snprintf(msg,CMOR_MAX_STRING,"CMOR_DATASET: user defined an invalid leap_month (%i)",leap_month) ;
-	    cmor_handle_error(msg,CMOR_CRITICAL);
-	    cmor_pop_traceback();
-	    return 1;
-	  }
-	  /* ok here we have valid defined leap_month but no leap year */
-	  snprintf(msg,CMOR_MAX_STRING,"CMOR_DATASET: user defined a leap_month (%i), but no corresponding leap_year",leap_month) ;
-	  cmor_handle_error(msg,CMOR_CRITICAL);
-	  cmor_pop_traceback();
-	  return 1;
-	}
-      }
+      snprintf(msg,CMOR_MAX_STRING,"You defined a non_standard calendar while this used to be ok in CMOR version 1 it is no longer supported in this version, please contact us at: cmor@lists.llnl.gov so we can work on fixing this issue");
+      cmor_handle_error(msg,CMOR_CRITICAL);
+      /* if (strcmp(calendar,"non_standard")!=0) { */
+      /* 	snprintf(msg,CMOR_MAX_STRING,"CMOR_DATASET: You defined a non_standard calendar, its name should be: 'non_standard', you passed: '%s'",calendar); */
+      /* 	cmor_handle_error(msg,CMOR_CRITICAL); */
+      /* } */
+      /* /\* dealing with user specified calendar *\/ */
+      /* if (month_lengths!=NULL) { */
+      /* 	/\* user defined months length *\/ */
+      /* 	for (i=0;i<12;i++) { */
+      /* 	  if ((month_lengths[i]>50)||(month_lengths[i]<20)) { */
+      /* 	    snprintf(msg,CMOR_MAX_STRING,"CMOR_DATASET: month_lengths must be between 20 and 50, index %i has value %i",i,month_lengths[i]); */
+      /* 	    cmor_handle_error(msg,CMOR_WARNING); */
+      /* 	  } */
+      /* 	  cmor_current_dataset.month_lengths[i]=month_lengths[i]; */
+      /* 	} */
+      /* } */
+      /* if (leap_year!=0) { */
+      /* 	if ((leap_month>12) || (leap_month<1)) { */
+      /* 	  snprintf(msg,CMOR_MAX_STRING,"CMOR_DATASET: user defined a leap_year (%i), but an invalid corresponding leap_month (%i)",leap_year,leap_month) ; */
+      /* 	  cmor_handle_error(msg,CMOR_CRITICAL); */
+      /* 	  cmor_pop_traceback(); */
+      /* 	  return 1; */
+      /* 	} */
+      /* 	cmor_current_dataset.leap_year = leap_year; */
+      /* 	cmor_current_dataset.leap_month = leap_month; */
+      /* } */
+      /* else { */
+      /* 	if (leap_month!=0) { */
+      /* 	  /\* user defined a leap_month *\/ */
+      /* 	  if ((leap_month>12) || (leap_month<1)) { */
+      /* 	    snprintf(msg,CMOR_MAX_STRING,"CMOR_DATASET: user defined an invalid leap_month (%i)",leap_month) ; */
+      /* 	    cmor_handle_error(msg,CMOR_CRITICAL); */
+      /* 	    cmor_pop_traceback(); */
+      /* 	    return 1; */
+      /* 	  } */
+      /* 	  /\* ok here we have valid defined leap_month but no leap year *\/ */
+      /* 	  snprintf(msg,CMOR_MAX_STRING,"CMOR_DATASET: user defined a leap_month (%i), but no corresponding leap_year",leap_month) ; */
+      /* 	  cmor_handle_error(msg,CMOR_CRITICAL); */
+      /* 	  cmor_pop_traceback(); */
+      /* 	  return 1; */
+      /* 	} */
+      /* } */
     }
   }
   else if (found==0) {
