@@ -1,3 +1,4 @@
+2010-11-05 : new doc updated by Karl.
 2010-11-05 : removed option, for now, to create non-standard calendars because the dates in filenames would be wrong.
 2010-11-05 : file_name=True ignored in python if no var_id is passed to it as well.
 2010-11-05 : added realm to gridspec file names
