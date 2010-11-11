@@ -23,7 +23,7 @@ alllevs = numpy.arange(1000,0,-dlev).tolist()
 print len(alllevs)
 
 cmor.setup(inpath='.',netcdf_file_action=cmor.CMOR_REPLACE)
-cmor.dataset('historical', 'ukmo', 'HadCM3', 'gregorian',model_id='pcmdi-10b',outpath='Test',forcing='CH4', parent_experiment_id="lgm",branch_time=0)
+cmor.dataset('historical', 'ukmo', 'pcmdi-10b HadCM3', 'gregorian',model_id='pcmdi-10b',outpath='Test',forcing='N/A', parent_experiment_id="lgm", parent_experiment_rip="r1i1p1",contact="Bruce Bochy",branch_time=0,institute_id="yep")
 table='Tables/CMIP5_Amon'
 cmor.load_table(table)
 

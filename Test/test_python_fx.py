@@ -11,7 +11,9 @@ def test_mode(mode):
                  forcing="TO",
                  contact="Derek Jeter",
                  history = 'some global history',
-                 parent_experiment_id="lgm",branch_time=0)
+                 parent_experiment_id="lgm",
+                 parent_experiment_rip="r1i1p1",
+                 branch_time=0)
     
     table = 'CMIP5_fx'
     cmor.load_table(table)

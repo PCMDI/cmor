@@ -16,7 +16,9 @@ error_flag = cmor.dataset(
        model_id="GICCM1", 
        forcing="Nat, SO",
        institute_id='pcmdi',
-       parent_experiment_id="lgm",branch_time=3.14159)
+       parent_experiment_id="lgm",
+       parent_experiment_rip="r4i7p2",
+       branch_time=3.14159)
   
 
 # creates 10 degree grid

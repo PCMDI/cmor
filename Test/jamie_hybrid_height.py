@@ -14,6 +14,7 @@ def main():
                  history = 'some global history',
                  forcing = 'N/A',
                  parent_experiment_id = 'N/A',
+                 parent_experiment_rip = 'N/A',
                  branch_time = 0.,
                  contact = 'bob')
  
@@ -37,7 +38,7 @@ def main():
               },
              ]
 
-    values = numpy.array([0.,0.], numpy.float32)
+    values = numpy.array([1.2,1.2], numpy.float32)
     numpy.reshape(values, (2,1,1,1))
     axis_ids = list()
     for axis in axes:

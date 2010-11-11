@@ -31,15 +31,12 @@ def setup_data():
 def cmor_define_and_write(values, axes):
     table = 'CMIP5_cfSites'
     cmor.load_table(table)
+    site_axis_id = cmor.axis(**axes[1])
 
     time_axis_id = cmor.axis(**axes[0])
-    cmor.load_table("CMIP5_grids")
-    site_axis_id = cmor.axis(**axes[1])
 
     gid = cmor.grid([site_axis_id,],latitude=numpy.array([-20,]),longitude=numpy.array([150,]))
 
-    table = 'CMIP5_cfSites'
-    cmor.load_table(table)
 
     axis_ids = [time_axis_id,gid]
     varid = cmor.variable('rlut',

@@ -16,7 +16,9 @@ error_flag = cmor.dataset(
        model_id="GICCM1", 
        institute_id="PCMDI",
        forcing="Nat, SO",
-       parent_experiment_id="lgm",branch_time=3.14159)
+       parent_experiment_id="lgm",
+       parent_experiment_rip="r1i1p1",
+       branch_time=3.14159)
   
 
 cmor.load_table("/git/cmip5-cmor-tables/Tables/CMIP5_Omon")

@@ -33,7 +33,9 @@ cmor.dataset(
     model_id="GICCM1",
     forcing="Ant, Nat",
     institute_id="pcmdi",
-    parent_experiment_id="piControl",branch_time=18336.33)
+    parent_experiment_id="piControl",
+    parent_experiment_rip="r1i1p1",
+    branch_time=18336.33)
 
 tables=[]
 a = cmor.load_table("/git/cmip5-cmor-tables/Tables/CMIP5_grids")
@@ -82,7 +84,7 @@ pass_axes = [myaxes[3],myaxes[2]]
 
 print 'ok going to cmorvar'
 myvars[0] = cmor.variable( table_entry = 'epc100',
-                           units = 'W m-2',
+                           units = 'mol m-2 s-1',
                            axis_ids = pass_axes,
                            positive = 'down',
                            original_name = 'HFLS',

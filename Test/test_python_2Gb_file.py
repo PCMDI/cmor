@@ -19,7 +19,7 @@ blons = numpy.arange(0,360.+dlon,dlon)
 
 
 cmor.setup(inpath='.',netcdf_file_action=cmor.CMOR_REPLACE)
-cmor.dataset('historical', 'ukmo', 'HadCM3', 'gregorian',model_id='HadCM3',outpath='Test',forcing='N/A', parent_experiment_id="lgm",branch_time=0,contact="Juan Uribe",institute_id="myinst")
+cmor.dataset('historical', 'ukmo', 'HadCM3', 'gregorian',model_id='HadCM3',outpath='Test',forcing='N/A', parent_experiment_id="lgm", parent_experiment_rip="r1i1p1",branch_time=0,contact="Juan Uribe",institute_id="myinst")
 table='Tables/CMIP5_Amon'
 cmor.load_table(table)
 

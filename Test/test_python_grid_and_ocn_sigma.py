@@ -78,7 +78,9 @@ cmor.dataset(
     model_id="GICCM1",
     forcing="Ant, Nat",
     institute_id="pcmdi",
-    parent_experiment_id="piControl",branch_time=18336.33)
+    parent_experiment_id="piControl",
+    parent_experiment_rip="r1i2p3",
+    branch_time=18336.33)
 
 tables=[]
 a = cmor.load_table("Tables/CMIP5_grids")

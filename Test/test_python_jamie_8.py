@@ -36,6 +36,7 @@ def cmor_ini():
                  history = 'some global history',
                  forcing = 'N/A',
                  parent_experiment_id = 'N/A',
+                 parent_experiment_rip = 'N/A',
                  branch_time = 0.,
                  contact = 'bob')
 

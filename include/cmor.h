@@ -114,6 +114,7 @@ typedef struct cmor_axis_def_ {
   char z_bounds_factors[CMOR_MAX_STRING];
   char index_only;
   int must_have_bounds;
+  int must_call_cmor_grid;
 } cmor_axis_def_t;
 
 typedef struct cmor_axis_ {

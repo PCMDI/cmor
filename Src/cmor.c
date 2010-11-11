@@ -2450,7 +2450,7 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
       }
       ierr = nc_def_dim(ncid,cmor_axes[cmor_vars[var_id].axes_ids[i]].id,j,&nc_dim[i]);
       if (ierr != NC_NOERR) {
-	snprintf(msg,CMOR_MAX_STRING,"NetCDF error (%i:%s) for dimension definition of axis: %s (%i), for variable %i (%s, table: %s)",ierr,nc_strerror(ierr),cmor_axes[cmor_vars[var_id].axes_ids[i]].id,i,var_id,cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
+	snprintf(msg,CMOR_MAX_STRING,"NetCDF error (%i:%s) for dimension definition of axis: %s (%i), for variable %i (%s, table: %s)",ierr,nc_strerror(ierr),cmor_axes[cmor_vars[var_id].axes_ids[i]].id,cmor_vars[var_id].axes_ids[i],var_id,cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
 	ierr = nc_enddef(ncid);
 	cmor_handle_error(msg,CMOR_CRITICAL);
       }

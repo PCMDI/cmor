@@ -52,12 +52,14 @@ itim = cmor.axis(
     length=ntimes,                
     interval='1 month')
 
-ilev = cmor.axis(  
-        table_entry='depth_coord',       
-        units='m',
-        coord_vals=plevs,             
-        cell_bounds=plevs_bnds)
-    
+try:
+    ilev = cmor.axis(  
+            table_entry='depth_coord',       
+            units='m',
+            coord_vals=plevs,             
+            cell_bounds=plevs_bnds)
+except:
+    pass
 
 var3d_ids = cmor.variable(    
     table_entry='ta',     

@@ -1344,6 +1344,7 @@ void cmor_init_axis_def(cmor_axis_def_t *axis, int table_id)
   axis->n_requested_bounds=0;
   axis->index_only='n';
   axis->must_have_bounds=0;
+  axis->must_call_cmor_grid=0;
 }
 
 int cmor_set_axis_def_att(cmor_axis_def_t *axis,char att[CMOR_MAX_STRING],char val[CMOR_MAX_STRING] ){
@@ -1404,6 +1405,9 @@ int cmor_set_axis_def_att(cmor_axis_def_t *axis,char att[CMOR_MAX_STRING],char v
   }
   else if (strcmp(att,"must_have_bounds")==0) {
     if (strcmp(val,"yes")==0) axis->must_have_bounds=1;
+  }
+  else if (strcmp(att,"must_call_cmor_grid")==0) {
+    if (strcmp(val,"yes")==0) axis->must_call_cmor_grid=1;
   }
   else if (strcmp(att,"type")==0) {
     if (strcmp(val,"real")==0) axis->type='f';
