@@ -14,7 +14,10 @@ cmor.dataset(
     institute_id="PCMDI",
     calendar = "standard",
     contact="Bengie Molina",
-    model_id="GICCM1",forcing="SO",parent_experiment_id="historical",branch_time=0.)
+    model_id="GICCM1",forcing="SO",
+    parent_experiment_id="historical",
+    parent_experiment_rip="r3i8p1",
+    branch_time=0.)
 
 cmor.load_table("Tables/CMIP5_Amon")
 

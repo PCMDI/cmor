@@ -5,7 +5,10 @@ def multi_call_test():
 
     cmor.dataset('historical', 'ukmo', 'HadCM3', '360_day',
                  institute_id="PCMDI",
-                 model_id='HadCM3',contact="Ron Nen",forcing='SO',parent_experiment_id="lgm",branch_time=0.)
+                 model_id='HadCM3',contact="Ron Nen",forcing='SO',
+                 parent_experiment_id="lgm",
+                 parent_experiment_rip="r1i3p2",
+                 branch_time=0.)
     
     table='CMIP5_Amon'
     cmor.load_table(table)

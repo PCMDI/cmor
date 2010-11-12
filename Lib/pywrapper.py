@@ -61,6 +61,17 @@ def time_varying_grid_coordinate(grid_id, table_entry,units,type='f',missing_val
     return _cmor.time_varying_grid_coordinate(grid_id,table_entry,units,type,missing_value)
     
 
+def _to_numpy(vals, message):
+    if isinstance(vals, (list, tuple)):
+        vals = numpy.ascontiguousarray(vals)
+    elif not isinstance(vals,numpy.ndarray):
+        try:
+            vals = numpy.ascontiguousarray(vals.filled())
+        except:
+            raise Exception, "Error could not convert %s to a numpy array" % message
+        
+    return vals
+
 def grid(axis_ids,latitude=None,longitude=None,latitude_vertices=None,longitude_vertices=None,nvertices=None):
     """ Creates a cmor grid
     Usage:
@@ -87,26 +98,21 @@ def grid(axis_ids,latitude=None,longitude=None,latitude_vertices=None,longitude_
         raise Exception, "error axes list/array must be 1D"
 
     if latitude is not None:
-        if not isinstance(latitude,numpy.ndarray):
-            try:
-                latitude = numpy.ascontiguousarray(latitude.filled())
-            except:
-                raise Exception, "Error could not convert latitude to a numpy array"
-            if numpy.rank(latitude)!=len(axis_ids):
-                raise Exception, "latitude's rank does not match number of axes passed via axis_ids"
+        latitude = _to_numpy(latitude, 'latitude')
+            
+        if numpy.rank(latitude)!=len(axis_ids):
+            raise Exception, "latitude's rank does not match number of axes passed via axis_ids"
 
         type = latitude.dtype.char
         nvert = 0
         if not type in ['d','f','i','l']:
             raise Exception, "latitude array must be of type 'd','f','l' or 'i'"
 
-        if not isinstance(longitude,numpy.ndarray):
-            try:
-                longitude = numpy.ascontiguousarray(longitude.filled())
-            except:
-                raise Exception, "Error could not convert longitude to a numpy array"
-            if numpy.rank(longitude)!=len(axis_ids):
-                raise Exception, "longitude's rank does not match number of axes passed via axis_ids"
+        longitude = _to_numpy(longitude, 'longitude')
+
+        if numpy.rank(longitude)!=len(axis_ids):
+            raise Exception, "longitude's rank does not match number of axes passed via axis_ids"
+        
     ##     print 'longitude type:',longitude.dtype.char
         if longitude.dtype.char!=type:
             longitude = longitude.astype(type)
@@ -120,13 +126,10 @@ def grid(axis_ids,latitude=None,longitude=None,latitude_vertices=None,longitude_
             nvert = nvertices
         
     if latitude_vertices is not None:
-        if not isinstance(latitude_vertices,numpy.ndarray):
-            try:
-                latitude_vertices = numpy.ascontiguousarray(latitude_vertices.filled())
-            except:
-                raise Exception, "Error could not convert latitude_vertices to a numpy array"
-            if numpy.rank(latitude_vertices)!=len(axis_ids)+1:
-                raise Exception, "latitude_vertices's rank does not match number of axes passed via axis_ids +1 (for vertices)"
+        latitude_vertices = _to_numpy(latitude_vertices, 'latitude_vertices')
+
+        if numpy.rank(latitude_vertices)!=len(axis_ids)+1:
+            raise Exception, "latitude_vertices's rank does not match number of axes passed via axis_ids +1 (for vertices)"
 ##         print 'latitude_vert type:',latitude_vertices.dtype.char
         if latitude_vertices.dtype.char!=type:
             latitude_vertices = latitude_vertices.astype(type)
@@ -136,13 +139,9 @@ def grid(axis_ids,latitude=None,longitude=None,latitude_vertices=None,longitude_
                 raise Exception,"you passed nvertices as: %i, but from your latitude_vertices it seems to be: %i" % (nvertices,nvert)
         
     if longitude_vertices is not None:
-        if not isinstance(longitude_vertices,numpy.ndarray):
-            try:
-                longitude_vertices = numpy.ascontiguousarray(longitude_vertices.filled())
-            except:
-                raise Exception, "Error could not convert longitude_vertices to a numpy array"
-            if numpy.rank(longitude_vertices)!=len(axis_ids)+1:
-                raise Exception, "longitude_vertices's rank does not match number of axes passed via axis_ids +1 (for vertices)"
+        longitude_vertices = _to_numpy(longitude_vertices, 'longitude_vertices')
+        if numpy.rank(longitude_vertices)!=len(axis_ids)+1:
+            raise Exception, "longitude_vertices's rank does not match number of axes passed via axis_ids +1 (for vertices)"
 ##         print 'longitude_vert type:',longitude_vertices.dtype.char
         if longitude_vertices.dtype.char!=type:
             longitude_vertices = longitude_vertices.astype(type)

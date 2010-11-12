@@ -26,7 +26,10 @@ cmor.dataset(
     calendar = "standard",
     contact="Tim Lincecum",
     institute_id="PCMDI",
-    model_id="GICCM1",forcing="Nat",parent_experiment_id="N/A",branch_time=0.)
+    model_id="GICCM1",forcing="Nat",
+    parent_experiment_id="N/A",
+    parent_experiment_rip="N/A",
+    branch_time=0.)
 
 cmor.load_table("Tables/CMIP5_Amon")
 

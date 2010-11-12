@@ -12,6 +12,7 @@ def test_mode(mode,i,suffix=''):
                  forcing="TO",
                  contact="Derek Jeter",
                  history = 'some global history',
+                 parent_experiment_rip="r1i3p2",
                  parent_experiment_id="lgm",branch_time=0)
     
     table = 'CMIP5_Amon'
@@ -79,5 +80,9 @@ def test_mode(mode,i,suffix=''):
 fnm=''
 for i in range(5):
     print i,fnm
+    if i==0:
+        mode = cmor.CMOR_REPLACE
+    else:
+        mode = cmor.CMOR_APPEND
     fnm = test_mode(cmor.CMOR_APPEND,i,fnm)
 

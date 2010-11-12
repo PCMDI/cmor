@@ -25,6 +25,7 @@ cmor.setup(inpath='.',netcdf_file_action=cmor.CMOR_REPLACE)
 cmor.dataset('historical', 'ukmo', 'HadCM3', 'gregorian',
              model_id='HadCM3',outpath='Test',forcing='TO, Nat',
              institute_id="PCMDI",
+             parent_experiment_rip="r1i3p2",
              contact="Matt Cain",parent_experiment_id="lgm",branch_time=0)
 table='TestTables/CMIP5_Amon'
 cmor.load_table(table)

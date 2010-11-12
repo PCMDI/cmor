@@ -6,7 +6,9 @@ def path_test():
     cmor.dataset('historical', 'ukmo', 'HadCM3', '360_day',model_id='HadCM3',forcing='Nat',
                  contact="J.T. Snow",
                  institute_id="PCMDI",
-                 parent_experiment_id="N/A",branch_time=0)
+                 parent_experiment_id="N/A",
+                 parent_experiment_rip="N/A",
+                 branch_time=0)
     
     table='CMIP5_Amon'
     cmor.load_table(table)

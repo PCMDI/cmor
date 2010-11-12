@@ -32,7 +32,9 @@ cmor.dataset(
     model_id="GICCM1",
     forcing="TO",
     institute_id="PCMDI",
-    parent_experiment_id="N/A",branch_time=0)
+    parent_experiment_id="N/A",
+    parent_experiment_rip="N/A",
+    branch_time=0)
 
 tables=[]
 a = cmor.load_table(os.path.join(ipth,"../Tables/CMIP5_Omon"))

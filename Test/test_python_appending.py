@@ -43,7 +43,10 @@ def mywrite(data = None, time_vals = None, append_to = None,cell_bounds=None):
         institute_id="PCMDI",
         calendar = "standard",
         contact="Pablo Sandoval",
-        model_id="GICCM1",forcing="Nat",parent_experiment_id="historical",branch_time=3.14159)
+        model_id="GICCM1",forcing="Nat",
+        parent_experiment_id="historical",
+        parent_experiment_rip="r1i3p2",
+        branch_time=3.14159)
 
     cmor.load_table("Tables/CMIP5_Amon")
 

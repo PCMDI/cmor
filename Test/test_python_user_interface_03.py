@@ -71,7 +71,10 @@ def prep_cmor():
         leap_year=0,
         leap_month=0,
         institute_id="PCMDI",
-        month_lengths=None,model_id="GICCM1",forcing="Nat",parent_experiment_id="N/A",branch_time=0.)
+        month_lengths=None,model_id="GICCM1",forcing="Nat",
+        parent_experiment_id="N/A",
+        parent_experiment_rip="N/A",
+        branch_time=0.)
     
     tables=[]
     a = cmor.load_table("Tables/CMIP5_Omon")

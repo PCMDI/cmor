@@ -6,6 +6,7 @@ cmor.setup("Test",netcdf_file_action=cmor.CMOR_REPLACE)
 
 cmor.dataset('historical', 'ukmo', 'HadCM3', '360_day',
              institute_id="PCMDI",
+             parent_experiment_rip="r1i3p2",
              contact="Mark Teixera",model_id='HadCM3',forcing="SO",parent_experiment_id="N/A",branch_time=0.)
 
 cmor.load_table("Tables/CMIP5_Omon")

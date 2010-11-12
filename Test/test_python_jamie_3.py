@@ -12,6 +12,7 @@ def main():
                  forcing = 'Nat',
                  model_id = 'HadCM3',
                  contact="Bleachers 140",
+                 parent_experiment_rip="r1i3p2",
                  parent_experiment_id="lgm",branch_time=0.)
 
     table = 'CMIP5_Amon'

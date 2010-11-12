@@ -16,6 +16,7 @@ error_flag = cmor.dataset(
        model_id="GICCM1", 
        institute_id="PCMDI",
        forcing="Nat, SO",
+       parent_experiment_rip="r1i3p2",
        parent_experiment_id="lgm",branch_time=3.14159)
   
 

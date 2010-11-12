@@ -25,6 +25,7 @@ def prep(mode):
            ## month_lengths=[30,28,30,30,30,30,30,31,30,31,30,30],
            ## leap_year=3,
            ## leap_month=1,
+           parent_experiment_rip="r1i3p2",
            parent_experiment_id="N/A",branch_time=1)
 
 def prep_var(var,units):

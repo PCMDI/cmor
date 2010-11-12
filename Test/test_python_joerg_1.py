@@ -15,6 +15,7 @@ error_flag = cmor.dataset(
        references='Model described by Koder and Tolkien ',
        model_id="pcmdi-10a", 
        forcing="co2",
+       parent_experiment_rip="r1i3p2",
        parent_experiment_id="lgm",branch_time=0)
   
 
