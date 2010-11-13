@@ -230,7 +230,7 @@ PROGRAM mip_contribution
        ' 2XCO2 simulation described in Dorkey et al. '//       &
        '(Clim. Dyn., 2003, 323-357.)' ,                        &
        model_id="GICCM1",forcing="SO",contact="Barry Bonds",&
-       parent_experiment_id="N/A",branch_time=bt,institute_id="PCMDI")
+       parent_experiment_rip="N/A",parent_experiment_id="N/A",branch_time=bt,institute_id="PCMDI")
   
   print*, 'returned from cmor_dataset'
 

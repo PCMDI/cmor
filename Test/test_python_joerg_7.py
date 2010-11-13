@@ -21,7 +21,7 @@ error_flag = cmor.dataset(
        branch_time=3.14159)
   
 
-cmor.load_table("/git/cmip5-cmor-tables/Tables/CMIP5_Omon")
+cmor.load_table("Tables/CMIP5_Omon")
 itime = cmor.axis(table_entry="time",units='months since 2010',coord_vals=numpy.array([0,1,2,3,4.]),cell_bounds=numpy.array([0,1,2,3,4,5.]))
 # creates 1 degree grid
 nlat=18

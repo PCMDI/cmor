@@ -202,7 +202,7 @@ program testing
        ' 2XCO2 simulation described in Dorkey et al. '    //   &
        '(Clim. Dyn., 2003, 323-357.)',model_id="GICCM1", &
        forcing='TO',contact="Barry Bonds",institute_id="PCMDI",&
-       parent_experiment_id="N/A",branch_time=bt)
+       parent_experiment_rip="N/A",parent_experiment_id="N/A",branch_time=bt)
 
     tables(1) = cmor_load_table('Tables/CMIP5_Amon')
     tables(2) = cmor_load_table('Tables/CMIP5_grids')

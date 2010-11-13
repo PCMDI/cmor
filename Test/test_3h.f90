@@ -235,7 +235,7 @@ PROGRAM ipcc_test_code
        ' 2XCO2 simulation described in Dorkey et al. '    //   &
        '(Clim. Dyn., 2003, 323-357.)', model_id="GICCM1", &
        forcing='TO',contact="Barry Bonds",institute_id="PCMDI",&
-       parent_experiment_id="N/A",branch_time=bt)
+       parent_experiment_rip="N/A",parent_experiment_id="N/A",branch_time=bt)
   
   !  Define all axes that will be needed
 

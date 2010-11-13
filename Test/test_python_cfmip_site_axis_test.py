@@ -31,7 +31,7 @@ variables:
 import cmor
 import numpy
 
-MIP_TABLE_DIR = '/git/cmip5-cmor-tables/Tables'   # set according to your MIP table location
+MIP_TABLE_DIR = 'Tables'   # set according to your MIP table location
 
 #---------------------------------------------------------------------------------------------------
 def setup_cmor() :

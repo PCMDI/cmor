@@ -253,7 +253,7 @@ PROGRAM mip_contribution
        'oceanic physics, V.46, N4, in print.',          &
        model_id="inmcm4", &
        !modeling_realm="ocean",  &
-       parent_experiment_id="N/A",   &
+       parent_experiment_rip="N/A",parent_experiment_id="N/A",   &
        physics_version=1,      &
        branch_time=bt, &
       ! frequency='mon',                           &

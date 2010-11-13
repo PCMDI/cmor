@@ -33,9 +33,9 @@ cmor.dataset(
     model_id="GICCM1",
     forcing="Ant, Nat",
     institute_id="pcmdi",
-    parent_experiment_id="piControl",
-    parent_experiment_rip="r1i1p1",
-    branch_time=18336.33)
+    parent_experiment_id="piControl",branch_time=18336.33)
+
+cmor.set_cur_dataset_attribute("parent_experiment_rip","r1i1p1")
 
 tables=[]
 a = cmor.load_table("Tables/CMIP5_grids")
@@ -83,17 +83,20 @@ myaxes[3] = cmor.axis(table_entry = 'time',
 pass_axes = [myaxes[3],myaxes[2]]
 
 print 'ok going to cmorvar'
-myvars[0] = cmor.variable( table_entry = 'epc100',
-                           units = 'mol m-2 s-1',
+myvars[0] = cmor.variable( table_entry = 'calc',
+                           units = 'mol m-3',
                            axis_ids = pass_axes,
-                           positive = 'down',
-                           original_name = 'HFLS',
+                           original_name = 'yep',
                            history = 'no history',
                            comment = 'no future'
                            )
-for i in range(ntimes):
-    data2d = read_2d_input_files(i, varin2d[0], lat,lon)
+
+ntimes=2
+for i in range(0,ntimes,2):
+    data2d_1 = read_2d_input_files(i,   varin2d[0], lat,lon)
+    data2d_2 = read_2d_input_files(i+1, varin2d[0], lat,lon)
+    data2d=numpy.array((data2d_1,data2d_2))
     print 'writing time: ',i,data2d.shape,data2d
-    print Time[i],bnds_time[2*i:2*i+2]    
-    cmor.write(myvars[0],data2d,1,time_vals=Time[i],time_bnds=bnds_time[2*i:2*i+2])
+    print Time[i:i+2],bnds_time[2*i:2*i+4]    
+    cmor.write(myvars[0],data2d,2,time_vals=numpy.arange(i,i+2),time_bnds=numpy.arange(i,i+3))
 cmor.close()

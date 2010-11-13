@@ -1,7 +1,12 @@
-table_id: Table Amon
+table_id: Table cfSites
+!
+! WARNING: Although this table define variables as function of longitude and latitude
+!          the user MUST use a 'grid' (using the 'site' index in CMIP5_grids)
+!          in order to define correctly the location of each site.
+!
 modeling_realm: atmos
 
-frequency: mon
+frequency: subhr
 
 cmor_version: 2.5.0 ! minimum version of CMOR that can read this table
 cf_version:   1.4         ! version of CF that output conforms to
@@ -56,121 +61,29 @@ expt_id_ok: 'aqua planet plus 4K anomaly' 'aqua4K'
 expt_id_ok: 'AMIP plus 4K anomaly' 'amip4K'
 
 
-approx_interval:  30.000000     ! approximate spacing between successive time
+approx_interval:  0.017361     ! approximate spacing between successive time
                           !   samples (in units of the output time 
                           !   coordinate.
 
 generic_levels:   alevel alevhalf
 
 !============
-axis_entry: longitude
+axis_entry: time1
 !============
 !----------------------------------
 ! Axis attributes:
 !----------------------------------
-standard_name:    longitude
-units:            degrees_east
-axis:             X             ! X, Y, Z, T (default: undeclared)
-long_name:        longitude
+standard_name:    time
+units:            days since ?
+axis:             T             ! X, Y, Z, T (default: undeclared)
+long_name:        time
 !----------------------------------
 ! Additional axis information:
 !----------------------------------
-out_name:         lon
-valid_min:        0.0         
-valid_max:        360.0 
+out_name:         time
 stored_direction: increasing
 type:             double
-must_have_bounds: yes
-!----------------------------------
-!
-
-
-!============
-axis_entry: latitude
-!============
-!----------------------------------
-! Axis attributes:
-!----------------------------------
-standard_name:    latitude
-units:            degrees_north
-axis:             Y             ! X, Y, Z, T (default: undeclared)
-long_name:        latitude
-!----------------------------------
-! Additional axis information:
-!----------------------------------
-out_name:         lat
-valid_min:        -90.0         
-valid_max:        90.0 
-stored_direction: increasing
-type:             double
-must_have_bounds: yes
-!----------------------------------
-!
-
-
-!============
-axis_entry: plevs
-!============
-!----------------------------------
-! Axis attributes:
-!----------------------------------
-standard_name:    air_pressure
-units:            Pa
-axis:             Z             ! X, Y, Z, T (default: undeclared)
-positive:         down         ! up or down (default: undeclared)
-long_name:        pressure
-!----------------------------------
-! Additional axis information:
-!----------------------------------
-out_name:         plev
-stored_direction: decreasing
-tolerance:        0.001
-type:             double
-requested:        100000. 92500. 85000. 70000. 60000. 50000. 40000. 30000. 25000. 20000. 15000. 10000. 7000. 5000. 3000. 2000. 1000.        ! space-separated list of requested coordinates 
 must_have_bounds: no
-!----------------------------------
-!
-
-
-!============
-axis_entry: time
-!============
-!----------------------------------
-! Axis attributes:
-!----------------------------------
-standard_name:    time
-units:            days since ?
-axis:             T             ! X, Y, Z, T (default: undeclared)
-long_name:        time
-!----------------------------------
-! Additional axis information:
-!----------------------------------
-out_name:         time
-stored_direction: increasing
-type:             double
-must_have_bounds: yes
-!----------------------------------
-!
-
-
-!============
-axis_entry: time2
-!============
-!----------------------------------
-! Axis attributes:
-!----------------------------------
-standard_name:    time
-units:            days since ?
-axis:             T             ! X, Y, Z, T (default: undeclared)
-long_name:        time
-!----------------------------------
-! Additional axis information:
-!----------------------------------
-out_name:         time
-stored_direction: increasing
-type:             double
-must_have_bounds: yes
-climatology:      yes
 !----------------------------------
 !
 
@@ -221,6 +134,27 @@ stored_direction: increasing
 type:             double
 value:            10.            ! of scalar (singleton) dimension 
 must_have_bounds: no
+!----------------------------------
+!
+
+
+!============
+axis_entry: site
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+units:            1
+long_name:        site index
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:         site
+type:             integer
+must_have_bounds: no
+index_only:       ok
+must_call_cmor_grid: yes
+
 !----------------------------------
 !
 
@@ -430,7 +364,7 @@ comment:           height above the geoid; as defined here, ""the geoid"" is a s
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude
+dimensions:        site
 out_name:          orog
 type:              real
 valid_min:         -700
@@ -592,14 +526,14 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     air_temperature
 units:             K
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Near-Surface Air Temperature
 comment:           near-surface (usually, 2 meter) air temperature.
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time height2m
+dimensions:        site time1 height2m
 out_name:          tas
 type:              real
 valid_min:         180.6
@@ -618,72 +552,20 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     surface_temperature
 units:             K
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Surface Temperature
 comment:           ""skin"" temperature (i.e., SST for open ocean)
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          ts
 type:              real
 valid_min:         176.8
 valid_max:         331.8
 ok_min_mean_abs:   274.2
 ok_max_mean_abs:   281.8
-!----------------------------------
-!
-
-!============
-variable_entry:    tasmin
-!============
-modeling_realm:    atmos
-!----------------------------------
-! Variable attributes:
-!----------------------------------
-standard_name:     air_temperature
-units:             K
-cell_methods:      time: minimum within days time: mean over days
-cell_measures:     area: areacella
-long_name:         Daily Minimum Near-Surface Air Temperature
-comment:           monthly mean of the daily-minimum near-surface (usually, 2 meter) air temperature.
-!----------------------------------
-! Additional variable information:
-!----------------------------------
-dimensions:        longitude latitude time height2m
-out_name:          tasmin
-type:              real
-valid_min:         183.6
-valid_max:         309.8
-ok_min_mean_abs:   271.8
-ok_max_mean_abs:   279.6
-!----------------------------------
-!
-
-!============
-variable_entry:    tasmax
-!============
-modeling_realm:    atmos
-!----------------------------------
-! Variable attributes:
-!----------------------------------
-standard_name:     air_temperature
-units:             K
-cell_methods:      time: maximum within days time: mean over days
-cell_measures:     area: areacella
-long_name:         Daily Maximum Near-Surface Air Temperature
-comment:           monthly mean of the daily-maximum near-surface (usually, 2 meter) air temperature.
-!----------------------------------
-! Additional variable information:
-!----------------------------------
-dimensions:        longitude latitude time height2m
-out_name:          tasmax
-type:              real
-valid_min:         181.9
-valid_max:         330.6
-ok_min_mean_abs:   277.3
-ok_max_mean_abs:   281.4
 !----------------------------------
 !
 
@@ -696,14 +578,14 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     air_pressure_at_sea_level
 units:             Pa
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Sea Level Pressure
 comment:           not, in general, the same as surface pressure
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          psl
 type:              real
 valid_min:         9.477e+04
@@ -722,14 +604,14 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     surface_air_pressure
 units:             Pa
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Surface Air Pressure
 comment:           not, in general, the same as mean sea-level pressure
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          ps
 type:              real
 valid_min:         4.792e+04
@@ -748,13 +630,13 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     eastward_wind
 units:             m s-1
-cell_methods:      time: mean
+cell_methods:      time: point
 long_name:         Eastward Near-Surface Wind
 comment:           near-surface (usually, 10 meters) eastward component of wind.
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time height10m
+dimensions:        site time1 height10m
 out_name:          uas
 type:              real
 valid_min:         -19.01
@@ -773,13 +655,13 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     northward_wind
 units:             m s-1
-cell_methods:      time: mean
+cell_methods:      time: point
 long_name:         Northward Near-Surface Wind
 comment:           near-surface (usually, 10 meters) northward component of wind.
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time height10m
+dimensions:        site time1 height10m
 out_name:          vas
 type:              real
 valid_min:         -18.04
@@ -798,13 +680,13 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     wind_speed
 units:             m s-1
-cell_methods:      time: mean
+cell_methods:      time: point
 long_name:         Near-Surface Wind Speed
 comment:           near-surface (usually, 10 meters) wind speed.  This is the mean of the speed, not the speed computed from the mean u and v components of wind
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time height10m
+dimensions:        site time1 height10m
 out_name:          sfcWind
 type:              real
 !----------------------------------
@@ -819,14 +701,14 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     relative_humidity
 units:             %
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Near-Surface Relative Humidity
 comment:           near-surface (usually, 2meters) relative humidity expressed as a percentage.  This is the relative humidity with respect to liquid water for T> 0 C, and with respect to ice for T<0 C.
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time height2m
+dimensions:        site time1 height2m
 out_name:          hurs
 type:              real
 !----------------------------------
@@ -841,14 +723,14 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     specific_humidity
 units:             1
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Near-Surface Specific Humidity
 comment:           near-surface (usually, 2 meters) specific humidity.
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time height2m
+dimensions:        site time1 height2m
 out_name:          huss
 type:              real
 valid_min:         -7.21e-06
@@ -867,14 +749,14 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     precipitation_flux
 units:             kg m-2 s-1
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Precipitation
 comment:           at surface; includes both liquid and solid phases from all types of clouds (both large-scale and convective)
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          pr
 type:              real
 valid_min:         0
@@ -893,14 +775,14 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     snowfall_flux
 units:             kg m-2 s-1
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Snowfall Flux
 comment:           at surface; includes precipitation of all forms of water in the solid phase
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          prsn
 type:              real
 valid_min:         0
@@ -919,14 +801,14 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     convective_precipitation_flux
 units:             kg m-2 s-1
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Convective Precipitation
 comment:           at surface; includes both liquid and solid phases.
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          prc
 type:              real
 valid_min:         0
@@ -945,14 +827,14 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     water_evaporation_flux
 units:             kg m-2 s-1
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Evaporation
 comment:           at surface; flux of water into the atmosphere due to conversion of both liquid and solid phases to vapor (from underlying surface and vegetation)
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          evspsbl
 type:              real
 !----------------------------------
@@ -967,14 +849,14 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     water_sublimation_flux
 units:             kg m-2 s-1
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Surface Snow and Ice Sublimation Flux
 comment:           The snow and ice sublimation flux is the loss of snow and ice mass from the surface resulting from their conversion to water vapor that enters the atmosphere. This differs from sbl appearing in table Limon in that the flux is averaged over the entire grid cell, not just the land portion.
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          sbl
 type:              real
 valid_min:         -0.004959
@@ -993,12 +875,12 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     surface_downward_eastward_stress
 units:             Pa
-cell_methods:      time: mean
+cell_methods:      time: point
 long_name:         Surface Downward Eastward Wind Stress
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          tauu
 type:              real
 positive:          down
@@ -1018,12 +900,12 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     surface_downward_northward_stress
 units:             Pa
-cell_methods:      time: mean
+cell_methods:      time: point
 long_name:         Surface Downward Northward Wind Stress
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          tauv
 type:              real
 positive:          down
@@ -1043,14 +925,14 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     surface_upward_latent_heat_flux
 units:             W m-2
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Surface Upward Latent Heat Flux
 comment:           includes both evaporation and sublimation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          hfls
 type:              real
 positive:          up
@@ -1070,13 +952,13 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     surface_upward_sensible_heat_flux
 units:             W m-2
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Surface Upward Sensible Heat Flux
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          hfss
 type:              real
 positive:          up
@@ -1096,13 +978,13 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     surface_downwelling_longwave_flux_in_air
 units:             W m-2
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Surface Downwelling Longwave Radiation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          rlds
 type:              real
 positive:          down
@@ -1122,13 +1004,13 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     surface_upwelling_longwave_flux_in_air
 units:             W m-2
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Surface Upwelling Longwave Radiation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          rlus
 type:              real
 positive:          up
@@ -1148,13 +1030,13 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     surface_downwelling_shortwave_flux_in_air
 units:             W m-2
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Surface Downwelling Shortwave Radiation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          rsds
 type:              real
 positive:          down
@@ -1174,13 +1056,13 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     surface_upwelling_shortwave_flux_in_air
 units:             W m-2
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Surface Upwelling Shortwave Radiation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          rsus
 type:              real
 positive:          up
@@ -1200,13 +1082,13 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     surface_downwelling_shortwave_flux_in_air_assuming_clear_sky
 units:             W m-2
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Surface Downwelling Clear-Sky Shortwave Radiation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          rsdscs
 type:              real
 positive:          down
@@ -1226,13 +1108,13 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     surface_upwelling_shortwave_flux_in_air_assuming_clear_sky
 units:             W m-2
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Surface Upwelling Clear-Sky Shortwave Radiation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          rsuscs
 type:              real
 positive:          up
@@ -1252,13 +1134,13 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     surface_downwelling_longwave_flux_in_air_assuming_clear_sky
 units:             W m-2
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Surface Downwelling Clear-Sky Longwave Radiation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          rldscs
 type:              real
 positive:          down
@@ -1278,14 +1160,14 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     toa_incoming_shortwave_flux
 units:             W m-2
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         TOA Incident Shortwave Radiation
 comment:           incident shortwave at the top of the atmosphere
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          rsdt
 type:              real
 positive:          down
@@ -1305,14 +1187,14 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     toa_outgoing_shortwave_flux
 units:             W m-2
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         TOA Outgoing Shortwave Radiation
 comment:           at the top of the atmosphere
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          rsut
 type:              real
 positive:          up
@@ -1332,14 +1214,14 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     toa_outgoing_longwave_flux
 units:             W m-2
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         TOA Outgoing Longwave Radiation
 comment:           at the top of the atmosphere (to be compared with satellite measurements)
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          rlut
 type:              real
 positive:          up
@@ -1359,13 +1241,13 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     toa_outgoing_longwave_flux_assuming_clear_sky
 units:             W m-2
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         TOA Outgoing Clear-Sky Longwave Radiation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          rlutcs
 type:              real
 positive:          up
@@ -1385,13 +1267,13 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     toa_outgoing_shortwave_flux_assuming_clear_sky
 units:             W m-2
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         TOA Outgoing Clear-Sky Shortwave Radiation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          rsutcs
 type:              real
 positive:          up
@@ -1411,14 +1293,14 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     atmosphere_water_vapor_content
 units:             kg m-2
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Water Vapor Path
 comment:           vertically integrated through the atmospheric column
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          prw
 type:              real
 valid_min:         -0.0006775
@@ -1437,14 +1319,14 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     cloud_area_fraction
 units:             %
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Total Cloud Fraction
 comment:           for the whole atmospheric column, as seen from the surface or the top of the atmosphere. Include both large-scale and convective cloud.
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          clt
 type:              real
 valid_min:         -0.0001822
@@ -1463,14 +1345,14 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     atmosphere_cloud_condensed_water_content
 units:             kg m-2
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Condensed Water Path
 comment:           calculate mass of condensed (liquid + ice) water in the column divided by the area of the column (not just the area of the cloudy portion of the column). Include precipitating hydrometeors ONLY if the precipitating hydrometeor affects the calculation of radiative transfer in model.  
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          clwvi
 type:              real
 valid_min:         -3.827e-06
@@ -1489,14 +1371,14 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     atmosphere_cloud_ice_content
 units:             kg m-2
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Ice Water Path
 comment:           calculate mass of ice water in the column divided by the area of the column (not just the area of the cloudy portion of the column). Include precipitating frozen hydrometeors ONLY if the precipitating hydrometeor affects the calculation of radiative transfer in model.  
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          clivi
 type:              real
 valid_min:         -1.872e-06
@@ -1515,14 +1397,14 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     net_downward_radiative_flux_at_top_of_atmosphere_model
 units:             W m-2
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Net Downward Flux at Top of Model
 comment:           i.e., at the top of that portion of the atmosphere where dynamics are explicitly treated by the model. Report only if this differs from the net downward radiative flux at the top of the atmosphere.
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          rtmt
 type:              real
 positive:          down
@@ -1542,13 +1424,13 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     air_pressure_at_convective_cloud_base
 units:             Pa
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Air Pressure at Convective Cloud Base
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          ccb
 type:              real
 !----------------------------------
@@ -1563,13 +1445,13 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     air_pressure_at_convective_cloud_top
 units:             Pa
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Air Pressure at Convective Cloud Top
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          cct
 type:              real
 !----------------------------------
@@ -1584,14 +1466,14 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     convection_time_fraction
 units:             1
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Fraction of Time Convection Occurs
 comment:           Fraction of time that convection occurs in the grid cell .
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          ci 
 type:              real
 !----------------------------------
@@ -1606,14 +1488,14 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     shallow_convection_time_fraction
 units:             1
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Fraction of Time Shallow Convection Occurs
 comment:           Fraction of time that shallow convection occurs in the grid cell. ( For models with a distinct shallow convection scheme only)
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          sci
 type:              real
 !----------------------------------
@@ -1628,14 +1510,14 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     tendency_of_atmosphere_mass_content_of_carbon_dioxide_expressed_as_carbon_due_to_anthropogenic_emission
 units:             kg  m-2 s-1
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Carbon Mass Flux into Atmosphere Due to All Anthropogenic Emissions of CO2
 comment:           This is requested only for the emission-driven coupled carbon climate model runs.  Do not include natural fire sources, but include all anthropogenic sources, including fossil fuel use, cement production, agricultural burning, and sources associated with anthropogenic land use change excluding forest regrowth.
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          fco2antt
 type:              real
 positive:          up
@@ -1651,14 +1533,14 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     tendency_of_atmosphere_mass_content_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_fossil_fuel_combustion
 units:             kg m-2 s-1
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Carbon Mass Flux into Atmosphere Due to Fossil Fuel Emissions of CO2
 comment:           This is requested only for the emission-driven coupled carbon climate model runs.  Report the prescribed anthropogenic CO2 flux from fossil fuel use, including cement production, and flaring (but not from land-use changes, agricultural burning, forest regrowth, etc.)
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          fco2fos
 type:              real
 positive:          up
@@ -1674,14 +1556,14 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     surface_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_natural_sources
 units:             kg m-2 s-1
-cell_methods:      time: mean
+cell_methods:      time: point
 cell_measures:     area: areacella
 long_name:         Surface Carbon Mass Flux into the Atmosphere Due to Natural Sources
 comment:           Report from all simulations (both emission-driven and concentration-driven) performed by models with fully interactive and responsive carbon cycles.  This is what the atmosphere sees (on its own grid).  This field should be equivalent to the combined natural fluxes of carbon (requested in the L_mon and O_mon tables) that account for natural exchanges between the atmosphere and land or ocean reservoirs (i.e., ""net ecosystem biospheric productivity"", for land, and ""air to sea CO2 flux"", for ocean.)
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time
+dimensions:        site time1
 out_name:          fco2nat
 type:              real
 positive:          up
@@ -1697,14 +1579,13 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     cloud_area_fraction_in_atmosphere_layer
 units:             %
-cell_methods:      time: mean
-cell_measures:     area: areacella
+cell_methods:      time: point
 long_name:         Cloud Area Fraction
-comment:           Report on model layers (not standard pressures).  Include both large-scale and convective cloud.
+comment:           Include both large-scale and convective cloud.
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude alevel time
+dimensions:        alevel site time1
 out_name:          cl
 type:              real
 valid_min:         0
@@ -1723,14 +1604,13 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     mass_fraction_of_cloud_liquid_water_in_air
 units:             1
-cell_methods:      time: mean
-cell_measures:     area: areacella
+cell_methods:      time: point
 long_name:         Mass Fraction of Cloud Liquid Water
-comment:           Report on model layers (not standard pressures).  Include both large-scale and convective cloud.  Calculate as the mass of cloud liquid water in the grid cell divided by the mass of air (including the water in all phases) in the grid cells. Include precipitating hydrometeors ONLY if the precipitating hydrometeor affects the calculation of radiative transfer in model.  
+comment:           Include both large-scale and convective cloud.  Calculate as the mass of  cloud liquid water in the grid cell divided by the mass of air (including the water in all phases) in the grid cell.  Include precipitating hydrometeors ONLY if the precipitating hydrometeor affects the calculation of radiative transfer in model.  
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude alevel time
+dimensions:        alevel site time1
 out_name:          clw
 type:              real
 !----------------------------------
@@ -1745,14 +1625,13 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     mass_fraction_of_cloud_ice_in_air
 units:             1
-cell_methods:      time: mean
-cell_measures:     area: areacella
+cell_methods:      time: point
 long_name:         Mass Fraction of Cloud Ice
-comment:           Report on model layers (not standard pressures).  Include both large-scale and convective cloud.  Calculate as the mass of cloud ice in the grid cell divided by the mass of air (including the water in all phases) in the grid cell. Include precipitating hydrometeors ONLY if the precipitating hydrometeor affects the calculation of radiative transfer in model.  
+comment:           Include both large-scale and convective cloud. Calculate as the mass of  cloud ice  in the grid cell divided by the mass of air (including the water in all phases) in the grid cell.  Include precipitating hydrometeors ONLY if the precipitating hydrometeor affects the calculation of radiative transfer in model.  
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude alevel time
+dimensions:        alevel site time1
 out_name:          cli
 type:              real
 !----------------------------------
@@ -1767,14 +1646,13 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     atmosphere_net_upward_convective_mass_flux
 units:             kg m-2 s-1
-cell_methods:      time: mean
-cell_measures:     area: areacella
+cell_methods:      time: point
 long_name:         Convective Mass Flux
-comment:           Report on model half-levels (i.e., model layer bounds and not standard pressures).  The net mass flux should represent the difference between the updraft and downdraft components.  The flux is computed as the mass divided by the area of the grid cell.  
+comment:           Report on model half-levels (i.e., model layer bounds and not standard pressures).  The net mass flux should represent the difference between the updraft and downdraft components.  Calculate as the convective mass flux divided by the area of the whole grid cell (not just the area of the updrafts).
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude alevhalf time
+dimensions:        alevhalf site time1
 out_name:          mc
 type:              real
 positive:          up
@@ -1790,13 +1668,12 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     air_temperature
 units:             K
-cell_methods:      time: mean
-cell_measures:     area: areacella
+cell_methods:      time: point
 long_name:         Air Temperature
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude plevs time
+dimensions:        alevel site time1
 out_name:          ta
 type:              real
 valid_min:         157.1
@@ -1815,12 +1692,12 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     eastward_wind
 units:             m s-1
-cell_methods:      time: mean
+cell_methods:      time: point
 long_name:         Eastward Wind
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude plevs time
+dimensions:        alevel site time1
 out_name:          ua
 type:              real
 valid_min:         -68.65
@@ -1839,12 +1716,12 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     northward_wind
 units:             m s-1
-cell_methods:      time: mean
+cell_methods:      time: point
 long_name:         Northward Wind
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude plevs time
+dimensions:        alevel site time1
 out_name:          va
 type:              real
 valid_min:         -71.1
@@ -1863,13 +1740,12 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     specific_humidity
 units:             1
-cell_methods:      time: mean
-cell_measures:     area: areacella
+cell_methods:      time: point
 long_name:         Specific Humidity
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude plevs time
+dimensions:        alevel site time1
 out_name:          hus
 type:              real
 valid_min:         -0.000299
@@ -1888,14 +1764,13 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     relative_humidity
 units:             %
-cell_methods:      time: mean
-cell_measures:     area: areacella
+cell_methods:      time: point
 long_name:         Relative Humidity
 comment:           This is the relative humidity with respect to liquid water for T> 0 C, and with respect to ice for T<0 C.
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude plevs time
+dimensions:        alevel site time1
 out_name:          hur
 type:              real
 valid_min:         -2.642
@@ -1914,14 +1789,13 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     lagrangian_tendency_of_air_pressure
 units:             Pa s-1
-cell_methods:      time: mean
-cell_measures:     area: areacella
+cell_methods:      time: point
 long_name:         omega (=dp/dt)
 comment:           commonly referred to as ""omega"", this represents the vertical component of velocity in pressure coordinates (positive down)
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude plevs time
+dimensions:        alevel site time1
 out_name:          wap
 type:              real
 valid_min:         -1.126
@@ -1940,13 +1814,12 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     geopotential_height
 units:             m
-cell_methods:      time: mean
-cell_measures:     area: areacella
+cell_methods:      time: point
 long_name:         Geopotential Height
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude plevs time
+dimensions:        alevel site time1
 out_name:          zg
 type:              real
 valid_min:         -719.7
@@ -1957,391 +1830,452 @@ ok_max_mean_abs:   3.164e+04
 !
 
 !============
-variable_entry:    tro3
-!============
-modeling_realm:    atmos atmosChem
-!----------------------------------
-! Variable attributes:
-!----------------------------------
-standard_name:     mole_fraction_of_ozone_in_air
-units:             1e-9
-cell_methods:      time: mean
-cell_measures:     area: areacella
-long_name:         Mole Fraction of O3
-comment:           If this does not change over time (except possibly to vary identically over each annual cycle), report instead the variable described in the next table entry. 
-!----------------------------------
-! Additional variable information:
-!----------------------------------
-dimensions:        longitude latitude plevs time
-out_name:          tro3
-type:              real
-valid_min:         -419.2
-valid_max:         1.162e+04
-ok_min_mean_abs:   -149.1
-ok_max_mean_abs:   7363
-!----------------------------------
-!
-
-!============
-variable_entry:    tro3Clim
-!============
-modeling_realm:    atmos atmosChem
-!----------------------------------
-! Variable attributes:
-!----------------------------------
-standard_name:     mole_fraction_of_ozone_in_air
-units:             1e-9
-cell_methods:      time: mean within years time: mean over years
-cell_measures:     area: areacella
-long_name:         Mole Fraction of O3
-comment:           If O3 does not vary from one year to the next, report 12 months, starting with January.   (Note: include all 12 months even if the values don't vary seasonally.)  When calling CMOR, identify this variable as tro3Clim, not tro3. If the O3 varies from one year to the next,  then report instead the field described in the previous table entry.  
-!----------------------------------
-! Additional variable information:
-!----------------------------------
-dimensions:        longitude latitude plevs time2
-out_name:          tro3
-type:              real
-!----------------------------------
-!
-
-!============
-variable_entry:    co2
+variable_entry:    rlu
 !============
 modeling_realm:    atmos
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
-standard_name:     mole_fraction_of_carbon_dioxide_in_air
-units:             1e-6
-cell_methods:      time: mean
-cell_measures:     area: areacella
-long_name:         Mole Fraction of CO2
-comment:           For some simulations (e.g., prescribed concentration pi-control run), this will not vary from one year to the next, and so report instead the variable described in the next table entry.  If spatially uniform, omit this field, but report Total Atmospheric Mass of CO2 (see the table entry after the next one). 
+standard_name:     upwelling_longwave_flux_in_air
+units:             W m-2
+cell_methods:      time: point
+long_name:         Upwelling Longwave Radiation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude plevs time
-out_name:          co2
+dimensions:        alevel site time1
+out_name:          rlu
 type:              real
+positive:          up
 !----------------------------------
 !
 
 !============
-variable_entry:    co2Clim
+variable_entry:    rsu
 !============
 modeling_realm:    atmos
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
-standard_name:     mole_fraction_of_carbon_dioxide_in_air
-units:             1e-6
-cell_methods:      time: mean within years time: mean over years
-cell_measures:     area: areacella
-long_name:         Mole Fraction of CO2
-comment:           Report only for simulations (e.g., prescribed concentration pi-control run), in which the CO2 does not vary from one year to the next. Report 12 monthly values, starting with January, even if the values don't vary seasonally.  When calling CMOR, identify this variable as co2Clim, not co2.   If  CO2 is spatially uniform, omit this field, but report Total Atmospheric Mass of CO2 (see the table entry after the next).
+standard_name:     upwelling_shortwave_flux_in_air
+units:             W m-2
+cell_methods:      time: point
+long_name:         Upwelling Shortwave Radiation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude plevs time2
-out_name:          co2
+dimensions:        alevel site time1
+out_name:          rsu
 type:              real
+positive:          up
 !----------------------------------
 !
 
 !============
-variable_entry:    co2mass
+variable_entry:    rld
 !============
 modeling_realm:    atmos
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
-standard_name:     atmosphere_mass_of_carbon_dioxide
-units:             kg
-cell_methods:      time: mean
-long_name:         Total Atmospheric Mass of CO2
-comment:           For some simulations (e.g., prescribed concentration pi-control run), this will not vary from one year to the next, and so report instead the variable described in the next table entry.  If CO2 is spatially nonuniform, omit this field, but report Mole Fraction of CO2 (see the table entry before the previous one). 
+standard_name:     downwelling_longwave_flux_in_air
+units:             W m-2
+cell_methods:      time: point
+long_name:         Downwelling Longwave Radiation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        time
-out_name:          co2mass
+dimensions:        alevel site time1
+out_name:          rld
 type:              real
+positive:          down
 !----------------------------------
 !
 
 !============
-variable_entry:    co2massClim
+variable_entry:    rsd
 !============
 modeling_realm:    atmos
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
-standard_name:     atmosphere_mass_of_carbon_dioxide
-units:             kg
-cell_methods:      time: mean within years time: mean over years
-long_name:         Total Atmospheric Mass of CO2
-comment:           Report only for simulations (e.g., prescribed concentration pi-control run), in which the CO2 does not vary from one year to the next. Report 12 monthly values, starting with January, even if the values don't vary seasonally.  When calling CMOR, identify this variable as co2massClim, not co2mass.  If CO2 is spatially nonuniform, omit this field, but report Mole Fraction of CO2 (see the table entry before the previous one). 
+standard_name:     downwelling_shortwave_flux_in_air
+units:             W m-2
+cell_methods:      time: point
+long_name:         Downwelling Shortwave Radiation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        time2
-out_name:          co2mass
+dimensions:        alevel site time1
+out_name:          rsd
 type:              real
+positive:          down
 !----------------------------------
 !
 
 !============
-variable_entry:    ch4
+variable_entry:    rlucs
 !============
-modeling_realm:    atmos atmosChem
+modeling_realm:    atmos
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
-standard_name:     mole_fraction_of_methane_in_air
-units:             1e-9
-cell_methods:      time: mean
-cell_measures:     area: areacella
-long_name:         Mole Fraction of CH4
-comment:           For some simulations (e.g., prescribed concentration pi-control run), this will not vary from one year to the next, and so report instead the variable described in the next table entry.  If CH4 is spatially uniform, omit this field, but report Global Mean Mole Fraction of CH4 (see the table entry after the next one). 
+standard_name:     upwelling_longwave_flux_in_air_assuming_clear_sky
+units:             W m-2
+cell_methods:      time: point
+long_name:         Upwelling Clear-Sky Longwave Radiation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude plevs time
-out_name:          ch4
+dimensions:        alevel site time1
+out_name:          rlucs
 type:              real
+positive:          up
 !----------------------------------
 !
 
 !============
-variable_entry:    ch4Clim
+variable_entry:    rsucs
 !============
-modeling_realm:    atmos atmosChem
+modeling_realm:    atmos
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
-standard_name:     mole_fraction_of_methane_in_air
-units:             1e-9
-cell_methods:      time: mean within years time: mean over years
-cell_measures:     area: areacella
-long_name:         Mole Fraction of CH4
-comment:           Report only for simulations (e.g., prescribed concentration pi-control run), in which the CH4 does not vary from one year to the next. Report 12 monthly values, starting with January, even if the values don't vary seasonally.  When calling CMOR, identify this variable as ch4global, not ch4.   If  CH4 is spatially uniform, omit this field, but report Global Mean Mole Fraction of CH4 (see the table entry after the next).
+standard_name:     upwelling_shortwave_flux_in_air_assuming_clear_sky
+units:             W m-2
+cell_methods:      time: point
+long_name:         Upwelling Clear-Sky Shortwave Radiation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude plevs time2
-out_name:          ch4
+dimensions:        alevel site time1
+out_name:          rsucs
 type:              real
+positive:          up
 !----------------------------------
 !
 
 !============
-variable_entry:    ch4global
+variable_entry:    rldcs
 !============
-modeling_realm:    atmos atmosChem
+modeling_realm:    atmos
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
-standard_name:     mole_fraction_of_methane_in_air
-units:             1e-9
-cell_methods:      time: mean
-long_name:         Global Mean Mole Fraction of CH4
-comment:           For some simulations (e.g., prescribed concentration pi-control run), this will not vary from one year to the next, and so report instead the variable described in the next table entry.  If CH4 is spatially nonuniform, omit this field, but report Mole Fraction of CH4 (see the table entry before the previous one). 
+standard_name:     downwelling_longwave_flux_in_air_assuming_clear_sky
+units:             W m-2
+cell_methods:      time: point
+long_name:         Downwelling Clear-Sky Longwave Radiation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        time
-out_name:          ch4global
+dimensions:        alevel site time1
+out_name:          rldcs
 type:              real
+positive:          down
 !----------------------------------
 !
 
 !============
-variable_entry:    ch4globalClim
+variable_entry:    rsdcs
 !============
-modeling_realm:    atmos atmosChem
+modeling_realm:    atmos
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
-standard_name:     mole_fraction_of_methane_in_air
-units:             1e-9
-cell_methods:      time: mean within years time: mean over years
-long_name:         Global Mean Mole Fraction of CH4
-comment:           Report only for simulations (e.g., prescribed concentration pi-control run), in which the CH4 does not vary from one year to the next. Report 12 monthly values, starting with January, even if the values don't vary seasonally.  When calling CMOR, identify this variable as ch4globalClim, not ch4global.  If CH4 is spatially nonuniform, omit this field, but report Global Mean Mole Fraction of CH4 (see the table entry before the previous one). 
+standard_name:     downwelling_shortwave_flux_in_air_assuming_clear_sky
+units:             W m-2
+cell_methods:      time: point
+long_name:         Downwelling Clear-Sky Shortwave Radiation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        time2
-out_name:          ch4global
+dimensions:        alevel site time1
+out_name:          rsdcs
 type:              real
+positive:          down
 !----------------------------------
 !
 
 !============
-variable_entry:    n2o
+variable_entry:    tnt 
 !============
-modeling_realm:    atmos atmosChem
+modeling_realm:    atmos
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
-standard_name:     mole_fraction_of_nitrous_oxide_in_air
-units:             1e-9
-cell_methods:      time: mean
-cell_measures:     area: areacella
-long_name:         Mole Fraction of N2O
-comment:           For some simulations (e.g., prescribed concentration pi-control run), this will not vary from one year to the next, and so report instead the variable described in the next table entry.  If N2O is spatially uniform, omit this field, but report Global Mean Mole Fraction of N2O (see the table entry after the next one). 
+standard_name:     tendency_of_air_temperature
+units:             K s-1
+cell_methods:      time: point
+long_name:         Tendency of Air Temperature
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude plevs time
-out_name:          n2o
+dimensions:        alevel site time1
+out_name:          tnt 
 type:              real
 !----------------------------------
 !
 
 !============
-variable_entry:    n2oClim
+variable_entry:    tnta 
 !============
-modeling_realm:    atmos atmosChem
+modeling_realm:    atmos
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
-standard_name:     mole_fraction_of_nitrous_oxide_in_air
-units:             1e-9
-cell_methods:      time: mean within years time: mean over years
-cell_measures:     area: areacella
-long_name:         Mole Fraction of N2O
-comment:           Report only for simulations (e.g., prescribed concentration pi-control run), in which the N2O does not vary from one year to the next. Report 12 monthly values, starting with January, even if the values don't vary seasonally.  When calling CMOR, identify this variable as n2oglobal, not n2o.   If  N2O is spatially uniform, omit this field, but report Global Mean Mole Fraction of N2O (see the table entry after the next).
+standard_name:     tendency_of_air_temperature_due_to_advection
+units:             K s-1
+cell_methods:      time: point
+long_name:         Tendency of Air Temperature due to Advection
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude plevs time2
-out_name:          n2o
+dimensions:        alevel site time1
+out_name:          tnta 
 type:              real
 !----------------------------------
 !
 
 !============
-variable_entry:    n2oglobal
+variable_entry:    tntmp
 !============
-modeling_realm:    atmos atmosChem
+modeling_realm:    atmos
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
-standard_name:     mole_fraction_of_nitrous_oxide_in_air
-units:             1e-9
-cell_methods:      time: mean
-long_name:         Global Mean Mole Fraction of N2O
-comment:           For some simulations (e.g., prescribed concentration pi-control run), this will not vary from one year to the next, and so report instead the variable described in the next table entry.  If N2O is spatially nonuniform, omit this field, but report Mole Fraction of N2O (see the table entry before the previous one). 
+standard_name:     tendency_of_air_temperature_due_to_model_physics
+units:             K s-1
+cell_methods:      time: point
+long_name:         Tendency of Air Temperature due to Diabatic Processes
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        time
-out_name:          n2oglobal
+dimensions:        alevel site time1
+out_name:          tntmp
 type:              real
 !----------------------------------
 !
 
 !============
-variable_entry:    n2oglobalClim
+variable_entry:    tntscpbl 
 !============
-modeling_realm:    atmos atmosChem
+modeling_realm:    atmos
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
-standard_name:     mole_fraction_of_nitrous_oxide_in_air
-units:             1e-9
-cell_methods:      time: mean within years time: mean over years
-long_name:         Global Mean Mole Fraction of N2O
-comment:           Report only for simulations (e.g., prescribed concentration pi-control run), in which the N2O does not vary from one year to the next. Report 12 monthly values, starting with January, even if the values don't vary seasonally.  When calling CMOR, identify this variable as ch4globalClim, not ch4global.  If N2O is spatially nonuniform, omit this field, but report Global Mean Mole Fraction of N2O (see the table entry before the previous one). 
+standard_name:     tendency_of_air_temperature_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing
+units:             K s-1
+cell_methods:      time: point
+long_name:         Tendency of Air Temperature due to Stratiform Cloud Condensation and Evaporation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        time2
-out_name:          n2oglobal
+dimensions:        alevel site time1
+out_name:          tntscpbl 
 type:              real
 !----------------------------------
 !
 
 !============
-variable_entry:    cfc11global
+variable_entry:    tntr 
 !============
-modeling_realm:    atmos atmosChem
+modeling_realm:    atmos
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
-standard_name:     mole_fraction_of_cfc11_in_air
-units:             1e-12
-cell_methods:      time: mean
-long_name:         Global Mean Mole Fraction of CFC11
+standard_name:     tendency_of_air_temperature_due_to_radiative_heating
+units:             K s-1
+cell_methods:      time: point
+long_name:         Tendency of Air Temperature due to Radiative Heating
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        time
-out_name:          cfc11global
+dimensions:        alevel site time1
+out_name:          tntr 
 type:              real
 !----------------------------------
 !
 
 !============
-variable_entry:    cfc12global
+variable_entry:    tntc
 !============
-modeling_realm:    atmos atmosChem
+modeling_realm:    atmos
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
-standard_name:     mole_fraction_of_cfc12_in_air
-units:             1e-12
-cell_methods:      time: mean
-long_name:         Global Mean Mole Fraction of CFC12
+standard_name:     tendency_of_air_temperature_due_to_convection
+units:             K s-1
+cell_methods:      time: point
+long_name:         Tendency of Air Temperature due to Moist Convection
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        time
-out_name:          cfc12global
+dimensions:        alevel site time1
+out_name:          tntc
 type:              real
 !----------------------------------
 !
 
 !============
-variable_entry:    hcfc22global
+variable_entry:    tnhus
 !============
-modeling_realm:    atmos atmosChem
+modeling_realm:    atmos
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
-standard_name:     mole_fraction_of_hcfc22_in_air
-units:             1e-12
-cell_methods:      time: mean
-long_name:         Global Mean Mole Fraction of HCFC22
+standard_name:     tendency_of_specific_humidity
+units:             s-1
+cell_methods:      time: point
+long_name:         Tendency of Specific Humidity
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        time
-out_name:          hcfc22global
+dimensions:        alevel site time1
+out_name:          tnhus
 type:              real
 !----------------------------------
 !
 
 !============
-variable_entry:    cfc113global
+variable_entry:    tnhusa 
 !============
-modeling_realm:    atmos atmosChem
+modeling_realm:    atmos
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
-standard_name:     mole_fraction_of_cfc113_in_air
-units:             1e-12
-cell_methods:      time: mean
-long_name:         Global Mean Mole Fraction of CFC113
+standard_name:     tendency_of_specific_humidity_due_to_advection
+units:             s-1
+cell_methods:      time: point
+long_name:         Tendency of Specific Humidity due to Advection
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        time
-out_name:          cfc113global
+dimensions:        alevel site time1
+out_name:          tnhusa 
 type:              real
 !----------------------------------
 !
 
+!============
+variable_entry:    tnhusc 
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     tendency_of_specific_humidity_due_to_convection
+units:             s-1
+cell_methods:      time: point
+long_name:         Tendency of Specific Humidity due to Convection
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        alevel site time1
+out_name:          tnhusc 
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    tnhusd 
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     tendency_of_specific_humidity_due_to_diffusion
+units:             s-1
+cell_methods:      time: point
+long_name:         Tendency of Specific Humidity due to Diffusion
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        alevel site time1
+out_name:          tnhusd 
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    tnhusscpbl 
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     tendency_of_specific_humidity_due_to_stratiform_cloud_and_precipitation_and_boundary_layer_mixing
+units:             s-1
+cell_methods:      time: point
+long_name:         Tendency of Specific Humidity due to Stratiform Cloud Condensation and Evaporation
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        alevel site time1
+out_name:          tnhusscpbl 
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    tnhusmp 
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     tendency_of_specific_humidity_due_to_model_physics
+units:             s-1
+cell_methods:      time: point
+long_name:         Tendency of Specific Humidity due to Model Physics
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        alevel site time1
+out_name:          tnhusmp 
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    evu
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     atmosphere_momentum_diffusivity
+units:             m2 s-1
+cell_methods:      time: point
+long_name:         Eddy Viscosity Coefficient for Momentum Variables
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        alevel site time1
+out_name:          evu
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    edt
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     atmosphere_heat_diffusivity
+units:             m2 s-1
+cell_methods:      time: point
+long_name:         Eddy Diffusivity Coefficient for Temperature Variable
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        alevel site time1
+out_name:          edt
+type:              real
+!----------------------------------
+!
 
 !============
 variable_entry:    pfull
@@ -2352,13 +2286,13 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     air_pressure
 units:             Pa
-cell_methods:      time: mean within years time: mean over years
-cell_measures:     area: areacella
+cell_methods:      time: point
 long_name:         Pressure on Model Levels
+comment:           This field is needed only for models in which the pressure can't be calculated from the vertical coordinate information stored already for each variable.  Thus, the pressures are needed for height or theta-coordinate models, for example, but not sigma- or eta-coordinate models.
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude alevel time2
+dimensions:        alevel site time1
 out_name:          pfull
 type:              real
 !----------------------------------
@@ -2373,15 +2307,59 @@ modeling_realm:    atmos
 !----------------------------------
 standard_name:     air_pressure
 units:             Pa
-cell_methods:      time: mean within years time: mean over years
-cell_measures:     area: areacella
+cell_methods:      time: point
 long_name:         Pressure on Model Half-Levels
+comment:           This field is needed only for models in which the pressure can't be calculated from the vertical coordinate information stored already for each variable.  Thus, the pressures are needed for height or theta-coordinate models, for example, but not sigma- or eta-coordinate models.
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude alevhalf time2
+dimensions:        alevel site time1
 out_name:          phalf
 type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    longitude
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     longitude
+units:             degrees_east
+cell_methods:      0.0
+long_name:         Longitude
+comment:           Note that the CF convention and CMOR2 require that this field will be included in each file that contains a variable that is a function of the ""site"" dimension, so there is no need to save this field by itself.  It is included here simply to indicate that longitudes should be stored for the site grid in each file written.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        site
+out_name:          lon
+type:              real
+valid_min:         360.0
+!----------------------------------
+!
+
+!============
+variable_entry:    latitude
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     latitude
+units:             degrees_north
+cell_methods:      -90.0
+long_name:         Latitude
+comment:           the above comment also applies to latitude.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        site
+out_name:          lat
+type:              real
+valid_min:         90.0
 !----------------------------------
 !
 

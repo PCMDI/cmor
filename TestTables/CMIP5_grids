@@ -4,7 +4,7 @@ table_id: Table grids
 cmor_version: 2.0         ! version of CMOR that can read this table
 cf_version:   1.4         ! version of CF that output conforms to
 project_id:   CMIP5       ! project id
-table_date:   12 March 2010 ! date this table was constructed
+table_date:   12 November 2010 ! date this table was constructed
 
 missing_value: 1.e20      ! value used to indicate a missing value
                           !   in arrays output by netCDF as 32-bit IEEE 
@@ -13,7 +13,7 @@ missing_value: 1.e20      ! value used to indicate a missing value
 baseURL: http://cmip-pcmdi.llnl.gov/CMIP5/dataLocation 
 product: output
 
-required_global_attributes: creation_date tracking_id forcing model_id parent_experiment_id branch_time ! space separated required global attribute 
+required_global_attributes: creation_date tracking_id forcing model_id parent_experiment_id parent_experiment_rip branch_time contact institute_id ! space separated required global attribute 
 
 expt_id_ok: '10- or 30-year run initialized in year XXXX' 'decadalXXXX'
 expt_id_ok: 'volcano-free hindcasts' 'noVolcXXXX'
@@ -38,22 +38,6 @@ expt_id_ok: '1 percent per year CO2' '1pctCO2'
 expt_id_ok: 'abrupt 4XCO2' 'abrupt4xCO2'
 expt_id_ok: 'natural-only' 'historicalNat'
 expt_id_ok: 'GHG-only' 'historicalGHG'
-expt_id_ok: 'anthropogenic-only' 'historicalAnt'
-expt_id_ok: 'anthropogenic sulfate aerosol direct effect only' 'historicalSD'
-expt_id_ok: 'anthropogenic sulfate aerosol indirect effect only' 'historicalSI'
-expt_id_ok: 'anthropogenic sulfate aerosol only' 'historicalSA'
-expt_id_ok: 'tropospheric ozone only' 'historicalTO'
-expt_id_ok: 'stratospheric ozone' 'historicalSO'
-expt_id_ok: 'ozone only' 'historicalOz'
-expt_id_ok: 'land-use change only' 'historicalLU'
-expt_id_ok: 'solar irradiance only' 'historicalSl'
-expt_id_ok: 'volcanic aerosol only' 'historicalVl'
-expt_id_ok: 'sea salt only' 'historicalSS'
-expt_id_ok: 'dust' 'historicalDs'
-expt_id_ok: 'black carbon only' 'historicalBC'
-expt_id_ok: 'mineral dust only' 'historicalMD'
-expt_id_ok: 'organic carbon only' 'historicalOC'
-expt_id_ok: 'anthropogenic aerosols only' 'historicalAA'
 expt_id_ok: 'AMIP' 'amip'
 expt_id_ok: '2030 time-slice' 'sst2030'
 expt_id_ok: 'control SST climatology' 'sstClim'
@@ -88,6 +72,7 @@ axis_entry: i_index
 out_name:         i
 units:            1
 long_name:        cell index along first dimension
+type: 		  integer
 !----------------------------------	
 !
 !
@@ -102,6 +87,7 @@ axis_entry: j_index
 out_name:         j
 units:            1
 long_name:        cell index along second dimension
+type: 		  integer
 !----------------------------------	
 !
 !
@@ -116,6 +102,7 @@ axis_entry: k_index
 out_name:         k
 units:            1
 long_name:        cell index along third dimension
+type: 		  integer
 !----------------------------------	
 !
 !============
@@ -129,6 +116,7 @@ axis_entry: l_index
 out_name:         l
 units:            1
 long_name:        cell index along fourth dimension
+type: 		  integer
 !----------------------------------	
 !
 !============
@@ -142,6 +130,7 @@ axis_entry: m_index
 out_name:         m
 units:            1
 long_name:        cell index along fifth dimension
+type: 		  integer
 !----------------------------------	
 !
 !============
@@ -171,6 +160,42 @@ axis_entry: y
 !----------------------------------	
 standard_name:    projection_y_coordinate
 units:            m
+long_name:        y coordinate of projection
+axis: Y
+!----------------------------------	
+!
+! Additional axis information:
+!----------------------------------	
+!
+!============
+axis_entry: x_deg
+!============
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------	
+out_name:         x
+standard_name:    projection_x_coordinate
+units:            degrees
+long_name:        x coordinate of projection
+axis: X
+!----------------------------------	
+!
+! Additional axis information:
+!----------------------------------	
+!
+!============
+axis_entry: y_deg
+!============
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------	
+out_name:         y
+standard_name:    projection_y_coordinate
+units:            degrees
 long_name:        y coordinate of projection
 axis: Y
 !----------------------------------	

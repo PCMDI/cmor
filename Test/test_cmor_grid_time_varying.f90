@@ -89,7 +89,7 @@ PROGRAM test_cmor_grid
    !+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
    ! Specify path for tables and set up other CMOR options
    !+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-   error_flag = cmor_setup(inpath='/git/cmip5-cmor-tables/Tables/', &
+   error_flag = cmor_setup(inpath='Tables/', &
                            netcdf_file_action="replace",create_subdirectories=0)
 
    print *, '---------------Define dataset'
@@ -125,9 +125,9 @@ PROGRAM test_cmor_grid
    grid_id = cmor_grid((/profile_axid, section_axid/))
 !    lat,lon,lat_bounds,lon_bounds,
    print *, ' -- grid_id: ', grid_id
-   latvar_id = cmor_time_varying_grid_coordinate(grid_id,'lat','degrees_north',R_UNDEF)
+   latvar_id = cmor_time_varying_grid_coordinate(grid_id,'latitude','degrees_north',missing=R_UNDEF)
    print*, ' -- latvar_id :',latvar_id
-   lonvar_id = cmor_time_varying_grid_coordinate(grid_id,'lon','degrees_east',R_UNDEF)
+   lonvar_id = cmor_time_varying_grid_coordinate(grid_id,'longitude','degrees_east',missing=R_UNDEF)
    print*, ' -- lonvar_id:',lonvar_id
    if (grid_id > 0) then
         print *,  '*********** Error, grid_id: ', grid_id

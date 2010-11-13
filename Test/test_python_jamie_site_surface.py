@@ -2,7 +2,7 @@ import cmor
 import numpy
 
 def cmor_initialisation():
-    cmor.setup(inpath='/git/cmip5-cmor-tables/Tables',
+    cmor.setup(inpath='Tables',
                netcdf_file_action = cmor.CMOR_REPLACE_3,
                create_subdirectories = 0)
     cmor.dataset('pre-industrial control', 'ukmo', 'HadCM3', '360_day',

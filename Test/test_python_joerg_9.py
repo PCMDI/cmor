@@ -24,8 +24,8 @@ error_flag = cmor.dataset(
        forcing="Ant",
        parent_experiment_id="lgm",branch_time=0)
 
-ntables=[cmor.load_table("/git/cmip5-cmor-tables/Tables/CMIP5_grids")]
-ntables.append(cmor.load_table("/git/cmip5-cmor-tables/Tables/CMIP5_OImon"))
+ntables=[cmor.load_table("Tables/CMIP5_grids")]
+ntables.append(cmor.load_table("Tables/CMIP5_OImon"))
 
 
 cmor.set_table(ntables[0])

@@ -27,7 +27,7 @@ def define_write_var(axis_ids, entry, unit, values):
 
 
 def cmor_ini():
-    cmor.setup(inpath='/git/cmip5-cmor-tables/Tables',
+    cmor.setup(inpath='Tables',
                netcdf_file_action = cmor.CMOR_REPLACE)
     cmor.dataset('pre-industrial control', 'mohc', 'HadGEM2: source',
                  '360_day',

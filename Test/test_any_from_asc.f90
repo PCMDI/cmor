@@ -91,7 +91,7 @@ program main
        ' 2XCO2 simulation described in Dorkey et al. '//       &
        '(Clim. Dyn., 2003, 323-357.)', &
        model_id='GICCM1',forcing='Nat', &
-       parent_experiment_id="N/A",branch_time=bt,&
+       parent_experiment_rip="N/A",parent_experiment_id="N/A",branch_time=bt,&
        contact="Freddy Krueger",institute_id="PCMDI" )
   
   current=>mydims

@@ -75,7 +75,7 @@ USE cmor_users_functions
                       contact       =                          &
       'Jasmin John, Berkeley CAS <jjohn@berkeley.edu>', &
                       model_id = "GICCM1" ,institute_id="PCMDI",&
-                      parent_experiment_id='N/A',forcing='SO',branch_time=bt)
+                      parent_experiment_rip="N/A",parent_experiment_id='N/A',forcing='SO',branch_time=bt)
 
 !     print *, ' ** Time coordinate vector:', t
 !     print *, ' ** Time bounds vector:',     tbounds
