@@ -1083,7 +1083,7 @@ int cmor_dataset(char *outpath,
     /* ok if not root then test permssions */
     if (getuid()!=0) {
       strcpy(msg,cmor_current_dataset.outpath);
-      strncat(msg,"tmp.cmor.test",CMOR_MAX_STRING);
+      strncat(msg,"/tmp.cmor.test",CMOR_MAX_STRING);
       test_file = fopen(msg,"w");
       if (test_file == NULL) {
 
