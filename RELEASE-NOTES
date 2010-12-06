@@ -1,3 +1,4 @@
+2010-12-06 : turned off udunits2 warnings when reading database in
 2010-11-18 : added a '/' after output path for tmp file testing
 2010-11-12 : Updated documentation
 2010-11-11 : updated pywrapper from Jamie

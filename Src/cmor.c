@@ -699,11 +699,13 @@ int cmor_setup(char *path,int *netcdf, int *verbosity, int *mode, char *logfile,
   if (ut_read!=NULL) {
     ut_free_system(ut_read);
   }
+  ut_set_error_message_handler(ut_ignore);
   ut_read = ut_read_xml(NULL);
   if (ut_get_status() != UT_SUCCESS) {
     snprintf(msg,CMOR_MAX_STRING,"Udunits: Error reading units system");
     cmor_handle_error(msg,CMOR_CRITICAL);
   }
+  ut_set_error_message_handler(ut_ignore);
   if (newequnit!= NULL) ut_free(newequnit);
   newequnit = ut_new_base_unit(ut_read);
   if (ut_get_status() != UT_SUCCESS) {
