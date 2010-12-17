@@ -1213,6 +1213,11 @@ int cmor_axis(int *axis_id, char *name,char *units, int length,void *coord_vals,
 /*       for(i=0;i<length;i++) printf("ok we received: %i:%lf\n",i,cmor_axes[cmor_naxes].values[i]); */
     }
     else {
+      /* before we do anything let check that output type is also character */
+      if (type!=refaxis.type) {
+	snprintf(msg,CMOR_MAX_STRING,"You are trying to define axis %s (table: %s) as character when it should be of type: %c\n",cmor_axes[cmor_naxes].id,cmor_tables[CMOR_TABLE].table_id,refaxis.type);
+	cmor_handle_error(msg,CMOR_CRITICAL);
+      }
       cmor_axes[cmor_naxes].cvalues=malloc(length*sizeof(char *));
       if (cmor_axes[cmor_naxes].cvalues == NULL)  {
 	snprintf(msg,CMOR_MAX_STRING,"cannot allocate memory for %i char elts for axis %s (table: %s)",length,cmor_axes[cmor_naxes].id,cmor_tables[CMOR_TABLE].table_id);
