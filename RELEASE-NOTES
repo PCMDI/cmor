@@ -1,3 +1,5 @@
+2010-12-17 : fixed bug found by Jamie that didn't pass the correct args in get_var_Attribute
+2010-12-16 : added two python test for var with string dimensions
 2010-12-06 : turned off udunits2 warnings when reading database in
 2010-11-18 : added a '/' after output path for tmp file testing
 2010-11-12 : Updated documentation
