@@ -72,12 +72,12 @@ int cmor_has_required_variable_attributes(int var_id)
 
   
 }
-int cmor_set_variable_attribute(int id, char *attribute_name, char type, void *value)
+int cmor_set_variable_attribute_internal(int id, char *attribute_name, char type, void *value)
 {
   extern cmor_var_t cmor_vars[];
   int i,index;
   char msg[CMOR_MAX_STRING];
-  cmor_add_traceback("cmor_set_variable_attribute");
+  cmor_add_traceback("cmor_set_variable_attribute_internal");
 
   cmor_is_setup();
   index=-1;
@@ -109,6 +109,11 @@ int cmor_set_variable_attribute(int id, char *attribute_name, char type, void *v
   cmor_pop_traceback();
   return 0;
 }
+int cmor_set_variable_attribute(int id, char *attribute_name, char type, void *value)
+{
+  return cmor_set_variable_attribute_internal(id,attribute_name,type,value);
+}
+
 int cmor_get_variable_attribute(int id, char *attribute_name, void *value)
 {
   extern cmor_var_t cmor_vars[];
@@ -528,7 +533,7 @@ int cmor_update_history(int var_id,char *add){
     tmp[0]='\0';
   }
   snprintf(tmp2,CMOR_MAX_STRING,"%s %s altered by CMOR: %s.",tmp,date,add);
-  cmor_set_variable_attribute(var_id,"history",'c',tmp2);
+  cmor_set_variable_attribute_internal(var_id,"history",'c',tmp2);
   cmor_pop_traceback();
   return 0;
 }
@@ -616,26 +621,26 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
     strncpy(cmor_vars[vrid].id,refvar.out_name,CMOR_MAX_STRING);
   }
 
-  cmor_set_variable_attribute(vrid,"standard_name",'c',refvar.standard_name);
-  cmor_set_variable_attribute(vrid,"long_name",'c',refvar.long_name);
+  cmor_set_variable_attribute_internal(vrid,"standard_name",'c',refvar.standard_name);
+  cmor_set_variable_attribute_internal(vrid,"long_name",'c',refvar.long_name);
   if ((refvar.flag_values!=NULL) && (refvar.flag_values[0]!='\0')) {
-    cmor_set_variable_attribute(vrid,"flag_values",'c',refvar.flag_values);
+    cmor_set_variable_attribute_internal(vrid,"flag_values",'c',refvar.flag_values);
   }
   if ((refvar.flag_meanings!=NULL) && (refvar.flag_meanings[0]!='\0')) {
-    cmor_set_variable_attribute(vrid,"flag_meanings",'c',refvar.flag_meanings);
+    cmor_set_variable_attribute_internal(vrid,"flag_meanings",'c',refvar.flag_meanings);
   }
-/*   cmor_set_variable_attribute(vrid,"realm",'c',refvar.realm); */
-  cmor_set_variable_attribute(vrid,"comment",'c',refvar.comment);
+/*   cmor_set_variable_attribute_internal(vrid,"realm",'c',refvar.realm); */
+  cmor_set_variable_attribute_internal(vrid,"comment",'c',refvar.comment);
   if (strcmp(refvar.units,"?")==0) {
     strncpy(cmor_vars[vrid].ounits,units,CMOR_MAX_STRING);
   }
   else {
     strncpy(cmor_vars[vrid].ounits,refvar.units,CMOR_MAX_STRING);
   }
-  cmor_set_variable_attribute(vrid,"units",'c',cmor_vars[vrid].ounits);
+  cmor_set_variable_attribute_internal(vrid,"units",'c',cmor_vars[vrid].ounits);
   strncpy(cmor_vars[vrid].iunits,units,CMOR_MAX_STRING);
-  if ((original_name!=NULL) && (original_name[0]!='\0')) cmor_set_variable_attribute(vrid,"original_name",'c',original_name);
-  if ((history!=NULL) && (history[0]!='\0')) cmor_set_variable_attribute(vrid,"history",'c',history);
+  if ((original_name!=NULL) && (original_name[0]!='\0')) cmor_set_variable_attribute_internal(vrid,"original_name",'c',original_name);
+  if ((history!=NULL) && (history[0]!='\0')) cmor_set_variable_attribute_internal(vrid,"history",'c',history);
   if ((comment!=NULL) && (comment[0]!='\0')) {
     if (cmor_has_variable_attribute(vrid,"comment")==0) {
       
@@ -648,15 +653,15 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
     else {
       strncpy(msg,comment,CMOR_MAX_STRING);
     }
-    cmor_set_variable_attribute(vrid,"comment",'c',msg);
+    cmor_set_variable_attribute_internal(vrid,"comment",'c',msg);
   }
   if (strcmp(units,refvar.units)!=0) {
-    cmor_set_variable_attribute(vrid,"original_units",'c',units);
+    cmor_set_variable_attribute_internal(vrid,"original_units",'c',units);
     snprintf(msg,CMOR_MAX_STRING,"Converted units from '%s' to '%s'",units,refvar.units);
     cmor_update_history(vrid,msg);
   }
-  cmor_set_variable_attribute(vrid,"cell_methods",'c',refvar.cell_methods);
-  cmor_set_variable_attribute(vrid,"cell_measures",'c',refvar.cell_measures);
+  cmor_set_variable_attribute_internal(vrid,"cell_methods",'c',refvar.cell_methods);
+  cmor_set_variable_attribute_internal(vrid,"cell_measures",'c',refvar.cell_measures);
   /*if ((refvar.positive!='\0') && (positive!=NULL) && (positive[0]!=refvar.positive)) cmor_vars[vrid].sign=-1;*/
   if ((positive!=NULL) && (positive[0]!='\0')) {
     if ((positive[0]!='d') && positive[0]!='u') {
@@ -664,21 +669,21 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
       cmor_handle_error(msg,CMOR_CRITICAL);
     }
     if (refvar.positive=='u') {
-      if (cmor_is_required_variable_attribute(refvar,"positive")==0) cmor_set_variable_attribute(vrid,"positive",'c',"up");
+      if (cmor_is_required_variable_attribute(refvar,"positive")==0) cmor_set_variable_attribute_internal(vrid,"positive",'c',"up");
       if (positive[0]!='u') {
 	cmor_vars[vrid].sign=-1;
 	cmor_update_history(vrid,"Changed sign");
       }
     }
     else if (refvar.positive=='d') {
-      if (cmor_is_required_variable_attribute(refvar,"positive")==0) cmor_set_variable_attribute(vrid,"positive",'c',"down");
+      if (cmor_is_required_variable_attribute(refvar,"positive")==0) cmor_set_variable_attribute_internal(vrid,"positive",'c',"down");
       if (positive[0]!='d') {
 	cmor_vars[vrid].sign=-1;
 	cmor_update_history(vrid,"Changed sign");
       }
     }
     else { 
-      snprintf(msg,CMOR_MAX_STRING,"variable '%s' (table %s) you passed positive value:%s, but table does not mention it, will be ignored, if you really want this in your variable output use cmor_set_variable_attribute function",cmor_vars[vrid].id,cmor_tables[cmor_vars[vrid].ref_table_id].table_id,positive); 
+      snprintf(msg,CMOR_MAX_STRING,"variable '%s' (table %s) you passed positive value:%s, but table does not mention it, will be ignored, if you really want this in your variable output use cmor_set_variable_attribute_internal function",cmor_vars[vrid].id,cmor_tables[cmor_vars[vrid].ref_table_id].table_id,positive); 
       cmor_handle_error(msg,CMOR_WARNING);
     }
   }
@@ -689,11 +694,11 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
       }
     if (refvar.positive!='\0') {
       if (refvar.positive=='u') {
-	if (cmor_is_required_variable_attribute(refvar,"positive")==0) cmor_set_variable_attribute(vrid,"positive",'c',"up");
+	if (cmor_is_required_variable_attribute(refvar,"positive")==0) cmor_set_variable_attribute_internal(vrid,"positive",'c',"up");
 	snprintf(msg,CMOR_MAX_STRING,"you did not provide the 'positive' argument for variable: %s (table %s)",cmor_vars[vrid].id,cmor_tables[cmor_vars[vrid].ref_table_id].table_id);
       }
       else if (refvar.positive=='d') {
-	if (cmor_is_required_variable_attribute(refvar,"positive")==0) cmor_set_variable_attribute(vrid,"positive",'c',"down");
+	if (cmor_is_required_variable_attribute(refvar,"positive")==0) cmor_set_variable_attribute_internal(vrid,"positive",'c',"down");
 	snprintf(msg,CMOR_MAX_STRING,"you did not provide the 'positive' argument for variable: %s (table %s)",cmor_vars[vrid].id,cmor_tables[cmor_vars[vrid].ref_table_id].table_id);
       }
       cmor_handle_error(msg,CMOR_CRITICAL);
@@ -891,7 +896,7 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
       else {
 	snprintf(ctmp,CMOR_MAX_STRING,"%s %s",msg,cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].axes[cmor_axes[laxes_ids[i]].ref_axis_id].out_name);
       }
-      cmor_set_variable_attribute(vrid,"coordinates",'c',&ctmp[0]);
+      cmor_set_variable_attribute_internal(vrid,"coordinates",'c',&ctmp[0]);
     }
     else {
 /*       printf("in else\n"); */
@@ -989,23 +994,23 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
       cmor_update_history(vrid,msg);
     }
     if (refvar.type=='d') {
-      cmor_set_variable_attribute(vrid,"missing_value",'d',&cmor_vars[vrid].omissing);
-      cmor_set_variable_attribute(vrid,"_FillValue",'d',&cmor_vars[vrid].omissing);
+      cmor_set_variable_attribute_internal(vrid,"missing_value",'d',&cmor_vars[vrid].omissing);
+      cmor_set_variable_attribute_internal(vrid,"_FillValue",'d',&cmor_vars[vrid].omissing);
     }
     else if (refvar.type=='f') {
       afloat = (float)cmor_vars[vrid].omissing;
-      cmor_set_variable_attribute(vrid,"missing_value",'f',&afloat);
-      cmor_set_variable_attribute(vrid,"_FillValue",'f',&afloat);
+      cmor_set_variable_attribute_internal(vrid,"missing_value",'f',&afloat);
+      cmor_set_variable_attribute_internal(vrid,"_FillValue",'f',&afloat);
     }
     else if (refvar.type=='l') {
       along = (long)cmor_vars[vrid].omissing;
-      cmor_set_variable_attribute(vrid,"missing_value",'l',&along);
-      cmor_set_variable_attribute(vrid,"_FillValue",'l',&along);
+      cmor_set_variable_attribute_internal(vrid,"missing_value",'l',&along);
+      cmor_set_variable_attribute_internal(vrid,"_FillValue",'l',&along);
     }
     else if (refvar.type=='i') {
       aint = (int)cmor_vars[vrid].omissing;
-      cmor_set_variable_attribute(vrid,"missing_value",'i',&aint);
-      cmor_set_variable_attribute(vrid,"_FillValue",'i',&aint);
+      cmor_set_variable_attribute_internal(vrid,"missing_value",'i',&aint);
+      cmor_set_variable_attribute_internal(vrid,"_FillValue",'i',&aint);
     }
   }
 

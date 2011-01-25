@@ -2049,7 +2049,7 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
 /*     } */
 /*     else { */
 /*       ncafid = ncid; */
-/*       cmor_set_variable_attribute(var_id,"associated_files",'c',"self"); */
+/*       cmor_set_variable_attribute_internal(var_id,"associated_files",'c',"self"); */
 /*     } */
     ncafid = ncid;
     /* Ok we need to set the associated_files attributes */
@@ -2231,7 +2231,7 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
       }
     }
 
-    cmor_set_variable_attribute(var_id,"associated_files",'c',ctmp);
+    cmor_set_variable_attribute_internal(var_id,"associated_files",'c',ctmp);
 
     /* make sure we are in def mode */
     ierr = nc_redef(ncafid);
@@ -2548,7 +2548,7 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
 	else {
 	  strncpy(msg,ctmp,CMOR_MAX_STRING);
 	}
-	cmor_set_variable_attribute(var_id,"coordinates",'c',msg);
+	cmor_set_variable_attribute_internal(var_id,"coordinates",'c',msg);
 	l=0;
 	for (j=0;j<cmor_axes[cmor_vars[var_id].axes_ids[i]].length;j++) {
 /* 	  printf("ok reading value: %i\n",j); */
@@ -2693,7 +2693,7 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
 		ctmp2[icdl+ierr]=msg[icdl];
 		ctmp2[icdl+1+ierr]='\0';
 	      }
-	      cmor_set_variable_attribute(var_id,"cell_methods",'c',ctmp2);
+	      cmor_set_variable_attribute_internal(var_id,"cell_methods",'c',ctmp2);
 	      break;
 	    }
 	  }
@@ -2723,7 +2723,7 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
       /* first of all checks for grid_mapping */
       if (strcmp(cmor_grids[cmor_vars[var_id].grid_id].mapping,"")!=0) {
 	/* ok we need to create this dummy variable that contains all the info */
-	cmor_set_variable_attribute(var_id,"grid_mapping",'c',cmor_grids[cmor_vars[var_id].grid_id].mapping);
+	cmor_set_variable_attribute_internal(var_id,"grid_mapping",'c',cmor_grids[cmor_vars[var_id].grid_id].mapping);
 	ierr = nc_def_var(ncafid,cmor_grids[cmor_vars[var_id].grid_id].mapping,NC_INT,0,&nc_dims_associated[0],&m);
 	if (ierr != NC_NOERR) {
 	  snprintf(msg,CMOR_MAX_STRING,"NetCDF error (%i: %s) while defining associated grid mapping variable %s for variable %s (table: %s)",ierr,nc_strerror(ierr),cmor_grids[cmor_vars[var_id].grid_id].mapping,cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
@@ -2785,7 +2785,7 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
 		else {
 		  strncpy(msg,cmor_vars[cmor_grids[cmor_vars[var_id].grid_id].associated_variables[i]].id,CMOR_MAX_STRING-strlen(msg));
 		}
-		cmor_set_variable_attribute(var_id,"coordinates",'c',msg);
+		cmor_set_variable_attribute_internal(var_id,"coordinates",'c',msg);
 		m2[i]=1;
 	      }
 	      l++;
@@ -3768,7 +3768,7 @@ int cmor_close_variable(int var_id, char *file_name, int *preserve)
       }
       for (i=0;i<cmor_vars[var_id].nattributes;i++) {
 	if (strcmp(cmor_vars[var_id].attributes[i],"cell_methods")==0) {
-	  cmor_set_variable_attribute(var_id,"cell_methods",'c',cmor_tables[cmor_vars[var_id].ref_table_id].vars[cmor_vars[var_id].ref_var_id].cell_methods);
+	  cmor_set_variable_attribute_internal(var_id,"cell_methods",'c',cmor_tables[cmor_vars[var_id].ref_table_id].vars[cmor_vars[var_id].ref_var_id].cell_methods);
 	}
       }
     }
