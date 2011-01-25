@@ -3,7 +3,7 @@
 
 #define CMOR_VERSION_MAJOR 2
 #define CMOR_VERSION_MINOR 5
-#define CMOR_VERSION_PATCH 2
+#define CMOR_VERSION_PATCH 3
 
 #define CMOR_CF_VERSION_MAJOR 1
 #define CMOR_CF_VERSION_MINOR 4
@@ -106,6 +106,7 @@ typedef struct cmor_axis_def_ {
   double *requested_bounds;
   double tolerance;
   double value;
+  char cvalue[CMOR_MAX_STRING];
   double bounds_value[2];
   char required[CMOR_MAX_STRING];
   char formula[CMOR_MAX_STRING];

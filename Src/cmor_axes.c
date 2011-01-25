@@ -1020,20 +1020,20 @@ int cmor_check_interval(int axis_id, char *interval, double *values, int nvalues
     tmp = tmp/interv;
     if (tmp>.2) { /* more than 20% diff issues an error */
       if (isbounds==1) {
-	snprintf(ctmp,CMOR_MAX_STRING,"approximate time axis interval is defined as %f seconds (%s), for value %i we got a difference (based on bounds) of %f, which is %f %% , seems too big, check your values", interv, interval, i+1, diff, tmp*100.);
+	snprintf(ctmp,CMOR_MAX_STRING,"approximate time axis interval is defined as %f seconds (%s), for value %i we got a difference (based on bounds) of %f %s, which is %f %% , seems too big, check your values", interv, interval, i+1, diff, ctmp2,tmp*100.);
       }
       else {
 	if (isbounds==1) {
-	  snprintf(ctmp,CMOR_MAX_STRING,"approximate time axis interval is defined as %f seconds (%s), for value %i we got a difference (based on bounds) of %f, which is %f %% , seems too big, check your values", interv, interval, i+1, diff, tmp*100.);
+	  snprintf(ctmp,CMOR_MAX_STRING,"approximate time axis interval is defined as %f seconds (%s), for value %i we got a difference (based on bounds) of %f %s, which is %f %% , seems too big, check your values", interv, interval, i+1, diff, ctmp2, tmp*100.);
 	}
 	else {
-	  snprintf(ctmp,CMOR_MAX_STRING,"approximate time axis interval is defined as %f seconds (%s), for value %i we got a difference of %f, which is %f %% , seems too big, check your values", interv, interval, i+1, diff, tmp*100.);
+	  snprintf(ctmp,CMOR_MAX_STRING,"approximate time axis interval is defined as %f seconds (%s), for value %i we got a difference of %f %s, which is %f %% , seems too big, check your values", interv, interval, i+1, diff, ctmp2, tmp*100.);
 	}
       }
       cmor_handle_error(ctmp,CMOR_CRITICAL);
     }
     else if (tmp>.1) { /* more than 10% diff issues a warning */
-      snprintf(ctmp,CMOR_MAX_STRING,"approximate time axis interval is defined as %f seconds (%s), for value %i we got a difference of %f, which is %f %% , seems too big, check your values", interv, interval, i+1, diff, tmp*100.);
+      snprintf(ctmp,CMOR_MAX_STRING,"approximate time axis interval is defined as %f seconds (%s), for value %i we got a difference of %f %s, which is %f %% , seems too big, check your values", interv, interval, i+1, diff, ctmp2,tmp*100.);
       cmor_handle_error(ctmp,CMOR_WARNING);
     }
   }
@@ -1329,6 +1329,7 @@ void cmor_init_axis_def(cmor_axis_def_t *axis, int table_id)
   axis->requested_bounds=NULL;
   axis->tolerance=1.e-3;
   axis->value=1.e20;
+  axis->cvalue[0]='\0';
   axis->bounds_value[0]=1.e20;
   axis->bounds_value[1]=1.e20;
   axis->convert_to[0]='\0';
@@ -1429,6 +1430,7 @@ int cmor_set_axis_def_att(cmor_axis_def_t *axis,char att[CMOR_MAX_STRING],char v
     axis->tolerance = atof(val);
   }
   else if (strcmp(att,"value")==0) {
+    strncpytrim(axis->cvalue,val,CMOR_MAX_STRING);
     axis->value = atof(val);
   }
   else if (strcmp(att,"bounds_values")==0) {

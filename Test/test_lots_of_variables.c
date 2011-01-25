@@ -291,7 +291,7 @@ int main()
 
 
 /*   cmor_set_cur_dataset_attribute("initialization_method","3",1); */
-  cmor_set_cur_dataset_attribute("physics_version","5",1);
+/*  cmor_set_cur_dataset_attribute("physics_version","5",1); */
   printf("Test code: ok load cmor table(s)\n");
   ierr = cmor_load_table("Test/CMIP5_Amons",&tables[0]);
   strcpy(id,"time");

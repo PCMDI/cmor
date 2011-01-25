@@ -33,9 +33,10 @@ cmor.dataset(
     model_id="GICCM1",
     forcing="Ant, Nat",
     institute_id="pcmdi",
+    parent_experiment_rip="r1i1p1",
     parent_experiment_id="piControl",branch_time=18336.33)
 
-cmor.set_cur_dataset_attribute("parent_experiment_rip","r1i1p1")
+#cmor.set_cur_dataset_attribute("parent_experiment_rip","r1i1p1")
 
 tables=[]
 a = cmor.load_table("Tables/CMIP5_grids")
