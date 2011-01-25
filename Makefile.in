@@ -132,6 +132,8 @@ test_python: python
 	@env TEST_NAME=Test/test_python_joerg_8.py make test_a_python
 #	@env TEST_NAME=Test/test_python_joerg_9.py make test_a_python
 	@env TEST_NAME=Test/test_python_joerg_10.py make test_a_python
+        @env TEST_NAME=Test/test_python_joerg_11.py make test_a_python
+        @env TEST_NAME=Test/test_python_joerg_12.py make test_a_python
 	@env TEST_NAME=Test/test_python_YYYMMDDHH_exp_fmt.py make test_a_python
 	@env TEST_NAME=Test/test_python_region.py make test_a_python
 	@env TEST_NAME=Test/jamie_hybrid_height.py make test_a_python

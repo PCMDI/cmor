@@ -936,7 +936,7 @@ def get_variable_attribute(var_id,name):
       name: is the name of the attribute
     Returns none if attribute is non-existant
     """
-    if has_variable_attribute(name):
+    if has_variable_attribute(var_id,name):
         return _cmor.get_variable_attribute(var_id,name)
     else:
         return None
