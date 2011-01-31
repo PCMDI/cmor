@@ -209,8 +209,8 @@ PROGRAM mip_contribution
        forcing='TO',contact="Barry Bonds",institute_id="PCMDI",&
        parent_experiment_rip="N/A",parent_experiment_id="N/A",branch_time=bt)
 
-  error_flag  = cmor_set_cur_dataset_attribute("initialization_method","4")
-  error_flag  = cmor_set_cur_dataset_attribute("physics_version","6")
+  !error_flag  = cmor_set_cur_dataset_attribute("initialization_method","4")
+  !error_flag  = cmor_set_cur_dataset_attribute("physics_version","6")
 
   print*, 'returned from cmor_dataset'
 

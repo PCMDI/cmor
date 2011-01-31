@@ -184,7 +184,7 @@ PROGRAM mip_contribution
   
   print*, 'returned from cmor_dataset'
 
-  error_flag = cmor_set_cur_dataset_attribute("initialization_method","1")
+  !error_flag = cmor_set_cur_dataset_attribute("initialization_method","1")
   print*, 'returned from cmor_dataset'
 
   !  Define axes for 3-d fields

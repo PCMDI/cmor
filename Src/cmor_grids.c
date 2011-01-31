@@ -562,7 +562,7 @@ int cmor_time_varying_grid_coordinate(int *coord_grid_id, int  grid_id, char *ta
     else {
       strncpy(msg,cmor_vars[*coord_grid_id].id,CMOR_MAX_STRING);
     }
-    cmor_set_variable_attribute(cmor_grids[cmor_vars[*coord_grid_id].grid_id].associated_variables[0],"bounds",'c',msg);
+    cmor_set_variable_attribute_internal(cmor_grids[cmor_vars[*coord_grid_id].grid_id].associated_variables[0],"bounds",'c',msg);
     break;
   case (3) :
     if (nvertices == 0 ) {
@@ -590,7 +590,7 @@ int cmor_time_varying_grid_coordinate(int *coord_grid_id, int  grid_id, char *ta
     else {
       strncpy(msg,cmor_vars[*coord_grid_id].id,CMOR_MAX_STRING);
     }
-    cmor_set_variable_attribute(cmor_grids[cmor_vars[*coord_grid_id].grid_id].associated_variables[1],"bounds",'c',msg);
+    cmor_set_variable_attribute_internal(cmor_grids[cmor_vars[*coord_grid_id].grid_id].associated_variables[1],"bounds",'c',msg);
     break;
   default:
     sprintf(msg,"unknown coord type: %i",ctype);
@@ -690,7 +690,7 @@ int cmor_grid(int *grid_id, int ndims, int *axes_ids, char type, void *lat, void
     else {
       strncpy(msg,cmor_vars[cmor_grids[cmor_ngrids].associated_variables[2]].id,CMOR_MAX_STRING);
     }
-    cmor_set_variable_attribute(cmor_grids[cmor_ngrids].associated_variables[0],"bounds",'c',msg);
+    cmor_set_variable_attribute_internal(cmor_grids[cmor_ngrids].associated_variables[0],"bounds",'c',msg);
   }
   if (blon==NULL) {
     if (cmor_grids[cmor_ngrids].istimevarying != 1) {
@@ -716,7 +716,7 @@ int cmor_grid(int *grid_id, int ndims, int *axes_ids, char type, void *lat, void
     else {
       strncpy(msg,cmor_vars[cmor_grids[cmor_ngrids].associated_variables[3]].id,CMOR_MAX_STRING);
     }
-    cmor_set_variable_attribute(cmor_grids[cmor_ngrids].associated_variables[1],"bounds",'c',msg);
+    cmor_set_variable_attribute_internal(cmor_grids[cmor_ngrids].associated_variables[1],"bounds",'c',msg);
   }
   /*   if (area==NULL) { */
   /*     snprintf(msg,CMOR_MAX_STRING,"it is recommended you pass the area values when defining a grid"); */
