@@ -90,10 +90,10 @@ static PyObject *
 {
   char *name;
   char value[CMOR_MAX_STRING];
-  int ierr, *var_id;
+  int ierr, var_id;
   if (!PyArg_ParseTuple(args,"is",&var_id,&name))
     return NULL;
-  ierr = cmor_get_variable_attribute(*var_id,name,(void *)value);
+  ierr = cmor_get_variable_attribute(var_id,name,(void *)value);
   if (ierr != 0 ) return NULL;
   return Py_BuildValue("s",value);
 }
@@ -102,10 +102,10 @@ static PyObject *
   PyCMOR_has_variable_attribute(PyObject *self,PyObject *args)
 {
   char *name;
-  int ierr, *var_id;
+  int ierr, var_id;
   if (!PyArg_ParseTuple(args,"is",&var_id,&name))
     return NULL;
-  ierr = cmor_has_variable_attribute(*var_id,name);
+  ierr = cmor_has_variable_attribute(var_id,name);
   return Py_BuildValue("i",ierr);
 }
 
