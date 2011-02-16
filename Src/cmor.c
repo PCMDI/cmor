@@ -12,7 +12,8 @@
 #include <math.h>
 
 #include <sys/types.h>
-
+#define _POSIX_SOURCE
+#include <unistd.h>
 
     /* this is defining NETCDF4 variable if we are using NETCDF3 not used anywhere else*/
 #ifndef NC_NETCDF4
@@ -1993,6 +1994,13 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
       strncat(outname,msg,CMOR_MAX_STRING-strlen(outname));
       strncpy(cmor_vars[var_id].suffix,msg,CMOR_MAX_STRING);
     }
+
+    /* Add Process ID and a random number to filename */
+    sprintf(msg,"%d",(int) getpid());
+    strncat(outname,"_",CMOR_MAX_STRING-strlen(outname));
+    strncat(outname,msg,CMOR_MAX_STRING-strlen(outname));
+    
+    /* Add the '.nc' extension */
     strncat(outname,".nc",CMOR_MAX_STRING-strlen(outname) );
 
     /* at this point we need to rename the original file name to this so that the rest of the code works */
