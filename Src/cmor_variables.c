@@ -137,14 +137,13 @@ int cmor_set_variable_attribute(int id, char *attribute_name, char type, void *v
       return 1;
     }
   /* Before setting the attribute we need to see if the variable has been initialized */
-  if (cmor_vars[id].initialized!=0) {
-    snprintf(msg,CMOR_MAX_STRING,"attribute %s on variable %s (table %s) will probably not be set as the variablehas already been created into the output NetCDF file, please place this call BEFORE any cal to cmor_write",attribute_name,cmor_vars[id].id,cmor_tables[cmor_vars[id].ref_table_id].table_id);
+  if (cmor_vars[id].initialized!=-1) {
+    snprintf(msg,CMOR_MAX_STRING,"attribute %s on variable %s (table %s) will probably not be set as the variable has already been created into the output NetCDF file, please place this call BEFORE any cal to cmor_write",attribute_name,cmor_vars[id].id,cmor_tables[cmor_vars[id].ref_table_id].table_id);
     cmor_handle_error(msg,CMOR_NORMAL);
     cmor_pop_traceback();
     return 1;
   }
   cmor_pop_traceback();
-  return 0;
   return cmor_set_variable_attribute_internal(id,attribute_name,type,value);
 }
 
@@ -1316,7 +1315,7 @@ int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int 
   cv_converter *ut_cmor_converter=NULL;
   char local_unit[CMOR_MAX_STRING];
   int n_lower_min=0,n_greater_max=0;
-  double emax,emin;
+  double emax,emin,first_time;
   char msg_min[CMOR_MAX_STRING];
   char msg_max[CMOR_MAX_STRING];
   extern ut_system *ut_read;  
@@ -1662,10 +1661,11 @@ int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int 
 	  for (i=0;i<ntimes_passed;i++) {
 	    tmp_vals[i]=(tmp_vals[2*i]+tmp_vals[2*i+1])/2.;
 	  }
+	  first_time = tmp_vals[0]; /*store for later */
 	}
 	else { /* we need to put into tmp_vals the right things */
-	  tmp_vals[ntimes_passed-2]=tmp_vals[0] ; /*store for later */
 	  ierr = cmor_convert_time_values(time_vals,'d',ntimes_passed,&tmp_vals[0],cmor_axes[avar->axes_ids[0]].iunits,msg,msg2,msg2);
+	  first_time = tmp_vals[0] ; /*store for later */
 	}
 	
 	
@@ -1676,12 +1676,12 @@ int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int 
 	  /* all good in that case */
 	}
 	else {
-	  tmp_vals[0] = tmp_vals[ntimes_passed*2-2];
+	  //tmp_vals[0] = tmp_vals[ntimes_passed*2-2];
 	  tmp_vals[ntimes_passed-1]=tmp_vals[ntimes_passed*2-1];
 	}	/* ok now we need to store first and last stuff */
 	if (avar->ntimes_written == 0) {
 	  /* ok first time we're putting data  in */
-	  avar->first_time = tmp_vals[0];
+	  avar->first_time = first_time;
 	}
 	else {
 	  if (tmp_vals[0]<avar->last_time) {

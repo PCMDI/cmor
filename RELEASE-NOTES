@@ -1,3 +1,6 @@
+2011-02-23 : releasing 2.5.6
+2011-02-23 : got cmor_set_variable_attribute to actually do something and not raise error all the time, thx to Larry Solheim to spot this.
+2011-02-23 : fixed issue when writing 1 time step at a time for climatological means, issue could led to seg fault and bad final file names, thx to Koji Ogochi to spot this one.
 2011-02-16 : releasing 2.5.5
 2011-02-16 : added process id to temporary file names so that code can be run via mpi
 2011-02-02 : releasing 2.5.4
