@@ -1,3 +1,5 @@
+2011-02-25 : releasing 2.5.7
+2011-02-25 : fixed bug for dims of length one where bounds needed to be flliped, it used to raise an unwarranted error
 2011-02-23 : releasing 2.5.6
 2011-02-23 : got cmor_set_variable_attribute to actually do something and not raise error all the time, thx to Larry Solheim to spot this.
 2011-02-23 : fixed issue when writing 1 time step at a time for climatological means, issue could led to seg fault and bad final file names, thx to Koji Ogochi to spot this one.

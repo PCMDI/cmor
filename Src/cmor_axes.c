@@ -305,7 +305,7 @@ int cmor_check_monotonic(double *values,int length, char *name,int isbounds, int
   int mono;
   int nloop;
   double *values2,tmp;
-/*   for (i=0;i<length;i++) printf("in monotonic: %i, %lf, %i\n",i,values[i],isbounds); */
+  /* for (i=0;i<length;i++) printf("in monotonic: %i, %lf, %i\n",i,values[i],isbounds); */
   cmor_add_traceback("cmor_check_monotonic");
 
   refaxis = &cmor_tables[cmor_axes[axis_id].ref_table_id].axes[cmor_axes[axis_id].ref_axis_id];
@@ -387,7 +387,8 @@ int cmor_check_monotonic(double *values,int length, char *name,int isbounds, int
       free(values2);
     
       /* stored_direction*/
-       /* printf("------length: %i, storeddir: %c, vlue-1, vlaue0: %lf and %lf\n",length,refaxis->stored_direction,values[length-1],values[0]); */
+      /* printf("------length: %i, storeddir: %c, vlue-1, vlaue0: %lf and %lf\n",length,refaxis->stored_direction,values[length-1],values[0]); */
+
      if ((length>1) && (((refaxis->stored_direction=='i') && (values[length-1]<values[0])) || ((refaxis->stored_direction=='d') && (values[0]<values[length-1])))) { /* need to flip that axis */
 	if (cmor_axes[axis_id].revert==1) {
 	  snprintf(msg,CMOR_MAX_STRING, "bounds of axis %s (table: %s) need to be flipped but axis values did not need to. This is inconsistent",name,cmor_tables[cmor_axes[axis_id].ref_table_id].table_id);
@@ -713,8 +714,10 @@ int cmor_treat_axis_values(int axis_id, double *values, int length, int n_reques
   /* stored_direction*/
   if ((length>1) && (((refaxis->stored_direction=='i') && (values[length-1]<values[0])) || ((refaxis->stored_direction=='d') && (values[0]<values[length-1])))) { /* need to flip that axis */
     if ((isbounds==1)  && (axis->revert==1)) {
+      if (length>2) {
       snprintf(msg,CMOR_MAX_STRING, "bounds of axis %s (table: %s) need to be flipped but axis values did not need to. This is inconsistent",name,cmor_tables[cmor_axes[axis_id].ref_table_id].table_id);
       cmor_handle_error(msg,CMOR_CRITICAL);
+      }
     }
     axis->revert=-1;
     for (i=0;i<length/2;i++) {
@@ -1164,7 +1167,7 @@ int cmor_axis(int *axis_id, char *name,char *units, int length,void *coord_vals,
 	  snprintf(msg,CMOR_MAX_STRING,"axis: %s (table: %s) converting to \"standard_hybrid_sigma\" from unknown type: %s",cmor_axes[cmor_naxes].id,cmor_tables[CMOR_TABLE].table_id,name);
 	  cmor_handle_error(msg,CMOR_CRITICAL);
 	}
-	printf("yep we are copnverting to: %s\n",refaxis.convert_to);
+	/* printf("yep we are copnverting to: %s\n",refaxis.convert_to); */
 	ierr = cmor_axis(axis_id,refaxis.convert_to,units,length,coord_vals,type,cell_bounds,cell_bounds_ndim,interval); 
 	cmor_axes[cmor_naxes].hybrid_in=i; 
 	cmor_axes[cmor_naxes].hybrid_out=1;
@@ -1262,7 +1265,9 @@ int cmor_axis(int *axis_id, char *name,char *units, int length,void *coord_vals,
       return 0;
     }
 
+    /* printf("Ok is this the problematic place?\n"); */
     ierr = cmor_treat_axis_values(cmor_naxes, &cmor_axes[cmor_naxes].values[0],length,refaxis.n_requested, units, name, 0 );
+    /* printf("nope\n"); */
     /* puts bounds on 2d array */
     if ((cell_bounds!=NULL) && (cell_bounds_ndim!=0)) {
       cmor_axes[cmor_naxes].bounds=malloc(2*length*sizeof(double));
@@ -1286,6 +1291,7 @@ int cmor_axis(int *axis_id, char *name,char *units, int length,void *coord_vals,
       }
       /* for (i=0;i<length;i++) printf("bounds: %i -> %lf,%lf\n",i,cmor_axes[cmor_naxes].bounds[2*i],cmor_axes[cmor_naxes].bounds[2*i+1]); */
       ierr = cmor_treat_axis_values(cmor_naxes, &cmor_axes[cmor_naxes].bounds[0],2*length,0,units, name, 1 );
+      /* printf("nope again\n"); */
       /* At this point we are checking that the axis values are within bounds */
       /* for (i=0;i<length;i++) printf("check bounds: %i -> %lf,%lf,%lf\n",i,cmor_axes[cmor_naxes].bounds[2*i],cmor_axes[cmor_naxes].values[i],cmor_axes[cmor_naxes].bounds[2*i+1]); */
       ierr = cmor_check_values_inside_bounds(&cmor_axes[cmor_naxes].values[0],&cmor_axes[cmor_naxes].bounds[0], length, name);
