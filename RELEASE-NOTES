@@ -1,3 +1,4 @@
+2011-04-05 : not overwriting user time values in climatology case
 2011-02-16 : releasing 2.5.5
 2011-02-16 : added process id to temporary file names so that code can be run via mpi
 2011-02-02 : releasing 2.5.4

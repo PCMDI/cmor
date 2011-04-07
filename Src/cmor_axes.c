@@ -1289,7 +1289,7 @@ int cmor_axis(int *axis_id, char *name,char *units, int length,void *coord_vals,
       /* At this point we are checking that the axis values are within bounds */
       /* for (i=0;i<length;i++) printf("check bounds: %i -> %lf,%lf,%lf\n",i,cmor_axes[cmor_naxes].bounds[2*i],cmor_axes[cmor_naxes].values[i],cmor_axes[cmor_naxes].bounds[2*i+1]); */
       ierr = cmor_check_values_inside_bounds(&cmor_axes[cmor_naxes].values[0],&cmor_axes[cmor_naxes].bounds[0], length, name);
-      if (refaxis.axis=='T') {
+      if ((refaxis.axis=='T')&&(refaxis.climatology==0)) {
 	/* ok now we need to overwrite the time values with mid point */
 	for (i=0;i<length;i++) cmor_axes[cmor_naxes].values[i]=(cmor_axes[cmor_naxes].bounds[2*i]+cmor_axes[cmor_naxes].bounds[2*i+1])/2.;
       }
