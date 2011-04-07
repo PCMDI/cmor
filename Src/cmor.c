@@ -3700,7 +3700,6 @@ int cmor_close_variable(int var_id, char *file_name, int *preserve)
       interval  = cmor_convert_interval_to_seconds(cmor_tables[cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_table_id].interval,cmor_tables[cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_table_id].axes[cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_axis_id].units);
       
       
-      /*       printf("interval: %lf\n",interval); */
       /* first time point */
       strncat(outname,"_",CMOR_MAX_STRING-strlen(outname));
       snprintf(msg2,CMOR_MAX_STRING,"%.4ld",comptime.year);

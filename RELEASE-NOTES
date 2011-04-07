@@ -1,3 +1,4 @@
+2011-04-05 : not overwriting user time values in climatology case
 2011-02-25 : releasing 2.5.7
 2011-02-25 : fixed bug for dims of length one where bounds needed to be flliped, it used to raise an unwarranted error
 2011-02-23 : releasing 2.5.6
