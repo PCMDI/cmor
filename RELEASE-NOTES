@@ -1,3 +1,4 @@
+2011-04-26 : was setting coordinates attribute multiple times, now first check if the bit we are trying to add is already in
 2011-04-11 : releasing 2.5.8
 2011-04-07 : only adding extra time precision in file names if it is < 6hr instead of 1 day
 2011-04-05 : not overwriting user time values in climatology case

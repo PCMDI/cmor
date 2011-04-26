@@ -2607,8 +2607,17 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
 	}
 	if (cmor_has_variable_attribute(var_id,"coordinates")==0) {
 	  cmor_get_variable_attribute(var_id,"coordinates",msg);
-	  strncat(msg," ",CMOR_MAX_STRING-strlen(msg));
-	  strncat(msg,ctmp,CMOR_MAX_STRING-strlen(msg));
+	  l=0;
+	  for (j=0;j<strlen(msg)-strlen(ctmp)+1;j++) {
+	    if (strncmp(ctmp,&msg[j],strlen(ctmp))==0) {
+	      l=1;
+	      break;
+	    }
+	  }
+	  if (l==0) {
+	    strncat(msg," ",CMOR_MAX_STRING-strlen(msg));
+	    strncat(msg,ctmp,CMOR_MAX_STRING-strlen(msg));
+	  }
 	}
 	else {
 	  strncpy(msg,ctmp,CMOR_MAX_STRING);
