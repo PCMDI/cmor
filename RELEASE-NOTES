@@ -1,3 +1,4 @@
+2011-04-27 : Tagging 2.5.9
 2011-04-27 : fixed file name for climatologies, last bounds was set improperly
 2011-04-26 : was setting coordinates attribute multiple times, now first check if the bit we are trying to add is already in
 2011-04-11 : releasing 2.5.8
