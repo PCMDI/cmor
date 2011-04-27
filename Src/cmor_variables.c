@@ -1738,7 +1738,7 @@ int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int 
 	if (avar->ntimes_written==0) {
 	  avar->first_bound=cmor_axes[avar->axes_ids[0]].bounds[starts[0]*2];
 	}
-	avar->last_bound=cmor_axes[avar->axes_ids[0]].bounds[(starts[0]+counts[0])*2];
+	avar->last_bound=cmor_axes[avar->axes_ids[0]].bounds[(starts[0]+counts[0])*2-1];
       }
       else {
 	/* checks wether you need bounds or not */
@@ -1784,7 +1784,7 @@ int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int 
 	ierr = nc_put_vara_double(ncid,avar->time_bnds_nc_id,starts,counts2,&cmor_axes[avar->axes_ids[0]].bounds[starts[0]*2]);
 	if (ierr != NC_NOERR) {snprintf(msg,CMOR_MAX_STRING,"NCError (%i: %s) writting time bounds values for variable '%s' (table: %s)",ierr,nc_strerror(ierr),avar->id,cmor_tables[avar->ref_table_id].table_id);cmor_handle_error(msg,CMOR_CRITICAL);}
 	avar->first_bound=cmor_axes[avar->axes_ids[0]].bounds[0];
-	avar->last_bound=cmor_axes[avar->axes_ids[0]].bounds[counts[0]*2];
+	avar->last_bound=cmor_axes[avar->axes_ids[0]].bounds[counts[0]*2-1];
       }
       ierr = nc_put_vara_double(ncid,avar->time_nc_id,starts,counts,&cmor_axes[avar->axes_ids[0]].values[starts[0]]);
       if (ierr != NC_NOERR) {snprintf(msg,CMOR_MAX_STRING,"NCError (%i: %s) writting time values for variable '%s' (table: %s)",ierr,nc_strerror(ierr),avar->id,cmor_tables[avar->ref_table_id].table_id);cmor_handle_error(msg,CMOR_CRITICAL);}
