@@ -1,8 +1,9 @@
 import cmor
 import numpy
+import cdtime
 
 def cmor_initialisation():
-    cmor.setup(inpath='Tables',
+    cmor.setup(inpath='/git/cmip5-cmor-tables/Tables',
                netcdf_file_action = cmor.CMOR_REPLACE_3,
                create_subdirectories = 0)
     cmor.dataset('pre-industrial control', 'ukmo', 'HadCM3', '360_day',
@@ -14,58 +15,66 @@ def cmor_initialisation():
                  parent_experiment_rip = 'N/A',
                  branch_time = 0.,
                  contact = 'bob',
-                 outpath = 'Test')
+                 outpath = './out')
 
 def setup_data():
-    tvals = [ 149.833333333333, 149.854166666667, 149.875, 149.895833333333,
-              149.916666666667, 149.9375, 149.958333333333, 149.979166666667]
-    tbnds = list(tvals)
-    tbnds.append(150)
     axes = [ {'table_entry': 'time1',
               'units': 'days since 2000-01-01 00:00:00',
-              'coord_vals' : tvals,
-              'cell_bounds' : tbnds,
               },
              {'table_entry': 'site',
               'units': '',
               'coord_vals': [0]},
-             {'table_entry': 'smooth_level',
+             {'table_entry': 'hybrid_height',
               'units': 'm',
-              'coord_vals': [10],
-              'cell_bounds': [5,15]},
+              'coord_vals': range(2),
+              'cell_bounds': [[x-0.5, x+0.5] for x in range(2)],
+              },
              ]
 
-    values = numpy.array([215.], numpy.float32)
+    values = numpy.array([0.5, 0.5], numpy.float32)
     return values, axes
 
 def cmor_define_and_write(values, axes):
     table = 'CMIP5_cfSites'
     cmor.load_table(table)
-    lev_axis_id = cmor.axis(**axes[2])
-    site_axis_id = cmor.axis(**axes[1])
 
-    time_axis_id = cmor.axis(**axes[0])
+    axis_ids = list()
+    for axis in axes:
+        axis_id = cmor.axis(**axis)
+        axis_ids.append(axis_id)
 
-    gid = cmor.grid([site_axis_id,],latitude=numpy.array([-20,]),longitude=numpy.array([150,]))
+    igrid = cmor.grid([axis_ids[1]], [0.], [0.])
+    cmor.zfactor(axis_ids[2], 'b', axis_ids = [axis_ids[2]],
+                 zfactor_values = range(2),
+                 zfactor_bounds = [[x-0.5, x+0.5] for x in range(2)])
 
+    cmor.zfactor(axis_ids[2], 'orog', 'm', axis_ids = [igrid],
+                 zfactor_values = [0])
 
-    axis_ids = [time_axis_id,gid,lev_axis_id]
+    ids_for_var = [axis_ids[0], igrid, axis_ids[2]]
     varid = cmor.variable('tnhus',
                           's-1',
-                          axis_ids,
+                          ids_for_var,
                           history = 'variable history',
                           missing_value = -99,
                           )
 
-    cmor.write(varid, values)
-    
-    
+    for time in [x * 1800./ 86400 for x in range(48)]:
+        time += 1./3600./24.
+        tr = cdtime.reltime(time,axes[0]["units"])
+        print "Writing: %.03f" % time,"|",tr.tocomp(cdtime.Calendar360),"|",tr.tocomp()
+        cmor.write(varid, values, time_vals = [time])
+    return varid
+
+
 def main():
     
     cmor_initialisation()
     values, axes = setup_data()
-    cmor_define_and_write(values, axes)
-    print cmor.close(file_name=True)
+    varid = cmor_define_and_write(values, axes)
+    fname =  cmor.close(varid, file_name = True)
+    print "Done:",fname
+
     
 if __name__ == '__main__':
 

@@ -34,6 +34,8 @@ void cmor_init_table(cmor_table_t *table, int id)
   table->date[0]='\0';
   table->missing_value=1.e20;
   table->interval=0.;
+  table->interval_warning=.1;
+  table->interval_error=.2;
   table->URL[0]='\0';
   strcpy(table->product,"output");
   table->path[0]='\0';
@@ -187,6 +189,12 @@ int cmor_set_dataset_att(cmor_table_t *table, char att[CMOR_MAX_STRING],char val
   }
   else if (strcmp(att,"approx_interval")==0) {
     sscanf(value,"%lf",&table->interval);
+  }
+  else if (strcmp(att,"approx_interval_error")==0) {
+    sscanf(value,"%f",&table->interval_error);
+  }
+  else if (strcmp(att,"approx_interval_warning")==0) {
+    sscanf(value,"%f",&table->interval_warning);
   }
   else if (strcmp(att,"missing_value")==0) {
     sscanf(value,"%f",&table->missing_value);

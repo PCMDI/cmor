@@ -2,8 +2,8 @@
 #define CMOR_H
 
 #define CMOR_VERSION_MAJOR 2
-#define CMOR_VERSION_MINOR 5
-#define CMOR_VERSION_PATCH 9
+#define CMOR_VERSION_MINOR 6
+#define CMOR_VERSION_PATCH 0
 
 #define CMOR_CF_VERSION_MAJOR 1
 #define CMOR_CF_VERSION_MINOR 4
@@ -255,6 +255,8 @@ typedef struct cmor_table_ {
   cmor_mappings_t mappings[CMOR_MAX_ELEMENTS];
   float missing_value;
   double interval;
+  float interval_warning;
+  float interval_error;
   char URL[CMOR_MAX_STRING];
   char product[CMOR_MAX_STRING];
   char realm[CMOR_MAX_STRING];
