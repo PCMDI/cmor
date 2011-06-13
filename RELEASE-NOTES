@@ -1,3 +1,5 @@
+2011-06-13 : Tagging 2.6.1
+2011-06-13 : Fixed bug triggering wrong warning on bounds being at the beg/end of month
 2011-05-26 : File name for subhourly were wrongly constructed, upped version to 2.6
 2011-05-24 : when we decide to add the extra time precision in the file name only for less than 6hr, i did this only for the first time, not the second one... Fixed.
 2011-04-27 : Tagging 2.5.9
