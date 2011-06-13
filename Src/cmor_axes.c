@@ -1051,7 +1051,8 @@ int cmor_check_interval(int axis_id, char *interval, double *values, int nvalues
       return 1;
     }
     for (i=0;i<nvalues;i++) {
-      cdRel2Comp(icali,axis->iunits,values[i],&comptime);
+      cmor_convert_time_units(axis->iunits,cmor_tables[axis->ref_table_id].axes[axis->ref_axis_id].units,ctmp);
+      cdRel2Comp(icali,ctmp,values[i],&comptime);
       if (comptime.day!=1) {
 	snprintf(ctmp,CMOR_MAX_STRING,"Bounds value %ld-%d-%d is not beg or end of month and you seem to be writing monthly data, please check",comptime.year,comptime.month,comptime.day);
 	cmor_handle_error(ctmp,CMOR_WARNING);
