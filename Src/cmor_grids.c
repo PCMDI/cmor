@@ -566,7 +566,7 @@ int cmor_time_varying_grid_coordinate(int *coord_grid_id, int  grid_id, char *ta
     break;
   case (3) :
     if (nvertices == 0 ) {
-      sprintf(msg,"your definnig a vertices dependent variable (%s) associated wth grid %i, but you declared this grid as having 0 vertices",table_entry,grid_id);
+      sprintf(msg,"your defining a vertices dependent variable (%s) associated wth grid %i, but you declared this grid as having 0 vertices",table_entry,grid_id);
       cmor_handle_error(msg,CMOR_CRITICAL);
     }
     if (cmor_grids[cmor_vars[*coord_grid_id].grid_id].associated_variables[2] == -1) {

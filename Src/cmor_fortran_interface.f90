@@ -2647,9 +2647,9 @@ contains
        axes_ids(i) = axis_ids(ndims-i+1)
     enddo
     if (present(latitude_vertices)) then
-       nvert = size(latitude_vertices,ndims+1)
+       nvert = size(latitude_vertices,1)
        if (present(longitude_vertices)) then
-          if (size(longitude_vertices,ndims+1).ne.nvert) then
+          if (size(longitude_vertices,1).ne.nvert) then
              msg = 'cmor_grid (fortran):: longitudes and latitudes'//&
                   'vertices do not have the same number of vertices'//char(0)
              error_code = CMOR_CRITICAL
@@ -2680,7 +2680,7 @@ contains
        endif
     else
        if (present(longitude_vertices)) then
-          nvert = size(latitude_vertices,ndims+1)
+          nvert = size(latitude_vertices,1)
 !!$          if (present(area)) then
 !!$             ierr = cmor_grid_cff_noblat_real(grid_id,ndims,axes_ids(1),&
 !!$                  latitude(1), longitude(1), &
@@ -2727,9 +2727,9 @@ contains
        axes_ids(i) = axis_ids(ndims-i+1)
     enddo
     if (present(latitude_vertices)) then
-       nvert = size(latitude_vertices,ndims+1)
+       nvert = size(latitude_vertices,1)
        if (present(longitude_vertices)) then
-          if (size(longitude_vertices,ndims+1).ne.nvert) then
+          if (size(longitude_vertices,1).ne.nvert) then
              msg = 'cmor_grid (fortran):: longitudes and latitudes'//&
                   'vertices do not have the same number of vertices'//char(0)
              error_code = CMOR_CRITICAL
@@ -2760,7 +2760,7 @@ contains
        endif
     else
        if (present(longitude_vertices)) then
-          nvert = size(latitude_vertices,ndims+1)
+          nvert = size(latitude_vertices,1)
 !!$          if (present(area)) then
 !!$             ierr = cmor_grid_cff_noblat_real(grid_id,ndims,axes_ids(1),&
 !!$                  latitude(1,1), longitude(1,1), &
@@ -2807,9 +2807,9 @@ contains
        axes_ids(i) = axis_ids(ndims-i+1)
     enddo
     if (present(latitude_vertices)) then
-       nvert = size(latitude_vertices,ndims+1)
+       nvert = size(latitude_vertices,1)
        if (present(longitude_vertices)) then
-          if (size(longitude_vertices,ndims+1).ne.nvert) then
+          if (size(longitude_vertices,1).ne.nvert) then
              msg = 'cmor_grid (fortran):: longitudes and latitudes'//&
                   'vertices do not have the same number of vertices'//char(0)
              error_code = CMOR_CRITICAL
@@ -2840,7 +2840,7 @@ contains
        endif
     else
        if (present(longitude_vertices)) then
-          nvert = size(latitude_vertices,ndims+1)
+          nvert = size(latitude_vertices,1)
 !!$          if (present(area)) then
 !!$             ierr = cmor_grid_cff_noblat_real(grid_id,ndims,axes_ids(1),&
 !!$                  latitude(1,1,1), longitude(1,1,1), &
@@ -2887,9 +2887,9 @@ contains
        axes_ids(i) = axis_ids(ndims-i+1)
     enddo
     if (present(latitude_vertices)) then
-       nvert = size(latitude_vertices,ndims+1)
+       nvert = size(latitude_vertices,1)
        if (present(longitude_vertices)) then
-          if (size(longitude_vertices,ndims+1).ne.nvert) then
+          if (size(longitude_vertices,1).ne.nvert) then
              msg = 'cmor_grid (fortran):: longitudes and latitudes'//&
                   'vertices do not have the same number of vertices'//char(0)
              error_code = CMOR_CRITICAL
@@ -2920,7 +2920,7 @@ contains
        endif
     else
        if (present(longitude_vertices)) then
-          nvert = size(latitude_vertices,ndims+1)
+          nvert = size(latitude_vertices,1)
 !!$          if (present(area)) then
 !!$             ierr = cmor_grid_cff_noblat_real(grid_id,ndims,axes_ids(1),&
 !!$                  latitude(1,1,1,1), longitude(1,1,1,1), &
@@ -2967,9 +2967,9 @@ contains
        axes_ids(i) = axis_ids(ndims-i+1)
     enddo
     if (present(latitude_vertices)) then
-       nvert = size(latitude_vertices,ndims+1)
+       nvert = size(latitude_vertices,1)
        if (present(longitude_vertices)) then
-          if (size(longitude_vertices,ndims+1).ne.nvert) then
+          if (size(longitude_vertices,1).ne.nvert) then
              msg = 'cmor_grid (fortran):: longitudes and latitudes'//&
                   'vertices do not have the same number of vertices'//char(0)
              error_code = CMOR_CRITICAL
@@ -3000,7 +3000,7 @@ contains
        endif
     else
        if (present(longitude_vertices)) then
-          nvert = size(latitude_vertices,ndims+1)
+          nvert = size(latitude_vertices,1)
 !!$          if (present(area)) then
 !!$             ierr = cmor_grid_cff_noblat_real(grid_id,ndims,axes_ids(1),&
 !!$                  latitude(1,1,1,1,1), longitude(1,1,1,1,1), &
@@ -3047,9 +3047,9 @@ contains
        axes_ids(i) = axis_ids(ndims-i+1)
     enddo
     if (present(latitude_vertices)) then
-       nvert = size(latitude_vertices,ndims+1)
+       nvert = size(latitude_vertices,1)
        if (present(longitude_vertices)) then
-          if (size(longitude_vertices,ndims+1).ne.nvert) then
+          if (size(longitude_vertices,1).ne.nvert) then
              msg = 'cmor_grid (fortran):: longitudes and latitudes'//&
                   'vertices do not have the same number of vertices'//char(0)
              error_code = CMOR_CRITICAL
@@ -3080,7 +3080,7 @@ contains
        endif
     else
        if (present(longitude_vertices)) then
-          nvert = size(latitude_vertices,ndims+1)
+          nvert = size(latitude_vertices,1)
 !!$          if (present(area)) then
 !!$             ierr = cmor_grid_cff_noblat_real(grid_id,ndims,axes_ids(1),&
 !!$                  latitude(1,1,1,1,1,1), longitude(1,1,1,1,1,1), &
@@ -3128,9 +3128,9 @@ contains
        axes_ids(i) = axis_ids(ndims-i+1)
     enddo
     if (present(latitude_vertices)) then
-       nvert = size(latitude_vertices,ndims+1)
+       nvert = size(latitude_vertices,1)
        if (present(longitude_vertices)) then
-          if (size(longitude_vertices,ndims+1).ne.nvert) then
+          if (size(longitude_vertices,1).ne.nvert) then
              msg = 'cmor_grid (fortran):: longitudes and latitudes'//&
                   'vertices do not have the same number of vertices'//char(0)
              error_code = CMOR_CRITICAL
@@ -3161,7 +3161,7 @@ contains
        endif
     else
        if (present(longitude_vertices)) then
-          nvert = size(latitude_vertices,ndims+1)
+          nvert = size(latitude_vertices,1)
 !!$          if (present(area)) then
 !!$             ierr = cmor_grid_cff_noblat_double(grid_id,ndims,axes_ids(1),&
 !!$                  latitude(1), longitude(1), &
@@ -3208,9 +3208,9 @@ contains
        axes_ids(i) = axis_ids(ndims-i+1)
     enddo
     if (present(latitude_vertices)) then
-       nvert = size(latitude_vertices,ndims+1)
+       nvert = size(latitude_vertices,1)
        if (present(longitude_vertices)) then
-          if (size(longitude_vertices,ndims+1).ne.nvert) then
+          if (size(longitude_vertices,1).ne.nvert) then
              msg = 'cmor_grid (fortran):: longitudes and latitudes'//&
                   'vertices do not have the same number of vertices'//char(0)
              error_code = CMOR_CRITICAL
@@ -3241,7 +3241,7 @@ contains
        endif
     else
        if (present(longitude_vertices)) then
-          nvert = size(latitude_vertices,ndims+1)
+          nvert = size(latitude_vertices,1)
 !!$          if (present(area)) then
 !!$             ierr = cmor_grid_cff_noblat_double(grid_id,ndims,axes_ids(1),&
 !!$                  latitude(1,1), longitude(1,1), &
@@ -3288,9 +3288,9 @@ contains
        axes_ids(i) = axis_ids(ndims-i+1)
     enddo
     if (present(latitude_vertices)) then
-       nvert = size(latitude_vertices,ndims+1)
+       nvert = size(latitude_vertices,1)
        if (present(longitude_vertices)) then
-          if (size(longitude_vertices,ndims+1).ne.nvert) then
+          if (size(longitude_vertices,1).ne.nvert) then
              msg = 'cmor_grid (fortran):: longitudes and latitudes'//&
                   'vertices do not have the same number of vertices'//char(0)
              error_code = CMOR_CRITICAL
@@ -3321,7 +3321,7 @@ contains
        endif
     else
        if (present(longitude_vertices)) then
-          nvert = size(latitude_vertices,ndims+1)
+          nvert = size(latitude_vertices,1)
 !!$          if (present(area)) then
 !!$             ierr = cmor_grid_cff_noblat_double(grid_id,ndims,axes_ids(1),&
 !!$                  latitude(1,1,1), longitude(1,1,1), &
@@ -3368,9 +3368,9 @@ contains
        axes_ids(i) = axis_ids(ndims-i+1)
     enddo
     if (present(latitude_vertices)) then
-       nvert = size(latitude_vertices,ndims+1)
+       nvert = size(latitude_vertices,1)
        if (present(longitude_vertices)) then
-          if (size(longitude_vertices,ndims+1).ne.nvert) then
+          if (size(longitude_vertices,1).ne.nvert) then
              msg = 'cmor_grid (fortran):: longitudes and latitudes'//&
                   'vertices do not have the same number of vertices'//char(0)
              error_code = CMOR_CRITICAL
@@ -3401,7 +3401,7 @@ contains
        endif
     else
        if (present(longitude_vertices)) then
-          nvert = size(latitude_vertices,ndims+1)
+          nvert = size(latitude_vertices,1)
 !!$          if (present(area)) then
 !!$             ierr = cmor_grid_cff_noblat_double(grid_id,ndims,axes_ids(1),&
 !!$                  latitude(1,1,1,1), longitude(1,1,1,1), &
@@ -3447,9 +3447,9 @@ contains
        axes_ids(i) = axis_ids(ndims-i+1)
     enddo
     if (present(latitude_vertices)) then
-       nvert = size(latitude_vertices,ndims+1)
+       nvert = size(latitude_vertices,1)
        if (present(longitude_vertices)) then
-          if (size(longitude_vertices,ndims+1).ne.nvert) then
+          if (size(longitude_vertices,1).ne.nvert) then
              msg = 'cmor_grid (fortran):: longitudes and latitudes'//&
                   'vertices do not have the same number of vertices'//char(0)
              error_code = CMOR_CRITICAL
@@ -3480,7 +3480,7 @@ contains
        endif
     else
        if (present(longitude_vertices)) then
-          nvert = size(latitude_vertices,ndims+1)
+          nvert = size(latitude_vertices,1)
 !!$          if (present(area)) then
 !!$             ierr = cmor_grid_cff_noblat_double(grid_id,ndims,axes_ids(1),&
 !!$                  latitude(1,1,1,1,1), longitude(1,1,1,1,1), &
@@ -3527,9 +3527,9 @@ contains
        axes_ids(i) = axis_ids(ndims-i+1)
     enddo
     if (present(latitude_vertices)) then
-       nvert = size(latitude_vertices,ndims+1)
+       nvert = size(latitude_vertices,1)
        if (present(longitude_vertices)) then
-          if (size(longitude_vertices,ndims+1).ne.nvert) then
+          if (size(longitude_vertices,1).ne.nvert) then
              msg = 'cmor_grid (fortran):: longitudes and latitudes'//&
                   'vertices do not have the same number of vertices'//char(0)
              error_code = CMOR_CRITICAL
@@ -3560,7 +3560,7 @@ contains
        endif
     else
        if (present(longitude_vertices)) then
-          nvert = size(latitude_vertices,ndims+1)
+          nvert = size(latitude_vertices,1)
 !!$          if (present(area)) then
 !!$             ierr = cmor_grid_cff_noblat_double(grid_id,ndims,axes_ids(1),&
 !!$                  latitude(1,1,1,1,1,1), longitude(1,1,1,1,1,1), &
@@ -3612,9 +3612,9 @@ contains
        axes_ids(i) = axis_ids(ndims-i+1)
     enddo
     if (present(latitude_vertices)) then
-       nvert = size(latitude_vertices,ndims+1)
+       nvert = size(latitude_vertices,1)
        if (present(longitude_vertices)) then
-          if (size(longitude_vertices,ndims+1).ne.nvert) then
+          if (size(longitude_vertices,1).ne.nvert) then
              msg = 'cmor_grid (fortran):: longitudes and latitudes'//&
                   'vertices do not have the same number of vertices'//char(0)
              error_code = CMOR_CRITICAL
@@ -3645,7 +3645,7 @@ contains
        endif
     else
        if (present(longitude_vertices)) then
-          nvert = size(latitude_vertices,ndims+1)
+          nvert = size(latitude_vertices,1)
 !!$          if (present(area)) then
 !!$             ierr = cmor_grid_cff_noblat_int(grid_id,ndims,axes_ids(1),&
 !!$                  latitude(1), longitude(1), &
@@ -3692,9 +3692,9 @@ contains
        axes_ids(i) = axis_ids(ndims-i+1)
     enddo
     if (present(latitude_vertices)) then
-       nvert = size(latitude_vertices,ndims+1)
+       nvert = size(latitude_vertices,1)
        if (present(longitude_vertices)) then
-          if (size(longitude_vertices,ndims+1).ne.nvert) then
+          if (size(longitude_vertices,1).ne.nvert) then
              msg = 'cmor_grid (fortran):: longitudes and latitudes'//&
                   'vertices do not have the same number of vertices'//char(0)
              error_code = CMOR_CRITICAL
@@ -3725,7 +3725,7 @@ contains
        endif
     else
        if (present(longitude_vertices)) then
-          nvert = size(latitude_vertices,ndims+1)
+          nvert = size(latitude_vertices,1)
 !!$          if (present(area)) then
 !!$             ierr = cmor_grid_cff_noblat_int(grid_id,ndims,axes_ids(1),&
 !!$                  latitude(1,1), longitude(1,1), &
@@ -3772,9 +3772,9 @@ contains
        axes_ids(i) = axis_ids(ndims-i+1)
     enddo
     if (present(latitude_vertices)) then
-       nvert = size(latitude_vertices,ndims+1)
+       nvert = size(latitude_vertices,1)
        if (present(longitude_vertices)) then
-          if (size(longitude_vertices,ndims+1).ne.nvert) then
+          if (size(longitude_vertices,1).ne.nvert) then
              msg = 'cmor_grid (fortran):: longitudes and latitudes'//&
                   'vertices do not have the same number of vertices'//char(0)
              error_code = CMOR_CRITICAL
@@ -3805,7 +3805,7 @@ contains
        endif
     else
        if (present(longitude_vertices)) then
-          nvert = size(latitude_vertices,ndims+1)
+          nvert = size(latitude_vertices,1)
 !!$          if (present(area)) then
 !!$             ierr = cmor_grid_cff_noblat_int(grid_id,ndims,axes_ids(1),&
 !!$                  latitude(1,1,1), longitude(1,1,1), &
@@ -3852,9 +3852,9 @@ contains
        axes_ids(i) = axis_ids(ndims-i+1)
     enddo
     if (present(latitude_vertices)) then
-       nvert = size(latitude_vertices,ndims+1)
+       nvert = size(latitude_vertices,1)
        if (present(longitude_vertices)) then
-          if (size(longitude_vertices,ndims+1).ne.nvert) then
+          if (size(longitude_vertices,1).ne.nvert) then
              msg = 'cmor_grid (fortran):: longitudes and latitudes'//&
                   'vertices do not have the same number of vertices'//char(0)
              error_code = CMOR_CRITICAL
@@ -3885,7 +3885,7 @@ contains
        endif
     else
        if (present(longitude_vertices)) then
-          nvert = size(latitude_vertices,ndims+1)
+          nvert = size(latitude_vertices,1)
 !!$          if (present(area)) then
 !!$             ierr = cmor_grid_cff_noblat_int(grid_id,ndims,axes_ids(1),&
 !!$                  latitude(1,1,1,1), longitude(1,1,1,1), &
@@ -3932,9 +3932,9 @@ contains
        axes_ids(i) = axis_ids(ndims-i+1)
     enddo
     if (present(latitude_vertices)) then
-       nvert = size(latitude_vertices,ndims+1)
+       nvert = size(latitude_vertices,1)
        if (present(longitude_vertices)) then
-          if (size(longitude_vertices,ndims+1).ne.nvert) then
+          if (size(longitude_vertices,1).ne.nvert) then
              msg = 'cmor_grid (fortran):: longitudes and latitudes'//&
                   'vertices do not have the same number of vertices'//char(0)
              error_code = CMOR_CRITICAL
@@ -3965,7 +3965,7 @@ contains
        endif
     else
        if (present(longitude_vertices)) then
-          nvert = size(latitude_vertices,ndims+1)
+          nvert = size(latitude_vertices,1)
 !!$          if (present(area)) then
 !!$             ierr = cmor_grid_cff_noblat_int(grid_id,ndims,axes_ids(1),&
 !!$                  latitude(1,1,1,1,1), longitude(1,1,1,1,1), &
@@ -4012,9 +4012,9 @@ contains
        axes_ids(i) = axis_ids(ndims-i+1)
     enddo
     if (present(latitude_vertices)) then
-       nvert = size(latitude_vertices,ndims+1)
+       nvert = size(latitude_vertices,1)
        if (present(longitude_vertices)) then
-          if (size(longitude_vertices,ndims+1).ne.nvert) then
+          if (size(longitude_vertices,1).ne.nvert) then
              msg = 'cmor_grid (fortran):: longitudes and latitudes'//&
                   'vertices do not have the same number of vertices'//char(0)
              error_code = CMOR_CRITICAL
@@ -4045,7 +4045,7 @@ contains
        endif
     else
        if (present(longitude_vertices)) then
-          nvert = size(latitude_vertices,ndims+1)
+          nvert = size(latitude_vertices,1)
 !!$          if (present(area)) then
 !!$             ierr = cmor_grid_cff_noblat_int(grid_id,ndims,axes_ids(1),&
 !!$                  latitude(1,1,1,1,1,1), longitude(1,1,1,1,1,1), &

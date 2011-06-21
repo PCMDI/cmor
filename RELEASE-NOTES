@@ -1,3 +1,5 @@
+2011-06-21 : Tagging 2.7.0
+2011-06-21 : Fixed bug using the wrong dims for checking validity of arrays in fortran interface - for vertices-
 2011-06-13 : Tagging 2.6.1
 2011-06-13 : Fixed bug triggering wrong warning on bounds being at the beg/end of month
 2011-05-26 : File name for subhourly were wrongly constructed, upped version to 2.6
