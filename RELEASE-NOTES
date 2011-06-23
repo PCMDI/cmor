@@ -1,3 +1,5 @@
+2011-06-23 : Tagging 2.7.1
+2011-06-23 : removing sloppy print statements in python wrap
 2011-06-21 : Tagging 2.7.0
 2011-06-21 : Fixed bug using the wrong dims for checking validity of arrays in fortran interface - for vertices-
 2011-06-13 : Tagging 2.6.1
