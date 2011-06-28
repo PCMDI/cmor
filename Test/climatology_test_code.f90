@@ -45,9 +45,11 @@ CONTAINS
     INTEGER :: i
     
     DO i=1,SIZE(time)
-       time(i) = (it-1)*30.+ (i-.5)/SIZE(time)
-       time_bnds(1,i) = (it-1)*30.+ (i-1)*1.0/SIZE(time)
-       time_bnds(2,i) = (it-1)*30.+ i*1.0/SIZE(time) + 29.
+       time(i) = (it-1)*size(time)*30+(i-.5)*30!+ (i-.5)/SIZE(time)
+       time_bnds(1,i) = (it-1)*size(time)*30.+(i-1)*30!+ (i-1)*1.0/SIZE(time)
+       time_bnds(2,i) = (it-1)*size(time)*30.+(i+108)*30!+ i*1.0/SIZE(time) + 29.
+       time(i) = (it-1)*size(time)*30.+(i+47.5)*30!+ i*1.0/SIZE(time) + 29.
+       !time(i) = (time_bnds(2,i)+time_bnds(1,i))/2.
        print*, i,time_bnds(1,i),time(i),time_bnds(2,i)
     END DO
     
@@ -132,7 +134,7 @@ PROGRAM ipcc_test_code
 
   !   dimension parameters:
   ! ---------------------------------
-  INTEGER, PARAMETER :: ntimes = 2    ! number of time samples to process
+  INTEGER, PARAMETER :: ntimes = 1    ! number of time samples to process
   INTEGER, PARAMETER :: lon = 4       ! number of longitude grid cells  
   INTEGER, PARAMETER :: lat = 3       ! number of latitude grid cells
   INTEGER, PARAMETER :: lev = 17       ! number of latitude grid cells
@@ -171,8 +173,8 @@ PROGRAM ipcc_test_code
   DOUBLE PRECISION, DIMENSION(lat) :: alats
   DOUBLE PRECISION, DIMENSION(lon) :: alons
   DOUBLE PRECISION, DIMENSION(lev) :: plevs
-  DOUBLE PRECISION, DIMENSION(24) :: time
-  DOUBLE PRECISION, DIMENSION(2,24):: bnds_time
+  DOUBLE PRECISION, DIMENSION(12) :: time
+  DOUBLE PRECISION, DIMENSION(2,12):: bnds_time
   DOUBLE PRECISION, DIMENSION(2,lat) :: bnds_lat
   DOUBLE PRECISION, DIMENSION(2,lon) :: bnds_lon
   INTEGER :: ilon, ilat, ipres, itim
@@ -337,13 +339,14 @@ PROGRAM ipcc_test_code
         print*, 'CALLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL'
         print*, 'times:',time(1),time(2)
         print*, 'btimes:',bnds_time(1,1),bnds_time(2,1),bnds_time(1,2),bnds_time(2,2)
+        print*, "BEFORE"
         error_flag = cmor_write(                                  &
              var_id        = var2d_ids(m),                        &
              data          = data2d,                              &
-             ntimes_passed = 24,                                   &
+             ntimes_passed = 12,                                   &
              time_vals     = time,                                &
              time_bnds     = bnds_time  )
-        
+        print*, "AFTER"
        IF (error_flag < 0) THEN
            ! write diagnostic messages to standard output device
            write(*,*) ' Error encountered writing climatology test Table A ' &

@@ -31,13 +31,13 @@ int main()
 #define   lon  3       /* number of longitude grid cells   */
 #define   lat  4       /* number of latitude grid cells */
 #define   lev  5       /* number of standard pressure levels */
-
+#define nvert 6
   double x[lon];
   double y[lat];
   double lon_coords[lon*lat];
   double lat_coords[lon*lat];
-  double lon_vertices[lon*lat*4];
-  double lat_vertices[lon*lat*4];
+  double lon_vertices[lon*lat*nvert];
+  double lat_vertices[lon*lat*nvert];
  
   double data2d[lat*lon];
   double data3d[lev*lat*lon];
@@ -75,18 +75,34 @@ int main()
       lon_coords[i+j*lon] = lon0+delta_lon*(j+1+i);
       lat_coords[i+j*lon] = lat0+delta_lat*(j+1-i);
       /* vertices lon*/
-      k = i*4+j*lon*4+0;
+      k = i*nvert+j*lon*nvert+0;
       printf("i,j,k: %i, %i, %i\n",i,j,k);
-      lon_vertices[i*4+j*lon*4+0] = lon_coords[i+j*lon]-delta_lon;
-      lon_vertices[i*4+j*lon*4+1] = lon_coords[i+j*lon];
-      lon_vertices[i*4+j*lon*4+2] = lon_coords[i+j*lon]+delta_lon;
-      lon_vertices[i*4+j*lon*4+3] = lon_coords[i+j*lon];
-      /* vertices lat */
-      lat_vertices[i*4+j*lon*4+0] = lat_coords[i+j*lon];
-      lat_vertices[i*4+j*lon*4+1] = lat_coords[i+j*lon]-delta_lat;
-      lat_vertices[i*4+j*lon*4+2] = lat_coords[i+j*lon];
-      lat_vertices[i*4+j*lon*4+3] = lat_coords[i+j*lon]+delta_lat;
+      if (nvert==6) {
+	lon_vertices[i*nvert+j*lon*nvert+0] = lon_coords[i+j*lon];
+	lon_vertices[i*nvert+j*lon*nvert+1] = lon_coords[i+j*lon]+delta_lon;
+	lon_vertices[i*nvert+j*lon*nvert+2] = lon_coords[i+j*lon]+delta_lon;
+	lon_vertices[i*nvert+j*lon*nvert+3] = lon_coords[i+j*lon]+delta_lon/5.;
+	lon_vertices[i*nvert+j*lon*nvert+4] = lon_coords[i+j*lon]+delta_lon/5.;
+	lon_vertices[i*nvert+j*lon*nvert+5] = lon_coords[i+j*lon];
+	/* vertices lat */
+	lat_vertices[i*nvert+j*lon*nvert+0] = lat_coords[i+j*lon];
+	lat_vertices[i*nvert+j*lon*nvert+1] = lat_coords[i+j*lon];
+	lat_vertices[i*nvert+j*lon*nvert+2] = lat_coords[i+j*lon]+2.*delta_lat/3.;
+	lat_vertices[i*nvert+j*lon*nvert+3] = lat_coords[i+j*lon]+2.*delta_lat/3.;
+	lat_vertices[i*nvert+j*lon*nvert+4] = lat_coords[i+j*lon]+delta_lat;
+	lat_vertices[i*nvert+j*lon*nvert+5] = lat_coords[i+j*lon]+delta_lat;
       }
+      else {
+	lon_vertices[i*4+j*lon*4+0] = lon_coords[i+j*lon]-delta_lon;
+	lon_vertices[i*4+j*lon*4+1] = lon_coords[i+j*lon];
+	lon_vertices[i*4+j*lon*4+2] = lon_coords[i+j*lon]+delta_lon;
+	lon_vertices[i*4+j*lon*4+3] = lon_coords[i+j*lon];
+	lat_vertices[i*4+j*lon*4+0] = lat_coords[i+j*lon];
+	lat_vertices[i*4+j*lon*4+1] = lat_coords[i+j*lon]-delta_lat;
+	lat_vertices[i*4+j*lon*4+2] = lat_coords[i+j*lon];
+	lat_vertices[i*4+j*lon*4+3] = lat_coords[i+j*lon]+delta_lat;
+      }
+    }
   }
 
   exit_mode = CMOR_EXIT_ON_MAJOR;
@@ -128,7 +144,7 @@ int main()
   axes_ids[1] = myaxes[0];
   /*now defines the grid */
   printf("going to grid stuff \n");
-    ierr = cmor_grid(&mygrids[0],2,&axes_ids[0],'d',&lat_coords[0],&lon_coords[0],4,&lat_vertices[0],&lon_vertices[0]);
+    ierr = cmor_grid(&mygrids[0],2,&axes_ids[0],'d',&lat_coords[0],&lon_coords[0],nvert,&lat_vertices[0],&lon_vertices[0]);
     //ierr = cmor_grid(&mygrids[0],2,&axes_ids[0],'d',&lat_coords[0],&lon_coords[0],0,NULL,NULL);
 
   for (i=0;i<cmor_grids[0].ndims;i++) {
