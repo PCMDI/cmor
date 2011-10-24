@@ -305,18 +305,18 @@ int cmor_check_monotonic(double *values,int length, char *name,int isbounds, int
   int mono;
   int nloop;
   double *values2,tmp;
-  /* for (i=0;i<length;i++) printf("in monotonic: %i, %lf, %i\n",i,values[i],isbounds); */
+  /*for (i=0;i<length;i++) printf("in monotonic: %i, %lf, %i\n",i,values[i],isbounds);*/
   cmor_add_traceback("cmor_check_monotonic");
 
   refaxis = &cmor_tables[cmor_axes[axis_id].ref_table_id].axes[cmor_axes[axis_id].ref_axis_id];
-  if (refaxis->axis=='X') {
+  if ((refaxis->axis=='X')&& (strncmp(refaxis->units,"degrees",7)==0)) {
     treatlon=1;
   }
   /* ok ensure that values are monotonic */
   if (isbounds==1) {
     for (i=0;i<length/2-2;i++) {
       if (((values[2*i]-values[2*i+2])/(values[2*i+2]-values[2*i+4]))<0.) { 
-	if (refaxis->axis=='X') {
+	if ((refaxis->axis=='X') && (strncmp(refaxis->units,"degrees",7)==0)) {
 	  treatlon=1;
 	}
 	else {
