@@ -11,9 +11,9 @@ int cuErrOpts =CU_VERBOSE;
 int cmor_calendar_c2i(char *calendar, cdCalenType *ical) {
   cmor_add_traceback("cmor_calendar_c2i");
   cmor_is_setup();
-  if (strcmp(calendar,"gregorian")==0)*ical = cdStandard;
-  else if (strcmp(calendar,"standard")==0) *ical = cdStandard;
-  else if (strcmp(calendar,"proleptic_gregorian")==0) *ical = cdMixed;
+  if (strcmp(calendar,"gregorian")==0)*ical = cdMixed;
+  else if (strcmp(calendar,"standard")==0) *ical = cdMixed;
+  else if (strcmp(calendar,"proleptic_gregorian")==0) *ical = cdStandard;
   else if (strcmp(calendar,"noleap")==0) *ical = cdNoLeap;
   else if (strcmp(calendar,"365_day")==0) *ical = cdNoLeap;
   else if (strcmp(calendar,"360_day")==0) *ical = cd360;

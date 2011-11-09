@@ -762,17 +762,17 @@ def dataset(experiment_id,institution,source,calendar,outpath='.',realization=1,
             elif calendar == cdtime.ClimCalendar:
                 calendar = "clim"
             elif calendar == cdtime.DefaultCalendar:
-                calendar = "proleptic_gregorian"
+                calendar = "standard"
             elif calendar == cdtime.GregorianCalendar:
-                calendar = "gregorian"
+                calendar = "proleptic_gregorian"
             elif calendar == cdtime.JulianCalendar:
                 calendar = "julian"
             elif calendar == cdtime.MixedCalendar:
-                calendar= "mixed"
+                calendar= "standard"
             elif calendar == cdtime.NoLeapCalendar:
                 calendar = "noleap"
             elif calendar == cdtime.StandardCalendar:
-                calendar = "standard"
+                calendar = "proleptic_gregorian"
             elif calendar == cdtime.ClimLeapCalendar:
                 calendar = "climleap"
     elif calendar is None:

@@ -1,3 +1,5 @@
+2011-11-08 : Realized there was a difference in calendar names between cdtime and the CF conventions. CMOR now maps correctly the CF names to the cdtime names for correct internal processing.
+2011-10-24 : Removed the treatlon in case 'X' axis has units not in degrees
 2011-06-23 : Tagging 2.7.1
 2011-06-23 : removing sloppy print statements in python wrap
 2011-06-21 : Tagging 2.7.0
