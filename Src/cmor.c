@@ -3783,7 +3783,7 @@ int cmor_close_variable(int var_id, char *file_name, int *preserve)
       }
       
       if (cmor_tables[cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_table_id].axes[cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_axis_id].climatology==1) {
-	strncat(outname,"_clim",CMOR_MAX_STRING-strlen(outname));	
+	strncat(outname,"-clim",CMOR_MAX_STRING-strlen(outname));	
       }
     }
 /*     else { */

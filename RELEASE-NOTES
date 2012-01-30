@@ -1,3 +1,5 @@
+2012-01-30 : Tagging 2.8.1
+2012-01-30 : climatological files now end wirh -clim.nc instead of _clim.nc
 2011-11-08 : Tagging 2.8.0
 2011-11-08 : Realized there was a difference in calendar names between cdtime and the CF conventions. CMOR now maps correctly the CF names to the cdtime names for correct internal processing.
 2011-10-24 : Removed the treatlon in case 'X' axis has units not in degrees

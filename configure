@@ -644,6 +644,9 @@ FFLAGS
 FCFLAGS
 LDFLAGS
 CFLAGS
+USERCFLAGS
+USERFFLAGS
+USERLDFLAGS
 INCFILES
 TEST_FORTRAN
 LIBFILES
@@ -1896,6 +1899,10 @@ ac_config_files="$ac_config_files Makefile setup.py compile_line.txt include/cmo
 
 
 INCFILES="include/cmor.h  include/cmor_func_def.h include/cmor_md5.h "`ls -x --width=10000 include/cdTime/*.h include/cdTime/cdunifpp/*.h`
+
+
+
+
 
 
 
@@ -4326,6 +4333,10 @@ fi
   fi
 fi
 
+USERCFLAGS=${CFLAGS}
+USERFFLAGS=${FFLAGS}
+USERLDFLAGS=${LDFLAGS}
+
 CFLAGS=${NCCFLAGS}
 LDFLAGS=${NCLDFLAGS}
 
@@ -5260,6 +5271,9 @@ FFLAGS!$FFLAGS$ac_delim
 FCFLAGS!$FCFLAGS$ac_delim
 LDFLAGS!$LDFLAGS$ac_delim
 CFLAGS!$CFLAGS$ac_delim
+USERCFLAGS!$USERCFLAGS$ac_delim
+USERFFLAGS!$USERFFLAGS$ac_delim
+USERLDFLAGS!$USERLDFLAGS$ac_delim
 INCFILES!$INCFILES$ac_delim
 TEST_FORTRAN!$TEST_FORTRAN$ac_delim
 LIBFILES!$LIBFILES$ac_delim
@@ -5289,7 +5303,7 @@ LIBOBJS!$LIBOBJS$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 92; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 95; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5
