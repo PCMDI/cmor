@@ -809,7 +809,7 @@ int cmor_treat_axis_values(int axis_id, double *values, int length, int n_reques
 
 
   /* now check for valid_min/max things except for longitude bounds */
-  if ((isbounds==0) || (treatlon==0)) {
+  if (((isbounds==1) && (refaxis->axis=='X'))==0) {
     if (refaxis->valid_min!=1.e20) for (i=0;i<length;i++) if (values[i]<refaxis->valid_min) { 
       if (refaxis->axis=='X') {
 	treatlon = 1;
