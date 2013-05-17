@@ -3917,8 +3917,8 @@ int cmor_close(void)
     }
     if (cmor_tables[i].nforcings>0) {
       for (j=0;j<cmor_tables[i].nforcings;j++) {
-	free(cmor_tables[i].forcings[i]);
-	cmor_tables[i].forcings[i]=NULL;
+	free(cmor_tables[i].forcings[j]);
+	cmor_tables[i].forcings[j]=NULL;
       }
       free(cmor_tables[i].forcings);
       cmor_tables[i].forcings=NULL;
