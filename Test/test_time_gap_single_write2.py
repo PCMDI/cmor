@@ -3,7 +3,7 @@ import cmor
 import numpy
 
 def cmor_initialisation():
-    cmor.setup(inpath='/net/home/h03/hadju/Projects/MipTables/cmip5-cmor-tables/Tables',
+    cmor.setup(inpath='/git/cmip5-cmor-tables/Tables',
                netcdf_file_action = cmor.CMOR_REPLACE_3,
                create_subdirectories = 0)
     cmor.dataset('pre-industrial control', 'ukmo', 'HadCM3', '360_day',
@@ -15,7 +15,7 @@ def cmor_initialisation():
                  parent_experiment_rip = 'N/A',
                  branch_time = 0.,
                  contact = 'bob',
-                 outpath = '/data/local/hadju/test')
+                 outpath = 'hadju/test')
 
 def setup_data():
     axes = [ {'table_entry': 'time1',

@@ -184,6 +184,8 @@ typedef struct cmor_var_ {
   int nc_zfactors[CMOR_MAX_VARIABLES];
   int nzfactor;
   int ntimes_written;
+  double last_time_written;
+  double last_time_bounds_written[2];
   int ntimes_written_coords[10];
   int associated_ids[10];
   int ntimes_written_associated[10];
