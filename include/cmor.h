@@ -127,6 +127,7 @@ typedef struct cmor_axis_ {
   char id[CMOR_MAX_STRING];
   int length;
   double *values;
+  int *wrapping;
   double *bounds;
   char **cvalues;
   int revert;
