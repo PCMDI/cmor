@@ -560,27 +560,6 @@ int cmor_check_monotonic(double *values,int length, char *name,int isbounds, int
       }
     }
   }
-  /* here we check if interval is about right */
-  if ( (refaxis->axis=='T')) {
-    /* do not do the following in case of climatological stuff.... */
-    if (refaxis->climatology==0) {
-      /* just keep the begining of units out no need to know the since part */
-      j=0;
-      while (refaxis->units[j]==' ') j++;
-      i=0;
-      while ((refaxis->units[i+j]!=' ') && (refaxis->units[i+j]!='\0')) {
-	msg2[i]=refaxis->units[i+j];
-	i++;
-      }
-      msg2[i]='\0';
-      snprintf(msg,CMOR_MAX_STRING,"%lf %s",cmor_tables[cmor_axes[axis_id].ref_table_id].interval,msg2);
-      /* printf("calling chck interv: %i\n",length); */
-      /* for(i=0;i<length;i++) printf("i:%i ,val: %lf\n",i,values[i]); */
-      /* ok skip this for non standard cal */
-      
-      i = cmor_check_interval(axis_id,msg,&values[0],length,isbounds);
-    }
-  }
   cmor_pop_traceback();
   return treatlon;
 }
@@ -604,7 +583,6 @@ int cmor_treat_axis_values(int axis_id, double *values, int length, int n_reques
 
   cmor_add_traceback("cmor_treat_axis_values");
   cmor_is_setup();
-  fprintf(stderr,"Treat values for %s, %i\n",name,isbounds);
   axis = &cmor_axes[axis_id];
   refaxis = &cmor_tables[axis->ref_table_id].axes[axis->ref_axis_id];
 
@@ -833,11 +811,9 @@ int cmor_treat_axis_values(int axis_id, double *values, int length, int n_reques
       if (isbounds==0) { /* Dealing with coords */
           for (i=0;i<length;i++)  /* ok lets add 360. until it's all good */
             while (values[i]<refaxis->valid_min) {
-                fprintf(stderr,"Adding 360 at index: %i , %f\n",i,values[i]);
                 values[i]+=360.;
                 cmor_axes[axis_id].wrapping[i]+=1;
             }
-            fprintf(stderr,"Ok we are out of this loop\n");
               /* ok now need to determine the offset */
               for (i=0;i<length-1;i++) {
                 if (values[i]>values[i+1]) {
@@ -847,7 +823,6 @@ int cmor_treat_axis_values(int axis_id, double *values, int length, int n_reques
               }
           }
       }
-    printf("now offset is: %i\n",axis->offset);
     treatlon=0;
     if (refaxis->valid_max!=1.e20) for (i=0;i<length;i++) if (values[i]>refaxis->valid_max) {
       if ((refaxis->axis=='X')&& (strncmp(refaxis->units,"degrees",7)==0)) {
@@ -883,7 +858,6 @@ int cmor_treat_axis_values(int axis_id, double *values, int length, int n_reques
     }
     /* ok now need to move the offset thing */
     if (axis->offset!=0) {
-        printf("Ok we are in the reoffseting section: %i\n",axis->offset);
       if (isbounds==0) {
 /* 	printf("ok unoffseted values are (axes): (offset is: %i) \n",axis->offset); */
 /* 	for (i=0;i<length;i++) printf("%i : %f\n",i,values[i]); */
@@ -942,7 +916,6 @@ int cmor_check_interval(int axis_id, char *interval, double *values, int nvalues
   axis = &cmor_axes[axis_id];
   refaxis = &cmor_tables[axis->ref_table_id].axes[axis->ref_axis_id];
 
-    for(i=0;i<nvalues;i++) printf("I: %i, val: %f\n",i,values[i]);
 
   if (isbounds==0) {
     nval = nvalues;
@@ -1331,6 +1304,22 @@ int cmor_axis(int *axis_id, char *name,char *units, int length,void *coord_vals,
       if ((refaxis.axis=='T')&&(refaxis.climatology==0)) {
 	/* ok now we need to overwrite the time values with mid point */
 	for (i=0;i<length;i++) cmor_axes[cmor_naxes].values[i]=(cmor_axes[cmor_naxes].bounds[2*i]+cmor_axes[cmor_naxes].bounds[2*i+1])/2.;
+      /* here we check if interval is about right */
+      /* just keep the begining of units out no need to know the since part */
+      j=0;
+      while (refaxis.units[j]==' ') j++;
+      i=0;
+      while ((refaxis.units[i+j]!=' ') && (refaxis.units[i+j]!='\0')) {
+	ctmp[i]=refaxis.units[i+j];
+	i++;
+      }
+      ctmp[i]='\0';
+      snprintf(msg,CMOR_MAX_STRING,"%lf %s",cmor_tables[cmor_axes[cmor_naxes].ref_table_id].interval,ctmp);
+      /* printf("calling chck interv: %i\n",length); */
+      /* for(i=0;i<length;i++) printf("i:%i ,val: %lf\n",i,values[i]); */
+      /* ok skip this for non standard cal */
+      
+      i = cmor_check_interval(cmor_naxes,msg,&cmor_axes[cmor_naxes].values[0],length,0);
       }
     }
   }

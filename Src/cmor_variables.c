@@ -1640,23 +1640,30 @@ int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int 
 	  cmor_handle_error(msg,CMOR_CRITICAL);
 	}
         if (avar->ntimes_written>0) {
-            tmpindex = 1;
-            tmp_vals[0]=avar->last_time;
+            if ((avar->last_time!=-999.)&&(avar->last_bound!=1.e20)) {
+                tmpindex = 1;
+                tmp_vals[0]=avar->last_time;
+            }
+            else {
+                tmpindex=0;
+            }
         }
         else {
             tmpindex = 0;
         }
 	ierr = cmor_convert_time_values(time_vals,'d',ntimes_passed,&tmp_vals[tmpindex],cmor_axes[avar->axes_ids[0]].iunits,msg,msg2,msg2);
 	ierr = cmor_check_monotonic(&tmp_vals[0],ntimes_passed+tmpindex,"time",0,avar->axes_ids[0]);
-	
+printf("ok we got: %f, %f--------\n",avar->last_time,avar->last_bound);	
         if (avar->ntimes_written>0) {
-            tmp_vals[0] = 2*avar->last_time-avar->last_bound;
-            tmp_vals[1] = avar->last_bound;
+            if ((avar->last_time!=-999.)&&(avar->last_bound!=1.e20)) {
+                tmp_vals[0] = 2*avar->last_time-avar->last_bound;
+                tmp_vals[1] = avar->last_bound;
+            }
         }
 	ierr = cmor_convert_time_values(time_bounds,'d',ntimes_passed*2,&tmp_vals[2*tmpindex],cmor_axes[avar->axes_ids[0]].iunits,msg,msg2,msg2);
 	ierr = cmor_check_monotonic(&tmp_vals[0],(ntimes_passed+tmpindex)*2,"time",1,avar->axes_ids[0]);
 	ierr = cmor_check_values_inside_bounds(&time_vals[0],&time_bounds[0], ntimes_passed, "time");
-	ierr = nc_put_vara_double(ncid,avar->time_bnds_nc_id,starts,counts2,tmp_vals);
+	ierr = nc_put_vara_double(ncid,avar->time_bnds_nc_id,starts,counts2,&tmp_vals[2*tmpindex]);
 	if (ierr != NC_NOERR) {snprintf(msg,CMOR_MAX_STRING,"NetCDF error (%i) writing time bounds for variable '%s', already written in file: %i",ierr,avar->id,avar->ntimes_written);cmor_handle_error(msg,CMOR_CRITICAL);}
 	/* /\* ok first time around the we need to store bounds *\/ */
 	if (avar->ntimes_written == 0) {
