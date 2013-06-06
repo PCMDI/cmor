@@ -2,7 +2,7 @@ dnl                                                -*- Autoconf -*-
 dnl  Process this file with autoconf to produce a configure script.
 
 dnl AC_PREREQ(2.59)
-AC_INIT(cmor, 2.8.3, doutriaux1@llnl.gov)
+AC_INIT(cmor, 2.9.0, doutriaux1@llnl.gov)
 
 GIT_TAG=`./get_git_version.sh`
 
@@ -12,9 +12,11 @@ RTAG="none"
 case ${target_os} in
  linux-*) 
    RTAG="-Wl,-rpath="
+   FTAG="-Wl,-rpath="
  ;;
  darwin*)
    RTAG="-R"
+   FTAG="-Wl,-rpath="
  ;;
 esac
 
@@ -23,8 +25,10 @@ CMOR_VERSION=${PACKAGE_VERSION}" (commit: ${GIT_TAG})"
 AC_PREFIX_DEFAULT([/usr/local/cmor])
 AC_CONFIG_FILES([Makefile setup.py compile_line.txt include/cmor_locale.h])
 
-
 INCFILES="include/cmor.h  include/cmor_func_def.h include/cmor_md5.h "`ls -x --width=10000 include/cdTime/*.h include/cdTime/cdunifpp/*.h`
+AC_SUBST(RTAG)
+AC_SUBST(FTAG)
+
 AC_SUBST(PATH)
 AC_SUBST(NCCFLAGS)
 AC_SUBST(NCLDFLAGS)
@@ -371,6 +375,5 @@ AC_MSG_NOTICE([])
 AC_MSG_NOTICE([You can compile C or FORTRAN code using the compilation lines shown in file: compile_line.txt and printed bellow:])
 AC_MSG_NOTICE([])
 AC_MSG_NOTICE([])
-
 
 cat compile_line.txt

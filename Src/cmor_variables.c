@@ -1653,7 +1653,6 @@ int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int 
         }
 	ierr = cmor_convert_time_values(time_vals,'d',ntimes_passed,&tmp_vals[tmpindex],cmor_axes[avar->axes_ids[0]].iunits,msg,msg2,msg2);
 	ierr = cmor_check_monotonic(&tmp_vals[0],ntimes_passed+tmpindex,"time",0,avar->axes_ids[0]);
-printf("ok we got: %f, %f--------\n",avar->last_time,avar->last_bound);	
         if (avar->ntimes_written>0) {
             if ((avar->last_time!=-999.)&&(avar->last_bound!=1.e20)) {
                 tmp_vals[0] = 2*avar->last_time-avar->last_bound;
