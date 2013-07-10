@@ -1,0 +1,932 @@
+table_id: Table Omon
+modeling_realm: ocean
+
+frequency: mon
+
+cmor_version: 2.6 ! minimum version of CMOR that can read this table
+cf_version:   1.4         ! version of CF that output conforms to
+project_id:   SPECS  ! project id
+table_date:   December2013 ! date this table was constructed
+
+missing_value: 1.e20      ! value used to indicate a missing value
+                          !   in arrays output by netCDF as 32-bit IEEE 
+                          !   floating-point numbers (float or real)
+
+baseURL: http://cmip-pcmdi.llnl.gov/CMIP5/dataLocation 
+product: output
+
+required_global_attributes: creation_date tracking_id forcing model_id parent_experiment_id parent_experiment_rip contact ! space separated required global attribute 
+
+forcings:   ?????
+
+expt_id_ok: '10- or 30-year run initialized in year XXXX' 'decadalXXXX'
+expt_id_ok: 'historical' 'historicalXXXX'
+expt_id_ok: 'soilMoistureClimInit' 'soil_moisture clim_init'
+expt_id_ok: 'soilMoistureBestInit' 'soil_moisture best_init'
+expt_id_ok: 'seaIceClimInit' 'seaice clim_init'
+expt_id_ok: 'seaIceBestInit' 'seaice best_init'
+expt_id_ok: 'horizlResImpact' 'horizlres impact'
+expt_id_ok: 'standardStratVertRes' 'standard_strat vert_res'
+expt_id_ok: 'improvedStratVertRes' 'improved_strat vert_res'
+expt_id_ok: 'snowBestInit' 'snow best init'
+expt_id_ok: 'snowClimInit' 'snow clim init'
+expt_id_ok: 'interactivePhenology' 'interactive phenology'
+expt_id_ok: 'fixedPhenology' 'fixed phenology'
+expt_id_ok: 'aerosolImproved' 'aerosol improved'
+expt_id_ok: 'aerosolsStandard' 'aerosol standard'
+expt_id_ok: 'obsSolarIrradiance' 'obs solar irradiance'
+expt_id_ok: 'constSolarIrradiance' 'const solar irradiance'
+
+approx_interval:  744.000000     ! approximate spacing between successive time
+                          !   samples (in units of the output time 
+                          !   coordinate.
+
+generic_levels:   olevel
+
+!============
+axis_entry: longitude
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:    longitude
+units:            degrees_east
+axis:             X             ! X, Y, Z, T (default: undeclared)
+long_name:        longitude
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:         lon
+valid_min:        0.0         
+valid_max:        360.0 
+stored_direction: increasing
+type:             double
+must_have_bounds: yes
+!----------------------------------
+!
+
+
+!============
+axis_entry: latitude
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:    latitude
+units:            degrees_north
+axis:             Y             ! X, Y, Z, T (default: undeclared)
+long_name:        latitude
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:         lat
+valid_min:        -90.0         
+valid_max:        90.0 
+stored_direction: increasing
+type:             double
+must_have_bounds: yes
+!----------------------------------
+!
+
+
+!============
+axis_entry: time
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:    forecast_period
+units:            days  since ?
+axis:             T             ! X, Y, Z, T (default: undeclared)
+long_name:        Time elapsed since the start of the forecast
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:         time
+stored_direction: increasing
+type:             double
+must_have_bounds: yes
+!----------------------------------
+!
+
+!============
+axis_entry: basin
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:    region
+long_name:        ocean basin
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:         basin
+type:             character
+requested:        atlantic_arctic_ocean indian_pacific_ocean global_ocean        ! space-separated list of requested coordinates 
+must_have_bounds: no
+coords_attrib:    region
+!----------------------------------
+!
+
+
+!============
+axis_entry: rho
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:    sea_water_potential_density
+units:            kg m-3
+axis:             Z             ! X, Y, Z, T (default: undeclared)
+positive:         down         ! up or down (default: undeclared)
+long_name:        potential density referenced to 2000 dbar
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:         rho
+stored_direction: increasing
+type:             double
+must_have_bounds: yes
+!----------------------------------
+!
+
+
+!============
+axis_entry: oline
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:    region
+long_name:        ocean passage 
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:         line
+type:             character
+requested:        barents_opening bering_strait canadian_archipelago denmark_strait drake_passage english_channel pacific_equatorial_undercurrent faroe_scotland_channel florida_bahamas_strait fram_strait iceland_faroe_channel indonesian_throughflow mozambique_channel taiwan_luzon_straits windward_passage        ! space-separated list of requested coordinates 
+must_have_bounds: no
+coords_attrib:    passage
+!----------------------------------
+!
+
+
+!============
+axis_entry: olayer100m
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:    depth
+units:            m
+axis:             Z             ! X, Y, Z, T (default: undeclared)
+positive:         down         ! up or down (default: undeclared)
+long_name:        depth
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:         depth
+valid_min:        0.0         
+valid_max:        100.0 
+stored_direction: increasing
+type:             double
+value:            50.            ! of scalar (singleton) dimension 
+bounds_values:    0. 100.    ! of scalar (singleton) dimension bounds
+must_have_bounds: no
+!----------------------------------
+!
+
+
+!============
+axis_entry: depth100m
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:    depth
+units:            m
+axis:             Z             ! X, Y, Z, T (default: undeclared)
+positive:         down         ! up or down (default: undeclared)
+long_name:        depth
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:         depth
+valid_min:        80.0         
+valid_max:        120.0 
+stored_direction: increasing
+type:             double
+value:            100.            ! of scalar (singleton) dimension 
+must_have_bounds: no
+!----------------------------------
+!
+
+
+!============
+axis_entry: depth0m
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:    depth
+units:            m
+axis:             Z             ! X, Y, Z, T (default: undeclared)
+positive:         down         ! up or down (default: undeclared)
+long_name:        depth
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:         depth
+valid_min:        0.0         
+valid_max:        100.0 
+stored_direction: increasing
+type:             double
+value:            0.            ! of scalar (singleton) dimension 
+must_have_bounds: no
+!----------------------------------
+!
+
+!============
+axis_entry: depth_coord
+!============
+!
+!  This vertical coordinate is used in z-coordinate models 
+!   The units are meters (m), and it has a value of 0. at the surface
+!   and becomes more and more positive with depth.
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------	
+standard_name:    depth
+units:            m
+axis:             Z
+positive:	  down 
+long_name:        ocean depth coordinate
+!----------------------------------	
+!
+! Additional axis information:
+!----------------------------------	
+out_name:         lev
+must_have_bounds: yes
+stored_direction: increasing
+valid_min:        0.
+valid_max:        12000.
+!----------------------------------	
+!
+
+
+!============
+axis_entry: olev
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+axis:             Z             ! X, Y, Z, T (default: undeclared)
+positive:         down         ! up or down (default: undeclared)
+long_name:        generic ocean level
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:         lev
+stored_direction: increasing
+type:             double
+must_have_bounds: no
+!----------------------------------
+!
+
+
+!============
+axis_entry: ocean_double_sigma
+!============
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------	
+standard_name:    ocean_double_sigma
+axis:             Z
+positive:	  up
+long_name:        ocean double sigma coordinate
+!----------------------------------	
+!
+! Additional axis information:
+!----------------------------------	
+out_name:         lev
+must_have_bounds: yes
+formula:          for k <= k_c:\n z= sigma*f \n for k > k_c:\n z= f + (sigma-1)*(depth-f) \n f= 0.5*(z1+ z2) + 0.5*(z1-z2)* tanh(2*a/(z1-z2)*(depth-href))
+z_factors:        sigma: sigma depth: depth z1: z1 z2: z2 a: a_coeff href: href k_c: k_c
+z_bounds_factors: sigma: sigma_bnds depth: depth z1: z1 z2: z2 a: a href: href k_c: k_c
+!----------------------------------	
+!
+
+
+!============
+axis_entry: ocean_sigma_z
+!============
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------	
+standard_name:    ocean_sigma_z
+axis:             Z
+long_name:        ocean sigma over z coordinate
+!----------------------------------	
+!
+! Additional axis information:
+!----------------------------------	
+out_name:         lev
+must_have_bounds: yes
+formula:          for k <= nsigma: z = eta + sigma*(min(depth_c,depth)+eta) ; for k > nsigma: z = zlev
+z_factors:        sigma: sigma eta: eta depth: depth depth_c: depth_c nsigma: nsigma zlev: zlev
+z_bounds_factors: sigma: sigma_bnds eta: eta depth: depth depth_c: depth_c nsigma: nsigma zlev: zlev_bnds
+!----------------------------------	
+!
+
+
+!============
+axis_entry: ocean_s
+!============
+!
+!  This coordinate is dimensionless and varies from 0 at the surface to -1. at the ocean floor.
+!  The values of s, which appears in the formula below, should be stored as ocean_s.  
+!  Note that in the netCDF file the variable will be named "lev", not ocean_s.
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------	
+standard_name:    ocean_s_coordinate
+axis:             Z
+positive:	  up
+long_name:        ocean s-coordinate
+!----------------------------------	
+!
+! Additional axis information:
+!----------------------------------	
+out_name:         lev
+must_have_bounds: yes
+stored_direction: decreasing
+valid_min:        -1.
+valid_max:        0.
+formula:          z = eta*(1+s) + depth_c*s + (depth-depth_c)*C \n where \n C=(1-b)*sinh(a*s)/sinh(a) +\n           b*(tanh(a*(s+0.5))/(2*tanh(0.5*a)) - 0.5)
+z_factors:        s: lev eta: eta depth: depth a: a_coeff b: b_coeff depth_c: depth_c
+z_bounds_factors: s: lev_bnds eta: eta depth: depth a: a b: b depth_c: depth_c
+!----------------------------------	
+!
+
+
+!============
+axis_entry: ocean_sigma
+!============
+!
+!  This coordinate is dimensionless and varies from 0 at the surface to -1. at the ocean floor.
+!  The values of sigma, which appears in the formula below, should be stored as ocean_sigma.  
+!  Note that in the netCDF file the variable will be named "lev", not ocean_sigma.
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------	
+standard_name:    ocean_sigma_coordinate
+axis:             Z
+positive:	  up
+long_name:        ocean sigma coordinate
+!----------------------------------	
+!
+! Additional axis information:
+!----------------------------------	
+out_name:         lev
+must_have_bounds: yes
+stored_direction: decreasing
+valid_min:        -1.
+valid_max:        0.
+formula:          z = eta + sigma*(depth+eta)
+z_factors:        sigma: lev eta: eta depth: depth
+z_bounds_factors: sigma: lev_bnds eta: eta depth: depth
+!----------------------------------	
+!
+!
+! ***************************************************************
+!
+! Vertical coordinate formula_terms:
+!
+! ***************************************************************
+!
+
+!============
+variable_entry: lead_time
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:    forecast_period
+units:            hours since
+!axis:             T             ! X, Y, Z, T (default: undeclared)
+long_name:        Time elapsed since the start of the forecast
+!bounds: time_bnd
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:     time
+out_name:         lead_time
+!stored_direction: increasing
+type:             double
+!must_have_bounds: yes
+!----------------------------------
+!
+
+!============
+variable_entry: depth
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+units:        m
+long_name:    Sea Floor Depth
+comment:      Ocean bathymetry.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:      longitude latitude
+out_name:        depth
+type:            real
+valid_min:        0.
+valid_max:        12000.
+ok_min_mean_abs:  2000.
+ok_max_mean_abs:  5000.
+!----------------------------------
+!
+
+!============
+variable_entry:    zos
+!============
+modeling_realm:    ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     sea_surface_height_above_geoid
+units:             m 
+cell_methods:      time: mean
+cell_measures:     area: areacello
+long_name:         Sea surface height above geoid 
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time
+out_name:          zos
+type:              real
+valid_min:         -13.97
+valid_max:         9.575
+ok_min_mean_abs:   0.008384
+ok_max_mean_abs:   1.572
+!----------------------------------
+!
+
+!============
+variable_entry:    thetao
+!============
+modeling_realm:    ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     sea_water_potential_temperature
+units:             K 
+cell_methods:      time: mean
+cell_measures:     area: areacello volume: volcello
+long_name:         Sea water potential temperature 
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude olevel time
+out_name:          thetao
+type:              real
+valid_min:         -9.37e+17
+valid_max:         1.05e+20
+ok_min_mean_abs:   -9.37e+17
+ok_max_mean_abs:   1.05e+20
+!----------------------------------
+!
+
+!============
+variable_entry:    sos
+!============
+modeling_realm:    ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     sea_water_salinity
+units:             psu 
+cell_methods:      time: mean
+cell_measures:     area: areacello volume: volcello
+long_name:         Sea Water Salinity 
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude olevel time
+out_name:          sos
+type:              real
+valid_min:         -9.37e+17
+valid_max:         1.05e+20
+ok_min_mean_abs:   -9.37e+17
+ok_max_mean_abs:   1.05e+20
+!----------------------------------
+!
+
+!============
+variable_entry:    mlotst
+!============
+modeling_realm:    ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     ocean_mixed_layer_thickness_defined_by_sigma_t
+units:             m 
+cell_methods:      time: mean
+cell_measures:     area: areacello
+long_name:         Ocean mixed layer thickness defined by sigma T 
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time
+out_name:          mlotst
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    mlotstsq
+!============
+modeling_realm:    ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     square_of_ocean_mixed_layer_thickness_defined_by_sigma_t
+units:             m2
+cell_methods:      time: mean
+cell_measures:     area: areacello
+long_name:         Square of Ocean Mixed Layer Thickness Defined by Sigma T 
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time
+out_name:          mlotstsq
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    uo
+!============
+modeling_realm:    ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     sea_water_x_velocity
+units:             m s-1
+cell_methods:      time: mean
+long_name:         Sea Water X Velocity 
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude olevel time
+out_name:          uo
+type:              real
+valid_min:         -1.041e+18
+valid_max:         1.05e+20
+ok_min_mean_abs:   -1.041e+18
+ok_max_mean_abs:   1.05e+20
+!----------------------------------
+!
+
+!============
+variable_entry:    vo
+!============
+modeling_realm:    ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     sea_water_y_velocity
+units:             m s-1
+cell_methods:      time: mean
+long_name:         Sea water Y velocity 
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude olevel time
+out_name:          vo
+type:              real
+valid_min:         -1.041e+18
+valid_max:         1.05e+20
+ok_min_mean_abs:   -1.041e+18
+ok_max_mean_abs:   1.05e+20
+!----------------------------------
+!
+
+!============
+variable_entry:    wmo
+!============
+modeling_realm:    ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     upward_ocean_mass_transport
+units:             kg s-1
+cell_methods:      time: mean
+cell_measures:     area: areacello volume: volcello
+long_name:         Upward Ocean Mass Transport 
+comment:           differs from CMIP3, which only had upward velocity.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude olevel time
+out_name:          wmo
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    tos
+!============
+modeling_realm:    ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     sea_surface_temperature
+units:             K
+cell_methods:      time: mean
+cell_measures:     area: areacello
+long_name:         Sea surface temperature
+comment:           "this may differ from ""surface temperature"" in regions of sea ice."
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time
+out_name:          tos
+type:              real
+valid_min:         257.4
+valid_max:         325.2
+ok_min_mean_abs:   272
+ok_max_mean_abs:   303.5
+!----------------------------------
+!
+
+!============
+variable_entry:    wo
+!============
+modeling_realm:    ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     upward_sea_water_velocity
+units:             m s-1
+cell_methods:      time: mean
+cell_measures:     area: areacello
+long_name:         W
+comment:           
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude olevel time
+out_name:          wo
+type:              real
+valid_min:         -9.37e+17
+valid_max:         1.05e+20
+ok_min_mean_abs:   -9.37e+17
+ok_max_mean_abs:   1.05e+20
+!----------------------------------
+!
+
+!============
+variable_entry:    thetaot
+!============
+modeling_realm:    ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     sea_water_potential_temperature
+units:             K
+cell_methods:      time: mean
+cell_measures:     area: areacello volume: volcello
+long_name:         Vertically averaged ocean temperature
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time
+out_name:          thetaot
+type:              real
+valid_min:         -9.37e+17
+valid_max:         1.05e+20
+ok_min_mean_abs:   -9.37e+17
+ok_max_mean_abs:   1.05e+20
+!----------------------------------
+!
+
+!============
+variable_entry:    t20d
+!============
+modeling_realm:    ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+dimensions:        longitude latitude time depth_coord
+shuffle:           1
+deflate:           1
+deflate_level:     6
+standard_name:     depth_of_isosurface_sea_water_potential_temperature
+units:             m
+cell_methods:      time: mean
+cell_measures:     area: areacello volume: volcello
+long_name:         20C isotherm depth
+!----------------------------------
+!
+!============
+variable_entry:   msftmyza 
+!============
+modeling_realm:    ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+standard_name:     atlantic_ocean_meridional_overturning_mass_streamfunction
+units:             kg s-1
+long_name:         Meridional mass streamfunction in the Atlantic
+!----------------------------------
+!
+!============
+variable_entry:   msftmyzaba
+!============
+modeling_realm:    ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+standard_name:     atlantic_ocean_meridional_overturning_mass_streamfunction_due_to_bolus_advection 
+units:             kg s-1
+long_name:         Meridional mass streamfunction in the Atlantic due to bolus advection
+!----------------------------------
+!
+!============
+variable_entry:  msftmyzg 
+!============
+modeling_realm:    ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+standard_name:     ocean_meridional_overturning_mass_streamfunction 
+units:             kg s-1
+long_name:         Global meridional mass streamfunction
+!----------------------------------
+!
+!============
+variable_entry:  msftmyzgba 
+!============
+modeling_realm:    ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+standard_name:     ocean_meridional_overturning_mass_streamfunction_due_to_bolus_advection 
+units:             kg s-1
+long_name:         Global meridional mass streamfunction due to bolus advection
+!----------------------------------
+!
+!============
+variable_entry:  hfnorthg 
+!============
+modeling_realm:    ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+standard_name:     northward_ocean_heat_transport 
+units:             W
+long_name:         Global northward ocean heat transport
+!----------------------------------
+!
+!============
+variable_entry:   hfnorthgba
+!============
+modeling_realm:    ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+standard_name:     northward_ocean_heat_transport_due_to_bolus_advection  
+units:             W
+long_name:         Global northward ocean heat transport due to bolus advection 
+!----------------------------------
+!
+!============
+variable_entry:  hfnortha 
+!============
+modeling_realm:    ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+standard_name:     atlantic_northward_ocean_heat_transport 
+units:             W
+long_name:         Atlantic northward ocean heat transport
+!----------------------------------
+!
+!============
+variable_entry:  hfnorthaba 
+!============
+modeling_realm:    ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+standard_name:     atlantic_northward_ocean_heat_transport_due_to_bolus_advection 
+units:             W
+long_name:         Atlantic northward ocean heat transport due to bolus advection 
+!----------------------------------
+!
+!============
+variable_entry:  sltnorthg 
+!============
+modeling_realm:    ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+standard_name:     northward_ocean_salt_transport 
+units:             kg s-1
+long_name:         Global northward ocean salt transport
+!----------------------------------
+!
+!============
+variable_entry:  sltnortha 
+!============
+modeling_realm:    ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+standard_name:     atlantic_northward_ocean_salt_transport 
+units:             kg s-1
+long_name:         Atlantic northward ocean salt transport
+!----------------------------------
+!

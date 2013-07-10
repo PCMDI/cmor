@@ -254,21 +254,31 @@ static PyObject *
   char *references; 	 
   char *model_id; 	 
   char *forcing; 
-  char *institute_id;	 
-  char *parent_exp_id;	 
-  char *parent_exp_rip;	 
+/*  char *initialization_method,*/
+  int initialization_method;
+  int physics_version;
+/*  char *institute_id;	*/ 
+  char *parent_experiment_id;	 
   int  leap_year; 
   int  leap_month; 
   int  *month_lengths;
-  int initialization_method;
-  int physics_version;
+  char *project_id; /* pab test */
+/*  int initialization_method;*/
+  char *initialization_description;
+  char *forecast_ref_time; /* pab test */
+  char *associated_model; /* pab test */ 
+  char *physics_description;
+  char *series;
+  char *parent_experiment_rip;	 
   int ierr;
   double *branch_time=NULL,bt;
   PyObject *month_lengths_obj;
   PyObject *branch_time_obj;
   PyArrayObject *month_lengths_array_obj=NULL;
 
-  if (!PyArg_ParseTuple(args,"sssssissssiiOssiissOs",&outpath,&experiment_id,&institution,&source,&calendar,&realization,&contact,&history,&comment,&references,&leap_year,&leap_month,&month_lengths_obj,&model_id,&forcing,&initialization_method,&physics_version,&institute_id,&parent_exp_id,&branch_time_obj,&parent_exp_rip))
+  if (!PyArg_ParseTuple(args,"sssssissssiiOssiissOs",&outpath,&experiment_id,&institution,&source,&calendar,&realization,&contact,&history,&comment,&references,&leap_year,&leap_month,&month_lengths_obj,&model_id,&forcing,&initialization_method,&physics_version,&parent_experiment_id,&branch_time_obj,&parent_experiment_rip,&forecast_ref_time,&physics_description,,&series,&associated_model))
+/*pab  if (!PyArg_ParseTuple(args,"sssssissssiiOssiissOs",&outpath,&experiment_id,&institution,&source,&calendar,&realization,&contact,&history,&comment,&references,&leap_year,&leap_month,&month_lengths_obj,&model_id,&forcing,&initialization_method,&physics_version,&institute_id,&parent_experiment_id,&branch_time_obj,&parent_experiment_rip,&forecast_ref_time,&physics_description,&batch,&associated_model))*/
+/*  if (!PyArg_ParseTuple(args,"sssssissssiiOssiissOs",&outpath,&experiment_id,&institution,&source,&calendar,&realization,&contact,&history,&comment,&references,&leap_year,&leap_month,&month_lengths_obj,&model_id,&forcing,&initialization_method,&physics_version,&institute_id,&parent_experiment_id,&branch_time_obj,&parent_experiment_rip,&forecast_ref_time,&batch,&associated_model))*/
     return NULL;
   if (month_lengths_obj == Py_None) {
     month_lengths = NULL;
@@ -285,7 +295,9 @@ static PyObject *
     branch_time = &bt;
   }
     
-  ierr = cmor_dataset(outpath,experiment_id,institution,source,calendar,realization,contact,history,comment,references,leap_year,leap_month,month_lengths,model_id,forcing,initialization_method,physics_version,institute_id,parent_exp_id,branch_time,parent_exp_rip);
+  ierr = cmor_dataset(outpath,experiment_id,institution,source,calendar,realization,contact,history,comment,references,leap_year,leap_month,month_lengths,model_id,forcing,initialization_method,physics_version,parent_experiment_id,project_id,branch_time,initialization_description,forecast_ref_time,associated_model,physics_description,series,parent_experiment_rip);/*pab test */
+/*pab  ierr = cmor_dataset(outpath,experiment_id,institution,source,calendar,realization,contact,history,comment,references,leap_year,leap_month,month_lengths,model_id,forcing,initialization_method,physics_version,institute_id,parent_experiment_id,project_id,branch_time,initialization_description,forecast_ref_time,associated_model,physics_description,batch,parent_experiment_rip); test */
+/*  ierr = cmor_dataset(outpath,experiment_id,institution,source,calendar,realization,contact,history,comment,references,leap_year,leap_month,month_lengths,model_id,forcing,initialization_method,physics_version,institute_id,parent_experiment_id,project_id,branch_time,parent_experiment_rip,forecast_ref_time,batch,associated_model);pab test */
   if (month_lengths_array_obj!=NULL) {Py_DECREF(month_lengths_array_obj);}
   if (ierr != 0 ) return NULL;
   /* Return NULL Python Object */
@@ -538,10 +550,10 @@ static PyObject *
   for(i=0;i<n;i++) {
     tmp  =PyList_GetItem(param_nm_obj,i);
     strcpy(nms[i],PyString_AsString(tmp));
-    //Py_DECREF(tmp); //Not needed get_item does not increase ref
+ //   Py_DECREF(tmp);  //Not needed get_item does not increase ref
     tmp  =PyList_GetItem(param_un_obj,i);
     strcpy(units[i],PyString_AsString(tmp));
-    //Py_DECREF(tmp); // Not need get_item does not incref
+ //   Py_DECREF(tmp);  //Not needed get_item does not increase ref
   }
   
   ierr = cmor_set_grid_mapping(gid,name,n,(char **)nms,CMOR_MAX_STRING,param_val,(char **)units,CMOR_MAX_STRING);
@@ -560,7 +572,7 @@ static PyObject *
 static PyObject *
   PyCMOR_write(PyObject *self,PyObject *args)
 {
-  int ierr,var_id;
+  int ierr,var_id,ncid_in;
   PyObject *data_obj=NULL;
   PyArrayObject *data_array=NULL;
   void *data;
@@ -617,7 +629,7 @@ static PyObject *
   type = itype[0];
 /*   printf("going in, suffix is: -%s-\n",suffix); */
   ierr = 0;
-  ierr = cmor_write(var_id, data, type, suffix, ntimes, times, times_bnds, ref);
+  ierr = cmor_write(var_id, ncid_in, data, type, suffix, ntimes, times, times_bnds, ref);
   Py_DECREF(data_array);
   if (times_array!=NULL) {Py_DECREF(times_array);}
   if (times_bnds_array!=NULL) {Py_DECREF(times_bnds_array);}

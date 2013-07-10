@@ -1,0 +1,1243 @@
+table_id: Table day
+modeling_realm: atmos ocean
+
+frequency: day
+
+cmor_version: 2.6 ! minimum version of CMOR that can read this table
+cf_version:   1.6         ! version of CF that output conforms to
+project_id:   SPECS  ! project id
+table_date:   26 July 2011 ! date this table was constructed
+
+missing_value: 1.e20      ! value used to indicate a missing value
+                          !   in arrays output by netCDF as 32-bit IEEE 
+                          !   floating-point numbers (float or real)
+
+baseURL: http://cmip-pcmdi.llnl.gov/CMIP5/dataLocation 
+product: output
+
+required_global_attributes: creation_date tracking_id forcing model_id parent_experiment_id parent_experiment_rip contact ! space separated required global attribute 
+
+forcings:   ??????                                                      
+
+expt_id_ok: '10- or 30-year run initialized in year XXXX' 'decadalXXXX'
+expt_id_ok: 'historical' 'historicalXXXX'
+expt_id_ok: 'soilMoistureClimInit' 'soil_moisture clim_init'
+expt_id_ok: 'soilMoistureBestInit' 'soil_moisture best_init'
+expt_id_ok: 'seaIceClimInit' 'seaice clim_init'
+expt_id_ok: 'seaIceBestInit' 'seaice best_init'
+expt_id_ok: 'horizlResImpact' 'horizlres impact'
+expt_id_ok: 'standardStratVertRes' 'standard_strat vert_res'
+expt_id_ok: 'improvedStratVertRes' 'improved_strat vert_res'
+expt_id_ok: 'snowBestInit' 'snow best init'
+expt_id_ok: 'snowClimInit' 'snow clim init'
+expt_id_ok: 'interactivePhenology' 'interactive phenology'
+expt_id_ok: 'fixedPhenology' 'fixed phenology'
+expt_id_ok: 'aerosolImproved' 'aerosol improved'
+expt_id_ok: 'aerosolsStandard' 'aerosol standard'
+expt_id_ok: 'obsSolarIrradiance' 'obs solar irradiance'
+expt_id_ok: 'constSolarIrradiance' 'const solar irradiance'
+
+approx_interval:  1.000000     ! approximate spacing between successive time
+                          !   samples (in units of the output time 
+                          !   coordinate.
+
+!============
+axis_entry: longitude
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:    longitude
+units:            degrees_east
+axis:             X             ! X, Y, Z, T (default: undeclared)
+long_name:        longitude
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:         lon
+valid_min:        0.0         
+valid_max:        360.0 
+stored_direction: increasing
+type:             double
+must_have_bounds: yes
+!----------------------------------
+!
+
+
+!============
+axis_entry: latitude
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:    latitude
+units:            degrees_north
+axis:             Y             ! X, Y, Z, T (default: undeclared)
+long_name:        latitude
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:         lat
+valid_min:        -90.0         
+valid_max:        90.0 
+stored_direction: increasing
+type:             double
+must_have_bounds: yes
+!----------------------------------
+!
+
+
+!============
+axis_entry: plev8
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:    air_pressure
+units:            Pa
+axis:             Z             ! X, Y, Z, T (default: undeclared)
+positive:         down         ! up or down (default: undeclared)
+long_name:        pressure
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:         plev
+stored_direction: decreasing
+tolerance:        0.001
+type:             double
+requested:        100000. 85000. 70000. 50000. 25000. 10000. 5000.        ! space-separated list of requested coordinates 
+must_have_bounds: no
+!----------------------------------
+!
+
+
+!============
+axis_entry: time
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:    forecast_period
+units:            days since ?
+axis:             T             ! X, Y, Z, T (default: undeclared)
+long_name:        Time elapsed since the start of the forecast
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:         time
+stored_direction: increasing
+type:             double
+must_have_bounds: yes
+!----------------------------------
+!
+
+!============
+axis_entry: depth_coord
+!============
+!
+!  This vertical coordinate is used in z-coordinate models
+!   The units are meters (m), and it has a value of 0. at the surface
+!   and becomes more and more positive with depth.
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------
+standard_name:    depth
+units:            m
+axis:             Z
+positive:         down
+long_name:        ocean depth coordinate
+!----------------------------------
+!
+! Additional axis information:
+!----------------------------------
+out_name:         lev
+must_have_bounds: yes
+stored_direction: increasing
+valid_min:        0.
+valid_max:        12000.
+!----------------------------------
+!
+
+!============
+axis_entry: height2m
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:    height
+units:            m
+axis:             Z             ! X, Y, Z, T (default: undeclared)
+positive:         up         ! up or down (default: undeclared)
+long_name:        height
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:         height
+valid_min:        1.0         
+valid_max:        10.0 
+stored_direction: increasing
+type:             double
+value:            2.            ! of scalar (singleton) dimension 
+must_have_bounds: no
+!----------------------------------
+!
+
+
+!============
+axis_entry: height10m
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:    height
+units:            m
+axis:             Z             ! X, Y, Z, T (default: undeclared)
+positive:         up         ! up or down (default: undeclared)
+long_name:        height
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:         height
+valid_min:        1.0         
+valid_max:        30.0 
+stored_direction: increasing
+type:             double
+value:            10.            ! of scalar (singleton) dimension 
+must_have_bounds: no
+!----------------------------------
+!
+
+
+!============
+axis_entry: sdepth1 
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:    depth
+units:            m
+axis:             Z             ! X, Y, Z, T (default: undeclared)
+positive:         down         ! up or down (default: undeclared)
+long_name:        depth
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:         depth
+valid_min:        0.0         
+valid_max:        0.2 
+stored_direction: increasing
+type:             double
+value:            0.05            ! of scalar (singleton) dimension 
+bounds_values:    0.0 0.1    ! of scalar (singleton) dimension bounds
+must_have_bounds: yes
+!----------------------------------
+!
+
+!============
+variable_entry: lead_time
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:    forecast_period
+units:            hours since ?
+!axis:             T             ! X, Y, Z, T (default: undeclared)
+long_name:        Time elapsed since the start of the forecast
+!bounds: time_bnd
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:     time
+out_name:         lead_time
+!stored_direction: increasing
+type:             double
+!must_have_bounds: yes
+!----------------------------------
+!
+
+!============
+variable_entry:    tas
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     air_temperature
+units:             K
+cell_methods:      time: mean
+cell_measures:     area: areacella
+long_name:         Air Temperature
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time height2m
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:          tas
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    tasmin
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     air_temperature
+units:             K
+cell_methods:      time: minimum
+cell_measures:     area: areacella
+long_name:         Daily Minimum Air Temperature
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time height2m
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:          tasmin
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    tasmax
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     air_temperature
+units:             K
+cell_methods:      time: maximum
+cell_measures:     area: areacella
+long_name:         Daily Maximum Air Temperature
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time height2m
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:          tasmax
+type:              real
+!----------------------------------
+
+!============
+variable_entry:    prc
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     convective_precipitation_flux
+units:             kg m-2 s-1
+cell_methods:      time: mean
+cell_measures:     area: areacella
+long_name:         Convective Precipitation
+comment:           at surface; includes both liquid and solid phases.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:          prc
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    hfls
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     surface_upward_latent_heat_flux
+units:             W m-2
+cell_methods:      time: mean
+cell_measures:     area: areacella
+long_name:         Surface upward latent heat flux
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:          hfls
+type:              real
+positive:          up
+!----------------------------------
+!
+
+!============
+variable_entry:    hfss
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     surface_upward_sensible_heat_flux
+units:             W m-2
+cell_methods:      time: mean
+cell_measures:     area: areacella
+long_name:         Surface upward sensible heat flux
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:          hfss
+type:              real
+positive:          up
+!----------------------------------
+!
+
+!============
+variable_entry:    rlds
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     surface_downwelling_longwave_flux_in_air
+units:             W m-2
+cell_methods:      time: mean
+cell_measures:     area: areacella
+long_name:         Surface Downwelling Longwave Radiation
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:          rlds
+type:              real
+positive:          down
+!----------------------------------
+!
+
+!============
+variable_entry:    rlus
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     surface_upwelling_longwave_flux_in_air
+units:             W m-2
+cell_methods:      time: mean
+cell_measures:     area: areacella
+long_name:         Surface Upwelling Longwave Radiation
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:          rlus
+type:              real
+positive:          up
+!----------------------------------
+!
+
+!============
+variable_entry:    pr
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     precipitation_flux
+units:             kg m-2 s-1
+cell_methods:      time: mean
+cell_measures:     area: areacella
+long_name:         Precipitation
+comment:           at surface; includes both liquid and solid phases from all types of clouds (both large-scale and convective)
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:          pr
+type:              real
+valid_min:         0
+valid_max:         0.001254
+ok_min_mean_abs:   2.156e-05
+ok_max_mean_abs:   3.215e-05
+!----------------------------------
+!
+
+!============
+variable_entry:    rsdt
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     toa_incoming_shortwave_flux
+units:             W m-2
+cell_methods:      time: mean
+cell_measures:     area: areacella
+long_name:         TOA Incident Shortwave Radiation
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:          rsdt
+type:              real
+positive:          down
+!----------------------------------
+!
+
+!============
+variable_entry:    mrso
+!============
+modeling_realm:    land
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     soil_moisture_content
+units:             m3 m-3
+cell_methods:      time: mean area: mean where land
+cell_measures:     area: areacella
+long_name:         Total soil moisture content
+comment:           the mass per unit area  (summed over all soil layers) of water in all phases.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:          mrso
+type:              real
+valid_min:         -64.17
+valid_max:         5717
+ok_min_mean_abs:   -1424
+ok_max_mean_abs:   3038
+!----------------------------------
+!
+
+!============
+variable_entry:    tauu
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     surface_downward_eastward_stress
+units:             Pa
+cell_methods:      time: mean
+long_name:         Surface downward eastward wind stress
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:          tauu
+type:              real
+positive:          down
+valid_min:         -2.729
+valid_max:         2.934
+ok_min_mean_abs:   0.03979
+ok_max_mean_abs:   0.1065
+!----------------------------------
+!
+
+!============
+variable_entry:    tauv
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     surface_downward_northward_stress
+units:             Pa
+cell_methods:      time: mean
+long_name:         Surface downward northward wind stress
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:          tauv
+type:              real
+positive:          down
+valid_min:         -2.472
+valid_max:         2.527
+ok_min_mean_abs:   0.01447
+ok_max_mean_abs:   0.08134
+!----------------------------------
+!
+
+!============
+variable_entry:     snd
+!============
+modeling_realm:    seaIce
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     surface_snow_thickness
+units:             m
+cell_methods:      time: mean area: mean where sea
+cell_measures:     area: areacello
+long_name:         Snow Depth
+comment:           the mean thickness of snow in the ocean portion of the grid cell (averaging over the entire ocean portion, including the snow-free ocean fraction).  Reported as 0.0 in regions free of snow-covered sea ice.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:           snd
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:     tsice
+!============
+modeling_realm:    seaIce
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     surface_temperature
+units:             K
+cell_methods:      time: mean (weighted by area of sea ice)
+cell_measures:     area: areacello
+long_name:         Surface temperature of sea ice
+comment:           When computing the time-mean here, the time-samples, weighted by the area of sea ice in the grid cell, are accumulated and then divided by the sum of the weights.  Reported as ""missing"" in regions free of sea ice.  Note this will be the surface snow temperature in regions where snow covers the sea ice.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:          tsice
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    rsds
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     surface_downwelling_shortwave_flux_in_air
+units:             W m-2
+cell_methods:      time: mean
+cell_measures:     area: areacella
+long_name:         Surface Downwelling Shortwave Radiation
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:          rsds
+type:              real
+positive:          down
+!----------------------------------
+!
+
+!============
+variable_entry:    rsus
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     surface_upwelling_shortwave_flux_in_air
+units:             W m-2
+cell_methods:      time: mean
+cell_measures:     area: areacella
+long_name:         Surface Upwelling Shortwave Radiation
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:          rsus
+type:              real
+positive:          up
+!----------------------------------
+!
+
+!============
+variable_entry:    rlut
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     toa_outgoing_longwave_flux
+units:             W m-2
+cell_methods:      time: mean
+cell_measures:     area: areacella
+long_name:         TOA Outgoing Longwave Radiation
+comment:           at the top of the atmosphere.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:          rlut
+type:              real
+positive:          up
+!----------------------------------
+!
+
+!============
+variable_entry:    sic
+!============
+modeling_realm:    seaIce ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     sea_ice_area_fraction
+units:             %
+cell_methods:      time: mean
+cell_measures:     area: areacello
+long_name:         Sea Ice Area Fraction
+comment:           fraction of grid cell covered by sea ice. 
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:          sic
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    sit
+!============
+modeling_realm:    seaIce ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     sea_ice_thickness
+units:             m
+cell_methods:      time: mean area: mean where sea 
+cell_measures:     area: areacello
+long_name:         Sea Ice Thickness
+comment:           the mean thickness of sea ice in the ocean portion of the grid cell (averaging over the entire ocean portion, including the ice-free fraction).  Reported as 0.0 in regions free of sea ice.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:          sit
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    ta
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     air_temperature
+units:             K
+cell_methods:      time: mean
+cell_measures:     area: areacella
+long_name:         Air Temperature
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude plev8 time
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:          ta
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    va
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     northward_wind
+units:             m s-1 
+cell_methods:      time: mean
+long_name:         Northward Wind
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude plev8 time
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:          va
+type:              real
+!----------------------------------
+!
+
+
+!============
+variable_entry:    zg
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     geopotential_height
+units:             m
+cell_methods:      time: mean
+cell_measures:     area: areacella
+long_name:         Geopotential Height
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude plev8 time
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:          zg
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    sic
+!============
+modeling_realm:    seaIce ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     sea_ice_area_fraction
+units:             %
+cell_methods:      time: mean
+cell_measures:     area: areacello
+long_name:         Sea ice area fraction
+comment:           fraction of grid cell covered by sea ice.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:          sic
+type:              real
+valid_min:         -0.000225
+valid_max:         166.1
+ok_min_mean_abs:   -13.33
+ok_max_mean_abs:   36.65
+!----------------------------------
+!
+
+
+!============
+variable_entry:     snd
+!============
+modeling_realm:    seaIce
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     surface_snow_thickness
+units:             m
+cell_methods:      time: mean area: mean where sea
+cell_measures:     area: areacello
+long_name:         Snow Depth
+comment:           the mean thickness of snow in the ocean portion of the grid cell (averaging over the entire ocean portion, including the snow-free ocean fraction).  Reported as 0.0 in regions free of snow-covered sea ice.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:           snd
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:     tsice
+!============
+modeling_realm:    seaIce
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     surface_temperature
+units:             K
+cell_methods:      time: mean (weighted by area of sea ice)
+cell_measures:     area: areacello
+long_name:         Surface Temperature of Sea Ice
+comment:           When computing the time-mean here, the time-samples, weighted by the area of sea ice in the grid cell, are accumulated and then divided by the sum of the weights.  Reported as ""missing"" in regions free of sea ice.  Note this will be the surface snow temperature in regions where snow covers the sea ice.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:           tsice
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    t20d
+!============
+modeling_realm:    ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     depth_of_isosurface_sea_water_potential_temperature
+units:             m
+cell_methods:      time: mean
+cell_measures:     area: areacello volume: volcello
+long_name:         20C isotherm depth
+!----------------------------------
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time depth_coord
+!----------------------------------
+!
+
+!============
+variable_entry:    mlotst
+!============
+modeling_realm:    ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     ocean_mixed_layer_thickness_defined_by_sigma_t
+units:             m
+cell_methods:      time: mean
+cell_measures:     area: areacello
+long_name:         Ocean mixed layer thickness defined by sigma T
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time
+out_name:          mlotst
+type:              real
+!----------------------------------
+!
+ 
+!============
+variable_entry:    uas
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     eastward_wind
+units:             m s-1
+cell_methods:      time: mean
+long_name:         Eastward near-surface wind velocity
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time height10m
+out_name:          uas
+type:              real
+valid_min:         -19.01
+valid_max:         18.68
+ok_min_mean_abs:   1.668
+ok_max_mean_abs:   4.106
+!----------------------------------
+!
+
+!============
+variable_entry:    vas
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     northward_wind
+units:             m s-1
+cell_methods:      time: mean
+long_name:         Northward near-surface wind velocity
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time height10m
+out_name:          vas
+type:              real
+valid_min:         -18.04
+valid_max:         22.84
+ok_min_mean_abs:   1.065
+ok_max_mean_abs:   2.678
+!----------------------------------
+!
+
+!============
+variable_entry:    psl
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     air_pressure_at_sea_level
+units:             Pa
+cell_methods:      time: mean
+cell_measures:     area: areacella
+long_name:         Sea level pressure
+comment:           not, in general, the same as surface pressure
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time
+out_name:          psl
+type:              real
+valid_min:         9.122e+04
+valid_max:         1.137e+05
+ok_min_mean_abs:   9.57e+04
+ok_max_mean_abs:   1.063e+05
+!----------------------------------
+!
+
+!============
+variable_entry:    prsn
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     snowfall_flux
+units:             kg m-2 s-1
+cell_methods:      time: mean
+cell_measures:     area: areacella
+long_name:         Snowfall Flux
+comment:           at surface; includes precipitation of all forms of water in the solid phase
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+out_name:          prsn
+valid_min:         0
+ok_min_mean_abs:   1.449e-06
+ok_max_mean_abs:   6.11e-06
+type:              real
+shuffle:           1
+deflate:           1
+deflate_level:     6
+!----------------------------------
+!
+
+!============
+variable_entry:    clt
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     cloud_area_fraction
+units:             %
+cell_methods:      time: mean
+cell_measures:     area: areacella
+long_name:         Total cloud fraction
+comment:           for the whole atmospheric column, as seen from the surface or the top of the atmosphere. Include both large-scale and convective cloud.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time
+out_name:          clt
+type:              real
+valid_min:         -0.0001822
+valid_max:         105
+ok_min_mean_abs:   39.37
+ok_max_mean_abs:   84.98
+!----------------------------------
+!
+
+!============
+variable_entry:    rss
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     surface_net_downward_shortwave_flux 
+units:             W m-2
+long_name:         Net shortwave surface radiation
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time
+out_name:          rss
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    rls
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     surface_net_downward_longwave_flux  
+units:             W m-2
+long_name:         Net longwave surface radiation
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time
+out_name:          rls
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry: snld
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:    lwe_thickness_of_surface_snow_amount
+units: m
+long_name: snow depth
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:     longitude latitude time
+out_name: snow depth
+type:             double
+!---------------------------------
+!
+
+!============
+variable_entry: tdps
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: dew_point_temperature
+units: K
+long_name: 2m dewpoint temperature
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:     longitude latitude time
+out_name: 2m dewpoint temperature
+type:             double
+!---------------------------------
+!
+
+!============
+variable_entry: evlwr
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: lwe_water evaporation rate
+units: m s-1
+long_name:  evaporation
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time
+out_name:          evaporation
+type:              double
+!---------------------------------
+!
+
+!============
+variable_entry:    mlotst
+!============
+modeling_realm:    ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     ocean_mixed_layer_thickness_defined_by_sigma_t
+units:             m
+cell_methods:      time: mean
+cell_measures:     area: areacello
+long_name:         Ocean mixed layer thickness defined by sigma T
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time
+out_name:          mlotst
+type:              real
+!----------------------------------
+!
+

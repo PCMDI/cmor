@@ -1,0 +1,266 @@
+table_id: Table grids
+
+
+cmor_version: 2.0         ! version of CMOR that can read this table
+cf_version:   1.6         ! version of CF that output conforms to
+project_id:   SPECS       ! project id
+table_date:   December 2013 ! date this table was constructed
+
+missing_value: 1.e20      ! value used to indicate a missing value
+                          !   in arrays output by netCDF as 32-bit IEEE 
+                          !   floating-point numbers (float or real)
+
+baseURL: http://cmip-pcmdi.llnl.gov/SPECS/dataLocation 
+product: output
+
+required_global_attributes: creation_date tracking_id forcing model_id parent_experiment_id parent_experiment_rip contact ! space separated required global attribute 
+
+forcings:   ????
+
+expt_id_ok: '10- or 30-year run initialized in year XXXX' 'decadalXXXX'
+expt_id_ok: 'historical' 'historicalXXXX'
+expt_id_ok: 'soilMoistureClimInit' 'soil_moisture clim_init'
+expt_id_ok: 'soilMoistureBestInit' 'soil_moisture best_init'
+expt_id_ok: 'seaIceClimInit' 'seaice clim_init'
+expt_id_ok: 'seaIceBestInit' 'seaice best_init'
+expt_id_ok: 'horizlResImpact' 'horizlres impact'
+expt_id_ok: 'standardStratVertRes' 'standard_strat vert_res'
+expt_id_ok: 'improvedStratVertRes' 'improved_strat vert_res'
+expt_id_ok: 'snowBestInit' 'snow best init'
+expt_id_ok: 'snowClimInit' 'snow clim init'
+expt_id_ok: 'interactivePhenology' 'interactive phenology'
+expt_id_ok: 'fixedPhenology' 'fixed phenology'
+expt_id_ok: 'aerosolImproved' 'aerosol improved'
+expt_id_ok: 'aerosolsStandard' 'aerosol standard'
+expt_id_ok: 'obsSolarIrradiance' 'obs solar irradiance'
+expt_id_ok: 'constSolarIrradiance' 'const solar irradiance'
+
+
+!
+!
+!============
+mapping_entry: sample_user_mapping
+!============
+parameter: false_easting
+parameter: false_northing
+coordinates: rlon rlat
+!
+!============
+axis_entry: i_index
+!============
+!
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+out_name:         i
+units:            1
+long_name:        cell index along first dimension
+type: 		  integer
+!----------------------------------	
+!
+!
+!============
+axis_entry: j_index
+!============
+!
+!----------------------------------
+!
+! Axis attributes:
+!----------------------------------
+out_name:         j
+units:            1
+long_name:        cell index along second dimension
+type: 		  integer
+!----------------------------------	
+!
+!
+!============
+axis_entry: k_index
+!============
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------
+out_name:         k
+units:            1
+long_name:        cell index along third dimension
+type: 		  integer
+!----------------------------------	
+!
+!============
+axis_entry: l_index
+!============
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------
+out_name:         l
+units:            1
+long_name:        cell index along fourth dimension
+type: 		  integer
+!----------------------------------	
+!
+!============
+axis_entry: m_index
+!============
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------
+out_name:         m
+units:            1
+long_name:        cell index along fifth dimension
+type: 		  integer
+!----------------------------------	
+!
+!============
+axis_entry: x
+!============
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------	
+standard_name:    projection_x_coordinate
+units:            m
+long_name:        x coordinate of projection
+axis: X
+!----------------------------------	
+!
+! Additional axis information:
+!----------------------------------	
+!
+!============
+axis_entry: y
+!============
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------	
+standard_name:    projection_y_coordinate
+units:            m
+long_name:        y coordinate of projection
+axis: Y
+!----------------------------------	
+!
+! Additional axis information:
+!----------------------------------	
+!
+!============
+axis_entry: grid_latitude
+!============
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------	
+standard_name:    grid_latitude
+units:            degrees
+long_name:        latitude in rotated pole grid
+axis: Y
+!----------------------------------	
+!
+! Additional axis information:
+!----------------------------------	
+out_name:         rlat
+!
+!============
+axis_entry: grid_longitude
+!============
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------	
+standard_name:    grid_longitude
+units:            degrees
+long_name:        longitude in rotated pole grid
+axis: X
+!----------------------------------	
+!
+! Additional axis information:
+!----------------------------------	
+out_name:         rlon
+!
+!============
+axis_entry: vertices
+!============
+!
+!------------
+!
+!============
+variable_entry: longitude
+!============
+!----------------------------------	
+standard_name:    longitude
+units:            degrees_east
+long_name:        longitude coordinate
+dimensions:	  longitude latitude
+!----------------------------------	
+!
+! Additional axis information:
+!----------------------------------	
+out_name:         lon
+valid_min:        0.           ! CMOR will add n*360 to input values
+                               ! (where n is an integer) to ensure 
+                               !  longitudes are in proper range.
+valid_max:        360.         !  see above comment.
+!----------------------------------	
+!
+!
+!============
+variable_entry: latitude
+!============
+!----------------------------------	
+standard_name:    latitude
+units:            degrees_north
+long_name:        latitude coordinate
+dimensions:	  longitude latitude
+!----------------------------------	
+!
+! Additional axis information:
+!----------------------------------	
+out_name:         lat
+valid_min:        -90.        
+valid_max:        90.
+!----------------------------------	
+!
+!
+!============
+variable_entry: vertices_longitude
+!============
+!----------------------------------	
+units:            degrees_east
+dimensions:	  vertices longitude latitude
+!----------------------------------	
+!
+! Additional axis information:
+!----------------------------------	
+out_name:         lon_vertices
+valid_min:        0.           ! CMOR will add n*360 to input values
+                               ! (where n is an integer) to ensure 
+                               !  longitudes are in proper range.
+valid_max:        360.         !  see above comment.
+!----------------------------------	
+!
+!
+!============
+variable_entry: vertices_latitude
+!============
+!----------------------------------	
+units:            degrees_north
+dimensions:	  vertices longitude latitude
+!----------------------------------	
+!
+! Additional axis information:
+!----------------------------------	
+out_name:         lat_vertices
+valid_min:        -90.        
+valid_max:        90.
+!----------------------------------	
+!
+!

@@ -6,7 +6,7 @@
 #define CMOR_VERSION_PATCH 3
 
 #define CMOR_CF_VERSION_MAJOR 1
-#define CMOR_CF_VERSION_MINOR 4
+#define CMOR_CF_VERSION_MINOR 6
 
 #define CMOR_MAX_STRING 1024
 #define CMOR_DEF_ATT_STR_LEN 256
@@ -41,6 +41,8 @@
 #define CMOR_PRESERVE CMOR_PRESERVE_3
 #define CMOR_APPEND CMOR_APPEND_3
 #define CMOR_REPLACE CMOR_REPLACE_3
+
+extern int CMOR_SPECS;
 
 extern int USE_NETCDF_4;
 extern int CMOR_MODE;
@@ -281,6 +283,7 @@ typedef struct cmor_dataset_def_ {
   int leap_year;
   int leap_month;
   int month_lengths[12];
+  char project_id; /*pab test*/
   int initiated;
   int associate_file; /*flag to store associated variables separately */
   int associated_file; /* ncid of associated file */

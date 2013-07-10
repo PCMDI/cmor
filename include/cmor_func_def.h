@@ -17,7 +17,7 @@ extern int cmor_have_NetCDF41min(void);
 extern int cmor_have_NetCDF3(void);
 extern int cmor_have_NetCDF363(void);
 extern void cmor_handle_error(char error_msg[CMOR_MAX_STRING],int level);
-extern int cmor_setup(char *path,int *netcdf, int *verbosity, int *mode, char *logfile, int *cmor_create_subdirectories);
+extern int cmor_setup(char *path,int *netcdf, int *verbosity, int *mode, char *logfile, int *cmor_create_subdirectories, int *specs);
 extern int cmor_put_nc_num_attribute(int ncid,int nc_var_id,char *name, char type, double value, char *var_name);
 extern int cmor_put_nc_char_attribute(int ncid,int nc_var_id,char *name,char *value,char *var_name);
 extern int cmor_set_cur_dataset_attribute(char *name, char *value, int optional);
@@ -39,17 +39,25 @@ extern int cmor_dataset(char *outpath,
 			char *model_id,
 			char *forcing,
 			int initialization_method,
-			int physics_version,
+			int  *physics_version,
+//			int  *physics_version,
 			char *institute_id,
 			char *parent_experiment_id,
 			double *branch_time,
+                        char *project_id, /* pab */
+                        char *initialization_description, /* pab */
+                        char *forecast_ref_time, /* pab */
+                        char *associated_model, /* pab */
+                        char *physics_description, /* pab */
+                        char *series,
 			char *parent_experiment_rip);
 extern int strncpytrim(char *out, char *in, int max);
 extern int cmor_convert_string_to_list(char *values,char type, void **target, int *nelts);
 extern int cmor_define_zfactors_vars(int var_id,int ncid, int *nc_dim,char *formula_terms,int *nzfactors, int *zfactors, int *nc_zfactors,int i,int dim_bnds);
 extern int cmor_create_output_path(int var_id,char *outpath);
 extern double cmor_convert_interval_to_seconds(double val, char *units);
-extern int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed, double *time_vals, double *time_bounds, int *refvar);
+extern int cmor_write(int var_id, void *data, char type, char *suffix, int ntimes_passed, double *time_vals, double *leadtime_vals, double *time_bounds, int *refvar);
+//extern int cmor_write(int var_id,int lt_id, void *data, char type, char *suffix, int ntimes_passed, double *time_vals, double *leadtime_vals, double *time_bounds, int *refvar);
 extern int cmor_close_variable(int var_id, char *file_name, int *preserve);
 extern int cmor_close(void);
 /* cmor_axis.c */
@@ -82,7 +90,7 @@ extern int cmor_variable(int *var_id, char *name, char *units, int ndims, int ax
 extern int cmor_set_var_def_att(cmor_var_def_t *var,char att[CMOR_MAX_STRING],char val[CMOR_MAX_STRING] );
 extern int cmor_get_variable_time_length(int *var_id, int *length);
 extern int cmor_get_original_shape(int *var_id, int *shape_array, int *rank, int blank_time);
-extern int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int ntimes_passed, double *time_vals, double *time_bounds);
+extern int cmor_write_var_to_file(int ncid, cmor_var_t *avar,void *data,char itype, int ntimes_passed, double *time_vals, double *time_bounds);
 /* cmor_grid.c */
 extern void cmor_set_mapping_attribute(cmor_mappings_t *mapping,char att[CMOR_MAX_STRING],char val[CMOR_MAX_STRING] );
 extern void cmor_init_grid_mapping(cmor_mappings_t *mapping,char *id);

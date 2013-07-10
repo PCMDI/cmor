@@ -1,0 +1,586 @@
+table_id: Table OImon
+modeling_realm: ocean
+
+frequency: mon
+
+cmor_version: 2.6 ! minimum version of CMOR that can read this table
+cf_version:   1.4         ! version of CF that output conforms to
+project_id:   SPECS  ! project id
+table_date:   December2013 ! date this table was constructed
+
+missing_value: 1.e20      ! value used to indicate a missing value
+                          !   in arrays output by netCDF as 32-bit IEEE 
+                          !   floating-point numbers (float or real)
+
+baseURL: http://cmip-pcmdi.llnl.gov/CMIP5/dataLocation 
+product: output
+
+required_global_attributes: creation_date tracking_id forcing model_id parent_experiment_id parent_experiment_rip contact ! space separated required global attribute 
+
+forcings:   N/A
+
+expt_id_ok: '10- or 30-year run initialized in year XXXX' 'decadalXXXX'
+expt_id_ok: 'historical' 'historicalXXXX'
+expt_id_ok: 'soilMoistureClimInit' 'soil_moisture clim_init'
+expt_id_ok: 'soilMoistureBestInit' 'soil_moisture best_init'
+expt_id_ok: 'seaIceClimInit' 'seaice clim_init'
+expt_id_ok: 'seaIceBestInit' 'seaice best_init'
+expt_id_ok: 'horizlResImpact' 'horizlres impact'
+expt_id_ok: 'standardStratVertRes' 'standard_strat vert_res'
+expt_id_ok: 'improvedStratVertRes' 'improved_strat vert_res'
+expt_id_ok: 'snowBestInit' 'snow best init'
+expt_id_ok: 'snowClimInit' 'snow clim init'
+expt_id_ok: 'interactivePhenology' 'interactive phenology'
+expt_id_ok: 'fixedPhenology' 'fixed phenology'
+expt_id_ok: 'aerosolImproved' 'aerosol improved'
+expt_id_ok: 'aerosolsStandard' 'aerosol standard'
+expt_id_ok: 'obsSolarIrradiance' 'obs solar irradiance'
+expt_id_ok: 'constSolarIrradiance' 'const solar irradiance'
+
+
+approx_interval:  744.000000     ! approximate spacing between successive time
+                          !   samples (in units of the output time 
+                          !   coordinate.
+
+!============
+axis_entry: longitude
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:    longitude
+units:            degrees_east
+axis:             X             ! X, Y, Z, T (default: undeclared)
+long_name:        longitude
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:         lon
+valid_min:        0.0         
+valid_max:        360.0 
+stored_direction: increasing
+type:             double
+must_have_bounds: yes
+!----------------------------------
+!
+
+
+!============
+axis_entry: latitude
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:    latitude
+units:            degrees_north
+axis:             Y             ! X, Y, Z, T (default: undeclared)
+long_name:        latitude
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:         lat
+valid_min:        -90.0         
+valid_max:        90.0 
+stored_direction: increasing
+type:             double
+must_have_bounds: yes
+!----------------------------------
+!
+
+!============
+axis_entry: time
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:    forecast_period
+units:            days  since ?
+axis:             T             ! X, Y, Z, T (default: undeclared)
+long_name:        Time elapsed since the start of the forecast
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:         time
+stored_direction: increasing
+type:             double
+must_have_bounds: yes
+!----------------------------------
+!
+
+!============
+axis_entry: depth_coord
+!============
+!
+!  This vertical coordinate is used in z-coordinate models
+!   The units are meters (m), and it has a value of 0. at the surface
+!   and becomes more and more positive with depth.
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------
+standard_name:    depth
+units:            m
+axis:             Z
+positive:         down
+long_name:        ocean depth coordinate
+!----------------------------------
+!
+! Additional axis information:
+!----------------------------------
+out_name:         lev
+must_have_bounds: yes
+stored_direction: increasing
+valid_min:        0.
+valid_max:        12000.
+!----------------------------------
+!
+
+!============
+variable_entry: lead_time
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:    forecast_period
+units:            hours since ?
+!axis:             T             ! X, Y, Z, T (default: undeclared)
+long_name:        Time elapsed since the start of the forecast
+!bounds: time_bnd
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:     time
+out_name:         lead_time
+!stored_direction: increasing
+type:             double
+!must_have_bounds: yes
+!----------------------------------
+!
+
+!============
+variable_entry:    sic
+!============
+modeling_realm:    seaIce ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     sea_ice_area_fraction
+units:             %
+cell_methods:      time: mean
+cell_measures:     area: areacello
+long_name:         Sea ice area fraction
+comment:           fraction of grid cell covered by sea ice.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time
+out_name:          sic
+type:              real
+valid_min:         -0.000225
+valid_max:         166.1
+ok_min_mean_abs:   -13.33
+ok_max_mean_abs:   36.65
+!----------------------------------
+!
+
+!============
+variable_entry:    sit
+!============
+modeling_realm:    seaIce ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     sea_ice_thickness
+units:             m
+cell_methods:      time: mean area: mean where sea
+cell_measures:     area: areacello
+long_name:         Sea ice thickness
+comment:           the mean thickness of sea ice in the ocean portion of the grid cell (averaging over the entire ocean portion, including the ice-free fraction).  Reported as 0.0 in regions free of sea ice.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time
+out_name:          sit
+type:              real
+valid_min:         -0.006698
+valid_max:         104.4
+ok_min_mean_abs:   -0.9217
+ok_max_mean_abs:   2.582
+!----------------------------------
+!
+
+!============
+variable_entry:     snd
+!============
+modeling_realm:    seaIce
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     surface_snow_thickness
+units:             m
+cell_methods:      time: mean area: mean where sea
+cell_measures:     area: areacello
+long_name:         Snow Depth
+comment:           the mean thickness of snow in the ocean portion of the grid cell (averaging over the entire ocean portion, including the snow-free ocean fraction).  Reported as 0.0 in regions free of snow-covered sea ice.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time
+out_name:           snd
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    tsice
+!============
+modeling_realm:    seaIce
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     surface_temperature
+units:             K
+cell_methods:      time: mean (weighted by area of sea ice)
+cell_measures:     area: areacello
+long_name:         Surface Temperature of Sea Ice
+comment:           When computing the time-mean here, the time-samples, weighted by the area of sea ice in the grid cell, are accumulated and then divided by the sum of the weights.  Reported as ""missing"" in regions free of sea ice.  Note this will be the surface snow temperature in regions where snow covers the sea ice.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time
+out_name:          tsice
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    transiy
+!============
+modeling_realm:    seaIce
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     sea_ice_y_transport
+units:             kg s-1
+cell_methods:      time: mean
+long_name:         Y-Component of Sea Ice Mass Transport
+comment:           The sea ice mass transport is 0.0 in ice-free regions of the ocean.  Snow is included in calculation of mass.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time
+out_name:          transiy
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    transifs
+!============
+modeling_realm:    seaIce
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     sea_ice_transport_across_line
+units:             kg s-1
+cell_methods:      time: mean
+long_name:         Sea Ice Mass Transport Through Fram Strait
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        time
+out_name:          transifs
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    strairx
+!============
+modeling_realm:    seaIce
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     surface_downward_x_stress
+units:             N m-2
+cell_methods:      time: mean (weighted by area of sea ice)
+long_name:         X-Component of Atmospheric Stress On Sea Ice
+comment:           When computing the time-mean here, the time samples, weighted by the area of sea ice, are accumulated and then divided by the sum of the weights.   Reported as ""missing"" in regions free of sea ice. 
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time
+out_name:          strairx
+type:              real
+positive:          down
+!----------------------------------
+!
+
+!============
+variable_entry:    strairy
+!============
+modeling_realm:    seaIce
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     surface_downward_y_stress
+units:             N m-2
+cell_methods:      time: mean (weighted by area of sea ice)
+long_name:         Y-Component of Atmospheric Stress On Sea Ice
+comment:           When computing the time-mean here, the time samples, weighted by the area of sea ice, are accumulated and then divided by the sum of the weights.   Reported as ""missing"" in regions free of sea ice. 
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time
+out_name:          strairy
+type:              real
+positive:          down
+!----------------------------------
+!
+
+!============
+variable_entry:    strocnx
+!============
+modeling_realm:    seaIce ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     upward_x_stress_at_sea_ice_base
+units:             N m-2
+cell_methods:      time: mean (weighted by area of sea ice)
+long_name:         X-Component of Ocean Stress On Sea Ice
+comment:           When computing the time-mean here, the time samples, weighted by the area of sea ice, are accumulated and then divided by the sum of the weights.   Report as ""missing"" in regions free of sea ice. 
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time
+out_name:          strocnx
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    strocny
+!============
+modeling_realm:    seaIce ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     upward_y_stress_at_sea_ice_base
+units:             N m-2
+cell_methods:      time: mean (weighted by area of sea ice)
+long_name:         Y-Component of Ocean Stress On Sea Ice
+comment:           When computing the time-mean here, the time samples, weighted by the area of sea ice, are accumulated and then divided by the sum of the weights.   Reported as ""missing"" in regions free of sea ice. 
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time
+out_name:          strocny
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    streng
+!============
+modeling_realm:    seaIce
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     compressive_strength_of_sea_ice
+units:             N m-1
+cell_methods:      time: mean (weighted by area of sea ice)
+cell_measures:     area: areacello
+long_name:         Compressive Sea Ice Strength
+comment:           When computing the time-mean here, the time samples, weighted by the area of sea ice, are accumulated and then divided by the sum of the weights.   Reported as ""missing"" in regions free of sea ice. 
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time
+out_name:          streng
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    divice
+!============
+modeling_realm:    seaIce
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     divergence_of_sea_ice velocity
+units:             s-1
+cell_methods:      time: mean (weighted by area of sea ice)
+cell_measures:     area: areacello
+long_name:         Strain Rate Divergence of Sea Ice
+comment:           When computing the time-mean here, the time samples, weighted by the area of sea ice, are accumulated and then divided by the sum of the weights.   Reported as ""missing"" in regions free of sea ice. 
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time
+out_name:          divice
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    eshrice
+!============
+modeling_realm:    seaIce
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     eastward_derivative_of_northward_sea_ice_velocity
+units:             s-1
+cell_methods:      time: mean (weighted by area of sea ice)
+cell_measures:     area: areacello
+long_name:         Eastward Derivative of Northward Sea Ice Velocity
+comment:           When computing the time-mean here, the time samples, weighted by the area of sea ice, are accumulated and then divided by the sum of the weights.   Reported as ""missing"" in regions free of sea ice. 
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time
+out_name:          eshrice
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    nshrice
+!============
+modeling_realm:    seaIce
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     northward_derivative_of_eastward_sea_ice_velocity
+units:             s-1
+cell_methods:      time: mean (weighted by area of sea ice)
+cell_measures:     area: areacello
+long_name:         Northward Derivative of Eastward Sea Ice Velocity
+comment:           When computing the time-mean here, the time samples, weighted by the area of sea ice, are accumulated and then divided by the sum of the weights.   Reported as ""missing"" in regions free of sea ice. 
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time
+out_name:          nshrice
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    ridgice
+!============
+modeling_realm:    seaIce
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     tendency_of_sea_ice_area_fraction_due_to_ridging
+units:             s-1
+cell_methods:      time: mean (weighted by area of sea ice)
+cell_measures:     area: areacello
+long_name:         Sea Ice Ridging Rate
+comment:           When computing the time-mean here, the time samples, weighted by the area of sea ice, are accumulated and then divided by the sum of the weights.   Reported as ""missing"" in regions free of sea ice. 
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time
+out_name:          ridgice
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    usi
+!============
+modeling_realm:    seaIce ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     sea_ice_x_velocity
+units:             m s-1
+cell_methods:      time: mean
+long_name:         X-Component of sea ice velocity
+comment:           "Reported as ""missing"" in regions free of sea ice."
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time
+out_name:          usi
+type:              real
+!----------------------------------
+!
+
+!============
+variable_entry:    vsi
+!============
+modeling_realm:    seaIce ocean
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     sea_ice_y_velocity
+units:             m s-1
+cell_methods:      time: mean
+long_name:         Y-Component of Sea Ice Velocity
+comment:           "Reported as ""missing"" in regions free of sea ice."
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time
+out_name:          vsi
+type:              real
+!----------------------------------
+!
+

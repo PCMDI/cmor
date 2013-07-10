@@ -525,6 +525,7 @@ int cmor_time_varying_grid_coordinate(int *coord_grid_id, int  grid_id, char *ta
   else {
     ctype = *coordinate_type;
   }
+    printf("%s %i %s %s \n","before calling cmor_variable",ctype,"var:",table_entry);
   switch (ctype) {
   case (0) :
     ierr = cmor_variable(coord_grid_id,table_entry,units,1,axes,type,missing,NULL,NULL,NULL,NULL,NULL);
@@ -647,6 +648,7 @@ int cmor_grid(int *grid_id, int ndims, int *axes_ids, char type, void *lat, void
     axes[0]=-cmor_ngrids-CMOR_MAX_GRIDS;
     if (cmor_grids[cmor_ngrids].istimevarying != 1) {
       cmor_copy_data(&cmor_grids[cmor_ngrids].lats,lat,type,n);
+/*    printf("%s %i %s %s \n","before calling cmor_variable2",ctype,"var:",table_entry); */
       cmor_variable(&cmor_grids[cmor_ngrids].associated_variables[0],"latitude","degrees_north",1,&axes[0],'d',NULL,NULL,NULL,NULL,NULL,NULL);
       cmor_vars[cmor_grids[cmor_ngrids].associated_variables[0]].needsinit=0;
       /*     for (i=0;i<5;i++) { */

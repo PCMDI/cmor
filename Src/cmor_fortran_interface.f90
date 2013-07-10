@@ -71,14 +71,20 @@ module cmor_users_functions
   end interface
 
   interface 
-     function cmor_setup_cff_nolog(path,ncmode,verbosity,mode,crsub) result (j)
+     function cmor_setup_nospecs(path,ncmode,verbosity,mode,logfile,crsub) result (j)
        integer ncmode,verbosity,mode, j, crsub
+       character(*) path,logfile
+     end function cmor_setup_nospecs
+  end interface
+  interface 
+     function cmor_setup_cff_nolog(path,ncmode,verbosity,mode,crsub,specs) result (j)
+       integer ncmode,verbosity,mode, j, crsub, specs
        character(*) path
      end function cmor_setup_cff_nolog
   end interface
   interface 
-     function cmor_setup_cff(path,ncmode,verbosity,mode,logfile,crsub) result (j)
-       integer ncmode,verbosity,mode, j, crsub
+     function cmor_setup_cff(path,ncmode,verbosity,mode,logfile,crsub,specs) result (j)
+       integer ncmode,verbosity,mode, j, crsub, specs
        character(*) path, logfile
      end function cmor_setup_cff
   end interface
@@ -90,52 +96,106 @@ module cmor_users_functions
   end interface
 
   interface cmor_dataset_cff
-     function cmor_dataset_cff(outpath,experiment_id,institution,&
+     function cmor_dataset_cff_specs(outpath,experiment_id,institution,&
+          source,calendar,realization,contact,history,comment,&
+          references, leap_year,leap_month,month_lengths,model_id,&
+          forcing,initialization_method,physics_version,&!institute_id,&
+          parent_experiment_id,branch_time,project_id,initialization_description,forecast_ref_time,associated_model,physics_description,series,parent_experiment_rip) result (ierr)
+!          parent_experiment_id,branch_time,project_id,initialization_description,forecast_ref_time,associated_model,physics_description,batch,parent_experiment_rip) result (ierr)
+       character(*) :: outpath,experiment_id,institution,source,calendar,contact
+       character(*) :: history,comment,references,model_id,project_id,physics_description,forcing!,institute_id
+       character(*) :: parent_experiment_id,parent_experiment_rip,initialization_description,forecast_ref_time,associated_model,series
+       integer :: realization,leap_year,leap_month,month_lengths
+       integer :: ierr,initialization_method,physics_version
+       double precision branch_time
+     end function cmor_dataset_cff_specs
+     function cmor_dataset_cff_cmip5(outpath,experiment_id,institution,&
           source,calendar,realization,contact,history,comment,&
           references, leap_year,leap_month,month_lengths,model_id,&
           forcing,initialization_method,physics_version,institute_id,&
-          parent_exp_id,branch_time,parent_experiment_rip) result (ierr)
+          parent_experiment_id,branch_time,parent_experiment_rip) result (ierr) !project_id,initialization_description,forecast_ref_time,associated_model,physics_description,series,parent_experiment_rip) result (ierr)
+!          parent_experiment_id,branch_time,project_id,initialization_description,forecast_ref_time,associated_model,physics_description,batch,parent_experiment_rip) result (ierr)
        character(*) :: outpath,experiment_id,institution,source,calendar,contact
        character(*) :: history,comment,references,model_id,forcing,institute_id
-       character(*) :: parent_exp_id,parent_experiment_rip
+       character(*) :: parent_experiment_id,parent_experiment_rip!,initialization_description,forecast_ref_time,associated_model,series
        integer :: realization,leap_year,leap_month,month_lengths
-       integer :: ierr,initialization_method,physics_version
+       integer :: ierr,physics_version!,initialization_method
        double precision branch_time
-     end function cmor_dataset_cff
-     function cmor_dataset_cff_null(outpath,experiment_id,institution,&
+     end function cmor_dataset_cff_cmip5
+     function cmor_dataset_cff_null_specs(outpath,experiment_id,institution,&
           source,calendar,realization,contact,history,comment,&
-          references, leap_year,leap_month,model_id,forcing,&
-          initialization_method,physics_version,institute_id, &
-          parent_exp_id,branch_time,parent_experiment_rip) result (ierr)
-       character(*) :: outpath,experiment_id,institution,source,calendar,contact
-       character(*) :: history,comment,references,model_id,forcing,institute_id
-       character(*) :: parent_exp_id,parent_experiment_rip
+          references, leap_year,leap_month,model_id,&
+          forcing,initialization_method,physics_version,&!institute_id,&
+          parent_experiment_id,branch_time,project_id,initialization_description,forecast_ref_time,associated_model,physics_description,series,parent_experiment_rip) result (ierr)
+!          parent_experiment_id,branch_time,project_id,initialization_description,forecast_ref_time,associated_model,physics_description,batch,parent_experiment_rip) result (ierr)
+       character(*) :: outpath,experiment_id,institution,source,calendar,contact,initialization_description
+       character(*) :: history,comment,references,model_id,project_id,physics_description,forcing!,institute_id
+       character(*) :: parent_experiment_id,parent_experiment_rip,forecast_ref_time,associated_model,series
        integer :: realization,leap_year,leap_month
        integer :: ierr,initialization_method,physics_version
        double precision branch_time
-     end function cmor_dataset_cff_null
-     function cmor_dataset_cff_nobrch(outpath,experiment_id,institution,&
+     end function cmor_dataset_cff_null_specs
+     function cmor_dataset_cff_null_cmip5(outpath,experiment_id,institution,&
+          source,calendar,realization,contact,history,comment,&
+          references, leap_year,leap_month,model_id,&
+          forcing,initialization_method,physics_version,institute_id,&
+          parent_experiment_id,branch_time,parent_experiment_rip) result (ierr)!,project_id,initialization_description,forecast_ref_time,associated_model,physics_description,series,parent_experiment_rip) result (ierr)
+!          parent_experiment_id,branch_time,project_id,initialization_description,forecast_ref_time,associated_model,physics_description,batch,parent_experiment_rip) result (ierr)
+       character(*) :: outpath,experiment_id,institution,source,calendar,contact!,initialization_description
+       character(*) :: history,comment,references,model_id,forcing,institute_id
+       character(*) :: parent_experiment_id,parent_experiment_rip!,forecast_ref_time,associated_model,series
+       integer :: realization,leap_year,leap_month
+       integer :: ierr,physics_version!,initialization_method
+       double precision branch_time
+     end function cmor_dataset_cff_null_cmip5
+     function cmor_dataset_cff_nobrch_specs(outpath,experiment_id,institution,&
           source,calendar,realization,contact,history,comment,&
           references, leap_year,leap_month,month_lengths,model_id,&
-          forcing,initialization_method,physics_version,institute_id, &
-          parent_exp_id,parent_experiment_rip) result (ierr)
+          forcing,initialization_method,physics_version,&!institute_id,&
+          parent_experiment_id,project_id,initialization_description,forecast_ref_time,associated_model,physics_description,series,parent_experiment_rip) result (ierr)
+!          parent_experiment_id,project_id,initialization_description,forecast_ref_time,associated_model,physics_description,batch,parent_experiment_rip) result (ierr)
        character(*) :: outpath,experiment_id,institution,source,calendar,contact
-       character(*) :: history,comment,references,model_id,forcing,institute_id
-       character(*) :: parent_exp_id,parent_experiment_rip
+       character(*) :: history,comment,references,project_id,physics_description,model_id,forcing!,institute_id
+       character(*) :: parent_experiment_id,parent_experiment_rip,initialization_description,forecast_ref_time,associated_model,series
        integer :: realization,leap_year,leap_month,month_lengths
        integer :: ierr,initialization_method,physics_version
-     end function cmor_dataset_cff_nobrch
-     function cmor_dataset_cff_null_nobrch(outpath,experiment_id,institution,&
+     end function cmor_dataset_cff_nobrch_specs
+     function cmor_dataset_cff_nobrch_cmip5(outpath,experiment_id,institution,&
           source,calendar,realization,contact,history,comment,&
-          references, leap_year,leap_month,model_id,forcing,&
-          initialization_method,physics_version,institute_id, &
-          parent_exp_id,parent_experiment_rip) result (ierr)
+          references, leap_year,leap_month,month_lengths,model_id,&
+          forcing,initialization_method,physics_version,institute_id,&
+          parent_experiment_id,parent_experiment_rip) result (ierr)!,project_id,initialization_description,forecast_ref_time,associated_model,physics_description,series,parent_experiment_rip) result (ierr)
+!          parent_experiment_id,project_id,initialization_description,forecast_ref_time,associated_model,physics_description,batch,parent_experiment_rip) result (ierr)
        character(*) :: outpath,experiment_id,institution,source,calendar,contact
        character(*) :: history,comment,references,model_id,forcing,institute_id
-       character(*) :: parent_exp_id,parent_experiment_rip
+       character(*) :: parent_experiment_id,parent_experiment_rip!,initialization_description,forecast_ref_time,associated_model,series
+       integer :: realization,leap_year,leap_month,month_lengths
+       integer :: ierr,physics_version!,initialization_method
+     end function cmor_dataset_cff_nobrch_cmip5
+     function cmor_dataset_cff_null_nobrch_specs(outpath,experiment_id,institution,&
+          source,calendar,realization,contact,history,comment,&
+          references, leap_year,leap_month,model_id,&
+          forcing,initialization_method,physics_version,&!institute_id,&
+          parent_experiment_id,project_id,initialization_description,forecast_ref_time,associated_model,physics_description,series,parent_experiment_rip) result (ierr)
+!          parent_experiment_id,project_id,initialization_description,forecast_ref_time,associated_model,physics_description,batch,parent_experiment_rip) result (ierr)
+       character(*) :: outpath,experiment_id,institution,source,calendar,contact,initialization_description
+       character(*) :: history,comment,references,model_id,forcing,project_id!,institute_id
+       character(*) :: parent_experiment_id,parent_experiment_rip,physics_description,forecast_ref_time,associated_model,series
        integer :: realization,leap_year,leap_month
        integer :: ierr,initialization_method,physics_version
-     end function cmor_dataset_cff_null_nobrch
+     end function cmor_dataset_cff_null_nobrch_specs
+     function cmor_dataset_cff_null_nobrch_cmip5(outpath,experiment_id,institution,&
+          source,calendar,realization,contact,history,comment,&
+          references, leap_year,leap_month,model_id,&
+          forcing,initialization_method,physics_version,institute_id,&
+          parent_experiment_id,parent_experiment_rip) result (ierr)!,project_id,initialization_description,forecast_ref_time,associated_model,physics_description,series,parent_experiment_rip) result (ierr)
+!          parent_experiment_id,project_id,initialization_description,forecast_ref_time,associated_model,physics_description,batch,parent_experiment_rip) result (ierr)
+       character(*) :: outpath,experiment_id,institution,source,calendar,contact
+       character(*) :: history,comment,references,model_id,forcing,institute_id
+       character(*) :: parent_experiment_id,parent_experiment_rip!,physics_description,forecast_ref_time,associated_model,series
+       integer :: realization,leap_year,leap_month
+       integer :: ierr,initialization_method,physics_version
+     end function cmor_dataset_cff_null_nobrch_cmip5
   end interface
 
   interface 
@@ -165,7 +225,8 @@ module cmor_users_functions
        integer, intent(out):: axis_id
        character(*) table_entry,units,interval
        integer :: coord_vals,cell_bounds
-       integer cell_bounds_ndim, length
+       integer :: cell_bounds_ndim, length
+
        integer ierr
      end function cmor_axis_cff_int
   end interface
@@ -386,101 +447,213 @@ module cmor_users_functions
   end interface
 
   interface 
-     function cmor_write_cff_real(var_id,data,suffix,ntimes_passed, &
+     function cmor_write_cff_real_specs(var_id,data,suffix,ntimes_passed, &
+!     function cmor_write_cff_real_specs(var_id,lt_id,data,suffix,ntimes_passed, &
+          time_vals,reftime_vals,time_bounds,refvar) result(ierr)
+       integer var_id!,lt_id
+       real :: data
+       character(*) suffix
+       integer ntimes_passed
+       double precision time_vals, time_bounds, reftime_vals
+       integer refvar,ierr
+     end function cmor_write_cff_real_specs
+  end interface
+  interface 
+!     function cmor_write_cff_real_cmip5(var_id,data,suffix,ntimes_passed, &
+     function cmor_write_cff_real_cmip5(var_id,data,suffix,ntimes_passed, &
           time_vals,time_bounds,refvar) result(ierr)
        integer var_id
        real :: data
        character(*) suffix
        integer ntimes_passed
-       double precision time_vals, time_bounds
+       double precision time_vals, time_bounds!, reftime_vals
        integer refvar,ierr
-     end function cmor_write_cff_real
+     end function cmor_write_cff_real_cmip5
   end interface
   interface 
-     function cmor_write_cff_real_nobnds(var_id,data,suffix,ntimes_passed, &
+!     function cmor_write_cff_real_nobnds_specs(var_id,lt_id,data,suffix,ntimes_passed, &
+     function cmor_write_cff_real_nobnds_specs(var_id,data,suffix,ntimes_passed, &
+          time_vals,reftime_vals,refvar) result(ierr)
+       integer var_id!,lt_id
+       real :: data
+       character(*) suffix
+       integer ntimes_passed
+       double precision time_vals, reftime_vals
+       integer refvar,ierr
+     end function cmor_write_cff_real_nobnds_specs
+  end interface
+  interface 
+     function cmor_write_cff_real_nobnds_cmip5(var_id,data,suffix,ntimes_passed, &
           time_vals,refvar) result(ierr)
+!          time_vals,reftime_vals,refvar) result(ierr)
        integer var_id
        real :: data
        character(*) suffix
        integer ntimes_passed
-       double precision time_vals
+       double precision time_vals!, reftime_vals
        integer refvar,ierr
-     end function cmor_write_cff_real_nobnds
+     end function cmor_write_cff_real_nobnds_cmip5
   end interface
   interface 
-     function cmor_write_cff_real_notime(var_id,data,suffix,ntimes_passed, &
+     function cmor_write_cff_real_notime_specs(var_id,data,suffix,ntimes_passed, &
+!     function cmor_write_cff_real_notime_specs(var_id,lt_id,data,suffix,ntimes_passed, &
+          refvar) result(ierr)
+       integer var_id!,lt_id
+       real :: data
+       character(*) suffix
+       integer ntimes_passed
+       integer refvar,ierr
+     end function cmor_write_cff_real_notime_specs
+  end interface
+  interface 
+     function cmor_write_cff_real_notime_cmip5(var_id,data,suffix,ntimes_passed, &
           refvar) result(ierr)
        integer var_id
        real :: data
        character(*) suffix
        integer ntimes_passed
        integer refvar,ierr
-     end function cmor_write_cff_real_notime
+     end function cmor_write_cff_real_notime_cmip5
   end interface
   interface 
-     function cmor_write_cff_double(var_id,data,suffix,ntimes_passed, &
+     function cmor_write_cff_double_specs(var_id,data,suffix,ntimes_passed, &
+!     function cmor_write_cff_double_specs(var_id,lt_id,data,suffix,ntimes_passed, &
+          time_vals,reftime_vals,time_bounds,refvar) result(ierr)
+       integer var_id!,lt_id
+       double precision :: data
+       character(*) suffix
+       integer ntimes_passed
+       double precision time_vals, time_bounds, reftime_vals
+       integer refvar,ierr
+     end function cmor_write_cff_double_specs
+  end interface
+  interface 
+     function cmor_write_cff_double_cmip5(var_id,data,suffix,ntimes_passed, &
           time_vals,time_bounds,refvar) result(ierr)
+!          time_vals,reftime_vals,time_bounds,refvar) result(ierr)
        integer var_id
        double precision :: data
        character(*) suffix
        integer ntimes_passed
-       double precision time_vals, time_bounds
+       double precision time_vals, time_bounds!, reftime_vals
        integer refvar,ierr
-     end function cmor_write_cff_double
+     end function cmor_write_cff_double_cmip5
   end interface
   interface 
-     function cmor_write_cff_double_nobnds(var_id,data,suffix,ntimes_passed, &
+     function cmor_write_cff_double_nobnds_specs(var_id,data,suffix,ntimes_passed, &
+!     function cmor_write_cff_double_nobnds_specs(var_id,lt_id,data,suffix,ntimes_passed, &
+          time_vals,reftime_vals,refvar) result(ierr)
+       integer var_id!,lt_id
+       double precision:: data
+       character(*) suffix
+       integer ntimes_passed
+       double precision time_vals, reftime_vals
+       integer refvar,ierr
+     end function cmor_write_cff_double_nobnds_specs
+  end interface
+  interface 
+     function cmor_write_cff_double_nobnds_cmip5(var_id,data,suffix,ntimes_passed, &
           time_vals,refvar) result(ierr)
+!          time_vals,reftime_vals,refvar) result(ierr)
        integer var_id
        double precision:: data
        character(*) suffix
        integer ntimes_passed
-       double precision time_vals
+       double precision time_vals!, reftime_vals
        integer refvar,ierr
-     end function cmor_write_cff_double_nobnds
+     end function cmor_write_cff_double_nobnds_cmip5
   end interface
   interface 
-     function cmor_write_cff_double_notime(var_id,data,suffix,ntimes_passed, &
+     function cmor_write_cff_double_notime_specs(var_id,data,suffix,ntimes_passed, &
+!     function cmor_write_cff_double_notime_specs(var_id,lt_id,data,suffix,ntimes_passed, &
+          refvar) result(ierr)
+       integer var_id!,lt_id
+       double precision :: data
+       character(*) suffix
+       integer ntimes_passed
+       integer refvar,ierr
+     end function cmor_write_cff_double_notime_specs
+  end interface
+  interface 
+     function cmor_write_cff_double_notime_cmip5(var_id,data,suffix,ntimes_passed, &
           refvar) result(ierr)
        integer var_id
        double precision :: data
        character(*) suffix
        integer ntimes_passed
        integer refvar,ierr
-     end function cmor_write_cff_double_notime
+     end function cmor_write_cff_double_notime_cmip5
   end interface
   interface 
-     function cmor_write_cff_int(var_id,data,suffix,ntimes_passed, &
+     function cmor_write_cff_int_specs(var_id,data,suffix,ntimes_passed, &
+!     function cmor_write_cff_int_specs(var_id,lt_id,data,suffix,ntimes_passed, &
+          time_vals,reftime_vals,time_bounds,refvar) result(ierr)
+       integer var_id!,lt_id
+       integer :: data
+       character(*) suffix
+       integer ntimes_passed
+       double precision time_vals, time_bounds, reftime_vals
+       integer refvar,ierr
+     end function cmor_write_cff_int_specs
+  end interface
+  interface 
+     function cmor_write_cff_int_cmip5(var_id,data,suffix,ntimes_passed, &
           time_vals,time_bounds,refvar) result(ierr)
+!          time_vals,reftime_vals,time_bounds,refvar) result(ierr)
        integer var_id
        integer :: data
        character(*) suffix
        integer ntimes_passed
-       double precision time_vals, time_bounds
+       double precision time_vals, time_bounds!, reftime_vals
        integer refvar,ierr
-     end function cmor_write_cff_int
+     end function cmor_write_cff_int_cmip5
   end interface
   interface 
-     function cmor_write_cff_int_nobnds(var_id,data,suffix,ntimes_passed, &
+     function cmor_write_cff_int_nobnds_specs(var_id,data,suffix,ntimes_passed, &
+!     function cmor_write_cff_int_nobnds_specs(var_id,lt_id,data,suffix,ntimes_passed, &
+          time_vals,reftime_vals,refvar) result(ierr)
+       integer var_id!,lt_id
+       integer :: data
+       character(*) suffix
+       integer ntimes_passed
+       double precision time_vals, reftime_vals
+       integer refvar,ierr
+     end function cmor_write_cff_int_nobnds_specs
+  end interface
+  interface 
+     function cmor_write_cff_int_nobnds_cmip5(var_id,data,suffix,ntimes_passed, &
           time_vals,refvar) result(ierr)
+!          time_vals,reftime_vals,refvar) result(ierr)
        integer var_id
        integer :: data
        character(*) suffix
        integer ntimes_passed
-       double precision time_vals
+       double precision time_vals!, reftime_vals
        integer refvar,ierr
-     end function cmor_write_cff_int_nobnds
+     end function cmor_write_cff_int_nobnds_cmip5
   end interface
   interface 
-     function cmor_write_cff_int_notime(var_id,data,suffix,ntimes_passed, &
+     function cmor_write_cff_int_notime_specs(var_id,data,suffix,ntimes_passed, &
+!     function cmor_write_cff_int_notime_specs(var_id,lt_id,data,suffix,ntimes_passed, &
+          refvar) result(ierr)
+       integer var_id!,lt_id
+       integer :: data
+       character(*) suffix
+       integer ntimes_passed
+       integer refvar,ierr
+     end function cmor_write_cff_int_notime_specs
+  end interface
+  interface 
+     function cmor_write_cff_int_notime_cmip5(var_id,data,suffix,ntimes_passed, &
           refvar) result(ierr)
        integer var_id
        integer :: data
        character(*) suffix
        integer ntimes_passed
        integer refvar,ierr
-     end function cmor_write_cff_int_notime
+     end function cmor_write_cff_int_notime_cmip5
   end interface
+!!$  interface 
 !!$  interface 
 !!$     function cmor_write_cff_long(var_id,data,suffix,ntimes_passed, &
 !!$          time_vals,time_bounds,refvar) result(ierr)
@@ -947,6 +1120,7 @@ module cmor_users_functions
   integer, parameter:: CMOR_PRESERVE = CMOR_PRESERVE_3
   integer, parameter:: CMOR_APPEND = CMOR_APPEND_3
   integer, parameter:: CMOR_REPLACE = CMOR_REPLACE_3
+  integer :: CMOR_SPECS
 
   interface cmor_zfactor
      module procedure cmor_zfactor_double
@@ -4077,15 +4251,17 @@ contains
 
 
   FUNCTION cmor_write_1d_r(var_id, data, file_suffix, ntimes_passed,  &
-        time_vals,time_bnds,store_with) RESULT(ierr)
+!  FUNCTION cmor_write_1d_r(var_id,lt_id, data, file_suffix, ntimes_passed,  &
+        time_vals,reftime_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     REAL, target :: data(:)
     REAL, pointer :: mdata(:)
     real, pointer :: pdata(:)
     INTEGER, INTENT(in) ::var_id
+!    INTEGER, INTENT(in), OPTIONAL :: lt_id
     CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
-    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
+    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:),reftime_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
@@ -4116,15 +4292,35 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_real(var_id,pdata(1),suf,ntp,&
+        if(CMOR_SPECS==1)then
+!          ierr = cmor_write_cff_real_specs(var_id,lt_id,pdata(1),suf,ntp,&
+          ierr = cmor_write_cff_real_specs(var_id,pdata(1),suf,ntp,&
+               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        else
+          ierr = cmor_write_cff_real_cmip5(var_id,pdata(1),suf,ntp,&
                time_vals(1),time_bnds(1,1),refvar)
+!               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        endif
        else
-          ierr = cmor_write_cff_real_nobnds(var_id,pdata(1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_real_nobnds_specs(var_id,lt_id,pdata(1),suf,ntp,&
+          ierr = cmor_write_cff_real_nobnds_specs(var_id,pdata(1),suf,ntp,&
+               time_vals(1),reftime_vals(1),refvar)
+        else
+          ierr = cmor_write_cff_real_nobnds_cmip5(var_id,pdata(1),suf,ntp,&
                time_vals(1),refvar)
+!               time_vals(1),reftime_vals(1),refvar)
+        endif
        end if
     else
-       ierr = cmor_write_cff_real_notime(var_id,pdata(1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!       ierr = cmor_write_cff_real_notime_specs(var_id,lt_id,pdata(1),suf,ntp,&
+       ierr = cmor_write_cff_real_notime_specs(var_id,pdata(1),suf,ntp,&
             refvar)
+         else
+       ierr = cmor_write_cff_real_notime_cmip5(var_id,pdata(1),suf,ntp,&
+            refvar)
+        endif
     endif
     if (did_malloc.eq.1) then
        deallocate(mdata)
@@ -4132,16 +4328,19 @@ contains
     nullify(pdata)
     
   END FUNCTION cmor_write_1d_r
+!  FUNCTION cmor_write_2d_r(var_id,lt_id, data, file_suffix, ntimes_passed,  &
   FUNCTION cmor_write_2d_r(var_id, data, file_suffix, ntimes_passed,  &
-        time_vals,time_bnds,store_with) RESULT(ierr)
+        time_vals,reftime_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     REAL,target :: data(:,:)
     REAL,pointer :: mdata(:,:)
     REAL, pointer :: pdata(:,:)
     INTEGER, INTENT(in) ::var_id
+!    INTEGER, INTENT(in), OPTIONAL :: lt_id
     CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
+    DOUBLE PRECISION, INTENT(in), OPTIONAL :: reftime_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
@@ -4172,15 +4371,35 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_real(var_id,pdata(1,1),suf,ntp,&
-               time_vals(1),time_bnds(1,1),refvar)
+        if(CMOR_SPECS==1)then
+!          ierr = cmor_write_cff_real_specs(var_id,lt_id,pdata(1,1),suf,ntp,&
+          ierr = cmor_write_cff_real_specs(var_id,pdata(1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
        else
-          ierr = cmor_write_cff_real_nobnds(var_id,pdata(1,1),suf,ntp,&
+          ierr = cmor_write_cff_real_cmip5(var_id,pdata(1,1),suf,ntp,&
+               time_vals(1),time_bnds(1,1),refvar)
+!               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+       endif
+       else
+        if(CMOR_SPECS==1)then
+!          ierr = cmor_write_cff_real_nobnds_specs(var_id,lt_id,pdata(1,1),suf,ntp,&
+          ierr = cmor_write_cff_real_nobnds_specs(var_id,pdata(1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),refvar)
+       else
+          ierr = cmor_write_cff_real_nobnds_cmip5(var_id,pdata(1,1),suf,ntp,&
                time_vals(1),refvar)
+!               time_vals(1),reftime_vals(1),refvar)
+       endif
        end if
     else
-       ierr = cmor_write_cff_real_notime(var_id,pdata(1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then
+!       ierr = cmor_write_cff_real_notime_specs(var_id,lt_id,pdata(1,1),suf,ntp,&
+       ierr = cmor_write_cff_real_notime_specs(var_id,pdata(1,1),suf,ntp,&
             refvar)
+       else
+       ierr = cmor_write_cff_real_notime_cmip5(var_id,pdata(1,1),suf,ntp,&
+            refvar)
+       endif
     endif
     if (did_malloc.eq.1) then
        deallocate(mdata)
@@ -4188,16 +4407,18 @@ contains
     nullify(pdata)
     
   END FUNCTION cmor_write_2d_r
+!  FUNCTION cmor_write_3d_r(var_id,lt_id, data, file_suffix, ntimes_passed,  &
   FUNCTION cmor_write_3d_r(var_id, data, file_suffix, ntimes_passed,  &
-        time_vals,time_bnds,store_with) RESULT(ierr)
+        time_vals,reftime_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     REAL, target :: data(:,:,:)
     REAL, pointer :: mdata(:,:,:)
     REAL, pointer :: pdata(:,:,:)
-    INTEGER, INTENT(in) ::var_id
+    INTEGER, INTENT(in) ::var_id!,lt_id
+!    INTEGER, INTENT(in), OPTIONAL :: lt_id
     CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
-    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
+    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:),reftime_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
@@ -4229,15 +4450,35 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_real(var_id,pdata(1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then
+!          ierr = cmor_write_cff_real_specs(var_id,lt_id,pdata(1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_real_specs(var_id,pdata(1,1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        else
+          ierr = cmor_write_cff_real_cmip5(var_id,pdata(1,1,1),suf,ntp,&
                time_vals(1),time_bnds(1,1),refvar)
+!               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        endif
        else
-          ierr = cmor_write_cff_real_nobnds(var_id,pdata(1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then
+!          ierr = cmor_write_cff_real_nobnds_specs(var_id,lt_id,pdata(1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_real_nobnds_specs(var_id,pdata(1,1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),refvar)
+        else
+          ierr = cmor_write_cff_real_nobnds_cmip5(var_id,pdata(1,1,1),suf,ntp,&
                time_vals(1),refvar)
+!               time_vals(1),reftime_vals(1),refvar)
+        endif
        end if
     else
-       ierr = cmor_write_cff_real_notime(var_id,pdata(1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then
+!       ierr = cmor_write_cff_real_notime_specs(var_id,lt_id,pdata(1,1,1),suf,ntp,&
+       ierr = cmor_write_cff_real_notime_specs(var_id,pdata(1,1,1),suf,ntp,&
             refvar)
+        else
+       ierr = cmor_write_cff_real_notime_cmip5(var_id,pdata(1,1,1),suf,ntp,&
+            refvar)
+        endif
     endif
     if (did_malloc.eq.1) then
        deallocate(mdata)
@@ -4245,16 +4486,18 @@ contains
        nullify(pdata)
    
   END FUNCTION cmor_write_3d_r
+!  FUNCTION cmor_write_4d_r(var_id,lt_id, data, file_suffix, ntimes_passed,  &
   FUNCTION cmor_write_4d_r(var_id, data, file_suffix, ntimes_passed,  &
-        time_vals,time_bnds,store_with) RESULT(ierr)
+        time_vals,reftime_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     REAL, target :: data(:,:,:,:)
     REAL, pointer :: mdata(:,:,:,:)
     REAL, pointer :: pdata(:,:,:,:)
-    INTEGER, INTENT(in) ::var_id
+    INTEGER, INTENT(in) ::var_id!,lt_id
+!    INTEGER, INTENT(in), OPTIONAL :: lt_id
     CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
-    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
+    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:),reftime_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,vshape(7),did_malloc
@@ -4285,31 +4528,53 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_real(var_id,pdata(1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then
+!          ierr = cmor_write_cff_real_specs(var_id,lt_id,pdata(1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_real_specs(var_id,pdata(1,1,1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        else
+          ierr = cmor_write_cff_real_cmip5(var_id,pdata(1,1,1,1),suf,ntp,&
                time_vals(1),time_bnds(1,1),refvar)
+!               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        endif
        else
-          ierr = cmor_write_cff_real_nobnds(var_id,pdata(1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then
+!          ierr = cmor_write_cff_real_nobnds_specs(var_id,lt_id,pdata(1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_real_nobnds_specs(var_id,pdata(1,1,1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),refvar)
+        else
+          ierr = cmor_write_cff_real_nobnds_cmip5(var_id,pdata(1,1,1,1),suf,ntp,&
                time_vals(1),refvar)
+!               time_vals(1),reftime_vals(1),refvar)
+        endif
        end if
     else
-       ierr = cmor_write_cff_real_notime(var_id,pdata(1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then
+!       ierr = cmor_write_cff_real_notime_specs(var_id,lt_id,pdata(1,1,1,1),suf,ntp,&
+       ierr = cmor_write_cff_real_notime_specs(var_id,pdata(1,1,1,1),suf,ntp,&
             refvar)
+        else
+       ierr = cmor_write_cff_real_notime_cmip5(var_id,pdata(1,1,1,1),suf,ntp,&
+            refvar)
+        endif
     endif
     if (did_malloc.eq.1) then
        deallocate(mdata)
     endif
        nullify(pdata)
   END FUNCTION cmor_write_4d_r
+!  FUNCTION cmor_write_5d_r(var_id, lt_id, data, file_suffix, ntimes_passed,  &
   FUNCTION cmor_write_5d_r(var_id, data, file_suffix, ntimes_passed,  &
-        time_vals,time_bnds,store_with) RESULT(ierr)
+        time_vals,reftime_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     REAL, target :: data(:,:,:,:,:)
     REAL, pointer :: mdata(:,:,:,:,:)
     REAL, pointer :: pdata(:,:,:,:,:)
-    INTEGER, INTENT(in) ::var_id
+    INTEGER, INTENT(in) ::var_id!,lt_id
+!    INTEGER, INTENT(in), OPTIONAL :: lt_id
     CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
-    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
+    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:),reftime_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
@@ -4340,15 +4605,35 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_real(var_id,pdata(1,1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then
+!          ierr = cmor_write_cff_real_specs(var_id,lt_id,pdata(1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_real_specs(var_id,pdata(1,1,1,1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        else
+          ierr = cmor_write_cff_real_cmip5(var_id,pdata(1,1,1,1,1),suf,ntp,&
                time_vals(1),time_bnds(1,1),refvar)
+!               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        endif
        else
-          ierr = cmor_write_cff_real_nobnds(var_id,pdata(1,1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then
+!          ierr = cmor_write_cff_real_nobnds_specs(var_id,lt_id,pdata(1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_real_nobnds_specs(var_id,pdata(1,1,1,1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),refvar)
+        else
+          ierr = cmor_write_cff_real_nobnds_cmip5(var_id,pdata(1,1,1,1,1),suf,ntp,&
                time_vals(1),refvar)
+!               time_vals(1),reftime_vals(1),refvar)
+        endif
        end if
     else
-       ierr = cmor_write_cff_real_notime(var_id,pdata(1,1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then
+!       ierr = cmor_write_cff_real_notime_specs(var_id,lt_id,pdata(1,1,1,1,1),suf,ntp,&
+       ierr = cmor_write_cff_real_notime_specs(var_id,pdata(1,1,1,1,1),suf,ntp,&
             refvar)
+        else
+       ierr = cmor_write_cff_real_notime_cmip5(var_id,pdata(1,1,1,1,1),suf,ntp,&
+            refvar)
+        endif
     endif
     if (did_malloc.eq.1) then
        deallocate(mdata)
@@ -4356,16 +4641,18 @@ contains
     nullify(pdata)
     
   END FUNCTION cmor_write_5d_r
+!  FUNCTION cmor_write_6d_r(var_id, lt_id, data, file_suffix, ntimes_passed,  &
   FUNCTION cmor_write_6d_r(var_id, data, file_suffix, ntimes_passed,  &
-        time_vals,time_bnds,store_with) RESULT(ierr)
+        time_vals,reftime_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     REAL, target :: data(:,:,:,:,:,:)
     REAL, pointer :: mdata(:,:,:,:,:,:)
     REAL, pointer :: pdata(:,:,:,:,:,:)
-    INTEGER, INTENT(in) ::var_id
+    INTEGER, INTENT(in) ::var_id!,lt_id
+!    INTEGER, INTENT(in), OPTIONAL :: lt_id
     CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
-    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
+    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:),reftime_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
@@ -4397,15 +4684,35 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_real(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_real_specs(var_id,lt_id,pdata(1,1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_real_specs(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        else
+          ierr = cmor_write_cff_real_cmip5(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
                time_vals(1),time_bnds(1,1),refvar)
+!               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        endif
        else
-          ierr = cmor_write_cff_real_nobnds(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_real_nobnds_specs(var_id,lt_id,pdata(1,1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_real_nobnds_specs(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),refvar)
+        else
+          ierr = cmor_write_cff_real_nobnds_cmip5(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
                time_vals(1),refvar)
+!               time_vals(1),reftime_vals(1),refvar)
+        endif
        end if
     else
-       ierr = cmor_write_cff_real_notime(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!       ierr = cmor_write_cff_real_notime_specs(var_id,lt_id,pdata(1,1,1,1,1,1),suf,ntp,&
+       ierr = cmor_write_cff_real_notime_specs(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
             refvar)
+        else
+       ierr = cmor_write_cff_real_notime_cmip5(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
+            refvar)
+        endif
     endif
     if (did_malloc.eq.1) then
        deallocate(mdata)
@@ -4413,16 +4720,18 @@ contains
     nullify(pdata)
    
   END FUNCTION cmor_write_6d_r
+!  FUNCTION cmor_write_7d_r(var_id, lt_id, data, file_suffix, ntimes_passed,  &
   FUNCTION cmor_write_7d_r(var_id, data, file_suffix, ntimes_passed,  &
-        time_vals,time_bnds,store_with) RESULT(ierr)
+        time_vals,reftime_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     REAL, target :: data(:,:,:,:,:,:,:)
     REAL, pointer :: mdata(:,:,:,:,:,:,:)
     REAL, pointer :: pdata(:,:,:,:,:,:,:)
-    INTEGER, INTENT(in) ::var_id
+    INTEGER, INTENT(in) ::var_id!,lt_id
+!    INTEGER, INTENT(in), OPTIONAL :: lt_id
     CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
-    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
+    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:),reftime_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
@@ -4453,15 +4762,35 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_real(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_real_specs(var_id,lt_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_real_specs(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        else
+          ierr = cmor_write_cff_real_cmip5(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
                time_vals(1),time_bnds(1,1),refvar)
+!               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        endif
        else
-          ierr = cmor_write_cff_real_nobnds(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_real_nobnds_specs(var_id,lt_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_real_nobnds_specs(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),refvar)
+        else
+          ierr = cmor_write_cff_real_nobnds_cmip5(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
                time_vals(1),refvar)
+!               time_vals(1),reftime_vals(1),refvar)
+        endif
        end if
     else
-       ierr = cmor_write_cff_real_notime(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!       ierr = cmor_write_cff_real_notime_specs(var_id,lt_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+       ierr = cmor_write_cff_real_notime_specs(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
             refvar)
+        else
+       ierr = cmor_write_cff_real_notime_cmip5(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+            refvar)
+        endif
     endif
     if (did_malloc.eq.1) then
        deallocate(pdata)
@@ -4469,16 +4798,18 @@ contains
     nullify(pdata)
   END FUNCTION cmor_write_7d_r
 
+!  FUNCTION cmor_write_1d_d(var_id, lt_id, data, file_suffix, ntimes_passed,  &
   FUNCTION cmor_write_1d_d(var_id, data, file_suffix, ntimes_passed,  &
-        time_vals,time_bnds,store_with) RESULT(ierr)
+        time_vals,reftime_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     DOUBLE PRECISION,target :: data(:)
     DOUBLE PRECISION,pointer :: mdata(:)
     DOUBLE PRECISION, pointer:: pdata(:)
-    INTEGER, INTENT(in) ::var_id
+    INTEGER, INTENT(in) ::var_id!,lt_id
+!    INTEGER, INTENT(in), OPTIONAL :: lt_id
     CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
-    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
+    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:),reftime_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,vshape(7),did_malloc
@@ -4508,31 +4839,53 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_double(var_id,pdata(1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_double_specs(var_id,lt_id,pdata(1),suf,ntp,&
+          ierr = cmor_write_cff_double_specs(var_id,pdata(1),suf,ntp,&
+               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        else
+          ierr = cmor_write_cff_double_cmip5(var_id,pdata(1),suf,ntp,&
                time_vals(1),time_bnds(1,1),refvar)
+!               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        endif
        else
-          ierr = cmor_write_cff_double_nobnds(var_id,pdata(1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_double_nobnds_specs(var_id,lt_id,pdata(1),suf,ntp,&
+          ierr = cmor_write_cff_double_nobnds_specs(var_id,pdata(1),suf,ntp,&
+               time_vals(1),reftime_vals(1),refvar)
+        else
+          ierr = cmor_write_cff_double_nobnds_cmip5(var_id,pdata(1),suf,ntp,&
                time_vals(1),refvar)
+!               time_vals(1),reftime_vals(1),refvar)
+        endif
        end if
     else
-       ierr = cmor_write_cff_double_notime(var_id,pdata(1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!       ierr = cmor_write_cff_double_notime_specs(var_id,lt_id,pdata(1),suf,ntp,&
+       ierr = cmor_write_cff_double_notime_specs(var_id,pdata(1),suf,ntp,&
             refvar)
+        else
+       ierr = cmor_write_cff_double_notime_cmip5(var_id,pdata(1),suf,ntp,&
+            refvar)
+        endif
     endif
     if (did_malloc.eq.1) then
        deallocate(mdata)
     end if
     nullify(pdata)
   END FUNCTION cmor_write_1d_d
+!  FUNCTION cmor_write_2d_d(var_id, lt_id, data, file_suffix, ntimes_passed,  &
   FUNCTION cmor_write_2d_d(var_id, data, file_suffix, ntimes_passed,  &
-        time_vals,time_bnds,store_with) RESULT(ierr)
+        time_vals,reftime_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     DOUBLE PRECISION,target :: data(:,:)
     DOUBLE PRECISION,pointer :: mdata(:,:)
     DOUBLE PRECISION, pointer :: pdata(:,:)
-    INTEGER, INTENT(in) ::var_id
+    INTEGER, INTENT(in) ::var_id!,lt_id
+!    INTEGER, INTENT(in), OPTIONAL :: lt_id
     CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
-    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
+    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:),reftime_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
@@ -4563,15 +4916,35 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_double(var_id,data(1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_double_specs(var_id,lt_id,data(1,1),suf,ntp,&
+          ierr = cmor_write_cff_double_specs(var_id,data(1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        else
+          ierr = cmor_write_cff_double_cmip5(var_id,data(1,1),suf,ntp,&
                time_vals(1),time_bnds(1,1),refvar)
+!               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        endif
        else
-          ierr = cmor_write_cff_double_nobnds(var_id,data(1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_double_nobnds_specs(var_id,lt_id,data(1,1),suf,ntp,&
+          ierr = cmor_write_cff_double_nobnds_specs(var_id,data(1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),refvar)
+        else
+          ierr = cmor_write_cff_double_nobnds_cmip5(var_id,data(1,1),suf,ntp,&
                time_vals(1),refvar)
+!               time_vals(1),reftime_vals(1),refvar)
+        endif
        end if
     else
-       ierr = cmor_write_cff_double_notime(var_id,data(1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!       ierr = cmor_write_cff_double_notime_specs(var_id,lt_id,data(1,1),suf,ntp,&
+       ierr = cmor_write_cff_double_notime_specs(var_id,data(1,1),suf,ntp,&
             refvar)
+        else
+       ierr = cmor_write_cff_double_notime_cmip5(var_id,data(1,1),suf,ntp,&
+            refvar)
+        endif
     endif
     if (did_malloc.eq.1) then
        deallocate(mdata)
@@ -4579,16 +4952,18 @@ contains
     nullify(pdata)
    
   END FUNCTION cmor_write_2d_d
+!  FUNCTION cmor_write_3d_d(var_id, lt_id, data, file_suffix, ntimes_passed,  &
   FUNCTION cmor_write_3d_d(var_id, data, file_suffix, ntimes_passed,  &
-        time_vals,time_bnds,store_with) RESULT(ierr)
+        time_vals,reftime_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     DOUBLE PRECISION , target:: data(:,:,:)
     DOUBLE PRECISION , pointer:: mdata(:,:,:)
     DOUBLE PRECISION, pointer :: pdata(:,:,:)
-    INTEGER, INTENT(in) ::var_id
+    INTEGER, INTENT(in) ::var_id!,lt_id
+!    INTEGER, INTENT(in), OPTIONAL :: lt_id
     CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
-    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
+    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:),reftime_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
@@ -4618,15 +4993,35 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_double(var_id,pdata(1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_double_specs(var_id,lt_id,pdata(1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_double_specs(var_id,pdata(1,1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        else
+          ierr = cmor_write_cff_double_cmip5(var_id,pdata(1,1,1),suf,ntp,&
                time_vals(1),time_bnds(1,1),refvar)
+!               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        endif
        else
-          ierr = cmor_write_cff_double_nobnds(var_id,pdata(1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_double_nobnds_specs(var_id,lt_id,pdata(1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_double_nobnds_specs(var_id,pdata(1,1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),refvar)
+        else
+          ierr = cmor_write_cff_double_nobnds_cmip5(var_id,pdata(1,1,1),suf,ntp,&
                time_vals(1),refvar)
+!               time_vals(1),reftime_vals(1),refvar)
+        endif
        end if
     else
-       ierr = cmor_write_cff_double_notime(var_id,pdata(1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!       ierr = cmor_write_cff_double_notime_specs(var_id,lt_id,pdata(1,1,1),suf,ntp,&
+       ierr = cmor_write_cff_double_notime_specs(var_id,pdata(1,1,1),suf,ntp,&
             refvar)
+        else
+       ierr = cmor_write_cff_double_notime_cmip5(var_id,pdata(1,1,1),suf,ntp,&
+            refvar)
+        endif
     endif
     if (did_malloc.eq.1) then
        deallocate(mdata)
@@ -4634,15 +5029,17 @@ contains
     nullify(pdata)
   END FUNCTION cmor_write_3d_d
 
+!  FUNCTION cmor_write_4d_d(var_id, lt_id, data, file_suffix, ntimes_passed,  &
   FUNCTION cmor_write_4d_d(var_id, data, file_suffix, ntimes_passed,  &
-        time_vals,time_bnds,store_with) RESULT(ierr)
+        time_vals,reftime_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     DOUBLE PRECISION, INTENT(IN), target :: data(:,:,:,:)
     DOUBLE PRECISION, pointer :: mdata(:,:,:,:)
-    INTEGER, INTENT(in) ::var_id
+    INTEGER, INTENT(in) ::var_id!,lt_id
+!    INTEGER, INTENT(in), OPTIONAL :: lt_id
     CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
-    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
+    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:),reftime_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp
@@ -4676,29 +5073,52 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_double(var_id,pdata(1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_double_specs(var_id,lt_id,pdata(1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_double_specs(var_id,pdata(1,1,1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        else
+          ierr = cmor_write_cff_double_cmip5(var_id,pdata(1,1,1,1),suf,ntp,&
                time_vals(1),time_bnds(1,1),refvar)
+!               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        endif
        else
-          ierr = cmor_write_cff_double_nobnds(var_id,pdata(1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_double_nobnds_specs(var_id,lt_id,pdata(1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_double_nobnds_specs(var_id,pdata(1,1,1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),refvar)
+        else
+          ierr = cmor_write_cff_double_nobnds_cmip5(var_id,pdata(1,1,1,1),suf,ntp,&
                time_vals(1),refvar)
+!               time_vals(1),reftime_vals(1),refvar)
+        endif
        end if
     else
-       ierr = cmor_write_cff_double_notime(var_id,pdata(1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!       ierr = cmor_write_cff_double_notime_specs(var_id,lt_id,pdata(1,1,1,1),suf,ntp,&
+       ierr = cmor_write_cff_double_notime_specs(var_id,pdata(1,1,1,1),suf,ntp,&
             refvar)
+        else
+       ierr = cmor_write_cff_double_notime_cmip5(var_id,pdata(1,1,1,1),suf,ntp,&
+            refvar)
+        endif
     endif
     if (did_malloc.eq.1) deallocate(mdata)
     nullify(pdata)
   END FUNCTION cmor_write_4d_d
+!  FUNCTION cmor_write_5d_d(var_id, lt_id, data, file_suffix, ntimes_passed,  &
   FUNCTION cmor_write_5d_d(var_id, data, file_suffix, ntimes_passed,  &
-        time_vals,time_bnds,store_with) RESULT(ierr)
+        time_vals,reftime_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     DOUBLE PRECISION, target :: data(:,:,:,:,:)
     DOUBLE PRECISION, pointer :: mdata(:,:,:,:,:)
     DOUBLE PRECISION, pointer :: pdata(:,:,:,:,:)
-    INTEGER, INTENT(in) ::var_id
+    INTEGER, INTENT(in) ::var_id!,lt_id
+!    INTEGER, INTENT(in), OPTIONAL :: lt_id
     CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
+    DOUBLE PRECISION, INTENT(in), OPTIONAL :: reftime_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
@@ -4728,31 +5148,53 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_double(var_id,pdata(1,1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_double_specs(var_id,lt_id,pdata(1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_double_specs(var_id,pdata(1,1,1,1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        else
+          ierr = cmor_write_cff_double_cmip5(var_id,pdata(1,1,1,1,1),suf,ntp,&
                time_vals(1),time_bnds(1,1),refvar)
+!               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        endif
        else
-          ierr = cmor_write_cff_double_nobnds(var_id,pdata(1,1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_double_nobnds_specs(var_id,lt_id,pdata(1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_double_nobnds_specs(var_id,pdata(1,1,1,1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),refvar)
+        else
+          ierr = cmor_write_cff_double_nobnds_cmip5(var_id,pdata(1,1,1,1,1),suf,ntp,&
                time_vals(1),refvar)
+!               time_vals(1),reftime_vals(1),refvar)
+        endif
        end if
     else
-       ierr = cmor_write_cff_double_notime(var_id,pdata(1,1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!       ierr = cmor_write_cff_double_notime_specs(var_id,lt_id,pdata(1,1,1,1,1),suf,ntp,&
+       ierr = cmor_write_cff_double_notime_specs(var_id,pdata(1,1,1,1,1),suf,ntp,&
             refvar)
+        else
+       ierr = cmor_write_cff_double_notime_cmip5(var_id,pdata(1,1,1,1,1),suf,ntp,&
+            refvar)
+        endif
     endif
     if (did_malloc.eq.1) then
        deallocate(mdata)
     endif
     nullify(pdata)
   END FUNCTION cmor_write_5d_d
+!  FUNCTION cmor_write_6d_d(var_id, lt_id, data, file_suffix, ntimes_passed,  &
   FUNCTION cmor_write_6d_d(var_id, data, file_suffix, ntimes_passed,  &
-        time_vals,time_bnds,store_with) RESULT(ierr)
+        time_vals,reftime_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     DOUBLE PRECISION,target :: data(:,:,:,:,:,:)
     DOUBLE PRECISION,pointer :: mdata(:,:,:,:,:,:)
     DOUBLE PRECISION, pointer :: pdata(:,:,:,:,:,:)
-    INTEGER, INTENT(in) ::var_id
+    INTEGER, INTENT(in) ::var_id!,lt_id
+!    INTEGER, INTENT(in), OPTIONAL :: lt_id
     CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
-    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
+    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:),reftime_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
@@ -4783,15 +5225,35 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_double(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_double_specs(var_id,lt_id,pdata(1,1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_double_specs(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        else
+          ierr = cmor_write_cff_double_cmip5(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
                time_vals(1),time_bnds(1,1),refvar)
+!               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        endif
        else
-          ierr = cmor_write_cff_double_nobnds(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_double_nobnds_specs(var_id,lt_id,pdata(1,1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_double_nobnds_specs(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),refvar)
+        else
+          ierr = cmor_write_cff_double_nobnds_cmip5(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
                time_vals(1),refvar)
+!               time_vals(1),reftime_vals(1),refvar)
+        endif
        end if
     else
-       ierr = cmor_write_cff_double_notime(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!       ierr = cmor_write_cff_double_notime_specs(var_id,lt_id,pdata(1,1,1,1,1,1),suf,ntp,&
+       ierr = cmor_write_cff_double_notime_specs(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
             refvar)
+        else
+       ierr = cmor_write_cff_double_notime_cmip5(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
+            refvar)
+        endif
     endif
     if (did_malloc.eq.1) then
        deallocate(pdata)
@@ -4799,16 +5261,18 @@ contains
     nullify(pdata)
     
   END FUNCTION cmor_write_6d_d
+!  FUNCTION cmor_write_7d_d(var_id, lt_id, data, file_suffix, ntimes_passed,  &
   FUNCTION cmor_write_7d_d(var_id, data, file_suffix, ntimes_passed,  &
-        time_vals,time_bnds,store_with) RESULT(ierr)
+        time_vals,reftime_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     DOUBLE PRECISION, target :: data(:,:,:,:,:,:,:)
     DOUBLE PRECISION, pointer :: mdata(:,:,:,:,:,:,:)
     DOUBLE PRECISION, pointer :: pdata(:,:,:,:,:,:,:)
-    INTEGER, INTENT(in) ::var_id
+    INTEGER, INTENT(in) ::var_id!,lt_id
+!    INTEGER, INTENT(in), OPTIONAL :: lt_id
     CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
-    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
+    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:),reftime_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
@@ -4839,15 +5303,35 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_double(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_double_specs(var_id,lt_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_double_specs(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        else
+          ierr = cmor_write_cff_double_cmip5(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
                time_vals(1),time_bnds(1,1),refvar)
+!               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        endif
        else
-          ierr = cmor_write_cff_double_nobnds(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_double_nobnds_specs(var_id,lt_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_double_nobnds_specs(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),refvar)
+        else
+          ierr = cmor_write_cff_double_nobnds_cmip5(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
                time_vals(1),refvar)
+!               time_vals(1),reftime_vals(1),refvar)
+        endif
        end if
     else
-       ierr = cmor_write_cff_double_notime(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!       ierr = cmor_write_cff_double_notime_specs(var_id,lt_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+       ierr = cmor_write_cff_double_notime_specs(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
             refvar)
+        else
+       ierr = cmor_write_cff_double_notime_cmip5(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+            refvar)
+        endif
     endif
     if (did_malloc.eq.1) then
        deallocate(mdata)
@@ -4855,16 +5339,18 @@ contains
     nullify(pdata)
   END FUNCTION cmor_write_7d_d
 
+!  FUNCTION cmor_write_1d_i(var_id, lt_id, data, file_suffix, ntimes_passed,  &
   FUNCTION cmor_write_1d_i(var_id, data, file_suffix, ntimes_passed,  &
-        time_vals,time_bnds,store_with) RESULT(ierr)
+        time_vals,reftime_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     INTEGER, target :: data(:)
     INTEGER, pointer :: mdata(:)
     INTEGER, pointer :: pdata(:)
-    INTEGER, INTENT(in) ::var_id
+    INTEGER, INTENT(in) ::var_id!,lt_id
+!    INTEGER, INTENT(in), OPTIONAL :: lt_id
     CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
-    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
+    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:),reftime_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
@@ -4895,15 +5381,35 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_int(var_id,pdata(1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_int_specs(var_id,lt_id,pdata(1),suf,ntp,&
+          ierr = cmor_write_cff_int_specs(var_id,pdata(1),suf,ntp,&
+               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        else
+          ierr = cmor_write_cff_int_cmip5(var_id,pdata(1),suf,ntp,&
                time_vals(1),time_bnds(1,1),refvar)
+!               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        endif
        else
-          ierr = cmor_write_cff_int_nobnds(var_id,pdata(1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_int_nobnds_specs(var_id,lt_id,pdata(1),suf,ntp,&
+          ierr = cmor_write_cff_int_nobnds_specs(var_id,pdata(1),suf,ntp,&
+               time_vals(1),reftime_vals(1),refvar)
+        else
+          ierr = cmor_write_cff_int_nobnds_cmip5(var_id,pdata(1),suf,ntp,&
                time_vals(1),refvar)
+!               time_vals(1),reftime_vals(1),refvar)
+        endif
        end if
     else
-       ierr = cmor_write_cff_int_notime(var_id,pdata(1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!       ierr = cmor_write_cff_int_notime_specs(var_id,lt_id,pdata(1),suf,ntp,&
+       ierr = cmor_write_cff_int_notime_specs(var_id,pdata(1),suf,ntp,&
             refvar)
+        else
+       ierr = cmor_write_cff_int_notime_cmip5(var_id,pdata(1),suf,ntp,&
+            refvar)
+        endif
     endif
     if (did_malloc.eq.1) then
        deallocate(mdata)
@@ -4911,16 +5417,18 @@ contains
     nullify(pdata)
        
   END FUNCTION cmor_write_1d_i
+!  FUNCTION cmor_write_2d_i(var_id, lt_id, data, file_suffix, ntimes_passed,  &
   FUNCTION cmor_write_2d_i(var_id, data, file_suffix, ntimes_passed,  &
-        time_vals,time_bnds,store_with) RESULT(ierr)
+        time_vals,reftime_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     INTEGER,target :: data(:,:)
     INTEGER,pointer :: mdata(:,:)
     INTEGER, pointer :: pdata(:,:)
-    INTEGER, INTENT(in) ::var_id
+    INTEGER, INTENT(in) ::var_id!,lt_id
+!    INTEGER, INTENT(in), OPTIONAL :: lt_id
     CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
-    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
+    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:),reftime_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
@@ -4951,15 +5459,35 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_int(var_id,data(1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_int_specs(var_id,lt_id,data(1,1),suf,ntp,&
+          ierr = cmor_write_cff_int_specs(var_id,data(1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        else
+          ierr = cmor_write_cff_int_cmip5(var_id,data(1,1),suf,ntp,&
                time_vals(1),time_bnds(1,1),refvar)
+!               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        endif
        else
-          ierr = cmor_write_cff_int_nobnds(var_id,data(1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_int_nobnds_specs(var_id,lt_id,data(1,1),suf,ntp,&
+          ierr = cmor_write_cff_int_nobnds_specs(var_id,data(1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),refvar)
+        else
+          ierr = cmor_write_cff_int_nobnds_cmip5(var_id,data(1,1),suf,ntp,&
                time_vals(1),refvar)
+!               time_vals(1),reftime_vals(1),refvar)
+        endif
        end if
     else
-       ierr = cmor_write_cff_int_notime(var_id,data(1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!       ierr = cmor_write_cff_int_notime_specs(var_id,lt_id,data(1,1),suf,ntp,&
+       ierr = cmor_write_cff_int_notime_specs(var_id,data(1,1),suf,ntp,&
             refvar)
+        else
+       ierr = cmor_write_cff_int_notime_cmip5(var_id,data(1,1),suf,ntp,&
+            refvar)
+        endif
     endif
     if (did_malloc.eq.1) then
        deallocate(mdata)
@@ -4967,16 +5495,18 @@ contains
     nullify(pdata)
     
   END FUNCTION cmor_write_2d_i
+!  FUNCTION cmor_write_3d_i(var_id, lt_id, data, file_suffix, ntimes_passed,  &
   FUNCTION cmor_write_3d_i(var_id, data, file_suffix, ntimes_passed,  &
-        time_vals,time_bnds,store_with) RESULT(ierr)
+        time_vals,reftime_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     INTEGER, target :: data(:,:,:)
     INTEGER, pointer :: mdata(:,:,:)
     INTEGER, pointer :: pdata(:,:,:)
-    INTEGER, INTENT(in) ::var_id
+    INTEGER, INTENT(in) ::var_id!,lt_id
+!    INTEGER, INTENT(in), OPTIONAL :: lt_id
     CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
-    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
+    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:),reftime_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
@@ -5007,15 +5537,35 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_int(var_id,pdata(1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_int_specs(var_id,lt_id,pdata(1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_int_specs(var_id,pdata(1,1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        else
+          ierr = cmor_write_cff_int_cmip5(var_id,pdata(1,1,1),suf,ntp,&
                time_vals(1),time_bnds(1,1),refvar)
+!               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        endif
        else
-          ierr = cmor_write_cff_int_nobnds(var_id,pdata(1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_int_nobnds_specs(var_id,lt_id,pdata(1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_int_nobnds_specs(var_id,pdata(1,1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),refvar)
+        else
+          ierr = cmor_write_cff_int_nobnds_cmip5(var_id,pdata(1,1,1),suf,ntp,&
                time_vals(1),refvar)
+!               time_vals(1),reftime_vals(1),refvar)
+        endif
        end if
     else
-       ierr = cmor_write_cff_int_notime(var_id,pdata(1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!       ierr = cmor_write_cff_int_notime_specs(var_id,lt_id,pdata(1,1,1),suf,ntp,&
+       ierr = cmor_write_cff_int_notime_specs(var_id,pdata(1,1,1),suf,ntp,&
             refvar)
+        else
+       ierr = cmor_write_cff_int_notime_cmip5(var_id,pdata(1,1,1),suf,ntp,&
+            refvar)
+        endif
     endif
     if (did_malloc.eq.1) then
        deallocate(mdata)
@@ -5023,16 +5573,18 @@ contains
     nullify(pdata)
    
   END FUNCTION cmor_write_3d_i
+!  FUNCTION cmor_write_4d_i(var_id, lt_id, data, file_suffix, ntimes_passed,  &
   FUNCTION cmor_write_4d_i(var_id, data, file_suffix, ntimes_passed,  &
-        time_vals,time_bnds,store_with) RESULT(ierr)
+        time_vals,reftime_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     INTEGER, target :: data(:,:,:,:)
     INTEGER, pointer :: mdata(:,:,:,:)
     INTEGER, pointer :: pdata(:,:,:,:)
-    INTEGER, INTENT(in) ::var_id
+    INTEGER, INTENT(in) ::var_id!,lt_id
+!    INTEGER, INTENT(in), OPTIONAL :: lt_id
     CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
-    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
+    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:),reftime_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
@@ -5063,15 +5615,35 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_int(var_id,pdata(1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_int_specs(var_id,lt_id,pdata(1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_int_specs(var_id,pdata(1,1,1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        else
+          ierr = cmor_write_cff_int_cmip5(var_id,pdata(1,1,1,1),suf,ntp,&
                time_vals(1),time_bnds(1,1),refvar)
+!               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        endif
        else
-          ierr = cmor_write_cff_int_nobnds(var_id,pdata(1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_int_nobnds_specs(var_id,lt_id,pdata(1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_int_nobnds_specs(var_id,pdata(1,1,1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),refvar)
+        else
+          ierr = cmor_write_cff_int_nobnds_cmip5(var_id,pdata(1,1,1,1),suf,ntp,&
                time_vals(1),refvar)
+!               time_vals(1),reftime_vals(1),refvar)
+        endif
        end if
     else
-       ierr = cmor_write_cff_int_notime(var_id,pdata(1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!       ierr = cmor_write_cff_int_notime_specs(var_id,lt_id,pdata(1,1,1,1),suf,ntp,&
+       ierr = cmor_write_cff_int_notime_specs(var_id,pdata(1,1,1,1),suf,ntp,&
             refvar)
+        else
+       ierr = cmor_write_cff_int_notime_cmip5(var_id,pdata(1,1,1,1),suf,ntp,&
+            refvar)
+        endif
     endif
     if (did_malloc.eq.1) then
        deallocate(mdata)
@@ -5079,16 +5651,18 @@ contains
     nullify(pdata)
    
   END FUNCTION cmor_write_4d_i
+!  FUNCTION cmor_write_5d_i(var_id, lt_id, data, file_suffix, ntimes_passed,  &
   FUNCTION cmor_write_5d_i(var_id, data, file_suffix, ntimes_passed,  &
-        time_vals,time_bnds,store_with) RESULT(ierr)
+        time_vals,reftime_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     INTEGER , target:: data(:,:,:,:,:)
     INTEGER , pointer:: mdata(:,:,:,:,:)
     INTEGER, pointer :: pdata(:,:,:,:,:)
-    INTEGER, INTENT(in) ::var_id
+    INTEGER, INTENT(in) ::var_id!,lt_id
+!    INTEGER, INTENT(in), OPTIONAL :: lt_id
     CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
-    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
+    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:),reftime_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
@@ -5119,31 +5693,53 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_int(var_id,pdata(1,1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_int_specs(var_id,lt_id,pdata(1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_int_specs(var_id,pdata(1,1,1,1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        else
+          ierr = cmor_write_cff_int_cmip5(var_id,pdata(1,1,1,1,1),suf,ntp,&
                time_vals(1),time_bnds(1,1),refvar)
+!               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        endif
        else
-          ierr = cmor_write_cff_int_nobnds(var_id,pdata(1,1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_int_nobnds_specs(var_id,lt_id,pdata(1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_int_nobnds_specs(var_id,pdata(1,1,1,1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),refvar)
+        else
+          ierr = cmor_write_cff_int_nobnds_cmip5(var_id,pdata(1,1,1,1,1),suf,ntp,&
                time_vals(1),refvar)
+!               time_vals(1),reftime_vals(1),refvar)
+        endif
        end if
     else
-       ierr = cmor_write_cff_int_notime(var_id,pdata(1,1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!       ierr = cmor_write_cff_int_notime_specs(var_id,lt_id,pdata(1,1,1,1,1),suf,ntp,&
+       ierr = cmor_write_cff_int_notime_specs(var_id,pdata(1,1,1,1,1),suf,ntp,&
             refvar)
+        else
+       ierr = cmor_write_cff_int_notime_cmip5(var_id,pdata(1,1,1,1,1),suf,ntp,&
+            refvar)
+        endif
     endif
     if (did_malloc.eq.1) then
        deallocate(mdata)
     endif
     nullify(pdata)
   END FUNCTION cmor_write_5d_i
+!  FUNCTION cmor_write_6d_i(var_id, lt_id, data, file_suffix, ntimes_passed,  &
   FUNCTION cmor_write_6d_i(var_id, data, file_suffix, ntimes_passed,  &
-        time_vals,time_bnds,store_with) RESULT(ierr)
+        time_vals,reftime_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     INTEGER,target :: data(:,:,:,:,:,:)
     INTEGER, pointer :: mdata(:,:,:,:,:,:)
     INTEGER, pointer :: pdata(:,:,:,:,:,:)
-    INTEGER, INTENT(in) ::var_id
+    INTEGER, INTENT(in) ::var_id!,lt_id
+!    INTEGER, INTENT(in), OPTIONAL :: lt_id
     CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
-    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
+    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:),reftime_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
@@ -5174,15 +5770,35 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_int(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_int_specs(var_id,lt_id,pdata(1,1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_int_specs(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        else
+          ierr = cmor_write_cff_int_cmip5(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
                time_vals(1),time_bnds(1,1),refvar)
+!               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        endif
        else
-          ierr = cmor_write_cff_int_nobnds(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_int_nobnds_specs(var_id,lt_id,pdata(1,1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_int_nobnds_specs(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),refvar)
+        else
+          ierr = cmor_write_cff_int_nobnds_cmip5(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
                time_vals(1),refvar)
+!               time_vals(1),reftime_vals(1),refvar)
+        endif
        end if
     else
-       ierr = cmor_write_cff_int_notime(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!       ierr = cmor_write_cff_int_notime_specs(var_id,lt_id,pdata(1,1,1,1,1,1),suf,ntp,&
+       ierr = cmor_write_cff_int_notime_specs(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
             refvar)
+        else
+       ierr = cmor_write_cff_int_notime_cmip5(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
+            refvar)
+        endif
     endif
     if (did_malloc.eq.1) then
        deallocate(mdata)
@@ -5190,16 +5806,18 @@ contains
     nullify(pdata)
        
   END FUNCTION cmor_write_6d_i
+!  FUNCTION cmor_write_7d_i(var_id, lt_id, data, file_suffix, ntimes_passed,  &
   FUNCTION cmor_write_7d_i(var_id, data, file_suffix, ntimes_passed,  &
-        time_vals,time_bnds,store_with) RESULT(ierr)
+        time_vals,reftime_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     INTEGER, target :: data(:,:,:,:,:,:,:)
     INTEGER, pointer :: mdata(:,:,:,:,:,:,:)
     INTEGER, pointer :: pdata(:,:,:,:,:,:,:)
-    INTEGER, INTENT(in) ::var_id
+    INTEGER, INTENT(in) ::var_id!,lt_id
+!    INTEGER, INTENT(in), OPTIONAL :: lt_id
     CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
-    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
+    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:),reftime_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
@@ -5230,15 +5848,35 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_int(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_int_specs(var_id,lt_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_int_specs(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        else
+          ierr = cmor_write_cff_int_cmip5(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
                time_vals(1),time_bnds(1,1),refvar)
+!               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
+        endif
        else
-          ierr = cmor_write_cff_int_nobnds(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!          ierr = cmor_write_cff_int_nobnds_specs(var_id,lt_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_int_nobnds_specs(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+               time_vals(1),reftime_vals(1),refvar)
+        else
+          ierr = cmor_write_cff_int_nobnds_cmip5(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
                time_vals(1),refvar)
+!               time_vals(1),reftime_vals(1),refvar)
+        endif
        end if
     else
-       ierr = cmor_write_cff_int_notime(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+        if(CMOR_SPECS==1)then 
+!       ierr = cmor_write_cff_int_notime_specs(var_id,lt_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+       ierr = cmor_write_cff_int_notime_specs(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
             refvar)
+        else
+       ierr = cmor_write_cff_int_notime_cmip5(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+            refvar)
+        endif
     endif
     if (did_malloc.eq.1) then
        deallocate(mdata)
@@ -7573,12 +8211,13 @@ contains
   end function cmor_set_variable_attribute
 
   function cmor_setup_ints(inpath,netcdf_file_action, set_verbosity,&
-       exit_control, logfile, create_subdirectories) result(ierr)
+       exit_control, logfile, create_subdirectories, specs) result(ierr)
     implicit none
-    integer ierr,nc,verb,mode,crsub
+    integer ierr,nc,verb,mode,crsub,mspecs
     integer , optional, intent(in) :: netcdf_file_action
     integer , optional, intent(in) :: set_verbosity
     integer , optional, intent(in) :: exit_control
+    integer , optional, intent(in) :: specs
     character(*) , optional, intent(in) :: inpath
     character(*) , optional, intent(in) :: logfile
     integer , optional, intent(in) :: create_subdirectories
@@ -7623,10 +8262,16 @@ contains
     else
        crsub = 1
     endif
+    if (present(specs)) then
+      mspecs=1
+    else 
+      mspecs=0
+    endif
     if (present(logfile)) then 
-       ierr = -cmor_setup_cff(trim(path)//char(0),nc,verb,mode,trim(logfile)//char(0),crsub)
+       ierr = -cmor_setup_cff(trim(path)//char(0),nc,verb,mode,trim(logfile)//char(0),crsub,mspecs)
     else
-       ierr = -cmor_setup_cff_nolog(trim(path)//char(0),nc,verb,mode,crsub)
+       ierr = -cmor_setup_cff_nolog(trim(path)//char(0),nc,verb,mode,crsub,mspecs)
+!       ierr = -cmor_setup_cff_nolog(trim(path)//char(0),nc,verb,mode,crsub,specs)
     endif
        
   end function cmor_setup_ints
@@ -7670,11 +8315,12 @@ contains
 
 
   function cmor_setup_nc_char(inpath,netcdf_file_action, set_verbosity,&
-       exit_control, logfile, create_subdirectories) result(ierr)
+       exit_control, logfile, create_subdirectories,specs) result(ierr)
     implicit none
-    integer ierr,nc,verb,mode,crsub
+    integer ierr,nc,verb,mode,crsub,mspecs
     integer , optional, intent(in) :: set_verbosity
     integer , optional, intent(in) :: exit_control
+    integer , optional, intent(in) :: specs
     character(*), optional, intent(in) ::  inpath
     character(*) , intent(in) :: netcdf_file_action
     character(*) , optional, intent(in) :: logfile
@@ -7718,6 +8364,11 @@ contains
     else
        mode = CMOR_NORMAL
     endif
+    if (present(specs)) then
+       mspecs=1
+    else
+       mspecs=0
+    endif 
     ! correction code to comply withh Karl's old calls
     if (verb.eq.0 ) then 
        verb = CMOR_QUIET
@@ -7732,9 +8383,11 @@ contains
        mode = CMOR_EXIT_ON_WARNING
     endif
     if (present(logfile)) then 
-       ierr = -cmor_setup_cff(trim(path)//char(0),nc,verb,mode,trim(logfile)//char(0),crsub)
+       ierr = -cmor_setup_cff(trim(path)//char(0),nc,verb,mode,trim(logfile)//char(0),crsub,mspecs)
+!       ierr = -cmor_setup_cff(trim(path)//char(0),nc,verb,mode,trim(logfile)//char(0),crsub,specs)
     else
-       ierr = -cmor_setup_cff_nolog(trim(path)//char(0),nc,verb,mode,crsub)
+       ierr = -cmor_setup_cff_nolog(trim(path)//char(0),nc,verb,mode,crsub,mspecs)
+!       ierr = -cmor_setup_cff_nolog(trim(path)//char(0),nc,verb,mode,crsub,specs)
     endif
   end function cmor_setup_nc_char
 
@@ -7742,19 +8395,19 @@ contains
        realization,&
        contact,history,comment,references,&
        leap_year,leap_month,month_lengths,model_id,forcing, &
-       initialization_method,physics_version,institute_id,parent_experiment_id,branch_time,parent_experiment_rip) result (ierr)
+       initialization_method,physics_version,institute_id,parent_experiment_id,branch_time,project_id,initialization_description,forecast_ref_time,associated_model,physics_description,series,parent_experiment_rip) result (ierr)
     implicit none
     character(*), INTENT(in) :: outpath,experiment_id,institution,source,calendar
-    character(*), optional, intent(in) :: model_id,forcing
+    character(*), optional, intent(in) :: project_id,model_id,forcing,physics_description
     character(*), optional, intent(in) :: contact,history,comment,references,institute_id
-    character(*), optional, intent(in) :: parent_experiment_id,parent_experiment_rip
+    character(*), optional, intent(in) :: parent_experiment_id,parent_experiment_rip,initialization_description,forecast_ref_time,associated_model,series
     integer, optional,intent(in) :: leap_year,leap_month,month_lengths(12)
     integer r,ly,lm,im,pv
     integer, optional, intent(in) :: realization,initialization_method,physics_version
-    character(1024) cntct,hist,comt,ref,mnm,fnm,instid,peid,perip
+    character(1024) cntct,hist,comt,ref,mnm,fnm,instid,peid,perip,inides,freft,assocm,physdes,prid,tseries!,cbatch
     integer ierr
     double precision, optional, intent(in) :: branch_time
-
+    
     if (present(realization)) then
        r = realization
     else
@@ -7825,31 +8478,147 @@ contains
     else
        perip= char(0)
     endif
+    if (present(initialization_description)) then
+       inides = trim(initialization_description)//char(0)
+    else
+       inides= char(0)
+    endif
+    if (present(forecast_ref_time)) then
+       freft = trim(forecast_ref_time)//char(0)
+    else
+       freft= char(0)
+    endif
+    if (present(associated_model)) then
+       assocm = trim(associated_model)//char(0)
+    else
+       assocm= char(0)
+    endif
+    if (present(associated_model)) then
+       assocm = trim(associated_model)//char(0)
+    else
+       assocm= char(0)
+    endif
+    if (present(physics_description)) then
+       physdes = trim(physics_description)//char(0)
+    else
+       physdes= char(0)
+    endif
+    if (present(series)) then
+       tseries = trim(series)//char(0)
+    else
+       tseries= char(0)
+    endif
+    if (present(project_id)) then
+       prid = trim(project_id)//char(0)
+    else
+       prid= char(0)
+    endif
     if (present(month_lengths)) then
        if (present(branch_time)) then
-          ierr = cmor_dataset_cff(trim(outpath)//char(0),trim(experiment_id)//char(0),&
+        if(CMOR_SPECS==1)then
+!          write(6,*)"before cmor_write in f90 interface 1",physdes
+!          call flush(6) 
+          ierr = cmor_dataset_cff_specs(trim(outpath)//char(0),trim(experiment_id)//char(0),&
                trim(institution)//char(0),trim(source)//char(0),trim(calendar)//char(0),r,&
                cntct,hist,comt,ref,&
-               ly,lm,month_lengths(1),mnm,fnm,im,pv,instid,peid,branch_time,perip)
-       else
-          ierr = cmor_dataset_cff_nobrch(trim(outpath)//char(0),trim(experiment_id)//char(0),&
+               ly,lm,month_lengths(1),mnm,fnm,im,pv,&
+               peid,branch_time,prid,inides,freft,assocm,&
+               physdes,tseries,trim(parent_experiment_rip)//char(0))
+        else
+!          ierr = cmor_dataset_cff_specs(trim(outpath)//char(0),trim(experiment_id)//char(0),&
+!               trim(institution)//char(0),trim(source)//char(0),trim(calendar)//char(0),r,&
+!               cntct,hist,comt,ref,&
+!               ly,lm,month_lengths(1),mnm,fnm,im,pv,&
+!               peid,branch_time,prid,inides,freft,assocm,&
+!               physdes,tseries,trim(parent_experiment_rip)//char(0))
+          write(6,*)"before cmor_write in f90 interface 1.1",physdes
+          call flush(6) 
+          ierr = cmor_dataset_cff_cmip5(trim(outpath)//char(0),trim(experiment_id)//char(0),&
                trim(institution)//char(0),trim(source)//char(0),trim(calendar)//char(0),r,&
+               cntct,hist,comt,ref,&
+               ly,lm,month_lengths(1),mnm,fnm,im,pv,instid,peid,branch_time,trim(parent_experiment_rip)//char(0))
+        endif
+       else
+        if(CMOR_SPECS==1)then
+          write(6,*)"before cmor_write in f90 interface 2",physdes
+          call flush(6) 
+          ierr = cmor_dataset_cff_nobrch_specs(trim(outpath)//char(0),trim(experiment_id)//char(0),&
+               trim(institution)//char(0),trim(source)//char(0),trim(calendar)//char(0),r,&
+               cntct,hist,comt,ref,&
+               ly,lm,month_lengths(1),mnm,fnm,im,pv,&
+               peid,prid,inides,freft,assocm,&
+!               instid,peid,prid,inides,freft,assocm,&
+               physdes,tseries,trim(parent_experiment_rip)//char(0))
+!               physdes,cbatch,trim(parent_experiment_rip)//char(0))
+!               cntct,hist,comt,ref,&
+!               ly,lm,month_lengths(1),trim(project_id),physics_description,mnm,fnm,im,&
+!               initialization_description,pv,instid,peid,trim(parent_experiment_rip)//char(0),forecast_ref_time,batch,associated_model)
+        else
+          write(6,*)"before cmor_write in f90 interface 2.1",physdes
+          call flush(6) 
+         ierr = cmor_dataset_cff_nobrch_cmip5(trim(outpath)//char(0),trim(experiment_id)//char(0),&
+               trim(institution)//char(0),trim(source)//char(0),trim(calendar)//char(0),r,& 
                cntct,hist,comt,ref,&
                ly,lm,month_lengths(1),mnm,fnm,im,pv,instid,peid,perip)
        endif
+        endif!debug, ptet pas là
     else
        if (present(branch_time)) then
-          ierr = cmor_dataset_cff_null(trim(outpath)//char(0),trim(experiment_id)//char(0),&
+        if(CMOR_SPECS==1)then
+          write(6,*)"before cmor_write in f90 interface 3",physdes
+          call flush(6) 
+          ierr = cmor_dataset_cff_null_specs(trim(outpath)//char(0),trim(experiment_id)//char(0),&
                trim(institution)//char(0),trim(source)//char(0),trim(calendar)//char(0),r,&
                cntct,hist,comt,ref,&
-               ly,lm,mnm,fnm,im,pv,instid,peid,branch_time,perip)
+               ly,lm,mnm,fnm,im,pv,&
+               peid,branch_time,prid,inides,freft,assocm,&
+!               instid,peid,branch_time,prid,inides,freft,assocm,&
+               physdes,tseries,trim(parent_experiment_rip)//char(0))
+!               physdes,cbatch,trim(parent_experiment_rip)//char(0))
+!               cntct,hist,comt,ref,&
+!               ly,lm,trim(project_id),trim(physics_description),mnm,fnm,im,&
+!               initialization_description,pv,instid,peid,branch_time,trim(parent_experiment_rip)//char(0),forecast_ref_time,batch,associated_model)
+         else
+!          write(6,*)"before cmor_write in f90 interface 3.1",perip,"parent_exp_rip:",trim(parent_experiment_rip)
+!          call flush(6) 
+          ierr = cmor_dataset_cff_null_cmip5(trim(outpath)//char(0),trim(experiment_id)//char(0),&
+               trim(institution)//char(0),trim(source)//char(0),trim(calendar)//char(0),r,&
+               cntct,hist,comt,ref,&
+               ly,lm,mnm,fnm,im,pv,instid,peid,branch_time,trim(parent_experiment_rip)//char(0))
+!               ly,lm,mnm,fnm,im,pv,instid,peid,branch_time,perip)
+         endif
        else
-          ierr = cmor_dataset_cff_null_nobrch(trim(outpath)//char(0),trim(experiment_id)//char(0),&
+!          write(6,*),"on est là"!,trim(parent_experiment_rip)//char(0)
+!          call flush(6)
+        if(CMOR_SPECS==1)then
+!          write(6,*)"before cmor_write in f90 interface 4",physdes,"ind:",CMOR_SPECS
+!          call flush(6) 
+          ierr = cmor_dataset_cff_null_nobrch_specs(trim(outpath)//char(0),trim(experiment_id)//char(0),&
                trim(institution)//char(0),trim(source)//char(0),trim(calendar)//char(0),r,&
                cntct,hist,comt,ref,&
-               ly,lm,mnm,fnm,im,pv,instid,peid,perip)
+               ly,lm,mnm,fnm,im,pv,&
+               peid,prid,inides,freft,assocm,&
+!               instid,peid,prid,inides,freft,assocm,&
+               physdes,tseries,trim(parent_experiment_rip)//char(0))
+!               physdes,cbatch,trim(parent_experiment_rip)//char(0))
+!               ly,lm,trim(project_id),physics_description,mnm,fnm,im,&
+!               initialization_description,pv,instid,peid,trim(parent_experiment_rip)//char(0),forecast_ref_time,batch,associated_model)
+        else
+!          write(6,*)"before cmor_write in f90 interface 4.1"
+!          call flush(6) 
+          ierr = cmor_dataset_cff_null_nobrch_cmip5(trim(outpath)//char(0),trim(experiment_id)//char(0),&
+               trim(institution)//char(0),trim(source)//char(0),trim(calendar)//char(0),r,&
+               cntct,hist,comt,ref,&               
+               ly,lm,mnm,fnm,im,pv,instid,peid,perip) 
+!          write(6,*),"sortis!"!,trim(parent_experiment_rip)//char(0)
+!          call flush(6)
        endif
+!          write(6,*),"sortis2!"!,trim(parent_experiment_rip)//char(0)
+!          call flush(6)
     endif
+   endif
+!          write(6,*),"sortis3!"!,trim(parent_experiment_rip)//char(0)
+!          call flush(6)
     ierr = -ierr
   end function cmor_dataset
 end module cmor_users_functions
