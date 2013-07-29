@@ -296,7 +296,12 @@ int cmor_check_values_inside_bounds(double *values,double *bounds, int length, c
   cmor_pop_traceback();
   return 0;
 }
-
+int cmor_isLongitude(cmor_axis_def_t *refaxis) {
+    if ((refaxis->axis=='X')&& (strncmp(refaxis->units,"degree",6)==0) && (strcmp(refaxis->units,"degrees")!=0))
+        return 1;
+    else 
+        return 0;
+}
 int cmor_check_monotonic(double *values,int length, char *name,int isbounds, int axis_id) {
   int i,treatlon=0,j=0;
   char msg[CMOR_MAX_STRING];
@@ -309,14 +314,12 @@ int cmor_check_monotonic(double *values,int length, char *name,int isbounds, int
   cmor_add_traceback("cmor_check_monotonic");
 
   refaxis = &cmor_tables[cmor_axes[axis_id].ref_table_id].axes[cmor_axes[axis_id].ref_axis_id];
-  if ((refaxis->axis=='X')&& (strncmp(refaxis->units,"degrees",7)==0)) {
-    treatlon=1;
-  }
+  treatlon=cmor_isLongitude(refaxis);
   /* ok ensure that values are monotonic */
   if (isbounds==1) {
     for (i=0;i<length/2-2;i++) {
       if (((values[2*i]-values[2*i+2])/(values[2*i+2]-values[2*i+4]))<0.) { 
-	if ((refaxis->axis=='X') && (strncmp(refaxis->units,"degrees",7)==0)) {
+	if (cmor_isLongitude(refaxis)==1) {
 	  treatlon=1;
 	}
 	else {
@@ -326,7 +329,7 @@ int cmor_check_monotonic(double *values,int length, char *name,int isbounds, int
       }
     }
     /* printf("In is isbounds treatlon is: %i\n",treatlon); */
-    if (treatlon) {/* ok we are dealing with a longitude need to figure out the offset.... */
+    if ((refaxis->valid_max!=1.e20) && (treatlon)) {/* ok we are dealing with a longitude need to figure out the offset.... */
       /* for (i=0;i<length;i++) printf("in monotonic: %i, %lf\n",i,values[i]); */
      /* The VERY first thing is to make sure we are modulo 360 */
       values2 = (double *) malloc(sizeof(double)*length);
@@ -465,7 +468,7 @@ int cmor_check_monotonic(double *values,int length, char *name,int isbounds, int
   else {
     for (i=0;i<length-2;i++) {
       if (((values[i]-values[i+1])/(values[i+1]-values[i+2]))<0.) {
-	if ((refaxis->axis == 'X') && (strncmp(refaxis->units,"degrees",7)==0)){ 
+	if (cmor_isLongitude(refaxis)==1) {
 	  treatlon = 1;
 	  break;
 	}
@@ -476,7 +479,7 @@ int cmor_check_monotonic(double *values,int length, char *name,int isbounds, int
       }
     }
 
-    if (treatlon) {/* ok we are dealing with a longitude need to figure out the offset.... */
+    if ((refaxis->valid_max!=1.e20) && (treatlon)) {/* ok we are dealing with a longitude need to figure out the offset.... */
 
       /* The VERY first thing is to make sure we are modulo 360 */
       values2 = (double *) malloc(sizeof(double)*length);
@@ -797,7 +800,7 @@ int cmor_treat_axis_values(int axis_id, double *values, int length, int n_reques
   /*if (((isbounds==1) && (refaxis->axis=='X'))==0) {*/
   {
     if (refaxis->valid_min!=1.e20) for (i=0;i<length;i++) if (values[i]<refaxis->valid_min) { 
-      if ((refaxis->axis=='X')&& (strncmp(refaxis->units,"degrees",7)==0)) {
+      if (cmor_isLongitude(refaxis)==1) {
 	treatlon = 1;
       }
       else {
@@ -825,7 +828,7 @@ int cmor_treat_axis_values(int axis_id, double *values, int length, int n_reques
       }
     treatlon=0;
     if (refaxis->valid_max!=1.e20) for (i=0;i<length;i++) if (values[i]>refaxis->valid_max) {
-      if ((refaxis->axis=='X')&& (strncmp(refaxis->units,"degrees",7)==0)) {
+      if (cmor_isLongitude(refaxis)==1) {
     	treatlon = 1;
       }
       else {
@@ -850,7 +853,7 @@ int cmor_treat_axis_values(int axis_id, double *values, int length, int n_reques
     	}
       }
     }
-    if ((isbounds==1) && (refaxis->axis=='X') && (strncmp(refaxis->units,"degrees",7)==0)) {
+    if (cmor_isLongitude(refaxis)==1) {
         for(i=0;i<length/2;i++) {
             values[2*i ]+=360.*cmor_axes[axis_id].wrapping[i];
             values[2*i+1]+=360.*cmor_axes[axis_id].wrapping[i];
@@ -859,8 +862,7 @@ int cmor_treat_axis_values(int axis_id, double *values, int length, int n_reques
     /* ok now need to move the offset thing */
     if (axis->offset!=0) {
       if (isbounds==0) {
-/* 	printf("ok unoffseted values are (axes): (offset is: %i) \n",axis->offset); */
-/* 	for (i=0;i<length;i++) printf("%i : %f\n",i,values[i]); */
+ 	for (i=0;i<length;i++) printf("%i : %f\n",i,values[i]); 
 	tmplon = malloc(axis->offset*sizeof(double));
 	for (i=0;i<axis->offset;i++) {
 	  tmplon[i]=values[i];
