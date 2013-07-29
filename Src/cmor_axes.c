@@ -853,7 +853,7 @@ int cmor_treat_axis_values(int axis_id, double *values, int length, int n_reques
     	}
       }
     }
-    if (cmor_isLongitude(refaxis)==1) {
+    if ((isbounds==1) && (cmor_isLongitude(refaxis)==1)) {
         for(i=0;i<length/2;i++) {
             values[2*i ]+=360.*cmor_axes[axis_id].wrapping[i];
             values[2*i+1]+=360.*cmor_axes[axis_id].wrapping[i];
@@ -862,7 +862,7 @@ int cmor_treat_axis_values(int axis_id, double *values, int length, int n_reques
     /* ok now need to move the offset thing */
     if (axis->offset!=0) {
       if (isbounds==0) {
- 	for (i=0;i<length;i++) printf("%i : %f\n",i,values[i]); 
+ 	/*for (i=0;i<length;i++) printf("%i : %f\n",i,values[i]); */
 	tmplon = malloc(axis->offset*sizeof(double));
 	for (i=0;i<axis->offset;i++) {
 	  tmplon[i]=values[i];
