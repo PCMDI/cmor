@@ -275,9 +275,10 @@ variable_entry: depth
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
-units:        m
-long_name:    Sea Floor Depth
-comment:      Ocean bathymetry.
+units:         m
+standard_name: sea_floor_depth
+long_name:     Sea Floor Depth
+comment:       Ocean bathymetry.
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
@@ -771,34 +772,13 @@ type:              real
 !
 
 !============
-variable_entry:    wmb
-!============
-modeling_realm:    ocean
-!----------------------------------
-! Variable attributes:
-!----------------------------------
-standard_name:     bathymetry
-units:             m 
-cell_methods:      area: mean
-cell_measures:     area: areacello 
-long_name:         Model Bathymetry 
-!----------------------------------
-! Additional variable information:
-!----------------------------------
-dimensions:        longitude latitude 
-out_name:          wmb
-type:              real
-!----------------------------------
-!
-
-!============
 variable_entry:    al
 !============
 modeling_realm:    ocean
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
-standard_name:     albedo
+standard_name:     surface_albedo
 units:             % 
 cell_methods:      area: mean
 cell_measures:     area: areacello 
@@ -808,27 +788,6 @@ long_name:         Albedo
 !----------------------------------
 dimensions:        longitude latitude 
 out_name:          al
-type:              real
-!----------------------------------
-!
-
-!============
-variable_entry:    fc
-!============
-modeling_realm:    land
-!----------------------------------
-! Variable attributes:
-!----------------------------------
-standard_name:     soil_surface_capacity
-units:             m 
-cell_methods:      area: mean
-cell_measures:     area: areacello 
-long_name:         Field capacity 
-!----------------------------------
-! Additional variable information:
-!----------------------------------
-dimensions:        longitude latitude 
-out_name:          fc
 type:              real
 !----------------------------------
 !
@@ -861,11 +820,12 @@ modeling_realm:    land
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
-standard_name:     wilting_point
+standard_name:     volume_fraction_of_condensed_water_in_soil_at_wilting_point
 units:             % 
 cell_methods:      area: mean
 cell_measures:     area: areacello 
 long_name:         Wilting point 
+comment:           "Condensed water" means liquid and ice. "Volume fraction" is used in the construction volume_fraction_of_X_in_Y, where X is a material constituent of Y. The wilting point of soil is the water content below which plants cannot extract sufficient water to balance their loss through transpiration.
 !----------------------------------
 ! Additional variable information:
 !----------------------------------

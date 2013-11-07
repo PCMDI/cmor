@@ -798,14 +798,16 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
   /* ok we need to replace grids definitions with the grid axes */
   for (i=0;i<ndims;i++) {
     if (laxes_ids[i]>cmor_naxes) {
-      sprintf(msg,"For variable %s (table %s) you requested axis_id (%i) that has not been defined yet",cmor_vars[vrid].id,cmor_tables[cmor_vars[vrid].ref_table_id].table_id,laxes_ids[i]);
-      cmor_handle_error(msg,CMOR_CRITICAL);
+//pb when depth axis not pst      sprintf(msg,"For variable %s (table %s) you requested axis_id (%i) that has not been defined yet",cmor_vars[vrid].id,cmor_tables[cmor_vars[vrid].ref_table_id].table_id,laxes_ids[i]);
+      sprintf(msg,"For variable %s (table %s) you requested axis_id (%i) that has not been defined yet %i",cmor_vars[vrid].id,cmor_tables[cmor_vars[vrid].ref_table_id].table_id,laxes_ids[i],cmor_naxes);
+      printf("%s \n",msg);
+//pb when depth axis not pst      cmor_handle_error(msg,CMOR_CRITICAL);
     }
     if (laxes_ids[i]<-CMOR_MAX_GRIDS+1) { /* grid definition */
       grid_id = -laxes_ids[i]-CMOR_MAX_GRIDS;
       if (grid_id>cmor_ngrids) {
 	sprintf(msg,"For variable %s (table: %s) you requested grid_id (%i) that has not been defined yet",cmor_vars[vrid].id,cmor_tables[cmor_vars[vrid].ref_table_id].table_id,laxes_ids[i]);
-	cmor_handle_error(msg,CMOR_CRITICAL);
+//	cmor_handle_error(msg,CMOR_CRITICAL);
       }
       /* here we need to know if the refvar has been defined with lat/lon or in the grid space */
       k=0;
@@ -1677,13 +1679,13 @@ int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int 
 	ierr = cmor_convert_time_values(time_vals,'d',ntimes_passed,&tmp_vals[0],cmor_axes[avar->axes_ids[0]].iunits,msg,msg2,msg2);
 //        printf("%s %f %s %s\n","after conversion of lt:",tmp_vals[0],"units=",msg);
 //        printf("%s\n","before check monotonic1");
-if(CMOR_SPECS==0){
+if(strcmp(CMOR_PROJECT,"SPECS")!=0){
 	ierr = cmor_check_monotonic(&tmp_vals[0],ntimes_passed,"time",0,avar->axes_ids[0]);//
 }	
 	ierr = cmor_convert_time_values(time_bounds,'d',ntimes_passed*2,&tmp_vals[0],cmor_axes[avar->axes_ids[0]].iunits,msg,msg2,msg2);
 //        printf("%s %s\n","after conversion of lt2, units:",msg);
 //        printf("%s\n","before check monotonic2");
-if(CMOR_SPECS==1){
+if(strcmp(CMOR_PROJECT,"SPECS")==0){
 }
 else{
 	ierr = cmor_check_monotonic(&tmp_vals[0],ntimes_passed*2,"time",1,avar->axes_ids[0]);
@@ -1759,7 +1761,7 @@ else{
 	}
 	ierr = cmor_convert_time_values(time_vals,'d',ntimes_passed,&tmp_vals[0],cmor_axes[avar->axes_ids[0]].iunits,msg,msg2,msg2);
 //        printf("%s %s \n","untis ltime before change:",cmor_axes[avar->time_nc_id].iunits);
-if(CMOR_SPECS==1){
+if(strcmp(CMOR_PROJECT,"SPECS")==0){
         strcpy(cmor_axes[avar->time_nc_id].iunits,"days");	
 //        printf("%s %f %s %s\n","before writing leadtime",tmp_vals[0],"units=",cmor_axes[avar->time_nc_id].iunits);
 }
@@ -1853,7 +1855,7 @@ if(CMOR_SPECS==1){
   /* for (i=0;i<avar->ndims;i++) { */
   /*   printf("dim: %i, starts: %i, counts: %i\n",i,starts[i],counts[i]); */
   /* } */
-if(CMOR_SPECS==1){  
+if(strcmp(CMOR_PROJECT,"SPECS")==0){  
 //defi if(cmor_axes[avar->axes_ids[0]].axis=='T'){
 //        printf("%s %s \n","condition T(lt)",cmor_axes[avar->nc_var_id].iunits);
 // }

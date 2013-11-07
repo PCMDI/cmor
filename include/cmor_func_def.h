@@ -17,7 +17,7 @@ extern int cmor_have_NetCDF41min(void);
 extern int cmor_have_NetCDF3(void);
 extern int cmor_have_NetCDF363(void);
 extern void cmor_handle_error(char error_msg[CMOR_MAX_STRING],int level);
-extern int cmor_setup(char *path,int *netcdf, int *verbosity, int *mode, char *logfile, int *cmor_create_subdirectories, int *specs);
+extern int cmor_setup(char *path,int *netcdf, int *verbosity, int *mode, char *logfile, int *cmor_create_subdirectories, char *arg_cmor_project);
 extern int cmor_put_nc_num_attribute(int ncid,int nc_var_id,char *name, char type, double value, char *var_name);
 extern int cmor_put_nc_char_attribute(int ncid,int nc_var_id,char *name,char *value,char *var_name);
 extern int cmor_set_cur_dataset_attribute(char *name, char *value, int optional);

@@ -42,7 +42,7 @@
 #define CMOR_APPEND CMOR_APPEND_3
 #define CMOR_REPLACE CMOR_REPLACE_3
 
-extern int CMOR_SPECS;
+extern char CMOR_PROJECT[5];
 
 extern int USE_NETCDF_4;
 extern int CMOR_MODE;

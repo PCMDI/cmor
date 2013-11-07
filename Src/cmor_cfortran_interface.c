@@ -214,18 +214,18 @@ void cmor_handle_error_cff_(char error_msg[CMOR_MAX_STRING],int *level) {
   cmor_handle_error(error_msg,*level);
 }
 
-int cmor_setup_nospecs_(char *path, int *netcdf, int *verbosity, int *mode, char *logfile, int *crsub, int *specs)
+int cmor_setup_nospecs_(char *path, int *netcdf, int *verbosity, int *mode, char *logfile, int *crsub, char *arg_cmor_project)
 {
  return  cmor_setup(path,netcdf,verbosity,mode,logfile,crsub,NULL);
 }
 
-int cmor_setup_cff_nolog_(char *path, int *netcdf, int *verbosity, int *mode, int *crsub, int *specs)
+int cmor_setup_cff_nolog_(char *path, int *netcdf, int *verbosity, int *mode, int *crsub, char *arg_cmor_project)
 { 
-  return  cmor_setup(path,netcdf,verbosity,mode,NULL,crsub,specs);
+  return  cmor_setup(path,netcdf,verbosity,mode,NULL,crsub,arg_cmor_project);
 }
-int cmor_setup_cff_(char *path, int *netcdf, int *verbosity, int *mode, char *logfile, int *crsub, int *specs)
+int cmor_setup_cff_(char *path, int *netcdf, int *verbosity, int *mode, char *logfile, int *crsub, char *arg_cmor_project)
 { 
-  return  cmor_setup(path,netcdf,verbosity,mode,logfile,crsub,specs);
+  return  cmor_setup(path,netcdf,verbosity,mode,logfile,crsub,arg_cmor_project);
 }
 
 int cmor_dataset_cff_specs_(char *outpath, 
@@ -256,6 +256,7 @@ int cmor_dataset_cff_specs_(char *outpath,
                       char *series,  
 		      char *parent_experiment_rip)
 {
+  printf("%s %s \n","in C interface, physdes= ",physics_description);
   return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,month_lengths,model_name,forcing,*initialization_method,physics_version,NULL,parent_experiment_id,branch_time,project_id,initialization_description,forecast_ref_time,associated_model,physics_description,series,parent_experiment_rip);
 /*pab  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,month_lengths,model_name,forcing,*initialization_method,*physics_version,institute_id,parent_experiment_id,branch_time,project_id,initialization_description,forecast_ref_time,associated_model,physics_description,batch,parent_experiment_rip);*/
   /*return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,month_lengths,model_name,forcing,*initialization_method,*physics_version,institute_id,parent_experiment_id,branch_time,*project_id,*initialization_description,*forecast_ref_time,*associated_model,*physics_description,*batch,*parent_experiment_rip);*/

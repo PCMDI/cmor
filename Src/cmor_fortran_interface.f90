@@ -77,14 +77,16 @@ module cmor_users_functions
      end function cmor_setup_nospecs
   end interface
   interface 
-     function cmor_setup_cff_nolog(path,ncmode,verbosity,mode,crsub,specs) result (j)
-       integer ncmode,verbosity,mode, j, crsub, specs
+     function cmor_setup_cff_nolog(path,ncmode,verbosity,mode,crsub,arg_cmor_project) result (j)
+       integer ncmode,verbosity,mode, j, crsub!, specs
+       character(len=5) arg_cmor_project
        character(*) path
      end function cmor_setup_cff_nolog
   end interface
   interface 
-     function cmor_setup_cff(path,ncmode,verbosity,mode,logfile,crsub,specs) result (j)
-       integer ncmode,verbosity,mode, j, crsub, specs
+     function cmor_setup_cff(path,ncmode,verbosity,mode,logfile,crsub,arg_cmor_project) result (j)
+       integer ncmode,verbosity,mode, j, crsub!, specs
+       character(len=5) arg_cmor_project
        character(*) path, logfile
      end function cmor_setup_cff
   end interface
@@ -1120,8 +1122,8 @@ module cmor_users_functions
   integer, parameter:: CMOR_PRESERVE = CMOR_PRESERVE_3
   integer, parameter:: CMOR_APPEND = CMOR_APPEND_3
   integer, parameter:: CMOR_REPLACE = CMOR_REPLACE_3
-  integer :: CMOR_SPECS
-
+!  integer :: CMOR_SPECS
+  character(len=5)::CMOR_PROJECT
   interface cmor_zfactor
      module procedure cmor_zfactor_double
      module procedure cmor_zfactor_double_0dvalues
@@ -4292,7 +4294,7 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-        if(CMOR_SPECS==1)then
+        if(CMOR_PROJECT=="SPECS")then
 !          ierr = cmor_write_cff_real_specs(var_id,lt_id,pdata(1),suf,ntp,&
           ierr = cmor_write_cff_real_specs(var_id,pdata(1),suf,ntp,&
                time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
@@ -4302,7 +4304,7 @@ contains
 !               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
         endif
        else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_real_nobnds_specs(var_id,lt_id,pdata(1),suf,ntp,&
           ierr = cmor_write_cff_real_nobnds_specs(var_id,pdata(1),suf,ntp,&
                time_vals(1),reftime_vals(1),refvar)
@@ -4313,7 +4315,7 @@ contains
         endif
        end if
     else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !       ierr = cmor_write_cff_real_notime_specs(var_id,lt_id,pdata(1),suf,ntp,&
        ierr = cmor_write_cff_real_notime_specs(var_id,pdata(1),suf,ntp,&
             refvar)
@@ -4371,7 +4373,7 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-        if(CMOR_SPECS==1)then
+        if(CMOR_PROJECT=="SPECS")then
 !          ierr = cmor_write_cff_real_specs(var_id,lt_id,pdata(1,1),suf,ntp,&
           ierr = cmor_write_cff_real_specs(var_id,pdata(1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
@@ -4381,7 +4383,7 @@ contains
 !               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
        endif
        else
-        if(CMOR_SPECS==1)then
+        if(CMOR_PROJECT=="SPECS")then
 !          ierr = cmor_write_cff_real_nobnds_specs(var_id,lt_id,pdata(1,1),suf,ntp,&
           ierr = cmor_write_cff_real_nobnds_specs(var_id,pdata(1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),refvar)
@@ -4392,7 +4394,7 @@ contains
        endif
        end if
     else
-        if(CMOR_SPECS==1)then
+        if(CMOR_PROJECT=="SPECS")then
 !       ierr = cmor_write_cff_real_notime_specs(var_id,lt_id,pdata(1,1),suf,ntp,&
        ierr = cmor_write_cff_real_notime_specs(var_id,pdata(1,1),suf,ntp,&
             refvar)
@@ -4450,7 +4452,7 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-        if(CMOR_SPECS==1)then
+        if(CMOR_PROJECT=="SPECS")then
 !          ierr = cmor_write_cff_real_specs(var_id,lt_id,pdata(1,1,1),suf,ntp,&
           ierr = cmor_write_cff_real_specs(var_id,pdata(1,1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
@@ -4460,7 +4462,7 @@ contains
 !               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
         endif
        else
-        if(CMOR_SPECS==1)then
+        if(CMOR_PROJECT=="SPECS")then
 !          ierr = cmor_write_cff_real_nobnds_specs(var_id,lt_id,pdata(1,1,1),suf,ntp,&
           ierr = cmor_write_cff_real_nobnds_specs(var_id,pdata(1,1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),refvar)
@@ -4471,7 +4473,7 @@ contains
         endif
        end if
     else
-        if(CMOR_SPECS==1)then
+        if(CMOR_PROJECT=="SPECS")then
 !       ierr = cmor_write_cff_real_notime_specs(var_id,lt_id,pdata(1,1,1),suf,ntp,&
        ierr = cmor_write_cff_real_notime_specs(var_id,pdata(1,1,1),suf,ntp,&
             refvar)
@@ -4528,7 +4530,7 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-        if(CMOR_SPECS==1)then
+        if(CMOR_PROJECT=="SPECS")then
 !          ierr = cmor_write_cff_real_specs(var_id,lt_id,pdata(1,1,1,1),suf,ntp,&
           ierr = cmor_write_cff_real_specs(var_id,pdata(1,1,1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
@@ -4538,7 +4540,7 @@ contains
 !               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
         endif
        else
-        if(CMOR_SPECS==1)then
+        if(CMOR_PROJECT=="SPECS")then
 !          ierr = cmor_write_cff_real_nobnds_specs(var_id,lt_id,pdata(1,1,1,1),suf,ntp,&
           ierr = cmor_write_cff_real_nobnds_specs(var_id,pdata(1,1,1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),refvar)
@@ -4549,7 +4551,7 @@ contains
         endif
        end if
     else
-        if(CMOR_SPECS==1)then
+        if(CMOR_PROJECT=="SPECS")then
 !       ierr = cmor_write_cff_real_notime_specs(var_id,lt_id,pdata(1,1,1,1),suf,ntp,&
        ierr = cmor_write_cff_real_notime_specs(var_id,pdata(1,1,1,1),suf,ntp,&
             refvar)
@@ -4605,7 +4607,7 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-        if(CMOR_SPECS==1)then
+        if(CMOR_PROJECT=="SPECS")then
 !          ierr = cmor_write_cff_real_specs(var_id,lt_id,pdata(1,1,1,1,1),suf,ntp,&
           ierr = cmor_write_cff_real_specs(var_id,pdata(1,1,1,1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
@@ -4615,7 +4617,7 @@ contains
 !               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
         endif
        else
-        if(CMOR_SPECS==1)then
+        if(CMOR_PROJECT=="SPECS")then
 !          ierr = cmor_write_cff_real_nobnds_specs(var_id,lt_id,pdata(1,1,1,1,1),suf,ntp,&
           ierr = cmor_write_cff_real_nobnds_specs(var_id,pdata(1,1,1,1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),refvar)
@@ -4626,7 +4628,7 @@ contains
         endif
        end if
     else
-        if(CMOR_SPECS==1)then
+        if(CMOR_PROJECT=="SPECS")then
 !       ierr = cmor_write_cff_real_notime_specs(var_id,lt_id,pdata(1,1,1,1,1),suf,ntp,&
        ierr = cmor_write_cff_real_notime_specs(var_id,pdata(1,1,1,1,1),suf,ntp,&
             refvar)
@@ -4684,7 +4686,7 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_real_specs(var_id,lt_id,pdata(1,1,1,1,1,1),suf,ntp,&
           ierr = cmor_write_cff_real_specs(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
@@ -4694,7 +4696,7 @@ contains
 !               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
         endif
        else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_real_nobnds_specs(var_id,lt_id,pdata(1,1,1,1,1,1),suf,ntp,&
           ierr = cmor_write_cff_real_nobnds_specs(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),refvar)
@@ -4705,7 +4707,7 @@ contains
         endif
        end if
     else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !       ierr = cmor_write_cff_real_notime_specs(var_id,lt_id,pdata(1,1,1,1,1,1),suf,ntp,&
        ierr = cmor_write_cff_real_notime_specs(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
             refvar)
@@ -4762,7 +4764,7 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_real_specs(var_id,lt_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
           ierr = cmor_write_cff_real_specs(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
@@ -4772,7 +4774,7 @@ contains
 !               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
         endif
        else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_real_nobnds_specs(var_id,lt_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
           ierr = cmor_write_cff_real_nobnds_specs(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),refvar)
@@ -4783,7 +4785,7 @@ contains
         endif
        end if
     else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !       ierr = cmor_write_cff_real_notime_specs(var_id,lt_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
        ierr = cmor_write_cff_real_notime_specs(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
             refvar)
@@ -4839,7 +4841,7 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_double_specs(var_id,lt_id,pdata(1),suf,ntp,&
           ierr = cmor_write_cff_double_specs(var_id,pdata(1),suf,ntp,&
                time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
@@ -4849,7 +4851,7 @@ contains
 !               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
         endif
        else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_double_nobnds_specs(var_id,lt_id,pdata(1),suf,ntp,&
           ierr = cmor_write_cff_double_nobnds_specs(var_id,pdata(1),suf,ntp,&
                time_vals(1),reftime_vals(1),refvar)
@@ -4860,7 +4862,7 @@ contains
         endif
        end if
     else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !       ierr = cmor_write_cff_double_notime_specs(var_id,lt_id,pdata(1),suf,ntp,&
        ierr = cmor_write_cff_double_notime_specs(var_id,pdata(1),suf,ntp,&
             refvar)
@@ -4916,7 +4918,7 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_double_specs(var_id,lt_id,data(1,1),suf,ntp,&
           ierr = cmor_write_cff_double_specs(var_id,data(1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
@@ -4926,7 +4928,7 @@ contains
 !               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
         endif
        else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_double_nobnds_specs(var_id,lt_id,data(1,1),suf,ntp,&
           ierr = cmor_write_cff_double_nobnds_specs(var_id,data(1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),refvar)
@@ -4937,7 +4939,7 @@ contains
         endif
        end if
     else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !       ierr = cmor_write_cff_double_notime_specs(var_id,lt_id,data(1,1),suf,ntp,&
        ierr = cmor_write_cff_double_notime_specs(var_id,data(1,1),suf,ntp,&
             refvar)
@@ -4993,7 +4995,7 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_double_specs(var_id,lt_id,pdata(1,1,1),suf,ntp,&
           ierr = cmor_write_cff_double_specs(var_id,pdata(1,1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
@@ -5003,7 +5005,7 @@ contains
 !               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
         endif
        else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_double_nobnds_specs(var_id,lt_id,pdata(1,1,1),suf,ntp,&
           ierr = cmor_write_cff_double_nobnds_specs(var_id,pdata(1,1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),refvar)
@@ -5014,7 +5016,7 @@ contains
         endif
        end if
     else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !       ierr = cmor_write_cff_double_notime_specs(var_id,lt_id,pdata(1,1,1),suf,ntp,&
        ierr = cmor_write_cff_double_notime_specs(var_id,pdata(1,1,1),suf,ntp,&
             refvar)
@@ -5073,7 +5075,7 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_double_specs(var_id,lt_id,pdata(1,1,1,1),suf,ntp,&
           ierr = cmor_write_cff_double_specs(var_id,pdata(1,1,1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
@@ -5083,7 +5085,7 @@ contains
 !               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
         endif
        else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_double_nobnds_specs(var_id,lt_id,pdata(1,1,1,1),suf,ntp,&
           ierr = cmor_write_cff_double_nobnds_specs(var_id,pdata(1,1,1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),refvar)
@@ -5094,7 +5096,7 @@ contains
         endif
        end if
     else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !       ierr = cmor_write_cff_double_notime_specs(var_id,lt_id,pdata(1,1,1,1),suf,ntp,&
        ierr = cmor_write_cff_double_notime_specs(var_id,pdata(1,1,1,1),suf,ntp,&
             refvar)
@@ -5148,7 +5150,7 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_double_specs(var_id,lt_id,pdata(1,1,1,1,1),suf,ntp,&
           ierr = cmor_write_cff_double_specs(var_id,pdata(1,1,1,1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
@@ -5158,7 +5160,7 @@ contains
 !               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
         endif
        else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_double_nobnds_specs(var_id,lt_id,pdata(1,1,1,1,1),suf,ntp,&
           ierr = cmor_write_cff_double_nobnds_specs(var_id,pdata(1,1,1,1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),refvar)
@@ -5169,7 +5171,7 @@ contains
         endif
        end if
     else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !       ierr = cmor_write_cff_double_notime_specs(var_id,lt_id,pdata(1,1,1,1,1),suf,ntp,&
        ierr = cmor_write_cff_double_notime_specs(var_id,pdata(1,1,1,1,1),suf,ntp,&
             refvar)
@@ -5225,7 +5227,7 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_double_specs(var_id,lt_id,pdata(1,1,1,1,1,1),suf,ntp,&
           ierr = cmor_write_cff_double_specs(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
@@ -5235,7 +5237,7 @@ contains
 !               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
         endif
        else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_double_nobnds_specs(var_id,lt_id,pdata(1,1,1,1,1,1),suf,ntp,&
           ierr = cmor_write_cff_double_nobnds_specs(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),refvar)
@@ -5246,7 +5248,7 @@ contains
         endif
        end if
     else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !       ierr = cmor_write_cff_double_notime_specs(var_id,lt_id,pdata(1,1,1,1,1,1),suf,ntp,&
        ierr = cmor_write_cff_double_notime_specs(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
             refvar)
@@ -5303,7 +5305,7 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_double_specs(var_id,lt_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
           ierr = cmor_write_cff_double_specs(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
@@ -5313,7 +5315,7 @@ contains
 !               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
         endif
        else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_double_nobnds_specs(var_id,lt_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
           ierr = cmor_write_cff_double_nobnds_specs(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),refvar)
@@ -5324,7 +5326,7 @@ contains
         endif
        end if
     else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !       ierr = cmor_write_cff_double_notime_specs(var_id,lt_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
        ierr = cmor_write_cff_double_notime_specs(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
             refvar)
@@ -5381,7 +5383,7 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_int_specs(var_id,lt_id,pdata(1),suf,ntp,&
           ierr = cmor_write_cff_int_specs(var_id,pdata(1),suf,ntp,&
                time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
@@ -5391,7 +5393,7 @@ contains
 !               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
         endif
        else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_int_nobnds_specs(var_id,lt_id,pdata(1),suf,ntp,&
           ierr = cmor_write_cff_int_nobnds_specs(var_id,pdata(1),suf,ntp,&
                time_vals(1),reftime_vals(1),refvar)
@@ -5402,7 +5404,7 @@ contains
         endif
        end if
     else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !       ierr = cmor_write_cff_int_notime_specs(var_id,lt_id,pdata(1),suf,ntp,&
        ierr = cmor_write_cff_int_notime_specs(var_id,pdata(1),suf,ntp,&
             refvar)
@@ -5459,7 +5461,7 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_int_specs(var_id,lt_id,data(1,1),suf,ntp,&
           ierr = cmor_write_cff_int_specs(var_id,data(1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
@@ -5469,7 +5471,7 @@ contains
 !               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
         endif
        else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_int_nobnds_specs(var_id,lt_id,data(1,1),suf,ntp,&
           ierr = cmor_write_cff_int_nobnds_specs(var_id,data(1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),refvar)
@@ -5480,7 +5482,7 @@ contains
         endif
        end if
     else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !       ierr = cmor_write_cff_int_notime_specs(var_id,lt_id,data(1,1),suf,ntp,&
        ierr = cmor_write_cff_int_notime_specs(var_id,data(1,1),suf,ntp,&
             refvar)
@@ -5537,7 +5539,7 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_int_specs(var_id,lt_id,pdata(1,1,1),suf,ntp,&
           ierr = cmor_write_cff_int_specs(var_id,pdata(1,1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
@@ -5547,7 +5549,7 @@ contains
 !               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
         endif
        else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_int_nobnds_specs(var_id,lt_id,pdata(1,1,1),suf,ntp,&
           ierr = cmor_write_cff_int_nobnds_specs(var_id,pdata(1,1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),refvar)
@@ -5558,7 +5560,7 @@ contains
         endif
        end if
     else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !       ierr = cmor_write_cff_int_notime_specs(var_id,lt_id,pdata(1,1,1),suf,ntp,&
        ierr = cmor_write_cff_int_notime_specs(var_id,pdata(1,1,1),suf,ntp,&
             refvar)
@@ -5615,7 +5617,7 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_int_specs(var_id,lt_id,pdata(1,1,1,1),suf,ntp,&
           ierr = cmor_write_cff_int_specs(var_id,pdata(1,1,1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
@@ -5625,7 +5627,7 @@ contains
 !               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
         endif
        else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_int_nobnds_specs(var_id,lt_id,pdata(1,1,1,1),suf,ntp,&
           ierr = cmor_write_cff_int_nobnds_specs(var_id,pdata(1,1,1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),refvar)
@@ -5636,7 +5638,7 @@ contains
         endif
        end if
     else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !       ierr = cmor_write_cff_int_notime_specs(var_id,lt_id,pdata(1,1,1,1),suf,ntp,&
        ierr = cmor_write_cff_int_notime_specs(var_id,pdata(1,1,1,1),suf,ntp,&
             refvar)
@@ -5693,7 +5695,7 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_int_specs(var_id,lt_id,pdata(1,1,1,1,1),suf,ntp,&
           ierr = cmor_write_cff_int_specs(var_id,pdata(1,1,1,1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
@@ -5703,7 +5705,7 @@ contains
 !               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
         endif
        else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_int_nobnds_specs(var_id,lt_id,pdata(1,1,1,1,1),suf,ntp,&
           ierr = cmor_write_cff_int_nobnds_specs(var_id,pdata(1,1,1,1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),refvar)
@@ -5714,7 +5716,7 @@ contains
         endif
        end if
     else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !       ierr = cmor_write_cff_int_notime_specs(var_id,lt_id,pdata(1,1,1,1,1),suf,ntp,&
        ierr = cmor_write_cff_int_notime_specs(var_id,pdata(1,1,1,1,1),suf,ntp,&
             refvar)
@@ -5770,7 +5772,7 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_int_specs(var_id,lt_id,pdata(1,1,1,1,1,1),suf,ntp,&
           ierr = cmor_write_cff_int_specs(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
@@ -5780,7 +5782,7 @@ contains
 !               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
         endif
        else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_int_nobnds_specs(var_id,lt_id,pdata(1,1,1,1,1,1),suf,ntp,&
           ierr = cmor_write_cff_int_nobnds_specs(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),refvar)
@@ -5791,7 +5793,7 @@ contains
         endif
        end if
     else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !       ierr = cmor_write_cff_int_notime_specs(var_id,lt_id,pdata(1,1,1,1,1,1),suf,ntp,&
        ierr = cmor_write_cff_int_notime_specs(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
             refvar)
@@ -5848,7 +5850,7 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_int_specs(var_id,lt_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
           ierr = cmor_write_cff_int_specs(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
@@ -5858,7 +5860,7 @@ contains
 !               time_vals(1),reftime_vals(1),time_bnds(1,1),refvar)
         endif
        else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !          ierr = cmor_write_cff_int_nobnds_specs(var_id,lt_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
           ierr = cmor_write_cff_int_nobnds_specs(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
                time_vals(1),reftime_vals(1),refvar)
@@ -5869,7 +5871,7 @@ contains
         endif
        end if
     else
-        if(CMOR_SPECS==1)then 
+        if(CMOR_PROJECT=="SPECS")then 
 !       ierr = cmor_write_cff_int_notime_specs(var_id,lt_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
        ierr = cmor_write_cff_int_notime_specs(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
             refvar)
@@ -8211,13 +8213,14 @@ contains
   end function cmor_set_variable_attribute
 
   function cmor_setup_ints(inpath,netcdf_file_action, set_verbosity,&
-       exit_control, logfile, create_subdirectories, specs) result(ierr)
+       exit_control, logfile, create_subdirectories, arg_cmor_project) result(ierr)
     implicit none
-    integer ierr,nc,verb,mode,crsub,mspecs
+    integer ierr,nc,verb,mode,crsub!,mcmor_project
+    character(len=5) :: mcmor_project
     integer , optional, intent(in) :: netcdf_file_action
     integer , optional, intent(in) :: set_verbosity
     integer , optional, intent(in) :: exit_control
-    integer , optional, intent(in) :: specs
+    character(len=5) , optional, intent(in) :: arg_cmor_project
     character(*) , optional, intent(in) :: inpath
     character(*) , optional, intent(in) :: logfile
     integer , optional, intent(in) :: create_subdirectories
@@ -8262,16 +8265,16 @@ contains
     else
        crsub = 1
     endif
-    if (present(specs)) then
-      mspecs=1
+    if (present(arg_cmor_project)) then
+      mcmor_project="SPECS"
     else 
-      mspecs=0
+      mcmor_project="CMIP5"
     endif
     if (present(logfile)) then 
-       ierr = -cmor_setup_cff(trim(path)//char(0),nc,verb,mode,trim(logfile)//char(0),crsub,mspecs)
+       ierr = -cmor_setup_cff(trim(path)//char(0),nc,verb,mode,trim(logfile)//char(0),crsub,mcmor_project)
     else
-       ierr = -cmor_setup_cff_nolog(trim(path)//char(0),nc,verb,mode,crsub,mspecs)
-!       ierr = -cmor_setup_cff_nolog(trim(path)//char(0),nc,verb,mode,crsub,specs)
+       ierr = -cmor_setup_cff_nolog(trim(path)//char(0),nc,verb,mode,crsub,mcmor_project)
+!       ierr = -cmor_setup_cff_nolog(trim(path)//char(0),nc,verb,mode,crsub,arg_cmor_project)
     endif
        
   end function cmor_setup_ints
@@ -8315,12 +8318,13 @@ contains
 
 
   function cmor_setup_nc_char(inpath,netcdf_file_action, set_verbosity,&
-       exit_control, logfile, create_subdirectories,specs) result(ierr)
+       exit_control, logfile, create_subdirectories,arg_cmor_project) result(ierr)
     implicit none
-    integer ierr,nc,verb,mode,crsub,mspecs
+    integer ierr,nc,verb,mode,crsub!,mcmor_project
+    character(len=5) :: mcmor_project
     integer , optional, intent(in) :: set_verbosity
     integer , optional, intent(in) :: exit_control
-    integer , optional, intent(in) :: specs
+    character(len=5) , optional, intent(in) :: arg_cmor_project
     character(*), optional, intent(in) ::  inpath
     character(*) , intent(in) :: netcdf_file_action
     character(*) , optional, intent(in) :: logfile
@@ -8364,10 +8368,10 @@ contains
     else
        mode = CMOR_NORMAL
     endif
-    if (present(specs)) then
-       mspecs=1
+    if (present(arg_cmor_project)) then
+       mcmor_project="SPECS"
     else
-       mspecs=0
+       mcmor_project="CMIP5"
     endif 
     ! correction code to comply withh Karl's old calls
     if (verb.eq.0 ) then 
@@ -8383,11 +8387,11 @@ contains
        mode = CMOR_EXIT_ON_WARNING
     endif
     if (present(logfile)) then 
-       ierr = -cmor_setup_cff(trim(path)//char(0),nc,verb,mode,trim(logfile)//char(0),crsub,mspecs)
-!       ierr = -cmor_setup_cff(trim(path)//char(0),nc,verb,mode,trim(logfile)//char(0),crsub,specs)
+       ierr = -cmor_setup_cff(trim(path)//char(0),nc,verb,mode,trim(logfile)//char(0),crsub,mcmor_project)
+!       ierr = -cmor_setup_cff(trim(path)//char(0),nc,verb,mode,trim(logfile)//char(0),crsub,arg_cmor_project)
     else
-       ierr = -cmor_setup_cff_nolog(trim(path)//char(0),nc,verb,mode,crsub,mspecs)
-!       ierr = -cmor_setup_cff_nolog(trim(path)//char(0),nc,verb,mode,crsub,specs)
+       ierr = -cmor_setup_cff_nolog(trim(path)//char(0),nc,verb,mode,crsub,mcmor_project)
+!       ierr = -cmor_setup_cff_nolog(trim(path)//char(0),nc,verb,mode,crsub,arg_cmor_project)
     endif
   end function cmor_setup_nc_char
 
@@ -8500,7 +8504,11 @@ contains
     endif
     if (present(physics_description)) then
        physdes = trim(physics_description)//char(0)
+       write(6,*)"in fortran interface, phys pst:",physics_description,"--",physdes,"CMOR_PROJECT=",CMOR_PROJECT
+       call flush(6)
     else
+       write(6,*)"in fortran interface, phys not pst:"
+       call flush(6)
        physdes= char(0)
     endif
     if (present(series)) then
@@ -8515,9 +8523,9 @@ contains
     endif
     if (present(month_lengths)) then
        if (present(branch_time)) then
-        if(CMOR_SPECS==1)then
-!          write(6,*)"before cmor_write in f90 interface 1",physdes
-!          call flush(6) 
+        if(CMOR_PROJECT=="SPECS")then
+          write(6,*)"before cmor_write in f90 interface 1",physdes
+          call flush(6) 
           ierr = cmor_dataset_cff_specs(trim(outpath)//char(0),trim(experiment_id)//char(0),&
                trim(institution)//char(0),trim(source)//char(0),trim(calendar)//char(0),r,&
                cntct,hist,comt,ref,&
@@ -8539,7 +8547,7 @@ contains
                ly,lm,month_lengths(1),mnm,fnm,im,pv,instid,peid,branch_time,trim(parent_experiment_rip)//char(0))
         endif
        else
-        if(CMOR_SPECS==1)then
+        if(CMOR_PROJECT=="SPECS")then
           write(6,*)"before cmor_write in f90 interface 2",physdes
           call flush(6) 
           ierr = cmor_dataset_cff_nobrch_specs(trim(outpath)//char(0),trim(experiment_id)//char(0),&
@@ -8564,7 +8572,7 @@ contains
         endif!debug, ptet pas là
     else
        if (present(branch_time)) then
-        if(CMOR_SPECS==1)then
+        if(CMOR_PROJECT=="SPECS")then
           write(6,*)"before cmor_write in f90 interface 3",physdes
           call flush(6) 
           ierr = cmor_dataset_cff_null_specs(trim(outpath)//char(0),trim(experiment_id)//char(0),&
@@ -8579,8 +8587,8 @@ contains
 !               ly,lm,trim(project_id),trim(physics_description),mnm,fnm,im,&
 !               initialization_description,pv,instid,peid,branch_time,trim(parent_experiment_rip)//char(0),forecast_ref_time,batch,associated_model)
          else
-!          write(6,*)"before cmor_write in f90 interface 3.1",perip,"parent_exp_rip:",trim(parent_experiment_rip)
-!          call flush(6) 
+          write(6,*)"before cmor_write in f90 interface 3.1"!,perip,"parent_exp_rip:",trim(parent_experiment_rip)
+          call flush(6) 
           ierr = cmor_dataset_cff_null_cmip5(trim(outpath)//char(0),trim(experiment_id)//char(0),&
                trim(institution)//char(0),trim(source)//char(0),trim(calendar)//char(0),r,&
                cntct,hist,comt,ref,&
@@ -8588,11 +8596,11 @@ contains
 !               ly,lm,mnm,fnm,im,pv,instid,peid,branch_time,perip)
          endif
        else
-!          write(6,*),"on est là"!,trim(parent_experiment_rip)//char(0)
-!          call flush(6)
-        if(CMOR_SPECS==1)then
-!          write(6,*)"before cmor_write in f90 interface 4",physdes,"ind:",CMOR_SPECS
-!          call flush(6) 
+          write(6,*),"on est là"!,trim(parent_experiment_rip)//char(0)
+          call flush(6)
+        if(CMOR_PROJECT=="SPECS")then
+          write(6,*)"before cmor_write in f90 interface 4",physdes!,"ind:",CMOR_SPECS
+          call flush(6) 
           ierr = cmor_dataset_cff_null_nobrch_specs(trim(outpath)//char(0),trim(experiment_id)//char(0),&
                trim(institution)//char(0),trim(source)//char(0),trim(calendar)//char(0),r,&
                cntct,hist,comt,ref,&
@@ -8604,8 +8612,8 @@ contains
 !               ly,lm,trim(project_id),physics_description,mnm,fnm,im,&
 !               initialization_description,pv,instid,peid,trim(parent_experiment_rip)//char(0),forecast_ref_time,batch,associated_model)
         else
-!          write(6,*)"before cmor_write in f90 interface 4.1"
-!          call flush(6) 
+          write(6,*)"before cmor_write in f90 interface 4.1"
+          call flush(6) 
           ierr = cmor_dataset_cff_null_nobrch_cmip5(trim(outpath)//char(0),trim(experiment_id)//char(0),&
                trim(institution)//char(0),trim(source)//char(0),trim(calendar)//char(0),r,&
                cntct,hist,comt,ref,&               

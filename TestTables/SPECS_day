@@ -88,7 +88,7 @@ must_have_bounds: yes
 
 
 !============
-axis_entry: plev8
+axis_entry: plevs
 !============
 !----------------------------------
 ! Axis attributes:
@@ -101,11 +101,11 @@ long_name:        pressure
 !----------------------------------
 ! Additional axis information:
 !----------------------------------
-out_name:         plev
+out_name:         plevs
 stored_direction: decreasing
 tolerance:        0.001
 type:             double
-requested:        100000. 85000. 70000. 50000. 25000. 10000. 5000.        ! space-separated list of requested coordinates 
+requested:        85000. 50000. 20000. !10000. 5000.        ! space-separated list of requested coordinates 
 must_have_bounds: no
 !----------------------------------
 !
@@ -295,7 +295,7 @@ standard_name:     air_temperature
 units:             K
 cell_methods:      time: minimum
 cell_measures:     area: areacella
-long_name:         Daily Minimum Air Temperature
+long_name:         Daily Minimum Near-Surface Air Temperature
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
@@ -319,7 +319,7 @@ standard_name:     air_temperature
 units:             K
 cell_methods:      time: maximum
 cell_measures:     area: areacella
-long_name:         Daily Maximum Air Temperature
+long_name:         Daily Maximum Near-Surface Air Temperature
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
@@ -367,7 +367,7 @@ standard_name:     surface_upward_latent_heat_flux
 units:             W m-2
 cell_methods:      time: mean
 cell_measures:     area: areacella
-long_name:         Surface upward latent heat flux
+long_name:         Surface Upward Latent Heat Flux
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
@@ -392,7 +392,7 @@ standard_name:     surface_upward_sensible_heat_flux
 units:             W m-2
 cell_methods:      time: mean
 cell_measures:     area: areacella
-long_name:         Surface upward sensible heat flux
+long_name:         Surface Upward Sensible Heat Flux
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
@@ -513,15 +513,15 @@ positive:          down
 !============
 variable_entry:    mrso
 !============
-modeling_realm:    land
+modeling_realm:    atmos land
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
 standard_name:     soil_moisture_content
-units:             m3 m-3
+units:             kg m-2
 cell_methods:      time: mean area: mean where land
 cell_measures:     area: areacella
-long_name:         Total soil moisture content
+long_name:         Total Soil Moisture Content
 comment:           the mass per unit area  (summed over all soil layers) of water in all phases.
 !----------------------------------
 ! Additional variable information:
@@ -549,7 +549,7 @@ modeling_realm:    atmos
 standard_name:     surface_downward_eastward_stress
 units:             Pa
 cell_methods:      time: mean
-long_name:         Surface downward eastward wind stress
+long_name:         Surface Downward Eastward Wind Stress
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
@@ -577,7 +577,7 @@ modeling_realm:    atmos
 standard_name:     surface_downward_northward_stress
 units:             Pa
 cell_methods:      time: mean
-long_name:         Surface downward northward wind stress
+long_name:         Surface Downward Northward Wind Stress
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
@@ -786,7 +786,7 @@ long_name:         Air Temperature
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude plev8 time
+dimensions:        longitude latitude plevs time
 shuffle:           1
 deflate:           1
 deflate_level:     6
@@ -809,7 +809,7 @@ long_name:         Northward Wind
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude plev8 time
+dimensions:        longitude latitude plevs time
 shuffle:           1
 deflate:           1
 deflate_level:     6
@@ -834,41 +834,12 @@ long_name:         Geopotential Height
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude plev8 time
+dimensions:        longitude latitude plevs time
 shuffle:           1
 deflate:           1
 deflate_level:     6
 out_name:          zg
 type:              real
-!----------------------------------
-!
-
-!============
-variable_entry:    sic
-!============
-modeling_realm:    seaIce ocean
-!----------------------------------
-! Variable attributes:
-!----------------------------------
-standard_name:     sea_ice_area_fraction
-units:             %
-cell_methods:      time: mean
-cell_measures:     area: areacello
-long_name:         Sea ice area fraction
-comment:           fraction of grid cell covered by sea ice.
-!----------------------------------
-! Additional variable information:
-!----------------------------------
-dimensions:        longitude latitude time
-shuffle:           1
-deflate:           1
-deflate_level:     6
-out_name:          sic
-type:              real
-valid_min:         -0.000225
-valid_max:         166.1
-ok_min_mean_abs:   -13.33
-ok_max_mean_abs:   36.65
 !----------------------------------
 !
 
@@ -930,7 +901,7 @@ modeling_realm:    ocean
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
-standard_name:     depth_of_isosurface_sea_water_potential_temperature
+standard_name:     depth_of_isosurface_of_sea_water_potential_temperature
 units:             m
 cell_methods:      time: mean
 cell_measures:     area: areacello volume: volcello
@@ -939,7 +910,8 @@ long_name:         20C isotherm depth
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
-dimensions:        longitude latitude time depth_coord
+dimensions:        longitude latitude time
+!dimensions:        longitude latitude time depth_coord
 !----------------------------------
 !
 
@@ -977,7 +949,7 @@ modeling_realm:    atmos
 standard_name:     eastward_wind
 units:             m s-1
 cell_methods:      time: mean
-long_name:         Eastward near-surface wind velocity
+long_name:         Eastward Near-Surface Wind
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
@@ -1004,7 +976,7 @@ modeling_realm:    atmos
 standard_name:     northward_wind
 units:             m s-1
 cell_methods:      time: mean
-long_name:         Northward near-surface wind velocity
+long_name:         Northward Near-Surface Wind Velocity
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
@@ -1032,7 +1004,7 @@ standard_name:     air_pressure_at_sea_level
 units:             Pa
 cell_methods:      time: mean
 cell_measures:     area: areacella
-long_name:         Sea level pressure
+long_name:         Sea Level Pressure
 comment:           not, in general, the same as surface pressure
 !----------------------------------
 ! Additional variable information:
@@ -1089,7 +1061,7 @@ standard_name:     cloud_area_fraction
 units:             %
 cell_methods:      time: mean
 cell_measures:     area: areacella
-long_name:         Total cloud fraction
+long_name:         Total Cloud Fraction
 comment:           for the whole atmospheric column, as seen from the surface or the top of the atmosphere. Include both large-scale and convective cloud.
 !----------------------------------
 ! Additional variable information:
@@ -1154,7 +1126,7 @@ type:              real
 !============
 variable_entry: snld
 !============
-modeling_realm:    atmos
+modeling_realm:    atmos seaIce
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
@@ -1168,7 +1140,7 @@ shuffle:           1
 deflate:           1
 deflate_level:     6
 dimensions:     longitude latitude time
-out_name: snow depth
+out_name: snld
 type:             double
 !---------------------------------
 !
@@ -1190,7 +1162,7 @@ shuffle:           1
 deflate:           1
 deflate_level:     6
 dimensions:     longitude latitude time
-out_name: 2m dewpoint temperature
+out_name: tdps 
 type:             double
 !---------------------------------
 !
@@ -1202,7 +1174,7 @@ modeling_realm:    atmos
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
-standard_name: lwe_water evaporation rate
+standard_name: lwe_water_evaporation_rate
 units: m s-1
 long_name:  evaporation
 !----------------------------------
@@ -1240,4 +1212,43 @@ out_name:          mlotst
 type:              real
 !----------------------------------
 !
-
+!============
+variable_entry:    al
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     surface_albedo
+units:             %
+cell_methods:      area: mean
+cell_measures:     area: areacello
+long_name:         Albedo
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+out_name:          al
+type:              real
+!----------------------------------
+!
+!============
+variable_entry:    fal
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     surface_albedo
+units:             %
+cell_methods:      area: mean
+cell_measures:     area: areacello
+long_name:         Forecast Albedo
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+out_name:          fal
+type:              real
+!----------------------------------
+!

@@ -687,7 +687,7 @@ standard_name:     sea_surface_temperature
 units:             K
 cell_methods:      time: mean
 cell_measures:     area: areacello
-long_name:         Sea surface temperature
+long_name:         Sea Surface Temperature
 comment:           "this may differ from ""surface temperature"" in regions of sea ice."
 !----------------------------------
 ! Additional variable information:
@@ -769,11 +769,11 @@ modeling_realm:    ocean
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
-dimensions:        longitude latitude time depth_coord
+dimensions:        longitude latitude time
 shuffle:           1
 deflate:           1
 deflate_level:     6
-standard_name:     depth_of_isosurface_sea_water_potential_temperature
+standard_name:     depth_of_isosurface_of_sea_water_potential_temperature
 units:             m
 cell_methods:      time: mean
 cell_measures:     area: areacello volume: volcello
@@ -790,9 +790,9 @@ modeling_realm:    ocean
 shuffle:           1
 deflate:           1
 deflate_level:     6
-standard_name:     atlantic_ocean_meridional_overturning_mass_streamfunction
+standard_name:     ocean_meridional_overturning_mass_streamfunction
 units:             kg s-1
-long_name:         Meridional mass streamfunction in the Atlantic
+long_name:         Meridional Mass Streamfunction in the Atlantic
 !----------------------------------
 !
 !============
@@ -805,13 +805,13 @@ modeling_realm:    ocean
 shuffle:           1
 deflate:           1
 deflate_level:     6
-standard_name:     atlantic_ocean_meridional_overturning_mass_streamfunction_due_to_bolus_advection 
+standard_name:     ocean_meridional_overturning_mass_streamfunction_due_to_bolus_advection 
 units:             kg s-1
-long_name:         Meridional mass streamfunction in the Atlantic due to bolus advection
+long_name:         Meridional Mass Streamfunction in the Atlantic Due to Bolus Advection
 !----------------------------------
 !
 !============
-variable_entry:  msftmyzg 
+variable_entry:  msftmyz 
 !============
 modeling_realm:    ocean
 !----------------------------------
@@ -822,11 +822,11 @@ deflate:           1
 deflate_level:     6
 standard_name:     ocean_meridional_overturning_mass_streamfunction 
 units:             kg s-1
-long_name:         Global meridional mass streamfunction
+long_name:         Meridional Mass Streamfunction
 !----------------------------------
 !
 !============
-variable_entry:  msftmyzgba 
+variable_entry:  msftmyzba 
 !============
 modeling_realm:    ocean
 !----------------------------------
@@ -837,11 +837,11 @@ deflate:           1
 deflate_level:     6
 standard_name:     ocean_meridional_overturning_mass_streamfunction_due_to_bolus_advection 
 units:             kg s-1
-long_name:         Global meridional mass streamfunction due to bolus advection
+long_name:         Meridional Mass Streamfunction Due to Bolus Advection
 !----------------------------------
 !
 !============
-variable_entry:  hfnorthg 
+variable_entry:  hfnorth 
 !============
 modeling_realm:    ocean
 !----------------------------------
@@ -852,11 +852,11 @@ deflate:           1
 deflate_level:     6
 standard_name:     northward_ocean_heat_transport 
 units:             W
-long_name:         Global northward ocean heat transport
+long_name:         Northward Ocean Heat Transport
 !----------------------------------
 !
 !============
-variable_entry:   hfnorthgba
+variable_entry:   hfnorthba
 !============
 modeling_realm:    ocean
 !----------------------------------
@@ -867,7 +867,7 @@ deflate:           1
 deflate_level:     6
 standard_name:     northward_ocean_heat_transport_due_to_bolus_advection  
 units:             W
-long_name:         Global northward ocean heat transport due to bolus advection 
+long_name:         Northward Ocean Heat Transport Due to Bolus Advection 
 !----------------------------------
 !
 !============
@@ -880,9 +880,9 @@ modeling_realm:    ocean
 shuffle:           1
 deflate:           1
 deflate_level:     6
-standard_name:     atlantic_northward_ocean_heat_transport 
+standard_name:     northward_ocean_heat_transport 
 units:             W
-long_name:         Atlantic northward ocean heat transport
+long_name:         Atlantic Northward Ocean Heat Transport
 !----------------------------------
 !
 !============
@@ -895,13 +895,13 @@ modeling_realm:    ocean
 shuffle:           1
 deflate:           1
 deflate_level:     6
-standard_name:     atlantic_northward_ocean_heat_transport_due_to_bolus_advection 
+standard_name:     northward_ocean_heat_transport_due_to_bolus_advection 
 units:             W
-long_name:         Atlantic northward ocean heat transport due to bolus advection 
+long_name:         Atlantic Northward Ocean Heat Transport Due to Bolus Advection 
 !----------------------------------
 !
 !============
-variable_entry:  sltnorthg 
+variable_entry:  sltnorth 
 !============
 modeling_realm:    ocean
 !----------------------------------
@@ -912,7 +912,7 @@ deflate:           1
 deflate_level:     6
 standard_name:     northward_ocean_salt_transport 
 units:             kg s-1
-long_name:         Global northward ocean salt transport
+long_name:         Northward Ocean Salt Transport
 !----------------------------------
 !
 !============
@@ -925,8 +925,8 @@ modeling_realm:    ocean
 shuffle:           1
 deflate:           1
 deflate_level:     6
-standard_name:     atlantic_northward_ocean_salt_transport 
+standard_name:     northward_ocean_salt_transport 
 units:             kg s-1
-long_name:         Atlantic northward ocean salt transport
+long_name:         Atlantic Northward Ocean Salt Transport
 !----------------------------------
 !

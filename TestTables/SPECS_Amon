@@ -109,7 +109,7 @@ out_name:         plev
 stored_direction: decreasing
 tolerance:        0.001
 type:             double
-requested:        100000. 92500. 85000. 70000. 60000. 50000. 40000. 30000. 25000. 20000. 15000. 10000. 7000. 5000. 3000. 2000.        ! space-separated list of requested coordinates 
+requested:        85000. 50000. 20000. !15000. 10000. 7000. 5000. 3000. 2000.        ! space-separated list of requested coordinates 
 must_have_bounds: no
 !----------------------------------
 !
@@ -688,7 +688,7 @@ standard_name:     air_temperature
 units:             K
 cell_methods:      time: minimum within days time: mean over days
 cell_measures:     area: areacella
-long_name:         Daily Minimum Air Temperature
+long_name:         Daily Minimum Near-Surface Air Temperature
 comment:           monthly mean of the daily-minimum near-surface air temperature.
 !----------------------------------
 ! Additional variable information:
@@ -717,7 +717,7 @@ standard_name:     air_temperature
 units:             K
 cell_methods:      time: maximum within days time: mean over days
 cell_measures:     area: areacella
-long_name:         Daily Maximum Air Temperature
+long_name:         Daily Maximum Near-Surface Air Temperature
 comment:           monthly mean of the daily-maximum near-surface air temperature.
 !----------------------------------
 ! Additional variable information:
@@ -746,7 +746,7 @@ standard_name:     air_pressure_at_sea_level
 units:             Pa
 cell_methods:      time: mean
 cell_measures:     area: areacella
-long_name:         Sea level pressure
+long_name:         Sea Level Pressure
 comment:           not, in general, the same as surface pressure
 !----------------------------------
 ! Additional variable information:
@@ -763,6 +763,7 @@ ok_min_mean_abs:   9.57e+04
 ok_max_mean_abs:   1.063e+05
 !----------------------------------
 !
+
 !============
 variable_entry:    ps
 !============
@@ -771,9 +772,6 @@ modeling_realm:    atmos
 ! Variable attributes:
 !----------------------------------
 standard_name:     surface_air_pressure
-shuffle:           1
-deflate:           1
-deflate_level:     6
 units:             Pa
 cell_methods:      time: mean
 cell_measures:     area: areacella
@@ -789,6 +787,9 @@ valid_min:         4.791e+04
 valid_max:         1.119e+05
 ok_min_mean_abs:   9.165e+04
 ok_max_mean_abs:   1.019e+05
+shuffle:           1
+deflate:           1
+deflate_level:     6
 !----------------------------------
 !
 
@@ -802,7 +803,7 @@ modeling_realm:    atmos
 standard_name:     eastward_wind
 units:             m s-1
 cell_methods:      time: mean
-long_name:         Eastward near-surface wind velocity
+long_name:         Eastward Near-Surface Wind
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
@@ -829,7 +830,7 @@ modeling_realm:    atmos
 standard_name:     northward_wind
 units:             m s-1
 cell_methods:      time: mean
-long_name:         Northward near-surface wind velocity
+long_name:         Northward Near-Surface Wind
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
@@ -856,7 +857,7 @@ modeling_realm:    atmos
 standard_name:     surface_downward_eastward_stress
 units:             Pa
 cell_methods:      time: mean
-long_name:         Surface downward eastward wind stress
+long_name:         Surface Downward Eastward Wind Stress
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
@@ -941,7 +942,7 @@ standard_name:     toa_incoming_shortwave_flux
 units:             W m-2
 cell_methods:      time: mean
 cell_measures:     area: areacella
-long_name:         TOA incident shortwave radiation
+long_name:         TOA Incident Shortwave Radiation
 comment:           at the top of the atmosphere
 !----------------------------------
 ! Additional variable information:
@@ -953,10 +954,10 @@ deflate_level:     6
 out_name:          rsdt
 type:              real
 positive:          down
-valid_min:         0
-valid_max:         580.4
-ok_min_mean_abs:   282.6
-ok_max_mean_abs:   315.8
+!valid_min:         0
+!valid_max:         580.4
+!ok_min_mean_abs:   282.6
+!ok_max_mean_abs:   315.8
 !----------------------------------
 !
 !============
@@ -970,7 +971,7 @@ standard_name:     surface_downwelling_shortwave_flux_in_air
 units:             W m-2
 cell_methods:      time: mean
 cell_measures:     area: areacella
-long_name:         Surface downwelling shortwave radiation
+long_name:         Surface Downwelling Shortwave Radiation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
@@ -983,8 +984,8 @@ type:              real
 positive:          down
 valid_min:         -0.002946
 valid_max:         524.4
-ok_min_mean_abs:   143.9
-ok_max_mean_abs:   181.6
+!ok_min_mean_abs:   143.9
+!ok_max_mean_abs:   181.6
 !----------------------------------
 !
 !============
@@ -1022,7 +1023,7 @@ standard_name:     surface_upward_latent_heat_flux
 units:             W m-2
 cell_methods:      time: mean
 cell_measures:     area: areacella
-long_name:         Surface upward latent heat flux
+long_name:         Surface Upward Latent Heat Flux
 comment:           includes both evaporation and sublimation
 !----------------------------------
 ! Additional variable information:
@@ -1051,7 +1052,7 @@ standard_name:     surface_net_downward_shortwave_flux
 units:             W m-2
 cell_methods:      time: mean
 cell_measures:     area: areacella
-long_name:         Net sw surface radiation
+long_name:         Net Shortwave Surface Radiation
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
@@ -1097,7 +1098,7 @@ standard_name:     surface_upward_sensible_heat_flux
 units:             W m-2
 cell_methods:      time: mean
 cell_measures:     area: areacella
-long_name:         Surface upward sensible heat flux
+long_name:         Surface Upward Sensible Heat Flux
 !----------------------------------
 ! Additional variable information:
 !----------------------------------
@@ -1185,7 +1186,7 @@ standard_name:     cloud_area_fraction
 units:             %
 cell_methods:      time: mean
 cell_measures:     area: areacella
-long_name:         Total cloud fraction
+long_name:         Total Cloud Fraction
 comment:           for the whole atmospheric column, as seen from the surface or the top of the atmosphere. Include both large-scale and convective cloud.
 !----------------------------------
 ! Additional variable information:
@@ -1313,6 +1314,7 @@ ok_max_mean_abs:   0.01041
 !----------------------------------
 !
 
+!============
 variable_entry:    zg
 !============
 modeling_realm:    atmos
@@ -1351,7 +1353,7 @@ standard_name:     snowfall_flux
 units:             kg m-2 s-1
 cell_methods:      time: mean
 cell_measures:     area: areacella
-long_name:         Snowfall flux
+long_name:         Snowfall Flux
 comment:           at surface; includes precipitation of all forms of water in the solid phase
 !----------------------------------
 ! Additional variable information:
@@ -1373,7 +1375,7 @@ variable_entry: evlwr
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
-standard_name: lwe_water evaporation rate 
+standard_name: lwe_water_evaporation_rate 
 units: m s-1
 long_name:  evaporation      
 !----------------------------------
@@ -1403,7 +1405,8 @@ shuffle:           1
 deflate:           1
 deflate_level:     6
 dimensions:        longitude latitude time
-out_name:          snow depth
+out_name:          snld
+!out_name:          snow depth
 type:              double
 !---------------------------------
 !
@@ -1423,6 +1426,123 @@ shuffle:           1
 deflate:           1
 deflate_level:     6
 dimensions:        longitude latitude time
-out_name:          2m dewpoint temperature 
+out_name:          tdps 
+!out_name:          2m dewpoint temperature 
 type:              double
 !---------------------------------
+!
+!============
+variable_entry:    prc
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     convective_precipitation_flux
+units:             kg m-2 s-1
+cell_methods:      time: mean
+cell_measures:     area: areacella
+long_name:         Convective Precipitation
+comment:           at surface; includes both liquid and solid phases.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:          prc
+type:              real
+!----------------------------------
+!
+!============
+variable_entry:    mrro
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     runoff_flux
+units:             kg m-2 s-1
+cell_methods:      time: mean area: mean where land
+cell_measures:     area: areacella
+long_name:         Total Runoff
+comment:           "the total runoff (including ""drainage"" through the base of the soil model) leaving the land portion of the grid cell."
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+out_name:          mrro
+type:              real
+valid_min:         -0.0002019
+valid_max:         0.001065
+ok_min_mean_abs:   -6.668e-06
+ok_max_mean_abs:   1.874e-05
+!----------------------------------
+!
+!============
+variable_entry:    mrso
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     soil_moisture_content
+units:             kg m-2
+cell_methods:      time: mean area: mean where land
+cell_measures:     area: areacella
+long_name:         Total Soil Moisture Content
+comment:           the mass per unit area  (summed over all soil layers) of water in all phases.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+out_name:          mrso
+type:              real
+valid_min:         -64.17
+valid_max:         5717
+ok_min_mean_abs:   -1424
+ok_max_mean_abs:   3038
+!----------------------------------
+!
+!============
+variable_entry:    al
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     surface_albedo
+units:             %
+cell_methods:      area: mean
+cell_measures:     area: areacello
+long_name:         Albedo
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+out_name:          al
+type:              real
+!----------------------------------
+!
+!============
+variable_entry:    fal
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     surface_albedo
+units:             %
+cell_methods:      area: mean
+cell_measures:     area: areacello
+long_name:         Forecast Albedo
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+out_name:          fal
+type:              real
+!----------------------------------
+!
+
