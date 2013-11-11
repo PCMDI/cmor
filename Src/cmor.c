@@ -55,6 +55,40 @@ int CMOR_CREATE_SUBDIRECTORIES = 1;
 char cmor_input_path[CMOR_MAX_STRING];
 char cmor_traceback_info[CMOR_MAX_STRING];
 
+void cmor_cat_unique_string (char* dest, char* src) {
+  char* pstr=dest;
+  int destlen=strlen(dest);
+  int spare_space=CMOR_MAX_STRING-destlen;
+  /* if this string is in msg */
+  while (pstr=strstr(pstr, src)) {
+    /* if this word is at the beginning of msg or preceeded by a space */
+    if (pstr==dest || pstr[-1]==' ') {
+      /* if it isn't a substring match */
+      if ((pstr[strlen(src)] != ' ') &&
+          (pstr[strlen(src)] != 0)) {
+        /* then add this string to the end of msg */
+        strncat(pstr, " " ,spare_space);
+        spare_space--;
+        strncat(pstr, src, spare_space);
+      }
+      break; /* Either existed here or didn't*/
+    }
+    /* If it gets here, then it was a partial match, like "rum" and "rumble". */
+    pstr++;/* In which case, skip to the next char */
+    spare_space=CMOR_MAX_STRING-(pstr-dest); /* shorten the space available for the rest of the destination string */
+    /* and go round again */
+  }
+  if (pstr==0) {
+    /* this string is not in msg, therefore append it */
+    if (dest[0]!=0) {
+      /* This is being appended to a preexisting string, so separate with a space */
+      strncat(dest, " ", spare_space);
+      spare_space--;
+    }
+    strncat(dest, src, spare_space);
+  }
+}
+
 void  cmor_check_forcing_validity(int table_id,char *value) {
   int i,j,n,found=0;
   char msg[CMOR_MAX_STRING];
@@ -1766,6 +1800,7 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
   uuid_fmt_t fmt;
   void *myuuid_str=NULL;
   size_t uuidlen;
+
   extern int cmor_convert_char_to_hyphen(char c);
 
 
@@ -2854,15 +2889,14 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
 	    if (cmor_axes[cmor_vars[var_id].axes_ids[k]].isgridaxis==1) {
 	      nc_dims_associated[l]=nc_dim_af[k];
 /* 	      printf("ok we have a grid axis %s associated with dim %i (k is: %i)\n",cmor_axes[cmor_vars[var_id].axes_ids[k]].id,l,k); */
+
 	      if (m2[i]==0 && (i==0 || i==1)) {
-		if (cmor_has_variable_attribute(var_id,"coordinates")==0) {
-		  cmor_get_variable_attribute(var_id,"coordinates",&msg);
-		  strncat(msg," ",CMOR_MAX_STRING-strlen(msg));
-		  strncat(msg,cmor_vars[cmor_grids[cmor_vars[var_id].grid_id].associated_variables[i]].id,CMOR_MAX_STRING-strlen(msg));
-		}
-		else {
-		  strncpy(msg,cmor_vars[cmor_grids[cmor_vars[var_id].grid_id].associated_variables[i]].id,CMOR_MAX_STRING-strlen(msg));
-		}
+               if (cmor_has_variable_attribute(var_id,"coordinates")==0) {
+                 cmor_get_variable_attribute(var_id,"coordinates",&msg);
+                 cmor_cat_unique_string(msg, cmor_vars[cmor_grids[cmor_vars[var_id].grid_id].associated_variables[i]].id);
+               } else {
+                 strncpy(msg,cmor_vars[cmor_grids[cmor_vars[var_id].grid_id].associated_variables[i]].id,CMOR_MAX_STRING-strlen(msg));
+               }
 		cmor_set_variable_attribute_internal(var_id,"coordinates",'c',msg);
 		m2[i]=1;
 	      }
