@@ -55,37 +55,43 @@ int CMOR_CREATE_SUBDIRECTORIES = 1;
 char cmor_input_path[CMOR_MAX_STRING];
 char cmor_traceback_info[CMOR_MAX_STRING];
 
-void cmor_cat_unique_string (char* dest, char* src) {
+/* Test routines implemented out of the way at the end of this code */
+int test_cat_unique_string(void);
+
+
+/* is src in dest? Negative=src already in dest */
+
+int cmor_stringinstring (char* dest, char* src) {
   char* pstr=dest;
-  int destlen=strlen(dest);
-  int spare_space=CMOR_MAX_STRING-destlen;
-  /* if this string is in msg */
   while (pstr=strstr(pstr, src)) {
     /* if this word is at the beginning of msg or preceeded by a space */
     if (pstr==dest || pstr[-1]==' ') {
       /* if it isn't a substring match */
       if ((pstr[strlen(src)] != ' ') &&
           (pstr[strlen(src)] != 0)) {
-        /* then add this string to the end of msg */
-        strncat(pstr, " " ,spare_space);
-        spare_space--;
-        strncat(pstr, src, spare_space);
+        /* then return 1 to indicate string found */
+        return 1;
       }
-      break; /* Either existed here or didn't*/
     }
-    /* If it gets here, then it was a partial match, like "rum" and "rumble". */
     pstr++;/* In which case, skip to the next char */
-    spare_space=CMOR_MAX_STRING-(pstr-dest); /* shorten the space available for the rest of the destination string */
-    /* and go round again */
   }
-  if (pstr==0) {
-    /* this string is not in msg, therefore append it */
-    if (dest[0]!=0) {
-      /* This is being appended to a preexisting string, so separate with a space */
-      strncat(dest, " ", spare_space);
-      spare_space--;
-    }
-    strncat(dest, src, spare_space);
+  /* nothing like src is in dest, and so return the location of the end of string*/
+  return 0;
+}
+
+void cmor_cat_unique_string (char* dest, char* src) {
+  int offset;
+  int spare_space;
+  /* if this string is in msg */
+  if (cmor_stringinstring(dest, src)) {
+    /* do nothing */
+  } else if (offset=strlen(dest)) {
+    dest[offset]=' ';
+    offset++;
+    spare_space=CMOR_MAX_STRING-offset-1;
+    strncat(dest+offset, src, spare_space);
+  } else if (offset=0) {
+     strncpy(dest, src, CMOR_MAX_STRING);
   }
 }
 
@@ -2536,7 +2542,12 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
       /* did we flip that guy? */
       if (cmor_axes[cmor_vars[var_id].axes_ids[i]].revert==-1) {
 	sprintf(msg,"Inverted axis: %s",cmor_axes[cmor_vars[var_id].axes_ids[i]].id);
+        /* fiddle to avoid duplicated effort here if it's already inverted */
+        if (cmor_history_contains(var_id, msg)) {
+          /* do nothing */
+        } else {
 	cmor_update_history(var_id,msg);
+        }
       }
       /* Axis length */
       j=cmor_axes[cmor_vars[var_id].axes_ids[i]].length;
