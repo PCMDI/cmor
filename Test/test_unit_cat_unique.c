@@ -6,6 +6,16 @@ int fail(int code, char *expect, char *got) {
   return code;
 }
 
+int test_cmor_stringinstring(void) {
+  printf("running cmor_stringinstring tests\n");
+  if (cmor_stringinstring("Inverted axis: rlat.", "Inverted axis: rlat")) {
+    /* should match */
+  } else {
+    printf("failed stringinstring test with period after string\n");
+    return 1;
+  }
+}
+  
 int test_cat_unique_string(void) {
   char dest[CMOR_MAX_STRING];
   char src[CMOR_MAX_STRING];
@@ -15,7 +25,7 @@ int test_cat_unique_string(void) {
   strcpy(expected, "rumble");
 
   /* 1. simple test: add string to blank */
-  printf("running tests\n");
+  printf("running cat_unique_string tests\n");
   cmor_cat_unique_string(dest,src);
   if (strcmp(dest,expected)) {
     return fail(1, expected, dest);
@@ -124,6 +134,6 @@ int test_cat_unique_string(void) {
 }
 
 int main(int argc, char **argv) {
+  test_cmor_stringinstring();
   test_cat_unique_string();
- 
 }

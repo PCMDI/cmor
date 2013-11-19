@@ -58,13 +58,20 @@ char cmor_traceback_info[CMOR_MAX_STRING];
 /* is src in dest?*/
 
 int cmor_stringinstring (char* dest, char* src) {
+  /* returns 1 if dest contains the words of src.
+     the end of a word is either a space, a period or null.
+     
+     this will not give the desired results if period is used
+     internal to a word.
+ */
   char* pstr=dest;
   while (pstr=strstr(pstr, src)) {
     /* if this word is at the beginning of msg or preceeded by a space */
     if (pstr==dest || pstr[-1]==' ') {
       /* if it isn't a substring match */
       if ((pstr[strlen(src)] == ' ') ||
-          (pstr[strlen(src)] == 0)) {
+          (pstr[strlen(src)] == 0) ||
+	  (pstr[strlen(src)] == '.')) {
         /* then return 1 to indicate string found */
         return 1;
       }
@@ -2539,7 +2546,7 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
         if (cmor_history_contains(var_id, msg)) {
           /* do nothing */
         } else {
-	cmor_update_history(var_id,msg);
+	  cmor_update_history(var_id,msg);
         }
       }
       /* Axis length */
