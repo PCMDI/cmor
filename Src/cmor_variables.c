@@ -554,7 +554,6 @@ int cmor_update_history(int var_id,char *add){
   char tmp2[CMOR_MAX_STRING];
 
   /* first figures out time */
-  cmor_add_traceback("cmor_update_history");
   lt = time(NULL);
   ptr = gmtime(&lt);
   snprintf(date,CMOR_MAX_STRING,"%.4i-%.2i-%.2iT%.2i:%.2i:%.2iZ",ptr->tm_year+1900,ptr->tm_mon+1,ptr->tm_mday,ptr->tm_hour,ptr->tm_min,ptr->tm_sec);
@@ -571,17 +570,8 @@ int cmor_update_history(int var_id,char *add){
 }
 
 int cmor_history_contains(int var_id,char *add){
-  struct tm *ptr;
-  time_t lt;
-  char date[CMOR_MAX_STRING];
   char tmp[CMOR_MAX_STRING];
-  char tmp2[CMOR_MAX_STRING];
 
-  /* first figures out time */
-  cmor_add_traceback("cmor_update_history");
-  lt = time(NULL);
-  ptr = gmtime(&lt);
-  snprintf(date,CMOR_MAX_STRING,"%.4i-%.2i-%.2iT%.2i:%.2i:%.2iZ",ptr->tm_year+1900,ptr->tm_mon+1,ptr->tm_mday,ptr->tm_hour,ptr->tm_min,ptr->tm_sec);
   if (cmor_has_variable_attribute(var_id,"history")==0) {
     cmor_get_variable_attribute(var_id,"history",&tmp[0]);
     if (cmor_stringinstring(tmp, add)) {

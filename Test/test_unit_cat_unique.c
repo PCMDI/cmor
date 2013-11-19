@@ -1,12 +1,16 @@
 #include <string.h>
 #include "cmor.h"
+#include "cmor_func_def.h"
 
-extern void cmor_cat_unique_string (char* dest, char* src);
+int fail(int code, char *expect, char *got) {
+  printf("failed test %d, expect '%s' got '%s'\n", code, expect, got);
+  return code;
+}
 
 int test_cat_unique_string(void) {
-  char dest[128];
-  char src[128];
-  char expected[128];
+  char dest[CMOR_MAX_STRIN];
+  char src[CMOR_MAX_STRING];
+  char expected[CMOR_MAX_STRING];
   strcpy(dest, "");
   strcpy(src, "rumble");
   strcpy(expected, "rumble");
@@ -15,13 +19,17 @@ int test_cat_unique_string(void) {
   printf("running tests\n");
   cmor_cat_unique_string(dest,src);
   if (strcmp(dest,expected)) {
-    return 1;
+    return fail(1, expected, dest);
   }
 
   /* 2. simple test: add string to itself. Should be identical to above */
+  strcpy(dest, "rumble");
+  strcpy(src, "rumble");
+  strcpy(expected, "rumble");
+
   cmor_cat_unique_string(dest,src);
   if (strcmp(dest,expected)) {
-    return 2;
+    return fail(2, expected, dest);
   }
 
   /* 3. simple test: add string to non-blank, unique*/
@@ -29,7 +37,7 @@ int test_cat_unique_string(void) {
   strcpy(expected, "rumble jungle");
   cmor_cat_unique_string(dest,src);
   if (strcmp(dest,expected)) {
-    return 3;
+    return fail(3, expected, dest);
   }
 
   /* 4. simple test: add string that exists within another word */
@@ -38,7 +46,7 @@ int test_cat_unique_string(void) {
   strcpy(expected, "rumble jungle umb");
   cmor_cat_unique_string(dest,src);
   if (strcmp(dest,expected)) {
-    return 4;
+    return fail(4, expected, dest);
   }
 
   /* 5. simple test: add string to blank */
@@ -47,7 +55,7 @@ int test_cat_unique_string(void) {
   strcpy(expected, "rumble rum");
   cmor_cat_unique_string(dest,src);
   if (strcmp(dest,expected)) {
-    return 5;
+    return fail(5, expected, dest);
   }
 
   /* 6. simple test: add string to blank */
@@ -56,7 +64,7 @@ int test_cat_unique_string(void) {
   strcpy(expected, "rumble ble");
   cmor_cat_unique_string(dest,src);
   if (strcmp(dest,expected)) {
-    return 6;
+    return fail(6, expected, dest);
   }
 
   /* 7. simple test: add string to blank */
@@ -65,7 +73,7 @@ int test_cat_unique_string(void) {
   strcpy(expected, "rumble jungle happy ppy");
   cmor_cat_unique_string(dest,src);
   if (strcmp(dest,expected)) {
-    return 7;
+    return fail(7, expected, dest);
   }
 
   /* 8. simple test: add string to blank */
@@ -74,7 +82,7 @@ int test_cat_unique_string(void) {
   strcpy(expected, "rumble jungle happy gle");
   cmor_cat_unique_string(dest,src);
   if (strcmp(dest,expected)) {
-    return 8;
+    return fail(8, expected, dest);
   }
 
   /* 9. simple test: add string to blank */
@@ -83,7 +91,7 @@ int test_cat_unique_string(void) {
   strcpy(expected, "rumble jungle happy jung");
   cmor_cat_unique_string(dest,src);
   if (strcmp(dest,expected)) {
-    return 9;
+    return fail(9, expected, dest);
   }
   /* 10. simple test: add string to blank */
   strcpy(dest, "rumble jumble ble");
@@ -91,7 +99,7 @@ int test_cat_unique_string(void) {
   strcpy(expected, "rumble jumble ble");
   cmor_cat_unique_string(dest,src);
   if (strcmp(dest,expected)) {
-    return 9;
+    return fail(10, expected, dest);
   }
 
   /* 11. simple test: add latest */
@@ -100,7 +108,7 @@ int test_cat_unique_string(void) {
   strcpy(expected, "rumble jumble");
   cmor_cat_unique_string(dest,src);
   if (strcmp(dest,expected)) {
-    return 10;
+    return fail(11, expected, dest);
   }
 
   /* 12. simple test: add latest */
@@ -109,7 +117,7 @@ int test_cat_unique_string(void) {
   strcpy(expected, "rumble jumble");
   cmor_cat_unique_string(dest,src);
   if (strcmp(dest,expected)) {
-    return 11;
+    return fail(12, expected, dest);
   }
 
   return 0;

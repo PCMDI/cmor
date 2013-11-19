@@ -55,12 +55,7 @@ int CMOR_CREATE_SUBDIRECTORIES = 1;
 char cmor_input_path[CMOR_MAX_STRING];
 char cmor_traceback_info[CMOR_MAX_STRING];
 
-/* Test routines implemented out of the way at the end of this code */
-int test_cat_unique_string(void);
-
-
 /* is src in dest? Negative=src already in dest */
-
 int cmor_stringinstring (char* dest, char* src) {
   char* pstr=dest;
   while (pstr=strstr(pstr, src)) {
@@ -82,17 +77,23 @@ int cmor_stringinstring (char* dest, char* src) {
 void cmor_cat_unique_string (char* dest, char* src) {
   int offset;
   int spare_space;
+
   /* if this string is in msg */
   if (cmor_stringinstring(dest, src)) {
     /* do nothing */
-  } else if (offset=strlen(dest)) {
+
+  } else if (offset = strlen(dest)) {
     dest[offset]=' ';
     offset++;
     spare_space=CMOR_MAX_STRING-offset-1;
     strncat(dest+offset, src, spare_space);
-  } else if (offset=0) {
+
+  } else if (offset==0) {
+
      strncpy(dest, src, CMOR_MAX_STRING);
+
   }
+
 }
 
 void  cmor_check_forcing_validity(int table_id,char *value) {
