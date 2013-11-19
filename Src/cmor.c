@@ -55,15 +55,16 @@ int CMOR_CREATE_SUBDIRECTORIES = 1;
 char cmor_input_path[CMOR_MAX_STRING];
 char cmor_traceback_info[CMOR_MAX_STRING];
 
-/* is src in dest? Negative=src already in dest */
+/* is src in dest?*/
+
 int cmor_stringinstring (char* dest, char* src) {
   char* pstr=dest;
   while (pstr=strstr(pstr, src)) {
     /* if this word is at the beginning of msg or preceeded by a space */
     if (pstr==dest || pstr[-1]==' ') {
       /* if it isn't a substring match */
-      if ((pstr[strlen(src)] != ' ') &&
-          (pstr[strlen(src)] != 0)) {
+      if ((pstr[strlen(src)] == ' ') ||
+          (pstr[strlen(src)] == 0)) {
         /* then return 1 to indicate string found */
         return 1;
       }
@@ -77,23 +78,19 @@ int cmor_stringinstring (char* dest, char* src) {
 void cmor_cat_unique_string (char* dest, char* src) {
   int offset;
   int spare_space;
-
   /* if this string is in msg */
   if (cmor_stringinstring(dest, src)) {
     /* do nothing */
-
-  } else if (offset = strlen(dest)) {
-    dest[offset]=' ';
-    offset++;
-    spare_space=CMOR_MAX_STRING-offset-1;
-    strncat(dest+offset, src, spare_space);
-
-  } else if (offset==0) {
-
-     strncpy(dest, src, CMOR_MAX_STRING);
-
+  } else {
+    if (offset=strlen(dest)) {
+      strcat(dest+offset, " ");
+      offset++;
+      spare_space=CMOR_MAX_STRING-offset-1;
+      strncat(dest+offset, src, spare_space);
+    } else {
+      strncpy(dest, src, CMOR_MAX_STRING);
+    }
   }
-
 }
 
 void  cmor_check_forcing_validity(int table_id,char *value) {
@@ -148,7 +145,6 @@ int cmor_check_expt_id(char *expt_id, int table_id, char *gbl_lng, char *gbl_sht
   char ctmp[CMOR_MAX_STRING];
 
   cmor_add_traceback("cmor_check_expt_id");
-
   j=0;
   for (i=0;i<=cmor_tables[table_id].nexps;i++) {
     k=strlen(expt_id);
@@ -954,7 +950,6 @@ int cmor_set_cur_dataset_attribute_internal(char *name, char *value, int optiona
   extern cmor_dataset_def cmor_current_dataset;
   cmor_add_traceback("cmor_set_cur_dataset_attribute_internal");
   cmor_is_setup();
-
 
   cmor_trim_string(value,msg);
   if ((int)strlen(name)>CMOR_MAX_STRING) {
@@ -1810,7 +1805,6 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
 
   extern int cmor_convert_char_to_hyphen(char c);
 
-
   cmor_add_traceback("cmor_write");
 
   strcpy(appending_to,""); /* initialize to nothing */
@@ -1913,7 +1907,6 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
       }
     }
 	
-
     /* Figures out file name */
     if (CMOR_CREATE_SUBDIRECTORIES == 1) {
       isfixed = cmor_create_output_path(var_id,outname);
@@ -1943,7 +1936,6 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
       strncat(outname,ctmp2,CMOR_MAX_STRING-strlen(outname));
     }
     strncat(outname,"_",CMOR_MAX_STRING-strlen(outname));
-
     /* is it a fixed field ? */
     if (isfixed==1) {
       strncat(outname,"r0i0p0",CMOR_MAX_STRING-strlen(outname) );
@@ -4037,4 +4029,3 @@ void cmor_trim_string(char *in,char *out) {
   i=n;
   while((out[i]=='\0' || out[i]==' ')) { out[i]='\0'; i--;}
 }
-

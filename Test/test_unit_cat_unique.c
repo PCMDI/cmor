@@ -8,7 +8,7 @@ int fail(int code, char *expect, char *got) {
 }
 
 int test_cat_unique_string(void) {
-  char dest[CMOR_MAX_STRIN];
+  char dest[CMOR_MAX_STRING];
   char src[CMOR_MAX_STRING];
   char expected[CMOR_MAX_STRING];
   strcpy(dest, "");
