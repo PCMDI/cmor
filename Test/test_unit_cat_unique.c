@@ -1,6 +1,5 @@
 #include <string.h>
 #include "cmor.h"
-#include "cmor_func_def.h"
 
 int fail(int code, char *expect, char *got) {
   printf("failed test %d, expect '%s' got '%s'\n", code, expect, got);
