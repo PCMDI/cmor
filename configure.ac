@@ -215,7 +215,6 @@ if [ test ${with_netcdfb} != "-yes" ]; then
       NCCFLAGS=`${with_netcdf}/bin/nc-config --cflags`
       NCLDFLAGS=`${with_netcdf}/bin/nc-config --libs`
     else 
-#echo "CRAP!"
      NCCFLAGS=" -I${with_netcdf}/include"
      if [ test ${RTAG} != "none" ] ; then
       NCLDFLAGS=" -L${with_netcdf}/lib  ${RTAG}${with_netcdf}/lib -lnetcdf"
@@ -241,6 +240,9 @@ fi
 USERCFLAGS=${CFLAGS}
 USERFFLAGS=${FFLAGS}
 USERLDFLAGS=${LDFLAGS}
+
+SV_LDFLAGS=${LDFLAGS}
+SV_CFLAGS=${CFLAGS}
 
 CFLAGS=${NCCFLAGS}
 LDFLAGS=${NCLDFLAGS}
@@ -286,6 +288,7 @@ if [ test ${HAS_NC4} == "no" ] ; then
 fi
 LIBS=${OLIBS}
 CFLAGS=${CFLAGS}" -Iinclude -Iinclude/cdTime"
+LDFLAGS=${SV_LDFLAGS}
 MAINDIR=`pwd`
 
 # Library sources
