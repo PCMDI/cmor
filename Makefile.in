@@ -109,9 +109,9 @@ backup: clean
 test:  cmor test_C @TEST_FORTRAN@ @MAKETESTPYTHON@
 	@echo "All C and Fortran Test passed successfully"
 test_C: cmor 
-	@rm -f ./ipcc_test_code ; ${CC} ${CFLAGS} ${USERCFLAGS} @CPPFLAGS@  Test/ipcc_test_code.c -L${PREFIX}/lib -I${PREFIX}/include  -L. -lcmor ${NCCFLAGS} ${NCLDFLAGS} ${UDUNITS2LDFLAGS} ${UDUNITS2FLAGS} ${UUIDLDFLAGS} ${UUIDFLAGS} -o ipcc_test_code  ${VERB}; ./ipcc_test_code ${VERB}
-	@rm -f test_grid ; ${CC} ${CFLAGS} ${USERCFLAGS} @CPPFLAGS@  Test/test_grid.c -L${PREFIX}/lib -I${PREFIX}/include  -L. -lcmor ${NCCFLAGS} ${NCLDFLAGS} ${UDUNITS2LDFLAGS} ${UDUNITS2FLAGS} ${UUIDLDFLAGS} ${UUIDFLAGS} -o test_grid ${VERB}; ./test_grid ${VERB};
-	@rm -f test_lots_of_variables ; ${CC} ${CFLAGS} ${USERCFLAGS} @CPPFLAGS@  Test/test_lots_of_variables.c -L${PREFIX}/lib -I${PREFIX}/include  -L. -lcmor ${NCCFLAGS} ${NCLDFLAGS} ${UDUNITS2LDFLAGS} ${UDUNITS2FLAGS} ${UUIDLDFLAGS} ${UUIDFLAGS} -o test_lots_of_variables ${VERB}; ./test_lots_of_variables ${VERB};
+	rm -f ./ipcc_test_code ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/ipcc_test_code.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@  -o ipcc_test_code  @VERB@; ./ipcc_test_code @VERB@
+	@rm -f test_grid ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_grid.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ -o test_grid @LDFLAGS@ @VERB@; ./test_grid @VERB@;
+	@rm -f test_lots_of_variables ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_lots_of_variables.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@ -o test_lots_of_variables @VERB@; ./test_lots_of_variables @VERB@;
 python:
 	@echo "Building Python interface"
 	@${PYTHONEXEC} setup.py install @CDATPREFIX@
