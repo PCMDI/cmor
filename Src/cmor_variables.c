@@ -7,7 +7,6 @@
 #include <stdlib.h>
 #include <math.h>
 
-
 int cmor_is_required_variable_attribute(cmor_var_def_t var, char *attribute_name) 
 {
   
@@ -555,7 +554,6 @@ int cmor_update_history(int var_id,char *add){
   char tmp2[CMOR_MAX_STRING];
 
   /* first figures out time */
-  cmor_add_traceback("cmor_update_history");
   lt = time(NULL);
   ptr = gmtime(&lt);
   snprintf(date,CMOR_MAX_STRING,"%.4i-%.2i-%.2iT%.2i:%.2i:%.2iZ",ptr->tm_year+1900,ptr->tm_mon+1,ptr->tm_mday,ptr->tm_hour,ptr->tm_min,ptr->tm_sec);
@@ -568,6 +566,18 @@ int cmor_update_history(int var_id,char *add){
   snprintf(tmp2,CMOR_MAX_STRING,"%s %s altered by CMOR: %s.",tmp,date,add);
   cmor_set_variable_attribute_internal(var_id,"history",'c',tmp2);
   cmor_pop_traceback();
+  return 0;
+}
+
+int cmor_history_contains(int var_id,char *add){
+  char tmp[CMOR_MAX_STRING];
+
+  if (cmor_has_variable_attribute(var_id,"history")==0) {
+    cmor_get_variable_attribute(var_id,"history",&tmp[0]);
+    if (cmor_stringinstring(tmp, add)) {
+      return 1;
+    }
+  }
   return 0;
 }
 

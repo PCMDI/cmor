@@ -55,6 +55,51 @@ int CMOR_CREATE_SUBDIRECTORIES = 1;
 char cmor_input_path[CMOR_MAX_STRING];
 char cmor_traceback_info[CMOR_MAX_STRING];
 
+/* is src in dest?*/
+
+int cmor_stringinstring (char* dest, char* src) {
+  /* returns 1 if dest contains the words of src.
+     the end of a word is either a space, a period or null.
+     
+     this will not give the desired results if period is used
+     internal to a word.
+ */
+  char* pstr=dest;
+  while (pstr=strstr(pstr, src)) {
+    /* if this word is at the beginning of msg or preceeded by a space */
+    if (pstr==dest || pstr[-1]==' ') {
+      /* if it isn't a substring match */
+      if ((pstr[strlen(src)] == ' ') ||
+          (pstr[strlen(src)] == 0) ||
+	  (pstr[strlen(src)] == '.')) {
+        /* then return 1 to indicate string found */
+        return 1;
+      }
+    }
+    pstr++;/* In which case, skip to the next char */
+  }
+  /* nothing like src is in dest, and so return the location of the end of string*/
+  return 0;
+}
+
+void cmor_cat_unique_string (char* dest, char* src) {
+  int offset;
+  int spare_space;
+  /* if this string is in msg */
+  if (cmor_stringinstring(dest, src)) {
+    /* do nothing */
+  } else {
+    if (offset=strlen(dest)) {
+      strcat(dest+offset, " ");
+      offset++;
+      spare_space=CMOR_MAX_STRING-offset-1;
+      strncat(dest+offset, src, spare_space);
+    } else {
+      strncpy(dest, src, CMOR_MAX_STRING);
+    }
+  }
+}
+
 void  cmor_check_forcing_validity(int table_id,char *value) {
   int i,j,n,found=0;
   char msg[CMOR_MAX_STRING];
@@ -107,7 +152,6 @@ int cmor_check_expt_id(char *expt_id, int table_id, char *gbl_lng, char *gbl_sht
   char ctmp[CMOR_MAX_STRING];
 
   cmor_add_traceback("cmor_check_expt_id");
-
   j=0;
   for (i=0;i<=cmor_tables[table_id].nexps;i++) {
     k=strlen(expt_id);
@@ -913,7 +957,6 @@ int cmor_set_cur_dataset_attribute_internal(char *name, char *value, int optiona
   extern cmor_dataset_def cmor_current_dataset;
   cmor_add_traceback("cmor_set_cur_dataset_attribute_internal");
   cmor_is_setup();
-
 
   cmor_trim_string(value,msg);
   if ((int)strlen(name)>CMOR_MAX_STRING) {
@@ -1766,8 +1809,8 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
   uuid_fmt_t fmt;
   void *myuuid_str=NULL;
   size_t uuidlen;
-  extern int cmor_convert_char_to_hyphen(char c);
 
+  extern int cmor_convert_char_to_hyphen(char c);
 
   cmor_add_traceback("cmor_write");
 
@@ -1871,7 +1914,6 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
       }
     }
 	
-
     /* Figures out file name */
     if (CMOR_CREATE_SUBDIRECTORIES == 1) {
       isfixed = cmor_create_output_path(var_id,outname);
@@ -1901,7 +1943,6 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
       strncat(outname,ctmp2,CMOR_MAX_STRING-strlen(outname));
     }
     strncat(outname,"_",CMOR_MAX_STRING-strlen(outname));
-
     /* is it a fixed field ? */
     if (isfixed==1) {
       strncat(outname,"r0i0p0",CMOR_MAX_STRING-strlen(outname) );
@@ -2508,7 +2549,12 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
       /* did we flip that guy? */
       if (cmor_axes[cmor_vars[var_id].axes_ids[i]].revert==-1) {
 	sprintf(msg,"Inverted axis: %s",cmor_axes[cmor_vars[var_id].axes_ids[i]].id);
-	cmor_update_history(var_id,msg);
+        /* fiddle to avoid duplicated effort here if it's already inverted */
+        if (cmor_history_contains(var_id, msg)) {
+          /* do nothing */
+        } else {
+	  cmor_update_history(var_id,msg);
+        }
       }
       /* Axis length */
       j=cmor_axes[cmor_vars[var_id].axes_ids[i]].length;
@@ -2861,15 +2907,14 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
 	    if (cmor_axes[cmor_vars[var_id].axes_ids[k]].isgridaxis==1) {
 	      nc_dims_associated[l]=nc_dim_af[k];
 /* 	      printf("ok we have a grid axis %s associated with dim %i (k is: %i)\n",cmor_axes[cmor_vars[var_id].axes_ids[k]].id,l,k); */
+
 	      if (m2[i]==0 && (i==0 || i==1)) {
-		if (cmor_has_variable_attribute(var_id,"coordinates")==0) {
-		  cmor_get_variable_attribute(var_id,"coordinates",&msg);
-		  strncat(msg," ",CMOR_MAX_STRING-strlen(msg));
-		  strncat(msg,cmor_vars[cmor_grids[cmor_vars[var_id].grid_id].associated_variables[i]].id,CMOR_MAX_STRING-strlen(msg));
-		}
-		else {
-		  strncpy(msg,cmor_vars[cmor_grids[cmor_vars[var_id].grid_id].associated_variables[i]].id,CMOR_MAX_STRING-strlen(msg));
-		}
+               if (cmor_has_variable_attribute(var_id,"coordinates")==0) {
+                 cmor_get_variable_attribute(var_id,"coordinates",&msg);
+                 cmor_cat_unique_string(msg, cmor_vars[cmor_grids[cmor_vars[var_id].grid_id].associated_variables[i]].id);
+               } else {
+                 strncpy(msg,cmor_vars[cmor_grids[cmor_vars[var_id].grid_id].associated_variables[i]].id,CMOR_MAX_STRING-strlen(msg));
+               }
 		cmor_set_variable_attribute_internal(var_id,"coordinates",'c',msg);
 		m2[i]=1;
 	      }
@@ -4006,4 +4051,3 @@ void cmor_trim_string(char *in,char *out) {
   i=n;
   while((out[i]=='\0' || out[i]==' ')) { out[i]='\0'; i--;}
 }
-
