@@ -2075,6 +2075,13 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
 	}
 	else {
 	  cmor_vars[var_id].time_bnds_nc_id=i;
+          /* Here I need to store first/last bounds for appending issues */
+          starts[0]=cmor_vars[var_id].ntimes_written-1;
+          starts[1]=1;
+          ierr = nc_get_var1_double(ncid,cmor_vars[var_id].time_bnds_nc_id,&starts[0],&cmor_vars[var_id].last_bound);
+          starts[1]=0;
+          ierr = nc_get_var1_double(ncid,cmor_vars[var_id].time_bnds_nc_id,&starts[0],&cmor_vars[var_id].first_bound);
+         /*  printf("ok we read back in: %f, %f, associated: %i\n",cmor_vars[var_id].first_bound,cmor_vars[var_id].last_bound,cmor_vars[var_id].associated_ids[0]);*/
 	}
 	cmor_vars[var_id].initialized=ncid;
       }
@@ -3315,6 +3322,14 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
     }
   }
   if (refvar!=NULL) {
+     /* if (cmor_vars[var_id].first_bound==1.e20) {
+          cmor_vars[var_id].first_bound = cmor_vars[*refvar].first_bound;
+          cmor_vars[var_id].last_bound = cmor_vars[*refvar].last_bound;
+          cmor_vars[var_id].last_time = cmor_vars[*refvar].last_time;
+
+          printf("We did reset the first and last bounds: %f, %f \n",cmor_vars[var_id].first_bound, cmor_vars[var_id].last_bound);
+      }
+      */
     for(i=0;i<10;i++) {
       if (cmor_vars[*refvar].associated_ids[i]==var_id) {
 	if (cmor_vars[*refvar].ntimes_written_associated[i] == 0) {
@@ -3917,8 +3932,8 @@ int cmor_close(void)
     }
     if (cmor_tables[i].nforcings>0) {
       for (j=0;j<cmor_tables[i].nforcings;j++) {
-	free(cmor_tables[i].forcings[i]);
-	cmor_tables[i].forcings[i]=NULL;
+	free(cmor_tables[i].forcings[j]);
+	cmor_tables[i].forcings[j]=NULL;
       }
       free(cmor_tables[i].forcings);
       cmor_tables[i].forcings=NULL;
