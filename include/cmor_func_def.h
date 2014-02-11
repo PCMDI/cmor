@@ -46,7 +46,7 @@ extern int cmor_dataset(char *outpath,
 			double *branch_time,
                         char *project_id, /* pab */
                         char *initialization_description, /* pab */
-                        char *forecast_ref_time, /* pab */
+                        char *forecast_reference_time, /* pab */
                         char *associated_model, /* pab */
                         char *physics_description, /* pab */
                         char *series,
@@ -90,7 +90,7 @@ extern int cmor_variable(int *var_id, char *name, char *units, int ndims, int ax
 extern int cmor_set_var_def_att(cmor_var_def_t *var,char att[CMOR_MAX_STRING],char val[CMOR_MAX_STRING] );
 extern int cmor_get_variable_time_length(int *var_id, int *length);
 extern int cmor_get_original_shape(int *var_id, int *shape_array, int *rank, int blank_time);
-extern int cmor_write_var_to_file(int ncid, cmor_var_t *avar,void *data,char itype, int ntimes_passed, double *time_vals, double *time_bounds);
+extern int cmor_write_var_to_file(int ncid, cmor_var_t *avar,void *data,char itype, int ntimes_passed, double *time_vals, double *time_bounds, int nc_var_reftime, size_t start, size_t count, double *leadtime_vals);
 /* cmor_grid.c */
 extern void cmor_set_mapping_attribute(cmor_mappings_t *mapping,char att[CMOR_MAX_STRING],char val[CMOR_MAX_STRING] );
 extern void cmor_init_grid_mapping(cmor_mappings_t *mapping,char *id);

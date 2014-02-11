@@ -26,7 +26,7 @@ void cmor_init_table(cmor_table_t *table, int id)
   table->naxes=-1;
   table->nexps=-1;
   table->nmappings=-1;
-  table->cf_version=1.4;
+  table->cf_version=1.6;
   table->cmor_version=2.0;
   table->project_id[0]='\0';
   table->table_id[0]='\0';

@@ -131,7 +131,7 @@ int cmor_set_variable_attribute(int id, char *attribute_name, char type, void *v
       (strcmp(attribute_name,"cell_methods")==0)
       )
     {
-      snprintf(msg,CMOR_MAX_STRING,"variable attribute %s (vor variable %s, table %s) must be set via a call to cmor_variable or it is automaticaly set via the tables",attribute_name,cmor_vars[id].id,cmor_tables[cmor_vars[id].ref_table_id].table_id);
+      snprintf(msg,CMOR_MAX_STRING,"variable attribute %s (for variable %s, table %s) must be set via a call to cmor_variable or it is automaticaly set via the tables",attribute_name,cmor_vars[id].id,cmor_tables[cmor_vars[id].ref_table_id].table_id);
       cmor_handle_error(msg,CMOR_NORMAL);
       cmor_pop_traceback();
       return 1;
@@ -160,7 +160,7 @@ int cmor_get_variable_attribute(int id, char *attribute_name, void *value)
     if (strcmp(cmor_vars[id].attributes[i],attribute_name)==0) {index=i;break;} /* we found it */
   }
   if (index==-1) {
-    snprintf(msg,CMOR_MAX_STRING,"Atttttttttribute %s could not be found for variable %i (%s, table: %s)",attribute_name,id,cmor_vars[id].id,cmor_tables[cmor_vars[id].ref_table_id].table_id);
+    snprintf(msg,CMOR_MAX_STRING,"Attribute %s could not be found for variable %i (%s, table: %s)",attribute_name,id,cmor_vars[id].id,cmor_tables[cmor_vars[id].ref_table_id].table_id);
     cmor_handle_error(msg,CMOR_NORMAL);
     cmor_pop_traceback();
     return 1;
@@ -709,6 +709,7 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
     snprintf(msg,CMOR_MAX_STRING,"Converted units from '%s' to '%s'",units,refvar.units);
     cmor_update_history(vrid,msg);
   }
+
 /*  printf("%s %s \n","in cmor variable6",name);*/
   cmor_set_variable_attribute_internal(vrid,"cell_methods",'c',refvar.cell_methods);
   cmor_set_variable_attribute_internal(vrid,"cell_measures",'c',refvar.cell_measures);
@@ -946,17 +947,21 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
       cmor_update_history(vrid,msg);
       cmor_vars[vrid].singleton_ids[i-k]=laxes_ids[i];
       if (cmor_has_variable_attribute(vrid,"coordinates")==0) {
+//      printf("%s %s \n","cmor_set_variable_attribute_internal1",msg);
 	cmor_get_variable_attribute(vrid,"coordinates",&msg[0]);
       }
       else {
 	strncpy(msg,"",CMOR_MAX_STRING);
       }
       if (cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].axes[cmor_axes[laxes_ids[i]].ref_axis_id].out_name[0]=='\0') {
+ //     printf("%s %s \n","cmor_set_variable_attribute_internal2",ctmp);
 	snprintf(ctmp,CMOR_MAX_STRING,"%s %s",msg,cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].axes[cmor_axes[laxes_ids[i]].ref_axis_id].id);
       }
       else {
+//      printf("%s %s \n","cmor_set_variable_attribute_internal3",ctmp);
 	snprintf(ctmp,CMOR_MAX_STRING,"%s %s",msg,cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].axes[cmor_axes[laxes_ids[i]].ref_axis_id].out_name);
       }
+//      printf("%s %s \n","cmor_set_variable_attribute_internal4",ctmp);
       cmor_set_variable_attribute_internal(vrid,"coordinates",'c',&ctmp[0]);
     }
     else {
@@ -965,6 +970,26 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims, int axes_ids[
       k++;
     }
   }
+//     printf("%s \n","BEFORE PUTTING NEW ATT");
+//     if (cmor_vars[vrid].axes_ids[0]=='T') {
+  for (i=0;i<lndims;i++) { 
+    if (((strcmp(cmor_tables[refvar.table_id].axes[refvar.dimensions[i]].id,"time")==0) )) {
+//     if (cmor_axes[cmor_vars[vrid].axes_ids[0]].axis=='T') {
+//     printf("%s \n","PUTTING NEW ATT",cmor_vars[vrid].axes_ids[0]);
+      cmor_set_variable_attribute(vrid,"auxiliary_variable",'c',"leadtime");
+//      ierr = cmor_put_nc_char_attribu0te(cmor_vars[var_id].nc_var_id,"auxiliary variable","leadtime",cmor_vars[var_id].id);
+     }
+      else {
+//     printf("%s \n","PUTTING NEW ATT2");
+//     printf("%s %s \n","PUTTING NEW ATT2",cmor_vars[vrid].axes_ids[0]);
+//      cmor_set_variable_attribute(vrid,"auxiliary_variable2",'c',"leadtime");
+//      ierr = cmor_put_nc_char_attribute(ncid,cmor_vars[var_id].nc_var_id,"auxiliary variable2","leadtime2",cmor_vars[var_id].id);
+      }
+//     printf("%s \n","AFTER NEW ATT2");
+     i++;
+ }
+ i=0;
+//      cmor_set_variable_attribute(cmor_vars[vrid].nc_var_id,"auxiliary variable2",'c',"leadtime");
   /* Now figures out the real order... */
   k=0;
 
@@ -1327,7 +1352,7 @@ int cmor_get_original_shape(int *var_id, int *shape_array, int *rank, int blank_
   return 0;
 }
 
-int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int ntimes_passed, double *time_vals, double *time_bounds){
+int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int ntimes_passed, double *time_vals, double *time_bounds, int nc_var_reftime, size_t start, size_t count, double *leadtime_vals){
   size_t counts[CMOR_MAX_DIMENSIONS];
   size_t counts2[CMOR_MAX_DIMENSIONS];
   int counter[CMOR_MAX_DIMENSIONS];
@@ -1346,6 +1371,7 @@ int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int 
   char msg2[CMOR_MAX_STRING];
   char saved_units[CMOR_MAX_STRING];
   double *tmp_vals;
+  double *tmp_ltvals;
   ut_unit *user_units=NULL, *cmor_units=NULL;
   cv_converter *ut_cmor_converter=NULL;
   char local_unit[CMOR_MAX_STRING];
@@ -1676,16 +1702,24 @@ int cmor_write_var_to_file(int ncid,cmor_var_t *avar,void *data,char itype, int 
 //        printf("%s %f %s %s\n","before conversion of lt:",time_vals[0],"units=",cmor_axes[avar->axes_ids[0]].iunits);
 //        strcpy(saved_units,"days since 1990-07-01");
 //	ierr = cmor_convert_time_values(time_vals,'d',ntimes_passed,&tmp_vals[0],saved_units,msg,msg2,msg2);
+//        printf("%s %s %s %d %s \n","before convert time",cmor_axes[avar->axes_ids[0]].iunits,msg,time_vals,msg2);
+        
 	ierr = cmor_convert_time_values(time_vals,'d',ntimes_passed,&tmp_vals[0],cmor_axes[avar->axes_ids[0]].iunits,msg,msg2,msg2);
-//        printf("%s %f %s %s\n","after conversion of lt:",tmp_vals[0],"units=",msg);
-//        printf("%s\n","before check monotonic1");
 if(strcmp(CMOR_PROJECT,"SPECS")!=0){
 	ierr = cmor_check_monotonic(&tmp_vals[0],ntimes_passed,"time",0,avar->axes_ids[0]);//
 }	
+//        printf("%s %d %d %i %d \n","before convert time",time_vals,ntimes_passed,time_bounds);
 	ierr = cmor_convert_time_values(time_bounds,'d',ntimes_passed*2,&tmp_vals[0],cmor_axes[avar->axes_ids[0]].iunits,msg,msg2,msg2);
+//        printf("%s %d %d %i %d \n","after convert time",tmp_vals[0],tmp_vals[1],time_vals,ntimes_passed,time_bounds);
 //        printf("%s %s\n","after conversion of lt2, units:",msg);
 //        printf("%s\n","before check monotonic2");
 if(strcmp(CMOR_PROJECT,"SPECS")==0){
+//convert and write leadtime
+//        printf("%s %d %s \n","before convert leadtime",leadtime_vals,msg2);
+	tmp_ltvals = malloc(ntimes_passed*2*sizeof(double));
+	ierr = cmor_convert_time_values(leadtime_vals,'d',ntimes_passed,&tmp_ltvals[0],cmor_axes[avar->axes_ids[0]].iunits,"days since ?",msg2,msg2);
+//	ierr = cmor_convert_time_values(leadtime_vals,'d',ntimes_passed,&tmp_ltvals[0],"seconds since 1993-05-01 00:00:00","days since 1993-05-01",msg2,msg2);
+	ierr = nc_put_vara_double(ncid,nc_var_reftime, start, count,&tmp_ltvals[0]);
 }
 else{
 	ierr = cmor_check_monotonic(&tmp_vals[0],ntimes_passed*2,"time",1,avar->axes_ids[0]);
@@ -1705,7 +1739,9 @@ else{
 	/* but only do this in case of none climato */
 	if (cmor_tables[cmor_axes[avar->axes_ids[0]].ref_table_id].axes[cmor_axes[avar->axes_ids[0]].ref_axis_id].climatology==0) {
 	  for (i=0;i<ntimes_passed;i++) {
+//	    printf("2Time point: %lf ( %lf in output units) is not monotonic last time was: %lf (in output units) %lf %lf , variable %s (table: %s),i= %i \n",time_vals[0],tmp_vals[i],tmp_vals[2*i],tmp_vals[2*i+1],avar->last_time,avar->id,cmor_tables[avar->ref_table_id].table_id),i;
 	    tmp_vals[i]=(tmp_vals[2*i]+tmp_vals[2*i+1])/2.;
+//	    printf("2-Time point: %lf ( %lf in output units) is not monotonic last time was: %lf (in output units), variable %s (table: %s), %lf \n",time_vals[0],tmp_vals[0],avar->last_time,avar->id,cmor_tables[avar->ref_table_id].table_id),tmp_vals[i];
 	  }
 	  first_time = tmp_vals[0]; /*store for later */
 	}
@@ -1726,14 +1762,17 @@ else{
 	  /* all good in that case */
 	}
 	else {
+//	    printf("1Time point: %lf ( %lf in output units) is not monotonic last time was: %lf (in output units), variable %s (table: %s)\n",time_vals[0],tmp_vals[0],avar->last_time,avar->id,cmor_tables[avar->ref_table_id].table_id);
 	  //tmp_vals[0] = tmp_vals[ntimes_passed*2-2];
 	  tmp_vals[ntimes_passed-1]=tmp_vals[ntimes_passed*2-1];
+//	    printf("1-Time point: %lf ( %lf in output units) is not monotonic last time was: %lf (in output units), variable %s (table: %s)",time_vals[0],tmp_vals[0],avar->last_time,avar->id,cmor_tables[avar->ref_table_id].table_id);
 	}	/* ok now we need to store first and last stuff */
 	if (avar->ntimes_written == 0) {
 	  /* ok first time we're putting data  in */
 	  avar->first_time = first_time;
 	}
 	else {
+//	    printf("Time point: %lf ( %lf in output units) is not monotonic last time was: %lf (in output units), variable %s (table: %s)",time_vals[0],tmp_vals[0],avar->last_time,avar->id,cmor_tables[avar->ref_table_id].table_id);
 	  if (tmp_vals[0]<avar->last_time) {
 	    snprintf(msg,CMOR_MAX_STRING, "Time point: %lf ( %lf in output units) is not monotonic last time was: %lf (in output units), variable %s (table: %s)",time_vals[0],tmp_vals[0],avar->last_time,avar->id,cmor_tables[avar->ref_table_id].table_id);
 	    cmor_handle_error(msg,CMOR_CRITICAL);
@@ -1855,8 +1894,8 @@ if(strcmp(CMOR_PROJECT,"SPECS")==0){
   /* for (i=0;i<avar->ndims;i++) { */
   /*   printf("dim: %i, starts: %i, counts: %i\n",i,starts[i],counts[i]); */
   /* } */
-if(strcmp(CMOR_PROJECT,"SPECS")==0){  
-//defi if(cmor_axes[avar->axes_ids[0]].axis=='T'){
+/*if(strcmp(CMOR_PROJECT,"SPECS")==0){  
+ if(cmor_axes[avar->axes_ids[0]].axis=='T'){
 //        printf("%s %s \n","condition T(lt)",cmor_axes[avar->nc_var_id].iunits);
 // }
 //        printf("%s %s %s \n","untis à la fin:",cmor_axes[avar->nc_var_id].iunits,cmor_axes[avar->nc_var_id].axis);
@@ -1878,7 +1917,7 @@ if(strcmp(CMOR_PROJECT,"SPECS")==0){
 //        strcpy(cmor_axes[avar->time_nc_id].iunits,"days");//cut since...	
 //        printf("%s \n","after cut2:");
 //defi }
-}
+}*/
   if (mtype=='d') ierr = nc_put_vara_double(ncid,avar->nc_var_id,starts,counts,data_tmp);
   else if (mtype=='f') ierr = nc_put_vara_float(ncid,avar->nc_var_id,starts,counts,fdata_tmp);
   else if (mtype=='l') ierr = nc_put_vara_long(ncid,avar->nc_var_id,starts,counts,ldata_tmp);

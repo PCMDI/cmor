@@ -265,7 +265,7 @@ static PyObject *
   char *project_id; /* pab test */
 /*  int initialization_method;*/
   char *initialization_description;
-  char *forecast_ref_time; /* pab test */
+  char *forecast_reference_time; /* pab test */
   char *associated_model; /* pab test */ 
   char *physics_description;
   char *series;
@@ -276,9 +276,9 @@ static PyObject *
   PyObject *branch_time_obj;
   PyArrayObject *month_lengths_array_obj=NULL;
 
-  if (!PyArg_ParseTuple(args,"sssssissssiiOssiissOs",&outpath,&experiment_id,&institution,&source,&calendar,&realization,&contact,&history,&comment,&references,&leap_year,&leap_month,&month_lengths_obj,&model_id,&forcing,&initialization_method,&physics_version,&parent_experiment_id,&branch_time_obj,&parent_experiment_rip,&forecast_ref_time,&physics_description,,&series,&associated_model))
-/*pab  if (!PyArg_ParseTuple(args,"sssssissssiiOssiissOs",&outpath,&experiment_id,&institution,&source,&calendar,&realization,&contact,&history,&comment,&references,&leap_year,&leap_month,&month_lengths_obj,&model_id,&forcing,&initialization_method,&physics_version,&institute_id,&parent_experiment_id,&branch_time_obj,&parent_experiment_rip,&forecast_ref_time,&physics_description,&batch,&associated_model))*/
-/*  if (!PyArg_ParseTuple(args,"sssssissssiiOssiissOs",&outpath,&experiment_id,&institution,&source,&calendar,&realization,&contact,&history,&comment,&references,&leap_year,&leap_month,&month_lengths_obj,&model_id,&forcing,&initialization_method,&physics_version,&institute_id,&parent_experiment_id,&branch_time_obj,&parent_experiment_rip,&forecast_ref_time,&batch,&associated_model))*/
+  if (!PyArg_ParseTuple(args,"sssssissssiiOssiissOs",&outpath,&experiment_id,&institution,&source,&calendar,&realization,&contact,&history,&comment,&references,&leap_year,&leap_month,&month_lengths_obj,&model_id,&forcing,&initialization_method,&physics_version,&parent_experiment_id,&branch_time_obj,&parent_experiment_rip,&forecast_reference_time,&physics_description,,&series,&associated_model))
+/*pab  if (!PyArg_ParseTuple(args,"sssssissssiiOssiissOs",&outpath,&experiment_id,&institution,&source,&calendar,&realization,&contact,&history,&comment,&references,&leap_year,&leap_month,&month_lengths_obj,&model_id,&forcing,&initialization_method,&physics_version,&institute_id,&parent_experiment_id,&branch_time_obj,&parent_experiment_rip,&forecast_reference_time,&physics_description,&batch,&associated_model))*/
+/*  if (!PyArg_ParseTuple(args,"sssssissssiiOssiissOs",&outpath,&experiment_id,&institution,&source,&calendar,&realization,&contact,&history,&comment,&references,&leap_year,&leap_month,&month_lengths_obj,&model_id,&forcing,&initialization_method,&physics_version,&institute_id,&parent_experiment_id,&branch_time_obj,&parent_experiment_rip,&forecast_reference_time,&batch,&associated_model))*/
     return NULL;
   if (month_lengths_obj == Py_None) {
     month_lengths = NULL;
@@ -295,9 +295,9 @@ static PyObject *
     branch_time = &bt;
   }
     
-  ierr = cmor_dataset(outpath,experiment_id,institution,source,calendar,realization,contact,history,comment,references,leap_year,leap_month,month_lengths,model_id,forcing,initialization_method,physics_version,parent_experiment_id,project_id,branch_time,initialization_description,forecast_ref_time,associated_model,physics_description,series,parent_experiment_rip);/*pab test */
-/*pab  ierr = cmor_dataset(outpath,experiment_id,institution,source,calendar,realization,contact,history,comment,references,leap_year,leap_month,month_lengths,model_id,forcing,initialization_method,physics_version,institute_id,parent_experiment_id,project_id,branch_time,initialization_description,forecast_ref_time,associated_model,physics_description,batch,parent_experiment_rip); test */
-/*  ierr = cmor_dataset(outpath,experiment_id,institution,source,calendar,realization,contact,history,comment,references,leap_year,leap_month,month_lengths,model_id,forcing,initialization_method,physics_version,institute_id,parent_experiment_id,project_id,branch_time,parent_experiment_rip,forecast_ref_time,batch,associated_model);pab test */
+  ierr = cmor_dataset(outpath,experiment_id,institution,source,calendar,realization,contact,history,comment,references,leap_year,leap_month,month_lengths,model_id,forcing,initialization_method,physics_version,parent_experiment_id,project_id,branch_time,initialization_description,forecast_reference_time,associated_model,physics_description,series,parent_experiment_rip);/*pab test */
+/*pab  ierr = cmor_dataset(outpath,experiment_id,institution,source,calendar,realization,contact,history,comment,references,leap_year,leap_month,month_lengths,model_id,forcing,initialization_method,physics_version,institute_id,parent_experiment_id,project_id,branch_time,initialization_description,forecast_reference_time,associated_model,physics_description,batch,parent_experiment_rip); test */
+/*  ierr = cmor_dataset(outpath,experiment_id,institution,source,calendar,realization,contact,history,comment,references,leap_year,leap_month,month_lengths,model_id,forcing,initialization_method,physics_version,institute_id,parent_experiment_id,project_id,branch_time,parent_experiment_rip,forecast_reference_time,batch,associated_model);pab test */
   if (month_lengths_array_obj!=NULL) {Py_DECREF(month_lengths_array_obj);}
   if (ierr != 0 ) return NULL;
   /* Return NULL Python Object */

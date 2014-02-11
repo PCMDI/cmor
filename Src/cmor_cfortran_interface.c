@@ -250,16 +250,17 @@ int cmor_dataset_cff_specs_(char *outpath,
 		      double *branch_time,
                       char *project_id, /* pab */
                       char *initialization_description, /* pab */
-                      char *forecast_ref_time, /* pab */
+                      char *forecast_reference_time, /* pab */
+//qc                      char *forecast_reference_time, /* pab */
                       char *associated_model, /* pab */
                       char *physics_description, /* pab */
                       char *series,  
 		      char *parent_experiment_rip)
 {
   printf("%s %s \n","in C interface, physdes= ",physics_description);
-  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,month_lengths,model_name,forcing,*initialization_method,physics_version,NULL,parent_experiment_id,branch_time,project_id,initialization_description,forecast_ref_time,associated_model,physics_description,series,parent_experiment_rip);
-/*pab  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,month_lengths,model_name,forcing,*initialization_method,*physics_version,institute_id,parent_experiment_id,branch_time,project_id,initialization_description,forecast_ref_time,associated_model,physics_description,batch,parent_experiment_rip);*/
-  /*return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,month_lengths,model_name,forcing,*initialization_method,*physics_version,institute_id,parent_experiment_id,branch_time,*project_id,*initialization_description,*forecast_ref_time,*associated_model,*physics_description,*batch,*parent_experiment_rip);*/
+  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,month_lengths,model_name,forcing,*initialization_method,physics_version,NULL,parent_experiment_id,branch_time,project_id,initialization_description,forecast_reference_time,associated_model,physics_description,series,parent_experiment_rip);
+/*pab  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,month_lengths,model_name,forcing,*initialization_method,*physics_version,institute_id,parent_experiment_id,branch_time,project_id,initialization_description,forecast_reference_time,associated_model,physics_description,batch,parent_experiment_rip);*/
+  /*return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,month_lengths,model_name,forcing,*initialization_method,*physics_version,institute_id,parent_experiment_id,branch_time,*project_id,*initialization_description,*forecast_reference_time,*associated_model,*physics_description,*batch,*parent_experiment_rip);*/
 }
 int cmor_dataset_cff_cmip5_(char *outpath, 
 		      char *experiment_id,
@@ -310,13 +311,13 @@ int cmor_dataset_cff_null_specs_(char *outpath,
 			   double *branch_time,
                            char *project_id, /* pab */
                            char *initialization_description, /* pab */
-                           char *forecast_ref_time, /* pab */
+                           char *forecast_reference_time, /* pab */
                            char *associated_model, /* pab */
                            char *physics_description, /* pab */
                            char *series, 
 			   char *parent_experiment_rip)
 {
-  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,NULL,model_name,forcing,*initialization_method,physics_version,NULL,parent_experiment_id,branch_time,project_id,initialization_description,forecast_ref_time,associated_model,physics_description,series,parent_experiment_rip);
+  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,NULL,model_name,forcing,*initialization_method,physics_version,NULL,parent_experiment_id,branch_time,project_id,initialization_description,forecast_reference_time,associated_model,physics_description,series,parent_experiment_rip);
 }
 int cmor_dataset_cff_null_cmip5_(char *outpath, 
 			   char *experiment_id,
@@ -363,14 +364,14 @@ int cmor_dataset_cff_nobrch_specs_(char *outpath,
 			     char *parent_experiment_id,
                              char *project_id, /* pab */
                              char *initialization_description, /* pab */
-                             char *forecast_ref_time, /* pab */
+                             char *forecast_reference_time, /* pab */
                              char *associated_model, /* pab */
                              char *physics_description,
                              char *series, 
 			     char *parent_experiment_rip)
 {
-  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,month_lengths,model_name,forcing,*initialization_method,physics_version,NULL,parent_experiment_id,NULL,project_id,initialization_description,forecast_ref_time,associated_model,physics_description,series,parent_experiment_rip);
-/*  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,month_lengths,model_name,forcing,*initialization_method,*physics_version,institute_id,parent_experiment_id,NULL,project_id,initialization_description,forecast_ref_time,associated_model,physics_description,batch,parent_experiment_rip);*/
+  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,month_lengths,model_name,forcing,*initialization_method,physics_version,NULL,parent_experiment_id,NULL,project_id,initialization_description,forecast_reference_time,associated_model,physics_description,series,parent_experiment_rip);
+/*  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,month_lengths,model_name,forcing,*initialization_method,*physics_version,institute_id,parent_experiment_id,NULL,project_id,initialization_description,forecast_reference_time,associated_model,physics_description,batch,parent_experiment_rip);*/
 }
 int cmor_dataset_cff_nobrch_cmip5_(char *outpath, 
 			     char *experiment_id,
@@ -393,15 +394,15 @@ int cmor_dataset_cff_nobrch_cmip5_(char *outpath,
 			     char *parent_experiment_id,
 //                             char *project_id, /* pab */
 //                             char *initialization_description, /* pab */
-//                             char *forecast_ref_time, /* pab */
+//                             char *forecast_reference_time, /* pab */
 //                             char *associated_model, /* pab */
 //                             char *physics_description,
 //                             char *series, 
 			     char *parent_experiment_rip)
 {
   return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,month_lengths,model_name,forcing,*initialization_method,physics_version,institute_id,parent_experiment_id,NULL,NULL,NULL,NULL,NULL,NULL,NULL,parent_experiment_rip);
-/*  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,month_lengths,model_name,forcing,*initialization_method,*physics_version,institute_id,parent_experiment_id,NULL,project_id,initialization_description,forecast_ref_time,associated_model,physics_description,batch,parent_experiment_rip);*/
-/*seuls les int ont une "*"...  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,month_lengths,model_name,forcing,*initialization_method,*physics_version,institute_id,parent_experiment_id,NULL,*project_id,*initialization_description,*forecast_ref_time,*associated_model,*physics_description,*batch,*parent_experiment_rip);*/
+/*  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,month_lengths,model_name,forcing,*initialization_method,*physics_version,institute_id,parent_experiment_id,NULL,project_id,initialization_description,forecast_reference_time,associated_model,physics_description,batch,parent_experiment_rip);*/
+/*seuls les int ont une "*"...  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,month_lengths,model_name,forcing,*initialization_method,*physics_version,institute_id,parent_experiment_id,NULL,*project_id,*initialization_description,*forecast_reference_time,*associated_model,*physics_description,*batch,*parent_experiment_rip);*/
 }
 int cmor_dataset_cff_null_nobrch_specs_(char *outpath, 
 				  char *experiment_id,
@@ -423,14 +424,14 @@ int cmor_dataset_cff_null_nobrch_specs_(char *outpath,
 				  char *parent_experiment_id,
                                   char *project_id, /* pab */
               		          char *initialization_description, /* pab */
-           		          char *forecast_ref_time, /* pab */
+           		          char *forecast_reference_time, /* pab */
     		                  char *associated_model, /* pab */
                                   char *physics_description,
                                   char *series, 
   			          char *parent_experiment_rip)
 {
-  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,NULL,model_name,forcing,*initialization_method,physics_version,NULL,parent_experiment_id,NULL,project_id,initialization_description,forecast_ref_time,associated_model,physics_description,series,parent_experiment_rip);
-/*pab  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,NULL,model_name,forcing,*initialization_method,*physics_version,institute_id,parent_experiment_id,NULL,project_id,initialization_description,forecast_ref_time,associated_model,physics_description,batch,parent_experiment_rip);*/
+  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,NULL,model_name,forcing,*initialization_method,physics_version,NULL,parent_experiment_id,NULL,project_id,initialization_description,forecast_reference_time,associated_model,physics_description,series,parent_experiment_rip);
+/*pab  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,NULL,model_name,forcing,*initialization_method,*physics_version,institute_id,parent_experiment_id,NULL,project_id,initialization_description,forecast_reference_time,associated_model,physics_description,batch,parent_experiment_rip);*/
 }
 int cmor_dataset_cff_null_nobrch_cmip5_(char *outpath, 
 				  char *experiment_id,
@@ -452,16 +453,16 @@ int cmor_dataset_cff_null_nobrch_cmip5_(char *outpath,
 				  char *parent_experiment_id,
 //                                  char *project_id, /* pab */
 //              		          char *initialization_description, /* pab */
-//           		          char *forecast_ref_time, /* pab */
+//           		          char *forecast_reference_time, /* pab */
 //    		                  char *associated_model, /* pab */
 //                                  char *physics_description,
 //                                  char *series, 
   			          char *parent_experiment_rip)
 {
   return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,NULL,model_name,forcing,*initialization_method,physics_version,institute_id,parent_experiment_id,NULL,NULL,NULL,NULL,NULL,NULL,NULL,parent_experiment_rip);
-/*pab  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,NULL,model_name,forcing,*initialization_method,*physics_version,institute_id,parent_experiment_id,NULL,project_id,initialization_description,forecast_ref_time,associated_model,physics_description,batch,parent_experiment_rip);*/
+/*pab  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,NULL,model_name,forcing,*initialization_method,*physics_version,institute_id,parent_experiment_id,NULL,project_id,initialization_description,forecast_reference_time,associated_model,physics_description,batch,parent_experiment_rip);*/
 }
-/*  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,NULL,model_name,forcing,*initialization_method,*physics_version,institute_id,parent_experiment_id,NULL,*project_id,*initialization_description,*forecast_ref_time,*associated_model,*physics_version,*batch,*parent_experiment_rip);
+/*  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,NULL,model_name,forcing,*initialization_method,*physics_version,institute_id,parent_experiment_id,NULL,*project_id,*initialization_description,*forecast_reference_time,*associated_model,*physics_version,*batch,*parent_experiment_rip);
 }*/
 
 int cmor_axis_cff_double_(int *axis_id, char *name,char *units, int *length,void *coord_vals, void *cell_bounds,int *cell_bounds_ndim,char *interval) {
@@ -539,52 +540,52 @@ int cmor_variable_cff_nomiss_(int *var_id, char *name, char *units, int *ndims, 
   return cmor_variable(var_id,name,units,*ndims,axes_ids,'f',NULL,tolerance,positive,original_name,history,comment);
 }
 
-int cmor_write_cff_double_specs_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *reftime_vals, double *time_bounds, int *refvar) {
-//int cmor_write_cff_double_specs_(int *var_id, int *lt_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *reftime_vals, double *time_bounds, int *refvar) {
+int cmor_write_cff_double_specs_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *leadtime_vals, double *time_bounds, int *refvar) {
+//int cmor_write_cff_double_specs_(int *var_id, int *lt_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *leadtime_vals, double *time_bounds, int *refvar) {
   if (*refvar<0) {
-    return cmor_write(*var_id, data,'d',suffix,*ntimes_passed,time_vals,reftime_vals,time_bounds,NULL);
-//    return cmor_write(*var_id, *lt_id, data,'d',suffix,*ntimes_passed,time_vals,reftime_vals,time_bounds,NULL);
+    return cmor_write(*var_id, data,'d',suffix,*ntimes_passed,time_vals,leadtime_vals,time_bounds,NULL);
+//    return cmor_write(*var_id, *lt_id, data,'d',suffix,*ntimes_passed,time_vals,leadtime_vals,time_bounds,NULL);
   }
   else {
-    return cmor_write(*var_id, data,'d',suffix,*ntimes_passed,time_vals,reftime_vals,time_bounds,refvar);
-//    return cmor_write(*var_id, *lt_id, data,'d',suffix,*ntimes_passed,time_vals,reftime_vals,time_bounds,refvar);
+    return cmor_write(*var_id, data,'d',suffix,*ntimes_passed,time_vals,leadtime_vals,time_bounds,refvar);
+//    return cmor_write(*var_id, *lt_id, data,'d',suffix,*ntimes_passed,time_vals,leadtime_vals,time_bounds,refvar);
   }
 }
 int cmor_write_cff_double_cmip5_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *time_bounds, int *refvar) {
-//compat int cmor_write_cff_double_cmip5_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *reftime_vals, double *time_bounds, int *refvar) {
+//compat int cmor_write_cff_double_cmip5_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *leadtime_vals, double *time_bounds, int *refvar) {
   if (*refvar<0) {
     return cmor_write(*var_id, data,'d',suffix,*ntimes_passed,time_vals,NULL,time_bounds,NULL);
 //    return cmor_write(*var_id, 0, data,'d',suffix,*ntimes_passed,time_vals,NULL,time_bounds,NULL);
-//    return cmor_write(*var_id, NULL, data,'d',suffix,*ntimes_passed,time_vals,reftime_vals,time_bounds,NULL);
+//    return cmor_write(*var_id, NULL, data,'d',suffix,*ntimes_passed,time_vals,leadtime_vals,time_bounds,NULL);
   }
   else {
     return cmor_write(*var_id, data,'d',suffix,*ntimes_passed,time_vals,NULL,time_bounds,refvar);
 //    return cmor_write(*var_id, 0, data,'d',suffix,*ntimes_passed,time_vals,NULL,time_bounds,refvar);
-//    return cmor_write(*var_id, 0, data,'d',suffix,*ntimes_passed,time_vals,reftime_vals,time_bounds,refvar);
+//    return cmor_write(*var_id, 0, data,'d',suffix,*ntimes_passed,time_vals,leadtime_vals,time_bounds,refvar);
   }
 }
-int cmor_write_cff_double_nobnds_specs_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *reftime_vals, int *refvar) {
-//int cmor_write_cff_double_nobnds_specs_(int *var_id, int *lt_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *reftime_vals, int *refvar) {
+int cmor_write_cff_double_nobnds_specs_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *leadtime_vals, int *refvar) {
+//int cmor_write_cff_double_nobnds_specs_(int *var_id, int *lt_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *leadtime_vals, int *refvar) {
   if (*refvar<0) {
-    return cmor_write(*var_id, data,'d',suffix,*ntimes_passed,time_vals,reftime_vals,NULL,NULL);
-//    return cmor_write(*var_id, *lt_id, data,'d',suffix,*ntimes_passed,time_vals,reftime_vals,NULL,NULL);
+    return cmor_write(*var_id, data,'d',suffix,*ntimes_passed,time_vals,leadtime_vals,NULL,NULL);
+//    return cmor_write(*var_id, *lt_id, data,'d',suffix,*ntimes_passed,time_vals,leadtime_vals,NULL,NULL);
   }
   else {
-    return cmor_write(*var_id, data,'d',suffix,*ntimes_passed,time_vals,reftime_vals,NULL,refvar);
-//    return cmor_write(*var_id, *lt_id, data,'d',suffix,*ntimes_passed,time_vals,reftime_vals,NULL,refvar);
+    return cmor_write(*var_id, data,'d',suffix,*ntimes_passed,time_vals,leadtime_vals,NULL,refvar);
+//    return cmor_write(*var_id, *lt_id, data,'d',suffix,*ntimes_passed,time_vals,leadtime_vals,NULL,refvar);
   }
 }
-//int cmor_write_cff_double_nobnds_cmip5_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *reftime_vals, int *refvar) {
+//int cmor_write_cff_double_nobnds_cmip5_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *leadtime_vals, int *refvar) {
 int cmor_write_cff_double_nobnds_cmip5_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, int *refvar) {
   if (*refvar<0) {
-//    return cmor_write(*var_id, 0, data,'d',suffix,*ntimes_passed,time_vals,reftime_vals,NULL,NULL);
+//    return cmor_write(*var_id, 0, data,'d',suffix,*ntimes_passed,time_vals,leadtime_vals,NULL,NULL);
 //    return cmor_write(*var_id, 0, data,'d',suffix,*ntimes_passed,time_vals,NULL,NULL,NULL);
     return cmor_write(*var_id, data,'d',suffix,*ntimes_passed,time_vals,NULL,NULL,NULL);
   }
   else {
 //    return cmor_write(*var_id, 0, data,'d',suffix,*ntimes_passed,time_vals,NULL,NULL,refvar);
     return cmor_write(*var_id, data,'d',suffix,*ntimes_passed,time_vals,NULL,NULL,refvar);
-//    return cmor_write(*var_id, 0, data,'d',suffix,*ntimes_passed,time_vals,reftime_vals,NULL,refvar);
+//    return cmor_write(*var_id, 0, data,'d',suffix,*ntimes_passed,time_vals,leadtime_vals,NULL,refvar);
   }
 }
 int cmor_write_cff_double_notime_specs_(int *var_id, void *data, char *suffix, int *ntimes_passed, int *refvar) {
@@ -609,50 +610,50 @@ int cmor_write_cff_double_notime_cmip5_(int *var_id, void *data, char *suffix, i
   }
 }
 
-int cmor_write_cff_real_specs_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *reftime_vals, double *time_bounds, int *refvar) {
-//int cmor_write_cff_real_specs_(int *var_id, int *lt_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *reftime_vals, double *time_bounds, int *refvar) {
+int cmor_write_cff_real_specs_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *leadtime_vals, double *time_bounds, int *refvar) {
+//int cmor_write_cff_real_specs_(int *var_id, int *lt_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *leadtime_vals, double *time_bounds, int *refvar) {
   if (*refvar<0) {
-    return cmor_write(*var_id, data,'f',suffix,*ntimes_passed,time_vals,reftime_vals,time_bounds,NULL);
-//    return cmor_write(*var_id, *lt_id, data,'f',suffix,*ntimes_passed,time_vals,reftime_vals,time_bounds,NULL);
+    return cmor_write(*var_id, data,'f',suffix,*ntimes_passed,time_vals,leadtime_vals,time_bounds,NULL);
+//    return cmor_write(*var_id, *lt_id, data,'f',suffix,*ntimes_passed,time_vals,leadtime_vals,time_bounds,NULL);
   }
   else {
-    return cmor_write(*var_id, data,'f',suffix,*ntimes_passed,time_vals,reftime_vals,time_bounds,refvar);
-//    return cmor_write(*var_id, *lt_id, data,'f',suffix,*ntimes_passed,time_vals,reftime_vals,time_bounds,refvar);
+    return cmor_write(*var_id, data,'f',suffix,*ntimes_passed,time_vals,leadtime_vals,time_bounds,refvar);
+//    return cmor_write(*var_id, *lt_id, data,'f',suffix,*ntimes_passed,time_vals,leadtime_vals,time_bounds,refvar);
   }
 }
-//int cmor_write_cff_real_cmip5_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *reftime_vals, double *time_bounds, int *refvar) {
+//int cmor_write_cff_real_cmip5_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *leadtime_vals, double *time_bounds, int *refvar) {
 int cmor_write_cff_real_cmip5_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *time_bounds, int *refvar) {
   if (*refvar<0) {
-//    return cmor_write(*var_id, 0, data,'f',suffix,*ntimes_passed,time_vals,reftime_vals,time_bounds,NULL);
+//    return cmor_write(*var_id, 0, data,'f',suffix,*ntimes_passed,time_vals,leadtime_vals,time_bounds,NULL);
 //    return cmor_write(*var_id, 0, data,'f',suffix,*ntimes_passed,time_vals,NULL,time_bounds,NULL);
     return cmor_write(*var_id, data,'f',suffix,*ntimes_passed,time_vals,NULL,time_bounds,NULL);
   }
   else {
-//    return cmor_write(*var_id, 0, data,'f',suffix,*ntimes_passed,time_vals,reftime_vals,time_bounds,refvar);
+//    return cmor_write(*var_id, 0, data,'f',suffix,*ntimes_passed,time_vals,leadtime_vals,time_bounds,refvar);
 //    return cmor_write(*var_id, 0, data,'f',suffix,*ntimes_passed,time_vals,NULL,time_bounds,refvar);
     return cmor_write(*var_id, data,'f',suffix,*ntimes_passed,time_vals,NULL,time_bounds,refvar);
   }
 }
-int cmor_write_cff_real_nobnds_specs_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *reftime_vals, int *refvar) {
-//int cmor_write_cff_real_nobnds_specs_(int *var_id, int *lt_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *reftime_vals, int *refvar) {
+int cmor_write_cff_real_nobnds_specs_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *leadtime_vals, int *refvar) {
+//int cmor_write_cff_real_nobnds_specs_(int *var_id, int *lt_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *leadtime_vals, int *refvar) {
   if (*refvar<0) {
-    return cmor_write(*var_id, data,'f',suffix,*ntimes_passed,time_vals,reftime_vals,NULL,NULL);
-//    return cmor_write(*var_id, *lt_id, data,'f',suffix,*ntimes_passed,time_vals,reftime_vals,NULL,NULL);
+    return cmor_write(*var_id, data,'f',suffix,*ntimes_passed,time_vals,leadtime_vals,NULL,NULL);
+//    return cmor_write(*var_id, *lt_id, data,'f',suffix,*ntimes_passed,time_vals,leadtime_vals,NULL,NULL);
   }
   else {
-    return cmor_write(*var_id, data,'f',suffix,*ntimes_passed,time_vals,reftime_vals,NULL,refvar);
-//    return cmor_write(*var_id, *lt_id, data,'f',suffix,*ntimes_passed,time_vals,reftime_vals,NULL,refvar);
+    return cmor_write(*var_id, data,'f',suffix,*ntimes_passed,time_vals,leadtime_vals,NULL,refvar);
+//    return cmor_write(*var_id, *lt_id, data,'f',suffix,*ntimes_passed,time_vals,leadtime_vals,NULL,refvar);
   }
 }
-//int cmor_write_cff_real_nobnds_cmip5_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *reftime_vals, int *refvar) {
+//int cmor_write_cff_real_nobnds_cmip5_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *leadtime_vals, int *refvar) {
 int cmor_write_cff_real_nobnds_cmip5_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, int *refvar) {
   if (*refvar<0) {
-//    return cmor_write(*var_id, 0, data,'f',suffix,*ntimes_passed,time_vals,reftime_vals,NULL,NULL);
+//    return cmor_write(*var_id, 0, data,'f',suffix,*ntimes_passed,time_vals,leadtime_vals,NULL,NULL);
 //    return cmor_write(*var_id, 0, data,'f',suffix,*ntimes_passed,time_vals,NULL,NULL,NULL);
     return cmor_write(*var_id, data,'f',suffix,*ntimes_passed,time_vals,NULL,NULL,NULL);
   }
   else {
-//    return cmor_write(*var_id, 0, data,'f',suffix,*ntimes_passed,time_vals,reftime_vals,NULL,refvar);
+//    return cmor_write(*var_id, 0, data,'f',suffix,*ntimes_passed,time_vals,leadtime_vals,NULL,refvar);
 //    return cmor_write(*var_id, 0, data,'f',suffix,*ntimes_passed,time_vals,NULL,NULL,refvar);
     return cmor_write(*var_id, data,'f',suffix,*ntimes_passed,time_vals,NULL,NULL,refvar);
   }
@@ -679,50 +680,50 @@ int cmor_write_cff_real_notime_cmip5_(int *var_id, void *data, char *suffix, int
   }
 }
 
-int cmor_write_cff_int_specs_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *reftime_vals, double *time_bounds, int *refvar) {
-//int cmor_write_cff_int_specs_(int *var_id, int *lt_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *reftime_vals, double *time_bounds, int *refvar) {
+int cmor_write_cff_int_specs_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *leadtime_vals, double *time_bounds, int *refvar) {
+//int cmor_write_cff_int_specs_(int *var_id, int *lt_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *leadtime_vals, double *time_bounds, int *refvar) {
   if (*refvar<0) {
-    return cmor_write(*var_id, data,'i',suffix,*ntimes_passed,time_vals,reftime_vals,time_bounds,NULL);
-//    return cmor_write(*var_id, *lt_id, data,'i',suffix,*ntimes_passed,time_vals,reftime_vals,time_bounds,NULL);
+    return cmor_write(*var_id, data,'i',suffix,*ntimes_passed,time_vals,leadtime_vals,time_bounds,NULL);
+//    return cmor_write(*var_id, *lt_id, data,'i',suffix,*ntimes_passed,time_vals,leadtime_vals,time_bounds,NULL);
   }
   else {
-    return cmor_write(*var_id, data,'i',suffix,*ntimes_passed,time_vals,reftime_vals,time_bounds,refvar);
-//    return cmor_write(*var_id, *lt_id, data,'i',suffix,*ntimes_passed,time_vals,reftime_vals,time_bounds,refvar);
+    return cmor_write(*var_id, data,'i',suffix,*ntimes_passed,time_vals,leadtime_vals,time_bounds,refvar);
+//    return cmor_write(*var_id, *lt_id, data,'i',suffix,*ntimes_passed,time_vals,leadtime_vals,time_bounds,refvar);
   }
 }
-//int cmor_write_cff_int_cmip5_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *reftime_vals, double *time_bounds, int *refvar) {
+//int cmor_write_cff_int_cmip5_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *leadtime_vals, double *time_bounds, int *refvar) {
 int cmor_write_cff_int_cmip5_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *time_bounds, int *refvar) {
   if (*refvar<0) {
-//    return cmor_write(*var_id, 0, data,'i',suffix,*ntimes_passed,time_vals,reftime_vals,time_bounds,NULL);
+//    return cmor_write(*var_id, 0, data,'i',suffix,*ntimes_passed,time_vals,leadtime_vals,time_bounds,NULL);
 //    return cmor_write(*var_id, 0, data,'i',suffix,*ntimes_passed,time_vals,NULL,time_bounds,NULL);
     return cmor_write(*var_id, data,'i',suffix,*ntimes_passed,time_vals,NULL,time_bounds,NULL);
   }
   else {
-//    return cmor_write(*var_id, 0, data,'i',suffix,*ntimes_passed,time_vals,reftime_vals,time_bounds,refvar);
+//    return cmor_write(*var_id, 0, data,'i',suffix,*ntimes_passed,time_vals,leadtime_vals,time_bounds,refvar);
 //    return cmor_write(*var_id, 0, data,'i',suffix,*ntimes_passed,time_vals,NULL,time_bounds,refvar);
     return cmor_write(*var_id, data,'i',suffix,*ntimes_passed,time_vals,NULL,time_bounds,refvar);
   }
 }
-int cmor_write_cff_int_nobnds_specs_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *reftime_vals, int *refvar) {
-//int cmor_write_cff_int_nobnds_specs_(int *var_id, int *lt_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *reftime_vals, int *refvar) {
+int cmor_write_cff_int_nobnds_specs_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *leadtime_vals, int *refvar) {
+//int cmor_write_cff_int_nobnds_specs_(int *var_id, int *lt_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *leadtime_vals, int *refvar) {
   if (*refvar<0) {
-    return cmor_write(*var_id, data,'i',suffix,*ntimes_passed,time_vals,reftime_vals,NULL,NULL);
-//    return cmor_write(*var_id, *lt_id, data,'i',suffix,*ntimes_passed,time_vals,reftime_vals,NULL,NULL);
+    return cmor_write(*var_id, data,'i',suffix,*ntimes_passed,time_vals,leadtime_vals,NULL,NULL);
+//    return cmor_write(*var_id, *lt_id, data,'i',suffix,*ntimes_passed,time_vals,leadtime_vals,NULL,NULL);
   }
   else {
-    return cmor_write(*var_id, data,'i',suffix,*ntimes_passed,time_vals,reftime_vals,NULL,refvar);
-//    return cmor_write(*var_id, *lt_id, data,'i',suffix,*ntimes_passed,time_vals,reftime_vals,NULL,refvar);
+    return cmor_write(*var_id, data,'i',suffix,*ntimes_passed,time_vals,leadtime_vals,NULL,refvar);
+//    return cmor_write(*var_id, *lt_id, data,'i',suffix,*ntimes_passed,time_vals,leadtime_vals,NULL,refvar);
   }
 }
-//int cmor_write_cff_int_nobnds_cmip5_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *reftime_vals, int *refvar) {
+//int cmor_write_cff_int_nobnds_cmip5_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *leadtime_vals, int *refvar) {
 int cmor_write_cff_int_nobnds_cmip5_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, int *refvar) {
   if (*refvar<0) {
-//    return cmor_write(*var_id, 0, data,'i',suffix,*ntimes_passed,time_vals,reftime_vals,NULL,NULL);
+//    return cmor_write(*var_id, 0, data,'i',suffix,*ntimes_passed,time_vals,leadtime_vals,NULL,NULL);
 //    return cmor_write(*var_id, 0, data,'i',suffix,*ntimes_passed,time_vals,NULL,NULL,NULL);
     return cmor_write(*var_id, data,'i',suffix,*ntimes_passed,time_vals,NULL,NULL,NULL);
   }
   else {
-//    return cmor_write(*var_id, 0, data,'i',suffix,*ntimes_passed,time_vals,reftime_vals,NULL,refvar);
+//    return cmor_write(*var_id, 0, data,'i',suffix,*ntimes_passed,time_vals,leadtime_vals,NULL,refvar);
 //    return cmor_write(*var_id, 0, data,'i',suffix,*ntimes_passed,time_vals,NULL,NULL,refvar);
     return cmor_write(*var_id, data,'i',suffix,*ntimes_passed,time_vals,NULL,NULL,refvar);
   }
@@ -748,53 +749,53 @@ int cmor_write_cff_int_notime_cmip5_(int *var_id, void *data, char *suffix, int 
     return cmor_write(*var_id,data,'i',suffix,*ntimes_passed,NULL,NULL,NULL,refvar);
   }
 }
-int cmor_write_cff_long_specs_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *reftime_vals, double *time_bounds, int *refvar) {
-//int cmor_write_cff_long_specs_(int *var_id, int *lt_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *reftime_vals, double *time_bounds, int *refvar) {
+int cmor_write_cff_long_specs_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *leadtime_vals, double *time_bounds, int *refvar) {
+//int cmor_write_cff_long_specs_(int *var_id, int *lt_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *leadtime_vals, double *time_bounds, int *refvar) {
   if (*refvar<0) {
-    return cmor_write(*var_id,data,'l',suffix,*ntimes_passed,time_vals,reftime_vals,time_bounds,NULL);
-//    return cmor_write(*var_id,*lt_id,data,'l',suffix,*ntimes_passed,time_vals,reftime_vals,time_bounds,NULL);
+    return cmor_write(*var_id,data,'l',suffix,*ntimes_passed,time_vals,leadtime_vals,time_bounds,NULL);
+//    return cmor_write(*var_id,*lt_id,data,'l',suffix,*ntimes_passed,time_vals,leadtime_vals,time_bounds,NULL);
   }
   else {
-    return cmor_write(*var_id,data,'l',suffix,*ntimes_passed,time_vals,reftime_vals,time_bounds,refvar);
-//    return cmor_write(*var_id,*lt_id,data,'l',suffix,*ntimes_passed,time_vals,reftime_vals,time_bounds,refvar);
+    return cmor_write(*var_id,data,'l',suffix,*ntimes_passed,time_vals,leadtime_vals,time_bounds,refvar);
+//    return cmor_write(*var_id,*lt_id,data,'l',suffix,*ntimes_passed,time_vals,leadtime_vals,time_bounds,refvar);
   }
 }
-//int cmor_write_cff_long_cmip5_(int *var_id, int *lt_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *reftime_vals, double *time_bounds, int *refvar) {
-int cmor_write_cff_long_cmip5_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *reftime_vals, double *time_bounds, int *refvar) {
-//int cmor_write_cff_long_cmip5_(int *var_id, int *lt_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *reftime_vals, double *time_bounds, int *refvar) {
+//int cmor_write_cff_long_cmip5_(int *var_id, int *lt_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *leadtime_vals, double *time_bounds, int *refvar) {
+int cmor_write_cff_long_cmip5_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *leadtime_vals, double *time_bounds, int *refvar) {
+//int cmor_write_cff_long_cmip5_(int *var_id, int *lt_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *leadtime_vals, double *time_bounds, int *refvar) {
   if (*refvar<0) {
-//    return cmor_write(*var_id,0,data,'l',suffix,*ntimes_passed,time_vals,reftime_vals,time_bounds,NULL);
+//    return cmor_write(*var_id,0,data,'l',suffix,*ntimes_passed,time_vals,leadtime_vals,time_bounds,NULL);
 //    return cmor_write(*var_id,0,data,'l',suffix,*ntimes_passed,time_vals,NULL,time_bounds,NULL);
     return cmor_write(*var_id,data,'l',suffix,*ntimes_passed,time_vals,NULL,time_bounds,NULL);
   }
   else {
 //    return cmor_write(*var_id,0,data,'l',suffix,*ntimes_passed,time_vals,NULL,time_bounds,refvar);
     return cmor_write(*var_id,data,'l',suffix,*ntimes_passed,time_vals,NULL,time_bounds,refvar);
-//    return cmor_write(*var_id,0,data,'l',suffix,*ntimes_passed,time_vals,reftime_vals,time_bounds,refvar);
+//    return cmor_write(*var_id,0,data,'l',suffix,*ntimes_passed,time_vals,leadtime_vals,time_bounds,refvar);
   }
 }
-int cmor_write_cff_long_nobnds_specs_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *reftime_vals, int *refvar) {
-//int cmor_write_cff_long_nobnds_specs_(int *var_id, int *lt_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *reftime_vals, int *refvar) {
+int cmor_write_cff_long_nobnds_specs_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *leadtime_vals, int *refvar) {
+//int cmor_write_cff_long_nobnds_specs_(int *var_id, int *lt_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *leadtime_vals, int *refvar) {
   if (*refvar<0) {
-    return cmor_write(*var_id,data,'l',suffix,*ntimes_passed,time_vals,reftime_vals,NULL,NULL);
-//    return cmor_write(*var_id,*lt_id,data,'l',suffix,*ntimes_passed,time_vals,reftime_vals,NULL,NULL);
+    return cmor_write(*var_id,data,'l',suffix,*ntimes_passed,time_vals,leadtime_vals,NULL,NULL);
+//    return cmor_write(*var_id,*lt_id,data,'l',suffix,*ntimes_passed,time_vals,leadtime_vals,NULL,NULL);
   }
   else {
-    return cmor_write(*var_id,data,'l',suffix,*ntimes_passed,time_vals,reftime_vals,NULL,refvar);
-//    return cmor_write(*var_id,*lt_id,data,'l',suffix,*ntimes_passed,time_vals,reftime_vals,NULL,refvar);
+    return cmor_write(*var_id,data,'l',suffix,*ntimes_passed,time_vals,leadtime_vals,NULL,refvar);
+//    return cmor_write(*var_id,*lt_id,data,'l',suffix,*ntimes_passed,time_vals,leadtime_vals,NULL,refvar);
   }
 }
-//int cmor_write_cff_long_nobnds_cmip5_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *reftime_vals, int *refvar) {
+//int cmor_write_cff_long_nobnds_cmip5_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, double *leadtime_vals, int *refvar) {
 int cmor_write_cff_long_nobnds_cmip5_(int *var_id, void *data, char *suffix, int *ntimes_passed, double *time_vals, int *refvar) {
   if (*refvar<0) {
     return cmor_write(*var_id,data,'l',suffix,*ntimes_passed,time_vals,NULL,NULL,NULL);
 //    return cmor_write(*var_id,0,data,'l',suffix,*ntimes_passed,time_vals,NULL,NULL,NULL);
-//    return cmor_write(*var_id,0,data,'l',suffix,*ntimes_passed,time_vals,reftime_vals,NULL,NULL);
+//    return cmor_write(*var_id,0,data,'l',suffix,*ntimes_passed,time_vals,leadtime_vals,NULL,NULL);
   }
   else {
     return cmor_write(*var_id,data,'l',suffix,*ntimes_passed,time_vals,NULL,NULL,refvar);
 //    return cmor_write(*var_id,0,data,'l',suffix,*ntimes_passed,time_vals,NULL,NULL,refvar);
-//    return cmor_write(*var_id,0,data,'l',suffix,*ntimes_passed,time_vals,reftime_vals,NULL,refvar);
+//    return cmor_write(*var_id,0,data,'l',suffix,*ntimes_passed,time_vals,leadtime_vals,NULL,refvar);
   }
 }
 int cmor_write_cff_long_notime_specs_(int *var_id, void *data, char *suffix, int *ntimes_passed, int *refvar) {
