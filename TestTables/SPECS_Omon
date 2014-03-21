@@ -4,7 +4,7 @@ modeling_realm: ocean
 frequency: mon
 
 cmor_version: 2.6 ! minimum version of CMOR that can read this table
-cf_version:   1.4         ! version of CF that output conforms to
+cf_version:   1.6         ! version of CF that output conforms to
 project_id:   SPECS  ! project id
 table_date:   December2013 ! date this table was constructed
 
@@ -37,7 +37,7 @@ expt_id_ok: 'aerosolsStandard' 'aerosol standard'
 expt_id_ok: 'obsSolarIrradiance' 'obs solar irradiance'
 expt_id_ok: 'constSolarIrradiance' 'const solar irradiance'
 
-approx_interval:  744.000000     ! approximate spacing between successive time
+approx_interval:  30.000000     ! approximate spacing between successive time
                           !   samples (in units of the output time 
                           !   coordinate.
 
@@ -95,10 +95,13 @@ axis_entry: time
 !----------------------------------
 ! Axis attributes:
 !----------------------------------
-standard_name:    forecast_period
-units:            days  since ?
+standard_name:    time
+!standard_name:    forecast_period
+units:            days since 1850-01-01
+!units:            days  since ?
 axis:             T             ! X, Y, Z, T (default: undeclared)
-long_name:        Time elapsed since the start of the forecast
+long_name:        Verification time of the forecast
+!long_name:        Time elapsed since the start of the forecast
 !----------------------------------
 ! Additional axis information:
 !----------------------------------
@@ -416,7 +419,7 @@ z_bounds_factors: sigma: lev_bnds eta: eta depth: depth
 !
 
 !============
-variable_entry: lead_time
+variable_entry: leadtime
 !============
 !----------------------------------
 ! Variable attributes:
@@ -433,7 +436,7 @@ shuffle:           1
 deflate:           1
 deflate_level:     6
 dimensions:     time
-out_name:         lead_time
+out_name:         leadtime
 !stored_direction: increasing
 type:             double
 !must_have_bounds: yes
@@ -787,6 +790,8 @@ modeling_realm:    ocean
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+dimensions:        longitude latitude olevel time
+shuffle:           1
 shuffle:           1
 deflate:           1
 deflate_level:     6
@@ -817,6 +822,7 @@ modeling_realm:    ocean
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+dimensions:        longitude latitude olevel time
 shuffle:           1
 deflate:           1
 deflate_level:     6
@@ -832,6 +838,7 @@ modeling_realm:    ocean
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+dimensions:        longitude latitude olevel time
 shuffle:           1
 deflate:           1
 deflate_level:     6
@@ -846,7 +853,8 @@ variable_entry:  hfnorth
 modeling_realm:    ocean
 !----------------------------------
 ! Variable attributes:
-!----------------------------------
+!---------------------------------- 
+dimensions:        longitude latitude time
 shuffle:           1
 deflate:           1
 deflate_level:     6
@@ -862,6 +870,7 @@ modeling_realm:    ocean
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+dimensions:        longitude latitude time 
 shuffle:           1
 deflate:           1
 deflate_level:     6
@@ -877,6 +886,7 @@ modeling_realm:    ocean
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+dimensions:        longitude latitude time 
 shuffle:           1
 deflate:           1
 deflate_level:     6
@@ -907,6 +917,7 @@ modeling_realm:    ocean
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+dimensions:        longitude latitude time
 shuffle:           1
 deflate:           1
 deflate_level:     6
@@ -922,6 +933,7 @@ modeling_realm:    ocean
 !----------------------------------
 ! Variable attributes:
 !----------------------------------
+dimensions:        longitude latitude time
 shuffle:           1
 deflate:           1
 deflate_level:     6

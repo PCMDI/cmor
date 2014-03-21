@@ -117,10 +117,13 @@ axis_entry: time
 !----------------------------------
 ! Axis attributes:
 !----------------------------------
-standard_name:    forecast_period
-units:            days since ?
+standard_name:    time
+!standard_name:    forecast_period
+units:            days since 1850-01-01
+!units:            days since ?
 axis:             T             ! X, Y, Z, T (default: undeclared)
-long_name:        Time elapsed since the start of the forecast
+long_name:        Verification time of the forecast
+!long_name:        Time elapsed since the start of the forecast
 !----------------------------------
 ! Additional axis information:
 !----------------------------------
@@ -236,7 +239,7 @@ must_have_bounds: yes
 !
 
 !============
-variable_entry: lead_time
+variable_entry: leadtime
 !============
 !----------------------------------
 ! Variable attributes:
@@ -253,7 +256,7 @@ shuffle:           1
 deflate:           1
 deflate_level:     6
 dimensions:     time
-out_name:         lead_time
+out_name:         leadtime
 !stored_direction: increasing
 type:             double
 !must_have_bounds: yes

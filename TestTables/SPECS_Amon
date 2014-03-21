@@ -400,7 +400,7 @@ z_bounds_factors: a: lev_bnds b: b_bnds orog: orog
 !
 !
 !============
-variable_entry: lead_time
+variable_entry: leadtime
 !============
 !----------------------------------
 ! Variable attributes:
@@ -417,7 +417,7 @@ shuffle:           1
 deflate:           1
 deflate_level:     6
 dimensions:     time
-out_name:         lead_time
+out_name:         leadtime
 !stored_direction: increasing
 type:             double
 !must_have_bounds: yes
@@ -631,7 +631,7 @@ standard_name:     air_temperature
 units:             K
 cell_methods:      time: mean
 cell_measures:     area: areacella
-long_name:         Air Temperature
+long_name:         Near-Surface Air Temperature
 !----------------------------------
 ! Additional variable information:
 !----------------------------------

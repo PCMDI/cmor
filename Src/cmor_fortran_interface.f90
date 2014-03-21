@@ -101,11 +101,11 @@ module cmor_users_functions
      function cmor_dataset_cff_specs(outpath,experiment_id,institution,&
           source,calendar,realization,contact,history,comment,&
           references, leap_year,leap_month,month_lengths,model_id,&
-          forcing,initialization_method,physics_version,&!institute_id,&
+          forcing,initialization_method,physics_version,institute_id,& !was comm
           parent_experiment_id,branch_time,project_id,initialization_description,forecast_reference_time,associated_model,physics_description,series,parent_experiment_rip) result (ierr)
 !          parent_experiment_id,branch_time,project_id,initialization_description,forecast_reference_time,associated_model,physics_description,batch,parent_experiment_rip) result (ierr)
        character(*) :: outpath,experiment_id,institution,source,calendar,contact
-       character(*) :: history,comment,references,model_id,project_id,physics_description,forcing!,institute_id
+       character(*) :: history,comment,references,model_id,project_id,physics_description,forcing,institute_id !was comm
        character(*) :: parent_experiment_id,parent_experiment_rip,initialization_description,forecast_reference_time,associated_model,series
        integer :: realization,leap_year,leap_month,month_lengths
        integer :: ierr,initialization_method,physics_version
@@ -127,11 +127,11 @@ module cmor_users_functions
      function cmor_dataset_cff_null_specs(outpath,experiment_id,institution,&
           source,calendar,realization,contact,history,comment,&
           references, leap_year,leap_month,model_id,&
-          forcing,initialization_method,physics_version,&!institute_id,&
+          forcing,initialization_method,physics_version,institute_id,& ! was comm
           parent_experiment_id,branch_time,project_id,initialization_description,forecast_reference_time,associated_model,physics_description,series,parent_experiment_rip) result (ierr)
 !          parent_experiment_id,branch_time,project_id,initialization_description,forecast_reference_time,associated_model,physics_description,batch,parent_experiment_rip) result (ierr)
        character(*) :: outpath,experiment_id,institution,source,calendar,contact,initialization_description
-       character(*) :: history,comment,references,model_id,project_id,physics_description,forcing!,institute_id
+       character(*) :: history,comment,references,model_id,project_id,physics_description,forcing,institute_id ! was comm
        character(*) :: parent_experiment_id,parent_experiment_rip,forecast_reference_time,associated_model,series
        integer :: realization,leap_year,leap_month
        integer :: ierr,initialization_method,physics_version
@@ -153,11 +153,11 @@ module cmor_users_functions
      function cmor_dataset_cff_nobrch_specs(outpath,experiment_id,institution,&
           source,calendar,realization,contact,history,comment,&
           references, leap_year,leap_month,month_lengths,model_id,&
-          forcing,initialization_method,physics_version,&!institute_id,&
+          forcing,initialization_method,physics_version,institute_id,& !was comm
           parent_experiment_id,project_id,initialization_description,forecast_reference_time,associated_model,physics_description,series,parent_experiment_rip) result (ierr)
 !          parent_experiment_id,project_id,initialization_description,forecast_reference_time,associated_model,physics_description,batch,parent_experiment_rip) result (ierr)
        character(*) :: outpath,experiment_id,institution,source,calendar,contact
-       character(*) :: history,comment,references,project_id,physics_description,model_id,forcing!,institute_id
+       character(*) :: history,comment,references,project_id,physics_description,model_id,forcing,institute_id !was comm
        character(*) :: parent_experiment_id,parent_experiment_rip,initialization_description,forecast_reference_time,associated_model,series
        integer :: realization,leap_year,leap_month,month_lengths
        integer :: ierr,initialization_method,physics_version
@@ -177,11 +177,11 @@ module cmor_users_functions
      function cmor_dataset_cff_null_nobrch_specs(outpath,experiment_id,institution,&
           source,calendar,realization,contact,history,comment,&
           references, leap_year,leap_month,model_id,&
-          forcing,initialization_method,physics_version,&!institute_id,&
+          forcing,initialization_method,physics_version,institute_id,&
           parent_experiment_id,project_id,initialization_description,forecast_reference_time,associated_model,physics_description,series,parent_experiment_rip) result (ierr)
 !          parent_experiment_id,project_id,initialization_description,forecast_reference_time,associated_model,physics_description,batch,parent_experiment_rip) result (ierr)
        character(*) :: outpath,experiment_id,institution,source,calendar,contact,initialization_description
-       character(*) :: history,comment,references,model_id,forcing,project_id!,institute_id
+       character(*) :: history,comment,references,model_id,forcing,project_id,institute_id ! was comm
        character(*) :: parent_experiment_id,parent_experiment_rip,physics_description,forecast_reference_time,associated_model,series
        integer :: realization,leap_year,leap_month
        integer :: ierr,initialization_method,physics_version
@@ -8524,7 +8524,8 @@ contains
                trim(institution)//char(0),trim(source)//char(0),trim(calendar)//char(0),r,&
                cntct,hist,comt,ref,&
                ly,lm,month_lengths(1),mnm,fnm,im,pv,&
-               peid,branch_time,prid,inides,freft,assocm,&
+               instid,peid,branch_time,prid,inides,freft,assocm,&
+!               peid,branch_time,prid,inides,freft,assocm,&
                physdes,tseries,trim(parent_experiment_rip)//char(0))
         else
 !          ierr = cmor_dataset_cff_specs(trim(outpath)//char(0),trim(experiment_id)//char(0),&
@@ -8544,8 +8545,8 @@ contains
                trim(institution)//char(0),trim(source)//char(0),trim(calendar)//char(0),r,&
                cntct,hist,comt,ref,&
                ly,lm,month_lengths(1),mnm,fnm,im,pv,&
-               peid,prid,inides,freft,assocm,&
-!               instid,peid,prid,inides,freft,assocm,&
+               instid,peid,prid,inides,freft,assocm,&
+!               peid,prid,inides,freft,assocm,&
                physdes,tseries,trim(parent_experiment_rip)//char(0))
 !               physdes,cbatch,trim(parent_experiment_rip)//char(0))
 !               cntct,hist,comt,ref,&
@@ -8567,8 +8568,8 @@ contains
                trim(institution)//char(0),trim(source)//char(0),trim(calendar)//char(0),r,&
                cntct,hist,comt,ref,&
                ly,lm,mnm,fnm,im,pv,&
-               peid,branch_time,prid,inides,freft,assocm,&
-!               instid,peid,branch_time,prid,inides,freft,assocm,&
+!               peid,branch_time,prid,inides,freft,assocm,&
+               instid,peid,branch_time,prid,inides,freft,assocm,&
                physdes,tseries,trim(parent_experiment_rip)//char(0))
 !               physdes,cbatch,trim(parent_experiment_rip)//char(0))
 !               cntct,hist,comt,ref,&
@@ -8593,8 +8594,8 @@ contains
                trim(institution)//char(0),trim(source)//char(0),trim(calendar)//char(0),r,&
                cntct,hist,comt,ref,&
                ly,lm,mnm,fnm,im,pv,&
-               peid,prid,inides,freft,assocm,&
-!               instid,peid,prid,inides,freft,assocm,&
+!               peid,prid,inides,freft,assocm,&
+               instid,peid,prid,inides,freft,assocm,&
                physdes,tseries,trim(parent_experiment_rip)//char(0))
 !               physdes,cbatch,trim(parent_experiment_rip)//char(0))
 !               ly,lm,trim(project_id),physics_description,mnm,fnm,im,&

@@ -4,7 +4,7 @@ modeling_realm: land
 frequency: mon
 
 cmor_version: 2.6 ! minimum version of CMOR that can read this table
-cf_version:   1.4         ! version of CF that output conforms to
+cf_version:   1.6         ! version of CF that output conforms to
 project_id:   SPECS  ! project id
 table_date:   26 July 2011 ! date this table was constructed
 
@@ -96,9 +96,12 @@ axis_entry: time
 ! Axis attributes:
 !----------------------------------
 standard_name:    time
-units:            days since ?
+!standard_name:    forecast_period
+units:            days since 1850-01-01
+!units:            days since ?
 axis:             T             ! X, Y, Z, T (default: undeclared)
-long_name:        time
+long_name:        Verification time of the forecast
+!long_name:        Time elapsed since the start of the forecast
 !----------------------------------
 ! Additional axis information:
 !----------------------------------

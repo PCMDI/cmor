@@ -245,7 +245,7 @@ int cmor_dataset_cff_specs_(char *outpath,
 		      char *forcing,
 		      int *initialization_method,
 		      int *physics_version,
-/*		      char *institute_id,*/
+		      char *institute_id,//was comm
 		      char *parent_experiment_id,
 		      double *branch_time,
                       char *project_id, /* pab */
@@ -258,7 +258,8 @@ int cmor_dataset_cff_specs_(char *outpath,
 		      char *parent_experiment_rip)
 {
   printf("%s %s \n","in C interface, physdes= ",physics_description);
-  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,month_lengths,model_name,forcing,*initialization_method,physics_version,NULL,parent_experiment_id,branch_time,project_id,initialization_description,forecast_reference_time,associated_model,physics_description,series,parent_experiment_rip);
+  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,month_lengths,model_name,forcing,*initialization_method,physics_version,institute_id,parent_experiment_id,branch_time,project_id,initialization_description,forecast_reference_time,associated_model,physics_description,series,parent_experiment_rip);
+//  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,month_lengths,model_name,forcing,*initialization_method,physics_version,NULL,parent_experiment_id,branch_time,project_id,initialization_description,forecast_reference_time,associated_model,physics_description,series,parent_experiment_rip);
 /*pab  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,month_lengths,model_name,forcing,*initialization_method,*physics_version,institute_id,parent_experiment_id,branch_time,project_id,initialization_description,forecast_reference_time,associated_model,physics_description,batch,parent_experiment_rip);*/
   /*return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,month_lengths,model_name,forcing,*initialization_method,*physics_version,institute_id,parent_experiment_id,branch_time,*project_id,*initialization_description,*forecast_reference_time,*associated_model,*physics_description,*batch,*parent_experiment_rip);*/
 }
@@ -286,7 +287,8 @@ int cmor_dataset_cff_cmip5_(char *outpath,
 		      char *parent_exp_rip)
 //		      char *parent_experiment_rip)
 {
-  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,NULL,model_name,forcing,*initialization_method,physics_version,NULL,0,branch_time,0,0,0,NULL,NULL,0,parent_exp_rip);
+  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,NULL,model_name,forcing,*initialization_method,physics_version,institute_id,0,branch_time,0,0,0,NULL,NULL,0,parent_exp_rip);
+//  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,NULL,model_name,forcing,*initialization_method,physics_version,NULL,0,branch_time,0,0,0,NULL,NULL,0,parent_exp_rip);
 //"good"  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,month_lengths,model_name,forcing,*initialization_method,*physics_version,institute_id,parent_exp_id,branch_time,NULL,NULL,NULL,NULL,NULL,NULL,parent_exp_rip);
 //  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,month_lengths,model_name,forcing,*initialization_method,*physics_version,*institute_id,parent_experiment_id,branch_time,NULL,NULL,NULL,NULL,NULL,NULL,parent_experiment_rip);
 }
@@ -314,10 +316,11 @@ int cmor_dataset_cff_null_specs_(char *outpath,
                            char *forecast_reference_time, /* pab */
                            char *associated_model, /* pab */
                            char *physics_description, /* pab */
+		           char *institute_id,
                            char *series, 
 			   char *parent_experiment_rip)
 {
-  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,NULL,model_name,forcing,*initialization_method,physics_version,NULL,parent_experiment_id,branch_time,project_id,initialization_description,forecast_reference_time,associated_model,physics_description,series,parent_experiment_rip);
+  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,NULL,model_name,forcing,*initialization_method,physics_version,institute_id,parent_experiment_id,branch_time,project_id,initialization_description,forecast_reference_time,associated_model,physics_description,series,parent_experiment_rip);
 }
 int cmor_dataset_cff_null_cmip5_(char *outpath, 
 			   char *experiment_id,
@@ -360,17 +363,18 @@ int cmor_dataset_cff_nobrch_specs_(char *outpath,
 			     char *forcing,
 			     int *initialization_method,
 			     int *physics_version,
-/*			     char *institute_id,*/
+			     char *institute_id,//was comm
 			     char *parent_experiment_id,
                              char *project_id, /* pab */
                              char *initialization_description, /* pab */
-                             char *forecast_reference_time, /* pab */
+                             char *forecast_ref_time, /* pab */
                              char *associated_model, /* pab */
                              char *physics_description,
                              char *series, 
 			     char *parent_experiment_rip)
 {
-  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,month_lengths,model_name,forcing,*initialization_method,physics_version,NULL,parent_experiment_id,NULL,project_id,initialization_description,forecast_reference_time,associated_model,physics_description,series,parent_experiment_rip);
+  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,month_lengths,model_name,forcing,*initialization_method,physics_version,institute_id,parent_experiment_id,NULL,project_id,initialization_description,forecast_ref_time,associated_model,physics_description,series,parent_experiment_rip);
+//  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,month_lengths,model_name,forcing,*initialization_method,physics_version,NULL,parent_experiment_id,NULL,project_id,initialization_description,forecast_reference_time,associated_model,physics_description,series,parent_experiment_rip);
 /*  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,month_lengths,model_name,forcing,*initialization_method,*physics_version,institute_id,parent_experiment_id,NULL,project_id,initialization_description,forecast_reference_time,associated_model,physics_description,batch,parent_experiment_rip);*/
 }
 int cmor_dataset_cff_nobrch_cmip5_(char *outpath, 
@@ -419,8 +423,8 @@ int cmor_dataset_cff_null_nobrch_specs_(char *outpath,
 				  char *model_name,
 				  char *forcing,
 				  int  *initialization_method,
-/*				  char *institute_id,*/
 				  int  *physics_version,
+				  char *institute_id, //was com
 				  char *parent_experiment_id,
                                   char *project_id, /* pab */
               		          char *initialization_description, /* pab */
@@ -430,7 +434,8 @@ int cmor_dataset_cff_null_nobrch_specs_(char *outpath,
                                   char *series, 
   			          char *parent_experiment_rip)
 {
-  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,NULL,model_name,forcing,*initialization_method,physics_version,NULL,parent_experiment_id,NULL,project_id,initialization_description,forecast_reference_time,associated_model,physics_description,series,parent_experiment_rip);
+  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,NULL,model_name,forcing,*initialization_method,physics_version,institute_id,parent_experiment_id,NULL,project_id,initialization_description,forecast_reference_time,associated_model,physics_description,series,parent_experiment_rip);
+//  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,NULL,model_name,forcing,*initialization_method,physics_version,NULL,parent_experiment_id,NULL,project_id,initialization_description,forecast_reference_time,associated_model,physics_description,series,parent_experiment_rip);
 /*pab  return cmor_dataset(outpath,experiment_id,institution,source,calendar,*realization,contact,history,comment,references,*leap_year,*leap_month,NULL,model_name,forcing,*initialization_method,*physics_version,institute_id,parent_experiment_id,NULL,project_id,initialization_description,forecast_reference_time,associated_model,physics_description,batch,parent_experiment_rip);*/
 }
 int cmor_dataset_cff_null_nobrch_cmip5_(char *outpath, 

@@ -4,7 +4,7 @@ modeling_realm: ocean
 frequency: mon
 
 cmor_version: 2.6 ! minimum version of CMOR that can read this table
-cf_version:   1.4         ! version of CF that output conforms to
+cf_version:   1.6         ! version of CF that output conforms to
 project_id:   SPECS  ! project id
 table_date:   December2013 ! date this table was constructed
 
@@ -93,10 +93,13 @@ axis_entry: time
 !----------------------------------
 ! Axis attributes:
 !----------------------------------
-standard_name:    forecast_period
-units:            days  since ?
+standard_name:    time
+!standard_name:    forecast_period
+units:            days since 1850-01-01
+!units:            days since ?
 axis:             T             ! X, Y, Z, T (default: undeclared)
-long_name:        Time elapsed since the start of the forecast
+long_name:        Verification time of the forecast
+!long_name:        Time elapsed since the start of the forecast
 !----------------------------------
 ! Additional axis information:
 !----------------------------------
@@ -137,7 +140,7 @@ valid_max:        12000.
 !
 
 !============
-variable_entry: lead_time
+variable_entry: leadtime
 !============
 !----------------------------------
 ! Variable attributes:
@@ -151,7 +154,7 @@ long_name:        Time elapsed since the start of the forecast
 ! Additional variable information:
 !----------------------------------
 dimensions:     time
-out_name:         lead_time
+out_name:         leadtime
 !stored_direction: increasing
 type:             double
 !must_have_bounds: yes
