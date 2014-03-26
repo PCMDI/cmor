@@ -255,18 +255,17 @@ static PyObject *
   char *references; 	 
   char *model_id; 	 
   char *forcing; 
-/*  char *initialization_method,*/
   int initialization_method;
   char *initialization_description;
   int physics_version;
-  char *institute_id;	//was comm 
+  char *institute_id;	 
   char *parent_experiment_id;	 
   int  leap_year; 
   int  leap_month; 
   int  *month_lengths;
-  char *project_id; /* pab test */
-  char *forecast_reference_time; /* pab test */
-  char *associated_model; /* pab test */ 
+  char *project_id; 
+  char *forecast_reference_time; 
+  char *associated_model;  
   char *physics_description;
   char *series;
   char *parent_experiment_rip;	 
@@ -278,9 +277,6 @@ static PyObject *
 
   if(strcmp(CMOR_PROJECT,"SPECS")==0) {
     if (!PyArg_ParseTuple(args,"sssssissssiiOssisissOs",&outpath,&experiment_id,&institution,&source,&calendar,&realization,&contact,&history,&comment,&references,&leap_year,&leap_month,&month_lengths_obj,&model_id,&forcing,&initialization_method,&initialization_description,&physics_version,&institute_id,&parent_experiment_id,&branch_time_obj,&parent_experiment_rip,&forecast_reference_time,&physics_description,,&series,&associated_model))
-//  if (!PyArg_ParseTuple(args,"sssssissssiiOssiissOs",&outpath,&experiment_id,&institution,&source,&calendar,&realization,&contact,&history,&comment,&references,&leap_year,&leap_month,&month_lengths_obj,&model_id,&forcing,&initialization_method,&physics_version,&parent_experiment_id,&branch_time_obj,&parent_experiment_rip,&forecast_reference_time,&physics_description,,&series,&associated_model))
-/*pab  if (!PyArg_ParseTuple(args,"sssssissssiiOssiissOs",&outpath,&experiment_id,&institution,&source,&calendar,&realization,&contact,&history,&comment,&references,&leap_year,&leap_month,&month_lengths_obj,&model_id,&forcing,&initialization_method,&physics_version,&institute_id,&parent_experiment_id,&branch_time_obj,&parent_experiment_rip,&forecast_reference_time,&physics_description,&batch,&associated_model))*/
-/*  if (!PyArg_ParseTuple(args,"sssssissssiiOssiissOs",&outpath,&experiment_id,&institution,&source,&calendar,&realization,&contact,&history,&comment,&references,&leap_year,&leap_month,&month_lengths_obj,&model_id,&forcing,&initialization_method,&physics_version,&institute_id,&parent_experiment_id,&branch_time_obj,&parent_experiment_rip,&forecast_reference_time,&batch,&associated_model))*/
     return NULL;
   }
   else {
@@ -303,14 +299,11 @@ static PyObject *
   }
     
   if(strcmp(CMOR_PROJECT,"SPECS")==0) {
-    ierr = cmor_dataset(outpath,experiment_id,institution,source,calendar,realization,contact,history,comment,references,leap_year,leap_month,month_lengths,model_id,forcing,initialization_method,initialization_description,physics_version,institute_id,parent_experiment_id,project_id,branch_time,forecast_reference_time,associated_model,physics_description,series,parent_experiment_rip);/*pab test */
+    ierr = cmor_dataset(outpath,experiment_id,institution,source,calendar,realization,contact,history,comment,references,leap_year,leap_month,month_lengths,model_id,forcing,initialization_method,initialization_description,physics_version,institute_id,parent_experiment_id,project_id,branch_time,forecast_reference_time,associated_model,physics_description,series,parent_experiment_rip);
   }
   else {
-    ierr = cmor_dataset(outpath,experiment_id,institution,source,calendar,realization,contact,history,comment,references,leap_year,leap_month,month_lengths,model_id,forcing,initialization_method,NULL,physics_version,institute_id,parent_experiment_id,project_id,branch_time,forecast_reference_time,associated_model,physics_description,series,parent_experiment_rip);/*pab test */
+    ierr = cmor_dataset(outpath,experiment_id,institution,source,calendar,realization,contact,history,comment,references,leap_year,leap_month,month_lengths,model_id,forcing,initialization_method,NULL,physics_version,institute_id,parent_experiment_id,project_id,branch_time,forecast_reference_time,associated_model,physics_description,series,parent_experiment_rip);
   }
-//  ierr = cmor_dataset(outpath,experiment_id,institution,source,calendar,realization,contact,history,comment,references,leap_year,leap_month,month_lengths,model_id,forcing,initialization_method,physics_version,parent_experiment_id,project_id,branch_time,initialization_description,forecast_reference_time,associated_model,physics_description,series,parent_experiment_rip);/*pab test */
-/*pab  ierr = cmor_dataset(outpath,experiment_id,institution,source,calendar,realization,contact,history,comment,references,leap_year,leap_month,month_lengths,model_id,forcing,initialization_method,physics_version,institute_id,parent_experiment_id,project_id,branch_time,initialization_description,forecast_reference_time,associated_model,physics_description,batch,parent_experiment_rip); test */
-/*  ierr = cmor_dataset(outpath,experiment_id,institution,source,calendar,realization,contact,history,comment,references,leap_year,leap_month,month_lengths,model_id,forcing,initialization_method,physics_version,institute_id,parent_experiment_id,project_id,branch_time,parent_experiment_rip,forecast_reference_time,batch,associated_model);pab test */
   if (month_lengths_array_obj!=NULL) {Py_DECREF(month_lengths_array_obj);}
   if (ierr != 0 ) return NULL;
   /* Return NULL Python Object */
@@ -563,10 +556,10 @@ static PyObject *
   for(i=0;i<n;i++) {
     tmp  =PyList_GetItem(param_nm_obj,i);
     strcpy(nms[i],PyString_AsString(tmp));
- //   Py_DECREF(tmp);  //Not needed get_item does not increase ref
+ /*   Py_DECREF(tmp);  Not needed get_item does not increase ref*/
     tmp  =PyList_GetItem(param_un_obj,i);
     strcpy(units[i],PyString_AsString(tmp));
- //   Py_DECREF(tmp);  //Not needed get_item does not increase ref
+ /*   Py_DECREF(tmp);  Not needed get_item does not increase ref*/
   }
   
   ierr = cmor_set_grid_mapping(gid,name,n,(char **)nms,CMOR_MAX_STRING,param_val,(char **)units,CMOR_MAX_STRING);

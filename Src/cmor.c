@@ -35,7 +35,6 @@ cmor_table_t cmor_tables[CMOR_MAX_TABLES];
 cmor_var_t cmor_vars[CMOR_MAX_VARIABLES];
 cmor_axis_t cmor_axes[CMOR_MAX_AXES];
 cmor_grid_t cmor_grids[CMOR_MAX_GRIDS];
-//pcmdi int CMOR_PROJECT;
 char CMOR_PROJECT[5];
 int CMOR_MODE;
 int CMOR_TABLE;
@@ -57,7 +56,51 @@ int CMOR_CREATE_SUBDIRECTORIES = 1;
 char cmor_input_path[CMOR_MAX_STRING];
 char cmor_traceback_info[CMOR_MAX_STRING];
 
-//int CMOR_PROJECT = 0;
+/* is src in dest?*/
+
+int cmor_stringinstring (char* dest, char* src) {
+  /* returns 1 if dest contains the words of src.
+     the end of a word is either a space, a period or null.
+     
+     this will not give the desired results if period is used
+     internal to a word.
+ */
+  char* pstr=dest;
+  while (pstr=strstr(pstr, src)) {
+    /* if this word is at the beginning of msg or preceeded by a space */
+    if (pstr==dest || pstr[-1]==' ') {
+      /* if it isn't a substring match */
+      if ((pstr[strlen(src)] == ' ') ||
+          (pstr[strlen(src)] == 0) ||
+	  (pstr[strlen(src)] == '.')) {
+        /* then return 1 to indicate string found */
+        return 1;
+      }
+    }
+    pstr++;/* In which case, skip to the next char */
+  }
+  /* nothing like src is in dest, and so return the location of the end of string*/
+  return 0;
+}
+
+void cmor_cat_unique_string (char* dest, char* src) {
+  int offset;
+  int spare_space;
+  /* if this string is in msg */
+  if (cmor_stringinstring(dest, src)) {
+    /* do nothing */
+  } else {
+    if (offset=strlen(dest)) {
+      strcat(dest+offset, " ");
+      offset++;
+      spare_space=CMOR_MAX_STRING-offset-1;
+      strncat(dest+offset, src, spare_space);
+    } else {
+      strncpy(dest, src, CMOR_MAX_STRING);
+    }
+  }
+}
+
 void  cmor_check_forcing_validity(int table_id,char *value) {
   int i,j,n,found=0;
   char msg[CMOR_MAX_STRING];
@@ -110,7 +153,6 @@ int cmor_check_expt_id(char *expt_id, int table_id, char *gbl_lng, char *gbl_sht
   char ctmp[CMOR_MAX_STRING];
 
   cmor_add_traceback("cmor_check_expt_id");
-
   j=0;
   for (i=0;i<=cmor_tables[table_id].nexps;i++) {
     k=strlen(expt_id);
@@ -425,7 +467,7 @@ void cmor_handle_error(char error_msg[CMOR_MAX_STRING],int level)
     fprintf (output_logfile,"\n\n");
   }
   if ((CMOR_MODE == CMOR_EXIT_ON_WARNING) || (level == CMOR_CRITICAL ) ) {
-    //if (cleanup_varid!=-1) remove(cmor_vars[cleanup_varid].current_path);
+    /*if (cleanup_varid!=-1) remove(cmor_vars[cleanup_varid].current_path);*/
     exit(1);
   }
 }
@@ -445,14 +487,13 @@ void substitute_chars_with_hyphens(char *strin, char *strout, char *name, int va
   char msg[CMOR_MAX_STRING];
   int i;
 
-  //strncpy(strin,strout,CMOR_MAX_STRING);
+  /*strncpy(strin,strout,CMOR_MAX_STRING);*/
 
   for (i=0;i<strlen(strin);i++) {
     strout[i]=strin[i];
     if (cmor_convert_char_to_hyphen(strin[i])==1) {
       if (var_id!=-1) {
 	snprintf(msg,CMOR_MAX_STRING,"writing variable %s (table %s), %s (%s) contains the character '%c' it will be replaced with a hyphen in the filename and output directories\n",cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id,name,strin,strin[i]);
-/* pab to be reput when cmor_vars structure def found	snprintf(msg,CMOR_MAX_STRING,"writing variable %s (table %s), %s (%s) contains the character '%c' it will be replaced with a hyphen in the filename and output directories\n",cmor_vars[var_id].id,cmor_vars[var_id].version,cmor_tables[cmor_vars[var_id].ref_table_id].table_id,name,strin,strin[i]); */
       }
       else {
 	snprintf(msg,CMOR_MAX_STRING,"global attribute %s (%s) contains the character '%c' it will be replaced with a hyphen in output directories\n",name,strin,strin[i]);
@@ -488,7 +529,6 @@ void cmor_reset_variable(int var_id) {
   cmor_vars[var_id].initialized=-1;
   cmor_vars[var_id].closed=0;
   cmor_vars[var_id].nc_var_id=-999;
-/*  cmor_vars[var_id].version=1; pab*/
   for (j=0;j<CMOR_MAX_VARIABLES;j++) cmor_vars[var_id].nc_zfactors[j]=-999;
   cmor_vars[var_id].nzfactor=0;
   cmor_vars[var_id].ntimes_written=0;
@@ -545,7 +585,6 @@ void cmor_reset_variable(int var_id) {
 
 int cmor_setup(char *path,int *netcdf, int *verbosity, int *mode, char *logfile, int *create_subdirectories, char *arg_cmor_project)
 {
-//pcmdi  extern int CMOR_PROJECT;
   extern char CMOR_PROJECT[5];
   extern cmor_axis_t cmor_axes[];
   extern int CMOR_TABLE,cmor_ntables;
@@ -571,12 +610,10 @@ int cmor_setup(char *path,int *netcdf, int *verbosity, int *mode, char *logfile,
   cmor_add_traceback("cmor_setup");
 
   /* check if in mode CMIP5 (default, CMOR_PROJECT=0) or SPECS (CMOR_PROJECT=1) */
-//  if (*specs==1) {
   if (strcmp(arg_cmor_project,"SPECS")==0) {
    strcpy(CMOR_PROJECT,"SPECS");
   }
   else {
-//   printf("%s %i %s \n","CMOR_PROJECT -ne 1 (=",specs,"), => CMOR en mode CMIP5");
    strcpy(CMOR_PROJECT,"CMIP5");
   }   
   /* ok we need to know if we are using NC3 or 4 */
@@ -874,18 +911,8 @@ int cmor_put_nc_char_attribute(int ncid,int nc_var_id,char *name,char *value,cha
   ierr=0;
   cmor_add_traceback("cmor_put_nc_char_attribute");
   k = strlen(value);
-//  printf("%s %s %s %s \n","in cmor_put_nc_char_attribute, name, value,var:",name,value,var_name);
-//  if(strcmp(var_name,"leadtime")==1 && strcmp(name,"units")) {
-//  if(strcmp(name,"units")==0) {
-//   printf("%s \n","remplacement des unites");
-//   strcpy(value,"hours");
-//  }
-//  else {
-//   printf("%s %s %s \n","pas les bons atts",var_name,name);
-//  }
   if (k!=0) {
     value[k]='\0';
-//    printf("%s %s \n","before put att var",name);
     ierr = nc_put_att_text(ncid,nc_var_id,name,k+1,value);
     if (ierr != NC_NOERR) {
       snprintf(msg,CMOR_MAX_STRING,"NetCDF Error (%i: %s) setting attribute: '%s' (='%s') on variable (%s)",ierr,nc_strerror(ierr),name,value,var_name);
@@ -919,13 +946,12 @@ int cmor_set_cur_dataset_attribute(char *name, char *value, int optional) {
       (strcmp(name,"forcing")==0) ||
       (strcmp(name,"initialization_method")==0) ||
       (strcmp(name,"physics_version")==0) ||
-      (strcmp(name,"institute_id")==0) || //was commented
+      (strcmp(name,"institute_id")==0) || 
       (strcmp(name,"parent_experiment_id")==0) ||
       (strcmp(name,"branch_time")==0) ||
       (strcmp(name,"parent_experiment_rip")==0) ||
       (strcmp(name,"initialization_description")==0 && strcmp(CMOR_PROJECT,"SPECS")==0) || 
       (strcmp(name,"forecast_reference_time")==0 && strcmp(CMOR_PROJECT,"SPECS")==0) ||
-//qc      (strcmp(name,"forecast_ref_time")==0 && strcmp(CMOR_PROJECT,"SPECS")==0) ||
       (strcmp(name,"associated_model")==0 && strcmp(CMOR_PROJECT,"SPECS")==0) ||
       (strcmp(name,"physics_description")==0 && strcmp(CMOR_PROJECT,"SPECS")==0) ||
       (strcmp(name,"series")==0 && strcmp(CMOR_PROJECT,"SPECS")==0) ||
@@ -946,14 +972,6 @@ int cmor_set_cur_dataset_attribute_internal(char *name, char *value, int optiona
   cmor_add_traceback("cmor_set_cur_dataset_attribute_internal");
   cmor_is_setup();
 
-//  if(CMOR_PROJECT==1) {
-//   printf("%s %s %s \n","in cmor_set_cur_dataset_attribute_internal, CMOR en mode SPECS",name,value);
-/*  }
-  else {
-   printf("%s %i \n","in cmor_set_cur_dataset_attribute_internal, CMOR en mode CMIP5",CMOR_PROJECT);
-  }*/
-/*  puts("very beginning");*/
-//  printf("%s %s %s \n","attribute:",value,name);
   cmor_trim_string(value,msg);
 /*  puts("very beginning1");*/
   if ((int)strlen(name)>CMOR_MAX_STRING) {
@@ -1174,26 +1192,23 @@ int cmor_dataset(char *outpath,
 		 int *physics_version,
 		 char *institute_id,
 		 char *parent_experiment_id,
-                 double *branch_time,
-                 char *project_id, /* pab */
-	         char *initialization_description, /* pab */ 
-		 char *forecast_reference_time, /* pab */ 
-//qc		 char *forecast_reference_time, /* pab */ 
-		 char *associated_model, /* pab */ 
-                 char *physics_description,
+         double *branch_time,
+         char *project_id, 
+	     char *initialization_description,  
+		 char *forecast_reference_time,  
+         char *associated_model,  
+         char *physics_description,
 		 char *series,   
 		 char *parent_experiment_rip)
 {
   extern cmor_dataset_def cmor_current_dataset;
   char msg[CMOR_MAX_STRING];
-//  char *institute_id; //was commented
   int i,found;
   struct stat buf;
   FILE *test_file=NULL;
   extern FILE *output_logfile;
   cmor_add_traceback("cmor_dataset");
   cmor_is_setup();
-//  printf("%s %s \n","in cmor_dataset, phys_des=",physics_description);
   if (output_logfile == NULL) output_logfile = stderr;
   if(strcmp(CMOR_PROJECT,"SPECS")==0) {
    fprintf(output_logfile,"CMOR-SPECS mode activated");
@@ -1268,11 +1283,6 @@ int cmor_dataset(char *outpath,
   }
 
   /* just to be sure initialize the dataset institude_id" */
-//pab not needed in SPECS 
-/*
-pab-badc
-if(strcmp(CMOR_PROJECT,"SPECS")!=0) {
-*/
 if (institute_id!=NULL) {
     cmor_trim_string(institute_id,msg);
     if (strcmp(msg,"")==0) {
@@ -1283,46 +1293,28 @@ if (institute_id!=NULL) {
     strcpy(msg,"not specified");
   }
 
-//pab-badc
   cmor_set_cur_dataset_attribute_internal("institute_id",msg,1);
-//}
-/*pab-badc */
-/*  printf("%s %s \n","peid: ",parent_experiment_id);*/
-/*  cmor_set_cur_dataset_attribute_internal("parent_experiment_id",parent_experiment_id,1);
-  cmor_set_cur_dataset_attribute_internal("series",series,1);
-  printf("%s %s \n","exp_id:",experiment_id);*/
   cmor_set_cur_dataset_attribute_internal("experiment_id",experiment_id,1);
-//  printf("%s %i \n","before set intern real",realization);
-  cmor_set_cur_dataset_attribute_internal("realization","1",1);//pab-badc
+  cmor_set_cur_dataset_attribute_internal("realization","1",1);
 
   /* ok we need to check it is a valid experiment have to do it at cmor_write time though*/
   cmor_set_cur_dataset_attribute_internal("source",source,0);  
-  cmor_set_cur_dataset_attribute_internal("calendar",calendar,0);/*pab, no need for calendar*/
-  cmor_set_cur_dataset_attribute_internal("model_id",model_id,0);/*1->0*/
-/*  printf("%s %s \n","forcing: ",forcing);*/
-  cmor_set_cur_dataset_attribute_internal("forcing",forcing,0);/*1->0*/
-/*  printf("%s %s \n","peid2: ",parent_experiment_id);*/
-/*  parent_experiment_rip="r1i1p1";*/
-/*  printf("%s %s \n","perip: ",parent_experiment_rip);*/
+  cmor_set_cur_dataset_attribute_internal("calendar",calendar,0);
+  cmor_set_cur_dataset_attribute_internal("model_id",model_id,0);
+  cmor_set_cur_dataset_attribute_internal("forcing",forcing,0);
   cmor_set_cur_dataset_attribute_internal("parent_experiment_id",parent_experiment_id,1);
-//printf("%s %s \n","avant la boucle0",parent_experiment_rip);
    
 if(strcmp(CMOR_PROJECT,"SPECS")==0) {
-  cmor_set_cur_dataset_attribute_internal("parent_experiment_rip",parent_experiment_rip,0); /*1->0*/
+  cmor_set_cur_dataset_attribute_internal("parent_experiment_rip",parent_experiment_rip,0); 
 }
 else{
   cmor_set_cur_dataset_attribute_internal("parent_experiment_rip",parent_experiment_rip,1);
 }  
-/*  printf("%s \n","after set attribute internal");*/
-//printf("%s \n","avant la boucle");
 if(strcmp(CMOR_PROJECT,"SPECS")==0) {
-//printf("%s \n","ds la boucle");
  cmor_set_cur_dataset_attribute_internal("series",series,1);
 }
   if (branch_time == NULL) {
-/*  puts("in branch if\n");*/
     if (cmor_is_required_global_attribute("branch_time",CMOR_TABLE)==0) {
-/*  puts("in branch if2\n");*/
       sprintf(msg,"You did not provide required attribute: branch_time");
       cmor_handle_error(msg,CMOR_CRITICAL);
     }
@@ -1331,16 +1323,14 @@ if(strcmp(CMOR_PROJECT,"SPECS")==0) {
     sprintf(msg,"%lf",*branch_time);
     cmor_set_cur_dataset_attribute_internal("branch_time",msg,1);
   }
-//  printf("%s %s \n","calendar:",calendar);
   /* check if calendar is actually valid! */
-/* pab-badc*/
   found=0;
   for (i=0;i<CMOR_N_VALID_CALS;i++) {
     strncpytrim(msg,calendar,CMOR_MAX_STRING);
     if (strcmp(msg,CMOR_VALID_CALENDARS[i])==0) found=1;
   }
   if ((month_lengths!=NULL) || (leap_year!=0) || (leap_month!=0)) {
-    // user passed calendar definitions 
+    /* user passed calendar definitions */
     if (found == 1 ) {
     snprintf(msg,CMOR_MAX_STRING,"You passed calendar: %s therefore we will ignore any user defined value you also set for month_lentgths and leap_months", calendar);
     cmor_handle_error(msg,CMOR_WARNING);
@@ -1348,47 +1338,47 @@ if(strcmp(CMOR_PROJECT,"SPECS")==0) {
     else {
       snprintf(msg,CMOR_MAX_STRING,"You defined a non_standard calendar while this used to be ok in CMOR version 1 it is no longer supported in this version, please contact us at: cmor@lists.llnl.gov so we can work on fixing this issue");
       cmor_handle_error(msg,CMOR_CRITICAL);
-      // if (strcmp(calendar,"non_standard")!=0) { 
-      // 	snprintf(msg,CMOR_MAX_STRING,"CMOR_DATASET: You defined a non_standard calendar, its name should be: 'non_standard', you passed: '%s'",calendar); 
-      // 	cmor_handle_error(msg,CMOR_CRITICAL); 
-      // } 
-      // /\* dealing with user specified calendar *\/ 
-      // if (month_lengths!=NULL) { 
-      // 	/\* user defined months length *\/ 
-      // 	for (i=0;i<12;i++) { 
-      // 	  if ((month_lengths[i]>50)||(month_lengths[i]<20)) { 
-      // 	    snprintf(msg,CMOR_MAX_STRING,"CMOR_DATASET: month_lengths must be between 20 and 50, index %i has value %i",i,month_lengths[i]); 
-      // 	    cmor_handle_error(msg,CMOR_WARNING); 
-      // 	  } 
-      // 	  cmor_current_dataset.month_lengths[i]=month_lengths[i]; 
-      // 	} 
-      // } 
-      // if (leap_year!=0) { 
-      // 	if ((leap_month>12) || (leap_month<1)) { 
-      // 	  snprintf(msg,CMOR_MAX_STRING,"CMOR_DATASET: user defined a leap_year (%i), but an invalid corresponding leap_month (%i)",leap_year,leap_month) ; 
-      // 	  cmor_handle_error(msg,CMOR_CRITICAL); 
-      // 	  cmor_pop_traceback(); 
-      // 	  return 1; 
-      // 	} 
-      // 	cmor_current_dataset.leap_year = leap_year; 
-      // 	cmor_current_dataset.leap_month = leap_month; 
-      // } 
-      // else { 
-      // 	if (leap_month!=0) { 
-      // 	  /\* user defined a leap_month *\/ 
-      // 	  if ((leap_month>12) || (leap_month<1)) { 
-      // 	    snprintf(msg,CMOR_MAX_STRING,"CMOR_DATASET: user defined an invalid leap_month (%i)",leap_month) ; 
-      // 	    cmor_handle_error(msg,CMOR_CRITICAL); 
-      // 	    cmor_pop_traceback(); 
-      // 	    return 1; 
-      // 	  } 
-      // 	  /\* ok here we have valid defined leap_month but no leap year *\/ 
-      // 	  snprintf(msg,CMOR_MAX_STRING,"CMOR_DATASET: user defined a leap_month (%i), but no corresponding leap_year",leap_month) ; 
-      // 	  cmor_handle_error(msg,CMOR_CRITICAL); 
-      // 	  cmor_pop_traceback(); 
-      // 	  return 1; 
-      // 	} 
-      // } 
+      /* if (strcmp(calendar,"non_standard")!=0) { 
+       	snprintf(msg,CMOR_MAX_STRING,"CMOR_DATASET: You defined a non_standard calendar, its name should be: 'non_standard', you passed: '%s'",calendar); 
+       	cmor_handle_error(msg,CMOR_CRITICAL); 
+       } 
+       /\* dealing with user specified calendar *\/ 
+       if (month_lengths!=NULL) { 
+       	/\* user defined months length *\/ 
+       	for (i=0;i<12;i++) { 
+       	  if ((month_lengths[i]>50)||(month_lengths[i]<20)) { 
+       	    snprintf(msg,CMOR_MAX_STRING,"CMOR_DATASET: month_lengths must be between 20 and 50, index %i has value %i",i,month_lengths[i]); 
+       	    cmor_handle_error(msg,CMOR_WARNING); 
+       	  } 
+       	  cmor_current_dataset.month_lengths[i]=month_lengths[i]; 
+       	} 
+       } 
+       if (leap_year!=0) { 
+       	if ((leap_month>12) || (leap_month<1)) { 
+       	  snprintf(msg,CMOR_MAX_STRING,"CMOR_DATASET: user defined a leap_year (%i), but an invalid corresponding leap_month (%i)",leap_year,leap_month) ; 
+       	  cmor_handle_error(msg,CMOR_CRITICAL); 
+       	  cmor_pop_traceback(); 
+       	  return 1; 
+       	} 
+       	cmor_current_dataset.leap_year = leap_year; 
+       	cmor_current_dataset.leap_month = leap_month; 
+       } 
+       else { 
+       	if (leap_month!=0) { 
+       	  /\* user defined a leap_month *\/ 
+       	  if ((leap_month>12) || (leap_month<1)) { 
+       	    snprintf(msg,CMOR_MAX_STRING,"CMOR_DATASET: user defined an invalid leap_month (%i)",leap_month) ; 
+       	    cmor_handle_error(msg,CMOR_CRITICAL); 
+       	    cmor_pop_traceback(); 
+       	    return 1; 
+       	  } 
+       	  /\* ok here we have valid defined leap_month but no leap year *\/ 
+       	  snprintf(msg,CMOR_MAX_STRING,"CMOR_DATASET: user defined a leap_month (%i), but no corresponding leap_year",leap_month) ; 
+       	  cmor_handle_error(msg,CMOR_CRITICAL); 
+       	  cmor_pop_traceback(); 
+       	  return 1; 
+       	} 
+       } */
     }
   }
   else if (found==0) {
@@ -1397,29 +1387,18 @@ if(strcmp(CMOR_PROJECT,"SPECS")==0) {
   }
 
   cmor_set_cur_dataset_attribute_internal("contact",contact,1);
-  cmor_set_cur_dataset_attribute_internal("references",references,1); /* pab: was not there in my previous version*/
-//  cmor_set_cur_dataset_attribute_internal("calendar",calendar,1); /* pab */
+  cmor_set_cur_dataset_attribute_internal("references",references,1); 
   cmor_set_cur_dataset_attribute_internal("history",history,1);
   cmor_set_cur_dataset_attribute_internal("comment",comment,1);
 if (strcmp(CMOR_PROJECT,"SPECS")==0){
-  cmor_set_cur_dataset_attribute_internal("calendar",calendar,1); /* pab */
-  cmor_set_cur_dataset_attribute_internal("forecast_reference_time",forecast_reference_time,1);  /* pab */
-//remove frt att  cmor_set_cur_dataset_attribute_internal("forecast_reference_time",forecast_reference_time,1);  /* pab */
-//qc  cmor_set_cur_dataset_attribute_internal("forecast_ref_time",forecast_ref_time,1);  /* pab */
-/*  printf("%s %s \n","physics_description:",physics_description);*/
-  cmor_set_cur_dataset_attribute_internal("physics_description",physics_description,0);  /*1->0*/ /* pab */
-  cmor_set_cur_dataset_attribute_internal("associated_model",associated_model,0);/*1->0*/  /* pab */
-/*  cmor_set_cur_dataset_attribute_internal("batch",batch,1);  pab */
-/* pab add a check if associated model is in model list*/
-/* pab deja fait apres  printf("%s %s \n","initialization_method:",initialization_method);
-  cmor_set_cur_dataset_attribute_internal("initialization_method",initialization_method,0);1->0 pab */
-  cmor_set_cur_dataset_attribute_internal("initialization_description",initialization_description,0);/*1->0*/  /* pab */
-  cmor_set_cur_dataset_attribute_internal("forecast_reference_time",forecast_reference_time,1); /*1->0*/ /* pab */
-//qc  cmor_set_cur_dataset_attribute_internal("forecast_ref_time",forecast_ref_time,0); /*1->0*/ /* pab */
-  /*cmor_set_cur_dataset_attribute_internal("batch",associated_model,0); 1->0 pab */
-  cmor_set_cur_dataset_attribute_internal("associated_model",associated_model,0); /*1->0*/ /* pab */
-  cmor_set_cur_dataset_attribute_internal("realization","1",1); /*1->0*/ /* pab-badc */
-//  cmor_set_cur_dataset_attribute_internal("realization",realization,1); /*1->0*/ /* pab-badc */
+  cmor_set_cur_dataset_attribute_internal("calendar",calendar,1); 
+  cmor_set_cur_dataset_attribute_internal("forecast_reference_time",forecast_reference_time,1);  
+  cmor_set_cur_dataset_attribute_internal("physics_description",physics_description,0);   
+  cmor_set_cur_dataset_attribute_internal("associated_model",associated_model,0);  
+  cmor_set_cur_dataset_attribute_internal("initialization_description",initialization_description,0);  
+  cmor_set_cur_dataset_attribute_internal("forecast_reference_time",forecast_reference_time,1);  
+  cmor_set_cur_dataset_attribute_internal("associated_model",associated_model,0);  
+  cmor_set_cur_dataset_attribute_internal("realization","1",1);  
 }
   if (realization < 0) {
     snprintf(msg,CMOR_MAX_STRING,"Error realization number is negative, expected a positive number or 0 (i.e. ignored)");
@@ -1445,17 +1424,9 @@ if (strcmp(CMOR_PROJECT,"SPECS")==0){
     cmor_set_cur_dataset_attribute_internal("physics_version","1",0);
   }
 
-/*  printf("%s \n","after all defs");
-  printf("%s %s \n","associated_model:",associated_model);
-  printf("%s %s \n","forecast_ref_time:",forecast_ref_time);
-  printf("%s %s \n","initialization_description:",initialization_description);
-  printf("%s %s \n","associated_model:",associated_model);*/
   cmor_current_dataset.initiated=1;
   cmor_set_cur_dataset_attribute_internal("tracking_id",cmor_current_dataset.tracking_id,0);
-/*  printf("%s \n","after tracking_id");*/
-//  printf("%s %s %s %s \n","before exiting cmordataset, expid:",experiment_id,", parent_expid:",parent_experiment_id);
   cmor_pop_traceback();
-/*  printf("%s \n","before end");*/
   return 0;
 }
 
@@ -1596,7 +1567,6 @@ int cmor_define_zfactors_vars(int var_id,int ncid, int *nc_dim,char *formula_ter
     /* here we try to match with the actual variable */
     l=-1;
     for (k=0;k<cmor_nvars+1;k++) {
-      /* printf("checking: %s vs %s\n",ctmp,cmor_vars[k].id); */
       if (strcmp(ctmp,cmor_vars[k].id)==0) {
 	/* ok that is not enough! We need to know if the dims match! */
 	nelts=0;
@@ -1649,9 +1619,7 @@ int cmor_define_zfactors_vars(int var_id,int ncid, int *nc_dim,char *formula_ter
       /* and then define the variable */
       for(k=0;k<cmor_vars[l].ndims;k++) {
 	found = 0;
-	/* printf("checking for axis: %s on var: %i, %s\n",cmor_axes[cmor_vars[l].axes_ids[k]].id,l,cmor_vars[l].id); */
 	for (m=0;m<cmor_vars[var_id].ndims;m++) {
-	  /* printf("ok comparing: %i,%s and %i,%s\n",cmor_vars[var_id].axes_ids[m],cmor_axes[cmor_vars[var_id].axes_ids[m]].id,cmor_vars[l].axes_ids[k],cmor_axes[cmor_vars[l].axes_ids[k]].id); */
 	  if (strcmp(cmor_axes[cmor_vars[var_id].axes_ids[m]].id,cmor_axes[cmor_vars[l].axes_ids[k]].id)==0) {
 	    found =1;
 	    dim_holder[k]=nc_dim[m];
@@ -1690,7 +1658,6 @@ int cmor_define_zfactors_vars(int var_id,int ncid, int *nc_dim,char *formula_ter
 	    icd = cmor_tables[cmor_vars[l].ref_table_id].vars[cmor_vars[l].ref_var_id].deflate;
 	    icdl = cmor_tables[cmor_vars[l].ref_table_id].vars[cmor_vars[l].ref_var_id].deflate_level;
 	    ierr = nc_def_var_deflate(ncid,nc_zfactors[lnzfactors],ics,icd,icdl);
-//        printf("%s %i %i %i \n","after compression0",ics,icd,icdl);
 /*
 netcdf4 compression
 */
@@ -1701,7 +1668,6 @@ netcdf4 compression
 	  }
 	}
 
-/* 	printf("defined variable %s to nc_var_id: %i\n",cmor_vars[l].id,nc_zfactors[lnzfactors]); */
 
 	/* Creates attribute related to that variable */
 	for (k=0;k<cmor_vars[l].nattributes;k++){
@@ -1721,7 +1687,6 @@ netcdf4 compression
 	    free(int_list);
 	  }
 	  else if (cmor_vars[l].attributes_type[k] == 'c') {
-//              printf("%s %s %s \n","put att7",cmor_vars[l].attributes[k],cmor_vars[l].attributes_values_char[k]);
 	    ierr = cmor_put_nc_char_attribute(ncid,nc_zfactors[lnzfactors],cmor_vars[l].attributes[k],cmor_vars[l].attributes_values_char[k],cmor_vars[l].id) ;
 	  }
 	  else {
@@ -1747,7 +1712,6 @@ netcdf4 compression
 	  icd = cmor_tables[cmor_vars[l].ref_table_id].vars[cmor_vars[l].ref_var_id].deflate;
 	  icdl = cmor_tables[cmor_vars[l].ref_table_id].vars[cmor_vars[l].ref_var_id].deflate_level;
 	  ierr = nc_def_var_deflate(ncid,nc_zfactors[lnzfactors],ics,icd,icdl);
-//        printf("%s %i %i %i \n","after compression0.1",ics,icd,icdl);
 /*
 netcdf4 compression
 */
@@ -1775,7 +1739,6 @@ netcdf4 compression
 	    free(int_list);
 	  }
 	  else if (cmor_vars[l].attributes_type[k] == 'c') {
-//              printf("%s %s %s \n","put att0",cmor_vars[l].attributes[k],cmor_vars[l].attributes_values_char[k]);
 	    ierr = cmor_put_nc_char_attribute(ncid,nc_zfactors[lnzfactors],cmor_vars[l].attributes[k],cmor_vars[l].attributes_values_char[k],cmor_vars[l].id) ;
 	  }
 	  else {
@@ -1859,9 +1822,7 @@ void cmor_flip_hybrid(int var_id, int i,char *a, char *b, char *abnds, char *bbn
   return;
 }
 
-//int cmor_write(int var_id, int lt_id, int ncid_in, void *data, char type, char *suffix, int ntimes_passed, double *time_vals, double *leadtime_vals, double *time_bounds, int *refvar) 
 int cmor_write(int var_id, void *data, char type, char *suffix, int ntimes_passed, double *time_vals, double *leadtime_vals, double *time_bounds, int *refvar) 
-//int cmor_write(int var_id, int lt_id, void *data, char type, char *suffix, int ntimes_passed, double *time_vals, double *leadtime_vals, double *time_bounds, int *refvar) 
 {
   extern cmor_var_t cmor_vars[CMOR_MAX_VARIABLES];
   extern cmor_axis_t cmor_axes[CMOR_MAX_AXES];
@@ -1893,7 +1854,6 @@ int cmor_write(int var_id, void *data, char type, char *suffix, int ntimes_passe
   int nc_dim_af[CMOR_MAX_AXES];
   int nc_vars[CMOR_MAX_VARIABLES];
   int nc_var_reftime;
-//  double leadtime_vals[500];
   int nc_vars_af[CMOR_MAX_VARIABLES];
   int nc_associated_vars[6];
   int nc_dims_associated[CMOR_MAX_AXES];
@@ -1908,7 +1868,6 @@ int cmor_write(int var_id, void *data, char type, char *suffix, int ntimes_passe
   int zfactors[CMOR_MAX_VARIABLES];
   int nc_zfactors[CMOR_MAX_VARIABLES];
   int varid;
-//  int ltid;
   int ho;
   double tmps[2];
   FILE *fperr;
@@ -1935,7 +1894,6 @@ int cmor_write(int var_id, void *data, char type, char *suffix, int ntimes_passe
   int ncid_in2;
   cmor_add_traceback("cmor_write");
 /*
-  printf("%s %d %s %d \n","starting cmor_write, time=",time_vals,", leadtime=",leadtime_vals);
 */
   strcpy(appending_to,""); /* initialize to nothing */
   strcpy(outname,"");
@@ -1951,15 +1909,10 @@ int cmor_write(int var_id, void *data, char type, char *suffix, int ntimes_passe
   };
   varid = var_id;
 
-//if (CMOR_PROJECT==1){
-//  ltid  = lt_id; 
-//}
-/*  printf("%s %s %s %s \n","beginning of cmor_write, expid:",experiment_id,", parent_expid:",parent_experiment_id);*/
   /* here we check that the variable actually has all the required attributes set */
   cmor_has_required_variable_attributes(varid);
   if (refvar!=NULL) {
     varid=(int) *refvar;
-/*     printf("ok passing with a refvar: %i\n",varid); */
     if (cmor_vars[varid].initialized==-1) {
       snprintf(msg,CMOR_MAX_STRING, "You are trying to write variable \"%s\" in association with variable \"%s\" (table %s), but you you need to write the associated variable first in order to initialize the file and dimensinos",cmor_vars[varid].id,cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
       cmor_handle_error(msg,CMOR_CRITICAL);
@@ -2007,24 +1960,18 @@ if (strcmp(CMOR_PROJECT,"SPECS")==0){
 }
 else {
 
-//    printf("%s %s %s %s %s \n ","in cmor write var (",cmor_vars[var_id].id,"), just after cmor_get_cur_dataset_attribute(expid):",ctmp2,tmp1);
     
-/*     ok here we check the exptid is ok */
-/*4juillet
     if (cmor_check_expt_id(ctmp2,cmor_vars[var_id].ref_table_id,"experiment","experiment_id")!=0) {
       snprintf(msg,CMOR_MAX_STRING,"Invalid dataset experiment id: %s, while writing variable %s, check against table: %s",ctmp2,cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
       cmor_handle_error(msg,CMOR_NORMAL);
       cmor_pop_traceback();
       return 1;
     }
-4juillet*/
 }
 /*
-    printf("%s %s %s %s %s \n ","in cmor write var2 (",cmor_vars[var_id].id,"), just after cmor_get_cur_dataset_attribute(expid):",tmp2,tmp1);
 */
     strcpy(ctmp4,ctmp2); /*copy the expid for later use with gridspec files etc */
     /* here we test to see if the user passed a suffix and this suffix points to a file and if we are in append mode */
-   /*pab test suffix=NULL; remove suffix*/
     if (suffix!=NULL) {
       strncpytrim(appending_to,suffix,CMOR_MAX_STRING);
       if (strncmp(appending_to,"",CMOR_MAX_STRING)!=0) {
@@ -2057,8 +2004,6 @@ else {
 	}
       }
     }
-//    printf("%s \n","gone until there - before file name");	
-
     /* Figures out file name */
     if (CMOR_CREATE_SUBDIRECTORIES == 1) {
       isfixed = cmor_create_output_path(var_id,outname);
@@ -2089,33 +2034,27 @@ else {
     }
     strncat(outname,"_",CMOR_MAX_STRING-strlen(outname));
 
-/*series*/
-//arg
+	/*series*/
+	if (strcmp(CMOR_PROJECT,"SPECS")==0){
+	   cmor_get_cur_dataset_attribute("series",tmp2);
+		  strncat(outname,tmp2,CMOR_MAX_STRING-strlen(outname));
+		strncat(outname,"_",CMOR_MAX_STRING-strlen(outname));
 
-if (strcmp(CMOR_PROJECT,"SPECS")==0){
-   cmor_get_cur_dataset_attribute("series",tmp2);
-      strncat(outname,tmp2,CMOR_MAX_STRING-strlen(outname));
-    strncat(outname,"_",CMOR_MAX_STRING-strlen(outname));
+	  if (strcmp(tmp2,"")!=0) {
+		strcpy(tmp2,"");
+		cmor_get_cur_dataset_attribute("forecast_reference_time",tmp2);
+		strncattrim(outname,"S",CMOR_MAX_STRING-strlen(outname));
+		str=strtok(tmp2,"-");
+		strncattrim(outname,str,CMOR_MAX_STRING-strlen(outname));
+		str=strtok(NULL,"-");
+		strncattrim(outname,str,CMOR_MAX_STRING-strlen(outname));
+		str=strtok(NULL,"(");
+		strncattrim(outname,str,CMOR_MAX_STRING-strlen(outname));
+		strncat(outname,"_",CMOR_MAX_STRING-strlen(outname));
+	  }
+		cmor_get_cur_dataset_attribute("parent_experiment_id",tmp1);
+	}
 
-  if (strcmp(tmp2,"")!=0) {
-    strcpy(tmp2,"");
-    cmor_get_cur_dataset_attribute("forecast_reference_time",tmp2);
-    strncattrim(outname,"S",CMOR_MAX_STRING-strlen(outname));
-    str=strtok(tmp2,"-");
-    strncattrim(outname,str,CMOR_MAX_STRING-strlen(outname));
-    str=strtok(NULL,"-");
-    strncattrim(outname,str,CMOR_MAX_STRING-strlen(outname));
-    str=strtok(NULL,"(");
-    strncattrim(outname,str,CMOR_MAX_STRING-strlen(outname));
-    strncat(outname,"_",CMOR_MAX_STRING-strlen(outname));
-  }
-    cmor_get_cur_dataset_attribute("parent_experiment_id",tmp1);
-}
-
-//arg
-/*
-    printf("%s %s %s %s %s \n ","in cmor write var3 (",cmor_vars[var_id].id,"), just after cmor_get_cur_dataset_attribute(expid):",tmp2,tmp1);
-*/
     /* is it a fixed field ? */
     if (isfixed==1) {
       strncat(outname,"r0i0p0",CMOR_MAX_STRING-strlen(outname) );
@@ -2147,8 +2086,6 @@ if (strcmp(CMOR_PROJECT,"SPECS")==0){
 
 
 
-//     printf("%s \n","gone until there - before figuring suffix...");
-/*printf("%s %s \n","avt suffix:",cmor_vars[var_id].base_path);*/
     strncpytrim(cmor_vars[var_id].base_path,outname,CMOR_MAX_STRING);
     if (strcmp(appending_to,"")!=0) { /* we are appending to an existing file */
       k = strlen(appending_to); /* what's the length of that file name */
@@ -2159,7 +2096,6 @@ if (strcmp(CMOR_PROJECT,"SPECS")==0){
 	  break;
 	}
       }
-//     printf("%s \n","gone until there - before figuring suffix2...");
       /* now does the same thing for "_" this should mark our suffix section */
       /* we need to count how many are there and the index of the last one */
       l=0;
@@ -2190,14 +2126,11 @@ if (strcmp(CMOR_PROJECT,"SPECS")==0){
       else {
 	msg[0]='\0';
       }
-/*      suffix=NULL; pab */
     }
     else { /*ok let's copy the suffix to msg */
-/*      suffix=NULL; pab */
       if (suffix!=NULL) strncpytrim(msg,suffix,CMOR_MAX_STRING);
       else msg[0]='\0';
     }
-//     printf("%s \n","gone until there - before figuring suffix3...");
     if (msg[0]!='\0') {
       /* test for "_" in suffix , it s not allowed */
       for (i=0;i<strlen(msg);i++) {
@@ -2217,22 +2150,16 @@ if (strcmp(CMOR_PROJECT,"SPECS")==0){
       strncpy(cmor_vars[var_id].suffix,msg,CMOR_MAX_STRING);
     }
 
-//     printf("%s \n","gone until there - before figuring suffix4...");
-/*      printf("%s %s \n","outname:",outname); pab */
     /* Add Process ID and a random number to filename */
     sprintf(msg,"%d",(int) getpid());
-/*      printf("%s %s \n","outname2:",msg); pab */
     strncat(outname,"_",CMOR_MAX_STRING-strlen(outname));
     strncat(outname,msg,CMOR_MAX_STRING-strlen(outname));
-/*      printf("%s %s %s \n","outname3:",msg,outname); pab */
     
     /* Add the '.nc' extension */
     strncat(outname,".nc",CMOR_MAX_STRING-strlen(outname) );
-//     printf("%s %s \n","gone until there - before figuring suffix5...",outname);
 
     /* at this point we need to rename the original file name to this so that the rest of the code works */
     if (appending_to[0]!='\0') {
-      printf("%s %i \n","appending_to non nul",appending_to[0]); /*pab */
       if (strncmp(outname,appending_to,CMOR_MAX_STRING)!=0) {
 	if (rename(appending_to,outname)!=0) {
 	  snprintf(msg,CMOR_MAX_STRING,"could not rename your existing file: %s to temporary file: %s",appending_to,outname);
@@ -2243,7 +2170,6 @@ if (strcmp(CMOR_PROJECT,"SPECS")==0){
       cmor_update_history(var_id,msg);
     }
 
-/*      printf("%s %s \n","after rename",outname);*/
     strncpytrim(cmor_vars[var_id].current_path,outname,CMOR_MAX_STRING);
     /* Decides NetCDF mode */
     if (USE_NETCDF_4 == 1) {
@@ -2257,7 +2183,6 @@ if (strcmp(CMOR_PROJECT,"SPECS")==0){
     }
 
     if ((CMOR_NETCDF_MODE == CMOR_REPLACE_4) || (CMOR_NETCDF_MODE == CMOR_REPLACE_3)) {
-/*      printf("%s %s \n","outname4 (avt nc_create:",outname); pab */
       ierr = nc_create(outname,NC_CLOBBER|cmode,&ncid);
     }
     else if ((CMOR_NETCDF_MODE == CMOR_PRESERVE_4) || (CMOR_NETCDF_MODE == CMOR_PRESERVE_3)) {
@@ -2269,7 +2194,6 @@ if (strcmp(CMOR_PROJECT,"SPECS")==0){
 	cmor_handle_error(msg,CMOR_CRITICAL);
       }
       ierr = nc_create(outname,NC_NOCLOBBER|cmode,&ncid); 
-/*      printf("%s %s \n","outname4 (avt nc_create:",outname); pab */
     }
     else if ((CMOR_NETCDF_MODE == CMOR_APPEND_4) || (CMOR_NETCDF_MODE == CMOR_APPEND_3)) {
       /* ok first let's check if the file does exists or not */
@@ -2277,7 +2201,6 @@ if (strcmp(CMOR_PROJECT,"SPECS")==0){
       fperr = fopen(outname,"r");
       if (fperr == NULL) {
 	/* ok it does not exists... we will open as new */
-/*      printf("%s %s \n","outname5 (avt nc_create:",outname); pab */
 	ierr = nc_create(outname,NC_CLOBBER|cmode,&ncid);
       }
       else { /*ok it was there already */
@@ -2293,13 +2216,11 @@ if (strcmp(CMOR_PROJECT,"SPECS")==0){
 	ierr = nc_inq_varid(ncid,cmor_vars[var_id].id,&cmor_vars[var_id].nc_var_id);
 	if (ierr != NC_NOERR) {snprintf(msg,CMOR_MAX_STRING,"NetCDF Error (%i: %s) looking for variable '%s' in file: %s",ierr,nc_strerror(ierr),cmor_vars[var_id].id,outname); cmor_handle_error(msg,CMOR_CRITICAL);}
 	ierr = nc_inq_varid(ncid,"leadtime",&cmor_vars[var_id].time_nc_id);
-//        printf("%s %i %i\n","before ask time id",ncid,&cmor_vars[var_id].time_nc_id);
 	if (ierr != NC_NOERR) {snprintf(msg,CMOR_MAX_STRING,"NetCDF Error (%i: %s) looking for time of variable '%s' in file: %s",ierr,nc_strerror(ierr),cmor_vars[var_id].id,outname); cmor_handle_error(msg,CMOR_CRITICAL);}
 	/* ok now we need to read the first time in here */
 	starts[0]=0;
 	ierr = nc_get_var1_double(ncid,cmor_vars[var_id].time_nc_id,&starts[0],&cmor_vars[var_id].first_time);
         starts[0]=cmor_vars[var_id].ntimes_written-1;
-/*        printf("%s %e","starts[0]=",starts[0]);  */
         ierr = nc_get_var1_double(ncid,cmor_vars[var_id].time_nc_id,&starts[0],&cmor_vars[var_id].last_time);
 	ierr = nc_inq_varid(ncid,"time_bnds",&i);
 	if (ierr != NC_NOERR) {
@@ -2309,6 +2230,13 @@ if (strcmp(CMOR_PROJECT,"SPECS")==0){
 	}
 	else {
 	  cmor_vars[var_id].time_bnds_nc_id=i;
+          /* Here I need to store first/last bounds for appending issues */
+          starts[0]=cmor_vars[var_id].ntimes_written-1;
+          starts[1]=1;
+          ierr = nc_get_var1_double(ncid,cmor_vars[var_id].time_bnds_nc_id,&starts[0],&cmor_vars[var_id].last_bound);
+          starts[1]=0;
+          ierr = nc_get_var1_double(ncid,cmor_vars[var_id].time_bnds_nc_id,&starts[0],&cmor_vars[var_id].first_bound);
+         /*  printf("ok we read back in: %f, %f, associated: %i\n",cmor_vars[var_id].first_bound,cmor_vars[var_id].last_bound,cmor_vars[var_id].associated_ids[0]);*/
 	}
 	cmor_vars[var_id].initialized=ncid;
       }
@@ -2329,9 +2257,6 @@ if (strcmp(CMOR_PROJECT,"SPECS")==0){
       return 1;
     }
 
-/*    cmor_get_cur_dataset_attribute("experiment_id",tmp2);
-    cmor_get_cur_dataset_attribute("parent_experiment_id",tmp1);
-    printf("%s %s %s %s %s \n ","in cmor write var4 (",cmor_vars[var_id].id,"), just after cmor_get_cur_dataset_attribute(expid):",tmp2,tmp1);*/
     cleanup_varid = var_id;
 
     /* Do we need to create the associated file or not ? */
@@ -2533,11 +2458,6 @@ if (strcmp(CMOR_PROJECT,"SPECS")==0){
       }
     }
 
-/*    cmor_get_cur_dataset_attribute("experiment_id",tmp2);
-    cmor_get_cur_dataset_attribute("parent_experiment_id",tmp1);
-    printf("%s %s %s %s %s \n ","in cmor write var5 (",cmor_vars[var_id].id,"), just after cmor_get_cur_dataset_attribute(expid):",tmp2,tmp1);*/
-//    cmor_set_variable_attribute_internal(var_id,"associated_files",'c',ctmp);
-
     /* make sure we are in def mode */
     ierr = nc_redef(ncafid);
     if (ierr != NC_NOERR && ierr != NC_EINDEFINE) {
@@ -2553,8 +2473,8 @@ if (strcmp(CMOR_PROJECT,"SPECS")==0){
     cmor_set_cur_dataset_attribute_internal("creation_date",msg,0);
 if (strcmp(CMOR_PROJECT,"SPECS")==0){
     cmor_get_cur_dataset_attribute("institution",tmp2);
-    snprintf(msg,CMOR_MAX_STRING,"%s%.4i-%.2i-%.2iT%.2i:%.2i:%.2iZ",tmp2,ptr->tm_year+1900,ptr->tm_mon+1,ptr->tm_mday,ptr->tm_hour,ptr->tm_min,ptr->tm_sec);/*pab*/
-    cmor_set_cur_dataset_attribute_internal("batch",msg,0);/*pab*/
+    snprintf(msg,CMOR_MAX_STRING,"%s%.4i-%.2i-%.2iT%.2i:%.2i:%.2iZ",tmp2,ptr->tm_year+1900,ptr->tm_mon+1,ptr->tm_mday,ptr->tm_hour,ptr->tm_min,ptr->tm_sec);
+    cmor_set_cur_dataset_attribute_internal("batch",msg,0);
 }    
     if (did_history==0) {
       snprintf(ctmp,CMOR_MAX_STRING,"%s CMOR rewrote data to comply with CF standards and %s requirements.",msg,cmor_tables[cmor_vars[var_id].ref_table_id].project_id);
@@ -2567,7 +2487,6 @@ if (strcmp(CMOR_PROJECT,"SPECS")==0){
       did_history=1;
     }
     snprintf(msg,CMOR_MAX_STRING,"CF-%.1f",cmor_tables[cmor_vars[var_id].ref_table_id].cf_version);
-//qc    cmor_set_cur_dataset_attribute_internal("conventions",msg,0);
     cmor_set_cur_dataset_attribute_internal("Conventions",msg,0);
     cmor_set_cur_dataset_attribute_internal("project_id",cmor_tables[cmor_vars[var_id].ref_table_id].project_id,0);
     snprintf(msg,CMOR_MAX_STRING,"Table %s (%s) ",cmor_tables[cmor_vars[var_id].ref_table_id].table_id,cmor_tables[cmor_vars[var_id].ref_table_id].date);
@@ -2583,7 +2502,6 @@ if (strcmp(CMOR_PROJECT,"SPECS")!=0){
     else {
       ctmp[0]='\0';
     }
-//pab no more needed for SPECS  
 if (strcmp(CMOR_PROJECT,"SPECS")!=0){
   cmor_get_cur_dataset_attribute("experiment",ctmp2); 
 }
@@ -2622,13 +2540,9 @@ if (strcmp(CMOR_PROJECT,"SPECS")==0){
     if (cmor_has_cur_dataset_attribute("parent_experiment_id")==0) {
       cmor_get_cur_dataset_attribute("parent_experiment_id",msg);
       if (strcmp(msg,"N/A")!=0) { /* did the user pass an expt */
-//pab: commented to avoid redundancy with before for title
 if (strcmp(CMOR_PROJECT,"SPECS")!=0){
 	cmor_get_cur_dataset_attribute("experiment_id",ctmp2);
-          printf("%s %s %s \n","we are with experiment_id",ctmp,msg);
 }
-//	if (strcmp(msg,ctmp)==0) {
-
 	if (strcmp(msg,ctmp2)==0) {
 	  sprintf(ctmp,"Your parent_experiment id matches your current experiment_id, they are both set to: %s; you were writing variable %s (table: %s)",msg,cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
 	  cmor_handle_error(ctmp,CMOR_NORMAL);
@@ -2636,10 +2550,8 @@ if (strcmp(CMOR_PROJECT,"SPECS")!=0){
 	  return 1;
 	} 
 	else {
-//pab no more needed in SPECS
 if (strcmp(CMOR_PROJECT,"SPECS")!=0){
 	  cmor_get_cur_dataset_attribute("experiment",ctmp);
-          printf("%s %s %S \n","we are with experiment00000",ctmp,msg);
 	  if (strcmp(msg,ctmp)==0) {
 	    sprintf(ctmp,"Your parent_experiment id matches your current experiment_id, they are both set to: %s; you were writing variable %s (table: %s)",msg,cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
 	    cmor_handle_error(ctmp,CMOR_NORMAL);
@@ -2647,8 +2559,7 @@ if (strcmp(CMOR_PROJECT,"SPECS")!=0){
 	    return 1;
 	  }
 }
-// pab to be reput when cmor_check_expt_id rewritten
-	  else { //ok now we can check it is a valid "other" experiment 
+	  else { /*ok now we can check it is a valid "other" experiment */
 if (strcmp(CMOR_PROJECT,"SPECS")!=0){
 	    if (cmor_check_expt_id(msg,cmor_vars[var_id].ref_table_id,"parent_experiment","parent_experiment_id")!=0) {
 	      snprintf(ctmp,CMOR_MAX_STRING,"Invalid dataset parent experiment id: %s, check against table: %s, you were writing variable: %s",msg,cmor_tables[cmor_vars[var_id].ref_table_id].table_id,cmor_vars[var_id].id);
@@ -2658,7 +2569,6 @@ if (strcmp(CMOR_PROJECT,"SPECS")!=0){
 	    }
 }
 	  }
-//}
 	}
       }
       else {
@@ -2685,7 +2595,6 @@ if (strcmp(CMOR_PROJECT,"SPECS")!=0){
      strcpy(msg,"CMIP5");
     }
     if (strcmp(cmor_tables[cmor_vars[var_id].ref_table_id].project_id,msg)==0) {
-//    if (strcmp(cmor_tables[cmor_vars[var_id].ref_table_id].project_id,"SPECS")==0) {
       cmor_get_cur_dataset_attribute("model_id",ctmp5);
       cmor_get_cur_dataset_attribute("source",ctmp6);
       if (strncmp(ctmp5,ctmp6,strlen(ctmp5))!=0) {
@@ -2744,25 +2653,9 @@ if (strcmp(CMOR_PROJECT,"SPECS")!=0){
 	    }
 	    itmp2=CMOR_DEF_ATT_STR_LEN;
 	  }
-/*pab_debug
-          if ((strcmp(cmor_current_dataset.attributes_names[i],"experiment_id")==0) && (strcmp(CMOR_PROJECT,"SPECS")==0)) {
-           printf("%s %s %s %s \n","before put glo att",cmor_current_dataset.attributes_names[i],"--",cmor_current_dataset.attributes_values[i]); 
-           strcpy(mytmp,cmor_current_dataset.attributes_values[i]);
-           cmor_get_cur_dataset_attribute("forecast_reference_time",mytmp2);
-           printf("%s %s %s \n","after adding sd for glo atts",mytmp,mytmp2);
-           mytmp2=strtok(mytmp2,"-");
-           printf("%s %s \n","after breaking sd for glo atts",mytmp2);
-           strcat(mytmp,mytmp2);
-	  ierr = nc_put_att_text(ncid, NC_GLOBAL,cmor_current_dataset.attributes_names[i],itmp2,mytmp);
-	  if (ierr != NC_NOERR) {snprintf(msg,CMOR_MAX_STRING,"NetCDF error (%i: %s) for variable %s (table: %s)  writing global att expid: %s (%s)",ierr,nc_strerror(ierr),cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id,cmor_current_dataset.attributes_names[i],cmor_current_dataset.attributes_values[i]); cmor_handle_error(msg,CMOR_CRITICAL);}
-          }
-	  else {
-*/
 	   ierr = nc_put_att_text(ncid, NC_GLOBAL,cmor_current_dataset.attributes_names[i],itmp2,cmor_current_dataset.attributes_values[i]);
 	  if (ierr != NC_NOERR) {snprintf(msg,CMOR_MAX_STRING,"NetCDF error (%i: %s) for variable %s (table: %s)  writing global att: %s (%s)",ierr,nc_strerror(ierr),cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id,cmor_current_dataset.attributes_names[i],cmor_current_dataset.attributes_values[i]); cmor_handle_error(msg,CMOR_CRITICAL);}
-//          }
 	  if (ncid!=ncafid) {
-//          printf("%s %s \n","before put glo att2",cmor_current_dataset.attributes_names[i]); 
           if (strcmp(cmor_current_dataset.attributes_names[i],"forecast_reference_time")!=0) {
 	    ierr = nc_put_att_text(ncafid, NC_GLOBAL,cmor_current_dataset.attributes_names[i],itmp2,cmor_current_dataset.attributes_values[i]);
           }
@@ -2800,7 +2693,12 @@ if(strcmp(CMOR_PROJECT,"SPECS")!=0){
       /* did we flip that guy? */
       if (cmor_axes[cmor_vars[var_id].axes_ids[i]].revert==-1) {
 	sprintf(msg,"Inverted axis: %s",cmor_axes[cmor_vars[var_id].axes_ids[i]].id);
-	cmor_update_history(var_id,msg);
+        /* fiddle to avoid duplicated effort here if it's already inverted */
+        if (cmor_history_contains(var_id, msg)) {
+          /* do nothing */
+        } else {
+	  cmor_update_history(var_id,msg);
+        }
       }
       /* Axis length */
       j=cmor_axes[cmor_vars[var_id].axes_ids[i]].length;
@@ -2830,55 +2728,14 @@ if(strcmp(CMOR_PROJECT,"SPECS")!=0){
     /* creates the bounds dim (only in metafile?)*/
     ierr = nc_def_dim(ncafid,"bnds",2,&dim_bnds);
     if (ierr != NC_NOERR) {snprintf(msg,CMOR_MAX_STRING,"NC error (%i: %s), error creating bnds dimension to metafile, variable %s (table: %s)",ierr,nc_strerror(ierr),cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id); cmor_handle_error(msg,CMOR_CRITICAL);}
-/*pab create new var*/
-
-/*
-        ncid_in=327680;
-        ierr = nc_def_var(ncid,"leadtime",NC_DOUBLE,1,&nc_dim[0],&nc_var_leadtime);
-
-        if (ierr != NC_NOERR) { 
-         printf("%s %s \n","def var error",nc_strerror(ierr));
-         cmor_handle_error(nc_strerror(ierr),CMOR_CRITICAL);
-        };
-         printf("%s \n","before open file");
-        nc_redef(ncid_in);
- when attributes for leat_time taken in source files
-        ncid_in2=cmor_vars[var_id].initialized;
-        ierr = nc_open("/home/pabretonniere/specs2cmor/test/ORCA1_MM_19900701_19901031_grid_T.nc",NC_NOWRITE,&ncid_in2);
-        if (ierr != NC_NOERR) { 
-         printf("%s %i %s \n","open file",ncid_in2,nc_strerror(ierr));
-         cmor_handle_error(nc_strerror(ierr),CMOR_CRITICAL);
-        };
-        printf("%s %i \n","def of var lead_time",ncid_in);
-        ierr = nc_inq_varid (ncid_in2,"leadtime",&varid_in);
-        if (ierr != NC_NOERR) { 
-         printf("%s %i %s \n","inq varid",varid_in,nc_strerror(ierr));
-         cmor_handle_error(nc_strerror(ierr),CMOR_CRITICAL);
-        };
-
-        ierr = nc_inq_varnatts (ncid_in2,varid_in,&natts); 
-        if (ierr != NC_NOERR) { 
-         printf("%s %i %s \n ","inq var natts ",natts,nc_strerror(ierr));
-         cmor_handle_error(nc_strerror(ierr),CMOR_CRITICAL);
-        };
-        if (ierr != NC_NOERR) { 
-         printf("%s %s \n ","close infile ",nc_strerror(ierr));
-         cmor_handle_error(nc_strerror(ierr),CMOR_CRITICAL);
-        };
-        printf("%s %i \n","natts:",natts);
-        
-*/
 if(strcmp(CMOR_PROJECT,"SPECS")==0){
-//printf("%s\n","in the reftime defatts");
         ierr = nc_def_var(ncid,"leadtime",NC_DOUBLE,1,&nc_dim[0],&nc_var_reftime);
-//        ierr = nc_def_var(ncid,"leadtime",NC_DOUBLE,1,&nc_dim[0],&nc_var_leadtime);
         if (ierr != NC_NOERR) { 
          printf("%s %s \n","def var error",nc_strerror(ierr));
          strcpy(msg,nc_strerror(ierr));
          cmor_handle_error(msg,CMOR_CRITICAL);
         };
-//        printf("%s \n","after def of var lead_time");
-        strcpy(msg,"days");//
+        strcpy(msg,"days");
         n=strlen(msg)+1;
         nc_put_att_text(ncid,nc_var_reftime,"units",n,msg);
 
@@ -2889,7 +2746,6 @@ if(strcmp(CMOR_PROJECT,"SPECS")==0){
         n=strlen(msg)+1;
         nc_put_att_text(ncid,nc_var_reftime,"standard_name",n,msg);
 }
-/*pab create new var*/
     /* Now define the variable corresponding to store the dimensions values */
     for (i=0;i<cmor_vars[var_id].ndims;i++) {
       if (cmor_axes[cmor_vars[var_id].axes_ids[i]].store_in_netcdf == 0) continue;
@@ -2914,24 +2770,15 @@ if(strcmp(CMOR_PROJECT,"SPECS")!=0){
         if (ierr != NC_NOERR) {snprintf(msg,CMOR_MAX_STRING, "NetCDF Error (%i: %s) for variable %s (table: %s) error defining dim var: %i (%s)",ierr,nc_strerror(ierr),cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id,i,cmor_axes[cmor_vars[var_id].axes_ids[i]].id);cmor_handle_error(msg,CMOR_CRITICAL);}
 }
 else {
-//        printf("%s %i \n","def var leadtime",i);
 	ierr = nc_def_var(ncid,"leadtime",j,1,&nc_dim[i],&nc_vars[i]);
         if (strcmp(cmor_axes[cmor_vars[var_id].axes_ids[i]].id,"time")==0) {
           strcpy(var_dim_name,"time");
-//          strcpy(var_dim_name,"reftime");
         }
          else {
            strcpy(var_dim_name,cmor_axes[cmor_vars[var_id].axes_ids[i]].id);
         }
-/*
-        printf("%s %s %s \n","in cmor def var",cmor_axes[cmor_vars[var_id].axes_ids[i]].id,var_dim_name);
-*/        
-/*	ierr = nc_def_var(ncid,cmor_axes[cmor_vars[var_id].axes_ids[i]].id,j,1,&nc_dim[i],&nc_vars[i]);*/
 	ierr = nc_def_var(ncid,var_dim_name,j,1,&nc_dim[i],&nc_vars[i]);
         	if (ierr != NC_NOERR) {snprintf(msg,CMOR_MAX_STRING, "NetCDF Error (%i: %s) for variable %s (table: %s) error defining dim var: %i (%s)",ierr,nc_strerror(ierr),cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id,i,cmor_axes[cmor_vars[var_id].axes_ids[i]].id);cmor_handle_error(msg,CMOR_CRITICAL);}
-/*
-        printf("%s %s \n","after cmor def var",var_dim_name);
-*/
 }
 	/* /\* table are different ? *\/ */
 	/* if (cmor_axes[cmor_vars[var_id].axes_ids[i]].ref_table_id!=cmor_vars[var_id].ref_table_id) { */
@@ -2946,13 +2793,11 @@ else {
 	/*   } */
 	/* } */
 	/* Compression stuff */
-//        printf("%s \n","before compression");
 	if ((CMOR_NETCDF_MODE != CMOR_REPLACE_3) && (CMOR_NETCDF_MODE != CMOR_PRESERVE_3) && (CMOR_NETCDF_MODE != CMOR_APPEND_3)) {
 	  ics = cmor_tables[cmor_vars[var_id].ref_table_id].vars[cmor_vars[var_id].ref_var_id].shuffle;
 	  icd = cmor_tables[cmor_vars[var_id].ref_table_id].vars[cmor_vars[var_id].ref_var_id].deflate;
 	  icdl = cmor_tables[cmor_vars[var_id].ref_table_id].vars[cmor_vars[var_id].ref_var_id].deflate_level;
 	  ierr = nc_def_var_deflate(ncid,nc_vars[i],ics,icd,icdl);
-//        printf("%s %i %i %i \n","after compression",ics,icd,icdl);
 /*
 netcdf4 compression
 */
@@ -2968,13 +2813,11 @@ netcdf4 compression
 	  if (ierr != NC_NOERR) {snprintf(msg,CMOR_MAX_STRING, "NetCDF Error (%i: %s ) for variable %s (table: %s) error defining dim var: %i (%s) in metafile",ierr,nc_strerror(ierr),cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id,i,cmor_axes[cmor_vars[var_id].axes_ids[i]].id);cmor_handle_error(msg,CMOR_CRITICAL);}
 
 	  /* Compression stuff */
-//        printf("%s \n","before compression2");
 	  if ((CMOR_NETCDF_MODE != CMOR_REPLACE_3) && (CMOR_NETCDF_MODE != CMOR_PRESERVE_3) && (CMOR_NETCDF_MODE != CMOR_APPEND_3)) {
 	    ics = cmor_tables[cmor_vars[var_id].ref_table_id].vars[cmor_vars[var_id].ref_var_id].shuffle;
 	    icd = cmor_tables[cmor_vars[var_id].ref_table_id].vars[cmor_vars[var_id].ref_var_id].deflate;
 	    icdl = cmor_tables[cmor_vars[var_id].ref_table_id].vars[cmor_vars[var_id].ref_var_id].deflate_level;
 	    ierr = nc_def_var_deflate(ncafid,nc_vars_af[i],ics,icd,icdl);
-//        printf("%s %i %i %i \n","after compression2",ics,icd,icdl);
 /*
 netcdf4 compression
 */
@@ -3014,8 +2857,6 @@ netcdf4 compression
 	cmor_set_variable_attribute_internal(var_id,"coordinates",'c',msg);
 	l=0;
 	for (j=0;j<cmor_axes[cmor_vars[var_id].axes_ids[i]].length;j++) {
-/* 	  printf("ok reading value: %i\n",j); */
-/* 	  printf("we think it is: %s\n",cmor_axes[cmor_vars[var_id].axes_ids[i]].cvalues[j]); */
 	  strncpy(msg,cmor_axes[cmor_vars[var_id].axes_ids[i]].cvalues[j],CMOR_MAX_STRING);
 	  k = strlen(msg);
 	  if (k>l) l=k;
@@ -3073,7 +2914,6 @@ netcdf4 compression
 	  icd = cmor_tables[cmor_vars[var_id].ref_table_id].vars[cmor_vars[var_id].ref_var_id].deflate;
 	  icdl = cmor_tables[cmor_vars[var_id].ref_table_id].vars[cmor_vars[var_id].ref_var_id].deflate_level;
 	  ierr = nc_def_var_deflate(ncafid,nc_bnds_vars[i],ics,icd,icdl);
-//        printf("%s %i %i %i \n","after compression3",ics,icd,icdl);
 /*
 netcdf4 compression
 */
@@ -3084,7 +2924,6 @@ netcdf4 compression
 	}
 	  /* sets the bounds attribute of parent var */
 	if (i==0) cmor_vars[var_id].time_bnds_nc_id = nc_bnds_vars[i];
-//        printf("%s %s \n","before put att var2",msg);
 	ierr = nc_put_att_text(ncafid,nc_vars[i],msg,strlen(ctmp)+1,ctmp);
 	if (ierr != NC_NOERR) {snprintf(msg,CMOR_MAX_STRING, "NetCDF Error (%i: %s) for variable %s (table: %s) error defining bounds attribute var: %i (%s)",ierr,nc_strerror(ierr),cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id,i,cmor_axes[cmor_vars[var_id].axes_ids[i]].id);cmor_handle_error(msg,CMOR_CRITICAL);}
       }
@@ -3168,16 +3007,12 @@ netcdf4 compression
 	}
 	else {
 	  if ((cmor_tables[cmor_axes[cmor_vars[var_id].axes_ids[i]].ref_table_id].axes[cmor_axes[cmor_vars[var_id].axes_ids[i]].ref_axis_id].type=='c') && (strcmp(cmor_axes[cmor_vars[var_id].axes_ids[i]].attributes[j],"units")==0)) {
-//          printf("%s %i %s %i \n","j,vals,i",j,cmor_axes[cmor_vars[var_id].axes_ids[i]].attributes_values_char[j],i);
 	    /* passing we do not want the units attribute */
 	  }
 	  else {
 	    if (cmor_axes[cmor_vars[var_id].axes_ids[i]].attributes_type[j]=='c') {
-//          printf("%s %i %s %i %s \n","j,vals,i",j,cmor_axes[cmor_vars[var_id].axes_ids[i]].attributes_values_char[j],i,cmor_axes[cmor_vars[var_id].axes_ids[i]].attributes[j]);
-//              printf("%s %s %s \n","put att1",cmor_axes[cmor_vars[var_id].axes_ids[i]].attributes[j],cmor_axes[cmor_vars[var_id].axes_ids[i]].attributes_values_char[j]);
 	      ierr = cmor_put_nc_char_attribute(ncid,nc_vars[i],cmor_axes[cmor_vars[var_id].axes_ids[i]].attributes[j],cmor_axes[cmor_vars[var_id].axes_ids[i]].attributes_values_char[j],cmor_vars[var_id].id);
 	      if (ncid!=ncafid) {
-//              printf("%s %s %s \n","put att2",cmor_axes[cmor_vars[var_id].axes_ids[i]].attributes[j],cmor_axes[cmor_vars[var_id].axes_ids[i]].attributes_values_char[j]);
 		ierr = cmor_put_nc_char_attribute(ncafid,nc_vars_af[i],cmor_axes[cmor_vars[var_id].axes_ids[i]].attributes[j],cmor_axes[cmor_vars[var_id].axes_ids[i]].attributes_values_char[j],cmor_vars[var_id].id);
 	      }
 	    }
@@ -3242,25 +3077,22 @@ netcdf4 compression
       for (i=0;i<5;i++) {
 	m2[i]=0;
 	j = cmor_grids[cmor_vars[var_id].grid_id].associated_variables[i];
-/* 	printf("i: %i, associated is: %i\n",i,j); */
 	if (j!=-1) {
 	  /* ok we need to define this variable */
 	  l=0;
 	  /* first we need to figure out the actual grid dimensions and their netcdf eq */
 	  for(k=0;k<cmor_vars[var_id].ndims;k++) {
-/* 	    printf("axis: %s\n",cmor_axes[cmor_vars[var_id].axes_ids[k]].id); */
 	    if (cmor_axes[cmor_vars[var_id].axes_ids[k]].isgridaxis==1) {
 	      nc_dims_associated[l]=nc_dim_af[k];
 /* 	      printf("ok we have a grid axis %s associated with dim %i (k is: %i)\n",cmor_axes[cmor_vars[var_id].axes_ids[k]].id,l,k); */
+
 	      if (m2[i]==0 && (i==0 || i==1)) {
-		if (cmor_has_variable_attribute(var_id,"coordinates")==0) {
-		  cmor_get_variable_attribute(var_id,"coordinates",&msg);
-		  strncat(msg," ",CMOR_MAX_STRING-strlen(msg));
-		  strncat(msg,cmor_vars[cmor_grids[cmor_vars[var_id].grid_id].associated_variables[i]].id,CMOR_MAX_STRING-strlen(msg));
-		}
-		else {
-		  strncpy(msg,cmor_vars[cmor_grids[cmor_vars[var_id].grid_id].associated_variables[i]].id,CMOR_MAX_STRING-strlen(msg));
-		}
+               if (cmor_has_variable_attribute(var_id,"coordinates")==0) {
+                 cmor_get_variable_attribute(var_id,"coordinates",&msg);
+                 cmor_cat_unique_string(msg, cmor_vars[cmor_grids[cmor_vars[var_id].grid_id].associated_variables[i]].id);
+               } else {
+                 strncpy(msg,cmor_vars[cmor_grids[cmor_vars[var_id].grid_id].associated_variables[i]].id,CMOR_MAX_STRING-strlen(msg));
+               }
 		cmor_set_variable_attribute_internal(var_id,"coordinates",'c',msg);
 		m2[i]=1;
 	      }
@@ -3273,7 +3105,6 @@ netcdf4 compression
 	    if (ierr != NC_NOERR) {snprintf(msg,CMOR_MAX_STRING,"NetCDF error (%i: %s) while defining vertices dimension, variable %s (table: %s)",ierr,nc_strerror(ierr),cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);cmor_handle_error(msg,CMOR_CRITICAL);}
 	  }
 	  mtype = cmor_vars[j].type;
-/* 	  printf("type, ndims: %c, %i\n",mtype,cmor_vars[j].ndims); */
 /* 	  for(k=0;k<cmor_vars[var_id].ndims;k++) { */
 /* 	    printf("nc dim for dim %i is: %i\n",k,nc_dims_associated[k]); */
 /* 	  } */
@@ -3313,14 +3144,11 @@ netcdf4 compression
 	    }
 	    else if (cmor_vars[j].attributes_type[k] == 'c') {
 /*          if (strcmp("units",cmor_axes[j].attributes[k])==0) {
-          printf("%s %i %i %i %i %s \n","indices3:",i,j,k,var_id,cmor_axes[j].attributes[k]);
           }
 */
-//              printf("%s %s %s \n","put att3",cmor_vars[j].attributes[k],cmor_vars[j].attributes_values_char[k]);
 	      ierr = cmor_put_nc_char_attribute(ncafid,nc_associated_vars[i],cmor_vars[j].attributes[k],cmor_vars[j].attributes_values_char[k],cmor_vars[j].id) ;
 	    }
 	    else {
-//              printf("%s %s %s \n","put att4",cmor_vars[j].attributes[k],cmor_vars[j].attributes_type[k]);
 	      ierr = cmor_put_nc_num_attribute(ncafid,nc_associated_vars[i],cmor_vars[j].attributes[k],cmor_vars[j].attributes_type[k],cmor_vars[j].attributes_values_num[k],cmor_vars[j].id);
 	    }
 	  }
@@ -3331,7 +3159,6 @@ netcdf4 compression
 	      icd = cmor_tables[cmor_vars[j].ref_table_id].vars[cmor_vars[j].ref_var_id].deflate;
 	      icdl = cmor_tables[cmor_vars[j].ref_table_id].vars[cmor_vars[j].ref_var_id].deflate_level;
 	      ierr = nc_def_var_deflate(ncafid,nc_associated_vars[i],ics,icd,icdl);
-//        printf("%s %i %i %i \n","after compression4",ics,icd,icdl);
 /*
 netcdf4 compression
 */
@@ -3346,7 +3173,6 @@ netcdf4 compression
     }
 
 
-//     printf("%s \n","gone until there...");
     /* Creates singleton dimension variables */
     for(i=0;i<CMOR_MAX_DIMENSIONS;i++) {
       j = cmor_vars[var_id].singleton_ids[i];
@@ -3365,10 +3191,8 @@ netcdf4 compression
 	/* now  puts on its attributes */
 	for (k=0;k<cmor_axes[j].nattributes;k++){
           if (strcmp("units",cmor_axes[j].attributes[k])==0) {
-//          printf("%s %i %i %i %i %s \n","indices:",i,j,k,var_id,cmor_axes[j].attributes[k]);
           }
 	  if (cmor_axes[j].attributes_type[k] == 'c') {
-//              printf("%s %s %s \n","put att6",cmor_axes[j].attributes[k],cmor_axes[j].attributes_values_char[k]);
 	    ierr = cmor_put_nc_char_attribute(ncid,nc_singletons[i],cmor_axes[j].attributes[k],cmor_axes[j].attributes_values_char[k],cmor_vars[var_id].id) ;
 	  }
 	  else {
@@ -3378,7 +3202,6 @@ netcdf4 compression
 	/* ok we need to see if there's bounds as well... */
 	if (cmor_axes[j].bounds!=NULL) { /*yep */
 	  snprintf(msg,CMOR_MAX_STRING,"%s_bnds",cmor_axes[j].id);
-//              printf("%s %s \n","put att9",msg);
 	  ierr = cmor_put_nc_char_attribute(ncid,nc_singletons[i],"bounds",msg,cmor_vars[var_id].id) ;
 	  ierr = nc_def_var(ncid,msg,NC_DOUBLE,1,&dim_bnds,&nc_singletons_bnds[i]);
 	  if (ierr != NC_NOERR) {
@@ -3423,27 +3246,12 @@ netcdf4 compression
 	free(int_list);
       }
       else if (cmor_vars[var_id].attributes_type[j] == 'c') {
-//          if (strcmp("units",cmor_vars[var_id].attributes[j])==0) {
-//          printf("%s %s %i \n","indices2:",cmor_vars[var_id].attributes_values_char[j],cmor_vars[var_id].id);
-//          }
-//              printf("%s %s %s \n","put att10",cmor_vars[var_id].attributes[j],cmor_vars[var_id].attributes_values_char[j]);
 	ierr = cmor_put_nc_char_attribute(ncid,cmor_vars[var_id].nc_var_id,cmor_vars[var_id].attributes[j],cmor_vars[var_id].attributes_values_char[j],cmor_vars[var_id].id) ;
       }
       else {
 	ierr = cmor_put_nc_num_attribute(ncid,cmor_vars[var_id].nc_var_id,cmor_vars[var_id].attributes[j],cmor_vars[var_id].attributes_type[j],cmor_vars[var_id].attributes_values_num[j],cmor_vars[var_id].id);
       }
     }
-/*     printf("%s \n","BEFORE PUTTING NEW ATT");
-     if (cmor_axes[cmor_vars[var_id].axes_ids[0]].axis=='T') {
-     printf("%s \n","PUTTING NEW ATT");
-      cmor_set_variable_attribute(cmor_vars[var_id].nc_var_id,"auxiliary variable",'c',"leadtime"); 
-//      ierr = cmor_put_nc_char_attribu0te(ncid,cmor_vars[var_id].nc_var_id,"auxiliary variable","leadtime",cmor_vars[var_id].id);
-     }
-      else {
-     printf("%s \n","PUTTING NEW ATT2");
-      cmor_set_variable_attribute(cmor_vars[var_id].nc_var_id,"auxiliary variable2",'c',"leadtime"); 
-//      ierr = cmor_put_nc_char_attribute(ncid,cmor_vars[var_id].nc_var_id,"auxiliary variable2","leadtime2",cmor_vars[var_id].id);
-      }*/
 
     if ((CMOR_NETCDF_MODE != CMOR_REPLACE_3) && (CMOR_NETCDF_MODE != CMOR_PRESERVE_3) && (CMOR_NETCDF_MODE != CMOR_APPEND_3)) {
       /* Compression stuff */
@@ -3463,9 +3271,6 @@ netcdf4 compression
 #define NC_CHUNKED 0
 #endif
       if (!((cmor_vars[var_id].grid_id>-1) && (cmor_grids[cmor_vars[var_id].grid_id].istimevarying==1))) {
-//if(CMOR_PROJECT==0){
-//	ierr = nc_def_var_chunking(ncid,cmor_vars[var_id].nc_var_id,NC_CHUNKED,&nc_dim_chunking[0]);//netcdf4*/
-//}
 	if (ierr != NC_NOERR) {
 	  snprintf(msg,CMOR_MAX_STRING,"NetCDF Error (%i: %s) defining chunking parameters for variable '%s' (table: %s)",ierr,nc_strerror(ierr),cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
 	  cmor_handle_error(msg,CMOR_CRITICAL);
@@ -3613,7 +3418,6 @@ netcdf4 compression
 	}
       }
       else {
-/*        printf("%s %i %i \n","in else starts assignements",cmor_axes[cmor_vars[var_id].axes_ids[i]].length,strlen(cmor_axes[cmor_vars[var_id].axes_ids[i]].cvalues[j]));*/
 	for (j=0;j<cmor_axes[cmor_vars[var_id].axes_ids[i]].length;j++) {
 	  starts[0]=j;
 	  starts[1]=0;
@@ -3647,26 +3451,21 @@ netcdf4 compression
     if (cmor_vars[var_id].grid_id>-1) {
       if (cmor_grids[cmor_vars[var_id].grid_id].istimevarying==0) {
 	for (i=0;i<4;i++) {
-/*  printf("%s %i \n","before cmor_write_to_file0",i);*//*,&cmor_vars[var_id],ntimes_passed,time_vals,time_bounds);*/
 	  j = cmor_grids[cmor_vars[var_id].grid_id].associated_variables[i];
 	  if (j!=-1) { /* we need to write this variable */
 	    cmor_vars[j].nc_var_id = nc_associated_vars[i];
 	    switch (i) {
 	    case (0) :
 	      cmor_write_var_to_file(ncafid,&cmor_vars[j],cmor_grids[cmor_vars[var_id].grid_id].lats,'d',0,NULL,NULL,nc_var_reftime, start, count,leadtime_vals);
-//pab_trt	      cmor_write_var_to_file(ncafid,&cmor_vars[j],cmor_grids[cmor_vars[var_id].grid_id].lats,'d',0,NULL,NULL);
 	      break;
 	    case (1) :
 	      cmor_write_var_to_file(ncafid,&cmor_vars[j],cmor_grids[cmor_vars[var_id].grid_id].lons,'d',0,NULL,NULL,nc_var_reftime, start, count,leadtime_vals);
-//pab_trt	      cmor_write_var_to_file(ncafid,&cmor_vars[j],cmor_grids[cmor_vars[var_id].grid_id].lons,'d',0,NULL,NULL);
 	      break;
 	    case (2) :
 	      cmor_write_var_to_file(ncafid,&cmor_vars[j],cmor_grids[cmor_vars[var_id].grid_id].blats,'d',0,NULL,NULL,nc_var_reftime, start, count,leadtime_vals);
-//pab_trt	      cmor_write_var_to_file(ncafid,&cmor_vars[j],cmor_grids[cmor_vars[var_id].grid_id].blats,'d',0,NULL,NULL);
 	      break;
 	    case (3) :
 	      cmor_write_var_to_file(ncafid,&cmor_vars[j],cmor_grids[cmor_vars[var_id].grid_id].blons,'d',0,NULL,NULL,nc_var_reftime, start, count,leadtime_vals);
-//	      cmor_write_var_to_file(ncafid,&cmor_vars[j],cmor_grids[cmor_vars[var_id].grid_id].blons,'d',0,NULL,NULL);
 	      break;
 	      /* 	  case (4) : */
 	      /* 	    cmor_write_var_to_file(ncafid,&cmor_vars[j],cmor_grids[cmor_vars[var_id].grid_id].area,'d',0,NULL,NULL); */
@@ -3679,16 +3478,13 @@ netcdf4 compression
       }
     }
 
-//     printf("%s \n","gone until there2...");
     /* ok now write the zfactor values if necessary */
     for(i=0;i<nzfactors;i++) {
       if (cmor_vars[zfactors[i]].values != NULL) {/* ok this one has value defined we need to store it */
 	cmor_vars[zfactors[i]].nc_var_id = nc_zfactors[i];
 	cmor_write_var_to_file(ncafid,&cmor_vars[zfactors[i]],cmor_vars[zfactors[i]].values,'d',0,NULL,NULL,nc_var_reftime, start, count,leadtime_vals);
-//pab_trt	cmor_write_var_to_file(ncafid,&cmor_vars[zfactors[i]],cmor_vars[zfactors[i]].values,'d',0,NULL,NULL);
       }
 /*       if (cmor_vars[zfactors[i]].bounds != NULL) {/\* ok this one has value defined we need to store it *\/ */
-/* 	printf("writing bounds to nc file variable: %s, ncvar: %i\n",cmor_vars[zfactors[i]].id,nc_zfactors[i+1]); */
 /* 	cmor_vars[zfactors[i+1]].nc_var_id = nc_zfactors[i+1]; */
 /* 	cmor_write_var_to_file(ncid,&cmor_vars[zfactors[i+1]],&cmor_vars[zfactors[i]].bounds,0,NULL); */
 /* 	i++; */
@@ -3719,7 +3515,6 @@ netcdf4 compression
       }
     }
     cmor_current_dataset.associate_file=ncafid;
-//     printf("%s \n","gone until there3...");
   }
   else { 
     /* Variable already been thru cmor_write, we just get the netcdf file id */
@@ -3757,6 +3552,14 @@ netcdf4 compression
     }
   }
   if (refvar!=NULL) {
+     /* if (cmor_vars[var_id].first_bound==1.e20) {
+          cmor_vars[var_id].first_bound = cmor_vars[*refvar].first_bound;
+          cmor_vars[var_id].last_bound = cmor_vars[*refvar].last_bound;
+          cmor_vars[var_id].last_time = cmor_vars[*refvar].last_time;
+
+          printf("We did reset the first and last bounds: %f, %f \n",cmor_vars[var_id].first_bound, cmor_vars[var_id].last_bound);
+      }
+      */
     for(i=0;i<10;i++) {
       if (cmor_vars[*refvar].associated_ids[i]==var_id) {
 	if (cmor_vars[*refvar].ntimes_written_associated[i] == 0) {
@@ -3768,7 +3571,6 @@ netcdf4 compression
       }
     }
   }
-//     printf("%s \n","gone until there4...");
  if(strcmp(CMOR_PROJECT,"SPECS")==0){
         start[0]=cmor_vars[var_id].ntimes_written;
         if (ntimes_passed!=0) {
@@ -3777,32 +3579,9 @@ netcdf4 compression
         else {
          count[0] = cmor_axes[cmor_vars[var_id].axes_ids[0]].length; 
         }
-//        printf("%s %lf %lf \n","before put reftime, vals:",leadtime_vals[0],leadtime_vals[12]);
-//        printf("%s %s \n","before put reftime, units:",cmor_axes[cmor_vars[var_id].axes_ids[0]].iunits);
-//pab_trt        ierr = nc_put_vara_double(ncid,nc_var_reftime, start, count,leadtime_vals);  //
-//       printf("%s %i %s %i \n","after put of var lead_time c:",count[0],"ntimes_passed:",ntimes_passed);
-//  printf("%s %f \n","before cmor_write_to_file",time_vals[0]);
-//ttt       strcpy(msg,"units");
-//ttt       strcpy(ctmp,"days");
-//ch format        strcpy(ctmp,"hours");
-//ttt        ierr = cmor_put_nc_char_attribute(ncid,nc_var_reftime,msg,ctmp,cmor_vars[var_id].id);
-//new test        ierr = cmor_put_nc_char_attribute(ncid,nc_vars[0],msg,ctmp,cmor_vars[var_id].id);
-//        ierr = cmor_put_nc_char_attribute(ncid,nc_vars[i],cmor_axes[cmor_vars[var_id].axes_ids[i]].attributes[j],cmor_axes[cmor_vars[var_id].axes_ids[i]].attributes_values_char[j],cmor_vars[var_id].id);
-//	ierr = cmor_put_nc_char_attribute(ncid,cmor_vars[var_id].nc_var_id,msg,ctmp,cmor_vars[var_id].id) ;
 }
-//     printf("%s %i \n","gone until there--before cmor_write_var_to_file");
   cmor_write_var_to_file(ncid,&cmor_vars[var_id],data,type,ntimes_passed,time_vals,time_bounds,nc_var_reftime, start, count,leadtime_vals);
-//     printf("%s %i \n","gone until there5",ntimes_passed);
-//pab_trt  cmor_write_var_to_file(ncid,&cmor_vars[var_id],data,type,ntimes_passed,time_vals,time_bounds);
-//  cmor_axes[avar->nc_var_id].iunits,"days"
 
-/*pab_qcif(strcmp(CMOR_PROJECT,"SPECS")==0){
- if(nc_vars[0]!=nc_var_reftime){
-  strcpy(msg,"days");//
-  n=strlen(msg)+1;
-  nc_put_att_text(ncid,nc_vars[0],"units",n,msg);
- }
-}*/
   cmor_pop_traceback();
   return 0;
 };
@@ -3835,12 +3614,11 @@ int cmor_create_output_path(int var_id,char *outpath)
   }
   if (CMOR_CREATE_SUBDIRECTORIES == 0) createdirs=0;
   /* activity */
-//pab new dir 
 if(strcmp(CMOR_PROJECT,"SPECS")!=0){
  strncpytrim(tmp,cmor_tables[cmor_vars[var_id].ref_table_id].project_id,CMOR_MAX_STRING);
 
   /* make sure you replace spaces with "_" */
-  for(i=0;i<strlen(tmp);i++) { // pab: used to be commented in my previous version... 
+  for(i=0;i<strlen(tmp);i++) { 
     if (tmp[i]==' ') tmp[i]='_';
   }
   strncattrim(outpath,tmp,CMOR_MAX_STRING-strlen(outpath));
@@ -3848,14 +3626,14 @@ if(strcmp(CMOR_PROJECT,"SPECS")!=0){
 }
   if (createdirs==1) {
     if ((mkdir(outpath, (S_IRWXU | S_IRWXG | S_IRWXO )) == -1) && (errno != EEXIST)) {
-      sprintf(tmp,"6creating outpath: %s, for variable %s (table: %s). Not enough permission?",outpath,cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
+      sprintf(tmp,"creating outpath: %s, for variable %s (table: %s). Not enough permission?",outpath,cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
       cmor_handle_error(tmp,CMOR_CRITICAL);
     }
   } 
    /* product */
 if(strcmp(CMOR_PROJECT,"SPECS")==0){
   strncpytrim(tmp,cmor_tables[cmor_vars[var_id].ref_table_id].product,CMOR_MAX_STRING);
-//   make sure you replace spaces with "_" 
+/*   make sure you replace spaces with "_" */
   for(i=0;i<strlen(tmp);i++) {
     if (tmp[i]==' ') tmp[i]='_';
   }
@@ -3864,14 +3642,10 @@ if(strcmp(CMOR_PROJECT,"SPECS")==0){
 }
   if (createdirs==1) {
     if ((mkdir(outpath, (S_IRWXU | S_IRWXG | S_IRWXO )) == -1) && (errno != EEXIST)) {
-      sprintf(tmp,"7creating outpath: %s, for variable %s (table: %s). Not enough permission?",outpath,cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
+      sprintf(tmp,"creating outpath: %s, for variable %s (table: %s). Not enough permission?",outpath,cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
       cmor_handle_error(tmp,CMOR_CRITICAL);
     }
-  }/*pab: ...untill there */
-  /* institute */
-/* pab not needed any more in specs 
-if(strcmp(CMOR_PROJECT,"SPECS")!=0){
-*/
+  }
  cmor_get_cur_dataset_attribute("institute_id",tmp2);
   if (strcmp(tmp2,"not specified")==0) {
     strcpy(tmp,"INSTITUTE_ID");
@@ -3880,11 +3654,10 @@ if(strcmp(CMOR_PROJECT,"SPECS")!=0){
     substitute_chars_with_hyphens(tmp2, tmp, "institute_id", -1);
   }
   strncattrim(outpath,tmp,CMOR_MAX_STRING-strlen(outpath));
-//}
   strncat(outpath,"/",CMOR_MAX_STRING-strlen(outpath));
   if (createdirs==1) {
     if ((mkdir(outpath, (S_IRWXU | S_IRWXG | S_IRWXO )) == -1) && (errno != EEXIST)) {
-      sprintf(tmp,"8creating outpath: %s, for variable %s (table: %s). Not enough permission?",outpath,cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
+      sprintf(tmp,"creating outpath: %s, for variable %s (table: %s). Not enough permission?",outpath,cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
       cmor_handle_error(tmp,CMOR_CRITICAL);
     }
   }
@@ -3911,7 +3684,7 @@ if(strcmp(CMOR_PROJECT,"SPECS")!=0){
   }
   if (createdirs==1) {
     if ((mkdir(outpath, (S_IRWXU | S_IRWXG | S_IRWXO )) == -1) && (errno != EEXIST)) {
-      sprintf(tmp,"9creating outpath: %s, for variable %s (table: %s). Not enough permission?",outpath,cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
+      sprintf(tmp,"creating outpath: %s, for variable %s (table: %s). Not enough permission?",outpath,cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
       cmor_handle_error(tmp,CMOR_CRITICAL);
     }
   }
@@ -3919,33 +3692,9 @@ if(strcmp(CMOR_PROJECT,"SPECS")!=0){
   /* experiment id */
   cmor_get_cur_dataset_attribute("experiment_id",tmp);
   /* ok here we check the exptid is ok */
-/* pab*/ 
-//if(CMOR_PROJECT==0){
-//cmor_check_expt_id to be rewritten 
-/*4juillet
- if (cmor_check_expt_id(tmp,cmor_vars[var_id].ref_table_id,"experiment","experiment_id")!=0) {
-    snprintf(tmp2,CMOR_MAX_STRING,"Invalid dataset experiment id: %s, for variable %s. Check against table: %s",tmp,cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
-    cmor_handle_error(tmp2,CMOR_NORMAL);
-    cmor_pop_traceback();
-    return 1;
-  }
-4juillet*/
-//}
-//  if(CMOR_PROJECT==0){
-/*   strcpy(tmp3,"");
-   printf("%s %i %s %s \n","before cut expname, length:",strlen(tmp),tmp,tmp3);
-   for (i=0;i<=strlen(tmp)-4;i++) {
-    strncpy(&tmp3[i],&tmp[i],i);
-    printf("%s %s %s %s %s %s \n","aaa",tmp3,"-",&tmp[i],"__",tmp[i]);
-   }*/
-//   strcpy(tmp,"seaIceClimInit");
-//   strcpy(tmp3,"");
-//  }
   /* ok here we need to reset the expt id to the shrt name if necessary */
  if(strcmp(CMOR_PROJECT,"SPECS")!=0){
   for (i=0;i<=cmor_tables[cmor_vars[var_id].ref_table_id].nexps;i++) {
-//     printf("i: %i, lng expt: %s\n",i,cmor_tables[cmor_vars[var_id].ref_table_id].expt_ids[i]); 
-//     printf("i: %i, sht expt: %s\n",i,cmor_tables[cmor_vars[var_id].ref_table_id].sht_expt_ids[i]); 
     j = strlen(tmp);
     if (strncmp(cmor_tables[cmor_vars[var_id].ref_table_id].expt_ids[i],tmp,j)==0) {
       if (strlen(cmor_tables[cmor_vars[var_id].ref_table_id].sht_expt_ids[i])!=0) {
@@ -3964,36 +3713,28 @@ if(strcmp(CMOR_PROJECT,"SPECS")!=0){
     }
   }
 }
-//    printf("%s %s %s \n","before series",outpath,tmp);
-//  if (strcmp(tmp,"")!=0) {
     strncattrim(outpath,tmp,CMOR_MAX_STRING-strlen(outpath));
 /*series*/
-//arg
-//printf("%s %s %s \n","before series1",outpath,tmp);
 if(strcmp(CMOR_PROJECT,"SPECS")==0){
     strncat(outpath,"_",CMOR_MAX_STRING-strlen(outpath));
   cmor_get_cur_dataset_attribute("series",tmp);
     strncattrim(outpath,tmp,CMOR_MAX_STRING-strlen(outpath));
-//    strncattrim(outpath,tmp,CMOR_MAX_STRING-strlen(outpath));
 }
-//arg
 
     strncat(outpath,"/",CMOR_MAX_STRING-strlen(outpath));
-//  }
 /*   else { */
 /*     strcpy(tmp,"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"); */
 /*     cmor_handle_error(tmp,CMOR_CRITICAL); */
 /*   } */
   if (createdirs==1) {
     if ((mkdir(outpath, (S_IRWXU | S_IRWXG | S_IRWXO )) == -1) && (errno != EEXIST)) {
-      sprintf(tmp,"1creating outpath: %s, for variable %s (table: %s). Not enough permission?",outpath,cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
+      sprintf(tmp,"creating outpath: %s, for variable %s (table: %s). Not enough permission?",outpath,cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
       cmor_handle_error(tmp,CMOR_CRITICAL);
     }
   }
-/*pab add sdate */
 
-//printf("%s %s %s \n","after series",outpath,tmp);
 if(strcmp(CMOR_PROJECT,"SPECS")==0){
+/*add start date */
   if (strcmp(tmp,"")!=0) {
     strcpy(tmp,"");
     cmor_get_cur_dataset_attribute("forecast_reference_time",tmp);
@@ -4008,7 +3749,7 @@ if(strcmp(CMOR_PROJECT,"SPECS")==0){
   }
   if (createdirs==1) {
     if ((mkdir(outpath, (S_IRWXU | S_IRWXG | S_IRWXO )) == -1) && (errno != EEXIST)) {
-      sprintf(tmp,"new2creating outpath: %s, for variable %s (table: %s). Not enough permission?",outpath,cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
+      sprintf(tmp,"creating outpath: %s, for variable %s (table: %s). Not enough permission?",outpath,cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
       cmor_handle_error(tmp,CMOR_CRITICAL);
     }
   }
@@ -4074,7 +3815,7 @@ if(strcmp(CMOR_PROJECT,"SPECS")==0){
   strncat(outpath,"/",CMOR_MAX_STRING-strlen(outpath));
   if (createdirs==1) {
     if ((mkdir(outpath, (S_IRWXU | S_IRWXG | S_IRWXO )) == -1) && (errno != EEXIST)) {
-      sprintf(tmp,"2creating outpath: %s, for variable %s (table: %s). Not enough permission?",outpath,cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
+      sprintf(tmp,"creating outpath: %s, for variable %s (table: %s). Not enough permission?",outpath,cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
       cmor_handle_error(tmp,CMOR_CRITICAL);
     }
   }
@@ -4102,7 +3843,7 @@ if(strcmp(CMOR_PROJECT,"SPECS")==0){
   strncat(outpath,"/",CMOR_MAX_STRING-strlen(outpath));
   if (createdirs==1) {
     if ((mkdir(outpath, (S_IRWXU | S_IRWXG | S_IRWXO )) == -1) && (errno != EEXIST)) {
-      sprintf(tmp,"3creating outpath: %s, for variable %s (table: %s). Not enough permission?",outpath,cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
+      sprintf(tmp,"creating outpath: %s, for variable %s (table: %s). Not enough permission?",outpath,cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
       cmor_handle_error(tmp,CMOR_CRITICAL);
     }
   }
@@ -4112,7 +3853,7 @@ if(strcmp(CMOR_PROJECT,"SPECS")==0){
   strncat(outpath,"/",CMOR_MAX_STRING-strlen(outpath));
   if (createdirs==1) {
     if ((mkdir(outpath, (S_IRWXU | S_IRWXG | S_IRWXO )) == -1) && (errno != EEXIST)) {
-      sprintf(tmp,"4creating outpath: %s, for variable %s (table: %s). Not enough permission?",outpath,cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
+      sprintf(tmp,"creating outpath: %s, for variable %s (table: %s). Not enough permission?",outpath,cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
       cmor_handle_error(tmp,CMOR_CRITICAL);
     }
   }
@@ -4146,15 +3887,10 @@ if(strcmp(CMOR_PROJECT,"SPECS")==0){
   strncat(outpath,"/",CMOR_MAX_STRING-strlen(outpath));
   if (createdirs==1) {
     if ((mkdir(outpath, (S_IRWXU | S_IRWXG | S_IRWXO )) == -1) && (errno != EEXIST)) {
-      sprintf(tmp,"5creating outpath: %s, for variable %s (table: %s). Not enough permission?",outpath,cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
+      sprintf(tmp,"creating outpath: %s, for variable %s (table: %s). Not enough permission?",outpath,cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
       cmor_handle_error(tmp,CMOR_CRITICAL);
     }
   }
-
-/*pab add version */
-/*  strncattrim(outpath,cmor_vars[var_id].version,CMOR_MAX_STRING-strlen(outpath)); pab, to be reput when understood where cmor_vars structure is defined
-  strncattrim(outpath,cmor_vars[var_id],CMOR_MAX_STRING-strlen(outpath));
-  strncat(outpath,"/",CMOR_MAX_STRING-strlen(outpath));*/
 
   cleanup_varid=-1;
   cmor_pop_traceback();
@@ -4298,9 +4034,7 @@ int cmor_close_variable(int var_id, char *file_name, int *preserve)
 	}
       }
       else {
-	//printf("icalo final: %i, %f\n",icalo,cmor_vars[var_id].last_time);
 	cdRel2Comp(icalo,msg,cmor_vars[var_id].last_time,&comptime);
-	//printf("end retuned: %i-%i-%i : %f\n",comptime.year,comptime.month,comptime.day,comptime.hour);
       }
       
       /* last time point */
@@ -4472,11 +4206,11 @@ if(strcmp("lead_time",cmor_vars[i].id)!=0) {
     }
     if (cmor_tables[i].nforcings>0) {
       for (j=0;j<cmor_tables[i].nforcings;j++) {
-if(strcmp(CMOR_PROJECT,"SPECS")!=0){
-	free(cmor_tables[i].forcings[i]);
- //   printf("%s,%i,%i\n","ligne signalée0.1",i,j);
-	cmor_tables[i].forcings[i]=NULL;
-}
+		if(strcmp(CMOR_PROJECT,"SPECS")!=0){
+			free(cmor_tables[i].forcings[i]);
+		 /*   printf("%s,%i,%i\n","ligne signalée0.1",i,j); */
+			cmor_tables[i].forcings[i]=NULL;
+		}
       }
       free(cmor_tables[i].forcings);
       cmor_tables[i].forcings=NULL;
@@ -4520,21 +4254,16 @@ if(strcmp(CMOR_PROJECT,"SPECS")!=0){
 
 void cmor_trim_string(char *in,char *out) {
   int n,i,j;
-/*  puts("\n-in cmor trim string-\n");
-  printf("%s %s \n","-in cmor trim string-",in);*/
   if (in==NULL) {
     out=NULL;
     return;
   }
   n = strlen(in);
-/*  printf("%s %i \n","n:",n);*/
-/*  puts(&n);*/
   if (n==0) {
     out[0]='\0';
     return;
   }
   
-/*  printf("%s %i","\n CMOR_MAX_STRING:",CMOR_MAX_STRING); */
   if (n>CMOR_MAX_STRING) n=CMOR_MAX_STRING; /* make sure we don't go over the limit */
   j=0;
   for (i=0;i<n;i++) {
@@ -4554,4 +4283,3 @@ void cmor_trim_string(char *in,char *out) {
   i=n;
   while((out[i]=='\0' || out[i]==' ')) { out[i]='\0'; i--;}
 }
-

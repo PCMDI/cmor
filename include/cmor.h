@@ -2,8 +2,8 @@
 #define CMOR_H
 
 #define CMOR_VERSION_MAJOR 2
-#define CMOR_VERSION_MINOR 8
-#define CMOR_VERSION_PATCH 3
+#define CMOR_VERSION_MINOR 9
+#define CMOR_VERSION_PATCH 1
 
 #define CMOR_CF_VERSION_MAJOR 1
 #define CMOR_CF_VERSION_MINOR 6
@@ -129,6 +129,7 @@ typedef struct cmor_axis_ {
   char id[CMOR_MAX_STRING];
   int length;
   double *values;
+  int *wrapping;
   double *bounds;
   char **cvalues;
   int revert;
@@ -186,6 +187,8 @@ typedef struct cmor_var_ {
   int nc_zfactors[CMOR_MAX_VARIABLES];
   int nzfactor;
   int ntimes_written;
+  double last_time_written;
+  double last_time_bounds_written[2];
   int ntimes_written_coords[10];
   int associated_ids[10];
   int ntimes_written_associated[10];
