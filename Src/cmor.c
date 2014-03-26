@@ -1882,8 +1882,6 @@ int cmor_write(int var_id, void *data, char type, char *suffix, int ntimes_passe
   void *myuuid_str=NULL;
   size_t uuidlen;
   extern int cmor_convert_char_to_hyphen(char c);
-  int varid_in;
-  int *natts;
   char *str;
 /*
   char lt_att_name[CMOR_MAX_STRING]; 
@@ -4206,11 +4204,10 @@ if(strcmp("lead_time",cmor_vars[i].id)!=0) {
     }
     if (cmor_tables[i].nforcings>0) {
       for (j=0;j<cmor_tables[i].nforcings;j++) {
-		if(strcmp(CMOR_PROJECT,"SPECS")!=0){
+/*		if(strcmp(CMOR_PROJECT,"SPECS")!=0){*/
 			free(cmor_tables[i].forcings[i]);
-		 /*   printf("%s,%i,%i\n","ligne signalée0.1",i,j); */
 			cmor_tables[i].forcings[i]=NULL;
-		}
+/*		}*/
       }
       free(cmor_tables[i].forcings);
       cmor_tables[i].forcings=NULL;
