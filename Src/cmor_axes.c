@@ -328,6 +328,7 @@ int cmor_check_monotonic(double *values,int length, char *name,int isbounds, int
       if(strcmp(CMOR_PROJECT,"SPECS")!=0){
           snprintf(msg,CMOR_MAX_STRING,"axis %s (table: %s) has non monotonic bounds values : %lf, %lf, %lf",name,cmor_tables[cmor_axes[axis_id].ref_table_id].table_id,values[2*i],values[2*i+2],values[2*i+4]);
         cmor_handle_error(msg,CMOR_CRITICAL);
+         }/*debug kamesh*/
         }
       }
     }
@@ -467,6 +468,7 @@ int cmor_check_monotonic(double *values,int length, char *name,int isbounds, int
       if(strcmp(CMOR_PROJECT,"SPECS")!=0){
           snprintf(msg,CMOR_MAX_STRING,"axis %s (table: %s) has bounds values that leave gaps (index %i): %lf, %lf, %lf",name,cmor_tables[cmor_axes[axis_id].ref_table_id].table_id,i,values[i],values[i+1],values[i+2]);
           cmor_handle_error(msg,CMOR_WARNING);
+         } /*debug kamesh*/
         }
       }
     }
@@ -566,7 +568,8 @@ int cmor_check_monotonic(double *values,int length, char *name,int isbounds, int
         if (((values[i]-values[i+1])/(values[i+1]-values[i+2]))<0.) {
           snprintf(msg,CMOR_MAX_STRING,"axis %s (table: %s) has non monotonic values : %lf, %lf and  %lf",name,cmor_tables[cmor_axes[axis_id].ref_table_id].table_id,values[i],values[i+1],values[i+2]);
           cmor_handle_error(msg,CMOR_CRITICAL);
-        }
+         }
+        } /*debug kamesh*/
       }
     }
   }
