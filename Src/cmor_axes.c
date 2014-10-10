@@ -1210,7 +1210,7 @@ int cmor_axis(int *axis_id, char *name,char *units, int length,void *coord_vals,
       if (refaxis.axis=='X') {
           /* mallocing space for wrapp issues on longitude */
           cmor_axes[cmor_naxes].wrapping=malloc(length*sizeof(int));
-          for (i==0;i<length;i++) cmor_axes[cmor_naxes].wrapping[i]=0;
+          for (i=0;i<length;i++) cmor_axes[cmor_naxes].wrapping[i]=0;
       }
       if ( cmor_axes[cmor_naxes].values == NULL ) {
 	snprintf(msg,CMOR_MAX_STRING,"cannot allocate memory for %i double elts for axis %s (table: %s)",length,cmor_axes[cmor_naxes].id,cmor_tables[CMOR_TABLE].table_id);
