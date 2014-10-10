@@ -15,8 +15,8 @@ case ${target_os} in
    FTAG="-Wl,-rpath="
  ;;
  darwin*)
-   RTAG="-R"
-   FTAG="-Wl,-rpath="
+   RTAG="-Wl,-rpath,"
+   FTAG="-Wl,-rpath,"
  ;;
 esac
 
