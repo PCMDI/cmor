@@ -1,0 +1,555 @@
+table_id: Table 6hr
+modeling_realm: atmos
+
+frequency: 6hr
+
+cmor_version: 2.6 ! minimum version of CMOR that can read this table
+cf_version:   1.6         ! version of CF that output conforms to
+project_id:   SPECS  ! project id
+table_date:   26 July 2011 ! date this table was constructed
+
+missing_value: 1.e20      ! value used to indicate a missing value
+                          !   in arrays output by netCDF as 32-bit IEEE 
+                          !   floating-point numbers (float or real)
+
+baseURL: http://cmip-pcmdi.llnl.gov/CMIP5/dataLocation 
+product: output
+
+required_global_attributes: creation_date tracking_id forcing model_id parent_experiment_id parent_experiment_rip contact ! space separated required global attribute 
+
+forcings:   ??????
+
+expt_id_ok: '10- or 30-year run initialized in year XXXX' 'decadalXXXX'
+expt_id_ok: 'historical' 'historicalXXXX'
+expt_id_ok: 'soilMoistureClimInit' 'soil_moisture clim_init'
+expt_id_ok: 'soilMoistureBestInit' 'soil_moisture best_init'
+expt_id_ok: 'seaIceClimInit' 'seaice clim_init'
+expt_id_ok: 'seaIceBestInit' 'seaice best_init'
+expt_id_ok: 'horizlResImpact' 'horizlres impact'
+expt_id_ok: 'standardStratVertRes' 'standard_strat vert_res'
+expt_id_ok: 'improvedStratVertRes' 'improved_strat vert_res'
+expt_id_ok: 'snowBestInit' 'snow best init'
+expt_id_ok: 'snowClimInit' 'snow clim init'
+expt_id_ok: 'interactivePhenology' 'interactive phenology'
+expt_id_ok: 'fixedPhenology' 'fixed phenology'
+expt_id_ok: 'aerosolImproved' 'aerosol improved'
+expt_id_ok: 'aerosolsStandard' 'aerosol standard'
+expt_id_ok: 'obsSolarIrradiance' 'obs solar irradiance'
+expt_id_ok: 'constSolarIrradiance' 'const solar irradiance'
+
+approx_interval:  0.250000     ! approximate spacing between successive time
+                          !   samples (in units of the output time 
+                          !   coordinate.
+
+generic_levels:   alevel
+
+!============
+axis_entry: longitude
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:    longitude
+units:            degrees_east
+axis:             X             ! X, Y, Z, T (default: undeclared)
+long_name:        longitude
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:         lon
+valid_min:        0.0         
+valid_max:        360.0 
+stored_direction: increasing
+type:             double
+must_have_bounds: yes
+!----------------------------------
+!
+
+
+!============
+axis_entry: latitude
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:    latitude
+units:            degrees_north
+axis:             Y             ! X, Y, Z, T (default: undeclared)
+long_name:        latitude
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:         lat
+valid_min:        -90.0         
+valid_max:        90.0 
+stored_direction: increasing
+type:             double
+must_have_bounds: yes
+!----------------------------------
+!
+
+
+!============
+axis_entry: time
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:    time
+units:            days since 1850-01-01
+axis:             T             ! X, Y, Z, T (default: undeclared)
+long_name:        Verification time of the forecast
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:         time
+stored_direction: increasing
+type:             double
+must_have_bounds: no
+!----------------------------------
+!
+
+!============
+axis_entry: smooth_level
+!============
+!
+! This coordinate is a hybrid height coordinate with units of meters (m).
+!  It increases upward.
+!  The values of a(k)*ztop, which appear in the formula below, should be stored as smooth_level. 
+!  Note that in the netCDF file the variable will be named "lev", not smooth_level.
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------	
+standard_name:    atmosphere_sleve_coordinate
+units:            m
+axis:             Z
+positive:	      up
+long_name:        atmosphere smooth level vertical (SLEVE) coordinate
+!----------------------------------	
+!
+! Additional axis information:
+!----------------------------------	
+out_name:         lev
+must_have_bounds: yes
+stored_direction: increasing
+valid_min:        -200.
+valid_max:        800000.
+formula:          z = a*ztop + b1*zsurf1 + b2*zsurf2
+z_factors:        a: a b1: b1 b2: b2 ztop: ztop zsurf1: zsurf1 zsurf2: zsurf2
+z_bounds_factors: a: a_bnds b1: b1_bnds b2: b2_bnds ztop: ztop zsurf1: zsurf1 zsurf2: zsurf2
+!----------------------------------	
+!
+!============
+axis_entry: natural_log_pressure
+!============
+!
+!This coordinate is dimensionless and varies from near 0 at the surface and increases upward.
+!  The values of lev(k), which appears in the formula below, should be stored as natural_log_pressure.  
+!  Note that in the netCDF file the variable will be named "lev", not natural_log_pressure.
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------	
+standard_name:    atmosphere_ln_pressure_coordinate
+axis:             Z
+long_name:        atmosphere natural log pressure coordinate
+positive:	      down
+!----------------------------------	
+!
+! Additional axis information:
+!----------------------------------	
+out_name:         lev
+must_have_bounds: yes
+stored_direction: decreasing
+valid_min:        -1.
+valid_max:        20.
+formula:          p = p0 * exp(-lev)
+z_factors:        p0: p0 lev: lev
+z_bounds_factors: p0: p0 lev: lev_bnds
+!----------------------------------	
+!
+!============
+axis_entry: standard_sigma
+!============
+!
+! This coordinate is dimensionless and varies from 0 at the model top to 1.0 at the surface.
+!  The values of sigma(k), which appears in the formula below, should be stored as standard_sigma.  
+!  Note that in the netCDF file the variable will be named "lev", not standard_sigma.
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------	
+standard_name:    atmosphere_sigma_coordinate
+axis:             Z
+positive:         down
+long_name:        sigma coordinate
+!----------------------------------	
+!
+! Additional axis information:
+!----------------------------------	
+out_name:         lev
+must_have_bounds: yes
+stored_direction: decreasing
+valid_min:        0.0
+valid_max:        1.0
+formula:          p = ptop + sigma*(ps - ptop)
+z_factors:        ptop: ptop sigma: lev ps: ps
+z_bounds_factors: ptop: ptop sigma: lev_bnds ps: ps
+!----------------------------------	
+!
+!
+!============
+axis_entry:  standard_hybrid_sigma
+!============
+!
+! This coordinate is dimensionless and varies from a small value at the model top to 1.0 at the surface.
+!  The values of a+ b, which appear in the formula below, should be stored as standard_hybrid_sigma.  
+!  Note that in the netCDF file the variable will be named "lev", not standard_hybrid_sigma.
+!
+!---------------------------------
+! Axis attributes:
+!----------------------------------	
+standard_name:    atmosphere_hybrid_sigma_pressure_coordinate
+units:            1
+axis:             Z 
+positive:         down
+long_name:        hybrid sigma pressure coordinate
+!----------------------------------
+! Additional axis information:
+!----------------------------------	
+out_name:         lev
+must_have_bounds: yes
+stored_direction: decreasing
+valid_min:        0.0
+valid_max:        1.0
+formula:          p = a*p0 + b*ps
+z_factors:        p0: p0 a: a b: b ps: ps
+z_bounds_factors: p0: p0 a: a_bnds b: b_bnds ps: ps
+!----------------------------------		
+!
+!
+!============
+axis_entry:  alternate_hybrid_sigma
+!============
+!
+! This coordinate is dimensionless and varies from a small value at the model top to 1.0 at the surface.
+!  The values of ap/p0 + b, which appear in the formula below, should be stored as alternate_hybrid_sigma.  
+!  Note that in the netCDF file the variable will be named "lev", not alternate_hybrid_sigma.
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------	
+standard_name:    atmosphere_hybrid_sigma_pressure_coordinate
+units:            1
+axis:             Z
+positive:         down
+long_name:        hybrid sigma pressure coordinate
+!----------------------------------	
+!
+! Additional axis information:
+!----------------------------------	
+out_name:         lev
+must_have_bounds: yes
+stored_direction: decreasing
+valid_min:        0.0
+valid_max:        1.0
+formula:          p = ap + b*ps
+z_factors:        ap: ap b: b ps: ps
+z_bounds_factors: ap: ap_bnds b: b_bnds ps: ps
+!----------------------------------		
+!
+!
+!============
+axis_entry:  hybrid_height
+!============
+!
+! This coordinate has dimension of meters (m) and increases upward.
+!  The values of a which appear in the formula below, should be stored as hybrid_height.  
+!  Note that in the netCDF file the variable will be named "lev", not hybrid_height.
+!
+!------------
+!
+! Axis attributes:
+!----------------------------------	
+standard_name:    atmosphere_hybrid_height_coordinate
+units:            m
+axis:             Z 
+positive:         up
+long_name:        hybrid height coordinate
+!----------------------------------	
+!
+! Additional axis information:
+!----------------------------------	
+out_name:         lev
+must_have_bounds: yes
+stored_direction: increasing
+valid_min:        0.0
+formula:          z = a + b*orog
+z_factors:        a: lev b: b orog: orog
+z_bounds_factors: a: lev_bnds b: b_bnds orog: orog
+!----------------------------------		
+!
+!============
+axis_entry: height2m
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:    height
+units:            m
+axis:             Z             ! X, Y, Z, T (default: undeclared)
+positive:         up         ! up or down (default: undeclared)
+long_name:        height
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:         height
+valid_min:        1.0
+valid_max:        10.0
+stored_direction: increasing
+type:             double
+value:            2.            ! of scalar (singleton) dimension
+must_have_bounds: no
+!----------------------------------
+!
+!============
+axis_entry: height10m
+!============
+!----------------------------------
+! Axis attributes:
+!----------------------------------
+standard_name:    height
+units:            m
+axis:             Z             ! X, Y, Z, T (default: undeclared)
+positive:         up         ! up or down (default: undeclared)
+long_name:        height
+!----------------------------------
+! Additional axis information:
+!----------------------------------
+out_name:         height
+valid_min:        1.0
+valid_max:        30.0
+stored_direction: increasing
+type:             double
+value:            10.            ! of scalar (singleton) dimension
+must_have_bounds: no
+!----------------------------------
+!
+
+!
+!
+! ***************************************************************
+!
+! Vertical coordinate formula terms:
+!
+! ***************************************************************
+!============
+variable_entry: leadtime
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:    forecast_period
+units:            hours
+!axis:             T             ! X, Y, Z, T (default: undeclared)
+long_name:        Time elapsed since the start of the forecast
+!bounds: time_bnd
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:     time
+out_name:         leadtime
+type:             double
+!must_have_bounds: yes
+!----------------------------------
+!
+!============
+variable_entry:    psl
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     air_pressure_at_sea_level
+units:             Pa
+cell_measures:     area: areacella
+long_name:         Sea Level Pressure
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+out_name:          psl
+type:              real
+valid_min:         92500.0
+valid_max:         113000.0
+!----------------------------------
+!
+
+!============
+variable_entry:    orog
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     surface_altitude
+units:             m
+long_name:         Surface Altitude
+comment:           height above the geoid; as defined here, ""the geoid"" is a surface of constant geopotential that, if the ocean were at rest, would coincide with mean sea level. Under this definition, the geoid changes as the mean volume of the ocean changes (e.g., due to glacial melt, or global warming of the ocean).  Report here the height above the present-day geoid.  Over ocean, report as 0.0
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude
+out_name:          orog
+type:              real
+valid_min:         -700
+valid_max:         1.00E+04
+!----------------------------------
+!
+
+
+!============
+variable_entry:    tas
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     air_temperature
+units:             K
+#cell_methods:      time: mean
+cell_methods:      time: point
+cell_measures:     area: areacella
+long_name:         Air Temperature
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time height2m
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:          tas
+type:              real
+valid_min:         180.6
+valid_max:         335.1
+ok_min_mean_abs:   262.4
+ok_max_mean_abs:   293
+!----------------------------------
+!
+
+!============
+variable_entry: tdps
+!============
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name: dew_point_temperature
+units: K
+long_name: 2m dewpoint temperature
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+shuffle:           1
+deflate:           1
+deflate_level:     6
+dimensions:        longitude latitude time
+out_name:          tdps
+!out_name:          2m dewpoint temperature
+type:              double
+!---------------------------------
+!
+
+!============
+variable_entry:    clt
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     cloud_area_fraction
+units:             %
+#cell_methods:      time: mean
+cell_methods:      time: point
+cell_measures:     area: areacella
+long_name:         Total Cloud Fraction
+comment:           for the whole atmospheric column, as seen from the surface or the top of the atmosphere. Include both large-scale and convective cloud.
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:          clt
+type:              real
+valid_min:         -0.0001822
+valid_max:         105
+ok_min_mean_abs:   39.37
+ok_max_mean_abs:   84.98
+!----------------------------------
+!
+
+!============
+variable_entry:    uas
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     eastward_wind
+units:             m s-1
+#cell_methods:      time: mean
+cell_methods:      time: point
+long_name:         Eastward Near-Surface Wind
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time height10m
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:          uas
+type:              real
+valid_min:         -19.01
+valid_max:         18.68
+ok_min_mean_abs:   1.668
+ok_max_mean_abs:   4.106
+!----------------------------------
+!
+
+!============
+variable_entry:    vas
+!============
+modeling_realm:    atmos
+!----------------------------------
+! Variable attributes:
+!----------------------------------
+standard_name:     northward_wind
+units:             m s-1
+#cell_methods:      time: mean
+cell_methods:      time: point
+long_name:         Northward Near-Surface Wind
+!----------------------------------
+! Additional variable information:
+!----------------------------------
+dimensions:        longitude latitude time height10m
+shuffle:           1
+deflate:           1
+deflate_level:     6
+out_name:          vas
+type:              real
+valid_min:         -18.04
+valid_max:         22.84
+ok_min_mean_abs:   1.065
+ok_max_mean_abs:   2.678
+!----------------------------------
+!
+
