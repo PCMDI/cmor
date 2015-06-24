@@ -38,6 +38,8 @@ AC_SUBST(UDUNITS2FLAGS)
 AC_SUBST(UDUNITS2LDFLAGS)
 AC_SUBST(UUIDFLAGS)
 AC_SUBST(UUIDLDFLAGS)
+AC_SUBST(HDF5FLAGS)
+AC_SUBST(HDF5LDFLAGS)
 AC_SUBST(LIBSOURCES)
 AC_SUBST(LIBFSOURCES)
 AC_SUBST(FC)
@@ -187,7 +189,28 @@ else
 fi
 AC_CHECK_LIB([uuid],[uuid_create],[],[AC_ERROR([Could not get a working uuid])],[ ${UUIDFLAGS} ${UUIDLDFLAGS}  ])
 
-LIBS=""
+AC_ARG_WITH([hdf5],[AS_HELP_STRING([--with-hdf5],[enable support for HDF5 in none standard location])],[],[with_hdf5="no"])
+with_hdf5b="-"${with_hdf5}
+if [ test ${with_hdf5b} != "-yes" ] ; then
+  if [ test ${with_hdf5b} != "-no" ] ; then
+   HDF5FLAGS=" -I${with_hdf5}/include"
+   if [ test ${RTAG} != "none" ] ; then
+     HDF5LDFLAGS=" -L${with_hdf5}/lib  ${RTAG}${with_hdf5}/lib -lhdf5"
+   else
+     HDF5LDFLAGS=" -L${with_hdf5}/lib -lhdf5"
+   fi
+  else
+    HDF5LDFLAGS="-lhdf5"
+    HDF5FLAGS=""
+  fi
+else
+  HDF5LDFLAGS="-lhdf5"
+  HDF5FLAGS=""
+fi
+AC_CHECK_LIB([hdf5],[H5open],[],[AC_ERROR([Could not get a working HDF5])],[ ${HDF5FLAGS} ${HDF5LDFLAGS}  ])
+
+
+#LIBS=""
 AC_ARG_WITH([udunits2],[AS_HELP_STRING([--with-udunits2],[enable support for udunits2 in none standard location])],[],[with_udunits2="no"])
 with_udunits2b="-"${with_udunits2}
 if [ test ${with_udunits2b} != "-yes" ] ; then
@@ -207,7 +230,7 @@ else
   UDUNITS2LDFLAGS=""
 fi
 AC_CHECK_LIB([udunits2],[ut_parse],[],[AC_ERROR([Could not get a working udunits2])],[ ${UDUNITS2FLAGS} ${UDUNITS2LDFLAGS} -lm  ])
-LIBS=""
+#LIBS=""
 
 
 AC_ARG_WITH([netcdf],[AS_HELP_STRING([--with-netcdf],[enable support for NetCDF in none standard location])],[],[with_netcdf="no"])
@@ -334,6 +357,10 @@ AC_MSG_NOTICE([])
 AC_MSG_NOTICE([UUID])
 AC_MSG_NOTICE([ CFLAGS  : ${UUIDFLAGS}])
 AC_MSG_NOTICE([ LDFLAGS : ${UUIDLDFLAGS}])
+AC_MSG_NOTICE([])
+AC_MSG_NOTICE([HDF5])
+AC_MSG_NOTICE([ CFLAGS  : ${HDF5FLAGS}])
+AC_MSG_NOTICE([ LDFLAGS : ${HDF5LDFLAGS}])
 AC_MSG_NOTICE([])
 AC_MSG_NOTICE([UDUNITS2])
 AC_MSG_NOTICE([ CFLAGS  : ${UDUNITS2FLAGS}])

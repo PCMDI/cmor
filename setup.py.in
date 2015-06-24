@@ -9,7 +9,7 @@ library_dirs = [ os.path.join("@prefix@","lib") ,'.']
 include_dirs.append(os.path.join("@prefix@","include"))
 libraries = []
 
-for st in ["@NCLDFLAGS@", "@NCCFLAGS@", "@UDUNITS2FLAGS@", "@UDUNITS2LDFLAGS@", "@UUIDFLAGS@", "@UUIDLDFLAGS@"]:
+for st in ["@NCLDFLAGS@", "@NCCFLAGS@", "@UDUNITS2FLAGS@", "@UDUNITS2LDFLAGS@", "@UUIDFLAGS@", "@UUIDLDFLAGS@", "@HDF5FLAGS@", "@HDF5LDFLAGS@"]:
    sp = st.strip().split()
    for s in sp:
       if s[:2]=='-L':
