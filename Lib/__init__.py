@@ -4,6 +4,5 @@ from pywrapper import axis,variable,write,setup,load_table,dataset,set_table,zfa
 
 try:
   from check_CMOR_compliant import checkCMOR
-except Exception,err:
-  print err
+except:
   pass
