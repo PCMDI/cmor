@@ -24,6 +24,11 @@ int nc_def_var_deflate(int i,int j,int k,int l, int m) {return 0;};
 int nc_def_var_chunking(int i,int j,int k,size_t *l) {return 0;};
 #endif
 
+extern int cmor_set_cur_dataset_attribute_internal(char *name, char *value, int optional);
+extern int cmor_set_variable_attribute_internal(int id, char *attribute_name, char type, void *value);
+extern int cmor_history_contains(int var_id,char *add);
+extern void cdCompAdd(cdCompTime comptime, double value, cdCalenType calendar, cdCompTime *result);
+extern void cdCompAddMixed(cdCompTime ct, double value, cdCompTime *result);
 
 int USE_NETCDF_4;
 int cleanup_varid=-1;
@@ -65,7 +70,7 @@ int cmor_stringinstring (char* dest, char* src) {
      internal to a word.
  */
   char* pstr=dest;
-  while (pstr=strstr(pstr, src)) {
+  while ((pstr=strstr(pstr, src))) {
     /* if this word is at the beginning of msg or preceeded by a space */
     if (pstr==dest || pstr[-1]==' ') {
       /* if it isn't a substring match */
@@ -89,7 +94,7 @@ void cmor_cat_unique_string (char* dest, char* src) {
   if (cmor_stringinstring(dest, src)) {
     /* do nothing */
   } else {
-    if (offset=strlen(dest)) {
+    if ((offset=strlen(dest))) {
       strcat(dest+offset, " ");
       offset++;
       spare_space=CMOR_MAX_STRING-offset-1;
