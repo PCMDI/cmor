@@ -6,6 +6,7 @@
 
 /* functions prototyping */
 extern int CMOR_TABLE;
+extern int cmor_set_variable_attribute_internal(int id, char *attribute_name, char type, void *value);
 
 void cmor_init_grid_mapping(cmor_mappings_t *mapping,char *id)
 {
