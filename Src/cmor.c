@@ -765,6 +765,7 @@ int cmor_setup(char *path,int *netcdf, int *verbosity, int *mode, char *logfile,
     cmor_axes[i].hybrid_in=0;
     cmor_axes[i].hybrid_out=0;
     cmor_axes[i].store_in_netcdf = 1;
+    cmor_axes[i].wrapping = NULL;
     ierr = cmor_set_axis_attribute(i,"units",'c',"");
     ierr = cmor_set_axis_attribute(i,"interval",'c',"");
   }

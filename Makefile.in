@@ -177,6 +177,7 @@ test_python: python
 	@env TEST_NAME=Test/test_python_jamie_11.py make test_a_python
 	@env TEST_NAME=Test/test_python_joerg_tim2_clim_02.py make test_a_python
 	@env TEST_NAME=Test/test_site_ts.py make test_a_python
+	@env TEST_NAME=Test/test_python_free_wrapping_issue.py make test_a_python
 
 test_case:
 	@echo "${OK_COLOR}Testing: "${TEST_NAME}" with input file: ${INPUT_FILE}${NO_COLOR}"
