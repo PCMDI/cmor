@@ -37,15 +37,19 @@ axes=[itim,ilev,ilat,ilon]
 
 var = cmor.variable(table_entry='ta',units='K',axis_ids=axes)
 
+print "allocating mem for data"
 data = numpy.random.random((nlev,nlat,nlon))*30+273.15
+print "moving on to writing"
 
 for i in range(ntimes):
-    if i%10==0 : print 'Writing time:',i
+    print 'Writing time:',i
     cmor.write(var,data,time_vals=numpy.array([float(i),]),time_bnds=numpy.array([i,i+1.]))
 
+print "closing var"
 print cmor.close(var_id=var,file_name=True)
+print "closing cmor"
 cmor.close()
-
+print "done"
 
 
 print 'hello'
