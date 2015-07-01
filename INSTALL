@@ -32,7 +32,8 @@ FIRST:
                 DOT NOT FORGET to build with --enable-netcdf-4 option
   Always:
      - udunits2: (not 1) http://www.unidata.ucar.edu/software/udunits/udunits-2/udunits2.html
-     - libuuid: I used the version at http://www.ossp.org/pkg/lib/uuid
+     - libuuid: I used the version at http://www.ossp.org/pkg/lib/uuid,
+                and you need one with a calling convention compatible with it
 
  NOTES: it strongly recommend to use the --disable-shared argument to the 
         ./configure when building udunits2, hdf5 and netcdf4. Otherwise make 
@@ -42,15 +43,25 @@ FIRST:
         counter-intuitive) to add the --enable-netcdf-4 argument, otherwise 
         support for netcdf4 will not be enabled...
 
- NOTES2: You only need to install the C libraries for these. Usually you can turn off
-	 the fortran using --disable-fortran
+ NOTES2: You only need to install the C libraries for these. Usually
+	 you can turn off the fortran using --disable-fortran
  
- NOTES3: on 64bit systems make SURE both C and FORTRAN compiler are running in same 32/64 bit mode. This is especially true for users migrating their Mac OS 10.5 machines to 10.6 since gfortran does not come standard the old 32bit is usually transfered.
+ NOTES3: on 64bit systems make SURE both C and FORTRAN compiler are
+         running in same 32/64 bit mode. This is especially true for
+         users migrating their Mac OS 10.5 machines to 10.6 since
+         gfortran does not come standard the old 32bit is usually
+         transfered.
+
+ NOTES4: CMOR uses the NetCDF 'nc-config' command to guess some
+         options for compilation.  Once you have installed NetCDF
+         check that 'nc-config --libs' and 'nc-config --cflags' give
+         reasonable answers.
+
 
 SECOND: Install CMOR (version 2) library
         run the configuration script, build and install
 
-        ./configure --prefix=/path/to/where/you/want/cmor --with-netcdf=/path/to/NetCDF4 --with-hdf5=/path/to/HDF5 --with-udunits2=/path/to/udunits2
+        ./configure --prefix=/path/to/where/you/want/cmor --with-netcdf=/path/to/NetCDF4 --with-udunits2=/path/to/udunits2
         make
         make install
 
