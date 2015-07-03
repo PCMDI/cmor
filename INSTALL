@@ -5,8 +5,10 @@ Climate Model Output Rewriter (CMOR) version 2.0 installation instructions.
  
 DOWNLOAD 
 --------
-You can get the latest version of the software from the CMOR homepage
-http://www2-pcmdi.llnl.gov/cmor/
+You can get the latest version of the software from the CMOR homepage on
+github.
+git clone http://github.com/PCMDI/CMOR
+cd CMOR
 
 
 INSTALLATION
