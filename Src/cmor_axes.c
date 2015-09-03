@@ -324,7 +324,11 @@ int cmor_check_monotonic(double *values,int length, char *name,int isbounds, int
 	}
 	else {
 	  snprintf(msg,CMOR_MAX_STRING,"axis %s (table: %s) has non monotonic bounds values : %lf, %lf, %lf",name,cmor_tables[cmor_axes[axis_id].ref_table_id].table_id,values[2*i],values[2*i+2],values[2*i+4]);
-	cmor_handle_error(msg,CMOR_CRITICAL);
+      if (refaxis->climatology==0) {
+        cmor_handle_error(msg,CMOR_CRITICAL);
+      } else {
+        cmor_handle_error(msg,CMOR_WARNING);
+      }
 	}
       }
     }
