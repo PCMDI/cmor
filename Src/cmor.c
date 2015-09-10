@@ -2484,7 +2484,14 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
     myuuid_str = NULL;
     fmt = UUID_FMT_STR;
     uuid_export(myuuid,fmt,&myuuid_str,&uuidlen);
-    strncpy(cmor_current_dataset.tracking_id,(char *)myuuid_str,CMOR_MAX_STRING);
+    if (cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix != '\0') {
+      strncpy(cmor_current_dataset.tracking_id, cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix, CMOR_MAX_STRING);
+      strcat(cmor_current_dataset.tracking_id, "/");
+      strcat(cmor_current_dataset.tracking_id, (char *) myuuid_str);
+    }
+    else {
+      strncpy(cmor_current_dataset.tracking_id,(char *)myuuid_str,CMOR_MAX_STRING);
+    }
     cmor_set_cur_dataset_attribute_internal("tracking_id",cmor_current_dataset.tracking_id,0);
     free(myuuid_str);
     uuid_destroy(myuuid);
@@ -3347,7 +3354,14 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
     myuuid_str = NULL;
     fmt = UUID_FMT_STR;
     uuid_export(myuuid,fmt,&myuuid_str,&uuidlen);
-    strncpy(cmor_current_dataset.tracking_id,(char *)myuuid_str,CMOR_MAX_STRING);
+    if (cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix != '\0') {
+      strncpy(cmor_current_dataset.tracking_id, cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix, CMOR_MAX_STRING);
+      strcat(cmor_current_dataset.tracking_id, "/");
+      strcat(cmor_current_dataset.tracking_id, (char *) myuuid_str);
+    }
+    else {
+      strncpy(cmor_current_dataset.tracking_id,(char *)myuuid_str,CMOR_MAX_STRING);
+    }
     cmor_set_cur_dataset_attribute_internal("tracking_id",cmor_current_dataset.tracking_id,0);
 
     ierr = nc_put_att_text(ncid, NC_GLOBAL, "tracking_id",(int)uuidlen,myuuid_str);

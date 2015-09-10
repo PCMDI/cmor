@@ -37,6 +37,7 @@ void cmor_init_table(cmor_table_t *table, int id)
   table->interval_warning=.1;
   table->interval_error=.2;
   table->URL[0]='\0';
+  table->tracking_prefix[0]='\0';
   strcpy(table->product,"output");
   table->path[0]='\0';
   table->required_gbl_att[0]='\0';
@@ -111,6 +112,9 @@ int cmor_set_dataset_att(cmor_table_t *table, char att[CMOR_MAX_STRING],char val
   }
   else if (strcmp(att,"baseURL")==0) {
     strncpy(table->URL,value,CMOR_MAX_STRING);
+  }
+  else if (strcmp(att,"tracking_prefix")==0) {
+    strncpy(table->tracking_prefix,value,CMOR_MAX_STRING);
   }
   else if (strcmp(att,"forcings")==0) {
     cmor_convert_string_to_list(value,'c',(void **)&table->forcings,&table->nforcings);
