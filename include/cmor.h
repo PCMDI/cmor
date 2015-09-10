@@ -261,6 +261,7 @@ typedef struct cmor_table_ {
   float interval_warning;
   float interval_error;
   char URL[CMOR_MAX_STRING];
+  char tracking_prefix[CMOR_MAX_STRING];
   char product[CMOR_MAX_STRING];
   char realm[CMOR_MAX_STRING];
   char path[CMOR_MAX_STRING];
