@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/stat.h>
-#include "uuid.h"
-#include <unistd.h>
+#include<sys/stat.h>
+#include "uuid/uuid.h"
+#include<unistd.h>
 #include <string.h>
 #include "json.h"
 #include "json_tokener.h"
@@ -20,6 +20,10 @@
 #include <unistd.h>
 #include <signal.h>
 
+/* UUID length: this had better be < CMOR_MAX_STRING */
+#define UUID_LENGTH 36
+
+/* this is defining NETCDF4 variable if we are using NETCDF3 not used anywhere else*/
 
 /* ==================================================================== */
 /*      this is defining NETCDF4 variable if we are                     */
@@ -694,7 +698,6 @@ void cmor_reset_variable( int var_id ) {
     cmor_vars[var_id].suffix_has_date                  = 0;
 }
 
-
 /************************************************************************/
 /*                             cmor_setup()                             */
 /************************************************************************/
@@ -798,7 +801,6 @@ int cmor_setup( char *path,
             cmor_handle_error(msg2, CMOR_WARNING);
         } else {
             output_logfile = fopen(tmplogfile, "w");
-
             if (output_logfile == NULL) {
                 snprintf(msg2, CMOR_MAX_STRING,
                         "Could not open logfile %s for writing", tmplogfile);
@@ -2831,43 +2833,41 @@ int cmor_attNameCmp(const void *v1, const void *v2)
 /*                     cmor_generate_uuid()                             */
 /************************************************************************/
 void cmor_generate_uuid(){
-    uuid_t *myuuid;
-    uuid_fmt_t fmt;
-    void *myuuid_str = NULL;
+    uuid_t myuuid;
+    char myuuid_str[UUID_LENGTH +1 ];
     size_t uuidlen;
     char value[CMOR_MAX_STRING];
 
     cmor_add_traceback("cmor_generate_uuid");
+    myuuid_str[0] = '\0';
 
 /* -------------------------------------------------------------------- */
 /*      generates a new unique id                                       */
 /* -------------------------------------------------------------------- */
-    uuid_create(&myuuid);
-    uuid_make(myuuid, 4);
+    uuid_generate(myuuid);
+/* -------------------------------------------------------------------- */
+/*      and copy it out                                                 */
+/* -------------------------------------------------------------------- */
+    uuid_unparse(myuuid, myuuid_str);
 
-    myuuid_str = NULL;
-    fmt = UUID_FMT_STR;
+    //fmt = UUID_FMT_STR;
 
 /* -------------------------------------------------------------------- */
 /*      Write tracking_id and tracking_prefix                           */
 /* -------------------------------------------------------------------- */
-    uuid_export(myuuid, fmt, &myuuid_str, &uuidlen);
-
     if( cmor_has_cur_dataset_attribute( GLOBAL_ATT_TRACKING_PREFIX ) == 0 ) {
         cmor_get_cur_dataset_attribute( GLOBAL_ATT_TRACKING_PREFIX, value );
 
         strncpy(cmor_current_dataset.tracking_id,
                 value, CMOR_MAX_STRING);
         strcat(cmor_current_dataset.tracking_id, "/");
-        strcat(cmor_current_dataset.tracking_id, (char *) myuuid_str);
+        strcat(cmor_current_dataset.tracking_id, myuuid_str);
     } else {
-        strncpy(cmor_current_dataset.tracking_id, (char *) myuuid_str,
+        strncpy(cmor_current_dataset.tracking_id,  myuuid_str,
                 CMOR_MAX_STRING);
     }
     cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_TRACKING_ID,
             cmor_current_dataset.tracking_id, 0);
-    free(myuuid_str);
-    uuid_destroy(myuuid);
     cmor_pop_traceback();
 
 }
@@ -5670,7 +5670,6 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
 	    strncat( outname, "_", CMOR_MAX_STRING - strlen( outname ) );
 	    strncat( outname, msg, CMOR_MAX_STRING - strlen( outname ) );
 	}
-
 	strncat( outname, ".nc", CMOR_MAX_STRING - strlen( outname ) );
 
 
