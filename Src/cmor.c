@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include<sys/stat.h>
-#include "uuid.h"
+#include "uuid/uuid.h"
 #include<unistd.h>
 #include <string.h>
 #include "cmor.h"
@@ -14,6 +14,9 @@
 #include <sys/types.h>
 #define _POSIX_SOURCE
 #include <unistd.h>
+
+/* UUID length: this had better be < CMOR_MAX_STRING */
+#define UUID_LENGTH 36
 
 /* this is defining NETCDF4 variable if we are using NETCDF3 not used anywhere else*/
 
@@ -599,10 +602,8 @@ int cmor_setup(char *path,int *netcdf, int *verbosity, int *mode, char *logfile,
   char msg[CMOR_MAX_STRING];
   char msg2[CMOR_MAX_STRING];
   char tmplogfile[CMOR_MAX_STRING];
-  uuid_t *myuuid;
-  uuid_fmt_t fmt;
-  void *myuuid_str=NULL;
-  size_t uuidlen;
+  uuid_t myuuid;
+  char myuuid_str[UUID_LENGTH + 1];
   struct stat buf;
   time_t lt;
   struct tm *ptr;
@@ -836,14 +837,10 @@ int cmor_setup(char *path,int *netcdf, int *verbosity, int *mode, char *logfile,
   cmor_current_dataset.associate_file=0;
   cmor_current_dataset.associated_file=-1;
   /* generates a unique id */
-  uuid_create(&myuuid);
-  uuid_make(myuuid,4);
-  myuuid_str = NULL;
-  fmt = UUID_FMT_STR;
-  uuid_export(myuuid,fmt,&myuuid_str,&uuidlen);
-  strncpy(cmor_current_dataset.tracking_id,(char *)myuuid_str,CMOR_MAX_STRING);
-  free(myuuid_str);
-  uuid_destroy(myuuid);
+  uuid_generate(myuuid);
+  uuid_unparse(myuuid, myuuid_str);
+  /* and copy out */
+  strncpy(cmor_current_dataset.tracking_id,myuuid_str,CMOR_MAX_STRING);
   strncpy(cmor_current_dataset.associated_file_name,"",CMOR_MAX_STRING);
   for (i=0;i<12;i++) cmor_current_dataset.month_lengths[i]=0;
   cmor_current_dataset.initiated=0;
@@ -1811,10 +1808,8 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
   int ics,icd,icdl,itmpmsg,itmp2,itmp3, *int_list=NULL,nelts;
   int isfixed=0;
   int origRealization=0;
-  uuid_t *myuuid;
-  uuid_fmt_t fmt;
-  void *myuuid_str=NULL;
-  size_t uuidlen;
+  uuid_t myuuid;
+  char myuuid_str[UUID_LENGTH + 1];
 
   extern int cmor_convert_char_to_hyphen(char c);
 
@@ -2478,24 +2473,23 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
     }
     
 
-    /* generates a new unique id */
-    uuid_create(&myuuid);
-    uuid_make(myuuid,4);
-    myuuid_str = NULL;
-    fmt = UUID_FMT_STR;
-    uuid_export(myuuid,fmt,&myuuid_str,&uuidlen);
+    /* generates a unique id */
+    uuid_generate(myuuid);
+    uuid_unparse(myuuid, myuuid_str);
+    /* and copy out */
+
     if (cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix != '\0') {
+      /* try to be a bit careful about buffer overflows */
+      size_t tpl = strlen(cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix);
       strncpy(cmor_current_dataset.tracking_id, cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix, CMOR_MAX_STRING);
-      strcat(cmor_current_dataset.tracking_id, "/");
-      strcat(cmor_current_dataset.tracking_id, (char *) myuuid_str);
+      strncat(cmor_current_dataset.tracking_id, "/", CMOR_MAX_STRING - tpl);
+      strncat(cmor_current_dataset.tracking_id, myuuid_str,
+              CMOR_MAX_STRING - tpl - 1);
     }
     else {
-      strncpy(cmor_current_dataset.tracking_id,(char *)myuuid_str,CMOR_MAX_STRING);
+      strncpy(cmor_current_dataset.tracking_id,myuuid_str,CMOR_MAX_STRING);
     }
     cmor_set_cur_dataset_attribute_internal("tracking_id",cmor_current_dataset.tracking_id,0);
-    free(myuuid_str);
-    uuid_destroy(myuuid);
-
 
     for (i=0;i<cmor_current_dataset.nattributes;i++) {
       if (strcmp(cmor_current_dataset.attributes_names[i],"calendar")!=0) {
@@ -3349,24 +3343,22 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
     ncid=cmor_vars[varid].initialized;
 
   /* generates a new unique id */
-    uuid_create(&myuuid);
-    uuid_make(myuuid,4);
-    myuuid_str = NULL;
-    fmt = UUID_FMT_STR;
-    uuid_export(myuuid,fmt,&myuuid_str,&uuidlen);
+    uuid_generate(myuuid);
+    uuid_unparse(myuuid, myuuid_str);
     if (cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix != '\0') {
+      /* try to be a bit careful about buffer overflows */
+      size_t tpl = strlen(cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix);
       strncpy(cmor_current_dataset.tracking_id, cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix, CMOR_MAX_STRING);
-      strcat(cmor_current_dataset.tracking_id, "/");
-      strcat(cmor_current_dataset.tracking_id, (char *) myuuid_str);
+      strncat(cmor_current_dataset.tracking_id, "/", CMOR_MAX_STRING - tpl);
+      strncat(cmor_current_dataset.tracking_id, myuuid_str,
+              CMOR_MAX_STRING - tpl - 1);
     }
     else {
-      strncpy(cmor_current_dataset.tracking_id,(char *)myuuid_str,CMOR_MAX_STRING);
+      strncpy(cmor_current_dataset.tracking_id,myuuid_str,CMOR_MAX_STRING);
     }
     cmor_set_cur_dataset_attribute_internal("tracking_id",cmor_current_dataset.tracking_id,0);
 
-    ierr = nc_put_att_text(ncid, NC_GLOBAL, "tracking_id",(int)uuidlen,myuuid_str);
-    free(myuuid_str);
-    uuid_destroy(myuuid);
+    ierr = nc_put_att_text(ncid, NC_GLOBAL, "tracking_id",UUID_LENGTH,myuuid_str);
 
     if (ierr != NC_NOERR) {snprintf(msg,CMOR_MAX_STRING,"NetCDF error (%i: %s) for variable %s (table: %s) writing global att: %s (%s)",ierr,nc_strerror(ierr),cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id,cmor_current_dataset.attributes_names[i],cmor_current_dataset.attributes_values[i]); cmor_handle_error(msg,CMOR_CRITICAL);}
     cmor_vars[var_id].time_nc_id=cmor_vars[varid].time_nc_id; /* in case we are doing a zfactor var */
