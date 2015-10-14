@@ -34,8 +34,12 @@ FIRST:
                 DOT NOT FORGET to build with --enable-netcdf-4 option
   Always:
      - udunits2: (not 1) http://www.unidata.ucar.edu/software/udunits/udunits-2/udunits2.html
-     - libuuid: I used the version at http://www.ossp.org/pkg/lib/uuid,
-                and you need one with a calling convention compatible with it
+
+     - a UUID library: the standard Linux UUID library from util-linux
+       is fine and you should not need any special options for this on
+       Linux.  This library is available from kernel.org, but any
+       library compatible with it will work: both OSX and Solaris
+       have compatible libraries (or the same library).
 
  NOTES: it strongly recommend to use the --disable-shared argument to the 
         ./configure when building udunits2, hdf5 and netcdf4. Otherwise make 
