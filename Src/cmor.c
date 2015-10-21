@@ -1815,6 +1815,7 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
   uuid_fmt_t fmt;
   void *myuuid_str=NULL;
   size_t uuidlen;
+  int tracking_id_set;
 
   extern int cmor_convert_char_to_hyphen(char c);
 
@@ -2484,12 +2485,20 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
     myuuid_str = NULL;
     fmt = UUID_FMT_STR;
     uuid_export(myuuid,fmt,&myuuid_str,&uuidlen);
-    if (cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix != '\0') {
-      strncpy(cmor_current_dataset.tracking_id, cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix, CMOR_MAX_STRING);
-      strcat(cmor_current_dataset.tracking_id, "/");
-      strcat(cmor_current_dataset.tracking_id, (char *) myuuid_str);
+    tracking_id_set = 0;
+    if (strcmp(cmor_tables[cmor_vars[var_id].ref_table_id].project_id,"CMIP6") == 0) {
+      if (cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix != '\0') {
+        strncpy(cmor_current_dataset.tracking_id, cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix, CMOR_MAX_STRING);
+        strcat(cmor_current_dataset.tracking_id, "/");
+        strcat(cmor_current_dataset.tracking_id, (char *) myuuid_str);
+        tracking_id_set = 1;
+      }
+      else {
+          sprintf(msg,"Project is set to CMIP6, but no tracking_prefix was specified for variable %s (table: %s)",tmps[0],cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
+          cmor_handle_error(msg,CMOR_WARNING);
+      }
     }
-    else {
+    if (!tracking_id_set) {
       strncpy(cmor_current_dataset.tracking_id,(char *)myuuid_str,CMOR_MAX_STRING);
     }
     cmor_set_cur_dataset_attribute_internal("tracking_id",cmor_current_dataset.tracking_id,0);
@@ -3354,12 +3363,20 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
     myuuid_str = NULL;
     fmt = UUID_FMT_STR;
     uuid_export(myuuid,fmt,&myuuid_str,&uuidlen);
-    if (cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix != '\0') {
-      strncpy(cmor_current_dataset.tracking_id, cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix, CMOR_MAX_STRING);
-      strcat(cmor_current_dataset.tracking_id, "/");
-      strcat(cmor_current_dataset.tracking_id, (char *) myuuid_str);
+    tracking_id_set = 0;
+    if (strcmp(cmor_tables[cmor_vars[var_id].ref_table_id].project_id,"CMIP6") == 0) {
+      if (cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix != '\0') {
+        strncpy(cmor_current_dataset.tracking_id, cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix, CMOR_MAX_STRING);
+        strcat(cmor_current_dataset.tracking_id, "/");
+        strcat(cmor_current_dataset.tracking_id, (char *) myuuid_str);
+        tracking_id_set = 1;
+      }
+      else {
+        sprintf(msg,"Project is set to CMIP6, but no tracking_prefix was specified for variable %s (table: %s)",tmps[0],cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
+        cmor_handle_error(msg,CMOR_WARNING);
+      }
     }
-    else {
+    if (!tracking_id_set) {
       strncpy(cmor_current_dataset.tracking_id,(char *)myuuid_str,CMOR_MAX_STRING);
     }
     cmor_set_cur_dataset_attribute_internal("tracking_id",cmor_current_dataset.tracking_id,0);
