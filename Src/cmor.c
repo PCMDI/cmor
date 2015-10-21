@@ -2486,7 +2486,7 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
     fmt = UUID_FMT_STR;
     uuid_export(myuuid,fmt,&myuuid_str,&uuidlen);
     tracking_id_set = 0;
-    if (strcmp(cmor_tables[cmor_vars[var_id].ref_table_id].project_id,"CMIP6") == 0) {
+    if ((strlen(cmor_tables[cmor_vars[var_id].ref_table_id].project_id) > 4) && (strncmp(cmor_tables[cmor_vars[var_id].ref_table_id].project_id,"CMIP6",5) == 0)) {
       if (cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix != '\0') {
         strncpy(cmor_current_dataset.tracking_id, cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix, CMOR_MAX_STRING);
         strcat(cmor_current_dataset.tracking_id, "/");
@@ -3364,7 +3364,7 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
     fmt = UUID_FMT_STR;
     uuid_export(myuuid,fmt,&myuuid_str,&uuidlen);
     tracking_id_set = 0;
-    if (strcmp(cmor_tables[cmor_vars[var_id].ref_table_id].project_id,"CMIP6") == 0) {
+    if ((strlen(cmor_tables[cmor_vars[var_id].ref_table_id].project_id) > 4) && (strncmp(cmor_tables[cmor_vars[var_id].ref_table_id].project_id,"CMIP6",5) == 0)) {
       if (cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix != '\0') {
         strncpy(cmor_current_dataset.tracking_id, cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix, CMOR_MAX_STRING);
         strcat(cmor_current_dataset.tracking_id, "/");
