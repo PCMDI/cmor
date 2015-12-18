@@ -35,6 +35,8 @@ int cleanup_varid=-1;
 
 const char CMOR_VALID_CALENDARS[CMOR_N_VALID_CALS][CMOR_MAX_STRING] = { "gregorian","standard", "proleptic_gregorian","noleap","365_day","360_day","julian","none"};
 
+const char cmor_tracking_prefix_project_filter[CMOR_MAX_TRACKING_PREFIX_PROJECT_FILTER][CMOR_MAX_STRING] = { "CMIP6" };
+
 cmor_dataset_def cmor_current_dataset;
 cmor_table_t cmor_tables[CMOR_MAX_TABLES];
 cmor_var_t cmor_vars[CMOR_MAX_VARIABLES];
@@ -281,6 +283,17 @@ int strncattrim(char *in, char *add, int max) {
 /*   return strcmp(tmp1,tmp2); */
 /* } */
 
+
+int cmor_filter_tracking_prefix(char *project_id) {
+  // Checks given project_id string against values from constant array
+  // containing allowed projects. Returns 1 if there is an exact match.
+  int i;
+  for (i = 0; i < CMOR_MAX_TRACKING_PREFIX_PROJECT_FILTER; i++) {
+    if ( (strlen(project_id) == strlen(cmor_tracking_prefix_project_filter[i]))
+        && (strcmp(project_id, cmor_tracking_prefix_project_filter[i]) == 0)) return 1;
+  }
+  return 0;
+}
 
 int CMOR_HAS_BEEN_SETUP=0;
 ut_system *ut_read=NULL;
@@ -2486,7 +2499,9 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
     fmt = UUID_FMT_STR;
     uuid_export(myuuid,fmt,&myuuid_str,&uuidlen);
     tracking_id_set = 0;
-    if ((strlen(cmor_tables[cmor_vars[var_id].ref_table_id].project_id) > 4) && (strncmp(cmor_tables[cmor_vars[var_id].ref_table_id].project_id,"CMIP6",5) == 0)) {
+
+    if (cmor_filter_tracking_prefix(cmor_tables[cmor_vars[var_id].ref_table_id].project_id) == 1) {
+      // filter matched, now either include the prefix or complain
       if (cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix != '\0') {
         strncpy(cmor_current_dataset.tracking_id, cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix, CMOR_MAX_STRING);
         strcat(cmor_current_dataset.tracking_id, "/");
@@ -2494,7 +2509,7 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
         tracking_id_set = 1;
       }
       else {
-          sprintf(msg,"Project is set to CMIP6, but no tracking_prefix was specified for variable %s (table: %s)",tmps[0],cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
+          sprintf(msg,"Project requires tracking prefixes, but no tracking_prefix was specified for variable %s (table: %s)",tmps[0],cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
           cmor_handle_error(msg,CMOR_WARNING);
       }
     }
@@ -3364,7 +3379,9 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
     fmt = UUID_FMT_STR;
     uuid_export(myuuid,fmt,&myuuid_str,&uuidlen);
     tracking_id_set = 0;
-    if ((strlen(cmor_tables[cmor_vars[var_id].ref_table_id].project_id) > 4) && (strncmp(cmor_tables[cmor_vars[var_id].ref_table_id].project_id,"CMIP6",5) == 0)) {
+
+    if (cmor_filter_tracking_prefix(cmor_tables[cmor_vars[var_id].ref_table_id].project_id) == 1) {
+      // filter matched, now either include the prefix or complain
       if (cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix != '\0') {
         strncpy(cmor_current_dataset.tracking_id, cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix, CMOR_MAX_STRING);
         strcat(cmor_current_dataset.tracking_id, "/");
@@ -3372,8 +3389,8 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
         tracking_id_set = 1;
       }
       else {
-        sprintf(msg,"Project is set to CMIP6, but no tracking_prefix was specified for variable %s (table: %s)",tmps[0],cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
-        cmor_handle_error(msg,CMOR_WARNING);
+          sprintf(msg,"Project requires tracking prefixes, but no tracking_prefix was specified for variable %s (table: %s)",tmps[0],cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
+          cmor_handle_error(msg,CMOR_WARNING);
       }
     }
     if (!tracking_id_set) {
