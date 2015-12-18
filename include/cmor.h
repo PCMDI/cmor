@@ -42,6 +42,8 @@
 #define CMOR_APPEND CMOR_APPEND_3
 #define CMOR_REPLACE CMOR_REPLACE_3
 
+#define CMOR_MAX_TRACKING_PREFIX_PROJECT_FILTER 1
+
 extern int USE_NETCDF_4;
 extern int CMOR_MODE;
 extern int CMOR_TABLE;
@@ -274,6 +276,8 @@ typedef struct cmor_table_ {
 } cmor_table_t;
 
 extern cmor_table_t cmor_tables[CMOR_MAX_TABLES];
+
+extern const char cmor_tracking_prefix_project_filter[CMOR_MAX_TRACKING_PREFIX_PROJECT_FILTER][CMOR_MAX_STRING];
 
 typedef struct cmor_dataset_def_ {
   char outpath[CMOR_MAX_STRING];
