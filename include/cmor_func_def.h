@@ -8,6 +8,7 @@
 #include <udunits2.h>
 #include "cdmsint.h"
 #include <stdio.h>
+#include "json.h"
 
 extern void cmor_md5( FILE * inputfile, unsigned char checksum[16] );
 
@@ -179,6 +180,16 @@ extern void cmor_init_table( cmor_table_t * table, int id );
 extern int cmor_set_dataset_att( cmor_table_t * table,
 				 char att[CMOR_MAX_STRING],
 				 char val[CMOR_MAX_STRING] );
+extern int cmor_set_experiment( cmor_table_t * table,
+                                char *att,
+                                char *var );
+extern int cmor_set_axis_entry(cmor_table_t* table,
+                               char *axis_entry,
+                               json_object *json);
+extern int cmor_set_variable_entry(cmor_table_t* table,
+                            char *variable_entry,
+                            json_object *json);
+
 extern int cmor_set_table( int table );
 extern int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id );
 extern int cmor_time_varying_grid_coordinate( int *coord_grid_id,

@@ -32,6 +32,7 @@ AC_SUBST(FTAG)
 AC_SUBST(PATH)
 AC_SUBST(NCCFLAGS)
 AC_SUBST(NCLDFLAGS)
+AC_SUBST(JSONCLDFLAGS)
 AC_SUBST(ZFLAGS)
 AC_SUBST(ZLDFLAGS)
 AC_SUBST(UDUNITS2FLAGS)
@@ -240,6 +241,29 @@ else
    NCLDFLAGS=""
   fi
 fi
+LIBS=""
+
+AC_ARG_WITH([json-c],[AS_HELP_STRING([--with-json-c],[enable support for json in none standard location])],[],[with_json_c="no"])
+with_json_cb="-"${with_json_c}
+if [ test ${with_json_cb} != "-yes" ]; then
+  if [ test ${with_json_cb} != "-no" ] ; then
+   JSONCFLAGS=" -I${with_json_c}/include"
+   if [ test ${RTAG} != "none" ] ; then
+     JSONCLDFLAGS=" -L${with_json_c}/lib  ${RTAG}${with_json_c}/lib -ljson-c"
+   else
+     JSONCLDFLAGS=" -L${with_json_c}/lib -ljson-c"
+   fi
+  else
+    JSONCFLAGS=""
+    JSONCLDFLAGS="-ljson-c"
+  fi
+else
+  JSONCFLAGS=""
+  JSONCLDFLAGS="-ljson-c" 
+fi
+AC_CHECK_LIB([json-c],[json_object_new_string],[],[AC_ERROR([Could not get a working json-c])],[ ${JSONCFLAGS} ${JSONCDFLAGS} -ljson-c -lm  ])
+LIBS=""
+
 
 USERCFLAGS=${CFLAGS}
 USERFFLAGS=${FFLAGS}
@@ -248,8 +272,8 @@ USERLDFLAGS=${LDFLAGS}
 SV_LDFLAGS=${LDFLAGS}
 SV_CFLAGS=${CFLAGS}
 
-CFLAGS=${NCCFLAGS}
-LDFLAGS=${NCLDFLAGS}
+CFLAGS=${NCCFLAGS} ${JSONCFLAGS}
+LDFLAGS=${NCLDFLAGS} ${JSONLDFLAGS}
 
 dnl ok that this point we need to see if it is NC3 or NC4
 AC_CHECK_LIB([netcdf],[nc_inq_var_deflate],[HAS_NC4="yes"],[HAS_NC4="no"],[${NCFLAGS} ${NCLDFLAGS} ])
@@ -291,7 +315,7 @@ if [ test ${HAS_NC4} == "no" ] ; then
   fi
 fi
 LIBS=${OLIBS}
-CFLAGS=${CFLAGS}" -Iinclude -Iinclude/cdTime"
+CFLAGS=${CFLAGS}" -I/usr/local/include/json-c -Iinclude -Iinclude/cdTime"
 LDFLAGS=${SV_LDFLAGS}
 MAINDIR=`pwd`
 
@@ -338,6 +362,10 @@ AC_MSG_NOTICE([])
 AC_MSG_NOTICE([UDUNITS2])
 AC_MSG_NOTICE([ CFLAGS  : ${UDUNITS2FLAGS}])
 AC_MSG_NOTICE([ LDFLAGS : ${UDUNITS2LDFLAGS}])
+AC_MSG_NOTICE([])
+AC_MSG_NOTICE([JSONC])
+AC_MSG_NOTICE([ CFLAGS  : ${JSONCFLAGS}])
+AC_MSG_NOTICE([ LDFLAGS : ${JSONCLDFLAGS}])
 AC_MSG_NOTICE([])
 if [test ${BUILD_NC3} == "no" ] ; then 
   if [test ${HAS_NC4} == "yes" ] ; then

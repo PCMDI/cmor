@@ -244,8 +244,8 @@ int main()
        0,"GICC","N/A",&bt,"r1i1p1");
 
   printf("Test code: ok load cmor table(s)\n");
-  ierr = cmor_load_table("Tables/CMIP5_Omon",&tables[0]);
-  ierr = cmor_load_table("Tables/CMIP5_Amon",&tables[1]);
+  ierr = cmor_load_table("Tables/CMIP6_Omon_json",&tables[0]);
+  ierr = cmor_load_table("Tables/CMIP6_Amon_json",&tables[1]);
   strcpy(id,"time");
   strcpy(units,"months since 1980");
   strcpy(interval,"1 month");

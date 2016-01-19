@@ -64,7 +64,7 @@ int cmor_copy_data( double **dest1, void *data, char type, int nelts ) {
     }
     *dest1 = dest;
     cmor_pop_traceback(  );
-    return 0;
+    return(0);
 }
 /************************************************************************/
 /*                      cmor_has_grid_attribute()                       */
@@ -77,9 +77,9 @@ int cmor_has_grid_attribute( int gid, char *name ) {
     grid_id = -gid - CMOR_MAX_GRIDS;
     for( i = 0; i < cmor_grids[grid_id].nattributes; i++ ) {
 	if( strcmp( name, cmor_grids[grid_id].attributes_names[i] ) == 0 )
-	    return 0;
+	    return(0);
     }
-    return 1;
+    return(1);
 }
 /************************************************************************/
 /*                      cmor_get_grid_attribute()                       */
@@ -97,9 +97,9 @@ int cmor_get_grid_attribute( int gid, char *name, double *value ) {
     }
     if( j != -1 ) {
 	*value = cmor_grids[grid_id].attributes_values[j];
-	return 0;
+	return(0);
     }
-    return 1;
+    return(1);
 }
 /************************************************************************/
 /*                         cmor_convert_value()                         */
@@ -198,7 +198,7 @@ int cmor_set_grid_attribute( int gid, char *name, double *value,
 		      "grid mapping attribute: 'false easting' must be set in conjunction with ut_cmor_a 'projection_x_coordinate' axis, I could not find such an axis on your grid, we will not set this attribute" );
 	    cmor_handle_error( ctmp, CMOR_NORMAL );
 	    cmor_pop_traceback(  );
-	    return 1;
+	    return(1);
 	}
 	cmor_get_axis_attribute( cmor_grids[grid_id].axes_ids[j], "units",
 				 'c', &ctmp[0] );
@@ -216,7 +216,7 @@ int cmor_set_grid_attribute( int gid, char *name, double *value,
 		      "grid mapping attribute: 'false easting' must be set in conjunction with a 'projection_x_coordinate' axis, I could not find such an axis on your grid, we will not set this attribute" );
 	    cmor_handle_error( ctmp, CMOR_NORMAL );
 	    cmor_pop_traceback(  );
-	    return 1;
+	    return(1);
 	}
 	cmor_get_axis_attribute( cmor_grids[grid_id].axes_ids[j], "units",
 				 'c', &ctmp[0] );
@@ -234,7 +234,7 @@ int cmor_set_grid_attribute( int gid, char *name, double *value,
 		      name, ctmp );
 	    cmor_handle_error( msg, CMOR_NORMAL );
 	    cmor_pop_traceback(  );
-	    return 1;
+	    return(1);
 	}
     } else if( strcmp( name, "grid_north_pole_longitude" ) == 0
 	       || strcmp( name, "longitude_of_prime_meridian" ) == 0
@@ -252,7 +252,7 @@ int cmor_set_grid_attribute( int gid, char *name, double *value,
 		      name, ctmp );
 	    cmor_handle_error( msg, CMOR_NORMAL );
 	    cmor_pop_traceback(  );
-	    return 1;
+	    return(1);
 	}
     } else if( strcmp( name, "perspective_point_height" ) == 0
 	       || strcmp( name, "semi_major_axis" ) == 0
@@ -270,7 +270,7 @@ int cmor_set_grid_attribute( int gid, char *name, double *value,
 		      name );
 	    cmor_handle_error( msg, CMOR_NORMAL );
 	    cmor_pop_traceback(  );
-	    return 1;
+	    return(1);
 	}
     }
     /*printf("setting: %s to %lf (orig: %lf)\n",name,tmp,value); */
@@ -278,7 +278,7 @@ int cmor_set_grid_attribute( int gid, char *name, double *value,
 	     CMOR_MAX_STRING );
     cmor_grids[grid_id].attributes_values[iatt] = tmp;
     cmor_pop_traceback(  );
-    return 0;
+    return(0);
 }
 
 /************************************************************************/
@@ -293,7 +293,7 @@ int cmor_attribute_in_list( char *name, int n,
 	if( strcmp( name, atts[i] ) == 0 )
 	    found = 0;
     }
-    return found;
+    return(found);
 }
 /************************************************************************/
 /*              cmor_grid_valid_mapping_attribute_names()               */
@@ -454,7 +454,7 @@ int cmor_grid_valid_mapping_attribute_names( char *name, int *natt,
 	strcpy( att[*natt + 5], "semi_minor_axis" );
 	*natt = *natt + 6;
     }
-    return 0;
+    return(0);
 }
 
 void cmor_set_mapping_attribute( cmor_mappings_t * mapping,
@@ -630,7 +630,7 @@ int cmor_set_grid_mapping( int gid, char *name, int nparam,
 
     strncpy( cmor_grids[grid_id].mapping, name, CMOR_MAX_STRING );
     cmor_pop_traceback(  );
-    return 0;
+    return(0);
 }
 
 /************************************************************************/
@@ -801,7 +801,7 @@ int cmor_time_varying_grid_coordinate( int *coord_grid_id, int grid_id,
     cmor_vars[*coord_grid_id].needsinit = 0;
 
     cmor_pop_traceback(  );
-    return ierr;
+    return(ierr);
 }
 /************************************************************************/
 /*                             cmor_grid()                              */
@@ -968,5 +968,5 @@ int cmor_grid( int *grid_id, int ndims, int *axes_ids, char type,
     }
     *grid_id = -cmor_ngrids - CMOR_MAX_GRIDS;
     cmor_pop_traceback(  );
-    return 0;
+    return(0);
 }

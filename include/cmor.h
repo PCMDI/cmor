@@ -42,6 +42,40 @@
 #define CMOR_APPEND CMOR_APPEND_3
 #define CMOR_REPLACE CMOR_REPLACE_3
 
+/* -------------------------------------------------------------------- */
+/*      Define AXIS attribue strings                                    */
+/* -------------------------------------------------------------------- */
+
+#define AXIS_ATT_REQUIRED        "required"
+#define AXIS_ATT_ID              "id"
+#define AXIS_ATT_CLIMATOLOGY     "climatology"
+#define AXIS_ATT_OUTNAME         "out_name"
+#define AXIS_ATT_STANDARDNAME    "standard_name"
+#define AXIS_ATT_LONGNAME        "long_name"
+#define AXIS_ATT_CONVERTTO       "convert_to"
+#define AXIS_ATT_FORMULA         "formula"
+#define AXIS_ATT_ZFACTORS        "z_factors"
+#define AXIS_ATT_ZBOUNDSFACTORS  "z_bounds_factor"
+#define AXIS_ATT_UNITS           "units"
+#define AXIS_ATT_STOREDDIRECTION "stored_direction"
+#define AXIS_ATT_POSITIVE        "positive"
+#define AXIS_ATT_AXIS            "axis"
+#define AXIS_ATT_INDEXONLY       "index_only"
+#define AXIS_ATT_MUSTBOUNDS      "must_have_bounds"
+#define AXIS_ATT_MUSTCALLGRID    "must_call_cmmore_grid"
+#define AXIS_ATT_TYPE            "type"
+#define AXIS_ATT_VALIDMIN        "valid_min"
+#define AXIS_ATT_VALIDMAX        "valid_max"
+#define AXIS_ATT_TOLERANCE       "tolerance"
+#define AXIS_ATT_TOLONREQUESTS   "tol_on_requests"
+#define AXIS_ATT_VALUE           "value"
+#define AXIS_ATT_BOUNDVALUES     "bounds_values"
+#define AXIS_ATT_COORDSATTRIB    "coords_attrib"
+#define AXIS_ATT_BOUNDSREQUESTED "bounds_requested"
+#define AXIS_ATT_REQUESTEDBOUNDS "requested_bounds"
+#define AXIS_ATT_REQUESTED       "requested"
+
+
 extern int USE_NETCDF_4;
 extern int CMOR_MODE;
 extern int CMOR_TABLE;

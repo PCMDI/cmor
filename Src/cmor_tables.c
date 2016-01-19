@@ -6,6 +6,9 @@
 #include <udunits2.h>
 #include <stdlib.h>
 #include "cmor_locale.h"
+#include "json.h"
+#include "json_tokener.h"
+
 /************************************************************************/
 /*                               wfgetc()                               */
 /************************************************************************/
@@ -16,7 +19,7 @@ int wfgetc( FILE * afile ) {
     while( i == '\r' ) {
 	i = fgetc( afile );
     }
-    return i;
+    return(i);
 }
 
 /************************************************************************/
@@ -58,6 +61,149 @@ void cmor_init_table( cmor_table_t * table, int id ) {
     }
 
     cmor_pop_traceback(  );
+
+
+
+}
+
+/************************************************************************/
+/*                    cmor_set_variable_entry()                         */
+/************************************************************************/
+int cmor_set_variable_entry(cmor_table_t* table,
+                            char *variable_entry,
+                            json_object *json) {
+    extern int cmor_ntables;
+    char szValue[CMOR_MAX_STRING];
+    char msg[CMOR_MAX_STRING];
+    int nVarId;
+    int nTableId;
+    cmor_var_def_t *variable;
+    cmor_table_t *cmor_table;
+    cmor_table = &cmor_tables[cmor_ntables];
+
+    nTableId = cmor_table->table_id;
+
+    cmor_add_traceback("cmor_set_variable_entry");
+    cmor_is_setup();
+
+    /* -------------------------------------------------------------------- */
+    /*      Check number of variables                                       */
+    /* -------------------------------------------------------------------- */
+    cmor_table->nvars++;
+    nVarId = cmor_table->nvars;
+    variable = &cmor_table->vars[nVarId];
+
+    if (nVarId >= CMOR_MAX_ELEMENTS) {
+        snprintf(msg, CMOR_MAX_STRING,
+                "Too many variables defined for table: %s", nTableId);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+        cmor_ntables--;
+        cmor_pop_traceback();
+        return (1);
+    }
+
+    cmor_init_var_def(variable, cmor_ntables);
+    cmor_set_var_def_att(variable, "id", variable_entry);
+
+    json_object_object_foreach(json, attr, value) {
+        strcpy(szValue, json_object_to_json_string(value));
+        strncpy(szValue, szValue + 1, strlen(szValue));
+        szValue[strlen(szValue) - 1] = '\0';
+        cmor_set_var_def_att(variable, attr, szValue);
+    }
+    return (0);
+}
+
+/************************************************************************/
+/*                        cmor_set_axis_entry()                         */
+/************************************************************************/
+int cmor_set_axis_entry( cmor_table_t* table,
+                         char *axis_entry,
+                         json_object *json ){
+    extern int cmor_ntables;
+    char szValue[CMOR_MAX_STRING*4];
+    char msg[CMOR_MAX_STRING];
+    int nAxisId;
+    int nTableId;
+    cmor_axis_def_t *axis;
+    cmor_table_t *cmor_table;
+    cmor_table = &cmor_tables[cmor_ntables];
+
+    nTableId = cmor_table->table_id;
+
+    cmor_add_traceback("cmor_set_axis_entry");
+    cmor_is_setup();
+
+    /* -------------------------------------------------------------------- */
+    /*      Check number of axes                                            */
+    /* -------------------------------------------------------------------- */
+    cmor_table->naxes++;
+    nAxisId = cmor_table->naxes;
+    axis = &cmor_table->axes[nAxisId];
+
+
+    if (nAxisId >= CMOR_MAX_ELEMENTS) {
+      snprintf(msg, CMOR_MAX_STRING, "Too many axes defined for table: %s",
+              nTableId);
+      cmor_handle_error(msg,CMOR_CRITICAL);
+      cmor_ntables--;
+      cmor_pop_traceback();
+      return(1);
+    }
+    axis = &cmor_table->axes[nAxisId];
+
+    /* -------------------------------------------------------------------- */
+    /*      Define Axis                                                     */
+    /* -------------------------------------------------------------------- */
+    cmor_init_axis_def(axis, cmor_ntables);
+    cmor_set_axis_def_att(axis, "id", axis_entry);
+
+    /* -------------------------------------------------------------------- */
+    /*      Add axis value                                                  */
+    /* -------------------------------------------------------------------- */
+    json_object_object_foreach(json, attr, value) {
+        strcpy(szValue, json_object_to_json_string(value));
+        strncpy(szValue,szValue+1,strlen(szValue));
+        szValue[strlen(szValue)-1]='\0';
+        cmor_set_axis_def_att(axis, attr, szValue);
+    }
+    return (0);
+}
+/************************************************************************/
+/*                        cmor_set_experiments()                        */
+/************************************************************************/
+int cmor_set_experiments(cmor_table_t * table, char att[CMOR_MAX_STRING],
+                char val[CMOR_MAX_STRING]) {
+    extern int cmor_ntables;
+    char szError[CMOR_MAX_STRING];
+
+    cmor_add_traceback("cmor_set_experiments");
+    cmor_is_setup();
+    table->nexps++;
+    /* -------------------------------------------------------------------- */
+    /*      Check number of experiments                                     */
+    /* -------------------------------------------------------------------- */
+    if( table->nexps > CMOR_MAX_ELEMENTS ) {
+        snprintf( szError, CMOR_MAX_STRING,
+                  "Table %s: Too many experiments defined",
+                  table->table_id );
+        cmor_handle_error( szError, CMOR_CRITICAL );
+        cmor_ntables--;
+        cmor_pop_traceback(  );
+        return(1);
+    }
+
+    /* -------------------------------------------------------------------- */
+    /*      Insert experiment to table                                      */
+    /* -------------------------------------------------------------------- */
+
+    strncpy( table->sht_expt_ids[table->nexps], att,
+            CMOR_MAX_STRING );
+    strncpy( table->expt_ids[table->nexps], val,
+            CMOR_MAX_STRING );
+
+    cmor_pop_traceback();
+    return(0);
 }
 
 /************************************************************************/
@@ -95,7 +241,7 @@ int cmor_set_dataset_att(cmor_table_t * table, char att[CMOR_MAX_STRING],
 			cmor_handle_error(value2, CMOR_CRITICAL);
 			cmor_ntables--;
 			cmor_pop_traceback();
-			return 1;
+			return(1);
 		}
 		table->cmor_version = d;
 
@@ -145,7 +291,7 @@ int cmor_set_dataset_att(cmor_table_t * table, char att[CMOR_MAX_STRING],
 				cmor_handle_error(value2, CMOR_CRITICAL);
 				cmor_ntables--;
 				cmor_pop_traceback();
-				return 1;
+				return(1);
 			}
 		}
 	n = strlen( value );
@@ -173,12 +319,14 @@ int cmor_set_dataset_att(cmor_table_t * table, char att[CMOR_MAX_STRING],
 	    cmor_handle_error( value2, CMOR_CRITICAL );
 	    cmor_ntables--;
 	    cmor_pop_traceback(  );
-	    return 1;
+	    return(1);
 	}
+
 	if( value[0] == '\'' )
 	    for( n = 0; n < strlen( value ) - 1; n++ )
-		value[n] = value[n + 1];	/* removes leading "'" */
+            value[n] = value[n + 1];	/* removes leading "'" */
 	n = strlen( value );
+
 	if( value[n - 2] == '\'' )
 	    value[n - 2] = '\0';	/*removes trailing "'" */
 /* -------------------------------------------------------------------- */
@@ -188,13 +336,12 @@ int cmor_set_dataset_att(cmor_table_t * table, char att[CMOR_MAX_STRING],
 	n = -1;
 	for( j = 0; j < strlen( value ); j++ ) {
 	    if( value[j] == '\'' ) {
-		n = j;
-		break;
+            n = j;
+            break;
 	    }
 	}
 	if( n == -1 ) {
-	    strncpy( table->expt_ids[table->nexps], value,
-		     CMOR_MAX_STRING );
+	    strncpy( table->expt_ids[table->nexps], value, CMOR_MAX_STRING );
 	    strcpy( table->sht_expt_ids[table->nexps], "" );
 	} else {
 /* -------------------------------------------------------------------- */
@@ -241,7 +388,7 @@ int cmor_set_dataset_att(cmor_table_t * table, char att[CMOR_MAX_STRING],
 	cmor_handle_error( value, CMOR_WARNING );
     }
     cmor_pop_traceback(  );
-    return 0;
+    return(0);
 }
 
 /************************************************************************/
@@ -266,7 +413,7 @@ int cmor_set_table( int table ) {
     }
     CMOR_TABLE = table;
     cmor_pop_traceback(  );
-    return 0;
+    return(0);
 }
 
 /************************************************************************/
@@ -281,22 +428,25 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
     extern int CMOR_TABLE, cmor_ntables;
     extern char cmor_input_path[CMOR_MAX_STRING];
     char msg[CMOR_MAX_STRING];
+    char szVal[1024000];
+    char *buffer= NULL;
+    int nTableSize, read_size;
+    json_object *json_obj;
+
 
     cmor_add_traceback( "cmor_load_table" );
     cmor_is_setup(  );
 
-/*   printf("loading table: %s\n",table); */
 /* -------------------------------------------------------------------- */
 /*      Is the table already loaded?                                    */
 /* -------------------------------------------------------------------- */
     for( i = 0; i < cmor_ntables + 1; i++ ) {
-	if( strcmp( cmor_tables[i].path, table ) == 0 ) {
-	    CMOR_TABLE = i;
-	    *table_id = i;
-/*       printf("table %s was already loaded, no need to do that again\n",table); */
-	    cmor_pop_traceback(  );
-	    return 0;
-	}
+        if( strcmp( cmor_tables[i].path, table ) == 0 ) {
+            CMOR_TABLE = i;
+            *table_id = i;
+            cmor_pop_traceback(  );
+            return(0);
+        }
     }
 /* -------------------------------------------------------------------- */
 /*      Try to open file                                                */
@@ -307,6 +457,7 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
     cmor_ntables += 1;
     cmor_init_table( &cmor_tables[cmor_ntables], cmor_ntables );
     table_file = fopen( table, "r" );
+    
     if( table_file == NULL ) {
 	if( table[0] != '/' ) {
 	    snprintf( word, CMOR_MAX_STRING, "%s/%s", cmor_input_path,
@@ -324,7 +475,7 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
 	    cmor_handle_error( word, CMOR_NORMAL );
 	    cmor_ntables -= 1;
 	    cmor_pop_traceback(  );
-	    return 1;
+	    return(1);
 	}
     }
 
@@ -333,128 +484,94 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
 /*      ok now we need to store the md5                                 */
 /* -------------------------------------------------------------------- */
     cmor_md5( table_file, cmor_tables[cmor_ntables].md5 );
-    i = wfgetc( table_file );
-    while( i != EOF ) {
+    
 /* -------------------------------------------------------------------- */
-/*      skip blanks and returns                                         */
+/*      Read the entire table in memory                                 */
 /* -------------------------------------------------------------------- */
+    fseek(table_file,0,SEEK_END);
 
-	while( ( i == '\n' ) || i == ' ' || i == '\t' )
-	    i = wfgetc( table_file );
-/* -------------------------------------------------------------------- */
-/*      skip comment lines                                              */
-/* -------------------------------------------------------------------- */
-	/*printf("looking at first line charcter:--%c--\n",i); */
-	while( i == '!' ) {
-	    i = wfgetc( table_file );
-	    if( i == EOF )
-		break;
-	    /*printf("ok it is comment line, second char is --%c--\n"); */
-/* -------------------------------------------------------------------- */
-/*      we found the head of a definition section                       */
-/* -------------------------------------------------------------------- */
-	    if( i == '=' ) {	
-		while( i != '\n' )
-		    i = wfgetc( table_file );
-		i = wfgetc( table_file );
-		if( i == EOF )
-		    break;
-/* -------------------------------------------------------------------- */
-/*      now read the word from the definition                           */
-/* -------------------------------------------------------------------- */
-		n = 0;
-		while( i != ':' ) {
-		    word[n] = i;
-		    i = wfgetc( table_file );
-		    n += 1;
-		}
-		word[n] = '\0';
-		
-/* -------------------------------------------------------------------- */
-/*      now figures out the name of the entry                           */
-/* -------------------------------------------------------------------- */
-		i = wfgetc( table_file );
-		while( i == ' ' || i == '\t' )
-		    i = wfgetc( table_file );
-		n = 0;
-		while( ( i != '\n' ) && i != ' ' && i != '\t' ) {
-		    word2[n] = i;
-		    i = wfgetc( table_file );
-		    n += 1;
-		}
-		word2[n] = '\0';
-/* -------------------------------------------------------------------- */
-/*      finishes the line                                               */
-/* -------------------------------------------------------------------- */
-		while( i != '\n' )
-		    i = wfgetc( table_file );
-		i = wfgetc( table_file );
-/* -------------------------------------------------------------------- */
-/*      skip the next line                                              */
-/* -------------------------------------------------------------------- */
+    nTableSize = ftell( table_file );
 
-		while( i != '\n' )
-		    i = wfgetc( table_file );
-		i = wfgetc( table_file );
-		/*printf("entry %s, name: %s\n",word,word2); */
+    rewind( table_file );
+
+    buffer = (char *) malloc( sizeof(char) * (nTableSize + 1) );
+
+    read_size = fread( buffer, sizeof(char), nTableSize, table_file ); 
+
+    buffer[nTableSize] = '\0';
+
+/* -------------------------------------------------------------------- */
+/*      print errro and exit if file was not completly read             */
+/* -------------------------------------------------------------------- */
+    if( nTableSize != read_size ) {
+        free(buffer);
+        buffer=NULL;
+        snprintf( msg, CMOR_MAX_STRING,
+                  "Could not read file %s check file permission",
+                   word  );
+            cmor_handle_error( msg, CMOR_CRITICAL );
+            cmor_ntables--;
+            cmor_pop_traceback(  );
+        return(1);
+    }
+
+/* -------------------------------------------------------------------- */
+/*     parse buffer into json object                                    */ 
+/* -------------------------------------------------------------------- */
+    json_obj = json_tokener_parse(buffer);
+    json_object_object_foreach(json_obj, key, value) {
+        strcpy(szVal, json_object_to_json_string(value));
+        printf("\t%s: %s\n", key, szVal);
 /* -------------------------------------------------------------------- */
 /*      Now let's see what we found                                     */
 /* -------------------------------------------------------------------- */
-		if( strcmp( word, "axis_entry" ) == 0 ) {
-		    do_dataset = 0;
-		    do_var = 0;
-		    do_axis = 1;
-		    do_mapping = 0;
-		    cmor_tables[cmor_ntables].naxes++;
-		    if( cmor_tables[cmor_ntables].naxes >=
-			CMOR_MAX_ELEMENTS ) {
-			snprintf( msg, CMOR_MAX_STRING,
-				  "Too many axes defined for table: %s",
-				  cmor_tables[cmor_ntables].table_id );
-			cmor_handle_error( msg, CMOR_CRITICAL );
-			cmor_ntables--;
-			cmor_pop_traceback(  );
-			return 1;
-		    }
+	if( strcmp( key, "Header" ) == 0 ) {
 /* -------------------------------------------------------------------- */
-/*       init the axis def                                              */
+/*      Fill up all global attributer found in header section           */
 /* -------------------------------------------------------------------- */
+            json_object_object_foreach(value, key, globalAttr) {
+                strcpy(szVal, json_object_to_json_string(globalAttr));
+                if( cmor_set_dataset_att( &cmor_tables[cmor_ntables], key, 
+                                           szVal ) == 1 ) {
+                    cmor_pop_traceback();
+                    return(1);
+                }
+            }
+        } else  if( strcmp( key, "experiments" ) == 0 ){
+            json_object_object_foreach(value, shortname, description) {
+                strcpy(szVal, json_object_to_json_string(description));
+                if( cmor_set_experiments( &cmor_tables[cmor_ntables],
+                                          shortname,
+                                          szVal ) == 1 ) {
+                    cmor_pop_traceback(  );
+                    return(1);
+                }
+            }
 
-/* 	  printf("initializing axis: %s\n",word2); */
-		    cmor_init_axis_def( &cmor_tables[cmor_ntables].
-					axes[cmor_tables[cmor_ntables].
-					     naxes], cmor_ntables );
-		    cmor_set_axis_def_att( &cmor_tables[cmor_ntables].
-					   axes[cmor_tables[cmor_ntables].
-						naxes], "id", word2 );
-		} else if( strcmp( word, "variable_entry" ) == 0 ) {
-/* -------------------------------------------------------------------- */
-/*      Work on variable entries                                        */
-/* -------------------------------------------------------------------- */
-		    do_dataset = 0;
-		    do_var = 1;
-		    do_axis = 0;
-		    do_mapping = 0;
-		    cmor_tables[cmor_ntables].nvars++;
-		    if( cmor_tables[cmor_ntables].nvars >=
-			CMOR_MAX_ELEMENTS ) {
-			snprintf( msg, CMOR_MAX_STRING,
-				  "Too many variables defined for table: %s",
-				  cmor_tables[cmor_ntables].table_id );
-			cmor_handle_error( msg, CMOR_CRITICAL );
-			cmor_ntables--;
-			cmor_pop_traceback(  );
-			return 1;
-		    }
-		    /* init the variable def */
-		    cmor_init_var_def( &cmor_tables[cmor_ntables].
-				       vars[cmor_tables[cmor_ntables].
-					    nvars], cmor_ntables );
-		    cmor_set_var_def_att( &cmor_tables[cmor_ntables].
-					  vars[cmor_tables[cmor_ntables].
-					       nvars], "id", word2 );
+        }
+          else if (strcmp(key, "axis_entry") == 0) {
+            json_object_object_foreach(value, axisname, attributes)
+            {
+                if( cmor_set_axis_entry(&cmor_tables[cmor_ntables],
+                        axisname,
+                        attributes) == 1) {
+                    cmor_pop_traceback();
+                    return (1);
+                }
+            }
+	} else if( strcmp( key, "variable_entry" ) == 0 ) {
+            json_object_object_foreach(value, varname, attributes)
+            {
+                if( cmor_set_variable_entry(&cmor_tables[cmor_ntables],
+                        varname,
+                        attributes) == 1) {
+                    cmor_pop_traceback();
+                    return (1);
+                }
+            }
 
-		} else if( strcmp( word, "mapping_entry" ) == 0 ) {
+
+		} else if( strcmp( key, "mapping_entry" ) == 0 ) {
 /* -------------------------------------------------------------------- */
 /*      Work on mapping entries                                         */
 /* -------------------------------------------------------------------- */
@@ -471,7 +588,7 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
 			cmor_handle_error( msg, CMOR_CRITICAL );
 			cmor_ntables--;
 			cmor_pop_traceback(  );
-			return 1;
+			return(1);
 		    }
 		    
 		    for( n = 0;
@@ -497,14 +614,14 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
 		    cmor_init_grid_mapping( &cmor_tables[cmor_ntables].
 					    mappings[cmor_tables
 						     [cmor_ntables].
-						     nmappings], word2 );
+						     nmappings], szVal );
 		} else {
 /* -------------------------------------------------------------------- */
 /*      nothing knwon we will not be setting any attributes!            */
 /* -------------------------------------------------------------------- */
 		    
 		    snprintf( msg, CMOR_MAX_STRING,
-			      "unknown section: %s, for table: %s", word,
+			      "unknown section: %s, for table: %s", key,
 			      cmor_tables[cmor_ntables].table_id );
 		    cmor_handle_error( msg, CMOR_WARNING );
 		    do_dataset = 0;
@@ -513,92 +630,31 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
 		    do_mapping = 0;
 		}
 		/*printf("ok now i is: --%c--\n",i); */
-	    } else {
-/* -------------------------------------------------------------------- */
-/*      just a commented out line, let's skip it                        */
-/* -------------------------------------------------------------------- */
-		
-		/*printf("all right skiping line\n"); */
-		while( i != '\n' )
-		    i = wfgetc( table_file );
-		i = wfgetc( table_file );
-		while( ( i == ' ' ) || ( i == '\n' ) || ( i == '\t' ) )
-		    i = wfgetc( table_file );
-		/*printf("ok now i is: --%c--\n",i); */
-	    }
-	}
 	
-	if( i == EOF )
-	    break;
-/* -------------------------------------------------------------------- */
-/*      ok here we must have a word then, let's read it and it's value  */
-/* -------------------------------------------------------------------- */
-
-	n = 0;
-	while( i != ':' ) {
-	    word[n] = i;
-	    i = wfgetc( table_file );
-	    n += 1;
-	}
-	i = wfgetc( table_file );
-	word[n] = '\0';
-	while( i == ' ' || i == '\t' )
-	    i = wfgetc( table_file );
-	n = 0;
-	while( ( i != '\n' ) && ( i != '!' ) ) {
-	    word2[n] = i;
-	    i = wfgetc( table_file );
-	    n += 1;
-	}
-	word2[n] = '\0';
-	n = strlen( word2 );
-	for( n = strlen( word2 ) - 1; n > -1; n-- ) {
-	    if( word2[n] == ' ' || word2[n] == '\t' )
-		word2[n] = '\0';
-	    else
-		break;
-	}
-/* -------------------------------------------------------------------- */
-/*      finishes the line                                               */
-/* -------------------------------------------------------------------- */
-
-	while( i != '\n' && i != EOF )
-	    i = wfgetc( table_file );
-	/*printf("got entry: %s with value %s, var: %i, axis: %i, dat: %i\n",word,word2,do_var,do_axis,do_dataset); */
 /* -------------------------------------------------------------------- */
 /*      First check for table/dataset mode values                       */
 /* -------------------------------------------------------------------- */
 
-	if( do_dataset == 1 ) {
-	    if( cmor_set_dataset_att
-		( &cmor_tables[cmor_ntables], word, word2 ) == 1 ) {
-		cmor_pop_traceback(  );
-		return 1;	/* sometihng bad might happen */
-	    }
-	} else if( do_var == 1 ) {
-	    cmor_set_var_def_att( &cmor_tables[cmor_ntables].
-				  vars[cmor_tables[cmor_ntables].nvars],
-				  word, word2 );
-	} else if( do_axis == 1 ) {
-	    cmor_set_axis_def_att( &cmor_tables[cmor_ntables].
-				   axes[cmor_tables[cmor_ntables].naxes],
-				   word, word2 );
-	} else if( do_mapping == 1 ) {
-	    cmor_set_mapping_attribute( &cmor_tables[cmor_ntables].
-					mappings[cmor_tables[cmor_ntables].
-						 nmappings], word, word2 );
-	} else {
-	    snprintf( msg, CMOR_MAX_STRING,
-		      "attribute for unknown section: %s,%s (table: %s)",
-		      word, word2, cmor_tables[cmor_ntables].table_id );
-	    cmor_handle_error( msg, CMOR_WARNING );
-	    /*printf("attribute for unknown section\n"); */
-	}
+	if( do_var == 1 ) {
+                cmor_set_var_def_att( &cmor_tables[cmor_ntables].
+                      vars[cmor_tables[cmor_ntables].nvars],
+                      key, szVal);
+
+        } else if( do_mapping == 1 ) {
+            cmor_set_mapping_attribute( &cmor_tables[cmor_ntables].
+                        mappings[cmor_tables[cmor_ntables].
+                             nmappings], key, szVal);
+        } else {
+            snprintf( msg, CMOR_MAX_STRING,
+                  "attribute for unknown section: %s,%s (table: %s)",
+                  key, szVal, cmor_tables[cmor_ntables].table_id );
+            cmor_handle_error( msg, CMOR_WARNING );
+            /*printf("attribute for unknown section\n"); */
+        }
     }
-    fclose( table_file );
     *table_id = cmor_ntables;
     strcpy( cmor_tables[cmor_ntables].path, table );
     CMOR_TABLE = cmor_ntables;
     cmor_pop_traceback(  );
-    return 0;
+    return(0);
 }
