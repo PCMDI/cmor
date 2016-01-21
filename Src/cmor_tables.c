@@ -111,6 +111,7 @@ int cmor_set_variable_entry(cmor_table_t* table,
         szValue[strlen(szValue) - 1] = '\0';
         cmor_set_var_def_att(variable, attr, szValue);
     }
+    cmor_pop_traceback();
     return (0);
 }
 
@@ -167,6 +168,7 @@ int cmor_set_axis_entry( cmor_table_t* table,
         szValue[strlen(szValue)-1]='\0';
         cmor_set_axis_def_att(axis, attr, szValue);
     }
+    cmor_pop_traceback();
     return (0);
 }
 /************************************************************************/
@@ -248,11 +250,11 @@ int cmor_set_dataset_att(cmor_table_t * table, char att[CMOR_MAX_STRING],
 	} else if (strcmp(att, "generic_levels") == 0) {
 		n = 0;
 		i = 0;
-		while (i < strlen(value)) {
+		while (i < (strlen(value)) ) {
 			while (value[i] == ' ')
 				i++;
 			j = 0;
-			while (i < strlen(value) && value[i] != ' ') {
+			while (i < (strlen(value)) && value[i] != ' ') {
 				table->generic_levels[n][j] = value[i];
 				j++;
 				i++;
@@ -425,6 +427,7 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
     char word[CMOR_MAX_STRING], word2[CMOR_MAX_STRING];
     int i, n;
     int do_var = 0, do_axis = 0, do_dataset = 1, do_mapping = 0;
+    int done=0;
     extern int CMOR_TABLE, cmor_ntables;
     extern char cmor_input_path[CMOR_MAX_STRING];
     char msg[CMOR_MAX_STRING];
@@ -489,15 +492,10 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
 /*      Read the entire table in memory                                 */
 /* -------------------------------------------------------------------- */
     fseek(table_file,0,SEEK_END);
-
     nTableSize = ftell( table_file );
-
     rewind( table_file );
-
     buffer = (char *) malloc( sizeof(char) * (nTableSize + 1) );
-
     read_size = fread( buffer, sizeof(char), nTableSize, table_file ); 
-
     buffer[nTableSize] = '\0';
 
 /* -------------------------------------------------------------------- */
@@ -521,7 +519,6 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
     json_obj = json_tokener_parse(buffer);
     json_object_object_foreach(json_obj, key, value) {
         strcpy(szVal, json_object_to_json_string(value));
-        printf("\t%s: %s\n", key, szVal);
 /* -------------------------------------------------------------------- */
 /*      Now let's see what we found                                     */
 /* -------------------------------------------------------------------- */
@@ -530,13 +527,14 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
 /*      Fill up all global attributer found in header section           */
 /* -------------------------------------------------------------------- */
             json_object_object_foreach(value, key, globalAttr) {
-                strcpy(szVal, json_object_to_json_string(globalAttr));
+                strcpy(szVal, json_object_get_string(globalAttr));
                 if( cmor_set_dataset_att( &cmor_tables[cmor_ntables], key, 
                                            szVal ) == 1 ) {
                     cmor_pop_traceback();
                     return(1);
                 }
             }
+            done=1;
         } else  if( strcmp( key, "experiments" ) == 0 ){
             json_object_object_foreach(value, shortname, description) {
                 strcpy(szVal, json_object_to_json_string(description));
@@ -547,6 +545,7 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
                     return(1);
                 }
             }
+            done=1;
 
         }
           else if (strcmp(key, "axis_entry") == 0) {
@@ -559,6 +558,7 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
                     return (1);
                 }
             }
+            done=1;
 	} else if( strcmp( key, "variable_entry" ) == 0 ) {
             json_object_object_foreach(value, varname, attributes)
             {
@@ -569,9 +569,9 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
                     return (1);
                 }
             }
+            done=1;
 
-
-		} else if( strcmp( key, "mapping_entry" ) == 0 ) {
+	} else if( strcmp( key, "mapping_entry" ) == 0 ) {
 /* -------------------------------------------------------------------- */
 /*      Work on mapping entries                                         */
 /* -------------------------------------------------------------------- */
@@ -629,7 +629,6 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
 		    do_axis = 0;
 		    do_mapping = 0;
 		}
-		/*printf("ok now i is: --%c--\n",i); */
 	
 /* -------------------------------------------------------------------- */
 /*      First check for table/dataset mode values                       */
@@ -640,6 +639,8 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
                       vars[cmor_tables[cmor_ntables].nvars],
                       key, szVal);
 
+        } else if ( done == 1 ){
+            done = 0;
         } else if( do_mapping == 1 ) {
             cmor_set_mapping_attribute( &cmor_tables[cmor_ntables].
                         mappings[cmor_tables[cmor_ntables].

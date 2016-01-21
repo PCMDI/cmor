@@ -23,10 +23,10 @@
 #define NC_NETCDF4 0
 #define NC_CLASSIC_MODEL 0
 int nc_def_var_deflate( int i, int j, int k, int l, int m ) {
-    return 0;
+    return( 0 );
 };
 int nc_def_var_chunking( int i, int j, int k, size_t * l ) {
-    return 0;
+    return( 0 );
 };
 #endif
 
@@ -129,9 +129,9 @@ int cmor_stringinstring( char *dest, char *src ) {
 		( pstr[strlen( src )] == 0 ) ||
 		( pstr[strlen( src )] == '.' ) ) {
 /* -------------------------------------------------------------------- */
-/*      then return 1 to indicate string found                          */
+/*      then return( 1 ) to indicate string found                          */
 /* -------------------------------------------------------------------- */
-		return 1;
+		return( 1 );
 	    }
 	}
 	pstr++;			/* In which case, skip to the next char */
@@ -140,7 +140,7 @@ int cmor_stringinstring( char *dest, char *src ) {
 /*      nothing like src is in dest, and so return the location of the end*/
 /*      of string                                                       */
 /* -------------------------------------------------------------------- */
-    return 0;
+    return( 0 );
 }
 
 /************************************************************************/
@@ -317,11 +317,9 @@ int cmor_check_expt_id( char *expt_id, int table_id,
 /* -------------------------------------------------------------------- */
 /*       Ok and now use this to reset the global attribute              */
 /* -------------------------------------------------------------------- */
-		cmor_set_cur_dataset_attribute_internal( gbl_lng, ctmp,
-							 0 );
+		cmor_set_cur_dataset_attribute_internal( gbl_lng, ctmp, 0 );
 		l = strlen( cmor_tables[table_id].sht_expt_ids[i] );
-		strncpy( ctmp, cmor_tables[table_id].sht_expt_ids[i],
-			 l - 4 );
+		strncpy( ctmp, cmor_tables[table_id].sht_expt_ids[i], l - 4 );
 		strncpy( &ctmp[l - 10], &expt_id[k - 10], 10 );
 		ctmp[l] = '\0';
 
@@ -344,15 +342,16 @@ int cmor_check_expt_id( char *expt_id, int table_id,
 							 cmor_tables
 							 [table_id].sht_expt_ids
 							 [i], 1 );
-		strncpy( expt_id, cmor_tables[table_id].sht_expt_ids[i], CMOR_MAX_STRING );	/* make sure it is the short id */
+		strncpy( expt_id, cmor_tables[table_id].sht_expt_ids[i],
+		        CMOR_MAX_STRING ); /* make sure it is the short id */
 		break;
 	    }
 	}
     }
     cmor_pop_traceback(  );
     if( j == 0 )
-	return 1;
-    return 0;
+	return( 1 );
+    return( 0 );
 }
 
 /************************************************************************/
@@ -389,7 +388,7 @@ int strncpytrim( char *out, char *in, int max ) {
 
     out[i - j] = '\0';
 
-    return 0;
+    return( 0 );
 }
 
 /************************************************************************/
@@ -423,7 +422,7 @@ int strncattrim( char *in, char *add, int max ) {
 	in[n2 + i - j] = add[i];
     }
     in[n2 + i - j] = '\0';
-    return 0;
+    return( 0 );
 }
 
 /************************************************************************/
@@ -440,7 +439,7 @@ void cmor_is_setup( void ) {
 
     if( CMOR_HAS_BEEN_SETUP == 0 ) {
 	snprintf( msg, CMOR_MAX_STRING,
-		  "You need to run cmor_setup before calling any cmor_function" );
+		"You need to run cmor_setup before calling any cmor_function" );
 	cmor_handle_error( msg, CMOR_CRITICAL );
     }
     cmor_pop_traceback(  );
@@ -453,12 +452,12 @@ void cmor_is_setup( void ) {
 void cmor_add_traceback( char *name ) {
     char tmp[CMOR_MAX_STRING];
 
-/*   printf("ok entering traceback for: %i %s\n",strlen(cmor_traceback_info),name); */
+
     if( strlen( cmor_traceback_info ) == 0 ) {
-	sprintf( cmor_traceback_info, "%s\n", name );
+        sprintf( cmor_traceback_info, "%s\n", name );
     } else {
-	sprintf( tmp, "%s\ncalled from: %s", name, cmor_traceback_info );
-	strncpy( cmor_traceback_info, tmp, CMOR_MAX_STRING );
+        sprintf( tmp, "%s\ncalled from: %s", name, cmor_traceback_info );
+        strncpy( cmor_traceback_info, tmp, CMOR_MAX_STRING );
     }
     return;
 }
@@ -471,17 +470,13 @@ void cmor_pop_traceback( void ) {
     char tmp[CMOR_MAX_STRING];
 
     strcpy( tmp, "" );
-/*   printf("ok removing a traceback from ---%i---\n",strlen(cmor_traceback_info)); */
     for( i = 0; i < strlen( cmor_traceback_info ); i++ ) {
 	if( strncmp( &cmor_traceback_info[i], "called from: ", 13 ) == 0 ) {
-/*       printf("ok we have i at: %i and tb at: %s\n",i,cmor_traceback_info); */
-/*       printf("ok we have i at: %i and tb at: %s\n",i,&cmor_traceback_info[i+13]); */
 	    strcpy( tmp, &cmor_traceback_info[i + 13] );
 	    break;
 	}
     }
     strcpy( cmor_traceback_info, tmp );
-/*   printf("we are left with: --%i---\n",strlen(cmor_traceback_info)); */
     return;
 }
 
@@ -506,7 +501,7 @@ int cmor_prep_units( char *uunits,
 		  "Udunits: analyzing units from cmor (%s)", cunits );
 	cmor_handle_error( msg, CMOR_CRITICAL );
 	cmor_pop_traceback(  );
-	return 1;
+	return( 1 );
     }
     strncpy( local_unit, uunits, CMOR_MAX_STRING );
     ut_trim( local_unit, UT_ASCII );
@@ -516,7 +511,7 @@ int cmor_prep_units( char *uunits,
 		  "Udunits: analyzing units from user (%s)", local_unit );
 	cmor_handle_error( msg, CMOR_CRITICAL );
 	cmor_pop_traceback(  );
-	return 1;
+	return( 1 );
     }
     if( ut_are_convertible( *cmor_units, *user_units ) == 0 ) {
 	snprintf( msg, CMOR_MAX_STRING,
@@ -524,7 +519,7 @@ int cmor_prep_units( char *uunits,
 		  cunits, uunits );
 	cmor_handle_error( msg, CMOR_CRITICAL );
 	cmor_pop_traceback(  );
-	return 1;
+	return( 1 );
     }
     *ut_cmor_converter = ut_get_converter( *user_units, *cmor_units );
     if( *ut_cmor_converter == NULL ) {
@@ -535,11 +530,11 @@ int cmor_prep_units( char *uunits,
 		  local_unit );
 	cmor_handle_error( msg, CMOR_CRITICAL );
 	cmor_pop_traceback(  );
-	return 1;
+	return( 1 );
     }
 
     cmor_pop_traceback(  );
-    return 0;
+    return( 0 );
 }
 
 /************************************************************************/
@@ -552,8 +547,8 @@ int cmor_have_NetCDF4( void ) {
     strncpy( version, nc_inq_libvers(  ), 50 );
     sscanf( version, "%1d%*s", &major );
     if( major != 4 )
-	return 1;
-    return 0;
+	return( 1 );
+    return( 0 );
 }
 
 /************************************************************************/
@@ -566,12 +561,12 @@ int cmor_have_NetCDF41min( void ) {
     strncpy( version, nc_inq_libvers(  ), 50 );
     sscanf( version, "%1d%*c%1d%*s", &major, &minor );
     if( major > 4 )
-	return 0;
+	return( 0 );
     if( major < 4 )
-	return 1;
+	return( 1 );
     if( minor < 1 )
-	return 1;
-    return 0;
+	return( 1 );
+    return( 0 );
 }
 
 /************************************************************************/
@@ -583,11 +578,11 @@ int cmor_have_NetCDF3( void ) {
 
     strncpy( version, nc_inq_libvers(  ), 50 );
     if( version[0] != '"' )
-	return 1;
+	return( 1 );
     sscanf( version, "%*c%1d%*s", &major );
     if( major != 3 )
-	return 1;
-    return 0;
+	return( 1 );
+    return( 0 );
 }
 
 /************************************************************************/
@@ -600,8 +595,8 @@ int cmor_have_NetCDF363( void ) {
     strncpy( version, nc_inq_libvers(  ), 50 );
     sscanf( version, "%*c%1d%*c%1d%*c%1d%*s", &major, &minor, &patch );
     if( ( major == 3 ) && ( minor == 6 ) && ( patch == 3 ) )
-	return 0;
-    return 1;
+	return( 0 );
+    return( 1 );
 }
 
 /************************************************************************/
@@ -711,8 +706,8 @@ int cmor_convert_char_to_hyphen( char c ) {
 	|| ( c == ']' ) || ( c == ':' ) || ( c == '/' ) || ( c == '*' )
 	|| ( c == '?' ) || ( c == '<' ) || ( c == '>' ) || ( c == '"' )
 	|| ( c == '\'' ) || ( c == '{' ) || ( c == '}' ) || ( c == '&' ) )
-	return 1;
-    return 0;
+	return( 1 );
+    return( 0 );
 }
 
 /************************************************************************/
@@ -885,29 +880,30 @@ int cmor_setup( char *path,
 /* -------------------------------------------------------------------- */
     USE_NETCDF_4 = -1;
     if( cmor_have_NetCDF3(  ) == 0 ) {
-	USE_NETCDF_4 = 0;
+        USE_NETCDF_4 = 0;
 /* -------------------------------------------------------------------- */
 /*       Now we need to make sure it's 3.6.3                            */
 /* -------------------------------------------------------------------- */
-	if( cmor_have_NetCDF363(  ) != 0 ) {
-	    sprintf( msg,
-		     "You are using an older version of NetCDF3 (%s), you need 3.6.3",
-		     nc_inq_libvers(  ) );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
-	}
+        if( cmor_have_NetCDF363(  ) != 0 ) {
+            sprintf( msg,
+                    "You are using an older version of NetCDF3 (%s), "
+                    "you need 3.6.3",
+	        	     nc_inq_libvers(  ) );
+            cmor_handle_error( msg, CMOR_CRITICAL );
+        }
     } else if( cmor_have_NetCDF4(  ) == 0 ) {
-	USE_NETCDF_4 = 1;
-	if( cmor_have_NetCDF41min(  ) != 0 ) {
-	    sprintf( msg,
-		     "You are using a wrong version of NetCDF4 (%s), you need 4.1",
-		     nc_inq_libvers(  ) );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
-	}
+        USE_NETCDF_4 = 1;
+        if( cmor_have_NetCDF41min(  ) != 0 ) {
+            sprintf( msg,
+                    "You are using a wrong version of NetCDF4 (%s), you need 4.1",
+                    nc_inq_libvers(  ) );
+            cmor_handle_error( msg, CMOR_CRITICAL );
+        }
     } else {
-	sprintf( msg,
-		 "You are using a wrong version of NetCDF (%s), you need 3.6.3 or 4.1",
-		 nc_inq_libvers(  ) );
-	cmor_handle_error( msg, CMOR_CRITICAL );
+        sprintf( msg,
+                "You are using a wrong version of NetCDF (%s), you need 3.6.3 or 4.1",
+                nc_inq_libvers(  ) );
+        cmor_handle_error( msg, CMOR_CRITICAL );
     }
 
     did_history = 0;
@@ -919,246 +915,255 @@ int cmor_setup( char *path,
     cmor_ntables = -1;
     cmor_nerrors = 0;
     cmor_nwarnings = 0;
-    if( logfile == NULL ) {
-	output_logfile = NULL;
+
+    if (logfile == NULL) {
+        output_logfile = NULL;
     } else {
 
 #ifdef COLOREDOUTPUT
 #undef COLOREDOUTPUT
 #endif
 
-	cmor_trim_string( logfile, tmplogfile );
-	output_logfile = NULL;
-	output_logfile = fopen( tmplogfile, "r" );
-	if( output_logfile != NULL ) {
+        cmor_trim_string(logfile, tmplogfile);
+        output_logfile = NULL;
+        output_logfile = fopen(tmplogfile, "r");
+        if (output_logfile != NULL) {
 /* -------------------------------------------------------------------- */
 /*      logfile already exists need to rename it                        */
 /*      Figure out the time                                             */
 /* -------------------------------------------------------------------- */
-	    stat( tmplogfile, &buf );
-	    lt = buf.st_ctime;
-	    ptr = localtime( &lt );
+            stat(tmplogfile, &buf);
+            lt = buf.st_ctime;
+            ptr = localtime(&lt);
 
-	    snprintf( msg, CMOR_MAX_STRING,
-		      "%s_%.4i-%.2i-%.2iT%.2i:%.2i:%.2i", tmplogfile,
-		      ptr->tm_year + 1900, ptr->tm_mon + 1, ptr->tm_mday,
-		      ptr->tm_hour, ptr->tm_min, ptr->tm_sec );
-	    fclose( output_logfile );
-	    rename( tmplogfile, msg );
+            snprintf(msg, CMOR_MAX_STRING, "%s_%.4i-%.2i-%.2iT%.2i:%.2i:%.2i",
+                    tmplogfile, ptr->tm_year + 1900, ptr->tm_mon + 1,
+                    ptr->tm_mday, ptr->tm_hour, ptr->tm_min, ptr->tm_sec);
+            fclose(output_logfile);
+            rename(tmplogfile, msg);
 
-	    snprintf( msg2, CMOR_MAX_STRING,
-		      "Logfile %s already existed. Renamed to: %s",
-		      tmplogfile, msg );
-	    output_logfile = NULL;
-	    output_logfile = fopen( tmplogfile, "w" );
+            snprintf(msg2, CMOR_MAX_STRING,
+                    "Logfile %s already existed. Renamed to: %s", tmplogfile,
+                    msg);
+            output_logfile = NULL;
+            output_logfile = fopen(tmplogfile, "w");
 
-	    if( output_logfile == NULL ) {
-		snprintf( msg2, CMOR_MAX_STRING,
-			  "Could not open logfile %s for writing",
-			  tmplogfile );
-		cmor_handle_error( msg2, CMOR_CRITICAL );
-	    }
-	    cmor_handle_error( msg2, CMOR_WARNING );
-	} else {
-	    output_logfile = fopen( tmplogfile, "w" );
+            if (output_logfile == NULL) {
+                snprintf(msg2, CMOR_MAX_STRING,
+                        "Could not open logfile %s for writing", tmplogfile);
+                cmor_handle_error(msg2, CMOR_CRITICAL);
+            }
+            cmor_handle_error(msg2, CMOR_WARNING);
+        } else {
+            output_logfile = fopen(tmplogfile, "w");
 
-	    if( output_logfile == NULL ) {
-		snprintf( msg2, CMOR_MAX_STRING,
-			  "Could not open logfile %s for writing",
-			  tmplogfile );
-		cmor_handle_error( msg2, CMOR_CRITICAL );
-	    }
-	}
+            if (output_logfile == NULL) {
+                snprintf(msg2, CMOR_MAX_STRING,
+                        "Could not open logfile %s for writing", tmplogfile);
+                cmor_handle_error(msg2, CMOR_CRITICAL);
+            }
+        }
     }
 
-    if( mode == NULL ) {
-	CMOR_MODE = CMOR_NORMAL;
+    if (mode == NULL) {
+        CMOR_MODE = CMOR_NORMAL;
 
     } else {
 
-	if( *mode != CMOR_EXIT_ON_WARNING && *mode != CMOR_EXIT_ON_MAJOR
-	    && *mode != CMOR_NORMAL ) {
+        if (*mode != CMOR_EXIT_ON_WARNING && *mode != CMOR_EXIT_ON_MAJOR
+                && *mode != CMOR_NORMAL) {
 
-	    snprintf( msg, CMOR_MAX_STRING,
-		      "exit mode can be either CMOR_EXIT_ON_WARNING CMOR_NORMAL or CMOR_EXIT_ON_MAJOR" );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
-	}
+            snprintf(msg, CMOR_MAX_STRING,
+                    "exit mode can be either CMOR_EXIT_ON_WARNING CMOR_NORMAL "
+                    "or CMOR_EXIT_ON_MAJOR");
+            cmor_handle_error(msg, CMOR_CRITICAL);
+        }
 
-	CMOR_MODE = *mode;
+        CMOR_MODE = *mode;
 
     }
-    if( verbosity == NULL ) {
-	CMOR_VERBOSITY = CMOR_NORMAL;
+    if (verbosity == NULL) {
+        CMOR_VERBOSITY = CMOR_NORMAL;
 
     } else {
 
-	if( *verbosity != CMOR_QUIET && *verbosity != CMOR_NORMAL ) {
-	    snprintf( msg, CMOR_MAX_STRING,
-		      "verbosity mode can be either CMOR_QUIET or CMOR_NORMAL" );
-	    cmor_handle_error( msg, CMOR_NORMAL );
-	}
-	CMOR_VERBOSITY = *verbosity;
+        if (*verbosity != CMOR_QUIET && *verbosity != CMOR_NORMAL) {
+            snprintf(msg, CMOR_MAX_STRING,
+                    "verbosity mode can be either CMOR_QUIET or CMOR_NORMAL");
+            cmor_handle_error(msg, CMOR_NORMAL);
+        }
+        CMOR_VERBOSITY = *verbosity;
     }
-    
-    if( netcdf == NULL ) {
-	CMOR_NETCDF_MODE = CMOR_PRESERVE;
+
+    if (netcdf == NULL) {
+        CMOR_NETCDF_MODE = CMOR_PRESERVE;
 
     } else {
-	if( *netcdf != CMOR_PRESERVE_4 && *netcdf != CMOR_APPEND_4
-	    && *netcdf != CMOR_REPLACE_4 && *netcdf != CMOR_PRESERVE_3
-	    && *netcdf != CMOR_APPEND_3 && *netcdf != CMOR_REPLACE_3 ) {
-	    snprintf( msg, CMOR_MAX_STRING,
-		      "file mode can be either CMOR_PRESERVE, CMOR_APPEND, CMOR_REPLACE, CMOR_PRESERVE_4, CMOR_APPEND_4, CMOR_REPLACE_4, CMOR_PRESERVE_3, CMOR_APPEND_3 or CMOR_REPLACE_3" );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
-	}
-	CMOR_NETCDF_MODE = *netcdf;
+        if (*netcdf != CMOR_PRESERVE_4 && *netcdf != CMOR_APPEND_4
+                && *netcdf != CMOR_REPLACE_4 && *netcdf != CMOR_PRESERVE_3
+                && *netcdf != CMOR_APPEND_3 && *netcdf != CMOR_REPLACE_3) {
+            snprintf(msg, CMOR_MAX_STRING,
+                    "file mode can be either CMOR_PRESERVE, CMOR_APPEND, "
+                    "CMOR_REPLACE, CMOR_PRESERVE_4, CMOR_APPEND_4, "
+                    "CMOR_REPLACE_4, CMOR_PRESERVE_3, CMOR_APPEND_3 or "
+                    "CMOR_REPLACE_3");
+            cmor_handle_error(msg, CMOR_CRITICAL);
+        }
+        CMOR_NETCDF_MODE = *netcdf;
 
     }
 
     /* Make sure we are not trying to use NETCDF4 mode while linked against NetCDF3 */
-    if( ( ( CMOR_NETCDF_MODE == CMOR_PRESERVE_4 )
-	  || ( CMOR_NETCDF_MODE == CMOR_REPLACE_4 )
-	  || ( CMOR_NETCDF_MODE == CMOR_APPEND_4 ) )
-	&& ( USE_NETCDF_4 == 0 ) ) {
-	sprintf( msg,
-		 "You are trying to use a NetCDF4 mode but linked against NetCDF3 libraries" );
-	cmor_handle_error( msg, CMOR_CRITICAL );
+    if (((CMOR_NETCDF_MODE == CMOR_PRESERVE_4)
+            || (CMOR_NETCDF_MODE == CMOR_REPLACE_4)
+            || (CMOR_NETCDF_MODE == CMOR_APPEND_4)) && (USE_NETCDF_4 == 0)) {
+        sprintf(msg,
+                "You are trying to use a NetCDF4 mode but linked against "
+                "NetCDF3 libraries");
+        cmor_handle_error(msg, CMOR_CRITICAL);
 
     }
 
-
-    if( ( path == NULL ) || ( strcmp( path, "" ) == 0 ) ) {
-	strncpy( cmor_input_path, ".", CMOR_MAX_STRING );
+    if ((path == NULL) || (strcmp(path, "") == 0)) {
+        strncpy(cmor_input_path, ".", CMOR_MAX_STRING);
     } else {
-	strncpytrim( cmor_input_path, path, CMOR_MAX_STRING );
+        strncpytrim(cmor_input_path, path, CMOR_MAX_STRING);
     }
 
-    for( i = 0; i < CMOR_MAX_VARIABLES; i++ ) {
-	cmor_reset_variable( i );
+    for (i = 0; i < CMOR_MAX_VARIABLES; i++) {
+        cmor_reset_variable(i);
     }
 
-    for( i = 0; i < CMOR_MAX_AXES; i++ ) {
-	cmor_axes[i].ref_table_id = -1;
-	cmor_axes[i].ref_axis_id = -1;
-	cmor_axes[i].isgridaxis = -1;
-	cmor_axes[i].axis = '\0';
-	cmor_axes[i].iunits[0] = '\0';
-	cmor_axes[i].id[0] = '\0';
+    for (i = 0; i < CMOR_MAX_AXES; i++) {
+        cmor_axes[i].ref_table_id = -1;
+        cmor_axes[i].ref_axis_id = -1;
+        cmor_axes[i].isgridaxis = -1;
+        cmor_axes[i].axis = '\0';
+        cmor_axes[i].iunits[0] = '\0';
+        cmor_axes[i].id[0] = '\0';
 
-	if( cmor_axes[i].values != NULL )
-	    free( cmor_axes[i].values );
+        if (cmor_axes[i].values != NULL)
+            free(cmor_axes[i].values);
 
-	cmor_axes[i].values = NULL;
+        cmor_axes[i].values = NULL;
 
-	if( cmor_axes[i].bounds != NULL )
-	    free( cmor_axes[i].bounds );
+        if (cmor_axes[i].bounds != NULL)
+            free(cmor_axes[i].bounds);
 
-	cmor_axes[i].bounds = NULL;
+        cmor_axes[i].bounds = NULL;
 
-	if( cmor_axes[i].cvalues != NULL ) {
-	    for( j = 0; j < cmor_axes[i].length; j++ ) {
-		if( cmor_axes[i].cvalues[j] != NULL ) {
-		    free( cmor_axes[i].cvalues[j] );
-		    cmor_axes[i].cvalues[j] = NULL;
-		}
-	    }
-	    free( cmor_axes[i].cvalues );
-	}
+        if (cmor_axes[i].cvalues != NULL) {
+            for (j = 0; j < cmor_axes[i].length; j++) {
+                if (cmor_axes[i].cvalues[j] != NULL) {
+                    free(cmor_axes[i].cvalues[j]);
+                    cmor_axes[i].cvalues[j] = NULL;
+                }
+            }
+            free(cmor_axes[i].cvalues);
+        }
 
-	cmor_axes[i].cvalues = NULL;
-	cmor_axes[i].length = 0;
-	cmor_axes[i].revert = 1;	/* 1 means no reverse -1 means reverse */
-	cmor_axes[i].offset = 0;
-	cmor_axes[i].type = '\0';
+        cmor_axes[i].cvalues = NULL;
+        cmor_axes[i].length = 0;
+        cmor_axes[i].revert = 1; /* 1 means no reverse -1 means reverse */
+        cmor_axes[i].offset = 0;
+        cmor_axes[i].type = '\0';
 
-	for( j = 0; j < CMOR_MAX_ATTRIBUTES; j++ ) {
-	    cmor_axes[i].attributes_values_char[j][0] = '\0';
-	    cmor_axes[i].attributes_values_num[j] = -999.;
-	    cmor_axes[i].attributes_type[j] = '\0';
-	    cmor_axes[i].attributes[j][0] = '\0';
-	}
+        for (j = 0; j < CMOR_MAX_ATTRIBUTES; j++) {
+            cmor_axes[i].attributes_values_char[j][0] = '\0';
+            cmor_axes[i].attributes_values_num[j] = -999.;
+            cmor_axes[i].attributes_type[j] = '\0';
+            cmor_axes[i].attributes[j][0] = '\0';
+        }
 
-	cmor_axes[i].nattributes = 0;
-	cmor_axes[i].hybrid_in = 0;
-	cmor_axes[i].hybrid_out = 0;
-	cmor_axes[i].store_in_netcdf = 1;
-	cmor_axes[i].wrapping = NULL;
-	ierr = cmor_set_axis_attribute( i, "units", 'c', "" );
-	ierr = cmor_set_axis_attribute( i, "interval", 'c', "" );
+        cmor_axes[i].nattributes = 0;
+        cmor_axes[i].hybrid_in = 0;
+        cmor_axes[i].hybrid_out = 0;
+        cmor_axes[i].store_in_netcdf = 1;
+        cmor_axes[i].wrapping = NULL;
+        ierr = cmor_set_axis_attribute(i, "units", 'c', "");
+        ierr = cmor_set_axis_attribute(i, "interval", 'c', "");
     }
 
-    if( create_subdirectories != NULL ) {
-	CMOR_CREATE_SUBDIRECTORIES = *create_subdirectories;
+    if (create_subdirectories != NULL) {
+        CMOR_CREATE_SUBDIRECTORIES = *create_subdirectories;
     }
 
-    if( ( CMOR_CREATE_SUBDIRECTORIES != 1 )
-	&& ( CMOR_CREATE_SUBDIRECTORIES != 0 ) ) {
-	snprintf( msg, CMOR_MAX_STRING,
-		  "cmor_setup: create_subdirectories must be 0 or 1" );
-	cmor_handle_error( msg, CMOR_CRITICAL );
+    if ((CMOR_CREATE_SUBDIRECTORIES != 1)
+            && (CMOR_CREATE_SUBDIRECTORIES != 0)) {
+        snprintf(msg, CMOR_MAX_STRING,
+                "cmor_setup: create_subdirectories must be 0 or 1");
+        cmor_handle_error(msg, CMOR_CRITICAL);
     }
 
 /* -------------------------------------------------------------------- */
 /*      initialize the udunits                                          */
 /* -------------------------------------------------------------------- */
-    if( ut_read != NULL ) {
-	ut_free_system( ut_read );
+    if (ut_read != NULL) {
+        ut_free_system(ut_read);
     }
-    ut_set_error_message_handler( ut_ignore );
-    ut_read = ut_read_xml( NULL );
-    if( ut_get_status(  ) != UT_SUCCESS ) {
-	snprintf( msg, CMOR_MAX_STRING,
-		  "Udunits: Error reading units system" );
-	cmor_handle_error( msg, CMOR_CRITICAL );
+
+    ut_set_error_message_handler(ut_ignore);
+
+    ut_read = ut_read_xml(NULL);
+
+    if (ut_get_status() != UT_SUCCESS) {
+        snprintf(msg, CMOR_MAX_STRING, "Udunits: Error reading units system");
+        cmor_handle_error(msg, CMOR_CRITICAL);
     }
-    ut_set_error_message_handler( ut_ignore );
-    if( newequnit != NULL )
-	ut_free( newequnit );
-    newequnit = ut_new_base_unit( ut_read );
-    if( ut_get_status(  ) != UT_SUCCESS ) {
-	snprintf( msg, CMOR_MAX_STRING,
-		  "Udunits: creating dimlessnew base unit" );
-	cmor_handle_error( msg, CMOR_CRITICAL );
+
+    ut_set_error_message_handler(ut_ignore);
+
+    if (newequnit != NULL) {
+        ut_free(newequnit);
     }
-    myutstatus = ut_map_name_to_unit( "eq", UT_ASCII, newequnit );
-    if( myutstatus != UT_SUCCESS ) {
-	snprintf( msg, CMOR_MAX_STRING,
-		  "Udunits: Error mapping dimless 'eq' unit" );
-	cmor_handle_error( msg, CMOR_CRITICAL );
+
+    newequnit = ut_new_base_unit(ut_read);
+
+    if (ut_get_status() != UT_SUCCESS) {
+        snprintf(msg, CMOR_MAX_STRING,
+                "Udunits: creating dimlessnew base unit");
+        cmor_handle_error(msg, CMOR_CRITICAL);
     }
-    if( dimlessunit != NULL )
-	ut_free( dimlessunit );
-    dimlessunit = ut_new_dimensionless_unit( ut_read );
-    if( ut_get_status(  ) != UT_SUCCESS ) {
-	snprintf( msg, CMOR_MAX_STRING, "Udunits: creating dimless unit" );
-	cmor_handle_error( msg, CMOR_CRITICAL );
+
+    myutstatus = ut_map_name_to_unit("eq", UT_ASCII, newequnit);
+
+    if (myutstatus != UT_SUCCESS) {
+        snprintf(msg, CMOR_MAX_STRING,
+                "Udunits: Error mapping dimless 'eq' unit");
+        cmor_handle_error(msg, CMOR_CRITICAL);
     }
-    myutstatus = ut_map_name_to_unit( "dimless", UT_ASCII, dimlessunit );
-    if( myutstatus != UT_SUCCESS ) {
-	snprintf( msg, CMOR_MAX_STRING,
-		  "Udunits: Error mapping dimless unit" );
-	cmor_handle_error( msg, CMOR_CRITICAL );
+
+    if (dimlessunit != NULL)
+        ut_free(dimlessunit);
+    dimlessunit = ut_new_dimensionless_unit(ut_read);
+    if (ut_get_status() != UT_SUCCESS) {
+        snprintf(msg, CMOR_MAX_STRING, "Udunits: creating dimless unit");
+        cmor_handle_error(msg, CMOR_CRITICAL);
     }
-    if( perunit != NULL )
-	ut_free( perunit );
-    perunit = ut_scale( .01, dimlessunit );
-    if( myutstatus != UT_SUCCESS ) {
-	snprintf( msg, CMOR_MAX_STRING,
-		  "Udunits: Error creating percent unit" );
-	cmor_handle_error( msg, CMOR_CRITICAL );
+    myutstatus = ut_map_name_to_unit("dimless", UT_ASCII, dimlessunit);
+    if (myutstatus != UT_SUCCESS) {
+        snprintf(msg, CMOR_MAX_STRING, "Udunits: Error mapping dimless unit");
+        cmor_handle_error(msg, CMOR_CRITICAL);
     }
-    myutstatus = ut_map_name_to_unit( "%", UT_ASCII, perunit );
-    if( myutstatus != UT_SUCCESS ) {
-	snprintf( msg, CMOR_MAX_STRING,
-		  "Udunits: Error mapping percent unit" );
-	cmor_handle_error( msg, CMOR_CRITICAL );
+
+    if (perunit != NULL)
+        ut_free(perunit);
+    perunit = ut_scale(.01, dimlessunit);
+    if (myutstatus != UT_SUCCESS) {
+        snprintf(msg, CMOR_MAX_STRING, "Udunits: Error creating percent unit");
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+    myutstatus = ut_map_name_to_unit("%", UT_ASCII, perunit);
+    if (myutstatus != UT_SUCCESS) {
+        snprintf(msg, CMOR_MAX_STRING, "Udunits: Error mapping percent unit");
+        cmor_handle_error(msg, CMOR_CRITICAL);
     }
 /* -------------------------------------------------------------------- */
 /*      initialized dataset                                             */
 /* -------------------------------------------------------------------- */
-    for( i = 0; i < CMOR_MAX_ATTRIBUTES; i++ ) {
-	cmor_current_dataset.attributes_names[i][0] = '\0';
-	cmor_current_dataset.attributes_values[i][0] = '\0';
+    for (i = 0; i < CMOR_MAX_ATTRIBUTES; i++) {
+        cmor_current_dataset.attributes_names[i][0] = '\0';
+        cmor_current_dataset.attributes_values[i][0] = '\0';
     }
     cmor_current_dataset.nattributes = 0;
     cmor_current_dataset.realization = 0;
@@ -1169,120 +1174,116 @@ int cmor_setup( char *path,
 /* -------------------------------------------------------------------- */
 /*      generates a unique id                                           */
 /* -------------------------------------------------------------------- */
-    uuid_create( &myuuid );
-    uuid_make( myuuid, 4 );
+    uuid_create(&myuuid);
+    uuid_make(myuuid, 4);
     myuuid_str = NULL;
     fmt = UUID_FMT_STR;
-    uuid_export( myuuid, fmt, &myuuid_str, &uuidlen );
-    strncpy( cmor_current_dataset.tracking_id, ( char * ) myuuid_str,
-	     CMOR_MAX_STRING );
-    free( myuuid_str );
-    uuid_destroy( myuuid );
-    strncpy( cmor_current_dataset.associated_file_name, "",
-	     CMOR_MAX_STRING );
+    uuid_export(myuuid, fmt, &myuuid_str, &uuidlen);
+    strncpy(cmor_current_dataset.tracking_id, (char *) myuuid_str,
+            CMOR_MAX_STRING);
+    free(myuuid_str);
+    uuid_destroy(myuuid);
+    strncpy(cmor_current_dataset.associated_file_name, "", CMOR_MAX_STRING);
 
-    for( i = 0; i < 12; i++ )
-	cmor_current_dataset.month_lengths[i] = 0;
+    for (i = 0; i < 12; i++)
+        cmor_current_dataset.month_lengths[i] = 0;
     cmor_current_dataset.initiated = 0;
 
-    for( i = 0; i < CMOR_MAX_GRIDS; i++ ) {
-	strncpy( cmor_grids[i].mapping, "", CMOR_MAX_STRING );
-	cmor_grids[i].ndims = 0;
-	cmor_grids[i].nattributes = 0;
+    for (i = 0; i < CMOR_MAX_GRIDS; i++) {
+        strncpy(cmor_grids[i].mapping, "", CMOR_MAX_STRING);
+        cmor_grids[i].ndims = 0;
+        cmor_grids[i].nattributes = 0;
 
-	for( j = 0; j < CMOR_MAX_GRID_ATTRIBUTES; j++ ) {
-	    cmor_grids[i].attributes_values[j] = 1.e20;
-	    cmor_grids[i].attributes_names[j][0] = '\0';
-	}
+        for (j = 0; j < CMOR_MAX_GRID_ATTRIBUTES; j++) {
+            cmor_grids[i].attributes_values[j] = 1.e20;
+            cmor_grids[i].attributes_names[j][0] = '\0';
+        }
 
-	if( cmor_grids[i].lats != NULL )
-	    free( cmor_grids[i].lats );
-	if( cmor_grids[i].lons != NULL )
-	    free( cmor_grids[i].lons );
-	if( cmor_grids[i].blats != NULL )
-	    free( cmor_grids[i].blats );
-	if( cmor_grids[i].blons != NULL )
-	    free( cmor_grids[i].blons );
+        if (cmor_grids[i].lats != NULL)
+            free(cmor_grids[i].lats);
+        if (cmor_grids[i].lons != NULL)
+            free(cmor_grids[i].lons);
+        if (cmor_grids[i].blats != NULL)
+            free(cmor_grids[i].blats);
+        if (cmor_grids[i].blons != NULL)
+            free(cmor_grids[i].blons);
 
-	cmor_grids[i].lats = NULL;
-	cmor_grids[i].lons = NULL;
-	cmor_grids[i].blats = NULL;
-	cmor_grids[i].blons = NULL;
+        cmor_grids[i].lats = NULL;
+        cmor_grids[i].lons = NULL;
+        cmor_grids[i].blats = NULL;
+        cmor_grids[i].blons = NULL;
 
-	cmor_grids[i].istimevarying = 0;
-	cmor_grids[i].nvertices = 0;
+        cmor_grids[i].istimevarying = 0;
+        cmor_grids[i].nvertices = 0;
 
-	for( j = 0; j < 6; j++ )
-	    cmor_grids[i].associated_variables[j] = -1;
+        for (j = 0; j < 6; j++)
+            cmor_grids[i].associated_variables[j] = -1;
     }
-    cmor_pop_traceback(  );
-    return 0;
+    cmor_pop_traceback();
+    return( 0 );
 }
 
 /************************************************************************/
 /*                     cmor_put_nc_num_attribute()                      */
 /************************************************************************/
-int cmor_put_nc_num_attribute( int ncid,
-			       int nc_var_id,
-			       char *name,
-			       char type, double value, char *var_name ) {
+int cmor_put_nc_num_attribute(int ncid, int nc_var_id, char *name, char type,
+        double value, char *var_name) {
     char msg[CMOR_MAX_STRING];
     int ierr;
 
-    cmor_add_traceback( "cmor_put_nc_num_attribute" );
+    cmor_add_traceback("cmor_put_nc_num_attribute");
     ierr = 0;
-    if( type == 'i' ) {
-	ierr =
-	    nc_put_att_double( ncid, nc_var_id, name, NC_INT, 1, &value );
-    } else if( type == 'l' ) {
-	ierr =
-	    nc_put_att_double( ncid, nc_var_id, name, NC_INT, 1, &value );
-    } else if( type == 'f' ) {
-	ierr =
-	    nc_put_att_double( ncid, nc_var_id, name, NC_FLOAT, 1,
-			       &value );
-    } else if( type == 'd' ) {
-	ierr =
-	    nc_put_att_double( ncid, nc_var_id, name, NC_DOUBLE, 1,
-			       &value );
+    if (type == 'i') {
+        ierr = nc_put_att_double(ncid, nc_var_id, name, NC_INT, 1, &value);
+    } else if (type == 'l') {
+        ierr = nc_put_att_double(ncid, nc_var_id, name, NC_INT, 1, &value);
+    } else if (type == 'f') {
+        ierr = nc_put_att_double(ncid, nc_var_id, name, NC_FLOAT, 1, &value);
+    } else if (type == 'd') {
+        ierr = nc_put_att_double(ncid, nc_var_id, name, NC_DOUBLE, 1, &value);
     }
-    if( ierr != NC_NOERR ) {
-	snprintf( msg,
-		  CMOR_MAX_STRING,
-		  "NetCDF Error (%i: %s) setting numerical attribute"
-		  " %s on variable %s",
-		  ierr, nc_strerror( ierr ), name, var_name );
-	cmor_handle_error( msg, CMOR_CRITICAL );
+    if (ierr != NC_NOERR) {
+        snprintf(msg, CMOR_MAX_STRING,
+                "NetCDF Error (%i: %s) setting numerical attribute"
+                        " %s on variable %s", ierr, nc_strerror(ierr), name,
+                var_name);
+        cmor_handle_error(msg, CMOR_CRITICAL);
     }
-    cmor_pop_traceback(  );
+    cmor_pop_traceback();
     return ierr;
 }
 
 /************************************************************************/
 /*                     cmor_put_nc_char_attribute()                     */
 /************************************************************************/
-int cmor_put_nc_char_attribute( int ncid, int nc_var_id, char *name,
-				char *value, char *var_name ) {
+int cmor_put_nc_char_attribute(int ncid,
+        int nc_var_id,
+        char *name,
+        char *value,
+        char *var_name) {
     int k, ierr;
     char msg[CMOR_MAX_STRING];
 
     ierr = 0;
-    cmor_add_traceback( "cmor_put_nc_char_attribute" );
-    k = strlen( value );
-    if( k != 0 ) {
-	value[k] = '\0';
-	ierr = nc_put_att_text( ncid, nc_var_id, name, k + 1, value );
-	if( ierr != NC_NOERR ) {
-	    snprintf( msg, CMOR_MAX_STRING,
-		      "NetCDF Error (%i: %s) setting attribute: '%s' on variable (%s)",
-		      ierr, nc_strerror( ierr ), name, var_name );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
-	}
+    cmor_add_traceback("cmor_put_nc_char_attribute");
+    k = strlen(value);
+    if (k != 0) {
+        value[k] = '\0';
+        ierr = nc_put_att_text(ncid, nc_var_id, name, k + 1, value);
+        if (ierr != NC_NOERR) {
+            snprintf(msg, CMOR_MAX_STRING,
+                    "NetCDF Error (%i: %s) setting attribute: '%s' "
+                    "on variable (%s)",
+                    ierr, nc_strerror(ierr), name, var_name);
+            cmor_handle_error(msg, CMOR_CRITICAL);
+        }
     }
-    cmor_pop_traceback(  );
+    cmor_pop_traceback();
     return ierr;
 }
-
+/************************************************************************/
+/*                 cmor_set_cur_dataset_attribute()                     */
+/************************************************************************/
 int cmor_set_cur_dataset_attribute( char *name, char *value, int optional ) {
     char msg[CMOR_MAX_STRING];
 
@@ -1291,101 +1292,104 @@ int cmor_set_cur_dataset_attribute( char *name, char *value, int optional ) {
 /*      We need to make sure it is not an attribute that can            */
 /*      be set via a call to cmor_dataset                               */
 /* -------------------------------------------------------------------- */
-    if( ( strcmp( name, "tracking_id" ) == 0 ) ||
-	( strcmp( name, "product" ) == 0 ) ||
-	( strcmp( name, "creation_date" ) == 0 ) ||
-	( strcmp( name, "table_id" ) == 0 ) ||
-	( strcmp( name, "modeling_realm" ) == 0 ) ||
-	( strcmp( name, "experiment_id" ) == 0 ) ||
-	( strcmp( name, "institution" ) == 0 ) ||
-	( strcmp( name, "source" ) == 0 ) ||
-	( strcmp( name, "calendar" ) == 0 ) ||
-	( strcmp( name, "realization" ) == 0 ) ||
-	( strcmp( name, "contact" ) == 0 ) ||
-	( strcmp( name, "history" ) == 0 ) ||
-	( strcmp( name, "comment" ) == 0 ) ||
-	( strcmp( name, "references" ) == 0 ) ||
-	( strcmp( name, "model_id" ) == 0 ) ||
-	( strcmp( name, "forcing" ) == 0 ) ||
-	( strcmp( name, "initialization_method" ) == 0 ) ||
-	( strcmp( name, "physics_version" ) == 0 ) ||
-	( strcmp( name, "insitute_id" ) == 0 ) ||
-	( strcmp( name, "parent_experiment_id" ) == 0 ) ||
-	( strcmp( name, "branch_time" ) == 0 ) ||
-	( strcmp( name, "parent_experiment_rip" ) == 0 ) ||
-	( strcmp( name, "parent_experiment" ) == 0 )
-	 ) {
-	snprintf( msg, CMOR_MAX_STRING,
-		  "you are trying to set dataset attribute: %s this must be set via a call to cmor_dataset or is set internally by CMOR via the tables",
-		  name );
-	cmor_handle_error( msg, CMOR_NORMAL );
-	cmor_pop_traceback(  );
-	return 1;
+    if ((strcmp(name, "tracking_id") == 0) || (strcmp(name, "product") == 0)
+            || (strcmp(name, "creation_date") == 0)
+            || (strcmp(name, "table_id") == 0)
+            || (strcmp(name, "modeling_realm") == 0)
+            || (strcmp(name, "experiment_id") == 0)
+            || (strcmp(name, "institution") == 0)
+            || (strcmp(name, "source") == 0)
+            || (strcmp(name, "calendar") == 0)
+            || (strcmp(name, "realization") == 0)
+            || (strcmp(name, "contact") == 0)
+            || (strcmp(name, "history") == 0)
+            || (strcmp(name, "comment") == 0)
+            || (strcmp(name, "references") == 0)
+            || (strcmp(name, "model_id") == 0)
+            || (strcmp(name, "forcing") == 0)
+            || (strcmp(name, "initialization_method") == 0)
+            || (strcmp(name, "physics_version") == 0)
+            || (strcmp(name, "insitute_id") == 0)
+            || (strcmp(name, "parent_experiment_id") == 0)
+            || (strcmp(name, "branch_time") == 0)
+            || (strcmp(name, "parent_experiment_rip") == 0)
+            || (strcmp(name, "parent_experiment") == 0)) {
+        snprintf(msg, CMOR_MAX_STRING,
+                "you are trying to set dataset attribute: %s this must be set via a call to cmor_dataset or is set internally by CMOR via the tables",
+                name);
+        cmor_handle_error(msg, CMOR_NORMAL);
+        cmor_pop_traceback();
+        return( 1 );
     }
-    cmor_pop_traceback(  );
-    return cmor_set_cur_dataset_attribute_internal( name, value,
-						    optional );
+    cmor_pop_traceback();
+    return cmor_set_cur_dataset_attribute_internal(name, value, optional);
 }
 
 /************************************************************************/
 /*              cmor_set_cur_dataset_attribute_internal()               */
 /************************************************************************/
-int cmor_set_cur_dataset_attribute_internal( char *name,
-					     char *value, int optional ) {
+int cmor_set_cur_dataset_attribute_internal(char *name, char *value,
+        int optional) {
     int i, n;
     char msg[CMOR_MAX_STRING];
     extern cmor_dataset_def cmor_current_dataset;
 
-    cmor_add_traceback( "cmor_set_cur_dataset_attribute_internal" );
-    cmor_is_setup(  );
+    cmor_add_traceback("cmor_set_cur_dataset_attribute_internal");
+    cmor_is_setup();
 
-    cmor_trim_string( value, msg );
-    if( ( int ) strlen( name ) > CMOR_MAX_STRING ) {
-	snprintf( msg, CMOR_MAX_STRING,
-		  "CMOR Dataset error, attribute name: %s; length (%i) is greater than limit: %i",
-		  name, ( int ) strlen( name ), CMOR_MAX_STRING );
-	cmor_handle_error( msg, CMOR_NORMAL );
-	cmor_pop_traceback(  );
-	return 1;
+    cmor_trim_string(value, msg);
+
+    if ((int) strlen(name) > CMOR_MAX_STRING) {
+        snprintf(msg, CMOR_MAX_STRING,
+                "CMOR Dataset error, attribute name: %s; length (%i) is "
+                "greater than limit: %i",
+                name, (int) strlen(name), CMOR_MAX_STRING);
+        cmor_handle_error(msg, CMOR_NORMAL);
+        cmor_pop_traceback();
+        return( 1 );
     }
-    if( ( value == NULL ) || ( msg[0] == '\0' ) ) {
-	if( optional == 1 ) {
-	    cmor_pop_traceback(  );
-	    return 0;
-	} else {
-	    snprintf( msg, CMOR_MAX_STRING,
-		      "CMOR Dataset error, required attribute %s was not passed or blanked",
-		      name );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
-	    cmor_pop_traceback(  );
-	    return 1;
-	}
+
+    if ((value == NULL) || (msg[0] == '\0')) {
+        if (optional == 1) {
+            cmor_pop_traceback();
+            return( 0 );
+        } else {
+            snprintf(msg, CMOR_MAX_STRING,
+                    "CMOR Dataset error, required attribute %s was not "
+                    "passed or blanked",
+                    name);
+            cmor_handle_error(msg, CMOR_CRITICAL);
+            cmor_pop_traceback();
+            return( 1 );
+        }
     }
-    cmor_trim_string( name, msg );
+
+    cmor_trim_string(name, msg);
     n = cmor_current_dataset.nattributes;
-    for( i = 0; i <= cmor_current_dataset.nattributes; i++ ) {
-	if( strcmp( msg, cmor_current_dataset.attributes_names[i] ) == 0 ) {
-	    n = i;
-	    cmor_current_dataset.nattributes -= 1;
-	    break;
-	}
+
+    for (i = 0; i <= cmor_current_dataset.nattributes; i++) {
+        if (strcmp(msg, cmor_current_dataset.attributes_names[i]) == 0) {
+            n = i;
+            cmor_current_dataset.nattributes -= 1;
+            break;
+        }
     }
-    if( n >= CMOR_MAX_ATTRIBUTES ) {
-	sprintf( msg,
-		 "Setting dataset attribute: %s, we already have %i elements set which is the max, this element won't be set",
-		 name, CMOR_MAX_ELEMENTS );
-	cmor_handle_error( msg, CMOR_NORMAL );
-	cmor_pop_traceback(  );
-	return 1;
+
+    if (n >= CMOR_MAX_ATTRIBUTES) {
+        sprintf(msg,
+                "Setting dataset attribute: %s, we already have %i "
+                "elements set which is the max, this element won't be set",
+                name, CMOR_MAX_ELEMENTS);
+        cmor_handle_error(msg, CMOR_NORMAL);
+        cmor_pop_traceback();
+        return( 1 );
     }
-    strncpy( cmor_current_dataset.attributes_names[n], msg,
-	     CMOR_MAX_STRING );
-    cmor_trim_string( value, msg );
-    strncpytrim( cmor_current_dataset.attributes_values[n], msg,
-		 CMOR_MAX_STRING );
+    strncpy(cmor_current_dataset.attributes_names[n], msg, CMOR_MAX_STRING);
+    cmor_trim_string(value, msg);
+    strncpytrim(cmor_current_dataset.attributes_values[n], msg, CMOR_MAX_STRING);
     cmor_current_dataset.nattributes += 1;
-    cmor_pop_traceback(  );
-    return 0;
+    cmor_pop_traceback();
+    return( 0 );
 }
 
 /************************************************************************/
@@ -1404,7 +1408,7 @@ int cmor_get_cur_dataset_attribute( char *name, char *value ) {
 		  name, CMOR_MAX_STRING );
 	cmor_handle_error( msg, CMOR_NORMAL );
 	cmor_pop_traceback(  );
-	return 1;
+	return( 1 );
     }
     n = -1;
     for( i = 0; i <= cmor_current_dataset.nattributes; i++ ) {
@@ -1417,12 +1421,12 @@ int cmor_get_cur_dataset_attribute( char *name, char *value ) {
 		  name );
 	cmor_handle_error( msg, CMOR_NORMAL );
 	cmor_pop_traceback(  );
-	return 1;
+	return( 1 );
     }
     strncpy( value, cmor_current_dataset.attributes_values[n],
 	     CMOR_MAX_STRING );
     cmor_pop_traceback(  );
-    return 0;
+    return( 0 );
 }
 
 /************************************************************************/
@@ -1506,7 +1510,7 @@ int cmor_is_required_global_attribute( char *name, int table_id ) {
     cmor_add_traceback( "cmor_is_required_global_attribute" );
     if( cmor_tables[table_id].required_gbl_att[0] == '\0' ) {
 	cmor_pop_traceback(  );
-	return 1;		/* not required */
+	return( 1 );		/* not required */
     }
 
     n = strlen( cmor_tables[table_id].required_gbl_att );
@@ -1546,11 +1550,12 @@ int cmor_has_cur_dataset_attribute( char *name ) {
     cmor_is_setup(  );
     if( ( int ) strlen( name ) > CMOR_MAX_STRING ) {
 	snprintf( msg, CMOR_MAX_STRING,
-		  "CMOR Dataset: attribute name (%s) length (%i) is greater than limit: %i",
+		  "CMOR Dataset: attribute name (%s) length "
+	          "(%i) is greater than limit: %i",
 		  name, ( int ) strlen( name ), CMOR_MAX_STRING );
 	cmor_handle_error( msg, CMOR_NORMAL );
 	cmor_pop_traceback(  );
-	return 1;
+	return( 1 );
     }
     n = -1;
     for( i = 0; i <= cmor_current_dataset.nattributes; i++ ) {
@@ -1559,10 +1564,10 @@ int cmor_has_cur_dataset_attribute( char *name ) {
     }
     if( n == -1 ) {
 	cmor_pop_traceback(  );
-	return 1;
+	return( 1 );
     }
     cmor_pop_traceback(  );
-    return 0;
+    return( 0 );
 }
 
 /************************************************************************/
@@ -1588,6 +1593,7 @@ int cmor_dataset( char *outpath,
 		  char *institute_id,
 		  char *parent_experiment_id,
 		  double *branch_time, char *parent_experiment_rip ) {
+
     extern cmor_dataset_def cmor_current_dataset;
     char msg[CMOR_MAX_STRING];
     int i, found;
@@ -1627,7 +1633,8 @@ int cmor_dataset( char *outpath,
 	    if( test_file == NULL ) {
 
 		sprintf( msg,
-			 "You defined your output directory to be: '%s', but you do not have read/write permissions on it",
+			 "You defined your output directory to be: '%s', but "
+		        "you do not have read/write permissions on it",
 			 cmor_current_dataset.outpath );
 		cmor_handle_error( msg, CMOR_CRITICAL );
 	    } else {
@@ -1637,12 +1644,14 @@ int cmor_dataset( char *outpath,
 	}
     } else if( errno == ENOENT ) {
 	sprintf( msg,
-		 "You defined your output directory to be: '%s', but this directory does not exist",
+		 "You defined your output directory to be: '%s', but this "
+	        "directory does not exist",
 		 cmor_current_dataset.outpath );
 	cmor_handle_error( msg, CMOR_CRITICAL );
     } else if( errno == EACCES ) {
 	sprintf( msg,
-		 "You defined your output directory to be: '%s', but we cannot access it, please check permissions",
+		 "You defined your output directory to be: '%s', but we "
+	        "cannot access it, please check permissions",
 		 cmor_current_dataset.outpath );
 	cmor_handle_error( msg, CMOR_CRITICAL );
     }
@@ -1704,12 +1713,16 @@ int cmor_dataset( char *outpath,
 
 	if( found == 1 ) {
 	    snprintf( msg, CMOR_MAX_STRING,
-		      "You passed calendar: %s therefore we will ignore any user defined value you also set for month_lentgths and leap_months",
+		      "You passed calendar: %s therefore we will ignore any user "
+	            "defined value you also set for month_lentgths and leap_months",
 		      calendar );
 	    cmor_handle_error( msg, CMOR_WARNING );
 	} else {
 	    snprintf( msg, CMOR_MAX_STRING,
-		      "You defined a non_standard calendar while this used to be ok in CMOR version 1 it is no longer supported in this version, please contact us at: cmor@lists.llnl.gov so we can work on fixing this issue" );
+		      "You defined a non_standard calendar while this used to be "
+	            "ok in CMOR version 2 it is no longer supported in this "
+	            "version, please contact us at: cmor@lists.llnl.gov so we "
+	            "can work on fixing this issue" );
 	    cmor_handle_error( msg, CMOR_CRITICAL );
 	}
     } else if( found == 0 ) {
@@ -1724,10 +1737,11 @@ int cmor_dataset( char *outpath,
     cmor_set_cur_dataset_attribute_internal( "references", references, 1 );
     if( realization < 0 ) {
 	snprintf( msg, CMOR_MAX_STRING,
-		  "Error realization number is negative, expected a positive number or 0 (i.e. ignored)" );
+		  "Error realization number is negative, expected a positive "
+	        "number or 0 (i.e. ignored)" );
 	cmor_handle_error( msg, CMOR_CRITICAL );
 	cmor_pop_traceback(  );
-	return 1;
+	return( 1 );
     } else {
 	cmor_current_dataset.realization = realization;
     }
@@ -1753,7 +1767,7 @@ int cmor_dataset( char *outpath,
 					     cmor_current_dataset.tracking_id,
 					     0 );
     cmor_pop_traceback(  );
-    return 0;
+    return( 0 );
 }
 
 /************************************************************************/
@@ -1875,7 +1889,7 @@ int cmor_convert_string_to_list( char *invalues, char type, void **target,
 	strncpy( ( ( char ** ) *target )[j], msg2, 12 );
     }
     cmor_pop_traceback(  );
-    return 0;
+    return( 0 );
 }
 
 /************************************************************************/
@@ -1979,13 +1993,15 @@ int cmor_define_zfactors_vars( int var_id, int ncid, int *nc_dim,
 	    }
 	    if( found == 0 ) {
 		snprintf( msg, CMOR_MAX_STRING,
-			  "could not find the zfactor variable: %s, please define it first, while defining zfactors for variable %s (table %s)",
-			  ctmp, cmor_vars[var_id].id,
-			  cmor_tables[cmor_vars[var_id].
-				      ref_table_id].table_id );
+		        "could not find the zfactor variable: %s, "
+		        "please define it first, while defining zfactors "
+		        "for variable %s (table %s)",
+		        ctmp, cmor_vars[var_id].id,
+		        cmor_tables[cmor_vars[var_id].
+		                    ref_table_id].table_id );
 		cmor_handle_error( msg, CMOR_CRITICAL );
 		cmor_pop_traceback(  );
-		return 1;
+		return( 1 );
 	    }
 	} else {
 	    found = 0;
@@ -2036,13 +2052,16 @@ int cmor_define_zfactors_vars( int var_id, int ncid, int *nc_dim,
 		}
 		if( found == 0 ) {
 		    snprintf( msg, CMOR_MAX_STRING,
-			      "variable \"%s\" (table: %s) has axis \"%s\" defined with formula terms, but term \"%s\" depends on axis \"%s\" which is not part of the variable",
-			      cmor_vars[var_id].id,
-			      cmor_tables[cmor_vars[var_id].
-					  ref_table_id].table_id,
-			      cmor_axes[cmor_vars[var_id].axes_ids[i]].id,
-			      ctmp,
-			      cmor_axes[cmor_vars[l].axes_ids[k]].id );
+		            "variable \"%s\" (table: %s) has axis \"%s\" "
+		            "defined with formula terms, but term \"%s\" "
+		            "depends on axis \"%s\" which is not part of "
+		            "the variable",
+		            cmor_vars[var_id].id,
+		            cmor_tables[cmor_vars[var_id].
+		                        ref_table_id].table_id,
+		                        cmor_axes[cmor_vars[var_id].axes_ids[i]].id,
+		                        ctmp,
+		                        cmor_axes[cmor_vars[l].axes_ids[k]].id );
 		    cmor_handle_error( msg, CMOR_CRITICAL );
 		}
 	    }
@@ -2072,12 +2091,13 @@ int cmor_define_zfactors_vars( int var_id, int ncid, int *nc_dim,
 				    &nc_zfactors[lnzfactors] );
 		if( ierr != NC_NOERR ) {
 		    snprintf( msg, CMOR_MAX_STRING,
-			      "NC Error (%i: %s) for variable %s (table %s) error defining zfactor var: %i (%s)",
-			      ierr, nc_strerror( ierr ),
-			      cmor_vars[var_id].id,
-			      cmor_tables[cmor_vars[var_id].
-					  ref_table_id].table_id,
-			      lnzfactors, cmor_vars[l].id );
+		            "NC Error (%i: %s) for variable %s (table %s) "
+		            "error defining zfactor var: %i (%s)",
+		            ierr, nc_strerror( ierr ),
+		            cmor_vars[var_id].id,
+		            cmor_tables[cmor_vars[var_id].
+		                        ref_table_id].table_id,
+		                        lnzfactors, cmor_vars[l].id );
 		    cmor_handle_error( msg, CMOR_CRITICAL );
 		}
 
@@ -2091,12 +2111,12 @@ int cmor_define_zfactors_vars( int var_id, int ncid, int *nc_dim,
 			ics =
 			    cmor_tables[cmor_vars[l].
 					ref_table_id].vars[cmor_vars[l].
-							   ref_var_id].
+					                   ref_var_id].
 			    shuffle;
 			icd =
 			    cmor_tables[cmor_vars[l].
 					ref_table_id].vars[cmor_vars[l].
-							   ref_var_id].
+					                   ref_var_id].
 			    deflate;
 			icdl =
 			    cmor_tables[cmor_vars[l].
@@ -2109,13 +2129,15 @@ int cmor_define_zfactors_vars( int var_id, int ncid, int *nc_dim,
 						ics, icd, icdl );
 			if( ierr != NC_NOERR ) {
 			    snprintf( msg, CMOR_MAX_STRING,
-				      "NCError (%i: %s) defining compression parameters for zfactor variable %s for variable '%s' (table %s)",
-				      ierr, nc_strerror( ierr ),
-				      cmor_vars[l].id,
-				      cmor_vars[var_id].id,
-				      cmor_tables[cmor_vars
-						  [var_id].ref_table_id].
-				      table_id );
+			            "NCError (%i: %s) defining compression "
+			            "parameters for zfactor variable %s for "
+			            "variable '%s' (table %s)",
+			            ierr, nc_strerror( ierr ),
+			            cmor_vars[l].id,
+			            cmor_vars[var_id].id,
+				              cmor_tables[cmor_vars
+				                          [var_id].ref_table_id].
+				                          table_id );
 			    cmor_handle_error( msg, CMOR_CRITICAL );
 			}
 		    }
@@ -2218,7 +2240,8 @@ int cmor_define_zfactors_vars( int var_id, int ncid, int *nc_dim,
 				    &nc_zfactors[lnzfactors] );
 		if( ierr != NC_NOERR ) {
 		    snprintf( msg, CMOR_MAX_STRING,
-			      "NC Error (%i: %s) for variable %s (table: %s),error defining zfactor var: %i (%s)",
+			      "NC Error (%i: %s) for variable %s (table: %s),"
+		            "error defining zfactor var: %i (%s)",
 			      ierr, nc_strerror( ierr ),
 			      cmor_vars[var_id].id,
 			      cmor_tables[cmor_vars[var_id].
@@ -2252,7 +2275,8 @@ int cmor_define_zfactors_vars( int var_id, int ncid, int *nc_dim,
 					    ics, icd, icdl );
 		    if( ierr != NC_NOERR ) {
 			snprintf( msg, CMOR_MAX_STRING,
-				  "NCError (%i: %s) defining compression parameters for zfactor variable %s for variable '%s' (table %s)",
+				  "NCError (%i: %s) defining compression parameters "
+			        "for zfactor variable %s for variable '%s' (table %s)",
 				  ierr, nc_strerror( ierr ),
 				  cmor_vars[l].id, cmor_vars[var_id].id,
 				  cmor_tables[cmor_vars
@@ -2295,7 +2319,9 @@ int cmor_define_zfactors_vars( int var_id, int ncid, int *nc_dim,
 					    int_list );
 			if( ierr != NC_NOERR ) {
 			    snprintf( msg, CMOR_MAX_STRING,
-				      "NetCDF Error (%i: %s) setting flags numerical attribute on zfactor variable %s for variable %s (table: %s)",
+				      "NetCDF Error (%i: %s) setting flags numerical "
+			            "attribute on zfactor variable %s for variable "
+			            "%s (table: %s)",
 				      ierr, nc_strerror( ierr ),
 				      cmor_vars[l].id,
 				      cmor_vars[var_id].id,
@@ -2306,30 +2332,28 @@ int cmor_define_zfactors_vars( int var_id, int ncid, int *nc_dim,
 			}
 			free( int_list );
 		    } else if( cmor_vars[l].attributes_type[k] == 'c' ) {
-			ierr =
-			    cmor_put_nc_char_attribute( ncid,
-							nc_zfactors
-							[lnzfactors],
-							cmor_vars
-							[l].attributes[k],
-							cmor_vars
-							[l].attributes_values_char
-							[k],
-							cmor_vars[l].id );
+			ierr = cmor_put_nc_char_attribute( ncid,
+			        nc_zfactors
+			        [lnzfactors],
+			        cmor_vars
+			        [l].attributes[k],
+			        cmor_vars
+			        [l].attributes_values_char
+			        [k],
+			        cmor_vars[l].id );
 		    } else {
-			ierr =
-			    cmor_put_nc_num_attribute( ncid,
-						       nc_zfactors
-						       [lnzfactors],
-						       cmor_vars
-						       [l].attributes[k],
-						       cmor_vars
-						       [l].attributes_type
-						       [k],
-						       cmor_vars
-						       [l].attributes_values_num
-						       [k],
-						       cmor_vars[l].id );
+			ierr = cmor_put_nc_num_attribute( ncid,
+			        nc_zfactors
+			        [lnzfactors],
+			        cmor_vars
+			        [l].attributes[k],
+			        cmor_vars
+			        [l].attributes_type
+			        [k],
+			        cmor_vars
+			        [l].attributes_values_num
+			        [k],
+			        cmor_vars[l].id );
 		    }
 		}
 
@@ -2344,7 +2368,7 @@ int cmor_define_zfactors_vars( int var_id, int ncid, int *nc_dim,
     }
     *nzfactors = lnzfactors;
     cmor_pop_traceback(  );
-    return 0;
+    return( 0 );
 }
 
 /************************************************************************/
@@ -2582,10 +2606,13 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 
 	if( cmor_vars[varid].initialized == -1 ) {
 	    snprintf( msg, CMOR_MAX_STRING,
-		      "You are trying to write variable \"%s\" in association with variable \"%s\" (table %s), but you you need to write the associated variable first in order to initialize the file and dimensinos",
-		      cmor_vars[varid].id, cmor_vars[var_id].id,
-		      cmor_tables[cmor_vars[var_id].
-				  ref_table_id].table_id );
+	            "You are trying to write variable \"%s\" in association "
+	            "with variable \"%s\" (table %s), but you you need to "
+	            "write the associated variable first in order to "
+	            "initialize the file and dimensinos",
+	            cmor_vars[varid].id, cmor_vars[var_id].id,
+	            cmor_tables[cmor_vars[var_id].
+	                        ref_table_id].table_id );
 	    cmor_handle_error( msg, CMOR_CRITICAL );
 	}
 /* -------------------------------------------------------------------- */
@@ -2598,7 +2625,8 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 			  &cmor_vars[var_id].nc_var_id );
 	if( ierr != NC_NOERR ) {
 	    sprintf( msg,
-		     "Could not find variable: '%s' (table: %s) in file of associated variable: '%s'",
+		     "Could not find variable: '%s' (table: %s) in file of "
+	            "associated variable: '%s'",
 		     cmor_vars[var_id].id,
 		     cmor_tables[cmor_vars[var_id].ref_table_id].table_id,
 		     cmor_vars[*refvar].id );
@@ -2616,10 +2644,13 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
     if( cmor_vars[varid].nomissing == 0 ) {
 	if( cmor_vars[varid].itype != type ) {
 	    snprintf( msg, CMOR_MAX_STRING,
-		      "You defined variable \"%s\" (table %s) with a missing value of type \"%c\", but you are now writing data of type: \"%c\" this may lead to some spurious handling of the missing values",
-		      cmor_vars[varid].id,
-		      cmor_tables[cmor_vars[var_id].ref_table_id].table_id,
-		      cmor_vars[varid].itype, type );
+	            "You defined variable \"%s\" (table %s) with a missing "
+	            "value of type \"%c\", but you are now writing data of "
+	            "type: \"%c\" this may lead to some spurious handling of "
+	            "the missing values",
+	            cmor_vars[varid].id,
+	            cmor_tables[cmor_vars[var_id].ref_table_id].table_id,
+	            cmor_vars[varid].itype, type );
 	    cmor_handle_error( msg, CMOR_WARNING );
 	}
     }
@@ -2653,7 +2684,8 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 	cmor_set_cur_dataset_attribute_internal( "product", ctmp2, 1 );
 
 /* -------------------------------------------------------------------- */
-/*      we will need the expt_id for the filename so we check its validity here */
+/*      we will need the expt_id for the filename                       */
+/*      so we check its validity here                                   */
 /* -------------------------------------------------------------------- */
 
 	cmor_get_cur_dataset_attribute( "experiment_id", ctmp2 );
@@ -2665,13 +2697,14 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 	    ( ctmp2, cmor_vars[var_id].ref_table_id, "experiment",
 	      "experiment_id" ) != 0 ) {
 	    snprintf( msg, CMOR_MAX_STRING,
-		      "Invalid dataset experiment id: %s, while writing variable %s, check against table: %s",
+		      "Invalid dataset experiment id: %s, while writing "
+	              "variable %s, check against table: %s",
 		      ctmp2, cmor_vars[var_id].id,
 		      cmor_tables[cmor_vars[var_id].
 				  ref_table_id].table_id );
 	    cmor_handle_error( msg, CMOR_NORMAL );
 	    cmor_pop_traceback(  );
-	    return 1;
+	    return( 1 );
 	}
 	
 /* -------------------------------------------------------------------- */
@@ -2711,7 +2744,11 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 			    [cmor_vars[var_id].
 			     ref_table_id].cmor_version >= 2. ) {
 			    sprintf( msg,
-				     "You passed '%s' as file_suffix while writing variable %s (table %s), suffix are not allowed in CMOR2.0 and newer. Were you trying to append to a non-existing file?",
+				     "You passed '%s' as file_suffix while "
+			            "writing variable %s (table %s), suffix "
+			            "are not allowed in CMOR2.0 and newer. "
+			            "Were you trying to append to a "
+			            "non-existing file?",
 				     appending_to, cmor_vars[var_id].id,
 				     cmor_tables[cmor_vars
 						 [var_id].ref_table_id].
@@ -2729,7 +2766,9 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 			[cmor_vars[var_id].ref_table_id].cmor_version >=
 			2. ) {
 			sprintf( msg,
-				 "Suffix are not allowed in CMOR 2.0 and greater, suffix %s encountered while writing variable %s (table %s)",
+				 "Suffix are not allowed in CMOR 2.0 and "
+			        "greater, suffix %s encountered while "
+			        "writing variable %s (table %s)",
 				 suffix, cmor_vars[var_id].id,
 				 cmor_tables[cmor_vars
 					     [var_id].ref_table_id].
@@ -2757,7 +2796,8 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 	    if( ( cmor_vars[var_id].id[i] == '_' )
 		|| ( cmor_vars[var_id].id[i] == '-' ) ) {
 		snprintf( outname, CMOR_MAX_STRING,
-			  "var_id cannot contain %c you passed: %s (table: %s). Please check your input tables\n",
+			  "var_id cannot contain %c you passed: %s "
+		          "(table: %s). Please check your input tables\n",
 			  cmor_vars[var_id].id[i], cmor_vars[var_id].id,
 			  cmor_tables[cmor_vars[var_id].
 				      ref_table_id].table_id );
@@ -2907,7 +2947,11 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 		    if( ( CMOR_NETCDF_MODE == CMOR_APPEND_4 )
 			|| ( CMOR_NETCDF_MODE == CMOR_APPEND_3 ) ) {
 			snprintf( ctmp2, CMOR_MAX_STRING,
-				  "While writing variable %s (table %s), suffix cannot contain the '_' character, you passed: %s. Is it possible you are trying to append to a file and the file is not actually here?",
+				  "While writing variable %s (table %s), "
+			          "suffix cannot contain the '_' character, "
+			          "you passed: %s. Is it possible you are "
+			          "trying to append to a file and the file "
+			          "is not actually here?",
 				  cmor_vars[var_id].id,
 				  cmor_tables[cmor_vars
 					      [var_id].ref_table_id].
@@ -2915,7 +2959,9 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 			cmor_handle_error( ctmp2, CMOR_CRITICAL );
 		    } else {
 			snprintf( ctmp2, CMOR_MAX_STRING,
-				  "suffix cannot contain the '_' character, you passed: %s, while writing variable %s (table: %s)",
+				  "suffix cannot contain the '_' character, "
+			          "you passed: %s, while writing variable "
+			          "%s (table: %s)",
 				  msg, cmor_vars[var_id].id,
 				  cmor_tables[cmor_vars
 					      [var_id].ref_table_id].
@@ -2950,7 +2996,8 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 	    if( strncmp( outname, appending_to, CMOR_MAX_STRING ) != 0 ) {
 		if( rename( appending_to, outname ) != 0 ) {
 		    snprintf( msg, CMOR_MAX_STRING,
-			      "could not rename your existing file: %s to temporary file: %s",
+			      "could not rename your existing file: %s to "
+		              "temporary file: %s",
 			      appending_to, outname );
 		    cmor_handle_error( msg, CMOR_CRITICAL );
 		}
@@ -2989,7 +3036,9 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 	    fperr = fopen( outname, "r" );
 	    if( fperr != NULL ) {
 		snprintf( msg, CMOR_MAX_STRING,
-			  "Output file ( %s ) already exists, remove file or use CMOR_REPLACE or CMOR_APPEND for CMOR_NETCDF_MODE value in cmor_setup",
+			  "Output file ( %s ) already exists, remove file "
+		          "or use CMOR_REPLACE or CMOR_APPEND for "
+		          "CMOR_NETCDF_MODE value in cmor_setup",
 			  outname );
 		cmor_handle_error( msg, CMOR_CRITICAL );
 	    }
@@ -3019,7 +3068,8 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 		ierr = nc_inq_dimid( ncid, "time", &i );
 		if( ierr != NC_NOERR ) {
 		    snprintf( msg, CMOR_MAX_STRING,
-			      "NetCDF Error (%i: %s) looking for time dimension in file: %s",
+			      "NetCDF Error (%i: %s) looking for time "
+		              "dimension in file: %s",
 			      ierr, nc_strerror( ierr ), outname );
 		    cmor_handle_error( msg, CMOR_CRITICAL );
 		}
@@ -3027,7 +3077,8 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 		cmor_vars[var_id].ntimes_written = ( int ) nctmp;
 		if( ierr != NC_NOERR ) {
 		    snprintf( msg, CMOR_MAX_STRING,
-			      "NetCDF Error (%i: %s) looking for time dimension length in file: %s",
+			      "NetCDF Error (%i: %s) looking for time "
+		              "dimension length in file: %s",
 			      ierr, nc_strerror( ierr ), outname );
 		    cmor_handle_error( msg, CMOR_CRITICAL );
 		}
@@ -3036,7 +3087,8 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 				  &cmor_vars[var_id].nc_var_id );
 		if( ierr != NC_NOERR ) {
 		    snprintf( msg, CMOR_MAX_STRING,
-			      "NetCDF Error (%i: %s) looking for variable '%s' in file: %s",
+			      "NetCDF Error (%i: %s) looking for variable "
+		              "'%s' in file: %s",
 			      ierr, nc_strerror( ierr ),
 			      cmor_vars[var_id].id, outname );
 		    cmor_handle_error( msg, CMOR_CRITICAL );
@@ -3046,7 +3098,8 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 				  &cmor_vars[var_id].time_nc_id );
 		if( ierr != NC_NOERR ) {
 		    snprintf( msg, CMOR_MAX_STRING,
-			      "NetCDF Error (%i: %s) looking for time of variable '%s' in file: %s",
+			      "NetCDF Error (%i: %s) looking for time of "
+		              "variable '%s' in file: %s",
 			      ierr, nc_strerror( ierr ),
 			      cmor_vars[var_id].id, outname );
 		    cmor_handle_error( msg, CMOR_CRITICAL );
@@ -3068,7 +3121,8 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 		ierr = nc_inq_varid( ncid, "time_bnds", &i );
 		if( ierr != NC_NOERR ) {
 		    snprintf( msg, CMOR_MAX_STRING,
-			      "NetCDF Error (%i: %s) looking for time bounds of variable '%s' in file: %s",
+			      "NetCDF Error (%i: %s) looking for time bounds "
+		              "of variable '%s' in file: %s",
 			      ierr, nc_strerror( ierr ),
 			      cmor_vars[var_id].id, outname );
 		    cmor_handle_error( msg, CMOR_WARNING );
@@ -3126,10 +3180,11 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 /* -------------------------------------------------------------------- */
 	if( cmor_current_dataset.initiated == 0 ) {
 	    snprintf( msg, CMOR_MAX_STRING,
-		      "you need to initialize the dataset by calling cmor_dataset before calling cmor_write" );
+		      "you need to initialize the dataset by calling "
+	              "cmor_dataset before calling cmor_write" );
 	    cmor_handle_error( msg, CMOR_NORMAL );
 	    cmor_pop_traceback(  );
-	    return 1;
+	    return( 1 );
 	}
 
 	cleanup_varid = var_id;
@@ -3142,7 +3197,8 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 	if( strcmp( cmor_tables[cmor_vars[var_id].ref_table_id].URL, "" )
 	    == 0 ) {
 	    snprintf( msg, CMOR_MAX_STRING,
-		      "Your table (%s) does not contain a reference URL, please consider adding it",
+		      "Your table (%s) does not contain a reference URL, "
+	              "please consider adding it",
 		      cmor_tables[cmor_vars[var_id].
 				  ref_table_id].table_id );
 	    cmor_handle_error( msg, CMOR_WARNING );
@@ -3372,7 +3428,9 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 	ierr = nc_redef( ncafid );
 	if( ierr != NC_NOERR && ierr != NC_EINDEFINE ) {
 	    snprintf( msg, CMOR_MAX_STRING,
-		      "NetCDF Error (%i: %s) putting metadata file (%s) in def mode, nc file id was: %i, you were writing variable %s (table: %s)",
+		      "NetCDF Error (%i: %s) putting metadata file (%s) in "
+	              "def mode, nc file id was: %i, you were writing "
+	              "variable %s (table: %s)",
 		      ierr, nc_strerror( ierr ),
 		      cmor_current_dataset.associated_file_name, ncafid,
 		      cmor_vars[var_id].id,
@@ -3392,7 +3450,8 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 	cmor_set_cur_dataset_attribute_internal( "creation_date", msg, 0 );
 	if( did_history == 0 ) {
 	    snprintf( ctmp, CMOR_MAX_STRING,
-		      "%s CMOR rewrote data to comply with CF standards and %s requirements.",
+		      "%s CMOR rewrote data to comply with CF standards "
+	              "and %s requirements.",
 		      msg,
 		      cmor_tables[cmor_vars[var_id].
 				  ref_table_id].project_id );
@@ -3444,7 +3503,9 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 	if( cmor_tables[cmor_vars[var_id].ref_table_id].cf_version >
 	    afloat ) {
 	    snprintf( msg, CMOR_MAX_STRING,
-		      "Your table (%s) claims to enforce CF version %f but this version of the library is designed for CF up to: %i.%i, you were writing variable: %s",
+		      "Your table (%s) claims to enforce CF version %f but "
+	              "this version of the library is designed for CF up "
+	              "to: %i.%i, you were writing variable: %s",
 		      cmor_tables[cmor_vars[var_id].ref_table_id].table_id,
 		      cmor_tables[cmor_vars[var_id].
 				  ref_table_id].cf_version,
@@ -3464,25 +3525,30 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 		cmor_get_cur_dataset_attribute( "experiment_id", ctmp );
 		if( strcmp( msg, ctmp ) == 0 ) {
 		    sprintf( ctmp,
-			     "Your parent_experiment id matches your current experiment_id, they are both set to: %s; you were writing variable %s (table: %s)",
+			     "Your parent_experiment id matches your current "
+		             "experiment_id, they are both set to: %s; you "
+		             "were writing variable %s (table: %s)",
 			     msg, cmor_vars[var_id].id,
 			     cmor_tables[cmor_vars[var_id].
 					 ref_table_id].table_id );
 		    cmor_handle_error( ctmp, CMOR_NORMAL );
 		    cmor_pop_traceback(  );
-		    return 1;
+		    return( 1 );
 		} else {
 		    cmor_get_cur_dataset_attribute( "experiment", ctmp );
 		    if( strcmp( msg, ctmp ) == 0 ) {
 			sprintf( ctmp,
-				 "Your parent_experiment id matches your current experiment_id, they are both set to: %s; you were writing variable %s (table: %s)",
+				 "Your parent_experiment id matches your "
+			         "current experiment_id, they are both set "
+			         "to: %s; you were writing variable %s "
+			         "(table: %s)",
 				 msg, cmor_vars[var_id].id,
 				 cmor_tables[cmor_vars
 					     [var_id].ref_table_id].
 				 table_id );
 			cmor_handle_error( ctmp, CMOR_NORMAL );
 			cmor_pop_traceback(  );
-			return 1;
+			return( 1 );
 		    } else {
 /* -------------------------------------------------------------------- */
 /*      ok now we can check it is a valid "other" experiment            */
@@ -3499,7 +3565,7 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 				      table_id, cmor_vars[var_id].id );
 			    cmor_handle_error( ctmp, CMOR_NORMAL );
 			    cmor_pop_traceback(  );
-			    return 1;
+			    return( 1 );
 			}
 		    }
 		}
@@ -3527,7 +3593,9 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 	cmor_has_required_global_attributes( cmor_vars
 					     [var_id].ref_table_id );
 
-	/* ok at this point if we are CMIP5 needs to check source and model_id are identical */
+/* -------------------------------------------------------------------- */
+/*     check source and model_id are identical                          */
+/* -------------------------------------------------------------------- */
 	if( strcmp
 	    ( cmor_tables[cmor_vars[var_id].ref_table_id].project_id,
 	      "CMIP5" ) == 0 ) {
@@ -3535,7 +3603,9 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 	    cmor_get_cur_dataset_attribute( "source", ctmp6 );
 	    if( strncmp( ctmp5, ctmp6, strlen( ctmp5 ) ) != 0 ) {
 		snprintf( msg, CMOR_MAX_STRING,
-			  "while writing variable %s (table: %s), source attribute does not start with 'model_id', it should start with: %s",
+			  "while writing variable %s (table: %s), source "
+		          "attribute does not start with 'model_id', it "
+		          "should start with: %s",
 			  cmor_vars[var_id].id,
 			  cmor_tables[cmor_vars[var_id].
 				      ref_table_id].table_id, ctmp5 );
@@ -3596,7 +3666,10 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 	    if( strcmp
 		( cmor_current_dataset.attributes_names[i],
 		  "calendar" ) != 0 ) {
-		if( ( strcmp( cmor_current_dataset.attributes_names[i], "initialization_method" ) == 0 ) || ( strcmp( cmor_current_dataset.attributes_names[i], "physics_version" ) == 0 ) ) {	/* these two are actually int not char */
+		if( ( strcmp( cmor_current_dataset.attributes_names[i],
+		        "initialization_method" ) == 0 ) ||
+		        ( strcmp( cmor_current_dataset.attributes_names[i],
+		                "physics_version" ) == 0 ) ) {	/* these two are actually int not char */
 		    sscanf( cmor_current_dataset.attributes_values[i],
 			    "%i", &itmp2 );
 		    ierr =
@@ -3605,7 +3678,8 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 					[i], NC_INT, 1, &itmp2 );
 		    if( ierr != NC_NOERR ) {
 			snprintf( msg, CMOR_MAX_STRING,
-				  "NetCDF error (%i: %s) for variable %s (table: %s) writing global att: %s (%s)",
+				  "NetCDF error (%i: %s) for variable %s "
+			          "(table: %s) writing global att: %s (%s)",
 				  ierr, nc_strerror( ierr ),
 				  cmor_vars[var_id].id,
 				  cmor_tables[cmor_vars
@@ -3623,7 +3697,9 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 					    [i], NC_INT, 1, &itmp2 );
 			if( ierr != NC_NOERR ) {
 			    snprintf( msg, CMOR_MAX_STRING,
-				      "NetCDF error (%i: %s) for variable %s (table: %s) writing global att to metafile: %s (%s)",
+				      "NetCDF error (%i: %s) for variable %s "
+			              "(table: %s) writing global att to "
+			              "metafile: %s (%s)",
 				      ierr, nc_strerror( ierr ),
 				      cmor_vars[var_id].id,
 				      cmor_tables[cmor_vars
@@ -3651,7 +3727,8 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 					   [i], NC_DOUBLE, 1, &tmps[0] );
 		    if( ierr != NC_NOERR ) {
 			snprintf( msg, CMOR_MAX_STRING,
-				  "NetCDF error (%i: %s) for variable %s (table: %s)  writing global att: %s (%s)",
+				  "NetCDF error (%i: %s) for variable %s "
+			          "(table: %s)  writing global att: %s (%s)",
 				  ierr, nc_strerror( ierr ),
 				  cmor_vars[var_id].id,
 				  cmor_tables[cmor_vars
@@ -4643,7 +4720,7 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 				      table_id );
 			    cmor_handle_error( msg, CMOR_NORMAL );
 			    cmor_pop_traceback(  );
-			    return 1;
+			    return( 1 );
 			}
 		    } else {
 			ierr =
@@ -5846,7 +5923,7 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
     cmor_write_var_to_file( ncid, &cmor_vars[var_id], data, type,
 			    ntimes_passed, time_vals, time_bounds );
     cmor_pop_traceback(  );
-    return 0;
+    return( 0 );
 };
 
 
@@ -6021,7 +6098,7 @@ int cmor_create_output_path( int var_id, char *outpath ) {
 		  cmor_tables[cmor_vars[var_id].ref_table_id].table_id );
 	cmor_handle_error( tmp2, CMOR_NORMAL );
 	cmor_pop_traceback(  );
-	return 1;
+	return( 1 );
     }
 /* -------------------------------------------------------------------- */
 /*      ok here we need to reset the expt id to the shrt name if necessary*/
@@ -6452,7 +6529,7 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
 				      ref_table_id].table_id );
 		cmor_handle_error( msg, CMOR_CRITICAL );
 		cmor_pop_traceback(  );
-		return 1;
+		return( 1 );
 	    }
 /* -------------------------------------------------------------------- */
 /*      ok makes a comptime out of input                                */
@@ -6769,7 +6846,7 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
     }
     cleanup_varid = -1;
     cmor_pop_traceback(  );
-    return 0;
+    return( 0 );
 }
 
 /************************************************************************/
@@ -6871,7 +6948,7 @@ int cmor_close( void ) {
     if( output_logfile != stderr )
 	fclose( output_logfile );
     cmor_pop_traceback(  );
-    return 0;
+    return( 0 );
 }
 
 /************************************************************************/

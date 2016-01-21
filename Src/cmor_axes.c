@@ -174,7 +174,8 @@ int cmor_convert_time_units( char *inunits, char *outunits,
     }
     if( oui == -1 ) {
 	snprintf( msg, CMOR_MAX_STRING,
-		  "Time units conversion, output units must contain the 'since' word" );
+		  "Time units conversion, output units must contain "
+	          "the 'since' word" );
 	cmor_handle_error( msg, CMOR_CRITICAL );
     }
 
@@ -198,7 +199,8 @@ int cmor_convert_time_units( char *inunits, char *outunits,
     }
     if( iui == -1 ) {
 	snprintf( msg, CMOR_MAX_STRING,
-		  "Time units conversion, input units must contain the 'since' word" );
+		  "Time units conversion, input units must contain the "
+	          "'since' word" );
 	cmor_handle_error( msg, CMOR_CRITICAL );
     }
     /* now construct the output units in case of a ? */
@@ -402,8 +404,8 @@ int cmor_has_axis_attribute( int id, char *attribute_name ) {
     for( i = 0; i < cmor_axes[id].nattributes; i++ ) {
 	if( strcmp( cmor_axes[id].attributes[i], attribute_name ) == 0 ) {
 	    index = i;
-	    break;
-	}			/* we found it */
+	    break;   /* we found it */
+	}
     }
     if( index == -1 ) {
 	cmor_pop_traceback(  );
@@ -484,7 +486,8 @@ int cmor_check_monotonic( double *values, int length, char *name,
 		    treatlon = 1;
 		} else {
 		    snprintf( msg, CMOR_MAX_STRING,
-			      "axis %s (table: %s) has non monotonic bounds values : %lf, %lf, %lf",
+			      "axis %s (table: %s) has non monotonic "
+		              "bounds values : %lf, %lf, %lf",
 			      name,
 			      cmor_tables[cmor_axes[axis_id].ref_table_id].
 			      table_id, values[2 * i], values[2 * i + 2],
@@ -1537,7 +1540,10 @@ int cmor_check_interval( int axis_id, char *interval, double *values,
 	diff2 = tmp;
 	tmp = ( double ) fabs( diff2 - interv );
 	tmp = tmp / interv;
-     /* more than 20% diff issues an error */
+/* -------------------------------------------------------------------- */
+/* more than 20% diff issues an error                                   */
+/* -------------------------------------------------------------------- */
+
 	if( tmp > cmor_tables[cmor_axes[axis_id].ref_table_id].interval_error ) {
 	    if( isbounds == 1 ) {
 		snprintf( ctmp, CMOR_MAX_STRING,
@@ -2206,7 +2212,13 @@ int cmor_set_axis_def_att(cmor_axis_def_t *axis, char att[CMOR_MAX_STRING],
 
     cmor_add_traceback("cmor_set_axis_def_att");
     cmor_is_setup();
-
+/*----------------------------------------------------------------------*/
+/*  If val is an empty string keep default values set in init_axs_def   */
+/*----------------------------------------------------------------------*/
+    if(strcmp(val, "") == 0 ) {
+        cmor_pop_traceback();
+        return(0);
+    }
     if (strcmp(att, AXIS_ATT_REQUIRED) == 0) {
 
         strcpy(axis->required, att);
@@ -2413,15 +2425,23 @@ int cmor_set_axis_def_att(cmor_axis_def_t *axis, char att[CMOR_MAX_STRING],
             dim[0] = '\0';
             n = 0;
             for (i = 0; i < strlen(val); i++) {
+
+/* -------------------------------------------------------------------- */
+/*      Skip double quote (")                                           */
+/* -------------------------------------------------------------------- */
+                while ((val[i] == '"') || (val[i] == ' ') || val[i] == ',') {
+                    i++;
+                }
                 j = i;
-                while (((val[i] != ' ') && (val[i] != '\0'))
+                while (((val[i] != ' ') && (val[i] != '\0') && (val[i] != '"') )
                         && (i < strlen(val))) {
                     dim[i - j] = val[i];
                     i++;
                 }
                 dim[i - j] = '\0';
                 sscanf(dim, "%lf", &vals[n]);
-                while ((val[i] == ' ') && (val[i] != '\0')) {
+                while (((val[i] == ' ') || (val[i]== ',') || (val[i] == '"'))
+                        && (val[i] != '\0') ) {
                     i++;
                 }
                 i--;

@@ -1,9 +1,9 @@
 #ifndef CMOR_H
 #define CMOR_H
 
-#define CMOR_VERSION_MAJOR 2
-#define CMOR_VERSION_MINOR 9
-#define CMOR_VERSION_PATCH 1
+#define CMOR_VERSION_MAJOR 3
+#define CMOR_VERSION_MINOR 0
+#define CMOR_VERSION_PATCH 0
 
 #define CMOR_CF_VERSION_MAJOR 1
 #define CMOR_CF_VERSION_MINOR 4
@@ -55,7 +55,7 @@
 #define AXIS_ATT_CONVERTTO       "convert_to"
 #define AXIS_ATT_FORMULA         "formula"
 #define AXIS_ATT_ZFACTORS        "z_factors"
-#define AXIS_ATT_ZBOUNDSFACTORS  "z_bounds_factor"
+#define AXIS_ATT_ZBOUNDSFACTORS  "z_bounds_factors"
 #define AXIS_ATT_UNITS           "units"
 #define AXIS_ATT_STOREDDIRECTION "stored_direction"
 #define AXIS_ATT_POSITIVE        "positive"
