@@ -37,9 +37,9 @@ cmor.dataset(
     branch_time=0)
 
 tables=[]
-a = cmor.load_table(os.path.join(ipth,"../Tables/CMIP5_Omon"))
+a = cmor.load_table(os.path.join(ipth,"../Tables/CMIP6_Omon_json"))
 tables.append(a)
-tables.append(cmor.load_table("Tables/CMIP5_Amon"))
+tables.append(cmor.load_table("Tables/CMIP6_Amon_json"))
 print 'Tables ids:',tables
 
 axes=[]

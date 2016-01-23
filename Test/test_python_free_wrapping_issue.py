@@ -25,13 +25,13 @@ def save(opts,threeD=True):
             model_id='CMOR-test',
             forcing='GHG',
             institute_id='CMOR-test',
-            parent_experiment_id='piControl',
+            parent_experiment_id='piControlwithism',
             branch_time=109207.0,
             parent_experiment_rip='r1i1p1')
 
     # Load the CMIP tables into memory.
     tables=[]
-    tables.append(cmor.load_table('CMIP5_grids'))
+    tables.append(cmor.load_table('CMIP6_grids'))
     tables.append(cmor.load_table(opts['cmip_table']))
 
     # Create the dimension axes
@@ -149,7 +149,7 @@ def save(opts,threeD=True):
 
 if __name__ == "__main__":
 
-    opts={'cmip_table': 'CMIP5_Amon',
+    opts={'cmip_table': 'CMIP6_Amon_json',
           'outpath': 'Test',
           'table_path': 'Tables'}
 

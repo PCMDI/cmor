@@ -6,7 +6,7 @@ def main():
     
     cmor.setup(inpath='Tables',
                netcdf_file_action = cmor.CMOR_REPLACE_3)
-    cmor.dataset('pre-industrial control', 'ukmo', 'HadCM3', '360_day',
+    cmor.dataset('histGHG', 'ukmo', 'HadCM3', '360_day',
                  institute_id = 'ukmo',
                  model_id = 'HadCM3',
                  history = 'some global history',
@@ -16,14 +16,14 @@ def main():
                  branch_time = 0,
                  contact = 'brian clough')
  
-    table = 'CMIP5_Amon'
+    table = 'CMIP6_Amon_json'
     cmor.load_table(table)
     axes = [ {'table_entry': 'time',
               'units': 'days since 2000-01-01 00:00:00',
               },
              {'table_entry': 'plevs',
               'units': 'Pa',
-              'coord_vals': '100000. 92500. 85000. 70000. 60000. 50000. 40000. 30000. 25000. 20000. 15000. 10000. 7000. 5000. 3000. 2000. 1000.'.split(' ')},
+              'coord_vals': map(float,'100000. 92500. 85000. 70000. 60000. 50000. 40000. 30000. 25000. 20000. 15000. 10000. 7000. 5000. 3000. 2000. 1000.'.split(' '))},
              {'table_entry': 'latitude',
               'units': 'degrees_north',
               'coord_vals': [0],

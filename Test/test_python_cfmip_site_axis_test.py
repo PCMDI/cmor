@@ -79,8 +79,8 @@ if __name__ == '__main__' :
    print 'ok: created b zfactors'
 
    # Create grid object to link site-dimensioned variables to (lat,long).
-   # Need to make CMIP5_grids the current MIP table for this to work.
-   table_id = cmor.load_table('CMIP5_grids')
+   # Need to make CMIP6_grids the current MIP table for this to work.
+   table_id = cmor.load_table('CMIP6_grids')
    gaxis_id = cmor.grid([saxis_id], site_lats, site_lons)
    print 'ok: created site grid'
 

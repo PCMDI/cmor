@@ -77,9 +77,9 @@ def prep_cmor():
         branch_time=0.)
     
     tables=[]
-    a = cmor.load_table("Tables/CMIP5_Omon")
+    a = cmor.load_table("Tables/CMIP6_Omon_json")
     tables.append(a)
-    tables.append(cmor.load_table("Tables/CMIP5_Amon"))
+    tables.append(cmor.load_table("Tables/CMIP6_Amon_json"))
     return
 
 
@@ -95,7 +95,7 @@ for var in ['tas',]:
         df = data.filled(data.missing_value)
         cmor.write(var_id,df)
         cmor.close()
-        f=cdms2.open(opth+'/CMIP5/output/PCMDI/GICCM1/lgm/mon/atmos/%s/r1i1p1/%s_Amon_GICCM1_lgm_r1i1p1_186810-186812.nc'  % (var,var))
+        f=cdms2.open(opth+'/CMIP6/output/PCMDI/GICCM1/lgm/mon/atmos/%s/r1i1p1/%s_Amon_GICCM1_lgm_r1i1p1_197901-199602.nc'  % (var,var))
         s=f(var)
         if not numpy.allclose(s,data_ordered):
             raise "Error reordering: %s"%o

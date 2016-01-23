@@ -34,14 +34,14 @@ cmor.dataset(
     forcing="Ant, Nat",
     institute_id="pcmdi",
     parent_experiment_rip="r1i1p1",
-    parent_experiment_id="piControl",branch_time=18336.33)
+    parent_experiment_id="piControlwithism",branch_time=18336.33)
 
 #cmor.set_cur_dataset_attribute("parent_experiment_rip","r1i1p1")
 
 tables=[]
-a = cmor.load_table("Tables/CMIP5_grids")
+a = cmor.load_table("Tables/CMIP6_grids")
 tables.append(a)
-tables.append(cmor.load_table("Tables/CMIP5_Omon"))
+tables.append(cmor.load_table("Tables/CMIP6_Omon_json"))
 print 'Tables ids:',tables
 
 cmor.set_table(tables[0])

@@ -4,7 +4,7 @@ error_flag = cmor.setup(inpath='Test', netcdf_file_action=cmor.CMOR_REPLACE)
   
 error_flag = cmor.dataset(                                   
        outpath='Test',                                         
-       experiment_id='noVolc2000',
+       experiment_id='DcppC2',
        institution= 'GICC (Generic International Climate Center, Geneva, Switzerland)',                                 
        source='GICCM1 (2002): ',
        calendar='360_day',                                      
@@ -27,7 +27,7 @@ alats = numpy.arange(180)-89.5
 bnds_lat = numpy.arange(181)-90
 alons=numpy.arange(360)+.5
 bnds_lon=numpy.arange(361)
-cmor.load_table("Tables/CMIP5_Omon")
+cmor.load_table("Tables/CMIP6_Omon_json")
 ilat = cmor.axis(  
     table_entry='latitude',       
     units='degrees_north',          

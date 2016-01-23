@@ -228,7 +228,7 @@ int main()
   printf("yep: %s, %s\n",c1,c2);
   ierr = cmor_dataset(
        "Test",
-       "abrupt 4XCO2",
+       "Abrupt05xco2",
        "GICC (Generic International Climate Center, Geneva, Switzerland)",
        "GICCM1(2002): atmosphere:  GICAM3 (gicam_0_brnchT_itea_2, T63L32); ocean: MOM (mom3_ver_3.5.2, 2x3L15); sea ice: GISIM4; land: GILSM2.5",
        "360_day",
@@ -343,6 +343,7 @@ int main()
 
   cmor_set_table(tables[1]);
 
+
   for (i=0;i<ntimes;i++) {
     printf("Test code: writing time: %i of %i\n",i+1,ntimes);
     
@@ -380,5 +381,5 @@ int main()
   }
   ierr = cmor_close_variable(myvars[0],NULL,NULL);
   ierr = cmor_close();
-  return 0;
+  return( 0 );
 }

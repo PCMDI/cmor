@@ -35,13 +35,13 @@ cmor.dataset(
     model_id="GICCM1",
     forcing="Ant, Nat",
     institute_id="pcmdi",
-    parent_experiment_id="piControl",branch_time=18336.33,parent_experiment_rip='r1i1p1')
+    parent_experiment_id="piControlwithism",branch_time=18336.33,parent_experiment_rip='r1i1p1')
 
 tables=[]
-a = cmor.load_table("/git/cmip5-cmor-tables/Tables/CMIP5_grids")
+a = cmor.load_table("/git/cmip5-cmor-tables/Tables/CMIP6_grids")
 tables.append(a)
 
-t='CMIP5_Omon'
+t='CMIP6_Omon_json'
 te = 'dissic'
 u='mol m-3'
 time='time'

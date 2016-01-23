@@ -34,14 +34,14 @@ def setup_data():
     return values, axes
 
 def cmor_define_and_write(values, axes):
-    table = 'CMIP5_Amon'
+    table = 'CMIP6_Amon_json'
     cmor.load_table(table)
 
     axis_ids = list()
     for axis in axes:
        axis_ids.append(cmor.axis(**axis))
                     
-    table = 'CMIP5_Amon'
+    table = 'CMIP6_Amon_json'
     cmor.load_table(table)
 
     varid = cmor.variable('rlut',

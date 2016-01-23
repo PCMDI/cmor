@@ -1,7 +1,6 @@
 from test_python_common import * # common subroutines
 import cmor._cmor
 import os
-
 pth = os.path.split(os.path.realpath(os.curdir))
 if pth[-1]=='Test':
     ipth = opth = '.'
@@ -29,9 +28,9 @@ cmor._cmor.dataset( \
     None,"GICCM1","Nat",0,0,"PCMDI","N/A",0,"r1i1p1")
 
 tables=[]
-a = cmor._cmor.load_table("Tables/CMIP5_Omon")
+a = cmor._cmor.load_table("Tables/CMIP6_Omon_json")
 tables.append(a)
-tables.append(cmor._cmor.load_table("Tables/CMIP5_Amon"))
+tables.append(cmor._cmor.load_table("Tables/CMIP6_Amon_json"))
 print 'Tables ids:',tables
 
 

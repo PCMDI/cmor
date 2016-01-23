@@ -10,7 +10,7 @@ error_flag = cmor.setup(inpath='Test', netcdf_file_action=cmor.CMOR_APPEND)
   
 error_flag = cmor.dataset(                                   
        outpath='Joerg',                                         
-       experiment_id='noVolc2000',
+       experiment_id='DcppC2',
        institution= 'GICC (Generic International Climate Center, Geneva, Switzerland)',
        institute_id = "GICC",
        source='GICCM1 (2002): ',
@@ -24,7 +24,7 @@ error_flag = cmor.dataset(
        forcing="Ant",
        parent_experiment_id="lgm",branch_time=0)
 
-ntables=[cmor.load_table("Tables/CMIP5_grids")]
+ntables=[cmor.load_table("Tables/CMIP6_grids")]
 ntables.append(cmor.load_table("Tables/CMIP5_OImon"))
 
 

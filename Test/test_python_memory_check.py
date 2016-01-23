@@ -68,7 +68,7 @@ def memory_check():
                  parent_experiment_rip="r1i3p2",
                  model_id='HadCM3',forcing='TO',parent_experiment_id="lgm",branch_time=0.,contact="Willie Mays")
     
-    table='CMIP5_Amon'
+    table='CMIP6_Amon_json'
     cmor.load_table(table)
 
     tval = []

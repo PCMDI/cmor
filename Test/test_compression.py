@@ -31,7 +31,7 @@ cmor.dataset(
     parent_experiment_rip="N/A",
     branch_time=0.)
 
-cmor.load_table("Tables/CMIP5_Amon")
+cmor.load_table("Tables/CMIP6_Amon_json")
 
 s=f("clt",slice(14))
 Saxes = s.getAxisList()

@@ -466,7 +466,7 @@ void cmor_set_mapping_attribute( cmor_mappings_t * mapping,
     cmor_add_traceback( "cmor_set_mapping_attribute" );
     if( strcmp( att, "coordinates" ) == 0 ) {
 	strncpy( mapping->coordinates, val, CMOR_MAX_STRING );
-    } else if( strcmp( att, "parameter" ) == 0 ) {
+    } else if( strncmp( att, "parameter", 9 ) == 0 ) {
 	n = -1;
 	for( i = 0; i < mapping->nattributes; i++ ) {
 	    if( strcmp( mapping->attributes_names[i], val ) == 0 ) {

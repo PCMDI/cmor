@@ -7,7 +7,7 @@ def path_test():
                  institute_id="PCMDI",
                  model_id='HadCM3',forcing='co2')
     
-    table='CMIP5_Amon_YYYYMMDDHH'
+    table='CMIP6_Amon_json_YYYYMMDDHH'
     cmor.load_table(table)
     axes = [ {'table_entry': 'time',
               'units': 'days since 2000-01-01 00:00:00',

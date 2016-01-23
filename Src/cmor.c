@@ -662,9 +662,9 @@ void cmor_handle_error( char error_msg[CMOR_MAX_STRING], int level ) {
     }
     n = strlen( msg );
     if( CMOR_VERBOSITY != CMOR_QUIET || level != CMOR_WARNING ) {
-	for( i = 0; i < n; i++ )
+	for( i = 0; i < n; i++ ) {
 	    fprintf( output_logfile, "!" );
-	
+	}
 	fprintf( output_logfile, "\n" );
 	fprintf( output_logfile, "!" );
 	
@@ -724,14 +724,19 @@ void substitute_chars_with_hyphens( char *strin,
 	if( cmor_convert_char_to_hyphen( strin[i] ) == 1 ) {
 	    if( var_id != -1 ) {
 		snprintf( msg, CMOR_MAX_STRING,
-			  "writing variable %s (table %s), %s (%s) contains the character '%c' it will be replaced with a hyphen in the filename and output directories\n",
+			  "writing variable %s (table %s), %s (%s) "
+		          "contains the character '%c' it will be replaced "
+		          "with a hyphen in the filename and output "
+		          "directories\n",
 			  cmor_vars[var_id].id,
 			  cmor_tables[cmor_vars[var_id].
 				      ref_table_id].table_id, name, strin,
 			  strin[i] );
 	    } else {
 		snprintf( msg, CMOR_MAX_STRING,
-			  "global attribute %s (%s) contains the character '%c' it will be replaced with a hyphen in output directories\n",
+			  "global attribute %s (%s) contains the character"
+		          " '%c' it will be replaced with a hyphen in output "
+		          "directories\n",
 			  name, strin, strin[i] );
 	    }
 	    cmor_handle_error( msg, CMOR_WARNING );
@@ -1464,8 +1469,16 @@ void cmor_has_required_global_attributes( int table_id ) {
     i = 0;
     msg2[0] = '\0';
     while( i < n ) {
-	while( ( cmor_tables[table_id].required_gbl_att[i] != ' ' )
-	       && ( cmor_tables[table_id].required_gbl_att[i] != '\0' ) ) {
+        while( (( cmor_tables[table_id].required_gbl_att[i] == '[')
+                || (cmor_tables[table_id].required_gbl_att[i] == ']')
+                || (cmor_tables[table_id].required_gbl_att[i] == '"')
+                || (cmor_tables[table_id].required_gbl_att[i] == ',')
+                || (cmor_tables[table_id].required_gbl_att[i] == ' ')) ) {
+            i++;
+        }
+
+	while( (( cmor_tables[table_id].required_gbl_att[i] != '"' )
+	       && ( cmor_tables[table_id].required_gbl_att[i] != '\0' ) ) ) {
 	    msg[j] = cmor_tables[table_id].required_gbl_att[i];
 	    msg[j + 1] = '\0';
 	    j++;
@@ -1476,8 +1489,7 @@ void cmor_has_required_global_attributes( int table_id ) {
 	found = 0;
 
 	for( j = 0; j < cmor_current_dataset.nattributes; j++ ) {
-	    if( strcmp( msg, cmor_current_dataset.attributes_names[j] ) ==
-		0 ) {
+	    if( strcmp( msg, cmor_current_dataset.attributes_names[j] ) == 0 ) {
 		cmor_get_cur_dataset_attribute( msg, ctmp );
 		if( strcmp( ctmp, "not specified" ) != 0 ) {
 		    found = 1;
@@ -2875,7 +2887,7 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 	if( strcmp( appending_to, "" ) != 0 ) {	
 /* -------------------------------------------------------------------- */
 /*      What's the length of that file name                             */
-/* -------------------------------------------------------------------- */
+/* ---------read_2d_input_files----------------------------------------------------------- */
 	    k = strlen( appending_to );	
 	    j = 0;
 	    for( i = k - 1; i >= 0; i-- ) {
@@ -3194,8 +3206,7 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 /*      Ok we need to set the associated_files attributes               */
 /* -------------------------------------------------------------------- */
 
-	if( strcmp( cmor_tables[cmor_vars[var_id].ref_table_id].URL, "" )
-	    == 0 ) {
+	if(strcmp(cmor_tables[cmor_vars[var_id].ref_table_id].URL, "" )== 0 ) {
 	    snprintf( msg, CMOR_MAX_STRING,
 		      "Your table (%s) does not contain a reference URL, "
 	              "please consider adding it",
@@ -3232,9 +3243,8 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 /* -------------------------------------------------------------------- */
 /*      we want to copy only the first realm here                       */
 /* -------------------------------------------------------------------- */
-	    for( i = 0;
-		 i <
-		 strlen( cmor_tables[cmor_vars[var_id].ref_table_id].vars
+	    for( i = 0;i <strlen( cmor_tables[cmor_vars[var_id].
+	                                      ref_table_id].vars
 			 [cmor_vars[var_id].ref_var_id].realm ); i++ ) {
 		if( cmor_tables[cmor_vars[var_id].ref_table_id].vars
 		    [cmor_vars[var_id].ref_var_id].realm[i] != ' ' ) {
@@ -3765,8 +3775,7 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 			strlen( cmor_current_dataset.attributes_values
 				[i] );
 		    if( itmp2 < CMOR_DEF_ATT_STR_LEN ) {
-			for( itmp2 =
-			     strlen( cmor_current_dataset.attributes_values
+			for( itmp2=strlen(cmor_current_dataset.attributes_values
 				     [i] ); itmp2 < CMOR_DEF_ATT_STR_LEN;
 			     itmp2++ ) {
 			    cmor_current_dataset.attributes_values[i]
@@ -3774,8 +3783,7 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 			}
 			itmp2 = CMOR_DEF_ATT_STR_LEN;
 		    }
-		    ierr =
-			nc_put_att_text( ncid, NC_GLOBAL,
+		    ierr = nc_put_att_text( ncid, NC_GLOBAL,
 					 cmor_current_dataset.attributes_names
 					 [i], itmp2,
 					 cmor_current_dataset.attributes_values
@@ -3975,9 +3983,9 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 /*      store the dimensions values                                     */
 /* -------------------------------------------------------------------- */
 	for( i = 0; i < cmor_vars[var_id].ndims; i++ ) {
-	    if( cmor_axes[cmor_vars[var_id].axes_ids[i]].store_in_netcdf ==
-		0 )
+	    if( cmor_axes[cmor_vars[var_id].axes_ids[i]].store_in_netcdf == 0 )
 		continue;
+
 	    if( cmor_axes[cmor_vars[var_id].axes_ids[i]].cvalues == NULL ) {
 /* -------------------------------------------------------------------- */
 /*       first we need to figure out the output type                    */
@@ -4001,14 +4009,16 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 		    j = NC_DOUBLE;
 		    break;
 		}
-		ierr =
-		    nc_def_var( ncid,
-				cmor_axes[cmor_vars[var_id].
-					  axes_ids[i]].id, j, 1,
-				&nc_dim[i], &nc_vars[i] );
+		ierr =  nc_def_var( ncid, cmor_axes[cmor_vars[var_id].
+		                                    axes_ids[i]].id,
+		                                    j,
+		                                    1,
+		                                    &nc_dim[i],
+		                                    &nc_vars[i] );
 		if( ierr != NC_NOERR ) {
 		    snprintf( msg, CMOR_MAX_STRING,
-			      "NetCDF Error (%i: %s) for variable %s (table: %s) error defining dim var: %i (%s)",
+			      "NetCDF Error (%i: %s) for variable %s "
+		              "(table: %s) error defining dim var: %i (%s)",
 			      ierr, nc_strerror( ierr ),
 			      cmor_vars[var_id].id,
 			      cmor_tables[cmor_vars[var_id].
@@ -4043,7 +4053,9 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 					    icdl );
 		    if( ierr != NC_NOERR ) {
 			snprintf( msg, CMOR_MAX_STRING,
-				  "NCError (%i: %s) defining compression parameters for dimension %s for variable '%s' (table: %s)",
+				  "NCError (%i: %s) defining compression "
+			          "parameters for dimension %s for variable "
+			          "'%s' (table: %s)",
 				  ierr, nc_strerror( ierr ),
 				  cmor_axes[cmor_vars[var_id].
 					    axes_ids[i]].id,
@@ -4064,7 +4076,9 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 				    &nc_vars_af[i] );
 		    if( ierr != NC_NOERR ) {
 			snprintf( msg, CMOR_MAX_STRING,
-				  "NetCDF Error (%i: %s ) for variable %s (table: %s) error defining dim var: %i (%s) in metafile",
+				  "NetCDF Error (%i: %s ) for variable %s "
+			          "(table: %s) error defining dim var: %i "
+			          "(%s) in metafile",
 				  ierr, nc_strerror( ierr ),
 				  cmor_vars[var_id].id,
 				  cmor_tables[cmor_vars
@@ -4106,11 +4120,9 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 			    snprintf( msg, CMOR_MAX_STRING,
 				      "NCError (%i: %s) defining compression parameters for dimension %s for variable '%s' (table: %s)",
 				      ierr, nc_strerror( ierr ),
-				      cmor_axes[cmor_vars[var_id].axes_ids
-						[i]].id,
+				      cmor_axes[cmor_vars[var_id].axes_ids[i]].id,
 				      cmor_vars[var_id].id,
-				      cmor_tables[cmor_vars
-						  [var_id].ref_table_id].
+				      cmor_tables[cmor_vars[var_id].ref_table_id].
 				      table_id );
 			    cmor_handle_error( msg, CMOR_CRITICAL );
 			}
@@ -4247,12 +4259,12 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 /*      variable in order to change                                     */
 /*      the "bounds" attribute into "climatology"                       */
 /* -------------------------------------------------------------------- */
-		    if( cmor_tables
-			[cmor_axes
+		    if( cmor_tables[cmor_axes
 			 [cmor_vars[var_id].axes_ids[i]].ref_table_id].
 			axes[cmor_axes
 			     [cmor_vars[var_id].axes_ids[i]].ref_axis_id].
 			climatology == 1 ) {
+
 			snprintf( msg, CMOR_MAX_STRING, "climatology" );
 			strncpy( ctmp, "climatology_bnds",
 				 CMOR_MAX_STRING );
@@ -4475,7 +4487,8 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 				icdl++;
 			    }
 			    ctmp2[icdl] = '\0';
-			    icd = strlen( ctmp2 );
+
+                        	    icd = strlen( ctmp2 );
 /* -------------------------------------------------------------------- */
 /*      ok now we need to know if the user passed an                    */
 /*      interval or not in order to add it                              */
@@ -4496,7 +4509,8 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 					 CMOR_MAX_STRING -
 					 strlen( ctmp2 ) );
 			    }
-			    ierr = strlen( ctmp2 ) - icd;
+
+                        	    ierr = strlen( ctmp2 ) - icd;
 			    itmp3 = strlen( msg );
 			    for( icdl = icd; icdl < itmp3; icdl++ ) {
 				ctmp2[icdl + ierr] = msg[icdl];

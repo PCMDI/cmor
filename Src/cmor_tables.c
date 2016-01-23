@@ -106,9 +106,7 @@ int cmor_set_variable_entry(cmor_table_t* table,
     cmor_set_var_def_att(variable, "id", variable_entry);
 
     json_object_object_foreach(json, attr, value) {
-        strcpy(szValue, json_object_to_json_string(value));
-        strncpy(szValue, szValue + 1, strlen(szValue));
-        szValue[strlen(szValue) - 1] = '\0';
+        strcpy(szValue, json_object_get_string(value));
         cmor_set_var_def_att(variable, attr, szValue);
     }
     cmor_pop_traceback();
@@ -499,6 +497,21 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
     buffer[nTableSize] = '\0';
 
 /* -------------------------------------------------------------------- */
+/*      print errror and exist if not a JSON file                       */
+/* -------------------------------------------------------------------- */
+
+    if(buffer[0]!= '{') {
+        free(buffer);
+        buffer=NULL;
+        snprintf( msg, CMOR_MAX_STRING,
+                  "Could not understand file \"%s\" Is this a JSON CMIP6 table?",
+                   table  );
+            cmor_handle_error( msg, CMOR_CRITICAL );
+            cmor_ntables--;
+            cmor_pop_traceback(  );
+        return(1);
+    }
+/* -------------------------------------------------------------------- */
 /*      print errro and exit if file was not completly read             */
 /* -------------------------------------------------------------------- */
     if( nTableSize != read_size ) {
@@ -537,7 +550,7 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
             done=1;
         } else  if( strcmp( key, "experiments" ) == 0 ){
             json_object_object_foreach(value, shortname, description) {
-                strcpy(szVal, json_object_to_json_string(description));
+                strcpy(szVal, json_object_get_string(description));
                 if( cmor_set_experiments( &cmor_tables[cmor_ntables],
                                           shortname,
                                           szVal ) == 1 ) {
@@ -575,47 +588,61 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
 /* -------------------------------------------------------------------- */
 /*      Work on mapping entries                                         */
 /* -------------------------------------------------------------------- */
-		    do_dataset = 0;
-		    do_var = 0;
-		    do_axis = 0;
-		    do_mapping = 1;
-		    cmor_tables[cmor_ntables].nmappings++;
-		    if( cmor_tables[cmor_ntables].nmappings >=
-			CMOR_MAX_ELEMENTS ) {
-			snprintf( msg, CMOR_MAX_STRING,
-				  "Too many mappings defined for table: %s",
-				  cmor_tables[cmor_ntables].table_id );
-			cmor_handle_error( msg, CMOR_CRITICAL );
-			cmor_ntables--;
-			cmor_pop_traceback(  );
-			return(1);
-		    }
-		    
-		    for( n = 0;
-			 n < cmor_tables[cmor_ntables].nmappings - 1; n++ )
-			if( strcmp
-			    ( cmor_tables[cmor_ntables].
-			      mappings[cmor_tables[cmor_ntables].
-				       nmappings].id,
-			      cmor_tables[cmor_ntables].mappings[n].id ) ==
-			    0 ) {
-			    snprintf( msg, CMOR_MAX_STRING,
-				      "mapping: %s already defined within this table (%s)",
-				      cmor_tables[cmor_ntables].
-				      mappings[n].id,
-				      cmor_tables[cmor_ntables].table_id );
-			    cmor_handle_error( msg, CMOR_CRITICAL );
-			};
+	    cmor_tables[cmor_ntables].nmappings++;
+            if (cmor_tables[cmor_ntables].nmappings >= CMOR_MAX_ELEMENTS) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "Too many mappings defined for table: %s",
+                        cmor_tables[cmor_ntables].table_id);
+                cmor_handle_error(msg, CMOR_CRITICAL);
+                cmor_ntables--;
+                cmor_pop_traceback();
+                return (1);
+            }
+            json_object_object_foreach(value, mapname, jsonValue) {
+                char szLastMapID[CMOR_MAX_STRING];
+                char szCurrMapID[CMOR_MAX_STRING];
+                cmor_mappings_t *psmappings;
+                cmor_table_t *psCurrCmorTable;
 
+                psCurrCmorTable = &cmor_tables[cmor_ntables];
+
+                int nMap;
+                nMap = psCurrCmorTable->nmappings;
+
+                for (n = 0; n < nMap - 1; n++) {
+
+                    strcpy(szLastMapID, psCurrCmorTable->mappings[nMap].id);
+                    strcpy(szCurrMapID, psCurrCmorTable->mappings[n].id);
+
+                    if (strcmp(szLastMapID, szCurrMapID) == 0) {
+                        snprintf(msg, CMOR_MAX_STRING,
+                                "mapping: %s already defined within this table (%s)",
+                                cmor_tables[cmor_ntables].mappings[n].id,
+                                cmor_tables[cmor_ntables].table_id);
+                        cmor_handle_error(msg, CMOR_CRITICAL);
+                    };
+                }
 /* -------------------------------------------------------------------- */
 /*      init the variable def                                           */
 /* -------------------------------------------------------------------- */
+                cmor_init_grid_mapping(&psCurrCmorTable->mappings[nMap], mapname);
+                json_object_object_foreach(jsonValue, key, mappar)
+                {
 
-		    cmor_init_grid_mapping( &cmor_tables[cmor_ntables].
-					    mappings[cmor_tables
-						     [cmor_ntables].
-						     nmappings], szVal );
-		} else {
+                    char param[CMOR_MAX_STRING];
+
+                    strcpy(param, json_object_get_string(mappar));
+
+                    cmor_set_mapping_attribute(
+                            &psCurrCmorTable->mappings[psCurrCmorTable->nmappings],
+                            key, param);
+
+                }
+
+            }
+            done = 1;
+
+	} else {
 /* -------------------------------------------------------------------- */
 /*      nothing knwon we will not be setting any attributes!            */
 /* -------------------------------------------------------------------- */
@@ -628,7 +655,7 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
 		    do_var = 0;
 		    do_axis = 0;
 		    do_mapping = 0;
-		}
+	}
 	
 /* -------------------------------------------------------------------- */
 /*      First check for table/dataset mode values                       */
@@ -641,10 +668,6 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
 
         } else if ( done == 1 ){
             done = 0;
-        } else if( do_mapping == 1 ) {
-            cmor_set_mapping_attribute( &cmor_tables[cmor_ntables].
-                        mappings[cmor_tables[cmor_ntables].
-                             nmappings], key, szVal);
         } else {
             snprintf( msg, CMOR_MAX_STRING,
                   "attribute for unknown section: %s,%s (table: %s)",

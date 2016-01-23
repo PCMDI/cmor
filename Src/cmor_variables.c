@@ -1679,6 +1679,10 @@ int cmor_set_var_def_att( cmor_var_def_t * var, char att[CMOR_MAX_STRING],
 
     cmor_add_traceback( "cmor_set_var_def_att" );
     cmor_is_setup(  );
+    if(strcmp(val, "") == 0 ) {
+        cmor_pop_traceback();
+        return(0);
+    }
     if( strcmp( att, "required" ) == 0 ) {
 	strncpy( var->required, val, CMOR_MAX_STRING );
     } else if( strcmp( att, "id" ) == 0 ) {
@@ -2238,7 +2242,8 @@ int cmor_write_var_to_file( int ncid, cmor_var_t * avar, void *data,
 		    emax = tmp;
 		    snprintf( msg_max, CMOR_MAX_STRING,
 			      "Invalid value(s) detected for variable '%s' (table: %s): %%i values were greater than maximum valid value (%.4g).Maximum encountered bad value (%.5g) was at (axis: index/value):",
-			      avar->id,
+
+                        	      avar->id,
 			      cmor_tables[avar->ref_table_id].table_id,
 			      avar->valid_max, tmp );
 		    for( j = 0; j < avar->ndims; j++ ) {
@@ -2283,11 +2288,16 @@ int cmor_write_var_to_file( int ncid, cmor_var_t * avar, void *data,
     }
     if( avar->ok_min_mean_abs != ( float ) 1.e20 ) {
 	if( amean / nelts < .1 * avar->ok_min_mean_abs ) {
+
 	    snprintf( msg, CMOR_MAX_STRING,
-		      "Invalid Absolute Mean for variable '%s' (table: %s) (%.5g) is lower by more than an order of magnitude than minimum allowed: %.4g",
+		      "Invalid Absolute Mean for variable '%s' (table: %s) "
+	              "(%.5g) is lower by more than an order of magnitude "
+	              "than minimum allowed: %.4g",
 		      avar->id, cmor_tables[avar->ref_table_id].table_id,
 		      amean / nelts, avar->ok_min_mean_abs );
+
 	    cmor_handle_error( msg, CMOR_CRITICAL );
+
 	}
 	if( amean / nelts < avar->ok_min_mean_abs ) {
 	    snprintf( msg, CMOR_MAX_STRING,

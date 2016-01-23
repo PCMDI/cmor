@@ -10,7 +10,7 @@ def prep(mode):
 
     error_flag = cmor.dataset(                                   
            outpath='Test',                                         
-           experiment_id='noVolc2000',
+           experiment_id='DcppC2',
            institution= 'GICC (Generic International Climate Center, Geneva, Switzerland)',                                 
            source='GICCM1 (2002): ',
            calendar='standard',                                      
