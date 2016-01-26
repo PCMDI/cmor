@@ -52,6 +52,7 @@ itim = cmor.axis(table_entry='time',coord_vals=numpy.arange(0,ntime,1),units='mo
 ilat = cmor.axis(table_entry='latitude',coord_vals=lats,units='degrees_north')
 ilon = cmor.axis(table_entry='longitude',coord_vals=lons,units='degrees_east')
 print 'so far',itim,ilat,ilon
+print bnds_req
 ilev = cmor.axis(table_entry="pressure2",coord_vals=levs,cell_bounds=bnds_req,units="Pa")
 
 iv = cmor.variable(table_entry='ta',axis_ids=numpy.array((itim,ilev,ilat,ilon)),units='K')

@@ -41,7 +41,7 @@ def cmor_ini():
                  contact = 'bob')
 
 def define_write_clisccp():
-    cmor.load_table('CMIP5_cfMon')
+    cmor.load_table('CMIP6_Amon_json')
     axes = [ {'table_entry': 'time',
               'units': 'days since 2000-01-01 00:00:00',
               },

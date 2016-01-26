@@ -1342,7 +1342,8 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
 
 	if( j != 0 ) {
 	    snprintf( msg, CMOR_MAX_STRING,
-		      "You are defining variable '%s' (table %s)  with %i dimensions, when it should have %i",
+		      "You are defining variable '%s' (table %s)  with %i "
+	              "dimensions, when it should have %i",
 		      name,
 		      cmor_tables[cmor_vars[vrid].ref_table_id].table_id,
 		      ndims, refvar.ndims );

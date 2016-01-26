@@ -89,6 +89,8 @@ myvars[0] = cmor.variable( table_entry = 'tas',
 
 
 import time,MV2
+import pdb
+pdb.set_trace()
 st = time.time()
 totcmor=0
 totcdms=0

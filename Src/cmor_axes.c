@@ -2344,15 +2344,18 @@ int cmor_set_axis_def_att(cmor_axis_def_t *axis, char att[CMOR_MAX_STRING],
 /* -------------------------------------------------------------------- */
         dim[0] = '\0';
         n = 0;
-        for (i = 0; i < strlen(val); i++) {
+        for (i = 2; i < strlen(val); i++) {
             j = i;
-            while (((val[i] != ' ') && (val[i] != '\0')) && (i < strlen(val))) {
+            while (((val[i] != ' ') && (val[i] != '\0')) && (val[i] != '"')
+                    && (i < strlen(val))) {
                 dim[i - j] = val[i];
                 i++;
+
             }
             dim[i - j] = '\0';
             sscanf(dim, "%lf", &vals[n]);
-            while ((val[i] == ' ') && (val[i] != '\0')) {
+            while (((val[i] == ' ') || (val[i] == ',') || (val[i] == '"')) &&
+                    (val[i] != '\0')) {
                 i++;
             }
             i--;

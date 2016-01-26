@@ -530,6 +530,15 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
 /*     parse buffer into json object                                    */ 
 /* -------------------------------------------------------------------- */
     json_obj = json_tokener_parse(buffer);
+    if( json_obj == NULL ){
+        snprintf( msg, CMOR_MAX_STRING,
+                "Please validate JSON File!\n"
+                "USE: http://jsonlint.com/\n"
+                "Syntax Error in table: %s\n "
+                "%s",table, buffer );
+        cmor_handle_error( msg, CMOR_CRITICAL );
+    }
+
     json_object_object_foreach(json_obj, key, value) {
         strcpy(szVal, json_object_to_json_string(value));
 /* -------------------------------------------------------------------- */
@@ -651,22 +660,13 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
 			      "unknown section: %s, for table: %s", key,
 			      cmor_tables[cmor_ntables].table_id );
 		    cmor_handle_error( msg, CMOR_WARNING );
-		    do_dataset = 0;
-		    do_var = 0;
-		    do_axis = 0;
-		    do_mapping = 0;
 	}
 	
 /* -------------------------------------------------------------------- */
 /*      First check for table/dataset mode values                       */
 /* -------------------------------------------------------------------- */
 
-	if( do_var == 1 ) {
-                cmor_set_var_def_att( &cmor_tables[cmor_ntables].
-                      vars[cmor_tables[cmor_ntables].nvars],
-                      key, szVal);
-
-        } else if ( done == 1 ){
+        if ( done == 1 ){
             done = 0;
         } else {
             snprintf( msg, CMOR_MAX_STRING,

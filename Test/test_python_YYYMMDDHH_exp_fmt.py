@@ -5,9 +5,9 @@ def path_test():
 
     cmor.dataset('mytest2010030812', 'ukmo', 'HadCM3', '360_day',
                  institute_id="PCMDI",
-                 model_id='HadCM3',forcing='co2')
+                 model_id='HadCM3',forcing='N/A')
     
-    table='CMIP6_Amon_json_YYYYMMDDHH'
+    table='Tables/CMIP6_Amon_json'
     cmor.load_table(table)
     axes = [ {'table_entry': 'time',
               'units': 'days since 2000-01-01 00:00:00',

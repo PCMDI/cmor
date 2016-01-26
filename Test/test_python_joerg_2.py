@@ -6,7 +6,7 @@ import numpy
 def test_mode(mode,i,suffix=''):
     cmor.setup(inpath='Tables',
                netcdf_file_action = mode)
-    cmor.dataset('pre-industrial control', 'ukmo', 'HadCM3', '360_day',
+    cmor.dataset('amipPiForcing', 'ukmo', 'HadCM3', '360_day',
                  institute_id = 'ukmo',
                  model_id = 'HadCM3',
                  forcing="TO",

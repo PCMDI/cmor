@@ -36,7 +36,7 @@ def prep_var(var,units):
     bnds_lat = numpy.arange(-90,90+dlat,dlat)
     alons = numpy.arange(0+dlon/2.,360.,dlon)-180.
     bnds_lon = numpy.arange(0,360.+dlon,dlon)-180.
-    cmor.load_table("Tables/CMIP5_6hrLev")
+    cmor.load_table("Tables/CMIP6_6hrLev_json")
     #cmor.load_table("Test/IPCC_table_A1")
     ilat = cmor.axis(  
         table_entry='latitude',       

@@ -2,7 +2,8 @@ from test_python_common import * # common subroutines
 
 import cmor._cmor
 import os
-
+import pdb
+pdb.set_trace()
 pth = os.path.split(os.path.realpath(os.curdir))
 if pth[-1]=='Test':
     ipth = opth = '.'

@@ -6,7 +6,7 @@ def main():
     
     cmor.setup(inpath='Tables',
                netcdf_file_action = cmor.CMOR_REPLACE_3)
-    cmor.dataset('pre-industrial control', 'ukmo', 'HadCM3', '360_day',
+    cmor.dataset('amipPiForcing', 'ukmo', 'HadCM3', '360_day',
                  institute_id = 'ukmo',
                  model_id = 'HadCM3',
                  history = 'some global history',

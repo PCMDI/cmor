@@ -2750,15 +2750,15 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 /* -------------------------------------------------------------------- */
 		    } else {	
 /* -------------------------------------------------------------------- */
-/*      we need to check if the CMOR table used is not for a cmor 2     */
+/*      we need to check if the CMOR table used is not for a cmor 3     */
 /* -------------------------------------------------------------------- */
 			if( cmor_tables
 			    [cmor_vars[var_id].
-			     ref_table_id].cmor_version >= 2. ) {
+			     ref_table_id].cmor_version >= 3. ) {
 			    sprintf( msg,
 				     "You passed '%s' as file_suffix while "
 			            "writing variable %s (table %s), suffix "
-			            "are not allowed in CMOR2.0 and newer. "
+			            "are not allowed in CMOR3.0 and newer. "
 			            "Were you trying to append to a "
 			            "non-existing file?",
 				     appending_to, cmor_vars[var_id].id,
@@ -2772,13 +2772,13 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 		    }
 		} else {
 /* -------------------------------------------------------------------- */
-/*      we need to check if the CMOR table used is not for a cmor 2     */
+/*      we need to check if the CMOR table used is not for a CMOR 3     */
 /* -------------------------------------------------------------------- */
 		    if( cmor_tables
 			[cmor_vars[var_id].ref_table_id].cmor_version >=
-			2. ) {
+			3. ) {
 			sprintf( msg,
-				 "Suffix are not allowed in CMOR 2.0 and "
+				 "Suffix are not allowed in CMOR 3.0 and "
 			        "greater, suffix %s encountered while "
 			        "writing variable %s (table %s)",
 				 suffix, cmor_vars[var_id].id,
@@ -2887,7 +2887,9 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 	if( strcmp( appending_to, "" ) != 0 ) {	
 /* -------------------------------------------------------------------- */
 /*      What's the length of that file name                             */
-/* ---------read_2d_input_files----------------------------------------------------------- */
+/*      read_2d_input_files                                             */
+/* -------------------------------------------------------------------- */
+
 	    k = strlen( appending_to );	
 	    j = 0;
 	    for( i = k - 1; i >= 0; i-- ) {
@@ -2919,6 +2921,7 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 	    } else {
 		i = 4;
 	    }
+
 	    if( l > i ) {
 /* -------------------------------------------------------------------- */
 /*      we have extra _ that means suffix                               */
@@ -2933,13 +2936,17 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 			break;
 		    }
 		}
+
 		for( i = l; i < k - 3; i++ ) {
 		    msg[i - l] = appending_to[i];
 		}
+
 		msg[i - l] = '\0';	/*termination char */
+
 	    } else {
 		msg[0] = '\0';
 	    }
+
 	} else {
 /* -------------------------------------------------------------------- */
 /*      ok let's copy the suffix to msg                                 */
@@ -3035,9 +3042,11 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 	    cmode = NC_CLOBBER;
 	}
 
-	if( ( CMOR_NETCDF_MODE == CMOR_REPLACE_4 )
-	    || ( CMOR_NETCDF_MODE == CMOR_REPLACE_3 ) ) {
+	if( ( CMOR_NETCDF_MODE == CMOR_REPLACE_4 ) ||
+	        ( CMOR_NETCDF_MODE == CMOR_REPLACE_3 ) ) {
+
 	    ierr = nc_create( outname, NC_CLOBBER | cmode, &ncid );
+
 	} else if( ( CMOR_NETCDF_MODE == CMOR_PRESERVE_4 )
 		   || ( CMOR_NETCDF_MODE == CMOR_PRESERVE_3 ) ) {
 /* -------------------------------------------------------------------- */
@@ -3130,7 +3139,19 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 		    nc_get_var1_double( ncid, cmor_vars[var_id].time_nc_id,
 					&starts[0],
 					&cmor_vars[var_id].last_time );
-		ierr = nc_inq_varid( ncid, "time_bnds", &i );
+                if (cmor_tables[cmor_axes[cmor_vars[var_id].axes_ids[i]].
+                                ref_table_id].axes[cmor_axes[cmor_vars[var_id].
+                                                             axes_ids[i]].
+                                                             ref_axis_id].
+                                                             climatology == 1) {
+
+                    snprintf(msg, CMOR_MAX_STRING, "climatology");
+                    strncpy(ctmp, "climatology_bnds", CMOR_MAX_STRING);
+                } else {
+                    strncpy(ctmp, "time_bnds", CMOR_MAX_STRING);
+                }
+
+		ierr = nc_inq_varid( ncid, ctmp, &i );
 		if( ierr != NC_NOERR ) {
 		    snprintf( msg, CMOR_MAX_STRING,
 			      "NetCDF Error (%i: %s) looking for time bounds "
