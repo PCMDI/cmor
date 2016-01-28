@@ -33,6 +33,7 @@ AC_SUBST(PATH)
 AC_SUBST(NCCFLAGS)
 AC_SUBST(NCLDFLAGS)
 AC_SUBST(JSONCLDFLAGS)
+AC_SUBST(JSONCFLAGS)
 AC_SUBST(ZFLAGS)
 AC_SUBST(ZLDFLAGS)
 AC_SUBST(UDUNITS2FLAGS)
@@ -247,7 +248,7 @@ AC_ARG_WITH([json-c],[AS_HELP_STRING([--with-json-c],[enable support for json in
 with_json_cb="-"${with_json_c}
 if [ test ${with_json_cb} != "-yes" ]; then
   if [ test ${with_json_cb} != "-no" ] ; then
-   JSONCFLAGS=" -I${with_json_c}/include"
+   JSONCFLAGS=" -I${with_json_c}/include/json-c"
    if [ test ${RTAG} != "none" ] ; then
      JSONCLDFLAGS=" -L${with_json_c}/lib  ${RTAG}${with_json_c}/lib -ljson-c"
    else
