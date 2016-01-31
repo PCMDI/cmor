@@ -94,13 +94,13 @@ def grid(axis_ids,latitude=None,longitude=None,latitude_vertices=None,longitude_
     elif not isinstance(axis_ids, numpy.ndarray):
         raise Exception, "Error could not convert axis_ids list to a numpy array"
 
-    if numpy.rank(axis_ids)>1:
+    if numpy.ndim(axis_ids)>1:
         raise Exception, "error axes list/array must be 1D"
 
     if latitude is not None:
         latitude = _to_numpy(latitude, 'latitude')
             
-        if numpy.rank(latitude)!=len(axis_ids):
+        if numpy.ndim(latitude)!=len(axis_ids):
             raise Exception, "latitude's rank does not match number of axes passed via axis_ids"
 
         type = latitude.dtype.char
@@ -110,7 +110,7 @@ def grid(axis_ids,latitude=None,longitude=None,latitude_vertices=None,longitude_
 
         longitude = _to_numpy(longitude, 'longitude')
 
-        if numpy.rank(longitude)!=len(axis_ids):
+        if numpy.ndim(longitude)!=len(axis_ids):
             raise Exception, "longitude's rank does not match number of axes passed via axis_ids"
         
     ##     print 'longitude type:',longitude.dtype.char
@@ -128,7 +128,7 @@ def grid(axis_ids,latitude=None,longitude=None,latitude_vertices=None,longitude_
     if latitude_vertices is not None:
         latitude_vertices = _to_numpy(latitude_vertices, 'latitude_vertices')
 
-        if numpy.rank(latitude_vertices)!=len(axis_ids)+1:
+        if numpy.ndim(latitude_vertices)!=len(axis_ids)+1:
             raise Exception, "latitude_vertices's rank does not match number of axes passed via axis_ids +1 (for vertices)"
 ##         print 'latitude_vert type:',latitude_vertices.dtype.char
         if latitude_vertices.dtype.char!=type:
@@ -140,7 +140,7 @@ def grid(axis_ids,latitude=None,longitude=None,latitude_vertices=None,longitude_
         
     if longitude_vertices is not None:
         longitude_vertices = _to_numpy(longitude_vertices, 'longitude_vertices')
-        if numpy.rank(longitude_vertices)!=len(axis_ids)+1:
+        if numpy.ndim(longitude_vertices)!=len(axis_ids)+1:
             raise Exception, "longitude_vertices's rank does not match number of axes passed via axis_ids +1 (for vertices)"
 ##         print 'longitude_vert type:',longitude_vertices.dtype.char
         if longitude_vertices.dtype.char!=type:
@@ -288,7 +288,7 @@ def axis(table_entry,units=None,length=None,coord_vals=None,cell_bounds=None,int
         if not isinstance(coord_vals,numpy.ndarray):
             raise Exception, "Error coord_vals must be an array or cdms2 axis or list/tuple"
 
-        if numpy.rank(coord_vals)>1:
+        if numpy.ndim(coord_vals)>1:
             raise Exception, "Error, you must pass a 1D array!"
 
     if numpy.ma.isMA(cell_bounds):
@@ -303,9 +303,9 @@ def axis(table_entry,units=None,length=None,coord_vals=None,cell_bounds=None,int
         cell_bounds = numpy.ascontiguousarray(cell_bounds)
         
     if cell_bounds is not None:
-        if numpy.rank(cell_bounds)>2:
+        if numpy.ndim(cell_bounds)>2:
             raise Exception, "Error cell_bounds rank must be at most 2"
-        if numpy.rank(cell_bounds)==2:
+        if numpy.ndim(cell_bounds)==2:
             if cell_bounds.shape[0]!=coord_vals.shape[0]:
                 raise Exception, "Error, coord_vals and cell_bounds do not have the same length"
             if cell_bounds.shape[1]!=2:
@@ -393,7 +393,7 @@ def variable(table_entry,units,axis_ids,type='f',missing_value=None,tolerance = 
     elif not isinstance(axis_ids, numpy.ndarray):
         raise Exception, "Error could not convert axis_ids list to a numpy array"
 
-    if numpy.rank(axis_ids)>1:
+    if numpy.ndim(axis_ids)>1:
         raise Exception, "error axis_ids list/array must be 1D"
 
     if not isinstance(type,str):
@@ -464,7 +464,7 @@ def zfactor(zaxis_id,zfactor_name,units="",axis_ids=None,type=None,zfactor_value
     elif not isinstance(axis_ids, numpy.ndarray):
         raise Exception, "Error could not convert axis_ids list to a numpy array"
 
-    if numpy.rank(axis_ids)>1:
+    if numpy.ndim(axis_ids)>1:
         raise Exception, "error axis_ids list/array must be 1D"
 
     if axis_ids is None:
@@ -525,9 +525,9 @@ def zfactor(zaxis_id,zfactor_name,units="",axis_ids=None,type=None,zfactor_value
             zfactor_bounds = numpy.ascontiguousarray(zfactor_bounds)
         elif not isinstance(zfactor_bounds, numpy.ndarray):
             raise Exception, "Error could not convert zfactor_bounds to a numpy array"
-        if numpy.rank(zfactor_bounds)>2:
+        if numpy.ndim(zfactor_bounds)>2:
             raise Exception, "error zfactor_bounds must be rank 2 at most"
-        elif numpy.rank(zfactor_bounds)==2:
+        elif numpy.ndim(zfactor_bounds)==2:
             if zfactor_bounds.shape[1]!=2:
                 raise Exception, "error zfactor_bounds' 2nd dimension must be of length 2"
             bnds =[]
@@ -651,9 +651,9 @@ def write(var_id,data,ntimes_passed=None,file_suffix="",time_vals=None,time_bnds
         elif not isinstance(time_bnds, numpy.ndarray):
             raise Exception, "Error could not convert time_bnds to a numpy array"
 
-        if numpy.rank(time_bnds)>2:
+        if numpy.ndim(time_bnds)>2:
             raise Exception, "bounds rank cannot be greater than 2"
-        elif numpy.rank(time_bnds)==2:
+        elif numpy.ndim(time_bnds)==2:
             if time_bnds.shape[1]!=2:
                 raise Exception, "error time_bnds' 2nd dimension must be of length 2"
             bnds =[]
@@ -664,7 +664,7 @@ def write(var_id,data,ntimes_passed=None,file_suffix="",time_vals=None,time_bnds
                 bnds = time_bnds.ravel()
             time_bnds=numpy.array(bnds)
         else: # ok it is a rank 1!
-            if numpy.rank(time_vals)==0:
+            if numpy.ndim(time_vals)==0:
                 ltv=1
             else:
                 ltv=len(time_vals)
@@ -801,7 +801,7 @@ def dataset(experiment_id,institution,source,calendar,outpath='.',realization=1,
         month_lengths = month_lengths.filled()
         
     if isinstance(month_lengths,numpy.ndarray):
-        if not numpy.rank(month_lengths)==1:
+        if not numpy.ndim(month_lengths)==1:
             raise Exception, "Error month_lengths must be 1D"
         if len(month_lengths)!=12:
             raise Exception, "Error month_lengths must have 12 elements exactly"
