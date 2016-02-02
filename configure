@@ -630,6 +630,7 @@ UDUNITS2LDFLAGS
 UDUNITS2FLAGS
 ZLDFLAGS
 ZFLAGS
+JSONCFLAGS
 JSONCLDFLAGS
 NCLDFLAGS
 NCCFLAGS
@@ -2148,6 +2149,7 @@ ac_config_files="$ac_config_files Makefile setup.py compile_line.txt include/cmo
 
 
 INCFILES="include/cmor.h  include/cmor_func_def.h include/cmor_md5.h "`ls -x --width=10000 include/cdTime/*.h include/cdTime/cdunifpp/*.h`
+
 
 
 
@@ -4272,7 +4274,7 @@ fi
 with_json_cb="-"${with_json_c}
 if  test ${with_json_cb} != "-yes" ; then
   if  test ${with_json_cb} != "-no"  ; then
-   JSONCFLAGS=" -I${with_json_c}/include"
+   JSONCFLAGS=" -I${with_json_c}/include/json-c"
    if  test ${RTAG} != "none"  ; then
      JSONCLDFLAGS=" -L${with_json_c}/lib  ${RTAG}${with_json_c}/lib -ljson-c"
    else
