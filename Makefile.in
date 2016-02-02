@@ -18,7 +18,7 @@ ZFLAGS=@ZFLAGS@
 UUIDFLAGS=@UUIDFLAGS@
 UDUNITS2FLAGS=@UDUNITS2FLAGS@
 NCLDFLAGS=@NCLDFLAGS@
-JSONCLDFLAGS=@JSONCLDFLAGS@
+JSONLDFLAGS=@JSONLDFLAGS@
 JSONCFLAGS=@JSONCFLAGS@
 ZLDFLAGS=@ZLDFLAGS@
 UUIDLDFLAGS=@UUIDLDFLAGS@
@@ -26,7 +26,7 @@ UDUNITS2LDFLAGS=@UDUNITS2LDFLAGS@
 RTAG=@RTAG@
 FTAG=@FTAG@
 FNCLDFLAGS=@NCLDFLAGS@
-FJSONCLDFLAGS=@JSONCLDFLAGS@
+FJSONLDFLAGS=@JSONLDFLAGS@
 FZLDFLAGS=@ZLDFLAGS@
 FUUIDLDFLAGS=@UUIDLDFLAGS@
 FUDUNITS2LDFLAGS=@UDUNITS2LDFLAGS@
@@ -112,10 +112,10 @@ backup: clean
 test:  cmor test_C @TEST_FORTRAN@ @MAKETESTPYTHON@
 	@echo "All C and Fortran Test passed successfully"
 test_C: cmor 
-	rm -f ./ipcc_test_code ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/ipcc_test_code.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @JSONCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@  -o ipcc_test_code  @VERB@; ./ipcc_test_code @VERB@
-	@rm -f test_grid ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_grid.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @JSONCLDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ -o test_grid @LDFLAGS@ @VERB@; ./test_grid @VERB@;
-	@rm -f test_lots_of_variables ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_lots_of_variables.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @JSONCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@ -o test_lots_of_variables @VERB@; ./test_lots_of_variables @VERB@;
-	@rm -f test_cat_unique ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_unit_cat_unique.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @JSONCLDFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@ -o test_unit_cat_unique @VERB@; ./test_unit_cat_unique @VERB@;
+	rm -f ./ipcc_test_code ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/ipcc_test_code.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @JSONLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@  -o ipcc_test_code  @VERB@; ./ipcc_test_code @VERB@
+	@rm -f test_grid ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_grid.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @JSONLDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ -o test_grid @LDFLAGS@ @VERB@; ./test_grid @VERB@;
+	@rm -f test_lots_of_variables ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_lots_of_variables.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @JSONLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@ -o test_lots_of_variables @VERB@; ./test_lots_of_variables @VERB@;
+	@rm -f test_cat_unique ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_unit_cat_unique.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @JSONLDFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@ -o test_unit_cat_unique @VERB@; ./test_unit_cat_unique @VERB@;
 python:
 	@echo "Building Python interface"
 	@${PYTHONEXEC} setup.py install @CDATPREFIX@
@@ -184,7 +184,7 @@ test_python: python
 
 test_case:
 	@echo "${OK_COLOR}Testing: "${TEST_NAME}" with input file: ${INPUT_FILE}${NO_COLOR}"
-	@rm -f ./${TEST_NAME} 2>/dev/null ; ${FC} ${USERFFLAGS} ${FCFLAGS} ${DEBUG}  Test/${TEST_NAME}.f90 -L${PREFIX}/lib -L. -lcmor ${NCCFLAGS} ${FNCLDFLAGS} ${FJSONCLDFLAGS} ${FUDUNITS2LDFLAGS} ${UDUNITS2FLAGS} ${FUUIDLDFLAGS} ${UUIDFLAGS} ${ZFLAGS} ${FZLDFLAGS} -o ${TEST_NAME} ;
+	@rm -f ./${TEST_NAME} 2>/dev/null ; ${FC} ${USERFFLAGS} ${FCFLAGS} ${DEBUG}  Test/${TEST_NAME}.f90 -L${PREFIX}/lib -L. -lcmor ${NCCFLAGS} ${FNCLDFLAGS} ${FJSONLDFLAGS} ${FUDUNITS2LDFLAGS} ${UDUNITS2FLAGS} ${FUUIDLDFLAGS} ${UUIDFLAGS} ${ZFLAGS} ${FZLDFLAGS} -o ${TEST_NAME} ;
 	@./${TEST_NAME} ${VERB} < ${INPUT_FILE} ;
 	@ rm ./${TEST_NAME}
 ifeq (@MAKEDEPPYTHON@,python)
@@ -192,7 +192,7 @@ ifeq (@MAKEDEPPYTHON@,python)
 endif
 test_case_old_cmor_tables:
 	@echo "Testing: "${TEST_NAME}" with input file: "${INPUT_FILE}
-	@rm -f ./${TEST_NAME} 2>/dev/null ; ${FC} ${USERFFLAGS} ${FCFLAGS} ${DEBUG}  Test/old_cmor_tables/${TEST_NAME}.f90 -L${PREFIX}/lib -L. -lcmor ${NCCFLAGS} ${FNCLDFLAGS} ${FJSONCLDFLAGS} ${FUDUNITS2LDFLAGS} ${UDUNITS2FLAGS} ${FUUIDLDFLAGS} ${UUIDFLAGS} ${ZFLAGS} ${FZLDFLAGS} -o ${TEST_NAME} ;
+	@rm -f ./${TEST_NAME} 2>/dev/null ; ${FC} ${USERFFLAGS} ${FCFLAGS} ${DEBUG}  Test/old_cmor_tables/${TEST_NAME}.f90 -L${PREFIX}/lib -L. -lcmor ${NCCFLAGS} ${FNCLDFLAGS} ${FJSONLDFLAGS} ${FUDUNITS2LDFLAGS} ${UDUNITS2FLAGS} ${FUUIDLDFLAGS} ${UUIDFLAGS} ${ZFLAGS} ${FZLDFLAGS} -o ${TEST_NAME} ;
 	@./${TEST_NAME} ${VERB} < ${INPUT_FILE} ;
 	@ rm ./${TEST_NAME}
 ifeq (@MAKEDEPPYTHON@,python)

@@ -161,9 +161,7 @@ int cmor_set_axis_entry( cmor_table_t* table,
     /*      Add axis value                                                  */
     /* -------------------------------------------------------------------- */
     json_object_object_foreach(json, attr, value) {
-        strcpy(szValue, json_object_to_json_string(value));
-        strncpy(szValue,szValue+1,strlen(szValue));
-        szValue[strlen(szValue)-1]='\0';
+        strcpy(szValue, json_object_get_string(value));
         cmor_set_axis_def_att(axis, attr, szValue);
     }
     cmor_pop_traceback();

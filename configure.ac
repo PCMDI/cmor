@@ -32,7 +32,7 @@ AC_SUBST(FTAG)
 AC_SUBST(PATH)
 AC_SUBST(NCCFLAGS)
 AC_SUBST(NCLDFLAGS)
-AC_SUBST(JSONCLDFLAGS)
+AC_SUBST(JSONLDFLAGS)
 AC_SUBST(JSONCFLAGS)
 AC_SUBST(ZFLAGS)
 AC_SUBST(ZLDFLAGS)
@@ -250,17 +250,17 @@ if [ test ${with_json_cb} != "-yes" ]; then
   if [ test ${with_json_cb} != "-no" ] ; then
    JSONCFLAGS=" -I${with_json_c}/include/json-c"
    if [ test ${RTAG} != "none" ] ; then
-     JSONCLDFLAGS=" -L${with_json_c}/lib  ${RTAG}${with_json_c}/lib -ljson-c"
+     JSONLDFLAGS=" -L${with_json_c}/lib  ${RTAG}${with_json_c}/lib -ljson-c"
    else
-     JSONCLDFLAGS=" -L${with_json_c}/lib -ljson-c"
+     JSONLDFLAGS=" -L${with_json_c}/lib -ljson-c"
    fi
   else
     JSONCFLAGS=""
-    JSONCLDFLAGS="-ljson-c"
+    JSONLDFLAGS="-ljson-c"
   fi
 else
   JSONCFLAGS=""
-  JSONCLDFLAGS="-ljson-c" 
+  JSONLDFLAGS="-ljson-c" 
 fi
 AC_CHECK_LIB([json-c],[json_object_new_string],[],[AC_ERROR([Could not get a working json-c])],[ ${JSONCFLAGS} ${JSONCDFLAGS} -ljson-c -lm  ])
 LIBS=""
@@ -366,7 +366,7 @@ AC_MSG_NOTICE([ LDFLAGS : ${UDUNITS2LDFLAGS}])
 AC_MSG_NOTICE([])
 AC_MSG_NOTICE([JSONC])
 AC_MSG_NOTICE([ CFLAGS  : ${JSONCFLAGS}])
-AC_MSG_NOTICE([ LDFLAGS : ${JSONCLDFLAGS}])
+AC_MSG_NOTICE([ LDFLAGS : ${JSONLDFLAGS}])
 AC_MSG_NOTICE([])
 if [test ${BUILD_NC3} == "no" ] ; then 
   if [test ${HAS_NC4} == "yes" ] ; then

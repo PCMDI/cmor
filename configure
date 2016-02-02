@@ -631,7 +631,7 @@ UDUNITS2FLAGS
 ZLDFLAGS
 ZFLAGS
 JSONCFLAGS
-JSONCLDFLAGS
+JSONLDFLAGS
 NCLDFLAGS
 NCCFLAGS
 PATH
@@ -4276,17 +4276,17 @@ if  test ${with_json_cb} != "-yes" ; then
   if  test ${with_json_cb} != "-no"  ; then
    JSONCFLAGS=" -I${with_json_c}/include/json-c"
    if  test ${RTAG} != "none"  ; then
-     JSONCLDFLAGS=" -L${with_json_c}/lib  ${RTAG}${with_json_c}/lib -ljson-c"
+     JSONLDFLAGS=" -L${with_json_c}/lib  ${RTAG}${with_json_c}/lib -ljson-c"
    else
-     JSONCLDFLAGS=" -L${with_json_c}/lib -ljson-c"
+     JSONLDFLAGS=" -L${with_json_c}/lib -ljson-c"
    fi
   else
     JSONCFLAGS=""
-    JSONCLDFLAGS="-ljson-c"
+    JSONLDFLAGS="-ljson-c"
   fi
 else
   JSONCFLAGS=""
-  JSONCLDFLAGS="-ljson-c"
+  JSONLDFLAGS="-ljson-c"
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for json_object_new_string in -ljson-c" >&5
 $as_echo_n "checking for json_object_new_string in -ljson-c... " >&6; }
@@ -5741,8 +5741,8 @@ $as_echo "$as_me: " >&6;}
 $as_echo "$as_me: JSONC" >&6;}
 { $as_echo "$as_me:${as_lineno-$LINENO}:  CFLAGS  : ${JSONCFLAGS}" >&5
 $as_echo "$as_me:  CFLAGS  : ${JSONCFLAGS}" >&6;}
-{ $as_echo "$as_me:${as_lineno-$LINENO}:  LDFLAGS : ${JSONCLDFLAGS}" >&5
-$as_echo "$as_me:  LDFLAGS : ${JSONCLDFLAGS}" >&6;}
+{ $as_echo "$as_me:${as_lineno-$LINENO}:  LDFLAGS : ${JSONLDFLAGS}" >&5
+$as_echo "$as_me:  LDFLAGS : ${JSONLDFLAGS}" >&6;}
 { $as_echo "$as_me:${as_lineno-$LINENO}: " >&5
 $as_echo "$as_me: " >&6;}
 if test ${BUILD_NC3} == "no"  ; then
