@@ -2150,6 +2150,12 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
 
     cmor_pop_traceback();
     free(cmor_axes[cmor_naxes].wrapping);
+
+/* -------------------------------------------------------------------- */
+/*     Fix issue #6 setting the pointer to NULL                         */
+/* -------------------------------------------------------------------- */
+    cmor_axes[cmor_naxes].wrapping = NULL;
+
     return( 0 );
 }
 
