@@ -12,7 +12,6 @@
 #include <math.h>
 
 #include <sys/types.h>
-#define _POSIX_SOURCE
 #include <unistd.h>
 
 /* ==================================================================== */
@@ -862,7 +861,8 @@ int cmor_setup( char *path,
     ut_unit *dimlessunit = NULL, *perunit = NULL, *newequnit = NULL;
     ut_status myutstatus;
 
-    int i, j, ierr;
+    int i, j;
+    int ierr;
     char msg[CMOR_MAX_STRING];
     char msg2[CMOR_MAX_STRING];
     char tmplogfile[CMOR_MAX_STRING];
@@ -876,6 +876,8 @@ int cmor_setup( char *path,
     struct tm *ptr;
     extern FILE *output_logfile;
     extern int did_history;
+
+    ierr=0;
 
     strcpy( cmor_traceback_info, "" );
     cmor_add_traceback( "cmor_setup" );
@@ -1131,6 +1133,7 @@ int cmor_setup( char *path,
     }
 
     myutstatus = ut_map_name_to_unit("eq", UT_ASCII, newequnit);
+    ut_free(newequnit);
 
     if (myutstatus != UT_SUCCESS) {
         snprintf(msg, CMOR_MAX_STRING,
@@ -1153,6 +1156,7 @@ int cmor_setup( char *path,
 
     if (perunit != NULL)
         ut_free(perunit);
+
     perunit = ut_scale(.01, dimlessunit);
     if (myutstatus != UT_SUCCESS) {
         snprintf(msg, CMOR_MAX_STRING, "Udunits: Error creating percent unit");
@@ -1163,6 +1167,9 @@ int cmor_setup( char *path,
         snprintf(msg, CMOR_MAX_STRING, "Udunits: Error mapping percent unit");
         cmor_handle_error(msg, CMOR_CRITICAL);
     }
+    ut_free(dimlessunit);
+    ut_free(perunit);
+
 /* -------------------------------------------------------------------- */
 /*      initialized dataset                                             */
 /* -------------------------------------------------------------------- */
@@ -1255,7 +1262,7 @@ int cmor_put_nc_num_attribute(int ncid, int nc_var_id, char *name, char type,
         cmor_handle_error(msg, CMOR_CRITICAL);
     }
     cmor_pop_traceback();
-    return ierr;
+    return( ierr );
 }
 
 /************************************************************************/
@@ -1284,7 +1291,7 @@ int cmor_put_nc_char_attribute(int ncid,
         }
     }
     cmor_pop_traceback();
-    return ierr;
+    return( ierr) ;
 }
 /************************************************************************/
 /*                 cmor_set_cur_dataset_attribute()                     */
@@ -3531,8 +3538,7 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 	    d /= 10.;
 	afloat += d;
 
-	if( cmor_tables[cmor_vars[var_id].ref_table_id].cf_version >
-	    afloat ) {
+	if( cmor_tables[cmor_vars[var_id].ref_table_id].cf_version > afloat ) {
 	    snprintf( msg, CMOR_MAX_STRING,
 		      "Your table (%s) claims to enforce CF version %f but "
 	              "this version of the library is designed for CF up "

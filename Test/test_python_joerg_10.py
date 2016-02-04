@@ -3,7 +3,6 @@ from test_python_common import * # common subroutines
 import cmor._cmor
 import os
 import pdb
-pdb.set_trace()
 pth = os.path.split(os.path.realpath(os.curdir))
 if pth[-1]=='Test':
     ipth = opth = '.'
@@ -85,6 +84,7 @@ myaxes[3] = cmor.axis(table_entry = 'time',
 pass_axes = [myaxes[3],myaxes[2]]
 
 print 'ok going to cmorvar'
+pdb.set_trace()
 myvars[0] = cmor.variable( table_entry = 'calc',
                            units = 'mol m-3',
                            axis_ids = pass_axes,

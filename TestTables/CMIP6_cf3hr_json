@@ -18,8 +18,8 @@
             "contact", 
             "institute_id"
         ], 
-        "frequency": "6hr", 
-        "table_id": "Table 6hrLev", 
+        "frequency": "3hr", 
+        "table_id": "Table cf3hr", 
         "table_date": "03 February 2016", 
         "modeling_realm": "atmos", 
         "generic_levels": "", 
@@ -294,6 +294,26 @@
             "valid_max": "10.0", 
             "axis": "Z"
         }, 
+        "time1": {
+            "requested": "", 
+            "stored_direction": "increasing", 
+            "z_factors": "", 
+            "positive": "", 
+            "must_have_bounds": "no", 
+            "valid_min": "", 
+            "value": "", 
+            "z_bounds_factors": "", 
+            "long_name": "time", 
+            "standard_name": "time", 
+            "out_name": "time", 
+            "type": "double", 
+            "units": "days since ?", 
+            "formula": "", 
+            "climatology": "", 
+            "tolerance": "", 
+            "valid_max": "", 
+            "axis": "T"
+        }, 
         "vegtype": {
             "requested": "", 
             "stored_direction": "", 
@@ -516,6 +536,26 @@
             "tolerance": "0.001", 
             "valid_max": "", 
             "axis": "Z"
+        }, 
+        "location": {
+            "requested": "", 
+            "stored_direction": "increasing", 
+            "z_factors": "", 
+            "positive": "", 
+            "must_have_bounds": "no", 
+            "valid_min": "", 
+            "value": "", 
+            "z_bounds_factors": "", 
+            "long_name": "location index", 
+            "standard_name": "", 
+            "out_name": "loc", 
+            "type": "integer", 
+            "units": "", 
+            "formula": "", 
+            "climatology": "", 
+            "tolerance": "", 
+            "valid_max": "", 
+            "axis": ""
         }, 
         "latitude": {
             "requested": "", 
@@ -789,6 +829,78 @@
             "valid_max": "20.0", 
             "axis": "Z"
         }, 
+        "scatratio": {
+            "requested": [
+                "0.005", 
+                "0.605", 
+                "2.1", 
+                "4.", 
+                "6.", 
+                "8.5", 
+                "12.5", 
+                "17.5", 
+                "22.5", 
+                "27.5", 
+                "35.", 
+                "45.", 
+                "55.", 
+                "70.", 
+                "50040."
+            ], 
+            "stored_direction": "increasing", 
+            "z_factors": "", 
+            "positive": "", 
+            "must_have_bounds": "yes", 
+            "valid_min": "", 
+            "value": "", 
+            "z_bounds_factors": "", 
+            "long_name": "lidar backscattering ratio", 
+            "standard_name": "backscattering_ratio", 
+            "out_name": "scatratio", 
+            "type": "double", 
+            "units": "1", 
+            "formula": "", 
+            "climatology": "", 
+            "tolerance": "0.001", 
+            "valid_max": "", 
+            "axis": ""
+        }, 
+        "dbze": {
+            "requested": [
+                "-47.5", 
+                "-42.5", 
+                "-37.5", 
+                "-32.5", 
+                "-27.5", 
+                "-22.5", 
+                "-17.5", 
+                "-12.5", 
+                "-7.5", 
+                "-2.5", 
+                "2.5", 
+                "7.5", 
+                "12.5", 
+                "17.5", 
+                "22.5"
+            ], 
+            "stored_direction": "increasing", 
+            "z_factors": "", 
+            "positive": "", 
+            "must_have_bounds": "yes", 
+            "valid_min": "", 
+            "value": "", 
+            "z_bounds_factors": "", 
+            "long_name": "CloudSat simulator equivalent radar reflectivity factor", 
+            "standard_name": "equivalent_reflectivity_factor", 
+            "out_name": "dbze", 
+            "type": "double", 
+            "units": "dBZ", 
+            "formula": "", 
+            "climatology": "", 
+            "tolerance": "0.001", 
+            "valid_max": "", 
+            "axis": ""
+        }, 
         "hybrid_height": {
             "requested": "", 
             "stored_direction": "increasing", 
@@ -949,27 +1061,86 @@
         }
     }, 
     "variable_entry": {
-        "va": {
-            "comment": "", 
-            "dimensions": "longitude latitude alevel time1", 
+        "a": {
+            "units": "", 
+            "long_name": "vertical coordinate formula term: a(k)", 
+            "type": "double", 
+            "dimensions": "alevel"
+        }, 
+        "pr": {
+            "comment": "includes both liquid and solid phases", 
+            "dimensions": "longitude latitude time1", 
             "positive": "", 
             "valid_min": "", 
-            "long_name": "Northward Wind", 
-            "standard_name": "northward_wind", 
+            "long_name": "Precipitation", 
+            "standard_name": "precipitation_flux", 
             "modeling_realm": "atmos", 
-            "cell_measures": "", 
-            "cell_methods": "", 
+            "cell_measures": "time: point", 
+            "cell_methods": "area: areacella", 
             "ok_min_mean_abs": "", 
-            "units": "m s-1", 
-            "out_name": "va", 
+            "units": "kg m-2 s-1", 
+            "out_name": "pr", 
             "type": "real", 
             "valid_max": "", 
             "ok_max_mean_abs": ""
+        }, 
+        "p0": {
+            "units": "Pa", 
+            "long_name": "vertical coordinate formula term: reference pressure", 
+            "type": "", 
+            "dimensions": ""
+        }, 
+        "b": {
+            "units": "", 
+            "long_name": "vertical coordinate formula term: b(k)", 
+            "type": "double", 
+            "dimensions": "alevel"
+        }, 
+        "b_bnds": {
+            "units": "", 
+            "long_name": "vertical coordinate formula term: b(k+1/2)", 
+            "type": "double", 
+            "dimensions": "alevel"
+        }, 
+        "prc": {
+            "comment": "at surface; includes both liquid and solid phases.", 
+            "dimensions": "longitude latitude time1", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Convective Precipitation", 
+            "standard_name": "convective_precipitation_flux", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: point", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "", 
+            "units": "kg m-2 s-1", 
+            "out_name": "prc", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "sigma_bnds": {
+            "units": "", 
+            "long_name": "vertical coordinate formula term: sigma(k+1/2)", 
+            "type": "double", 
+            "dimensions": "olevel"
+        }, 
+        "sigma": {
+            "units": "", 
+            "long_name": "vertical coordinate formula term: sigma(k)", 
+            "type": "double", 
+            "dimensions": "olevel"
         }, 
         "depth_c": {
             "units": "", 
             "long_name": "vertical coordinate formula term: depth_c", 
             "type": "double", 
+            "dimensions": ""
+        }, 
+        "nsigma": {
+            "units": "", 
+            "long_name": "vertical coordinate formula term: nsigma", 
+            "type": "integer", 
             "dimensions": ""
         }, 
         "ap_bnds": {
@@ -996,80 +1167,17 @@
             "type": "double", 
             "dimensions": "alevel"
         }, 
+        "k_c": {
+            "units": "", 
+            "long_name": "vertical coordinate formula term: k_c", 
+            "type": "integer", 
+            "dimensions": ""
+        }, 
         "zlev": {
             "units": "", 
             "long_name": "vertical coordinate formula term: zlev(k)", 
             "type": "double", 
             "dimensions": "olevel"
-        }, 
-        "ps": {
-            "comment": "surface pressure (not mean sea-level pressure), 2-D field to calculate the 3-D pressure field from hybrid coordinates", 
-            "dimensions": "longitude latitude time1", 
-            "positive": "", 
-            "valid_min": "", 
-            "long_name": "Surface Air Pressure", 
-            "standard_name": "surface_air_pressure", 
-            "modeling_realm": "atmos", 
-            "cell_measures": "", 
-            "cell_methods": "area: areacella", 
-            "ok_min_mean_abs": "", 
-            "units": "Pa", 
-            "out_name": "ps", 
-            "type": "real", 
-            "valid_max": "", 
-            "ok_max_mean_abs": ""
-        }, 
-        "sigma_bnds": {
-            "units": "", 
-            "long_name": "vertical coordinate formula term: sigma(k+1/2)", 
-            "type": "double", 
-            "dimensions": "olevel"
-        }, 
-        "ta": {
-            "comment": "", 
-            "dimensions": "longitude latitude alevel time1", 
-            "positive": "", 
-            "valid_min": "", 
-            "long_name": "Air Temperature", 
-            "standard_name": "air_temperature", 
-            "modeling_realm": "atmos", 
-            "cell_measures": "", 
-            "cell_methods": "area: areacella", 
-            "ok_min_mean_abs": "", 
-            "units": "K", 
-            "out_name": "ta", 
-            "type": "real", 
-            "valid_max": "", 
-            "ok_max_mean_abs": ""
-        }, 
-        "b_bnds": {
-            "units": "", 
-            "long_name": "vertical coordinate formula term: b(k+1/2)", 
-            "type": "double", 
-            "dimensions": "alevel"
-        }, 
-        "nsigma": {
-            "units": "", 
-            "long_name": "vertical coordinate formula term: nsigma", 
-            "type": "integer", 
-            "dimensions": ""
-        }, 
-        "hus": {
-            "comment": "", 
-            "dimensions": "longitude latitude alevel time1", 
-            "positive": "", 
-            "valid_min": "", 
-            "long_name": "Specific Humidity", 
-            "standard_name": "specific_humidity", 
-            "modeling_realm": "atmos", 
-            "cell_measures": "", 
-            "cell_methods": "area: areacella", 
-            "ok_min_mean_abs": "", 
-            "units": "1.0", 
-            "out_name": "hus", 
-            "type": "real", 
-            "valid_max": "", 
-            "ok_max_mean_abs": ""
         }, 
         "zlev_bnds": {
             "units": "", 
@@ -1088,70 +1196,6 @@
             "long_name": "vertical coordinate formula term: z2", 
             "type": "double", 
             "dimensions": ""
-        }, 
-        "a": {
-            "units": "", 
-            "long_name": "vertical coordinate formula term: a(k)", 
-            "type": "double", 
-            "dimensions": "alevel"
-        }, 
-        "p0": {
-            "units": "Pa", 
-            "long_name": "vertical coordinate formula term: reference pressure", 
-            "type": "", 
-            "dimensions": ""
-        }, 
-        "b": {
-            "units": "", 
-            "long_name": "vertical coordinate formula term: b(k)", 
-            "type": "double", 
-            "dimensions": "alevel"
-        }, 
-        "sigma": {
-            "units": "", 
-            "long_name": "vertical coordinate formula term: sigma(k)", 
-            "type": "double", 
-            "dimensions": "olevel"
-        }, 
-        "k_c": {
-            "units": "", 
-            "long_name": "vertical coordinate formula term: k_c", 
-            "type": "integer", 
-            "dimensions": ""
-        }, 
-        "ua": {
-            "comment": "", 
-            "dimensions": "longitude latitude alevel time1", 
-            "positive": "", 
-            "valid_min": "", 
-            "long_name": "Eastward Wind", 
-            "standard_name": "eastward_wind", 
-            "modeling_realm": "atmos", 
-            "cell_measures": "", 
-            "cell_methods": "", 
-            "ok_min_mean_abs": "", 
-            "units": "m s-1", 
-            "out_name": "ua", 
-            "type": "real", 
-            "valid_max": "", 
-            "ok_max_mean_abs": ""
-        }, 
-        "orog": {
-            "comment": "The surface called 'surface' means the lower boundary of the atmosphere. Altitude is the (geometric) height above the geoid, which is the reference geopotential surface. The geoid is similar to mean sea level.", 
-            "dimensions": "longitude latitude", 
-            "positive": "", 
-            "valid_min": "-700", 
-            "long_name": "surface altitude", 
-            "standard_name": "surface_altitude", 
-            "modeling_realm": "atmos", 
-            "cell_measures": "", 
-            "cell_methods": "", 
-            "ok_min_mean_abs": "", 
-            "units": "m", 
-            "out_name": "orog", 
-            "type": "real", 
-            "valid_max": "1.00E+04", 
-            "ok_max_mean_abs": ""
         }
     }
 }

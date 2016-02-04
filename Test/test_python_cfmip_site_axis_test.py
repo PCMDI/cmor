@@ -62,7 +62,7 @@ if __name__ == '__main__' :
    site_lons = numpy.array([0.0, 0.0, 0.0], dtype=numpy.float32)
 
    # Create CMOR axes and grids
-   table_id = cmor.load_table('CMIP5_cfSites')
+   table_id = cmor.load_table('CMIP6_cfSites_json')
    taxis_id = cmor.axis('time1', units='days since 2000-01-01 00:00:00') #, length=1, interval='30 minutes')
    print 'ok: created time axis'
 
@@ -85,7 +85,7 @@ if __name__ == '__main__' :
    print 'ok: created site grid'
 
    # Create CMOR variable for cloud area fraction: MIP name = 'cl', STASH = m01s02i261*100
-   table_id = cmor.load_table('CMIP5_cfSites')
+   table_id = cmor.load_table('CMIP6_cfSites_json')
    var_id = cmor.variable('cl', '%', [taxis_id, gaxis_id, zaxis_id], type='f',
       missing_value=-99.0, original_name='STASH m01s02i261*100')
    print 'ok: created variable for "cl"'

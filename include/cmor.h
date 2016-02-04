@@ -6,7 +6,7 @@
 #define CMOR_VERSION_PATCH 0
 
 #define CMOR_CF_VERSION_MAJOR 1
-#define CMOR_CF_VERSION_MINOR 4
+#define CMOR_CF_VERSION_MINOR 6
 
 #define CMOR_MAX_STRING 1024
 #define CMOR_DEF_ATT_STR_LEN 256
@@ -74,6 +74,11 @@
 #define AXIS_ATT_BOUNDSREQUESTED "bounds_requested"
 #define AXIS_ATT_REQUESTEDBOUNDS "requested_bounds"
 #define AXIS_ATT_REQUESTED       "requested"
+
+#define TABLE_EXPERIMENT_FILENAME "experiments.json"
+#define TABLE_FOUND               -1
+#define TABLE_ERROR                1
+#define TABLE_SUCCESS              0
 
 
 extern int USE_NETCDF_4;

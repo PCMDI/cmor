@@ -101,7 +101,7 @@ program main
      if (trim(adjustl(current%name)).eq.'time') then
         print*, 'Test Code: time found'
         ptimes => current
-        myaxis(ndim-i)=cmor_axis('Tables/CMIP5_Amon', &
+        myaxis(ndim-i)=cmor_axis('Tables/CMIP6_Amon_json', &
              table_entry=current%name,&
              units=current%units,&
              length=current%n,&
@@ -109,7 +109,7 @@ program main
 !!$          cell_bounds=current%bounds, &
              interval='1 month')
      else
-        myaxis(ndim-i)=cmor_axis('Tables/CMIP5_Amon', &
+        myaxis(ndim-i)=cmor_axis('Tables/CMIP6_Amon_json', &
              table_entry=current%name,&
              units=current%units,&
              length=current%n,&
@@ -121,7 +121,7 @@ program main
   enddo
   
   print*,'Test Code: CMOR VAR'
-  myvar=cmor_variable('Tables/CMIP5_Amon',&
+  myvar=cmor_variable('Tables/CMIP6_Amon_json',&
        var,&
        units,&
        myaxis,&

@@ -461,7 +461,6 @@ int cmor_check_monotonic( double *values, int length, char *name,
 			  int isbounds, int axis_id ) {
     int i, treatlon = 0, j = 0;
     char msg[CMOR_MAX_STRING];
-    char msg2[CMOR_MAX_STRING];
     cmor_axis_def_t *refaxis;
     int mono;
     int nloop;
@@ -1665,7 +1664,8 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
     extern int cmor_naxes;
     extern int CMOR_TABLE;
 
-    int i, iref, j, ierr, k, l;
+    int i, iref, j, k, l;
+    int ierr;
     cmor_axis_def_t refaxis;
     char msg[CMOR_MAX_STRING];
     char ctmp[CMOR_MAX_STRING];

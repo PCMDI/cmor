@@ -21,7 +21,7 @@ def main():
     table = 'CMIP6_6hrLev_json'
     cmor.load_table(table)
     axes = [ {'table_entry': 'time1',
-              'units': 'days since 2000-01-01 00:00:00',
+              'units': 'days since 2000-01-01 00:00:00'
               },
              {'table_entry': 'latitude',
               'units': 'degrees_north',
@@ -58,7 +58,7 @@ def main():
 
     print 'cmor.variable call complete'
     
-    cmor.write(varid, values, time_vals = [6.0])
+    cmor.write(varid, values, time_vals = [6.0], time_bnds = [3., 12.])
 
     print 'cmor.write call complete'
 

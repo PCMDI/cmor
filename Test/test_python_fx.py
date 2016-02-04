@@ -5,7 +5,7 @@ import numpy
 def test_mode(mode):
     cmor.setup(inpath='Tables',
                netcdf_file_action = mode)
-    cmor.dataset('pre-industrial control', 'ukmo', 'HadCM3', '360_day',
+    cmor.dataset('abrupt4xCO2', 'ukmo', 'HadCM3', '360_day',
                  institute_id = 'ukmo',
                  model_id = 'HadCM3',
                  forcing="TO",
@@ -15,7 +15,7 @@ def test_mode(mode):
                  parent_experiment_rip="r1i1p1",
                  branch_time=0)
     
-    table = 'CMIP5_fx'
+    table = 'CMIP6_fx_json'
     cmor.load_table(table)
     axes = [ 
              {'table_entry': 'latitude',

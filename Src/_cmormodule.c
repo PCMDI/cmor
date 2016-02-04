@@ -14,9 +14,8 @@ static PyObject *PyCMOR_get_original_shape( PyObject * self,
 
     if( !PyArg_ParseTuple( args, "ii", &var_id, &blank_time ) )
 	return NULL;
-    tmp =
-	cmor_get_original_shape( &var_id, &shape_array[0], &i,
-				 blank_time );
+    tmp = cmor_get_original_shape( &var_id, &shape_array[0], &i,
+		                            blank_time );
 
     mylist = PyList_New( 0 );
     for( i = 0; i < CMOR_MAX_DIMENSIONS; i++ ) {

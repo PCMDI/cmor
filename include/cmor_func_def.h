@@ -192,6 +192,9 @@ extern int cmor_set_variable_entry(cmor_table_t* table,
 
 extern int cmor_set_table( int table );
 extern int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id );
+extern int cmor_load_table_internal( char table[CMOR_MAX_STRING],
+                                     int *table_id, int );
+
 extern int cmor_time_varying_grid_coordinate( int *coord_grid_id,
 					      int grid_id, char *name,
 					      char *units, char type,

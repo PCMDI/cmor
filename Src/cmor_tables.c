@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <libgen.h>
 #include "cmor.h"
 #include "cmor_func_def.h"
 #include <netcdf.h>
@@ -37,7 +38,7 @@ void cmor_init_table( cmor_table_t * table, int id ) {
     table->naxes = -1;
     table->nexps = -1;
     table->nmappings = -1;
-    table->cf_version = 1.4;
+    table->cf_version = 1.6;
     table->cmor_version = 2.0;
     table->project_id[0] = '\0';
     table->table_id[0] = '\0';
@@ -76,7 +77,7 @@ int cmor_set_variable_entry(cmor_table_t* table,
     char szValue[CMOR_MAX_STRING];
     char msg[CMOR_MAX_STRING];
     int nVarId;
-    int nTableId;
+    char *nTableId;
     cmor_var_def_t *variable;
     cmor_table_t *cmor_table;
     cmor_table = &cmor_tables[cmor_ntables];
@@ -106,6 +107,14 @@ int cmor_set_variable_entry(cmor_table_t* table,
     cmor_set_var_def_att(variable, "id", variable_entry);
 
     json_object_object_foreach(json, attr, value) {
+/* -------------------------------------------------------------------- */
+/*  Attribute keys starting with "#" are seen as comments or examples   */
+/*  and they are skipped!                                               */
+/* -------------------------------------------------------------------- */
+
+        if( attr[0] == '#')
+            continue;
+
         strcpy(szValue, json_object_get_string(value));
         cmor_set_var_def_att(variable, attr, szValue);
     }
@@ -123,7 +132,7 @@ int cmor_set_axis_entry( cmor_table_t* table,
     char szValue[CMOR_MAX_STRING*4];
     char msg[CMOR_MAX_STRING];
     int nAxisId;
-    int nTableId;
+    char *nTableId;
     cmor_axis_def_t *axis;
     cmor_table_t *cmor_table;
     cmor_table = &cmor_tables[cmor_ntables];
@@ -415,14 +424,40 @@ int cmor_set_table( int table ) {
 }
 
 /************************************************************************/
-/*                          cmor_load_table()                           */
+/*                       cmor_load_tablel()                             */
 /************************************************************************/
+int cmor_load_table( char szTable[CMOR_MAX_STRING], int *table_id ) {
+    int rc;
+    char *szPath;
+    char *szTableName;
+    char szExperimentFilenameJSON[CMOR_MAX_STRING];
 
-int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
+/* -------------------------------------------------------------------- */
+/*  build string "path/experiments.json"                                */
+/* -------------------------------------------------------------------- */
+    szTableName = strdup(szTable);
+    szPath = dirname(szTableName);
+    strcpy(szExperimentFilenameJSON, szPath);
+    strcat(szExperimentFilenameJSON, "/");
+    strcat(szExperimentFilenameJSON, TABLE_EXPERIMENT_FILENAME);
+
+    rc= cmor_load_table_internal( szTable, table_id, TRUE);
+    if(rc == TABLE_SUCCESS) {
+        rc= cmor_load_table_internal( szExperimentFilenameJSON, table_id, FALSE);
+    } else if (rc == TABLE_FOUND) {
+        rc = TABLE_SUCCESS;
+    }
+    free(szTableName);
+    return(rc);
+}
+/************************************************************************/
+/*                   cmor_load_table_internal()                         */
+/************************************************************************/
+int cmor_load_table_internal( char table[CMOR_MAX_STRING], int *table_id,
+                              int bNewTable) {
     FILE *table_file;
-    char word[CMOR_MAX_STRING], word2[CMOR_MAX_STRING];
+    char word[CMOR_MAX_STRING];
     int i, n;
-    int do_var = 0, do_axis = 0, do_dataset = 1, do_mapping = 0;
     int done=0;
     extern int CMOR_TABLE, cmor_ntables;
     extern char cmor_input_path[CMOR_MAX_STRING];
@@ -432,29 +467,32 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
     int nTableSize, read_size;
     json_object *json_obj;
 
-
     cmor_add_traceback( "cmor_load_table" );
     cmor_is_setup(  );
+
+    if( bNewTable ) {
 
 /* -------------------------------------------------------------------- */
 /*      Is the table already loaded?                                    */
 /* -------------------------------------------------------------------- */
-    for( i = 0; i < cmor_ntables + 1; i++ ) {
-        if( strcmp( cmor_tables[i].path, table ) == 0 ) {
-            CMOR_TABLE = i;
-            *table_id = i;
-            cmor_pop_traceback(  );
-            return(0);
+        for (i = 0; i < cmor_ntables + 1; i++) {
+
+            if (strcmp(cmor_tables[i].path, table) == 0) {
+                CMOR_TABLE = i;
+                *table_id = i;
+                cmor_pop_traceback();
+                return (TABLE_FOUND);
+            }
         }
-    }
 /* -------------------------------------------------------------------- */
 /*      Try to open file                                                */
 /*      $path/table                                                     */
 /*      /usr/local/cmor/share/table                                     */
 /* -------------------------------------------------------------------- */
-    
-    cmor_ntables += 1;
-    cmor_init_table( &cmor_tables[cmor_ntables], cmor_ntables );
+        cmor_ntables += 1;
+        cmor_init_table( &cmor_tables[cmor_ntables], cmor_ntables );
+    }
+
     table_file = fopen( table, "r" );
     
     if( table_file == NULL ) {
@@ -474,7 +512,7 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
 	    cmor_handle_error( word, CMOR_NORMAL );
 	    cmor_ntables -= 1;
 	    cmor_pop_traceback(  );
-	    return(1);
+	    return(TABLE_ERROR);
 	}
     }
 
@@ -507,7 +545,7 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
             cmor_handle_error( msg, CMOR_CRITICAL );
             cmor_ntables--;
             cmor_pop_traceback(  );
-        return(1);
+        return(TABLE_ERROR);
     }
 /* -------------------------------------------------------------------- */
 /*      print errro and exit if file was not completly read             */
@@ -521,7 +559,7 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
             cmor_handle_error( msg, CMOR_CRITICAL );
             cmor_ntables--;
             cmor_pop_traceback(  );
-        return(1);
+        return(TABLE_ERROR);
     }
 
 /* -------------------------------------------------------------------- */
@@ -551,7 +589,7 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
                 if( cmor_set_dataset_att( &cmor_tables[cmor_ntables], key, 
                                            szVal ) == 1 ) {
                     cmor_pop_traceback();
-                    return(1);
+                    return(TABLE_ERROR);
                 }
             }
             done=1;
@@ -562,7 +600,7 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
                                           shortname,
                                           szVal ) == 1 ) {
                     cmor_pop_traceback(  );
-                    return(1);
+                    return(TABLE_ERROR);
                 }
             }
             done=1;
@@ -575,7 +613,7 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
                         axisname,
                         attributes) == 1) {
                     cmor_pop_traceback();
-                    return (1);
+                    return (TABLE_ERROR);
                 }
             }
             done=1;
@@ -586,7 +624,7 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
                         varname,
                         attributes) == 1) {
                     cmor_pop_traceback();
-                    return (1);
+                    return (TABLE_ERROR);
                 }
             }
             done=1;
@@ -603,12 +641,11 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
                 cmor_handle_error(msg, CMOR_CRITICAL);
                 cmor_ntables--;
                 cmor_pop_traceback();
-                return (1);
+                return (TABLE_ERROR);
             }
             json_object_object_foreach(value, mapname, jsonValue) {
                 char szLastMapID[CMOR_MAX_STRING];
                 char szCurrMapID[CMOR_MAX_STRING];
-                cmor_mappings_t *psmappings;
                 cmor_table_t *psCurrCmorTable;
 
                 psCurrCmorTable = &cmor_tables[cmor_ntables];
@@ -675,8 +712,12 @@ int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id ) {
         }
     }
     *table_id = cmor_ntables;
-    strcpy( cmor_tables[cmor_ntables].path, table );
+    if( bNewTable ) {
+        strcpy( cmor_tables[cmor_ntables].path, table );
+    }
     CMOR_TABLE = cmor_ntables;
     cmor_pop_traceback(  );
-    return(0);
+    free(buffer);
+    json_object_put(json_obj);
+    return(TABLE_SUCCESS);
 }

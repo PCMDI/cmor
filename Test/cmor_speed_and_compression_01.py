@@ -123,7 +123,7 @@ cmor.close()
 
 import cdtime,os
 ltime = cdtime.reltime(ntimes-1,'month since 1980').tocomp()
-lcmor = os.stat("Test/CMIP5/output/PCMDI/GICCM1/lgm/mon/atmos/tas/r1i1p1/tas_Amon_GICCM1_lgm_r1i1p1_198401-198412.nc")[6]
+lcmor = os.stat("Test/CMIP6/output/PCMDI/GICCM1/lgm/mon/atmos/tas/r1i1p1/tas_Amon_GICCM1_lgm_r1i1p1_197901-197912.nc")[6]
 print 'level:',level,"shuffle:",shuffle
 print 'total cmor:',totcmor,mincmor,totcmor/ntimes,maxcmor,lcmor
 lcdms = os.stat("Test/crap.nc")[6]

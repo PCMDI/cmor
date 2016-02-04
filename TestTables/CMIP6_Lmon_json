@@ -2,7 +2,7 @@
     "Header": {
         "product": "output", 
         "missing_value": "1e20", 
-        "cf_version": "1.4", 
+        "cf_version": "1.6", 
         "approx_interval": "30.00000", 
         "baseURL": "http://cmip-pcmdi.llnl.gov/CMIP6/dataLocation", 
         "cmor_version": "3.0", 
@@ -2258,7 +2258,7 @@
         }, 
         "landCoverFrac": {
             "comment": "The categories may differ from model to model, depending on their  PFT definitions.   This may include natural PFTs, anthropogenic PFTs, bare soil, lakes, urban areas, etc.   Sum of all should equal the fraction of the grid-cell that is land.", 
-            "dimensions": "longitude latitude vegtype time", 
+            "dimensions": "longitude latitude time", 
             "positive": "", 
             "valid_min": "", 
             "long_name": "Plant Functional Type Grid Fraction", 

@@ -41,7 +41,7 @@ def cmor_ini():
                  contact = 'bob')
 
 def define_write_clisccp():
-    cmor.load_table('CMIP6_Amon_json')
+    cmor.load_table('CMIP6_cfMon_json')
     axes = [ {'table_entry': 'time',
               'units': 'days since 2000-01-01 00:00:00',
               },
@@ -73,7 +73,7 @@ def define_write_clisccp():
     define_write_var(axis_ids, 'clisccp', '1', values)
 
 def define_write_landcoverfrac():
-    cmor.load_table('CMIP5_Lmon')
+    cmor.load_table('CMIP6_Lmon')
     axes = [ {'table_entry': 'time',
               'units': 'days since 2000-01-01 00:00:00',
               },
