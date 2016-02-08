@@ -2502,14 +2502,14 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
 
     if (cmor_filter_tracking_prefix(cmor_tables[cmor_vars[var_id].ref_table_id].project_id) == 1) {
       // filter matched, now either include the prefix or complain
-      if (cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix != '\0') {
+      if (strlen(cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix) > 0) {
         strncpy(cmor_current_dataset.tracking_id, cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix, CMOR_MAX_STRING);
         strcat(cmor_current_dataset.tracking_id, "/");
         strcat(cmor_current_dataset.tracking_id, (char *) myuuid_str);
         tracking_id_set = 1;
       }
       else {
-          sprintf(msg,"Project requires tracking prefixes, but no tracking_prefix was specified for variable %s (table: %s)",tmps[0],cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
+          sprintf(msg,"Project requires tracking prefixes, but no tracking_prefix was specified for table %s",tmps[0],cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
           cmor_handle_error(msg,CMOR_WARNING);
       }
     }
@@ -3382,14 +3382,20 @@ int cmor_write(int var_id,void *data, char type, char *suffix, int ntimes_passed
 
     if (cmor_filter_tracking_prefix(cmor_tables[cmor_vars[var_id].ref_table_id].project_id) == 1) {
       // filter matched, now either include the prefix or complain
-      if (cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix != '\0') {
+      if (strlen(cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix) > 0) {
         strncpy(cmor_current_dataset.tracking_id, cmor_tables[cmor_vars[var_id].ref_table_id].tracking_prefix, CMOR_MAX_STRING);
         strcat(cmor_current_dataset.tracking_id, "/");
         strcat(cmor_current_dataset.tracking_id, (char *) myuuid_str);
+		/* now copy concatenated string over to myuuid_str, as this
+		   is the thing that will actually be written further below */
+		uuidlen = strlen(cmor_current_dataset.tracking_id);
+		free(myuuid_str);
+		myuuid_str = (char *)malloc(uuidlen*sizeof(char));
+		strcpy(myuuid_str, cmor_current_dataset.tracking_id);
         tracking_id_set = 1;
       }
       else {
-          sprintf(msg,"Project requires tracking prefixes, but no tracking_prefix was specified for variable %s (table: %s)",tmps[0],cmor_vars[var_id].id,cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
+          sprintf(msg,"Project requires tracking prefixes, but no tracking_prefix was specified for table %s",tmps[0],cmor_tables[cmor_vars[var_id].ref_table_id].table_id);
           cmor_handle_error(msg,CMOR_WARNING);
       }
     }
