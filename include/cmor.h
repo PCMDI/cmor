@@ -80,6 +80,54 @@
 #define TABLE_ERROR                1
 #define TABLE_SUCCESS              0
 
+#define FILE_ERROR                 1
+#define FILE_PATH_TEMPLATE         "output_path_template"
+#define FILE_NAME_TEMPLATE         "output_file_template"
+#define FILE_OUTPUTPATH            "outpath"
+
+#define VARIABLE_ATT_UNITS          "units"
+#define VARIABLE_ATT_MISSINGVALUES  "missing_values"
+#define VARIABLE_ATT_FILLVAL        "_FillValue"
+#define VARIABLE_ATT_STANDARDNAME   "standard_name"
+#define VARIABLE_ATT_LONGNAME       "long_name"
+#define VARIABLE_ATT_FLAGVALUES     "flag_values"
+#define VARIABLE_ATT_FLAGMEANING    "flag_meaning"
+#define VARIABLE_ATT_COMMENT        "comment"
+#define VARIABLE_ATT_HISTORY        "history"
+#define VARIABLE_ATT_ORIGINALNAME   "original_name"
+#define VARIABLE_ATT_ORIGINALUNITS  "original_units"
+#define VARIABLE_ATT_POSITIVE       "positive"
+#define VARIABLE_ATT_CELLMETHODS    "cell_methods"
+#define VARIABLE_ATT_COORDINATES    "coordinates"
+#define VARIABLE_ATT_REQUIRED       "required"
+#define VARIABLE_ATT_DIMENSIONS     "dimensions"
+#define VARIABLE_ATT_ID             "id"
+#define VARIABLE_ATT_TYPE           "type"
+#define VARIABLE_ATT_UNITS          "units"
+#define VARIABLE_ATT_EXTCELLMEASURES "ext_cell_measures"
+#define VARIABLE_ATT_CELLMEASURES   "cell_measures"
+
+#define VARIABLE_ATT_VALIDMIN       "valid_min"
+#define VARIABLE_ATT_VALIDMAX       "valid_max"
+#define VARIABLE_ATT_MINMEANABS     "ok_min_mean_abs"
+#define VARIABLE_ATT_MAXMEANABS     "ok_max_mean_abs"
+#define VARIABLE_ATT_SHUFFLE        "shuffle"
+#define VARIABLE_ATT_DEFLATE        "deflate"
+#define VARIABLE_ATT_DEFLATELEVEL   "deflate_level"
+#define VARIABLE_ATT_MODELINGREALM  "modeling_realm"
+#define VARIALBE_ATT_FREQUENCY      "frequency"
+#define VARIABLE_ATT_FLAGVALUES     "flag_values"
+#define VARIABLE_ATT_FLAGMEANINGS   "flag_meanings"
+#define VARIABLE_ATT_OUTNAME        "out_name"
+
+#define DIMENSION_LATITUDE          "latitude"
+#define DIMENSION_LONGITUDE         "longitude"
+#define DIMENSION_ALEVEL            "alevel"
+#define DIMENSION_ZLEVEL            "zlevel"
+#define DIMENSION_OLEVEL            "olevel"
+
+
+
 
 extern int USE_NETCDF_4;
 extern int CMOR_MODE;
@@ -280,6 +328,12 @@ typedef struct cmor_mappings_ {
     char coordinates[CMOR_MAX_STRING];
 } cmor_mappings_t;
 
+typedef struct {
+    char key[CMOR_MAX_STRING];
+    char *value;
+} t_symstruct;
+
+
 typedef struct cmor_table_ {
     int id;
     int nvars;
@@ -330,6 +384,9 @@ typedef struct cmor_dataset_def_ {
     int associated_file;	/* ncid of associated file */
     char associated_file_name[CMOR_MAX_STRING];	/*associated file path */
     char tracking_id[CMOR_MAX_STRING];	/*associated tracking id */
+    char path_template[CMOR_MAX_STRING]; /* <keys> for each directory */
+    char file_template[CMOR_MAX_STRING]; /* <keys> for filename */
+
 } cmor_dataset_def;
 
 extern cmor_dataset_def cmor_current_dataset;

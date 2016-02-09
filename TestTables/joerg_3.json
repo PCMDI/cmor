@@ -1,0 +1,58 @@
+{
+           "#output":                "Output Path where files are written",
+           "outpath":                "Test",
+
+           "#experiment_id":         "Correspond to id found in experiments.json",
+           "experiment_id":          "abrupt4xCO2",
+
+           "#institution":           "Controlled Vocaburaly in instition.json",
+           "institution":            "GICC (Generic International Climate Center, Geneva, Switzerland)",
+            
+           "#source":                "",
+           "source":                 "GICCM1 (2002):",
+
+           "#calendar":              "",
+           "calendar":               "standard",
+
+           "#realization":           "",
+           "realization":            "1",
+           "initialization_method":  "1",
+           "physics_version":  "1",
+
+           "#contact ":              "",
+           "contact ":               "Karl Tailor (taylor13@llnl.gov) ",
+
+           "#history":               "",
+           "history":                "Output from archivcl_A1.nce/giccm_03_std_2xCO2_2256.",
+
+           "#comment":               "",
+           "comment":                "Equilibrium reached after 30-year spin-up ",
+
+           "#references":            "",
+           "references":             "Model described by Koder and Tolkien ",
+
+           "#institute_id":          "",
+           "institute_id":           "PCMDI",
+
+           "#model_id":              "",
+           "model_id":               "GICCM1",
+
+           "#forcing":               "",
+           "forcing":                "TO, SO, Nat",
+
+           "#parent_experiment_rip": "",
+           "parent_experiment_rip":  "r1i3p2",
+
+           "#parent_experiment_id":  "",
+           "parent_experiment_id":   "N/A",
+
+           "#branch_time":            "",
+           "branch_time":             "1",
+
+           "#output_path_template":   "Template for output path directory using tables keys or global attributes",
+           "output_path_template":    "<product><institute_id><model_id><experiment_id><frequency><realm><rip>",
+
+           "#output_path_template":    "Template for output filename using table keys or global attributes",
+           "output_file_template":    "<varid><table_id><model_id><experiment_id><rip>"              
+}
+

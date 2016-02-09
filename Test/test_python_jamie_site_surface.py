@@ -5,7 +5,7 @@ def cmor_initialisation():
     cmor.setup(inpath='Tables',
                netcdf_file_action = cmor.CMOR_REPLACE_3,
                create_subdirectories = 0)
-    cmor.dataset('pre-industrial control', 'ukmo', 'HadCM3', '360_day',
+    cmor.dataset('abrupt4xCO2', 'ukmo', 'HadCM3', '360_day',
                  institute_id = 'ukmo',
                  model_id = 'HadCM3',
                  history = 'some global history',
@@ -29,7 +29,7 @@ def setup_data():
     return values, axes
 
 def cmor_define_and_write(values, axes):
-    table = 'CMIP5_cfSites'
+    table = 'CMIP6_cfSites_json'
     cmor.load_table(table)
     site_axis_id = cmor.axis(**axes[1])
 

@@ -1105,7 +1105,7 @@
             "dimensions": "olevel"
         }, 
         "tslsi": {
-            "comment": "'''skin'' temperature of all surfaces except open ocean.  '", 
+            "comment": "skin temperature of all surfaces except open ocean.", 
             "dimensions": "longitude latitude time1", 
             "positive": "", 
             "valid_min": "", 
@@ -1380,7 +1380,7 @@
             "dimensions": "alevel"
         }, 
         "mrro": {
-            "comment": "'the total runoff (including ''drainage'' through the base of the soil model) leaving the land portion of the grid cell.'", 
+            "comment": "the total runoff (including drainage through the base of the soil model) leaving the land portion of the grid cell.", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
             "valid_min": "", 

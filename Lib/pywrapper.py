@@ -749,6 +749,17 @@ def load_table(table):
 ##         raise Exception, "Error, the table you specified (%s) does not exists" % table
     return _cmor.load_table(table)
 
+def dataset_json(rcfile):
+    """ load dataset JSON file
+    Usage:
+    dataset_json(rcfile)
+    """
+    if not isinstance(rcfle,str):
+        raise Exception, "Error, must pass a string"
+##     if not os.path.exists(table):
+##         raise Exception, "Error, the table you specified (%s) does not exists" % table
+    return _cmor.dataset_json(rcfile)
+
 def dataset(experiment_id,institution,source,calendar,outpath='.',realization=1,contact="",history="",comment="",references="",leap_year=0,leap_month=0,month_lengths=None,model_id="",forcing="",initialization_method=None,physics_version=None,institute_id="",parent_experiment_id="",branch_time=None,parent_experiment_rip=""):
     """ Initialize a cmor dataset 
     Usage:

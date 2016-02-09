@@ -1,6 +1,6 @@
 import cmor,numpy
 
-error_flag = cmor.setup(inpath='Test', netcdf_file_action=cmor.CMOR_REPLACE)
+error_flag = cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
   
 error_flag = cmor.dataset(                                   
        outpath='Test',                                         

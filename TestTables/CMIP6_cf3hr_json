@@ -1061,6 +1061,44 @@
         }
     }, 
     "variable_entry": {
+
+        "clcalipso": {
+            "modeling_realm":    "atmos",
+            "standard_name":     "cloud_area_fraction_in_atmosphere_layer",
+            "units":             "%",
+            "cell_methods":      "time: point",
+            "long_name":         "CALIPSO Cloud Area Fraction",
+            "dimensions":        "location alt40 time1",
+            "out_name":          "clcalipso",
+            "type":              "real"
+        },
+
+        "longitude": {
+            "modeling_realm":    "atmos",
+            "standard_name":     "longitude",
+            "units":             "degrees_east",
+            "cell_methods":      "time: point",
+            "long_name":         "Longitude",
+            "dimensions":        "location time1",
+            "out_name":          "lon",
+            "type":              "real",
+            "valid_min":         "0.0",
+            "valid_max":         "360.0"
+        },
+
+        "latitude": {
+            "modeling_realm":    "atmos",
+            "standard_name":     "latitude",
+            "units":             "degrees_north",
+            "cell_methods":      "time: point",
+            "long_name":         "Latitude",
+            "dimensions":        "location time1",
+            "out_name":          "lat",
+            "type":              "real",
+            "valid_min":         "-90.0",
+            "valid_max":         "90.0"
+        },
+
         "a": {
             "units": "", 
             "long_name": "vertical coordinate formula term: a(k)", 

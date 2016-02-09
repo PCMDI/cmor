@@ -2,10 +2,10 @@ import cmor
 import numpy
 
 def cmor_initialisation():
-    cmor.setup(inpath='/git/cmip5-cmor-tables/Tables',
+    cmor.setup(inpath='Tables',
                netcdf_file_action = cmor.CMOR_REPLACE_3,
                create_subdirectories = 0)
-    cmor.dataset('pre-industrial control', 'ukmo', 'HadCM3', '360_day',
+    cmor.dataset('abrupt4xCO2', 'ukmo', 'HadCM3', '360_day',
                  institute_id = 'ukmo',
                  model_id = 'HadCM3',
                  history = 'some global history',
@@ -14,7 +14,7 @@ def cmor_initialisation():
                  parent_experiment_rip = 'N/A',
                  branch_time = 0.,
                  contact = 'bob',
-                 outpath = 'test_output')
+                 outpath = 'Test')
 
 def setup_data():
     axes = [ {'table_entry': 'time',
@@ -60,7 +60,7 @@ def version(cmor):
                         cmor.CMOR_VERSION_PATCH)
 
 def main():
-    assert version(cmor) == '2.8.3'
+    assert version(cmor) == '3.0.0'
     cmor_initialisation()
     values, axes = setup_data()
     cmor_define_and_write(values, axes)

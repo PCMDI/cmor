@@ -13,7 +13,6 @@
 /************************************************************************/
 /*                               wfgetc()                               */
 /************************************************************************/
-
 int wfgetc( FILE * afile ) {
     int i = fgetc( afile );
 
@@ -22,11 +21,46 @@ int wfgetc( FILE * afile ) {
     }
     return(i);
 }
+/************************************************************************/
+/*                       cmor_get_table_attr                            */
+/*                                                                      */
+/*  You need to define char *out                                        */
+/************************************************************************/
+int cmor_get_table_attr( char *szToken, cmor_table_t * table, char *out) {
+    int i;
+    t_symstruct lookuptable[]= {
+            {"project_id",  table->project_id  },
+            {"table_id",    table->table_id    },
+            {"realm",       table->realm       },
+            {"date",        table->date        },
+            {"product",     table->product     },
+            {"path",        table->path        },
+            {"frequency",   table->frequency   },
+            {"", ""},
+            {"", ""},
+            {"", ""}
+    };
+
+    int nKeys=(sizeof(lookuptable)/sizeof(t_symstruct));
+
+    for (i=0; i < nKeys; i++) {
+        t_symstruct *sym = &lookuptable[i];
+        if(strcmp(szToken, sym->key) == 0) {
+            strcpy(out, sym->value);
+            cmor_pop_traceback(  );
+            return(0);
+        }
+    }
+
+    cmor_pop_traceback(  );
+    return(1);
+
+}
+
 
 /************************************************************************/
 /*                          cmor_init_table()                           */
 /************************************************************************/
-
 void cmor_init_table( cmor_table_t * table, int id ) {
     int i;
 
@@ -170,6 +204,9 @@ int cmor_set_axis_entry( cmor_table_t* table,
     /*      Add axis value                                                  */
     /* -------------------------------------------------------------------- */
     json_object_object_foreach(json, attr, value) {
+        if( attr[0] == '#') {
+            continue;
+        }
         strcpy(szValue, json_object_get_string(value));
         cmor_set_axis_def_att(axis, attr, szValue);
     }
@@ -243,7 +280,8 @@ int cmor_set_dataset_att(cmor_table_t * table, char att[CMOR_MAX_STRING],
 			snprintf(value2, CMOR_MAX_STRING,
 					"Table %s is defined for cmor_version %f, "
 					"this library verson is: %i.%i.%i, %f",
-					table->table_id, d, CMOR_VERSION_MAJOR, CMOR_VERSION_MINOR,
+					table->table_id, d,
+					CMOR_VERSION_MAJOR, CMOR_VERSION_MINOR,
 					CMOR_VERSION_PATCH, d2);
 			cmor_handle_error(value2, CMOR_CRITICAL);
 			cmor_ntables--;
@@ -576,7 +614,10 @@ int cmor_load_table_internal( char table[CMOR_MAX_STRING], int *table_id,
     }
 
     json_object_object_foreach(json_obj, key, value) {
-        strcpy(szVal, json_object_to_json_string(value));
+        if( key[0] == '#') {
+            continue;
+        }
+        strcpy(szVal, json_object_get_string(value));
 /* -------------------------------------------------------------------- */
 /*      Now let's see what we found                                     */
 /* -------------------------------------------------------------------- */
@@ -585,6 +626,9 @@ int cmor_load_table_internal( char table[CMOR_MAX_STRING], int *table_id,
 /*      Fill up all global attributer found in header section           */
 /* -------------------------------------------------------------------- */
             json_object_object_foreach(value, key, globalAttr) {
+                if( key[0] == '#') {
+                    continue;
+                }
                 strcpy(szVal, json_object_get_string(globalAttr));
                 if( cmor_set_dataset_att( &cmor_tables[cmor_ntables], key, 
                                            szVal ) == 1 ) {
@@ -593,8 +637,12 @@ int cmor_load_table_internal( char table[CMOR_MAX_STRING], int *table_id,
                 }
             }
             done=1;
+
         } else  if( strcmp( key, "experiments" ) == 0 ){
             json_object_object_foreach(value, shortname, description) {
+                if( shortname[0] == '#') {
+                    continue;
+                }
                 strcpy(szVal, json_object_get_string(description));
                 if( cmor_set_experiments( &cmor_tables[cmor_ntables],
                                           shortname,
@@ -604,11 +652,11 @@ int cmor_load_table_internal( char table[CMOR_MAX_STRING], int *table_id,
                 }
             }
             done=1;
-
-        }
-          else if (strcmp(key, "axis_entry") == 0) {
-            json_object_object_foreach(value, axisname, attributes)
-            {
+        } else if (strcmp(key, "axis_entry") == 0) {
+            json_object_object_foreach(value, axisname, attributes) {
+                if( axisname[0] == '#') {
+                    continue;
+                }
                 if( cmor_set_axis_entry(&cmor_tables[cmor_ntables],
                         axisname,
                         attributes) == 1) {
@@ -618,8 +666,10 @@ int cmor_load_table_internal( char table[CMOR_MAX_STRING], int *table_id,
             }
             done=1;
 	} else if( strcmp( key, "variable_entry" ) == 0 ) {
-            json_object_object_foreach(value, varname, attributes)
-            {
+            json_object_object_foreach(value, varname, attributes) {
+                if( varname[0] == '#') {
+                    continue;
+                }
                 if( cmor_set_variable_entry(&cmor_tables[cmor_ntables],
                         varname,
                         attributes) == 1) {
@@ -644,6 +694,9 @@ int cmor_load_table_internal( char table[CMOR_MAX_STRING], int *table_id,
                 return (TABLE_ERROR);
             }
             json_object_object_foreach(value, mapname, jsonValue) {
+                if( mapname[0] == '#') {
+                    continue;
+                }
                 char szLastMapID[CMOR_MAX_STRING];
                 char szCurrMapID[CMOR_MAX_STRING];
                 cmor_table_t *psCurrCmorTable;
@@ -672,7 +725,9 @@ int cmor_load_table_internal( char table[CMOR_MAX_STRING], int *table_id,
                 cmor_init_grid_mapping(&psCurrCmorTable->mappings[nMap], mapname);
                 json_object_object_foreach(jsonValue, key, mappar)
                 {
-
+                    if( key[0] == '#') {
+                        continue;
+                    }
                     char param[CMOR_MAX_STRING];
 
                     strcpy(param, json_object_get_string(mappar));

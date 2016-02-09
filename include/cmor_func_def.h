@@ -25,7 +25,10 @@ extern int cmor_have_NetCDF363( void );
 extern void cmor_handle_error( char error_msg[CMOR_MAX_STRING],
 			       int level );
 extern int cmor_setup( char *path, int *netcdf, int *verbosity, int *mode,
-		       char *logfile, int *cmor_create_subdirectories );
+		       char *logfile, int *cmor_create_subdirectories);
+
+extern int  cmor_outpath_exist(char *outpath);
+
 extern int cmor_put_nc_num_attribute( int ncid, int nc_var_id, char *name,
 				      char type, double value,
 				      char *var_name );
@@ -35,6 +38,14 @@ extern int cmor_set_cur_dataset_attribute( char *name, char *value,
 					   int optional );
 extern int cmor_get_cur_dataset_attribute( char *name, char *value );
 extern int cmor_has_cur_dataset_attribute( char *name );
+extern int cmor_get_table_attr( char *szToken, cmor_table_t * table, char *);
+
+extern int cmor_dataset_json(char *rcfile);
+
+extern int cmor_CreatePathFromTemplate(int vid, char *outpath);
+extern int cmor_mkdir(const char *dir);
+extern int cmor_create_filename(char *outname, int vid );
+
 extern int cmor_dataset( char *outpath,
 			 char *experiment_id,
 			 char *institution,
@@ -183,9 +194,11 @@ extern int cmor_set_dataset_att( cmor_table_t * table,
 extern int cmor_set_experiment( cmor_table_t * table,
                                 char *att,
                                 char *var );
+
 extern int cmor_set_axis_entry(cmor_table_t* table,
                                char *axis_entry,
                                json_object *json);
+
 extern int cmor_set_variable_entry(cmor_table_t* table,
                             char *variable_entry,
                             json_object *json);
@@ -194,6 +207,10 @@ extern int cmor_set_table( int table );
 extern int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id );
 extern int cmor_load_table_internal( char table[CMOR_MAX_STRING],
                                      int *table_id, int );
+
+extern json_object *cmor_open_inpathFile( char *szFilename);
+
+extern int cmor_load_ressources( char *szFilename );
 
 extern int cmor_time_varying_grid_coordinate( int *coord_grid_id,
 					      int grid_id, char *name,

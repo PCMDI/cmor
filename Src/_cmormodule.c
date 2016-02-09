@@ -321,12 +321,32 @@ static PyObject *PyCMOR_dataset( PyObject * self, PyObject * args ) {
 		      physics_version, institute_id, parent_exp_id,
 		      branch_time, parent_exp_rip );
     if( month_lengths_array_obj != NULL ) {
-	Py_DECREF( month_lengths_array_obj );
+        Py_DECREF( month_lengths_array_obj );
     }
     if( ierr != 0 )
-	return NULL;
+        return NULL;
     /* Return NULL Python Object */
     Py_INCREF( Py_None );
+    return Py_None;
+}
+
+/************************************************************************/
+/*                       PyCMOR_dataset_json()                          */
+/************************************************************************/
+
+static PyObject *PyCMOR_dataset_json( PyObject * self, PyObject * args ) {
+    int ierr;
+    char *rcfile;
+
+    if( !PyArg_ParseTuple( args, "s", &rcfile ) ) {
+        return NULL;
+    }
+
+    ierr = cmor_dataset_json( rcfile );
+    if( ierr != 0 ) {
+        return NULL;
+    }
+
     return Py_None;
 }
 
@@ -931,6 +951,7 @@ static PyObject *PyCMOR_grid( PyObject * self, PyObject * args ) {
 static PyMethodDef MyExtractMethods[] = {
     {"setup", PyCMOR_setup, METH_VARARGS},
     {"dataset", PyCMOR_dataset, METH_VARARGS},
+    {"dataset_json", PyCMOR_dataset_json, METH_VARARGS},
     {"load_table", PyCMOR_load_table, METH_VARARGS},
     {"axis", PyCMOR_axis, METH_VARARGS},
     {"set_table", PyCMOR_set_table, METH_VARARGS},

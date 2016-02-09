@@ -6,27 +6,28 @@ nlon=90
 nlev=5
 
 def prep(mode):
-    error_flag = cmor.setup(inpath='Test', netcdf_file_action=mode                       )
+    error_flag = cmor.setup(inpath='Tables', netcdf_file_action=mode                       )
 
-    error_flag = cmor.dataset(                                   
-           outpath='Test',                                         
-           experiment_id='DcppC2',
-           institution= 'GICC (Generic International Climate Center, Geneva, Switzerland)',                                 
-           source='GICCM1 (2002): ',
-           calendar='standard',                                      
-           realization=1,                                          
-           contact = 'Rusty Koder (koder@middle_earth.net) ',      
-           history='Output from archivcl_A1.nce/giccm_03_std_2xCO2_2256.', 
-           comment='Equilibrium reached after 30-year spin-up ',                                 
-           references='Model described by Koder and Tolkien ',
-           institute_id="PCMDI",
-           model_id="GICCM1", 
-           forcing="TO, SO, Nat",
+    error_flag = cmor.dataset_json("joerg_3.json")
+#    error_flag = cmor.dataset(                                   
+#           outpath='Test',                                         
+#           experiment_id='abrupt4xCO2',
+#           institution= 'GICC (Generic International Climate Center, Geneva, Switzerland)',                                 
+#           source='GICCM1 (2002): ',
+#           calendar='standard',                                      
+#           realization=1,                                          
+#           contact = 'Rusty Koder (koder@middle_earth.net) ',      
+#           history='Output from archivcl_A1.nce/giccm_03_std_2xCO2_2256.', 
+#           comment='Equilibrium reached after 30-year spin-up ',                                 
+#           references='Model described by Koder and Tolkien ',
+#           institute_id="PCMDI",
+#           model_id="GICCM1", 
+#           forcing="TO, SO, Nat",
            ## month_lengths=[30,28,30,30,30,30,30,31,30,31,30,30],
            ## leap_year=3,
            ## leap_month=1,
-           parent_experiment_rip="r1i3p2",
-           parent_experiment_id="N/A",branch_time=1)
+#           parent_experiment_rip="r1i3p2",
+#           parent_experiment_id="N/A",branch_time=1)
 
 def prep_var(var,units):
     # creates 1 degree grid
