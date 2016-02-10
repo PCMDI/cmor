@@ -282,7 +282,7 @@ static PyObject *PyCMOR_dataset( PyObject * self, PyObject * args ) {
     int leap_month;
     int *month_lengths;
     int initialization_method;
-    int physics_version;
+    int physics_index;
     int ierr;
     double *branch_time = NULL, bt;
     PyObject *month_lengths_obj;
@@ -294,7 +294,7 @@ static PyObject *PyCMOR_dataset( PyObject * self, PyObject * args ) {
 	  &institution, &source, &calendar, &realization, &contact,
 	  &history, &comment, &references, &leap_year, &leap_month,
 	  &month_lengths_obj, &model_id, &forcing, &initialization_method,
-	  &physics_version, &institute_id, &parent_exp_id,
+	  &physics_index, &institute_id, &parent_exp_id,
 	  &branch_time_obj, &parent_exp_rip ) )
 	return NULL;
     if( month_lengths_obj == Py_None ) {
@@ -318,7 +318,7 @@ static PyObject *PyCMOR_dataset( PyObject * self, PyObject * args ) {
 		      calendar, realization, contact, history, comment,
 		      references, leap_year, leap_month, month_lengths,
 		      model_id, forcing, initialization_method,
-		      physics_version, institute_id, parent_exp_id,
+		      physics_index, institute_id, parent_exp_id,
 		      branch_time, parent_exp_rip );
     if( month_lengths_array_obj != NULL ) {
         Py_DECREF( month_lengths_array_obj );

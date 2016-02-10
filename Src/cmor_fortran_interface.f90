@@ -93,48 +93,48 @@ module cmor_users_functions
      function cmor_dataset_cff(outpath,experiment_id,institution,&
           source,calendar,realization,contact,history,comment,&
           references, leap_year,leap_month,month_lengths,model_id,&
-          forcing,initialization_method,physics_version,institute_id,&
+          forcing,initialization_method,physics_index,institute_id,&
           parent_exp_id,branch_time,parent_experiment_rip) result (ierr)
        character(*) :: outpath,experiment_id,institution,source,calendar,contact
        character(*) :: history,comment,references,model_id,forcing,institute_id
        character(*) :: parent_exp_id,parent_experiment_rip
        integer :: realization,leap_year,leap_month,month_lengths
-       integer :: ierr,initialization_method,physics_version
+       integer :: ierr,initialization_method,physics_index
        double precision branch_time
      end function cmor_dataset_cff
      function cmor_dataset_cff_null(outpath,experiment_id,institution,&
           source,calendar,realization,contact,history,comment,&
           references, leap_year,leap_month,model_id,forcing,&
-          initialization_method,physics_version,institute_id, &
+          initialization_method,physics_index,institute_id, &
           parent_exp_id,branch_time,parent_experiment_rip) result (ierr)
        character(*) :: outpath,experiment_id,institution,source,calendar,contact
        character(*) :: history,comment,references,model_id,forcing,institute_id
        character(*) :: parent_exp_id,parent_experiment_rip
        integer :: realization,leap_year,leap_month
-       integer :: ierr,initialization_method,physics_version
+       integer :: ierr,initialization_method,physics_index
        double precision branch_time
      end function cmor_dataset_cff_null
      function cmor_dataset_cff_nobrch(outpath,experiment_id,institution,&
           source,calendar,realization,contact,history,comment,&
           references, leap_year,leap_month,month_lengths,model_id,&
-          forcing,initialization_method,physics_version,institute_id, &
+          forcing,initialization_method,physics_index,institute_id, &
           parent_exp_id,parent_experiment_rip) result (ierr)
        character(*) :: outpath,experiment_id,institution,source,calendar,contact
        character(*) :: history,comment,references,model_id,forcing,institute_id
        character(*) :: parent_exp_id,parent_experiment_rip
        integer :: realization,leap_year,leap_month,month_lengths
-       integer :: ierr,initialization_method,physics_version
+       integer :: ierr,initialization_method,physics_index
      end function cmor_dataset_cff_nobrch
      function cmor_dataset_cff_null_nobrch(outpath,experiment_id,institution,&
           source,calendar,realization,contact,history,comment,&
           references, leap_year,leap_month,model_id,forcing,&
-          initialization_method,physics_version,institute_id, &
+          initialization_method,physics_index,institute_id, &
           parent_exp_id,parent_experiment_rip) result (ierr)
        character(*) :: outpath,experiment_id,institution,source,calendar,contact
        character(*) :: history,comment,references,model_id,forcing,institute_id
        character(*) :: parent_exp_id,parent_experiment_rip
        integer :: realization,leap_year,leap_month
-       integer :: ierr,initialization_method,physics_version
+       integer :: ierr,initialization_method,physics_index
      end function cmor_dataset_cff_null_nobrch
   end interface
 
@@ -7742,7 +7742,7 @@ contains
        realization,&
        contact,history,comment,references,&
        leap_year,leap_month,month_lengths,model_id,forcing, &
-       initialization_method,physics_version,institute_id,parent_experiment_id,branch_time,parent_experiment_rip) result (ierr)
+       initialization_method,physics_index,institute_id,parent_experiment_id,branch_time,parent_experiment_rip) result (ierr)
     implicit none
     character(*), INTENT(in) :: outpath,experiment_id,institution,source,calendar
     character(*), optional, intent(in) :: model_id,forcing
@@ -7750,7 +7750,7 @@ contains
     character(*), optional, intent(in) :: parent_experiment_id,parent_experiment_rip
     integer, optional,intent(in) :: leap_year,leap_month,month_lengths(12)
     integer r,ly,lm,im,pv
-    integer, optional, intent(in) :: realization,initialization_method,physics_version
+    integer, optional, intent(in) :: realization,initialization_method,physics_index
     character(1024) cntct,hist,comt,ref,mnm,fnm,instid,peid,perip
     integer ierr
     double precision, optional, intent(in) :: branch_time
@@ -7765,8 +7765,8 @@ contains
     else
        im = 0
     endif
-    if (present(physics_version)) then
-       pv = physics_version
+    if (present(physics_index)) then
+       pv = physics_index
     else
        pv = 0
     endif

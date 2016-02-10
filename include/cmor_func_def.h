@@ -45,6 +45,8 @@ extern int cmor_dataset_json(char *rcfile);
 extern int cmor_CreatePathFromTemplate(int vid, char *outpath);
 extern int cmor_mkdir(const char *dir);
 extern int cmor_create_filename(char *outname, int vid );
+extern int cmor_IsFixed(int var_id);
+extern int cmor_addRIP(char *);
 
 extern int cmor_dataset( char *outpath,
 			 char *experiment_id,

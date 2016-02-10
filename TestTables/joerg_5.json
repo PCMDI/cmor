@@ -14,6 +14,9 @@
        "forcing":                        "Nat, SO",
        "parent_experiment_rip":          "r1i3p2",
        "parent_experiment_id":           "lgm",
-       "branch_time":                    "3.14159"
+       "branch_time":                    "3.14159",
+       "output_path_template":           "<product><institute_id><model_id><experiment_id><frequency><realm><rip>",
+       "output_file_template":           "<varid><table_id><model_id><experiment_id><rip>"
+
 }
 

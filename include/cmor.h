@@ -127,6 +127,8 @@
 #define DIMENSION_OLEVEL            "olevel"
 
 
+#define CMOR_DEFAULT_PATH_TEMPLATE "<product><institute_id><model_id><experiment_id><frequency><realm><rip>"
+#define CMOR_DEFAULT_FILE_TEMPLATE "<varid><table_id><model_id><experiment_id><rip>"
 
 
 extern int USE_NETCDF_4;
