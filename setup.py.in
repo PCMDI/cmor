@@ -3,14 +3,15 @@ from numpy.distutils.core import setup, Extension
 #from numpy.distutils.ccompiler import CCompiler
 import os,sys,string
 
-include_dirs = [numpy.lib.utils.get_include(),"include","include/cdTime"]
+include_dirs = [numpy.lib.utils.get_include(),"include","include/cdTime","include/json-c"]
 
 library_dirs = [ os.path.join("@prefix@","lib") ,'.']
 include_dirs.append(os.path.join("@prefix@","include"))
 libraries = []
 
-for st in ["@NCLDFLAGS@", "@NCCFLAGS@", "@JSONCFLAGS@", "@JSONLDFLAGS@", 
-           "@UDUNITS2FLAGS@", "@UDUNITS2LDFLAGS@", "@UUIDFLAGS@", "@UUIDLDFLAGS@"]:
+for st in ["@NCLDFLAGS@", "@NCCFLAGS@",  
+           "@UDUNITS2FLAGS@", "@UDUNITS2LDFLAGS@",
+           "@UUIDFLAGS@", "@UUIDLDFLAGS@"]:
    sp = st.strip().split()
    for s in sp:
       if s[:2]=='-L':

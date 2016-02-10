@@ -630,8 +630,6 @@ UDUNITS2LDFLAGS
 UDUNITS2FLAGS
 ZLDFLAGS
 ZFLAGS
-JSONCFLAGS
-JSONLDFLAGS
 NCLDFLAGS
 NCCFLAGS
 PATH
@@ -699,7 +697,6 @@ with_python
 with_uuid
 with_udunits2
 with_netcdf
-with_json_c
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1341,7 +1338,6 @@ Optional Packages:
   --with-udunits2         enable support for udunits2 in none standard
                           location
   --with-netcdf           enable support for NetCDF in none standard location
-  --with-json-c           enable support for json in none standard location
 
 Some influential environment variables:
   CC          C compiler command
@@ -2148,9 +2144,7 @@ CMOR_VERSION=${PACKAGE_VERSION}" (commit: ${GIT_TAG})"
 ac_config_files="$ac_config_files Makefile setup.py compile_line.txt include/cmor_locale.h"
 
 
-INCFILES="include/cmor.h  include/cmor_func_def.h include/cmor_md5.h "`ls -x --width=10000 include/cdTime/*.h include/cdTime/cdunifpp/*.h`
-
-
+INCFILES="include/cmor.h include/cmor_func_def.h include/cmor_md5.h "`ls -x --width=10000 include/cdTime/*.h include/cdTime/cdunifpp/*.h`" "`ls -x --width=10000 include/json-c/*.h`
 
 
 
@@ -2234,7 +2228,7 @@ if test ${enable_debug} == "yes" ; then
   DEBUG="-g"
 fi
 
-LIBFILES="cmor.o cmor_axes.o cmor_variables.o cmor_tables.o cdTimeConv.o cdUtil.o timeConv.o timeArith.o cmor_grids.o cmor_md5.o "
+LIBFILES="cmor.o cmor_axes.o cmor_variables.o cmor_tables.o cdTimeConv.o cdUtil.o timeConv.o timeArith.o cmor_grids.o cmor_md5.o arraylist.o  json_c_version.o  json_object_iterator.o json_util.o linkhash.o random_seed.o debug.o json_object.o json_tokener.o libjson.o printbuf.o"
 LIBFFILES="cmor_cfortran_interface.o cmor_fortran_interface.o"
 
 # Check whether --enable-fortran was given.
@@ -4263,81 +4257,6 @@ fi
 fi
 LIBS=""
 
-
-# Check whether --with-json-c was given.
-if test "${with_json_c+set}" = set; then :
-  withval=$with_json_c;
-else
-  with_json_c="no"
-fi
-
-with_json_cb="-"${with_json_c}
-if  test ${with_json_cb} != "-yes" ; then
-  if  test ${with_json_cb} != "-no"  ; then
-   JSONCFLAGS=" -I${with_json_c}/include/json-c"
-   if  test ${RTAG} != "none"  ; then
-     JSONLDFLAGS=" -L${with_json_c}/lib  ${RTAG}${with_json_c}/lib -ljson-c"
-   else
-     JSONLDFLAGS=" -L${with_json_c}/lib -ljson-c"
-   fi
-  else
-    JSONCFLAGS=""
-    JSONLDFLAGS="-ljson-c"
-  fi
-else
-  JSONCFLAGS=""
-  JSONLDFLAGS="-ljson-c"
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for json_object_new_string in -ljson-c" >&5
-$as_echo_n "checking for json_object_new_string in -ljson-c... " >&6; }
-if ${ac_cv_lib_json_c_json_object_new_string+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-ljson-c  ${JSONCFLAGS} ${JSONCDFLAGS} -ljson-c -lm   $LIBS"
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-/* Override any GCC internal prototype to avoid an error.
-   Use char because int might match the return type of a GCC
-   builtin and then its argument prototype would still apply.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-char json_object_new_string ();
-int
-main ()
-{
-return json_object_new_string ();
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"; then :
-  ac_cv_lib_json_c_json_object_new_string=yes
-else
-  ac_cv_lib_json_c_json_object_new_string=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_json_c_json_object_new_string" >&5
-$as_echo "$ac_cv_lib_json_c_json_object_new_string" >&6; }
-if test "x$ac_cv_lib_json_c_json_object_new_string" = xyes; then :
-  cat >>confdefs.h <<_ACEOF
-#define HAVE_LIBJSON_C 1
-_ACEOF
-
-  LIBS="-ljson-c $LIBS"
-
-else
-  as_fn_error $? "Could not get a working json-c" "$LINENO" 5
-fi
-
-LIBS=""
-
-
 USERCFLAGS=${CFLAGS}
 USERFFLAGS=${FFLAGS}
 USERLDFLAGS=${LDFLAGS}
@@ -4345,8 +4264,8 @@ USERLDFLAGS=${LDFLAGS}
 SV_LDFLAGS=${LDFLAGS}
 SV_CFLAGS=${CFLAGS}
 
-CFLAGS=${NCCFLAGS} ${JSONCFLAGS}
-LDFLAGS=${NCLDFLAGS} ${JSONLDFLAGS}
+CFLAGS=${NCCFLAGS}
+LDFLAGS=${NCLDFLAGS}
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for nc_inq_var_deflate in -lnetcdf" >&5
 $as_echo_n "checking for nc_inq_var_deflate in -lnetcdf... " >&6; }
@@ -4493,12 +4412,14 @@ $as_echo "\"yes\"" >&6; }
   fi
 fi
 LIBS=${OLIBS}
-CFLAGS=${CFLAGS}" -I/usr/local/include/json-c -Iinclude -Iinclude/cdTime"
+CFLAGS=${CFLAGS}" -Iinclude/json-c -Iinclude -Iinclude/cdTime"
 LDFLAGS=${SV_LDFLAGS}
 MAINDIR=`pwd`
 
 # Library sources
-LIBSOURCES="Src/cmor.c Src/cmor_variables.c Src/cmor_axes.c Src/cmor_tables.c Src/cmor_grids.c Src/cdTime/cdTimeConv.c Src/cdTime/cdUtil.c Src/cdTime/timeConv.c Src/cdTime/timeArith.c Src/cmor_cfortran_interface.c Src/cmor_md5.c"
+LIBSOURCES="Src/cmor.c Src/cmor_variables.c Src/cmor_axes.c Src/cmor_tables.c Src/cmor_grids.c Src/cdTime/cdTimeConv.c Src/cdTime/cdUtil.c Src/cdTime/timeConv.c Src/cdTime/timeArith.c Src/cmor_cfortran_interface.c Src/cmor_md5.c Src/json-c/arraylist.cSrc/json-c/json_c_version.c  Src/json-c/json_object_iterator.c Src/json-c/json_util.c Src/json-c/linkhash.c  Src/json-cmor/random_seed.c Src/json-c/debug.c Src/json-c/json_object.c Src/json-c/json_tokener.c Src/json-c/libjson.c Src/json-c/printbuf.c"
+LIBSOURCES=`ls -x --width=10000 Src/*.c Src/cdTime/*.c Src/json-c/*.c`
+
 LIBFSOURCES="Src/cmor_fortran_interface.f90"
 
 
@@ -5735,14 +5656,6 @@ $as_echo "$as_me: UDUNITS2" >&6;}
 $as_echo "$as_me:  CFLAGS  : ${UDUNITS2FLAGS}" >&6;}
 { $as_echo "$as_me:${as_lineno-$LINENO}:  LDFLAGS : ${UDUNITS2LDFLAGS}" >&5
 $as_echo "$as_me:  LDFLAGS : ${UDUNITS2LDFLAGS}" >&6;}
-{ $as_echo "$as_me:${as_lineno-$LINENO}: " >&5
-$as_echo "$as_me: " >&6;}
-{ $as_echo "$as_me:${as_lineno-$LINENO}: JSONC" >&5
-$as_echo "$as_me: JSONC" >&6;}
-{ $as_echo "$as_me:${as_lineno-$LINENO}:  CFLAGS  : ${JSONCFLAGS}" >&5
-$as_echo "$as_me:  CFLAGS  : ${JSONCFLAGS}" >&6;}
-{ $as_echo "$as_me:${as_lineno-$LINENO}:  LDFLAGS : ${JSONLDFLAGS}" >&5
-$as_echo "$as_me:  LDFLAGS : ${JSONLDFLAGS}" >&6;}
 { $as_echo "$as_me:${as_lineno-$LINENO}: " >&5
 $as_echo "$as_me: " >&6;}
 if test ${BUILD_NC3} == "no"  ; then
