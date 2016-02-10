@@ -754,7 +754,7 @@ def dataset_json(rcfile):
     Usage:
     dataset_json(rcfile)
     """
-    if not isinstance(rcfle,str):
+    if not isinstance(rcfile,str):
         raise Exception, "Error, must pass a string"
 ##     if not os.path.exists(table):
 ##         raise Exception, "Error, the table you specified (%s) does not exists" % table
