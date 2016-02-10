@@ -22,7 +22,6 @@ for st in ["@NCLDFLAGS@", "@NCCFLAGS@",
         include_dirs.append(s[2:])
 
 srcfiles = "@LIBSOURCES@".split()
-srcfiles.insert(0,os.path.join("Src","_cmormodule.c"))
 
 macros=[]
 for m in "@MACROS@".split():
