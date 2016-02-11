@@ -3,14 +3,15 @@ from numpy.distutils.core import setup, Extension
 #from numpy.distutils.ccompiler import CCompiler
 import os,sys,string
 
-include_dirs = [numpy.lib.utils.get_include(),"include","include/cdTime"]
+include_dirs = [numpy.lib.utils.get_include(),"include","include/cdTime","include/json-c"]
 
 library_dirs = [ os.path.join("@prefix@","lib") ,'.']
 include_dirs.append(os.path.join("@prefix@","include"))
 libraries = []
 
-for st in ["@NCLDFLAGS@", "@NCCFLAGS@", "@JSONCFLAGS@", "@JSONLDFLAGS@", 
-           "@UDUNITS2FLAGS@", "@UDUNITS2LDFLAGS@", "@UUIDFLAGS@", "@UUIDLDFLAGS@"]:
+for st in ["@NCLDFLAGS@", "@NCCFLAGS@",  
+           "@UDUNITS2FLAGS@", "@UDUNITS2LDFLAGS@",
+           "@UUIDFLAGS@", "@UUIDLDFLAGS@"]:
    sp = st.strip().split()
    for s in sp:
       if s[:2]=='-L':
@@ -21,7 +22,6 @@ for st in ["@NCLDFLAGS@", "@NCCFLAGS@", "@JSONCFLAGS@", "@JSONLDFLAGS@",
         include_dirs.append(s[2:])
 
 srcfiles = "@LIBSOURCES@".split()
-srcfiles.insert(0,os.path.join("Src","_cmormodule.c"))
 
 macros=[]
 for m in "@MACROS@".split():

@@ -1,5 +1,5 @@
-dnl                                                -*- Autoconf -*-
-dnl  Process this file with autoconf to produce a configure script.
+dnl
+dnl Process this file with autoconf to produce a configure script.
 
 dnl AC_PREREQ(2.59)
 AC_INIT(cmor, 3.0.0, nadeau11@llnl.gov)
@@ -25,15 +25,13 @@ CMOR_VERSION=${PACKAGE_VERSION}" (commit: ${GIT_TAG})"
 AC_PREFIX_DEFAULT([/usr/local/cmor])
 AC_CONFIG_FILES([Makefile setup.py compile_line.txt include/cmor_locale.h])
 
-INCFILES="include/cmor.h  include/cmor_func_def.h include/cmor_md5.h "`ls -x --width=10000 include/cdTime/*.h include/cdTime/cdunifpp/*.h`
+INCFILES="include/cmor.h include/cmor_func_def.h include/cmor_md5.h "`ls -x --width=10000 include/cdTime/*.h include/cdTime/cdunifpp/*.h`" "`ls -x --width=10000 include/json-c/*.h`
 AC_SUBST(RTAG)
 AC_SUBST(FTAG)
 
 AC_SUBST(PATH)
 AC_SUBST(NCCFLAGS)
 AC_SUBST(NCLDFLAGS)
-AC_SUBST(JSONLDFLAGS)
-AC_SUBST(JSONCFLAGS)
 AC_SUBST(ZFLAGS)
 AC_SUBST(ZLDFLAGS)
 AC_SUBST(UDUNITS2FLAGS)
@@ -95,7 +93,7 @@ if test ${enable_debug} == "yes" ; then
   DEBUG="-g"
 fi
 
-LIBFILES="cmor.o cmor_axes.o cmor_variables.o cmor_tables.o cdTimeConv.o cdUtil.o timeConv.o timeArith.o cmor_grids.o cmor_md5.o "
+LIBFILES="cmor.o cmor_axes.o cmor_variables.o cmor_tables.o cdTimeConv.o cdUtil.o timeConv.o timeArith.o cmor_grids.o cmor_md5.o arraylist.o  json_c_version.o  json_object_iterator.o json_util.o linkhash.o random_seed.o debug.o json_object.o json_tokener.o libjson.o printbuf.o"
 LIBFFILES="cmor_cfortran_interface.o cmor_fortran_interface.o"
 
 dnl ##########################################################
@@ -244,28 +242,6 @@ else
 fi
 LIBS=""
 
-AC_ARG_WITH([json-c],[AS_HELP_STRING([--with-json-c],[enable support for json in none standard location])],[],[with_json_c="no"])
-with_json_cb="-"${with_json_c}
-if [ test ${with_json_cb} != "-yes" ]; then
-  if [ test ${with_json_cb} != "-no" ] ; then
-   JSONCFLAGS=" -I${with_json_c}/include/json-c"
-   if [ test ${RTAG} != "none" ] ; then
-     JSONLDFLAGS=" -L${with_json_c}/lib  ${RTAG}${with_json_c}/lib -ljson-c"
-   else
-     JSONLDFLAGS=" -L${with_json_c}/lib -ljson-c"
-   fi
-  else
-    JSONCFLAGS=""
-    JSONLDFLAGS="-ljson-c"
-  fi
-else
-  JSONCFLAGS=""
-  JSONLDFLAGS="-ljson-c" 
-fi
-AC_CHECK_LIB([json-c],[json_object_new_string],[],[AC_ERROR([Could not get a working json-c])],[ ${JSONCFLAGS} ${JSONCDFLAGS} -ljson-c -lm  ])
-LIBS=""
-
-
 USERCFLAGS=${CFLAGS}
 USERFFLAGS=${FFLAGS}
 USERLDFLAGS=${LDFLAGS}
@@ -273,8 +249,8 @@ USERLDFLAGS=${LDFLAGS}
 SV_LDFLAGS=${LDFLAGS}
 SV_CFLAGS=${CFLAGS}
 
-CFLAGS=${NCCFLAGS} ${JSONCFLAGS}
-LDFLAGS=${NCLDFLAGS} ${JSONLDFLAGS}
+CFLAGS=${NCCFLAGS}
+LDFLAGS=${NCLDFLAGS}
 
 dnl ok that this point we need to see if it is NC3 or NC4
 AC_CHECK_LIB([netcdf],[nc_inq_var_deflate],[HAS_NC4="yes"],[HAS_NC4="no"],[${NCFLAGS} ${NCLDFLAGS} ])
@@ -316,12 +292,14 @@ if [ test ${HAS_NC4} == "no" ] ; then
   fi
 fi
 LIBS=${OLIBS}
-CFLAGS=${CFLAGS}" -I/usr/local/include/json-c -Iinclude -Iinclude/cdTime"
+CFLAGS=${CFLAGS}" -Iinclude/json-c -Iinclude -Iinclude/cdTime"
 LDFLAGS=${SV_LDFLAGS}
 MAINDIR=`pwd`
 
 # Library sources
-LIBSOURCES="Src/cmor.c Src/cmor_variables.c Src/cmor_axes.c Src/cmor_tables.c Src/cmor_grids.c Src/cdTime/cdTimeConv.c Src/cdTime/cdUtil.c Src/cdTime/timeConv.c Src/cdTime/timeArith.c Src/cmor_cfortran_interface.c Src/cmor_md5.c"
+LIBSOURCES="Src/cmor.c Src/cmor_variables.c Src/cmor_axes.c Src/cmor_tables.c Src/cmor_grids.c Src/cdTime/cdTimeConv.c Src/cdTime/cdUtil.c Src/cdTime/timeConv.c Src/cdTime/timeArith.c Src/cmor_cfortran_interface.c Src/cmor_md5.c Src/json-c/arraylist.cSrc/json-c/json_c_version.c  Src/json-c/json_object_iterator.c Src/json-c/json_util.c Src/json-c/linkhash.c  Src/json-cmor/random_seed.c Src/json-c/debug.c Src/json-c/json_object.c Src/json-c/json_tokener.c Src/json-c/libjson.c Src/json-c/printbuf.c"
+LIBSOURCES=`ls -x --width=10000 Src/*.c Src/cdTime/*.c Src/json-c/*.c`
+
 LIBFSOURCES="Src/cmor_fortran_interface.f90"
 
 
@@ -363,10 +341,6 @@ AC_MSG_NOTICE([])
 AC_MSG_NOTICE([UDUNITS2])
 AC_MSG_NOTICE([ CFLAGS  : ${UDUNITS2FLAGS}])
 AC_MSG_NOTICE([ LDFLAGS : ${UDUNITS2LDFLAGS}])
-AC_MSG_NOTICE([])
-AC_MSG_NOTICE([JSONC])
-AC_MSG_NOTICE([ CFLAGS  : ${JSONCFLAGS}])
-AC_MSG_NOTICE([ LDFLAGS : ${JSONLDFLAGS}])
 AC_MSG_NOTICE([])
 if [test ${BUILD_NC3} == "no" ] ; then 
   if [test ${HAS_NC4} == "yes" ] ; then

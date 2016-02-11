@@ -18,15 +18,12 @@ ZFLAGS=@ZFLAGS@
 UUIDFLAGS=@UUIDFLAGS@
 UDUNITS2FLAGS=@UDUNITS2FLAGS@
 NCLDFLAGS=@NCLDFLAGS@
-JSONLDFLAGS=@JSONLDFLAGS@
-JSONCFLAGS=@JSONCFLAGS@
 ZLDFLAGS=@ZLDFLAGS@
 UUIDLDFLAGS=@UUIDLDFLAGS@
 UDUNITS2LDFLAGS=@UDUNITS2LDFLAGS@
 RTAG=@RTAG@
 FTAG=@FTAG@
 FNCLDFLAGS=@NCLDFLAGS@
-FJSONLDFLAGS=@JSONLDFLAGS@
 FZLDFLAGS=@ZLDFLAGS@
 FUUIDLDFLAGS=@UUIDLDFLAGS@
 FUDUNITS2LDFLAGS=@UDUNITS2LDFLAGS@
@@ -39,7 +36,6 @@ MACROS=@MACROS@
 LIBNAME=libcmor.a
 
 # Library sources
-#LIBSOURCES=Src/cmor.c Src/cmor_variables.c Src/cmor_axes.c Src/cmor_tables.c Src/cmor_grids.c Src/cdTime/cdTimeConv.c Src/cdTime/cdUtil.c Src/cdTime/timeConv.c Src/cdTime/timeArith.c
 LIBSOURCES=@LIBSOURCES@
 LIBFSOURCES=@LIBFSOURCES@
 
@@ -58,27 +54,49 @@ all:    cmor
 depend:  $(LIBSOURCES)
 	${DEPEND}  $(LIBSOURCES)
 cmor.o: Src/cmor.c include/cmor.h include/cmor_func_def.h
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${JSONCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cmor.c
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cmor.c
 cmor_variables.o: Src/cmor_variables.c include/cmor.h include/cmor_func_def.h
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${JSONCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cmor_variables.c
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cmor_variables.c
 cmor_axes.o: Src/cmor_axes.c include/cmor.h include/cmor_func_def.h
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${JSONCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cmor_axes.c
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cmor_axes.c
 cmor_tables.o: Src/cmor_tables.c include/cmor.h include/cmor_func_def.h
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${JSONCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cmor_tables.c
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cmor_tables.c
 cmor_grids.o: Src/cmor_grids.c include/cmor.h include/cmor_func_def.h
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${JSONCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cmor_grids.c
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cmor_grids.c
 cmor_md5.o: Src/cmor_md5.c include/cmor.h include/cmor_func_def.h include/cmor_md5.h
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${JSONCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cmor_md5.c
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cmor_md5.c
 cmor_cfortran_interface.o: Src/cmor_cfortran_interface.c include/cmor.h include/cmor_func_def.h
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${JSONCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cmor_cfortran_interface.c
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cmor_cfortran_interface.c
 cdTimeConv.o: Src/cdTime/cdTimeConv.c include/cmor.h include/cmor_func_def.h
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${JSONCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cdTime/cdTimeConv.c
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cdTime/cdTimeConv.c
 cdUtil.o: Src/cdTime/cdUtil.c include/cmor.h include/cmor_func_def.h
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${JSONCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cdTime/cdUtil.c
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cdTime/cdUtil.c
 timeConv.o: Src/cdTime/timeConv.c include/cmor.h include/cmor_func_def.h
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${JSONCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cdTime/timeConv.c
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cdTime/timeConv.c
 timeArith.o:Src/cdTime/timeArith.c include/cmor.h include/cmor_func_def.h
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${JSONCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cdTime/timeArith.c
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cdTime/timeArith.c
+arraylist.o:Src/json-c/
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/arraylist.c
+debug.o:Src/json-c/
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/debug.c
+json_c_version.o:Src/json-c/
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/json_c_version.c
+json_object.o:Src/json-c/
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/json_object.c
+json_object_iterator.o:Src/json-c/
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/json_object_iterator.c
+json_tokener.o:Src/json-c/
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/json_tokener.c
+json_util.o:Src/json-c/
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/json_util.c
+libjson.o:Src/json-c/
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/libjson.c
+linkhash.o:Src/json-c/
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/linkhash.c
+printbuf.o:Src/json-c/
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/printbuf.c
+random_seed.o:Src/json-c/
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/random_seed.c
 cmor_fortran_interface.o: Src/cmor_fortran_interface.f90
 	${FC} -c ${FCFLAGS} ${USERFFLAGS} ${DEBUG} ${MACROS} Src/cmor_fortran_interface.f90
 cmor:  $(LIBFILES) @MAKEDEPPYTHON@
@@ -112,10 +130,10 @@ backup: clean
 test:  cmor test_C @TEST_FORTRAN@ @MAKETESTPYTHON@
 	@echo "All C and Fortran Test passed successfully"
 test_C: cmor 
-	rm -f ./ipcc_test_code ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/ipcc_test_code.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @JSONLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@  -o ipcc_test_code  @VERB@; ./ipcc_test_code @VERB@
-	@rm -f test_grid ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_grid.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @JSONLDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ -o test_grid @LDFLAGS@ @VERB@; ./test_grid @VERB@;
-	@rm -f test_lots_of_variables ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_lots_of_variables.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @JSONLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@ -o test_lots_of_variables @VERB@; ./test_lots_of_variables @VERB@;
-	@rm -f test_cat_unique ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_unit_cat_unique.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @JSONLDFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@ -o test_unit_cat_unique @VERB@; ./test_unit_cat_unique @VERB@;
+	rm -f ./ipcc_test_code ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/ipcc_test_code.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@  -o ipcc_test_code  @VERB@; ./ipcc_test_code @VERB@
+	@rm -f test_grid ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_grid.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ -o test_grid @LDFLAGS@ @VERB@; ./test_grid @VERB@;
+	@rm -f test_lots_of_variables ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_lots_of_variables.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@ -o test_lots_of_variables @VERB@; ./test_lots_of_variables @VERB@;
+	@rm -f test_cat_unique ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_unit_cat_unique.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@ -o test_unit_cat_unique @VERB@; ./test_unit_cat_unique @VERB@;
 python:
 	@echo "Building Python interface"
 	@${PYTHONEXEC} setup.py install @CDATPREFIX@
@@ -184,7 +202,7 @@ test_python: python
 
 test_case:
 	@echo "${OK_COLOR}Testing: "${TEST_NAME}" with input file: ${INPUT_FILE}${NO_COLOR}"
-	@rm -f ./${TEST_NAME} 2>/dev/null ; ${FC} ${USERFFLAGS} ${FCFLAGS} ${DEBUG}  Test/${TEST_NAME}.f90 -L${PREFIX}/lib -L. -lcmor ${NCCFLAGS} ${FNCLDFLAGS} ${FJSONLDFLAGS} ${FUDUNITS2LDFLAGS} ${UDUNITS2FLAGS} ${FUUIDLDFLAGS} ${UUIDFLAGS} ${ZFLAGS} ${FZLDFLAGS} -o ${TEST_NAME} ;
+	@rm -f ./${TEST_NAME} 2>/dev/null ; ${FC} ${USERFFLAGS} ${FCFLAGS} ${DEBUG}  Test/${TEST_NAME}.f90 -L${PREFIX}/lib -L. -lcmor ${NCCFLAGS} ${FNCLDFLAGS} ${FUDUNITS2LDFLAGS} ${UDUNITS2FLAGS} ${FUUIDLDFLAGS} ${UUIDFLAGS} ${ZFLAGS} ${FZLDFLAGS} -o ${TEST_NAME} ;
 	@./${TEST_NAME} ${VERB} < ${INPUT_FILE} ;
 	@ rm ./${TEST_NAME}
 ifeq (@MAKEDEPPYTHON@,python)
@@ -192,7 +210,7 @@ ifeq (@MAKEDEPPYTHON@,python)
 endif
 test_case_old_cmor_tables:
 	@echo "Testing: "${TEST_NAME}" with input file: "${INPUT_FILE}
-	@rm -f ./${TEST_NAME} 2>/dev/null ; ${FC} ${USERFFLAGS} ${FCFLAGS} ${DEBUG}  Test/old_cmor_tables/${TEST_NAME}.f90 -L${PREFIX}/lib -L. -lcmor ${NCCFLAGS} ${FNCLDFLAGS} ${FJSONLDFLAGS} ${FUDUNITS2LDFLAGS} ${UDUNITS2FLAGS} ${FUUIDLDFLAGS} ${UUIDFLAGS} ${ZFLAGS} ${FZLDFLAGS} -o ${TEST_NAME} ;
+	@rm -f ./${TEST_NAME} 2>/dev/null ; ${FC} ${USERFFLAGS} ${FCFLAGS} ${DEBUG}  Test/old_cmor_tables/${TEST_NAME}.f90 -L${PREFIX}/lib -L. -lcmor ${NCCFLAGS} ${FNCLDFLAGS} ${FUDUNITS2LDFLAGS} ${UDUNITS2FLAGS} ${FUUIDLDFLAGS} ${UUIDFLAGS} ${ZFLAGS} ${FZLDFLAGS} -o ${TEST_NAME} ;
 	@./${TEST_NAME} ${VERB} < ${INPUT_FILE} ;
 	@ rm ./${TEST_NAME}
 ifeq (@MAKEDEPPYTHON@,python)
