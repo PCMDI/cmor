@@ -43,7 +43,7 @@ def cmor_ini():
 
 
 def define_write_landcoverfrac():
-    cmor.load_table('Tables/CMIP6_Lmon_json')
+    cmor.load_table('Tables/CMIP6_Lmon.json')
     axes = [ {'table_entry': 'time',
               'units': 'days since 2000-01-01 00:00:00',
               },

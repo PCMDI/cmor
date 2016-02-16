@@ -29,7 +29,7 @@ int wfgetc( FILE * afile ) {
 int cmor_get_table_attr( char *szToken, cmor_table_t * table, char *out) {
     int i;
     t_symstruct lookuptable[]= {
-            {"project_id",  table->project_id  },
+            {"activity_id",  table->activity_id  },
             {"table_id",    table->table_id    },
             {"realm",       table->realm       },
             {"date",        table->date        },
@@ -74,7 +74,7 @@ void cmor_init_table( cmor_table_t * table, int id ) {
     table->nmappings = -1;
     table->cf_version = 1.6;
     table->cmor_version = 2.0;
-    table->project_id[0] = '\0';
+    table->activity_id[0] = '\0';
     table->table_id[0] = '\0';
     strcpy( table->realm, "REALM" );
     table->date[0] = '\0';
@@ -311,8 +311,8 @@ int cmor_set_dataset_att(cmor_table_t * table, char att[CMOR_MAX_STRING],
 		table->cf_version = d;
 	} else if (strcmp(att, "required_global_attributes") == 0) {
 		strncpy(table->required_gbl_att, val, CMOR_MAX_STRING);
-	} else if (strcmp(att, "project_id") == 0) {
-		strncpy(table->project_id, value, CMOR_MAX_STRING);
+	} else if (strcmp(att, "activity_id") == 0) {
+		strncpy(table->activity_id, value, CMOR_MAX_STRING);
 	} else if (strcmp(att, "modeling_realm") == 0) {
 		strncpy(table->realm, value, CMOR_MAX_STRING);
 	} else if (strcmp(att, "table_date") == 0) {

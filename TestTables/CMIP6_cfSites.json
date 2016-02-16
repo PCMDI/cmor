@@ -7,7 +7,7 @@
         "baseURL": "http://cmip-pcmdi.llnl.gov/CMIP6/dataLocation", 
         "cmor_version": "3.0", 
         "forcings": "N/A Nat Ant GHG SD SI SA TO SO Oz LU Sl Vl SS Ds BC MD OC AA", 
-        "required_global_attributes": [
+        "#required_global_attributes": [
             "creation_date", 
             "tracking_id", 
             "forcing", 
@@ -23,7 +23,7 @@
         "table_date": "03 February 2016", 
         "modeling_realm": "atmos", 
         "generic_levels": "alevhalf", 
-        "project_id": "CMIP6"
+        "activity_id": "CMIP6"
     }, 
     "axis_entry": {
         "typebare": {

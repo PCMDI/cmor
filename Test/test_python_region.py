@@ -9,7 +9,7 @@ cmor.dataset('historical', 'ukmo', 'HadCM3', '360_day',
              parent_experiment_rip="r1i3p2",
              contact="Mark Teixera",model_id='HadCM3',forcing="SO",parent_experiment_id="N/A",branch_time=0.)
 
-cmor.load_table("Tables/CMIP6_Omon_json")
+cmor.load_table("Tables/CMIP6_Omon.json")
 
 nlat = 90
 dlat = 180/nlat

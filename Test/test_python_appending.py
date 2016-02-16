@@ -48,7 +48,7 @@ def mywrite(data = None, time_vals = None, append_to = None,cell_bounds=None):
         parent_experiment_rip="r1i3p2",
         branch_time=3.14159)
 
-    cmor.load_table("Tables/CMIP6_Amon_json")
+    cmor.load_table("Tables/CMIP6_Amon.json")
 
     dlat = 180/nlat
     dlon = 360./nlon

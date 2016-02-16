@@ -149,7 +149,7 @@ def save(opts,threeD=True):
 
 if __name__ == "__main__":
 
-    opts={'cmip_table': 'CMIP6_Amon_json',
+    opts={'cmip_table': 'CMIP6_Amon.json',
           'outpath': 'Test',
           'table_path': 'Tables'}
 

@@ -22,7 +22,7 @@ error_flag = cmor.dataset(
        parent_experiment_id="N/A",branch_time=0,
        parent_experiment_rip="N/A")
 
-cmor.load_table("Tables/CMIP6_Omon_json")
+cmor.load_table("Tables/CMIP6_Omon.json")
 itim = cmor.axis(  
     table_entry='time',           
     units='months since 2010-1-1',

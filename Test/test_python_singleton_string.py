@@ -41,7 +41,7 @@ tables=[]
 a = cmor.load_table("/git/cmip5-cmor-tables/Tables/CMIP6_grids")
 tables.append(a)
 
-t='CMIP6_Omon_json'
+t='CMIP6_Omon.json'
 te = 'dissic'
 u='mol m-3'
 time='time'

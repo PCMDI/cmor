@@ -15,7 +15,7 @@ def main():
                  parent_experiment_rip="r1i3p2",
                  parent_experiment_id="lgm",branch_time=0.)
 
-    table = 'CMIP6_Amon_json'
+    table = 'CMIP6_Amon.json'
     cmor.load_table(table)
     axes = [ {'table_entry': 'time',
               'units': 'days since 2000-01-01 00:00:00',

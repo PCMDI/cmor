@@ -19,7 +19,7 @@ cmor.dataset(
     parent_experiment_rip="r3i8p1",
     branch_time=0.)
 
-cmor.load_table("Tables/CMIP6_Amon_json")
+cmor.load_table("Tables/CMIP6_Amon.json")
 
 nlat = 90
 dlat = 180/nlat

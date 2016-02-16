@@ -23,7 +23,7 @@
         "table_date": "20 January 2016", 
         "modeling_realm": "ocean", 
         "generic_levels": "olevel", 
-        "project_id": "CMIP6"
+        "activity_id": "CMIP6"
     }, 
     "axis_entry": {
         "olayer100m": {

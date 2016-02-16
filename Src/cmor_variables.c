@@ -1170,7 +1170,7 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
 	    strncpy( msg, comment, CMOR_MAX_STRING );
 	    strncat( msg, ", ", CMOR_MAX_STRING - strlen( msg ) );
 	    strncat( msg,
-		     cmor_tables[cmor_vars[vrid].ref_table_id].project_id,
+		     cmor_tables[cmor_vars[vrid].ref_table_id].activity_id,
 		     CMOR_MAX_STRING - strlen( msg ) );
 	    strncat( msg, "_table_comment: ",
 		     CMOR_MAX_STRING - strlen( msg ) );

@@ -34,7 +34,7 @@ def setup_data():
     return values, axes
 
 def cmor_define_and_write(values, axes):
-    table = 'CMIP6_cfSites_json'
+    table = 'CMIP6_cfSites.json'
     cmor.load_table(table)
 
     axis_ids = list()

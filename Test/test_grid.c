@@ -127,10 +127,10 @@ int main()
        tmpmo,
        "GICCM1\0","N/A",0,0,"GICC","N/A",&tmpf,"r1i1p1");
   printf("Test code: ok load cmor table(s)\n");
-  ierr = cmor_load_table("Tables/CMIP6_Amon_json",&tables[1]);
+  ierr = cmor_load_table("Tables/CMIP6_Amon.json",&tables[1]);
   printf("Test code: ok load cmor table(s)\n");
   //ierr = cmor_load_table("Test/IPCC_test_table_Grids",&tables[0]);
-  ierr = cmor_load_table("Tables/CMIP6_grids",&tables[0]);
+  ierr = cmor_load_table("Tables/CMIP6_grids.json",&tables[0]);
   printf("Test code: ok load cmor table(s)\n");
   ierr = cmor_set_table(tables[0]);
 

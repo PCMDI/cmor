@@ -27,7 +27,7 @@ cmor.dataset('historical', 'ukmo', 'HadCM3', 'gregorian',
              institute_id="PCMDI",
              parent_experiment_rip="r1i3p2",
              contact="Matt Cain",parent_experiment_id="lgm",branch_time=0)
-table='TestTables/CMIP6_Amon_json'
+table='TestTables/CMIP6_Amon.json'
 cmor.load_table(table)
 
 for var in tvars:

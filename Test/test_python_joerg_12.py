@@ -40,7 +40,7 @@ cmor.dataset(
 tables=[]
 a = cmor.load_table("Tables/CMIP6_grids")
 tables.append(a)
-tables.append(cmor.load_table("Tables/CMIP6_Lmon_json"))
+tables.append(cmor.load_table("Tables/CMIP6_Lmon.json"))
 print 'Tables ids:',tables
 
 cmor.set_table(tables[0])

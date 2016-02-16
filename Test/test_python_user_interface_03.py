@@ -77,9 +77,9 @@ def prep_cmor():
         branch_time=0.)
     
     tables=[]
-    a = cmor.load_table("Tables/CMIP6_Omon_json")
+    a = cmor.load_table("Tables/CMIP6_Omon.json")
     tables.append(a)
-    tables.append(cmor.load_table("Tables/CMIP6_Amon_json"))
+    tables.append(cmor.load_table("Tables/CMIP6_Amon.json"))
     return
 
 

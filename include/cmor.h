@@ -120,6 +120,19 @@
 #define VARIABLE_ATT_FLAGMEANINGS   "flag_meanings"
 #define VARIABLE_ATT_OUTNAME        "out_name"
 
+#define GLOBAL_ATT_FORCING          "forcing"
+#define GLOBAL_ATT_PRODUCT          "product"
+#define GLOBAL_ATT_EXPERIMENTID     "experiment_id"
+#define GLOBAL_ATT_EXPERIMENT       "experiment"
+#define GLOBAL_ATT_MODELID          "model_id"
+#define GLOBAL_ATT_REALIZATION      "realization_index"
+#define GLOBAL_ATT_INITIA_IDX       "initialization_index"
+#define GLOBAL_ATT_PHYSICS_IDX      "physics_index"
+#define GLOBAL_ATT_FORCING_IDX      "forcing_index"
+#define GLOBAL_ATT_CMORVERSION      "cmor_version"
+
+#define OUTPUT_TEMPLATE_RIPF        "run_variant"
+
 #define DIMENSION_LATITUDE          "latitude"
 #define DIMENSION_LONGITUDE         "longitude"
 #define DIMENSION_ALEVEL            "alevel"
@@ -127,8 +140,8 @@
 #define DIMENSION_OLEVEL            "olevel"
 
 
-#define CMOR_DEFAULT_PATH_TEMPLATE "<product><institute_id><model_id><experiment_id><frequency><realm><rip>"
-#define CMOR_DEFAULT_FILE_TEMPLATE "<varid><table_id><model_id><experiment_id><rip>"
+#define CMOR_DEFAULT_PATH_TEMPLATE "<product><institute_id><model_id><experiment_id><frequency><realm><run_variant>"
+#define CMOR_DEFAULT_FILE_TEMPLATE "<varid><table_id><model_id><experiment_id><run_variant>"
 
 
 extern int USE_NETCDF_4;
@@ -344,7 +357,7 @@ typedef struct cmor_table_ {
     int nmappings;
     float cf_version;
     float cmor_version;
-    char project_id[CMOR_MAX_STRING];
+    char activity_id[CMOR_MAX_STRING];
     char table_id[CMOR_MAX_STRING];
     char expt_ids[CMOR_MAX_ELEMENTS][CMOR_MAX_STRING];
     char sht_expt_ids[CMOR_MAX_ELEMENTS][CMOR_MAX_STRING];

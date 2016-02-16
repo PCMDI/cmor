@@ -16,7 +16,7 @@ def main():
                  branch_time = 0,
                  contact = 'brian clough')
  
-    table = 'CMIP6_Oclim_json'
+    table = 'CMIP6_Oclim.json'
     cmor.load_table(table)
     axes = [ {'table_entry': 'time2',
               'units': 'days since 1850-01-01 00:00:00',

@@ -15,7 +15,7 @@ def path_test():
                  parent_experiment_rip="N/A",
                  branch_time=0)
     
-    table='CMIP6_Amon_json'
+    table='CMIP6_Amon.json'
     cmor.load_table(table)
     axes = [ {'table_entry': 'time2',
               'units': 'months since 2000-01-01 00:00:00',

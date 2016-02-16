@@ -22,7 +22,7 @@ error_flag = cmor.dataset_json("joerg_7.json")
 #       branch_time=3.14159)
   
 
-cmor.load_table("Tables/CMIP6_Omon_json")
+cmor.load_table("Tables/CMIP6_Omon.json")
 itime = cmor.axis(table_entry="time",units='months since 2010',coord_vals=numpy.array([0,1,2,3,4.]),cell_bounds=numpy.array([0,1,2,3,4,5.]))
 # creates 1 degree grid
 nlat=18

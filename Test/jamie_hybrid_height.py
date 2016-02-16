@@ -18,7 +18,7 @@ def main():
                  branch_time = 0.,
                  contact = 'bob')
  
-    table = 'CMIP6_6hrLev_json'
+    table = 'CMIP6_6hrLev.json'
     cmor.load_table(table)
     axes = [ {'table_entry': 'time1',
               'units': 'days since 2000-01-01 00:00:00'

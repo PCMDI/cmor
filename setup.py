@@ -5,13 +5,13 @@ import os,sys,string
 
 include_dirs = [numpy.lib.utils.get_include(),"include","include/cdTime","include/json-c"]
 
-library_dirs = [ os.path.join("/lgm/uvcdat/2016-01-08/Externals","lib") ,'.']
-include_dirs.append(os.path.join("/lgm/uvcdat/2016-01-08/Externals","include"))
+library_dirs = [ os.path.join("/usr/local/cmor","lib") ,'.']
+include_dirs.append(os.path.join("/usr/local/cmor","include"))
 libraries = []
 
-for st in ["-L/lgm/uvcdat/2016-01-08/Externals/lib -lnetcdf", "-I/lgm/uvcdat/2016-01-08/Externals/include -I/lgm/uvcdat/2016-01-08/Externals/include -I/lgm/uvcdat/2016-01-08/Externals/lib/libffi-3.1/include",  
-           " -I/lgm/uvcdat/2016-01-08/Externals/include", " -L/lgm/uvcdat/2016-01-08/Externals/lib  -Wl,-rpath=/lgm/uvcdat/2016-01-08/Externals/lib -ludunits2 -lexpat",
-           " -I/lgm/uvcdat/2016-01-08/Externals/include", " -L/lgm/uvcdat/2016-01-08/Externals/lib  -Wl,-rpath=/lgm/uvcdat/2016-01-08/Externals/lib -luuid"]:
+for st in ["-L/software/run/uvcdatall/Externals/lib -lnetcdf", "-I/software/run/uvcdatall/Externals/include -I/software/run/uvcdatall/Externals/include -I/software/run/uvcdatall/Externals/lib/libffi-3.1/include",  
+           "-ludunits2", "",
+           " -I/software/run/uvcdatall//include", " -L/software/run/uvcdatall//lib  -Wl,-rpath=/software/run/uvcdatall//lib -luuid"]:
    sp = st.strip().split()
    for s in sp:
       if s[:2]=='-L':
@@ -21,8 +21,7 @@ for st in ["-L/lgm/uvcdat/2016-01-08/Externals/lib -lnetcdf", "-I/lgm/uvcdat/201
       if s[:2]=='-I':
         include_dirs.append(s[2:])
 
-srcfiles = "Src/_cmormodule.c  Src/cdTime/cdRegTrfm.c  Src/cdTime/cdTimeConv.c  Src/cdTime/cdUtil.c  Src/cdTime/fcdTimeConv.c  Src/cdTime/reg_trfm.c  Src/cdTime/timeArith.c  Src/cdTime/timeConv.c  Src/cmor.c  Src/cmor_axes.c  Src/cmor_cfortran_interface.c  Src/cmor_grids.c  Src/cmor_md5.c  Src/cmor_tables.c  Src/cmor_tables_json.c  Src/cmor_variables.c	Src/json-c/arraylist.c	Src/json-c/debug.c  Src/json-c/json_c_version.c  Src/json-c/json_object.c  Src/json-c/json_object_iterator.c  Src/json-c/json_tokener.c  Src/json-c/json_util.c  Src/json-c/libjson.c  Src/json-c/linkhash.c  Src/json-c/printbuf.c  Src/json-c/random_seed.c".split()
-srcfiles.insert(0,os.path.join("Src","_cmormodule.c"))
+srcfiles = "Src/_cmormodule.c  Src/cdTime/cdRegTrfm.c  Src/cdTime/cdTimeConv.c  Src/cdTime/cdUtil.c  Src/cdTime/fcdTimeConv.c  Src/cdTime/reg_trfm.c  Src/cdTime/timeArith.c  Src/cdTime/timeConv.c  Src/cmor.c  Src/cmor_axes.c  Src/cmor_cfortran_interface.c  Src/cmor_grids.c  Src/cmor_md5.c  Src/cmor_tables.c  Src/cmor_variables.c	Src/json-c/arraylist.c	Src/json-c/debug.c  Src/json-c/json_c_version.c  Src/json-c/json_object.c  Src/json-c/json_object_iterator.c  Src/json-c/json_tokener.c  Src/json-c/json_util.c  Src/json-c/libjson.c  Src/json-c/linkhash.c  Src/json-c/printbuf.c  Src/json-c/random_seed.c".split()
 
 macros=[]
 for m in " -DCOLOREDOUTPUT".split():

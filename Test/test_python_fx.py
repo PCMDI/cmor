@@ -15,7 +15,7 @@ def test_mode(mode):
                  parent_experiment_rip="r1i1p1",
                  branch_time=0)
     
-    table = 'CMIP6_fx_json'
+    table = 'CMIP6_fx.json'
     cmor.load_table(table)
     axes = [ 
              {'table_entry': 'latitude',

@@ -28,9 +28,9 @@ cmor._cmor.dataset( \
     None,"GICCM1","Nat",0,0,"PCMDI","N/A",0,"r1i1p1")
 
 tables=[]
-a = cmor._cmor.load_table("Tables/CMIP6_Omon_json")
+a = cmor._cmor.load_table("Tables/CMIP6_Omon.json")
 tables.append(a)
-tables.append(cmor._cmor.load_table("Tables/CMIP6_Amon_json"))
+tables.append(cmor._cmor.load_table("Tables/CMIP6_Amon.json"))
 print 'Tables ids:',tables
 
 

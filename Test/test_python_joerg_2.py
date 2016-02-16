@@ -15,7 +15,7 @@ def test_mode(mode,i,suffix=''):
                  parent_experiment_rip="r1i3p2",
                  parent_experiment_id="lgm",branch_time=0)
     
-    table = 'CMIP6_Amon_json'
+    table = 'CMIP6_Amon.json'
     cmor.load_table(table)
     levels = [100000.,
               92500.,

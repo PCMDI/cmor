@@ -1,5 +1,7 @@
 import cmor,numpy
+import pdb
 
+pdb.set_trace()
 ntimes=1
 nlat=45
 nlon=90
@@ -37,7 +39,7 @@ def prep_var(var,units):
     bnds_lat = numpy.arange(-90,90+dlat,dlat)
     alons = numpy.arange(0+dlon/2.,360.,dlon)-180.
     bnds_lon = numpy.arange(0,360.+dlon,dlon)-180.
-    cmor.load_table("Tables/CMIP6_6hrLev_json")
+    cmor.load_table("Tables/CMIP6_6hrLev.json")
     #cmor.load_table("Test/IPCC_table_A1")
     ilat = cmor.axis(  
         table_entry='latitude',       
@@ -127,7 +129,9 @@ for d in range(2):
     ivar2,ips2=prep_var("hus","%")
     for i in range(4):
         tval = [i/4.+d]
-        tbnd = [i/4.+d-.125,i/4.+d+.125]
+        tbnd = [i/4.+d-0.125,i/4.+d+0.125]
+        print 'tvar',tval
+        print 'tbnd',tbnd
         print 'writing time:',i,i/4.,file_suffix1
         data=numpy.random.random((ntimes,nlev,nlat,nlon))*30.+273
         data=data.astype("f")

@@ -26,7 +26,7 @@ alats = numpy.arange(180)-89.5
 bnds_lat = numpy.arange(181)-90
 alons=numpy.arange(360)+.5
 bnds_lon=numpy.arange(361)
-cmor.load_table("Tables/CMIP6_Amon_json")
+cmor.load_table("Tables/CMIP6_Amon.json")
 #cmor.load_table("Test/IPCC_table_A1")
 ilat = cmor.axis(  
     table_entry='latitude',       

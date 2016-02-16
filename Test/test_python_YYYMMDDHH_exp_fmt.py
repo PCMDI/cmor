@@ -11,7 +11,7 @@ def path_test():
                  contact="LLNL",
                  model_id='HadCM3',forcing='N/A')
     
-    table='Tables/CMIP6_Amon_json'
+    table='Tables/CMIP6_Amon.json'
     cmor.load_table(table)
     axes = [ {'table_entry': 'time',
               'units': 'days since 2000-01-01 00:00:00',

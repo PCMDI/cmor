@@ -14,10 +14,17 @@
            "#calendar":              "",
            "calendar":               "standard",
 
-           "#realization":           "",
-           "realization":            "1",
-           "initialization_method":  "1",
-           "physics_index":  "1",
+           "#realization_index":     "",
+           "realization_index":      "1",
+
+           "#initialization_index":  "",
+           "initialization_index":   "1",
+
+           "#physics_index":         "",
+           "physics_index":          "1",
+
+           "#forcing_index":         "",
+           "forcing_index":          "1",
 
            "#contact ":              "",
            "contact ":               "Karl Tailor (taylor13@llnl.gov) ",
@@ -41,7 +48,7 @@
            "forcing":                "TO, SO, Nat",
 
            "#parent_experiment_rip": "",
-           "parent_experiment_rip":  "r1i3p2",
+           "parent_variant_id":  "r1i3p2",
 
            "#parent_experiment_id":  "",
            "parent_experiment_id":   "N/A",
@@ -50,9 +57,32 @@
            "branch_time":             "1",
 
            "#output_path_template":   "Template for output path directory using tables keys or global attributes",
-           "output_path_template":    "<product><institute_id><model_id><experiment_id><frequency><realm><rip>",
+           "output_path_template":    "<product><institute_id><model_id><experiment_id><frequency><realm><run_variant>",
 
-           "#output_path_template":    "Template for output filename using table keys or global attributes",
-           "output_file_template":    "<varid><table_id><model_id><experiment_id><rip>"              
+           "#output_path_template":   "Template for output filename using table keys or global attributes",
+           "output_file_template":    "<varid><table_id><model_id><experiment_id><run_variant>",
+
+           "#branch_method":         "Conditional on experiment id",
+           "#branch_time_in_child":  "Conditional on experiment id",
+           "#branch_time_in_ parent":"Conditional on experiment id",
+           "#branch_time_units_in_parent": "Conditional on experiment id",
+
+           "driving_source_id":      "Something found in CV.",
+           "driving_variant_id":     "r1i1p1f1",
+
+           "further_info_url":       "required",
+           "grid":                   "required, can be anything",
+           "grid_option":            "required gs, gm, ...",
+           "grid_resolution":        "required 5km, 10km, 25km,",
+           "institution_id":         "required",
+           "#parent_experiment_id":   "required",
+           "parent_source_id":       "required",
+           "parent_variant_id":      "required",
+           "#references":            "no",
+           "#run_variant":           "no",
+           "source_id":              "required",
+           "license":                "One of 2 licenses: ----- CMIP6 model data produced by <Your CentreName> is licensed under a Creative Commons Attribution 'NonCommercial Share Alike' 4.0 International License (http://creativecommons.org/licenses/by/4.0/). Use of the data should be acknowledged following guidelines found at <what URL???> The data is hosted via the Earth System Grid Federation. Permissions beyond the scope of this license may be available at http://pcmdi.org/cmip5/terms-of-use.   Individuals using this data should register at ??? to receive notice of selected categories of errata and updates. Further information about this data, including some limitations, can be found at ???. The data producers and data providers make no warranty, either express or implied, including but not limited to, warranties of merchantability and fitness for a particular purpose. All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law. "
+
+
 }
 
