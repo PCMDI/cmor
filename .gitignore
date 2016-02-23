@@ -2,6 +2,9 @@
 *~
 *.nc
 *.pyc
+.cproject
+.project
+.settings/
 Test/CMIP5
 CMIP5
 Makefile
