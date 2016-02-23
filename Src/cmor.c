@@ -2197,9 +2197,8 @@ int cmor_define_zfactors_vars( int var_id, int ncid, int *nc_dim,
 /* -------------------------------------------------------------------- */
 	    found = 0;
 	    for( m = 0; m < cmor_vars[var_id].ndims; m++ ) {
-		if( strcmp
-		    ( cmor_axes[cmor_vars[var_id].axes_ids[m]].id,
-		      ctmp ) == 0 ) {
+		if( strcmp( cmor_axes[cmor_vars[var_id].axes_ids[m]].id,
+		        ctmp ) == 0 ) {
 		    found = 1;
 		    break;
 		}

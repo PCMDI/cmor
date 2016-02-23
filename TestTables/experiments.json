@@ -164,7 +164,7 @@
         "LfmipCao1": "Prescribed land conditions 1980-2014 climate", 
         "HistNolulccLnd": "Historical land only simulation with land use held at 1850; no human activity; derivative of LMIP-hist (LS3MIP)", 
         "FDBCKnox": "1850 control with doubled emissions of lightning Nox", 
-        "historical": "CMIP6 historical", 
+        "#historical": "CMIP6 historical", 
         "SSPXY": "Future scenario with low radiative forcing by the end of century. Following a forcing pathway below RCP2.6. Specific SSP and 2100 forcing level to be finalized with IAM groups within next few months. Concentration-driven.", 
         "control": "DECK: control", 
         "amipFuture": "As CMIP5/CFMIP-2.  AMIP experiment where SSTs are subject to a composite SST warming pattern derived from coupled models, scaled to a global mean of 4K.", 
