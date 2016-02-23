@@ -26,7 +26,6 @@ class CDMSAction(argparse.Action):
     '''
 
     def __call__(self, parser, namespace, values, option_string=None):
-        pdb.set_trace()
         fn = values
         if not os.path.isfile(fn):
             raise argparse.ArgumentTypeError('CDMSAction:{0} is not a valid CNUIP6 file'.format(fn))
@@ -75,6 +74,7 @@ class checkCMIP6():
     #   __init__()
     # *************************
     def __init__(self, args):
+        pdb.set_trace()
         self.expfile = args.inpath + '/' + EXPERIMENTS
         self.cmip6_table = args.inpath + '/' + args.cmip6_table
         self.CVfn = args.inpath + '/' + args.CV
@@ -183,6 +183,7 @@ def main():
                         default=sys.stdout)
     args = parser.parse_args()
 
+    pdb.set_trace()
     process = checkCMIP6(args)
     process.checkExperiments()
     process.checkGlobalAttrites()

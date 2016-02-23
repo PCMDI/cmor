@@ -37,13 +37,14 @@
 },
 
 "grid_options": {
-    "gs1x1":"",
+
+    "gs":"gs1x1",
 
     "gn": [  "5 km",   "10 km",   "25 km",   "50 km",   "100 km", "250 km", 
-            "500 km", "1000 km", "2500 km", "5000 km", "10000 km"],
+            "500 km", "1000 km", "2500 km", "5000 km", "10000 km" ],
 
     "gr":  [  "5 km",   "10 km",   "25 km",   "50 km",   "100 km", "250 km", 
-            "500 km", "1000 km", "2500 km", "5000 km", "10000 km"]
+            "500 km", "1000 km", "2500 km", "5000 km", "10000 km" ]
 
 },
 
@@ -124,7 +125,7 @@
             "parent_activity_id": "CMIP6-<activity_id_seg2>",
             "parent_experiment_id": "experiment_id",
             "parent_source_id":   "<source_id>",
-            "parent_variant_id":  "r/d*i/d*p/d\*f/d*",
+            "parent_variant_id":  "r/d*i/d*p/d*f/d*",
             "branch_method":"string<standard>",
             "branch_time_in_child":"00D0",
             "branch_time_in_ parent":"3650.0D0",
