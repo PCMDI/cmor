@@ -52,7 +52,7 @@ def test_mode(mode,i,suffix=''):
               'units': 'degrees_east',
               'coord_vals': [90],
               'cell_bounds': [89, 91]},
-             {'table_entry': 'plevs',
+             {'table_entry': 'plev17',
               'units': 'Pa',
               'coord_vals': levels},
              ]

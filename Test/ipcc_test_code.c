@@ -265,7 +265,7 @@ int main()
   strcpy(units,"degrees_east");
   ierr = cmor_axis(&myaxes[2],id,units,lon,&alons,'d',&bnds_lon,2,interval);
 
-  strcpy(id,"plevs");
+  strcpy(id,"plev17");
   strcpy(units,"hPa");
   ierr = cmor_axis(&myaxes[3],id,units,lev,&iplevs,'i',NULL,0,interval);
 

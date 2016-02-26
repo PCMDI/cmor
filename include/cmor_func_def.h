@@ -42,11 +42,15 @@ extern int cmor_get_table_attr( char *szToken, cmor_table_t * table, char *);
 
 extern int cmor_dataset_json(char *rcfile);
 
-extern int cmor_CreatePathFromTemplate(int vid, char *outpath);
+extern int cmor_CreateFromTemplate(int vid, char *template, char *outpath,
+                                   char *sep);
+
+extern int cmor_addVersion(void);
+
 extern int cmor_mkdir(const char *dir);
 extern int cmor_create_filename(char *outname, int vid );
 extern int cmor_IsFixed(int var_id);
-extern int cmor_addRIP(char *);
+extern int cmor_addRIPF(char *);
 extern int cmor_set_refvar( int var_id, int *refvar, int ntimes_passed );
 extern int cmor_dataset( char *outpath,
 			 char *experiment_id,

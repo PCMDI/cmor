@@ -768,7 +768,8 @@ int cmor_zfactor( int *zvar_id, int axis_id, char *name, char *units,
 				  'd', &tmp, NULL );
 		/* creates the "a" */
 
-		n = cmor_zfactor( zvar_id, axis_id, "a", "", ndims, axes_ids, type, values, bounds );	/* ok redefined it as a "a" factor */
+		n = cmor_zfactor( zvar_id, axis_id, "a", "", ndims, axes_ids,
+		        type, values, bounds );	/* ok redefined it as a "a" factor */
 
 		/* ok we need to change the values now */
 		/* first convert p0 to user units */
@@ -843,7 +844,8 @@ int cmor_zfactor( int *zvar_id, int axis_id, char *name, char *units,
 		if( ut_get_status(  ) != UT_SUCCESS ) {
 
 		    snprintf( msg, CMOR_MAX_STRING,
-			      "Udunits: Error freeing units Pa, zaxis: %s (table: %s), when creating zfactor: %s",
+			      "Udunits: Error freeing units Pa, zaxis: %s "
+		              "(table: %s), when creating zfactor: %s",
 			      cmor_axes[axis_id].id,
 			      cmor_tables[cmor_axes[axis_id].ref_table_id].
 			      table_id, name );
@@ -854,7 +856,8 @@ int cmor_zfactor( int *zvar_id, int axis_id, char *name, char *units,
 		if( ut_get_status(  ) != UT_SUCCESS ) {
 
 		    snprintf( msg, CMOR_MAX_STRING,
-			      "Udunits: Error freeing units %s, zaxis %s (table: %s), when creating zfactor: %s",
+			      "Udunits: Error freeing units %s, zaxis %s "
+		              "(table: %s), when creating zfactor: %s",
 			      local_unit, cmor_axes[axis_id].id,
 			      cmor_tables[cmor_axes[axis_id].ref_table_id].
 			      table_id, name );
@@ -901,7 +904,9 @@ int cmor_zfactor( int *zvar_id, int axis_id, char *name, char *units,
 
 		if( j == -1 ) {	/* we did not find the ztop! */
 		    snprintf( msg, CMOR_MAX_STRING,
-			      "zfactor variable \"ptop\" for zfactor axis: %i (%s, table: %s), is not defined when creating zfactor %s, please define ptop first",
+			      "zfactor variable \"ptop\" for zfactor axis: "
+		              "%i (%s, table: %s), is not defined when "
+		              "creating zfactor %s, please define ptop first",
 			      axis_id, cmor_axes[axis_id].id,
 			      cmor_tables[cmor_axes[axis_id].ref_table_id].
 			      table_id, name );

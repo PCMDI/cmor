@@ -9,9 +9,9 @@ library_dirs = [ os.path.join("/usr/local/cmor","lib") ,'.']
 include_dirs.append(os.path.join("/usr/local/cmor","include"))
 libraries = []
 
-for st in ["-L/software/run/uvcdatall/Externals/lib -lnetcdf", "-I/software/run/uvcdatall/Externals/include -I/software/run/uvcdatall/Externals/include -I/software/run/uvcdatall/Externals/lib/libffi-3.1/include",  
+for st in ["-L/software/run/uvcdatdebug/Externals/lib -lnetcdf", "-I/software/run/uvcdatdebug/Externals/include -I/software/run/uvcdatdebug/Externals/include -I/software/run/uvcdatdebug/Externals/lib/libffi-3.1/include",  
            "-ludunits2", "",
-           " -I/software/run/uvcdatall//include", " -L/software/run/uvcdatall//lib  -Wl,-rpath=/software/run/uvcdatall//lib -luuid"]:
+           " -I/software/run/uvcdatdebug/Externals/include", " -L/software/run/uvcdatdebug/Externals/lib  -Wl,-rpath=/software/run/uvcdatdebug/Externals/lib -luuid"]:
    sp = st.strip().split()
    for s in sp:
       if s[:2]=='-L':

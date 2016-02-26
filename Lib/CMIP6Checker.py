@@ -137,6 +137,7 @@ class checkCMIP6():
         '''
         Control experiment_id and experiment
         '''
+        pdb.set_trace()
         bValid = self.ControlVocab(self.infile.experiment_id, self.experiment['experiments'])
         if(not bValid):
             print "{0} not found in {1}".format(self.infile.experiment_id, self.expfile)
@@ -161,10 +162,6 @@ def main():
     parser = argparse.ArgumentParser(prog='CMIP6Checker',
                                      description='Validate CMIP6 file '
                                      'for publication in ESGF.')
-    parser.add_argument('infile',
-                        help='Input CMIP6 file to Validate',
-                        action=CDMSAction)
-
     parser.add_argument('inpath',
                         help='CMIP6 CMOR table directory',
                         action=readable_dir)
@@ -175,6 +172,10 @@ def main():
     parser.add_argument('CV',
                         help='Control Vocabulary (CV.json)',
                         default='CV.json')
+
+    parser.add_argument('infile',
+                        help='Input CMIP6 file to Validate',
+                        action=CDMSAction)
 
     parser.add_argument('outfile',
                         nargs='?',

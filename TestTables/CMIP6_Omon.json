@@ -1,43 +1,3 @@
-select DISTINCT  v.label, 
-                                v.frequency, 
-                                v.mipTable, 
-                                v.modeling_realm, 
-                                v.ok_max_mean_abs, 
-                                v.ok_min_mean_abs, 
-                                v.positive, 
-                                v.valid_max, 
-                                v.valid_min, 
-                                ss.dimensions, 
-                                ts.dimensions, 
-                                st.cell_measures,
-                                st.cell_methods,
-                                vv.units,
-                                vv.sn,
-                                v.type,
-                                vv.description,
-                                v.title
-                from exptGroup eg, 
-                    requestVar rv, 
-                    requestVarGroup rvg, 
-                    requestItem ri, 
-                    requestlink rl, 
-                    spatialShape ss,
-                    temporalShape ts, 
-                    structure st,
-                    CMORvar v,
-                    var vv
-                where rl.mip like '%MIP%' and
-                      eg.uid=ri.esid and 
-                      ri.rlid=rl.uid and 
-                      rl.refid=rvg.uid and 
-                      rvg.uid=rv.vgid  and 
-                      v.stid = st.uid and
-                      st.spid = ss.uid and
-                      st.tmid = ts.uid and
-                      v.uid=rv.vid and
-                      v.vid=vv.uid and
-                      v.mipTable='Omon'
-                order by eg.label;
 {
     "Header": {
         "product": "output", 
@@ -47,23 +7,12 @@ select DISTINCT  v.label,
         "baseURL": "http://cmip-pcmdi.llnl.gov/CMIP6/dataLocation", 
         "cmor_version": "3.0", 
         "forcings": "N/A Nat Ant GHG SD SI SA TO SO Oz LU Sl Vl SS Ds BC MD OC AA", 
-        "required_global_attributes": [
-            "creation_date", 
-            "tracking_id", 
-            "forcing", 
-            "model_id", 
-            "parent_experiment_id", 
-            "parent_experiment_rip", 
-            "branch_time", 
-            "contact", 
-            "institute_id"
-        ], 
         "frequency": "mon", 
         "table_id": "Table Omon", 
         "table_date": "16 February 2016", 
         "modeling_realm": "ocean", 
         "generic_levels": "olevel", 
-        "project_id": "CMIP6"
+        "activity_id": "CMIP6-XXXXX"
     }, 
     "axis_entry": {
         "typebare": {
@@ -1401,7 +1350,7 @@ select DISTINCT  v.label,
         }, 
         "soga": {
             "comment": "", 
-            "dimensions": "scalar time", 
+            "dimensions": "time", 
             "positive": "", 
             "valid_min": "", 
             "long_name": "Global Mean Sea Water Salinity", 
@@ -2604,7 +2553,7 @@ select DISTINCT  v.label,
         }, 
         "thetaoga": {
             "comment": "Diagnostic should be contributed even for models using conservative temperature as prognostic field", 
-            "dimensions": "scalar time", 
+            "dimensions": "time", 
             "positive": "", 
             "valid_min": "", 
             "long_name": "Global Average Sea Water Potential Temperature", 
@@ -3087,7 +3036,7 @@ select DISTINCT  v.label,
         }, 
         "volo": {
             "comment": "Total volume of liquid seawater.", 
-            "dimensions": "scalar time", 
+            "dimensions": "time", 
             "positive": "", 
             "valid_min": "", 
             "long_name": "Sea Water Volume", 
@@ -3950,7 +3899,7 @@ select DISTINCT  v.label,
         }, 
         "tosga": {
             "comment": "This may differ from 'surface temperature' in regions of sea ice.This may differ from 'surface temperature' in regions of sea ice.For models using conservative temperature as prognostic field, they should report the SST as surface potent", 
-            "dimensions": "scalar time", 
+            "dimensions": "time", 
             "positive": "", 
             "valid_min": "", 
             "long_name": "Global Average Sea Surface Temperature", 
@@ -4365,7 +4314,7 @@ select DISTINCT  v.label,
         }, 
         "bigthetaoga": {
             "comment": "Diagnostic should be contributed only for models using conservative temperature as prognostic field.", 
-            "dimensions": "scalar time", 
+            "dimensions": "time", 
             "positive": "", 
             "valid_min": "", 
             "long_name": "Global Average Sea Water Conservative Temperature", 
@@ -4399,7 +4348,7 @@ select DISTINCT  v.label,
         }, 
         "zostoga": {
             "comment": "There is no CMIP6 request for zosga nor zossga.", 
-            "dimensions": "scalar time", 
+            "dimensions": "time", 
             "positive": "", 
             "valid_min": "", 
             "long_name": "Global Average Thermosteric Sea Level Change", 
@@ -4586,7 +4535,7 @@ select DISTINCT  v.label,
         }, 
         "masso": {
             "comment": "Total mass of liquid seawater. For Boussinesq models, report this diagnostic as Boussinesq reference density times total volume.", 
-            "dimensions": "scalar time", 
+            "dimensions": "time", 
             "positive": "", 
             "valid_min": "", 
             "long_name": "Sea Water Mass", 
