@@ -2,7 +2,7 @@
 '''
 Created on Fri Feb 19 11:33:52 2016
 
-@author: dnadeau
+@author: Denis Nadeau LLNL
 '''
 
 import cdms2

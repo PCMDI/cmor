@@ -13,7 +13,7 @@
         "modeling_realm": "atmos", 
         "generic_levels": "alevel alevhalf", 
         "activity_id": "CMIP6-XXXXX",
-        "Convention":""
+        "Convention":"CF 1.8 CMIP6"
     }, 
     "axis_entry": {
         "typebare": {

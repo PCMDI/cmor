@@ -3236,7 +3236,7 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 /*      Add Process ID and a random number to filename                  */
 /* -------------------------------------------------------------------- */
 	sprintf( msg, "%d", ( int ) getpid(  ) );
-	strncat( outname, "_", CMOR_MAX_STRING - strlen( outname ) );
+//	strncat( outname, "_", CMOR_MAX_STRING - strlen( outname ) );
 	strncat( outname, msg, CMOR_MAX_STRING - strlen( outname ) );
 
 /* -------------------------------------------------------------------- */
@@ -3815,7 +3815,7 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 /* -------------------------------------------------------------------- */
 			if( cmor_check_expt_id( msg,
 			        nVarRefTblID,
-			        "parent_experiment",
+			        "_parent_experiment",
 			        "parent_experiment_id" ) != 0 ) {
 
 			    snprintf( ctmp, CMOR_MAX_STRING,
@@ -3849,7 +3849,7 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 		    }
 		}
 		cmor_set_cur_dataset_attribute_internal
-		    ( "parent_experiment", "N/A", 1 );
+		    ( "_parent_experiment", "N/A", 1 );
 	    }
 	}
 
@@ -6060,12 +6060,10 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 /*                    cmor_CreateFromTemplate()                     */
 /************************************************************************/
 int cmor_CreateFromTemplate(int var_id, char *template,
-                                char *szJoin, char *separator ){
+                            char *szJoin, char *separator ){
     char *szToken;
     char tmp[CMOR_MAX_STRING];
     char path_template[CMOR_MAX_STRING];
-    int ierr;
-    int isfixed =0;
     cmor_table_t *pTable;
     cmor_var_t *pVariable;
 
@@ -6081,10 +6079,24 @@ int cmor_CreateFromTemplate(int var_id, char *template,
 /*    Get rid of <> characters from template and add "information"      */
 /*    to path                                                           */
 /* -------------------------------------------------------------------- */
-    szToken = strtok(path_template, "><");
+    szToken = strtok(path_template, GLOBAL_SEPARATORS);
+    int optional = 0;
     while(szToken) {
-        printf("szToken = %s\n",szToken);
-        if( cmor_has_cur_dataset_attribute( szToken ) == 0 ) {
+
+/* -------------------------------------------------------------------- */
+/*      Is this an optional token.                                      */
+/* -------------------------------------------------------------------- */
+        if(strncmp(szToken, GLOBAL_OPENOPTIONAL, 1) == 0 ) {
+            optional = 1;
+
+        } else if(strncmp(szToken, GLOBAL_CLOSEOPTIONAL, 1) == 0 ) {
+            optional = 0;
+/* -------------------------------------------------------------------- */
+/*      This token must be a global attribute, a table header attribute */
+/*      or an internal attribute.  Otherwise we just skip it and the    */
+/*      user get a warning.                                             */
+/* -------------------------------------------------------------------- */
+        } else if( cmor_has_cur_dataset_attribute( szToken ) == 0 ) {
             cmor_get_cur_dataset_attribute( szToken, tmp );
             strncat(szJoin, tmp, CMOR_MAX_STRING);
             strcat(szJoin, separator);
@@ -6097,7 +6109,7 @@ int cmor_CreateFromTemplate(int var_id, char *template,
             cmor_addRIPF(szJoin);
             strcat(szJoin, separator);
 
-        } else if(strcmp(szToken, "varid") == 0) {
+        } else if(strcmp(szToken, GLOBAL_ATT_VARIABLE_ID) == 0) {
             strncat(szJoin, pVariable->id, CMOR_MAX_STRING);
             strcat(szJoin, separator);
 
@@ -6105,13 +6117,23 @@ int cmor_CreateFromTemplate(int var_id, char *template,
             char szInternalAtt[CMOR_MAX_STRING];
             strcpy(szInternalAtt, GLOBAL_INTERN);
             strncat(szInternalAtt, szToken, strlen(szToken));
-
-            cmor_get_cur_dataset_attribute( szInternalAtt, tmp );
-            printf("internal: %s",tmp);
             if( cmor_has_cur_dataset_attribute( szInternalAtt ) == 0 ) {
                 cmor_get_cur_dataset_attribute( szInternalAtt, tmp );
-                strncat(szJoin,tmp,CMOR_MAX_STRING);
-                strcat(szJoin, separator );
+                if( !optional) {
+                    strncat(szJoin,tmp,CMOR_MAX_STRING);
+                    strcat(szJoin, separator );
+                }
+                else {
+
+/* -------------------------------------------------------------------- */
+/*      Skip "no-driver for filename if optional is set to 1            */
+/* -------------------------------------------------------------------- */
+                    if(strcmp(tmp, GLOBAL_ATT_VAL_NODRIVER)!=0) {
+                        strncat(szJoin,tmp,CMOR_MAX_STRING);
+                        strcat(szJoin, separator );
+                    }
+
+                }
             }
         }
 
@@ -6138,7 +6160,6 @@ int cmor_addVersion(){
     strcpy(szVersion,"v");
     strftime(szDate, CMOR_MAX_STRING, "%Y%m%d", tm);
     strcat(szVersion, szDate);
-    printf("%s\n", szVersion);
 
     cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_VERSION, szVersion, 1);
     cmor_pop_traceback();
@@ -6190,7 +6211,6 @@ int cmor_addRIPF(char *variant) {
         strncat(variant, tmp, CMOR_MAX_STRING - strlen(variant));
     }
     cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_VARIANT_ID, variant, 1);
-    printf("variant: %s\n",variant);
     cmor_pop_traceback();
     return(0);
 
@@ -6831,7 +6851,7 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
 /*      first time point                                                */
 /* -------------------------------------------------------------------- */
 
-	    strncat( outname, "_", CMOR_MAX_STRING - strlen( outname ) );
+	   // strncat( outname, "_", CMOR_MAX_STRING - strlen( outname ) );
 	    snprintf( msg2, CMOR_MAX_STRING, "%.4ld", comptime.year );
 	    strncat( outname, msg2, CMOR_MAX_STRING - strlen( outname ) );
 /* -------------------------------------------------------------------- */

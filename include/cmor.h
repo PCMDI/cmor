@@ -120,6 +120,9 @@
 #define VARIABLE_ATT_FLAGMEANINGS     "flag_meanings"
 #define VARIABLE_ATT_OUTNAME          "out_name"
 
+#define GLOBAL_SEPARATORS             "><"
+#define GLOBAL_OPENOPTIONAL           "["
+#define GLOBAL_CLOSEOPTIONAL          "]"
 #define GLOBAL_INTERN                 "_"
 #define GLOBAL_ATT_FORCING            "forcing"
 #define GLOBAL_ATT_PRODUCT            "product"
@@ -134,6 +137,8 @@
 #define GLOBAL_ATT_ACTIVITY_ID        "activity_id"
 #define GLOBAL_ATT_DRIVING_SOURCE_ID  "driving_source_id"
 #define GLOBAL_ATT_DRIVING_VARIANT_ID "driving_variant_id"
+#define GLOBAL_ATT_VAL_NODRIVER       "no-driver"
+#define GLOBAL_ATT_VARIABLE_ID        "varid"
 
 #define GLOBAL_ATT_ACTIVITY_SEG1      GLOBAL_INTERN"activity_id_seg1"
 #define GLOBAL_ATT_ACTIVITY_SEG2      GLOBAL_INTERN"activity_id_seg2"

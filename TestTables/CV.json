@@ -181,6 +181,7 @@
      "abrupt4xCO2": { 
             "required_global_attributes": [ "branch_time" ],
             "required_variables": ["refTime"],
+            "activity_id":[ "CMIP6-KNOWN", "CMIP6-KNOWN2" ],
             "driving_source_id": "experiment_id",
             "driving_variant_id": "r/d*i/d*p/d*f/d*",
             "parent_activity_id": "CMIP6-<activity_id_seg2>",
