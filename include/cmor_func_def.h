@@ -47,6 +47,8 @@ extern int cmor_CreateFromTemplate(int vid, char *template, char *outpath,
 
 extern int cmor_addVersion(void);
 
+extern int cmor_set_associated_file(int var_id, int nVarRefTblID );
+
 extern int cmor_mkdir(const char *dir);
 extern int cmor_create_filename(char *outname, int vid );
 extern int cmor_IsFixed(int var_id);

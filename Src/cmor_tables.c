@@ -29,8 +29,8 @@ int wfgetc( FILE * afile ) {
 int cmor_get_table_attr( char *szToken, cmor_table_t * table, char *out) {
     int i;
     t_symstruct lookuptable[]= {
-            {"activity_id",  table->activity_id  },
-            {"table_id",    table->table_id    },
+            {"activity_id", table->activity_id  },
+            {"table",       table->szTable_id    },
             {"realm",       table->realm       },
             {"date",        table->date        },
             {"product",     table->product     },
@@ -75,7 +75,7 @@ void cmor_init_table( cmor_table_t * table, int id ) {
     table->cf_version = 1.6;
     table->cmor_version = 2.0;
     table->activity_id[0] = '\0';
-    table->table_id[0] = '\0';
+    table->szTable_id[0] = '\0';
     strcpy( table->realm, "REALM" );
     table->date[0] = '\0';
     table->missing_value = 1.e20;
@@ -111,12 +111,12 @@ int cmor_set_variable_entry(cmor_table_t* table,
     char szValue[CMOR_MAX_STRING];
     char msg[CMOR_MAX_STRING];
     int nVarId;
-    char *nTableId;
+    char *szTableId;
     cmor_var_def_t *variable;
     cmor_table_t *cmor_table;
     cmor_table = &cmor_tables[cmor_ntables];
 
-    nTableId = cmor_table->table_id;
+    szTableId = cmor_table->szTable_id;
 
     cmor_add_traceback("cmor_set_variable_entry");
     cmor_is_setup();
@@ -130,7 +130,7 @@ int cmor_set_variable_entry(cmor_table_t* table,
 
     if (nVarId >= CMOR_MAX_ELEMENTS) {
         snprintf(msg, CMOR_MAX_STRING,
-                "Too many variables defined for table: %s", nTableId);
+                "Too many variables defined for table: %s", szTableId);
         cmor_handle_error(msg, CMOR_CRITICAL);
         cmor_ntables--;
         cmor_pop_traceback();
@@ -166,12 +166,12 @@ int cmor_set_axis_entry( cmor_table_t* table,
     char szValue[CMOR_MAX_STRING*4];
     char msg[CMOR_MAX_STRING];
     int nAxisId;
-    char *nTableId;
+    char *szTableId;
     cmor_axis_def_t *axis;
     cmor_table_t *cmor_table;
     cmor_table = &cmor_tables[cmor_ntables];
 
-    nTableId = cmor_table->table_id;
+    szTableId = cmor_table->szTable_id;
 
     cmor_add_traceback("cmor_set_axis_entry");
     cmor_is_setup();
@@ -186,7 +186,7 @@ int cmor_set_axis_entry( cmor_table_t* table,
 
     if (nAxisId >= CMOR_MAX_ELEMENTS) {
       snprintf(msg, CMOR_MAX_STRING, "Too many axes defined for table: %s",
-              nTableId);
+              szTableId);
       cmor_handle_error(msg,CMOR_CRITICAL);
       cmor_ntables--;
       cmor_pop_traceback();
@@ -230,7 +230,7 @@ int cmor_set_experiments(cmor_table_t * table, char att[CMOR_MAX_STRING],
     if( table->nexps > CMOR_MAX_ELEMENTS ) {
         snprintf( szError, CMOR_MAX_STRING,
                   "Table %s: Too many experiments defined",
-                  table->table_id );
+                  table->szTable_id );
         cmor_handle_error( szError, CMOR_CRITICAL );
         cmor_ntables--;
         cmor_pop_traceback(  );
@@ -269,7 +269,7 @@ int cmor_set_dataset_att(cmor_table_t * table, char att[CMOR_MAX_STRING],
 /* -------------------------------------------------------------------- */
 /*      Read non-block metadata.                                        */
 /* -------------------------------------------------------------------- */
-	if (strcmp(att, "cmor_version") == 0) {
+	if (strcmp(att, TABLE_HEADER_VERSION) == 0) {
 		d2 = CMOR_VERSION_MAJOR;
 		d = CMOR_VERSION_MINOR;
 		while (d > 1.)
@@ -280,7 +280,7 @@ int cmor_set_dataset_att(cmor_table_t * table, char att[CMOR_MAX_STRING],
 			snprintf(value2, CMOR_MAX_STRING,
 					"Table %s is defined for cmor_version %f, "
 					"this library verson is: %i.%i.%i, %f",
-					table->table_id, d,
+					table->szTable_id, d,
 					CMOR_VERSION_MAJOR, CMOR_VERSION_MINOR,
 					CMOR_VERSION_PATCH, d2);
 			cmor_handle_error(value2, CMOR_CRITICAL);
@@ -290,7 +290,7 @@ int cmor_set_dataset_att(cmor_table_t * table, char att[CMOR_MAX_STRING],
 		}
 		table->cmor_version = d;
 
-	} else if (strcmp(att, "generic_levels") == 0) {
+	} else if (strcmp(att, TABLE_HEADER_GENERIC_LEVS) == 0) {
 		n = 0;
 		i = 0;
 		while (i < (strlen(value)) ) {
@@ -306,33 +306,45 @@ int cmor_set_dataset_att(cmor_table_t * table, char att[CMOR_MAX_STRING],
 			n += 1;
 		}
 
-	} else if (strcmp(att, "cf_version") == 0) {
-		d = atof(value);
-		table->cf_version = d;
-	} else if (strcmp(att, "required_global_attributes") == 0) {
+	} else if (strcmp(att, TABLE_HEADER_CONVENTIONS) == 0) {
+                strncpy(table->Conventions, val, CMOR_MAX_STRING);
+
+	} else if (strcmp(att, TABLE_HEADER_REQGBLATTR) == 0) {
 		strncpy(table->required_gbl_att, val, CMOR_MAX_STRING);
-	} else if (strcmp(att, "activity_id") == 0) {
+
+	} else if (strcmp(att, TABLE_HEADER_ACTIVITY_ID) == 0) {
 		strncpy(table->activity_id, value, CMOR_MAX_STRING);
-	} else if (strcmp(att, "modeling_realm") == 0) {
+
+	} else if (strcmp(att, TABLE_HEADER_MODELING_REALM) == 0) {
 		strncpy(table->realm, value, CMOR_MAX_STRING);
-	} else if (strcmp(att, "table_date") == 0) {
+
+	} else if (strcmp(att, TABLE_HEADER_TABLE_DATE) == 0) {
 		strncpy(table->date, value, CMOR_MAX_STRING);
-	} else if (strcmp(att, "baseURL") == 0) {
+
+	} else if (strcmp(att, TABLE_HEADER_BASEURL) == 0) {
 		strncpy(table->URL, value, CMOR_MAX_STRING);
-	} else if (strcmp(att, "tracking_prefix") == 0) {
+
+	} else if (strcmp(att, TABLE_HEADER_TRACKING_PREFIX) == 0) {
 		strncpy(table->tracking_prefix, value, CMOR_MAX_STRING);
-	} else if (strcmp(att, "forcings") == 0) {
-		cmor_convert_string_to_list(value, 'c', (void **) &table->forcings,
-				&table->nforcings);
-	} else if (strcmp(att, "product") == 0) {
+
+	} else if (strcmp(att, TABLE_HEADER_FORCINGS) == 0) {
+		cmor_convert_string_to_list(value,
+		                            'c',
+		                            (void **) &table->forcings,
+		                            &table->nforcings);
+
+	} else if (strcmp(att, TABLE_HEADER_PRODUCT) == 0) {
 		strncpy(table->product, value, CMOR_MAX_STRING);
-	} else if (strcmp(att, "frequency") == 0) {
+
+	} else if (strcmp(att, TABLE_HEADER_FREQUENCY) == 0) {
 		strncpy(table->frequency, value, CMOR_MAX_STRING);
-	} else if (strcmp(att, "table_id") == 0) {
+
+	} else if (strcmp(att, TABLE_HEADER_TABLE_ID) == 0) {
 		for (n = 0; n == cmor_ntables; n++) {
-			if (strcmp(cmor_tables[n].table_id, value) == 0) {
-				snprintf(value2, CMOR_MAX_STRING, "Table %s is already defined",
-						table->table_id);
+			if (strcmp(cmor_tables[n].szTable_id, value) == 0) {
+				snprintf(value2, CMOR_MAX_STRING,
+				        "Table %s is already defined",
+				        table->szTable_id);
 				cmor_handle_error(value2, CMOR_CRITICAL);
 				cmor_ntables--;
 				cmor_pop_traceback();
@@ -350,17 +362,17 @@ int cmor_set_dataset_att(cmor_table_t * table, char att[CMOR_MAX_STRING],
 	for( j = i; j < n; j++ )
 	    value2[j - i] = value[j];
 	value2[n - i] = '\0';
+	strcpy( table->szTable_id, value2 );
 
-	strcpy( table->table_id, value2 );
 /* -------------------------------------------------------------------- */
 /*      Save all experiment id                                          */
 /* -------------------------------------------------------------------- */
-    } else if( strcmp( att, "expt_id_ok" ) == 0 ) {
+    } else if( strcmp( att, TABLE_EXPIDS ) == 0 ) {
 	table->nexps++;
 	if( table->nexps > CMOR_MAX_ELEMENTS ) {
 	    snprintf( value2, CMOR_MAX_STRING,
 		      "Table %s: Too many experiments defined",
-		      table->table_id );
+		      table->szTable_id );
 	    cmor_handle_error( value2, CMOR_CRITICAL );
 	    cmor_ntables--;
 	    cmor_pop_traceback(  );
@@ -416,20 +428,20 @@ int cmor_set_dataset_att(cmor_table_t * table, char att[CMOR_MAX_STRING],
 			 CMOR_MAX_STRING );
 	    }
 	}
-    } else if( strcmp( att, "approx_interval" ) == 0 ) {
+    } else if( strcmp( att, TABLE_HEADER_APRX_INTRVL ) == 0 ) {
 	sscanf( value, "%lf", &table->interval );
-    } else if( strcmp( att, "approx_interval_error" ) == 0 ) {
+    } else if( strcmp( att, TABLE_HEADER_APRX_INTRVL_ERR ) == 0 ) {
 	sscanf( value, "%f", &table->interval_error );
-    } else if( strcmp( att, "approx_interval_warning" ) == 0 ) {
+    } else if( strcmp( att, TABLE_HEADER_APRX_INTRVL_WRN ) == 0 ) {
 	sscanf( value, "%f", &table->interval_warning );
-    } else if( strcmp( att, "missing_value" ) == 0 ) {
+    } else if( strcmp( att, TABLE_HEADER_MISSING_VALUE ) == 0 ) {
 	sscanf( value, "%f", &table->missing_value );
-    } else if( strcmp( att, "magic_number" ) == 0 ) {
+    } else if( strcmp( att, TABLE_HEADER_MAGIC_NUMBER) == 0 ) {
 	    
     } else {
 	snprintf( value, CMOR_MAX_STRING,
 		  "table: %s, unknown keyword for dataset: %s (%s)",
-		  table->table_id, att, value );
+		  table->szTable_id, att, value );
 	cmor_handle_error( value, CMOR_WARNING );
     }
     cmor_pop_traceback(  );
@@ -451,7 +463,7 @@ int cmor_set_table( int table ) {
 		  table );
 	cmor_handle_error( msg, CMOR_CRITICAL );
     }
-    if( cmor_tables[table].table_id == '\0' ) {
+    if( cmor_tables[table].szTable_id == '\0' ) {
 	snprintf( msg, CMOR_MAX_STRING,
 		  "Invalid table: %i , not loaded yet!", table );
 	cmor_handle_error( msg, CMOR_CRITICAL );
@@ -462,7 +474,7 @@ int cmor_set_table( int table ) {
 }
 
 /************************************************************************/
-/*                       cmor_load_tablel()                             */
+/*                       cmor_load_table()                             */
 /************************************************************************/
 int cmor_load_table( char szTable[CMOR_MAX_STRING], int *table_id ) {
     int rc;
@@ -505,7 +517,7 @@ int cmor_load_table_internal( char table[CMOR_MAX_STRING], int *table_id,
     int nTableSize, read_size;
     json_object *json_obj;
 
-    cmor_add_traceback( "cmor_load_table" );
+    cmor_add_traceback( "cmor_load_table_internal" );
     cmor_is_setup(  );
 
     if( bNewTable ) {
@@ -687,7 +699,7 @@ int cmor_load_table_internal( char table[CMOR_MAX_STRING], int *table_id,
             if (cmor_tables[cmor_ntables].nmappings >= CMOR_MAX_ELEMENTS) {
                 snprintf(msg, CMOR_MAX_STRING,
                         "Too many mappings defined for table: %s",
-                        cmor_tables[cmor_ntables].table_id);
+                        cmor_tables[cmor_ntables].szTable_id);
                 cmor_handle_error(msg, CMOR_CRITICAL);
                 cmor_ntables--;
                 cmor_pop_traceback();
@@ -715,7 +727,7 @@ int cmor_load_table_internal( char table[CMOR_MAX_STRING], int *table_id,
                         snprintf(msg, CMOR_MAX_STRING,
                                 "mapping: %s already defined within this table (%s)",
                                 cmor_tables[cmor_ntables].mappings[n].id,
-                                cmor_tables[cmor_ntables].table_id);
+                                cmor_tables[cmor_ntables].szTable_id);
                         cmor_handle_error(msg, CMOR_CRITICAL);
                     };
                 }
@@ -748,7 +760,7 @@ int cmor_load_table_internal( char table[CMOR_MAX_STRING], int *table_id,
 		    
 		    snprintf( msg, CMOR_MAX_STRING,
 			      "unknown section: %s, for table: %s", key,
-			      cmor_tables[cmor_ntables].table_id );
+			      cmor_tables[cmor_ntables].szTable_id );
 		    cmor_handle_error( msg, CMOR_WARNING );
 	}
 	
@@ -761,7 +773,7 @@ int cmor_load_table_internal( char table[CMOR_MAX_STRING], int *table_id,
         } else {
             snprintf( msg, CMOR_MAX_STRING,
                   "attribute for unknown section: %s,%s (table: %s)",
-                  key, szVal, cmor_tables[cmor_ntables].table_id );
+                  key, szVal, cmor_tables[cmor_ntables].szTable_id );
             cmor_handle_error( msg, CMOR_WARNING );
             /*printf("attribute for unknown section\n"); */
         }

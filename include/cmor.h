@@ -139,6 +139,9 @@
 #define GLOBAL_ATT_DRIVING_VARIANT_ID "driving_variant_id"
 #define GLOBAL_ATT_VAL_NODRIVER       "no-driver"
 #define GLOBAL_ATT_VARIABLE_ID        "varid"
+#define GLOBAL_ATT_SOURCE_ID          "source_id"
+#define GLOBAL_ATT_CONVENTIONS        "Conventions"
+#define GLOBAL_ATT_CREATION_DATE       "creation_date"
 
 #define GLOBAL_ATT_ACTIVITY_SEG1      GLOBAL_INTERN"activity_id_seg1"
 #define GLOBAL_ATT_ACTIVITY_SEG2      GLOBAL_INTERN"activity_id_seg2"
@@ -146,6 +149,26 @@
 #define GLOBAL_ATT_VARIANT_ID         GLOBAL_INTERN"run_variant_id"
 #define GLOBAL_ATT_VERSION            GLOBAL_INTERN"version"
 
+#define TABLE_HEADER_VERSION          "cmor_version"
+#define TABLE_HEADER_GENERIC_LEVS     "generic_levels"
+#define TABLE_HEADER_CF_VERSION       "cf_version"
+#define TABLE_HEADER_CONVENTIONS      "Conventions"
+#define TABLE_HEADER_ACTIVITY_ID      "activity_id"
+#define TABLE_HEADER_MODELING_REALM   "modeling_realm"
+#define TABLE_HEADER_TABLE_DATE       "table_date"
+#define TABLE_HEADER_TRACKING_PREFIX  "tracking_prefix"
+#define TABLE_HEADER_FORCINGS         "forcings"
+#define TABLE_HEADER_FREQUENCY        "frequency"
+#define TABLE_HEADER_TABLE_ID         "table_id"
+#define TABLE_HEADER_REQGBLATTR       "required_global_attributes"
+#define TABLE_HEADER_BASEURL          "baseURL"
+#define TABLE_HEADER_PRODUCT          "product"
+#define TABLE_EXPIDS                  "expt_id_ok"
+#define TABLE_HEADER_APRX_INTRVL      "approx_interval"
+#define TABLE_HEADER_APRX_INTRVL_ERR  "approx_interval_error"
+#define TABLE_HEADER_APRX_INTRVL_WRN  "approx_interval_warning"
+#define TABLE_HEADER_MISSING_VALUE    "missing_value"
+#define TABLE_HEADER_MAGIC_NUMBER     "magic_number"
 #define OUTPUT_TEMPLATE_RIPF          "run_variant"
 
 #define DIMENSION_LATITUDE            "latitude"
@@ -373,7 +396,8 @@ typedef struct cmor_table_ {
     float cf_version;
     float cmor_version;
     char activity_id[CMOR_MAX_STRING];
-    char table_id[CMOR_MAX_STRING];
+    char Conventions[CMOR_MAX_STRING];
+    char szTable_id[CMOR_MAX_STRING];
     char expt_ids[CMOR_MAX_ELEMENTS][CMOR_MAX_STRING];
     char sht_expt_ids[CMOR_MAX_ELEMENTS][CMOR_MAX_STRING];
     char date[CMOR_MAX_STRING];

@@ -338,7 +338,7 @@ int cmor_set_axis_attribute( int id, char *attribute_name, char type,
 		  type,
 		  attribute_name,
 		  cmor_axes[id].id,
-		  cmor_tables[cmor_axes[id].ref_table_id].table_id );
+		  cmor_tables[cmor_axes[id].ref_table_id].szTable_id );
 	cmor_handle_error( msg, CMOR_NORMAL );
 	cmor_pop_traceback(  );
 	return ( 1 );
@@ -370,7 +370,7 @@ int cmor_get_axis_attribute( int id, char *attribute_name, char type,
 	snprintf( msg, CMOR_MAX_STRING,
 		  "Attribute %s could not be found for axis %i (%s, table: %s)",
 		  attribute_name, id, cmor_axes[id].id,
-		  cmor_tables[cmor_axes[id].ref_table_id].table_id );
+		  cmor_tables[cmor_axes[id].ref_table_id].szTable_id );
 	cmor_handle_error( msg, CMOR_NORMAL );
 	cmor_pop_traceback(  );
 	return ( 1 );
@@ -489,7 +489,7 @@ int cmor_check_monotonic( double *values, int length, char *name,
 		              "bounds values : %lf, %lf, %lf",
 			      name,
 			      cmor_tables[cmor_axes[axis_id].ref_table_id].
-			      table_id, values[2 * i], values[2 * i + 2],
+			      szTable_id, values[2 * i], values[2 * i + 2],
 			      values[2 * i + 4] );
 		    if( refaxis->climatology == 0 ) {
 			cmor_handle_error( msg, CMOR_CRITICAL );
@@ -545,7 +545,7 @@ int cmor_check_monotonic( double *values, int length, char *name,
 			        "axis %s (table: %s)",
 				 cmor_axes[axis_id].id,
 				 cmor_tables[cmor_axes[axis_id].
-					     ref_table_id].table_id );
+					     ref_table_id].szTable_id );
 			cmor_handle_error( msg, CMOR_CRITICAL );
 		    }
 		}
@@ -595,7 +595,7 @@ int cmor_check_monotonic( double *values, int length, char *name,
 		            "This is inconsistent",
 		            name,
 		            cmor_tables[cmor_axes[axis_id].ref_table_id].
-		            table_id );
+		            szTable_id );
 		    cmor_handle_error( msg, CMOR_CRITICAL );
 		}
 
@@ -630,7 +630,7 @@ int cmor_check_monotonic( double *values, int length, char *name,
 		            "bounds values : %lf, %lf, %lf",
 			      name,
 			      cmor_tables[cmor_axes[axis_id].ref_table_id].
-			      table_id, values[i], values[i + 2],
+			      szTable_id, values[i], values[i + 2],
 			      values[i + 4] );
 		    cmor_handle_error( msg, CMOR_CRITICAL );
 		}
@@ -647,7 +647,7 @@ int cmor_check_monotonic( double *values, int length, char *name,
 		            "is: [%lf, %lf]",
 			     name,
 			     cmor_tables[cmor_axes[axis_id].ref_table_id].
-			     table_id, i, values[i], values[i + 1],
+			     szTable_id, i, values[i], values[i + 1],
 			     values[i + 2], values[i + 3] );
 		    cmor_handle_error( msg, CMOR_WARNING );
 		    j++;
@@ -661,7 +661,7 @@ int cmor_check_monotonic( double *values, int length, char *name,
 		            "is: [%lf, %lf]",
 			     name,
 			     cmor_tables[cmor_axes[axis_id].ref_table_id].
-			     table_id, i, values[i], values[i + 1],
+			     szTable_id, i, values[i], values[i + 1],
 			     values[i + 2], values[i + 3] );
 		    cmor_handle_error( msg, CMOR_WARNING );
 		    j++;
@@ -680,7 +680,7 @@ int cmor_check_monotonic( double *values, int length, char *name,
 		        "(table: %s)",
 			 cmor_axes[axis_id].id,
 			 cmor_tables[cmor_axes[axis_id].ref_table_id].
-			 table_id );
+			 szTable_id );
 		cmor_handle_error( msg, CMOR_CRITICAL );
 	    }
 	}
@@ -710,7 +710,7 @@ int cmor_check_monotonic( double *values, int length, char *name,
 		            "%lf, %lf, %lf at index: %i",
 			      name,
 			      cmor_tables[cmor_axes[axis_id].ref_table_id].
-			      table_id, values[i], values[i + 1],
+			      szTable_id, values[i], values[i + 1],
 			      values[i + 2], i );
 		    cmor_handle_error( msg, CMOR_CRITICAL );
 		}
@@ -724,7 +724,7 @@ int cmor_check_monotonic( double *values, int length, char *name,
 		            "(index %i): %lf, %lf, %lf",
 		            name,
 		            cmor_tables[cmor_axes[axis_id].ref_table_id].
-		            table_id, i, values[i], values[i + 1],
+		            szTable_id, i, values[i], values[i + 1],
 		            values[i + 2] );
 		    cmor_handle_error( msg, CMOR_WARNING );
 		}
@@ -744,7 +744,7 @@ int cmor_check_monotonic( double *values, int length, char *name,
 		            "%lf, %lf and  %lf",
 			      name,
 			      cmor_tables[cmor_axes[axis_id].ref_table_id].
-			      table_id, values[i], values[i + 1],
+			      szTable_id, values[i], values[i + 1],
 			      values[i + 2] );
 		    cmor_handle_error( msg, CMOR_CRITICAL );
 		}
@@ -798,7 +798,7 @@ int cmor_check_monotonic( double *values, int length, char *name,
 			        "table: %s)",
 				 cmor_axes[axis_id].id,
 				 cmor_tables[cmor_axes[axis_id].
-					     ref_table_id].table_id );
+					     ref_table_id].szTable_id );
 			cmor_handle_error( msg, CMOR_CRITICAL );
 		    }
 		}
@@ -850,7 +850,7 @@ int cmor_check_monotonic( double *values, int length, char *name,
 			      "This is inconsistent",
 			      name,
 			      cmor_tables[cmor_axes[axis_id].ref_table_id].
-			      table_id );
+			      szTable_id );
 		    cmor_handle_error( msg, CMOR_CRITICAL );
 		}
 		cmor_axes[axis_id].revert = -1;
@@ -869,7 +869,7 @@ int cmor_check_monotonic( double *values, int length, char *name,
 			  "360 degrees %lf, %lf",
 			  name,
 			  cmor_tables[cmor_axes[axis_id].ref_table_id].
-			  table_id, values[0], values[length - 1] );
+			  szTable_id, values[0], values[length - 1] );
 		cmor_handle_error( msg, CMOR_CRITICAL );
 	    }
 
@@ -884,7 +884,7 @@ int cmor_check_monotonic( double *values, int length, char *name,
 			      "axis %s (table: %s) has non monotonic values : %lf, %lf and  %lf",
 			      name,
 			      cmor_tables[cmor_axes[axis_id].ref_table_id].
-			      table_id, values[i], values[i + 1],
+			      szTable_id, values[i], values[i + 1],
 			      values[i + 2] );
 		    cmor_handle_error( msg, CMOR_CRITICAL );
 		}
@@ -954,7 +954,7 @@ int cmor_treat_axis_values( int axis_id, double *values, int length,
 		      "axis %s (table: %s)",
 		      local_unit, cmor_axes[axis_id].id,
 		      cmor_tables[cmor_axes[axis_id].ref_table_id].
-		      table_id );
+		      szTable_id );
 	    cmor_handle_error( msg, CMOR_CRITICAL );
 	    cmor_pop_traceback(  );
 	    return ( 1 );
@@ -974,7 +974,7 @@ int cmor_treat_axis_values( int axis_id, double *values, int length,
 		      "for axis: %s (table: %s)",
 		      local_unit, refaxis->id,
 		      cmor_tables[cmor_axes[axis_id].ref_table_id].
-		      table_id );
+		      szTable_id );
 	    cmor_handle_error( msg, CMOR_CRITICAL );
 	    cmor_pop_traceback(  );
 	    return ( 1 );
@@ -986,7 +986,7 @@ int cmor_treat_axis_values( int axis_id, double *values, int length,
 		      "incompatible: %s and %s",
 		      axis_id, cmor_axes[axis_id].id,
 		      cmor_tables[cmor_axes[axis_id].ref_table_id].
-		      table_id, refaxis->units, units );
+		      szTable_id, refaxis->units, units );
 	    cmor_handle_error( msg, CMOR_CRITICAL );
 	    cmor_pop_traceback(  );
 	    return ( 1 );
@@ -999,7 +999,7 @@ int cmor_treat_axis_values( int axis_id, double *values, int length,
 		      "In udunits getting converter, for axis %s (table: %s)",
 		      cmor_axes[axis_id].id,
 		      cmor_tables[cmor_axes[axis_id].ref_table_id].
-		      table_id );
+		      szTable_id );
 	    cmor_handle_error( msg, CMOR_CRITICAL );
 	    cmor_pop_traceback(  );
 	    return ( 1 );
@@ -1012,7 +1012,7 @@ int cmor_treat_axis_values( int axis_id, double *values, int length,
 		      "In udunits converting values, for axis %s (table: %s)",
 		      cmor_axes[axis_id].id,
 		      cmor_tables[cmor_axes[axis_id].ref_table_id].
-		      table_id );
+		      szTable_id );
 	    cmor_handle_error( msg, CMOR_CRITICAL );
 	    cmor_pop_traceback(  );
 	    return ( 1 );
@@ -1025,7 +1025,7 @@ int cmor_treat_axis_values( int axis_id, double *values, int length,
 		      "Udunits: Error freeing converter, for axis %s (table: %s)",
 		      cmor_axes[axis_id].id,
 		      cmor_tables[cmor_axes[axis_id].ref_table_id].
-		      table_id );
+		      szTable_id );
 	    cmor_handle_error( msg, CMOR_CRITICAL );
 	}
 
@@ -1036,7 +1036,7 @@ int cmor_treat_axis_values( int axis_id, double *values, int length,
 		      "Udunits: Error freeing units, for axis %s (table: %s)",
 		      cmor_axes[axis_id].id,
 		      cmor_tables[cmor_axes[axis_id].ref_table_id].
-		      table_id );
+		      szTable_id );
 	    cmor_handle_error( msg, CMOR_CRITICAL );
 	}
 	
@@ -1047,7 +1047,7 @@ int cmor_treat_axis_values( int axis_id, double *values, int length,
 		      "Udunits: Error freeing units, for axis %s (table: %s)",
 		      cmor_axes[axis_id].id,
 		      cmor_tables[cmor_axes[axis_id].ref_table_id].
-		      table_id );
+		      szTable_id );
 	    cmor_handle_error( msg, CMOR_CRITICAL );
 	}
 	
@@ -1090,7 +1090,7 @@ int cmor_treat_axis_values( int axis_id, double *values, int length,
 			  "requested value %f for axis %s (table: %s) was not found",
 			  refaxis->requested[j], name,
 			  cmor_tables[cmor_axes[axis_id].ref_table_id].
-			  table_id );
+			  szTable_id );
 		cmor_handle_error( msg, CMOR_CRITICAL );
 	    }
 	}
@@ -1115,7 +1115,7 @@ int cmor_treat_axis_values( int axis_id, double *values, int length,
 			  "This is inconsistent",
 			  name,
 			  cmor_tables[cmor_axes[axis_id].ref_table_id].
-			  table_id );
+			  szTable_id );
 		cmor_handle_error( msg, CMOR_CRITICAL );
 	    }
 	    
@@ -1228,7 +1228,7 @@ int cmor_treat_axis_values( int axis_id, double *values, int length,
 			      "was not found",
 			      refaxis->requested_bounds[j], name,
 			      cmor_tables[cmor_axes[axis_id].ref_table_id].
-			      table_id );
+			      szTable_id );
 		    cmor_handle_error( msg, CMOR_CRITICAL );
 		}
 	    }
@@ -1248,7 +1248,7 @@ int cmor_treat_axis_values( int axis_id, double *values, int length,
 				  "valid_min is %f",
 				  name,
 				  cmor_tables[cmor_axes[axis_id].
-					      ref_table_id].table_id,
+					      ref_table_id].szTable_id,
 				  values[i], refaxis->valid_min );
 			cmor_handle_error( msg, CMOR_NORMAL );
 			cmor_pop_traceback(  );
@@ -1292,7 +1292,7 @@ int cmor_treat_axis_values( int axis_id, double *values, int length,
 				  "%f when valid_max is %f",
 				  name,
 				  cmor_tables[cmor_axes[axis_id].
-					      ref_table_id].table_id,
+					      ref_table_id].szTable_id,
 				  values[i], refaxis->valid_max );
 			cmor_handle_error( msg, CMOR_NORMAL );
 			cmor_pop_traceback(  );
@@ -1401,7 +1401,7 @@ int cmor_check_interval( int axis_id, char *interval, double *values,
 		      "check_interval (%s), axis: %s (table: %s)",
 		      nval, interval, cmor_axes[axis_id].id,
 		      cmor_tables[cmor_axes[axis_id].ref_table_id].
-		      table_id );
+		      szTable_id );
 	    cmor_handle_error( ctmp, CMOR_CRITICAL );
 	}
 	for( i = 0; i < nval - 1; i++ )
@@ -1437,7 +1437,7 @@ int cmor_check_interval( int axis_id, char *interval, double *values,
 	snprintf( msg, CMOR_MAX_STRING,
 		  "In udunuits parsing user units: %s, axis: %s (table: %s)",
 		  ctmp2, cmor_axes[axis_id].id,
-		  cmor_tables[cmor_axes[axis_id].ref_table_id].table_id );
+		  cmor_tables[cmor_axes[axis_id].ref_table_id].szTable_id );
 	cmor_handle_error( msg, CMOR_CRITICAL );
     }
     if( ut_are_convertible( cmor_units, user_units ) == 0 ) {
@@ -1445,7 +1445,7 @@ int cmor_check_interval( int axis_id, char *interval, double *values,
 		  "axis interval units (%s) are incompatible with\n! "
 	          "seconds, axis: %s (table: %s)",
 		  ctmp2, cmor_axes[axis_id].id,
-		  cmor_tables[cmor_axes[axis_id].ref_table_id].table_id );
+		  cmor_tables[cmor_axes[axis_id].ref_table_id].szTable_id );
 	cmor_handle_error( ctmp, CMOR_CRITICAL );
 	cmor_pop_traceback(  );
 	return ( 1 );
@@ -1455,7 +1455,7 @@ int cmor_check_interval( int axis_id, char *interval, double *values,
 	snprintf( msg, CMOR_MAX_STRING,
 		  "In udunuits getting converter, axis: %s (table: %s)",
 		  cmor_axes[axis_id].id,
-		  cmor_tables[cmor_axes[axis_id].ref_table_id].table_id );
+		  cmor_tables[cmor_axes[axis_id].ref_table_id].szTable_id );
 	cmor_handle_error( msg, CMOR_CRITICAL );
     }
     tmp = cv_convert_double( ut_cmor_converter, interv );
@@ -1463,7 +1463,7 @@ int cmor_check_interval( int axis_id, char *interval, double *values,
 	snprintf( msg, CMOR_MAX_STRING,
 		  "In udunuits converting, axis: %s (table: %s)",
 		  cmor_axes[axis_id].id,
-		  cmor_tables[cmor_axes[axis_id].ref_table_id].table_id );
+		  cmor_tables[cmor_axes[axis_id].ref_table_id].szTable_id );
 	cmor_handle_error( msg, CMOR_CRITICAL );
     }
     interv = tmp;
@@ -1474,7 +1474,7 @@ int cmor_check_interval( int axis_id, char *interval, double *values,
 	snprintf( msg, CMOR_MAX_STRING,
 		  "Udunits: Error freeing converter, axis: %s (table: %s)",
 		  cmor_axes[axis_id].id,
-		  cmor_tables[cmor_axes[axis_id].ref_table_id].table_id );
+		  cmor_tables[cmor_axes[axis_id].ref_table_id].szTable_id );
 	cmor_handle_error( msg, CMOR_CRITICAL );
     }
 
@@ -1484,7 +1484,7 @@ int cmor_check_interval( int axis_id, char *interval, double *values,
 	snprintf( msg, CMOR_MAX_STRING,
 		  "Udunits: Error freeing units, axis: %s (table: %s)",
 		  cmor_axes[axis_id].id,
-		  cmor_tables[cmor_axes[axis_id].ref_table_id].table_id );
+		  cmor_tables[cmor_axes[axis_id].ref_table_id].szTable_id );
 	cmor_handle_error( msg, CMOR_CRITICAL );
     }
 
@@ -1505,7 +1505,7 @@ int cmor_check_interval( int axis_id, char *interval, double *values,
 	snprintf( msg, CMOR_MAX_STRING,
 		  "In udunits parsing user units: %s, axis: %s (table: %s)",
 		  ctmp2, cmor_axes[axis_id].id,
-		  cmor_tables[cmor_axes[axis_id].ref_table_id].table_id );
+		  cmor_tables[cmor_axes[axis_id].ref_table_id].szTable_id );
 	cmor_handle_error( msg, CMOR_CRITICAL );
     }
 
@@ -1513,7 +1513,7 @@ int cmor_check_interval( int axis_id, char *interval, double *values,
 	snprintf( ctmp, CMOR_MAX_STRING,
 		  "axis interval units (%s) are incompatible with seconds, axis: %s (table: %s)",
 		  ctmp2, cmor_axes[axis_id].id,
-		  cmor_tables[cmor_axes[axis_id].ref_table_id].table_id );
+		  cmor_tables[cmor_axes[axis_id].ref_table_id].szTable_id );
 	cmor_handle_error( ctmp, CMOR_CRITICAL );
 	cmor_pop_traceback(  );
 	return ( 1 );
@@ -1525,7 +1525,7 @@ int cmor_check_interval( int axis_id, char *interval, double *values,
 	snprintf( msg, CMOR_MAX_STRING,
 		  "Udunits: Error getting converter from %s to %s, axis: %s (table: %s)",
 		  ctmp2, msg, cmor_axes[axis_id].id,
-		  cmor_tables[cmor_axes[axis_id].ref_table_id].table_id );
+		  cmor_tables[cmor_axes[axis_id].ref_table_id].szTable_id );
 	cmor_handle_error( msg, CMOR_CRITICAL );
     }
 
@@ -1541,7 +1541,7 @@ int cmor_check_interval( int axis_id, char *interval, double *values,
 		      "In udunits converting, axis: %s (table: %s)",
 		      cmor_axes[axis_id].id,
 		      cmor_tables[cmor_axes[axis_id].ref_table_id].
-		      table_id );
+		      szTable_id );
 	    cmor_handle_error( msg, CMOR_CRITICAL );
 	}
 
@@ -1633,7 +1633,7 @@ int cmor_check_interval( int axis_id, char *interval, double *values,
 	snprintf( msg, CMOR_MAX_STRING,
 		  "Udunits: Error freeing converter, axis: %s (table: %s)",
 		  cmor_axes[axis_id].id,
-		  cmor_tables[cmor_axes[axis_id].ref_table_id].table_id );
+		  cmor_tables[cmor_axes[axis_id].ref_table_id].szTable_id );
 	cmor_handle_error( msg, CMOR_CRITICAL );
     }
 
@@ -1643,7 +1643,7 @@ int cmor_check_interval( int axis_id, char *interval, double *values,
 	snprintf( msg, CMOR_MAX_STRING,
 		  "Udunits: Error freeing units, axis: %s (table: %s)",
 		  cmor_axes[axis_id].id,
-		  cmor_tables[cmor_axes[axis_id].ref_table_id].table_id );
+		  cmor_tables[cmor_axes[axis_id].ref_table_id].szTable_id );
 	cmor_handle_error( msg, CMOR_CRITICAL );
     }
 
@@ -1653,7 +1653,7 @@ int cmor_check_interval( int axis_id, char *interval, double *values,
 	snprintf( msg, CMOR_MAX_STRING,
 		  "Udunits: Error freeing units, axis: %s (table: %s)",
 		  cmor_axes[axis_id].id,
-		  cmor_tables[cmor_axes[axis_id].ref_table_id].table_id );
+		  cmor_tables[cmor_axes[axis_id].ref_table_id].szTable_id );
 	cmor_handle_error( msg, CMOR_CRITICAL );
     }
 
@@ -1794,7 +1794,7 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
                     snprintf(msg, CMOR_MAX_STRING,
                             "axis: %s (table: %s) converting to \"standard_hybrid_sigma\" from unknown type: %s",
                             cmor_axes[cmor_naxes].id,
-                            cmor_tables[CMOR_TABLE].table_id, name);
+                            cmor_tables[CMOR_TABLE].szTable_id, name);
                     cmor_handle_error(msg, CMOR_CRITICAL);
                 }
 
@@ -1811,7 +1811,7 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
                         "axis: %s (table: %s) is declared to be converted "
                         "to unknown type: %s",
                         cmor_axes[cmor_naxes].id,
-                        cmor_tables[CMOR_TABLE].table_id, refaxis.convert_to);
+                        cmor_tables[CMOR_TABLE].szTable_id, refaxis.convert_to);
                 cmor_handle_error(msg, CMOR_CRITICAL);
             }
         }
@@ -1836,7 +1836,7 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
             snprintf(msg, CMOR_MAX_STRING,
                     "axis: %s (table: %s) must have bounds, you did not "
                     "pass any when creating it via cmor_axis",
-                    cmor_axes[cmor_naxes].id, cmor_tables[CMOR_TABLE].table_id);
+                    cmor_axes[cmor_naxes].id, cmor_tables[CMOR_TABLE].szTable_id);
             cmor_handle_error(msg, CMOR_CRITICAL);
         } else if (coord_vals != NULL) {
 /* -------------------------------------------------------------------- */
@@ -1846,7 +1846,7 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
             snprintf(msg, CMOR_MAX_STRING,
                     "axis: %s (table: %s) must have bounds, you did not "
                     "pass any when creating it via cmor_axis",
-                    cmor_axes[cmor_naxes].id, cmor_tables[CMOR_TABLE].table_id);
+                    cmor_axes[cmor_naxes].id, cmor_tables[CMOR_TABLE].szTable_id);
             cmor_handle_error(msg, CMOR_CRITICAL);
         }
     }
@@ -1871,7 +1871,7 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
                         "cannot allocate memory for %i double elts for "
 			 "axis %s (table: %s)",
                         length, cmor_axes[cmor_naxes].id,
-                        cmor_tables[CMOR_TABLE].table_id);
+                        cmor_tables[CMOR_TABLE].szTable_id);
                 cmor_handle_error(msg, CMOR_CRITICAL);
             }
 
@@ -1906,7 +1906,7 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
                         "You are trying to define axis %s (table: %s) as "
 			 "character when it should be of type: %c\n! ",
                         cmor_axes[cmor_naxes].id,
-                        cmor_tables[CMOR_TABLE].table_id, refaxis.type);
+                        cmor_tables[CMOR_TABLE].szTable_id, refaxis.type);
                 cmor_handle_error(msg, CMOR_CRITICAL);
             }
 
@@ -1917,7 +1917,7 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
                         "cannot allocate memory for %i char elts for axis "
 			 "%s (table: %s)",
                         length, cmor_axes[cmor_naxes].id,
-                        cmor_tables[CMOR_TABLE].table_id);
+                        cmor_tables[CMOR_TABLE].szTable_id);
                 cmor_handle_error(msg, CMOR_CRITICAL);
             }
 
@@ -1939,7 +1939,7 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
                             "cannot allocate memory for %i char elts for axis "
 			     "%s (table: %s)",
                             j + 1, cmor_axes[cmor_naxes].id,
-                            cmor_tables[CMOR_TABLE].table_id);
+                            cmor_tables[CMOR_TABLE].szTable_id);
                     cmor_handle_error(msg, CMOR_CRITICAL);
                 }
 
@@ -1978,7 +1978,7 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
                                 "Requested region for axis '%s' (table: %s) "
 				 "is not passed: '%s'",
                                 cmor_axes[cmor_naxes].id,
-                                cmor_tables[CMOR_TABLE].table_id, ctmp);
+                                cmor_tables[CMOR_TABLE].szTable_id, ctmp);
                         cmor_handle_error(msg, CMOR_CRITICAL);
                     }
                 }
@@ -2012,7 +2012,7 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
                         "cannot allocate memory for %i bounds elts for axis "
                         "%s (table: %s)",
                         2 * length, cmor_axes[cmor_naxes].id,
-                        cmor_tables[CMOR_TABLE].table_id);
+                        cmor_tables[CMOR_TABLE].szTable_id);
                 cmor_handle_error(msg, CMOR_CRITICAL);
             }
 
@@ -2050,7 +2050,7 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
                             "CMOR cannot handle axes of type %c please "
                             "change type, axis: %s (table: %s)",
                             type, cmor_axes[cmor_naxes].id,
-                            cmor_tables[CMOR_TABLE].table_id);
+                            cmor_tables[CMOR_TABLE].szTable_id);
                     cmor_handle_error(msg, CMOR_CRITICAL);
                 }
             } else if (cell_bounds_ndim == 1) {
@@ -2087,7 +2087,7 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
                             "CMOR cannot handle axes of type %c please "
                             "change type, axis: %s (table: %s)",
                             type, cmor_axes[cmor_naxes].id,
-                            cmor_tables[CMOR_TABLE].table_id);
+                            cmor_tables[CMOR_TABLE].szTable_id);
                     cmor_handle_error(msg, CMOR_CRITICAL);
                 }
             }
@@ -2142,7 +2142,7 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
         if ((refaxis.axis != 'T') && (refaxis.index_only == 'n')) {
             snprintf(msg, CMOR_MAX_STRING,
                     "function called for axis '%s' (table: %s) w/o any values",
-                    cmor_axes[cmor_naxes].id, cmor_tables[CMOR_TABLE].table_id);
+                    cmor_axes[cmor_naxes].id, cmor_tables[CMOR_TABLE].szTable_id);
             cmor_handle_error(msg, CMOR_CRITICAL);
         }
         if (refaxis.index_only != 'n') {
@@ -2391,7 +2391,7 @@ int cmor_set_axis_def_att(cmor_axis_def_t *axis, char att[CMOR_MAX_STRING],
                         "axis (%s, table: %s): looks like we already read "
 			 "%d requested bounds but they are not stored in the "
 			 "internal tables, maybe some bad cleanup",
-                        axis->id, cmor_tables[axis->table_id].table_id,
+                        axis->id, cmor_tables[axis->table_id].szTable_id,
                         axis->n_requested_bounds);
                 cmor_handle_error(msg, CMOR_CRITICAL);
             }
@@ -2403,7 +2403,7 @@ int cmor_set_axis_def_att(cmor_axis_def_t *axis, char att[CMOR_MAX_STRING],
                 snprintf(msg, CMOR_MAX_STRING,
                         "axis (%s, table: %s): cannot allocate memory for "
 			 "%i requested bounds elts for axis %s",
-                        axis->id, cmor_tables[axis->table_id].table_id,
+                        axis->id, cmor_tables[axis->table_id].szTable_id,
                         axis->n_requested, axis->id);
                 cmor_handle_error(msg, CMOR_CRITICAL);
             }
@@ -2424,7 +2424,7 @@ int cmor_set_axis_def_att(cmor_axis_def_t *axis, char att[CMOR_MAX_STRING],
             snprintf(msg, CMOR_MAX_STRING,
                     "axis (%s, table: %s): cannot allocate memory for %i "
 		     "requested bounds elts for axis %s",
-                    axis->id, cmor_tables[axis->table_id].table_id,
+                    axis->id, cmor_tables[axis->table_id].szTable_id,
                     axis->n_requested, axis->id);
             cmor_handle_error(msg, CMOR_CRITICAL);
         }
@@ -2483,7 +2483,7 @@ int cmor_set_axis_def_att(cmor_axis_def_t *axis, char att[CMOR_MAX_STRING],
                             "axis (%s, table: %s): looks like we already read "
 			     "%d requested values but they are not stored in "
 			     "the internal tables, maybe some bad cleanup",
-                            axis->id, cmor_tables[axis->table_id].table_id,
+                            axis->id, cmor_tables[axis->table_id].szTable_id,
                             axis->n_requested);
                     cmor_handle_error(msg, CMOR_CRITICAL);
                 }
@@ -2494,7 +2494,7 @@ int cmor_set_axis_def_att(cmor_axis_def_t *axis, char att[CMOR_MAX_STRING],
                     snprintf(msg, CMOR_MAX_STRING,
                             "axis (%s, table: %s): cannot allocate memory for "
 			     "%i requested elts for axis %s",
-                            axis->id, cmor_tables[axis->table_id].table_id,
+                            axis->id, cmor_tables[axis->table_id].szTable_id,
                             axis->n_requested, axis->id);
                     cmor_handle_error(msg, CMOR_CRITICAL);
                 }
@@ -2511,7 +2511,7 @@ int cmor_set_axis_def_att(cmor_axis_def_t *axis, char att[CMOR_MAX_STRING],
                 snprintf(msg, CMOR_MAX_STRING,
                         "axis (%s, table: %s): cannot allocate memory for %i "
 			 "requested elts for axis %s",
-                        axis->id, cmor_tables[axis->table_id].table_id,
+                        axis->id, cmor_tables[axis->table_id].szTable_id,
                         axis->n_requested, axis->id);
                 cmor_handle_error(msg, CMOR_CRITICAL);
             }
@@ -2536,7 +2536,7 @@ int cmor_set_axis_def_att(cmor_axis_def_t *axis, char att[CMOR_MAX_STRING],
                 snprintf(msg, CMOR_MAX_STRING,
                         "axis (%s, table: %s): cannot allocate memory "
                         "for %ld requested char elts for axis %s",
-                        axis->id, cmor_tables[axis->table_id].table_id,
+                        axis->id, cmor_tables[axis->table_id].szTable_id,
                         (long int) strlen(val) + 1, axis->id);
                 cmor_handle_error(msg, CMOR_CRITICAL);
             }
@@ -2547,7 +2547,7 @@ int cmor_set_axis_def_att(cmor_axis_def_t *axis, char att[CMOR_MAX_STRING],
         snprintf(msg, CMOR_MAX_STRING,
                 "Unknown attribute >>>%s<<< for axis section "
                 "(%s, table: %s), value: %s",
-                att, axis->id, cmor_tables[axis->table_id].table_id, val);
+                att, axis->id, cmor_tables[axis->table_id].szTable_id, val);
         cmor_handle_error(msg, CMOR_WARNING);
     }
     cmor_pop_traceback();

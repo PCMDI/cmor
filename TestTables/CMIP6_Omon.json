@@ -2,7 +2,6 @@
     "Header": {
         "product": "output", 
         "missing_value": "1e20", 
-        "cf_version": "1.6", 
         "approx_interval": "30.00000", 
         "baseURL": "http://cmip-pcmdi.llnl.gov/CMIP6/dataLocation", 
         "cmor_version": "3.0", 
@@ -12,7 +11,8 @@
         "table_date": "16 February 2016", 
         "modeling_realm": "ocean", 
         "generic_levels": "olevel", 
-        "activity_id": "CMIP6-XXXXX"
+        "activity_id": "CMIP6-XXXXX",
+        "Conventions": "CF-1.8 CMIP-6.0"
     }, 
     "axis_entry": {
         "typebare": {
