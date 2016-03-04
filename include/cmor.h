@@ -123,7 +123,7 @@
 #define GLOBAL_SEPARATORS             "><"
 #define GLOBAL_OPENOPTIONAL           "["
 #define GLOBAL_CLOSEOPTIONAL          "]"
-#define GLOBAL_INTERN                 "_"
+#define GLOBAL_INTERNAL               "_"
 #define GLOBAL_ATT_FORCING            "forcing"
 #define GLOBAL_ATT_PRODUCT            "product"
 #define GLOBAL_ATT_EXPERIMENTID       "experiment_id"
@@ -140,14 +140,24 @@
 #define GLOBAL_ATT_VAL_NODRIVER       "no-driver"
 #define GLOBAL_ATT_VARIABLE_ID        "varid"
 #define GLOBAL_ATT_SOURCE_ID          "source_id"
+#define GLOBAL_ATT_SOURCE             "source"
 #define GLOBAL_ATT_CONVENTIONS        "Conventions"
-#define GLOBAL_ATT_CREATION_DATE       "creation_date"
+#define GLOBAL_ATT_CREATION_DATE      "creation_date"
+#define GLOBAL_ATT_HISTORY            "history"
+#define GLOBAL_ATT_TABLE_ID           "table_id"
+#define GLOBAL_ATT_EXPERIMENT         "experiment"
+#define GLOBAL_ATT_TITLE              "title"
+#define GLOBAL_ATT_PARENT_EXPT_ID     "parent_experiment_id"
+#define GLOBAL_ATT_BRANCH_TIME        "branch_time"
+#define GLOBAL_ATT_MODELING_REALM     "modeling_realm"
 
-#define GLOBAL_ATT_ACTIVITY_SEG1      GLOBAL_INTERN"activity_id_seg1"
-#define GLOBAL_ATT_ACTIVITY_SEG2      GLOBAL_INTERN"activity_id_seg2"
-#define GLOBAL_ATT_DRIVING_PATH       GLOBAL_INTERN"driving_source_id-driving_variant_id"
-#define GLOBAL_ATT_VARIANT_ID         GLOBAL_INTERN"run_variant_id"
-#define GLOBAL_ATT_VERSION            GLOBAL_INTERN"version"
+
+#define GLOBAL_INT_ATT_PARENT_EXPT   GLOBAL_INTERNAL"parent_experiment"
+#define GLOBAL_ATT_ACTIVITY_SEG1      GLOBAL_INTERNAL"activity_id_seg1"
+#define GLOBAL_ATT_ACTIVITY_SEG2      GLOBAL_INTERNAL"activity_id_seg2"
+#define GLOBAL_ATT_DRIVING_PATH       GLOBAL_INTERNAL"driving_source_id-driving_variant_id"
+#define GLOBAL_ATT_VARIANT_ID         GLOBAL_INTERNAL"run_variant_id"
+#define GLOBAL_ATT_VERSION            GLOBAL_INTERNAL"version"
 
 #define TABLE_HEADER_VERSION          "cmor_version"
 #define TABLE_HEADER_GENERIC_LEVS     "generic_levels"
@@ -177,7 +187,7 @@
 #define DIMENSION_ZLEVEL              "zlevel"
 #define DIMENSION_OLEVEL              "olevel"
 
-
+#define CMIP6                         "CMIP6"
 #define CMOR_DEFAULT_PATH_TEMPLATE ""
 #define CMOR_DEFAULT_FILE_TEMPLATE ""
 

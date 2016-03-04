@@ -690,7 +690,7 @@ static PyObject *PyCMOR_write( PyObject * self, PyObject * args ) {
     PyObject *data_obj = NULL;
     PyArrayObject *data_array = NULL;
     void *data;
-    char *suffix, *itype;
+    char *itype;
     char type;
     int ntimes;
     PyObject *times_obj = NULL;
@@ -706,7 +706,7 @@ static PyObject *PyCMOR_write( PyObject * self, PyObject * args ) {
 
 
     if( !PyArg_ParseTuple
-	( args, "iOssiOOO", &var_id, &data_obj, &itype, &suffix, &ntimes,
+	( args, "iOssiOOO", &var_id, &data_obj, &itype,  &ntimes,
 	  &times_obj, &times_bnds_obj, &ref_obj ) )
 	return NULL;
 
@@ -751,7 +751,7 @@ static PyObject *PyCMOR_write( PyObject * self, PyObject * args ) {
 
     ierr = 0;
     ierr =
-	cmor_write( var_id, data, type, suffix, ntimes, times, times_bnds,
+	cmor_write( var_id, data, type,  ntimes, times, times_bnds,
 		    ref );
     Py_DECREF( data_array );
     if( times_array != NULL ) {

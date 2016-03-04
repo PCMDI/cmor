@@ -894,20 +894,20 @@ int cmor_setup( char *path,
 	        	     nc_inq_libvers(  ) );
             cmor_handle_error( msg, CMOR_CRITICAL );
         }
-    } else if( cmor_have_NetCDF4(  ) == 0 ) {
+    } else if( cmor_have_NetCDF4( ) == 0 ) {
         USE_NETCDF_4 = 1;
-        if( cmor_have_NetCDF41min(  ) != 0 ) {
+        if( cmor_have_NetCDF41min( ) != 0 ) {
             sprintf( msg,
                     "You are using a wrong version of NetCDF4 (%s), \n! "
                     "you need 4.1",
-                    nc_inq_libvers(  ) );
+                    nc_inq_libvers( ) );
             cmor_handle_error( msg, CMOR_CRITICAL );
         }
     } else {
         sprintf( msg,
                 "You are using a wrong version of NetCDF (%s), you need 3.6.3\n! "
                 "or 4.1",
-                nc_inq_libvers(  ) );
+                nc_inq_libvers( ) );
         cmor_handle_error( msg, CMOR_CRITICAL );
     }
 
@@ -2761,6 +2761,9 @@ void cmor_flip_hybrid( int var_id, int i, char *a, char *b, char *abnds,
 /************************************************************************/
 int  cmor_set_refvar( int var_id, int *refvar, int ntimes_passed ) {
 
+/* -------------------------------------------------------------------- */
+/*  Return either associated variable id or passed variable id          */
+/* -------------------------------------------------------------------- */
     int nRefVarID = var_id;
     char msg[CMOR_MAX_STRING];
     int nVarRefTblID = cmor_vars[var_id].ref_table_id;
@@ -2829,10 +2832,1497 @@ int cmor_validate_activity_id(int  nVarRefTblID) {
     }
     return ierr;
 }
+
+/************************************************************************/
+/*                       cmor_checkMissing()                            */
+/************************************************************************/
+void cmor_checkMissing(int varid, int var_id, char type) {
+    char msg[CMOR_MAX_STRING];
+    int nVarRefTblID;
+
+    nVarRefTblID = cmor_vars[var_id].ref_table_id;
+
+    if (cmor_vars[varid].nomissing == 0) {
+        if (cmor_vars[varid].itype != type) {
+            snprintf(msg, CMOR_MAX_STRING,
+                    "You defined variable \"%s\" (table %s) with a missing\n! "
+                            "value of type \"%c\", but you are now writing data of\n! "
+                            "type: \"%c\" this may lead to some spurious handling\n! "
+                            "of the missing values", cmor_vars[varid].id,
+                    cmor_tables[nVarRefTblID].szTable_id,
+                    cmor_vars[varid].itype, type);
+            cmor_handle_error(msg, CMOR_WARNING);
+        }
+    }
+}
+/************************************************************************/
+/*                    cmor_validateFilename()                           */
+/************************************************************************/
+int cmor_validateFilename(char *outname, int var_id) {
+    int cmode;
+    int ierr;
+    FILE *fperr;
+    char msg[CMOR_MAX_STRING];
+    char ctmp[CMOR_MAX_STRING];
+    size_t starts[2], counts[2];
+    size_t nctmp;
+    int ncid;
+    int i;
+
+    ncid = -1;
+    if (USE_NETCDF_4 == 1) {
+        cmode = NC_NETCDF4 | NC_CLASSIC_MODEL;
+        if ((CMOR_NETCDF_MODE == CMOR_REPLACE_3)
+                || (CMOR_NETCDF_MODE == CMOR_PRESERVE_3)
+                || (CMOR_NETCDF_MODE == CMOR_APPEND_3)) {
+            cmode = NC_CLOBBER;
+        }
+    } else {
+        cmode = NC_CLOBBER;
+    }
+
+    if ((CMOR_NETCDF_MODE == CMOR_REPLACE_4)
+            || (CMOR_NETCDF_MODE == CMOR_REPLACE_3)) {
+
+        ierr = nc_create(outname, NC_CLOBBER | cmode, &ncid);
+
+    } else if ((CMOR_NETCDF_MODE == CMOR_PRESERVE_4)
+            || (CMOR_NETCDF_MODE == CMOR_PRESERVE_3)) {
+/* -------------------------------------------------------------------- */
+/*      ok first let's check if the file does exists or not             */
+/* -------------------------------------------------------------------- */
+        fperr = NULL;
+        fperr = fopen(outname, "r");
+        if (fperr != NULL) {
+            snprintf(msg, CMOR_MAX_STRING,
+                    "Output file ( %s ) already exists, remove file\n! "
+                            "or use CMOR_REPLACE or CMOR_APPEND for\n! "
+                            "CMOR_NETCDF_MODE value in cmor_setup", outname);
+            cmor_handle_error(msg, CMOR_CRITICAL);
+        }
+        ierr = nc_create(outname, NC_NOCLOBBER | cmode, &ncid);
+    } else if ((CMOR_NETCDF_MODE == CMOR_APPEND_4)
+            || (CMOR_NETCDF_MODE == CMOR_APPEND_3)) {
+/* -------------------------------------------------------------------- */
+/*      ok first let's check if the file does exists or not             */
+/* -------------------------------------------------------------------- */
+        fperr = NULL;
+        fperr = fopen(outname, "r");
+        if (fperr == NULL) {
+
+/* -------------------------------------------------------------------- */
+/*      ok it does not exists... we will open as new                    */
+/* -------------------------------------------------------------------- */
+            ierr = nc_create(outname, NC_CLOBBER | cmode, &ncid);
+
+        } else { /*ok it was there already */
+
+            ierr = fclose(fperr);
+            ierr = nc_open(outname, NC_WRITE, &ncid);
+
+            if (ierr != NC_NOERR) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "NetCDF Error (%i: %s) opening file: %s", ierr,
+                        nc_strerror(ierr), outname);
+                cmor_handle_error(msg, CMOR_CRITICAL);
+            }
+
+            ierr = nc_inq_dimid(ncid, "time", &i);
+
+            if (ierr != NC_NOERR) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "NetCDF Error (%i: %s) looking for time\n! "
+                                "dimension in file: %s", ierr,
+                        nc_strerror(ierr), outname);
+                cmor_handle_error(msg, CMOR_CRITICAL);
+            }
+
+            ierr = nc_inq_dimlen(ncid, i, &nctmp);
+            cmor_vars[var_id].ntimes_written = (int) nctmp;
+
+            if (ierr != NC_NOERR) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "NetCDF Error (%i: %s) looking for time\n! "
+                                "dimension length in file: %s", ierr,
+                        nc_strerror(ierr), outname);
+                cmor_handle_error(msg, CMOR_CRITICAL);
+            }
+
+            ierr = nc_inq_varid(ncid, cmor_vars[var_id].id,
+                    &cmor_vars[var_id].nc_var_id);
+
+            if (ierr != NC_NOERR) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "NetCDF Error (%i: %s) looking for variable\n! "
+                                "'%s' in file: %s", ierr, nc_strerror(ierr),
+                        cmor_vars[var_id].id, outname);
+                cmor_handle_error(msg, CMOR_CRITICAL);
+            }
+
+            ierr = nc_inq_varid(ncid, "time", &cmor_vars[var_id].time_nc_id);
+
+            if (ierr != NC_NOERR) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "NetCDF Error (%i: %s) looking for time of\n! "
+                                "variable '%s' in file: %s", ierr,
+                        nc_strerror(ierr), cmor_vars[var_id].id, outname);
+                cmor_handle_error(msg, CMOR_CRITICAL);
+            }
+
+/* -------------------------------------------------------------------- */
+/*      ok now we need to read the first time in here                   */
+/* -------------------------------------------------------------------- */
+            starts[0] = 0;
+            ierr = nc_get_var1_double(ncid, cmor_vars[var_id].time_nc_id,
+                    &starts[0], &cmor_vars[var_id].first_time);
+
+            starts[0] = cmor_vars[var_id].ntimes_written - 1;
+            ierr = nc_get_var1_double(ncid, cmor_vars[var_id].time_nc_id,
+                    &starts[0], &cmor_vars[var_id].last_time);
+
+            if (cmor_tables[cmor_axes[cmor_vars[var_id].axes_ids[i]].
+                            ref_table_id].axes[cmor_axes[cmor_vars[var_id].
+                                                         axes_ids[i]].
+                                                         ref_axis_id].
+                                                         climatology
+                    == 1) {
+
+                snprintf(msg, CMOR_MAX_STRING, "climatology");
+                strncpy(ctmp, "climatology_bnds", CMOR_MAX_STRING);
+            } else {
+                strncpy(ctmp, "time_bnds", CMOR_MAX_STRING);
+            }
+
+            ierr = nc_inq_varid(ncid, ctmp, &i);
+            if (ierr != NC_NOERR) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "NetCDF Error (%i: %s) looking for time bounds\n! "
+                                "of variable '%s' in file: %s", ierr,
+                        nc_strerror(ierr), cmor_vars[var_id].id, outname);
+                cmor_handle_error(msg, CMOR_WARNING);
+                ierr = NC_NOERR;
+            } else {
+                cmor_vars[var_id].time_bnds_nc_id = i;
+/* -------------------------------------------------------------------- */
+/*      Here I need to store first/last bounds for appending issues     */
+/* -------------------------------------------------------------------- */
+
+                starts[0] = cmor_vars[var_id].ntimes_written - 1;
+                starts[1] = 1;
+                ierr = nc_get_var1_double(ncid,
+                        cmor_vars[var_id].time_bnds_nc_id, &starts[0],
+                        &cmor_vars[var_id].last_bound);
+                starts[1] = 0;
+                ierr = nc_get_var1_double(ncid,
+                        cmor_vars[var_id].time_bnds_nc_id, &starts[0],
+                        &cmor_vars[var_id].first_bound);
+            }
+            cmor_vars[var_id].initialized = ncid;
+        }
+    } else {
+        snprintf(msg, CMOR_MAX_STRING, "Unknown CMOR_NETCDF_MODE file mode: %i",
+                CMOR_NETCDF_MODE);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+    if (ierr != NC_NOERR) {
+        snprintf(msg, CMOR_MAX_STRING,
+                "NetCDF Error (%i: %s) creating file: %s", ierr,
+                nc_strerror(ierr), outname);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+    return( ncid );
+}
+
+
+/************************************************************************/
+/*                      cmor_writeGblAttr()                             */
+/************************************************************************/
+int cmor_WriteGblAttr(int var_id, int ncid, int ncafid) {
+    struct tm *ptr;
+    time_t lt;
+    char msg[CMOR_MAX_STRING];
+    char ctmp[CMOR_MAX_STRING];
+    char ctmp2[CMOR_MAX_STRING];
+    char ctmp5[CMOR_MAX_STRING];
+    char ctmp6[CMOR_MAX_STRING];
+    double tmps[2];
+    int i;
+    int ierr;
+    float afloat, d;
+
+    int nVarRefTblID;
+
+    nVarRefTblID = cmor_vars[var_id].ref_table_id;
+
+/* -------------------------------------------------------------------- */
+/*      ok writes global attributes                                     */
+/*      first figures out time                                          */
+/* -------------------------------------------------------------------- */
+    lt = time(NULL);
+    ptr = gmtime(&lt);
+    snprintf(msg, CMOR_MAX_STRING, "%.4i-%.2i-%.2iT%.2i:%.2i:%.2iZ",
+            ptr->tm_year + 1900, ptr->tm_mon + 1, ptr->tm_mday, ptr->tm_hour,
+            ptr->tm_min, ptr->tm_sec);
+
+    cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_CREATION_DATE, msg, 0);
+
+    if (did_history == 0) {
+        snprintf(ctmp, CMOR_MAX_STRING,
+                "%s CMOR rewrote data to comply with CF standards "
+                        "and %s requirements.", msg,
+                cmor_tables[nVarRefTblID].activity_id);
+
+        if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_HISTORY) == 0) {
+            cmor_get_cur_dataset_attribute(GLOBAL_ATT_HISTORY, msg);
+            snprintf(ctmp2, CMOR_MAX_STRING, "%s %s", msg, ctmp);
+            strncpy(ctmp, ctmp2, CMOR_MAX_STRING);
+        }
+        cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_HISTORY, ctmp, 0);
+        did_history = 1;
+    }
+
+    snprintf(msg, CMOR_MAX_STRING, "%s", cmor_tables[nVarRefTblID].Conventions);
+
+    cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_CONVENTIONS, msg, 0);
+    snprintf(msg, CMOR_MAX_STRING, "Table %s (%s) ",
+            cmor_tables[nVarRefTblID].szTable_id,
+            cmor_tables[nVarRefTblID].date);
+
+    for (i = 0; i < 16; i++)
+        sprintf(&ctmp[2 * i], "%02x", cmor_tables[nVarRefTblID].md5[i]);
+
+    ctmp[32] = '\0';
+
+    strcat(msg, ctmp);
+
+    cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_TABLE_ID, msg, 0);
+
+    if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_SOURCE_ID) == 0) {
+        cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE_ID, ctmp);
+    } else {
+        ctmp[0] = '\0';
+    }
+
+    cmor_get_cur_dataset_attribute("experiment", ctmp2);
+
+    snprintf(msg, CMOR_MAX_STRING, "%s model output prepared for %s %s", ctmp,
+            cmor_tables[nVarRefTblID].activity_id, ctmp2);
+
+    cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_TITLE, msg, 0);
+/* -------------------------------------------------------------------- */
+/*      check table cf version vs ours                                  */
+/* -------------------------------------------------------------------- */
+    afloat = CMOR_CF_VERSION_MAJOR;
+    d = CMOR_CF_VERSION_MINOR;
+    while (d > 1.) {
+        d /= 10.;
+    }
+    afloat += d;
+
+    if (cmor_tables[nVarRefTblID].cf_version > afloat) {
+        snprintf(msg, CMOR_MAX_STRING,
+                "Your table (%s) claims to enforce CF version %f but\n! "
+                        "this version of the library is designed for CF up\n! "
+                        "to: %i.%i, you were writing variable: %s\n! ",
+                cmor_tables[nVarRefTblID].szTable_id,
+                cmor_tables[nVarRefTblID].cf_version, CMOR_CF_VERSION_MAJOR,
+                CMOR_CF_VERSION_MINOR, cmor_vars[var_id].id);
+        cmor_handle_error(msg, CMOR_WARNING);
+    }
+/* -------------------------------------------------------------------- */
+/*      Ok now we need to check the parent_experiment_id is valid       */
+/* -------------------------------------------------------------------- */
+    if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_PARENT_EXPT_ID) == 0) {
+        cmor_get_cur_dataset_attribute(GLOBAL_ATT_PARENT_EXPT_ID, msg);
+/* -------------------------------------------------------------------- */
+/*      did the user pass an expt?                                      */
+/* -------------------------------------------------------------------- */
+        if (strcmp(msg, "N/A") != 0) {
+            cmor_get_cur_dataset_attribute(GLOBAL_ATT_EXPERIMENTID, ctmp);
+            if (strcmp(msg, ctmp) == 0) {
+                sprintf(ctmp, "Your parent_experiment id matches your current "
+                        "experiment_id, they are both set to: %s; you "
+                        "were writing variable %s (table: %s)", msg,
+                        cmor_vars[var_id].id,
+                        cmor_tables[nVarRefTblID].szTable_id);
+                cmor_handle_error(ctmp, CMOR_NORMAL);
+                cmor_pop_traceback();
+                return (1);
+            } else {
+                cmor_get_cur_dataset_attribute(GLOBAL_ATT_EXPERIMENT, ctmp);
+                if (strcmp(msg, ctmp) == 0) {
+                    sprintf(ctmp, "Your parent_experiment id matches your "
+                            "current experiment_id, they are both set "
+                            "to: %s; you were writing variable %s "
+                            "(table: %s)", msg, cmor_vars[var_id].id,
+                            cmor_tables[nVarRefTblID].szTable_id);
+                    cmor_handle_error(ctmp, CMOR_NORMAL);
+                    cmor_pop_traceback();
+                    return (1);
+                } else {
+/* -------------------------------------------------------------------- */
+/*      ok now we can check it is a valid "other" experiment            */
+/*  CMIP6 does not have parent_experiment parameter anymore             */
+/* -------------------------------------------------------------------- */
+                    if (cmor_check_expt_id(msg, nVarRefTblID,
+                            GLOBAL_INT_ATT_PARENT_EXPT, GLOBAL_ATT_PARENT_EXPT_ID)
+                            != 0) {
+
+                        snprintf(ctmp, CMOR_MAX_STRING,
+                                "Invalid dataset parent experiment "
+                                        "id: %s, check against table: %s, you "
+                                        "were writing variable: %s", msg,
+                                cmor_tables[nVarRefTblID].szTable_id,
+                                cmor_vars[var_id].id);
+                        cmor_handle_error(ctmp, CMOR_NORMAL);
+                        cmor_pop_traceback();
+                        return (1);
+                    }
+                }
+            }
+        } else {
+            if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_BRANCH_TIME) == 0) {
+                cmor_get_cur_dataset_attribute(GLOBAL_ATT_BRANCH_TIME, msg);
+                sscanf(msg, "%lf", &tmps[0]);
+                if (tmps[0] != 0.) {
+                    sprintf(msg,
+                            "when dataset attribute parent_experiment_id\n! "
+                                    "is set to N/A, branch_time must be 0., you\n! "
+                                    "passed: %lf, we are resetting to 0. for\n! "
+                                    "variable %s (table: %s)", tmps[0],
+                            cmor_vars[var_id].id,
+                            cmor_tables[nVarRefTblID].szTable_id);
+                    cmor_handle_error(msg, CMOR_WARNING);
+                    cmor_set_cur_dataset_attribute_internal("branch_time", "0.",
+                            1);
+                }
+            }
+            cmor_set_cur_dataset_attribute_internal(GLOBAL_INT_ATT_PARENT_EXPT,
+                    "N/A",
+                    1);
+        }
+    }
+
+    cmor_has_required_global_attributes(nVarRefTblID);
+
+/* -------------------------------------------------------------------- */
+/*     check source and model_id are identical                          */
+/* -------------------------------------------------------------------- */
+    if (strcmp(cmor_tables[nVarRefTblID].activity_id, CMIP6) == 0) {
+        cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE_ID, ctmp5);
+        cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE, ctmp6);
+        if (strncmp(ctmp5, ctmp6, strlen(ctmp5)) != 0) {
+            snprintf(msg, CMOR_MAX_STRING,
+                    "while writing variable %s (table: %s), source\n! "
+                            "attribute does not start with '%s', it\n! "
+                            "should start with: %s", cmor_vars[var_id].id,
+                    cmor_tables[nVarRefTblID].szTable_id, GLOBAL_ATT_SOURCE_ID,
+                    ctmp5);
+            cmor_handle_error(msg, CMOR_CRITICAL);
+        }
+    }
+
+/* -------------------------------------------------------------------- */
+/*      first check if the variable itself has a realm                  */
+/* -------------------------------------------------------------------- */
+
+    if (cmor_tables[nVarRefTblID].vars[nVarRefTblID].realm[0] != '\0') {
+        cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_MODELING_REALM,
+                cmor_tables[nVarRefTblID].vars[nVarRefTblID].realm, 0);
+    } else {
+/* -------------------------------------------------------------------- */
+/*      ok it didn't so we're using the value from the table            */
+/* -------------------------------------------------------------------- */
+        cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_MODELING_REALM,
+                cmor_tables[nVarRefTblID].realm, 0);
+    }
+    cmor_generate_uuid(ncid, ncafid, var_id);
+
+/* -------------------------------------------------------------------- */
+/*      realization                                                     */
+/* -------------------------------------------------------------------- */
+        ierr = nc_put_att_int( ncid, NC_GLOBAL, GLOBAL_ATT_REALIZATION, NC_INT, 1,
+                            &cmor_current_dataset.realization );
+        if( ierr != NC_NOERR ) {
+            snprintf( msg, CMOR_MAX_STRING,
+                      "NetCDF error (%i: %s) writing variable %s (table: %s)\n! "
+                      "global att realization (%i)",
+                      ierr, nc_strerror( ierr ), cmor_vars[var_id].id,
+                      cmor_tables[nVarRefTblID].szTable_id,
+                      cmor_current_dataset.realization );
+            cmor_handle_error( msg, CMOR_CRITICAL );
+        }
+
+/* -------------------------------------------------------------------- */
+/*      cmor_ver                                                        */
+/* -------------------------------------------------------------------- */
+        snprintf( msg, CMOR_MAX_STRING, "%i.%i.%i", CMOR_VERSION_MAJOR,
+                  CMOR_VERSION_MINOR, CMOR_VERSION_PATCH );
+        ierr = nc_put_att_text( ncid, NC_GLOBAL, GLOBAL_ATT_CMORVERSION,
+                             strlen( msg ) + 1, msg );
+        if( ierr != NC_NOERR ) {
+            snprintf( msg, CMOR_MAX_STRING,
+                      "NetCDF error (%i: %s) writing variable %s (table: %s)\n! "
+                      "global att cmor_version (%f)",
+                      ierr, nc_strerror( ierr ), cmor_vars[var_id].id,
+                      cmor_tables[nVarRefTblID].szTable_id,
+                      afloat );
+            cmor_handle_error( msg, CMOR_CRITICAL );
+        }
+
+        if( ncid != ncafid ) {
+            ierr = nc_put_att_int( ncafid, NC_GLOBAL, GLOBAL_ATT_REALIZATION, NC_INT,
+                                   1, &cmor_current_dataset.realization );
+            if( ierr != NC_NOERR ) {
+                snprintf( msg, CMOR_MAX_STRING,
+                          "NetCDF error (%i: %s) writing variable %s\n! "
+                          "(table: %s) global att realization (%i) to metafile",
+                          ierr, nc_strerror( ierr ), cmor_vars[var_id].id,
+                          cmor_tables[nVarRefTblID].szTable_id,
+                          cmor_current_dataset.realization );
+                cmor_handle_error( msg, CMOR_CRITICAL );
+            }
+/* -------------------------------------------------------------------- */
+/*      cmor_ver                                                        */
+/* -------------------------------------------------------------------- */
+            ierr = nc_put_att_text( ncid, NC_GLOBAL, GLOBAL_ATT_CMORVERSION,
+                                 strlen( msg ) + 1, msg );
+            if( ierr != NC_NOERR ) {
+                snprintf( msg, CMOR_MAX_STRING,
+                          "NetCDF error (%i: %s) writing variable %s\n! "
+                          "(table: %s) global att cmor_version (%f)",
+                          ierr, nc_strerror( ierr ), cmor_vars[var_id].id,
+                          cmor_tables[nVarRefTblID].szTable_id,
+                          afloat );
+                cmor_handle_error( msg, CMOR_CRITICAL );
+            }
+        }
+    return (0);
+}
+/************************************************************************/
+/*                     cmor_generate_uuid()                             */
+/************************************************************************/
+void cmor_generate_uuid(int ncid, int ncafid, int var_id){
+    int nVarRefTblID;
+    int ierr;
+    char msg[CMOR_MAX_STRING];
+    double tmps[2];
+    uuid_t *myuuid;
+    uuid_fmt_t fmt;
+    void *myuuid_str = NULL;
+    size_t uuidlen;
+    int i;
+    int itmp2;
+
+    nVarRefTblID = cmor_vars[var_id].ref_table_id;
+
+/* -------------------------------------------------------------------- */
+/*      generates a new unique id                                       */
+/* -------------------------------------------------------------------- */
+    uuid_create(&myuuid);
+    uuid_make(myuuid, 4);
+
+    myuuid_str = NULL;
+    fmt = UUID_FMT_STR;
+
+    uuid_export(myuuid, fmt, &myuuid_str, &uuidlen);
+
+    if (cmor_tables[nVarRefTblID].tracking_prefix != '\0') {
+        strncpy(cmor_current_dataset.tracking_id,
+                cmor_tables[nVarRefTblID].tracking_prefix, CMOR_MAX_STRING);
+        strcat(cmor_current_dataset.tracking_id, "/");
+        strcat(cmor_current_dataset.tracking_id, (char *) myuuid_str);
+    } else {
+        strncpy(cmor_current_dataset.tracking_id, (char *) myuuid_str,
+                CMOR_MAX_STRING);
+    }
+    cmor_set_cur_dataset_attribute_internal("tracking_id",
+            cmor_current_dataset.tracking_id, 0);
+    free(myuuid_str);
+    uuid_destroy(myuuid);
+
+    for (i = 0; i < cmor_current_dataset.nattributes; i++) {
+        if (strcmp(cmor_current_dataset.attributes_names[i], "calendar") != 0) {
+            if ((strcmp(cmor_current_dataset.attributes_names[i],
+                    "initialization_method") == 0)
+                    || (strcmp(cmor_current_dataset.attributes_names[i],
+                            "physics_index") == 0)) { /* these two are actually int not char */
+                sscanf(cmor_current_dataset.attributes_values[i], "%i", &itmp2);
+
+                ierr = nc_put_att_int(ncid, NC_GLOBAL,
+                        cmor_current_dataset.attributes_names[i], NC_INT, 1,
+                        &itmp2);
+
+                if (ierr != NC_NOERR) {
+                    snprintf(msg, CMOR_MAX_STRING,
+                            "NetCDF error (%i: %s) for variable %s\n! "
+                                    "(table: %s) writing global att: %s (%s)\n! ",
+                            ierr, nc_strerror(ierr), cmor_vars[var_id].id,
+                            cmor_tables[nVarRefTblID].szTable_id,
+                            cmor_current_dataset.attributes_names[i],
+                            cmor_current_dataset.attributes_values[i]);
+                    cmor_handle_error(msg, CMOR_CRITICAL);
+                }
+                if (ncid != ncafid) {
+                    ierr = nc_put_att_int(ncafid, NC_GLOBAL,
+                            cmor_current_dataset.attributes_names[i], NC_INT, 1,
+                            &itmp2);
+                    if (ierr != NC_NOERR) {
+                        snprintf(msg, CMOR_MAX_STRING,
+                                "NetCDF error (%i: %s) for variable %s\n! "
+                                        "(table: %s) writing global att to\n! "
+                                        "metafile: %s (%s)", ierr,
+                                nc_strerror(ierr), cmor_vars[var_id].id,
+                                cmor_tables[nVarRefTblID].szTable_id,
+                                cmor_current_dataset.attributes_names[i],
+                                cmor_current_dataset.attributes_values[i]);
+                        cmor_handle_error(msg, CMOR_CRITICAL);
+                    }
+                }
+            } else if (strcmp(cmor_current_dataset.attributes_names[i],
+                    "branch_time") == 0) {
+/* -------------------------------------------------------------------- */
+/*      double attribute                                                */
+/* -------------------------------------------------------------------- */
+                sscanf(cmor_current_dataset.attributes_values[i], "%lf",
+                        &tmps[0]);
+                ierr = nc_put_att_double(ncid, NC_GLOBAL,
+                        cmor_current_dataset.attributes_names[i], NC_DOUBLE, 1,
+                        &tmps[0]);
+                if (ierr != NC_NOERR) {
+                    snprintf(msg, CMOR_MAX_STRING,
+                            "NetCDF error (%i: %s) for variable %s\n! "
+                                    "(table: %s)  writing global att: %s (%s)\n! ",
+                            ierr, nc_strerror(ierr), cmor_vars[var_id].id,
+                            cmor_tables[nVarRefTblID].szTable_id,
+                            cmor_current_dataset.attributes_names[i],
+                            cmor_current_dataset.attributes_values[i]);
+                    cmor_handle_error(msg, CMOR_CRITICAL);
+                }
+                if (ncid != ncafid) {
+                    ierr = nc_put_att_double(ncafid, NC_GLOBAL,
+                            cmor_current_dataset.attributes_names[i], NC_DOUBLE,
+                            1, &tmps[0]);
+                    if (ierr != NC_NOERR) {
+                        snprintf(msg, CMOR_MAX_STRING,
+                                "NetCDF error (%i: %s) for variable\n! "
+                                        "%s (table: %s), writing global att\n! "
+                                        "to metafile: %s (%s)", ierr,
+                                nc_strerror(ierr), cmor_vars[var_id].id,
+                                cmor_tables[nVarRefTblID].szTable_id,
+                                cmor_current_dataset.attributes_names[i],
+                                cmor_current_dataset.attributes_values[i]);
+                        cmor_handle_error(msg, CMOR_CRITICAL);
+                    }
+                }
+            } else {
+                itmp2 = strlen(cmor_current_dataset.attributes_values[i]);
+                if (itmp2 < CMOR_DEF_ATT_STR_LEN) {
+                    int nNbAttrs = strlen(
+                            cmor_current_dataset.attributes_values[i]);
+                    for (itmp2 = nNbAttrs; itmp2 < CMOR_DEF_ATT_STR_LEN;
+                            itmp2++) {
+                        cmor_current_dataset.attributes_values[i][itmp2] = '\0';
+                    }
+                    itmp2 = CMOR_DEF_ATT_STR_LEN;
+                }
+/* -------------------------------------------------------------------- */
+/*      Do not record internal attributes starting with "_"             */
+/* -------------------------------------------------------------------- */
+                if (cmor_current_dataset.attributes_names[i][0] != '_') {
+                    ierr = nc_put_att_text(ncid, NC_GLOBAL,
+                            cmor_current_dataset.attributes_names[i], itmp2,
+                            cmor_current_dataset.attributes_values[i]);
+
+                    if (ierr != NC_NOERR) {
+                        snprintf(msg, CMOR_MAX_STRING,
+                                "NetCDF error (%i: %s) for variable %s\n! "
+                                        "(table: %s)  writing global att: %s (%s)",
+                                ierr, nc_strerror(ierr), cmor_vars[var_id].id,
+                                cmor_tables[nVarRefTblID].szTable_id,
+                                cmor_current_dataset.attributes_names[i],
+                                cmor_current_dataset.attributes_values[i]);
+                        cmor_handle_error(msg, CMOR_CRITICAL);
+                    }
+                    if (ncid != ncafid) {
+                        ierr = nc_put_att_text(ncafid, NC_GLOBAL,
+                                cmor_current_dataset.attributes_names[i], itmp2,
+                                cmor_current_dataset.attributes_values[i]);
+                        if (ierr != NC_NOERR) {
+                            snprintf(msg, CMOR_MAX_STRING,
+                                    "NetCDF error (%i: %s) for variable %s\n! "
+                                            "(table %s), writing global att to\n! "
+                                            "metafile: %s (%s)", ierr,
+                                    nc_strerror(ierr), cmor_vars[var_id].id,
+                                    cmor_tables[nVarRefTblID].szTable_id,
+                                    cmor_current_dataset.attributes_names[i],
+                                    cmor_current_dataset.attributes_values[i]);
+                            cmor_handle_error(msg, CMOR_CRITICAL);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/************************************************************************/
+/*                cmor_define_dimensions()                              */
+/************************************************************************/
+void cmor_define_dimensions(int var_id, int ncid,
+                            int ncafid, double *time_bounds){
+    int i,j,k,l,n;
+    char msg[CMOR_MAX_STRING];
+    char ctmp[CMOR_MAX_STRING];
+    char ctmp2[CMOR_MAX_STRING];
+    char ctmp3[CMOR_MAX_STRING];
+
+    int ierr;
+    int tmp_dims[2];
+    int nc_dim_af[CMOR_MAX_AXES];
+    int nc_vars[CMOR_MAX_VARIABLES];
+    int nc_vars_af[CMOR_MAX_VARIABLES];
+    int nc_associated_vars[6];
+    int nc_dims_associated[CMOR_MAX_AXES];
+    int nc_bnds_vars[CMOR_MAX_VARIABLES];
+    int cmode;
+    int dim_bnds;
+    int dims_bnds_ids[2];
+    size_t nc_dim_chunking[CMOR_MAX_AXES];
+    int nzfactors = 0;
+    int nc_dim[CMOR_MAX_AXES];
+    int zfactors[CMOR_MAX_VARIABLES];
+    int nc_zfactors[CMOR_MAX_VARIABLES];
+    int nVarRefTblID = cmor_vars[var_id].ref_table_id;
+    int ics, icd, icdl;
+    int itmpmsg, itmp2, itmp3, *int_list = NULL, nelts;
+
+    for (i = 0; i < cmor_vars[var_id].ndims; i++) {
+/* -------------------------------------------------------------------- */
+/*      did we flip that guy?                                           */
+/* -------------------------------------------------------------------- */
+        if (cmor_axes[cmor_vars[var_id].axes_ids[i]].revert == -1) {
+            sprintf(msg, "Inverted axis: %s",
+                    cmor_axes[cmor_vars[var_id].axes_ids[i]].id);
+/* -------------------------------------------------------------------- */
+/*      fiddle to avoid duplicated effort here if it's already inverted */
+/* -------------------------------------------------------------------- */
+            if (!cmor_history_contains(var_id, msg)) {
+                cmor_update_history(var_id, msg);
+            }
+        }
+        int nAxisID = cmor_vars[var_id].axes_ids[i];
+/* -------------------------------------------------------------------- */
+/*      Axis length                                                     */
+/* -------------------------------------------------------------------- */
+        j = cmor_axes[nAxisID].length;
+        if ((i == 0) && (cmor_axes[nAxisID].axis == 'T'))
+            j = NC_UNLIMITED;
+
+        if ((cmor_axes[nAxisID].axis == 'X')
+                || (cmor_axes[nAxisID].axis == 'Y')) {
+            nc_dim_chunking[i] = j;
+        } else if (cmor_axes[nAxisID].isgridaxis == 1) {
+            nc_dim_chunking[i] = j;
+        } else {
+            nc_dim_chunking[i] = 1;
+        }
+
+        ierr = nc_def_dim(ncid, cmor_axes[nAxisID].id, j, &nc_dim[i]);
+        if (ierr != NC_NOERR) {
+            snprintf(msg, CMOR_MAX_STRING,
+                    "NetCDF error (%i:%s) for dimension definition of\n! "
+                            "axis: %s (%i), for variable %i (%s, table: %s)",
+                    ierr, nc_strerror(ierr), cmor_axes[nAxisID].id, nAxisID,
+                    var_id, cmor_vars[var_id].id,
+                    cmor_tables[nVarRefTblID].szTable_id);
+            ierr = nc_enddef(ncid);
+            cmor_handle_error(msg, CMOR_CRITICAL);
+        }
+        nc_dim_af[i] = nc_dim[i];
+        if (ncid != ncafid) {
+            ierr = nc_def_dim(ncafid, cmor_axes[nAxisID].id, j, &nc_dim_af[i]);
+            if (ierr != NC_NOERR) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "NetCDF error (%i: %s) for dimension definition\n! "
+                                "of axis: %s (%i) in metafile, variable %s "
+                                "(table: %s)", ierr, nc_strerror(ierr),
+                        cmor_axes[cmor_vars[var_id].axes_ids[i]].id, i,
+                        cmor_vars[var_id].id,
+                        cmor_tables[nVarRefTblID].szTable_id);
+                cmor_handle_error(msg, CMOR_CRITICAL);
+            }
+        }
+    }
+
+/* -------------------------------------------------------------------- */
+/*      creates the bounds dim (only in metafile?)                      */
+/* -------------------------------------------------------------------- */
+    ierr = nc_def_dim(ncafid, "bnds", 2, &dim_bnds);
+    if (ierr != NC_NOERR) {
+        snprintf(msg, CMOR_MAX_STRING,
+                "NC error (%i: %s), error creating bnds dimension to\n! "
+                        "metafile, variable %s (table: %s)", ierr,
+                nc_strerror(ierr), cmor_vars[var_id].id,
+                cmor_tables[nVarRefTblID].szTable_id);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+
+/* -------------------------------------------------------------------- */
+/*      Now define the variable corresponding to                        */
+/*      store the dimensions values                                     */
+/* -------------------------------------------------------------------- */
+    for (i = 0; i < cmor_vars[var_id].ndims; i++) {
+        cmor_axis_t *pAxis;
+        pAxis = &cmor_axes[cmor_vars[var_id].axes_ids[i]];
+        if (pAxis->store_in_netcdf == 0)
+            continue;
+
+        if (pAxis->cvalues == NULL) {
+/* -------------------------------------------------------------------- */
+/*       first we need to figure out the output type                    */
+            /* -------------------------------------------------------------------- */
+            switch (cmor_tables[pAxis->ref_table_id].axes[pAxis->ref_axis_id].type) {
+
+            case ('f'):
+                j = NC_FLOAT;
+                break;
+            case ('d'):
+                j = NC_DOUBLE;
+                break;
+            case ('i'):
+                j = NC_INT;
+                break;
+            default:
+                j = NC_DOUBLE;
+                break;
+            }
+            ierr = nc_def_var(ncid, pAxis->id, j, 1, &nc_dim[i], &nc_vars[i]);
+
+            if (ierr != NC_NOERR) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "NetCDF Error (%i: %s) for variable %s\n! "
+                                "(table: %s) error defining dim var: %i (%s)",
+                        ierr, nc_strerror(ierr), cmor_vars[var_id].id,
+                        cmor_tables[nVarRefTblID].szTable_id, i, pAxis->id);
+                cmor_handle_error(msg, CMOR_CRITICAL);
+            }
+
+
+/* -------------------------------------------------------------------- */
+/*      Compression stuff                                               */
+/* -------------------------------------------------------------------- */
+            if ((CMOR_NETCDF_MODE != CMOR_REPLACE_3)
+                    && (CMOR_NETCDF_MODE != CMOR_PRESERVE_3)
+                    && (CMOR_NETCDF_MODE != CMOR_APPEND_3)) {
+
+                int nVarID = cmor_vars[var_id].ref_var_id;
+                cmor_var_def_t *pVar;
+
+                pVar = &cmor_tables[nVarRefTblID].vars[nVarID];
+
+                ics = pVar->shuffle;
+                icd = pVar->deflate;
+                icdl = pVar->deflate_level;
+
+                ierr = nc_def_var_deflate(ncid, nc_vars[i], ics, icd, icdl);
+
+                if (ierr != NC_NOERR) {
+                    snprintf(msg, CMOR_MAX_STRING,
+                            "NCError (%i: %s) defining compression\n! "
+                                    "parameters for dimension %s for variable\n! "
+                                    "'%s' (table: %s)", ierr, nc_strerror(ierr),
+                            pAxis->id, cmor_vars[var_id].id,
+                            cmor_tables[nVarRefTblID].szTable_id);
+                    cmor_handle_error(msg, CMOR_CRITICAL);
+                }
+            }
+
+            nc_vars_af[i] = nc_vars[i];
+            if (ncid != ncafid) {
+                ierr = nc_def_var(ncafid, pAxis->id, j, 1, &nc_dim_af[i],
+                        &nc_vars_af[i]);
+
+                if (ierr != NC_NOERR) {
+                    snprintf(msg, CMOR_MAX_STRING,
+                            "NetCDF Error (%i: %s ) for variable %s\n! "
+                                    "(table: %s) error defining dim var: %i\n! "
+                                    "(%s) in metafile", ierr, nc_strerror(ierr),
+                            cmor_vars[var_id].id,
+                            cmor_tables[nVarRefTblID].szTable_id, i, pAxis->id);
+                    cmor_handle_error(msg, CMOR_CRITICAL);
+                }
+
+/* -------------------------------------------------------------------- */
+/*      Compression stuff                                               */
+/* -------------------------------------------------------------------- */
+
+                if ((CMOR_NETCDF_MODE != CMOR_REPLACE_3)
+                        && (CMOR_NETCDF_MODE != CMOR_PRESERVE_3)
+                        && (CMOR_NETCDF_MODE != CMOR_APPEND_3)) {
+                    cmor_var_def_t *pVar;
+                    pVar =
+                            &cmor_tables[nVarRefTblID].vars[cmor_vars[var_id].ref_var_id];
+                    ics = pVar->shuffle;
+                    icd = pVar->deflate;
+                    icdl = pVar->deflate_level;
+                    ierr = nc_def_var_deflate(ncafid, nc_vars_af[i], ics, icd,
+                            icdl);
+                    if (ierr != NC_NOERR) {
+                        snprintf(msg, CMOR_MAX_STRING,
+                                "NCError (%i: %s) defining compression\n! "
+                                        "parameters for dimension %s for\n! "
+                                        "variable '%s' (table: %s)", ierr,
+                                nc_strerror(ierr), pAxis->id,
+                                cmor_vars[var_id].id,
+                                cmor_tables[nVarRefTblID].szTable_id);
+                        cmor_handle_error(msg, CMOR_CRITICAL);
+                    }
+                }
+            }
+
+        } else {
+/* -------------------------------------------------------------------- */
+/*      ok at this point i'm assuming only 1 string dimension!          */
+/*      might need to be revised                                        */
+/*      so i only create 1 strlen dim                                   */
+/*      first need to figure out if the "region name is defined         */
+/* -------------------------------------------------------------------- */
+            strcpy(ctmp,
+                    cmor_tables[pAxis->ref_table_id].axes[pAxis->ref_axis_id].cname);
+
+            if (ctmp[0] == '\0') {
+                strcpy(ctmp, "geo_region");
+            }
+
+            if (cmor_has_variable_attribute(var_id, "coordinates") == 0) {
+                cmor_get_variable_attribute(var_id, "coordinates", msg);
+                l = 0;
+                for (j = 0; j < strlen(msg) - strlen(ctmp) + 1; j++) {
+                    if (strncmp(ctmp, &msg[j], strlen(ctmp)) == 0) {
+                        l = 1;
+                        break;
+                    }
+                }
+                if (l == 0) {
+                    strncat(msg, " ", CMOR_MAX_STRING - strlen(msg));
+                    strncat(msg, ctmp, CMOR_MAX_STRING - strlen(msg));
+                }
+            } else {
+                strncpy(msg, ctmp, CMOR_MAX_STRING);
+            }
+
+            cmor_set_variable_attribute_internal(var_id, "coordinates", 'c',
+                    msg);
+            l = 0;
+            for (j = 0; j < pAxis->length; j++) {
+                strncpy(msg, pAxis->cvalues[j], CMOR_MAX_STRING);
+                k = strlen(msg);
+                if (k > l) {
+                    l = k;
+                }
+            }
+/* -------------------------------------------------------------------- */
+/*      ok so now i can create the dummy dim strlen                     */
+/* -------------------------------------------------------------------- */
+            ierr = nc_def_dim(ncid, "strlen", l, &tmp_dims[1]);
+            if (ierr != NC_NOERR) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "NetCDF error (%i: %s) for dummy 'strlen'\n! "
+                                "dimension definition of axis: %s (%i) in\n! "
+                                "metafile, while writing variable %s (table: %s)",
+                        ierr, nc_strerror(ierr), pAxis->id, i,
+                        cmor_vars[var_id].id,
+                        cmor_tables[nVarRefTblID].szTable_id);
+                cmor_handle_error(msg, CMOR_CRITICAL);
+            }
+            tmp_dims[0] = nc_dim[i];
+            ierr = nc_def_var(ncid, ctmp, NC_CHAR, 2, &tmp_dims[0],
+                    &nc_vars[i]);
+            if (ierr != NC_NOERR) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "NetCDF Error (%i: %s) for variable %s\n! "
+                                "(table: %s) error defining dim var: %i (%s)",
+                        ierr, nc_strerror(ierr), cmor_vars[var_id].id,
+                        cmor_tables[nVarRefTblID].szTable_id, i, pAxis->id);
+                cmor_handle_error(msg, CMOR_CRITICAL);
+            }
+
+            nc_vars_af[i] = nc_vars[i];
+
+            if (ncid != ncafid) {
+
+                ierr = nc_def_dim(ncafid, "strlen", l, &tmp_dims[1]);
+
+                if (ierr != NC_NOERR) {
+                    snprintf(msg, CMOR_MAX_STRING,
+                            "NetCDF error (%i: %s) for dummy 'strlen'\n! "
+                                    "dimension definition of axis: %s (%i) in\n! "
+                                    "metafile, while writing variable %s "
+                                    "(table: %s)", ierr, nc_strerror(ierr),
+                            pAxis->id, i, cmor_vars[var_id].id,
+                            cmor_tables[nVarRefTblID].szTable_id);
+                    cmor_handle_error(msg, CMOR_CRITICAL);
+                }
+                tmp_dims[0] = nc_dim_af[i];
+
+                ierr = nc_def_var(ncafid, ctmp, NC_CHAR, 1, &tmp_dims[0],
+                        &nc_vars_af[i]);
+
+                if (ierr != NC_NOERR) {
+                    snprintf(msg, CMOR_MAX_STRING,
+                            "NetCDF Error (%i: %s) for variable %s\n! "
+                                    "(table: %s) error defining dim var:\n! "
+                                    "%i (%s) in metafile", ierr,
+                            nc_strerror(ierr), cmor_vars[var_id].id,
+                            cmor_tables[nVarRefTblID].szTable_id, i, pAxis->id);
+                    cmor_handle_error(msg, CMOR_CRITICAL);
+                }
+            }
+        }
+/* -------------------------------------------------------------------- */
+/*      ok do we have bounds on this axis?                              */
+/* -------------------------------------------------------------------- */
+        if ((pAxis->bounds != NULL) || ((i == 0) && (time_bounds != NULL))) {
+            strncpy(ctmp, pAxis->id, CMOR_MAX_STRING);
+            strncat(ctmp, "_bnds", CMOR_MAX_STRING - strlen(ctmp));
+            snprintf(msg, CMOR_MAX_STRING, "bounds");
+            if (i == 0) {
+/* -------------------------------------------------------------------- */
+/*      Ok here we need to see if it is a climatological                */
+/*      variable in order to change                                     */
+/*      the "bounds" attribute into "climatology"                       */
+/* -------------------------------------------------------------------- */
+                if (cmor_tables[pAxis->ref_table_id].axes[pAxis->ref_axis_id].climatology
+                        == 1) {
+                    snprintf(msg, CMOR_MAX_STRING, "climatology");
+                    strncpy(ctmp, "climatology_bnds", CMOR_MAX_STRING);
+                }
+            }
+            dims_bnds_ids[0] = nc_dim[i];
+            dims_bnds_ids[1] = dim_bnds;
+            switch (cmor_tables[pAxis->ref_table_id].axes[pAxis->ref_axis_id].type) {
+            case ('f'):
+                j = NC_FLOAT;
+                break;
+            case ('d'):
+                j = NC_DOUBLE;
+                break;
+            case ('i'):
+                j = NC_INT;
+                break;
+            default:
+                j = NC_DOUBLE;
+                break;
+            }
+            ierr = nc_def_var(ncafid, ctmp, j, 2, &dims_bnds_ids[0],
+                    &nc_bnds_vars[i]);
+            if (ierr != NC_NOERR) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "NetCDF Error (%i: %s) for variable %s\n! "
+                                "(table: %s) error defining bounds dim var: %i (%s)",
+                        ierr, nc_strerror(ierr), cmor_vars[var_id].id,
+                        cmor_tables[nVarRefTblID].szTable_id, i, pAxis->id);
+                cmor_handle_error(msg, CMOR_CRITICAL);
+            }
+
+/* -------------------------------------------------------------------- */
+/*      Compression stuff                                               */
+/* -------------------------------------------------------------------- */
+            if ((CMOR_NETCDF_MODE != CMOR_REPLACE_3)
+                    && (CMOR_NETCDF_MODE != CMOR_PRESERVE_3)
+                    && (CMOR_NETCDF_MODE != CMOR_APPEND_3)) {
+
+                ics = cmor_tables[nVarRefTblID].vars[nVarRefTblID].shuffle;
+                icd = cmor_tables[nVarRefTblID].vars[nVarRefTblID].deflate;
+                icdl =
+                        cmor_tables[nVarRefTblID].vars[nVarRefTblID].deflate_level;
+
+                ierr = nc_def_var_deflate(ncafid, nc_bnds_vars[i], ics, icd,
+                        icdl);
+                if (ierr != NC_NOERR) {
+                    snprintf(msg, CMOR_MAX_STRING,
+                            "NCError (%i: %s) defining compression\n! "
+                                    "parameters for bounds variable %s for\n! "
+                                    "variable '%s' (table: %s)", ierr,
+                            nc_strerror(ierr), ctmp, cmor_vars[var_id].id,
+                            cmor_tables[nVarRefTblID].szTable_id);
+                    cmor_handle_error(msg, CMOR_CRITICAL);
+                }
+            }
+/* -------------------------------------------------------------------- */
+/* sets the bounds attribute of parent var                              */
+/* -------------------------------------------------------------------- */
+
+            if (i == 0)
+                cmor_vars[var_id].time_bnds_nc_id = nc_bnds_vars[i];
+            ierr = nc_put_att_text(ncafid, nc_vars[i], msg, strlen(ctmp) + 1,
+                    ctmp);
+            if (ierr != NC_NOERR) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "NetCDF Error (%i: %s) for variable %s\n! "
+                                "(table: %s) error defining bounds attribute\n! "
+                                "var: %i (%s)", ierr, nc_strerror(ierr),
+                        cmor_vars[var_id].id,
+                        cmor_tables[nVarRefTblID].szTable_id, i, pAxis->id);
+                cmor_handle_error(msg, CMOR_CRITICAL);
+            }
+        }
+/* -------------------------------------------------------------------- */
+/*      Creates attribute related to that axis                          */
+/* -------------------------------------------------------------------- */
+
+        for (j = 0; j < cmor_axes[cmor_vars[var_id].axes_ids[i]].nattributes;
+                j++) {
+            if (strcmp(cmor_axes[cmor_vars[var_id].axes_ids[i]].attributes[j],
+                    "z_factors") == 0) {
+/* -------------------------------------------------------------------- */
+/*      ok this part checks for z_factor things                         */
+/*      creates the formula terms attriubte                             */
+/* -------------------------------------------------------------------- */
+                strncpy(msg,
+                        cmor_axes[cmor_vars[var_id].axes_ids[i]].attributes_values_char[j],
+                        CMOR_MAX_STRING);
+                n = strlen(msg) + 1;
+                ierr = nc_put_att_text(ncid, nc_vars[i], "formula_terms", n,
+                        msg);
+                if (ierr != NC_NOERR) {
+                    snprintf(ctmp, CMOR_MAX_STRING,
+                            "NetCDF error (%i: %s) writing formula term "
+                                    "att (%s) for axis %i (%s), variable %s "
+                                    "(table: %s)", ierr, nc_strerror(ierr), msg,
+                            i, cmor_axes[cmor_vars[var_id].axes_ids[i]].id,
+                            cmor_vars[var_id].id,
+                            cmor_tables[nVarRefTblID].szTable_id);
+                    cmor_handle_error(msg, CMOR_CRITICAL);
+                }
+
+                if (ncid != ncafid) {
+                    ierr = nc_put_att_text(ncafid, nc_vars_af[i],
+                            "formula_terms", n, msg);
+                    if (ierr != NC_NOERR) {
+                        snprintf(ctmp, CMOR_MAX_STRING,
+                                "NetCDF error (%i: %s) writing formula "
+                                        "term att (%s) for axis %i (%s), variable "
+                                        "%s (table: %s)", ierr,
+                                nc_strerror(ierr), msg, i,
+                                cmor_axes[cmor_vars[var_id].axes_ids[i]].id,
+                                cmor_vars[var_id].id,
+                                cmor_tables[nVarRefTblID].szTable_id);
+                        cmor_handle_error(ctmp, CMOR_CRITICAL);
+                    }
+                }
+                ierr = cmor_define_zfactors_vars(var_id, ncafid, &nc_dim_af[0],
+                        msg, &nzfactors, &zfactors[0], &nc_zfactors[0], i, -1);
+            } else if (strcmp(
+                    cmor_axes[cmor_vars[var_id].axes_ids[i]].attributes[j],
+                    "z_bounds_factors") == 0) {
+                cmor_get_axis_attribute(cmor_vars[var_id].axes_ids[i],
+                        "formula", 'c', &msg);
+                n = strlen(msg) + 1;
+                ierr = nc_put_att_text(ncafid, nc_bnds_vars[i], "formula", n,
+                        msg);
+                cmor_get_axis_attribute(cmor_vars[var_id].axes_ids[i],
+                        "standard_name", 'c', &msg);
+                n = strlen(msg);
+                ierr = nc_put_att_text(ncafid, nc_bnds_vars[i], "standard_name",
+                        n, msg);
+                cmor_get_axis_attribute(cmor_vars[var_id].axes_ids[i], "units",
+                        'c', &msg);
+                n = strlen(msg) + 1;
+                ierr = nc_put_att_text(ncafid, nc_bnds_vars[i], "units", n,
+                        msg);
+                /*formula terms */
+                strncpy(msg,
+                        cmor_axes[cmor_vars[var_id].axes_ids[i]].attributes_values_char[j],
+                        CMOR_MAX_STRING);
+                n = strlen(msg) + 1;
+                ierr = nc_put_att_text(ncafid, nc_bnds_vars[i], "formula_terms",
+                        n, msg);
+                ierr = cmor_define_zfactors_vars(var_id, ncafid, nc_dim, msg,
+                        &nzfactors, &zfactors[0], &nc_zfactors[0], i, dim_bnds);
+            } else if (strcmp(
+                    cmor_axes[cmor_vars[var_id].axes_ids[i]].attributes[j],
+                    "interval") == 0) {
+                if (cmor_has_variable_attribute(var_id, "cell_methods") == 0) {
+                    cmor_get_variable_attribute(var_id, "cell_methods", msg);
+                } else {
+                    strcpy(msg, "");
+                }
+                strncpy(ctmp, cmor_axes[cmor_vars[var_id].axes_ids[i]].id,
+                        CMOR_MAX_STRING);
+                strncat(ctmp, ":", CMOR_MAX_STRING - strlen(ctmp));
+                icd = strlen(ctmp);
+                itmpmsg = strlen(msg);
+                for (ics = 0; ics < (itmpmsg - icd); ics++) {
+                    for (icdl = 0; icdl < icd; icdl++) {
+                        ctmp2[icdl] = msg[ics + icdl];
+                        ctmp2[icdl + 1] = '\0';
+                    }
+                    if (strcmp(ctmp2, ctmp) == 0) {
+                        itmp2 = strlen(ctmp);
+                        for (icdl = 0; icdl < (ics + itmp2 + 1); icdl++) {
+                            ctmp2[icdl] = msg[icdl];
+                        }
+                        while ((msg[icdl] != ' ') && (msg[icdl] != '\0')) {
+                            ctmp2[icdl] = msg[icdl];
+                            icdl++;
+                        }
+                        ctmp2[icdl] = '\0';
+
+                        icd = strlen(ctmp2);
+/* -------------------------------------------------------------------- */
+/*      ok now we need to know if the user passed an                    */
+/*      interval or not in order to add it                              */
+/* -------------------------------------------------------------------- */
+                        cmor_get_axis_attribute(cmor_vars[var_id].axes_ids[i],
+                                "interval", 'c', ctmp);
+
+                        cmor_trim_string(ctmp, ctmp3);
+
+                        if (strcmp(ctmp3, "") != 0) {
+                            strncat(ctmp2, " (interval: ",
+                                    CMOR_MAX_STRING - strlen(ctmp2));
+                            strncat(ctmp2, ctmp,
+                                    CMOR_MAX_STRING - strlen(ctmp2));
+                            strncat(ctmp2, ")",
+                                    CMOR_MAX_STRING - strlen(ctmp2));
+                        }
+
+                        ierr = strlen(ctmp2) - icd;
+                        itmp3 = strlen(msg);
+                        for (icdl = icd; icdl < itmp3; icdl++) {
+                            ctmp2[icdl + ierr] = msg[icdl];
+                            ctmp2[icdl + 1 + ierr] = '\0';
+                        }
+                        cmor_set_variable_attribute_internal(var_id,
+                                "cell_methods", 'c', ctmp2);
+                        break;
+                    }
+                }
+            } else {
+                if ((cmor_tables[cmor_axes[cmor_vars[var_id].axes_ids[i]].ref_table_id].axes[cmor_axes[cmor_vars[var_id].axes_ids[i]].ref_axis_id].type
+                        == 'c')
+                        && (strcmp(
+                                cmor_axes[cmor_vars[var_id].axes_ids[i]].attributes[j],
+                                "units") == 0)) {
+/* -------------------------------------------------------------------- */
+/*      passing we do not want the units attribute                      */
+/* -------------------------------------------------------------------- */
+                } else {
+                    cmor_axis_t *pAxis;
+                    pAxis = &cmor_axes[cmor_vars[var_id].axes_ids[i]];
+
+                    if (pAxis->attributes_type[j] == 'c') {
+                        ierr = cmor_put_nc_char_attribute(ncid, nc_vars[i],
+                                pAxis->attributes[j],
+                                pAxis->attributes_values_char[j],
+                                cmor_vars[var_id].id);
+
+                        if (ncid != ncafid) {
+                            ierr = cmor_put_nc_char_attribute(ncafid,
+                                    nc_vars_af[i], pAxis->attributes[j],
+                                    pAxis->attributes_values_char[j],
+                                    cmor_vars[var_id].id);
+                        }
+                    } else {
+                        ierr = cmor_put_nc_num_attribute(ncid, nc_vars[i],
+                                pAxis->attributes[j], pAxis->attributes_type[j],
+                                pAxis->attributes_values_num[j],
+                                cmor_vars[var_id].id);
+
+                        if (ncid != ncafid) {
+                            ierr = cmor_put_nc_num_attribute(ncafid,
+                                    nc_vars_af[i], pAxis->attributes[j],
+                                    pAxis->attributes_type[j],
+                                    pAxis->attributes_values_num[j],
+                                    cmor_vars[var_id].id);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+/************************************************************************/
+/*                         cmor_grids_def()                             */
+/************************************************************************/
+int cmor_grids_def(int var_id, int nGridID, int ncafid) {
+    int ierr;
+    int m;
+    char msg[CMOR_MAX_STRING];
+    char ctmp[CMOR_MAX_STRING];
+    double tmps[2];
+    int i,j,k,l;
+    int nc_vars_af[CMOR_MAX_VARIABLES];
+    int nc_associated_vars[6];
+    int nc_dims_associated[CMOR_MAX_AXES];
+    int nVarRefTblID = cmor_vars[var_id].ref_table_id;
+    int m2[5];
+    int nc_dim_af[CMOR_MAX_AXES];
+    int *int_list = NULL;
+    char mtype;
+    int nelts;
+    int ics, icd, icdl;
+/* -------------------------------------------------------------------- */
+/*      first of all checks for grid_mapping                            */
+/* -------------------------------------------------------------------- */
+
+    if (strcmp(cmor_grids[nGridID].mapping, "") != 0) {
+/* -------------------------------------------------------------------- */
+/*      ok we need to create this dummy variable                        */
+/*      that contains all the info                                      */
+/* -------------------------------------------------------------------- */
+
+        cmor_set_variable_attribute_internal(var_id, "grid_mapping", 'c',
+                cmor_grids[nGridID].mapping);
+        ierr = nc_def_var(ncafid, cmor_grids[nGridID].mapping, NC_INT, 0,
+                &nc_dims_associated[0], &m);
+
+        if (ierr != NC_NOERR) {
+            snprintf(msg, CMOR_MAX_STRING,
+                    "NetCDF error (%i: %s) while defining\n! "
+                            "associated grid mapping variable %s for\n! "
+                            "variable %s (table: %s)", ierr, nc_strerror(ierr),
+                    cmor_grids[nGridID].mapping, cmor_vars[var_id].id,
+                    cmor_tables[nVarRefTblID].szTable_id);
+            cmor_handle_error(msg, CMOR_CRITICAL);
+        }
+/* -------------------------------------------------------------------- */
+/*      Creates attributes related to that variable                     */
+/* -------------------------------------------------------------------- */
+        ierr = cmor_put_nc_char_attribute(ncafid, m, "grid_mapping_name",
+                cmor_grids[nGridID].mapping, cmor_vars[var_id].id);
+        for (k = 0; k < cmor_grids[cmor_vars[var_id].grid_id].nattributes;
+                k++) {
+            if (strcmp(cmor_grids[nGridID].attributes_names[k],
+                    "standard_parallel1") == 0
+                    || strcmp(cmor_grids[nGridID].attributes_names[k],
+                            "standard_parallel2") == 0) {
+
+                i = -nGridID - CMOR_MAX_GRIDS;
+                if ((cmor_has_grid_attribute(i, "standard_parallel1") == 0)
+                        && (cmor_has_grid_attribute(i, "standard_parallel2")
+                                == 0)) {
+                    cmor_get_grid_attribute(i, "standard_parallel1", &tmps[0]);
+                    cmor_get_grid_attribute(i, "standard_parallel2", &tmps[1]);
+                    ierr = nc_put_att_double(ncafid, m, "standard_parallel",
+                            NC_DOUBLE, 2, &tmps[0]);
+                } else if (cmor_has_grid_attribute(i, "standard_parallel1")
+                        == 0) {
+                    cmor_get_grid_attribute(i, "standard_parallel1", &tmps[0]);
+                    ierr = nc_put_att_double(ncafid, m, "standard_parallel",
+                            NC_DOUBLE, 1, &tmps[0]);
+                } else {
+                    cmor_get_grid_attribute(i, "standard_parallel2", &tmps[0]);
+                    ierr = nc_put_att_double(ncafid, m, "standard_parallel",
+                            NC_DOUBLE, 1, &tmps[0]);
+                }
+                if (ierr != NC_NOERR) {
+                    snprintf(msg, CMOR_MAX_STRING,
+                            "NetCDF Error (%i: %s) writing\n! "
+                                    "standard_parallel to file, variable:\n! "
+                                    "%s (table: %s)", ierr, nc_strerror(ierr),
+                            cmor_vars[var_id].id,
+                            cmor_tables[nVarRefTblID].szTable_id);
+                    cmor_handle_error(msg, CMOR_NORMAL);
+                    cmor_pop_traceback();
+                    return (1);
+                }
+            } else {
+                ierr = cmor_put_nc_num_attribute(ncafid, m,
+                        cmor_grids[nGridID].attributes_names[k], 'd',
+                        cmor_grids[nGridID].attributes_values[k],
+                        cmor_grids[nGridID].mapping);
+            }
+        }
+    }
+/* -------------------------------------------------------------------- */
+/*      Preps the marker for vertices dimensions                        */
+/* -------------------------------------------------------------------- */
+
+    m = 0;
+/* -------------------------------------------------------------------- */
+/*      At this point creates the associated variables                  */
+/*      all is done is associated file                                  */
+/* -------------------------------------------------------------------- */
+    for (i = 0; i < 5; i++) {
+        m2[i] = 0;
+        j = cmor_grids[nGridID].associated_variables[i];
+
+        if (j != -1) {
+/* -------------------------------------------------------------------- */
+/*      ok we need to define this variable                              */
+/* -------------------------------------------------------------------- */
+
+            l = 0;
+/* -------------------------------------------------------------------- */
+/*      first we need to figure out the actual                          */
+/*      grid dimensions and their netcdf eq                             */
+/* -------------------------------------------------------------------- */
+
+            for (k = 0; k < cmor_vars[var_id].ndims; k++) {
+                if (cmor_axes[cmor_vars[var_id].axes_ids[k]].isgridaxis == 1) {
+                    nc_dims_associated[l] = nc_dim_af[k];
+
+                    if (m2[i] == 0 && (i == 0 || i == 1)) {
+                        if (cmor_has_variable_attribute(var_id, "coordinates")
+                                == 0) {
+                            cmor_get_variable_attribute(var_id, "coordinates",
+                                    &msg);
+                            cmor_cat_unique_string(msg,
+                                    cmor_vars[cmor_grids[nGridID].associated_variables[i]].id);
+                        } else {
+                            strncpy(msg,
+                                    cmor_vars[cmor_grids[nGridID].associated_variables[i]].id,
+                                    CMOR_MAX_STRING - strlen(msg));
+                        }
+                        cmor_set_variable_attribute_internal(var_id,
+                                "coordinates", 'c', msg);
+                        m2[i] = 1;
+                    }
+                    l++;
+                }
+            }
+/* -------------------------------------------------------------------- */
+/*      vertices need to be added                                       */
+/* -------------------------------------------------------------------- */
+
+            if (((i == 2) || (i == 3)) && (m == 0)) {
+/* -------------------------------------------------------------------- */
+/*      ok now it has been defined                                      */
+/* -------------------------------------------------------------------- */
+
+                m = 1;
+                ierr =
+                        nc_def_dim(ncafid, "vertices",
+                                cmor_axes[cmor_vars[j].axes_ids[cmor_vars[j].ndims
+                                        - 1]].length, &nc_dims_associated[l]);
+                if (ierr != NC_NOERR) {
+                    snprintf(msg, CMOR_MAX_STRING,
+                            "NetCDF error (%i: %s) while defining\n! "
+                                    "vertices dimension, variable %s\n! "
+                                    "(table: %s)", ierr, nc_strerror(ierr),
+                            cmor_vars[var_id].id,
+                            cmor_tables[nVarRefTblID].szTable_id);
+                    cmor_handle_error(msg, CMOR_CRITICAL);
+                }
+            }
+            mtype = cmor_vars[j].type;
+            if (mtype == 'd')
+                ierr = nc_def_var(ncafid, cmor_vars[j].id, NC_DOUBLE,
+                        cmor_vars[j].ndims, &nc_dims_associated[0],
+                        &nc_associated_vars[i]);
+            else if (mtype == 'f')
+                ierr = nc_def_var(ncafid, cmor_vars[j].id, NC_FLOAT,
+                        cmor_vars[j].ndims, &nc_dims_associated[0],
+                        &nc_associated_vars[i]);
+            else if (mtype == 'l')
+                ierr = nc_def_var(ncafid, cmor_vars[j].id, NC_INT,
+                        cmor_vars[j].ndims, &nc_dims_associated[0],
+                        &nc_associated_vars[i]);
+            else if (mtype == 'i')
+                ierr = nc_def_var(ncafid, cmor_vars[j].id, NC_INT,
+                        cmor_vars[j].ndims, &nc_dims_associated[0],
+                        &nc_associated_vars[i]);
+            if (ierr != NC_NOERR) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "NetCDF error (%i: %s) while defining\n! "
+                                "associated variable %s, of variable\n! "
+                                "%s (table: %s)", ierr, nc_strerror(ierr),
+                        cmor_vars[j].id, cmor_vars[var_id].id,
+                        cmor_tables[nVarRefTblID].szTable_id);
+                cmor_handle_error(msg, CMOR_CRITICAL);
+            }
+
+/* -------------------------------------------------------------------- */
+/*      Creates attributes related to that variable                     */
+/* -------------------------------------------------------------------- */
+            for (k = 0; k < cmor_vars[j].nattributes; k++) {
+
+/* -------------------------------------------------------------------- */
+/*      first of all we need to make sure it is not an empty attribute  */
+/* -------------------------------------------------------------------- */
+                if (cmor_has_variable_attribute(j, cmor_vars[j].attributes[k])
+                        != 0) {
+/* -------------------------------------------------------------------- */
+/*      deleted attribute continue on                                   */
+/* -------------------------------------------------------------------- */
+                    continue;
+                }
+                if (strcmp(cmor_vars[j].attributes[k], "flag_values") == 0) {
+/* -------------------------------------------------------------------- */
+/*      ok we need to convert the string to a list of int               */
+/* -------------------------------------------------------------------- */
+                    ierr = cmor_convert_string_to_list(
+                            cmor_vars[j].attributes_values_char[k], 'i',
+                            (void *) &int_list, &nelts);
+
+                    ierr = nc_put_att_int(ncafid, nc_associated_vars[i],
+                            "flag_values", NC_INT, nelts, int_list);
+
+                    if (ierr != NC_NOERR) {
+                        snprintf(msg, CMOR_MAX_STRING,
+                                "NetCDF Error (%i: %s) setting\n! "
+                                        "flags numerical attribute on\n! "
+                                        "associated variable %s, for\n! "
+                                        "variable %s (table: %s)", ierr,
+                                nc_strerror(ierr), cmor_vars[j].id,
+                                cmor_vars[var_id].id,
+                                cmor_tables[nVarRefTblID].szTable_id);
+                        cmor_handle_error(msg, CMOR_CRITICAL);
+                    }
+                    free(int_list);
+                } else if (cmor_vars[j].attributes_type[k] == 'c') {
+                    ierr = cmor_put_nc_char_attribute(ncafid,
+                            nc_associated_vars[i], cmor_vars[j].attributes[k],
+                            cmor_vars[j].attributes_values_char[k],
+                            cmor_vars[j].id);
+                } else {
+                    ierr = cmor_put_nc_num_attribute(ncafid,
+                            nc_associated_vars[i], cmor_vars[j].attributes[k],
+                            cmor_vars[j].attributes_type[k],
+                            cmor_vars[j].attributes_values_num[k],
+                            cmor_vars[j].id);
+                }
+            }
+/* -------------------------------------------------------------------- */
+/*      Compression stuff                                               */
+/* -------------------------------------------------------------------- */
+
+            if ((CMOR_NETCDF_MODE != CMOR_REPLACE_3)
+                    && (CMOR_NETCDF_MODE != CMOR_PRESERVE_3)
+                    && (CMOR_NETCDF_MODE != CMOR_APPEND_3)) {
+                if (cmor_vars[j].ndims > 0) {
+                    ics =
+                            cmor_tables[cmor_vars[j].ref_table_id].vars[cmor_vars[j].ref_var_id].shuffle;
+                    icd =
+                            cmor_tables[cmor_vars[j].ref_table_id].vars[cmor_vars[j].ref_var_id].deflate;
+                    icdl =
+                            cmor_tables[cmor_vars[j].ref_table_id].vars[cmor_vars[j].ref_var_id].deflate_level;
+                    ierr = nc_def_var_deflate(ncafid, nc_associated_vars[i],
+                            ics, icd, icdl);
+                    if (ierr != NC_NOERR) {
+                        snprintf(msg, CMOR_MAX_STRING,
+                                "NetCDF Error (%i: %s) defining\n! "
+                                        "compression parameters for\n! "
+                                        "associated variable '%s' for\n! "
+                                        "variable %s (table: %s)", ierr,
+                                nc_strerror(ierr), cmor_vars[j].id,
+                                cmor_vars[var_id].id,
+                                cmor_tables[nVarRefTblID].szTable_id);
+                        cmor_handle_error(msg, CMOR_CRITICAL);
+                    }
+                }
+            }
+        }
+    }
+}
+
 /************************************************************************/
 /*                             cmor_write()                             */
 /************************************************************************/
-int cmor_write( int var_id, void *data, char type, char *suffix,
+int cmor_write( int var_id, void *data, char type,
 		int ntimes_passed, double *time_vals, double *time_bounds,
 		int *refvar ) {
     extern cmor_var_t cmor_vars[CMOR_MAX_VARIABLES];
@@ -2846,14 +4336,12 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
     char ctmp[CMOR_MAX_STRING];
     char ctmp2[CMOR_MAX_STRING];
     char ctmp3[CMOR_MAX_STRING];
-    char ctmp4[CMOR_MAX_STRING];
+    //char ctmp4[CMOR_MAX_STRING];
     char ctmp5[CMOR_MAX_STRING];
     char ctmp6[CMOR_MAX_STRING];
     char msg[CMOR_MAX_STRING];
     char appending_to[CMOR_MAX_STRING];
-    int nc_dim[CMOR_MAX_AXES];
     size_t nc_dim_chunking[CMOR_MAX_AXES];
-    int tmp_dims[2];
     size_t starts[2], counts[2];
     int nc_dim_af[CMOR_MAX_AXES];
     int nc_vars[CMOR_MAX_VARIABLES];
@@ -2868,14 +4356,13 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
     int nc_singletons_bnds[CMOR_MAX_DIMENSIONS];
     char mtype;
     int nzfactors = 0;
+    int nc_dim[CMOR_MAX_AXES];
     int zfactors[CMOR_MAX_VARIABLES];
     int nc_zfactors[CMOR_MAX_VARIABLES];
-    int varid;
+    int refvarid;
     int ho;
     double tmps[2];
     FILE *fperr;
-    struct tm *ptr;
-    time_t lt;
     float afloat, d;
     int ics, icd, icdl, itmpmsg, itmp2, itmp3, *int_list = NULL, nelts;
     int isfixed = 0;
@@ -2904,6 +4391,7 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 
     cmor_is_setup(  );
     if( var_id > cmor_nvars ) {
+
 	cmor_handle_error( "var_id %i not defined", CMOR_CRITICAL );
 	cmor_pop_traceback(  );
 	return -1;
@@ -2935,37 +4423,29 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 /*      the required attributes set                                     */
 /* -------------------------------------------------------------------- */
     cmor_has_required_variable_attributes( var_id );
-    varid = cmor_set_refvar(var_id, refvar, ntimes_passed);
 
 /* -------------------------------------------------------------------- */
-/*      Here we check that the types are consitent between              */
+/*  Do we have associated variables (z_factors)?                        */
+/* -------------------------------------------------------------------- */
+    refvarid = cmor_set_refvar(var_id, refvar, ntimes_passed);
+
+/* -------------------------------------------------------------------- */
+/*      Here we check that the types are consistent between             */
 /*      the missing value passed and the type passed now                */
 /* -------------------------------------------------------------------- */
-    if( cmor_vars[varid].nomissing == 0 ) {
-	if( cmor_vars[varid].itype != type ) {
-	    snprintf( msg, CMOR_MAX_STRING,
-	            "You defined variable \"%s\" (table %s) with a missing\n! "
-	            "value of type \"%c\", but you are now writing data of\n! "
-	            "type: \"%c\" this may lead to some spurious handling\n! "
-	            "of the missing values",
-	            cmor_vars[varid].id,
-	            cmor_tables[nVarRefTblID].szTable_id,
-	            cmor_vars[varid].itype, type );
-	    cmor_handle_error( msg, CMOR_WARNING );
-	}
-    }
+    cmor_checkMissing(refvarid, var_id, type);
+
 /* -------------------------------------------------------------------- */
 /*      Variable never been thru cmor_write,                            */
 /*      we need to define everything                                    */
 /* -------------------------------------------------------------------- */
-    
-    if( cmor_vars[varid].initialized == -1 ) {	
+    if( cmor_vars[refvarid].initialized == -1 ) {
 
-	if( cmor_vars[varid].type != type ) {
+	if( cmor_vars[refvarid].type != type ) {
 	    snprintf( msg, CMOR_MAX_STRING,
 		      "Converted type from '%c' to '%c'", type,
-		      cmor_vars[varid].type );
-	    cmor_update_history( varid, msg );
+		      cmor_vars[refvarid].type );
+	    cmor_update_history( refvarid, msg );
 	}
 
 	if( cmor_has_cur_dataset_attribute( GLOBAL_ATT_FORCING ) == 0 ) {
@@ -2978,7 +4458,7 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 /*      need to store the product type                                  */
 /* -------------------------------------------------------------------- */
 	strncpy( ctmp2, cmor_tables[nVarRefTblID].product, CMOR_MAX_STRING );
-	cmor_set_cur_dataset_attribute_internal( GLOBAL_ATT_PRODUCT, ctmp2, 1 );
+	cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_PRODUCT, ctmp2, 1);
 
 /* -------------------------------------------------------------------- */
 /*      we will need the expt_id for the filename                       */
@@ -3004,77 +4484,13 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 	    cmor_pop_traceback(  );
 	    return( 1 );
 	}
-	
-/* -------------------------------------------------------------------- */
-/*      copy the expid for later use with gridspec files etc            */
-/* -------------------------------------------------------------------- */	
-	strcpy( ctmp4, ctmp2 );
-	
-/* -------------------------------------------------------------------- */
-/*      here we test to see if the user passed a suffix and this        */
-/*      suffix points to a file and if we are in append mode            */
-/* -------------------------------------------------------------------- */
-	if( suffix != NULL ) {
-	    strncpytrim( appending_to, suffix, CMOR_MAX_STRING );
-	    if( strncmp( appending_to, "", CMOR_MAX_STRING ) != 0 ) {
-		if( ( CMOR_NETCDF_MODE == CMOR_APPEND_4 ) ||
-		    ( CMOR_NETCDF_MODE == CMOR_APPEND_3 ) ) {
-		    fperr = NULL;
 
-/* -------------------------------------------------------------------- */
-/*      ok is the suffix a real suffix or a file name?                  */
-/* -------------------------------------------------------------------- */
-		    fperr = fopen( appending_to, "r" );
-/* -------------------------------------------------------------------- */
-/*       file exists we are appending to tihs                           */
-/* -------------------------------------------------------------------- */
-		    
-		    if( fperr != NULL ) {	
-			fclose( fperr );
-/* -------------------------------------------------------------------- */
-/*       file does not exists it is a suffix                            */
-/* -------------------------------------------------------------------- */
-		    } else {	
-/* -------------------------------------------------------------------- */
-/*      we need to check if the CMOR table used is not for a cmor 3     */
-/* -------------------------------------------------------------------- */
-			if( cmor_tables[nVarRefTblID].cmor_version >= 3. ) {
-			    sprintf( msg,
-				    "You passed '%s' as file_suffix while\n! "
-			            "writing variable %s (table %s), suffix\n! "
-			            "are not allowed in CMOR3.0 and newer.\n! "
-			            "Were you trying to append to a\n! "
-			            "non-existing file?",
-				     appending_to, cmor_vars[var_id].id,
-				     cmor_tables[nVarRefTblID].szTable_id );
-			    cmor_handle_error( msg, CMOR_CRITICAL );
-			} else {
-			    strcpy( appending_to, "" );
-			}
-		    }
-		} else {
-/* -------------------------------------------------------------------- */
-/*      we need to check if the CMOR table used is not for a CMOR 3     */
-/* -------------------------------------------------------------------- */
-		    if( cmor_tables[nVarRefTblID].cmor_version >= 3. ) {
-			sprintf( msg,
-		 		 "Suffix are not allowed in CMOR 3.0 and\n! "
-			        "greater, suffix %s encountered while\n! "
-			        "writing variable %s (table %s)",
-				 suffix, cmor_vars[var_id].id,
-				 cmor_tables[nVarRefTblID].szTable_id );
-			cmor_handle_error( msg, CMOR_CRITICAL );
-		    } else {
-			strcpy( appending_to, "" );
-		    }
-		}
-	    }
-	}
 /* -------------------------------------------------------------------- */
 /*      Figures out path                                                */
 /* -------------------------------------------------------------------- */
 	strncpy(szPathTemplate, cmor_current_dataset.path_template,
 	        CMOR_MAX_STRING);
+
 	if( CMOR_CREATE_SUBDIRECTORIES == 1 ) {
 	    cmor_CreateFromTemplate(var_id, szPathTemplate,
 	                                outname, "/");
@@ -3093,10 +4509,6 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
                                 ref_table_id].szTable_id );
             cmor_handle_error( ctmp, CMOR_CRITICAL );
         }
-/* -------------------------------------------------------------------- */
-/*  Do we have a time axis? If not this is a fixed variable.            */
-/* -------------------------------------------------------------------- */
-	//isfixed = cmor_IsFixed(var_id);
 
 	strncat( outname, "/", CMOR_MAX_STRING - strlen( outname ) );
 /* -------------------------------------------------------------------- */
@@ -3114,341 +4526,37 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 	    }
 	}
 /* -------------------------------------------------------------------- */
-/*    Create filename                                                   */
+/*    Create/Save filename                                              */
 /* -------------------------------------------------------------------- */
-	//ierr = cmor_create_filename(outname, var_id);
 	ierr = cmor_CreateFromTemplate(var_id,
 	        cmor_current_dataset.file_template,
 	        outname, "_");
 
 	strcat(outpath, outname);
 	strncpy(outname, outpath, CMOR_MAX_STRING);
-	printf("outname = %s....\n! ",outname);
-	strncpytrim( cmor_vars[var_id].base_path, outname, CMOR_MAX_STRING );
-
-/* -------------------------------------------------------------------- */
-/*      we are appending to an existing file                            */
-/* -------------------------------------------------------------------- */
-	if( strcmp( appending_to, "" ) != 0 ) {	
-
-/* -------------------------------------------------------------------- */
-/*      What's the length of that file name                             */
-/*      read_2d_input_files                                             */
-/* -------------------------------------------------------------------- */
-	    k = strlen( appending_to );	
-	    j = 0;
-	    for( i = k - 1; i >= 0; i-- ) {
-/* -------------------------------------------------------------------- */
-/*      ok this marks the beg of the actual file name                   */
-/* -------------------------------------------------------------------- */
-		if( appending_to[i] == '/' ) {	
-		    j = i + 1;
-		    break;
-		}
-	    }
-/* -------------------------------------------------------------------- */
-/*      now does the same thing for "_" this should                     */
-/*      mark our suffix section we need to count how                    */
-/*      many are there and the index of the last one                    */
-/* -------------------------------------------------------------------- */
-	    l = 0;
-	    for( i = k - 1; i >= j; i-- ) {
-
-/* -------------------------------------------------------------------- */
-/*      ok this marks the beg of the actual suffix                      */
-/* -------------------------------------------------------------------- */
-		if( appending_to[i] == '_' ) {	
-		    l++;
-		}
-	    }
-	    if( cmor_has_cur_dataset_attribute( GLOBAL_ATT_MODELID ) == 0 ) {
-		i = 5;
-	    } else {
-		i = 4;
-	    }
-
-	    if( l > i ) {
-/* -------------------------------------------------------------------- */
-/*      we have extra _ that means suffix                               */
-/* -------------------------------------------------------------------- */
-
-		for( i = k - 1; i >= j; i-- ) {
-/* -------------------------------------------------------------------- */
-/*      ok this marks the beg of the actual suffix                      */
-/* -------------------------------------------------------------------- */
-		    if( appending_to[i] == '_' ) {	
-			l = i + 1;
-			break;
-		    }
-		}
-
-		for( i = l; i < k - 3; i++ ) {
-		    msg[i - l] = appending_to[i];
-		}
-
-		msg[i - l] = '\0';	/*termination char */
-
-	    } else {
-		msg[0] = '\0';
-	    }
-
-	} else {
-/* -------------------------------------------------------------------- */
-/*      ok let's copy the suffix to msg                                 */
-/* -------------------------------------------------------------------- */
-	    if( suffix != NULL )
-		strncpytrim( msg, suffix, CMOR_MAX_STRING );
-	    else
-		msg[0] = '\0';
-	}
-	if( msg[0] != '\0' ) {
-
-/* -------------------------------------------------------------------- */
-/*      test for "_" in suffix , it s not allowed                       */
-/* -------------------------------------------------------------------- */
-	    for( i = 0; i < strlen( msg ); i++ ) {
-		if( msg[i] == '_' ) {
-		    if( ( CMOR_NETCDF_MODE == CMOR_APPEND_4 )
-			|| ( CMOR_NETCDF_MODE == CMOR_APPEND_3 ) ) {
-			snprintf( ctmp2, CMOR_MAX_STRING,
-				  "While writing variable %s (table %s), "
-			          "suffix cannot contain the '_' character, "
-			          "you passed: %s. Is it possible you are "
-			          "trying to append to a file and the file "
-			          "is not actually here?",
-				  cmor_vars[var_id].id,
-				  cmor_tables[nVarRefTblID].szTable_id, msg );
-			cmor_handle_error( ctmp2, CMOR_CRITICAL );
-		    } else {
-			snprintf( ctmp2, CMOR_MAX_STRING,
-				  "suffix cannot contain the '_' character, "
-			          "you passed: %s, while writing variable "
-			          "%s (table: %s)",
-				  msg, cmor_vars[var_id].id,
-				  cmor_tables[nVarRefTblID].szTable_id );
-			cmor_handle_error( ctmp2, CMOR_CRITICAL );
-		    }
-		}
-	    }
-	    strncat( outname, "_", CMOR_MAX_STRING - strlen( outname ) );
-	    strncat( outname, msg, CMOR_MAX_STRING - strlen( outname ) );
-	    strncpy( cmor_vars[var_id].suffix, msg, CMOR_MAX_STRING );
-	}
+	strncpytrim(cmor_vars[var_id].base_path, outname, CMOR_MAX_STRING);
 
 /* -------------------------------------------------------------------- */
 /*      Add Process ID and a random number to filename                  */
 /* -------------------------------------------------------------------- */
 	sprintf( msg, "%d", ( int ) getpid(  ) );
-//	strncat( outname, "_", CMOR_MAX_STRING - strlen( outname ) );
 	strncat( outname, msg, CMOR_MAX_STRING - strlen( outname ) );
 
 /* -------------------------------------------------------------------- */
 /*      Add the '.nc' extension                                         */
 /* -------------------------------------------------------------------- */
-
 	strncat( outname, ".nc", CMOR_MAX_STRING - strlen( outname ) );
-
-/* -------------------------------------------------------------------- */
-/*      at this point we need to rename the original file name          */
-/*      to this so that the rest of the code works                      */
-/* -------------------------------------------------------------------- */
-	if( appending_to[0] != '\0' ) {
-	    if( strncmp( outname, appending_to, CMOR_MAX_STRING ) != 0 ) {
-		if( rename( appending_to, outname ) != 0 ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "could not rename your existing file: %s to\n! "
-		              "temporary file: %s",
-			      appending_to, outname );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
-		}
-	    }
-	    snprintf( msg,
-	              CMOR_MAX_STRING,
-		      "Appended to original file: %s", appending_to );
-	    cmor_update_history( var_id, msg );
-	}
-
 	strncpytrim( cmor_vars[var_id].current_path, outname, CMOR_MAX_STRING );
 /* -------------------------------------------------------------------- */
 /*      Decides NetCDF mode                                             */
 /* -------------------------------------------------------------------- */
-	if( USE_NETCDF_4 == 1 ) {
-	    cmode = NC_NETCDF4 | NC_CLASSIC_MODEL;
-	    if( ( CMOR_NETCDF_MODE == CMOR_REPLACE_3 ) ||
-	        ( CMOR_NETCDF_MODE == CMOR_PRESERVE_3 ) ||
-	        ( CMOR_NETCDF_MODE == CMOR_APPEND_3 ) ) {
-		cmode = NC_CLOBBER;
-	    }
-	} else {
-	    cmode = NC_CLOBBER;
-	}
+	ncid = cmor_validateFilename(outname, var_id);
 
-	if( ( CMOR_NETCDF_MODE == CMOR_REPLACE_4 ) ||
-	        ( CMOR_NETCDF_MODE == CMOR_REPLACE_3 ) ) {
-
-	    ierr = nc_create( outname, NC_CLOBBER | cmode, &ncid );
-
-	} else if( ( CMOR_NETCDF_MODE == CMOR_PRESERVE_4 )
-		   || ( CMOR_NETCDF_MODE == CMOR_PRESERVE_3 ) ) {
-
-/* -------------------------------------------------------------------- */
-/*      ok first let's check if the file does exists or not             */
-/* -------------------------------------------------------------------- */
-	    fperr = NULL;
-	    fperr = fopen( outname, "r" );
-	    if( fperr != NULL ) {
-		snprintf( msg, CMOR_MAX_STRING,
-			  "Output file ( %s ) already exists, remove file\n! "
-		          "or use CMOR_REPLACE or CMOR_APPEND for\n! "
-		          "CMOR_NETCDF_MODE value in cmor_setup",
-			  outname );
-		cmor_handle_error( msg, CMOR_CRITICAL );
-	    }
-	    ierr = nc_create( outname, NC_NOCLOBBER | cmode, &ncid );
-	} else if( ( CMOR_NETCDF_MODE == CMOR_APPEND_4 )
-		   || ( CMOR_NETCDF_MODE == CMOR_APPEND_3 ) ) {
-/* -------------------------------------------------------------------- */
-/*      ok first let's check if the file does exists or not             */
-/* -------------------------------------------------------------------- */
-	    fperr = NULL;
-	    fperr = fopen( outname, "r" );
-	    if( fperr == NULL ) {
-
-/* -------------------------------------------------------------------- */
-/*      ok it does not exists... we will open as new                    */
-/* -------------------------------------------------------------------- */
-		ierr = nc_create( outname, NC_CLOBBER | cmode, &ncid );
-
-	    } else {		/*ok it was there already */
-
-	        ierr = fclose( fperr );
-		ierr = nc_open( outname, NC_WRITE, &ncid );
-
-		if( ierr != NC_NOERR ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "NetCDF Error (%i: %s) opening file: %s",
-			      ierr, nc_strerror( ierr ), outname );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
-		}
-
-		ierr = nc_inq_dimid( ncid, "time", &i );
-
-		if( ierr != NC_NOERR ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "NetCDF Error (%i: %s) looking for time\n! "
-		              "dimension in file: %s",
-			      ierr, nc_strerror( ierr ), outname );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
-		}
-
-		ierr = nc_inq_dimlen( ncid, i, &nctmp );
-		cmor_vars[var_id].ntimes_written = ( int ) nctmp;
-
-		if( ierr != NC_NOERR ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "NetCDF Error (%i: %s) looking for time\n! "
-		              "dimension length in file: %s",
-			      ierr, nc_strerror( ierr ), outname );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
-		}
-
-		ierr = nc_inq_varid( ncid, cmor_vars[var_id].id,
-		                     &cmor_vars[var_id].nc_var_id );
-
-		if( ierr != NC_NOERR ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "NetCDF Error (%i: %s) looking for variable\n! "
-		              "'%s' in file: %s",
-			      ierr, nc_strerror( ierr ),
-			      cmor_vars[var_id].id, outname );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
-		}
-
-		ierr =  nc_inq_varid( ncid, "time",
-		                      &cmor_vars[var_id].time_nc_id );
-
-		if( ierr != NC_NOERR ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "NetCDF Error (%i: %s) looking for time of\n! "
-		              "variable '%s' in file: %s",
-			      ierr, nc_strerror( ierr ),
-			      cmor_vars[var_id].id, outname );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
-		}
-		
-/* -------------------------------------------------------------------- */
-/*      ok now we need to read the first time in here                   */
-/* -------------------------------------------------------------------- */
-		starts[0] = 0;
-		ierr = nc_get_var1_double( ncid, cmor_vars[var_id].time_nc_id,
-		                           &starts[0],
-				           &cmor_vars[var_id].first_time );
-
-		starts[0] = cmor_vars[var_id].ntimes_written - 1;
-		ierr = nc_get_var1_double( ncid, cmor_vars[var_id].time_nc_id,
-					   &starts[0],
-					   &cmor_vars[var_id].last_time );
-
-                if (cmor_tables[cmor_axes[cmor_vars[var_id].axes_ids[i]].
-                                ref_table_id].axes[cmor_axes[cmor_vars[var_id].
-                                                             axes_ids[i]].
-                                                             ref_axis_id].
-                                                             climatology == 1) {
-
-                    snprintf(msg, CMOR_MAX_STRING, "climatology");
-                    strncpy(ctmp, "climatology_bnds", CMOR_MAX_STRING);
-                } else {
-                    strncpy(ctmp, "time_bnds", CMOR_MAX_STRING);
-                }
-
-		ierr = nc_inq_varid( ncid, ctmp, &i );
-		if( ierr != NC_NOERR ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "NetCDF Error (%i: %s) looking for time bounds\n! "
-		              "of variable '%s' in file: %s",
-			      ierr, nc_strerror( ierr ),
-			      cmor_vars[var_id].id, outname );
-		    cmor_handle_error( msg, CMOR_WARNING );
-		    ierr = NC_NOERR;
-		} else {
-		    cmor_vars[var_id].time_bnds_nc_id = i;
-/* -------------------------------------------------------------------- */
-/*      Here I need to store first/last bounds for appending issues     */
-/* -------------------------------------------------------------------- */
-
-		    starts[0] = cmor_vars[var_id].ntimes_written - 1;
-		    starts[1] = 1;
-		    ierr = nc_get_var1_double( ncid,
-		                        cmor_vars[var_id].time_bnds_nc_id,
-		                        &starts[0],
-		                        &cmor_vars[var_id].last_bound );
-		    starts[1] = 0;
-		    ierr = nc_get_var1_double( ncid,
-		                        cmor_vars[var_id].time_bnds_nc_id,
-		                        &starts[0],
-		                        &cmor_vars[var_id].first_bound );
-		}
-		cmor_vars[var_id].initialized = ncid;
-	    }
-	} else {
-	    snprintf( msg, CMOR_MAX_STRING,
-		      "Unknown CMOR_NETCDF_MODE file mode: %i",
-		      CMOR_NETCDF_MODE );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
-	}
-	if( ierr != NC_NOERR ) {
-	    snprintf( msg, CMOR_MAX_STRING,
-		      "NetCDF Error (%i: %s) creating file: %s", ierr,
-		      nc_strerror( ierr ), outname );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
-	}
-    }
 /* -------------------------------------------------------------------- */
 /*      we closed and reopened the same test, in case we                */
-/*      were appending, in which case all decalration have              */
+/*      were appending, in which case all declaration have              */
 /*      been done if the open loop                                      */
 /* -------------------------------------------------------------------- */
-    if( cmor_vars[varid].initialized == -1 ) {
 /* -------------------------------------------------------------------- */
 /*      Variable never been thru cmor_write, we need to                 */
 /*      define everything                                               */
@@ -3482,1095 +4590,25 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 		      cmor_tables[nVarRefTblID].szTable_id );
 	    cmor_handle_error( msg, CMOR_CRITICAL );
 	}
-/* -------------------------------------------------------------------- */
-/*      ok writes global attributes                                     */
-/*      first figures out time                                          */
-/* -------------------------------------------------------------------- */
-	lt = time( NULL );
-	ptr = gmtime( &lt );
-	snprintf( msg, CMOR_MAX_STRING, "%.4i-%.2i-%.2iT%.2i:%.2i:%.2iZ",
-		  ptr->tm_year + 1900, ptr->tm_mon + 1, ptr->tm_mday,
-		  ptr->tm_hour, ptr->tm_min, ptr->tm_sec );
 
-	cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_CREATION_DATE, msg, 0);
-
-	if( did_history == 0 ) {
-	    snprintf( ctmp, CMOR_MAX_STRING,
-		      "%s CMOR rewrote data to comply with CF standards "
-	              "and %s requirements.",
-		      msg,
-		      cmor_tables[nVarRefTblID].activity_id );
-
-	    if( cmor_has_cur_dataset_attribute( "history" ) == 0 ) {
-		cmor_get_cur_dataset_attribute( "history", msg );
-		snprintf( ctmp2, CMOR_MAX_STRING, "%s %s", msg, ctmp );
-		strncpy( ctmp, ctmp2, CMOR_MAX_STRING );
-	    }
-	    cmor_set_cur_dataset_attribute_internal( "history", ctmp, 0 );
-	    did_history = 1;
+	ierr = cmor_WriteGblAttr(var_id, ncid, ncafid);
+	if(ierr != 0) {
+	    return ierr;
 	}
 
-	snprintf( msg, CMOR_MAX_STRING, "%s",
-		  cmor_tables[nVarRefTblID].Conventions );
-
-	cmor_set_cur_dataset_attribute_internal( GLOBAL_ATT_CONVENTIONS, msg, 0 );
-	snprintf( msg, CMOR_MAX_STRING, "Table %s (%s) ",
-		  cmor_tables[nVarRefTblID].szTable_id,
-		  cmor_tables[nVarRefTblID].date );
-
-	for( i = 0; i < 16; i++ )
-	    sprintf( &ctmp[2 * i], "%02x",
-		     cmor_tables[nVarRefTblID].md5[i] );
-
-	ctmp[32] = '\0';
-
-	strcat( msg, ctmp );
-
-	cmor_set_cur_dataset_attribute_internal( "table_id", msg, 0 );
-
-	if( cmor_has_cur_dataset_attribute( GLOBAL_ATT_SOURCE_ID ) == 0 ) {
-	    cmor_get_cur_dataset_attribute( GLOBAL_ATT_SOURCE_ID, ctmp );
-	} else {
-	    ctmp[0] = '\0';
-	}
-
-	cmor_get_cur_dataset_attribute( "experiment", ctmp2 );
-
-	snprintf( msg, CMOR_MAX_STRING,
-		  "%s model output prepared for %s %s", ctmp,
-		  cmor_tables[nVarRefTblID].activity_id,
-		  ctmp2 );
-
-	cmor_set_cur_dataset_attribute_internal( "title", msg, 0 );
-/* -------------------------------------------------------------------- */
-/*      check table cf version vs ours                                  */
-/* -------------------------------------------------------------------- */
-	afloat = CMOR_CF_VERSION_MAJOR;
-	d = CMOR_CF_VERSION_MINOR;
-	while( d > 1. ) {
-	    d /= 10.;
-	}
-	afloat += d;
-
-	if( cmor_tables[nVarRefTblID].cf_version > afloat ) {
-	    snprintf( msg, CMOR_MAX_STRING,
-		      "Your table (%s) claims to enforce CF version %f but\n! "
-	              "this version of the library is designed for CF up\n! "
-	              "to: %i.%i, you were writing variable: %s\n! ",
-		      cmor_tables[nVarRefTblID].szTable_id,
-		      cmor_tables[nVarRefTblID].cf_version,
-		      CMOR_CF_VERSION_MAJOR, CMOR_CF_VERSION_MINOR,
-		      cmor_vars[var_id].id );
-	    cmor_handle_error( msg, CMOR_WARNING );
-	}
-/* -------------------------------------------------------------------- */
-/*      Ok now we need to check the parent_experiment_id is valid       */
-/* -------------------------------------------------------------------- */
-	if( cmor_has_cur_dataset_attribute( "parent_experiment_id" ) == 0 ) {
-	    cmor_get_cur_dataset_attribute( "parent_experiment_id", msg );
-/* -------------------------------------------------------------------- */
-/*      did the user pass an expt?                                      */
-/* -------------------------------------------------------------------- */
-	    if( strcmp( msg, "N/A" ) != 0 ) {
-		cmor_get_cur_dataset_attribute( "experiment_id", ctmp );
-		if( strcmp( msg, ctmp ) == 0 ) {
-		    sprintf( ctmp,
-			     "Your parent_experiment id matches your current "
-		             "experiment_id, they are both set to: %s; you "
-		             "were writing variable %s (table: %s)",
-			     msg, cmor_vars[var_id].id,
-			     cmor_tables[nVarRefTblID].szTable_id );
-		    cmor_handle_error( ctmp, CMOR_NORMAL );
-		    cmor_pop_traceback(  );
-		    return( 1 );
-		} else {
-		    cmor_get_cur_dataset_attribute( "experiment", ctmp );
-		    if( strcmp( msg, ctmp ) == 0 ) {
-			sprintf( ctmp,
-				 "Your parent_experiment id matches your "
-			         "current experiment_id, they are both set "
-			         "to: %s; you were writing variable %s "
-			         "(table: %s)",
-				 msg, cmor_vars[var_id].id,
-				 cmor_tables[nVarRefTblID].szTable_id );
-			cmor_handle_error( ctmp, CMOR_NORMAL );
-			cmor_pop_traceback(  );
-			return( 1 );
-		    } else {
-/* -------------------------------------------------------------------- */
-/*      ok now we can check it is a valid "other" experiment            */
-/* -------------------------------------------------------------------- */
-			if( cmor_check_expt_id( msg,
-			        nVarRefTblID,
-			        "_parent_experiment",
-			        "parent_experiment_id" ) != 0 ) {
-
-			    snprintf( ctmp, CMOR_MAX_STRING,
-				      "Invalid dataset parent experiment "
-			              "id: %s, check against table: %s, you "
-			              "were writing variable: %s",
-				      msg,
-				      cmor_tables[nVarRefTblID].szTable_id,
-				      cmor_vars[var_id].id );
-			    cmor_handle_error( ctmp, CMOR_NORMAL );
-			    cmor_pop_traceback(  );
-			    return( 1 );
-			}
-		    }
-		}
-	    } else {
-		if( cmor_has_cur_dataset_attribute( "branch_time" ) == 0 ) {
-		    cmor_get_cur_dataset_attribute( "branch_time", msg );
-		    sscanf( msg, "%lf", &tmps[0] );
-		    if( tmps[0] != 0. ) {
-			sprintf( msg,
-				 "when dataset attribute parent_experiment_id\n! "
-			          "is set to N/A, branch_time must be 0., you\n! "
-			          "passed: %lf, we are resetting to 0. for\n! "
-			          "variable %s (table: %s)",
-				 tmps[0], cmor_vars[var_id].id,
-				 cmor_tables[nVarRefTblID].szTable_id );
-			cmor_handle_error( msg, CMOR_WARNING );
-			cmor_set_cur_dataset_attribute_internal
-			    ( "branch_time", "0.", 1 );
-		    }
-		}
-		cmor_set_cur_dataset_attribute_internal
-		    ( "_parent_experiment", "N/A", 1 );
-	    }
-	}
-
-	cmor_has_required_global_attributes( nVarRefTblID );
-
-/* -------------------------------------------------------------------- */
-/*     check source and model_id are identical                          */
-/* -------------------------------------------------------------------- */
-	if( strcmp( cmor_tables[nVarRefTblID].activity_id, "CMIP6" ) == 0 ) {
-	    cmor_get_cur_dataset_attribute( GLOBAL_ATT_SOURCE_ID, ctmp5 );
-	    cmor_get_cur_dataset_attribute( "source", ctmp6 );
-	    if( strncmp( ctmp5, ctmp6, strlen( ctmp5 ) ) != 0 ) {
-		snprintf( msg, CMOR_MAX_STRING,
-			  "while writing variable %s (table: %s), source\n! "
-		          "attribute does not start with '%s', it\n! "
-		          "should start with: %s",
-			  cmor_vars[var_id].id,
-			  cmor_tables[nVarRefTblID].szTable_id,
-			  GLOBAL_ATT_SOURCE_ID,
-			  ctmp5 );
-		cmor_handle_error( msg, CMOR_CRITICAL );
-	    }
-	}
-
-/* -------------------------------------------------------------------- */
-/*      first check if the variable itself has a realm                  */
-/* -------------------------------------------------------------------- */
-
-	if( cmor_tables[nVarRefTblID].vars[nVarRefTblID].realm[0] != '\0' ) {
-	    cmor_set_cur_dataset_attribute_internal( "modeling_realm",
-	            cmor_tables[nVarRefTblID].vars[nVarRefTblID].realm, 0 );
-	} else {
-/* -------------------------------------------------------------------- */
-/*      ok it didn't so we're using the value from the table            */
-/* -------------------------------------------------------------------- */
-	    cmor_set_cur_dataset_attribute_internal( "modeling_realm",
-	            cmor_tables[nVarRefTblID].realm, 0 );
-	}
-/* -------------------------------------------------------------------- */
-/*      generates a new unique id                                       */
-/* -------------------------------------------------------------------- */
-	uuid_create( &myuuid );
-	uuid_make( myuuid, 4 );
-
-	myuuid_str = NULL;
-	fmt = UUID_FMT_STR;
-
-	uuid_export( myuuid, fmt, &myuuid_str, &uuidlen );
-
-	if( cmor_tables[nVarRefTblID].tracking_prefix != '\0' ) {
-	    strncpy( cmor_current_dataset.tracking_id,
-	            cmor_tables[nVarRefTblID].tracking_prefix,CMOR_MAX_STRING );
-	    strcat( cmor_current_dataset.tracking_id, "/" );
-	    strcat( cmor_current_dataset.tracking_id,
-		    ( char * ) myuuid_str );
-	} else {
-	    strncpy( cmor_current_dataset.tracking_id,
-		     ( char * ) myuuid_str, CMOR_MAX_STRING );
-	}
-	cmor_set_cur_dataset_attribute_internal( "tracking_id",
-						 cmor_current_dataset.tracking_id,
-						 0 );
-	free( myuuid_str );
-	uuid_destroy( myuuid );
-
-
-	for( i = 0; i < cmor_current_dataset.nattributes; i++ ) {
-	    if( strcmp( cmor_current_dataset.attributes_names[i],
-	                    "calendar" ) != 0 ) {
-		if( ( strcmp( cmor_current_dataset.attributes_names[i],
-		        "initialization_method" ) == 0 ) ||
-		        ( strcmp( cmor_current_dataset.attributes_names[i],
-		                "physics_index" ) == 0 ) ) {	/* these two are actually int not char */
-		    sscanf( cmor_current_dataset.attributes_values[i],
-			    "%i", &itmp2 );
-
-		    ierr = nc_put_att_int(
-		            ncid,
-		            NC_GLOBAL,
-		            cmor_current_dataset.attributes_names[i],
-		            NC_INT,
-		            1,
-		            &itmp2 );
-
-		    if( ierr != NC_NOERR ) {
-			snprintf( msg, CMOR_MAX_STRING,
-				  "NetCDF error (%i: %s) for variable %s\n! "
-			          "(table: %s) writing global att: %s (%s)\n! ",
-				  ierr, nc_strerror( ierr ),
-				  cmor_vars[var_id].id,
-				  cmor_tables[nVarRefTblID].
-				  szTable_id,
-				  cmor_current_dataset.attributes_names[i],
-				  cmor_current_dataset.attributes_values
-				  [i] );
-			cmor_handle_error( msg, CMOR_CRITICAL );
-		    }
-		    if( ncid != ncafid ) {
-			ierr =
-			    nc_put_att_int( ncafid, NC_GLOBAL,
-					    cmor_current_dataset.attributes_names
-					    [i], NC_INT, 1, &itmp2 );
-			if( ierr != NC_NOERR ) {
-			    snprintf( msg, CMOR_MAX_STRING,
-				      "NetCDF error (%i: %s) for variable %s\n! "
-			              "(table: %s) writing global att to\n! "
-			              "metafile: %s (%s)",
-				      ierr, nc_strerror( ierr ),
-				      cmor_vars[var_id].id,
-				      cmor_tables[nVarRefTblID].
-				      szTable_id,
-				      cmor_current_dataset.attributes_names
-				      [i],
-				      cmor_current_dataset.attributes_values
-				      [i] );
-			    cmor_handle_error( msg, CMOR_CRITICAL );
-			}
-		    }
-		} else
-		    if(strcmp(cmor_current_dataset.attributes_names[i],
-			  "branch_time" ) == 0 ) {
-/* -------------------------------------------------------------------- */
-/*      double attribute                                                */
-/* -------------------------------------------------------------------- */
-		    sscanf( cmor_current_dataset.attributes_values[i],
-			    "%lf", &tmps[0] );
-		    ierr =
-			nc_put_att_double( ncid, NC_GLOBAL,
-					   cmor_current_dataset.attributes_names
-					   [i], NC_DOUBLE, 1, &tmps[0] );
-		    if( ierr != NC_NOERR ) {
-			snprintf( msg, CMOR_MAX_STRING,
-				  "NetCDF error (%i: %s) for variable %s\n! "
-			          "(table: %s)  writing global att: %s (%s)\n! ",
-				  ierr, nc_strerror( ierr ),
-				  cmor_vars[var_id].id,
-				  cmor_tables[nVarRefTblID].
-				  szTable_id,
-				  cmor_current_dataset.attributes_names[i],
-				  cmor_current_dataset.attributes_values
-				  [i] );
-			cmor_handle_error( msg, CMOR_CRITICAL );
-		    }
-		    if( ncid != ncafid ) {
-			ierr =
-			    nc_put_att_double( ncafid, NC_GLOBAL,
-					       cmor_current_dataset.attributes_names
-					       [i], NC_DOUBLE, 1,
-					       &tmps[0] );
-			if( ierr != NC_NOERR ) {
-			    snprintf( msg, CMOR_MAX_STRING,
-				      "NetCDF error (%i: %s) for variable\n! "
-			              "%s (table: %s), writing global att\n! "
-			              "to metafile: %s (%s)",
-				      ierr,
-				      nc_strerror( ierr ),
-				      cmor_vars[var_id].id,
-				      cmor_tables[nVarRefTblID].szTable_id,
-				      cmor_current_dataset.attributes_names[i],
-				      cmor_current_dataset.attributes_values[i] );
-			    cmor_handle_error( msg, CMOR_CRITICAL );
-			}
-		    }
-		} else {
-		    itmp2 = strlen( cmor_current_dataset.attributes_values[i] );
-		    if( itmp2 < CMOR_DEF_ATT_STR_LEN ) {
-		        int nNbAttrs = strlen(cmor_current_dataset. attributes_values[i]);
-			for( itmp2=nNbAttrs; itmp2 < CMOR_DEF_ATT_STR_LEN; itmp2++ ) {
-			    cmor_current_dataset.attributes_values[i][itmp2] = '\0';
-			}
-			itmp2 = CMOR_DEF_ATT_STR_LEN;
-		    }
-/* -------------------------------------------------------------------- */
-/*      Do not record internal attributes starting with "_"             */
-/* -------------------------------------------------------------------- */
-                    if(cmor_current_dataset.attributes_names[i][0] != '_') {
-                        ierr = nc_put_att_text(ncid, NC_GLOBAL,
-                                cmor_current_dataset.attributes_names[i], itmp2,
-                                cmor_current_dataset.attributes_values[i]);
-
-                        if (ierr != NC_NOERR) {
-                            snprintf(msg, CMOR_MAX_STRING,
-                                    "NetCDF error (%i: %s) for variable %s\n! "
-                                            "(table: %s)  writing global att: %s (%s)",
-                                    ierr, nc_strerror(ierr),
-                                    cmor_vars[var_id].id,
-                                    cmor_tables[nVarRefTblID].szTable_id,
-                                    cmor_current_dataset.attributes_names[i],
-                                    cmor_current_dataset.attributes_values[i]);
-                            cmor_handle_error(msg, CMOR_CRITICAL);
-                        }
-                        if (ncid != ncafid) {
-                            ierr = nc_put_att_text(ncafid, NC_GLOBAL,
-                                    cmor_current_dataset.attributes_names[i],
-                                    itmp2,
-                                    cmor_current_dataset.attributes_values[i]);
-                            if (ierr != NC_NOERR) {
-                                snprintf(msg, CMOR_MAX_STRING,
-                                        "NetCDF error (%i: %s) for variable %s\n! "
-                                                "(table %s), writing global att to\n! "
-                                                "metafile: %s (%s)", ierr,
-                                        nc_strerror(ierr), cmor_vars[var_id].id,
-                                        cmor_tables[nVarRefTblID].szTable_id,
-                                        cmor_current_dataset.attributes_names[i],
-                                        cmor_current_dataset.attributes_values[i]);
-                                cmor_handle_error(msg, CMOR_CRITICAL);
-                            }
-                        }
-                    }
-                }
-            }
+        if( isfixed == 1 ) {
+            cmor_current_dataset.realization = origRealization;
         }
-/* -------------------------------------------------------------------- */
-/*      realization                                                     */
-/* -------------------------------------------------------------------- */
-	ierr = nc_put_att_int( ncid, NC_GLOBAL, GLOBAL_ATT_REALIZATION, NC_INT, 1,
-			    &cmor_current_dataset.realization );
-	if( ierr != NC_NOERR ) {
-	    snprintf( msg, CMOR_MAX_STRING,
-		      "NetCDF error (%i: %s) writing variable %s (table: %s)\n! "
-	              "global att realization (%i)",
-		      ierr, nc_strerror( ierr ), cmor_vars[var_id].id,
-		      cmor_tables[nVarRefTblID].szTable_id,
-		      cmor_current_dataset.realization );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
-	}
-
-/* -------------------------------------------------------------------- */
-/*      cmor_ver                                                        */
-/* -------------------------------------------------------------------- */
-	snprintf( msg, CMOR_MAX_STRING, "%i.%i.%i", CMOR_VERSION_MAJOR,
-		  CMOR_VERSION_MINOR, CMOR_VERSION_PATCH );
-	ierr =
-	    nc_put_att_text( ncid, NC_GLOBAL, GLOBAL_ATT_CMORVERSION,
-			     strlen( msg ) + 1, msg );
-	if( ierr != NC_NOERR ) {
-	    snprintf( msg, CMOR_MAX_STRING,
-		      "NetCDF error (%i: %s) writing variable %s (table: %s)\n! "
-	              "global att cmor_version (%f)",
-		      ierr, nc_strerror( ierr ), cmor_vars[var_id].id,
-		      cmor_tables[nVarRefTblID].szTable_id,
-		      afloat );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
-	}
-
-	if( ncid != ncafid ) {
-	    ierr = nc_put_att_int( ncafid, NC_GLOBAL, GLOBAL_ATT_REALIZATION, NC_INT,
-	                           1, &cmor_current_dataset.realization );
-	    if( ierr != NC_NOERR ) {
-		snprintf( msg, CMOR_MAX_STRING,
-			  "NetCDF error (%i: %s) writing variable %s\n! "
-		          "(table: %s) global att realization (%i) to metafile",
-			  ierr, nc_strerror( ierr ), cmor_vars[var_id].id,
-			  cmor_tables[nVarRefTblID].szTable_id,
-			  cmor_current_dataset.realization );
-		cmor_handle_error( msg, CMOR_CRITICAL );
-	    }
-/* -------------------------------------------------------------------- */
-/*      cmor_ver                                                        */
-/* -------------------------------------------------------------------- */
-	    ierr =
-		nc_put_att_text( ncid, NC_GLOBAL, GLOBAL_ATT_CMORVERSION,
-				 strlen( msg ) + 1, msg );
-	    if( ierr != NC_NOERR ) {
-		snprintf( msg, CMOR_MAX_STRING,
-			  "NetCDF error (%i: %s) writing variable %s\n! "
-		          "(table: %s) global att cmor_version (%f)",
-			  ierr, nc_strerror( ierr ), cmor_vars[var_id].id,
-			  cmor_tables[nVarRefTblID].szTable_id,
-			  afloat );
-		cmor_handle_error( msg, CMOR_CRITICAL );
-	    }
-	}
-	if( isfixed == 1 )
-	    cmor_current_dataset.realization = origRealization;
-
 /* -------------------------------------------------------------------- */
 /*      store netcdf file id associated with this variable              */
 /* -------------------------------------------------------------------- */
-
 	cmor_vars[var_id].initialized = ncid;
 /* -------------------------------------------------------------------- */
 /*      define dimensions in NetCDF file                                */
 /* -------------------------------------------------------------------- */
-	for( i = 0; i < cmor_vars[var_id].ndims; i++ ) {
-/* -------------------------------------------------------------------- */
-/*      did we flip that guy?                                           */
-/* -------------------------------------------------------------------- */
-	    if( cmor_axes[cmor_vars[var_id].axes_ids[i]].revert == -1 ) {
-		sprintf( msg, "Inverted axis: %s",
-			 cmor_axes[cmor_vars[var_id].axes_ids[i]].id );
-/* -------------------------------------------------------------------- */
-/*      fiddle to avoid duplicated effort here if it's already inverted */
-/* -------------------------------------------------------------------- */
-		if( !cmor_history_contains( var_id, msg ) ) {
-		    cmor_update_history( var_id, msg );
-		}
-	    }
-	    int nAxisID = cmor_vars[var_id].axes_ids[i];
-/* -------------------------------------------------------------------- */
-/*      Axis length                                                     */
-/* -------------------------------------------------------------------- */
-	    j = cmor_axes[nAxisID].length;
-	    if( ( i == 0 ) && ( cmor_axes[nAxisID].axis == 'T' ) )
-		j = NC_UNLIMITED;
 
-	    if( ( cmor_axes[nAxisID].axis == 'X' ) ||
-	        ( cmor_axes[nAxisID].axis == 'Y' ) ) {
-	            nc_dim_chunking[i] = j;
-	    } else if( cmor_axes[nAxisID].isgridaxis == 1 ) {
-	            nc_dim_chunking[i] = j;
-	    } else {
-	            nc_dim_chunking[i] = 1;
-	    }
+	cmor_define_dimensions(var_id, ncid, ncafid, time_bounds);
 
-	    ierr = nc_def_dim( ncid, cmor_axes[nAxisID].id, j,&nc_dim[i] );
-	    if( ierr != NC_NOERR ) {
-		snprintf( msg, CMOR_MAX_STRING,
-			  "NetCDF error (%i:%s) for dimension definition of\n! "
-		          "axis: %s (%i), for variable %i (%s, table: %s)",
-			  ierr, nc_strerror( ierr ),
-			  cmor_axes[nAxisID].id,
-			  nAxisID, var_id,
-			  cmor_vars[var_id].id,
-			  cmor_tables[nVarRefTblID].szTable_id );
-		ierr = nc_enddef( ncid );
-		cmor_handle_error( msg, CMOR_CRITICAL );
-	    }
-	    nc_dim_af[i] = nc_dim[i];
-	    if( ncid != ncafid ) {
-		ierr =
-		    nc_def_dim( ncafid,
-				cmor_axes[nAxisID].id,
-				j,
-				&nc_dim_af[i] );
-		if( ierr != NC_NOERR ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "NetCDF error (%i: %s) for dimension definition\n! "
-		              "of axis: %s (%i) in metafile, variable %s "
-		              "(table: %s)",
-			      ierr,
-			      nc_strerror( ierr ),
-			      cmor_axes[cmor_vars[var_id].axes_ids[i]].id,
-			      i,
-			      cmor_vars[var_id].id,
-			      cmor_tables[nVarRefTblID].szTable_id );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
-		}
-	    }
-	}
-
-/* -------------------------------------------------------------------- */
-/*      creates the bounds dim (only in metafile?)                      */
-/* -------------------------------------------------------------------- */
-	ierr = nc_def_dim( ncafid, "bnds", 2, &dim_bnds );
-	if( ierr != NC_NOERR ) {
-	    snprintf( msg, CMOR_MAX_STRING,
-		      "NC error (%i: %s), error creating bnds dimension to\n! "
-	              "metafile, variable %s (table: %s)",
-		      ierr, nc_strerror( ierr ), cmor_vars[var_id].id,
-		      cmor_tables[nVarRefTblID].szTable_id );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
-	}
-
-/* -------------------------------------------------------------------- */
-/*      Now define the variable corresponding to                        */
-/*      store the dimensions values                                     */
-/* -------------------------------------------------------------------- */
-	for( i = 0; i < cmor_vars[var_id].ndims; i++ ) {
-	    cmor_axis_t *pAxis;
-	    pAxis = &cmor_axes[cmor_vars[var_id].axes_ids[i]];
-	    if( pAxis->store_in_netcdf == 0 )
-		continue;
-
-	    if( pAxis->cvalues == NULL ) {
-/* -------------------------------------------------------------------- */
-/*       first we need to figure out the output type                    */
-/* -------------------------------------------------------------------- */
-		switch ( cmor_tables[pAxis->ref_table_id].
-		         axes[pAxis->ref_axis_id].type ) {
-
-		case ( 'f' ):
-		    j = NC_FLOAT;
-		    break;
-		case ( 'd' ):
-		    j = NC_DOUBLE;
-		    break;
-		case ( 'i' ):
-		    j = NC_INT;
-		    break;
-		default:
-		    j = NC_DOUBLE;
-		    break;
-		}
-		ierr =  nc_def_var( ncid, pAxis->id,
-		        j,
-		        1,
-		        &nc_dim[i],
-		        &nc_vars[i] );
-
-		if( ierr != NC_NOERR ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "NetCDF Error (%i: %s) for variable %s\n! "
-		              "(table: %s) error defining dim var: %i (%s)",
-			      ierr, nc_strerror( ierr ),
-			      cmor_vars[var_id].id,
-			      cmor_tables[nVarRefTblID].szTable_id, i,
-			      pAxis->id );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
-		}
-
-
-/* -------------------------------------------------------------------- */
-/*      Compression stuff                                               */
-/* -------------------------------------------------------------------- */
-		if( ( CMOR_NETCDF_MODE != CMOR_REPLACE_3 ) &&
-		    ( CMOR_NETCDF_MODE != CMOR_PRESERVE_3 ) &&
-		    ( CMOR_NETCDF_MODE != CMOR_APPEND_3 ) ) {
-
-
-		    int nVarID = cmor_vars[var_id].ref_var_id;
-		    cmor_var_def_t *pVar;
-
-		    pVar = &cmor_tables[nVarRefTblID].vars[nVarID];
-
-		    ics = pVar->shuffle;
-		    icd = pVar->deflate;
-		    icdl = pVar->deflate_level;
-
-		    ierr = nc_def_var_deflate( ncid, nc_vars[i],
-		                               ics, icd, icdl );
-
-		    if( ierr != NC_NOERR ) {
-			snprintf( msg, CMOR_MAX_STRING,
-				  "NCError (%i: %s) defining compression\n! "
-			          "parameters for dimension %s for variable\n! "
-			          "'%s' (table: %s)",
-				  ierr, nc_strerror( ierr ),
-				  pAxis->id,
-				  cmor_vars[var_id].id,
-				  cmor_tables[nVarRefTblID].szTable_id );
-			cmor_handle_error( msg, CMOR_CRITICAL );
-		    }
-		}
-
-		nc_vars_af[i] = nc_vars[i];
-		if( ncid != ncafid ) {
-		    ierr = nc_def_var( ncafid,
-		                       pAxis->id,
-		                       j,
-		                       1,
-		                       &nc_dim_af[i],
-		                       &nc_vars_af[i] );
-
-		    if( ierr != NC_NOERR ) {
-			snprintf( msg, CMOR_MAX_STRING,
-				  "NetCDF Error (%i: %s ) for variable %s\n! "
-			          "(table: %s) error defining dim var: %i\n! "
-			          "(%s) in metafile",
-				  ierr, nc_strerror( ierr ),
-				  cmor_vars[var_id].id,
-				  cmor_tables[nVarRefTblID].
-				  szTable_id, i,
-				  pAxis->id );
-			cmor_handle_error( msg, CMOR_CRITICAL );
-		    }
-
-/* -------------------------------------------------------------------- */
-/*      Compression stuff                                               */
-/* -------------------------------------------------------------------- */
-
-		    if( ( CMOR_NETCDF_MODE != CMOR_REPLACE_3 ) &&
-			( CMOR_NETCDF_MODE != CMOR_PRESERVE_3 ) &&
-			( CMOR_NETCDF_MODE != CMOR_APPEND_3 ) ) {
-		        cmor_var_def_t *pVar;
-		        pVar = &cmor_tables[nVarRefTblID].
-		                vars[cmor_vars[var_id].ref_var_id];
-			ics = pVar->shuffle;
-			icd = pVar->deflate;
-			icdl =pVar->deflate_level;
-			ierr = nc_def_var_deflate( ncafid,
-			                           nc_vars_af[i],
-			                           ics,
-			                           icd,
-			                           icdl );
-			if( ierr != NC_NOERR ) {
-			    snprintf( msg, CMOR_MAX_STRING,
-				      "NCError (%i: %s) defining compression\n! "
-			              "parameters for dimension %s for\n! "
-			              "variable '%s' (table: %s)",
-				      ierr, nc_strerror( ierr ),
-				      pAxis->id,
-				      cmor_vars[var_id].id,
-				      cmor_tables[nVarRefTblID].
-				      szTable_id );
-			    cmor_handle_error( msg, CMOR_CRITICAL );
-			}
-		    }
-		}
-
-	    } else {
-/* -------------------------------------------------------------------- */
-/*      ok at this point i'm assuming only 1 string dimension!          */
-/*      might need to be revised                                        */
-/*      so i only create 1 strlen dim                                   */
-/*      first need to figure out if the "region name is defined         */
-/* -------------------------------------------------------------------- */
-		strcpy( ctmp,
-		        cmor_tables[pAxis->ref_table_id].
-		               axes[pAxis->ref_axis_id].cname );
-
-		if( ctmp[0] == '\0' ) {
-		    strcpy( ctmp, "geo_region" );
-		}
-
-		if( cmor_has_variable_attribute( var_id, "coordinates" ) ==
-		    0 ) {
-		    cmor_get_variable_attribute( var_id, "coordinates",
-						 msg );
-		    l = 0;
-		    for( j = 0; j < strlen( msg ) - strlen( ctmp ) + 1;
-			 j++ ) {
-			if( strncmp( ctmp, &msg[j], strlen( ctmp ) ) == 0 ) {
-			    l = 1;
-			    break;
-			}
-		    }
-		    if( l == 0 ) {
-			strncat( msg, " ",
-				 CMOR_MAX_STRING - strlen( msg ) );
-			strncat( msg, ctmp,
-				 CMOR_MAX_STRING - strlen( msg ) );
-		    }
-		} else {
-		    strncpy( msg, ctmp, CMOR_MAX_STRING );
-		}
-
-		cmor_set_variable_attribute_internal( var_id,
-						      "coordinates", 'c',
-						      msg );
-		l = 0;
-		for( j = 0;j < pAxis->length;j++ ) {
-		    strncpy( msg, pAxis->cvalues[j], CMOR_MAX_STRING );
-		    k = strlen( msg );
-		    if( k > l ) {
-			l = k;
-		    }
-		}
-/* -------------------------------------------------------------------- */
-/*      ok so now i can create the dummy dim strlen                     */
-/* -------------------------------------------------------------------- */
-		ierr = nc_def_dim( ncid, "strlen", l, &tmp_dims[1] );
-		if( ierr != NC_NOERR ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "NetCDF error (%i: %s) for dummy 'strlen'\n! "
-		              "dimension definition of axis: %s (%i) in\n! "
-		              "metafile, while writing variable %s (table: %s)",
-			      ierr, nc_strerror( ierr ),
-			      pAxis->id,
-			      i,
-			      cmor_vars[var_id].id,
-			      cmor_tables[nVarRefTblID].szTable_id );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
-		}
-		tmp_dims[0] = nc_dim[i];
-		ierr =
-		    nc_def_var( ncid, ctmp, NC_CHAR, 2, &tmp_dims[0],
-				&nc_vars[i] );
-		if( ierr != NC_NOERR ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "NetCDF Error (%i: %s) for variable %s\n! "
-		              "(table: %s) error defining dim var: %i (%s)",
-			      ierr, nc_strerror( ierr ),
-			      cmor_vars[var_id].id,
-			      cmor_tables[nVarRefTblID].szTable_id, i,
-			      pAxis->id );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
-		}
-
-		nc_vars_af[i] = nc_vars[i];
-
-		if( ncid != ncafid ) {
-
-		    ierr = nc_def_dim( ncafid, "strlen", l, &tmp_dims[1] );
-
-		    if( ierr != NC_NOERR ) {
-			snprintf( msg, CMOR_MAX_STRING,
-				  "NetCDF error (%i: %s) for dummy 'strlen'\n! "
-			          "dimension definition of axis: %s (%i) in\n! "
-			          "metafile, while writing variable %s "
-			          "(table: %s)",
-				  ierr, nc_strerror( ierr ),
-				  pAxis->id, i,
-				  cmor_vars[var_id].id,
-				  cmor_tables[nVarRefTblID].szTable_id );
-			cmor_handle_error( msg, CMOR_CRITICAL );
-		    }
-		    tmp_dims[0] = nc_dim_af[i];
-
-		    ierr = nc_def_var( ncafid, ctmp, NC_CHAR, 1, &tmp_dims[0],
-		            &nc_vars_af[i] );
-
-		    if( ierr != NC_NOERR ) {
-			snprintf( msg, CMOR_MAX_STRING,
-				  "NetCDF Error (%i: %s) for variable %s\n! "
-			          "(table: %s) error defining dim var:\n! "
-			          "%i (%s) in metafile",
-				  ierr,
-				  nc_strerror( ierr ),
-				  cmor_vars[var_id].id,
-				  cmor_tables[nVarRefTblID].szTable_id,
-				  i,
-				  pAxis->id );
-			cmor_handle_error( msg, CMOR_CRITICAL );
-		    }
-		}
-	    }
-/* -------------------------------------------------------------------- */
-/*      ok do we have bounds on this axis?                              */
-/* -------------------------------------------------------------------- */
-	    if( ( pAxis->bounds != NULL ) ||
-	        ( ( i == 0 ) && ( time_bounds != NULL ) ) ) {
-		strncpy( ctmp, pAxis->id,
-			 CMOR_MAX_STRING );
-		strncat( ctmp, "_bnds", CMOR_MAX_STRING - strlen( ctmp ) );
-		snprintf( msg, CMOR_MAX_STRING, "bounds" );
-		if( i == 0 ) {
-/* -------------------------------------------------------------------- */
-/*      Ok here we need to see if it is a climatological                */
-/*      variable in order to change                                     */
-/*      the "bounds" attribute into "climatology"                       */
-/* -------------------------------------------------------------------- */
-		    if( cmor_tables[pAxis->ref_table_id].
-			axes[pAxis->ref_axis_id].climatology == 1 ) {
-			snprintf( msg, CMOR_MAX_STRING, "climatology" );
-			strncpy( ctmp, "climatology_bnds",  CMOR_MAX_STRING );
-		    }
-		}
-		dims_bnds_ids[0] = nc_dim[i];
-		dims_bnds_ids[1] = dim_bnds;
-                switch (cmor_tables[pAxis->ref_table_id].
-                        axes[pAxis->ref_axis_id].type) {
-                case ('f'):
-                    j = NC_FLOAT;
-                    break;
-                case ('d'):
-                    j = NC_DOUBLE;
-                    break;
-                case ('i'):
-                    j = NC_INT;
-                    break;
-                default:
-                    j = NC_DOUBLE;
-                    break;
-                }
-		ierr = nc_def_var( ncafid, ctmp, j, 2, &dims_bnds_ids[0],
-				   &nc_bnds_vars[i] );
-		if( ierr != NC_NOERR ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "NetCDF Error (%i: %s) for variable %s\n! "
-		              "(table: %s) error defining bounds dim var: %i (%s)",
-			      ierr, nc_strerror( ierr ),
-			      cmor_vars[var_id].id,
-			      cmor_tables[nVarRefTblID].szTable_id, i,
-			      pAxis->id );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
-		}
-
-/* -------------------------------------------------------------------- */
-/*      Compression stuff                                               */
-/* -------------------------------------------------------------------- */
-		if( ( CMOR_NETCDF_MODE != CMOR_REPLACE_3 ) &&
-		    ( CMOR_NETCDF_MODE != CMOR_PRESERVE_3 ) &&
-		    ( CMOR_NETCDF_MODE != CMOR_APPEND_3 ) ) {
-
-		    ics = cmor_tables[nVarRefTblID].vars[nVarRefTblID].shuffle;
-		    icd = cmor_tables[nVarRefTblID].vars[nVarRefTblID].deflate;
-		    icdl= cmor_tables[nVarRefTblID].vars[nVarRefTblID].deflate_level;
-
-		    ierr = nc_def_var_deflate( ncafid,
-		                               nc_bnds_vars[i],
-		                               ics,
-		                               icd,
-		                               icdl );
-		    if( ierr != NC_NOERR ) {
-			snprintf( msg, CMOR_MAX_STRING,
-				  "NCError (%i: %s) defining compression\n! "
-			          "parameters for bounds variable %s for\n! "
-			          "variable '%s' (table: %s)",
-				  ierr, nc_strerror( ierr ), ctmp,
-				  cmor_vars[var_id].id,
-				  cmor_tables[nVarRefTblID].
-				  szTable_id );
-			cmor_handle_error( msg, CMOR_CRITICAL );
-		    }
-		}
-/* -------------------------------------------------------------------- */
-/* sets the bounds attribute of parent var                              */
-/* -------------------------------------------------------------------- */
-
-		if( i == 0 )
-		    cmor_vars[var_id].time_bnds_nc_id = nc_bnds_vars[i];
-		ierr =
-		    nc_put_att_text( ncafid, nc_vars[i], msg,
-				     strlen( ctmp ) + 1, ctmp );
-		if( ierr != NC_NOERR ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "NetCDF Error (%i: %s) for variable %s\n! "
-		              "(table: %s) error defining bounds attribute\n! "
-		              "var: %i (%s)",
-			      ierr, nc_strerror( ierr ),
-			      cmor_vars[var_id].id,
-			      cmor_tables[nVarRefTblID].szTable_id, i,
-			      pAxis->id );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
-		}
-	    }
-/* -------------------------------------------------------------------- */
-/*      Creates attribute related to that axis                          */
-/* -------------------------------------------------------------------- */
-
-	    for( j = 0;
-		 j < cmor_axes[cmor_vars[var_id].axes_ids[i]].nattributes;
-		 j++ ) {
-		if( strcmp( cmor_axes[cmor_vars[var_id].
-		     axes_ids[i]].attributes[j], "z_factors" ) == 0 ) {
-/* -------------------------------------------------------------------- */
-/*      ok this part checks for z_factor things                         */
-/*	creates the formula terms attriubte                             */
-/* -------------------------------------------------------------------- */
-		    strncpy( msg,
-			     cmor_axes[cmor_vars[var_id].
-				       axes_ids[i]].attributes_values_char
-			     [j], CMOR_MAX_STRING );
-		    n = strlen( msg ) + 1;
-		    ierr =
-			nc_put_att_text( ncid, nc_vars[i], "formula_terms",
-					 n, msg );
-		    if( ierr != NC_NOERR ) {
-			snprintf( ctmp, CMOR_MAX_STRING,
-				  "NetCDF error (%i: %s) writing formula term "
-			          "att (%s) for axis %i (%s), variable %s "
-			          "(table: %s)",
-				  ierr, nc_strerror( ierr ), msg, i,
-				  cmor_axes[cmor_vars[var_id].
-					    axes_ids[i]].id,
-				  cmor_vars[var_id].id,
-				  cmor_tables[nVarRefTblID].
-				  szTable_id );
-			cmor_handle_error( msg, CMOR_CRITICAL );
-		    }
-
-		    if( ncid != ncafid ) {
-			ierr =
-			    nc_put_att_text( ncafid, nc_vars_af[i],
-					     "formula_terms", n, msg );
-			if( ierr != NC_NOERR ) {
-			    snprintf( ctmp, CMOR_MAX_STRING,
-				      "NetCDF error (%i: %s) writing formula "
-			              "term att (%s) for axis %i (%s), variable "
-			              "%s (table: %s)",
-				      ierr, nc_strerror( ierr ), msg, i,
-				      cmor_axes[cmor_vars[var_id].axes_ids[i]].id,
-				      cmor_vars[var_id].id,
-				      cmor_tables[nVarRefTblID].
-				      szTable_id );
-			    cmor_handle_error( ctmp, CMOR_CRITICAL );
-			}
-		    }
-		    ierr = cmor_define_zfactors_vars( var_id, ncafid,
-		            &nc_dim_af[0], msg,
-		            &nzfactors,
-		            &zfactors[0],
-		            &nc_zfactors[0], i,
-		            -1 );
-		} else
-		    if( strcmp
-			( cmor_axes
-			  [cmor_vars[var_id].axes_ids[i]].attributes[j],
-			  "z_bounds_factors" ) == 0 ) {
-		    cmor_get_axis_attribute( cmor_vars[var_id].axes_ids[i],
-					     "formula", 'c', &msg );
-		    n = strlen( msg ) + 1;
-		    ierr = nc_put_att_text( ncafid, nc_bnds_vars[i],
-		            "formula", n, msg );
-		    cmor_get_axis_attribute( cmor_vars[var_id].axes_ids[i],
-					     "standard_name", 'c', &msg );
-		    n = strlen( msg );
-		    ierr = nc_put_att_text( ncafid, nc_bnds_vars[i],
-		            "standard_name", n, msg );
-		    cmor_get_axis_attribute( cmor_vars[var_id].axes_ids[i],
-					     "units", 'c', &msg );
-		    n = strlen( msg ) + 1;
-		    ierr = nc_put_att_text( ncafid, nc_bnds_vars[i], "units",
-		            n, msg );
-		    /*formula terms */
-		    strncpy( msg, cmor_axes[cmor_vars[var_id].
-				       axes_ids[i]].attributes_values_char[j],
-				       CMOR_MAX_STRING );
-		    n = strlen( msg ) + 1;
-		    ierr = nc_put_att_text( ncafid, nc_bnds_vars[i],
-		            "formula_terms", n, msg );
-		    ierr = cmor_define_zfactors_vars( var_id,
-		            ncafid,
-		            nc_dim,
-		            msg,
-		            &nzfactors,
-		            &zfactors[0],
-		            &nc_zfactors[0],
-		            i,
-		            dim_bnds );
-		} else
-		    if( strcmp
-			( cmor_axes[cmor_vars[var_id].axes_ids[i]].attributes[j],
-			  "interval" ) == 0 ) {
-		    if( cmor_has_variable_attribute( var_id, "cell_methods" ) == 0 ) {
-			cmor_get_variable_attribute( var_id,"cell_methods", msg );
-		    } else {
-			strcpy( msg, "" );
-		    }
-		    strncpy( ctmp,
-			     cmor_axes[cmor_vars[var_id].axes_ids[i]].id,
-			     CMOR_MAX_STRING );
-		    strncat( ctmp, ":", CMOR_MAX_STRING - strlen( ctmp ) );
-		    icd = strlen( ctmp );
-		    itmpmsg = strlen( msg );
-		    for( ics = 0; ics < ( itmpmsg - icd ); ics++ ) {
-			for( icdl = 0; icdl < icd; icdl++ ) {
-			    ctmp2[icdl] = msg[ics + icdl];
-			    ctmp2[icdl + 1] = '\0';
-			}
-			if( strcmp( ctmp2, ctmp ) == 0 ) {
-			    itmp2 = strlen( ctmp );
-			    for( icdl = 0; icdl < ( ics + itmp2 + 1 ); icdl++ ){
-				ctmp2[icdl] = msg[icdl];
-			    }
-			    while( ( msg[icdl] != ' ' ) && ( msg[icdl] != '\0' ) ) {
-				ctmp2[icdl] = msg[icdl];
-				icdl++;
-			    }
-			    ctmp2[icdl] = '\0';
-
-                        	    icd = strlen( ctmp2 );
-/* -------------------------------------------------------------------- */
-/*      ok now we need to know if the user passed an                    */
-/*      interval or not in order to add it                              */
-/* -------------------------------------------------------------------- */
-			    cmor_get_axis_attribute( cmor_vars
-						     [var_id].axes_ids[i],
-						     "interval", 'c',
-						     ctmp );
-
-			    cmor_trim_string( ctmp, ctmp3 );
-
-			    if( strcmp( ctmp3, "" ) != 0 ) {
-				strncat( ctmp2, " (interval: ",
-					 CMOR_MAX_STRING -
-					 strlen( ctmp2 ) );
-				strncat( ctmp2, ctmp,
-					 CMOR_MAX_STRING -
-					 strlen( ctmp2 ) );
-				strncat( ctmp2, ")",
-					 CMOR_MAX_STRING -
-					 strlen( ctmp2 ) );
-			    }
-
-                        	    ierr = strlen( ctmp2 ) - icd;
-			    itmp3 = strlen( msg );
-			    for( icdl = icd; icdl < itmp3; icdl++ ) {
-				ctmp2[icdl + ierr] = msg[icdl];
-				ctmp2[icdl + 1 + ierr] = '\0';
-			    }
-			    cmor_set_variable_attribute_internal( var_id,
-								  "cell_methods",
-								  'c',
-								  ctmp2 );
-			    break;
-			}
-		    }
-		} else {
-		    if( ( cmor_tables[cmor_axes[cmor_vars[var_id].
-		         axes_ids[i]].ref_table_id].axes[cmor_axes
-		        [cmor_vars[var_id].axes_ids[i]].ref_axis_id].type == 'c' )
-			&&
-			( strcmp
-			  ( cmor_axes
-			    [cmor_vars[var_id].axes_ids[i]].attributes[j],
-			    "units" ) == 0 ) ) {
-/* -------------------------------------------------------------------- */
-/*      passing we do not want the units attribute                      */
-/* -------------------------------------------------------------------- */
-		    } else {
-		        cmor_axis_t *pAxis;
-		        pAxis = &cmor_axes[cmor_vars[var_id].axes_ids[i]];
-
-			if( pAxis->attributes_type[j] == 'c' ) {
-			    ierr = cmor_put_nc_char_attribute(
-			            ncid,
-			            nc_vars[i],
-			            pAxis->attributes[j],
-			            pAxis->attributes_values_char[j],
-			            cmor_vars[var_id].id );
-
-			    if( ncid != ncafid ) {
-				ierr = cmor_put_nc_char_attribute(
-				        ncafid,
-				        nc_vars_af[i],
-				        pAxis->attributes[j],
-				        pAxis->attributes_values_char[j],
-				        cmor_vars[var_id].id );
-			    }
-			} else {
-			    ierr = cmor_put_nc_num_attribute(
-			            ncid,
-			            nc_vars[i],
-			            pAxis->attributes[j],
-			            pAxis->attributes_type[j],
-			            pAxis->attributes_values_num[j],
-			            cmor_vars[var_id].id );
-
-			    if( ncid != ncafid ) {
-				ierr = cmor_put_nc_num_attribute(
-				        ncafid,
-				        nc_vars_af[i],
-				        pAxis->attributes[j],
-				        pAxis->attributes_type[j],
-				        pAxis->attributes_values_num[j],
-				        cmor_vars[var_id].id );
-			    }
-			}
-		    }
-		}
-	    }
-	}
 /* -------------------------------------------------------------------- */
 /*      Store the dimension id for reuse when writting                  */
 /*      over multiple call to cmor_write                                */
@@ -4583,337 +4621,9 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 /*      check if it is a grid thing                                     */
 /* -------------------------------------------------------------------- */
 	if( nGridID > -1 ) {
-/* -------------------------------------------------------------------- */
-/*      first of all checks for grid_mapping                            */
-/* -------------------------------------------------------------------- */
-
-	    if( strcmp( cmor_grids[nGridID].mapping, "" )
-		!= 0 ) {
-/* -------------------------------------------------------------------- */
-/*      ok we need to create this dummy variable                        */
-/*      that contains all the info                                      */
-/* -------------------------------------------------------------------- */
-
-		cmor_set_variable_attribute_internal( var_id,
-		        "grid_mapping", 'c',
-		        cmor_grids[nGridID].mapping );
-		ierr = nc_def_var( ncafid,
-		        cmor_grids[nGridID].mapping,
-		        NC_INT,
-		        0,
-		        &nc_dims_associated[0],
-		        &m );
-
-		if( ierr != NC_NOERR ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "NetCDF error (%i: %s) while defining\n! "
-		              "associated grid mapping variable %s for\n! "
-		              "variable %s (table: %s)",
-			      ierr, nc_strerror( ierr ),
-			      cmor_grids[nGridID].mapping,
-			      cmor_vars[var_id].id,
-			      cmor_tables[nVarRefTblID].szTable_id );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
-		}
-/* -------------------------------------------------------------------- */
-/*      Creates attributes related to that variable                     */
-/* -------------------------------------------------------------------- */
-		ierr = cmor_put_nc_char_attribute( ncafid, m,
-		        "grid_mapping_name",
-		        cmor_grids[nGridID].mapping,
-		        cmor_vars[var_id].id );
-		for( k = 0;
-		     k < cmor_grids[cmor_vars[var_id].grid_id].nattributes;
-		     k++ ) {
-		    if( strcmp( cmor_grids[nGridID].attributes_names[k],
-			  "standard_parallel1" ) == 0 ||
-			strcmp( cmor_grids
-				[nGridID].attributes_names[k],
-				"standard_parallel2" ) == 0 ) {
-
-			i = -nGridID - CMOR_MAX_GRIDS;
-			if( ( cmor_has_grid_attribute
-			      ( i, "standard_parallel1" ) == 0 ) &&
-			    ( cmor_has_grid_attribute
-			      ( i, "standard_parallel2" ) == 0 ) ) {
-			    cmor_get_grid_attribute( i,
-						     "standard_parallel1",
-						     &tmps[0] );
-			    cmor_get_grid_attribute( i,
-						     "standard_parallel2",
-						     &tmps[1] );
-			    ierr =
-				nc_put_att_double( ncafid, m,
-						   "standard_parallel",
-						   NC_DOUBLE, 2,
-						   &tmps[0] );
-			} else
-			    if( cmor_has_grid_attribute
-				( i, "standard_parallel1" ) == 0 ) {
-			    cmor_get_grid_attribute( i,
-						     "standard_parallel1",
-						     &tmps[0] );
-			    ierr =
-				nc_put_att_double( ncafid, m,
-						   "standard_parallel",
-						   NC_DOUBLE, 1,
-						   &tmps[0] );
-			} else {
-			    cmor_get_grid_attribute( i,
-						     "standard_parallel2",
-						     &tmps[0] );
-			    ierr =
-				nc_put_att_double( ncafid, m,
-						   "standard_parallel",
-						   NC_DOUBLE, 1,
-						   &tmps[0] );
-			}
-			if( ierr != NC_NOERR ) {
-			    snprintf( msg, CMOR_MAX_STRING,
-				      "NetCDF Error (%i: %s) writing\n! "
-			              "standard_parallel to file, variable:\n! "
-			              "%s (table: %s)",
-				      ierr, nc_strerror( ierr ),
-				      cmor_vars[var_id].id,
-				      cmor_tables[nVarRefTblID].szTable_id );
-			    cmor_handle_error( msg, CMOR_NORMAL );
-			    cmor_pop_traceback(  );
-			    return( 1 );
-			}
-		    } else {
-			ierr =
-			    cmor_put_nc_num_attribute( ncafid,
-			            m,
-			            cmor_grids[nGridID].attributes_names[k],
-			            'd',
-			            cmor_grids[nGridID].attributes_values[k],
-			            cmor_grids[nGridID].mapping );
-		    }
-		}
-	    }
-/* -------------------------------------------------------------------- */
-/*      Preps the marker for vertices diemnsions                        */
-/* -------------------------------------------------------------------- */
-
-	    m = 0;
-/* -------------------------------------------------------------------- */
-/*      At this point creates the associated variables                  */
-/*      all is done is associated file                                  */
-/* -------------------------------------------------------------------- */
-	    for( i = 0; i < 5; i++ ) {
-		m2[i] = 0;
-		j = cmor_grids[nGridID].associated_variables[i];
-
-		if( j != -1 ) {
-/* -------------------------------------------------------------------- */
-/*      ok we need to define this variable                              */
-/* -------------------------------------------------------------------- */
-
-		    l = 0;
-/* -------------------------------------------------------------------- */
-/*      first we need to figure out the actual                          */
-/*      grid dimensions and their netcdf eq                             */
-/* -------------------------------------------------------------------- */
-
-		    for( k = 0; k < cmor_vars[var_id].ndims; k++ ) {
-			if( cmor_axes
-			    [cmor_vars[var_id].axes_ids[k]].isgridaxis ==
-			    1 ) {
-			    nc_dims_associated[l] = nc_dim_af[k];
-
-			    if( m2[i] == 0 && ( i == 0 || i == 1 ) ) {
-				if( cmor_has_variable_attribute
-				    ( var_id, "coordinates" ) == 0 ) {
-				    cmor_get_variable_attribute( var_id,
-								 "coordinates",
-								 &msg );
-				    cmor_cat_unique_string( msg,
-				            cmor_vars[cmor_grids
-				                      [nGridID].associated_variables
-				                      [i]].id );
-				} else {
-				    strncpy( msg,
-					     cmor_vars[cmor_grids
-						       [nGridID].associated_variables
-						       [i]].id,
-					     CMOR_MAX_STRING -
-					     strlen( msg ) );
-				}
-				cmor_set_variable_attribute_internal
-				    ( var_id, "coordinates", 'c', msg );
-				m2[i] = 1;
-			    }
-			    l++;
-			}
-		    }
-/* -------------------------------------------------------------------- */
-/*      vertices need to be added                                       */
-/* -------------------------------------------------------------------- */
-
-		    if( ( ( i == 2 ) || ( i == 3 ) ) && ( m == 0 ) ) {
-/* -------------------------------------------------------------------- */
-/*      ok now it has been defined                                      */
-/* -------------------------------------------------------------------- */
-
-			m = 1;
-			ierr =
-			    nc_def_dim( ncafid, "vertices",
-					cmor_axes[cmor_vars[j].axes_ids
-						  [cmor_vars[j].ndims -
-						   1]].length,
-					&nc_dims_associated[l] );
-			if( ierr != NC_NOERR ) {
-			    snprintf( msg, CMOR_MAX_STRING,
-				      "NetCDF error (%i: %s) while defining\n! "
-			              "vertices dimension, variable %s\n! "
-			              "(table: %s)",
-				      ierr, nc_strerror( ierr ),
-				      cmor_vars[var_id].id,
-				      cmor_tables[nVarRefTblID].szTable_id );
-			    cmor_handle_error( msg, CMOR_CRITICAL );
-			}
-		    }
-		    mtype = cmor_vars[j].type;
-		    if( mtype == 'd' )
-			ierr =
-			    nc_def_var( ncafid, cmor_vars[j].id, NC_DOUBLE,
-					cmor_vars[j].ndims,
-					&nc_dims_associated[0],
-					&nc_associated_vars[i] );
-		    else if( mtype == 'f' )
-			ierr =
-			    nc_def_var( ncafid, cmor_vars[j].id, NC_FLOAT,
-					cmor_vars[j].ndims,
-					&nc_dims_associated[0],
-					&nc_associated_vars[i] );
-		    else if( mtype == 'l' )
-			ierr =
-			    nc_def_var( ncafid, cmor_vars[j].id, NC_INT,
-					cmor_vars[j].ndims,
-					&nc_dims_associated[0],
-					&nc_associated_vars[i] );
-		    else if( mtype == 'i' )
-			ierr =
-			    nc_def_var( ncafid, cmor_vars[j].id, NC_INT,
-					cmor_vars[j].ndims,
-					&nc_dims_associated[0],
-					&nc_associated_vars[i] );
-		    if( ierr != NC_NOERR ) {
-			snprintf( msg, CMOR_MAX_STRING,
-				  "NetCDF error (%i: %s) while defining\n! "
-			          "associated variable %s, of variable\n! "
-			          "%s (table: %s)",
-				  ierr, nc_strerror( ierr ),
-				  cmor_vars[j].id, cmor_vars[var_id].id,
-				  cmor_tables[nVarRefTblID].szTable_id );
-			cmor_handle_error( msg, CMOR_CRITICAL );
-		    }
-
-/* -------------------------------------------------------------------- */
-/*      Creates attributes related to that variable                     */
-/* -------------------------------------------------------------------- */
-		    for( k = 0; k < cmor_vars[j].nattributes; k++ ) {
-
-/* -------------------------------------------------------------------- */
-/*      first of all we need to make sure it is not an empty attribute  */
-/* -------------------------------------------------------------------- */
-			if( cmor_has_variable_attribute
-			    ( j, cmor_vars[j].attributes[k] ) != 0 ) {
-/* -------------------------------------------------------------------- */
-/*      deleted attribute continue on                                   */
-/* -------------------------------------------------------------------- */
-			    continue;
-			}
-			if( strcmp
-			    ( cmor_vars[j].attributes[k],
-			      "flag_values" ) == 0 ) {
-/* -------------------------------------------------------------------- */
-/*      ok we need to convert the string to a list of int               */
-/* -------------------------------------------------------------------- */
-			    ierr =
-				cmor_convert_string_to_list(
-				        cmor_vars[j].attributes_values_char[k],
-				        'i',
-				        ( void * ) &int_list,
-				        &nelts );
-
-			    ierr =
-				nc_put_att_int( ncafid,
-						nc_associated_vars[i],
-						"flag_values",
-						NC_INT,
-						nelts,
-						int_list );
-
-			    if( ierr != NC_NOERR ) {
-				snprintf( msg, CMOR_MAX_STRING,
-					  "NetCDF Error (%i: %s) setting\n! "
-				          "flags numerical attribute on\n! "
-				          "associated variable %s, for\n! "
-				           "variable %s (table: %s)",
-					  ierr, nc_strerror( ierr ),
-					  cmor_vars[j].id,
-					  cmor_vars[var_id].id,
-					  cmor_tables[nVarRefTblID].szTable_id );
-				cmor_handle_error( msg, CMOR_CRITICAL );
-			    }
-			    free( int_list );
-			} else if( cmor_vars[j].attributes_type[k] == 'c' ) {
-			    ierr =
-				cmor_put_nc_char_attribute( ncafid,
-				        nc_associated_vars[i],
-				        cmor_vars[j].attributes[k],
-				        cmor_vars[j].attributes_values_char[k],
-				        cmor_vars[j].id );
-			} else {
-			    ierr =
-				cmor_put_nc_num_attribute( ncafid,
-				        nc_associated_vars[i],
-				        cmor_vars[j].attributes[k],
-				        cmor_vars[j].attributes_type[k],
-				        cmor_vars [j].attributes_values_num[k],
-				        cmor_vars[j].id );
-			}
-		    }
-/* -------------------------------------------------------------------- */
-/*      Compression stuff                                               */
-/* -------------------------------------------------------------------- */
-
-		    if( ( CMOR_NETCDF_MODE != CMOR_REPLACE_3 )
-			&& ( CMOR_NETCDF_MODE != CMOR_PRESERVE_3 )
-			&& ( CMOR_NETCDF_MODE != CMOR_APPEND_3 ) ) {
-			if( cmor_vars[j].ndims > 0 ) {
-			    ics =
-				cmor_tables[cmor_vars[j].ref_table_id].
-                                        vars[cmor_vars[j].ref_var_id].shuffle;
-			    icd =
-				cmor_tables[cmor_vars[j].ref_table_id].
-				        vars[cmor_vars[j].ref_var_id].deflate;
-			    icdl =
-				cmor_tables[cmor_vars[j].ref_table_id].
-				    vars[cmor_vars[j].ref_var_id].deflate_level;
-			    ierr =
-				nc_def_var_deflate( ncafid,
-						    nc_associated_vars[i],
-						    ics, icd, icdl );
-			    if( ierr != NC_NOERR ) {
-				snprintf( msg, CMOR_MAX_STRING,
-					  "NetCDF Error (%i: %s) defining\n! "
-				          "compression parameters for\n! "
-				          "associated variable '%s' for\n! "
-				          "variable %s (table: %s)",
-					  ierr, nc_strerror( ierr ),
-					  cmor_vars[j].id,
-					  cmor_vars[var_id].id,
-					  cmor_tables[nVarRefTblID].szTable_id );
-				cmor_handle_error( msg, CMOR_CRITICAL );
-			    }
-			}
-		    }
-		}
-	    }
+	    ierr = cmor_grids_def(var_id, nGridID,ncafid);
+	    if(ierr) return(ierr);
 	}
-
 
 
 /* -------------------------------------------------------------------- */
@@ -5758,7 +5468,7 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 /*      we just get the netcdf file id                                  */
 /* -------------------------------------------------------------------- */
 
-	ncid = cmor_vars[varid].initialized;
+	ncid = cmor_vars[refvarid].initialized;
 
 /* -------------------------------------------------------------------- */
 /*      generates a new unique id                                       */
@@ -5803,24 +5513,24 @@ int cmor_write( int var_id, void *data, char type, char *suffix,
 /*      in case we are doing a zfactor var                              */
 /* -------------------------------------------------------------------- */
 	
-	cmor_vars[var_id].time_nc_id = cmor_vars[varid].time_nc_id;
-	cmor_vars[var_id].time_bnds_nc_id = cmor_vars[varid].time_bnds_nc_id;	
+	cmor_vars[var_id].time_nc_id = cmor_vars[refvarid].time_nc_id;
+	cmor_vars[var_id].time_bnds_nc_id = cmor_vars[refvarid].time_bnds_nc_id;
     }
 
 /* -------------------------------------------------------------------- */
 /*      here we add the number of time                                  */
 /*      written for the associated variable                             */
 /* -------------------------------------------------------------------- */
-    if( ( refvar != NULL ) && ( cmor_vars[varid].grid_id > -1 )
-	&& ( cmor_grids[cmor_vars[varid].grid_id].istimevarying == 1 ) ) {
+    if( ( refvar != NULL ) && ( cmor_vars[refvarid].grid_id > -1 )
+	&& ( cmor_grids[cmor_vars[refvarid].grid_id].istimevarying == 1 ) ) {
 	for( i = 0; i < 4; i++ ) {
-	    if( cmor_grids[cmor_vars[varid].grid_id].associated_variables
+	    if( cmor_grids[cmor_vars[refvarid].grid_id].associated_variables
 		[i] == var_id ) {
-		if( cmor_vars[varid].ntimes_written_coords[i] == -1 ) {
-		    cmor_vars[varid].ntimes_written_coords[i] =
+		if( cmor_vars[refvarid].ntimes_written_coords[i] == -1 ) {
+		    cmor_vars[refvarid].ntimes_written_coords[i] =
 			ntimes_passed;
 		} else {
-		    cmor_vars[varid].ntimes_written_coords[i] +=
+		    cmor_vars[refvarid].ntimes_written_coords[i] +=
 			ntimes_passed;
 		}
 	    }
@@ -5904,7 +5614,7 @@ int cmor_CreateFromTemplate(int var_id, char *template,
 
         } else {
             char szInternalAtt[CMOR_MAX_STRING];
-            strcpy(szInternalAtt, GLOBAL_INTERN);
+            strcpy(szInternalAtt, GLOBAL_INTERNAL);
             strncat(szInternalAtt, szToken, strlen(szToken));
             if( cmor_has_cur_dataset_attribute( szInternalAtt ) == 0 ) {
                 cmor_get_cur_dataset_attribute( szInternalAtt, tmp );
@@ -6906,17 +6616,13 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
 		cmor_vars[var_id].nc_var_id = -999;
 	    }
 	    for( i = 0; i < cmor_vars[var_id].nattributes; i++ ) {
-		if( strcmp
-		    ( cmor_vars[var_id].attributes[i],
-		      "cell_methods" ) == 0 ) {
+		if( strcmp( cmor_vars[var_id].attributes[i],
+		        "cell_methods" ) == 0 ) {
 		    cmor_set_variable_attribute_internal( var_id,
-							  "cell_methods",
-							  'c',
-							  cmor_tables
-							  [cmor_vars
-							   [var_id].ref_table_id].vars
-							  [cmor_vars
-							   [var_id].ref_var_id].cell_methods );
+		            "cell_methods",
+		            'c',
+		            cmor_tables[cmor_vars[var_id].ref_table_id].
+		            vars[cmor_vars[var_id].ref_var_id].cell_methods );
 		}
 	    }
 	} else {

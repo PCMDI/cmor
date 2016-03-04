@@ -386,218 +386,92 @@ module cmor_users_functions
   end interface
 
   interface 
-     function cmor_write_cff_real(var_id,data,suffix,ntimes_passed, &
+     function cmor_write_cff_real(var_id,data,ntimes_passed, &
           time_vals,time_bounds,refvar) result(ierr)
        integer var_id
        real :: data
-       character(*) suffix
        integer ntimes_passed
        double precision time_vals, time_bounds
        integer refvar,ierr
      end function cmor_write_cff_real
   end interface
   interface 
-     function cmor_write_cff_real_nobnds(var_id,data,suffix,ntimes_passed, &
+     function cmor_write_cff_real_nobnds(var_id,data,ntimes_passed, &
           time_vals,refvar) result(ierr)
        integer var_id
        real :: data
-       character(*) suffix
        integer ntimes_passed
        double precision time_vals
        integer refvar,ierr
      end function cmor_write_cff_real_nobnds
   end interface
   interface 
-     function cmor_write_cff_real_notime(var_id,data,suffix,ntimes_passed, &
+     function cmor_write_cff_real_notime(var_id,data,ntimes_passed, &
           refvar) result(ierr)
        integer var_id
        real :: data
-       character(*) suffix
        integer ntimes_passed
        integer refvar,ierr
      end function cmor_write_cff_real_notime
   end interface
   interface 
-     function cmor_write_cff_double(var_id,data,suffix,ntimes_passed, &
+     function cmor_write_cff_double(var_id,data,ntimes_passed, &
           time_vals,time_bounds,refvar) result(ierr)
        integer var_id
        double precision :: data
-       character(*) suffix
        integer ntimes_passed
        double precision time_vals, time_bounds
        integer refvar,ierr
      end function cmor_write_cff_double
   end interface
   interface 
-     function cmor_write_cff_double_nobnds(var_id,data,suffix,ntimes_passed, &
+     function cmor_write_cff_double_nobnds(var_id,data,ntimes_passed, &
           time_vals,refvar) result(ierr)
        integer var_id
        double precision:: data
-       character(*) suffix
        integer ntimes_passed
        double precision time_vals
        integer refvar,ierr
      end function cmor_write_cff_double_nobnds
   end interface
   interface 
-     function cmor_write_cff_double_notime(var_id,data,suffix,ntimes_passed, &
+     function cmor_write_cff_double_notime(var_id,data,ntimes_passed, &
           refvar) result(ierr)
        integer var_id
        double precision :: data
-       character(*) suffix
        integer ntimes_passed
        integer refvar,ierr
      end function cmor_write_cff_double_notime
   end interface
   interface 
-     function cmor_write_cff_int(var_id,data,suffix,ntimes_passed, &
+     function cmor_write_cff_int(var_id,data,ntimes_passed, &
           time_vals,time_bounds,refvar) result(ierr)
        integer var_id
        integer :: data
-       character(*) suffix
        integer ntimes_passed
        double precision time_vals, time_bounds
        integer refvar,ierr
      end function cmor_write_cff_int
   end interface
   interface 
-     function cmor_write_cff_int_nobnds(var_id,data,suffix,ntimes_passed, &
+     function cmor_write_cff_int_nobnds(var_id,data,ntimes_passed, &
           time_vals,refvar) result(ierr)
        integer var_id
        integer :: data
-       character(*) suffix
        integer ntimes_passed
        double precision time_vals
        integer refvar,ierr
      end function cmor_write_cff_int_nobnds
   end interface
   interface 
-     function cmor_write_cff_int_notime(var_id,data,suffix,ntimes_passed, &
+     function cmor_write_cff_int_notime(var_id,data,ntimes_passed, &
           refvar) result(ierr)
        integer var_id
        integer :: data
-       character(*) suffix
        integer ntimes_passed
        integer refvar,ierr
      end function cmor_write_cff_int_notime
   end interface
-!!$  interface 
-!!$     function cmor_write_cff_long(var_id,data,suffix,ntimes_passed, &
-!!$          time_vals,time_bounds,refvar) result(ierr)
-!!$       integer var_id
-!!$       integer(kind=8) :: data
-!!$       character(*) suffix
-!!$       integer ntimes_passed
-!!$       double precision time_vals, time_bounds
-!!$       integer refvar,ierr
-!!$     end function cmor_write_cff_long
-!!$  end interface
-!!$  interface 
-!!$     function cmor_write_cff_long_nobnds(var_id,data,suffix,ntimes_passed, &
-!!$          time_vals,refvar) result(ierr)
-!!$       integer var_id
-!!$       integer(kind=8) :: data
-!!$       character(*) suffix
-!!$       integer ntimes_passed
-!!$       double precision time_vals
-!!$       integer refvar,ierr
-!!$     end function cmor_write_cff_long_nobnds
-!!$  end interface
-!!$  interface 
-!!$     function cmor_write_cff_long_notime(var_id,data,suffix,ntimes_passed, &
-!!$          refvar) result(ierr)
-!!$       integer var_id
-!!$       integer(kind=8) :: data
-!!$       character(*) suffix
-!!$       integer ntimes_passed
-!!$       integer refvar,ierr
-!!$     end function cmor_write_cff_long_notime
-!!$  end interface
-!!$
-!!$
-!!$  interface 
-!!$     function cmor_grid_cff_long(grid_id,ndims,axes_ids,&
-!!$       lat,lon,nvertices,blat,blon,area) result(ierr)
-!!$       integer, intent(out) :: grid_id
-!!$       integer ierr,nvertices,ndims
-!!$       integer axes_ids
-!!$       INTEGER (KIND=8) :: lat,lon,area,blat,blon
-!!$     end function cmor_grid_cff_long
-!!$  end interface
-!!$  interface  
-!!$     function cmor_grid_cff_noarea_long(grid_id,ndims,axes_ids,&
-!!$          lat,lon,nvertices,blat,blon) result(ierr)
-!!$       integer, intent(out) :: grid_id
-!!$       integer ierr,nvertices,ndims
-!!$       integer axes_ids
-!!$       INTEGER (KIND=8) :: lat,lon,blat,blon
-!!$     end function cmor_grid_cff_noarea_long
-!!$  end interface
-!!$  interface  
-!!$     function  cmor_grid_cff_noblon_long(grid_id,ndims,axes_ids,&
-!!$          lat,lon,nvertices,blat,area) result(ierr)
-!!$       integer, intent(out) :: grid_id
-!!$       integer ierr,nvertices,ndims
-!!$       integer axes_ids
-!!$       INTEGER (KIND=8) :: lat,lon,blat,area
-!!$     end function cmor_grid_cff_noblon_long
-!!$  end interface
-!!$  interface  
-!!$     function  cmor_grid_cff_noblat_long(grid_id,ndims,axes_ids,&
-!!$          lat,lon,nvertices,blon,area) result(ierr)
-!!$       integer, intent(out) :: grid_id
-!!$       integer ierr,nvertices,ndims
-!!$       integer axes_ids
-!!$       INTEGER (KIND=8) :: lat,lon,area,blon
-!!$     end function cmor_grid_cff_noblat_long
-!!$  end interface
-!!$  interface  
-!!$     function  cmor_grid_cff_nobnds_long(grid_id,ndims,axes_ids,&
-!!$          lat,lon,nvertices,area) result(ierr)
-!!$       integer, intent(out) :: grid_id
-!!$       integer ierr,nvertices,ndims
-!!$       integer axes_ids
-!!$       INTEGER (KIND=8) :: lat,lon,area
-!!$     end function cmor_grid_cff_nobnds_long
-!!$  end interface
-!!$  interface   
-!!$     function cmor_grid_cff_noblaar_long(grid_id,ndims,axes_ids,&
-!!$          lat,lon,nvertices,blon) result(ierr)
-!!$       integer, intent(out) :: grid_id
-!!$       integer ierr,nvertices,ndims
-!!$       integer axes_ids
-!!$       INTEGER (KIND=8) :: lat,lon,blon
-!!$     end function cmor_grid_cff_noblaar_long
-!!$  end interface
-!!$  interface  
-!!$     function  cmor_grid_cff_nobloar_long(grid_id,ndims,axes_ids,&
-!!$          lat,lon,nvertices,blat) result(ierr)
-!!$       integer, intent(out) :: grid_id
-!!$       integer ierr,nvertices,ndims
-!!$       integer axes_ids
-!!$       INTEGER (KIND=8) :: lat,lon,blat
-!!$     end function cmor_grid_cff_nobloar_long
-!!$  end interface
-!!$  interface  
-!!$     function  cmor_grid_cff_nothg_long(grid_id,ndims,axes_ids,&
-!!$          lat,lon,nvertices) result(ierr)
-!!$       integer, intent(out) :: grid_id
-!!$       integer ierr,nvertices,ndims
-!!$       integer axes_ids
-!!$       INTEGER (KIND=8) :: lat,lon
-!!$     end function cmor_grid_cff_nothg_long
-!!$  end interface
-
-
-!!$  interface 
-!!$     function cmor_grid_cff_double(grid_id,ndims,axes_ids,&
-!!$       lat,lon,nvertices,blat,blon,area) result(ierr)
-!!$       integer, intent(out) :: grid_id
-!!$       integer ierr,nvertices,ndims
-!!$       integer axes_ids
-!!$       DOUBLE PRECISION :: lat,lon,area,blat,blon
-!!$     end function cmor_grid_cff_double
-!!$  end interface
   interface  
      function cmor_grid_cff_noarea_double(grid_id,ndims,axes_ids,&
           lat,lon,nvertices,blat,blon) result(ierr)
@@ -607,33 +481,6 @@ module cmor_users_functions
        DOUBLE PRECISION :: lat,lon,blat,blon
      end function cmor_grid_cff_noarea_double
   end interface
-!!$  interface  
-!!$     function  cmor_grid_cff_noblon_double(grid_id,ndims,axes_ids,&
-!!$          lat,lon,nvertices,blat,area) result(ierr)
-!!$       integer, intent(out) :: grid_id
-!!$       integer ierr,nvertices,ndims
-!!$       integer axes_ids
-!!$       DOUBLE PRECISION :: lat,lon,blat,area
-!!$     end function cmor_grid_cff_noblon_double
-!!$  end interface
-!!$  interface  
-!!$     function  cmor_grid_cff_noblat_double(grid_id,ndims,axes_ids,&
-!!$          lat,lon,nvertices,blon,area) result(ierr)
-!!$       integer, intent(out) :: grid_id
-!!$       integer ierr,nvertices,ndims
-!!$       integer axes_ids
-!!$       DOUBLE PRECISION :: lat,lon,area,blon
-!!$     end function cmor_grid_cff_noblat_double
-!!$  end interface
-!!$  interface  
-!!$     function  cmor_grid_cff_nobnds_double(grid_id,ndims,axes_ids,&
-!!$          lat,lon,nvertices,area) result(ierr)
-!!$       integer, intent(out) :: grid_id
-!!$       integer ierr,nvertices,ndims
-!!$       integer axes_ids
-!!$       DOUBLE PRECISION :: lat,lon,area
-!!$     end function cmor_grid_cff_nobnds_double
-!!$  end interface
   interface   
      function cmor_grid_cff_noblaar_double(grid_id,ndims,axes_ids,&
           lat,lon,nvertices,blon) result(ierr)
@@ -4076,31 +3923,24 @@ contains
   end function cmor_grid_6d_i
 
 
-  FUNCTION cmor_write_1d_r(var_id, data, file_suffix, ntimes_passed,  &
+  FUNCTION cmor_write_1d_r(var_id, data, ntimes_passed,  &
         time_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     REAL, target :: data(:)
     REAL, pointer :: mdata(:)
     real, pointer :: pdata(:)
     INTEGER, INTENT(in) ::var_id
-    CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
-    character(1024) suf
     call cmor_get_original_shape_cff(var_id,vshape(1))
     if (present(ntimes_passed)) then 
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ntimes_passed)
     else
        ierr = cmor_ftn_get_tlen_cff(var_id)
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ierr)
-    endif
-    if (present(file_suffix)) then
-       suf = trim(file_suffix)//char(0)
-    else
-       suf = char(0)
     endif
 
     if (present(store_with)) then
@@ -4116,14 +3956,14 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_real(var_id,pdata(1),suf,ntp,&
+          ierr = cmor_write_cff_real(var_id,pdata(1),ntp,&
                time_vals(1),time_bnds(1,1),refvar)
        else
-          ierr = cmor_write_cff_real_nobnds(var_id,pdata(1),suf,ntp,&
+          ierr = cmor_write_cff_real_nobnds(var_id,pdata(1),ntp,&
                time_vals(1),refvar)
        end if
     else
-       ierr = cmor_write_cff_real_notime(var_id,pdata(1),suf,ntp,&
+       ierr = cmor_write_cff_real_notime(var_id,pdata(1),ntp,&
             refvar)
     endif
     if (did_malloc.eq.1) then
@@ -4132,31 +3972,24 @@ contains
     nullify(pdata)
     
   END FUNCTION cmor_write_1d_r
-  FUNCTION cmor_write_2d_r(var_id, data, file_suffix, ntimes_passed,  &
+  FUNCTION cmor_write_2d_r(var_id, data, ntimes_passed,  &
         time_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     REAL,target :: data(:,:)
     REAL,pointer :: mdata(:,:)
     REAL, pointer :: pdata(:,:)
     INTEGER, INTENT(in) ::var_id
-    CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
-    character(1024) suf
     call cmor_get_original_shape_cff(var_id,vshape(1))
     if (present(ntimes_passed)) then 
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ntimes_passed)
     else
        ierr = cmor_ftn_get_tlen_cff(var_id)
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ierr)
-    endif
-    if (present(file_suffix)) then
-       suf = trim(file_suffix)//char(0)
-    else
-       suf = char(0)
     endif
 
     if (present(store_with)) then
@@ -4172,14 +4005,14 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_real(var_id,pdata(1,1),suf,ntp,&
+          ierr = cmor_write_cff_real(var_id,pdata(1,1),ntp,&
                time_vals(1),time_bnds(1,1),refvar)
        else
-          ierr = cmor_write_cff_real_nobnds(var_id,pdata(1,1),suf,ntp,&
+          ierr = cmor_write_cff_real_nobnds(var_id,pdata(1,1),ntp,&
                time_vals(1),refvar)
        end if
     else
-       ierr = cmor_write_cff_real_notime(var_id,pdata(1,1),suf,ntp,&
+       ierr = cmor_write_cff_real_notime(var_id,pdata(1,1),ntp,&
             refvar)
     endif
     if (did_malloc.eq.1) then
@@ -4188,20 +4021,18 @@ contains
     nullify(pdata)
     
   END FUNCTION cmor_write_2d_r
-  FUNCTION cmor_write_3d_r(var_id, data, file_suffix, ntimes_passed,  &
+  FUNCTION cmor_write_3d_r(var_id, data,  ntimes_passed,  &
         time_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     REAL, target :: data(:,:,:)
     REAL, pointer :: mdata(:,:,:)
     REAL, pointer :: pdata(:,:,:)
     INTEGER, INTENT(in) ::var_id
-    CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
-    character(1024) suf
 
     call cmor_get_original_shape_cff(var_id,vshape(1))
     if (present(ntimes_passed)) then 
@@ -4209,11 +4040,6 @@ contains
     else
        ierr = cmor_ftn_get_tlen_cff(var_id)
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ierr)
-    endif
-    if (present(file_suffix)) then
-       suf = trim(file_suffix)//char(0)
-    else
-       suf = char(0)
     endif
 
     if (present(store_with)) then
@@ -4229,14 +4055,14 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_real(var_id,pdata(1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_real(var_id,pdata(1,1,1),ntp,&
                time_vals(1),time_bnds(1,1),refvar)
        else
-          ierr = cmor_write_cff_real_nobnds(var_id,pdata(1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_real_nobnds(var_id,pdata(1,1,1),ntp,&
                time_vals(1),refvar)
        end if
     else
-       ierr = cmor_write_cff_real_notime(var_id,pdata(1,1,1),suf,ntp,&
+       ierr = cmor_write_cff_real_notime(var_id,pdata(1,1,1),ntp,&
             refvar)
     endif
     if (did_malloc.eq.1) then
@@ -4245,31 +4071,24 @@ contains
        nullify(pdata)
    
   END FUNCTION cmor_write_3d_r
-  FUNCTION cmor_write_4d_r(var_id, data, file_suffix, ntimes_passed,  &
+  FUNCTION cmor_write_4d_r(var_id, data, ntimes_passed,  &
         time_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     REAL, target :: data(:,:,:,:)
     REAL, pointer :: mdata(:,:,:,:)
     REAL, pointer :: pdata(:,:,:,:)
     INTEGER, INTENT(in) ::var_id
-    CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,vshape(7),did_malloc
-    character(1024) suf
     call cmor_get_original_shape_cff(var_id,vshape(1))
     if (present(ntimes_passed)) then 
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ntimes_passed)
     else
        ierr = cmor_ftn_get_tlen_cff(var_id)
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ierr)
-    endif
-    if (present(file_suffix)) then
-       suf = trim(file_suffix)//char(0)
-    else
-       suf = char(0)
     endif
 
     if (present(store_with)) then
@@ -4285,14 +4104,14 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_real(var_id,pdata(1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_real(var_id,pdata(1,1,1,1),ntp,&
                time_vals(1),time_bnds(1,1),refvar)
        else
-          ierr = cmor_write_cff_real_nobnds(var_id,pdata(1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_real_nobnds(var_id,pdata(1,1,1,1),ntp,&
                time_vals(1),refvar)
        end if
     else
-       ierr = cmor_write_cff_real_notime(var_id,pdata(1,1,1,1),suf,ntp,&
+       ierr = cmor_write_cff_real_notime(var_id,pdata(1,1,1,1),ntp,&
             refvar)
     endif
     if (did_malloc.eq.1) then
@@ -4300,31 +4119,24 @@ contains
     endif
        nullify(pdata)
   END FUNCTION cmor_write_4d_r
-  FUNCTION cmor_write_5d_r(var_id, data, file_suffix, ntimes_passed,  &
+  FUNCTION cmor_write_5d_r(var_id, data, ntimes_passed,  &
         time_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     REAL, target :: data(:,:,:,:,:)
     REAL, pointer :: mdata(:,:,:,:,:)
     REAL, pointer :: pdata(:,:,:,:,:)
     INTEGER, INTENT(in) ::var_id
-    CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
-    character(1024) suf
     call cmor_get_original_shape_cff(var_id,vshape(1))
     if (present(ntimes_passed)) then 
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ntimes_passed)
     else
        ierr = cmor_ftn_get_tlen_cff(var_id)
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ierr)
-    endif
-    if (present(file_suffix)) then
-       suf = trim(file_suffix)//char(0)
-    else
-       suf = char(0)
     endif
 
     if (present(store_with)) then
@@ -4340,14 +4152,14 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_real(var_id,pdata(1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_real(var_id,pdata(1,1,1,1,1),ntp,&
                time_vals(1),time_bnds(1,1),refvar)
        else
-          ierr = cmor_write_cff_real_nobnds(var_id,pdata(1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_real_nobnds(var_id,pdata(1,1,1,1,1),ntp,&
                time_vals(1),refvar)
        end if
     else
-       ierr = cmor_write_cff_real_notime(var_id,pdata(1,1,1,1,1),suf,ntp,&
+       ierr = cmor_write_cff_real_notime(var_id,pdata(1,1,1,1,1),ntp,&
             refvar)
     endif
     if (did_malloc.eq.1) then
@@ -4356,32 +4168,24 @@ contains
     nullify(pdata)
     
   END FUNCTION cmor_write_5d_r
-  FUNCTION cmor_write_6d_r(var_id, data, file_suffix, ntimes_passed,  &
+  FUNCTION cmor_write_6d_r(var_id, data, ntimes_passed,  &
         time_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     REAL, target :: data(:,:,:,:,:,:)
     REAL, pointer :: mdata(:,:,:,:,:,:)
     REAL, pointer :: pdata(:,:,:,:,:,:)
     INTEGER, INTENT(in) ::var_id
-    CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
-    character(1024) suf
     call cmor_get_original_shape_cff(var_id,vshape(1))
     if (present(ntimes_passed)) then 
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ntimes_passed)
     else
        ierr = cmor_ftn_get_tlen_cff(var_id)
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ierr)
-    endif
-
-    if (present(file_suffix)) then
-       suf = trim(file_suffix)//char(0)
-    else
-       suf = char(0)
     endif
 
     if (present(store_with)) then
@@ -4397,14 +4201,14 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_real(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_real(var_id,pdata(1,1,1,1,1,1),ntp,&
                time_vals(1),time_bnds(1,1),refvar)
        else
-          ierr = cmor_write_cff_real_nobnds(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_real_nobnds(var_id,pdata(1,1,1,1,1,1),ntp,&
                time_vals(1),refvar)
        end if
     else
-       ierr = cmor_write_cff_real_notime(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
+       ierr = cmor_write_cff_real_notime(var_id,pdata(1,1,1,1,1,1),ntp,&
             refvar)
     endif
     if (did_malloc.eq.1) then
@@ -4413,31 +4217,24 @@ contains
     nullify(pdata)
    
   END FUNCTION cmor_write_6d_r
-  FUNCTION cmor_write_7d_r(var_id, data, file_suffix, ntimes_passed,  &
+  FUNCTION cmor_write_7d_r(var_id, data, ntimes_passed,  &
         time_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     REAL, target :: data(:,:,:,:,:,:,:)
     REAL, pointer :: mdata(:,:,:,:,:,:,:)
     REAL, pointer :: pdata(:,:,:,:,:,:,:)
     INTEGER, INTENT(in) ::var_id
-    CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
-    character(1024) suf
     call cmor_get_original_shape_cff(var_id,vshape(1))
     if (present(ntimes_passed)) then 
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ntimes_passed)
     else
        ierr = cmor_ftn_get_tlen_cff(var_id)
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ierr)
-    endif
-    if (present(file_suffix)) then
-       suf = trim(file_suffix)//char(0)
-    else
-       suf = char(0)
     endif
 
     if (present(store_with)) then
@@ -4453,14 +4250,14 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_real(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_real(var_id,pdata(1,1,1,1,1,1,1),ntp,&
                time_vals(1),time_bnds(1,1),refvar)
        else
-          ierr = cmor_write_cff_real_nobnds(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_real_nobnds(var_id,pdata(1,1,1,1,1,1,1),ntp,&
                time_vals(1),refvar)
        end if
     else
-       ierr = cmor_write_cff_real_notime(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+       ierr = cmor_write_cff_real_notime(var_id,pdata(1,1,1,1,1,1,1),ntp,&
             refvar)
     endif
     if (did_malloc.eq.1) then
@@ -4469,30 +4266,23 @@ contains
     nullify(pdata)
   END FUNCTION cmor_write_7d_r
 
-  FUNCTION cmor_write_1d_d(var_id, data, file_suffix, ntimes_passed,  &
+  FUNCTION cmor_write_1d_d(var_id, data, ntimes_passed,  &
         time_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     DOUBLE PRECISION,target :: data(:)
     DOUBLE PRECISION,pointer :: mdata(:)
     DOUBLE PRECISION, pointer:: pdata(:)
     INTEGER, INTENT(in) ::var_id
-    CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,vshape(7),did_malloc
-    character(1024) suf
     call cmor_get_original_shape_cff(var_id,vshape(1))
     if (present(ntimes_passed)) then 
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ntimes_passed)
     else
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,1)
-    endif
-    if (present(file_suffix)) then
-       suf = trim(file_suffix)//char(0)
-    else
-       suf = char(0)
     endif
 
     if (present(store_with)) then
@@ -4508,14 +4298,14 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_double(var_id,pdata(1),suf,ntp,&
+          ierr = cmor_write_cff_double(var_id,pdata(1),ntp,&
                time_vals(1),time_bnds(1,1),refvar)
        else
-          ierr = cmor_write_cff_double_nobnds(var_id,pdata(1),suf,ntp,&
+          ierr = cmor_write_cff_double_nobnds(var_id,pdata(1),ntp,&
                time_vals(1),refvar)
        end if
     else
-       ierr = cmor_write_cff_double_notime(var_id,pdata(1),suf,ntp,&
+       ierr = cmor_write_cff_double_notime(var_id,pdata(1),ntp,&
             refvar)
     endif
     if (did_malloc.eq.1) then
@@ -4523,31 +4313,24 @@ contains
     end if
     nullify(pdata)
   END FUNCTION cmor_write_1d_d
-  FUNCTION cmor_write_2d_d(var_id, data, file_suffix, ntimes_passed,  &
+  FUNCTION cmor_write_2d_d(var_id, data, ntimes_passed,  &
         time_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     DOUBLE PRECISION,target :: data(:,:)
     DOUBLE PRECISION,pointer :: mdata(:,:)
     DOUBLE PRECISION, pointer :: pdata(:,:)
     INTEGER, INTENT(in) ::var_id
-    CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
-    character(1024) suf
     call cmor_get_original_shape_cff(var_id,vshape(1))
     if (present(ntimes_passed)) then 
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ntimes_passed)
     else
        ierr = cmor_ftn_get_tlen_cff(var_id)
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ierr)
-    endif
-    if (present(file_suffix)) then
-       suf = trim(file_suffix)//char(0)
-    else
-       suf = char(0)
     endif
 
     if (present(store_with)) then
@@ -4563,14 +4346,14 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_double(var_id,data(1,1),suf,ntp,&
+          ierr = cmor_write_cff_double(var_id,data(1,1),ntp,&
                time_vals(1),time_bnds(1,1),refvar)
        else
-          ierr = cmor_write_cff_double_nobnds(var_id,data(1,1),suf,ntp,&
+          ierr = cmor_write_cff_double_nobnds(var_id,data(1,1),ntp,&
                time_vals(1),refvar)
        end if
     else
-       ierr = cmor_write_cff_double_notime(var_id,data(1,1),suf,ntp,&
+       ierr = cmor_write_cff_double_notime(var_id,data(1,1),ntp,&
             refvar)
     endif
     if (did_malloc.eq.1) then
@@ -4579,30 +4362,23 @@ contains
     nullify(pdata)
    
   END FUNCTION cmor_write_2d_d
-  FUNCTION cmor_write_3d_d(var_id, data, file_suffix, ntimes_passed,  &
+  FUNCTION cmor_write_3d_d(var_id, data, ntimes_passed,  &
         time_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     DOUBLE PRECISION , target:: data(:,:,:)
     DOUBLE PRECISION , pointer:: mdata(:,:,:)
     DOUBLE PRECISION, pointer :: pdata(:,:,:)
     INTEGER, INTENT(in) ::var_id
-    CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
-    character(1024) suf
     call cmor_get_original_shape_cff(var_id,vshape(1))
     if (present(ntimes_passed)) then 
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ntimes_passed)
     else
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,1)
-    endif
-    if (present(file_suffix)) then
-       suf = trim(file_suffix)//char(0)
-    else
-       suf = char(0)
     endif
 
     if (present(store_with)) then
@@ -4618,14 +4394,14 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_double(var_id,pdata(1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_double(var_id,pdata(1,1,1),ntp,&
                time_vals(1),time_bnds(1,1),refvar)
        else
-          ierr = cmor_write_cff_double_nobnds(var_id,pdata(1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_double_nobnds(var_id,pdata(1,1,1),ntp,&
                time_vals(1),refvar)
        end if
     else
-       ierr = cmor_write_cff_double_notime(var_id,pdata(1,1,1),suf,ntp,&
+       ierr = cmor_write_cff_double_notime(var_id,pdata(1,1,1),ntp,&
             refvar)
     endif
     if (did_malloc.eq.1) then
@@ -4634,19 +4410,17 @@ contains
     nullify(pdata)
   END FUNCTION cmor_write_3d_d
 
-  FUNCTION cmor_write_4d_d(var_id, data, file_suffix, ntimes_passed,  &
+  FUNCTION cmor_write_4d_d(var_id, data, ntimes_passed,  &
         time_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     DOUBLE PRECISION, INTENT(IN), target :: data(:,:,:,:)
     DOUBLE PRECISION, pointer :: mdata(:,:,:,:)
     INTEGER, INTENT(in) ::var_id
-    CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp
-    character(1024) suf
     integer   vshape(7),did_malloc
     double precision, pointer :: pdata(:,:,:,:)
 
@@ -4657,11 +4431,6 @@ contains
        ierr = cmor_ftn_get_tlen_cff(var_id)
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ierr)
     endif
-    if (present(file_suffix)) then
-       suf = trim(file_suffix)//char(0)
-    else
-       suf = char(0)
-    endif
 
     if (present(store_with)) then
        refvar = store_with
@@ -4676,43 +4445,36 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_double(var_id,pdata(1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_double(var_id,pdata(1,1,1,1),ntp,&
                time_vals(1),time_bnds(1,1),refvar)
        else
-          ierr = cmor_write_cff_double_nobnds(var_id,pdata(1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_double_nobnds(var_id,pdata(1,1,1,1),ntp,&
                time_vals(1),refvar)
        end if
     else
-       ierr = cmor_write_cff_double_notime(var_id,pdata(1,1,1,1),suf,ntp,&
+       ierr = cmor_write_cff_double_notime(var_id,pdata(1,1,1,1),ntp,&
             refvar)
     endif
     if (did_malloc.eq.1) deallocate(mdata)
     nullify(pdata)
   END FUNCTION cmor_write_4d_d
-  FUNCTION cmor_write_5d_d(var_id, data, file_suffix, ntimes_passed,  &
+  FUNCTION cmor_write_5d_d(var_id, data, ntimes_passed,  &
         time_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     DOUBLE PRECISION, target :: data(:,:,:,:,:)
     DOUBLE PRECISION, pointer :: mdata(:,:,:,:,:)
     DOUBLE PRECISION, pointer :: pdata(:,:,:,:,:)
     INTEGER, INTENT(in) ::var_id
-    CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
-    character(1024) suf
     call cmor_get_original_shape_cff(var_id,vshape(1))
     if (present(ntimes_passed)) then 
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ntimes_passed)
     else
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,1)
-    endif
-    if (present(file_suffix)) then
-       suf = trim(file_suffix)//char(0)
-    else
-       suf = char(0)
     endif
 
     if (present(store_with)) then
@@ -4728,14 +4490,14 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_double(var_id,pdata(1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_double(var_id,pdata(1,1,1,1,1),ntp,&
                time_vals(1),time_bnds(1,1),refvar)
        else
-          ierr = cmor_write_cff_double_nobnds(var_id,pdata(1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_double_nobnds(var_id,pdata(1,1,1,1,1),ntp,&
                time_vals(1),refvar)
        end if
     else
-       ierr = cmor_write_cff_double_notime(var_id,pdata(1,1,1,1,1),suf,ntp,&
+       ierr = cmor_write_cff_double_notime(var_id,pdata(1,1,1,1,1),ntp,&
             refvar)
     endif
     if (did_malloc.eq.1) then
@@ -4743,31 +4505,24 @@ contains
     endif
     nullify(pdata)
   END FUNCTION cmor_write_5d_d
-  FUNCTION cmor_write_6d_d(var_id, data, file_suffix, ntimes_passed,  &
+  FUNCTION cmor_write_6d_d(var_id, data, ntimes_passed,  &
         time_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     DOUBLE PRECISION,target :: data(:,:,:,:,:,:)
     DOUBLE PRECISION,pointer :: mdata(:,:,:,:,:,:)
     DOUBLE PRECISION, pointer :: pdata(:,:,:,:,:,:)
     INTEGER, INTENT(in) ::var_id
-    CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
-    character(1024) suf
     call cmor_get_original_shape_cff(var_id,vshape(1))
     if (present(ntimes_passed)) then 
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ntimes_passed)
     else
        ierr = cmor_ftn_get_tlen_cff(var_id)
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ierr)
-    endif
-    if (present(file_suffix)) then
-       suf = trim(file_suffix)//char(0)
-    else
-       suf = char(0)
     endif
 
     if (present(store_with)) then
@@ -4783,14 +4538,14 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_double(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_double(var_id,pdata(1,1,1,1,1,1),ntp,&
                time_vals(1),time_bnds(1,1),refvar)
        else
-          ierr = cmor_write_cff_double_nobnds(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_double_nobnds(var_id,pdata(1,1,1,1,1,1),ntp,&
                time_vals(1),refvar)
        end if
     else
-       ierr = cmor_write_cff_double_notime(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
+       ierr = cmor_write_cff_double_notime(var_id,pdata(1,1,1,1,1,1),ntp,&
             refvar)
     endif
     if (did_malloc.eq.1) then
@@ -4799,31 +4554,24 @@ contains
     nullify(pdata)
     
   END FUNCTION cmor_write_6d_d
-  FUNCTION cmor_write_7d_d(var_id, data, file_suffix, ntimes_passed,  &
+  FUNCTION cmor_write_7d_d(var_id, data, ntimes_passed,  &
         time_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     DOUBLE PRECISION, target :: data(:,:,:,:,:,:,:)
     DOUBLE PRECISION, pointer :: mdata(:,:,:,:,:,:,:)
     DOUBLE PRECISION, pointer :: pdata(:,:,:,:,:,:,:)
     INTEGER, INTENT(in) ::var_id
-    CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
-    character(1024) suf
     call cmor_get_original_shape_cff(var_id,vshape(1))
     if (present(ntimes_passed)) then 
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ntimes_passed)
     else
        ierr = cmor_ftn_get_tlen_cff(var_id)
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ierr)
-    endif
-    if (present(file_suffix)) then
-       suf = trim(file_suffix)//char(0)
-    else
-       suf = char(0)
     endif
 
     if (present(store_with)) then
@@ -4839,14 +4587,14 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_double(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_double(var_id,pdata(1,1,1,1,1,1,1),ntp,&
                time_vals(1),time_bnds(1,1),refvar)
        else
-          ierr = cmor_write_cff_double_nobnds(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_double_nobnds(var_id,pdata(1,1,1,1,1,1,1),ntp,&
                time_vals(1),refvar)
        end if
     else
-       ierr = cmor_write_cff_double_notime(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+       ierr = cmor_write_cff_double_notime(var_id,pdata(1,1,1,1,1,1,1),ntp,&
             refvar)
     endif
     if (did_malloc.eq.1) then
@@ -4855,31 +4603,24 @@ contains
     nullify(pdata)
   END FUNCTION cmor_write_7d_d
 
-  FUNCTION cmor_write_1d_i(var_id, data, file_suffix, ntimes_passed,  &
+  FUNCTION cmor_write_1d_i(var_id, data,  ntimes_passed,  &
         time_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     INTEGER, target :: data(:)
     INTEGER, pointer :: mdata(:)
     INTEGER, pointer :: pdata(:)
     INTEGER, INTENT(in) ::var_id
-    CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
-    character(1024) suf
     call cmor_get_original_shape_cff(var_id,vshape(1))
     if (present(ntimes_passed)) then 
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ntimes_passed)
     else
        ierr = cmor_ftn_get_tlen_cff(var_id)
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ierr)
-    endif
-    if (present(file_suffix)) then
-       suf = trim(file_suffix)//char(0)
-    else
-       suf = char(0)
     endif
 
     if (present(store_with)) then
@@ -4895,14 +4636,14 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_int(var_id,pdata(1),suf,ntp,&
+          ierr = cmor_write_cff_int(var_id,pdata(1),ntp,&
                time_vals(1),time_bnds(1,1),refvar)
        else
-          ierr = cmor_write_cff_int_nobnds(var_id,pdata(1),suf,ntp,&
+          ierr = cmor_write_cff_int_nobnds(var_id,pdata(1),ntp,&
                time_vals(1),refvar)
        end if
     else
-       ierr = cmor_write_cff_int_notime(var_id,pdata(1),suf,ntp,&
+       ierr = cmor_write_cff_int_notime(var_id,pdata(1),ntp,&
             refvar)
     endif
     if (did_malloc.eq.1) then
@@ -4911,31 +4652,24 @@ contains
     nullify(pdata)
        
   END FUNCTION cmor_write_1d_i
-  FUNCTION cmor_write_2d_i(var_id, data, file_suffix, ntimes_passed,  &
+  FUNCTION cmor_write_2d_i(var_id, data, ntimes_passed,  &
         time_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     INTEGER,target :: data(:,:)
     INTEGER,pointer :: mdata(:,:)
     INTEGER, pointer :: pdata(:,:)
     INTEGER, INTENT(in) ::var_id
-    CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
-    character(1024) suf
     call cmor_get_original_shape_cff(var_id,vshape(1))
     if (present(ntimes_passed)) then 
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ntimes_passed)
     else
        ierr = cmor_ftn_get_tlen_cff(var_id)
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ierr)
-    endif
-    if (present(file_suffix)) then
-       suf = trim(file_suffix)//char(0)
-    else
-       suf = char(0)
     endif
 
     if (present(store_with)) then
@@ -4951,14 +4685,14 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_int(var_id,data(1,1),suf,ntp,&
+          ierr = cmor_write_cff_int(var_id,data(1,1),ntp,&
                time_vals(1),time_bnds(1,1),refvar)
        else
-          ierr = cmor_write_cff_int_nobnds(var_id,data(1,1),suf,ntp,&
+          ierr = cmor_write_cff_int_nobnds(var_id,data(1,1),ntp,&
                time_vals(1),refvar)
        end if
     else
-       ierr = cmor_write_cff_int_notime(var_id,data(1,1),suf,ntp,&
+       ierr = cmor_write_cff_int_notime(var_id,data(1,1),ntp,&
             refvar)
     endif
     if (did_malloc.eq.1) then
@@ -4967,31 +4701,24 @@ contains
     nullify(pdata)
     
   END FUNCTION cmor_write_2d_i
-  FUNCTION cmor_write_3d_i(var_id, data, file_suffix, ntimes_passed,  &
+  FUNCTION cmor_write_3d_i(var_id, data,  ntimes_passed,  &
         time_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     INTEGER, target :: data(:,:,:)
     INTEGER, pointer :: mdata(:,:,:)
     INTEGER, pointer :: pdata(:,:,:)
     INTEGER, INTENT(in) ::var_id
-    CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
-    character(1024) suf
     call cmor_get_original_shape_cff(var_id,vshape(1))
     if (present(ntimes_passed)) then 
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ntimes_passed)
     else
        ierr = cmor_ftn_get_tlen_cff(var_id)
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ierr)
-    endif
-    if (present(file_suffix)) then
-       suf = trim(file_suffix)//char(0)
-    else
-       suf = char(0)
     endif
 
     if (present(store_with)) then
@@ -5007,14 +4734,14 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_int(var_id,pdata(1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_int(var_id,pdata(1,1,1),ntp,&
                time_vals(1),time_bnds(1,1),refvar)
        else
-          ierr = cmor_write_cff_int_nobnds(var_id,pdata(1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_int_nobnds(var_id,pdata(1,1,1),ntp,&
                time_vals(1),refvar)
        end if
     else
-       ierr = cmor_write_cff_int_notime(var_id,pdata(1,1,1),suf,ntp,&
+       ierr = cmor_write_cff_int_notime(var_id,pdata(1,1,1),ntp,&
             refvar)
     endif
     if (did_malloc.eq.1) then
@@ -5023,31 +4750,24 @@ contains
     nullify(pdata)
    
   END FUNCTION cmor_write_3d_i
-  FUNCTION cmor_write_4d_i(var_id, data, file_suffix, ntimes_passed,  &
+  FUNCTION cmor_write_4d_i(var_id, data, ntimes_passed,  &
         time_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     INTEGER, target :: data(:,:,:,:)
     INTEGER, pointer :: mdata(:,:,:,:)
     INTEGER, pointer :: pdata(:,:,:,:)
     INTEGER, INTENT(in) ::var_id
-    CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
-    character(1024) suf
     call cmor_get_original_shape_cff(var_id,vshape(1))
     if (present(ntimes_passed)) then 
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ntimes_passed)
     else
        ierr = cmor_ftn_get_tlen_cff(var_id)
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ierr)
-    endif
-    if (present(file_suffix)) then
-       suf = trim(file_suffix)//char(0)
-    else
-       suf = char(0)
     endif
 
     if (present(store_with)) then
@@ -5063,14 +4783,14 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_int(var_id,pdata(1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_int(var_id,pdata(1,1,1,1),ntp,&
                time_vals(1),time_bnds(1,1),refvar)
        else
-          ierr = cmor_write_cff_int_nobnds(var_id,pdata(1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_int_nobnds(var_id,pdata(1,1,1,1),ntp,&
                time_vals(1),refvar)
        end if
     else
-       ierr = cmor_write_cff_int_notime(var_id,pdata(1,1,1,1),suf,ntp,&
+       ierr = cmor_write_cff_int_notime(var_id,pdata(1,1,1,1),ntp,&
             refvar)
     endif
     if (did_malloc.eq.1) then
@@ -5079,31 +4799,24 @@ contains
     nullify(pdata)
    
   END FUNCTION cmor_write_4d_i
-  FUNCTION cmor_write_5d_i(var_id, data, file_suffix, ntimes_passed,  &
+  FUNCTION cmor_write_5d_i(var_id, data, ntimes_passed,  &
         time_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     INTEGER , target:: data(:,:,:,:,:)
     INTEGER , pointer:: mdata(:,:,:,:,:)
     INTEGER, pointer :: pdata(:,:,:,:,:)
     INTEGER, INTENT(in) ::var_id
-    CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
-    character(1024) suf
     call cmor_get_original_shape_cff(var_id,vshape(1))
     if (present(ntimes_passed)) then 
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ntimes_passed)
     else
        ierr = cmor_ftn_get_tlen_cff(var_id)
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ierr)
-    endif
-    if (present(file_suffix)) then
-       suf = trim(file_suffix)//char(0)
-    else
-       suf = char(0)
     endif
 
     if (present(store_with)) then
@@ -5119,14 +4832,14 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_int(var_id,pdata(1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_int(var_id,pdata(1,1,1,1,1),ntp,&
                time_vals(1),time_bnds(1,1),refvar)
        else
-          ierr = cmor_write_cff_int_nobnds(var_id,pdata(1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_int_nobnds(var_id,pdata(1,1,1,1,1),ntp,&
                time_vals(1),refvar)
        end if
     else
-       ierr = cmor_write_cff_int_notime(var_id,pdata(1,1,1,1,1),suf,ntp,&
+       ierr = cmor_write_cff_int_notime(var_id,pdata(1,1,1,1,1),ntp,&
             refvar)
     endif
     if (did_malloc.eq.1) then
@@ -5134,31 +4847,24 @@ contains
     endif
     nullify(pdata)
   END FUNCTION cmor_write_5d_i
-  FUNCTION cmor_write_6d_i(var_id, data, file_suffix, ntimes_passed,  &
+  FUNCTION cmor_write_6d_i(var_id, data, ntimes_passed,  &
         time_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     INTEGER,target :: data(:,:,:,:,:,:)
     INTEGER, pointer :: mdata(:,:,:,:,:,:)
     INTEGER, pointer :: pdata(:,:,:,:,:,:)
     INTEGER, INTENT(in) ::var_id
-    CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
-    character(1024) suf
     call cmor_get_original_shape_cff(var_id,vshape(1))
     if (present(ntimes_passed)) then 
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ntimes_passed)
     else
        ierr = cmor_ftn_get_tlen_cff(var_id)
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ierr)
-    endif
-    if (present(file_suffix)) then
-       suf = trim(file_suffix)//char(0)
-    else
-       suf = char(0)
     endif
 
     if (present(store_with)) then
@@ -5174,14 +4880,14 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_int(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_int(var_id,pdata(1,1,1,1,1,1),ntp,&
                time_vals(1),time_bnds(1,1),refvar)
        else
-          ierr = cmor_write_cff_int_nobnds(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_int_nobnds(var_id,pdata(1,1,1,1,1,1),ntp,&
                time_vals(1),refvar)
        end if
     else
-       ierr = cmor_write_cff_int_notime(var_id,pdata(1,1,1,1,1,1),suf,ntp,&
+       ierr = cmor_write_cff_int_notime(var_id,pdata(1,1,1,1,1,1),ntp,&
             refvar)
     endif
     if (did_malloc.eq.1) then
@@ -5190,31 +4896,24 @@ contains
     nullify(pdata)
        
   END FUNCTION cmor_write_6d_i
-  FUNCTION cmor_write_7d_i(var_id, data, file_suffix, ntimes_passed,  &
+  FUNCTION cmor_write_7d_i(var_id, data, ntimes_passed,  &
         time_vals,time_bnds,store_with) RESULT(ierr)
     implicit none
     INTEGER, target :: data(:,:,:,:,:,:,:)
     INTEGER, pointer :: mdata(:,:,:,:,:,:,:)
     INTEGER, pointer :: pdata(:,:,:,:,:,:,:)
     INTEGER, INTENT(in) ::var_id
-    CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
     INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
     DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
     INTEGER, INTENT(in), OPTIONAL :: store_with
     integer refvar,ierr,ntp,did_malloc,vshape(7)
-    character(1024) suf
     call cmor_get_original_shape_cff(var_id,vshape(1))
     if (present(ntimes_passed)) then 
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ntimes_passed)
     else
        ierr = cmor_ftn_get_tlen_cff(var_id)
        did_malloc = cmor_ftn_map_data(vshape,pdata,data,mdata,ierr)
-    endif
-    if (present(file_suffix)) then
-       suf = trim(file_suffix)//char(0)
-    else
-       suf = char(0)
     endif
 
     if (present(store_with)) then
@@ -5230,14 +4929,14 @@ contains
     if (present(time_vals)) then
        if (ntp==0) ntp = size(time_vals)
        if (present(time_bnds)) then
-          ierr = cmor_write_cff_int(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_int(var_id,pdata(1,1,1,1,1,1,1),ntp,&
                time_vals(1),time_bnds(1,1),refvar)
        else
-          ierr = cmor_write_cff_int_nobnds(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+          ierr = cmor_write_cff_int_nobnds(var_id,pdata(1,1,1,1,1,1,1),ntp,&
                time_vals(1),refvar)
        end if
     else
-       ierr = cmor_write_cff_int_notime(var_id,pdata(1,1,1,1,1,1,1),suf,ntp,&
+       ierr = cmor_write_cff_int_notime(var_id,pdata(1,1,1,1,1,1,1),ntp,&
             refvar)
     endif
     if (did_malloc.eq.1) then
@@ -5247,300 +4946,6 @@ contains
 
   END FUNCTION cmor_write_7d_i
 
-!!$  FUNCTION cmor_write_1d_l(var_id, data, file_suffix, ntimes_passed,  &
-!!$        time_vals,time_bnds,store_with) RESULT(ierr)
-!!$    implicit none
-!!$    INTEGER (KIND=8), INTENT(IN) :: data(:)
-!!$    INTEGER, INTENT(in) ::var_id
-!!$    CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
-!!$    INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
-!!$    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
-!!$    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
-!!$    INTEGER, INTENT(in), OPTIONAL :: store_with
-!!$    integer refvar,ierr,n(1),ntp
-!!$    character(1024) suf
-!!$    if (present(file_suffix)) then
-!!$       suf = trim(file_suffix)//char(0)
-!!$    else
-!!$       suf = char(0)
-!!$    endif
-!!$
-!!$    if (present(store_with)) then
-!!$       refvar = store_with
-!!$    else
-!!$       refvar = -1 ! means do not pass it
-!!$    end if
-!!$    if (present(ntimes_passed)) then
-!!$       ntp = ntimes_passed
-!!$    else
-!!$       ntp=0
-!!$    endif
-!!$    if (present(time_vals)) then
-!!$       if (ntp==0) ntp = size(time_vals)
-!!$       if (present(time_bnds)) then
-!!$          ierr = cmor_write_cff_long(var_id,data(1),suf,ntp,&
-!!$               time_vals(1),time_bnds(1,1),refvar)
-!!$       else
-!!$          ierr = cmor_write_cff_long_nobnds(var_id,data(1),suf,ntp,&
-!!$               time_vals(1),refvar)
-!!$       end if
-!!$    else
-!!$       ierr = cmor_write_cff_long_notime(var_id,data(1),suf,ntp,&
-!!$            refvar)
-!!$    endif
-!!$  END FUNCTION cmor_write_1d_l
-!!$  FUNCTION cmor_write_2d_l(var_id, data, file_suffix, ntimes_passed,  &
-!!$        time_vals,time_bnds,store_with) RESULT(ierr)
-!!$    implicit none
-!!$    INTEGER (KIND=8), INTENT(IN) :: data(:,:)
-!!$    INTEGER, INTENT(in) ::var_id
-!!$    CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
-!!$    INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
-!!$    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
-!!$    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
-!!$    INTEGER, INTENT(in), OPTIONAL :: store_with
-!!$    integer refvar,ierr,n(1),ntp
-!!$    character(1024) suf
-!!$    if (present(file_suffix)) then
-!!$       suf = trim(file_suffix)//char(0)
-!!$    else
-!!$       suf = char(0)
-!!$    endif
-!!$
-!!$    if (present(store_with)) then
-!!$       refvar = store_with
-!!$    else
-!!$       refvar = -1 ! means do not pass it
-!!$    end if
-!!$    if (present(ntimes_passed)) then
-!!$       ntp = ntimes_passed
-!!$    else
-!!$       ntp=0
-!!$    endif
-!!$    if (present(time_vals)) then
-!!$       if (ntp==0) ntp = size(time_vals)
-!!$       if (present(time_bnds)) then
-!!$          ierr = cmor_write_cff_long(var_id,data(1,1),suf,ntp,&
-!!$               time_vals(1),time_bnds(1,1),refvar)
-!!$       else
-!!$          ierr = cmor_write_cff_long_nobnds(var_id,data(1,1),suf,ntp,&
-!!$               time_vals(1),refvar)
-!!$       end if
-!!$    else
-!!$       ierr = cmor_write_cff_long_notime(var_id,data(1,1),suf,ntp,&
-!!$            refvar)
-!!$    endif
-!!$  END FUNCTION cmor_write_2d_l
-!!$  FUNCTION cmor_write_3d_l(var_id, data, file_suffix, ntimes_passed,  &
-!!$        time_vals,time_bnds,store_with) RESULT(ierr)
-!!$    implicit none
-!!$    INTEGER (KIND=8), INTENT(IN) :: data(:,:,:)
-!!$    INTEGER, INTENT(in) ::var_id
-!!$    CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
-!!$    INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
-!!$    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
-!!$    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
-!!$    INTEGER, INTENT(in), OPTIONAL :: store_with
-!!$    integer refvar,ierr,n(1),ntp
-!!$    character(1024) suf
-!!$    if (present(file_suffix)) then
-!!$       suf = trim(file_suffix)//char(0)
-!!$    else
-!!$       suf = char(0)
-!!$    endif
-!!$
-!!$    if (present(store_with)) then
-!!$       refvar = store_with
-!!$    else
-!!$       refvar = -1 ! means do not pass it
-!!$    end if
-!!$    if (present(ntimes_passed)) then
-!!$       ntp = ntimes_passed
-!!$    else
-!!$       ntp=0
-!!$    endif
-!!$    if (present(time_vals)) then
-!!$       if (ntp==0) ntp = size(time_vals)
-!!$       if (present(time_bnds)) then
-!!$          ierr = cmor_write_cff_long(var_id,data(1,1,1),suf,ntp,&
-!!$               time_vals(1),time_bnds(1,1),refvar)
-!!$       else
-!!$          ierr = cmor_write_cff_long_nobnds(var_id,data(1,1,1),suf,ntp,&
-!!$               time_vals(1),refvar)
-!!$       end if
-!!$    else
-!!$       ierr = cmor_write_cff_long_notime(var_id,data(1,1,1),suf,ntp,&
-!!$            refvar)
-!!$    endif
-!!$  END FUNCTION cmor_write_3d_l
-!!$  FUNCTION cmor_write_4d_l(var_id, data, file_suffix, ntimes_passed,  &
-!!$        time_vals,time_bnds,store_with) RESULT(ierr)
-!!$    implicit none
-!!$    INTEGER (KIND=8), INTENT(IN) :: data(:,:,:,:)
-!!$    INTEGER, INTENT(in) ::var_id
-!!$    CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
-!!$    INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
-!!$    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
-!!$    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
-!!$    INTEGER, INTENT(in), OPTIONAL :: store_with
-!!$    integer refvar,ierr,n(1),ntp
-!!$    character(1024) suf
-!!$    if (present(file_suffix)) then
-!!$       suf = trim(file_suffix)//char(0)
-!!$    else
-!!$       suf = char(0)
-!!$    endif
-!!$
-!!$    if (present(store_with)) then
-!!$       refvar = store_with
-!!$    else
-!!$       refvar = -1 ! means do not pass it
-!!$    end if
-!!$    if (present(ntimes_passed)) then
-!!$       ntp = ntimes_passed
-!!$    else
-!!$       ntp=0
-!!$    endif
-!!$    if (present(time_vals)) then
-!!$       if (ntp==0) ntp = size(time_vals)
-!!$       if (present(time_bnds)) then
-!!$          ierr = cmor_write_cff_long(var_id,data(1,1,1,1),suf,ntp,&
-!!$               time_vals(1),time_bnds(1,1),refvar)
-!!$       else
-!!$          ierr = cmor_write_cff_long_nobnds(var_id,data(1,1,1,1),suf,ntp,&
-!!$               time_vals(1),refvar)
-!!$       end if
-!!$    else
-!!$       ierr = cmor_write_cff_long_notime(var_id,data(1,1,1,1),suf,ntp,&
-!!$            refvar)
-!!$    endif
-!!$  END FUNCTION cmor_write_4d_l
-!!$  FUNCTION cmor_write_5d_l(var_id, data, file_suffix, ntimes_passed,  &
-!!$        time_vals,time_bnds,store_with) RESULT(ierr)
-!!$    implicit none
-!!$    INTEGER (KIND=8), INTENT(IN) :: data(:,:,:,:,:)
-!!$    INTEGER, INTENT(in) ::var_id
-!!$    CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
-!!$    INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
-!!$    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
-!!$    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
-!!$    INTEGER, INTENT(in), OPTIONAL :: store_with
-!!$    integer refvar,ierr,n(1),ntp
-!!$    character(1024) suf
-!!$    if (present(file_suffix)) then
-!!$       suf = trim(file_suffix)//char(0)
-!!$    else
-!!$       suf = char(0)
-!!$    endif
-!!$
-!!$    if (present(store_with)) then
-!!$       refvar = store_with
-!!$    else
-!!$       refvar = -1 ! means do not pass it
-!!$    end if
-!!$    if (present(ntimes_passed)) then
-!!$       ntp = ntimes_passed
-!!$    else
-!!$       ntp=0
-!!$    endif
-!!$    if (present(time_vals)) then
-!!$       if (ntp==0) ntp = size(time_vals)
-!!$       if (present(time_bnds)) then
-!!$          ierr = cmor_write_cff_long(var_id,data(1,1,1,1,1),suf,ntp,&
-!!$               time_vals(1),time_bnds(1,1),refvar)
-!!$       else
-!!$          ierr = cmor_write_cff_long_nobnds(var_id,data(1,1,1,1,1),suf,ntp,&
-!!$               time_vals(1),refvar)
-!!$       end if
-!!$    else
-!!$       ierr = cmor_write_cff_long_notime(var_id,data(1,1,1,1,1),suf,ntp,&
-!!$            refvar)
-!!$    endif
-!!$  END FUNCTION cmor_write_5d_l
-!!$  FUNCTION cmor_write_6d_l(var_id, data, file_suffix, ntimes_passed,  &
-!!$        time_vals,time_bnds,store_with) RESULT(ierr)
-!!$    implicit none
-!!$    INTEGER (KIND=8), INTENT(IN) :: data(:,:,:,:,:,:)
-!!$    INTEGER, INTENT(in) ::var_id
-!!$    CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
-!!$    INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
-!!$    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
-!!$    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
-!!$    INTEGER, INTENT(in), OPTIONAL :: store_with
-!!$    integer refvar,ierr,n(1),ntp
-!!$    character(1024) suf
-!!$    if (present(file_suffix)) then
-!!$       suf = trim(file_suffix)//char(0)
-!!$    else
-!!$       suf = char(0)
-!!$    endif
-!!$
-!!$    if (present(store_with)) then
-!!$       refvar = store_with
-!!$    else
-!!$       refvar = -1 ! means do not pass it
-!!$    end if
-!!$    if (present(ntimes_passed)) then
-!!$       ntp = ntimes_passed
-!!$    else
-!!$       ntp=0
-!!$    endif
-!!$    if (present(time_vals)) then
-!!$       if (ntp==0) ntp = size(time_vals)
-!!$       if (present(time_bnds)) then
-!!$          ierr = cmor_write_cff_long(var_id,data(1,1,1,1,1,1),suf,ntp,&
-!!$               time_vals(1),time_bnds(1,1),refvar)
-!!$       else
-!!$          ierr = cmor_write_cff_long_nobnds(var_id,data(1,1,1,1,1,1),suf,ntp,&
-!!$               time_vals(1),refvar)
-!!$       end if
-!!$    else
-!!$       ierr = cmor_write_cff_long_notime(var_id,data(1,1,1,1,1,1),suf,ntp,&
-!!$            refvar)
-!!$    endif
-!!$  END FUNCTION cmor_write_6d_l
-!!$  FUNCTION cmor_write_7d_l(var_id, data, file_suffix, ntimes_passed,  &
-!!$        time_vals,time_bnds,store_with) RESULT(ierr)
-!!$    implicit none
-!!$    INTEGER (KIND=8), INTENT(IN) :: data(:,:,:,:,:,:,:)
-!!$    INTEGER, INTENT(in) ::var_id
-!!$    CHARACTER(len=*), INTENT(in), OPTIONAL :: file_suffix
-!!$    INTEGER, INTENT(in), OPTIONAL :: ntimes_passed
-!!$    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_vals(:)
-!!$    DOUBLE PRECISION, INTENT(in), OPTIONAL :: time_bnds(:,:)
-!!$    INTEGER, INTENT(in), OPTIONAL :: store_with
-!!$    integer refvar,ierr,n(1),ntp
-!!$    character(1024) suf
-!!$    if (present(file_suffix)) then
-!!$       suf = trim(file_suffix)//char(0)
-!!$    else
-!!$       suf = char(0)
-!!$    endif
-!!$
-!!$    if (present(store_with)) then
-!!$       refvar = store_with
-!!$    else
-!!$       refvar = -1 ! means do not pass it
-!!$    end if
-!!$    if (present(ntimes_passed)) then
-!!$       ntp = ntimes_passed
-!!$    else
-!!$       ntp=0
-!!$    endif
-!!$    if (present(time_vals)) then
-!!$       if (ntp==0) ntp = size(time_vals)
-!!$       if (present(time_bnds)) then
-!!$          ierr = cmor_write_cff_long(var_id,data(1,1,1,1,1,1,1),suf,ntp,&
-!!$               time_vals(1),time_bnds(1,1),refvar)
-!!$       else
-!!$          ierr = cmor_write_cff_long_nobnds(var_id,data(1,1,1,1,1,1,1),suf,ntp,&
-!!$               time_vals(1),refvar)
-!!$       end if
-!!$    else
-!!$       ierr = cmor_write_cff_long_notime(var_id,data(1,1,1,1,1,1,1),suf,ntp,&
-!!$            refvar)
-!!$    endif
-!!$  END FUNCTION cmor_write_7d_l
 
   function cmor_variable_double(table,table_entry,units,axis_ids,missing_value,&
        tolerance,positive,original_name,history,comment) result(ierr)

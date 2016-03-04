@@ -49,11 +49,10 @@ class readable_dir(argparse.Action):
         else:
             raise argparse.ArgumentTypeError('readable_dir:{0} is not a readable dir'.format(prospective_dir))
 
-
 # =========================
 # checkCMIP6()
 # =========================
-class checkCMIP6():
+class checkCMIP6(object):
     '''
     Validate if a file is CMIP6 compliant and ready for publication.
 
