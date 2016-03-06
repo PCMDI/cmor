@@ -811,6 +811,7 @@ int cmor_setup(char *path,int *netcdf, int *verbosity, int *mode, char *logfile,
     cmor_handle_error(msg,CMOR_CRITICAL);
   }
   myutstatus = ut_map_name_to_unit("eq",UT_ASCII,newequnit);
+  if (newequnit!= NULL) ut_free(newequnit);
   if (myutstatus != UT_SUCCESS) {
     snprintf(msg,CMOR_MAX_STRING,"Udunits: Error mapping dimless 'eq' unit");
     cmor_handle_error(msg,CMOR_CRITICAL);
@@ -828,11 +829,13 @@ int cmor_setup(char *path,int *netcdf, int *verbosity, int *mode, char *logfile,
   }
   if (perunit!=NULL) ut_free(perunit);
   perunit = ut_scale(.01,dimlessunit);
+  if (dimlessunit!= NULL) ut_free(dimlessunit);
   if (myutstatus != UT_SUCCESS) {
     snprintf(msg,CMOR_MAX_STRING,"Udunits: Error creating percent unit");
     cmor_handle_error(msg,CMOR_CRITICAL);
   }
   myutstatus = ut_map_name_to_unit("%",UT_ASCII,perunit);
+  if (perunit!=NULL) ut_free(perunit);
   if (myutstatus != UT_SUCCESS) {
     snprintf(msg,CMOR_MAX_STRING,"Udunits: Error mapping percent unit");
     cmor_handle_error(msg,CMOR_CRITICAL);
