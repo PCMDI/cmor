@@ -687,7 +687,7 @@ def write(var_id,data,ntimes_passed=None,file_suffix="",time_vals=None,time_bnds
     if not type in ['f','d','i','l']:
         raise Exception, "Error data type must one of: 'f','d','i','l', please convert first"
 
-    return _cmor.write(var_id,data,type,file_suffix,ntimes_passed,time_vals,time_bnds,store_with)
+    return _cmor.write(var_id,data,type,ntimes_passed,time_vals,time_bnds,store_with)
 
 def _check_time_bounds_contiguous(time_bnds):
     '''

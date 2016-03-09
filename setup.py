@@ -60,7 +60,7 @@ setup (name = "CMOR",
               library_dirs = library_dirs,
               libraries = libraries,
               define_macros = macros,
-              extra_compile_args = [ "-g", ]
+              extra_compile_args = [ "-g", "-O0",]
               ),
     
     ]

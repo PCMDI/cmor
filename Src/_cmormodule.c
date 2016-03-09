@@ -706,7 +706,7 @@ static PyObject *PyCMOR_write( PyObject * self, PyObject * args ) {
 
 
     if( !PyArg_ParseTuple
-	( args, "iOssiOOO", &var_id, &data_obj, &itype,  &ntimes,
+	( args, "iOsiOOO", &var_id, &data_obj, &itype,  &ntimes,
 	  &times_obj, &times_bnds_obj, &ref_obj ) )
 	return NULL;
 

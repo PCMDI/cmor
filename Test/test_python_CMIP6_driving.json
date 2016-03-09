@@ -12,7 +12,7 @@
            "institution":            "GICC (Generic International Climate Center, Geneva, Switzerland)",
             
            "#source":                "",
-           "source":                 "GICCM1 (2002):",
+           "source":              "MIROC-ESM",
 
            "#calendar":              "",
            "calendar":               "gregorian",
