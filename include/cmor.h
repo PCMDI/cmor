@@ -188,8 +188,8 @@
 #define DIMENSION_OLEVEL              "olevel"
 
 #define CMIP6                         "CMIP6"
-#define CMOR_DEFAULT_PATH_TEMPLATE ""
-#define CMOR_DEFAULT_FILE_TEMPLATE ""
+#define CMOR_DEFAULT_PATH_TEMPLATE "<activity_id_seg1><institute_id><source_id><activity_id_seg2><experiment_id><driving_source_id-driving_variant_id><run_variant_id><table><varid><grid_label><version>"
+#define CMOR_DEFAULT_FILE_TEMPLATE "<varid><table><experiment_id><source_id><run_variant_id><grid_label>[<driving_source_id-driving_variant_id>]"
 
 
 extern int USE_NETCDF_4;

@@ -70,7 +70,7 @@
 
            "branch_method":         "standard",
            "branch_time_in_child":  "00D0",
-           "branch_time_in_ parent":"3650.0D0",
+           "branch_time_in_parent":"3650.0D0",
            "branch_time_units_in_parent": "days since 1000-1-1",
 
 

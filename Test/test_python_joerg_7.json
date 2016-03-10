@@ -1,0 +1,18 @@
+{
+       "activity_id":                    "CMIP6-PMIP",
+       "source_id":                      "GCCM1",
+       "source":                         "GCCM1: test of string",
+       "driving_source_id":              "no-driver",
+       "outpath":                        "Test",
+       "calendar":                       "360_day",
+       "experiment_id":                  "abrupt4xCO2",
+       "model_id":                       "GICCM1",
+       "institute_id":                   "PCMDI",
+       "driving_source_id":"no-driver",
+       "physics_index":"1",
+       "forcing_index":"1",
+       "realization_index":"1",
+       "initialization_method":"1"
+
+}
+

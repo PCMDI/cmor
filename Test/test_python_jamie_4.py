@@ -6,12 +6,7 @@ def main():
     
     cmor.setup(inpath='Tables',
                netcdf_file_action = cmor.CMOR_REPLACE)
-    cmor.dataset('historical', 'ukmo', 'HadCM3', '360_day',
-                 institute_id = 'ukmo',
-                 forcing = 'SO',
-                 model_id = 'HadCM3',contact="Dusty Baker (even though he was a Dodgers",
-                 parent_experiment_rip="r1i3p2",
-                 parent_experiment_id="lgm",branch_time=0)
+    cmor.dataset_json("Test/test_python_jamie_4.json")
 
     table = 'CMIP6_Amon.json'
     cmor.load_table(table)

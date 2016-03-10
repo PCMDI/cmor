@@ -2847,7 +2847,11 @@ int cmor_validate_activity_id(int  nVarRefTblID) {
     int ierr=0;
 
     cmor_add_traceback("cmor_validate_activity_id");
-    cmor_get_cur_dataset_attribute(GLOBAL_ATT_ACTIVITY_ID, szDatasetActivity);
+    ierr = cmor_get_cur_dataset_attribute(GLOBAL_ATT_ACTIVITY_ID,
+                                          szDatasetActivity);
+    if( strcmp(szDatasetActivity, "") == 0) {
+        return(ierr);
+    }
     strncpy(szTableActivity,
             cmor_tables[nVarRefTblID].activity_id,
             CMOR_MAX_STRING);
@@ -3511,13 +3515,13 @@ void cmor_define_dimensions(int var_id, int ncid,
                             int *nc_vars, int *nc_bnds_vars,
                             int *nc_vars_af,
                             size_t *nc_dim_chunking, int *dim_bnds,
-                            int *zfactors, int *nc_zfactors){
+                            int *zfactors, int *nc_zfactors,
+                            int *nc_dim_af){
     int i,j,k,l,n;
     char msg[CMOR_MAX_STRING];
     char ctmp[CMOR_MAX_STRING];
     char ctmp2[CMOR_MAX_STRING];
     char ctmp3[CMOR_MAX_STRING];
-    int nc_dim_af[CMOR_MAX_AXES];
 
     int ierr;
     int tmp_dims[2];
@@ -4079,7 +4083,7 @@ void cmor_define_dimensions(int var_id, int ncid,
 /************************************************************************/
 /*                         cmor_grids_def()                             */
 /************************************************************************/
-int cmor_grids_def(int var_id, int nGridID, int ncafid) {
+int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af) {
     int ierr;
     int m;
     char msg[CMOR_MAX_STRING];
@@ -4089,7 +4093,6 @@ int cmor_grids_def(int var_id, int nGridID, int ncafid) {
     int nc_dims_associated[CMOR_MAX_AXES];
     int nVarRefTblID = cmor_vars[var_id].ref_table_id;
     int m2[5];
-    int nc_dim_af[CMOR_MAX_AXES];
     int *int_list = NULL;
     char mtype;
     int nelts;
@@ -4200,8 +4203,7 @@ int cmor_grids_def(int var_id, int nGridID, int ncafid) {
                     if (m2[i] == 0 && (i == 0 || i == 1)) {
                         if (cmor_has_variable_attribute(var_id, "coordinates")
                                 == 0) {
-                            cmor_get_variable_attribute(var_id, "coordinates",
-                                    &msg);
+                            cmor_get_variable_attribute(var_id, "coordinates", &msg);
                             cmor_cat_unique_string(msg,
                                     cmor_vars[cmor_grids[nGridID].associated_variables[i]].id);
                         } else {
@@ -4226,8 +4228,7 @@ int cmor_grids_def(int var_id, int nGridID, int ncafid) {
 /* -------------------------------------------------------------------- */
 
                 m = 1;
-                ierr =
-                        nc_def_dim(ncafid, "vertices",
+                ierr = nc_def_dim(ncafid, "vertices",
                                 cmor_axes[cmor_vars[j].axes_ids[cmor_vars[j].ndims
                                         - 1]].length, &nc_dims_associated[l]);
                 if (ierr != NC_NOERR) {
@@ -4453,6 +4454,7 @@ int cmor_write( int var_id, void *data, char type,
     size_t nc_dim_chunking[CMOR_MAX_AXES];
     int nc_vars[CMOR_MAX_VARIABLES];
     int nc_vars_af[CMOR_MAX_VARIABLES];
+    int nc_dim_af[CMOR_MAX_DIMENSIONS];
     int nc_associated_vars[6];
     int nc_bnds_vars[CMOR_MAX_VARIABLES];
     int dim_bnds;
@@ -4708,7 +4710,7 @@ int cmor_write( int var_id, void *data, char type,
 
         cmor_define_dimensions(var_id, ncid, ncafid, time_bounds, nc_dim,
                 nc_vars, nc_bnds_vars, nc_vars_af, nc_dim_chunking, &dim_bnds,
-                zfactors, nc_zfactors);
+                zfactors, nc_zfactors,nc_dim_af);
 
 /* -------------------------------------------------------------------- */
 /*      Store the dimension id for reuse when writting                  */
@@ -4722,7 +4724,7 @@ int cmor_write( int var_id, void *data, char type,
 /*      check if it is a grid thing                                     */
 /* -------------------------------------------------------------------- */
 	if( nGridID > -1 ) {
-	    ierr = cmor_grids_def(var_id, nGridID,ncafid);
+	    ierr = cmor_grids_def(var_id, nGridID,ncafid, nc_dim_af);
 	    if(ierr) return(ierr);
 	}
 

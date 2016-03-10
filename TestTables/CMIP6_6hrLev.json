@@ -7,23 +7,13 @@
         "baseURL": "http://cmip-pcmdi.llnl.gov/CMIP6/dataLocation", 
         "cmor_version": "3.0", 
         "forcings": "N/A Nat Ant GHG SD SI SA TO SO Oz LU Sl Vl SS Ds BC MD OC AA", 
-        "#required_global_attributes": [
-            "creation_date", 
-            "tracking_id", 
-            "forcing", 
-            "model_id", 
-            "parent_experiment_id", 
-            "parent_experiment_rip", 
-            "branch_time", 
-            "contact", 
-            "institute_id"
-        ], 
         "frequency": "6hr", 
         "table_id": "Table 6hrLev", 
         "table_date": "03 February 2016", 
         "modeling_realm": "atmos", 
         "generic_levels": "", 
-        "activity_id": "CMIP6"
+        "activity_id": "CMIP6",
+        "Conventions": "CF-1.8 CMIP-6.0"
     }, 
     "axis_entry": {
         "time1": {

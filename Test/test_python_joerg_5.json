@@ -9,6 +9,7 @@
        "history":                        "Output from archivcl_A1.nce/giccm_03_std_2xCO2_2256.",
        "comment":                        "Equilibrium reached after 30-year spin-up ",
        "references":                     "Model described by Koder and Tolkien ",
+       "driving_source_id":              "no-driver",
        "model_id":                       "GICCM1",
        "institute_id":                   "PCMDI",
        "forcing":                        "Nat, SO",

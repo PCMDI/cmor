@@ -2,6 +2,7 @@
 
 import cmor
 import numpy
+import pdb
 
 def define_axes(axes):
     axis_ids = list()
@@ -29,16 +30,7 @@ def define_write_var(axis_ids, entry, unit, values):
 def cmor_ini():
     cmor.setup(inpath='Tables',
                netcdf_file_action = cmor.CMOR_REPLACE)
-    cmor.dataset('pre-industrial control', 'mohc', 'HadGEM2: source',
-                 '360_day',
-                 institute_id = 'ukmo',
-                 model_id = 'HadGEM2',
-                 history = 'some global history',
-                 forcing = 'N/A',
-                 parent_experiment_id = 'N/A',
-                 parent_experiment_rip = 'N/A',
-                 branch_time = 0.,
-                 contact = 'bob')
+    cmor.dataset_json("Test/test_python_jamie_8.json")
 
 def define_write_clisccp():
     cmor.load_table('CMIP6_cfMon.json')
@@ -73,7 +65,7 @@ def define_write_clisccp():
     define_write_var(axis_ids, 'clisccp', '1', values)
 
 def define_write_landcoverfrac():
-    cmor.load_table('CMIP6_Lmon')
+    cmor.load_table('Tables/CMIP6_Lmon.json')
     axes = [ {'table_entry': 'time',
               'units': 'days since 2000-01-01 00:00:00',
               },
@@ -100,6 +92,7 @@ def define_write_landcoverfrac():
     
 def main():
 
+    pdb.set_trace()
     cmor_ini()
     define_write_clisccp()
     define_write_landcoverfrac()

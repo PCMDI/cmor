@@ -1,10 +1,15 @@
 {
    "outpath":"Test",
-   "experiment_id":"historical",
+   "activity_id": "CMIP6-PMIP",
+   "experiment_id":"SSP160",
    "institution":"GICC (Generic International Climate Center, Geneva, Switzerland)",
-   "source":"GICCM1 2002: atmosphere:  GICAM3 (gicam_0_brnchT_itea_2, T63L32); ocean: MOM (mom3_ver_3.5.2, 2x3L15); sea ice: GISIM4; land: GILSM2.5",
+   "source_id":"GICCM1",
+   "source":"GICCM1: 2002: atmosphere:  GICAM3 (gicam_0_brnchT_itea_2, T63L32); ocean: MOM (mom3_ver_3.5.2, 2x3L15); sea ice: GISIM4; land: GILSM2.5",
    "calendar":"standard",
-   "realization":"1",
+   "realization_index":"1",
+   "initialization_index":"2",
+   "physics_index":"3",
+   "forcing_index":"4",
    "contact":"Rusty Koder (koder@middle_earth.net)",
    "history":"Output from archive/giccm_03_std_2xCO2_2256.",
    "comment":"Equilibrium reached after 30-year spin-up after which data were output starting with nominal date of January 2030",
@@ -17,6 +22,7 @@
    "institute_id":"pcmdi",
    "parent_experiment_id":"piControlwithism",
    "parent_experiment_rip":"r1i1p1",
-   "branch_time":"18336.33"
+   "branch_time":"18336.33",
+   "driving_source_id":"no-driver"
 }
 

@@ -3,13 +3,7 @@ import cmor
 def multi_call_test():
     cmor.setup(inpath='Tables',netcdf_file_action=cmor.CMOR_REPLACE)
 
-    cmor.dataset('historical', 'ukmo', 'HadCM3', '360_day',
-                 institute_id="PCMDI",
-                 model_id='HadCM3',contact="Ron Nen",forcing='SO',
-                 parent_experiment_id="lgm",
-                 parent_experiment_rip="r1i3p2",
-                 branch_time=0.)
-    
+    cmor.dataset_json("Test/test_python_jamie_2.json")
     table='CMIP6_Amon.json'
     cmor.load_table(table)
     axes = [ {'table_entry': 'time',

@@ -1,8 +1,7 @@
 {
     "activity_id":                  "CMIP6-PMIP",
     "outpath":                      "Test",
-    "experiment_id":                "DcppC2",
-    "source":                       "GICCM1 (2002):",
+    "experiment_id":                "DcppC22",
     "calendar":                     "360_day",
     "realization_index":            "1",
     "initialization_index":         "1",
@@ -20,7 +19,7 @@
     "parent_variant_id":            "r1i3p2",
     "branch_time":                  "0",
 
-    "driving_source_id":            "historical",
+    "driving_source_id":            "no-driver",
     "driving_variant_id":           "r1i22p33f55",
 
     "parent_activity_id":           "CMIP6-PMIP",
@@ -39,13 +38,11 @@
 
     "institution_id":               "CSIRO-BOM",
     "institution":                  "Commonwealth Scientific and Industrial Research Organisation, Australia, and Bureau of Meteorology, Australia",
-    "parent_experiment_id":         "historical",
-    "parent_source_id":             "required",
-    "parent_variant_id":            "r2i5p4f43",
 
     "references":                   "Model described by Koder and Tolkien (J. Geophys. Res.,2001, 576 - 591).  Also see http://www.GICC.su/giccm/doc/index.html  2XCO2 simulation described in Dorkey et al. '(Clim. Dyn., 2003, 323 - 357.)",
     "run_variant":                  "forcing: black carbon aerosol only",
-    "source_id":                    "required",
+    "source_id":                    "NICAM",
+    "source":                       "NICAM: (2016)",
     "output_path_template":         "<activity_id_seg1><institute_id><source_id><activity_id_seg2><experiment_id><driving_source_id-driving_variant_id><run_variant_id><table><varid><grid_label><version>",
     "output_file_template":         "<varid><table><experiment_id><source_id><run_variant_id><grid_label>[<driving_source_id-driving_variant_id>]",
 

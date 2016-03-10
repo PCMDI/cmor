@@ -30,17 +30,7 @@ def define_write_var(axis_ids, entry, unit, values):
 def cmor_ini():
     cmor.setup(inpath='/git/cmip5-cmor-tables/Tables',
                netcdf_file_action = cmor.CMOR_REPLACE)
-    cmor.dataset('DcppC3', 'mohc', 'HadGEM2: source',
-                 '360_day',
-                 institute_id = 'ukmo',
-                 model_id = 'HadGEM2',
-                 history = 'some global history',
-                 forcing = 'N/A',
-                 parent_experiment_id = 'N/A',
-                 parent_experiment_rip = 'N/A',
-                 branch_time = 0.,
-                 contact = 'brian clough')
-
+    cmor.dataset_json("Test/test_python_jamie_12.json")
 
 def define_write_landcoverfrac():
     cmor.load_table('Tables/CMIP6_Lmon.json')
