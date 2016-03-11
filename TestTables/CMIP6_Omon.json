@@ -3547,7 +3547,7 @@
         }, 
         "calc": {
             "comment": "sum of particulate calcite component concentrations (e.g. Phytoplankton, Detrital, etc.)", 
-            "dimensions": "longitude latitude olevel time", 
+            "dimensions": "longitude latitude time depth0m", 
             "positive": "", 
             "valid_min": "", 
             "long_name": "Calcite Concentration", 

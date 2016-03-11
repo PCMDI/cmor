@@ -1,4 +1,7 @@
 import cmor,numpy,sys,os
+from time import gmtime, strftime
+today = strftime("%Y%m%d", gmtime())
+
 try:
     import cdms2
 except:

@@ -7,16 +7,7 @@ def main():
 
     cmor.setup(inpath='Tables',
                netcdf_file_action = cmor.CMOR_REPLACE)
-    cmor.dataset('amipPiForcing', 'mohc', 'HadGEM2: source',
-                 '360_day',
-                 institute_id = 'ukmo',
-                 model_id = 'HadGEM2',
-                 history = 'some global history',
-                 forcing = 'N/A',
-                 parent_experiment_id = 'N/A',
-                 parent_experiment_rip = 'N/A',
-                 branch_time = 0.,
-                 contact = 'bob')
+    cmor.dataset_json("Test/jamie_hybrid_height.json")
  
     table = 'CMIP6_6hrLev.json'
     cmor.load_table(table)

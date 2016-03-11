@@ -1,5 +1,7 @@
 import numpy
 import cmor
+from time import gmtime, strftime
+today = strftime("%Y%m%d", gmtime())
 
 print 'Done importing'
 try:
@@ -9,14 +11,8 @@ except:
     import sys
     sys.exit()
 import os
-pth = os.path.split(os.path.realpath(os.curdir))
-if pth[-1]=='Test':
-    ipth = opth = '.'
-    dpth = '../data'
-else:
-    ipth = opth = 'Test'
-    dpth='data'
 
+dpth="data"
 myaxes=numpy.zeros(9,dtype='i')
 myaxes2=numpy.zeros(9,dtype='i')
 myvars=numpy.zeros(9,dtype='i')
@@ -56,30 +52,13 @@ def prep_var(data):
 
 
 def prep_cmor():
-    cmor.setup(inpath=ipth,set_verbosity=cmor.CMOR_QUIET, netcdf_file_action = cmor.CMOR_REPLACE, exit_control = cmor.CMOR_EXIT_ON_MAJOR);
-    cmor.dataset(
-        outpath = opth,
-        experiment_id = "lgm",
-        institution = "GICC (Generic International Climate Center, Geneva, Switzerland)",
-        source = "GICCM1 (2002): atmosphere:  GICAM3 (gicam_0_brnchT_itea_2, T63L32); ocean: MOM (mom3_ver_3.5.2, 2x3L15); sea ice: GISIM4; land: GILSM2.5",
-        calendar = "standard",
-        realization = 1,
-        contact = "Rusty Koder (koder@middle_earth.net)",
-        history = "Output from archive/giccm_03_std_2xCO2_2256.",
-        comment = "Equilibrium reached after 30-year spin-up after which data were output starting with nominal date of January 2030",
-        references = "Model described by Koder and Tolkien (J. Geophys. Res., 2001, 576-591).  Also see http://www.GICC.su/giccm/doc/index.html  2XCO2 simulation described in Dorkey et al. '(Clim. Dyn., 2003, 323-357.)",
-        leap_year=0,
-        leap_month=0,
-        institute_id="PCMDI",
-        month_lengths=None,model_id="GICCM1",forcing="Nat",
-        parent_experiment_id="N/A",
-        parent_experiment_rip="N/A",
-        branch_time=0.)
+    cmor.setup(inpath="Tables",set_verbosity=cmor.CMOR_QUIET, netcdf_file_action = cmor.CMOR_REPLACE, exit_control = cmor.CMOR_EXIT_ON_MAJOR);
+    cmor.dataset_json("Test/test_python_user_interface_03.json")
     
     tables=[]
-    a = cmor.load_table("Tables/CMIP6_Omon.json")
+    a = cmor.load_table("CMIP6_Omon.json")
     tables.append(a)
-    tables.append(cmor.load_table("Tables/CMIP6_Amon.json"))
+    tables.append(cmor.load_table("CMIP6_Amon.json"))
     return
 
 
@@ -95,7 +74,9 @@ for var in ['tas',]:
         df = data.filled(data.missing_value)
         cmor.write(var_id,df)
         cmor.close()
-        f=cdms2.open(opth+'/CMIP6/output/PCMDI/GICCM1/lgm/mon/atmos/%s/r1i1p1/%s_Amon_GICCM1_lgm_r1i1p1_197901-199602.nc'  % (var,var))
+        print today
+        fn = "CMIP6/PCMDI/NICAM/PMIP/DcppC22/no-driver/r1i1p1f1/Amon/%s/v%s/%s_Amon_DcppC22_NICAM_r1i1p1f1_197901-199605.nc" %(var,today,var)
+        f=cdms2.open(fn)
         s=f(var)
         if not numpy.allclose(s,data_ordered):
             raise "Error reordering: %s"%o

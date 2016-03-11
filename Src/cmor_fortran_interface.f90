@@ -89,6 +89,12 @@ module cmor_users_functions
      end function cmor_ftn_get_tlen_cff
   end interface
 
+  interface cmor_dataset_json_cff
+     function cmor_dataset_json_cff(json_file) result (ierr)
+       character(*) json_file
+     end function cmor_dataset_json_cff
+  end interface
+
   interface cmor_dataset_cff
      function cmor_dataset_cff(outpath,experiment_id,institution,&
           source,calendar,realization,contact,history,comment,&
@@ -7142,6 +7148,12 @@ contains
        ierr = -cmor_setup_cff_nolog(trim(path)//char(0),nc,verb,mode,crsub)
     endif
   end function cmor_setup_nc_char
+
+  function cmor_dataset_json(json_file)
+    character(*) json_file
+    ierr = cmor_dataset_json_cff(trim(json_file)//char(0))
+    ierr = -ierr
+  end function cmor_dataset_json
 
   function cmor_dataset(outpath,experiment_id,institution,source,calendar,&
        realization,&

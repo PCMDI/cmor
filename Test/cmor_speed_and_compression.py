@@ -1,4 +1,7 @@
 import cmor,numpy,sys,os
+from time import gmtime, strftime
+today = strftime("%Y%m%d", gmtime())
+
 try:
     import cdms2
     cdms2.setNetcdfShuffleFlag(0)
@@ -33,22 +36,8 @@ f=open("mytable","w")
 f.write(s)
 f.close()
 
-cmor.setup(inpath="Test",set_verbosity=cmor.CMOR_NORMAL, netcdf_file_action = cmor.CMOR_REPLACE, exit_control = cmor.CMOR_EXIT_ON_MAJOR);
-cmor.dataset(
-    outpath = "Test",
-    experiment_id = "historical",
-    institution = "GICC (Generic International Climate Center, Geneva, Switzerland)",
-    source = "GICCM1 (2002): atmosphere:  GICAM3 (gicam_0_brnchT_itea_2, T63L32); ocean: MOM (mom3_ver_3.5.2, 2x3L15); sea ice: GISIM4; land: GILSM2.5",
-    calendar = "standard",
-    realization = 1,
-    contact = "Charles Doutriaux (doutriaux1@llnl.gov)",
-    history = "Test for speed and compression.",
-    comment = "NetCDF4 vs NetCDF3 testing",
-    references = "http://cdat.sf.net",
-    leap_year=0,
-    leap_month=0,
-    institute_id="PCMDI",
-    month_lengths=None,model_id="GICCM1",forcing="SO",parent_experiment_id="lgm",branch_time=4.)
+cmor.setup(inpath="Tables",set_verbosity=cmor.CMOR_NORMAL, netcdf_file_action = cmor.CMOR_REPLACE_4, exit_control = cmor.CMOR_EXIT_ON_MAJOR);
+cmor.dataset_json("Test/cmor_speed_and_compression.json")
 
 tables=[]
 tables.append(cmor.load_table("mytable"))
@@ -56,7 +45,8 @@ print 'Tables ids:',tables
 
 
 ## read in data, just one slice
-f=cdms2.open(sys.prefix+'/sample_data/tas_ccsr-95a.xml')
+f=cdms2.open('data/tas_ccsr-95a.xml')
+
 
 s=f("tas",time=slice(0,1),squeeze=1)
 
@@ -89,8 +79,6 @@ myvars[0] = cmor.variable( table_entry = 'tas',
 
 
 import time,MV2
-import pdb
-pdb.set_trace()
 st = time.time()
 totcmor=0
 totcdms=0
@@ -137,7 +125,7 @@ cmor.close()
 
 import cdtime,os
 ltime = cdtime.reltime(ntimes-1,'month since 1980').tocomp()
-lcmor = os.stat("Test/CMIP5/output/PCMDI/GICCM1/historical/mon/atmos/tas/r1i1p1/tas_Amon_GICCM1_historical_r1i1p1_198001-%i%.2i.nc" % (ltime.year,ltime.month))[6]
+lcmor = os.stat("CMIP6/PCMDI/NICAM/PMIP/DcppC22/no-driver/r1i1p1f1/Amon/tas/v%s/tas_Amon_DcppC22_NICAM_r1i1p1f1_198001-%i%.2i.nc" % (today,ltime.year,ltime.month))[6]
 print 'level:',level,"shuffle:",shuffle
 print 'total cmor:',totcmor,mincmor,totcmor/ntimes,maxcmor,lcmor
 lcdms = os.stat("Test/crap.nc")[6]

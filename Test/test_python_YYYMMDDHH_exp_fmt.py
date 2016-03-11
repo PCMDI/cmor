@@ -3,13 +3,7 @@ import cmor
 def path_test():
     cmor.setup(inpath='Test',netcdf_file_action=cmor.CMOR_REPLACE)
 
-    cmor.dataset('abrupt2xCO2', 'ukmo', 'HadCM3', '360_day',
-                 institute_id="PCMDI",
-                 parent_experiment_id="abrupt4xCO2",
-                 parent_experiment_rip="r1i1p1",
-                 branch_time=201201,
-                 contact="LLNL",
-                 model_id='HadCM3',forcing='N/A')
+    cmor.dataset_json("Test/test_python_YYYMMDDHH_exp_fmt.json")
     
     table='Tables/CMIP6_Amon.json'
     cmor.load_table(table)

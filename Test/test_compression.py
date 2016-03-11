@@ -7,7 +7,7 @@ except:
     
 import cmor,numpy
 
-f=cdms2.open(os.path.join(sys.prefix,'sample_data/clt.nc'))
+f=cdms2.open(os.path.join('data/clt.nc'))
 
 
 pth = os.path.split(os.path.realpath(os.curdir))
@@ -19,18 +19,7 @@ cmor.setup(inpath=ipth,
            set_verbosity=cmor.CMOR_NORMAL,
            netcdf_file_action = cmor.CMOR_REPLACE)
 
-cmor.dataset(
-    outpath = opth,
-    experiment_id = "historical",
-    institution = "PCMDI",
-    source = "GICCM1 2002",
-    calendar = "standard",
-    contact="Tim Lincecum",
-    institute_id="PCMDI",
-    model_id="GICCM1",forcing="Nat",
-    parent_experiment_id="N/A",
-    parent_experiment_rip="N/A",
-    branch_time=0.)
+cmor.dataset_json("test_compression.json")
 
 cmor.load_table("Tables/CMIP6_Amon.json")
 

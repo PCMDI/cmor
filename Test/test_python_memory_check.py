@@ -62,11 +62,7 @@ def memory_usage(fhd,mem=0,res=0,stk=0):
 
 def memory_check():
     cmor.setup(inpath='Tables',netcdf_file_action=cmor.CMOR_REPLACE)
-
-    cmor.dataset('historical', 'ukmo', 'HadCM3', '360_day',
-                 institute_id="PCMDI",
-                 parent_experiment_rip="r1i3p2",
-                 model_id='HadCM3',forcing='TO',parent_experiment_id="lgm",branch_time=0.,contact="Willie Mays")
+    cmor.dataset_json("Test/test_python_memory_check.json")
     
     table='CMIP6_Amon.json'
     cmor.load_table(table)

@@ -502,7 +502,7 @@ int cmor_prep_units( char *uunits,
 }
 
 /************************************************************************/
-/*                         cmor_havw_NetCDF4()                          */
+/*                         cmor_have_NetCDF4()                          */
 /************************************************************************/
 int cmor_have_NetCDF4( void ) {
     char version[50];
@@ -4507,7 +4507,9 @@ int cmor_write( int var_id, void *data, char type,
                 "You defined an activity_id of \"%s\" but your input table\n! "
                 "%s has an activity ID starting with \"%s\".  The first segment\n! "
                 "both strings need to match, make sure you are using the\n! "
-                "right table for this activity.\n! ",
+                "right table for this activity.\n!\n! "
+                "verify your json input file and make sure you call \n! "
+                "dataset_json(<file.json>)\n!",
                 szActivity,
                 cmor_tables[nVarRefTblID].szTable_id,
                 cmor_tables[nVarRefTblID].activity_id);

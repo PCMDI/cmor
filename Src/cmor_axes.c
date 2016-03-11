@@ -1711,7 +1711,8 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
 
     if (iref == -1) {
         snprintf(ctmp, CMOR_MAX_STRING,
-                "Could not find a matching axis for name: '%s'\n! ", msg);
+                "Could not find a matching axis for name: '%s'\n! "
+                "Check that variable dimensions match table\n! ", msg);
         cmor_handle_error(ctmp, CMOR_CRITICAL);
     }
 

@@ -1,7 +1,5 @@
 import cmor,numpy
-import pdb
 
-pdb.set_trace()
 ntimes=1
 nlat=45
 nlon=90

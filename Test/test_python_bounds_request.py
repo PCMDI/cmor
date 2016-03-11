@@ -20,21 +20,14 @@ levs=numpy.array(levs)
 
 print levs
 
-ipth="Test"
-cmor.setup(inpath=ipth,
+cmor.setup(inpath="Tables",
            set_verbosity=cmor.CMOR_NORMAL,
            netcdf_file_action = cmor.CMOR_REPLACE,
            logfile = None)
 
-cmor.dataset(
-    outpath = ipth,
-    experiment_id = "present-day control experiment",
-    institution = "PCMDI",
-    source = "PCMDI",
-    calendar = "standard",
-    model_id="pcmdi-09a",forcing="forcing")
+cmor.dataset_json("Test/test_python_bounds_request.json")
 
-cmor.load_table("python_test_table_A")
+cmor.load_table("Test/python_test_table_A")
 
 nlat = 90
 dlat = 180/nlat

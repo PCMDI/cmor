@@ -14,32 +14,13 @@ myaxes2=numpy.zeros(9,dtype='i')
 myvars=numpy.zeros(9,dtype='i')
 
 
-cmor.setup(inpath=ipth,set_verbosity=cmor.CMOR_NORMAL, netcdf_file_action = cmor.CMOR_REPLACE, exit_control = cmor.CMOR_EXIT_ON_MAJOR);
-cmor.dataset(
-    outpath = opth,
-    experiment_id = "lgm",
-    institution = "GICC (Generic International Climate Center, Geneva, Switzerland)",
-    source = "GICCM1 (2002): atmosphere:  GICAM3 (gicam_0_brnchT_itea_2, T63L32); ocean: MOM (mom3_ver_3.5.2, 2x3L15); sea ice: GISIM4; land: GILSM2.5",
-    calendar = "standard",
-    realization = 1,
-    contact = "Rusty Koder (koder@middle_earth.net)",
-    history = "Output from archive/giccm_03_std_2xCO2_2256.",
-    comment = "Equilibrium reached after 30-year spin-up after which data were output starting with nominal date of January 2030",
-    references = "Model described by Koder and Tolkien (J. Geophys. Res., 2001, 576-591).  Also see http://www.GICC.su/giccm/doc/index.html  2XCO2 simulation described in Dorkey et al. '(Clim. Dyn., 2003, 323-357.)",
-    leap_year=0,
-    leap_month=0,
-    month_lengths=None,
-    model_id="GICCM1",
-    forcing="TO",
-    institute_id="PCMDI",
-    parent_experiment_id="N/A",
-    parent_experiment_rip="N/A",
-    branch_time=0)
+cmor.setup(inpath="Tables",set_verbosity=cmor.CMOR_NORMAL, netcdf_file_action = cmor.CMOR_REPLACE, exit_control = cmor.CMOR_EXIT_ON_MAJOR);
+cmor.dataset_json("Test/test_python_user_interface_00.json")
 
 tables=[]
-a = cmor.load_table(os.path.join(ipth,"../Tables/CMIP6_Omon.json"))
+a = cmor.load_table(os.path.join("CMIP6_Omon.json"))
 tables.append(a)
-tables.append(cmor.load_table("Tables/CMIP6_Amon.json"))
+tables.append(cmor.load_table("CMIP6_Amon.json"))
 print 'Tables ids:',tables
 
 axes=[]
@@ -59,7 +40,7 @@ myaxes[1] = cmor.axis(id,coord_vals=alats,units=units,cell_bounds=bnds_lat)
 id="longitude"
 units="degrees_east"
 myaxes[2] = cmor.axis(id,coord_vals=alons,units=units,cell_bounds=bnds_lon)
-id="plevs"
+id="plev17"
 units="Pa"
 myaxes[3] = cmor.axis(id,coord_vals=plevs,units=units)
 

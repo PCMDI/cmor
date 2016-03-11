@@ -2,7 +2,6 @@
 
 import cmor
 import numpy
-import pdb
 
 def define_axes(axes):
     axis_ids = list()
@@ -92,7 +91,6 @@ def define_write_landcoverfrac():
     
 def main():
 
-    pdb.set_trace()
     cmor_ini()
     define_write_clisccp()
     define_write_landcoverfrac()

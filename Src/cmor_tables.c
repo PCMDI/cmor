@@ -9,6 +9,7 @@
 #include "cmor_locale.h"
 #include "json.h"
 #include "json_tokener.h"
+#include <sys/stat.h>
 
 /************************************************************************/
 /*                               wfgetc()                               */
@@ -474,13 +475,14 @@ int cmor_set_table( int table ) {
 }
 
 /************************************************************************/
-/*                       cmor_load_table()                             */
+/*                       cmor_load_table()                              */
 /************************************************************************/
 int cmor_load_table( char szTable[CMOR_MAX_STRING], int *table_id ) {
     int rc;
     char *szPath;
     char *szTableName;
     char szExperimentFilenameJSON[CMOR_MAX_STRING];
+    struct stat st;
 
 /* -------------------------------------------------------------------- */
 /*  build string "path/experiments.json"                                */
@@ -490,8 +492,21 @@ int cmor_load_table( char szTable[CMOR_MAX_STRING], int *table_id ) {
     strcpy(szExperimentFilenameJSON, szPath);
     strcat(szExperimentFilenameJSON, "/");
     strcat(szExperimentFilenameJSON, TABLE_EXPERIMENT_FILENAME);
+    rc = stat(szExperimentFilenameJSON, &st);
+/* -------------------------------------------------------------------- */
+/*  try to load table from directory where table is found or from the   */
+/*  cmor_input_path                                                     */
+/* -------------------------------------------------------------------- */
 
-    rc= cmor_load_table_internal( szTable, table_id, TRUE);
+    if(rc == 0 ) {
+        rc= cmor_load_table_internal( szTable, table_id, TRUE);
+    } else {
+        strcpy(szExperimentFilenameJSON, cmor_input_path);
+        strcat(szExperimentFilenameJSON, "/");
+        strcat(szExperimentFilenameJSON, TABLE_EXPERIMENT_FILENAME);
+        rc= cmor_load_table_internal( szTable, table_id, TRUE);
+    }
+
     if(rc == TABLE_SUCCESS) {
         rc= cmor_load_table_internal( szExperimentFilenameJSON, table_id, FALSE);
     } else if (rc == TABLE_FOUND) {
