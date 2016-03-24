@@ -1,6 +1,6 @@
 import cmor,numpy,sys,os
-from time import gmtime, strftime
-today = strftime("%Y%m%d", gmtime())
+from time import localtime, strftime
+today = strftime("%Y%m%d", localtime())
 
 try:
     import cdms2

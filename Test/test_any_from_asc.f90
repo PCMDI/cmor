@@ -65,7 +65,7 @@ program main
   
   print*,'Test Code: CMOR SETUP'
 !!$  
-  ierr = cmor_setup(inpath='Test',   &
+  ierr = cmor_setup(inpath='Tables',   &
        netcdf_file_action='replace',                                       &
        set_verbosity=1,                                                    &
        exit_control=1)
@@ -81,7 +81,7 @@ program main
      if (trim(adjustl(current%name)).eq.'time') then
         print*, 'Test Code: time found'
         ptimes => current
-        myaxis(ndim-i)=cmor_axis('Tables/CMIP6_Amon.json', &
+        myaxis(ndim-i)=cmor_axis('CMIP6_Amon.json', &
              table_entry=current%name,&
              units=current%units,&
              length=current%n,&
@@ -89,7 +89,7 @@ program main
 !!$          cell_bounds=current%bounds, &
              interval='1 month')
      else
-        myaxis(ndim-i)=cmor_axis('Tables/CMIP6_Amon.json', &
+        myaxis(ndim-i)=cmor_axis('CMIP6_Amon.json', &
              table_entry=current%name,&
              units=current%units,&
              length=current%n,&
@@ -101,7 +101,7 @@ program main
   enddo
   
   print*,'Test Code: CMOR VAR'
-  myvar=cmor_variable('Tables/CMIP6_Amon.json',&
+  myvar=cmor_variable('CMIP6_Amon.json',&
        var,&
        units,&
        myaxis,&

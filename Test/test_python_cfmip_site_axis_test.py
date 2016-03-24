@@ -41,14 +41,7 @@ def setup_cmor() :
       set_verbosity=cmor.CMOR_NORMAL, create_subdirectories=0)
 
    # Create CMOR dataset
-   cmor.dataset(outpath='Test', institution='Met Office Hadley Centre', institute_id="MOHC",
-      experiment_id='amip', model_id="HadGEM2-A", source='HadGEM2-A 2009',
-      calendar='360_day', contact='mark.webb@metoffice.gov.uk',
-      realization=1, initialization_method=1, physics_version=1,
-      history='history', comment='CMIP5 site axis test',
-      references='references', forcing="GHG, TO (yeah or some think)",
-      parent_experiment_id='N/A', parent_experiment_rip='N/A', branch_time=0
-   )
+   cmor.dataset_json("Test/test_python_cfmip_site_axis_test.json")
 
 #---------------------------------------------------------------------------------------------------
 if __name__ == '__main__' :
@@ -80,7 +73,7 @@ if __name__ == '__main__' :
 
    # Create grid object to link site-dimensioned variables to (lat,long).
    # Need to make CMIP6_grids the current MIP table for this to work.
-   table_id = cmor.load_table('CMIP6_grids')
+   table_id = cmor.load_table('CMIP6_grids.json')
    gaxis_id = cmor.grid([saxis_id], site_lats, site_lons)
    print 'ok: created site grid'
 

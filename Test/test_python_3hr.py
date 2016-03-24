@@ -2,24 +2,7 @@ import cmor,numpy
 
 error_flag = cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
   
-error_flag = cmor.dataset(                                   
-       outpath='Test',                                         
-       experiment_id='abrupt4xCO2',
-       institution= 'GICC (Generic International Climate Center, Geneva, Switzerland)',                                 
-       source='GICCM1 (2002): ',
-       calendar='360_day',                                      
-       realization=1,                                          
-       contact = 'Rusty Koder (koder@middle_earth.net) ',      
-       history='Output from archivcl_A1.nce/giccm_03_std_2xCO2_2256.', 
-       comment='Equilibrium reached after 30-year spin-up ',                                 
-       references='Model described by Koder and Tolkien ',
-       model_id="GICCM1", 
-       institute_id="PCMDI",
-       forcing="Nat, SO",
-       parent_experiment_id="lgm",
-       parent_experiment_rip="r1i1p1",
-       branch_time=3.14159)
-  
+error_flag = cmor.dataset_json("Test/test_python_3hr.json")
 
 n_lev = 40
 zlevs = 480.*numpy.arange(0,n_lev)+240.

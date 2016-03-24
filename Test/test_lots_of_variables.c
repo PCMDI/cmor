@@ -277,8 +277,6 @@ int main()
   ierr = cmor_dataset_json("Test/test_lots_of_variables.json");
 
 
-/*   cmor_set_cur_dataset_attribute("initialization_method","3",1); */
-/*  cmor_set_cur_dataset_attribute("physics_version","5",1); */
   printf("Test code: ok load cmor table(s)\n");
   ierr = cmor_load_table("Tables/CMIP6_Amon_json_hfls",&tables[0]);
   strcpy(id,"time");

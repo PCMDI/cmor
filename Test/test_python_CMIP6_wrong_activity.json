@@ -84,11 +84,11 @@
            "source_id":              "MIROC-ESM",
 
            "#output_path_template":   "Template for output path directory using tables keys or global attributes",
-           "#output_path_template":    "<activity_id><institute_id><source_id><experiment_id><driving_source_id-driving_variant_id><run_variant_id><table_id><varid><grid_label><version>",
-           "output_path_template":    "<activity_id_seg1><institute_id><source_id><activity_id_seg2><experiment_id><driving_source_id-driving_variant_id><run_variant_id><table_id><varid><grid_label><version>",
+           "#output_path_template":    "<activity_id><institute_id><source_id><experiment_id><driving_source_id-driving_variant_id><run_variant_id><table><varid><grid_option><version>",
+           "output_path_template":    "<activity_id_seg1><institute_id><source_id><activity_id_seg2><experiment_id><driving_source_id-driving_variant_id><run_variant_id><table><varid><grid_option><version>",
 
            "#output_path_template":   "Template for output filename using table keys or global attributes",
-           "output_file_template":    "<varid><table_id><experiment_id><source_id><run_variant_id><grid_label><driving_source_id><driving_variant_id>",
+           "output_file_template":    "<varid><table><experiment_id><source_id><run_variant_id><grid_option><driving_source_id><driving_variant_id>",
 
            "license":                "One of 2 licenses: ----- CMIP6 model data produced by <Your CentreName> is licensed under a Creative Commons Attribution 'NonCommercial Share Alike' 4.0 International License (http://creativecommons.org/licenses/by/4.0/). Use of the data should be acknowledged following guidelines found at <what URL???> The data is hosted via the Earth System Grid Federation. Permissions beyond the scope of this license may be available at http://pcmdi.org/cmip5/terms-of-use.   Individuals using this data should register at ??? to receive notice of selected categories of errata and updates. Further information about this data, including some limitations, can be found at ???. The data producers and data providers make no warranty, either express or implied, including but not limited to, warranties of merchantability and fitness for a particular purpose. All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law. "
 

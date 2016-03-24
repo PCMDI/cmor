@@ -6,15 +6,7 @@ def main():
     
     cmor.setup(inpath='Tables',
                netcdf_file_action = cmor.CMOR_REPLACE_3)
-    cmor.dataset('abrupt4xCO2', 'ukmo', 'HadCM3', '360_day',
-                 institute_id = 'ukmo',
-                 model_id = 'HadCM3',
-                 history = 'some global history',
-                 forcing = 'N/A',
-                 parent_experiment_id = 'N/A',
-                 parent_experiment_rip = 'N/A',
-                 branch_time = 0,
-                 contact = 'brian clough')
+    cmor.dataset_json("Test/test_python_joerg_tim2_clim_02.json")
  
     table = 'CMIP6_Oclim.json'
     cmor.load_table(table)

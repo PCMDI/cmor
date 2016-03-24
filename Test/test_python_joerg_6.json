@@ -21,6 +21,6 @@
        "parent_experiment_rip":"r1i1p1",
        "branch_time":"3.14159",
        "output_path_template":    "<product><institute_id><model_id><experiment_id><frequency><realm><run_variant>",
-       "output_file_template":    "<varid><table_id><model_id><experiment_id><run_variant>"
+       "output_file_template":    "<varid><table><model_id><experiment_id><run_variant>"
 }
 

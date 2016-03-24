@@ -1,6 +1,6 @@
 import cmor,numpy,sys,os
-from time import gmtime, strftime
-today = strftime("%Y%m%d", gmtime())
+from time import localtime, strftime
+today = strftime("%Y%m%d", localtime())
 
 try:
     import cdms2
@@ -125,7 +125,7 @@ cmor.close()
 
 import cdtime,os
 ltime = cdtime.reltime(ntimes-1,'month since 1980').tocomp()
-lcmor = os.stat("CMIP6/PCMDI/NICAM/PMIP/DcppC22/no-driver/r1i1p1f1/Amon/tas/v%s/tas_Amon_DcppC22_NICAM_r1i1p1f1_198001-%i%.2i.nc" % (today,ltime.year,ltime.month))[6]
+lcmor = os.stat("CMIP6/PCMDI/NICAM/PMIP/DcppC22/no-driver/r1i1p1f1/Amon/tas/gn/v%s/tas_Amon_DcppC22_NICAM_r1i1p1f1_gn_198001-%i%.2i.nc" % (today,ltime.year,ltime.month))[6]
 print 'level:',level,"shuffle:",shuffle
 print 'total cmor:',totcmor,mincmor,totcmor/ntimes,maxcmor,lcmor
 lcdms = os.stat("Test/crap.nc")[6]

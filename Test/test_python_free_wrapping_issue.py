@@ -14,24 +14,11 @@ def save(opts,threeD=True):
             exit_control=cmor.CMOR_NORMAL,
             logfile=None, create_subdirectories=1)
 
-    cmor.dataset(outpath=opts['outpath'],
-            experiment_id='historical', 
-            institution='CMOR-test', 
-            source='CMOR-test',
-            calendar='gregorian', 
-            realization=1,
-            contact='dummy',
-            history='dummy',
-            model_id='CMOR-test',
-            forcing='GHG',
-            institute_id='CMOR-test',
-            parent_experiment_id='piControlwithism',
-            branch_time=109207.0,
-            parent_experiment_rip='r1i1p1')
+    cmor.dataset_json("Test/test_python_free_wrapping_issue.json")
 
     # Load the CMIP tables into memory.
     tables=[]
-    tables.append(cmor.load_table('CMIP6_grids'))
+    tables.append(cmor.load_table('CMIP6_grids.json'))
     tables.append(cmor.load_table(opts['cmip_table']))
 
     # Create the dimension axes
@@ -90,7 +77,7 @@ def save(opts,threeD=True):
             [4000, 2500],
             [2500, 1500],
             [1500, 500]])
-        plev_axis_id = cmor.axis(table_entry='plevs',
+        plev_axis_id = cmor.axis(table_entry='plev17',
                 units='Pa', length=len(plev),
                 coord_vals=plev[:], cell_bounds=plev_bounds[:],
                 interval=None)

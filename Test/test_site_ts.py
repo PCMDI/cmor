@@ -5,16 +5,7 @@ def cmor_initialisation():
     cmor.setup(inpath='Tables',
                netcdf_file_action = cmor.CMOR_REPLACE_3,
                create_subdirectories = 0)
-    cmor.dataset('abrupt4xCO2', 'ukmo', 'HadCM3', '360_day',
-                 institute_id = 'ukmo',
-                 model_id = 'HadCM3',
-                 history = 'some global history',
-                 forcing = 'N/A',
-                 parent_experiment_id = 'N/A',
-                 parent_experiment_rip = 'N/A',
-                 branch_time = 0.,
-                 contact = 'bob',
-                 outpath = 'Test')
+    cmor.dataset_json("Test/test_site_ts.json")
 
 def setup_data():
     axes = [ {'table_entry': 'time1',
