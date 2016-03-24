@@ -195,6 +195,7 @@
 #define CMOR_DEFAULT_PATH_TEMPLATE "<activity_id_seg1><institute_id><source_id><activity_id_seg2><experiment_id><driving_source_id-driving_variant_id><run_variant_id><table><varid><grid_label><version>"
 #define CMOR_DEFAULT_FILE_TEMPLATE "<varid><table><experiment_id><source_id><run_variant_id><grid_label>[<driving_source_id-driving_variant_id>]"
 
+#define CMOR_MAX_TRACKING_PREFIX_PROJECT_FILTER 1
 
 extern int USE_NETCDF_4;
 extern int CMOR_MODE;
@@ -436,6 +437,8 @@ typedef struct cmor_table_ {
 } cmor_table_t;
 
 extern cmor_table_t cmor_tables[CMOR_MAX_TABLES];
+
+extern const char cmor_tracking_prefix_project_filter[CMOR_MAX_TRACKING_PREFIX_PROJECT_FILTER][CMOR_MAX_STRING];
 
 typedef struct cmor_dataset_def_ {
     char outpath[CMOR_MAX_STRING];
