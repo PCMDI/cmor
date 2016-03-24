@@ -1112,96 +1112,96 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
     cmor_vars[vrid].deflate = refvar.deflate;
     cmor_vars[vrid].deflate_level = refvar.deflate_level;
 
-    if( refvar.out_name[0] == '\0' ) {
-	strncpy( cmor_vars[vrid].id, name, CMOR_MAX_STRING );
+    if (refvar.out_name[0] == '\0') {
+        strncpy(cmor_vars[vrid].id, name, CMOR_MAX_STRING);
     } else {
-	strncpy( cmor_vars[vrid].id, refvar.out_name, CMOR_MAX_STRING );
+        strncpy(cmor_vars[vrid].id, refvar.out_name, CMOR_MAX_STRING);
     }
 
-    cmor_set_variable_attribute_internal( vrid, VARIABLE_ATT_STANDARDNAME,
-                                          'c',
-					  refvar.standard_name );
+    cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_STANDARDNAME, 'c',
+            refvar.standard_name);
 
-    cmor_set_variable_attribute_internal( vrid, VARIABLE_ATT_LONGNAME,
-                                          'c',
-					  refvar.long_name );
-    if( ( refvar.flag_values != NULL )
-	&& ( refvar.flag_values[0] != '\0' ) ) {
-	cmor_set_variable_attribute_internal( vrid, VARIABLE_ATT_FLAGVALUES,
-	                                      'c',
-					      refvar.flag_values );
+    cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_LONGNAME, 'c',
+            refvar.long_name);
+    if ((refvar.flag_values != NULL) && (refvar.flag_values[0] != '\0')) {
+        cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_FLAGVALUES, 'c',
+                refvar.flag_values);
     }
-    if(( refvar.flag_meanings != NULL )&& ( refvar.flag_meanings[0] != '\0' )) {
+    if ((refvar.flag_meanings != NULL) && (refvar.flag_meanings[0] != '\0')) {
 
-	cmor_set_variable_attribute_internal( vrid, VARIABLE_ATT_FLAGMEANINGS,
-	                                      'c',
-					      refvar.flag_meanings );
+        cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_FLAGMEANINGS,
+                'c', refvar.flag_meanings);
     }
 
-    cmor_set_variable_attribute_internal( vrid, VARIABLE_ATT_COMMENT,
-                                          'c',
-					  refvar.comment );
+    cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_COMMENT, 'c',
+            refvar.comment);
 
-    if( strcmp( refvar.units, "?" ) == 0 ) {
-	strncpy( cmor_vars[vrid].ounits, units, CMOR_MAX_STRING );
+    if (strcmp(refvar.units, "?") == 0) {
+        strncpy(cmor_vars[vrid].ounits, units, CMOR_MAX_STRING);
     } else {
-	strncpy( cmor_vars[vrid].ounits, refvar.units, CMOR_MAX_STRING );
+        strncpy(cmor_vars[vrid].ounits, refvar.units, CMOR_MAX_STRING);
     }
 
-    if( refvar.type != 'c' ) {
-	cmor_set_variable_attribute_internal( vrid, "units", 'c',
-					      cmor_vars[vrid].ounits );
+    if (refvar.type != 'c') {
+        cmor_set_variable_attribute_internal(vrid,
+                VARIABLE_ATT_UNITS,
+                'c',
+                cmor_vars[vrid].ounits);
     }
 
-    strncpy( cmor_vars[vrid].iunits, units, CMOR_MAX_STRING );
+    strncpy(cmor_vars[vrid].iunits, units, CMOR_MAX_STRING);
 
-    if( ( original_name != NULL ) && ( original_name[0] != '\0' ) ) {
-	cmor_set_variable_attribute_internal( vrid,
-	                                      "original_name",
-	                                      'c',
-					      original_name );
+    if ((original_name != NULL) && (original_name[0] != '\0')) {
+        cmor_set_variable_attribute_internal(vrid,
+                VARIABLE_ATT_ORIGINALNAME,
+                'c',
+                original_name);
     }
 
-    if( ( history != NULL ) && ( history[0] != '\0' ) ) {
-	cmor_set_variable_attribute_internal( vrid,
-	                                      "history",
-	                                      'c',
-					      history );
+    if ((history != NULL) && (history[0] != '\0')) {
+        cmor_set_variable_attribute_internal(vrid,
+                VARIABLE_ATT_HISTORY,
+                'c',
+                history);
     }
 
-    if( ( comment != NULL ) && ( comment[0] != '\0' ) ) {
-	if( cmor_has_variable_attribute( vrid, VARIABLE_ATT_COMMENT ) == 0 ) {
+    if ((comment != NULL) && (comment[0] != '\0')) {
+        if (cmor_has_variable_attribute(vrid, VARIABLE_ATT_COMMENT) == 0) {
 
-	    strncpy( msg, comment, CMOR_MAX_STRING );
-	    strncat( msg, ", ", CMOR_MAX_STRING - strlen( msg ) );
-	    strncat( msg,
-		     cmor_tables[cmor_vars[vrid].ref_table_id].activity_id,
-		     CMOR_MAX_STRING - strlen( msg ) );
-	    strncat( msg, "_table_comment: ",
-		     CMOR_MAX_STRING - strlen( msg ) );
-	    strncat( msg, refvar.comment,
-		     CMOR_MAX_STRING - strlen( msg ) );
-	} else {
-	    strncpy( msg, comment, CMOR_MAX_STRING );
-	}
-	cmor_set_variable_attribute_internal( vrid, VARIABLE_ATT_COMMENT,
-	                                      'c', msg );
-    }
-    if( strcmp( units, refvar.units ) != 0 ) {
-	cmor_set_variable_attribute_internal( vrid, VARIABLE_ATT_ORIGINALUNITS,
-	                                     'c',
-					      units );
-	snprintf( msg, CMOR_MAX_STRING,
-		  "Converted units from '%s' to '%s'", units,
-		  refvar.units );
-	cmor_update_history( vrid, msg );
+            strncpy(msg, comment, CMOR_MAX_STRING);
+            strncat(msg, ", ", CMOR_MAX_STRING - strlen(msg));
+            strncat(msg, cmor_tables[cmor_vars[vrid].ref_table_id].activity_id,
+                    CMOR_MAX_STRING - strlen(msg));
+            strncat(msg, "_table_comment: ", CMOR_MAX_STRING - strlen(msg));
+            strncat(msg, refvar.comment, CMOR_MAX_STRING - strlen(msg));
+        } else {
+            strncpy(msg, comment, CMOR_MAX_STRING);
+        }
+        cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_COMMENT, 'c',
+                msg);
     }
 
-    cmor_set_variable_attribute_internal( vrid, "cell_methods", 'c',
-					  refvar.cell_methods );
+    if (strcmp(units, refvar.units) != 0) {
+        cmor_set_variable_attribute_internal(vrid,
+                VARIABLE_ATT_ORIGINALUNITS,
+                'c',
+                units);
+        snprintf(msg,
+                CMOR_MAX_STRING,
+                "Converted units from '%s' to '%s'",
+                units,
+                refvar.units);
+        cmor_update_history(vrid, msg);
+    }
 
-    cmor_set_variable_attribute_internal( vrid, "cell_measures", 'c',
-					  refvar.cell_measures );
+    cmor_set_variable_attribute_internal( vrid, VARIABLE_ATT_CELLMETHODS,
+            'c',
+            refvar.cell_methods );
+
+    cmor_set_variable_attribute_internal( vrid,
+            VARIABLE_ATT_CELLMEASURES,
+            'c',
+            refvar.cell_measures );
 
     if( ( positive != NULL ) && ( positive[0] != '\0' ) ) {
 	if( ( positive[0] != 'd' ) && positive[0] != 'u' ) {
@@ -1214,6 +1214,7 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
 		      positive, positive[0] );
 	    cmor_handle_error( msg, CMOR_CRITICAL );
 	}
+
 	if( refvar.positive == 'u' ) {
 	    if( cmor_is_required_variable_attribute( refvar,
 	            VARIABLE_ATT_POSITIVE )== 0 ) {

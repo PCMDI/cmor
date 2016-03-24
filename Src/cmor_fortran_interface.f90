@@ -1,19 +1,5 @@
 module cmor_users_functions
   interface 
-     subroutine cmor_create_output_path_cff(var_id, path, slen)
-       character(*), intent(out) ::  path
-       integer var_id
-       integer , intent(out) :: slen
-     end subroutine cmor_create_output_path_cff
-  end interface
-  interface 
-     function cmor_set_cur_dset_attribute_cff(nm, value) result (ierr)
-       character(*) nm
-       character (*) value
-       integer ierr
-     end function cmor_set_cur_dset_attribute_cff
-  end interface
-  interface 
      function cmor_get_cur_dset_attribute_cff(name, value) result (ierr)
        character(*) name
        character(*) value
@@ -6926,15 +6912,6 @@ contains
 !!$  end function cmor_axis_long_2
      
 
-  subroutine cmor_create_output_path(var_id, path)
-    implicit none
-    character(*), intent(out) :: path
-    integer var_id
-    integer slen
-    call cmor_create_output_path_cff(var_id,path,slen)
-    path = path(1:slen)
-  end subroutine cmor_create_output_path
-
   function cmor_has_cur_dataset_attribute(value) result (ierr)
     implicit none
     character (*), intent (in) :: value
@@ -6950,13 +6927,6 @@ contains
     ierr = cmor_get_cur_dset_attribute_cff(trim(name)//char(0), value)
   end function cmor_get_cur_dataset_attribute
 
-  function cmor_set_cur_dataset_attribute(name, value) result (ierr)
-    implicit none
-    character (*), intent (in) :: name
-    character (*), intent (in) :: value
-    integer ierr
-    ierr = cmor_set_cur_dset_attribute_cff(trim(name)//char(0), trim(value)//char(0))
-  end function cmor_set_cur_dataset_attribute
   function cmor_has_variable_attribute(var_id, value) result (ierr)
     implicit none
     character (*), intent (in) :: value
@@ -7155,118 +7125,5 @@ contains
     ierr = -ierr
   end function cmor_dataset_json
 
-  function cmor_dataset(outpath,experiment_id,institution,source,calendar,&
-       realization,&
-       contact,history,comment,references,&
-       leap_year,leap_month,month_lengths,model_id,forcing, &
-       initialization_method,physics_index,institute_id,parent_experiment_id,branch_time,parent_experiment_rip) result (ierr)
-    implicit none
-    character(*), INTENT(in) :: outpath,experiment_id,institution,source,calendar
-    character(*), optional, intent(in) :: model_id,forcing
-    character(*), optional, intent(in) :: contact,history,comment,references,institute_id
-    character(*), optional, intent(in) :: parent_experiment_id,parent_experiment_rip
-    integer, optional,intent(in) :: leap_year,leap_month,month_lengths(12)
-    integer r,ly,lm,im,pv
-    integer, optional, intent(in) :: realization,initialization_method,physics_index
-    character(1024) cntct,hist,comt,ref,mnm,fnm,instid,peid,perip
-    integer ierr
-    double precision, optional, intent(in) :: branch_time
 
-    if (present(realization)) then
-       r = realization
-    else
-       r = 1
-    endif
-    if (present(initialization_method)) then
-       im = initialization_method
-    else
-       im = 0
-    endif
-    if (present(physics_index)) then
-       pv = physics_index
-    else
-       pv = 0
-    endif
-    if (present(leap_year)) then
-       ly = leap_year
-    else
-       ly =0
-    endif
-    if (present(leap_month)) then
-       lm = leap_month
-    else
-       lm =0
-    endif
-    if (present(contact)) then
-       cntct = trim(contact)//char(0)
-    else
-       cntct = char(0)
-    endif
-    if (present(history)) then
-       hist = trim(history)//char(0)
-    else
-       hist = char(0)
-    endif
-    if (present(comment)) then
-       comt = trim(comment)//char(0)
-    else
-       comt = char(0)
-    endif
-    if (present(references)) then
-       ref = trim(references)//char(0)
-    else
-       ref = char(0)
-    endif
-    if (present(model_id)) then
-       mnm = trim(model_id)//char(0)
-    else
-       mnm  = char(0)
-    endif
-    if (present(forcing)) then
-       fnm = trim(forcing)//char(0)
-    else
-       fnm  = char(0)
-    endif
-    if (present(institute_id)) then
-       instid = trim(institute_id)//char(0)
-    else
-       instid= char(0)
-    endif
-    if (present(parent_experiment_id)) then
-       peid = trim(parent_experiment_id)//char(0)
-    else
-       peid= char(0)
-    endif
-    if (present(parent_experiment_rip)) then
-       perip = trim(parent_experiment_rip)//char(0)
-    else
-       perip= char(0)
-    endif
-    if (present(month_lengths)) then
-       if (present(branch_time)) then
-          ierr = cmor_dataset_cff(trim(outpath)//char(0),trim(experiment_id)//char(0),&
-               trim(institution)//char(0),trim(source)//char(0),trim(calendar)//char(0),r,&
-               cntct,hist,comt,ref,&
-               ly,lm,month_lengths(1),mnm,fnm,im,pv,instid,peid,branch_time,perip)
-       else
-          ierr = cmor_dataset_cff_nobrch(trim(outpath)//char(0),trim(experiment_id)//char(0),&
-               trim(institution)//char(0),trim(source)//char(0),trim(calendar)//char(0),r,&
-               cntct,hist,comt,ref,&
-               ly,lm,month_lengths(1),mnm,fnm,im,pv,instid,peid,perip)
-       endif
-    else
-       if (present(branch_time)) then
-          ierr = cmor_dataset_cff_null(trim(outpath)//char(0),trim(experiment_id)//char(0),&
-               trim(institution)//char(0),trim(source)//char(0),trim(calendar)//char(0),r,&
-               cntct,hist,comt,ref,&
-               ly,lm,mnm,fnm,im,pv,instid,peid,branch_time,perip)
-       else
-          ierr = cmor_dataset_cff_null_nobrch(trim(outpath)//char(0),trim(experiment_id)//char(0),&
-               trim(institution)//char(0),trim(source)//char(0),trim(calendar)//char(0),r,&
-               cntct,hist,comt,ref,&
-               ly,lm,mnm,fnm,im,pv,instid,peid,perip)
-       endif
-    endif
-    ierr = -ierr
-  end function cmor_dataset
 end module cmor_users_functions

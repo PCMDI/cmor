@@ -27,45 +27,10 @@ static PyObject *PyCMOR_get_original_shape( PyObject * self,
     return mylist;
 }
 
-/************************************************************************/
-/*                     PyCMOR_create_output_path()                      */
-/************************************************************************/
-
-static PyObject *PyCMOR_create_output_path( PyObject * self,
-					    PyObject * args ) {
-    char path[CMOR_MAX_STRING];
-    int var_id;
-
-    if( !PyArg_ParseTuple( args, "i", &var_id ) )
-	return NULL;
-    cmor_create_output_path( var_id, path );
-    return Py_BuildValue( "s", path );
-}
-
-/************************************************************************/
-/*                  PyCMOR_set_cur_dataset_attribute()                  */
-/************************************************************************/
-
-static PyObject *PyCMOR_set_cur_dataset_attribute( PyObject * self,
-						   PyObject * args ) {
-    char *name;
-    char *value;
-    int ierr;
-
-    if( !PyArg_ParseTuple( args, "ss", &name, &value ) )
-	return NULL;
-    ierr = cmor_set_cur_dataset_attribute( name, value, 1 );
-    if( ierr != 0 )
-	return NULL;
-    /* Return NULL Python Object */
-    Py_INCREF( Py_None );
-    return Py_None;
-}
 
 /************************************************************************/
 /*                  PyCMOR_get_cur_dataset_attribute()                  */
 /************************************************************************/
-
 static PyObject *PyCMOR_get_cur_dataset_attribute( PyObject * self,
 						   PyObject * args ) {
     char *name;
@@ -97,7 +62,6 @@ static PyObject *PyCMOR_has_cur_dataset_attribute( PyObject * self,
 /************************************************************************/
 /*                   PyCMOR_set_variable_attribute()                    */
 /************************************************************************/
-
 static PyObject *PyCMOR_set_variable_attribute( PyObject * self,
 						PyObject * args ) {
     char *name;
@@ -136,7 +100,6 @@ static PyObject *PyCMOR_get_variable_attribute( PyObject * self,
 /************************************************************************/
 /*                   PyCMOR_has_variable_attribute()                    */
 /************************************************************************/
-
 static PyObject *PyCMOR_has_variable_attribute( PyObject * self,
 						PyObject * args ) {
     char *name;
@@ -151,7 +114,6 @@ static PyObject *PyCMOR_has_variable_attribute( PyObject * self,
 /************************************************************************/
 /*                            PyCMOR_setup()                            */
 /************************************************************************/
-
 static PyObject *PyCMOR_setup( PyObject * self, PyObject * args ) {
     int mode, ierr, netcdf, verbosity, createsub;
     char *path;
@@ -258,77 +220,6 @@ static PyObject *PyCMOR_getincvalues( PyObject * self, PyObject * args ) {
     }
 }
 
-/************************************************************************/
-/*                           PyCMOR_dataset()                           */
-/************************************************************************/
-
-static PyObject *PyCMOR_dataset( PyObject * self, PyObject * args ) {
-    char *outpath;
-    char *experiment_id;
-    char *institution;
-    char *source;
-    char *calendar;
-    int realization;
-    char *contact;
-    char *history;
-    char *comment;
-    char *references;
-    char *model_id;
-    char *forcing;
-    char *institute_id;
-    char *parent_exp_id;
-    char *parent_exp_rip;
-    int leap_year;
-    int leap_month;
-    int *month_lengths;
-    int initialization_method;
-    int physics_index;
-    int ierr;
-    double *branch_time = NULL, bt;
-    PyObject *month_lengths_obj;
-    PyObject *branch_time_obj;
-    PyArrayObject *month_lengths_array_obj = NULL;
-
-    if( !PyArg_ParseTuple
-	( args, "sssssissssiiOssiissOs", &outpath, &experiment_id,
-	  &institution, &source, &calendar, &realization, &contact,
-	  &history, &comment, &references, &leap_year, &leap_month,
-	  &month_lengths_obj, &model_id, &forcing, &initialization_method,
-	  &physics_index, &institute_id, &parent_exp_id,
-	  &branch_time_obj, &parent_exp_rip ) )
-	return NULL;
-    if( month_lengths_obj == Py_None ) {
-	month_lengths = NULL;
-    } else {
-	month_lengths_array_obj =
-	    ( PyArrayObject * )
-	    PyArray_ContiguousFromObject( month_lengths_obj,
-					  PyArray_NOTYPE, 1, 0 );
-	month_lengths = ( int * ) month_lengths_array_obj->data;
-    }
-    if( branch_time_obj == Py_None ) {
-	branch_time = NULL;
-    } else {
-	bt = ( double ) PyFloat_AsDouble( branch_time_obj );
-	branch_time = &bt;
-    }
-
-    ierr =
-	cmor_dataset( outpath, experiment_id, institution, source,
-		      calendar, realization, contact, history, comment,
-		      references, leap_year, leap_month, month_lengths,
-		      model_id, forcing, initialization_method,
-		      physics_index, institute_id, parent_exp_id,
-		      branch_time, parent_exp_rip );
-    if( month_lengths_array_obj != NULL ) {
-        Py_DECREF( month_lengths_array_obj );
-    }
-    if( ierr != 0 )
-        return NULL;
-    /* Return NULL Python Object */
-    Py_INCREF( Py_None );
-    return Py_None;
-}
 
 /************************************************************************/
 /*                       PyCMOR_dataset_json()                          */
@@ -950,7 +841,6 @@ static PyObject *PyCMOR_grid( PyObject * self, PyObject * args ) {
 
 static PyMethodDef MyExtractMethods[] = {
     {"setup", PyCMOR_setup, METH_VARARGS},
-    {"dataset", PyCMOR_dataset, METH_VARARGS},
     {"dataset_json", PyCMOR_dataset_json, METH_VARARGS},
     {"load_table", PyCMOR_load_table, METH_VARARGS},
     {"axis", PyCMOR_axis, METH_VARARGS},
@@ -964,8 +854,6 @@ static PyMethodDef MyExtractMethods[] = {
     {"set_grid_mapping", PyCMOR_grid_mapping, METH_VARARGS},
     {"getCMOR_defaults_include", PyCMOR_getincvalues, METH_VARARGS},
     {"close", PyCMOR_close, METH_VARARGS},
-    {"set_cur_dataset_attribute", PyCMOR_set_cur_dataset_attribute,
-     METH_VARARGS},
     {"get_cur_dataset_attribute", PyCMOR_get_cur_dataset_attribute,
      METH_VARARGS},
     {"has_cur_dataset_attribute", PyCMOR_has_cur_dataset_attribute,
@@ -976,7 +864,6 @@ static PyMethodDef MyExtractMethods[] = {
      METH_VARARGS},
     {"has_variable_attribute", PyCMOR_has_variable_attribute,
      METH_VARARGS},
-    {"create_output_path", PyCMOR_create_output_path, METH_VARARGS},
     {"get_original_shape", PyCMOR_get_original_shape, METH_VARARGS},
     {NULL, NULL}		/*sentinel */
 };

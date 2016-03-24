@@ -1,30 +1,18 @@
 {
     "Header": {
-        "product": "output", 
-        "missing_value": "1e20", 
-        "cf_version": "1.6", 
-        "approx_interval": "", 
-        "baseURL": "http://cmip-pcmdi.llnl.gov/CMIP6/dataLocation", 
-        "cmor_version": "3.0", 
-        "forcings": "N/A Nat Ant GHG SD SI SA TO SO Oz LU Sl Vl SS Ds BC MD OC AA", 
-        "#required_global_attributes": [
-            "creation_date", 
-            "tracking_id", 
-            "forcing", 
-            "model_id", 
-            "parent_experiment_id", 
-            "parent_experiment_rip", 
-            "branch_time", 
-            "contact", 
-            "institute_id"
-        ], 
-        "frequency": "3hr", 
-        "table_id": "Table cf3hr", 
-        "table_date": "03 February 2016", 
-        "modeling_realm": "atmos", 
-        "generic_levels": "", 
-        "activity_id": "CMIP6"
-    }, 
+        "missing_value": "1e20",
+        "approx_interval": "0.125000",
+        "cmor_version": "3.0",
+        "forcings": "N/A Nat Ant GHG SD SI SA TO SO Oz LU Sl Vl SS Ds BC MD OC AA",
+        "frequency": "3hr",
+        "table_id": "Table 3hr",
+        "table_date": "24 February 2016",
+        "modeling_realm": "atmos",
+        "generic_levels": "alevel alevhalf",
+        "activity_id": "CMIP6-XXXXX",
+        "Conventions": "CF-1.8 CMIP-6.0"
+    },
+
     "axis_entry": {
         "typebare": {
             "requested": "", 

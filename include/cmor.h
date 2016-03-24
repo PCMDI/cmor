@@ -106,6 +106,7 @@
 #define VARIABLE_ATT_UNITS            "units"
 #define VARIABLE_ATT_EXTCELLMEASURES  "ext_cell_measures"
 #define VARIABLE_ATT_CELLMEASURES     "cell_measures"
+#define VARIALBE_ATT_GRIDMAPPING      "grid_mapping"
 
 #define VARIABLE_ATT_VALIDMIN         "valid_min"
 #define VARIABLE_ATT_VALIDMAX         "valid_max"
@@ -150,6 +151,8 @@
 #define GLOBAL_ATT_PARENT_EXPT_ID     "parent_experiment_id"
 #define GLOBAL_ATT_BRANCH_TIME        "branch_time"
 #define GLOBAL_ATT_MODELING_REALM     "modeling_realm"
+#define GLOBAL_ATT_TRACKING_ID        "tracking_id"
+
 
 
 #define GLOBAL_INT_ATT_PARENT_EXPT   GLOBAL_INTERNAL"parent_experiment"
@@ -167,6 +170,7 @@
 #define TABLE_HEADER_MODELING_REALM   "modeling_realm"
 #define TABLE_HEADER_TABLE_DATE       "table_date"
 #define TABLE_HEADER_TRACKING_PREFIX  "tracking_prefix"
+#define TABLE_HEADER_TRACKING_ID      "tracking_id"
 #define TABLE_HEADER_FORCINGS         "forcings"
 #define TABLE_HEADER_FREQUENCY        "frequency"
 #define TABLE_HEADER_TABLE_ID         "table_id"

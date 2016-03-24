@@ -3777,7 +3777,7 @@
             "cell_measures": "time: mean", 
             "cell_methods": "area: areacello volume: volcello", 
             "ok_min_mean_abs": "", 
-            "units": "C", 
+            "units": "degree_C", 
             "out_name": "thetao", 
             "type": "real", 
             "valid_max": "", 
