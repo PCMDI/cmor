@@ -228,23 +228,6 @@ int main()
   printf("yep: %s, %s\n",c1,c2);
   ierr = cmor_dataset_json("Test/ipcc_test_code.json");
 
-  /*ierr = cmor_dataset(
-       "Test",
-       "Abrupt05xco2",
-       "GICC (Generic International Climate Center, Geneva, Switzerland)",
-       "GICCM1(2002): atmosphere:  GICAM3 (gicam_0_brnchT_itea_2, T63L32); ocean: MOM (mom3_ver_3.5.2, 2x3L15); sea ice: GISIM4; land: GILSM2.5",
-       "360_day",
-       1,
-       "Rusty Koder (koder@middle_earth.net)",
-       "Output from archive/giccm_03_std_2xCO2_2256.",
-       "Equilibrium reached after 30-year spin-up after which data were output starting with nominal date of January 2030",
-       "Model described by Koder and Tolkien (J. Geophys. Res., 2001, 576-591).  Also see http://www.GICC.su/giccm/doc/index.html  2XCO2 simulation described in Dorkey et al. '(Clim. Dyn., 2003, 323-357.)",
-       0,
-       0,
-       &tmpmo[0],&c1[0],&c2[0],
-       0,
-       0,"GICC","N/A",&bt,"r1i1p1");
-*/
   printf("Test code: ok load cmor table(s)\n");
   ierr = cmor_load_table("Tables/CMIP6_Omon.json",&tables[0]);
   ierr = cmor_load_table("Tables/CMIP6_Amon.json",&tables[1]);
@@ -252,6 +235,7 @@ int main()
   strcpy(id,"time");
   strcpy(units,"months since 1980");
   strcpy(interval,"1 month");
+
   read_time(0, &Time[0], &bnds_time[0]);
   read_time(1, &Time[1], &bnds_time[2]);
   ierr = cmor_axis(&myaxes[0],id,units,ntimes,&Time[0],'d',&bnds_time[0],2,interval);

@@ -1,18 +1,17 @@
 {
     "Header": {
-        "#product": "output", 
-        "missing_value": "1e20", 
+        "activity_id": "CMIP6-XXXX", 
         "approx_interval": "30.00000", 
-        "#baseURL": "http://cmip-pcmdi.llnl.gov/CMIP6/dataLocation", 
+        "realm": "atmos", 
+        "product": "output", 
         "cmor_version": "3.0", 
-        "forcings": "N/A Nat Ant GHG SD SI SA TO SO Oz LU Sl Vl SS Ds BC MD OC AA", 
+        "Conventions": "CF-1.8 CMIP-6.0", 
         "frequency": "mon", 
         "table_id": "Table Amon", 
-        "table_date": "24 February 2016", 
-        "modeling_realm": "atmos", 
+        "data_specs_version": "3.0", 
         "generic_levels": "alevel alevhalf", 
-        "activity_id": "CMIP6-XXXXX",
-        "Conventions": "CF-1.8 CMIP-6.0"
+        "missing_value": "1e20", 
+        "table_date": "31 March 2016"
     }, 
     "axis_entry": {
         "typebare": {
@@ -1911,18 +1910,18 @@
             "comment": "cloud area fraction", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
+            "valid_min": "-0.0001822", 
             "long_name": "Total Cloud Fraction", 
             "standard_name": "cloud_area_fraction_in_atmosphere_layer", 
             "modeling_realm": "atmos", 
             "cell_measures": "time: mean", 
             "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "39.37", 
             "units": "1.0", 
             "out_name": "clt", 
             "type": "real", 
-            "valid_min": "-0.0001822", 
             "valid_max": "105", 
-            "#ok_min_mean_abs": "39.37", 
-            "#ok_max_mean_abs": "84.98"
+            "ok_max_mean_abs": "84.98"
         }, 
         "clw": {
             "comment": "Includes both large-scale and convective cloud. Calculate as the mass of cloud liquid water in the grid cell divided by the mass of air (including the water in all phases) in the grid cells. Precipitating hydrometeors are included ONLY if the precipitating hydrometeors affect the calculation of radiative transfer in model.", 
@@ -3223,7 +3222,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cct": {
-            "comment": "", 
+            "comment": "Where convective cloud is present in the grid cell, the instantaneous cloud top altitude should be that of the top of the highest level containing convective cloud. Missing data should be reported in the absence of convective cloud. The time mean should be calculated from these quantities averaging over occasions when convective cloud is present only, and should contain missing data for occasions when no convective cloud is present during the meaning period.", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
             "valid_min": "", 
@@ -3252,7 +3251,7 @@
             "dimensions": "olevel"
         }, 
         "ccb": {
-            "comment": "", 
+            "comment": "Where convective cloud is present in the grid cell, the instantaneous cloud base altitude should be that of the bottom of the lowest level containing convective cloud. Missing data should be reported in the absence of convective cloud. The time mean should be calculated from these quantities averaging over occasions when convective cloud is present only, and should contain missing data for occasions when no convective cloud is present during the meaning period. ", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
             "valid_min": "", 

@@ -1,5 +1,6 @@
 {
 
+"data_spec_version":"3.0",
 "activity_ids": [
     "CMIP6-DECK",
     "CMIP6-AerChemMIP", 
@@ -28,15 +29,15 @@
     "CMIP6-VolMIP"
     ],
 
-"source_ids": [
-    "ACCESS",
-    "AWI-CM",
+"source_ids": {
+    "ACCESS1-0": "ACCESS 1.0: adaptation of unified model with interactive chemistry (ca. 2012)" ,
+    "AWI-CM": "",
     "BCC",
     "BESM",
     "BNU",
     "CAMS-CSM",
     "CAS-ESM",
-    "CESM",
+    "CESM1-CAM5": "CESM1 (CAM5): model version ca. 2009",
     "CESS-THU",
     "CMCC",
     "CNRM",
@@ -44,7 +45,7 @@
     "EC-Earth",
     "FGOALS",
     "FIO",
-    "GFDL",
+    "GFDL-CM2-1": "GFDL CM2.1",
     "GISS",
     "HadGEM3",
     "IITM",
@@ -61,7 +62,7 @@
     "NorESM",
     "UKESM",
     "UKESM--KMA"
-    ],
+    },
 
 "institution_ids": {
         "NOAA-GFDL":"NOAA Geophysical Fluid Dynamics Laboratory",
@@ -123,7 +124,7 @@
 "required_global_attributes": 
     [
     "activity_id",
-    "Conventions ",
+    "Conventions",
     "creation_date",
     "data_specs_version",
     "driving_source_id",

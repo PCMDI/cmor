@@ -8,8 +8,8 @@
     "initialization_index":         "1",
     "physics_index":                "1",
     "forcing_index":                "1",
-    "contact ":                     "Karl Tailor (taylor13@llnl.gov) ",
-    "institute_id":                 "PCMDI",
+    "contact ":                     "Karl Taylor (taylor13@llnl.gov) ",
+    "institution_id":                 "PCMDI",
     "model_id":                     "GICCM1",
     "history":                      "output from archivcl_A1.nce/giccm_03_std_2xCO2_2256.",
     "comment":                      "equilibrium reached after 30-year spin-up ",
@@ -46,8 +46,8 @@
     "references":                   "Model described by Koder and Tolkien (J. Geophys. Res.,2001, 576 - 591).  Also see http://www.GICC.su/giccm/doc/index.html  2XCO2 simulation described in Dorkey et al. '(Clim. Dyn., 2003, 323 - 357.)",
     "run_variant":                  "forcing: black carbon aerosol only",
     "source_id":                    "required",
-    "output_path_template":         "<activity_id_seg1><institute_id><source_id><activity_id_seg2><experiment_id><driving_source_id-driving_variant_id><run_variant_id><table><varid><grid_option><version>",
-    "output_file_template":         "<varid><table><experiment_id><source_id><run_variant_id><grid_option>[<driving_source_id-driving_variant_id>]",
+    "output_path_template":         "<activity_id_seg1><institution_id><source_id><activity_id_seg2><experiment_id><driving_source_id-driving_variant_id><run_variant_id><table><variable_id><grid_option><version>",
+    "output_file_template":         "<variable_id><table><experiment_id><source_id><run_variant_id><grid_option>[<driving_source_id-driving_variant_id>]",
 
     "license":                      "One of 2 licenses: ----- CMIP6 model data produced by <Your CentreName> is licensed under a Creative Commons Attribution 'NonCommercial Share Alike' 4.0 International License (http://creativecommons.org/licenses/by/4.0/). Use of the data should be acknowledged following guidelines found at <what URL???> The data is hosted via the Earth System Grid Federation. Permissions beyond the scope of this license may be available at http://pcmdi.org/cmip5/terms-of-use.   Individuals using this data should register at ??? to receive notice of selected categories of errata and updates. Further information about this data, including some limitations, can be found at ???. The data producers and data providers make no warranty, either express or implied, including but not limited to, warranties of merchantability and fitness for a particular purpose. All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law. "
 

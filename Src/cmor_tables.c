@@ -310,13 +310,16 @@ int cmor_set_dataset_att(cmor_table_t * table, char att[CMOR_MAX_STRING],
 	} else if (strcmp(att, TABLE_HEADER_CONVENTIONS) == 0) {
                 strncpy(table->Conventions, val, CMOR_MAX_STRING);
 
+        } else if (strcmp(att, TABLE_HEADER_DATASPECSVERSION) == 0) {
+                strncpy(table->data_specs_version, val, CMOR_MAX_STRING);
+
 	} else if (strcmp(att, TABLE_HEADER_REQGBLATTR) == 0) {
 		strncpy(table->required_gbl_att, val, CMOR_MAX_STRING);
 
 	} else if (strcmp(att, TABLE_HEADER_ACTIVITY_ID) == 0) {
 		strncpy(table->activity_id, value, CMOR_MAX_STRING);
 
-	} else if (strcmp(att, TABLE_HEADER_MODELING_REALM) == 0) {
+	} else if (strcmp(att, TABLE_HEADER_REALM) == 0) {
 		strncpy(table->realm, value, CMOR_MAX_STRING);
 
 	} else if (strcmp(att, TABLE_HEADER_TABLE_DATE) == 0) {
@@ -648,7 +651,7 @@ int cmor_load_table_internal( char table[CMOR_MAX_STRING], int *table_id,
 /* -------------------------------------------------------------------- */
 /*      Now let's see what we found                                     */
 /* -------------------------------------------------------------------- */
-	if( strcmp( key, "Header" ) == 0 ) {
+	if( strcmp( key, JSON_KEY_HEADER ) == 0 ) {
 /* -------------------------------------------------------------------- */
 /*      Fill up all global attributer found in header section           */
 /* -------------------------------------------------------------------- */
@@ -665,7 +668,7 @@ int cmor_load_table_internal( char table[CMOR_MAX_STRING], int *table_id,
             }
             done=1;
 
-        } else  if( strcmp( key, "experiments" ) == 0 ){
+        } else  if( strcmp( key, JSON_KEY_EXPERIMENT ) == 0 ){
             json_object_object_foreach(value, shortname, description) {
                 if( shortname[0] == '#') {
                     continue;
@@ -679,7 +682,7 @@ int cmor_load_table_internal( char table[CMOR_MAX_STRING], int *table_id,
                 }
             }
             done=1;
-        } else if (strcmp(key, "axis_entry") == 0) {
+        } else if (strcmp(key, JSON_KEY_AXIS_ENTRY) == 0) {
             json_object_object_foreach(value, axisname, attributes) {
                 if( axisname[0] == '#') {
                     continue;
@@ -692,7 +695,7 @@ int cmor_load_table_internal( char table[CMOR_MAX_STRING], int *table_id,
                 }
             }
             done=1;
-	} else if( strcmp( key, "variable_entry" ) == 0 ) {
+	} else if( strcmp( key, JSON_KEY_VARIABLE_ENTRY ) == 0 ) {
             json_object_object_foreach(value, varname, attributes) {
                 if( varname[0] == '#') {
                     continue;
@@ -706,7 +709,7 @@ int cmor_load_table_internal( char table[CMOR_MAX_STRING], int *table_id,
             }
             done=1;
 
-	} else if( strcmp( key, "mapping_entry" ) == 0 ) {
+	} else if( strcmp( key, JSON_KEY_MAPPING_ENTRY ) == 0 ) {
 /* -------------------------------------------------------------------- */
 /*      Work on mapping entries                                         */
 /* -------------------------------------------------------------------- */

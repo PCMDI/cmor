@@ -1,13 +1,13 @@
 {
     "Header": {
-        "product": "output", 
-        "missing_value": "1e20", 
-        "Conventions": "CF-1.8 CMIP-6.0",
+        "activity_id": "CMIP6", 
+        "cf_version": "1.6", 
         "baseURL": "http://cmip-pcmdi.llnl.gov/CMIP6/dataLocation", 
         "cmor_version": "3.0", 
+        "product": "output", 
         "table_id": "Table grids", 
-        "table_date": "22 January 2016", 
-        "activity_id": "CMIP6-XXXX"
+        "table_date": "31 March 2016", 
+        "missing_value": "1e20"
     }, 
     "mapping_entry": {
         "sample_user_mapping": {
@@ -143,7 +143,7 @@
             "valid_max": "360.0"
         }, 
         "longitude": {
-            "dimensions": "longitude latitude", 
+            "dimensions": "vertices longitude latitude", 
             "valid_min": "0.0", 
             "long_name": "", 
             "standard_name": "longitude", 

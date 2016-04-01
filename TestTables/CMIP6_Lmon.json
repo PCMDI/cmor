@@ -1,35 +1,18 @@
 {
     "Header": {
-        "#product": "output",
-        "missing_value": "1e20",
-        "approx_interval": "30.00000",
-        "#baseURL": "http://cmip-pcmdi.llnl.gov/CMIP6/dataLocation",
-        "cmor_version": "3.0",
-        "forcings": "N/A Nat Ant GHG SD SI SA TO SO Oz LU Sl Vl SS Ds BC MD OC AA",
-        "frequency": "mon",
-        "table_id": "Table Amon",
-        "table_date": "24 February 2016",
-        "modeling_realm": "atmos",
-        "generic_levels": "alevel alevhalf",
-        "activity_id": "CMIP6-XXXXX",
-        "Conventions": "CF-1.8 CMIP-6.0"
-    },
-
-    "Header": {
-        "#product": "output",
-        "missing_value": "1e20",
-        "approx_interval": "30.00000",
-        "#baseURL": "http://cmip-pcmdi.llnl.gov/CMIP6/dataLocation",
-        "cmor_version": "3.0",
-        "forcings": "N/A Nat Ant GHG SD SI SA TO SO Oz LU Sl Vl SS Ds BC MD OC AA",
-        "frequency": "mon",
-        "table_id": "Table Amon",
-        "table_date": "24 February 2016",
-        "modeling_realm": "atmos",
-        "generic_levels": "alevel alevhalf",
-        "activity_id": "CMIP6-XXXXX",
-        "Conventions": "CF-1.8 CMIP-6.0"
-    },
+        "activity_id": "CMIP6-XXXX", 
+        "approx_interval": "30.00000", 
+        "realm": "land", 
+        "product": "output", 
+        "cmor_version": "3.0", 
+        "Conventions": "CF-1.8 CMIP-6.0", 
+        "frequency": "mon", 
+        "table_id": "Table Lmon", 
+        "data_specs_version": "3.0", 
+        "generic_levels": "", 
+        "missing_value": "1e20", 
+        "table_date": "31 March 2016"
+    }, 
     "axis_entry": {
         "typebare": {
             "requested": "", 
@@ -2918,7 +2901,7 @@
         }, 
         "landCoverFrac": {
             "comment": "The categories may differ from model to model, depending on their  PFT definitions.   This may include natural PFTs, anthropogenic PFTs, bare soil, lakes, urban areas, etc.   Sum of all should equal the fraction of the grid-cell that is land.", 
-            "dimensions": "longitude latitude vegtype time", 
+            "dimensions": "longitude latitude time", 
             "positive": "", 
             "valid_min": "", 
             "long_name": "Plant Functional Type Grid Fraction", 

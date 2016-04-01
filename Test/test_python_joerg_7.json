@@ -7,7 +7,7 @@
        "calendar":                       "360_day",
        "experiment_id":                  "abrupt4xCO2",
        "model_id":                       "GICCM1",
-       "institute_id":                   "PCMDI",
+       "institution_id":                   "PCMDI",
        "driving_source_id":"no-driver",
        "physics_index":"1",
        "forcing_index":"1",

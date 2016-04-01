@@ -14,7 +14,7 @@ from pprint import pprint
 import pdb
 
 EXPERIMENTS = 'experiments.json'
-CONTROLVOCABULARY = 'control_vocabulary.json'
+CONTROLVOCABULARY = 'CV.json'
 
 
 # =========================
@@ -111,7 +111,8 @@ class checkCMIP6(object):
         # We have a dictionary pass on the keys recursively
         # -------------------------------------------------
         if(isinstance(Control, dict)):
-            self.ControlVocab(Element, Control.keys())
+            bInList = self.ControlVocab(Element, Control.keys())
+            return(bInList)
         # -------------------------------------------------
         # Check if Elment is in a list
         # -------------------------------------------------
@@ -141,6 +142,9 @@ class checkCMIP6(object):
         bValid = self.ControlVocab(self.infile.experiment_id, self.experiment['experiments'])
         if(not bValid):
             print "{0} not found in {1}".format(self.infile.experiment_id, self.expfile)
+        bValid = self.ControlVocab(self.infile.experiment, [self.experiment['experiments'][self.infile.experiment_id]])
+        if(not bValid):
+            print "{0} not valid experiment definitin check {1}".format(self.infile.experiment, self.expfile)
 
     # *************************
     #   CheckGlobalAttributes()

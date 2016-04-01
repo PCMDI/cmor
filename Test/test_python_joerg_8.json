@@ -19,7 +19,7 @@
    "month_lengths":"None",
    "model_id":"GICCM1",
    "forcing":"Ant, Nat",
-   "institute_id":"pcmdi",
+   "institution_id":"pcmdi",
    "parent_experiment_id":"piControlwithism",
    "parent_experiment_rip":"r1i1p1",
    "branch_time":"18336.33",
