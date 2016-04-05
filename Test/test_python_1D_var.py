@@ -11,7 +11,7 @@ itim = cmor.axis(
     coord_vals=[0,1,2,3,4,5,6,7,8,9,10,11],
     cell_bounds=[0,1,2,3,4,5,6,7,8,9,10,11,12])
 
-ivar = cmor.variable('thetaoga',units='C',axis_ids=[itim,])
+ivar = cmor.variable('thetaoga',units='deg_C',axis_ids=[itim,])
 
 data=[280.,]*12 # 12 months worth of data
 

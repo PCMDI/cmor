@@ -1,5 +1,6 @@
 {
     "activity_id":                  "CMIP6-PMIP",
+    "outpath":                       "Test",
     "experiment_id":                "DcppC22",
     "calendar":                     "360_day",
     "realization_index":            "1",
@@ -16,6 +17,7 @@
     "parent_source_id":             "GFDL-CM2-1",
     "parent_variant_id":            "r1i1p1f3",
 
+    "driving_source_id":            "no-driver",
     "further_info_url":             "http://purl.org/cmip6FurtherInfo/MOHC.HadCM3.historical.r3i1p1f1.gn",
     "grid":                         "native atmosphere T63 gaussian grid (64x128 latxlon)",
     "grid_option":                  "gn",

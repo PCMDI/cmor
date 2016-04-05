@@ -233,31 +233,7 @@ PROGRAM mip_contribution
   ! Define dataset as output from the INM model 
 
   print*, 'calling cmor_dataset'
-  error_flag = cmor_dataset(                                   &
-       outpath='Test',         &
-       contact='Evgeny Volodin, volodin@inm.ras.ru,' //  & 
-       'INM RAS, Gubkina 8, Moscow, 119333 Russia,' // &
-       '+7-495-9383904',            &
-       experiment_id='piControl',        &
-       institution='INM (Institute for Numerical Mathematics, ' //       &
-       ' Moscow, Russia)',                                &
-       institute_id='INM',       &
-       source='inmcm4.0 (2009)',    &
-       calendar='365_day',                                      &
-       realization=1,                                          &
-       initialization_method=1,           &
-       history='Output from /data5/volodin/PICNTL', &
-       comment='no comments',  &
-       references='Volodin, Diansky, Gusev 2010. Climate ' //   &
-       'model INMCM4.0. Izvestia RAS. Atmospheric and ' //          &
-       'oceanic physics, V.46, N4, in print.',          &
-       model_id="inmcm4", &
-       !modeling_realm="ocean",  &
-       parent_experiment_rip="N/A",parent_experiment_id="N/A",   &
-       physics_version=1,      &
-       branch_time=bt, &
-      ! frequency='mon',                           &
-       forcing="N/A")
+  error_flag = cmor_dataset_json("Test/test2.json")
   
   print*, 'returned from cmor_dataset'
 

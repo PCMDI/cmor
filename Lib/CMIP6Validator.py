@@ -74,7 +74,7 @@ class checkCMIP6(object):
     #   __init__()
     # *************************
     def __init__(self, args):
-        pdb.set_trace()
+        #pdb.set_trace()
         self.expfile = args.inpath + '/' + EXPERIMENTS
         self.cmip6_table = args.inpath + '/' + args.cmip6_table
         self.CVfn = args.inpath + '/' + args.CV
@@ -138,7 +138,7 @@ class checkCMIP6(object):
         '''
         Control experiment_id and experiment
         '''
-        pdb.set_trace()
+        #pdb.set_trace()
         bValid = self.ControlVocab(self.infile.experiment_id, self.experiment['experiments'])
         if(not bValid):
             print "{0} not found in {1}".format(self.infile.experiment_id, self.expfile)
@@ -188,7 +188,7 @@ def main():
                         default=sys.stdout)
     args = parser.parse_args()
 
-    pdb.set_trace()
+    #pdb.set_trace()
     process = checkCMIP6(args)
     process.checkExperiments()
     process.checkGlobalAttrites()

@@ -64,7 +64,7 @@ myaxes[3] = cmor.axis(table_entry = 'time',
 pass_axes = [myaxes[3],myaxes[2]]
 
 print 'ok going to cmorvar'
-myvars[0] = cmor.variable( table_entry = 'epc100',
+myvars[0] = cmor.variable( table_entry = 'exparag100',
                            units = 'mol m-2 s-1',
                            axis_ids = pass_axes,
                            positive = 'down',

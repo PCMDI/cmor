@@ -27,7 +27,7 @@ ilon = cmor.axis(
     units='degrees_east',         
     coord_vals=alons,             
     cell_bounds=bnds_lon)      
-ivar = cmor.variable(table_entry="epc100",axis_ids=[itime,ilat,ilon],units='mol m-2 s-1',positive="up")
+ivar = cmor.variable(table_entry="exparag100",axis_ids=[itime,ilat,ilon],units='mol m-2 s-1',positive="up")
 
 data=numpy.random.random((5,nlat,nlon))
 for i in range(0,5):

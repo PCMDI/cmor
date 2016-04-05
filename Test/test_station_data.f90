@@ -157,29 +157,7 @@ program testing
   error_flag = cmor_setup(inpath='Test', netcdf_file_action=j,&
        exit_control=k)
   print*,'Test code: done'
-  error_flag = cmor_dataset(                                   &
-       outpath='Test',                                         &
-       experiment_id='abrupt 4XCO2',           &
-       institution=                                            &
-       'GICC (Generic International Climate Center, ' //       &
-       'Geneva, Switzerland)',                                 &
-       source='GICCM1 (2002): ' //                             &
-       'atmosphere:  GICAM3 (gicam_0_brnchT_itea_2, T63L32); '// &
-       'ocean: MOM (mom3_ver_3.5.2, 2x3L15); '             //  &
-       'sea ice: GISIM4; land: GILSM2.5',                      &
-       calendar='360_day',                                      &
-       realization=1,                                          &
-       history='Output from archive/giccm_03_std_2xCO2_2256.', &
-       comment='Equilibrium reached after 30-year spin-up ' // &
-       'after which data were output starting with nominal '// &
-       'date of January 2030',                                 &
-       references='Model described by Koder and Tolkien ' //   &
-       '(J. Geophys. Res., 2001, 576-591).  Also '        //   &
-       'see http://www.GICC.su/giccm/doc/index.html '     //   &
-       ' 2XCO2 simulation described in Dorkey et al. '    //   &
-       '(Clim. Dyn., 2003, 323-357.)', model_id="GICCM1", &
-       forcing='TO',contact="Barry Bonds",institute_id="PCMDI",&
-       parent_experiment_rip="N/A",parent_experiment_id="N/A",branch_time=bt)
+  error_flag = cmor_dataset_json("Test/test2.json")
   print*, 'Test code: done 2 lalala'
   
   call read_coords(alats, alons, plevs, bnds_lat, bnds_lon, station, st_lons, st_lats)
@@ -187,7 +165,7 @@ program testing
 
   print*, 'Test code: ok calling axis stuff station'
   ist = cmor_axis(  &
-       table='Tables/CMIP5_grids',    &
+       table='Tables/CMIP6_grids.json',    &
        table_entry='i_index',       &
        units=' ',        &  
        length=nst,                   &
@@ -196,8 +174,8 @@ program testing
    
   print*, 'Test code: ok calling axis stuff pressure',ist
   ipres = cmor_axis(  &
-       table='Tables/CMIP5_Amon',    &
-       table_entry='plevs',       &
+       table='Tables/CMIP6_Amon.json',    &
+       table_entry='plev17',       &
        units='Pa',                   &
        length=lev,                   &
        coord_vals=plevs)
@@ -208,14 +186,14 @@ program testing
 
   print*, 'Test code: ok calling axis stuff time',ipres
   itim = cmor_axis(  &
-       table='Tables/CMIP5_Amon',    &
+       table='Tables/CMIP6_Amon.json',    &
        table_entry='time',           &
        units='days since 2030-1-1',  &
        length=ntimes,                &
        interval='1 month')
         
   itim2 = cmor_axis(  &
-       table='Tables/CMIP5_Lmon',        &
+       table='Tables/CMIP6_Lmon.json',        &
        table_entry='time',           &
        units='days since 2030-1-1',  &
        length=ntimes,                &
@@ -227,7 +205,7 @@ program testing
   ! variables as assosiated to the station data.
   ! You do not set up lon/lat as axis variables for the station data     
   ! note - the first parameter has ot be an array (of dim=1 in this example)
-  igrid = cmor_load_table("Tables/CMIP5_grids")
+  igrid = cmor_load_table("Tables/CMIP6_grids.json")
   igrid = cmor_grid((/ist/), st_lats, st_lons)       
        
   write(*,'(a, 12f6.1)') 'lons: ',st_lons
@@ -242,7 +220,7 @@ program testing
      print*, 'Test code: var:  ',m,entry2d(m)
      if (m.eq.3) then 
      var2d_ids(m) = cmor_variable(    &
-          table='Tables/CMIP5_Lmon',  &
+          table='Tables/CMIP6_Lmon.json',  &
           table_entry=entry2d(m),     & 
           units=units2d(m),           & 
           axis_ids=(/ igrid, itim2 /), &
@@ -251,7 +229,7 @@ program testing
           original_name=varin2d(m)) 
   else  
      var2d_ids(m) = cmor_variable(    &
-          table='Tables/CMIP5_Amon',  &
+          table='Tables/CMIP6_Amon.json',  &
           table_entry=entry2d(m),     & 
           units=units2d(m),           & 
           axis_ids=(/ igrid, itim /), &

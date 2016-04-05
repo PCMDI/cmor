@@ -1,6 +1,7 @@
 {
     "Header": {
         "#product": "output",
+        "activity_id": "CMIP6-XXXX",
         "missing_value": "1e20",
         "approx_interval": "30.00000",
         "#baseURL": "http://cmip-pcmdi.llnl.gov/CMIP6/dataLocation",
@@ -9,9 +10,10 @@
         "frequency": "mon",
         "table_id": "Table Amon",
         "table_date": "24 February 2016",
-        "modeling_realm": "atmos",
+        "realm": "atmos",
         "generic_levels": "alevel alevhalf",
         "activity_id": "CMIP6-XXXXX",
+        "data_specs_version": "3.0",
         "Conventions": "CF-1.8 CMIP-6.0"
     },
     "axis_entry": {

@@ -146,29 +146,7 @@ program testing
  error_flag = cmor_setup(inpath='Test', netcdf_file_action=j,&
       exit_control=k)
  print*,'Test code: done'
- error_flag = cmor_dataset(                                   &
-      outpath='Test',                                         &
-      experiment_id='lgm',           &
-      institution=                                            &
-      'GICC (Generic International Climate Center, ' //       &
-      'Geneva, Switzerland)',                                 &
-      source='GICCM1 (2002): ' //                             &
-      'atmosphere:  GICAM3 (gicam_0_brnchT_itea_2, T63L32); '// &
-      'ocean: MOM (mom3_ver_3.5.2, 2x3L15); '             //  &
-      'sea ice: GISIM4; land: GILSM2.5',                      &
-      calendar='360_day',                                      &
-      realization=1,                                          &
-      history='Output from archive/giccm_03_std_2xCO2_2256.', &
-      comment='Equilibrium reached after 30-year spin-up ' // &
-      'after which data were output starting with nominal '// &
-      'date of January 2030',                                 &
-      references='Model described by Koder and Tolkien ' //   &
-      '(J. Geophys. Res., 2001, 576-591).  Also '        //   &
-      'see http://www.GICC.su/giccm/doc/index.html '     //   &
-      ' 2XCO2 simulation described in Dorkey et al. '    //   &
-      '(Clim. Dyn., 2003, 323-357.)', model_id="GICCM1", &
-      forcing='TO',contact="Barry Bonds",institute_id="PCMDI",&
-       parent_experiment_rip="N/A",parent_experiment_id="N/A",branch_time=bt)
+ error_flag = cmor_dataset_json("Test/test2.json")
   
  print*, 'Test code: done 2 lalala'
 
@@ -177,7 +155,7 @@ program testing
 
  print*, 'Test code: ok calling axis stuff lat',alats
  ilat = cmor_axis(  &
-      table='Tables/CMIP5_Amon',    &
+      table='Tables/CMIP6_Amon.json',    &
       table_entry='latitude',       &
       units='degrees_north',        &  
       length=lat,                   &
@@ -186,7 +164,7 @@ program testing
 
  print*, 'Test code: ok calling axis stuff lon',ilat
  ilon = cmor_axis(  &
-      table='Tables/CMIP5_Amon',    &
+      table='Tables/CMIP6_Amon.json',    &
       table_entry='longitude',      &
       length=lon,                   &
       units='degrees_east',         &
@@ -194,7 +172,7 @@ program testing
       cell_bounds=bnds_lon)      
 
  ilat2 = cmor_axis(  &
-      table='Tables/CMIP5_fx',    &
+      table='Tables/CMIP6_fx.json',    &
       table_entry='latitude',       &
       units='degrees_north',        &  
       length=lat,                   &
@@ -203,7 +181,7 @@ program testing
 
  print*, 'Test code: ok calling axis stuff lon',ilat
  ilon2 = cmor_axis(  &
-      table='Tables/CMIP5_fx',    &
+      table='Tables/CMIP6_fx.json',    &
       table_entry='longitude',      &
       length=lon,                   &
       units='degrees_east',         &
@@ -212,8 +190,8 @@ program testing
 
  print*, 'Test code: ok calling axis stuff pressure',ilon
  ipres = cmor_axis(  &
-      table='Tables/CMIP5_Amon',    &
-      table_entry='plevs',       &
+      table='Tables/CMIP6_Amon.json',    &
+      table_entry='plev17',       &
       units='Pa',                   &
       length=lev2,                   &
       coord_vals=plevs)
@@ -224,7 +202,7 @@ program testing
 
  print*, 'Test code: ok calling axis stuff time',ipres,ntimes
  itim = cmor_axis(  &
-      table='Tables/CMIP5_Amon',    &
+      table='Tables/CMIP6_Amon.json',    &
       table_entry='time',           &
       units='days since 2030-1-1',  &
       length=ntimes,                &
@@ -237,7 +215,7 @@ program testing
 
  print*, 'Test code: ok calling axis stuff lev2',itim
  ilev = cmor_axis(  &
-      table='Tables/CMIP5_Amon',    &
+      table='Tables/CMIP6_Amon.json',    &
       table_entry='standard_hybrid_sigma',       &
       units="1",   &
       length=lev,                   &
@@ -291,7 +269,7 @@ program testing
  print*, 'Test code: var3d'
  missing = 1.e28
  var3d_ids(1) = cmor_variable(    &
-      table='Tables/CMIP5_Amon',  &
+      table='Tables/CMIP6_Amon.json',  &
       table_entry=entry3d(1),     &
       units=units3d(1),           &
       axis_ids=(/ ilon, ilat, ilev, itim /),  &
@@ -305,7 +283,7 @@ program testing
  DO m=2,n3d
     print*, 'Test code: var: ',entry3d(m)
     var3d_ids(m) = cmor_variable(    &
-         table='Tables/CMIP5_Amon',  &
+         table='Tables/CMIP6_Amon.json',  &
          table_entry=entry3d(m),     &
          units=units3d(m),           &
          axis_ids=(/ ilon, ilat, ipres, itim /), &
@@ -320,7 +298,7 @@ program testing
  DO m=1,n2d
     print*, 'Test code: var: ',entry2d(m)
     var2d_ids(m) = cmor_variable(    &
-         table='Tables/CMIP5_fx',  &
+         table='Tables/CMIP6_fx.json',  &
          table_entry=entry2d(m),     & 
          units=units2d(m),           & 
     !     axis_ids=(/ ilon, ilat, itim /), &

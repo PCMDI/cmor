@@ -5738,10 +5738,7 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
 		cmor_handle_error( msg, CMOR_CRITICAL );
 	    }
 	}
-	printf("%d\n",var_id);
-	printf("%s\n",cmor_vars[var_id].current_path);
 	ierr = rename( cmor_vars[var_id].current_path, outname );
-	printf("%d\n",ierr);
 	if( ierr != 0 ) {
 	    snprintf( msg, CMOR_MAX_STRING,
 		      "could not rename temporary file: %s to final file\n"

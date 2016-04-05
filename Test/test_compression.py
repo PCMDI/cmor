@@ -47,7 +47,7 @@ sh=list(s.shape)
 sh[0]=nt
 s=numpy.resize(s,sh)
 #s=numpy.where(numpy.greater(s,100.),100,s)
-s=numpy.random.random(s.shape)*100.
+s=numpy.random.random(s.shape)*10000.
 print s.shape
 cmor.write(var_id1,s)
 cmor.close(var_id1)

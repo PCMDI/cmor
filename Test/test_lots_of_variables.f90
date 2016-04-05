@@ -177,7 +177,7 @@ PROGRAM mip_contribution
   !    files should not be overwritten, and instruct CMOR to error exit on 
   !    encountering errors of any severity.
   
-  error_flag = cmor_setup(inpath='Test',   &
+  error_flag = cmor_setup(inpath='Tables',   &
        netcdf_file_action='replace',                                       &
        set_verbosity=1,                                                    &
        exit_control=1)
@@ -188,26 +188,7 @@ PROGRAM mip_contribution
   !   all CF-netCDF files written as part of this dataset.
 
   print*, 'calling cmor_dataset'
-  error_flag = cmor_dataset(                                   &
-       outpath='Test',         &
-       experiment_id='abrupt 4XCO2',           &
-       institution=                                            &
-       'GICC (Generic International Climate Center, ' //       &
-       ' Geneva, Switzerland)',                                &
-       source='GICCM1  2002(giccm_0_brnchT_itea_2, T63L32)',    &
-       calendar='360_day',                                      &
-       realization=1,                                          &
-       history='Output from archive/giccm_03_std_2xCO2_2256.', &
-       comment='Equilibrium reached after 30-year spin-up ' // &
-       'after which data were output starting with nominal '// &
-       'date of January 2030',                                 &
-       references='Model described by Koder and Tolkien ' //   &
-       '(J. Geophys. Res., 2001, 576-591).  Also ' //          &
-       'see http://www.GICC.su/giccm/doc/index.html '  //      &
-       ' 2XCO2 simulation described in Dorkey et al. '//       &
-       '(Clim. Dyn., 2003, 323-357.)',model_id="GICCM1", &
-       forcing='TO',contact="Barry Bonds",institute_id="PCMDI",&
-       parent_experiment_rip="N/A",parent_experiment_id="N/A",branch_time=bt)
+  error_flag = cmor_dataset_json("Test/test2.json")
 
   !error_flag  = cmor_set_cur_dataset_attribute("initialization_method","4")
   !error_flag  = cmor_set_cur_dataset_attribute("physics_version","6")
@@ -219,14 +200,14 @@ PROGRAM mip_contribution
   print*, 'defining axes'
   
   axis2d_ids(1) = cmor_axis(  &
-       table='CMIP5_Amons',    &
+       table='CMIP6_Amon_json_hfls',    &
        table_entry='latitude',       &
        units='degrees_north',        &  
        length=lat,                   &
        coord_vals=alats,             & 
        cell_bounds=bnds_lat)              
   axis2d_ids(2) = cmor_axis(  &
-       table='CMIP5_Amons',    &
+       table='CMIP6_Amon_json_hfls',    &
        table_entry='longitude',      &
        length=lon,                   &
        units='degrees_east',         &
@@ -237,7 +218,7 @@ PROGRAM mip_contribution
   !   cmor_write (below).
 print*, 'before time '
   axis2d_ids(3) = cmor_axis(  &
-       table='CMIP5_Amons',    &
+       table='CMIP6_Amon_json_hfls',    &
        table_entry='time',           &
        units='days since 1979-1-1',  &
        length=ntimes,                &
@@ -254,7 +235,7 @@ print*, 'before time '
      msg2 = trim(entry2d(1)(1:4)//adjustl(msg))
      print*,'Test Code: defining variable: :',msg2
      var2d_ids(m) = cmor_variable(    &
-          table='CMIP5_Amons',  & 
+          table='CMIP6_Amon_json_hfls',  & 
           table_entry=msg2,     & 
 !!$          file_suffix='1979-2001',    &
           units=units2d(1),           & 

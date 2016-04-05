@@ -3,6 +3,7 @@ from test_python_common import * # common subroutines
 import cmor._cmor
 import os
 pth = os.path.split(os.path.realpath(os.curdir))
+
 if pth[-1]=='Test':
     ipth = opth = '.'
 else:
@@ -38,6 +39,7 @@ myaxes[1] = cmor.axis(table_entry = 'x',
                       units = 'm', 
                       coord_vals = x)
 
+
 grid_id = cmor.grid(axis_ids = myaxes[:2], 
                     latitude = lat_coords, 
                     longitude = lon_coords, 
@@ -59,10 +61,14 @@ myaxes[2] = grid_id
 ##                       parameter_units = punits)
 
 cmor.set_table(tables[1])
+myaxes[4] = cmor.axis(table_entry = "depth_coord",
+                     coord_vals=[0],
+                     cell_bounds=[0,1],
+                     units="m")
 myaxes[3] = cmor.axis(table_entry = 'time',
                       units = 'months since 1980')
 
-pass_axes = [myaxes[3],myaxes[2]]
+pass_axes = [myaxes[3],myaxes[4],myaxes[2]]
 
 print 'ok going to cmorvar'
 myvars[0] = cmor.variable( table_entry = 'calc',
@@ -76,9 +82,15 @@ myvars[0] = cmor.variable( table_entry = 'calc',
 ntimes=2
 for i in range(0,ntimes,2):
     data2d_1 = read_2d_input_files(i,   varin2d[0], lat,lon)
+    data2d_1 = numpy.expand_dims(data2d_1,axis=0)
     data2d_2 = read_2d_input_files(i+1, varin2d[0], lat,lon)
+    data2d_2 = numpy.expand_dims(data2d_2,axis=0)
     data2d=numpy.array((data2d_1,data2d_2))
-    print 'writing time: ',i,data2d.shape,data2d
+    #data2d=numpy.expand_dims(data2d, axis=0)
+    #print data2d.shape
+    print 'writing time: ',i
+    print data2d.shape
+    print data2d
     print Time[i:i+2],bnds_time[2*i:2*i+4]    
     cmor.write(myvars[0],data2d,2,time_vals=numpy.arange(i,i+2),time_bnds=numpy.arange(i,i+3))
 cmor.close()

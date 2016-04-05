@@ -86,11 +86,7 @@ PROGRAM test_cmor_grid
    !+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
    ! Define dataset as output from COSP, and other model details
    !+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-   error_flag = cmor_dataset(outpath='Test/',experiment_id='AMIP',institution='Met Office', &
-                    source='GICCM1 2002 source',calendar='360_day',realization=1,contact='alejandro.bodas@metoffice.gov.uk', &
-                    history='history',comment='En un lugar de la Mancha de cuyo nombre no quiero acordarme', &
-                    references='references',forcing="CH4",&
-                    institute_id="PCMDI",model_id="GICCM1")
+   error_flag = cmor_dataset_json("Test/test2.json")
    
    print *, '---------------Define axis'
    !+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

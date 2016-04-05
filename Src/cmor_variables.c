@@ -1167,13 +1167,17 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
 
     if ((comment != NULL) && (comment[0] != '\0')) {
         if (cmor_has_variable_attribute(vrid, VARIABLE_ATT_COMMENT) == 0) {
+            char szActivity[CMOR_MAX_STRING];
+
+            cmor_get_cur_dataset_attribute(GLOBAL_ATT_ACTIVITY_ID, szActivity);
 
             strncpy(msg, comment, CMOR_MAX_STRING);
             strncat(msg, ", ", CMOR_MAX_STRING - strlen(msg));
-            strncat(msg, cmor_tables[cmor_vars[vrid].ref_table_id].activity_id,
+            strncat(msg, szActivity,
                     CMOR_MAX_STRING - strlen(msg));
             strncat(msg, "_table_comment: ", CMOR_MAX_STRING - strlen(msg));
             strncat(msg, refvar.comment, CMOR_MAX_STRING - strlen(msg));
+
         } else {
             strncpy(msg, comment, CMOR_MAX_STRING);
         }

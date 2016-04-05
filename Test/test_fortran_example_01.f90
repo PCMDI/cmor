@@ -180,32 +180,10 @@ program testing
   error_flag = cmor_setup(inpath='Test', netcdf_file_action=j,&
        exit_control=k)
   
-    error_flag = cmor_dataset(                                   &
-       outpath='Test',                                         &
-       experiment_id='abrupt 4XCO2',           &
-       institution=                                            &
-       'GICC (Generic International Climate Center, ' //       &
-       'Geneva, Switzerland)',                                 &
-       source='GICCM1 (2002): ' //                             &
-       'atmosphere:  GICAM3 (gicam_0_brnchT_itea_2, T63L32); '// &
-       'ocean: MOM (mom3_ver_3.5.2, 2x3L15); '             //  &
-       'sea ice: GISIM4; land: GILSM2.5',                      &
-       calendar='360_day',                                      &
-       realization=1,                                          &
-       history='Output from archive/giccm_03_std_2xCO2_2256.', &
-       comment='Equilibrium reached after 30-year spin-up ' // &
-       'after which data were output starting with nominal '// &
-       'date of January 2030',                                 &
-       references='Model described by Koder and Tolkien ' //   &
-       '(J. Geophys. Res., 2001, 576-591).  Also '        //   &
-       'see http://www.GICC.su/giccm/doc/index.html '     //   &
-       ' 2XCO2 simulation described in Dorkey et al. '    //   &
-       '(Clim. Dyn., 2003, 323-357.)',model_id="GICCM1", &
-       forcing='TO',contact="Barry Bonds",institute_id="PCMDI",&
-       parent_experiment_rip="N/A",parent_experiment_id="N/A",branch_time=bt)
+    error_flag = cmor_dataset_json("Test/test2.json")
 
-    tables(1) = cmor_load_table('Tables/CMIP5_Amon')
-    tables(2) = cmor_load_table('Tables/CMIP5_grids')
+    tables(1) = cmor_load_table('Tables/CMIP6_Amon.json')
+    tables(2) = cmor_load_table('Tables/CMIP6_grids.json')
 
     axes(1) = cmor_axis(table_entry = 'x', &
                         units = 'm', &
@@ -230,7 +208,7 @@ program testing
     call cmor_set_table(table_id=tables(2))
 
      
-    axes(3) = cmor_axis(table = 'Tables/CMIP5_Amon',&
+    axes(3) = cmor_axis(table = 'Tables/CMIP6_Amon.json',&
                         table_entry = 'time',&
                         units = 'days since 1980',&
                         length = 2 &
@@ -240,7 +218,7 @@ program testing
     pass_axes(2) = axes(3)
     pass_axes(1) = grid_id
     
-    vars(1) = cmor_variable(table = 'Tables/CMIP5_Amon',&
+    vars(1) = cmor_variable(table = 'Tables/CMIP6_Amon.json',&
                             table_entry = 'hfls',&
                             units = 'W m-2',&
                             axis_ids = pass_axes,&
