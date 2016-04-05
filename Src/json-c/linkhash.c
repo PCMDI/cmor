@@ -20,7 +20,11 @@
 #include <limits.h>
 
 #ifdef HAVE_ENDIAN_H
+#ifdef __APPLE__
+# include <machine/endian.h>    /* attempt to define endianness */
+#else
 # include <endian.h>    /* attempt to define endianness */
+#endif
 #endif
 
 #ifdef _MSC_VER
