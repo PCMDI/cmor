@@ -63,6 +63,8 @@ cmor_tables.o: Src/cmor_tables.c include/cmor.h include/cmor_func_def.h
 	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cmor_tables.c
 cmor_grids.o: Src/cmor_grids.c include/cmor.h include/cmor_func_def.h
 	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cmor_grids.c
+cmor_CVo: Src/cmor_CV.c include/cmor.h include/cmor_func_def.h 
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cmor_CV.c
 cmor_md5.o: Src/cmor_md5.c include/cmor.h include/cmor_func_def.h include/cmor_md5.h
 	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cmor_md5.c
 cmor_cfortran_interface.o: Src/cmor_cfortran_interface.c include/cmor.h include/cmor_func_def.h

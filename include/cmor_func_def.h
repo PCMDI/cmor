@@ -121,6 +121,20 @@ extern void create_singleton_dimensions(int var_id, int ncid,
 /* ==================================================================== */
 
 extern void cmor_init_axis_def( cmor_axis_def_t * axis, int table_id );
+
+extern int cmor_set_CV_entry(cmor_table_t* table,
+                            json_object *value);
+
+extern void cmor_init_CV_def( cmor_CV_def_t *CV, int table_id );
+
+extern void cmor_set_CV_def_att(cmor_CV_def_t *CV,
+                                char *key,
+                                json_object *joValue);
+
+extern void cmor_print_CV(cmor_CV_def_t *CV);
+extern void cmor_print_CV_all();
+extern void cmor_CV_free(cmor_CV_def_t *CV);
+
 extern int cmor_set_axis_def_att( cmor_axis_def_t * axis,
 				  char att[CMOR_MAX_STRING],
 				  char val[CMOR_MAX_STRING] );

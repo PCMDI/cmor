@@ -25,7 +25,8 @@ int wfgetc( FILE * afile ) {
 /************************************************************************/
 /*                       cmor_get_table_attr                            */
 /*                                                                      */
-/*  You need to define char *out                                        */
+/*  tags for template used in input config file (.json)                 */
+/*                                                                      */
 /************************************************************************/
 int cmor_get_table_attr( char *szToken, cmor_table_t * table, char *out) {
     int i;
@@ -69,12 +70,13 @@ void cmor_init_table( cmor_table_t * table, int id ) {
     cmor_is_setup(  );
     /* init the table */
     table->id = id;
+    table->nCVs = -1;
     table->nvars = -1;
     table->naxes = -1;
     table->nexps = -1;
     table->nmappings = -1;
     table->cf_version = 1.6;
-    table->cmor_version = 2.0;
+    table->cmor_version = 3.0;
     table->activity_id[0] = '\0';
     table->szTable_id[0] = '\0';
     strcpy( table->realm, "REALM" );
@@ -95,11 +97,75 @@ void cmor_init_table( cmor_table_t * table, int id ) {
 	table->sht_expt_ids[i][0] = '\0';
 	table->generic_levels[i][0] = '\0';
     }
+    table->CV = NULL;
 
     cmor_pop_traceback(  );
 
 
 
+}
+
+/************************************************************************/
+/*                       cmor_set_CV_entry()                            */
+/************************************************************************/
+int cmor_set_CV_entry(cmor_table_t* table,
+                      json_object *value) {
+    extern int cmor_ntables;
+    char msg[CMOR_MAX_STRING];
+    int nCVId;
+    int nbObjects = 0;
+    cmor_CV_def_t *CV;
+    cmor_CV_def_t *newCV;
+    cmor_table_t *cmor_table;
+    cmor_table = &cmor_tables[cmor_ntables];
+    char szName[CMOR_MAX_STRING];
+
+    cmor_add_traceback("cmor_set_CV_entry");
+    cmor_is_setup();
+/* -------------------------------------------------------------------- */
+/* CV 0 contains number of objects                                      */
+/* -------------------------------------------------------------------- */
+    cmor_table->nCVs++;
+    nbObjects++;
+    newCV = (cmor_CV_def_t *) realloc(cmor_table->CV, sizeof(cmor_CV_def_t));
+
+    cmor_table->CV = newCV;
+    CV=newCV;
+    cmor_init_CV_def(CV, cmor_ntables);
+
+/* -------------------------------------------------------------------- */
+/*  Add all values and dictionaries to the M-tree                       */
+/*                                                                      */
+/*  {  { "a":[] }, {"a":""}, { "a":1 }, "a"in CV.json file only    :"3", "b":"value" }....      */
+/*                                                                      */
+/*   Cv->objects->objects->list                                         */
+/*              ->objects->string                                       */
+/*              ->objects->integer                                      */
+/*              ->integer                                               */
+/*              ->string                                                */
+/*     ->list                                                           */
+/* -------------------------------------------------------------------- */
+
+    json_object_object_foreach(value, CVName, CVValue) {
+        nbObjects++;
+        cmor_table->nCVs++;
+        nCVId = cmor_table->nCVs;
+        newCV = (cmor_CV_def_t *) realloc(cmor_table->CV,
+                nbObjects * sizeof(cmor_CV_def_t));
+        cmor_table->CV = newCV;
+
+        CV = &cmor_table->CV[nCVId];
+
+        cmor_init_CV_def(CV, cmor_ntables);
+        if( CVName[0] == '#') {
+            continue;
+        }
+        cmor_set_CV_def_att(CV, CVName, CVValue);
+    }
+    CV = &cmor_table->CV[0];
+    CV->nbObjects = nbObjects;
+    cmor_pop_traceback();
+    return (0);
 }
 
 /************************************************************************/
@@ -485,7 +551,10 @@ int cmor_load_table( char szTable[CMOR_MAX_STRING], int *table_id ) {
     char *szPath;
     char *szTableName;
     char szExperimentFilenameJSON[CMOR_MAX_STRING];
+    char szControlFilenameJSON[CMOR_MAX_STRING];
+    char msg[CMOR_MAX_STRING];
     struct stat st;
+
 
 /* -------------------------------------------------------------------- */
 /*  build string "path/experiments.json"                                */
@@ -495,26 +564,52 @@ int cmor_load_table( char szTable[CMOR_MAX_STRING], int *table_id ) {
     strcpy(szExperimentFilenameJSON, szPath);
     strcat(szExperimentFilenameJSON, "/");
     strcat(szExperimentFilenameJSON, TABLE_EXPERIMENT_FILENAME);
-    rc = stat(szExperimentFilenameJSON, &st);
+/* -------------------------------------------------------------------- */
+/*  build string "path/CV.json"                                         */
+/* -------------------------------------------------------------------- */
+    strcpy(szControlFilenameJSON, szPath);
+    strcat(szControlFilenameJSON, "/");
+    strcat(szControlFilenameJSON, TABLE_CONTROL_FILENAME);
+
 /* -------------------------------------------------------------------- */
 /*  try to load table from directory where table is found or from the   */
 /*  cmor_input_path                                                     */
 /* -------------------------------------------------------------------- */
-
-    if(rc == 0 ) {
-        rc= cmor_load_table_internal( szTable, table_id, TRUE);
-    } else {
+    rc = stat(szExperimentFilenameJSON, &st);
+    if(rc != 0 ) {
         strcpy(szExperimentFilenameJSON, cmor_input_path);
         strcat(szExperimentFilenameJSON, "/");
         strcat(szExperimentFilenameJSON, TABLE_EXPERIMENT_FILENAME);
-        rc= cmor_load_table_internal( szTable, table_id, TRUE);
+    }
+    rc = stat(szControlFilenameJSON, &st);
+    if(rc != 0 ) {
+        strcpy(szControlFilenameJSON, cmor_input_path);
+        strcat(szControlFilenameJSON, "/");
+        strcat(szControlFilenameJSON, TABLE_CONTROL_FILENAME);
     }
 
+    rc= cmor_load_table_internal( szTable, table_id, TRUE);
+    if(rc != TABLE_SUCCESS){
+        snprintf( msg, CMOR_MAX_STRING, "Can't open table %s", szTable);
+        cmor_handle_error( msg, CMOR_WARNING );
+    }
     if(rc == TABLE_SUCCESS) {
         rc= cmor_load_table_internal( szExperimentFilenameJSON, table_id, FALSE);
+        if(rc != TABLE_SUCCESS){
+            snprintf( msg, CMOR_MAX_STRING, "Can't open table %s",
+                    szExperimentFilenameJSON);
+            cmor_handle_error( msg, CMOR_WARNING);
+        }
+        rc= cmor_load_table_internal( szControlFilenameJSON, table_id, FALSE);
+        if(rc != TABLE_SUCCESS){
+            snprintf( msg, CMOR_MAX_STRING, "Can't open table %s",
+                    szControlFilenameJSON);
+            cmor_handle_error( msg, CMOR_WARNING );
+        }
     } else if (rc == TABLE_FOUND) {
         rc = TABLE_SUCCESS;
     }
+    //cmor_print_CV_all();
     free(szTableName);
     return(rc);
 }
@@ -708,6 +803,13 @@ int cmor_load_table_internal( char table[CMOR_MAX_STRING], int *table_id,
                 }
             }
             done=1;
+	} else if( strncmp( key, JSON_KEY_CV_ENTRY,2) == 0 ) {
+
+	    if( cmor_set_CV_entry(&cmor_tables[cmor_ntables], value) == 1 ) {
+                cmor_pop_traceback();
+                return (TABLE_ERROR);
+	    }
+	    done=1;
 
 	} else if( strcmp( key, JSON_KEY_MAPPING_ENTRY ) == 0 ) {
 /* -------------------------------------------------------------------- */

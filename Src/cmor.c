@@ -995,7 +995,7 @@ int cmor_setup( char *path,
         ut_free(perunit);
 
     perunit = ut_scale(.01, dimlessunit);
-    if (myutstatus != UT_SUCCESS) {
+    if (ut_get_status() != UT_SUCCESS) {
         snprintf(msg, CMOR_MAX_STRING, "Udunits: Error creating percent unit");
         cmor_handle_error(msg, CMOR_CRITICAL);
     }
@@ -1070,6 +1070,8 @@ int cmor_setup( char *path,
     }
     cmor_pop_traceback();
     return( 0 );
+    ut_free_system(ut_read);
+
 }
 
 /************************************************************************/
@@ -1161,7 +1163,10 @@ json_object *cmor_open_inpathFile(char *szFilename ) {
         cmor_handle_error( msg, CMOR_CRITICAL );
     }
     cmor_pop_traceback();
-
+    if(buffer != NULL) {
+        free(buffer);
+        buffer=NULL;
+    }
     return(oJSON);
 }
 
@@ -1294,6 +1299,9 @@ int cmor_dataset_json(char * ressource){
     if( ierr ) {
         cmor_pop_traceback();
         return (1);
+    }
+    if(json_obj != NULL) {
+        json_object_put(json_obj);
     }
     cmor_pop_traceback();
     return( 0 );
@@ -5850,7 +5858,17 @@ int cmor_close( void ) {
 	    cmor_tables[i].forcings = NULL;
 	    cmor_tables[i].nforcings = 0;
 	}
+        for( int k=0; k<= cmor_tables[i].nCVs; k++ ) {
+            if( &cmor_tables[i].CV[k] != NULL ) {
+                cmor_CV_free( &cmor_tables[i].CV[k] );
+            }
+        }
+        if(cmor_tables[i].CV != NULL) {
+            free(cmor_tables[i].CV);
+        }
+
     }
+
     for( i = 0; i < CMOR_MAX_GRIDS; i++ ) {
 	if( cmor_grids[i].lons != NULL ) {
 	    free( cmor_grids[i].lons );

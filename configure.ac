@@ -93,7 +93,7 @@ if test ${enable_debug} == "yes" ; then
   DEBUG="-g"
 fi
 
-LIBFILES="cmor.o cmor_axes.o cmor_variables.o cmor_tables.o cdTimeConv.o cdUtil.o timeConv.o timeArith.o cmor_grids.o cmor_md5.o arraylist.o  json_c_version.o  json_object_iterator.o json_util.o linkhash.o random_seed.o debug.o json_object.o json_tokener.o libjson.o printbuf.o"
+LIBFILES="cmor.o cmor_axes.o cmor_CV.o cmor_variables.o cmor_tables.o cdTimeConv.o cdUtil.o timeConv.o timeArith.o cmor_grids.o cmor_md5.o arraylist.o  json_c_version.o  json_object_iterator.o json_util.o linkhash.o random_seed.o debug.o json_object.o json_tokener.o libjson.o printbuf.o"
 LIBFFILES="cmor_cfortran_interface.o cmor_fortran_interface.o"
 
 dnl ##########################################################

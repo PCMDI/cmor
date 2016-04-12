@@ -10,7 +10,6 @@ import argparse
 import sys
 import os
 import json
-from pprint import pprint
 import pdb
 
 EXPERIMENTS = 'experiments.json'
@@ -192,6 +191,7 @@ def main():
     process = checkCMIP6(args)
     process.checkExperiments()
     process.checkGlobalAttrites()
+    process.checkActivities()
     return(0)
 
 

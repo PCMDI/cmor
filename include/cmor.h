@@ -19,6 +19,8 @@
 #define CMOR_MAX_ERRORS 10
 #define CMOR_MAX_TABLES 10
 #define CMOR_MAX_GRID_ATTRIBUTES 25
+#define CMOR_MAX_JSON_ARRAY 50
+#define CMOR_MAX_JSON_OBJECT 250
 
 #define CMOR_QUIET 0
 
@@ -76,6 +78,7 @@
 #define AXIS_ATT_REQUESTED       "requested"
 
 #define TABLE_EXPERIMENT_FILENAME "experiments.json"
+#define TABLE_CONTROL_FILENAME    "CV.json"
 #define TABLE_FOUND               -1
 #define TABLE_ERROR                1
 #define TABLE_SUCCESS              0
@@ -161,6 +164,8 @@
 #define JSON_KEY_AXIS_ENTRY           "axis_entry"
 #define JSON_KEY_VARIABLE_ENTRY       "variable_entry"
 #define JSON_KEY_MAPPING_ENTRY        "mapping_entry"
+#define JSON_KEY_CV_ENTRY             "CV"
+
 
 #define GLOBAL_INT_ATT_PARENT_EXPT    GLOBAL_INTERNAL"parent_experiment"
 #define GLOBAL_ATT_ACTIVITY_SEG1      GLOBAL_INTERNAL"activity_id_seg1"
@@ -281,6 +286,20 @@ typedef struct cmor_axis_def_ {
     int must_have_bounds;
     int must_call_cmor_grid;
 } cmor_axis_def_t;
+
+typedef struct cmor_CV_def_ {
+    int     table_id;
+    char    key[CMOR_MAX_STRING];
+
+    int     nValue;
+    double  dValue;
+    char    cValue[CMOR_MAX_STRING];
+
+    char    aszValue[CMOR_MAX_JSON_OBJECT][CMOR_MAX_STRING];
+    int     anElements;
+    int     nbObjects;
+    struct cmor_CV_def_ *oValue;
+} cmor_CV_def_t;
 
 typedef struct cmor_axis_ {
     int ref_table_id;
@@ -412,6 +431,7 @@ typedef struct {
 
 typedef struct cmor_table_ {
     int id;
+    int nCVs;
     int nvars;
     int naxes;
     int nexps;
@@ -428,6 +448,7 @@ typedef struct cmor_table_ {
     cmor_axis_def_t axes[CMOR_MAX_ELEMENTS];
     cmor_var_def_t vars[CMOR_MAX_ELEMENTS];
     cmor_mappings_t mappings[CMOR_MAX_ELEMENTS];
+    cmor_CV_def_t *CV;
     float missing_value;
     double interval;
     float interval_warning;
