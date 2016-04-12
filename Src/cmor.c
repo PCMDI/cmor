@@ -5858,12 +5858,12 @@ int cmor_close( void ) {
 	    cmor_tables[i].forcings = NULL;
 	    cmor_tables[i].nforcings = 0;
 	}
-        for( int k=0; k<= cmor_tables[i].nCVs; k++ ) {
-            if( &cmor_tables[i].CV[k] != NULL ) {
-                cmor_CV_free( &cmor_tables[i].CV[k] );
-            }
-        }
         if(cmor_tables[i].CV != NULL) {
+            for( int k=0; k< cmor_tables[i].CV->nbObjects; k++ ) {
+                if( &cmor_tables[i].CV[k] != NULL ) {
+                    cmor_CV_free( &cmor_tables[i].CV[k] );
+                }
+            }
             free(cmor_tables[i].CV);
         }
 

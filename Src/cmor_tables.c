@@ -70,7 +70,6 @@ void cmor_init_table( cmor_table_t * table, int id ) {
     cmor_is_setup(  );
     /* init the table */
     table->id = id;
-    table->nCVs = -1;
     table->nvars = -1;
     table->naxes = -1;
     table->nexps = -1;
@@ -125,13 +124,14 @@ int cmor_set_CV_entry(cmor_table_t* table,
 /* -------------------------------------------------------------------- */
 /* CV 0 contains number of objects                                      */
 /* -------------------------------------------------------------------- */
-    cmor_table->nCVs++;
     nbObjects++;
     newCV = (cmor_CV_def_t *) realloc(cmor_table->CV, sizeof(cmor_CV_def_t));
 
     cmor_table->CV = newCV;
     CV=newCV;
     cmor_init_CV_def(CV, cmor_ntables);
+    cmor_table->CV->nbObjects=nbObjects;
+
 
 /* -------------------------------------------------------------------- */
 /*  Add all values and dictionaries to the M-tree                       */
@@ -148,15 +148,16 @@ int cmor_set_CV_entry(cmor_table_t* table,
 
     json_object_object_foreach(value, CVName, CVValue) {
         nbObjects++;
-        cmor_table->nCVs++;
-        nCVId = cmor_table->nCVs;
         newCV = (cmor_CV_def_t *) realloc(cmor_table->CV,
                 nbObjects * sizeof(cmor_CV_def_t));
         cmor_table->CV = newCV;
+        nCVId = cmor_table->CV->nbObjects;
 
         CV = &cmor_table->CV[nCVId];
 
         cmor_init_CV_def(CV, cmor_ntables);
+        cmor_table->CV->nbObjects++;
+
         if( CVName[0] == '#') {
             continue;
         }
@@ -610,6 +611,7 @@ int cmor_load_table( char szTable[CMOR_MAX_STRING], int *table_id ) {
         rc = TABLE_SUCCESS;
     }
     //cmor_print_CV_all();
+
     free(szTableName);
     return(rc);
 }

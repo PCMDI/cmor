@@ -27,14 +27,17 @@ void cmor_set_CV_def_att(cmor_CV_def_t *CV,
     } else if(json_object_is_type( joValue, json_type_boolean)) {
         bValue = json_object_get_boolean(joValue);
         CV->nValue = (int) bValue;
+        CV->type = CV_integer;
 
     } else if(json_object_is_type( joValue, json_type_double)) {
         dValue = json_object_get_double(joValue);
         CV->dValue = dValue;
+        CV->type = CV_double;
 
     } else if(json_object_is_type( joValue, json_type_int)) {
         nValue = json_object_get_int(joValue);
         CV->nValue = nValue;
+        CV->type = CV_integer;
 /* -------------------------------------------------------------------- */
 /* if value is a JSON object, recursively call in this function          */
 /* -------------------------------------------------------------------- */
@@ -56,6 +59,7 @@ void cmor_set_CV_def_att(cmor_CV_def_t *CV,
             cmor_set_CV_def_att(&CV->oValue[nCVId], key, value  );
         }
         CV->nbObjects=nbObject;
+        CV->type = CV_object;
 
 
     } else if(json_object_is_type( joValue, json_type_array)) {
@@ -67,14 +71,17 @@ void cmor_set_CV_def_att(cmor_CV_def_t *CV,
             joItem = (json_object *) array_list_get_idx(pArray, k);
             strcpy(CV->aszValue[k], json_object_get_string(joItem));
         }
+        CV->type=CV_stringarray;
 
     } else if(json_object_is_type( joValue, json_type_string)) {
-        strcpy(CV->cValue, json_object_get_string(joValue));
+        strcpy(CV->szValue, json_object_get_string(joValue));
+        CV->type=CV_string;
     }
 
 
 
 }
+
 
 /************************************************************************/
 /*                         cmor_init_CV_def()                           */
@@ -85,10 +92,11 @@ void cmor_init_CV_def( cmor_CV_def_t *CV, int table_id ) {
     cmor_is_setup(  );
     cmor_add_traceback("cmor_init_CV_def");
     CV->table_id = table_id;
+    CV->type = CV_undef;  //undefined
     CV->nbObjects = -1;
     CV->nValue = -1;
     CV->key[0] = '\0';
-    CV->cValue[0] = '\0';
+    CV->szValue[0] = '\0';
     CV->dValue=-9999.9;
     CV->oValue = NULL;
     for(int i=0; i< CMOR_MAX_JSON_ARRAY; i++) {
@@ -113,26 +121,37 @@ void cmor_print_CV(cmor_CV_def_t *CV) {
         else {
             return;
         }
+        switch(CV->type) {
 
-        if (CV->cValue[0] != '\0') {
-            printf("value: %s\n", CV->cValue);
-        }
-        else if (CV->anElements != -1) {
+        case CV_string:
+            printf("value: %s\n", CV->szValue);
+            break;
+
+        case CV_integer:
+            printf("value: %d\n", CV->nValue);
+            break;
+
+        case CV_stringarray:
             printf("value: [\n");
             for (k = 0; k < CV->anElements; k++) {
                 printf("value: %s\n", CV->aszValue[k]);
             }
             printf("        ]\n");
+            break;
 
-        }
-        else if (CV->nValue != -1) {
-            printf("value: %d\n", CV->nValue);
-        }
-        else if (CV->oValue != NULL) {
-            printf("nbObjects=%d\n", CV->nbObjects);
+        case CV_double:
+            printf("value: %lf\n", CV->dValue);
+            break;
+
+        case CV_object:
+            printf("*** nbObjects=%d\n", CV->nbObjects);
             for(k=0; k< CV->nbObjects; k++){
                 cmor_print_CV(&CV->oValue[k]);
             }
+            break;
+
+        case CV_undef:
+            break;
         }
 
     }
@@ -150,12 +169,13 @@ void cmor_print_CV_all() {
 /* -------------------------------------------------------------------- */
 
     for( i = 0; i < CMOR_MAX_TABLES; i++ ) {
-        printf("table %s\n", cmor_tables[i].szTable_id);
-        nCVs = cmor_tables[i].nCVs;
-        for( j=0; j<= nCVs; j++ ) {
-            CV = &cmor_tables[i].CV[j];
-            cmor_print_CV(CV);
-
+        if(cmor_tables[i].CV != NULL) {
+            printf("table %s\n", cmor_tables[i].szTable_id);
+            nCVs = cmor_tables[i].CV->nbObjects;
+            for( j=0; j<= nCVs; j++ ) {
+                CV = &cmor_tables[i].CV[j];
+                cmor_print_CV(CV);
+            }
         }
     }
 }
@@ -164,11 +184,31 @@ void cmor_print_CV_all() {
 /*                     cmor_CV_search_key()                             */
 /************************************************************************/
 cmor_CV_def_t * cmor_CV_search_key(cmor_CV_def_t *CV, char *key){
-    int i;
+    int i,j;
+    cmor_CV_def_t *searchCV;
+    int nbCVs = -1;
 
-    for(i = 0; i< CV->nbObjects; i++) {
-        if(strcmp(CV[i].key, key)){
-            return(CV);
+    // Look at first objects
+    if(strcmp(CV->key, key)== 0){
+        return(CV);
+    }
+    // Is there more than 1 object?
+    if( CV->nbObjects != -1 ) {
+        nbCVs = CV->nbObjects;
+    }
+    // Look at each of object key
+    for(i = 1; i< nbCVs; i++) {
+        if(strcmp(CV[i].key, key)== 0){
+            return(&CV[i]);
+        }
+        // Is there a branch on that object?
+        if(CV[i].oValue != NULL) {
+            for(j=0; j< CV[i].nbObjects; j++) {
+                searchCV = cmor_CV_search_key(&CV[i].oValue[j], key);
+                if(searchCV != NULL ){
+                    return(searchCV);
+                }
+            }
         }
     }
     return(NULL);
@@ -181,14 +221,29 @@ char *cmor_CV_get_value(cmor_CV_def_t *CV, char *key) {
         int i,j;
         int nCVs;
 
-        for( i = 0; i < CMOR_MAX_TABLES; i++ ) {
-            printf("table %s\n", cmor_tables[i].szTable_id);
-            nCVs = cmor_tables[i].nCVs;
-            for( j=0; j<= nCVs; j++ ) {
-                CV = &cmor_tables[i].CV[j];
-                cmor_print_CV(CV);
+        switch(CV->type) {
+        case CV_string:
+            return(CV->szValue);
+            break;
 
-            }
+        case CV_integer:
+            sprintf(CV->szValue, "%d", CV->nValue);
+            break;
+
+        case CV_stringarray:
+            return(CV->aszValue[0]);
+            break;
+
+        case CV_double:
+            sprintf(CV->szValue, "%lf", CV->dValue);
+            break;
+
+        case CV_object:
+            return(NULL);
+            break;
+
+        case CV_undef:
+            break;
         }
 
         return(szValue);

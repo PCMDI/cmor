@@ -130,6 +130,8 @@ extern void cmor_init_CV_def( cmor_CV_def_t *CV, int table_id );
 extern void cmor_set_CV_def_att(cmor_CV_def_t *CV,
                                 char *key,
                                 json_object *joValue);
+cmor_CV_def_t * cmor_CV_search_key(cmor_CV_def_t *CV, char *key);
+char *cmor_CV_get_value(cmor_CV_def_t *CV, char *key);
 
 extern void cmor_print_CV(cmor_CV_def_t *CV);
 extern void cmor_print_CV_all();

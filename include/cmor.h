@@ -287,13 +287,23 @@ typedef struct cmor_axis_def_ {
     int must_call_cmor_grid;
 } cmor_axis_def_t;
 
+enum CV_type {
+    CV_undef,
+    CV_integer,
+    CV_double,
+    CV_string,
+    CV_stringarray,
+    CV_object,
+};
+
+
 typedef struct cmor_CV_def_ {
     int     table_id;
     char    key[CMOR_MAX_STRING];
-
+    int     type;
     int     nValue;
     double  dValue;
-    char    cValue[CMOR_MAX_STRING];
+    char    szValue[CMOR_MAX_STRING];
 
     char    aszValue[CMOR_MAX_JSON_OBJECT][CMOR_MAX_STRING];
     int     anElements;
@@ -431,7 +441,6 @@ typedef struct {
 
 typedef struct cmor_table_ {
     int id;
-    int nCVs;
     int nvars;
     int naxes;
     int nexps;
