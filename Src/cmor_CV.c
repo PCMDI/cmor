@@ -16,7 +16,7 @@ void cmor_set_CV_def_att(cmor_CV_def_t *CV,
     int nValue;
     char szValue[CMOR_MAX_STRING];
     array_list *pArray;
-    int i, length;
+    int i, k, length;
 
 
     strcpy(CV->key, szKey);
@@ -67,7 +67,7 @@ void cmor_set_CV_def_att(cmor_CV_def_t *CV,
         length = array_list_length(pArray);
         json_object *joItem;
         CV->anElements = length;
-        for(int k=0; k<length; k++) {
+        for(k=0; k<length; k++) {
             joItem = (json_object *) array_list_get_idx(pArray, k);
             strcpy(CV->aszValue[k], json_object_get_string(joItem));
         }
@@ -99,7 +99,7 @@ void cmor_init_CV_def( cmor_CV_def_t *CV, int table_id ) {
     CV->szValue[0] = '\0';
     CV->dValue=-9999.9;
     CV->oValue = NULL;
-    for(int i=0; i< CMOR_MAX_JSON_ARRAY; i++) {
+    for(i=0; i< CMOR_MAX_JSON_ARRAY; i++) {
         CV->aszValue[i][0]='\0';
     }
     CV->anElements = -1;
