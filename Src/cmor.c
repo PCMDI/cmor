@@ -5804,7 +5804,7 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
 /*                             cmor_close()                             */
 /************************************************************************/
 int cmor_close( void ) {
-    int i,  j;
+    int i,  j, k;
     extern int cmor_nvars;
     char msg[CMOR_MAX_STRING];
     extern ut_system *ut_read;
@@ -5855,7 +5855,7 @@ int cmor_close( void ) {
 	    cmor_tables[i].nforcings = 0;
 	}
         if(cmor_tables[i].CV != NULL) {
-            for( int k=0; k< cmor_tables[i].CV->nbObjects; k++ ) {
+            for(k=0; k< cmor_tables[i].CV->nbObjects; k++ ) {
                 if( &cmor_tables[i].CV[k] != NULL ) {
                     cmor_CV_free( &cmor_tables[i].CV[k] );
                 }
