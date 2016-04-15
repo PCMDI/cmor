@@ -11,7 +11,7 @@
         "data_specs_version": "3.0", 
         "generic_levels": "", 
         "missing_value": "1e20", 
-        "table_date": "01 April 2016"
+        "table_date": "14 April 2016"
     }, 
     "axis_entry": {
         "typebare": {
@@ -1949,19 +1949,19 @@
             "type": "double", 
             "dimensions": ""
         }, 
-        "huss": {
-            "comment": "near-surface (usually, 2 meter) specific humidity.", 
-            "dimensions": "longitude latitude time height2m", 
+        "hus": {
+            "comment": "", 
+            "dimensions": "longitude latitude plev8 time", 
             "positive": "", 
             "valid_min": "", 
-            "long_name": "Near-Surface Specific Humidity", 
+            "long_name": "Specific Humidity", 
             "standard_name": "specific_humidity", 
             "modeling_realm": "atmos", 
             "cell_measures": "time: mean", 
             "cell_methods": "area: areacella", 
             "ok_min_mean_abs": "", 
             "units": "1.0", 
-            "out_name": "huss", 
+            "out_name": "hus", 
             "type": "real", 
             "valid_max": "", 
             "ok_max_mean_abs": ""
@@ -1995,28 +1995,28 @@
             "type": "double", 
             "dimensions": "alevel"
         }, 
-        "hus": {
-            "comment": "", 
-            "dimensions": "longitude latitude plev8 time", 
-            "positive": "", 
-            "valid_min": "", 
-            "long_name": "Specific Humidity", 
-            "standard_name": "specific_humidity", 
-            "modeling_realm": "atmos", 
-            "cell_measures": "time: mean", 
-            "cell_methods": "area: areacella", 
-            "ok_min_mean_abs": "", 
-            "units": "1.0", 
-            "out_name": "hus", 
-            "type": "real", 
-            "valid_max": "", 
-            "ok_max_mean_abs": ""
-        }, 
         "href": {
             "units": "", 
             "long_name": "vertical coordinate formula term: href", 
             "type": "double", 
             "dimensions": ""
+        }, 
+        "zg": {
+            "comment": "", 
+            "dimensions": "longitude latitude plev8 time", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Geopotential Height", 
+            "standard_name": "geopotential_height", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "", 
+            "units": "m", 
+            "out_name": "zg", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
         }, 
         "orog": {
             "units": "m", 
@@ -2252,36 +2252,36 @@
             "valid_max": "", 
             "ok_max_mean_abs": ""
         }, 
-        "wap": {
-            "comment": "commonly referred to as ''omega'', this represents the vertical component of velocity in pressure coordinates (positive down)", 
-            "dimensions": "longitude latitude plev8 time", 
-            "positive": "", 
-            "valid_min": "", 
-            "long_name": "omega (=dp/dt)", 
-            "standard_name": "lagrangian_tendency_of_air_pressure", 
-            "modeling_realm": "atmos", 
-            "cell_measures": "time: mean", 
-            "cell_methods": "area: areacella", 
-            "ok_min_mean_abs": "", 
-            "units": "Pa s-1", 
-            "out_name": "wap", 
-            "type": "real", 
-            "valid_max": "", 
-            "ok_max_mean_abs": ""
-        }, 
-        "zg": {
+        "ta": {
             "comment": "", 
             "dimensions": "longitude latitude plev8 time", 
             "positive": "", 
             "valid_min": "", 
-            "long_name": "Geopotential Height", 
-            "standard_name": "geopotential_height", 
+            "long_name": "Air Temperature", 
+            "standard_name": "air_temperature", 
             "modeling_realm": "atmos", 
             "cell_measures": "time: mean", 
             "cell_methods": "area: areacella", 
             "ok_min_mean_abs": "", 
-            "units": "m", 
-            "out_name": "zg", 
+            "units": "K", 
+            "out_name": "ta", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "huss": {
+            "comment": "near-surface (usually, 2 meter) specific humidity.", 
+            "dimensions": "longitude latitude time height2m", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Near-Surface Specific Humidity", 
+            "standard_name": "specific_humidity", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "", 
+            "units": "1.0", 
+            "out_name": "huss", 
             "type": "real", 
             "valid_max": "", 
             "ok_max_mean_abs": ""
@@ -2664,19 +2664,19 @@
             "type": "integer", 
             "dimensions": ""
         }, 
-        "ta": {
-            "comment": "", 
+        "wap": {
+            "comment": "commonly referred to as ''omega'', this represents the vertical component of velocity in pressure coordinates (positive down)", 
             "dimensions": "longitude latitude plev8 time", 
             "positive": "", 
             "valid_min": "", 
-            "long_name": "Air Temperature", 
-            "standard_name": "air_temperature", 
+            "long_name": "omega (=dp/dt)", 
+            "standard_name": "lagrangian_tendency_of_air_pressure", 
             "modeling_realm": "atmos", 
             "cell_measures": "time: mean", 
             "cell_methods": "area: areacella", 
             "ok_min_mean_abs": "", 
-            "units": "K", 
-            "out_name": "ta", 
+            "units": "Pa s-1", 
+            "out_name": "wap", 
             "type": "real", 
             "valid_max": "", 
             "ok_max_mean_abs": ""

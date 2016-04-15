@@ -11,7 +11,7 @@
         "data_specs_version": "3.0", 
         "generic_levels": "alevel alevhalf", 
         "missing_value": "1e20", 
-        "table_date": "01 April 2016"
+        "table_date": "14 April 2016"
     }, 
     "axis_entry": {
         "typebare": {
@@ -1841,23 +1841,6 @@
         }
     }, 
     "variable_entry": {
-        "rlutcs4co2": {
-            "comment": "", 
-            "dimensions": "longitude latitude time", 
-            "positive": "up", 
-            "valid_min": "", 
-            "long_name": "TOA Outgoing Clear-Sky Longwave Radiation 4XCO2 Atmosphere", 
-            "standard_name": "toa_outgoing_longwave_flux_assuming_clear_sky", 
-            "modeling_realm": "atmos", 
-            "cell_measures": "time: mean", 
-            "cell_methods": "area: areacella", 
-            "ok_min_mean_abs": "", 
-            "units": "W m-2", 
-            "out_name": "rlutcs4co2", 
-            "type": "real", 
-            "valid_max": "", 
-            "ok_max_mean_abs": ""
-        }, 
         "depth_c": {
             "units": "", 
             "long_name": "vertical coordinate formula term: depth_c", 
@@ -2717,23 +2700,6 @@
             "valid_max": "", 
             "ok_max_mean_abs": ""
         }, 
-        "rsut4co2": {
-            "comment": "", 
-            "dimensions": "longitude latitude time", 
-            "positive": "up", 
-            "valid_min": "", 
-            "long_name": "TOA Outgoing Shortwave Radiation in 4XCO2 Atmosphere", 
-            "standard_name": "toa_outgoing_shortwave_flux", 
-            "modeling_realm": "atmos", 
-            "cell_measures": "time: mean", 
-            "cell_methods": "area: areacella", 
-            "ok_min_mean_abs": "", 
-            "units": "W m-2", 
-            "out_name": "rsut4co2", 
-            "type": "real", 
-            "valid_max": "", 
-            "ok_max_mean_abs": ""
-        }, 
         "cltcalipso": {
             "comment": "", 
             "dimensions": "longitude latitude time", 
@@ -3365,23 +3331,6 @@
             "valid_max": "", 
             "ok_max_mean_abs": ""
         }, 
-        "rsutcs4co2": {
-            "comment": "", 
-            "dimensions": "longitude latitude time", 
-            "positive": "up", 
-            "valid_min": "", 
-            "long_name": "TOA Outgoing Clear-Sky Shortwave Radiation 4XCO2 Atmosphere", 
-            "standard_name": "toa_outgoing_shortwave_flux_assuming_clear_sky", 
-            "modeling_realm": "atmos", 
-            "cell_measures": "time: mean", 
-            "cell_methods": "area: areacella", 
-            "ok_min_mean_abs": "", 
-            "units": "W m-2", 
-            "out_name": "rsutcs4co2", 
-            "type": "real", 
-            "valid_max": "", 
-            "ok_max_mean_abs": ""
-        }, 
         "tnsclwa": {
             "comment": "", 
             "dimensions": "longitude latitude alevel time", 
@@ -3486,23 +3435,6 @@
             "ok_min_mean_abs": "", 
             "units": "%", 
             "out_name": "cltisccp", 
-            "type": "real", 
-            "valid_max": "", 
-            "ok_max_mean_abs": ""
-        }, 
-        "rlut4co2": {
-            "comment": "", 
-            "dimensions": "longitude latitude time", 
-            "positive": "up", 
-            "valid_min": "", 
-            "long_name": "TOA Outgoing Longwave Radiation 4XCO2 Atmosphere", 
-            "standard_name": "toa_outgoing_longwave_flux", 
-            "modeling_realm": "atmos", 
-            "cell_measures": "time: mean", 
-            "cell_methods": "area: areacella", 
-            "ok_min_mean_abs": "", 
-            "units": "W m-2", 
-            "out_name": "rlut4co2", 
             "type": "real", 
             "valid_max": "", 
             "ok_max_mean_abs": ""

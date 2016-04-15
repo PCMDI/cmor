@@ -11,7 +11,7 @@
         "data_specs_version": "3.0", 
         "generic_levels": "alevel alevhalf", 
         "missing_value": "1e20", 
-        "table_date": "01 April 2016"
+        "table_date": "14 April 2016"
     }, 
     "axis_entry": {
         "typebare": {
@@ -1966,23 +1966,6 @@
             "valid_max": "", 
             "ok_max_mean_abs": ""
         }, 
-        "hfss": {
-            "comment": "", 
-            "dimensions": "longitude latitude time", 
-            "positive": "up", 
-            "valid_min": "", 
-            "long_name": "Surface Upward Sensible Heat Flux", 
-            "standard_name": "surface_upward_sensible_heat_flux", 
-            "modeling_realm": "atmos", 
-            "cell_measures": "time: mean", 
-            "cell_methods": "area: areacella", 
-            "ok_min_mean_abs": "", 
-            "units": "W m-2", 
-            "out_name": "hfss", 
-            "type": "real", 
-            "valid_max": "", 
-            "ok_max_mean_abs": ""
-        }, 
         "ap_bnds": {
             "units": "Pa", 
             "long_name": "vertical coordinate formula term: ap(k+1/2)", 
@@ -2200,23 +2183,6 @@
             "valid_max": "", 
             "ok_max_mean_abs": ""
         }, 
-        "clt": {
-            "comment": "cloud area fraction", 
-            "dimensions": "longitude latitude time", 
-            "positive": "", 
-            "valid_min": "", 
-            "long_name": "Total Cloud Fraction", 
-            "standard_name": "cloud_area_fraction_in_atmosphere_layer", 
-            "modeling_realm": "atmos", 
-            "cell_measures": "time: mean", 
-            "cell_methods": "area: areacella", 
-            "ok_min_mean_abs": "", 
-            "units": "1.0", 
-            "out_name": "clt", 
-            "type": "real", 
-            "valid_max": "", 
-            "ok_max_mean_abs": ""
-        }, 
         "clw": {
             "comment": "Includes both large-scale and convective cloud. Calculate as the mass of cloud liquid water in the grid cell divided by the mass of air (including the water in all phases) in the grid cells. Precipitating hydrometeors are included ONLY if the precipitating hydrometeors affect the calculation of radiative transfer in model.", 
             "dimensions": "longitude latitude alevel time", 
@@ -2242,7 +2208,7 @@
         }, 
         "clisccp": {
             "comment": "", 
-            "dimensions": "longitude latitude plev7 tau time p850", 
+            "dimensions": "longitude latitude plev7 tau time", 
             "positive": "", 
             "valid_min": "", 
             "long_name": "ISCCP Cloud Area Fraction", 
@@ -2645,23 +2611,6 @@
             "long_name": "Sea Surface Height formula term: thetao", 
             "type": "real", 
             "dimensions": "longitude latitude time"
-        }, 
-        "hfls": {
-            "comment": "", 
-            "dimensions": "longitude latitude time", 
-            "positive": "up", 
-            "valid_min": "", 
-            "long_name": "Surface Upward Latent Heat Flux", 
-            "standard_name": "surface_upward_latent_heat_flux", 
-            "modeling_realm": "atmos", 
-            "cell_measures": "time: mean", 
-            "cell_methods": "area: areacella", 
-            "ok_min_mean_abs": "", 
-            "units": "W m-2", 
-            "out_name": "hfls", 
-            "type": "real", 
-            "valid_max": "", 
-            "ok_max_mean_abs": ""
         }, 
         "rsut": {
             "comment": "at the top of the atmosphere", 

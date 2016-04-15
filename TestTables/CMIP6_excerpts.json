@@ -14,6 +14,17 @@
         "table_date": "01 April 2016"
     }, 
     "axis_entry": {
+        "forecast": {
+            "stored_direction": "increasing",
+            "must_have_bounds": "no",
+            "long_name": "ensemble time axis",
+            "standard_name": "time",
+            "out_name": "forecast",
+            "type": "double",
+            "units": "days since 1900-01-01",
+            "value": "0.0", 
+            "axis": "T"
+        },
         "plev17": {
             "requested": [
                 "100000.", 
@@ -160,6 +171,40 @@
             "type": "real", 
             "valid_max": "444", 
             "ok_max_mean_abs": "73.36"
+        }, 
+        "tas": {
+            "comment": "near-surface (usually, 2 meter) air temperature", 
+            "dimensions": "longitude latitude time height2m", 
+            "positive": "", 
+            "valid_min": "180.6", 
+            "long_name": "Near-Surface Air Temperature", 
+            "standard_name": "air_temperature", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "262.4", 
+            "units": "K", 
+            "out_name": "tas", 
+            "type": "real", 
+            "valid_max": "335.1", 
+            "ok_max_mean_abs": "293"
+        }, 
+        "tasforecast": {
+            "comment": "near-surface (usually, 2 meter) air temperature", 
+            "dimensions": "longitude latitude time height2m forecast", 
+            "positive": "", 
+            "valid_min": "180.6", 
+            "long_name": "Near-Surface Air Temperature", 
+            "standard_name": "air_temperature", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "262.4", 
+            "units": "K", 
+            "out_name": "tas", 
+            "type": "real", 
+            "valid_max": "335.1", 
+            "ok_max_mean_abs": "293"
         }, 
         "rldscs": {
             "comment": "", 

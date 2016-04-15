@@ -1283,8 +1283,6 @@ int cmor_dataset_json(char * ressource){
 
         cmor_set_cur_dataset_attribute_internal(key, szVal, 1);
     }
-    /* Create Special tag for path */
-    CreateDrivingPathTag();
 
     cmor_set_cur_dataset_attribute_internal(key, szVal, 1);
     cmor_current_dataset.initiated = 1;
@@ -5555,18 +5553,17 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
 /*      from now on add 1 more level of precision since that frequency  */
 /* -------------------------------------------------------------------- */
 
-		ierr =
-		    ( int ) ( ( comptime.hour -
-				( int ) ( comptime.hour ) ) * 60. );
+		ierr = ( int ) (( comptime.hour -
+		       ( int ) ( comptime.hour )) * 60. );
 		snprintf( msg2, CMOR_MAX_STRING, "%.2i", ierr );
 		strncat( outname, msg2,
 			 CMOR_MAX_STRING - strlen( outname ) );
 	    }
 	    if( interval < 3000 ) {	/* less than an hour */
 		snprintf( msg2, CMOR_MAX_STRING, "%.2i",
-			  ( int ) ( ( comptime.hour -
-				      ( int ) ( comptime.hour ) ) *
-				    3600. ) - ierr * 60 );
+			  ( int ) (( comptime.hour -
+			  ( int ) ( comptime.hour ) ) *
+				     3600. ) - ierr * 60 );
 		strncat( outname, msg2,
 			 CMOR_MAX_STRING - strlen( outname ) );
 	    }
@@ -5600,13 +5597,12 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
 /* -------------------------------------------------------------------- */
 /*      last time point                                                 */
 /* -------------------------------------------------------------------- */
-
 	    snprintf( msg2, CMOR_MAX_STRING, "%.4ld", comptime.year );
 	    strncat( outname, msg2, CMOR_MAX_STRING - strlen( outname ) );
+
 /* -------------------------------------------------------------------- */
 /*      less than a year                                                */
 /* -------------------------------------------------------------------- */
-
 	    if( interval < 29.E6 ) {
 		snprintf( msg2, CMOR_MAX_STRING, "%.2i", comptime.month );
 		strncat( outname, msg2,
@@ -5864,7 +5860,10 @@ int cmor_close( void ) {
                     cmor_CV_free( &cmor_tables[i].CV[k] );
                 }
             }
-            free(cmor_tables[i].CV);
+            if(cmor_tables[i].CV != NULL ){
+                free(cmor_tables[i].CV);
+                cmor_tables[i].CV=NULL;
+            }
         }
 
     }

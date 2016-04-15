@@ -11,7 +11,7 @@
         "data_specs_version": "3.0", 
         "generic_levels": "olevel", 
         "missing_value": "1e20", 
-        "table_date": "01 April 2016"
+        "table_date": "14 April 2016"
     }, 
     "axis_entry": {
         "typebare": {
@@ -3439,7 +3439,7 @@
             "cell_measures": "time: mean area: mean where sea", 
             "cell_methods": "area: areacello volume: volcello", 
             "ok_min_mean_abs": "", 
-            "units": "mol m-3 s-1", 
+            "units": "11806b1e-f747-11e5-950e-5404a60d96b5", 
             "out_name": "ppmisc", 
             "type": "real", 
             "valid_max": "", 

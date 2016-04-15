@@ -590,7 +590,8 @@ int cmor_load_table( char szTable[CMOR_MAX_STRING], int *table_id ) {
     }
 
     rc= cmor_load_table_internal( szTable, table_id, TRUE);
-    if(rc != TABLE_SUCCESS){
+
+    if((rc != TABLE_SUCCESS) && (rc != TABLE_FOUND)){
         snprintf( msg, CMOR_MAX_STRING, "Can't open table %s", szTable);
         cmor_handle_error( msg, CMOR_WARNING );
     }
@@ -885,7 +886,7 @@ int cmor_load_table_internal( char table[CMOR_MAX_STRING], int *table_id,
 			      cmor_tables[cmor_ntables].szTable_id );
 		    cmor_handle_error( msg, CMOR_WARNING );
 	}
-	
+
 /* -------------------------------------------------------------------- */
 /*      First check for table/dataset mode values                       */
 /* -------------------------------------------------------------------- */
