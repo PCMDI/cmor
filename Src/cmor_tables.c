@@ -31,7 +31,7 @@ int wfgetc( FILE * afile ) {
 int cmor_get_table_attr( char *szToken, cmor_table_t * table, char *out) {
     int i;
     t_symstruct lookuptable[]= {
-            {"activity_id", table->activity_id  },
+            {"mip_era",     table->mip_era  },
             {"table",       table->szTable_id    },
             {"realm",       table->realm       },
             {"date",        table->date        },
@@ -76,7 +76,7 @@ void cmor_init_table( cmor_table_t * table, int id ) {
     table->nmappings = -1;
     table->cf_version = 1.6;
     table->cmor_version = 3.0;
-    table->activity_id[0] = '\0';
+    table->mip_era[0] = '\0';
     table->szTable_id[0] = '\0';
     strcpy( table->realm, "REALM" );
     table->date[0] = '\0';
@@ -383,8 +383,8 @@ int cmor_set_dataset_att(cmor_table_t * table, char att[CMOR_MAX_STRING],
 	} else if (strcmp(att, TABLE_HEADER_REQGBLATTR) == 0) {
 		strncpy(table->required_gbl_att, val, CMOR_MAX_STRING);
 
-	} else if (strcmp(att, TABLE_HEADER_ACTIVITY_ID) == 0) {
-		strncpy(table->activity_id, value, CMOR_MAX_STRING);
+	} else if (strcmp(att, TABLE_HEADER_MIP_ERA) == 0) {
+		strncpy(table->mip_era, value, CMOR_MAX_STRING);
 
 	} else if (strcmp(att, TABLE_HEADER_REALM) == 0) {
 		strncpy(table->realm, value, CMOR_MAX_STRING);
@@ -706,7 +706,7 @@ int cmor_load_table_internal( char table[CMOR_MAX_STRING], int *table_id,
         free(buffer);
         buffer=NULL;
         snprintf( msg, CMOR_MAX_STRING,
-                  "Could not understand file \"%s\" Is this a JSON CMIP6 table?",
+                  "Could not understand file \"%s\" Is this a JSON CMOR table?",
                    table  );
             cmor_handle_error( msg, CMOR_CRITICAL );
             cmor_ntables--;

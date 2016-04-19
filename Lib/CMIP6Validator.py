@@ -12,8 +12,29 @@ import os
 import json
 import pdb
 
-EXPERIMENTS = 'experiments.json'
-CONTROLVOCABULARY = 'CV.json'
+EXPERIMENTS = 'Tables/experiments.json'
+CONTROLVOCABULARY = 'Tables/CV.json'
+
+
+# =========================
+# JSONAction()
+# =========================
+class JSONAction(argparse.Action):
+    '''
+    Check if argparse is JSON file
+    '''
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        pdb.set_trace()
+        fn = values
+        if not os.path.isfile(fn):
+            raise argparse.ArgumentTypeError('JSONAction:{0} is file not found'.format(fn))
+        f = open(fn)
+        lines=f.readlines()
+        jsonobject=json.loads(" ".join(lines))
+        if not jsonobject:
+            raise argparse.ArgumentTypeError('JSONAction:{0} is file not a valid JSON file'.format(fn))
+        setattr(namespace, self.dest, values)
 
 
 # =========================
@@ -27,7 +48,7 @@ class CDMSAction(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
         fn = values
         if not os.path.isfile(fn):
-            raise argparse.ArgumentTypeError('CDMSAction:{0} is not a valid CNUIP6 file'.format(fn))
+            raise argparse.ArgumentTypeError('CDMSAction:{0} does not exist'.format(fn))
         f = cdms2.open(fn)
         setattr(namespace, self.dest, f)
 
@@ -58,10 +79,9 @@ class checkCMIP6(object):
 
     Class need to read CMIP6 Table and Controled Vocabulary file.
 
-    As well,the class will load the EXPERIMENT json file found in the "inpath" passed argument.
+    As well,the class will load the EXPERIMENT json file 
 
     Input:
-        args.inpath:  Path to "json" files
         args.cmip6_table:  CMIP6 table used to creat this file,
                            variable attributes and dimensions will be controled.
         args.CV:           Controled Vocabulary "json" file.
@@ -74,9 +94,9 @@ class checkCMIP6(object):
     # *************************
     def __init__(self, args):
         #pdb.set_trace()
-        self.expfile = args.inpath + '/' + EXPERIMENTS
-        self.cmip6_table = args.inpath + '/' + args.cmip6_table
-        self.CVfn = args.inpath + '/' + args.CV
+        self.expfile = EXPERIMENTS
+        self.cmip6_table =  args.cmip6_table
+        self.CVfn =  args.CV
 
         self.infile = args.infile
         # -------------------------
@@ -96,6 +116,7 @@ class checkCMIP6(object):
         # -------------------------
         if(os.path.isfile(self.CVfn) is False):
             self.CVfn = args.CV
+            
         if(os.path.isfile(self.CVfn)):
             f = open(self.CVfn).read()
             self.CV = json.loads(f)
@@ -119,10 +140,19 @@ class checkCMIP6(object):
             bInList = Element in Control
             return(bInList)
         # -------------------------------------------------
+        # Check if Elment is in a list
+        # -------------------------------------------------
+        elif(isinstance(Element, list) and isinstance(Control, list)):
+            ControlVocab = [ControlItem  for ControlItem in Control
+                            if ControlItem not in Element]
+            return(ControlVocab)
+
+        # -------------------------------------------------
         # File instance check global attributes with list
         # -------------------------------------------------
         elif(isinstance(Element, cdms2.dataset.CdmsFile) and isinstance(Control, list)):
-            ControlVocab = [ControlItem  for ControlItem in Control if ControlItem not in Element.__dict__.keys()]
+            ControlVocab = [ControlItem  for ControlItem in Control
+                            if ControlItem not in Element.__dict__.keys()]
             return(ControlVocab)
         # -------------------------------------------------
         # Variableinstance check dimensions attribute and min/max
@@ -148,14 +178,22 @@ class checkCMIP6(object):
     # *************************
     #   CheckGlobalAttributes()
     # *************************
-    def checkGlobalAttrites(self):
+    def checkRequiredGlobalAttributes(self):
         '''
         Control Global Attributes.
         '''
-        Control = self.ControlVocab(self.infile, self.CV['required_global_attributes'])
+        pdb.set_trace()
+        Control = self.ControlVocab(self.infile.attributes.keys(),
+                                    self.CV['CV']['required_global_attributes'])
+
         if(Control):
             for Vocab in Control:
                 print "Global Attribute '{0}' not in CMIP6 file".format(Vocab)
+            if(Vocab.find("source") != -1):
+                print "coucou"
+                pdb.set_trace()
+                print "coucou"
+
 
 
 #  =========================
@@ -165,19 +203,16 @@ def main():
     parser = argparse.ArgumentParser(prog='CMIP6Checker',
                                      description='Validate CMIP6 file '
                                      'for publication in ESGF.')
-    parser.add_argument('inpath',
-                        help='CMIP6 CMOR table directory',
-                        action=readable_dir)
 
     parser.add_argument('cmip6_table',
-                        help='CMIP6 CMOR table (JSON file)')
+                        help='CMIP6 CMOR table (JSON file) ex: Tables/CMIP6_Amon.json', action=JSONAction)
 
     parser.add_argument('CV',
-                        help='Control Vocabulary (CV.json)',
-                        default='CV.json')
+                        help='Control Vocabulary (CV.json) ex: Tables/CV.json',
+                        default='CV.json',action=JSONAction)
 
     parser.add_argument('infile',
-                        help='Input CMIP6 file to Validate',
+                        help='Input CMIP6 netCDF file to Validate ex: clisccp_cfMon_DcppC22_NICAM_gn_200001-200001.nc',
                         action=CDMSAction)
 
     parser.add_argument('outfile',
@@ -185,13 +220,20 @@ def main():
                         help='Output file (default stdout)',
                         type=argparse.FileType('w'),
                         default=sys.stdout)
-    args = parser.parse_args()
 
-    #pdb.set_trace()
+    try:
+        args = parser.parse_args()
+    except argparse.ArgumentTypeError, errmsg:
+        print >> sys.stderr, str(errmsg)
+        return 1
+    except SystemExit:
+        return 1
+
+    pdb.set_trace()
     process = checkCMIP6(args)
     process.checkExperiments()
-    process.checkGlobalAttrites()
-    process.checkActivities()
+    process.checkRequiredGlobalAttributes()
+# process.checkActivities()
     return(0)
 
 

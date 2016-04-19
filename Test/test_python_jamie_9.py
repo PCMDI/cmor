@@ -33,7 +33,7 @@ def main():
         axis_id = cmor.axis(**axis)
         axis_ids.append(axis_id)
 
-    for var, units, value in (('ta', 'K', 274), ('ua', 'm s-1', 10)):
+    for var, units, value in (('ta', 'K', 274), ('ua', 'm s-1', 10) ):
         values = numpy.array([value,]*len(axes[1]['coord_vals']), numpy.float32)
         varid = cmor.variable(var,
                               units,

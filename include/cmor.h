@@ -139,8 +139,8 @@
 #define GLOBAL_ATT_FORCING_IDX        "forcing_index"
 #define GLOBAL_ATT_CMORVERSION        "cmor_version"
 #define GLOBAL_ATT_ACTIVITY_ID        "activity_id"
-#define GLOBAL_ATT_DRIVING_SOURCE_ID  "driving_source_id"
-#define GLOBAL_ATT_DRIVING_VARIANT_ID "driving_variant_id"
+#define GLOBAL_ATT_DRIVING_SOURCE_ID  "_driving_source_id"
+#define GLOBAL_ATT_DRIVING_VARIANT_ID "_driving_variant_id"
 #define GLOBAL_ATT_VAL_NODRIVER       "no-driver"
 #define GLOBAL_ATT_VARIABLE_ID        "variable_id"
 #define GLOBAL_ATT_SOURCE_ID          "source_id"
@@ -155,7 +155,7 @@
 #define GLOBAL_ATT_BRANCH_TIME        "branch_time"
 #define GLOBAL_ATT_REALM              "realm"
 #define GLOBAL_ATT_TRACKING_ID        "tracking_id"
-#define GLOBAL_ATT_VARIANT_ID         "run_variant_id"
+#define GLOBAL_ATT_VARIANT_ID         "variant_id"
 #define GLOBAL_ATT_DATASPECSVERSION   "data_specs_version"
 #define GLOBAL_ATT_FREQUENCY          "frequency"
 
@@ -168,8 +168,6 @@
 
 
 #define GLOBAL_INT_ATT_PARENT_EXPT    GLOBAL_INTERNAL"parent_experiment"
-#define GLOBAL_ATT_ACTIVITY_SEG1      GLOBAL_INTERNAL"activity_id_seg1"
-#define GLOBAL_ATT_ACTIVITY_SEG2      GLOBAL_INTERNAL"activity_id_seg2"
 #define GLOBAL_ATT_DRIVING_PATH       GLOBAL_INTERNAL"driving_source_id-driving_variant_id"
 #define GLOBAL_ATT_VERSION            GLOBAL_INTERNAL"version"
 
@@ -178,7 +176,7 @@
 #define TABLE_HEADER_GENERIC_LEVS     "generic_levels"
 #define TABLE_HEADER_CF_VERSION       "cf_version"
 #define TABLE_HEADER_CONVENTIONS      "Conventions"
-#define TABLE_HEADER_ACTIVITY_ID      "activity_id"
+#define TABLE_HEADER_MIP_ERA          "mip_era"
 #define TABLE_HEADER_REALM            "realm"
 #define TABLE_HEADER_TABLE_DATE       "table_date"
 #define TABLE_HEADER_TRACKING_PREFIX  "tracking_prefix"
@@ -205,8 +203,8 @@
 #define DIMENSION_OLEVEL              "olevel"
 
 #define CMIP6                         "CMIP6"
-#define CMOR_DEFAULT_PATH_TEMPLATE "<activity_id_seg1><institute_id><source_id><activity_id_seg2><experiment_id><driving_source_id-driving_variant_id><run_variant_id><table><variable_id><grid_label><version>"
-#define CMOR_DEFAULT_FILE_TEMPLATE "<variable_id><table><experiment_id><source_id><run_variant_id><grid_label>[<driving_source_id-driving_variant_id>]"
+#define CMOR_DEFAULT_PATH_TEMPLATE "<mip_era><institute_id><source_id><activity_id><experiment_id><variant_id><table><variable_id><grid_label><version>"
+#define CMOR_DEFAULT_FILE_TEMPLATE "<variable_id><table><experiment_id><source_id><variant_id><grid_label>"
 
 #define CMOR_MAX_TRACKING_PREFIX_PROJECT_FILTER 1
 
@@ -447,7 +445,7 @@ typedef struct cmor_table_ {
     int nmappings;
     float cf_version;
     float cmor_version;
-    char activity_id[CMOR_MAX_STRING];
+    char mip_era[CMOR_MAX_STRING];
     char Conventions[CMOR_MAX_STRING];
     char data_specs_version[CMOR_MAX_STRING];
     char szTable_id[CMOR_MAX_STRING];
@@ -486,7 +484,7 @@ typedef struct cmor_dataset_def_ {
     char attributes_values[CMOR_MAX_ATTRIBUTES][CMOR_MAX_STRING];
     char activity_id[CMOR_MAX_STRING];
     int nattributes;
-    int realization;
+  //  int realization;
     int leap_year;
     int leap_month;
     int month_lengths[12];

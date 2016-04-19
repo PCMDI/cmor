@@ -1015,7 +1015,6 @@ int cmor_setup( char *path,
         cmor_current_dataset.attributes_values[i][0] = '\0';
     }
     cmor_current_dataset.nattributes = 0;
-    cmor_current_dataset.realization = 0;
     cmor_current_dataset.leap_year = 0;
     cmor_current_dataset.leap_month = 0;
     cmor_current_dataset.associate_file = 0;
@@ -1128,7 +1127,7 @@ json_object *cmor_open_inpathFile(char *szFilename ) {
         free(buffer);
         buffer=NULL;
         snprintf( msg, CMOR_MAX_STRING,
-                  "Could not understand file \"%s\" Is this a JSON CMIP6 table?",
+                  "Could not understand file \"%s\" Is this a JSON CMOR table?",
                    szFullName  );
             cmor_handle_error( msg, CMOR_CRITICAL );
             cmor_ntables--;
@@ -1259,22 +1258,7 @@ int cmor_dataset_json(char * ressource){
                     CMOR_MAX_STRING );
             continue;
         } else if(strcmp(key, GLOBAL_ATT_ACTIVITY_ID) == 0 ) {
-            char *pValue;
-            char szValueCpy[CMOR_MAX_STRING];
-            strncpy(szValueCpy, szVal, CMOR_MAX_STRING);
             strncpy( cmor_current_dataset.activity_id, szVal, CMOR_MAX_STRING);
-
-            pValue = strtok(szValueCpy, "-");
-            if(pValue != NULL) {
-                cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_ACTIVITY_SEG1,
-                        pValue, 1);
-            }
-
-            pValue = strtok( NULL, "-");
-            if(pValue != NULL) {
-                cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_ACTIVITY_SEG2,
-                        pValue, 1);
-            }
 
         } else if((strcmp(key, GLOBAL_ATT_DRIVING_SOURCE_ID) == 0) ||
                   (strcmp(key, GLOBAL_ATT_DRIVING_VARIANT_ID) == 0)){
@@ -1284,9 +1268,7 @@ int cmor_dataset_json(char * ressource){
         cmor_set_cur_dataset_attribute_internal(key, szVal, 1);
     }
 
-    cmor_set_cur_dataset_attribute_internal(key, szVal, 1);
     cmor_current_dataset.initiated = 1;
-    cmor_current_dataset.realization = 1;
     cmor_set_cur_dataset_attribute_internal( TABLE_HEADER_TRACKING_ID,
                                              cmor_current_dataset.tracking_id,
                                              0 );
@@ -1484,7 +1466,7 @@ void cmor_has_required_global_attributes( int table_id ) {
 	cmor_pop_traceback(  );
 	return;			/* not required */
     }
-    cmor_get_cur_dataset_attribute( GLOBAL_ATT_EXPERIMENTID, expt_id );
+   /* cmor_get_cur_dataset_attribute( GLOBAL_ATT_EXPERIMENTID, expt_id ); */
     
 /* -------------------------------------------------------------------- */
 /*      ok we want to make sure it is the sht id                        */
@@ -1582,7 +1564,7 @@ int cmor_is_required_global_attribute( char *name, int table_id ) {
 	}
     }
     cmor_pop_traceback(  );
-    return req;
+    return(req);
 }
 
 
@@ -2446,33 +2428,12 @@ int  cmor_set_refvar( int var_id, int *refvar, int ntimes_passed ) {
 /*                    cmor_validate_activity_id()                       */
 /************************************************************************/
 int cmor_validate_activity_id(int  nVarRefTblID) {
-    char szTableActivity[CMOR_MAX_STRING];
-    char szDatasetActivity[CMOR_MAX_STRING];
-    char *pszTokenTable;
-    char *pszTokenDataset;
     int ierr=0;
 
     cmor_add_traceback("cmor_validate_activity_id");
-    ierr = cmor_get_cur_dataset_attribute(GLOBAL_ATT_ACTIVITY_ID,
-                                          szDatasetActivity);
-    if( strcmp(szDatasetActivity, "") == 0) {
-        return(ierr);
-    }
-    strncpy(szTableActivity,
-            cmor_tables[nVarRefTblID].activity_id,
-            CMOR_MAX_STRING);
 
-    pszTokenTable  = strtok(szTableActivity, "-");
-    pszTokenDataset  = strtok(szDatasetActivity, "-");
-
-    if(strcmp(pszTokenTable, pszTokenDataset) != 0) {
-        ierr = -1;
-    } else {
-        /* replace with user specified activity for netCDF GLOBAL attributes */
-        strcpy(cmor_tables[nVarRefTblID].activity_id, szDatasetActivity);
-    }
     cmor_pop_traceback();
-    return ierr;
+    return(ierr);
 }
 
 /************************************************************************/
@@ -2716,7 +2677,7 @@ int cmor_WriteGblAttr(int var_id, int ncid, int ncafid) {
         snprintf(ctmp, CMOR_MAX_STRING,
                 "%s CMOR rewrote data to comply with CF standards "
                         "and %s requirements.", msg,
-                cmor_tables[nVarRefTblID].activity_id);
+                cmor_tables[nVarRefTblID].mip_era);
 
         if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_HISTORY) == 0) {
             cmor_get_cur_dataset_attribute(GLOBAL_ATT_HISTORY, msg);
@@ -2777,10 +2738,10 @@ int cmor_WriteGblAttr(int var_id, int ncid, int ncafid) {
         ctmp[0] = '\0';
     }
 
-    cmor_get_cur_dataset_attribute(GLOBAL_ATT_EXPERIMENT, ctmp2);
+    /* cmor_get_cur_dataset_attribute(GLOBAL_ATT_EXPERIMENT, ctmp2); */
 
-    snprintf(msg, CMOR_MAX_STRING, "%s model output prepared for %s %s", ctmp,
-            cmor_tables[nVarRefTblID].activity_id, ctmp2);
+    snprintf(msg, CMOR_MAX_STRING, "%s model output prepared for %s", ctmp,
+            cmor_tables[nVarRefTblID].mip_era);
 
     cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_TITLE, msg, 0);
 /* -------------------------------------------------------------------- */
@@ -2884,8 +2845,8 @@ int cmor_WriteGblAttr(int var_id, int ncid, int ncafid) {
 /* -------------------------------------------------------------------- */
 /*     check source and model_id are identical                          */
 /* -------------------------------------------------------------------- */
-    if (strcmp(cmor_tables[nVarRefTblID].activity_id, CMIP6) == 0) {
-        cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE_ID, ctmp5);
+    if (strcmp(cmor_tables[nVarRefTblID].mip_era, CMIP6) == 0) {
+/*        cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE_ID, ctmp5);
         cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE, ctmp6);
         if (strncmp(ctmp5, ctmp6, strlen(ctmp5)) != 0) {
             snprintf(msg, CMOR_MAX_STRING,
@@ -2895,7 +2856,7 @@ int cmor_WriteGblAttr(int var_id, int ncid, int ncafid) {
                     cmor_tables[nVarRefTblID].szTable_id, GLOBAL_ATT_SOURCE_ID,
                     ctmp5);
             cmor_handle_error(msg, CMOR_CRITICAL);
-        }
+        } */
     }
 
 /* -------------------------------------------------------------------- */
@@ -2914,19 +2875,6 @@ int cmor_WriteGblAttr(int var_id, int ncid, int ncafid) {
     }
     cmor_generate_uuid(ncid, ncafid, var_id);
 
-/* -------------------------------------------------------------------- */
-/*      realization                                                     */
-/* -------------------------------------------------------------------- */
-    ierr = nc_put_att_int(ncid, NC_GLOBAL, GLOBAL_ATT_REALIZATION, NC_INT, 1,
-            &cmor_current_dataset.realization);
-    if (ierr != NC_NOERR) {
-        snprintf(msg, CMOR_MAX_STRING,
-                "NetCDF error (%i: %s) writing variable %s (table: %s)\n! "
-                        "global att realization (%i)", ierr, nc_strerror(ierr),
-                cmor_vars[var_id].id, cmor_tables[nVarRefTblID].szTable_id,
-                cmor_current_dataset.realization);
-        cmor_handle_error(msg, CMOR_CRITICAL);
-    }
 
 /* -------------------------------------------------------------------- */
 /*      cmor_ver                                                        */
@@ -2945,17 +2893,7 @@ int cmor_WriteGblAttr(int var_id, int ncid, int ncafid) {
     }
 
     if (ncid != ncafid) {
-        ierr = nc_put_att_int(ncafid, NC_GLOBAL, GLOBAL_ATT_REALIZATION, NC_INT,
-                1, &cmor_current_dataset.realization);
-        if (ierr != NC_NOERR) {
-            snprintf(msg, CMOR_MAX_STRING,
-                    "NetCDF error (%i: %s) writing variable %s\n! "
-                            "(table: %s) global att realization (%i) to metafile",
-                    ierr, nc_strerror(ierr), cmor_vars[var_id].id,
-                    cmor_tables[nVarRefTblID].szTable_id,
-                    cmor_current_dataset.realization);
-            cmor_handle_error(msg, CMOR_CRITICAL);
-        }
+
 /* -------------------------------------------------------------------- */
 /*      cmor_ver                                                        */
 /* -------------------------------------------------------------------- */
@@ -4153,28 +4091,10 @@ int cmor_write( int var_id, void *data, char type,
 
 	cmor_handle_error( "var_id %i not defined", CMOR_CRITICAL );
 	cmor_pop_traceback(  );
-	return -1;
+	return(-1);
     };
 
-    ierr = cmor_validate_activity_id(nVarRefTblID);
-    if( ierr != 0) {
-        char szActivity[CMOR_MAX_STRING];
-        cmor_get_cur_dataset_attribute(GLOBAL_ATT_ACTIVITY_ID, szActivity);
 
-        snprintf( msg, CMOR_MAX_STRING,
-                "You defined an activity_id of \"%s\" but your input table\n! "
-                "%s has an activity ID starting with \"%s\".  The first segment\n! "
-                "both strings need to match, make sure you are using the\n! "
-                "right table for this activity.\n!\n! "
-                "verify your json input file and make sure you call \n! "
-                "dataset_json(<file.json>)\n!",
-                szActivity,
-                cmor_tables[nVarRefTblID].szTable_id,
-                cmor_tables[nVarRefTblID].activity_id);
-
-        cmor_handle_error( msg, CMOR_CRITICAL);
-
-    }
 
     ierr = cmor_addVersion();
     ierr = cmor_addRIPF(ctmp);
@@ -4234,25 +4154,27 @@ int cmor_write( int var_id, void *data, char type,
 /*      we will need the expt_id for the filename                       */
 /*      so we check its validity here                                   */
 /* -------------------------------------------------------------------- */
-	cmor_get_cur_dataset_attribute( GLOBAL_ATT_EXPERIMENTID, ctmp2 );
+	if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_EXPERIMENTID) == 0) {
+	    cmor_get_cur_dataset_attribute( GLOBAL_ATT_EXPERIMENTID, ctmp2 );
 
 /* -------------------------------------------------------------------- */
 /*      ok here we check the exptid is ok                               */
 /* -------------------------------------------------------------------- */
-	ierr = cmor_check_expt_id( ctmp2,
+	    ierr = cmor_check_expt_id( ctmp2,
 	            nVarRefTblID,
-                    GLOBAL_ATT_EXPERIMENT,
+	            GLOBAL_ATT_EXPERIMENT,
                     GLOBAL_ATT_EXPERIMENTID );
 
-	if( ierr != 0 ) {
-	    snprintf( msg, CMOR_MAX_STRING,
-		      "Invalid dataset experiment id: %s, while writing\n! "
-	              "variable %s, check against table: %s",
-		      ctmp2, cmor_vars[var_id].id,
-		      cmor_tables[nVarRefTblID].szTable_id );
-	    cmor_handle_error( msg, CMOR_NORMAL );
-	    cmor_pop_traceback(  );
-	    return( 1 );
+	    if( ierr != 0 ) {
+	        snprintf( msg, CMOR_MAX_STRING,
+	                "Invalid dataset experiment id: %s, while writing\n! "
+	                "variable %s, check against table: %s",
+	        	      ctmp2, cmor_vars[var_id].id,
+	        	      cmor_tables[nVarRefTblID].szTable_id );
+	            cmor_handle_error( msg, CMOR_NORMAL );
+	           cmor_pop_traceback(  );
+	          return( 1 );
+	    }
 	}
 
 /* -------------------------------------------------------------------- */
@@ -4363,12 +4285,10 @@ int cmor_write( int var_id, void *data, char type,
 
 	ierr = cmor_WriteGblAttr(var_id, ncid, ncafid);
 	if(ierr != 0) {
-	    return ierr;
+	    return(ierr);
 	}
 
-        if( isfixed == 1 ) {
-            cmor_current_dataset.realization = origRealization;
-        }
+
 /* -------------------------------------------------------------------- */
 /*      store netcdf file id associated with this variable              */
 /* -------------------------------------------------------------------- */
@@ -5280,6 +5200,7 @@ int cmor_addVersion(){
 /************************************************************************/
 int cmor_addRIPF(char *variant) {
     char tmp[CMOR_MAX_STRING];
+    int realization_index;
     int initialization_index;
     int physics_index;
     int forcing_index;
@@ -5290,9 +5211,12 @@ int cmor_addRIPF(char *variant) {
 /* -------------------------------------------------------------------- */
 /*      realization                                                     */
 /* -------------------------------------------------------------------- */
-    snprintf(tmp, CMOR_MAX_STRING, "r%d", cmor_current_dataset.realization);
-    strncat(variant, tmp, CMOR_MAX_STRING - strlen(variant));
-
+    if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_REALIZATION) == 0) {
+        cmor_get_cur_dataset_attribute(GLOBAL_ATT_REALIZATION, tmp);
+        sscanf(tmp, "%i", &realization_index);
+        snprintf(tmp, CMOR_MAX_STRING, "r%d", realization_index);
+        strncat(variant, tmp, CMOR_MAX_STRING - strlen(variant));
+    }
 /* -------------------------------------------------------------------- */
 /*      initialization id (required)                                    */
 /* -------------------------------------------------------------------- */

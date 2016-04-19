@@ -1,11 +1,11 @@
 {
     "Header": {
-        "activity_id": "CMIP6-XXXX", 
+        "mip_era":     "CMIP6", 
         "approx_interval": "30.00000", 
         "realm": "atmos", 
         "product": "output", 
         "cmor_version": "3.0", 
-        "Conventions": "CF-1.8 CMIP-6.0", 
+        "Conventions": "CF-1.6 CMIP-6.0", 
         "frequency": "mon", 
         "table_id": "Table Amon", 
         "data_specs_version": "3.0", 

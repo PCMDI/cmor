@@ -1,0 +1,26 @@
+{
+    "outpath":                      "Test",
+    "data_structure":               "grid",
+    "further_info_url":             "https://obs4mips.nasa.jpl.gov",     
+    "instituion_id":                "USDOE",
+    "institution":                  "U.S. Department of Energy",
+    "license":                      "One of 2 license",
+    "mip_specs":                    "CMIP5",
+    "references":                   "journal",
+    "source":                       "ARMBE:",
+    "source_id":                    "ARMBE",
+    "source_type":                  "AOGCM",
+    "activity_id":                  "obs4MIPs",
+    "contact":                      "python coder python@coder.com",
+    "Conventions":                  "CF-1.6",
+    "calendar":                     "gregorian",
+    "comment":                      "Some comment about the data",
+    "history":                      "Test of obs4MIPs data",
+    "location":                     "Somewhere on earth",
+    "output_path_template":         "<product><mip_specs>",
+    "output_file_template":         "<variable_id><table>"
+
+}
+
+
+
