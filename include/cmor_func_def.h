@@ -94,7 +94,7 @@ extern int cmor_close_variable( int var_id, char *file_name,
 extern int cmor_close( void );
 
 extern int cmor_WriteGblAttr(int var_id, int ncid, int ncafid);
-extern void cmor_generate_uuid(int ncid, int ncafid, int var_id);
+extern void cmor_generate_uuid();
 extern void cmor_define_dimensions(int var_id, int ncid,
                             int ncafid, double *time_bounds,
                             int *nc_dim,
@@ -133,6 +133,8 @@ extern void cmor_set_CV_def_att(cmor_CV_def_t *CV,
 cmor_CV_def_t * cmor_CV_search_key(cmor_CV_def_t *CV, char *key);
 char *cmor_CV_get_value(cmor_CV_def_t *CV, char *key);
 
+extern int cmor_attNameCmp(const void *v1, const void *v2);
+
 extern void cmor_print_CV(cmor_CV_def_t *CV);
 extern void cmor_print_CV_all();
 extern void cmor_CV_free(cmor_CV_def_t *CV);
@@ -144,6 +146,9 @@ extern void cmor_trim_string( char *in, char *out );
 extern int cmor_calendar_c2i( char *calendar, cdCalenType * ical );
 extern int cmor_convert_time_units( char *inunits, char *outunits,
 				    char *loutunits );
+
+extern void cmor_write_all_attributes(int ncid, int ncafid, int var_id);
+
 extern int cmor_convert_time_values( void *values_in, char type,
 				     int nvalues, double *values_out,
 				     char *inunits, char *outunits,

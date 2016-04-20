@@ -158,6 +158,10 @@
 #define GLOBAL_ATT_VARIANT_ID         "variant_id"
 #define GLOBAL_ATT_DATASPECSVERSION   "data_specs_version"
 #define GLOBAL_ATT_FREQUENCY          "frequency"
+#define GLOBAL_ATT_LICENSE            "license"
+#define GLOBAL_ATT_TRACKING_PREFIX    "tracking_prefix"
+#define GLOBAL_ATT_CALENDAR           "calendar"
+
 
 #define JSON_KEY_HEADER               "Header"
 #define JSON_KEY_EXPERIMENT           "experiments"
@@ -179,8 +183,6 @@
 #define TABLE_HEADER_MIP_ERA          "mip_era"
 #define TABLE_HEADER_REALM            "realm"
 #define TABLE_HEADER_TABLE_DATE       "table_date"
-#define TABLE_HEADER_TRACKING_PREFIX  "tracking_prefix"
-#define TABLE_HEADER_TRACKING_ID      "tracking_id"
 #define TABLE_HEADER_FORCINGS         "forcings"
 #define TABLE_HEADER_FREQUENCY        "frequency"
 #define TABLE_HEADER_TABLE_ID         "table_id"
@@ -206,7 +208,7 @@
 #define CMOR_DEFAULT_PATH_TEMPLATE "<mip_era><institute_id><source_id><activity_id><experiment_id><variant_id><table><variable_id><grid_label><version>"
 #define CMOR_DEFAULT_FILE_TEMPLATE "<variable_id><table><experiment_id><source_id><variant_id><grid_label>"
 
-#define CMOR_MAX_TRACKING_PREFIX_PROJECT_FILTER 1
+//#define CMOR_MAX_TRACKING_PREFIX_PROJECT_FILTER 1
 
 extern int USE_NETCDF_4;
 extern int CMOR_MODE;
@@ -461,7 +463,6 @@ typedef struct cmor_table_ {
     float interval_warning;
     float interval_error;
     char URL[CMOR_MAX_STRING];
-    char tracking_prefix[CMOR_MAX_STRING];
     char product[CMOR_MAX_STRING];
     char realm[CMOR_MAX_STRING];
     char path[CMOR_MAX_STRING];
@@ -475,15 +476,21 @@ typedef struct cmor_table_ {
 
 extern cmor_table_t cmor_tables[CMOR_MAX_TABLES];
 
-extern const char cmor_tracking_prefix_project_filter[CMOR_MAX_TRACKING_PREFIX_PROJECT_FILTER][CMOR_MAX_STRING];
+//extern const char cmor_tracking_prefix_project_filter[CMOR_MAX_TRACKING_PREFIX_PROJECT_FILTER][CMOR_MAX_STRING];
+
+typedef struct  attributes {
+    char names[CMOR_MAX_STRING];
+    char values[CMOR_MAX_STRING];
+} attributes_def;
 
 typedef struct cmor_dataset_def_ {
     char outpath[CMOR_MAX_STRING];
     char conventions[CMOR_MAX_STRING];
-    char attributes_names[CMOR_MAX_ATTRIBUTES][CMOR_MAX_STRING];
-    char attributes_values[CMOR_MAX_ATTRIBUTES][CMOR_MAX_STRING];
+
     char activity_id[CMOR_MAX_STRING];
+    char tracking_prefix[CMOR_MAX_STRING];
     int nattributes;
+    attributes_def attributes[CMOR_MAX_ATTRIBUTES];
   //  int realization;
     int leap_year;
     int leap_month;

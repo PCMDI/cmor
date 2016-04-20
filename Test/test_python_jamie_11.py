@@ -2,7 +2,7 @@ import cmor,numpy
 
 error_flag = cmor.setup(inpath='Test', netcdf_file_action=cmor.CMOR_REPLACE)
   
-error_flag = cmor.dataset_json("Test/test_python_jamie_10.json")
+error_flag = cmor.dataset_json("Test/test_python_jamie_11.json")
   
 
 # creates 1 degree grid

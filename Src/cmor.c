@@ -710,10 +710,6 @@ int cmor_setup( char *path,
     char msg[CMOR_MAX_STRING];
     char msg2[CMOR_MAX_STRING];
     char tmplogfile[CMOR_MAX_STRING];
-    uuid_t *myuuid;
-    uuid_fmt_t fmt;
-    void *myuuid_str = NULL;
-    size_t uuidlen;
     time_t lt;
 
     struct stat buf;
@@ -1011,8 +1007,8 @@ int cmor_setup( char *path,
 /*      initialized dataset                                             */
 /* -------------------------------------------------------------------- */
     for (i = 0; i < CMOR_MAX_ATTRIBUTES; i++) {
-        cmor_current_dataset.attributes_names[i][0] = '\0';
-        cmor_current_dataset.attributes_values[i][0] = '\0';
+        cmor_current_dataset.attributes[i].names[0] = '\0';
+        cmor_current_dataset.attributes[i].values[0] = '\0';
     }
     cmor_current_dataset.nattributes = 0;
     cmor_current_dataset.leap_year = 0;
@@ -1022,15 +1018,7 @@ int cmor_setup( char *path,
 /* -------------------------------------------------------------------- */
 /*      generates a unique id                                           */
 /* -------------------------------------------------------------------- */
-    uuid_create(&myuuid);
-    uuid_make(myuuid, 4);
-    myuuid_str = NULL;
-    fmt = UUID_FMT_STR;
-    uuid_export(myuuid, fmt, &myuuid_str, &uuidlen);
-    strncpy(cmor_current_dataset.tracking_id, (char *) myuuid_str,
-            CMOR_MAX_STRING);
-    free(myuuid_str);
-    uuid_destroy(myuuid);
+    cmor_generate_uuid();
     strncpy(cmor_current_dataset.associated_file_name, "", CMOR_MAX_STRING);
 
     for (i = 0; i < 12; i++)
@@ -1269,9 +1257,7 @@ int cmor_dataset_json(char * ressource){
     }
 
     cmor_current_dataset.initiated = 1;
-    cmor_set_cur_dataset_attribute_internal( TABLE_HEADER_TRACKING_ID,
-                                             cmor_current_dataset.tracking_id,
-                                             0 );
+    cmor_generate_uuid();
 /* -------------------------------------------------------------------- */
 /*  Verify if the output directory exist                                */
 /* -------------------------------------------------------------------- */
@@ -1389,7 +1375,7 @@ int cmor_set_cur_dataset_attribute_internal(char *name, char *value,
     n = cmor_current_dataset.nattributes;
 
     for (i = 0; i <= cmor_current_dataset.nattributes; i++) {
-        if (strcmp(msg, cmor_current_dataset.attributes_names[i]) == 0) {
+        if (strcmp(msg, cmor_current_dataset.attributes[i].names) == 0) {
             n = i;
             cmor_current_dataset.nattributes -= 1;
             break;
@@ -1406,9 +1392,9 @@ int cmor_set_cur_dataset_attribute_internal(char *name, char *value,
         return( 1 );
     }
 
-    strncpy(cmor_current_dataset.attributes_names[n], msg, CMOR_MAX_STRING);
+    strncpy(cmor_current_dataset.attributes[n].names, msg, CMOR_MAX_STRING);
     cmor_trim_string(value, msg);
-    strncpytrim(cmor_current_dataset.attributes_values[n], msg, CMOR_MAX_STRING);
+    strncpytrim(cmor_current_dataset.attributes[n].values, msg, CMOR_MAX_STRING);
     cmor_current_dataset.nattributes += 1;
     cmor_pop_traceback();
     return( 0 );
@@ -1434,7 +1420,7 @@ int cmor_get_cur_dataset_attribute( char *name, char *value ) {
     }
     n = -1;
     for( i = 0; i <= cmor_current_dataset.nattributes; i++ ) {
-	if( strcmp( name, cmor_current_dataset.attributes_names[i] ) == 0 )
+	if( strcmp( name, cmor_current_dataset.attributes[i].names ) == 0 )
 	    n = i;
     }
     if( n == -1 ) {
@@ -1445,7 +1431,7 @@ int cmor_get_cur_dataset_attribute( char *name, char *value ) {
 	cmor_pop_traceback(  );
 	return( 1 );
     }
-    strncpy( value, cmor_current_dataset.attributes_values[n],
+    strncpy( value, cmor_current_dataset.attributes[n].values,
 	     CMOR_MAX_STRING );
     cmor_pop_traceback(  );
     return( 0 );
@@ -1506,7 +1492,7 @@ void cmor_has_required_global_attributes( int table_id ) {
 	found = 0;
 
 	for( j = 0; j < cmor_current_dataset.nattributes; j++ ) {
-	    if( strcmp( msg, cmor_current_dataset.attributes_names[j] ) == 0 ) {
+	    if( strcmp( msg, cmor_current_dataset.attributes[j].names ) == 0 ) {
 		cmor_get_cur_dataset_attribute( msg, ctmp );
 		if( strcmp( ctmp, "not specified" ) != 0 ) {
 		    found = 1;
@@ -1590,7 +1576,7 @@ int cmor_has_cur_dataset_attribute( char *name ) {
     }
     n = -1;
     for( i = 0; i <= cmor_current_dataset.nattributes; i++ ) {
-	if( strcmp( name, cmor_current_dataset.attributes_names[i] ) == 0 )
+	if( strcmp( name, cmor_current_dataset.attributes[i].names ) == 0 )
 	    n = i;
     }
     if( n == -1 ) {
@@ -2873,8 +2859,8 @@ int cmor_WriteGblAttr(int var_id, int ncid, int ncafid) {
         cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_REALM,
                 cmor_tables[nVarRefTblID].realm, 0);
     }
-    cmor_generate_uuid(ncid, ncafid, var_id);
-
+    cmor_generate_uuid();
+    cmor_write_all_attributes(ncid, ncafid, var_id);
 
 /* -------------------------------------------------------------------- */
 /*      cmor_ver                                                        */
@@ -2911,23 +2897,29 @@ int cmor_WriteGblAttr(int var_id, int ncid, int ncafid) {
     cmor_pop_traceback();
     return (0);
 }
+
+/************************************************************************/
+/*                        cmor_attNameCmp()                             */
+/************************************************************************/
+int cmor_attNameCmp(const void *v1, const void *v2)
+{
+  const attributes_def *c1 = v1;
+  const attributes_def *c2 = v2;
+  return(strcmp (c1->names, c2->names));
+}
+
 /************************************************************************/
 /*                     cmor_generate_uuid()                             */
 /************************************************************************/
-void cmor_generate_uuid(int ncid, int ncafid, int var_id){
-    int nVarRefTblID;
-    int ierr;
-    char msg[CMOR_MAX_STRING];
-    double tmps[2];
+void cmor_generate_uuid(){
     uuid_t *myuuid;
     uuid_fmt_t fmt;
     void *myuuid_str = NULL;
     size_t uuidlen;
-    int i;
-    int itmp2;
+    char value[CMOR_MAX_STRING];
+    int len;
 
     cmor_add_traceback("cmor_generate_uuid");
-    nVarRefTblID = cmor_vars[var_id].ref_table_id;
 
 /* -------------------------------------------------------------------- */
 /*      generates a new unique id                                       */
@@ -2943,9 +2935,12 @@ void cmor_generate_uuid(int ncid, int ncafid, int var_id){
 /* -------------------------------------------------------------------- */
     uuid_export(myuuid, fmt, &myuuid_str, &uuidlen);
 
-    if (cmor_tables[nVarRefTblID].tracking_prefix != '\0') {
+    if( cmor_has_cur_dataset_attribute( GLOBAL_ATT_TRACKING_PREFIX ) == 0 ) {
+        cmor_get_cur_dataset_attribute( GLOBAL_ATT_TRACKING_PREFIX, value );
+        len = strlen(value);
+
         strncpy(cmor_current_dataset.tracking_id,
-                cmor_tables[nVarRefTblID].tracking_prefix, CMOR_MAX_STRING);
+                value, CMOR_MAX_STRING);
         strcat(cmor_current_dataset.tracking_id, "/");
         strcat(cmor_current_dataset.tracking_id, (char *) myuuid_str);
     } else {
@@ -2956,136 +2951,210 @@ void cmor_generate_uuid(int ncid, int ncafid, int var_id){
             cmor_current_dataset.tracking_id, 0);
     free(myuuid_str);
     uuid_destroy(myuuid);
+    cmor_pop_traceback();
+
+}
+
+/************************************************************************/
+/*                  cmor_write_all_atributes()                          */
+/************************************************************************/
+void cmor_write_all_attributes(int ncid, int ncafid, int var_id) {
+    int ierr;
+    char msg[CMOR_MAX_STRING];
+    char value[CMOR_MAX_STRING];
+    double tmps[2];
+    int i;
+    int nVarRefTblID;
+    int itmp2;
+
+    cmor_add_traceback("cmor_write_all_attributes");
+    nVarRefTblID = cmor_vars[var_id].ref_table_id;
+
+    qsort( cmor_current_dataset.attributes, cmor_current_dataset.nattributes,
+            sizeof(struct attributes), cmor_attNameCmp);
 
     for (i = 0; i < cmor_current_dataset.nattributes; i++) {
 /* -------------------------------------------------------------------- */
 /* Skip "calendar" global attribute                                     */
 /* -------------------------------------------------------------------- */
-        if (strcmp(cmor_current_dataset.attributes_names[i], "calendar") != 0) {
+        if (strcmp(cmor_current_dataset.attributes[i].names,
+                GLOBAL_ATT_CALENDAR) == 0) {
+            continue;
+        }
+/* -------------------------------------------------------------------- */
+/* Skip "tracking_prefix" global attribute                              */
+/* -------------------------------------------------------------------- */
+        if (strcmp(cmor_current_dataset.attributes[i].names,
+                GLOBAL_ATT_TRACKING_PREFIX) == 0) {
+            continue;
+        }
+/* -------------------------------------------------------------------- */
+/* Write license last, not now!!                                       */
+/* -------------------------------------------------------------------- */
+        if (strcmp(cmor_current_dataset.attributes[i].names,
+                GLOBAL_ATT_LICENSE) == 0) {
+            continue;
+        }
 /* -------------------------------------------------------------------- */
 /* Write physics or initialization as int attribute                     */
 /* -------------------------------------------------------------------- */
-            if ((strcmp(cmor_current_dataset.attributes_names[i],
-                    GLOBAL_ATT_PHYSICS_IDX) == 0)
-                    || (strcmp(cmor_current_dataset.attributes_names[i],
-                            GLOBAL_ATT_INITIA_IDX) == 0)) { /* these two are actually int not char */
-                sscanf(cmor_current_dataset.attributes_values[i], "%i", &itmp2);
 
-                ierr = nc_put_att_int(ncid, NC_GLOBAL,
-                        cmor_current_dataset.attributes_names[i], NC_INT, 1,
+        if ((strcmp(cmor_current_dataset.attributes[i].names,
+                GLOBAL_ATT_PHYSICS_IDX) == 0)
+                || (strcmp(cmor_current_dataset.attributes[i].names,
+                        GLOBAL_ATT_INITIA_IDX) == 0)) { /* these two are actually int not char */
+            sscanf(cmor_current_dataset.attributes[i].values, "%i", &itmp2);
+
+            ierr = nc_put_att_int(ncid, NC_GLOBAL,
+                    cmor_current_dataset.attributes[i].names, NC_INT, 1,
+                    &itmp2);
+
+            if (ierr != NC_NOERR) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "NetCDF error (%i: %s) for variable %s\n! "
+                                "(table: %s) writing global att: %s (%s)\n! ",
+                        ierr, nc_strerror(ierr), cmor_vars[var_id].id,
+                        cmor_tables[nVarRefTblID].szTable_id,
+                        cmor_current_dataset.attributes[i].names,
+                        cmor_current_dataset.attributes[i].values);
+                cmor_handle_error(msg, CMOR_CRITICAL);
+            }
+            if (ncid != ncafid) {
+                ierr = nc_put_att_int(ncafid, NC_GLOBAL,
+                        cmor_current_dataset.attributes[i].names, NC_INT, 1,
                         &itmp2);
+                if (ierr != NC_NOERR) {
+                    snprintf(msg, CMOR_MAX_STRING,
+                            "NetCDF error (%i: %s) for variable %s\n! "
+                                    "(table: %s) writing global att to\n! "
+                                    "metafile: %s (%s)", ierr,
+                            nc_strerror(ierr), cmor_vars[var_id].id,
+                            cmor_tables[nVarRefTblID].szTable_id,
+                            cmor_current_dataset.attributes[i].names,
+                            cmor_current_dataset.attributes[i].values);
+                    cmor_handle_error(msg, CMOR_CRITICAL);
+                }
+            }
+            /* -------------------------------------------------------------------- */
+            /*  Write Branch_Time as double attribute                               */
+            /* -------------------------------------------------------------------- */
+        } else if (strcmp(cmor_current_dataset.attributes[i].names,
+                GLOBAL_ATT_BRANCH_TIME) == 0) {
+            sscanf(cmor_current_dataset.attributes[i].values, "%lf", &tmps[0]);
+            ierr = nc_put_att_double(ncid, NC_GLOBAL,
+                    cmor_current_dataset.attributes[i].names, NC_DOUBLE, 1,
+                    &tmps[0]);
+            if (ierr != NC_NOERR) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "NetCDF error (%i: %s) for variable %s\n! "
+                                "(table: %s)  writing global att: %s (%s)\n! ",
+                        ierr, nc_strerror(ierr), cmor_vars[var_id].id,
+                        cmor_tables[nVarRefTblID].szTable_id,
+                        cmor_current_dataset.attributes[i].names,
+                        cmor_current_dataset.attributes[i].values);
+                cmor_handle_error(msg, CMOR_CRITICAL);
+            }
+            if (ncid != ncafid) {
+                ierr = nc_put_att_double(ncafid, NC_GLOBAL,
+                        cmor_current_dataset.attributes[i].names, NC_DOUBLE, 1,
+                        &tmps[0]);
+                if (ierr != NC_NOERR) {
+                    snprintf(msg, CMOR_MAX_STRING,
+                            "NetCDF error (%i: %s) for variable\n! "
+                                    "%s (table: %s), writing global att\n! "
+                                    "to metafile: %s (%s)", ierr,
+                            nc_strerror(ierr), cmor_vars[var_id].id,
+                            cmor_tables[nVarRefTblID].szTable_id,
+                            cmor_current_dataset.attributes[i].names,
+                            cmor_current_dataset.attributes[i].values);
+                    cmor_handle_error(msg, CMOR_CRITICAL);
+                }
+            }
+        } else {
+            itmp2 = strlen(cmor_current_dataset.attributes[i].values);
+            if (itmp2 < CMOR_DEF_ATT_STR_LEN) {
+                int nNbAttrs = strlen(
+                        cmor_current_dataset.attributes[i].values);
+                for (itmp2 = nNbAttrs; itmp2 < CMOR_DEF_ATT_STR_LEN; itmp2++) {
+                    cmor_current_dataset.attributes[i].values[itmp2] = '\0';
+                }
+                itmp2 = CMOR_DEF_ATT_STR_LEN;
+            }
+            /* -------------------------------------------------------------------- */
+            /*  Write all "text" attributes                                         */
+            /* -------------------------------------------------------------------- */
+            /* -------------------------------------------------------------------- */
+            /*      Skip attributes starting with "_"                               */
+            /* -------------------------------------------------------------------- */
+            if (cmor_current_dataset.attributes[i].names[0] != '_') {
+                ierr = nc_put_att_text(ncid, NC_GLOBAL,
+                        cmor_current_dataset.attributes[i].names, itmp2,
+                        cmor_current_dataset.attributes[i].values);
 
                 if (ierr != NC_NOERR) {
                     snprintf(msg, CMOR_MAX_STRING,
                             "NetCDF error (%i: %s) for variable %s\n! "
-                                    "(table: %s) writing global att: %s (%s)\n! ",
+                                    "(table: %s)  writing global att: %s (%s)",
                             ierr, nc_strerror(ierr), cmor_vars[var_id].id,
                             cmor_tables[nVarRefTblID].szTable_id,
-                            cmor_current_dataset.attributes_names[i],
-                            cmor_current_dataset.attributes_values[i]);
+                            cmor_current_dataset.attributes[i].names,
+                            cmor_current_dataset.attributes[i].values);
                     cmor_handle_error(msg, CMOR_CRITICAL);
                 }
                 if (ncid != ncafid) {
-                    ierr = nc_put_att_int(ncafid, NC_GLOBAL,
-                            cmor_current_dataset.attributes_names[i], NC_INT, 1,
-                            &itmp2);
+                    ierr = nc_put_att_text(ncafid, NC_GLOBAL,
+                            cmor_current_dataset.attributes[i].names, itmp2,
+                            cmor_current_dataset.attributes[i].values);
                     if (ierr != NC_NOERR) {
                         snprintf(msg, CMOR_MAX_STRING,
                                 "NetCDF error (%i: %s) for variable %s\n! "
-                                        "(table: %s) writing global att to\n! "
+                                        "(table %s), writing global att to\n! "
                                         "metafile: %s (%s)", ierr,
                                 nc_strerror(ierr), cmor_vars[var_id].id,
                                 cmor_tables[nVarRefTblID].szTable_id,
-                                cmor_current_dataset.attributes_names[i],
-                                cmor_current_dataset.attributes_values[i]);
+                                cmor_current_dataset.attributes[i].names,
+                                cmor_current_dataset.attributes[i].values);
                         cmor_handle_error(msg, CMOR_CRITICAL);
                     }
                 }
+            }
+        }
+    }
 /* -------------------------------------------------------------------- */
-/*  Write Branch_Time as double attribute                               */
+/*      Write license attribute                                         */
 /* -------------------------------------------------------------------- */
-            } else if (strcmp(cmor_current_dataset.attributes_names[i],
-                    GLOBAL_ATT_BRANCH_TIME) == 0) {
-                sscanf(cmor_current_dataset.attributes_values[i], "%lf",
-                        &tmps[0]);
-                ierr = nc_put_att_double(ncid, NC_GLOBAL,
-                        cmor_current_dataset.attributes_names[i], NC_DOUBLE, 1,
-                        &tmps[0]);
-                if (ierr != NC_NOERR) {
-                    snprintf(msg, CMOR_MAX_STRING,
-                            "NetCDF error (%i: %s) for variable %s\n! "
-                                    "(table: %s)  writing global att: %s (%s)\n! ",
-                            ierr, nc_strerror(ierr), cmor_vars[var_id].id,
-                            cmor_tables[nVarRefTblID].szTable_id,
-                            cmor_current_dataset.attributes_names[i],
-                            cmor_current_dataset.attributes_values[i]);
-                    cmor_handle_error(msg, CMOR_CRITICAL);
-                }
-                if (ncid != ncafid) {
-                    ierr = nc_put_att_double(ncafid, NC_GLOBAL,
-                            cmor_current_dataset.attributes_names[i], NC_DOUBLE,
-                            1, &tmps[0]);
-                    if (ierr != NC_NOERR) {
-                        snprintf(msg, CMOR_MAX_STRING,
-                                "NetCDF error (%i: %s) for variable\n! "
-                                        "%s (table: %s), writing global att\n! "
-                                        "to metafile: %s (%s)", ierr,
-                                nc_strerror(ierr), cmor_vars[var_id].id,
-                                cmor_tables[nVarRefTblID].szTable_id,
-                                cmor_current_dataset.attributes_names[i],
-                                cmor_current_dataset.attributes_values[i]);
-                        cmor_handle_error(msg, CMOR_CRITICAL);
-                    }
-                }
-            } else {
-                itmp2 = strlen(cmor_current_dataset.attributes_values[i]);
-                if (itmp2 < CMOR_DEF_ATT_STR_LEN) {
-                    int nNbAttrs = strlen(
-                            cmor_current_dataset.attributes_values[i]);
-                    for (itmp2 = nNbAttrs; itmp2 < CMOR_DEF_ATT_STR_LEN;
-                            itmp2++) {
-                        cmor_current_dataset.attributes_values[i][itmp2] = '\0';
-                    }
-                    itmp2 = CMOR_DEF_ATT_STR_LEN;
-                }
-/* -------------------------------------------------------------------- */
-/*  Write all "text" attributes                                         */
-/* -------------------------------------------------------------------- */
-/* -------------------------------------------------------------------- */
-/*      Skip attributes starting with "_"                               */
-/* -------------------------------------------------------------------- */
-                if (cmor_current_dataset.attributes_names[i][0] != '_') {
-                    ierr = nc_put_att_text(ncid, NC_GLOBAL,
-                            cmor_current_dataset.attributes_names[i], itmp2,
-                            cmor_current_dataset.attributes_values[i]);
+    if( cmor_has_cur_dataset_attribute( GLOBAL_ATT_LICENSE ) == 0 ) {
 
-                    if (ierr != NC_NOERR) {
-                        snprintf(msg, CMOR_MAX_STRING,
-                                "NetCDF error (%i: %s) for variable %s\n! "
-                                        "(table: %s)  writing global att: %s (%s)",
-                                ierr, nc_strerror(ierr), cmor_vars[var_id].id,
-                                cmor_tables[nVarRefTblID].szTable_id,
-                                cmor_current_dataset.attributes_names[i],
-                                cmor_current_dataset.attributes_values[i]);
-                        cmor_handle_error(msg, CMOR_CRITICAL);
-                    }
-                    if (ncid != ncafid) {
-                        ierr = nc_put_att_text(ncafid, NC_GLOBAL,
-                                cmor_current_dataset.attributes_names[i], itmp2,
-                                cmor_current_dataset.attributes_values[i]);
-                        if (ierr != NC_NOERR) {
-                            snprintf(msg, CMOR_MAX_STRING,
-                                    "NetCDF error (%i: %s) for variable %s\n! "
-                                            "(table %s), writing global att to\n! "
-                                            "metafile: %s (%s)", ierr,
-                                    nc_strerror(ierr), cmor_vars[var_id].id,
-                                    cmor_tables[nVarRefTblID].szTable_id,
-                                    cmor_current_dataset.attributes_names[i],
-                                    cmor_current_dataset.attributes_values[i]);
-                            cmor_handle_error(msg, CMOR_CRITICAL);
-                        }
-                    }
-                }
+        cmor_get_cur_dataset_attribute( GLOBAL_ATT_LICENSE, value );
+        itmp2 = strlen(value);
+
+        ierr = nc_put_att_text(ncid, NC_GLOBAL,GLOBAL_ATT_LICENSE, itmp2,
+                value);
+
+        if (ierr != NC_NOERR) {
+            snprintf(msg, CMOR_MAX_STRING,
+                    "NetCDF error (%i: %s) for variable %s\n! "
+                            "(table: %s)  writing global att: %s (%s)",
+                    ierr, nc_strerror(ierr), cmor_vars[var_id].id,
+                    cmor_tables[nVarRefTblID].szTable_id,
+                    GLOBAL_ATT_LICENSE,
+                    value);
+            cmor_handle_error(msg, CMOR_CRITICAL);
+        }
+        if (ncid != ncafid) {
+            ierr = nc_put_att_text(ncafid, NC_GLOBAL,
+                    GLOBAL_ATT_LICENSE, itmp2,
+                    value);
+            if (ierr != NC_NOERR) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "NetCDF error (%i: %s) for variable %s\n! "
+                                "(table %s), writing global att to\n! "
+                                "metafile: %s (%s)", ierr,
+                        nc_strerror(ierr), cmor_vars[var_id].id,
+                        cmor_tables[nVarRefTblID].szTable_id,
+                        GLOBAL_ATT_LICENSE,
+                        value);
+                cmor_handle_error(msg, CMOR_CRITICAL);
             }
         }
     }
@@ -4064,9 +4133,9 @@ int cmor_write( int var_id, void *data, char type,
     int refvarid;
     int isfixed = 0;
     int origRealization = 0;
-    uuid_t *myuuid;
-    uuid_fmt_t fmt;
-    void *myuuid_str = NULL;
+    //uuid_t *myuuid;
+    //uuid_fmt_t fmt;
+    //void *myuuid_str = NULL;
     size_t uuidlen;
 
     int  nVarRefTblID;
@@ -4376,41 +4445,20 @@ int cmor_write( int var_id, void *data, char type,
 /* -------------------------------------------------------------------- */
 /*      generates a new unique id                                       */
 /* -------------------------------------------------------------------- */
-	uuid_create( &myuuid );
-	uuid_make( myuuid, 4 );
-	myuuid_str = NULL;
-	fmt = UUID_FMT_STR;
-	uuid_export( myuuid, fmt, &myuuid_str, &uuidlen );
-	if( cmor_tables[nVarRefTblID].tracking_prefix != '\0' ) {
-	    strncpy( cmor_current_dataset.tracking_id,
-		     cmor_tables[nVarRefTblID].tracking_prefix,
-		     CMOR_MAX_STRING );
-	    strcat( cmor_current_dataset.tracking_id, "/" );
-	    strcat( cmor_current_dataset.tracking_id,
-		    ( char * ) myuuid_str );
-	} else {
-	    strncpy( cmor_current_dataset.tracking_id,
-		     ( char * ) myuuid_str, CMOR_MAX_STRING );
-	}
-	cmor_set_cur_dataset_attribute_internal( GLOBAL_ATT_TRACKING_ID,
-	        cmor_current_dataset.tracking_id,
-	        0 );
-
-	ierr =
-	    nc_put_att_text( ncid, NC_GLOBAL, GLOBAL_ATT_TRACKING_ID,
-			     ( int ) uuidlen, myuuid_str );
+	cmor_generate_uuid();
+        cmor_get_cur_dataset_attribute( GLOBAL_ATT_TRACKING_ID, ctmp2 );
+	ierr = nc_put_att_text( ncid, NC_GLOBAL, GLOBAL_ATT_TRACKING_ID,
+	                        strlen(ctmp2), ctmp2 );
 	if( ierr != NC_NOERR ) {
 	    snprintf( msg, CMOR_MAX_STRING,
 		      "NetCDF error (%i: %s) for variable %s (table: %s)\n! "
-	              "writing global att: %s (%s)",
+	              "writing global attribute: %s (%s)",
 		      ierr, nc_strerror( ierr ), cmor_vars[var_id].id,
 		      cmor_tables[nVarRefTblID].szTable_id,
 		      "tracking_id",
-		     (char *) myuuid_str );
+		     (char *) ctmp2 );
 	    cmor_handle_error( msg, CMOR_CRITICAL );
 	}
-        free( myuuid_str );
-        uuid_destroy( myuuid );
 
 
 /* -------------------------------------------------------------------- */
