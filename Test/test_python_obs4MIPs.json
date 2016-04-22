@@ -1,5 +1,5 @@
 {
-    "tracking_prefix":              "http://coucou.doi.com",
+    "#tracking_prefix":              "http://doi.com",
     "outpath":                      "Test",
     "data_structure":               "grid",
     "further_info_url":             "https://obs4mips.nasa.jpl.gov",     
