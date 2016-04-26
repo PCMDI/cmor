@@ -2998,11 +2998,10 @@ void cmor_write_all_attributes(int ncid, int ncafid, int var_id) {
 /* -------------------------------------------------------------------- */
 /* Write physics or initialization as int attribute                     */
 /* -------------------------------------------------------------------- */
-
         if ((strcmp(cmor_current_dataset.attributes[i].names,
-                GLOBAL_ATT_PHYSICS_IDX) == 0)
-                || (strcmp(cmor_current_dataset.attributes[i].names,
-                        GLOBAL_ATT_INITIA_IDX) == 0)) { /* these two are actually int not char */
+                GLOBAL_ATT_PHYSICS_IDX) == 0) ||
+            (strcmp(cmor_current_dataset.attributes[i].names,
+                GLOBAL_ATT_INITIA_IDX) == 0)) { /* these two are actually int not char */
             sscanf(cmor_current_dataset.attributes[i].values, "%i", &itmp2);
 
             ierr = nc_put_att_int(ncid, NC_GLOBAL,
@@ -3035,9 +3034,9 @@ void cmor_write_all_attributes(int ncid, int ncafid, int var_id) {
                     cmor_handle_error(msg, CMOR_CRITICAL);
                 }
             }
-            /* -------------------------------------------------------------------- */
-            /*  Write Branch_Time as double attribute                               */
-            /* -------------------------------------------------------------------- */
+/* -------------------------------------------------------------------- */
+/*  Write Branch_Time as double attribute                               */
+/* -------------------------------------------------------------------- */
         } else if (strcmp(cmor_current_dataset.attributes[i].names,
                 GLOBAL_ATT_BRANCH_TIME) == 0) {
             sscanf(cmor_current_dataset.attributes[i].values, "%lf", &tmps[0]);
@@ -3080,12 +3079,12 @@ void cmor_write_all_attributes(int ncid, int ncafid, int var_id) {
                 }
                 itmp2 = CMOR_DEF_ATT_STR_LEN;
             }
-            /* -------------------------------------------------------------------- */
-            /*  Write all "text" attributes                                         */
-            /* -------------------------------------------------------------------- */
-            /* -------------------------------------------------------------------- */
-            /*      Skip attributes starting with "_"                               */
-            /* -------------------------------------------------------------------- */
+/* -------------------------------------------------------------------- */
+/*  Write all "text" attributes                                         */
+/* -------------------------------------------------------------------- */
+/* -------------------------------------------------------------------- */
+/*      Skip attributes starting with "_"                               */
+/* -------------------------------------------------------------------- */
             if (cmor_current_dataset.attributes[i].names[0] != '_') {
                 ierr = nc_put_att_text(ncid, NC_GLOBAL,
                         cmor_current_dataset.attributes[i].names, itmp2,
