@@ -7,12 +7,12 @@
 
            "#experiment_id":         "Correspond to id found in experiments.json",
            "experiment_id":          "DcppC22",
-     "source_type":                      "AOGCM",
-     "sub_experiment":                      "undefined",
-     "sub_experiment_id":                      "undefined",
-     "parent_sub_experiment_id":                      "N/A",
-     "parent_mip_era":                      "N/A",
-     "mip_era":                      "CMIP6",
+           "source_type":            "AOGCM",
+           "sub_experiment":         "undefined",
+           "sub_experiment_id":      "undefined",
+           "parent_sub_experiment_id":"N/A",
+           "parent_mip_era":         "N/A",
+           "mip_era":                "CMIP6",
 
            "#institution":           "Controlled Vocaburaly in CV.json",
            "institution":            "GICC (Generic International Climate Center, Geneva, Switzerland)",

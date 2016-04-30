@@ -1437,121 +1437,7 @@ int cmor_get_cur_dataset_attribute( char *name, char *value ) {
     return( 0 );
 }
 
-/************************************************************************/
-/*                cmor_has_required_global_attributes()                 */
-/************************************************************************/
-void cmor_has_required_global_attributes( int table_id ) {
-    int i, j, n, found;
-    char msg[CMOR_MAX_STRING];
-    char msg2[CMOR_MAX_STRING];
-    char ctmp[CMOR_MAX_STRING];
-    char expt_id[CMOR_MAX_STRING];
 
-    cmor_add_traceback( "cmor_has_required_global_attributes" );
-    if( cmor_tables[table_id].required_gbl_att[0] == '\0' ) {
-	cmor_pop_traceback(  );
-	return;			/* not required */
-    }
-   /* cmor_get_cur_dataset_attribute( GLOBAL_ATT_EXPERIMENTID, expt_id ); */
-    
-/* -------------------------------------------------------------------- */
-/*      ok we want to make sure it is the sht id                        */
-/* -------------------------------------------------------------------- */
-    for( j = 0; j <= cmor_tables[table_id].nexps; j++ ) {
-	if( strcmp( expt_id, cmor_tables[table_id].expt_ids[j] ) == 0 ) {
-	    strncpy( expt_id, cmor_tables[table_id].sht_expt_ids[j],
-		     CMOR_MAX_STRING );
-	    break;
-	}
-    }
-
-    n = strlen( cmor_tables[table_id].required_gbl_att );
-
-    msg[0] = '\0';
-    j = 0;
-    i = 0;
-    msg2[0] = '\0';
-    while( i < n ) {
-        while( (( cmor_tables[table_id].required_gbl_att[i] == '[')
-                || (cmor_tables[table_id].required_gbl_att[i] == ']')
-                || (cmor_tables[table_id].required_gbl_att[i] == '"')
-                || (cmor_tables[table_id].required_gbl_att[i] == ',')
-                || (cmor_tables[table_id].required_gbl_att[i] == ' ')) ) {
-            i++;
-        }
-
-	while( (( cmor_tables[table_id].required_gbl_att[i] != '"' )
-	       && ( cmor_tables[table_id].required_gbl_att[i] != '\0' ) ) ) {
-	    msg[j] = cmor_tables[table_id].required_gbl_att[i];
-	    msg[j + 1] = '\0';
-	    j++;
-	    i++;
-	}
-	i++;
-
-	found = 0;
-
-	for( j = 0; j < cmor_current_dataset.nattributes; j++ ) {
-	    if( strcmp( msg, cmor_current_dataset.attributes[j].names ) == 0 ) {
-		cmor_get_cur_dataset_attribute( msg, ctmp );
-		if( strcmp( ctmp, "not specified" ) != 0 ) {
-		    found = 1;
-		    break;
-		}
-	    }
-	}
-
-	if( found == 0 ) {
-	    snprintf( ctmp, CMOR_MAX_STRING,
-		      "Required global attribute %s is missing please check call(s) "
-		      "to cmor_dataset_json",
-		      msg );
-	    cmor_handle_error( ctmp, CMOR_CRITICAL );
-	}
-	strncpy( msg2, msg, CMOR_MAX_STRING );
-	j = 0;
-    }
-    cmor_pop_traceback(  );
-    return;
-}
-
-/************************************************************************/
-/*                 cmor_is_required_global_attribute()                  */
-/************************************************************************/
-int cmor_is_required_global_attribute( char *name, int table_id ) {
-    int i, j, n, req;
-    char msg[CMOR_MAX_STRING];
-
-    cmor_add_traceback( "cmor_is_required_global_attribute" );
-    if( cmor_tables[table_id].required_gbl_att[0] == '\0' ) {
-	cmor_pop_traceback(  );
-	return( 1 );		/* not required */
-    }
-
-    n = strlen( cmor_tables[table_id].required_gbl_att );
-
-    msg[0] = '\0';
-    i = 0;
-    j = 0;
-    req = 1;
-    while( i < n ) {
-	while( ( cmor_tables[table_id].required_gbl_att[i] != ' ' ) &&
-	       ( cmor_tables[table_id].required_gbl_att[i] != '\0' ) ) {
-	    msg[j] = cmor_tables[table_id].required_gbl_att[i];
-	    msg[j + 1] = '\0';
-	    j++;
-	    i++;
-	}
-	i++;
-	j = 0;
-	if( strcmp( msg, name ) == 0 ) {
-	    req = 0;
-	    i = n;
-	}
-    }
-    cmor_pop_traceback(  );
-    return(req);
-}
 
 
 
@@ -2826,8 +2712,6 @@ int cmor_WriteGblAttr(int var_id, int ncid, int ncafid) {
         }
     }
 
-    cmor_has_required_global_attributes(nVarRefTblID);
-
 /* -------------------------------------------------------------------- */
 /*     check source and model_id are identical                          */
 /* -------------------------------------------------------------------- */
@@ -2860,6 +2744,10 @@ int cmor_WriteGblAttr(int var_id, int ncid, int ncafid) {
                 cmor_tables[nVarRefTblID].realm, 0);
     }
     cmor_generate_uuid();
+    if( cmor_has_cur_dataset_attribute(GLOBAL_ATT_INSTITUTION_ID) == 0) {
+        cmor_CV_setInstitution(cmor_tables[nVarRefTblID].CV);
+    }
+    cmor_CV_checkGblAttributes(cmor_tables[nVarRefTblID].CV);
     cmor_write_all_attributes(ncid, ncafid, var_id);
 
 /* -------------------------------------------------------------------- */
@@ -4132,9 +4020,6 @@ int cmor_write( int var_id, void *data, char type,
     int refvarid;
     int isfixed = 0;
     int origRealization = 0;
-    //uuid_t *myuuid;
-    //uuid_fmt_t fmt;
-    //void *myuuid_str = NULL;
     size_t uuidlen;
 
     int  nVarRefTblID;
@@ -4212,12 +4097,8 @@ int cmor_write( int var_id, void *data, char type,
 					 ctmp2 );
 	}
 
-/* -------------------------------------------------------------------- */
-/*      need to store the product type                                  */
-/* -------------------------------------------------------------------- */
-	strncpy( ctmp2, cmor_tables[nVarRefTblID].product, CMOR_MAX_STRING );
+	strncpy(ctmp2, cmor_tables[nVarRefTblID].product, CMOR_MAX_STRING);
 	cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_PRODUCT, ctmp2, 1);
-
 /* -------------------------------------------------------------------- */
 /*      we will need the expt_id for the filename                       */
 /*      so we check its validity here                                   */
@@ -4434,11 +4315,11 @@ int cmor_write( int var_id, void *data, char type,
 
 
     } else {
-/* -------------------------------------------------------------------- */
+
+/* --------------------------------------------------------------------- */
 /*      Variable already been thru cmor_write,                          */
 /*      we just get the netcdf file id                                  */
 /* -------------------------------------------------------------------- */
-
 	ncid = cmor_vars[refvarid].initialized;
 
 /* -------------------------------------------------------------------- */
@@ -4463,7 +4344,6 @@ int cmor_write( int var_id, void *data, char type,
 /* -------------------------------------------------------------------- */
 /*      in case we are doing a zfactor var                              */
 /* -------------------------------------------------------------------- */
-
 	cmor_vars[var_id].time_nc_id = cmor_vars[refvarid].time_nc_id;
 	cmor_vars[var_id].time_bnds_nc_id = cmor_vars[refvarid].time_bnds_nc_id;
     }
@@ -4504,7 +4384,8 @@ int cmor_write( int var_id, void *data, char type,
 			    ntimes_passed, time_vals, time_bounds );
     cmor_pop_traceback(  );
     return( 0 );
-};
+}
+
 /************************************************************************/
 /*                 cmor_create_var_attributes()                         */
 /************************************************************************/

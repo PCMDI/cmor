@@ -36,6 +36,9 @@ extern int cmor_put_nc_char_attribute( int ncid, int nc_var_id, char *name,
 				       char *value, char *var_name );
 extern int cmor_set_cur_dataset_attribute( char *name, char *value,
 					   int optional );
+extern int cmor_set_cur_dataset_attribute_internal( char *name, char *value,
+                                           int optional );
+
 extern int cmor_get_cur_dataset_attribute( char *name, char *value );
 extern int cmor_has_cur_dataset_attribute( char *name );
 extern int cmor_get_table_attr( char *szToken, cmor_table_t * table, char *);
@@ -116,29 +119,39 @@ extern void create_singleton_dimensions(int var_id, int ncid,
 
 
 
+
+/* ==================================================================== */
+/*      Control Vocabulary                                              */
+/* ==================================================================== */
+
+
+
+extern void cmor_CV_set_att(cmor_CV_def_t *CV,
+                                char *key,
+                                json_object *joValue);
+
+
+
+extern int cmor_attNameCmp(const void *v1, const void *v2);
+
+extern void cmor_CV_checkGblAttributes( cmor_CV_def_t *CV );
+extern void cmor_CV_free(cmor_CV_def_t *CV);
+extern char *cmor_CV_get_value(cmor_CV_def_t *CV, char *key);
+extern void cmor_CV_init( cmor_CV_def_t *CV, int table_id );
+extern void cmor_CV_print(cmor_CV_def_t *CV);
+extern void cmor_CV_printall();
+extern cmor_CV_def_t *cmor_CV_search_child_key(cmor_CV_def_t *CV, char *key);
+extern cmor_CV_def_t * cmor_CV_search_key(cmor_CV_def_t *CV, char *key);
+
+extern void cmor_CV_setInstitution( cmor_CV_def_t *CV);
+extern int cmor_CV_set_entry(cmor_table_t* table, json_object *value);
+extern int  cmor_CV_ValidateGblAttributes( char *name);
+
 /* ==================================================================== */
 /*      cmor_axis.c                                                     */
 /* ==================================================================== */
 
 extern void cmor_init_axis_def( cmor_axis_def_t * axis, int table_id );
-
-extern int cmor_set_CV_entry(cmor_table_t* table,
-                            json_object *value);
-
-extern void cmor_init_CV_def( cmor_CV_def_t *CV, int table_id );
-
-extern void cmor_set_CV_def_att(cmor_CV_def_t *CV,
-                                char *key,
-                                json_object *joValue);
-cmor_CV_def_t * cmor_CV_search_key(cmor_CV_def_t *CV, char *key);
-char *cmor_CV_get_value(cmor_CV_def_t *CV, char *key);
-
-extern int cmor_attNameCmp(const void *v1, const void *v2);
-
-extern void cmor_print_CV(cmor_CV_def_t *CV);
-extern void cmor_print_CV_all();
-extern void cmor_CV_free(cmor_CV_def_t *CV);
-
 extern int cmor_set_axis_def_att( cmor_axis_def_t * axis,
 				  char att[CMOR_MAX_STRING],
 				  char val[CMOR_MAX_STRING] );

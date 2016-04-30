@@ -161,6 +161,8 @@
 #define GLOBAL_ATT_LICENSE            "license"
 #define GLOBAL_ATT_TRACKING_PREFIX    "tracking_prefix"
 #define GLOBAL_ATT_CALENDAR           "calendar"
+#define GLOBAL_ATT_INSTITUTION_ID     "institution_id"
+#define GLOBAL_ATT_INSTITUTION        "institution"
 
 
 #define JSON_KEY_HEADER               "Header"
@@ -170,6 +172,10 @@
 #define JSON_KEY_MAPPING_ENTRY        "mapping_entry"
 #define JSON_KEY_CV_ENTRY             "CV"
 
+#define CV_KEY_REQUIRED_GBL_ATTRS     "required_global_attributes"
+#define CV_KEY_INSTITUTION_IDS        "institution_ids"
+#define CV_KEY_ACTIVITY_IDS           "activity_ids"
+#define CV_KEY_HEADER                 "header"
 
 #define GLOBAL_INT_ATT_PARENT_EXPT    GLOBAL_INTERNAL"parent_experiment"
 #define GLOBAL_ATT_DRIVING_PATH       GLOBAL_INTERNAL"driving_source_id-driving_variant_id"
@@ -186,7 +192,6 @@
 #define TABLE_HEADER_FORCINGS         "forcings"
 #define TABLE_HEADER_FREQUENCY        "frequency"
 #define TABLE_HEADER_TABLE_ID         "table_id"
-#define TABLE_HEADER_REQGBLATTR       "required_global_attributes"
 #define TABLE_HEADER_BASEURL          "baseURL"
 #define TABLE_HEADER_PRODUCT          "product"
 #define TABLE_EXPIDS                  "expt_id_ok"
@@ -466,7 +471,6 @@ typedef struct cmor_table_ {
     char product[CMOR_MAX_STRING];
     char realm[CMOR_MAX_STRING];
     char path[CMOR_MAX_STRING];
-    char required_gbl_att[CMOR_MAX_STRING];
     char frequency[CMOR_MAX_STRING];
     char **forcings;
     int nforcings;

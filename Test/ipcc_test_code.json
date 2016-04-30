@@ -1,4 +1,5 @@
 {
+           "institution":            "Centro Euro-Mediterraneo per i Cambiamenti Climatici, Bologna, Italy",
            "activity_id":            "PMIP",
 
            "#output":                "Output Path where files are written",
@@ -46,7 +47,7 @@
            "further_info_url":       "required",
 
            "grid":                   "gs1x1",
-           "grid_option":             "gs",
+           "grid_label":             "gs",
            "grid_resolution":        "5km",
 
            "institution_id":         "CMCC",

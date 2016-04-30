@@ -6,9 +6,9 @@
 #include "arraylist.h"
 
 /************************************************************************/
-/*                      cmor_set_CV_def_att()                           */
+/*                        cmor_CV_set_att()                             */
 /************************************************************************/
-void cmor_set_CV_def_att(cmor_CV_def_t *CV,
+void cmor_CV_set_att(cmor_CV_def_t *CV,
                         char *szKey,
                         json_object *joValue) {
     json_bool bValue;
@@ -39,7 +39,7 @@ void cmor_set_CV_def_att(cmor_CV_def_t *CV,
         CV->nValue = nValue;
         CV->type = CV_integer;
 /* -------------------------------------------------------------------- */
-/* if value is a JSON object, recursively call in this function          */
+/* if value is a JSON object, recursively call in this function         */
 /* -------------------------------------------------------------------- */
    } else if(json_object_is_type( joValue, json_type_object)) {
 
@@ -55,8 +55,8 @@ void cmor_set_CV_def_att(cmor_CV_def_t *CV,
             CV->oValue = oValue;
 
             nCVId++;
-            cmor_init_CV_def(&CV->oValue[nCVId], nTableID);
-            cmor_set_CV_def_att(&CV->oValue[nCVId], key, value  );
+            cmor_CV_init(&CV->oValue[nCVId], nTableID);
+            cmor_CV_set_att(&CV->oValue[nCVId], key, value  );
         }
         CV->nbObjects=nbObject;
         CV->type = CV_object;
@@ -84,9 +84,9 @@ void cmor_set_CV_def_att(cmor_CV_def_t *CV,
 
 
 /************************************************************************/
-/*                         cmor_init_CV_def()                           */
+/*                           cmor_CV_init()                             */
 /************************************************************************/
-void cmor_init_CV_def( cmor_CV_def_t *CV, int table_id ) {
+void cmor_CV_init( cmor_CV_def_t *CV, int table_id ) {
     int i;
 
     cmor_is_setup(  );
@@ -108,9 +108,9 @@ void cmor_init_CV_def( cmor_CV_def_t *CV, int table_id ) {
 }
 
 /************************************************************************/
-/*                      cmor_print_CV_all()                             */
+/*                         cmor_CV_print()                              */
 /************************************************************************/
-void cmor_print_CV(cmor_CV_def_t *CV) {
+void cmor_CV_print(cmor_CV_def_t *CV) {
     int nCVs;
     int i,j,k;
 
@@ -146,7 +146,7 @@ void cmor_print_CV(cmor_CV_def_t *CV) {
         case CV_object:
             printf("*** nbObjects=%d\n", CV->nbObjects);
             for(k=0; k< CV->nbObjects; k++){
-                cmor_print_CV(&CV->oValue[k]);
+                cmor_CV_print(&CV->oValue[k]);
             }
             break;
 
@@ -158,9 +158,9 @@ void cmor_print_CV(cmor_CV_def_t *CV) {
 }
 
 /************************************************************************/
-/*                      cmor_print_CV_all()                             */
+/*                       cmor_CV_printall()                             */
 /************************************************************************/
-void cmor_print_CV_all() {
+void cmor_CV_printall() {
     int j,i,k;
     cmor_CV_def_t *CV;
     int nCVs;
@@ -174,10 +174,40 @@ void cmor_print_CV_all() {
             nCVs = cmor_tables[i].CV->nbObjects;
             for( j=0; j<= nCVs; j++ ) {
                 CV = &cmor_tables[i].CV[j];
-                cmor_print_CV(CV);
+                cmor_CV_print(CV);
             }
         }
     }
+}
+
+/************************************************************************/
+/*                  cmor_CV_search_child_key()                          */
+/************************************************************************/
+cmor_CV_def_t *cmor_CV_search_child_key(cmor_CV_def_t *CV, char *key){
+    int i,j;
+    cmor_CV_def_t *searchCV;
+    int nbCVs = -1;
+    cmor_add_traceback("cmor_CV_search_child_key");
+
+    nbCVs = CV->nbObjects;
+
+    // Look at this objects
+    if(strcmp(CV->key, key)== 0){
+        cmor_pop_traceback();
+        return(CV);
+    }
+
+    // Look at each of object key
+     for(i = 0; i< nbCVs; i++) {
+         // Is there a branch on that object?
+         if(&CV->oValue[i] != NULL) {
+             searchCV = cmor_CV_search_key(&CV->oValue[i], key);
+             if(searchCV != NULL ){
+                 return(searchCV);
+             }
+         }
+     }
+     return(NULL);
 }
 
 /************************************************************************/
@@ -187,9 +217,11 @@ cmor_CV_def_t * cmor_CV_search_key(cmor_CV_def_t *CV, char *key){
     int i,j;
     cmor_CV_def_t *searchCV;
     int nbCVs = -1;
+    cmor_add_traceback("cmor_CV_search_key");
 
     // Look at first objects
     if(strcmp(CV->key, key)== 0){
+        cmor_pop_traceback();
         return(CV);
     }
     // Is there more than 1 object?
@@ -199,6 +231,7 @@ cmor_CV_def_t * cmor_CV_search_key(cmor_CV_def_t *CV, char *key){
     // Look at each of object key
     for(i = 1; i< nbCVs; i++) {
         if(strcmp(CV[i].key, key)== 0){
+            cmor_pop_traceback();
             return(&CV[i]);
         }
         // Is there a branch on that object?
@@ -211,6 +244,7 @@ cmor_CV_def_t * cmor_CV_search_key(cmor_CV_def_t *CV, char *key){
             }
         }
     }
+    cmor_pop_traceback();
     return(NULL);
 }
 /************************************************************************/
@@ -268,5 +302,180 @@ void cmor_CV_free(cmor_CV_def_t *CV) {
     }
 
 }
+/************************************************************************/
+/*                      cmor_CV_setInstitution()                        */
+/************************************************************************/
+void cmor_CV_setInstitution( cmor_CV_def_t *CV){
+    cmor_CV_def_t *CV_institution_ids;
+    cmor_CV_def_t *CV_institution;
+
+    char szInstitution_ID[CMOR_MAX_STRING];
+    char szInstitution[CMOR_MAX_STRING];
+
+    char msg[CMOR_MAX_STRING];
+    int rc;
+
+    cmor_add_traceback("cmor_CV_setInstitution");
+    // Find current Insitution ID
+    cmor_get_cur_dataset_attribute(GLOBAL_ATT_INSTITUTION_ID, szInstitution_ID);
+
+    // Find Institution dictionaries in Control Vocabulary
+    CV_institution_ids = cmor_CV_search_key(CV, CV_KEY_INSTITUTION_IDS);
+    CV_institution = cmor_CV_search_child_key( CV_institution_ids,
+                                               szInstitution_ID);
+
+    if(CV_institution == NULL){
+        snprintf( msg, CMOR_MAX_STRING,
+                "Your defined institution_id \"%s\" could not be found \n! "
+                "in your Control Vocabulary file.\n! ",
+                szInstitution_ID);
+        cmor_handle_error( msg, CMOR_CRITICAL );
+        cmor_pop_traceback(  );
+        return;
+    }
+
+    // Did the user defined an Institution Attribute?
+    rc = cmor_has_cur_dataset_attribute( GLOBAL_ATT_INSTITUTION );
+    if( rc == 0 ) {
+        // Retrieve institution and compare with the one we have in the
+        // Control Vocabulary file.  If it does not matche tell the user
+        // the we will supersede his defintion with the one in the Control
+        // Vocabulary file.
+        cmor_get_cur_dataset_attribute(GLOBAL_ATT_INSTITUTION, szInstitution);
 
 
+        // Check if an institution has been defined! If not we exit.
+        if(CV_institution->szValue[0] == '\0'){
+            snprintf( msg, CMOR_MAX_STRING,
+                    "There is no institution associated to institution_id \"%s\"\n! "
+                    "in your Control Vocabulary file.\n! "
+                    "Check your institution_ids dictionary!!\n! ",
+                            szInstitution_ID);
+            cmor_handle_error( msg, CMOR_CRITICAL );
+            cmor_pop_traceback(  );
+            return;
+        }
+        // Check if they have the same string
+        if(strncmp(szInstitution, CV_institution->szValue, CMOR_MAX_STRING) != 0){
+            snprintf( msg, CMOR_MAX_STRING,
+                    "Your defined institution \"%s\" will be overwritten by \n! "
+                    "\"%s\"\n! "
+                    "as defined in your Control Vocabulary file.\n! ",
+                    szInstitution, CV_institution->szValue);
+            cmor_handle_error( msg, CMOR_NORMAL );
+        }
+    }
+
+    // Set instituion according to the Control Vocabulary
+    cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_INSTITUTION,
+                                            CV_institution->szValue, 1);
+    cmor_pop_traceback();
+    return;
+}
+
+/************************************************************************/
+/*                    cmor_CV_CheckGblAttributes()                      */
+/************************************************************************/
+void cmor_CV_checkGblAttributes( cmor_CV_def_t *CV ) {
+    cmor_CV_def_t *required_attrs;
+    int i;
+    int rc;
+    char msg[CMOR_MAX_STRING];
+
+    cmor_add_traceback( "cmor_CV_checkGblAttributes" );
+    required_attrs = cmor_CV_search_key(CV, CV_KEY_REQUIRED_GBL_ATTRS);
+    if( required_attrs != NULL) {
+        for(i=0; i< required_attrs->anElements; i++) {
+            rc = cmor_has_cur_dataset_attribute( required_attrs->aszValue[i] );
+            if( rc != 0) {
+                snprintf( msg, CMOR_MAX_STRING,
+                          "Your Control Vocabulary file specifies one or more\n! "
+                          "required attributes.  CMOR found that the following\n! "
+                          "attribute was not properly set.\n! \n! "
+                          "Please set attribute: \"%s\" in your input JSON file.",
+                          required_attrs->aszValue[i] );
+                cmor_handle_error( msg, CMOR_CRITICAL );
+                cmor_pop_traceback(  );
+                return;
+            }
+        }
+    }
+    cmor_pop_traceback(  );
+    return;
+}
+
+/************************************************************************/
+/*                 cmor_CV_ValidateGblAttributes()                  */
+/************************************************************************/
+int cmor_CV_ValidateGblAttributes( char *name) {
+
+
+    cmor_add_traceback( "cmor_CV_ValidateGblAttributes" );
+    cmor_pop_traceback(  );
+    return(0);
+}
+
+/************************************************************************/
+/*                       cmor_CV_set_entry()                            */
+/************************************************************************/
+int cmor_CV_set_entry(cmor_table_t* table,
+                      json_object *value) {
+    extern int cmor_ntables;
+    char msg[CMOR_MAX_STRING];
+    int nCVId;
+    int nbObjects = 0;
+    cmor_CV_def_t *CV;
+    cmor_CV_def_t *newCV;
+    cmor_table_t *cmor_table;
+    cmor_table = &cmor_tables[cmor_ntables];
+    char szName[CMOR_MAX_STRING];
+
+    cmor_add_traceback("cmor_CV_set_entry");
+    cmor_is_setup();
+/* -------------------------------------------------------------------- */
+/* CV 0 contains number of objects                                      */
+/* -------------------------------------------------------------------- */
+    nbObjects++;
+    newCV = (cmor_CV_def_t *) realloc(cmor_table->CV, sizeof(cmor_CV_def_t));
+
+    cmor_table->CV = newCV;
+    CV=newCV;
+    cmor_CV_init(CV, cmor_ntables);
+    cmor_table->CV->nbObjects=nbObjects;
+
+
+/* -------------------------------------------------------------------- */
+/*  Add all values and dictionaries to the M-tree                       */
+/*                                                                      */
+/*  {  { "a":[] }, {"a":""}, { "a":1 }, "a":"3", "b":"value" }....      */
+/*                                                                      */
+/*   Cv->objects->objects->list                                         */
+/*              ->objects->string                                       */
+/*              ->objects->integer                                      */
+/*              ->integer                                               */
+/*              ->string                                                */
+/*     ->list                                                           */
+/* -------------------------------------------------------------------- */
+
+    json_object_object_foreach(value, CVName, CVValue) {
+        nbObjects++;
+        newCV = (cmor_CV_def_t *) realloc(cmor_table->CV,
+                nbObjects * sizeof(cmor_CV_def_t));
+        cmor_table->CV = newCV;
+        nCVId = cmor_table->CV->nbObjects;
+
+        CV = &cmor_table->CV[nCVId];
+
+        cmor_CV_init(CV, cmor_ntables);
+        cmor_table->CV->nbObjects++;
+
+        if( CVName[0] == '#') {
+            continue;
+        }
+        cmor_CV_set_att(CV, CVName, CVValue);
+    }
+    CV = &cmor_table->CV[0];
+    CV->nbObjects = nbObjects;
+    cmor_pop_traceback();
+    return (0);
+}

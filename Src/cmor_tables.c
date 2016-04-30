@@ -87,7 +87,6 @@ void cmor_init_table( cmor_table_t * table, int id ) {
     table->URL[0] = '\0';
     strcpy( table->product, "output" );
     table->path[0] = '\0';
-    table->required_gbl_att[0] = '\0';
     table->frequency[0] = '\0';
     table->nforcings = 0;
     for( i = 0; i < CMOR_MAX_ELEMENTS; i++ ) {
@@ -103,70 +102,6 @@ void cmor_init_table( cmor_table_t * table, int id ) {
 
 }
 
-/************************************************************************/
-/*                       cmor_set_CV_entry()                            */
-/************************************************************************/
-int cmor_set_CV_entry(cmor_table_t* table,
-                      json_object *value) {
-    extern int cmor_ntables;
-    char msg[CMOR_MAX_STRING];
-    int nCVId;
-    int nbObjects = 0;
-    cmor_CV_def_t *CV;
-    cmor_CV_def_t *newCV;
-    cmor_table_t *cmor_table;
-    cmor_table = &cmor_tables[cmor_ntables];
-    char szName[CMOR_MAX_STRING];
-
-    cmor_add_traceback("cmor_set_CV_entry");
-    cmor_is_setup();
-/* -------------------------------------------------------------------- */
-/* CV 0 contains number of objects                                      */
-/* -------------------------------------------------------------------- */
-    nbObjects++;
-    newCV = (cmor_CV_def_t *) realloc(cmor_table->CV, sizeof(cmor_CV_def_t));
-
-    cmor_table->CV = newCV;
-    CV=newCV;
-    cmor_init_CV_def(CV, cmor_ntables);
-    cmor_table->CV->nbObjects=nbObjects;
-
-
-/* -------------------------------------------------------------------- */
-/*  Add all values and dictionaries to the M-tree                       */
-/*                                                                      */
-/*  {  { "a":[] }, {"a":""}, { "a":1 }, "a"in CV.json file only    :"3", "b":"value" }....      */
-/*                                                                      */
-/*   Cv->objects->objects->list                                         */
-/*              ->objects->string                                       */
-/*              ->objects->integer                                      */
-/*              ->integer                                               */
-/*              ->string                                                */
-/*     ->list                                                           */
-/* -------------------------------------------------------------------- */
-
-    json_object_object_foreach(value, CVName, CVValue) {
-        nbObjects++;
-        newCV = (cmor_CV_def_t *) realloc(cmor_table->CV,
-                nbObjects * sizeof(cmor_CV_def_t));
-        cmor_table->CV = newCV;
-        nCVId = cmor_table->CV->nbObjects;
-
-        CV = &cmor_table->CV[nCVId];
-
-        cmor_init_CV_def(CV, cmor_ntables);
-        cmor_table->CV->nbObjects++;
-
-        if( CVName[0] == '#') {
-            continue;
-        }
-        cmor_set_CV_def_att(CV, CVName, CVValue);
-    }
-    CV = &cmor_table->CV[0];
-    CV->nbObjects = nbObjects;
-    cmor_pop_traceback();
-    return (0);
-}
 
 /************************************************************************/
 /*                    cmor_set_variable_entry()                         */
@@ -378,9 +313,6 @@ int cmor_set_dataset_att(cmor_table_t * table, char att[CMOR_MAX_STRING],
 
         } else if (strcmp(att, TABLE_HEADER_DATASPECSVERSION) == 0) {
                 strncpy(table->data_specs_version, val, CMOR_MAX_STRING);
-
-	} else if (strcmp(att, TABLE_HEADER_REQGBLATTR) == 0) {
-		strncpy(table->required_gbl_att, val, CMOR_MAX_STRING);
 
 	} else if (strcmp(att, TABLE_HEADER_MIP_ERA) == 0) {
 		strncpy(table->mip_era, value, CMOR_MAX_STRING);
@@ -804,7 +736,7 @@ int cmor_load_table_internal( char table[CMOR_MAX_STRING], int *table_id,
             done=1;
 	} else if( strncmp( key, JSON_KEY_CV_ENTRY,2) == 0 ) {
 
-	    if( cmor_set_CV_entry(&cmor_tables[cmor_ntables], value) == 1 ) {
+	    if( cmor_CV_set_entry(&cmor_tables[cmor_ntables], value) == 1 ) {
                 cmor_pop_traceback();
                 return (TABLE_ERROR);
 	    }
