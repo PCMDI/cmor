@@ -17,6 +17,7 @@
 
 #include <sys/types.h>
 #include <unistd.h>
+#include <signal.h>
 
 
 /* ==================================================================== */
@@ -594,7 +595,7 @@ void cmor_handle_error( char error_msg[CMOR_MAX_STRING], int level ) {
     
     if( ( CMOR_MODE == CMOR_EXIT_ON_WARNING )
 	|| ( level == CMOR_CRITICAL ) ) {
-	exit( 1 );
+        kill(getpid(), SIGTERM);
     }
 }
 
@@ -1089,7 +1090,7 @@ json_object *cmor_open_inpathFile(char *szFilename ) {
         }
 
         if( table_file == NULL ) {
-            snprintf( szFullName, CMOR_MAX_STRING, "Could not find table: %s",
+            snprintf( szFullName, CMOR_MAX_STRING, "Could not find file: %s",
                       szFilename );
             cmor_handle_error( szFullName, CMOR_NORMAL );
             cmor_ntables -= 1;
@@ -1224,6 +1225,8 @@ int cmor_dataset_json(char * ressource){
         cmor_pop_traceback();
         return( 1 );
     }
+    cmor_set_cur_dataset_attribute_internal(CMOR_INPUTFILENAME, ressource, 1);
+
     json_object_object_foreach(json_obj, key, value) {
         if(key[0] == '#') {
             continue;
@@ -2595,9 +2598,9 @@ int cmor_WriteGblAttr(int var_id, int ncid, int ncafid) {
             cmor_tables[nVarRefTblID].szTable_id,
             cmor_tables[nVarRefTblID].date);
 
-    for (i = 0; i < 16; i++)
+    for (i = 0; i < 16; i++) {
         sprintf(&ctmp[2 * i], "%02x", cmor_tables[nVarRefTblID].md5[i]);
-
+    }
     ctmp[32] = '\0';
 
     strcat(msg, ctmp);
@@ -2609,8 +2612,6 @@ int cmor_WriteGblAttr(int var_id, int ncid, int ncafid) {
     } else {
         ctmp[0] = '\0';
     }
-
-    /* cmor_get_cur_dataset_attribute(GLOBAL_ATT_EXPERIMENT, ctmp2); */
 
     snprintf(msg, CMOR_MAX_STRING, "%s model output prepared for %s", ctmp,
             cmor_tables[nVarRefTblID].mip_era);
@@ -2636,99 +2637,12 @@ int cmor_WriteGblAttr(int var_id, int ncid, int ncafid) {
                 CMOR_CF_VERSION_MINOR, cmor_vars[var_id].id);
         cmor_handle_error(msg, CMOR_WARNING);
     }
-/* -------------------------------------------------------------------- */
-/*      Ok now we need to check the parent_experiment_id is valid       */
-/* -------------------------------------------------------------------- */
-    if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_PARENT_EXPT_ID) == 0) {
-        cmor_get_cur_dataset_attribute(GLOBAL_ATT_PARENT_EXPT_ID, msg);
-/* -------------------------------------------------------------------- */
-/*      did the user pass an expt?                                      */
-/* -------------------------------------------------------------------- */
-        if (strcmp(msg, "N/A") != 0) {
-            cmor_get_cur_dataset_attribute(GLOBAL_ATT_EXPERIMENTID, ctmp);
-            if (strcmp(msg, ctmp) == 0) {
-                sprintf(ctmp, "Your parent_experiment id matches your current "
-                        "experiment_id, they are both set to: %s; you "
-                        "were writing variable %s (table: %s)", msg,
-                        cmor_vars[var_id].id,
-                        cmor_tables[nVarRefTblID].szTable_id);
-                cmor_handle_error(ctmp, CMOR_NORMAL);
-                cmor_pop_traceback();
-                return (1);
-            } else {
-                cmor_get_cur_dataset_attribute(GLOBAL_ATT_EXPERIMENT, ctmp);
-                if (strcmp(msg, ctmp) == 0) {
-                    sprintf(ctmp, "Your parent_experiment id matches your "
-                            "current experiment_id, they are both set "
-                            "to: %s; you were writing variable %s "
-                            "(table: %s)", msg, cmor_vars[var_id].id,
-                            cmor_tables[nVarRefTblID].szTable_id);
-                    cmor_handle_error(ctmp, CMOR_NORMAL);
-                    cmor_pop_traceback();
-                    return (1);
-                } else {
-/* -------------------------------------------------------------------- */
-/*      ok now we can check it is a valid "other" experiment            */
-/*  CMIP6 does not have parent_experiment parameter anymore             */
-/* -------------------------------------------------------------------- */
-                    if (cmor_check_expt_id(msg, nVarRefTblID,
-                            GLOBAL_INT_ATT_PARENT_EXPT, GLOBAL_ATT_PARENT_EXPT_ID)
-                            != 0) {
-
-                        snprintf(ctmp, CMOR_MAX_STRING,
-                                "Invalid dataset parent experiment "
-                                        "id: %s, check against table: %s, you "
-                                        "were writing variable: %s", msg,
-                                cmor_tables[nVarRefTblID].szTable_id,
-                                cmor_vars[var_id].id);
-                        cmor_handle_error(ctmp, CMOR_NORMAL);
-                        cmor_pop_traceback();
-                        return (1);
-                    }
-                }
-            }
-        } else {
-            if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_BRANCH_TIME) == 0) {
-                cmor_get_cur_dataset_attribute(GLOBAL_ATT_BRANCH_TIME, msg);
-                sscanf(msg, "%lf", &tmps[0]);
-                if (tmps[0] != 0.) {
-                    sprintf(msg,
-                            "when dataset attribute parent_experiment_id\n! "
-                                    "is set to N/A, branch_time must be 0., you\n! "
-                                    "passed: %lf, we are resetting to 0. for\n! "
-                                    "variable %s (table: %s)", tmps[0],
-                            cmor_vars[var_id].id,
-                            cmor_tables[nVarRefTblID].szTable_id);
-                    cmor_handle_error(msg, CMOR_WARNING);
-                    cmor_set_cur_dataset_attribute_internal(
-                            GLOBAL_ATT_BRANCH_TIME,
-                            "0.",
-                            1);
-                }
-            }
-            cmor_set_cur_dataset_attribute_internal(GLOBAL_INT_ATT_PARENT_EXPT,
-                    "N/A",
-                    1);
-        }
-    }
 
 /* -------------------------------------------------------------------- */
 /*     check source and model_id are identical                          */
 /* -------------------------------------------------------------------- */
     if (strcmp(cmor_tables[nVarRefTblID].mip_era, CMIP6) == 0) {
-/*        cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE_ID, ctmp5);
-        cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE, ctmp6);
-        if (strncmp(ctmp5, ctmp6, strlen(ctmp5)) != 0) {
-            snprintf(msg, CMOR_MAX_STRING,
-                    "while writing variable %s (table: %s), source\n! "
-                            "attribute does not start with '%s', it\n! "
-                            "should start with: %s", cmor_vars[var_id].id,
-                    cmor_tables[nVarRefTblID].szTable_id, GLOBAL_ATT_SOURCE_ID,
-                    ctmp5);
-            cmor_handle_error(msg, CMOR_CRITICAL);
-        } */
     }
-
 /* -------------------------------------------------------------------- */
 /*      first check if the variable itself has a realm                  */
 /* -------------------------------------------------------------------- */
@@ -2747,7 +2661,12 @@ int cmor_WriteGblAttr(int var_id, int ncid, int ncafid) {
     if( cmor_has_cur_dataset_attribute(GLOBAL_ATT_INSTITUTION_ID) == 0) {
         cmor_CV_setInstitution(cmor_tables[nVarRefTblID].CV);
     }
+    if( cmor_has_cur_dataset_attribute(GLOBAL_ATT_EXPERIMENTID) == 0) {
+        cmor_CV_checkExperiment(cmor_tables[nVarRefTblID].CV);
+    }
+
     cmor_CV_checkGblAttributes(cmor_tables[nVarRefTblID].CV);
+    cmor_CV_checkISOTime(GLOBAL_ATT_CREATION_DATE);
     cmor_write_all_attributes(ncid, ncafid, var_id);
 
 /* -------------------------------------------------------------------- */
@@ -4099,32 +4018,7 @@ int cmor_write( int var_id, void *data, char type,
 
 	strncpy(ctmp2, cmor_tables[nVarRefTblID].product, CMOR_MAX_STRING);
 	cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_PRODUCT, ctmp2, 1);
-/* -------------------------------------------------------------------- */
-/*      we will need the expt_id for the filename                       */
-/*      so we check its validity here                                   */
-/* -------------------------------------------------------------------- */
-	if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_EXPERIMENTID) == 0) {
-	    cmor_get_cur_dataset_attribute( GLOBAL_ATT_EXPERIMENTID, ctmp2 );
 
-/* -------------------------------------------------------------------- */
-/*      ok here we check the exptid is ok                               */
-/* -------------------------------------------------------------------- */
-	    ierr = cmor_check_expt_id( ctmp2,
-	            nVarRefTblID,
-	            GLOBAL_ATT_EXPERIMENT,
-                    GLOBAL_ATT_EXPERIMENTID );
-
-	    if( ierr != 0 ) {
-	        snprintf( msg, CMOR_MAX_STRING,
-	                "Invalid dataset experiment id: %s, while writing\n! "
-	                "variable %s, check against table: %s",
-	        	      ctmp2, cmor_vars[var_id].id,
-	        	      cmor_tables[nVarRefTblID].szTable_id );
-	            cmor_handle_error( msg, CMOR_NORMAL );
-	           cmor_pop_traceback(  );
-	          return( 1 );
-	    }
-	}
 
 /* -------------------------------------------------------------------- */
 /*      Figures out path                                                */

@@ -43,7 +43,8 @@
 #define CMOR_PRESERVE CMOR_PRESERVE_3
 #define CMOR_APPEND CMOR_APPEND_3
 #define CMOR_REPLACE CMOR_REPLACE_3
-
+#define CMOR_INPUTFILENAME       GLOBAL_INTERNAL"dataset_json"
+#define CV_INPUTFILENAME         GLOBAL_INTERNAL"CV"
 /* -------------------------------------------------------------------- */
 /*      Define AXIS attribue strings                                    */
 /* -------------------------------------------------------------------- */
@@ -77,8 +78,7 @@
 #define AXIS_ATT_REQUESTEDBOUNDS "requested_bounds"
 #define AXIS_ATT_REQUESTED       "requested"
 
-#define TABLE_EXPERIMENT_FILENAME "experiments.json"
-#define TABLE_CONTROL_FILENAME    "CV.json"
+#define TABLE_CONTROL_FILENAME    "CMIP6_CV.json"
 #define TABLE_FOUND               -1
 #define TABLE_ERROR                1
 #define TABLE_SUCCESS              0
@@ -174,6 +174,7 @@
 
 #define CV_KEY_REQUIRED_GBL_ATTRS     "required_global_attributes"
 #define CV_KEY_INSTITUTION_IDS        "institution_ids"
+#define CV_KEY_EXPERIMENT_IDS         "experiment_ids"
 #define CV_KEY_ACTIVITY_IDS           "activity_ids"
 #define CV_KEY_HEADER                 "header"
 

@@ -125,10 +125,11 @@ extern void create_singleton_dimensions(int var_id, int ncid,
 /* ==================================================================== */
 
 
-
+extern void cmor_CV_checkISOTime(char *szAttribute);
 extern void cmor_CV_set_att(cmor_CV_def_t *CV,
                                 char *key,
                                 json_object *joValue);
+extern void cmor_CV_checkExperiment( cmor_CV_def_t *CV);
 
 
 
@@ -141,7 +142,7 @@ extern void cmor_CV_init( cmor_CV_def_t *CV, int table_id );
 extern void cmor_CV_print(cmor_CV_def_t *CV);
 extern void cmor_CV_printall();
 extern cmor_CV_def_t *cmor_CV_search_child_key(cmor_CV_def_t *CV, char *key);
-extern cmor_CV_def_t * cmor_CV_search_key(cmor_CV_def_t *CV, char *key);
+extern cmor_CV_def_t * cmor_CV_rootsearch(cmor_CV_def_t *CV, char *key);
 
 extern void cmor_CV_setInstitution( cmor_CV_def_t *CV);
 extern int cmor_CV_set_entry(cmor_table_t* table, json_object *value);
