@@ -307,6 +307,85 @@ void cmor_CV_free(cmor_CV_def_t *CV) {
 
 }
 /************************************************************************/
+/*                      cmor_CV_checkSourceID()                         */
+/************************************************************************/
+void cmor_CV_checkSourceID(cmor_CV_def_t *CV){
+    cmor_CV_def_t *CV_source_ids;
+    cmor_CV_def_t *CV_source;
+
+    char szSource_ID[CMOR_MAX_STRING];
+    char msg[CMOR_MAX_STRING];
+    char szValue[CMOR_MAX_STRING];
+    char CV_Filename[CMOR_MAX_STRING];
+    int rc;
+    int nElements;
+    int i;
+
+    cmor_add_traceback("cmor_CV_checkSourceID");
+
+    cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
+/* -------------------------------------------------------------------- */
+/*  Find experiment_ids dictionary in Control Vocabulary                */
+/* -------------------------------------------------------------------- */
+    CV_source_ids = cmor_CV_rootsearch(CV, CV_KEY_SOURCE_IDS);
+
+    if(CV_source_ids == NULL){
+        snprintf( msg, CMOR_MAX_STRING,
+                "Your \"source_ids\" key could not be found in\n! "
+                "your Control Vocabulary file.(%s)\n! ",
+                CV_Filename);
+
+
+        cmor_handle_error( msg, CMOR_CRITICAL );
+        cmor_pop_traceback(  );
+        return;
+    }
+
+    snprintf( msg, CMOR_MAX_STRING,
+            "The source_id, \"%s\",  which you specified in your \n! "
+            "input file could not be found in \n! "
+            "your Controlled Vocabulary file. (%s) \n! \n! "
+            "Please correct your input file or contact ???? to register\n! "
+            "a new institution_id.  See ???? for further information about\n! "
+            "the \"institution_id\" and \"institution\" global attributes.  " ,
+            CV_source_ids->key, CV_Filename);
+
+    // retrieve source_id
+    rc = cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE_ID, szSource_ID);
+    if( rc !=  0 ){
+        snprintf( msg, CMOR_MAX_STRING,
+                "You \"%s\" is not defined, check your required attributes\n! ",
+                GLOBAL_ATT_SOURCE_ID);
+        cmor_handle_error( msg, CMOR_CRITICAL );
+        cmor_pop_traceback(  );
+    }
+    // retrieve source_type
+    rc = cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE_TYPE, szSource_ID);
+    if( rc !=  0 ){
+        snprintf( msg, CMOR_MAX_STRING,
+                "You \"%s\" is not defined, check your required attributes\n! ",
+                GLOBAL_ATT_SOURCE_ID);
+        cmor_handle_error( msg, CMOR_CRITICAL );
+        cmor_pop_traceback(  );
+    }
+    // Validate source_type with source_id
+    nElements = CV_source_ids->anElements;
+    // Look for source_id
+    for (i = 0; i < nElements; i++) {
+        rc = cmor_has_cur_dataset_attribute(CV_source_ids->aszValue[i]);
+        if (rc == 0) {
+
+        }
+    }
+        // Set/replace attribute.
+     //   cmor_set_cur_dataset_attribute_internal(CV_experiment_attr->key,
+      //          CV_experiment_attr->szValue,1);
+
+    cmor_pop_traceback();
+    return;
+}
+
+/************************************************************************/
 /*                     cmor_CV_checkExperiment()                        */
 /************************************************************************/
 void cmor_CV_checkExperiment( cmor_CV_def_t *CV){
@@ -457,7 +536,7 @@ void cmor_CV_setInstitution( cmor_CV_def_t *CV){
 /* -------------------------------------------------------------------- */
         if(strncmp(szInstitution, CV_institution->szValue, CMOR_MAX_STRING) != 0){
             snprintf( msg, CMOR_MAX_STRING,
-                    "Your defined institution \"%s\" will be overwritten by \n! "
+                    "Your input attribute institution \"%s\" will be replaced with \n! "
                     "\"%s\" as defined in your Control Vocabulary file.\n! ",
                     szInstitution, CV_institution->szValue);
             cmor_handle_error( msg, CMOR_WARNING );

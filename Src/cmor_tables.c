@@ -480,9 +480,11 @@ int cmor_load_table( char szTable[CMOR_MAX_STRING], int *table_id ) {
     char *szPath;
     char *szTableName;
     char szControlFilenameJSON[CMOR_MAX_STRING];
+    char szCV[CMOR_MAX_STRING];
     char msg[CMOR_MAX_STRING];
     struct stat st;
 
+    rc = cmor_get_cur_dataset_attribute(GLOBAL_CV_FILENAME, szCV);
 
 /* -------------------------------------------------------------------- */
 /*  build string "path/experiments.json"                                */
@@ -494,7 +496,7 @@ int cmor_load_table( char szTable[CMOR_MAX_STRING], int *table_id ) {
 /* -------------------------------------------------------------------- */
     strcpy(szControlFilenameJSON, szPath);
     strcat(szControlFilenameJSON, "/");
-    strcat(szControlFilenameJSON, TABLE_CONTROL_FILENAME);
+    strcat(szControlFilenameJSON, szCV);
 
 /* -------------------------------------------------------------------- */
 /*  try to load table from directory where table is found or from the   */
@@ -504,7 +506,7 @@ int cmor_load_table( char szTable[CMOR_MAX_STRING], int *table_id ) {
     if(rc != 0 ) {
         strcpy(szControlFilenameJSON, cmor_input_path);
         strcat(szControlFilenameJSON, "/");
-        strcat(szControlFilenameJSON, TABLE_CONTROL_FILENAME);
+        strcat(szControlFilenameJSON, szCV);
     }
 
     rc= cmor_load_table_internal( szTable, table_id, TRUE);
@@ -520,7 +522,7 @@ int cmor_load_table( char szTable[CMOR_MAX_STRING], int *table_id ) {
         if(rc != TABLE_SUCCESS){
             snprintf( msg, CMOR_MAX_STRING, "Can't open table %s",
                     szControlFilenameJSON);
-            cmor_handle_error( msg, CMOR_WARNING );
+            cmor_handle_error( msg, CMOR_CRITICAL );
         }
     } else if (rc == TABLE_FOUND) {
         rc = TABLE_SUCCESS;
@@ -653,6 +655,8 @@ int cmor_load_table_internal( char table[CMOR_MAX_STRING], int *table_id,
                 "Syntax Error in table: %s\n "
                 "%s",table, buffer );
         cmor_handle_error( msg, CMOR_CRITICAL );
+        cmor_pop_traceback();
+        return(TABLE_ERROR);
     }
 
     json_object_object_foreach(json_obj, key, value) {

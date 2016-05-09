@@ -145,6 +145,7 @@
 #define GLOBAL_ATT_VARIABLE_ID        "variable_id"
 #define GLOBAL_ATT_SOURCE_ID          "source_id"
 #define GLOBAL_ATT_SOURCE             "source"
+#define GLOBAL_ATT_SOURCE_TYPE        "source_type"
 #define GLOBAL_ATT_CONVENTIONS        "Conventions"
 #define GLOBAL_ATT_CREATION_DATE      "creation_date"
 #define GLOBAL_ATT_HISTORY            "history"
@@ -163,6 +164,8 @@
 #define GLOBAL_ATT_CALENDAR           "calendar"
 #define GLOBAL_ATT_INSTITUTION_ID     "institution_id"
 #define GLOBAL_ATT_INSTITUTION        "institution"
+#define GLOBAL_CV_FILENAME            GLOBAL_INTERNAL"control_vocabulary_file"
+#define GLOBAL_IS_CMIP6               GLOBAL_INTERNAL"cmip6_option"
 
 
 #define JSON_KEY_HEADER               "Header"
@@ -176,7 +179,7 @@
 #define CV_KEY_INSTITUTION_IDS        "institution_ids"
 #define CV_KEY_EXPERIMENT_IDS         "experiment_ids"
 #define CV_KEY_ACTIVITY_IDS           "activity_ids"
-#define CV_KEY_HEADER                 "header"
+#define CV_KEY_SOURCE_IDS             "source_ids"
 
 #define GLOBAL_INT_ATT_PARENT_EXPT    GLOBAL_INTERNAL"parent_experiment"
 #define GLOBAL_ATT_DRIVING_PATH       GLOBAL_INTERNAL"driving_source_id-driving_variant_id"

@@ -48,8 +48,9 @@ class TestInstitutionMethods(unittest.TestCase):
             f=open(tmpfile[1],'r')
             lines=f.readlines()
             for line in lines:
-                if line.find('Error:') != -1:
+                if line.find('Warning:') != -1:
                     self.assertIn('bad institution', line.strip())
+                    break
             f.close()
             os.unlink(tmpfile[1])
 

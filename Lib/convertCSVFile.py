@@ -1,5 +1,6 @@
 import csv
 import re
+import pdb
 # ==============================================================
 #                     replaceString()
 # ==============================================================
@@ -11,6 +12,26 @@ def replaceString(var_entry, var, field):
         var_entry = re.sub(r"" + field + ":.*\n", "", var_entry)
     var_entry = var_entry.replace("<" + field + ">", var)
     return var_entry
+# ==============================================================
+#                     deleteLIne()
+# ==============================================================
+def deleteLine(var_entry, field):
+    """
+       delete line with <field>  in it
+    """
+    var_entry = re.sub(r"\n.*" + field + ".*\n", "\n", var_entry)
+    return var_entry
+
+# ==============================================================
+#                     deleteComa()
+# ==============================================================
+def deleteComa(var_entry):
+    """
+       delete last ',' char before '}'
+    """
+    var_entry = re.sub(r',(\s*)}', r'\n\1}',var_entry)
+    return var_entry
+
 
 
 expt_template ="""
@@ -42,16 +63,26 @@ with open('../Tables/CMIP6_expt_list_042716-1.csv', 'rU') as csvfile:
         if (row[14] != "" ):
             expt = expt + expt_template
             expt = replaceString(expt, row[14], "experiment_id")
-            expt = replaceString(expt, row[22].replace('"', '\''), "title")
-            expt = replaceString(expt, row[18].replace('"', '\''), "sub_experiment_id")
+            expt = replaceString(expt, row[23].replace('"', '\''), "title")
+            expt = replaceString(expt, row[19].replace('"', '\''), "sub_experiment_id")
             expt = replaceString(expt, row[7], "mip")
-            expt = replaceString(expt, row[19], "required_source_type")
-            expt = replaceString(expt, row[20], "add_source_type")
-            expt = replaceString(expt, row[23], "parent_experiment_id")
-            expt = replaceString(expt, row[24], "parent_sub_experiment_id")
-            expt = replaceString(expt, row[25], "parent_activity_id")
+            expt = replaceString(expt, row[20], "required_source_type")
+            expt = replaceString(expt, row[21], "add_source_type")
+            expt = replaceString(expt, row[25], "parent_sub_experiment_id")
+            expt = replaceString(expt, row[26], "parent_activity_id")
+
+            if (row[24] != ""):
+                expt = replaceString(expt, row[24], "parent_experiment_id")
+            else:
+                expt = deleteLine(expt, "parent_experiment_id")
+                expt = deleteLine(expt, "parent_sub_experiment_id")
+                expt = deleteLine(expt, "parent_activity_id")
+                expt = deleteLine(expt, "parent_mip_era")
+                expt = deleteComa(expt )
+
             i=i+1
 
-expt = expt + "\"Dummy\":{}\n     }"
+#nexpt = expt + "\"Dummy\":{}\n     }"
+expt = expt + "\n    }\n}"
+expt = deleteComa(expt )
 print expt
-print "}"

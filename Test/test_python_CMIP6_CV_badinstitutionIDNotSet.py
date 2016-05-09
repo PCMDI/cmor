@@ -34,6 +34,7 @@ def sig_handler(signum, frame):
     for line in lines:
         if line.find('Error:') != -1:
             testOK = line.strip()
+            break
     f.close()
     os.unlink(tmpfile[1])
 
@@ -71,6 +72,7 @@ class TestInstitutionMethods(unittest.TestCase):
         os.dup2(newstderr,2)
         sys.stdout = os.fdopen(newstdout, 'w', 0)
         sys.stderr = os.fdopen(newstderr, 'w', 0)
+        time.sleep(.1)
         self.assertIn("Control Vocabulary file", testOK)
 
 

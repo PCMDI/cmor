@@ -7,11 +7,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM AER CHEM",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "hist-piAer": {
@@ -20,11 +17,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM AER",
-                               "additional_source_type":    "CHEM",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM"
+
                           },
 
         "hist-1950HC": {
@@ -33,11 +27,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM AER CHEM",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "historical",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "histSST": {
@@ -46,11 +37,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER",
-                               "additional_source_type":    "CHEM",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM"
+
                           },
 
         "histSST-piNTCF": {
@@ -59,11 +47,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER CHEM",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "histSST-piAer": {
@@ -72,11 +57,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER",
-                               "additional_source_type":    "CHEM",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM"
+
                           },
 
         "histSST-piO3": {
@@ -85,11 +67,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER CHEM",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "histSST-1950HC": {
@@ -98,11 +77,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER CHEM",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "histSST-piCH4": {
@@ -111,11 +87,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER CHEM",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "histSST-piN2O": {
@@ -124,11 +97,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER CHEM",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "ssp370": {
@@ -137,11 +107,8 @@
                                "activity_id":               "ScenarioMIP, AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM AER",
-                               "additional_source_type":    "CHEM",
-                               "parent_experiment_id" :     "historical",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM"
+
                           },
 
         "ssp370-lowNTCF": {
@@ -150,11 +117,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM AER",
-                               "additional_source_type":    "CHEM",
-                               "parent_experiment_id" :     "historical",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM"
+
                           },
 
         "ssp370SST": {
@@ -163,11 +127,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER",
-                               "additional_source_type":    "CHEM",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM"
+
                           },
 
         "ssp370SST-lowNTCF": {
@@ -176,11 +137,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER CHEM",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "ssp370SST-lowAer": {
@@ -189,11 +147,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER",
-                               "additional_source_type":    "CHEM",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM"
+
                           },
 
         "ssp370SST-lowBC": {
@@ -202,11 +157,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER",
-                               "additional_source_type":    "CHEM",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM"
+
                           },
 
         "ssp370SST-lowO3": {
@@ -215,11 +167,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER CHEM",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "ssp370SST-lowCH4": {
@@ -228,11 +177,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER CHEM",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "ssp370SST-lowLu": {
@@ -241,11 +187,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER",
-                               "additional_source_type":    "CHEM",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM"
+
                           },
 
         "piClim-control": {
@@ -254,11 +197,8 @@
                                "activity_id":               "RFMIP, AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER",
-                               "additional_source_type":    "CHEM",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM"
+
                           },
 
         "piClim-NTCF": {
@@ -267,11 +207,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER CHEM",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "piClim-aer": {
@@ -280,11 +217,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER",
-                               "additional_source_type":    "CHEM",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM"
+
                           },
 
         "piClim-BC": {
@@ -293,11 +227,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER",
-                               "additional_source_type":    "CHEM",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM"
+
                           },
 
         "piClim-O3": {
@@ -306,11 +237,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER CHEM",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "piClim-CH4": {
@@ -319,11 +247,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER CHEM",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "piClim-N2O": {
@@ -332,11 +257,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER CHEM",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "piClim-HC": {
@@ -345,11 +267,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER CHEM",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "piClim-NOX": {
@@ -358,11 +277,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER CHEM",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "piClim-VOC": {
@@ -371,11 +287,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER CHEM",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "piClim-2xdust": {
@@ -384,11 +297,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER",
-                               "additional_source_type":    "CHEM",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM"
+
                           },
 
         "piClim-2xss": {
@@ -397,11 +307,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER",
-                               "additional_source_type":    "CHEM",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM"
+
                           },
 
         "piClim-2xDMS": {
@@ -410,11 +317,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER",
-                               "additional_source_type":    "CHEM",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM"
+
                           },
 
         "piClim-2xfire": {
@@ -423,11 +327,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER",
-                               "additional_source_type":    "CHEM",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM"
+
                           },
 
         "piClim-2xNOX": {
@@ -436,11 +337,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER CHEM",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "piClim-2xVOC": {
@@ -449,11 +347,8 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER CHEM",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "1pctCO2-bgc": {
@@ -462,11 +357,8 @@
                                "activity_id":               "C4MIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM BGM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "1pctCO2Ndep": {
@@ -475,11 +367,8 @@
                                "activity_id":               "C4MIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM BGM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "1pctCO2Ndep-bgc": {
@@ -488,11 +377,8 @@
                                "activity_id":               "C4MIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM BGM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "1pctCO2-rad": {
@@ -501,11 +387,8 @@
                                "activity_id":               "C4MIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM BGM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "hist-bgc": {
@@ -514,11 +397,8 @@
                                "activity_id":               "C4MIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM BGM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "esm-ssp585": {
@@ -527,11 +407,8 @@
                                "activity_id":               "C4MIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "ESM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "esm-historical",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "ssp585-bgc": {
@@ -540,11 +417,8 @@
                                "activity_id":               "C4MIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "ESM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "esm-historical",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "abrupt-0p5xCO2": {
@@ -553,11 +427,8 @@
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER BGM",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER BGM"
+
                           },
 
         "abrupt-2xCO2": {
@@ -566,11 +437,8 @@
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "abrupt-solm4p": {
@@ -579,11 +447,8 @@
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "abrupt-solp4p": {
@@ -592,11 +457,8 @@
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "amip-p4K": {
@@ -605,11 +467,8 @@
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "amip-4xCO2": {
@@ -618,11 +477,8 @@
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "amip-pat4K": {
@@ -631,11 +487,8 @@
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "amip-m4K": {
@@ -644,11 +497,8 @@
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "amip-piForcing": {
@@ -657,11 +507,8 @@
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "amipFuture-4xCO2-all": {
@@ -670,11 +517,8 @@
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "aqua-p4K": {
@@ -683,11 +527,8 @@
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "aqua-4xCO2": {
@@ -696,11 +537,8 @@
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "aqua-control": {
@@ -709,11 +547,8 @@
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "amip-lwoff": {
@@ -722,11 +557,8 @@
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "amip-p4K-lwoff": {
@@ -735,11 +567,8 @@
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "aqua-p4K-lwoff": {
@@ -748,11 +577,8 @@
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "aqua-control-lwoff": {
@@ -761,11 +587,8 @@
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "piSST-control": {
@@ -774,11 +597,8 @@
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "piSST-pxK": {
@@ -787,11 +607,8 @@
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "piSST-4xCO2-rad": {
@@ -800,11 +617,8 @@
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "piSST-4xCO2-all": {
@@ -813,11 +627,8 @@
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "futureSST": {
@@ -826,11 +637,8 @@
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "futureSST-4xCO2-all": {
@@ -839,11 +647,8 @@
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER BGM",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER BGM"
+
                           },
 
         "1pctCO2": {
@@ -852,11 +657,8 @@
                                "activity_id":               "CMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "abrupt-4xCO2": {
@@ -865,11 +667,8 @@
                                "activity_id":               "CMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "amip": {
@@ -878,11 +677,8 @@
                                "activity_id":               "CMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "piControl": {
@@ -891,11 +687,8 @@
                                "activity_id":               "CMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "esm-piControl": {
@@ -904,11 +697,8 @@
                                "activity_id":               "CMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "ESM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "historical": {
@@ -917,11 +707,8 @@
                                "activity_id":               "CMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "esm-hist": {
@@ -930,11 +717,8 @@
                                "activity_id":               "CMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "ESM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "esm-piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "historical-ext": {
@@ -943,11 +727,8 @@
                                "activity_id":               "CMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "historical",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "esm-hist-ext": {
@@ -956,11 +737,8 @@
                                "activity_id":               "CMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "ESM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "esm-hist",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "hist-aer": {
@@ -969,11 +747,8 @@
                                "activity_id":               "DAMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER BGM",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER BGM"
+
                           },
 
         "hist-CO2": {
@@ -982,11 +757,8 @@
                                "activity_id":               "DAMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER BGM",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER BGM"
+
                           },
 
         "hist-all-aer2": {
@@ -995,11 +767,8 @@
                                "activity_id":               "DAMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER BGM",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER BGM"
+
                           },
 
         "hist-all-nat2": {
@@ -1008,11 +777,8 @@
                                "activity_id":               "DAMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER BGM",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER BGM"
+
                           },
 
         "hist-GHG": {
@@ -1021,11 +787,8 @@
                                "activity_id":               "DAMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER BGM",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER BGM"
+
                           },
 
         "hist-nat": {
@@ -1034,11 +797,8 @@
                                "activity_id":               "DAMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER BGM",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER BGM"
+
                           },
 
         "hist-sol": {
@@ -1047,11 +807,8 @@
                                "activity_id":               "DAMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER BGM",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER BGM"
+
                           },
 
         "hist-stratO3": {
@@ -1060,11 +817,8 @@
                                "activity_id":               "DAMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER BGM",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER BGM"
+
                           },
 
         "hist-volc": {
@@ -1073,11 +827,8 @@
                                "activity_id":               "DAMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER BGM",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER BGM"
+
                           },
 
         "ssp245-aer": {
@@ -1086,11 +837,8 @@
                                "activity_id":               "DAMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER BGM",
-                               "parent_experiment_id" :     "hist-aer",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "DAMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER BGM"
+
                           },
 
         "ssp245-GHG": {
@@ -1099,11 +847,8 @@
                                "activity_id":               "DAMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER BGM",
-                               "parent_experiment_id" :     "hist-GHG",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "DAMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER BGM"
+
                           },
 
         "ssp245-nat": {
@@ -1112,11 +857,8 @@
                                "activity_id":               "DAMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER BGM",
-                               "parent_experiment_id" :     "hist-nat",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "DAMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER BGM"
+
                           },
 
         "ssp245-stratO3": {
@@ -1125,271 +867,208 @@
                                "activity_id":               "DAMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER BGM",
-                               "parent_experiment_id" :     "hist-stratO3",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "DAMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER BGM"
+
                           },
 
         "hindcast": {
                                "experiment":                "hindcast initialized from observations with historical forcing",
-                               "sub_experiment_id":         "of form: 'sYYYY'",
+                               "sub_experiment_id":         "none",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "hindcast-control": {
                                "experiment":                "simulation initialized from control with forcing prescribed from a portion of the historical period",
-                               "sub_experiment_id":         "of form: 'sYYYY'",
+                               "sub_experiment_id":         "none",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "hindcast-honest": {
                                "experiment":                "hindcast initialized from observations without observed forcing after initialization",
-                               "sub_experiment_id":         "of form: 'sYYYY'",
+                               "sub_experiment_id":         "initiate with year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "hindcast-hist": {
                                "experiment":                "initialized from historical simulation without observed forcing after initialization",
-                               "sub_experiment_id":         "of form: 'sYYYY'",
+                               "sub_experiment_id":         "initiate with year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "forecast": {
                                "experiment":                "forecast initialized from observations",
-                               "sub_experiment_id":         "of form: 'sYYYY'",
+                               "sub_experiment_id":         "initiate with year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "amv-control": {
                                "experiment":                "idealized Atlantic control",
-                               "sub_experiment_id":         "of form: 'sYYYY'",
+                               "sub_experiment_id":         "initiate with year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "amv-plus": {
                                "experiment":                "idealized positive AMV anomaly pattern",
-                               "sub_experiment_id":         "of form: 'sYYYY'",
+                               "sub_experiment_id":         "initiate with year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "amv-minus": {
                                "experiment":                "idealized negative AMV anomaly pattern",
-                               "sub_experiment_id":         "of form: 'sYYYY'",
+                               "sub_experiment_id":         "initiate with year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "pdv-control": {
                                "experiment":                "idealized Pacific control",
-                               "sub_experiment_id":         "of form: 'sYYYY'",
+                               "sub_experiment_id":         "initiate with year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "pdv-plus": {
                                "experiment":                "idealized positive PDV anomaly pattern",
-                               "sub_experiment_id":         "of form: 'sYYYY'",
+                               "sub_experiment_id":         "initiate with year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "pdv-minus": {
                                "experiment":                "idealized negative PDV anomaly pattern",
-                               "sub_experiment_id":         "of form: 'sYYYY'",
+                               "sub_experiment_id":         "initiate with year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "pdv-plus-extraTrop": {
                                "experiment":                "idealized positive extratropical AMV anomaly pattern",
-                               "sub_experiment_id":         "of form: 'sYYYY'",
+                               "sub_experiment_id":         "initiate with year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "pdv-minus-extraTrop": {
                                "experiment":                "idealized  impact of a negative extratropical AMV anomaly pattern",
-                               "sub_experiment_id":         "of form: 'sYYYY'",
+                               "sub_experiment_id":         "initiate with year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "amv-plus-trop": {
                                "experiment":                "idealized positive tropical AMV anomaly pattern",
-                               "sub_experiment_id":         "of form: 'sYYYY'",
+                               "sub_experiment_id":         "initiate with year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "amv-minus-trop": {
                                "experiment":                "idealized impact of a positive tropical AMV anomaly pattern",
-                               "sub_experiment_id":         "of form: 'sYYYY'",
+                               "sub_experiment_id":         "initiate with year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "predictability-atlGyre": {
                                "experiment":                "predictability of 1990s warming of Atlantic gyre",
-                               "sub_experiment_id":         "of form: 'sYYYY'",
+                               "sub_experiment_id":         "initiate with year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "hindcast-novolc": {
                                "experiment":                "hindcast but with only background volcanic forcing",
-                               "sub_experiment_id":         "of form: 'sYYYY'",
+                               "sub_experiment_id":         "initiate with year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "forecast-Pinatubo": {
                                "experiment":                "2015 forecast with added Pinatubo forcing",
-                               "sub_experiment_id":         "of form: 'sYYYY'",
+                               "sub_experiment_id":         "initiate with year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "forecast-ElChichon": {
                                "experiment":                "2015 forecast with added El Chichon forcing",
-                               "sub_experiment_id":         "of form: 'sYYYY'",
+                               "sub_experiment_id":         "initiate with year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "forecast-Agung": {
                                "experiment":                "2015 forecast with added Agung forcing",
-                               "sub_experiment_id":         "of form: 'sYYYY'",
+                               "sub_experiment_id":         "initiate with year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "faf-all": {
@@ -1398,11 +1077,8 @@
                                "activity_id":               "FAFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "faf-heat": {
@@ -1411,11 +1087,8 @@
                                "activity_id":               "FAFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "faf-passiveheat": {
@@ -1424,11 +1097,8 @@
                                "activity_id":               "FAFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "faf-stress": {
@@ -1437,11 +1107,8 @@
                                "activity_id":               "FAFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "faf-water": {
@@ -1450,11 +1117,8 @@
                                "activity_id":               "FAFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "G1": {
@@ -1463,11 +1127,8 @@
                                "activity_id":               "GeoMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "piSST-4xCO2-solar": {
@@ -1476,11 +1137,8 @@
                                "activity_id":               "GeoMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "futureSST-4xCO2-solar": {
@@ -1489,11 +1147,8 @@
                                "activity_id":               "GeoMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "G6SST1": {
@@ -1502,11 +1157,8 @@
                                "activity_id":               "GeoMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "G6solar": {
@@ -1515,11 +1167,8 @@
                                "activity_id":               "GeoMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "historical",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "G6SST2-solar": {
@@ -1528,11 +1177,8 @@
                                "activity_id":               "GeoMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "G6sulfur": {
@@ -1541,11 +1187,8 @@
                                "activity_id":               "GeoMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "historical",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "G6SST2-sulfur": {
@@ -1554,11 +1197,8 @@
                                "activity_id":               "GeoMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "G7cirrus": {
@@ -1567,11 +1207,8 @@
                                "activity_id":               "GeoMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "historical",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "G7SST1-cirrus": {
@@ -1580,11 +1217,8 @@
                                "activity_id":               "GeoMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "G7SST2-cirrus": {
@@ -1593,11 +1227,8 @@
                                "activity_id":               "GeoMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "amip-hist": {
@@ -1606,11 +1237,8 @@
                                "activity_id":               "GMMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "amip-hld": {
@@ -1619,11 +1247,8 @@
                                "activity_id":               "GMMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "amip-TIP": {
@@ -1632,11 +1257,8 @@
                                "activity_id":               "GMMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "amip-TIP-nosh": {
@@ -1645,11 +1267,8 @@
                                "activity_id":               "GMMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "hist-resAMO": {
@@ -1658,11 +1277,8 @@
                                "activity_id":               "GMMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "hist-resIPO": {
@@ -1671,11 +1287,8 @@
                                "activity_id":               "GMMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "control-1950": {
@@ -1684,11 +1297,8 @@
                                "activity_id":               "HighResMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "highres-future": {
@@ -1697,11 +1307,8 @@
                                "activity_id":               "HighResMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "hist-1950",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "hist-1950": {
@@ -1710,11 +1317,8 @@
                                "activity_id":               "HighResMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "control-1950",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "HighResMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "highresSST-present": {
@@ -1723,11 +1327,8 @@
                                "activity_id":               "HighResMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "highresSST-future": {
@@ -1736,11 +1337,8 @@
                                "activity_id":               "HighResMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "highresSST-LAI": {
@@ -1749,11 +1347,8 @@
                                "activity_id":               "HighResMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "highresSST-smoothed": {
@@ -1762,11 +1357,8 @@
                                "activity_id":               "HighResMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "highresSST-p4K": {
@@ -1775,11 +1367,8 @@
                                "activity_id":               "HighResMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "highresSST-4co2": {
@@ -1788,11 +1377,8 @@
                                "activity_id":               "HighResMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "ism-1pctCO2": {
@@ -1801,11 +1387,8 @@
                                "activity_id":               "ISMIP6",
                                "mip_era":                   "CMIP6",
                                "source_type":               "ISM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "1pctCO2-withism": {
@@ -1814,11 +1397,8 @@
                                "activity_id":               "ISMIP6",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM ISM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "piControl-withism",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "ISMIP6",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "ism-piControl": {
@@ -1827,11 +1407,8 @@
                                "activity_id":               "ISMIP6",
                                "mip_era":                   "CMIP6",
                                "source_type":               "ISM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "piControl-withism": {
@@ -1840,11 +1417,8 @@
                                "activity_id":               "ISMIP6",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM ISM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "ism-ssp585": {
@@ -1853,11 +1427,8 @@
                                "activity_id":               "ISMIP6",
                                "mip_era":                   "CMIP6",
                                "source_type":               "ISM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "ssp585-withism": {
@@ -1866,11 +1437,8 @@
                                "activity_id":               "ISMIP6",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM ISM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "???",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "amip-lfmip-pObs": {
@@ -1879,11 +1447,8 @@
                                "activity_id":               "LS3MIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "amip-lfmip-pdLC": {
@@ -1892,11 +1457,8 @@
                                "activity_id":               "LS3MIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "lfmip-pdLC": {
@@ -1905,11 +1467,8 @@
                                "activity_id":               "LS3MIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "historical",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "lfmip-initLC": {
@@ -1918,11 +1477,8 @@
                                "activity_id":               "LS3MIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "historical",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "amip-lfmip-rmLC": {
@@ -1931,11 +1487,8 @@
                                "activity_id":               "LS3MIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "lfmip-rmLC": {
@@ -1944,11 +1497,8 @@
                                "activity_id":               "LS3MIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "historical",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "land-future": {
@@ -1957,11 +1507,8 @@
                                "activity_id":               "LS3MIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "LND",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "land-hist": {
@@ -1970,11 +1517,8 @@
                                "activity_id":               "LS3MIP, LUMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "LND",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "land-hist-princeton": {
@@ -1983,11 +1527,8 @@
                                "activity_id":               "LS3MIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "LND",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "land-hist",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "land-hist-cruNcep": {
@@ -1996,11 +1537,8 @@
                                "activity_id":               "LS3MIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "LND",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "land-hist",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "land-hist-wfdei": {
@@ -2009,11 +1547,8 @@
                                "activity_id":               "LS3MIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "LND",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "land-hist",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "esm-ssp585-ssp126Lu": {
@@ -2022,11 +1557,8 @@
                                "activity_id":               "LUMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "ESM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "esm-hist",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "hist-noLu": {
@@ -2035,11 +1567,8 @@
                                "activity_id":               "LUMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "deforest-globe": {
@@ -2048,11 +1577,8 @@
                                "activity_id":               "LUMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "land-hist-altStartYear": {
@@ -2061,11 +1587,8 @@
                                "activity_id":               "LUMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "LND",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "land-hist": {
@@ -2074,11 +1597,8 @@
                                "activity_id":               "LS3MIP, LUMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "LND",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "land-cCO2": {
@@ -2087,11 +1607,8 @@
                                "activity_id":               "LUMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "LND",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "land-cClim": {
@@ -2100,11 +1617,8 @@
                                "activity_id":               "LUMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "LND",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "land-noLu": {
@@ -2113,11 +1627,8 @@
                                "activity_id":               "LUMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "LND",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "land-crop-noManage": {
@@ -2126,11 +1637,8 @@
                                "activity_id":               "LUMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "LND",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "land-netTrans": {
@@ -2139,11 +1647,8 @@
                                "activity_id":               "LUMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "LND",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "land-noFire": {
@@ -2152,11 +1657,8 @@
                                "activity_id":               "LUMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "LND",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "land-noWoodHarv": {
@@ -2165,11 +1667,8 @@
                                "activity_id":               "LUMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "LND",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "land-noPasture": {
@@ -2178,11 +1677,8 @@
                                "activity_id":               "LUMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "LND",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "land-crop-grass": {
@@ -2191,11 +1687,8 @@
                                "activity_id":               "LUMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "LND",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "land-crop-noIrrig": {
@@ -2204,11 +1697,8 @@
                                "activity_id":               "LUMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "LND",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "land-crop-noFert": {
@@ -2217,11 +1707,8 @@
                                "activity_id":               "LUMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "LND",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "ssp126-ssp370Lu": {
@@ -2230,11 +1717,8 @@
                                "activity_id":               "LUMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "historical",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "ssp370-ssp126Lu": {
@@ -2243,11 +1727,8 @@
                                "activity_id":               "LUMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "historical",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "omip-core2": {
@@ -2256,11 +1737,8 @@
                                "activity_id":               "OMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "OGCM",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "omip-core2-spunup": {
@@ -2269,11 +1747,8 @@
                                "activity_id":               "OMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "OGCM",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "omip-jra55": {
@@ -2282,11 +1757,8 @@
                                "activity_id":               "OMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "OGCM",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "omip-jra55-spunup": {
@@ -2295,11 +1767,8 @@
                                "activity_id":               "OMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "OGCM",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "lgm": {
@@ -2308,11 +1777,8 @@
                                "activity_id":               "PMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "???",
-                               "parent_sub_experiment_id":  "",
-                               "parent_activity_id ":       "",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "lig127k": {
@@ -2321,11 +1787,8 @@
                                "activity_id":               "PMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "???",
-                               "parent_sub_experiment_id":  "",
-                               "parent_activity_id ":       "",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "midHolocene": {
@@ -2334,11 +1797,8 @@
                                "activity_id":               "PMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "???",
-                               "parent_sub_experiment_id":  "",
-                               "parent_activity_id ":       "",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "past1000": {
@@ -2347,11 +1807,8 @@
                                "activity_id":               "PMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "???",
-                               "parent_sub_experiment_id":  "",
-                               "parent_activity_id ":       "",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "midPliocene-eoi400": {
@@ -2360,11 +1817,8 @@
                                "activity_id":               "PMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "???",
-                               "parent_sub_experiment_id":  "",
-                               "parent_activity_id ":       "",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "piClim-control": {
@@ -2373,11 +1827,8 @@
                                "activity_id":               "RFMIP, AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "piClim-4xCO2": {
@@ -2386,11 +1837,8 @@
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "piClim-aerO3": {
@@ -2399,11 +1847,8 @@
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "piClim-aerO3x0p1": {
@@ -2412,11 +1857,8 @@
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "piClim-aerO3x2": {
@@ -2425,11 +1867,8 @@
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "piClim-anthro": {
@@ -2438,11 +1877,8 @@
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "piClim-GHG": {
@@ -2451,11 +1887,8 @@
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "piClim-histaer03": {
@@ -2464,11 +1897,8 @@
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "piClim-histAll": {
@@ -2477,11 +1907,8 @@
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "piClim-histGHG": {
@@ -2490,11 +1917,8 @@
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "piClim-histNat": {
@@ -2503,11 +1927,8 @@
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "piClim-lu": {
@@ -2516,11 +1937,8 @@
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "CHEM AER"
+
                           },
 
         "piClim-spAer-histall": {
@@ -2529,11 +1947,8 @@
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "piClim-spAer-histaer": {
@@ -2542,11 +1957,8 @@
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "piClim-spAer-aer": {
@@ -2555,11 +1967,8 @@
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "piClim-spAer-anthro": {
@@ -2568,11 +1977,8 @@
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "hist-spAer": {
@@ -2581,11 +1987,8 @@
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "hist-all-spAer": {
@@ -2594,11 +1997,8 @@
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "rad-irf": {
@@ -2607,11 +2007,8 @@
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "RAD",
-                               "additional_source_type":    "",
-                               "parent_experiment_id" :     "no parent",
-                               "parent_sub_experiment_id":  "no parent",
-                               "parent_activity_id ":       "no parent",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    ""
+
                           },
 
         "ssp126": {
@@ -2820,7 +2217,8 @@
                                "parent_sub_experiment_id":  "none",
                                "parent_activity_id ":       "CMIP",
                                "parent_mip_era ":           "CMIP6"
-                          },
-"Dummy":{}
-     }
+                          }
+
+
+    }
 }

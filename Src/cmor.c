@@ -1226,6 +1226,8 @@ int cmor_dataset_json(char * ressource){
         return( 1 );
     }
     cmor_set_cur_dataset_attribute_internal(CMOR_INPUTFILENAME, ressource, 1);
+    cmor_set_cur_dataset_attribute_internal(GLOBAL_CV_FILENAME,
+                                            TABLE_CONTROL_FILENAME, 1);
 
     json_object_object_foreach(json_obj, key, value) {
         if(key[0] == '#') {
@@ -1250,10 +1252,7 @@ int cmor_dataset_json(char * ressource){
             continue;
         } else if(strcmp(key, GLOBAL_ATT_ACTIVITY_ID) == 0 ) {
             strncpy( cmor_current_dataset.activity_id, szVal, CMOR_MAX_STRING);
-
-        } else if((strcmp(key, GLOBAL_ATT_DRIVING_SOURCE_ID) == 0) ||
-                  (strcmp(key, GLOBAL_ATT_DRIVING_VARIANT_ID) == 0)){
-
+            continue;
         }
 
         cmor_set_cur_dataset_attribute_internal(key, szVal, 1);

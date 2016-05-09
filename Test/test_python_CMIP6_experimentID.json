@@ -1,12 +1,13 @@
 {
-           "_cmor_option": "CMIP6",
+           "_control_vocabulary_file": "CMIP6_CV.json",
+           "_cmip6_option":           "CMIP6",
            "activity_id":            "PMIP",
 
            "#output":                "Output Path where files are written",
            "outpath":                "Test",
 
            "#experiment_id":         "Correspond to id found in experiments.json",
-           "experiment_id":          "DcppC22",
+           "experiment_id":          "piControl",
 
            "#institution":           "Controlled Vocaburaly in instition.json",
            "institution":            "GICC (Generic International Climate Center, Geneva, Switzerland)",

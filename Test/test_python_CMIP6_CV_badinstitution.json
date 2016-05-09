@@ -6,7 +6,7 @@
            "outpath":                "Test",
 
            "#experiment_id":         "Correspond to id found in experiments.json",
-           "experiment_id":          "DcppC22",
+           "experiment_id":          "piControl",
            "source_type":            "AOGCM",
            "sub_experiment":         "undefined",
            "sub_experiment_id":      "undefined",
