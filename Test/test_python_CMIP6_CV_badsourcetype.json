@@ -9,19 +9,16 @@
            "outpath":                "Test",
 
            "#experiment_id":         "Correspond to id found in experiments.json",
-           "experiment_id":          "DcppC22",
-     "source_type":                      "AOGCM",
-     "sub_experiment":                      "undefined",
-     "sub_experiment_id":                      "undefined",
-     "parent_sub_experiment_id":                      "N/A",
-     "parent_mip_era":                      "N/A",
-     "mip_era":                      "CMIP6",
+           "experiment_id":          "piControl",
+           "source_type":            "AOGCM DENIS",
+           "sub_experiment":         "undefined",
+           "sub_experiment_id":      "undefined",
+           "parent_sub_experiment_id":"N/A",
+           "parent_mip_era":         "N/A",
+           "mip_era":                "CMIP6",
 
-           "#institution":           "Controlled Vocaburaly in instition.json",
-           "institution":            "GICC (Generic International Climate Center, Geneva, Switzerland)",
-            
            "#source":                "",
-           "source":              "MIROC-ESM",
+           "source":                 "MIROC-ESM",
 
            "#calendar":              "",
            "calendar":               "gregorian",
@@ -50,9 +47,12 @@
            "#references":            "",
            "references":             "Model described by Koder and Tolkien ",
 
-           "#institution_id":          "",
-           "institution_id":           "PCMDI",
+           "#institution_id":         "",
+           "institution_id":          "NCC",
 
+           "#institution":           "Controlled Vocabulary",
+           "institution":            "bad institution",
+            
            "#model_id":              "",
            "model_id":               "GICCM1",
 
@@ -82,9 +82,8 @@
 
            "further_info_url":       "http://purl.org/cmip6FurtherInfo/MOHC.HadCM3.historical.r3i1p1f1.gn",
            "grid":                   "native atmosphere T63 gaussian grid (64x128 latxlon)",
-           "grid_option":             "gn",
+           "grid_label":             "gn",
            "grid_resolution":        "5km",
-           "institution_id":         "d",
            "references":             "Model described by Koder and Tolkien (J. Geophys. Res.,2001, 576 - 591).  Also see http://www.GICC.su/giccm/doc/index.html  2XCO2 simulation described in Dorkey et al. '(Clim. Dyn., 2003, 323 - 357.)",
            "run_variant":            "forcing: black carbon aerosol only",
            "source_id":              "MIROC-ESM",

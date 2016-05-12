@@ -1,4 +1,7 @@
 {
+           "_control_vocabulary_file": "CMIP6_CV.json",
+           "_cmip6_option":           "CMIP6",
+
     "outpath":                      ".",
     "activity_id":                  "PMIP",
     "experiment_id":                "DcppC22",

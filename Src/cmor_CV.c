@@ -306,14 +306,151 @@ void cmor_CV_free(cmor_CV_def_t *CV) {
     }
 
 }
+
+/************************************************************************/
+/*                      cmor_CV_checkSourceType()                       */
+/************************************************************************/
+void cmor_CV_checkSourceType(cmor_CV_def_t *CV_exp, char *szExptID){
+    int nObjects;
+    cmor_CV_def_t *CV_exp_attr;
+    char szAddSourceType[CMOR_MAX_STRING];
+    char szReqSourceType[CMOR_MAX_STRING];
+    char szAddSourceTypeCpy[CMOR_MAX_STRING];
+    char szReqSourceTypeCpy[CMOR_MAX_STRING];
+
+    char szSourceType[CMOR_MAX_STRING];
+    char msg[CMOR_MAX_STRING];
+    char CV_Filename[CMOR_MAX_STRING];
+    int i;
+    int nCHEMAER = 0;
+    char *szToken;
+    char *szTokenRequired;
+    char *szTokenAdd;
+    int nbSourceType;
+    char *ptr;
+    int nbToken;
+    int nbGoodType=0;
+
+    cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
+
+    szAddSourceType[0] = '\0';
+    nObjects = CV_exp->nbObjects;
+    // Parse all experiment attributes get source type related attr.
+    for (i = 0; i < nObjects; i++) {
+        CV_exp_attr = &CV_exp->oValue[i];
+        if(strcmp(CV_exp_attr->key, CV_EXP_ATTR_ADDSOURCETYPE) == 0 ) {
+            strcpy(szAddSourceType, CV_exp_attr->szValue);
+            strcpy(szAddSourceTypeCpy, CV_exp_attr->szValue);
+
+            continue;
+        }
+        if(strcmp(CV_exp_attr->key, CV_EXP_ATTR_REQSOURCETYPE) == 0) {
+            strcpy(szReqSourceType, CV_exp_attr->szValue);
+            strcpy(szReqSourceTypeCpy, CV_exp_attr->szValue);
+
+            continue;
+        }
+
+    }
+    if(cmor_has_cur_dataset_attribute(GLOBAL_ATT_SOURCE_TYPE) == 0) {
+        cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE_TYPE, szSourceType);
+    }
+    // Count how many are toke we have.
+    ptr= szSourceType;
+    if( szSourceType[0] != '\0') {
+      nbSourceType = 1;
+    } else {
+        return;
+    }
+    while((ptr = strpbrk(ptr, " ")) != NULL) {
+        nbSourceType++;
+        ptr++;
+    }
+
+    szTokenRequired = strtok(szReqSourceType, " ");
+    while( szTokenRequired != NULL ) {
+        if( strstr(szSourceType, szTokenRequired) == NULL ) {
+
+            snprintf( msg, CMOR_MAX_STRING,
+                    "The following source type(s) \"%s\" are required and\n! "
+                    "some source type(s) could not be found in your input file. \n! "
+                    "Your file contains a source type of \"%s\".\n! "
+                    "Check your Control Vocabulary file \"%s\".\n! ",
+                    szReqSourceTypeCpy,
+                    szSourceType,
+                    CV_Filename);
+
+            cmor_handle_error( msg, CMOR_CRITICAL );
+            cmor_pop_traceback(  );
+            return;
+        } else {
+            nbGoodType++;
+        }
+        szTokenRequired = strtok(NULL, " ");
+    }
+
+    szTokenAdd = strtok(szAddSourceType, " ");
+    while( szTokenAdd != NULL ) {
+        if(strcmp(szTokenAdd, "CHEM") == 0){
+            if( strstr(szSourceType, szTokenAdd) != NULL) {
+                nCHEMAER++;
+                nbGoodType++;
+            }
+        } else if(strcmp(szTokenAdd, "AER") == 0){
+            if( strstr(szSourceType, szTokenAdd) != NULL) {
+                nCHEMAER++;
+                nbGoodType++;
+            }
+        } else if( strstr(szSourceType, szTokenAdd) != NULL) {
+            nbGoodType++;
+        }
+        szTokenAdd= strtok(NULL, " ");
+    }
+
+    if( nCHEMAER > 1) {
+        snprintf( msg, CMOR_MAX_STRING,
+                "The source types \"CHEM\" and \"AER\" are optional\n! "
+                "and cannot be both set at the same time for this experiment_id"
+                "\"%s\". \n! "
+                "Your input file contains both source type of \"%s\".\n! "
+                "Check your Control Vocabulary file \"%s\".\n! ",
+                szExptID,
+                szSourceType,
+                CV_Filename);
+
+        cmor_handle_error( msg, CMOR_CRITICAL );
+        cmor_pop_traceback(  );
+        return;
+    }
+
+    if( nbGoodType != nbSourceType ) {
+        snprintf( msg, CMOR_MAX_STRING,
+                "You source_type attribute contains invalid source types\n! "
+                "Your source type is set to \"%s\".  The required source types\n! "
+                "are \"%s\" and possible additional source types are \"%s\" \n! "
+                "Check your Control Vocabulary file \"%s\".\n! %d, %d",
+                szSourceType,
+                szReqSourceTypeCpy,
+                szAddSourceTypeCpy,
+
+                CV_Filename, nbGoodType, nbSourceType);
+
+        cmor_handle_error( msg, CMOR_CRITICAL );
+        cmor_pop_traceback(  );
+        return;
+    }
+
+}
 /************************************************************************/
 /*                      cmor_CV_checkSourceID()                         */
 /************************************************************************/
 void cmor_CV_checkSourceID(cmor_CV_def_t *CV){
     cmor_CV_def_t *CV_source_ids;
-    cmor_CV_def_t *CV_source;
+    cmor_CV_def_t *CV_source_id;
 
     char szSource_ID[CMOR_MAX_STRING];
+    char szSource[CMOR_MAX_STRING];
+
     char msg[CMOR_MAX_STRING];
     char szValue[CMOR_MAX_STRING];
     char CV_Filename[CMOR_MAX_STRING];
@@ -335,51 +472,69 @@ void cmor_CV_checkSourceID(cmor_CV_def_t *CV){
                 "your Control Vocabulary file.(%s)\n! ",
                 CV_Filename);
 
-
         cmor_handle_error( msg, CMOR_CRITICAL );
         cmor_pop_traceback(  );
         return;
     }
 
-    snprintf( msg, CMOR_MAX_STRING,
-            "The source_id, \"%s\",  which you specified in your \n! "
-            "input file could not be found in \n! "
-            "your Controlled Vocabulary file. (%s) \n! \n! "
-            "Please correct your input file or contact ???? to register\n! "
-            "a new institution_id.  See ???? for further information about\n! "
-            "the \"institution_id\" and \"institution\" global attributes.  " ,
-            CV_source_ids->key, CV_Filename);
 
     // retrieve source_id
     rc = cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE_ID, szSource_ID);
     if( rc !=  0 ){
         snprintf( msg, CMOR_MAX_STRING,
-                "You \"%s\" is not defined, check your required attributes\n! ",
-                GLOBAL_ATT_SOURCE_ID);
+                "You \"%s\" is not defined, check your required attributes\n! "
+                "See Control Vocabulary JSON file.(%s)\n! ",
+                GLOBAL_ATT_SOURCE_ID,
+                CV_Filename);
         cmor_handle_error( msg, CMOR_CRITICAL );
         cmor_pop_traceback(  );
     }
-    // retrieve source_type
-    rc = cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE_TYPE, szSource_ID);
-    if( rc !=  0 ){
-        snprintf( msg, CMOR_MAX_STRING,
-                "You \"%s\" is not defined, check your required attributes\n! ",
-                GLOBAL_ATT_SOURCE_ID);
-        cmor_handle_error( msg, CMOR_CRITICAL );
-        cmor_pop_traceback(  );
-    }
-    // Validate source_type with source_id
-    nElements = CV_source_ids->anElements;
-    // Look for source_id
-    for (i = 0; i < nElements; i++) {
-        rc = cmor_has_cur_dataset_attribute(CV_source_ids->aszValue[i]);
-        if (rc == 0) {
 
+    // Validate  source_id
+    for (i = 0; i < CV_source_ids->nbObjects; i++) {
+        CV_source_id = &CV_source_ids->oValue[i];
+        if (strncmp(CV_source_id->key, szSource_ID, CMOR_MAX_STRING) == 0) {
+            // Make sure that "source" exist.
+            if(cmor_has_cur_dataset_attribute(GLOBAL_ATT_SOURCE) != 0 ) {
+                cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_SOURCE,
+                        CV_source_id->szValue, 1);
+            }
+
+            rc = cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE, szSource);
+
+            if (strncmp(CV_source_id->szValue, szSource, CMOR_MAX_STRING) != 0) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "Your input attribute \"%s\" with value \n! \"%s\" "
+                                "will be replaced with "
+                                "value \n! \"%s\".\n! \n! \n!  "
+                                "See Control Vocabulary JSON file.(%s)\n! ",
+                                GLOBAL_ATT_SOURCE, szSource,
+                                CV_source_id->szValue,
+                                CV_Filename);
+                cmor_handle_error(msg, CMOR_WARNING);
+            }
+            break;
         }
     }
-        // Set/replace attribute.
-     //   cmor_set_cur_dataset_attribute_internal(CV_experiment_attr->key,
-      //          CV_experiment_attr->szValue,1);
+    // We could not found the Source ID in the CV file
+    if( i == CV_source_ids->nbObjects) {
+
+
+        snprintf( msg, CMOR_MAX_STRING,
+                "The source_id, \"%s\",  which you specified in your \n! "
+                "input file could not be found in \n! "
+                "your Controlled Vocabulary file. (%s) \n! \n! "
+                "Please correct your input file or contact ???? to register\n! "
+                "a new source.  See ???? for further information about. ",
+                szSource_ID, CV_Filename);
+
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+    // Set/replace attribute.
+    cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_SOURCE_ID,
+            CV_source_id->key,1);
+    cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_SOURCE,
+            CV_source_id->szValue,1);
 
     cmor_pop_traceback();
     return;
@@ -428,7 +583,14 @@ void cmor_CV_checkExperiment( cmor_CV_def_t *CV){
     for (i = 0; i < nObjects; i++) {
         CV_experiment_attr = &CV_experiment->oValue[i];
         rc = cmor_has_cur_dataset_attribute(CV_experiment_attr->key);
-        // Warn user if values are different
+        // Validate source type first
+        if(strcmp(CV_experiment_attr->key, GLOBAL_ATT_SOURCE_TYPE) == 0) {
+            cmor_CV_checkSourceType(CV_experiment, szExperiment_ID);
+            continue;
+        }
+        // Warn user if experiment value from input file is different than
+        // Control Vocabulary value.
+        // experiment from Control Vocabulary will replace User entry value.
         if (rc == 0) {
             cmor_get_cur_dataset_attribute(CV_experiment_attr->key, szValue);
             if (strncmp(CV_experiment_attr->szValue, szValue, CMOR_MAX_STRING)
@@ -446,6 +608,7 @@ void cmor_CV_checkExperiment( cmor_CV_def_t *CV){
                 cmor_handle_error(msg, CMOR_WARNING);
             }
         }
+
         // Set/replace attribute.
         cmor_set_cur_dataset_attribute_internal(CV_experiment_attr->key,
                 CV_experiment_attr->szValue,1);

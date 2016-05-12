@@ -131,7 +131,9 @@ extern void cmor_CV_set_att(cmor_CV_def_t *CV,
                                 json_object *joValue);
 extern void cmor_CV_checkExperiment( cmor_CV_def_t *CV);
 
+extern void cmor_CV_checkSourceID(cmor_CV_def_t *CV);
 
+extern void cmor_CV_checkSourceType(cmor_CV_def_t *CV, char *);
 
 extern int cmor_attNameCmp(const void *v1, const void *v2);
 

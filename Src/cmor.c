@@ -1056,9 +1056,9 @@ int cmor_setup( char *path,
         for (j = 0; j < 6; j++)
             cmor_grids[i].associated_variables[j] = -1;
     }
+
     cmor_pop_traceback();
     return( 0 );
-    ut_free_system(ut_read);
 
 }
 
@@ -1249,9 +1249,6 @@ int cmor_dataset_json(char * ressource){
             strncpytrim( cmor_current_dataset.file_template,
                     szVal,
                     CMOR_MAX_STRING );
-            continue;
-        } else if(strcmp(key, GLOBAL_ATT_ACTIVITY_ID) == 0 ) {
-            strncpy( cmor_current_dataset.activity_id, szVal, CMOR_MAX_STRING);
             continue;
         }
 
@@ -2660,7 +2657,9 @@ int cmor_WriteGblAttr(int var_id, int ncid, int ncafid) {
     if( cmor_has_cur_dataset_attribute(GLOBAL_ATT_INSTITUTION_ID) == 0) {
         cmor_CV_setInstitution(cmor_tables[nVarRefTblID].CV);
     }
-    if( cmor_has_cur_dataset_attribute(GLOBAL_ATT_EXPERIMENTID) == 0) {
+
+    if( cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP6) == 0) {
+        cmor_CV_checkSourceID(cmor_tables[nVarRefTblID].CV);
         cmor_CV_checkExperiment(cmor_tables[nVarRefTblID].CV);
     }
 
@@ -3941,7 +3940,6 @@ int cmor_write( int var_id, void *data, char type,
     size_t uuidlen;
 
     int  nVarRefTblID;
-    extern int cmor_convert_char_to_hyphen( char c );
     char szPathTemplate[CMOR_MAX_STRING];
     char outpath[CMOR_MAX_STRING];
 

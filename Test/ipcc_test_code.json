@@ -1,16 +1,24 @@
 {
-           "institution":            "Centro Euro-Mediterraneo per i Cambiamenti Climatici, Bologna, Italy",
-           "activity_id":            "PMIP",
+           "_control_vocabulary_file": "CMIP6_CV.json",
+           "_cmip6_option":           "CMIP6",
+
+           "_control_vocabulary_file": "CMIP6_CV.json",
+           "_cmip6_option":           "CMIP6",
+
+           "activity_id":            "AerChemMIP",
 
            "#output":                "Output Path where files are written",
            "outpath":                "Test",
 
            "#experiment_id":         "Correspond to id found in CV json file",
-           "experiment_id":          "piClim-aer",
+           "#experiment_id":          "piClim-aer",
+           "experiment_id":          "piControl-withism",
 
-           "source_type":            "AOGCM AER CHEM",
-           "sub_experiment":         "undefined",
-           "sub_experiment_id":      "undefined",
+           "source_type":            "AGCM AER CHEM DENIS",
+           "source_type":            "AGCM AER DENIS",
+           "source_type":            "AOGCM ISM AER",
+           "sub_experiment":         "none",
+           "sub_experiment_id":      "none",
            "#parent_sub_experiment_id": "N/A",
            "parent_mip_era":         "N/A",
            "mip_era":                "CMIP6",
@@ -62,10 +70,10 @@
            "run_variant":            "forcing: black carbon aerosol only",
 
            "#source_id":              "Model Source",
-           "source_id":              "MIROC-ESM",
+           "source_id":               "CESM1-CAM5",
 
            "#source":                "source title, first part is source_id",
-           "source":                 "MIROC-ESM (2002):",
+           "source":                 "CESM1 (CAM5): model version ca. 2009",
 
 
            "#output_path_template":   "Template for output path directory using tables keys or global attributes",

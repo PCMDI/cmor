@@ -3,25 +3,24 @@
            "_cmip6_option":           "CMIP6",
 
            "#activity_id":           "Specify an activity PMIP, GeoMIP, (must start with CMIP6-)",
-           "activity_id":            "PMIP",
+           "activity_id":            "CMIP",
 
            "#output":                "Output Path where files are written",
            "outpath":                "Test",
 
            "#experiment_id":         "Correspond to id found in experiments.json",
-           "experiment_id":          "DcppC22",
-     "source_type":                      "AOGCM",
-     "sub_experiment":                      "undefined",
-     "sub_experiment_id":                      "undefined",
-     "parent_sub_experiment_id":                      "N/A",
-     "parent_mip_era":                      "N/A",
-     "mip_era":                      "CMIP6",
+           "experiment_id":          "piControl",
+           "sub_experiment_id":      "none",
+           "sub_experiment":         "none",
 
-           "#institution":           "Controlled Vocaburaly in instition.json",
-           "institution":            "GICC (Generic International Climate Center, Geneva, Switzerland)",
-            
-           "#source":                "",
-           "source":              "MIROC-ESM",
+
+           "parent_sub_experiment_id":"N/A",
+           "parent_mip_era":         "N/A",
+           "mip_era":                "CMIP6",
+
+           "source_id":              "KMA-ACE",
+           "source":                 "bad_source",
+           "source_type":            "AOGCM",
 
            "#calendar":              "",
            "calendar":               "gregorian",
@@ -50,9 +49,9 @@
            "#references":            "",
            "references":             "Model described by Koder and Tolkien ",
 
-           "#institution_id":          "",
-           "institution_id":           "PCMDI",
+           "institution_id":          "NCC",
 
+            
            "#model_id":              "",
            "model_id":               "GICCM1",
 
@@ -82,12 +81,10 @@
 
            "further_info_url":       "http://purl.org/cmip6FurtherInfo/MOHC.HadCM3.historical.r3i1p1f1.gn",
            "grid":                   "native atmosphere T63 gaussian grid (64x128 latxlon)",
-           "grid_option":             "gn",
+           "grid_label":             "gn",
            "grid_resolution":        "5km",
-           "institution_id":         "d",
            "references":             "Model described by Koder and Tolkien (J. Geophys. Res.,2001, 576 - 591).  Also see http://www.GICC.su/giccm/doc/index.html  2XCO2 simulation described in Dorkey et al. '(Clim. Dyn., 2003, 323 - 357.)",
            "run_variant":            "forcing: black carbon aerosol only",
-           "source_id":              "MIROC-ESM",
 
            "#output_path_template":   "Template for output path directory using tables keys or global attributes",
            "output_path_template":    "<activity_id><institution_id><source_id><experiment_id><variant_id><table><variable_id><grid_option><version>",

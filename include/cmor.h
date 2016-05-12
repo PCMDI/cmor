@@ -181,6 +181,9 @@
 #define CV_KEY_ACTIVITY_IDS           "activity_ids"
 #define CV_KEY_SOURCE_IDS             "source_ids"
 
+#define CV_EXP_ATTR_ADDSOURCETYPE     "additional_source_type"
+#define CV_EXP_ATTR_REQSOURCETYPE     "source_type"
+
 #define GLOBAL_INT_ATT_PARENT_EXPT    GLOBAL_INTERNAL"parent_experiment"
 #define GLOBAL_ATT_DRIVING_PATH       GLOBAL_INTERNAL"driving_source_id-driving_variant_id"
 #define GLOBAL_ATT_VERSION            GLOBAL_INTERNAL"version"
