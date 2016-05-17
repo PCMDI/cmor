@@ -19,9 +19,9 @@ newstderr = os.dup(2)
 # Create tmpfile
 # --------------
 tmpfile = tempfile.mkstemp() #tempfile[0] = File number, tempfile[1] = File name.
-os.dup2(tmpfile[0], 1)
-os.dup2(tmpfile[0], 2)
-os.close(tmpfile[0])
+#os.dup2(tmpfile[0], 1)
+#os.dup2(tmpfile[0], 2)
+#os.close(tmpfile[0])
 
 global testOK 
 testOK = []
@@ -64,7 +64,7 @@ class TestInstitutionMethods(unittest.TestCase):
         # -------------------------------------------
         global testOK
         error_flag = cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
-        error_flag = cmor.dataset_json("Test/test_python_CMIP6_CV_badsourcetypeRequired.json")
+        error_flag = cmor.dataset_json("Test/test_python_CMIP6_CV_badvariant.json")
   
         # ------------------------------------------
         # load Omon table and create masso variable
@@ -82,11 +82,11 @@ class TestInstitutionMethods(unittest.TestCase):
         os.dup2(newstderr,2)
         sys.stdout = os.fdopen(newstdout, 'w', 0)
         sys.stderr = os.fdopen(newstderr, 'w', 0)
-        time.sleep(.1)
+        time.sleep(.2)
         # ------------------------------------------
         # Check error after signal handler is back
         # ------------------------------------------
-        self.assertIn("\"AOGCM ISM\"", testOK)
+        self.assertIn("\"1A\"", testOK)
 
 
 if __name__ == '__main__':

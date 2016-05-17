@@ -64,7 +64,7 @@ class TestInstitutionMethods(unittest.TestCase):
         # -------------------------------------------
         global testOK
         error_flag = cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
-        error_flag = cmor.dataset_json("Test/test_python_CMIP6_CV_badsourcetypeRequired.json")
+        error_flag = cmor.dataset_json("Test/test_python_CMIP6_CV_badgridresolution.json")
   
         # ------------------------------------------
         # load Omon table and create masso variable
@@ -86,7 +86,7 @@ class TestInstitutionMethods(unittest.TestCase):
         # ------------------------------------------
         # Check error after signal handler is back
         # ------------------------------------------
-        self.assertIn("\"AOGCM ISM\"", testOK)
+        self.assertIn("\"335 km\"", testOK)
 
 
 if __name__ == '__main__':

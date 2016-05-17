@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <time.h>
+#include <regex.h>
 #include "cmor.h"
 #include "json.h"
 #include "json_tokener.h"
@@ -237,17 +238,6 @@ cmor_CV_def_t * cmor_CV_rootsearch(cmor_CV_def_t *CV, char *key){
             cmor_pop_traceback();
             return(&CV[i]);
         }
-/* -------------------------------------------------------------------- */
-/*   Is there a branch on that object?                                  */
-/* -------------------------------------------------------------------- */
-        if(CV[i].oValue != NULL) {
-            for(j=0; j< CV[i].nbObjects; j++) {
-                searchCV = cmor_CV_rootsearch(&CV[i].oValue[j], key);
-                if(searchCV != NULL ){
-                    return(searchCV);
-                }
-            }
-        }
     }
     cmor_pop_traceback();
     return(NULL);
@@ -305,6 +295,43 @@ void cmor_CV_free(cmor_CV_def_t *CV) {
         CV->oValue=NULL;
     }
 
+}
+/************************************************************************/
+/*                    cmor_CV_checkFurtherInfoURL()                     */
+/************************************************************************/
+void cmor_CV_checkFurtherInfoURL(int var_id){
+    char szFurtherInfoURLTemplate[CMOR_MAX_STRING];
+    char szFurtherInfoURL[CMOR_MAX_STRING];
+    char msg[CMOR_MAX_STRING];
+
+    char *szToken;
+    int rc;
+    szFurtherInfoURL[0]='\0';
+
+/* -------------------------------------------------------------------- */
+/* Retrieve default Further URL info                                    */
+/* -------------------------------------------------------------------- */
+    strncpy(szFurtherInfoURLTemplate, cmor_current_dataset.futherurlinfo,
+            CMOR_MAX_STRING);
+
+/* -------------------------------------------------------------------- */
+/* Overwrite Further URL info by user.                                  */
+/* -------------------------------------------------------------------- */
+    if(cmor_has_cur_dataset_attribute(GLOBAL_ATT_FURTHERINFOURL) == 0) {
+        cmor_get_cur_dataset_attribute(GLOBAL_ATT_FURTHERINFOURL,
+                szFurtherInfoURLTemplate);
+    }
+
+    cmor_CreateFromTemplate( var_id, szFurtherInfoURLTemplate,
+                             szFurtherInfoURL, "." );
+
+/* -------------------------------------------------------------------- */
+/* Change last character from separator to "/".                         */
+/* -------------------------------------------------------------------- */
+    szFurtherInfoURL[strlen(szFurtherInfoURL)-1] = '/';
+
+    cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_FURTHERINFOURL,
+            szFurtherInfoURL, 0);
 }
 
 /************************************************************************/
@@ -706,11 +733,184 @@ void cmor_CV_setInstitution( cmor_CV_def_t *CV){
         }
     }
 /* -------------------------------------------------------------------- */
-/*   Set instituion according to the Control Vocabulary                 */
+/*   Set institution according to the Control Vocabulary                */
 /* -------------------------------------------------------------------- */
     cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_INSTITUTION,
                                             CV_institution->szValue, 1);
     cmor_pop_traceback();
+    return;
+}
+
+/************************************************************************/
+/*                    cmor_CV_ValidateAttribute()                       */
+/*                                                                      */
+/*  Search for attribute and verify that values is within a list        */
+/*                                                                      */
+/*    i.e. "mip_era": [ "CMIP6", "CMIP5" ]                              */
+/************************************************************************/
+int cmor_CV_ValidateAttribute(cmor_CV_def_t *CV, char *szKey){
+    cmor_CV_def_t *attr_CV;
+    char szValue[CMOR_MAX_STRING];
+    char msg[CMOR_MAX_STRING];
+    char CV_Filename[CMOR_MAX_STRING];
+    char szValids[CMOR_MAX_STRING*2];
+    char szOutput[CMOR_MAX_STRING*2];
+    int i;
+    regex_t regex;
+    int reti;
+
+    cmor_add_traceback( "cmor_CV_ValidateAttribute" );
+
+    szValids[0] = '\0';
+    szOutput[0] = '\0';
+    attr_CV = cmor_CV_rootsearch(CV, szKey);
+    cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
+
+/* -------------------------------------------------------------------- */
+/* This attribute does not need validation.                             */
+/* -------------------------------------------------------------------- */
+    if(attr_CV == NULL) {
+        cmor_pop_traceback(  );
+        return(0);
+    }
+
+    cmor_get_cur_dataset_attribute( szKey, szValue );
+    for(i=0; i< attr_CV->anElements; i++) {
+        reti = regcomp(&regex, attr_CV->aszValue[i],0);
+        if(reti) {
+            snprintf( msg, CMOR_MAX_STRING,
+                    "You regular expression \"%s\" is invalid. \n!"
+                    "Check your Control Vocabulary file \"%s\".\n! ",
+                    attr_CV->aszValue[i], CV_Filename );
+            cmor_handle_error( msg, CMOR_NORMAL );
+            cmor_pop_traceback(  );
+            return(-1);
+
+        }
+/* -------------------------------------------------------------------- */
+/*        Execute regular expression                                    */
+/* -------------------------------------------------------------------- */
+        reti = regexec(&regex, szValue, 0, NULL, 0);
+        if(!reti) {
+            break;
+        }
+      /*  if(strcmp(attr_CV->aszValue[i], szValue) == 0 ) {
+            break;
+        } */
+    }
+
+/* -------------------------------------------------------------------- */
+/* We could not validate this attribute, exit.                          */
+/* -------------------------------------------------------------------- */
+    if( i == (attr_CV->anElements) ) {
+        for(i=0; i< attr_CV->anElements; i++) {
+            strcat(szValids, "\"");
+            strncat(szValids, attr_CV->aszValue[i], CMOR_MAX_STRING);
+            strcat(szValids, "\" ");
+        }
+        snprintf( szOutput, 132, "%s ...", szValids);
+
+        snprintf( msg, CMOR_MAX_STRING,
+                  "The attribute \"%s\" could not be validated. \n! "
+                  "The current input value is "
+                  "\"%s\" which is not valid \n! "
+                  "Valid values must match the regular expression:"
+                  "\n! \t[%s] \n! \n! "
+                  "Check your Control Vocabulary file \"%s\".\n! ",
+                  szKey, szValue, szOutput, CV_Filename);
+
+        cmor_handle_error( msg, CMOR_NORMAL );
+        cmor_pop_traceback(  );
+        return(-1);
+    }
+    cmor_pop_traceback(  );
+    return(0);
+}
+
+/************************************************************************/
+/*                        cmor_CV_checkGrids()                          */
+/************************************************************************/
+void cmor_CV_checkGrids(cmor_CV_def_t *CV) {
+    int rc;
+    char szGridLabel[CMOR_MAX_STRING];
+    char szGridResolution[CMOR_MAX_STRING];
+    char msg[CMOR_MAX_STRING];
+    char CV_Filename[CMOR_MAX_STRING];
+
+    cmor_CV_def_t *CV_grid_labels;
+    cmor_CV_def_t *CV_grid_resolution;
+    cmor_CV_def_t *CV_obj_gridres;
+    int i;
+
+    cmor_add_traceback( "cmor_CV_checkGrids" );
+
+    rc = cmor_has_cur_dataset_attribute( GLOBAL_ATT_GRID_LABEL );
+    if( rc == 0 ) {
+        cmor_get_cur_dataset_attribute( GLOBAL_ATT_GRID_LABEL,
+                                        szGridLabel);
+    }
+/* -------------------------------------------------------------------- */
+/*  "gr followed by a digit is a valid grid (regrid)                    */
+/* -------------------------------------------------------------------- */
+    if( ( strcmp(szGridLabel, CV_KEY_GRIDLABEL_GR ) >= '0') &&
+        ( strcmp(szGridLabel, CV_KEY_GRIDLABEL_GR ) <= '9')) {
+        strcpy(szGridLabel, CV_KEY_GRIDLABEL_GR);
+    }
+
+    rc = cmor_has_cur_dataset_attribute( GLOBAL_ATT_GRID_RESOLUTION );
+    if( rc == 0 ) {
+        cmor_get_cur_dataset_attribute( GLOBAL_ATT_GRID_RESOLUTION,
+                                        szGridResolution);
+    }
+
+    CV_grid_labels = cmor_CV_rootsearch(CV, CV_KEY_GRID_LABELS);
+
+    CV_grid_resolution = cmor_CV_search_child_key( CV_grid_labels,
+                                               szGridLabel);
+    cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
+    if(CV_grid_resolution == NULL ) {
+        snprintf( msg, CMOR_MAX_STRING,
+                  "Your attribute grid_label is set to \"%s\" which is invalid."
+                  "\n! \n! Check your Control Vocabulary file \"%s\".\n! ",
+                  szGridLabel, CV_Filename);
+        cmor_handle_error( msg, CMOR_CRITICAL );
+        cmor_pop_traceback();
+        return;
+
+    }
+    CV_obj_gridres = CV_grid_resolution->oValue;
+    if( strcmp(CV_obj_gridres->key, CV_KEY_GRID_RESOLUTION )== 0 ) {
+        if(CV_obj_gridres->anElements > 0) {
+            for( i = 0; i < CV_obj_gridres->anElements; i++ ) {
+                rc= strcmp(CV_obj_gridres->aszValue[i], szGridResolution);
+                if(rc == 0) {
+                    break;
+                }
+            }
+            if( i == CV_obj_gridres->anElements ) {
+                snprintf( msg, CMOR_MAX_STRING,
+                  "Your attribute grid_resolution is set to \"%s\" which is invalid."
+                  "\n! \n! Check your Control Vocabulary file \"%s\".\n! ",
+                   szGridResolution, CV_Filename);
+                cmor_handle_error( msg, CMOR_CRITICAL );
+                cmor_pop_traceback();
+                return;
+
+            }
+        } else {
+            if( strcmp(CV_grid_resolution->oValue->szValue, szGridResolution )
+                    != 0 ) {
+                snprintf( msg, CMOR_MAX_STRING,
+                        "Your attribute grid_resolution is set to \"%s\" which is invalid."
+                              "\n! \n! Check your Control Vocabulary file \"%s\".\n! ",
+                              szGridResolution, CV_Filename);
+                cmor_handle_error( msg, CMOR_CRITICAL );
+                cmor_pop_traceback();
+                return;
+            }
+        }
+    }
+    cmor_pop_traceback(  );
     return;
 }
 
@@ -738,27 +938,21 @@ void cmor_CV_checkGblAttributes( cmor_CV_def_t *CV ) {
                 cmor_handle_error( msg, CMOR_NORMAL );
                 bCriticalError = TRUE;
             }
+            rc = cmor_CV_ValidateAttribute(CV, required_attrs->aszValue[i]);
+            if( rc != 0) {
+                bCriticalError = TRUE;
+            }
         }
     }
     if( bCriticalError ) {
-        cmor_handle_error( "Pease fix required attributes mentionned in\n! "
-                           "the warnings above and rerun CMOR. (aborting!)\n! "
+        cmor_handle_error( "Please fix required attributes mentioned in\n! "
+                           "the warnings above and rerun. (aborting!)\n! "
                            ,CMOR_CRITICAL );
     }
     cmor_pop_traceback(  );
     return;
 }
 
-/************************************************************************/
-/*                 cmor_CV_ValidateGblAttributes()                  */
-/************************************************************************/
-int cmor_CV_ValidateGblAttributes( char *name) {
-
-
-    cmor_add_traceback( "cmor_CV_ValidateGblAttributes" );
-    cmor_pop_traceback(  );
-    return(0);
-}
 
 /************************************************************************/
 /*                       cmor_CV_set_entry()                            */

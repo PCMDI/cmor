@@ -1,18 +1,18 @@
 {
            "_control_vocabulary_file": "CMIP6_CV.json",
            "_cmip6_option":           "CMIP6",
+           "mip_era":                "CMIP6",
+           "further_info_url":       "http://purl.org/cmip6FurtherInfo/<institution_id><experiment_id><source_id><sub_experiment_id>",
 
            "#activity_id":           "Specify an activity PMIP, GeoMIP, (default in Control Vocabulary File)",
 
            "#output":                "Output Path where files are written",
-           "outpath":                "Test",
+           "outpath":                "unittest",
 
-           "#experiment_id":         "Correspond to id found in experiments.json",
+           "#experiment_id":         "Correspond to id found in Control Vocabulary File",
            "experiment_id":          "piControl-withism",
-           "source_type":            "AOGCM",
-           "mip_era":                "CMIP6",
-
            "source_id":              "MIROC-ESM",
+           "source_type":            "AOGCM ISM",
            "#source":                "Defined int Control Vocabulary File",
 
            "#calendar":              "",
@@ -59,17 +59,17 @@
            "#branch_time":            "",
            "branch_time":             "1",
 
+           "branch_method":           "standard",
            "sub_experiment":     "none",
 
-           "further_info_url":       "http://purl.org/cmip6FurtherInfo/MOHC.HadCM3.historical.r3i1p1f1.gn",
            "grid":                   "native atmosphere T63 gaussian grid (64x128 latxlon)",
            "grid_label":             "gn",
-           "grid_resolution":        "5km",
+           "grid_resolution":        "5 km",
            "references":             "Model described by Koder and Tolkien (J. Geophys. Res.,2001, 576 - 591).  Also see http://www.GICC.su/giccm/doc/index.html  2XCO2 simulation described in Dorkey et al. '(Clim. Dyn., 2003, 323 - 357.)",
            "run_variant":            "forcing: black carbon aerosol only",
 
            "#output_path_template":   "Template for output path directory using tables keys or global attributes",
-           "output_path_template":    "<activity_id><institution_id><source_id><experiment_id><variant_id><table><variable_id><grid_option><version>",
+           "output_path_template":    "<activity_id><institution_id><source_id><experiment_id><variant_id><table><variable_id><grid_label><version>",
 
            "#output_file_template":   "Template for output filename using table keys or global attributes",
            "output_file_template":    "<variable_id><table><experiment_id><source_id><variant_id><grid_option>",

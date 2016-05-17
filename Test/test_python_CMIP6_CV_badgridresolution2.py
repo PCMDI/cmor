@@ -49,9 +49,9 @@ def run():
     unittest.main()
 
 
-# ---------------------
-# Hook up SIGTEM signal 
-# ---------------------
+# ----------------------
+# Hook up SIGTERM signal 
+# ----------------------
 signal.signal(signal.SIGTERM, sig_handler)
 
 
@@ -64,7 +64,7 @@ class TestInstitutionMethods(unittest.TestCase):
         # -------------------------------------------
         global testOK
         error_flag = cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
-        error_flag = cmor.dataset_json("Test/test_python_CMIP6_CV_badsourcetypeRequired.json")
+        error_flag = cmor.dataset_json("Test/test_python_CMIP6_CV_badgridresolution2.json")
   
         # ------------------------------------------
         # load Omon table and create masso variable
@@ -86,7 +86,7 @@ class TestInstitutionMethods(unittest.TestCase):
         # ------------------------------------------
         # Check error after signal handler is back
         # ------------------------------------------
-        self.assertIn("\"AOGCM ISM\"", testOK)
+        self.assertIn("\"2x2\"", testOK)
 
 
 if __name__ == '__main__':

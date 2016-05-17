@@ -164,6 +164,10 @@
 #define GLOBAL_ATT_CALENDAR           "calendar"
 #define GLOBAL_ATT_INSTITUTION_ID     "institution_id"
 #define GLOBAL_ATT_INSTITUTION        "institution"
+#define GLOBAL_ATT_FURTHERINFOURL     "further_info_url"
+#define GLOBAL_ATT_GRID_LABEL         "grid_label"
+#define GLOBAL_ATT_GRID_RESOLUTION    "grid_resolution"
+#define GLOBAL_ATT_TITLE_MSG          "%s model output prepared for %s"
 #define GLOBAL_CV_FILENAME            GLOBAL_INTERNAL"control_vocabulary_file"
 #define GLOBAL_IS_CMIP6               GLOBAL_INTERNAL"cmip6_option"
 
@@ -178,8 +182,10 @@
 #define CV_KEY_REQUIRED_GBL_ATTRS     "required_global_attributes"
 #define CV_KEY_INSTITUTION_IDS        "institution_ids"
 #define CV_KEY_EXPERIMENT_IDS         "experiment_ids"
-#define CV_KEY_ACTIVITY_IDS           "activity_ids"
 #define CV_KEY_SOURCE_IDS             "source_ids"
+#define CV_KEY_GRID_LABELS            "grid_labels"
+#define CV_KEY_GRID_RESOLUTION        "grid_resolution"
+#define CV_KEY_GRIDLABEL_GR            "gr"
 
 #define CV_EXP_ATTR_ADDSOURCETYPE     "additional_source_type"
 #define CV_EXP_ATTR_REQSOURCETYPE     "source_type"
@@ -219,7 +225,7 @@
 #define CMIP6                         "CMIP6"
 #define CMOR_DEFAULT_PATH_TEMPLATE "<mip_era><institute_id><source_id><activity_id><experiment_id><variant_id><table><variable_id><grid_label><version>"
 #define CMOR_DEFAULT_FILE_TEMPLATE "<variable_id><table><experiment_id><source_id><variant_id><grid_label>"
-
+#define CMOR_DEFAULT_FURTHERURL_TEMPLATE "http://purl.org/cmip6FurtherInfo/<institution_id><experiment_id><source_id><sub_experiment_id>"
 //#define CMOR_MAX_TRACKING_PREFIX_PROJECT_FILTER 1
 
 extern int USE_NETCDF_4;
@@ -513,6 +519,8 @@ typedef struct cmor_dataset_def_ {
     char tracking_id[CMOR_MAX_STRING];	/*associated tracking id */
     char path_template[CMOR_MAX_STRING]; /* <keys> for each directory */
     char file_template[CMOR_MAX_STRING]; /* <keys> for filename */
+    char futherurlinfo[CMOR_MAX_STRING]; /* further URL INFO template */
+    char finalfilename[CMOR_MAX_STRING]; /* Final output file */
 
 } cmor_dataset_def;
 

@@ -42,7 +42,7 @@ static PyObject *PyCMOR_get_cur_dataset_attribute( PyObject * self,
     ierr = cmor_get_cur_dataset_attribute( name, value );
     if( ierr != 0 )
 	return NULL;
-    return Py_BuildValue( "s", value );
+    return(Py_BuildValue( "s", value ) );
 }
 
 /************************************************************************/
@@ -220,6 +220,14 @@ static PyObject *PyCMOR_getincvalues( PyObject * self, PyObject * args ) {
     }
 }
 
+/************************************************************************/
+/*                       PyCMOR_getFinalFilename()                      */
+/************************************************************************/
+
+static PyObject *PyCMOR_getFinalFilename( PyObject * self, PyObject * args ) {
+    return(Py_BuildValue( "s", cmor_getFinalFilename()));
+
+}
 
 /************************************************************************/
 /*                       PyCMOR_dataset_json()                          */
@@ -865,6 +873,7 @@ static PyMethodDef MyExtractMethods[] = {
     {"has_variable_attribute", PyCMOR_has_variable_attribute,
      METH_VARARGS},
     {"get_original_shape", PyCMOR_get_original_shape, METH_VARARGS},
+    {"get_final_filename", PyCMOR_getFinalFilename, METH_VARARGS},
     {NULL, NULL}		/*sentinel */
 };
 

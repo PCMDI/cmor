@@ -96,7 +96,9 @@ extern int cmor_close_variable( int var_id, char *file_name,
 				int *preserve );
 extern int cmor_close( void );
 
-extern int cmor_WriteGblAttr(int var_id, int ncid, int ncafid);
+extern int cmor_writeGblAttr(int var_id, int ncid, int ncafid);
+extern void cmor_setGblAttr();
+
 extern void cmor_generate_uuid();
 extern void cmor_define_dimensions(int var_id, int ncid,
                             int ncafid, double *time_bounds,
@@ -130,9 +132,7 @@ extern void cmor_CV_set_att(cmor_CV_def_t *CV,
                                 char *key,
                                 json_object *joValue);
 extern void cmor_CV_checkExperiment( cmor_CV_def_t *CV);
-
 extern void cmor_CV_checkSourceID(cmor_CV_def_t *CV);
-
 extern void cmor_CV_checkSourceType(cmor_CV_def_t *CV, char *);
 
 extern int cmor_attNameCmp(const void *v1, const void *v2);
@@ -146,9 +146,15 @@ extern void cmor_CV_printall();
 extern cmor_CV_def_t *cmor_CV_search_child_key(cmor_CV_def_t *CV, char *key);
 extern cmor_CV_def_t * cmor_CV_rootsearch(cmor_CV_def_t *CV, char *key);
 
+extern void cmor_CV_checkFurtherInfoURL(int var_id);
+extern void cmor_CV_checkGrids(cmor_CV_def_t *CV);
 extern void cmor_CV_setInstitution( cmor_CV_def_t *CV);
+
 extern int cmor_CV_set_entry(cmor_table_t* table, json_object *value);
 extern int  cmor_CV_ValidateGblAttributes( char *name);
+extern int cmor_CV_ValidateAttribute(cmor_CV_def_t *CV, char *szValue);
+
+
 
 /* ==================================================================== */
 /*      cmor_axis.c                                                     */
@@ -290,5 +296,6 @@ extern int cmor_time_varying_grid_coordinate( int *coord_grid_id,
 extern void cmor_cat_unique_string( char *dest, char *src );
 extern int cmor_stringinstring( char *dest, char *src );
 extern void cmor_checkMissing(int varid, int var_id, char type);
+extern char *cmor_getFinalFilename();
 
 #endif

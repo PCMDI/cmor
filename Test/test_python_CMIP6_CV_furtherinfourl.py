@@ -6,8 +6,8 @@ import unittest
 import signal
 import sys,os
 import tempfile
-import pdb
 import atexit
+import cdms2
 
 
 # ------------------------------------------------------
@@ -58,13 +58,14 @@ signal.signal(signal.SIGTERM, sig_handler)
 class TestInstitutionMethods(unittest.TestCase):
 
     def testCMIP6(self):
+        ''' This test will not fail we veirfy the attribute further_info_url'''
 
         # -------------------------------------------
         # Try to call cmor with a bad institution_ID
         # -------------------------------------------
         global testOK
         error_flag = cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
-        error_flag = cmor.dataset_json("Test/test_python_CMIP6_CV_badsourcetypeRequired.json")
+        error_flag = cmor.dataset_json("Test/test_python_CMIP6_CV_furtherinfourl.json")
   
         # ------------------------------------------
         # load Omon table and create masso variable
@@ -78,15 +79,16 @@ class TestInstitutionMethods(unittest.TestCase):
         data=numpy.random.random(5)
         for i in range(0,5):
             a = cmor.write(ivar,data[i:i])
+        file = cmor.close()
+        print file
         os.dup2(newstdout,1)
         os.dup2(newstderr,2)
         sys.stdout = os.fdopen(newstdout, 'w', 0)
         sys.stderr = os.fdopen(newstderr, 'w', 0)
-        time.sleep(.1)
-        # ------------------------------------------
-        # Check error after signal handler is back
-        # ------------------------------------------
-        self.assertIn("\"AOGCM ISM\"", testOK)
+        f=cdms2.open(cmor.get_final_filename(),"r")
+        a=f.getglobal("further_info_url")
+        self.assertEqual("http://purl.org/cmip6FurtherInfo/NCC.piControl-withism.MIROC-ESM.none/", a)
+
 
 
 if __name__ == '__main__':

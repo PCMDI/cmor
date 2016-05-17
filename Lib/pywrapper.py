@@ -960,7 +960,11 @@ def get_variable_attribute(var_id,name):
     else:
         return None
     
-    
+def get_final_filename():
+   """ Retrieve renamed file after cmor.close() has been called.  This is useful to reopen the file in the same program.
+   """
+   return _cmor.get_final_filename()
+
 def create_output_path(varid):
     """returns the output path where a variable would be stored, given a varid (as returned by a call to cmor.variable)
     Usage:

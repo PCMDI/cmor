@@ -31,10 +31,10 @@
            "realization_index":      "131",
 
            "#initialization_index":  "",
-           "initialization_index":   "1209374928349823498274987234987",
+           "initialization_index":   "1",
 
            "#physics_index":         "",
-           "physics_index":          "1",
+           "physics_index":          "1A",
 
            "#forcing_index":         "",
            "forcing_index":          "1",
@@ -57,7 +57,7 @@
            "further_info_url":       "http://purl.org/cmip6FurtherInfo/<institution_id><experiment_id><source_id><sub_experiment_id>",
 
            "grid":                   "gs1x1",
-           "grid_label":             "gr0",
+           "grid_label":             "gr1",
            "grid_resolution":        "5 km",
 
            "institution_id":         "BNU",
