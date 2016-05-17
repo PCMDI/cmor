@@ -3,7 +3,7 @@
            "_cmip6_option":           "CMIP6",
 
     "#tracking_prefix":              "http://doi.com",
-    "outpath":                      "Test",
+    "outpath":                      "CMIP6",
     "data_structure":               "grid",
     "further_info_url":             "https://obs4mips.nasa.jpl.gov",     
     "instituion_id":                "USDOE",

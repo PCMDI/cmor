@@ -2,7 +2,7 @@
            "_control_vocabulary_file": "CMIP6_CV.json",
            "_cmip6_option":           "CMIP6",
 
-    "outpath":"Test",
+    "outpath":"CMIP6",
     "calendar":                     "360_day",
     "output_path_template":         "<mip_era>",
     "output_file_template":         "<variable_id><table>"

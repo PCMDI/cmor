@@ -126,7 +126,8 @@ for d in range(2):
         print 'wrote ps in var 2 time:',i
     file1=cmor.close(ivar1,True)
     file2=cmor.close(ivar2,True)
-    print 'File:',file1,file2
+    print 'File1:',file1
+    print 'File2:',file2
     cmor.close()
 print cmor.close(ivar1,True)
 cmor.close()

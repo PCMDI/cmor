@@ -420,34 +420,16 @@ void cmor_CV_checkSourceType(cmor_CV_def_t *CV_exp, char *szExptID){
     while( szTokenAdd != NULL ) {
         if(strcmp(szTokenAdd, "CHEM") == 0){
             if( strstr(szSourceType, szTokenAdd) != NULL) {
-                nCHEMAER++;
                 nbGoodType++;
             }
         } else if(strcmp(szTokenAdd, "AER") == 0){
             if( strstr(szSourceType, szTokenAdd) != NULL) {
-                nCHEMAER++;
                 nbGoodType++;
             }
         } else if( strstr(szSourceType, szTokenAdd) != NULL) {
             nbGoodType++;
         }
         szTokenAdd= strtok(NULL, " ");
-    }
-
-    if( nCHEMAER > 1) {
-        snprintf( msg, CMOR_MAX_STRING,
-                "The source types \"CHEM\" and \"AER\" are optional\n! "
-                "and cannot be both set at the same time for this experiment_id"
-                "\"%s\". \n! "
-                "Your input file contains both source type of \"%s\".\n! "
-                "Check your Control Vocabulary file \"%s\".\n! ",
-                szExptID,
-                szSourceType,
-                CV_Filename);
-
-        cmor_handle_error( msg, CMOR_CRITICAL );
-        cmor_pop_traceback(  );
-        return;
     }
 
     if( nbGoodType != nbSourceType ) {
