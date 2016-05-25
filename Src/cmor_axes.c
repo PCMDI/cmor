@@ -2015,6 +2015,7 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
                         "%s (table: %s)",
                         2 * length, cmor_axes[cmor_naxes].id,
                         cmor_tables[CMOR_TABLE].szTable_id);
+                free(cmor_axes[cmor_naxes].bounds);
                 cmor_handle_error(msg, CMOR_CRITICAL);
             }
 

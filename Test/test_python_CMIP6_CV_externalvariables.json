@@ -2,7 +2,7 @@
            "_control_vocabulary_file": "CMIP6_CV.json",
            "_cmip6_option":           "CMIP6",
 
-           "activity_id":            "AerChemMIP",
+           "activity_id":            "ISMIP6",
 
            "branch_method":          "standard",
            "branch_time_in_child":   "365.0",
@@ -18,8 +18,8 @@
            "source_type":            "AGCM AER DENIS",
            "source_type":            "AOGCM ISM AER",
            "#source_type":            "LND",
-           "sub_experiment":         "none",
-           "sub_experiment_id":      "none",
+           "sub_experiment":         "Initialization in year 1968",
+           "sub_experiment_id":      "s1968",
            "#parent_sub_experiment_id": "N/A",
            "parent_mip_era":         "N/A",
            "mip_era":                "CMIP6",
@@ -54,10 +54,9 @@
 
            "#driving_variant_label":     "no-driver",
 
-           "further_info_url":       "http://purl.org/cmip6FurtherInfo/<institution_id><experiment_id><source_id><sub_experiment_id>",
 
            "grid":                   "gs1x1",
-           "grid_label":             "gr-0",
+           "grid_label":             "gn",
            "grid_resolution":        "5 km",
 
            "institution_id":         "BNU",

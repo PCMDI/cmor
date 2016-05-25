@@ -8,6 +8,7 @@
 #include "json.h"
 #include "json_tokener.h"
 #include "arraylist.h"
+#include "libgen.h"
 /************************************************************************/
 /*                        cmor_CV_set_att()                             */
 /************************************************************************/
@@ -303,10 +304,17 @@ void cmor_CV_checkFurtherInfoURL(int var_id){
     char szFurtherInfoURLTemplate[CMOR_MAX_STRING];
     char szFurtherInfoURL[CMOR_MAX_STRING];
     char msg[CMOR_MAX_STRING];
+    char copyURL[CMOR_MAX_STRING];
+    char szFurtherInfoBaseURL[CMOR_MAX_STRING];
+    char szFurtherInfoFileURL[CMOR_MAX_STRING];
 
+    char *baseURL;
+    char *fileURL;
     char *szToken;
     int rc;
     szFurtherInfoURL[0]='\0';
+    szFurtherInfoFileURL[0]='\0';
+    szFurtherInfoBaseURL[0]='\0';
 
 /* -------------------------------------------------------------------- */
 /* Retrieve default Further URL info                                    */
@@ -314,21 +322,31 @@ void cmor_CV_checkFurtherInfoURL(int var_id){
     strncpy(szFurtherInfoURLTemplate, cmor_current_dataset.futherurlinfo,
             CMOR_MAX_STRING);
 
-/* -------------------------------------------------------------------- */
-/* Overwrite Further URL info by user.                                  */
-/* -------------------------------------------------------------------- */
-    if(cmor_has_cur_dataset_attribute(GLOBAL_ATT_FURTHERINFOURL) == 0) {
-        cmor_get_cur_dataset_attribute(GLOBAL_ATT_FURTHERINFOURL,
-                szFurtherInfoURLTemplate);
-    }
 
-    cmor_CreateFromTemplate( var_id, szFurtherInfoURLTemplate,
-                             szFurtherInfoURL, "." );
+/* -------------------------------------------------------------------- */
+/*    Separate path template from file template.                        */
+/* -------------------------------------------------------------------- */
+    szFurtherInfoBaseURL[0]='\0';
+    szFurtherInfoFileURL[0]='\0';
+    strcpy(copyURL, szFurtherInfoURLTemplate);
+    baseURL = dirname(copyURL);
+    cmor_CreateFromTemplate( var_id, baseURL,
+            szFurtherInfoBaseURL, "/" );
+
+    strcpy(copyURL, szFurtherInfoURLTemplate);
+    fileURL = basename(copyURL);
+
+    cmor_CreateFromTemplate( var_id, fileURL,
+                             szFurtherInfoFileURL, "." );
+
+    strncpy(szFurtherInfoURL, szFurtherInfoBaseURL, CMOR_MAX_STRING);
+    strncat(szFurtherInfoURL, szFurtherInfoFileURL, CMOR_MAX_STRING);
+
 
 /* -------------------------------------------------------------------- */
 /* Change last character from separator to "/".                         */
 /* -------------------------------------------------------------------- */
-    szFurtherInfoURL[strlen(szFurtherInfoURL)-1] = '/';
+    szFurtherInfoURL[strlen(szFurtherInfoURL)-1] = '\0';
 
     cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_FURTHERINFOURL,
             szFurtherInfoURL, 0);
@@ -764,6 +782,7 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t *CV, char *szKey){
                     "You regular expression \"%s\" is invalid. \n!"
                     "Check your Control Vocabulary file \"%s\".\n! ",
                     attr_CV->aszValue[i], CV_Filename );
+            regfree(&regex);
             cmor_handle_error( msg, CMOR_NORMAL );
             cmor_pop_traceback(  );
             return(-1);
@@ -774,11 +793,10 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t *CV, char *szKey){
 /* -------------------------------------------------------------------- */
         reti = regexec(&regex, szValue, 0, NULL, 0);
         if(!reti) {
+            regfree(&regex);
             break;
         }
-      /*  if(strcmp(attr_CV->aszValue[i], szValue) == 0 ) {
-            break;
-        } */
+        regfree(&regex);
     }
 
 /* -------------------------------------------------------------------- */

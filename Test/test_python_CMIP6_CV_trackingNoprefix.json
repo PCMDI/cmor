@@ -2,7 +2,8 @@
            "_control_vocabulary_file": "CMIP6_CV.json",
            "_cmip6_option":           "CMIP6",
 
-           "activity_id":            "AerChemMIP",
+           "tracking_prefix":        "",
+           "activity_id":            "ISMIP6",
 
            "branch_method":          "standard",
            "branch_time_in_child":   "365.0",
@@ -10,16 +11,16 @@
            "outpath":                "CMIP6",
 
            "#experiment_id":         "Correspond to id found in CV json file",
-           "#experiment_id":          "piClim-aer",
+           "#experiment_id":         "piClim-aer",
            "experiment_id":          "piControl-withism",
-           "#experiment_id":          "land-hist",
+           "#experiment_id":         "land-hist",
+           "sub_experiment_id":      "none",
+           "sub_experiment":         "none",
 
            "source_type":            "AGCM AER CHEM DENIS",
            "source_type":            "AGCM AER DENIS",
            "source_type":            "AOGCM ISM AER",
            "#source_type":            "LND",
-           "sub_experiment":         "none",
-           "sub_experiment_id":      "none",
            "#parent_sub_experiment_id": "N/A",
            "parent_mip_era":         "N/A",
            "mip_era":                "CMIP6",
@@ -28,7 +29,7 @@
            "branch_time":            "1.34",
 
            "#realization_index":     "",
-           "realization_index":      "1",
+           "realization_index":      "11",
 
            "#initialization_index":  "",
            "initialization_index":   "1",
@@ -40,7 +41,7 @@
            "forcing_index":          "1",
 
            "#contact ":              "Not required",
-           "#contact ":              "Rusty Koder (koder@middle_earth.net)",
+           "#contact ":              "Python Coder (coder@a.b.c.com)",
 
            "#history":               "not required, supplemented by CMOR",
            "history":                "Output from archivcl_A1.nce/giccm_03_std_2xCO2_2256.",
@@ -54,10 +55,9 @@
 
            "#driving_variant_label":     "no-driver",
 
-           "further_info_url":       "http://purl.org/cmip6FurtherInfo/<institution_id><experiment_id><source_id><sub_experiment_id>",
 
            "grid":                   "gs1x1",
-           "grid_label":             "gr-0",
+           "grid_label":             "gr",
            "grid_resolution":        "5 km",
 
            "institution_id":         "BNU",

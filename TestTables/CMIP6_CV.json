@@ -2,7 +2,7 @@
 "CV": {
     "required_global_attributes": 
         [
-        "variant_id",
+        "variant_label",
         "activity_id",
         "branch_method",
         "Conventions",
@@ -25,7 +25,7 @@
         "product",
         "realization_index",
         "realm",
-        "variant_id",
+        "variant_label",
         "source",
         "source_id",
         "source_type",
@@ -40,10 +40,17 @@
         "parent_experiment_id"
         ],
 
-    "variant_id": [ "^r[[:digits:]]{1,}i[[:digits:]]{1,}p[[:digits:]]{1,}f[[:digits:]]{1,}" ],
-    "variant_id": [ "^r[[:digit:]]\\{1,\\}i[[:digit:]]\\{1,\\}p[[:digit:]]\\{1,\\}f[[:digit:]]\\{1,\\}$" ],
+    "variant_label": [ "^r[[:digit:]]\\{1,\\}i[[:digit:]]\\{1,\\}p[[:digit:]]\\{1,\\}f[[:digit:]]\\{1,\\}$" ],
+
+    "sub_experiment_id": [ "^s[[:digit:]]\\{4,4\\}$", "none" ],
 
     "product": [ "output" ] ,
+
+    "mip_era": [ "CMIP6" ],
+
+    "frequency": [ "3hr", "6hr", "day", "fx", "mon", "monClim", "subhr", "yr" ],
+
+    "further_info_url": [ "http://furtherinfo.es-doc.org/[[:alpha:]]\\{1,\\}" ],
 
     "activity_id": [
         "DECK",
@@ -159,14 +166,12 @@
 
     },
 
+    "#license": [ "CMIP6 model data produced by [[:alpha:]]\\{1,\\} is licensed under a Creative Commons Attribution \\“[NonCommercial] Share Alike\\” 4.0 International License \\(http\\://creativecommons.org/licenses/by/4.0/). Use of the data should be acknowledged following guidelines found at https://pcmdi.llnl.gov/home/CMIP6/citation.html. The data is made available via the Earth System Grid Federation. [Permissions beyond the scope of this license may be available at [[:alpha:]]\\{1,\\} .]   Individuals using this data should register at [[:alpha:]]\\{1,\\} to receive notice of selected categories of errata and updates. [Further information about this data, including some limitations, can be found at [[:alpha:]]\\{1,\\} .]  The data producers and data providers make no warranty, either express or implied, including but not limited to, warranties of merchantability and fitness for a particular purpose. All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law." ], 
+
     "mandatory_attributes": {
         "Conventions": [ "CF-1.6", "CMIP-6.0", "UGRID-0.9"],
         "data_specs_version_options":"CMIP-6.0.1.3",
-        "product":"output",
-        "license":[
-                   "CMIP6 model data produced by .* is licensed under a Creative Commons Attribution 'Share Alike' 4.0 International License (http://creativecommons.org/licenses/by/4.0/). Use of the data should be acknowledged following guidelines found at .* The data is hosted via the Earth System Grid Federation. Permissions beyond the scope of this license may be available at http://pcmdi.org/cmip5/terms-of-use. Individuals using this data should register at .* to receive notice of selected categories of errata and updates. Further information about this data, including some limitations, can be found at .* .The data producers and data providers make no warranty, either express or implied, including but not limited to, warranties of merchantability and fitness for a particular purpose. All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law",
-                   "CMIP6 model data produced by .* is licensed under a Creative Commons Attribution 'NonCommercial Share Alike' 4.0 International License (http://creativecommons.org/licenses/by/4.0/). Use of the data should be acknowledged following guidelines found at .* The data is hosted via the Earth System Grid Federation. Permissions beyond the scope of this license may be available at http://pcmdi.org/cmip5/terms-of-use.   Individuals using this data should register at .* to receive notice of selected categories of errata and updates. Further information about this data, including some limitations, can be found at .* . The data producers and data providers make no warranty, either express or implied, including but not limited to, warranties of merchantability and fitness for a particular purpose. All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law."
-                    ]
+        "product":"output"
     },
 
     "experiment_ids": { 
@@ -1584,6 +1589,7 @@
         "piControl-withism": {
                                "experiment":                "to be filled",
                                "sub_experiment_id":         "none",
+                               "sub_experiment_id":         "s1968",
                                "activity_id":               "ISMIP6",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM ISM",

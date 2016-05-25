@@ -364,7 +364,7 @@ void cmor_is_setup( void ) {
     if( CMOR_HAS_BEEN_SETUP == 0 ) {
 	snprintf( msg, CMOR_MAX_STRING,
 		"You need to run cmor_setup before calling any cmor_function" );
-	cmor_handle_error( msg, CMOR_CRITICAL );
+	cmor_handle_error( msg, CMOR_NOT_SETUP );
     }
     cmor_pop_traceback(  );
     return;
@@ -594,6 +594,9 @@ void cmor_handle_error( char error_msg[CMOR_MAX_STRING], int level ) {
 	fprintf( output_logfile, "\n\n" );
     }
     
+    if( level == CMOR_NOT_SETUP) {
+        exit(1);
+    }
     if( ( CMOR_MODE == CMOR_EXIT_ON_WARNING )
 	|| ( level == CMOR_CRITICAL ) ) {
         kill(getpid(), SIGTERM);
@@ -1161,46 +1164,6 @@ json_object *cmor_open_inpathFile(char *szFilename ) {
 }
 
 /************************************************************************/
-/*                      CreateDrivingPathTag()                          */
-/************************************************************************/
-int CreateDrivingPathTag(){
-    char szDrSrcID[CMOR_MAX_STRING];
-    char szDrVarID[CMOR_MAX_STRING];
-    char szNewTag[CMOR_MAX_STRING];
-
-    cmor_add_traceback("CreateDrivingPathTag");
-    cmor_is_setup();
-
-    szDrSrcID[0] = '\0';
-    szDrVarID[0] = '\0';
-    szNewTag[0] = '\0';
-
-    cmor_get_cur_dataset_attribute(GLOBAL_ATT_DRIVING_SOURCE_ID, szDrSrcID);
-    if(strncmp(szDrSrcID, GLOBAL_ATT_VAL_NODRIVER, CMOR_MAX_STRING) != 0) {
-        cmor_get_cur_dataset_attribute(GLOBAL_ATT_DRIVING_VARIANT_ID, szDrVarID);
-    }
-
-/* -------------------------------------------------------------------- */
-/*   Create Path tag "driving_source_id-driving_variant_id"             */
-/*                                                                      */
-/*   if driving_source_id to "no-driver" srcDrVarID is not required     */
-/*                                                                      */
-/* -------------------------------------------------------------------- */
-    if(strcmp(szDrSrcID, "no-driver") == 0) {
-        strcpy(szNewTag, szDrSrcID);
-    } else if((strlen(szDrSrcID) != 0 ) && strlen(szDrVarID) != 0 ) {
-        strncat(szNewTag, szDrSrcID, strlen(szDrSrcID));
-        strncat(szNewTag, "-", 1);
-        strncat(szNewTag, szDrVarID, strlen(szDrVarID));
-    }
-    cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_DRIVING_PATH,
-            szNewTag, 0);
-    cmor_get_cur_dataset_attribute(GLOBAL_ATT_DRIVING_PATH,
-            szDrVarID);
-    cmor_pop_traceback();
-    return (0);
-}
-/************************************************************************/
 /*                         cmor_dataset_json()                          */
 /************************************************************************/
 int cmor_dataset_json(char * ressource){
@@ -1256,7 +1219,13 @@ int cmor_dataset_json(char * ressource){
                     szVal,
                     CMOR_MAX_STRING );
             continue;
+        } else if(strcmp(key, GLOBAL_ATT_FURTHERINFOURL) == 0 ){
+            strncpytrim( cmor_current_dataset.futherurlinfo,
+                    szVal,
+                    CMOR_MAX_STRING );
+            continue;
         }
+
 
         cmor_set_cur_dataset_attribute_internal(key, szVal, 1);
     }
@@ -2526,8 +2495,15 @@ void cmor_setGblAttr(int var_id) {
     char msg[CMOR_MAX_STRING];
     char ctmp[CMOR_MAX_STRING];
     char ctmp2[CMOR_MAX_STRING];
+    char words[CMOR_MAX_STRING];
+    char *pszToken;
     int i;
-
+    int n_matches = 10;
+    regmatch_t m[n_matches];
+    int ireg;
+    regex_t regex;
+    char *ret;
+    int numchar;
     int nVarRefTblID;
 
     cmor_add_traceback("cmor_setGblAttr");
@@ -2648,6 +2624,54 @@ void cmor_setGblAttr(int var_id) {
                 cmor_tables[nVarRefTblID].realm, 0);
     }
     cmor_generate_uuid();
+/* -------------------------------------------------------------------- */
+/*     Create external_variables                                        */
+/* -------------------------------------------------------------------- */
+    if (cmor_has_variable_attribute(var_id, VARIABLE_ATT_CELLMEASURES) == 0) {
+
+        if (cmor_has_variable_attribute(var_id, VARIABLE_ATT_CELLMETHODS) == 0) {
+            cmor_get_variable_attribute(var_id, VARIABLE_ATT_CELLMETHODS, ctmp);
+/* -------------------------------------------------------------------- */
+/*     Extract 2 words after "area:" or "volume:" if exist.             */
+/* -------------------------------------------------------------------- */
+            regcomp(&regex, EXTERNAL_VARIABLE_REGEX, REG_EXTENDED);
+
+            ireg = regexec(&regex, ctmp , n_matches, m, 0);
+
+            words[0]='\0';
+            ctmp2[0]='\0';
+            for( i = 0; i< n_matches; i++ ) {
+                numchar = (int)m[i].rm_eo - (int) m[i].rm_so;
+/* -------------------------------------------------------------------- */
+/*     If rm_so is negative, there is not more matches.                 */
+/* -------------------------------------------------------------------- */
+                if(((int)m[i].rm_so < 0) || (numchar == 0)) {
+                    break;
+                }
+
+                strncpy(words, ctmp+m[i].rm_so, numchar);
+                words[numchar]='\0';
+                ret = strstr(words,":");
+/* -------------------------------------------------------------------- */
+/*      Rejects all line with ":" in it                                 */
+/* -------------------------------------------------------------------- */
+                if( ret == NULL ) {
+                    if(ctmp2[0]=='\0') {
+                        strncat(ctmp2, words, numchar);
+                    } else {
+                        strcat(ctmp2, " ");
+                        strncat(ctmp2, words, numchar);
+                    }
+                }
+            }
+            cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_EXTERNAL_VAR,
+                    ctmp2, 0);
+            regfree(&regex);
+        }
+    }
+
+
+
     if( cmor_has_cur_dataset_attribute(GLOBAL_ATT_INSTITUTION_ID) == 0) {
         cmor_CV_setInstitution(cmor_tables[nVarRefTblID].CV);
     }
@@ -2872,11 +2896,34 @@ void cmor_write_all_attributes(int ncid, int ncafid, int var_id) {
                     cmor_handle_error(msg, CMOR_CRITICAL);
                 }
             }
+        } else if( (strcmp(cmor_current_dataset.attributes[i].names,
+                        GLOBAL_ATT_REALIZATION) == 0) ||
+                (strcmp(cmor_current_dataset.attributes[i].names,
+                        GLOBAL_ATT_INITIA_IDX) == 0) ||
+                (strcmp(cmor_current_dataset.attributes[i].names,
+                        GLOBAL_ATT_PHYSICS_IDX) == 0) ||
+                (strcmp(cmor_current_dataset.attributes[i].names,
+                        GLOBAL_ATT_FORCING_IDX) == 0)) {
+            sscanf(cmor_current_dataset.attributes[i].values, "%d", &itmp2);
+            ierr = nc_put_att_int(ncid, NC_GLOBAL,
+                               cmor_current_dataset.attributes[i].names,
+                               NC_INT, 1,
+                               &itmp2);
+            if (ierr != NC_NOERR) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "NetCDF error (%i: %s) for variable %s\n! "
+                        "(table: %s)  writing global att: %s (%s)\n! ",
+                        ierr, nc_strerror(ierr), cmor_vars[var_id].id,
+                        cmor_tables[nVarRefTblID].szTable_id,
+                        cmor_current_dataset.attributes[i].names,
+                        cmor_current_dataset.attributes[i].values);
+                cmor_handle_error(msg, CMOR_CRITICAL);
+
+            }
         } else {
             itmp2 = strlen(cmor_current_dataset.attributes[i].values);
             if (itmp2 < CMOR_DEF_ATT_STR_LEN) {
-                int nNbAttrs = strlen(
-                        cmor_current_dataset.attributes[i].values);
+                int nNbAttrs = strlen(cmor_current_dataset.attributes[i].values);
                 for (itmp2 = nNbAttrs; itmp2 < CMOR_DEF_ATT_STR_LEN; itmp2++) {
                     cmor_current_dataset.attributes[i].values[itmp2] = '\0';
                 }
@@ -4019,13 +4066,16 @@ int cmor_write( int var_id, void *data, char type,
 	        CMOR_MAX_STRING);
 
 /* -------------------------------------------------------------------- */
-/* Add outpath prefix if exist                                          */
+/*     Add outpath prefix if exist.                                     */
 /* -------------------------------------------------------------------- */
         strncpytrim( outname, cmor_current_dataset.outpath,
                 CMOR_MAX_STRING);
-            if((strlen(outname) > 0) && (outname[strlen(outname)] != '/' )) {
-                    strncat(outname, "/", CMOR_MAX_STRING);
-                }
+/* -------------------------------------------------------------------- */
+/*     Make sure last character is '/'.                                 */
+/* -------------------------------------------------------------------- */
+        if((strlen(outname) > 0) && (outname[strlen(outname)] != '/' )) {
+            strncat(outname, "/", CMOR_MAX_STRING);
+        }
 
 	if( CMOR_CREATE_SUBDIRECTORIES == 1 ) {
 	    cmor_CreateFromTemplate(var_id, szPathTemplate,
@@ -4927,7 +4977,6 @@ int cmor_CreateFromTemplate(int var_id, char *template,
     cmor_is_setup();
 
     strcpy(path_template, template);
-
 /* -------------------------------------------------------------------- */
 /*    Get rid of <> characters from template and add "information"      */
 /*    to path                                                           */
@@ -5171,7 +5220,8 @@ int cmor_addRIPF(char *variant) {
         snprintf(tmp, CMOR_MAX_STRING, "f%d", forcing_index);
         strncat(variant, tmp, CMOR_MAX_STRING - strlen(variant));
     }
-    cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_VARIANT_ID, variant, 1);
+    cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_VARIANT_LABEL, variant, 1);
+    regfree(&regex);
     cmor_pop_traceback();
     return(0);
 

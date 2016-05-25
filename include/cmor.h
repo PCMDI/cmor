@@ -31,6 +31,7 @@
 #define CMOR_WARNING 20
 #define CMOR_NORMAL 21
 #define CMOR_CRITICAL 22
+#define CMOR_NOT_SETUP 23
 
 #define CMOR_N_VALID_CALS 8
 
@@ -139,8 +140,6 @@
 #define GLOBAL_ATT_FORCING_IDX        "forcing_index"
 #define GLOBAL_ATT_CMORVERSION        "cmor_version"
 #define GLOBAL_ATT_ACTIVITY_ID        "activity_id"
-#define GLOBAL_ATT_DRIVING_SOURCE_ID  "_driving_source_id"
-#define GLOBAL_ATT_DRIVING_VARIANT_ID "_driving_variant_id"
 #define GLOBAL_ATT_VAL_NODRIVER       "no-driver"
 #define GLOBAL_ATT_VARIABLE_ID        "variable_id"
 #define GLOBAL_ATT_SOURCE_ID          "source_id"
@@ -156,7 +155,7 @@
 #define GLOBAL_ATT_BRANCH_TIME        "branch_time"
 #define GLOBAL_ATT_REALM              "realm"
 #define GLOBAL_ATT_TRACKING_ID        "tracking_id"
-#define GLOBAL_ATT_VARIANT_ID         "variant_id"
+#define GLOBAL_ATT_VARIANT_LABEL      "variant_label"
 #define GLOBAL_ATT_DATASPECSVERSION   "data_specs_version"
 #define GLOBAL_ATT_FREQUENCY          "frequency"
 #define GLOBAL_ATT_LICENSE            "license"
@@ -168,9 +167,9 @@
 #define GLOBAL_ATT_GRID_LABEL         "grid_label"
 #define GLOBAL_ATT_GRID_RESOLUTION    "grid_resolution"
 #define GLOBAL_ATT_TITLE_MSG          "%s model output prepared for %s"
+#define GLOBAL_ATT_EXTERNAL_VAR       "external_variables"
 #define GLOBAL_CV_FILENAME            GLOBAL_INTERNAL"control_vocabulary_file"
 #define GLOBAL_IS_CMIP6               GLOBAL_INTERNAL"cmip6_option"
-
 
 #define JSON_KEY_HEADER               "Header"
 #define JSON_KEY_EXPERIMENT           "experiments"
@@ -191,7 +190,6 @@
 #define CV_EXP_ATTR_REQSOURCETYPE     "source_type"
 
 #define GLOBAL_INT_ATT_PARENT_EXPT    GLOBAL_INTERNAL"parent_experiment"
-#define GLOBAL_ATT_DRIVING_PATH       GLOBAL_INTERNAL"driving_source_id-driving_variant_id"
 #define GLOBAL_ATT_VERSION            GLOBAL_INTERNAL"version"
 
 
@@ -223,10 +221,10 @@
 #define DIMENSION_OLEVEL              "olevel"
 
 #define CMIP6                         "CMIP6"
-#define CMOR_DEFAULT_PATH_TEMPLATE "<mip_era><institute_id><source_id><activity_id><experiment_id><variant_id><table><variable_id><grid_label><version>"
-#define CMOR_DEFAULT_FILE_TEMPLATE "<variable_id><table><experiment_id><source_id><variant_id><grid_label>"
-#define CMOR_DEFAULT_FURTHERURL_TEMPLATE "http://purl.org/cmip6FurtherInfo/<institution_id><experiment_id><source_id><sub_experiment_id>"
-//#define CMOR_MAX_TRACKING_PREFIX_PROJECT_FILTER 1
+#define CMOR_DEFAULT_PATH_TEMPLATE    "<mip_era><institute_id><source_id><activity_id><experiment_id><variant_id><table><variable_id><grid_label><version>"
+#define CMOR_DEFAULT_FILE_TEMPLATE    "<variable_id><table><experiment_id><source_id><variant_id><grid_label>"
+#define CMOR_DEFAULT_FURTHERURL_TEMPLATE "http://furtherinfo.es-doc.org/<mip_era>/<institution_id><source_id><experiment_id><sub_experiment_id><variant_label>"
+#define EXTERNAL_VARIABLE_REGEX       "area:[[:blank:]]*([[:alpha:]]+)([[:blank:]]*volume:[[:blank:]]*([[:alpha:]]+))*"
 
 extern int USE_NETCDF_4;
 extern int CMOR_MODE;
