@@ -599,7 +599,7 @@ void cmor_handle_error( char error_msg[CMOR_MAX_STRING], int level ) {
     }
     if( ( CMOR_MODE == CMOR_EXIT_ON_WARNING )
 	|| ( level == CMOR_CRITICAL ) ) {
-        kill(getpid(), SIGTERM);
+        kill(getpid(), SIGINT);
     }
 }
 
