@@ -81,7 +81,7 @@
            "branch_time_units_in_parent": "days since 1000-1-1",
 
 
-           "further_info_url":       "http://purl.org/cmip6FurtherInfo/MOHC.HadCM3.historical.r3i1p1f1.gn",
+           "further_info_url":       "http://furtherinfo.es-doc.org/<mip_era>/<institution_id><source_id><experiment_id><sub_experiment_id><variant_label>",
            "grid":                   "native atmosphere T63 gaussian grid (64x128 latxlon)",
            "grid_label":            "gn",
            "grid_resolution":        "5 km",

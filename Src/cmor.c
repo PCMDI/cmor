@@ -745,7 +745,6 @@ int cmor_setup( char *path,
                 nc_inq_libvers( ) );
         cmor_handle_error( msg, CMOR_CRITICAL );
     }
-
     did_history = 0;
     CMOR_HAS_BEEN_SETUP = 1;
     CMOR_TABLE = -1;
@@ -1184,7 +1183,7 @@ int cmor_dataset_json(char * ressource){
                         CMOR_DEFAULT_FILE_TEMPLATE,
                         CMOR_MAX_STRING );
 
-    strncpytrim( cmor_current_dataset.futherurlinfo,
+    strncpytrim( cmor_current_dataset.furtherinfourl,
                  CMOR_DEFAULT_FURTHERURL_TEMPLATE,
                         CMOR_MAX_STRING );
 
@@ -1220,12 +1219,11 @@ int cmor_dataset_json(char * ressource){
                     CMOR_MAX_STRING );
             continue;
         } else if(strcmp(key, GLOBAL_ATT_FURTHERINFOURL) == 0 ){
-            strncpytrim( cmor_current_dataset.futherurlinfo,
+            strncpytrim( cmor_current_dataset.furtherinfourl,
                     szVal,
                     CMOR_MAX_STRING );
-            continue;
-        }
 
+        }
 
         cmor_set_cur_dataset_attribute_internal(key, szVal, 1);
     }
@@ -2508,17 +2506,20 @@ void cmor_setGblAttr(int var_id) {
 
     cmor_add_traceback("cmor_setGblAttr");
     nVarRefTblID = cmor_vars[var_id].ref_table_id;
-/* -------------------------------------------------------------------- */
-/*  Defined "product"                                                   */
-/* -------------------------------------------------------------------- */
+
     if( cmor_has_cur_dataset_attribute( GLOBAL_ATT_FORCING ) == 0 ) {
         cmor_get_cur_dataset_attribute( GLOBAL_ATT_FORCING, ctmp2 );
         cmor_check_forcing_validity( nVarRefTblID,
                                      ctmp2 );
     }
+/* -------------------------------------------------------------------- */
+/*  Defined "product" from Table if not defined by users                */
+/* -------------------------------------------------------------------- */
 
-    strncpy(ctmp2, cmor_tables[nVarRefTblID].product, CMOR_MAX_STRING);
-    cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_PRODUCT, ctmp2, 1);
+    if( cmor_has_cur_dataset_attribute( GLOBAL_ATT_PRODUCT ) != 0 ) {
+        strncpy(ctmp2, cmor_tables[nVarRefTblID].product, CMOR_MAX_STRING);
+        cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_PRODUCT, ctmp2, 1);
+    }
 
 /* -------------------------------------------------------------------- */
 /*      first figures out Creation time                                 */
@@ -2578,18 +2579,25 @@ void cmor_setGblAttr(int var_id) {
 /* -------------------------------------------------------------------- */
 /*    Set attribute Table_ID for netCDF file (CMIP6)                    */
 /* -------------------------------------------------------------------- */
-    snprintf(msg, CMOR_MAX_STRING, "Table %s (%s) ",
-            cmor_tables[nVarRefTblID].szTable_id,
+    snprintf(msg, CMOR_MAX_STRING, "Table %s  ",
+            cmor_tables[nVarRefTblID].szTable_id);
+
+
+    cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_TABLE_ID, msg, 0);
+
+/* -------------------------------------------------------------------- */
+/*    Set attribute Table_Info for netCDF file (CMIP6)                  */
+/* -------------------------------------------------------------------- */
+    snprintf(msg, CMOR_MAX_STRING, "Creation Date:(%s) MD5:",
             cmor_tables[nVarRefTblID].date);
 
     for (i = 0; i < 16; i++) {
-        sprintf(&ctmp[2 * i], "%02x", cmor_tables[nVarRefTblID].md5[i]);
+              sprintf(&ctmp[2 * i], "%02x", cmor_tables[nVarRefTblID].md5[i]);
     }
     ctmp[32] = '\0';
-
     strcat(msg, ctmp);
 
-    cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_TABLE_ID, msg, 0);
+    cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_TABLE_INFO, msg, 0);
 
     if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_SOURCE_ID) == 0) {
         cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE_ID, ctmp);
@@ -2597,22 +2605,25 @@ void cmor_setGblAttr(int var_id) {
         ctmp[0] = '\0';
     }
 /* -------------------------------------------------------------------- */
-/*    Set attribute Title for netCDF file (CMIP6)                    */
+/*    Set attribute Title for netCDF file (CMIP6)                       */
 /* -------------------------------------------------------------------- */
     snprintf(msg, CMOR_MAX_STRING, GLOBAL_ATT_TITLE_MSG, ctmp,
             cmor_tables[nVarRefTblID].mip_era);
-
-    cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_TITLE, msg, 0);
-
+/* -------------------------------------------------------------------- */
+/*    Change Title if not provided by user.                             */
+/* -------------------------------------------------------------------- */
+    if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_TITLE) != 0) {
+        cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_TITLE, msg, 0);
+    }
 /* -------------------------------------------------------------------- */
 /*     check source and model_id are identical                          */
 /* -------------------------------------------------------------------- */
     if (strcmp(cmor_tables[nVarRefTblID].mip_era, CMIP6) == 0) {
     }
+
 /* -------------------------------------------------------------------- */
 /*      first check if the variable itself has a realm                  */
 /* -------------------------------------------------------------------- */
-
     if (cmor_tables[nVarRefTblID].vars[nVarRefTblID].realm[0] != '\0') {
         cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_REALM,
                 cmor_tables[nVarRefTblID].vars[nVarRefTblID].realm, 0);
@@ -2675,6 +2686,7 @@ void cmor_setGblAttr(int var_id) {
     if( cmor_has_cur_dataset_attribute(GLOBAL_ATT_INSTITUTION_ID) == 0) {
         cmor_CV_setInstitution(cmor_tables[nVarRefTblID].CV);
     }
+
 
     if( cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP6) == 0) {
         cmor_CV_checkSourceID(cmor_tables[nVarRefTblID].CV);

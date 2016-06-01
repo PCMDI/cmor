@@ -487,7 +487,7 @@ int cmor_load_table( char szTable[CMOR_MAX_STRING], int *table_id ) {
     rc = cmor_get_cur_dataset_attribute(GLOBAL_CV_FILENAME, szCV);
 
 /* -------------------------------------------------------------------- */
-/*  build string "path/experiments.json"                                */
+/*  build string "path/<CV>.json"                                */
 /* -------------------------------------------------------------------- */
     szTableName = strdup(szTable);
     szPath = dirname(szTableName);
@@ -527,7 +527,6 @@ int cmor_load_table( char szTable[CMOR_MAX_STRING], int *table_id ) {
     } else if (rc == TABLE_FOUND) {
         rc = TABLE_SUCCESS;
     }
-    //cmor_print_CV_all();
 
     free(szTableName);
     return(rc);

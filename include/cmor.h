@@ -3,7 +3,7 @@
 
 #define CMOR_VERSION_MAJOR 3
 #define CMOR_VERSION_MINOR 0
-#define CMOR_VERSION_PATCH 2
+#define CMOR_VERSION_PATCH 3
 
 #define CMOR_CF_VERSION_MAJOR 1
 #define CMOR_CF_VERSION_MINOR 6
@@ -149,6 +149,7 @@
 #define GLOBAL_ATT_CREATION_DATE      "creation_date"
 #define GLOBAL_ATT_HISTORY            "history"
 #define GLOBAL_ATT_TABLE_ID           "table_id"
+#define GLOBAL_ATT_TABLE_INFO         "table_info"
 #define GLOBAL_ATT_EXPERIMENT         "experiment"
 #define GLOBAL_ATT_TITLE              "title"
 #define GLOBAL_ATT_PARENT_EXPT_ID     "parent_experiment_id"
@@ -517,7 +518,7 @@ typedef struct cmor_dataset_def_ {
     char tracking_id[CMOR_MAX_STRING];	/*associated tracking id */
     char path_template[CMOR_MAX_STRING]; /* <keys> for each directory */
     char file_template[CMOR_MAX_STRING]; /* <keys> for filename */
-    char futherurlinfo[CMOR_MAX_STRING]; /* further URL INFO template */
+    char furtherinfourl[CMOR_MAX_STRING]; /* further URL INFO template */
     char finalfilename[CMOR_MAX_STRING]; /* Final output file */
 
 } cmor_dataset_def;

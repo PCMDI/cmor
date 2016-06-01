@@ -36,7 +36,7 @@ f=open("mytable","w")
 f.write(s)
 f.close()
 
-cmor.setup(inpath="Tables",set_verbosity=cmor.CMOR_NORMAL, netcdf_file_action = cmor.CMOR_REPLACE, exit_control = cmor.CMOR_EXIT_ON_MAJOR);
+cmor.setup(inpath="Tables",set_verbosity=cmor.CMOR_NORMAL, netcdf_file_action = cmor.CMOR_REPLACE_4, exit_control = cmor.CMOR_EXIT_ON_MAJOR);
 cmor.dataset_json("Test/cmor_speed_and_compression.json")
 
 tables=[]
@@ -91,7 +91,7 @@ f=cdms2.open("Test/crap.nc","w")
 print s.filled().shape
 cmor.write(myvars[0],s.filled(),ntimes_passed=ntimes)
 c=time.time()
-#print 'cmor write time:',c-c0
+print 'cmor write time:',c-c0
 totcmor+=c-c0
 if maxcmor<c-c0:
     maxcmor=c-c0
@@ -100,7 +100,7 @@ if mincmor>c-c0:
 c0=c
 f.write(s,id=varout)
 c=time.time()
-#print 'cdms time:',c-c0
+print 'cdms time:',c-c0
 totcdms+=c-c0
 if maxcdms<c-c0:
     maxcdms=c-c0
@@ -112,7 +112,7 @@ cmor.close()
 
 import cdtime,os
 ltime = cdtime.reltime(ntimes-1,'month since 1980').tocomp()
-lcmor = os.stat("CMIP6/CSIRO-BOM/NICAM/PMIP/DcppC22/no-driver/r1i1p1f1/Amon/tas/gn/v%s/tas_Amon_DcppC22_NICAM_r1i1p1f1_gn_197901-197912.nc"%(today))[6]
+lcmor = os.stat("CMIP6/CMIP/CSIRO-BOM/NICAM/piControl/r1i1p1f1/Amon/tas/gn/v%s/tas_Amon_piControl_NICAM_r1i1p1f1_gn_197901-199605.nc"%(today))[6]
 print 'level:',level,"shuffle:",shuffle
 print 'total cmor:',totcmor,mincmor,totcmor/ntimes,maxcmor,lcmor
 lcdms = os.stat("Test/crap.nc")[6]

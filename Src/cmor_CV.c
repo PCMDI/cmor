@@ -312,6 +312,7 @@ void cmor_CV_checkFurtherInfoURL(int var_id){
     char *fileURL;
     char *szToken;
     int rc;
+
     szFurtherInfoURL[0]='\0';
     szFurtherInfoFileURL[0]='\0';
     szFurtherInfoBaseURL[0]='\0';
@@ -319,15 +320,21 @@ void cmor_CV_checkFurtherInfoURL(int var_id){
 /* -------------------------------------------------------------------- */
 /* Retrieve default Further URL info                                    */
 /* -------------------------------------------------------------------- */
-    strncpy(szFurtherInfoURLTemplate, cmor_current_dataset.futherurlinfo,
+    strncpy(szFurtherInfoURLTemplate, cmor_current_dataset.furtherinfourl,
             CMOR_MAX_STRING);
 
-
+/* -------------------------------------------------------------------- */
+/*    If this is a string with no token we have nothing to do.          */
+/* -------------------------------------------------------------------- */
+    szToken = strtok(szFurtherInfoURLTemplate, "<>");
+    if( strcmp(szToken, cmor_current_dataset.furtherinfourl) == 0) {
+        return;
+    }
+    strncpy(szFurtherInfoURLTemplate, cmor_current_dataset.furtherinfourl,
+            CMOR_MAX_STRING);
 /* -------------------------------------------------------------------- */
 /*    Separate path template from file template.                        */
 /* -------------------------------------------------------------------- */
-    szFurtherInfoBaseURL[0]='\0';
-    szFurtherInfoFileURL[0]='\0';
     strcpy(copyURL, szFurtherInfoURLTemplate);
     baseURL = dirname(copyURL);
     cmor_CreateFromTemplate( var_id, baseURL,
