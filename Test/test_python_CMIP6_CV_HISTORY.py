@@ -6,8 +6,9 @@ import unittest
 import signal
 import sys,os
 import tempfile
-import pdb
 import atexit
+import cdms2
+import pdb
 
 
 # ------------------------------------------------------
@@ -18,7 +19,7 @@ newstderr = os.dup(2)
 # --------------
 # Create tmpfile
 # --------------
-tmpfile = tempfile.mkstemp()
+tmpfile = tempfile.mkstemp() #tempfile[0] = File number, tempfile[1] = File name.
 os.dup2(tmpfile[0], 1)
 os.dup2(tmpfile[0], 2)
 os.close(tmpfile[0])
@@ -26,6 +27,9 @@ os.close(tmpfile[0])
 global testOK 
 testOK = []
 
+# ==============================
+# Handle SIGINT receive by CMOR
+# ==============================
 def sig_handler(signum, frame):
     global testOK
 
@@ -39,22 +43,31 @@ def sig_handler(signum, frame):
     os.unlink(tmpfile[1])
 
 
+# ==============================
+#  main thread
+# ==============================
 def run():
     unittest.main()
 
+
+# ---------------------
+# Hook up SIGTEM signal 
+# ---------------------
 signal.signal(signal.SIGINT, sig_handler)
 
 
 class TestInstitutionMethods(unittest.TestCase):
 
-    def test_Institution(self):
+    def testCMIP6(self):
+        ''' This test will not fail we veirfy the attribute further_info_url'''
 
         # -------------------------------------------
         # Try to call cmor with a bad institution_ID
         # -------------------------------------------
         global testOK
         error_flag = cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
-        error_flag = cmor.dataset_json("Test/test_python_CMIP6_CV_badsourcetypeCHEMAER.json")
+        error_flag = cmor.dataset_json("Test/test_python_CMIP6_CV_HISTORY.json")
+        cmor.set_cur_dataset_attribute("history", "set for CMIP6 unittest")
   
         # ------------------------------------------
         # load Omon table and create masso variable
@@ -68,12 +81,16 @@ class TestInstitutionMethods(unittest.TestCase):
         data=numpy.random.random(5)
         for i in range(0,5):
             a = cmor.write(ivar,data[i:i])
+        file = cmor.close()
+        print file
         os.dup2(newstdout,1)
         os.dup2(newstderr,2)
         sys.stdout = os.fdopen(newstdout, 'w', 0)
         sys.stderr = os.fdopen(newstderr, 'w', 0)
-        time.sleep(.1)
-        self.assertIn("\"CHEM\" and \"AER\"", testOK)
+        f=cdms2.open(cmor.get_final_filename(),"r")
+        a=f.getglobal("history")
+        self.assertIn("set for CMIP6 unittest", a)
+
 
 
 if __name__ == '__main__':

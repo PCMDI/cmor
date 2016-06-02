@@ -6,8 +6,7 @@ import unittest
 import signal
 import sys,os
 import tempfile
-import pdb
-import atexit
+import cdms2
 
 
 # ------------------------------------------------------
@@ -18,7 +17,7 @@ newstderr = os.dup(2)
 # --------------
 # Create tmpfile
 # --------------
-tmpfile = tempfile.mkstemp()
+tmpfile = tempfile.mkstemp() #tempfile[0] = File number, tempfile[1] = File name.
 os.dup2(tmpfile[0], 1)
 os.dup2(tmpfile[0], 2)
 os.close(tmpfile[0])
@@ -26,6 +25,9 @@ os.close(tmpfile[0])
 global testOK 
 testOK = []
 
+# ==============================
+# Handle SIGINT receive by CMOR
+# ==============================
 def sig_handler(signum, frame):
     global testOK
 
@@ -39,41 +41,68 @@ def sig_handler(signum, frame):
     os.unlink(tmpfile[1])
 
 
+# ==============================
+#  main thread
+# ==============================
 def run():
     unittest.main()
 
+
+# ---------------------
+# Hook up SIGINT signal 
+# ---------------------
 signal.signal(signal.SIGINT, sig_handler)
 
 
 class TestInstitutionMethods(unittest.TestCase):
 
-    def test_Institution(self):
+    def testCMIP6(self):
+        ''' This test will not fail we veirfy the attribute further_info_url'''
 
         # -------------------------------------------
         # Try to call cmor with a bad institution_ID
         # -------------------------------------------
         global testOK
+        nlat = 10
+        dlat = 180./nlat
+        nlon = 20
+        dlon = 360./nlon
+
         error_flag = cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
-        error_flag = cmor.dataset_json("Test/test_python_CMIP6_CV_badsourcetypeCHEMAER.json")
+        error_flag = cmor.dataset_json("Test/test_python_CMIP6_CV_fxtable.json")
+        cmor.load_table("CMIP6_fx.json")
   
+        lats = numpy.arange(90-dlat/2.,-90,-dlat)
+        blats = numpy.arange(90,-90-dlat,-dlat)
+        lats2 = numpy.arange(-90+dlat/2.,90,dlat)
+        blats2 = numpy.arange(-90,90+dlat,dlat)
+        lons = numpy.arange(0+dlon/2.,360.,dlon)
+        blons = numpy.arange(0,360.+dlon,dlon)
+
+
+        data = lats[:,numpy.newaxis]*lons[numpy.newaxis,:]
+
+        data = ( data + 29000 ) / 750. + 233.2
+
+
+        ilat = cmor.axis(table_entry='latitude',coord_vals=lats,cell_bounds=blats,units='degrees_north')
+        ilon = cmor.axis(table_entry='longitude',coord_vals=lons,cell_bounds=blons,units='degrees_east')
+
         # ------------------------------------------
         # load Omon table and create masso variable
         # ------------------------------------------
-        cmor.load_table("CMIP6_Omon.json")
-        itime = cmor.axis(table_entry="time",units='months since 2010',
-                          coord_vals=numpy.array([0,1,2,3,4.]),
-                          cell_bounds=numpy.array([0,1,2,3,4,5.]))
-        ivar = cmor.variable(table_entry="masso",axis_ids=[itime],units='kg')
+        ivar = cmor.variable(table_entry="areacello",axis_ids=[ilat,ilon],units='m2')
 
-        data=numpy.random.random(5)
-        for i in range(0,5):
-            a = cmor.write(ivar,data[i:i])
+        a = cmor.write(ivar,data)
+        file = cmor.close()
         os.dup2(newstdout,1)
         os.dup2(newstderr,2)
         sys.stdout = os.fdopen(newstdout, 'w', 0)
         sys.stderr = os.fdopen(newstderr, 'w', 0)
-        time.sleep(.1)
-        self.assertIn("\"CHEM\" and \"AER\"", testOK)
+#        f=cdms2.open(cmor.get_final_filename(),"r")
+#        a =f.getglobal("tracking_id").split('/')[0] 
+#        self.assertIn("hdl:21.14100", a)
+
 
 
 if __name__ == '__main__':

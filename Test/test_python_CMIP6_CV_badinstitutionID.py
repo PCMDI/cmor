@@ -43,7 +43,8 @@ def sig_handler(signum, frame):
 def run():
     unittest.main()
 
-signal.signal(signal.SIGTERM, sig_handler)
+signal.signal(signal.SIGINT, sig_handler)
+signal.signal(signal.SIGINT, sig_handler)
 
 
 class TestInstitutionMethods(unittest.TestCase):

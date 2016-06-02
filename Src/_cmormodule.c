@@ -24,9 +24,29 @@ static PyObject *PyCMOR_get_original_shape( PyObject * self,
 	}
     }
     Py_INCREF( mylist );
-    return mylist;
+    return(mylist);
 }
+/************************************************************************/
+/*                  PyCMOR_set_cur_dataset_attribute()                  */
+/************************************************************************/
+static PyObject *PyCMOR_set_cur_dataset_attribute(PyObject *self,
+                                                  PyObject *args)
+{
+  char *name;
+  char *value;
+  int ierr;
 
+  if( !PyArg_ParseTuple( args, "ss", &name, &value ) )
+    return(NULL);
+
+  ierr = cmor_set_cur_dataset_attribute(name, value, 1);
+
+  if (ierr != 0 ) return NULL;
+
+  Py_INCREF(Py_None);
+
+  return(Py_None);
+}
 
 /************************************************************************/
 /*                  PyCMOR_get_cur_dataset_attribute()                  */
@@ -862,6 +882,8 @@ static PyMethodDef MyExtractMethods[] = {
     {"set_grid_mapping", PyCMOR_grid_mapping, METH_VARARGS},
     {"getCMOR_defaults_include", PyCMOR_getincvalues, METH_VARARGS},
     {"close", PyCMOR_close, METH_VARARGS},
+    {"set_cur_dataset_attribute",PyCMOR_set_cur_dataset_attribute,
+     METH_VARARGS},
     {"get_cur_dataset_attribute", PyCMOR_get_cur_dataset_attribute,
      METH_VARARGS},
     {"has_cur_dataset_attribute", PyCMOR_has_cur_dataset_attribute,

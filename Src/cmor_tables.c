@@ -439,7 +439,9 @@ int cmor_set_dataset_att(cmor_table_t * table, char att[CMOR_MAX_STRING],
 	    
     } else {
 	snprintf( value, CMOR_MAX_STRING,
-		  "table: %s, unknown keyword for dataset: %s (%s)",
+		  "table: %s, This keyword: %s value (%s) "
+	          "is not a valid table header entry.!\n "
+	          "Use the user input JSON file to add custom attributes.",
 		  table->szTable_id, att, value );
 	cmor_handle_error( value, CMOR_WARNING );
     }

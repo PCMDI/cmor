@@ -19,15 +19,15 @@ newstderr = os.dup(2)
 # Create tmpfile
 # --------------
 tmpfile = tempfile.mkstemp() #tempfile[0] = File number, tempfile[1] = File name.
-#os.dup2(tmpfile[0], 1)
-#os.dup2(tmpfile[0], 2)
-#os.close(tmpfile[0])
+os.dup2(tmpfile[0], 1)
+os.dup2(tmpfile[0], 2)
+os.close(tmpfile[0])
 
 global testOK 
 testOK = []
 
 # ==============================
-# Handle SIGTERM receive by CMOR
+# Handle SIGINT receive by CMOR
 # ==============================
 def sig_handler(signum, frame):
     global testOK
@@ -52,7 +52,7 @@ def run():
 # ---------------------
 # Hook up SIGTEM signal 
 # ---------------------
-signal.signal(signal.SIGTERM, sig_handler)
+signal.signal(signal.SIGINT, sig_handler)
 
 
 class TestInstitutionMethods(unittest.TestCase):

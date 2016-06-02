@@ -6,7 +6,7 @@ nlon=90
 nlev=5
 
 def prep(mode):
-    error_flag = cmor.setup(inpath='Tables', netcdf_file_action=mode                       )
+    error_flag = cmor.setup(inpath='Tables', netcdf_file_action=mode,logfile="Denis.LOG" )
 
     error_flag = cmor.dataset_json("Test/test_python_joerg_3.json")
 

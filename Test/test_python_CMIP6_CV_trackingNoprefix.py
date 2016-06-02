@@ -26,7 +26,7 @@ global testOK
 testOK = []
 
 # ==============================
-# Handle SIGTERM receive by CMOR
+# Handle SIGINT receive by CMOR
 # ==============================
 def sig_handler(signum, frame):
     global testOK
@@ -51,7 +51,7 @@ def run():
 # ---------------------
 # Hook up SIGTEM signal 
 # ---------------------
-signal.signal(signal.SIGTERM, sig_handler)
+signal.signal(signal.SIGINT, sig_handler)
 
 
 class TestInstitutionMethods(unittest.TestCase):

@@ -347,13 +347,9 @@ void cmor_CV_checkFurtherInfoURL(int var_id){
                              szFurtherInfoFileURL, "." );
 
     strncpy(szFurtherInfoURL, szFurtherInfoBaseURL, CMOR_MAX_STRING);
+    strcat(szFurtherInfoURL, "/");
     strncat(szFurtherInfoURL, szFurtherInfoFileURL, CMOR_MAX_STRING);
 
-
-/* -------------------------------------------------------------------- */
-/* Change last character from separator to "/".                         */
-/* -------------------------------------------------------------------- */
-    szFurtherInfoURL[strlen(szFurtherInfoURL)-1] = '\0';
 
     cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_FURTHERINFOURL,
             szFurtherInfoURL, 0);

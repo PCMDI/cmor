@@ -14,7 +14,7 @@
            "#experiment_id":         "piClim-aer",
            "experiment_id":          "piControl-withism",
            "#experiment_id":         "land-hist",
-           "sub_experiment_id":      "ds1968",
+           "sub_experiment_id":      "s1968",
            "sub_experiment":         "none",
 
            "source_type":            "AGCM AER CHEM DENIS",

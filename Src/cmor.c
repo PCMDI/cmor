@@ -1303,6 +1303,20 @@ int cmor_put_nc_char_attribute(int ncid,
     cmor_pop_traceback();
     return( ierr) ;
 }
+/************************************************************************/
+/*                  cmor_set_cur_dataset_attribute()                    */
+/************************************************************************/
+int cmor_set_cur_dataset_attribute(char *name, char *value, int optional) {
+  char msg[CMOR_MAX_STRING];
+  int rc;
+  cmor_add_traceback("cmor_set_cur_dataset_attribute");
+  cmor_is_setup();
+
+  rc = cmor_set_cur_dataset_attribute_internal(name,value,optional);
+
+  cmor_pop_traceback();
+  return(rc);
+}
 
 /************************************************************************/
 /*              cmor_set_cur_dataset_attribute_internal()               */
@@ -2534,8 +2548,8 @@ void cmor_setGblAttr(int var_id) {
 
     if (did_history == 0) {
         snprintf(ctmp, CMOR_MAX_STRING,
-                "%s CMOR rewrote data to comply with CF standards "
-                        "and %s requirements.", msg,
+                "%s CMOR rewrote data to be consistent with CF standards"
+                " and %s requirements.", msg,
                 cmor_tables[nVarRefTblID].mip_era);
 
         if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_HISTORY) == 0) {
@@ -2579,7 +2593,7 @@ void cmor_setGblAttr(int var_id) {
 /* -------------------------------------------------------------------- */
 /*    Set attribute Table_ID for netCDF file (CMIP6)                    */
 /* -------------------------------------------------------------------- */
-    snprintf(msg, CMOR_MAX_STRING, "Table %s  ",
+    snprintf(msg, CMOR_MAX_STRING, "%s",
             cmor_tables[nVarRefTblID].szTable_id);
 
 
@@ -4432,7 +4446,7 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
         }
 /* -------------------------------------------------------------------- */
 /*      Chunking stuff                                                  */
-        /* -------------------------------------------------------------------- */
+/* -------------------------------------------------------------------- */
 
 #ifndef NC_CHUNKED
 #define NC_CHUNKED 0
@@ -5037,7 +5051,7 @@ int cmor_CreateFromTemplate(int var_id, char *template,
         } else if(strcmp(szToken, GLOBAL_ATT_VARIABLE_ID) == 0) {
             strncat(szJoin, pVariable->id, CMOR_MAX_STRING);
             strcat(szJoin, separator);
-
+        // check if attribute start with '_"
         } else {
             char szInternalAtt[CMOR_MAX_STRING];
             strcpy(szInternalAtt, GLOBAL_INTERNAL);
@@ -5069,7 +5083,12 @@ int cmor_CreateFromTemplate(int var_id, char *template,
 
         szToken = strtok(NULL, "><");
     }
-
+/* -------------------------------------------------------------------- */
+/*     If the last character is the sepator delete it.                  */
+/* -------------------------------------------------------------------- */
+    if( strcmp( &szJoin[ strlen( szJoin ) - 1 ], separator ) == 0 ) {
+        szJoin[ strlen( szJoin ) - 1 ] = '\0';
+    }
     cmor_pop_traceback(  );
     return (0);
 }
@@ -5368,10 +5387,10 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
 		}
 	    }
 	}
+
 /* -------------------------------------------------------------------- */
 /*      ok at that point we need to construct the final name!           */
 /* -------------------------------------------------------------------- */
-
 	strncpytrim( outname, cmor_vars[var_id].base_path,
 		     CMOR_MAX_STRING );
 
@@ -5799,7 +5818,7 @@ int cmor_close( void ) {
 	    cmor_grids[i].blats = NULL;
 	}
     }
-    if( cmor_nerrors != 0 || cmor_nwarnings != 0 ) {
+    if( (cmor_nerrors != 0 || cmor_nwarnings != 0 ) ){
 	fprintf( output_logfile,
 		 "! ------\n! CMOR is now closed.\n! ------\n! "
 	         "During execution we encountered:\n! " );
@@ -5820,14 +5839,16 @@ int cmor_close( void ) {
 #endif
 	fprintf( output_logfile,
 		 "\n! ------\n! Please review them.\n! ------\n! " );
+	cmor_nerrors   = 0;
+	cmor_nwarnings = 0;
     } else {
 	fprintf( output_logfile,
-		 "! ------\n! CMOR is now closed.\n! ------\n! \n! "
-	        "We encountered no warnings or errors during execution\n! "
-	        "------\n! Congratulations!\n! ------\n! " );
+		 "\n! ------\n! All files were closed successfully. \n! ------\n! ");
     }
-    if( output_logfile != stderr )
+    if( output_logfile != stderr ) {
 	fclose( output_logfile );
+	output_logfile = NULL;
+    }
     cmor_pop_traceback(  );
     return( 0 );
 }
