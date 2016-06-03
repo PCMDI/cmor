@@ -210,7 +210,7 @@ int main()
 
   
   m = CMOR_EXIT_ON_MAJOR;
-  j = CMOR_REPLACE;
+  j = CMOR_REPLACE_4;
   i=1;
   it=0;
   printf("ok mode is:%i\n",m);

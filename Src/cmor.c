@@ -1881,6 +1881,7 @@ int cmor_define_zfactors_vars( int var_id, int ncid, int *nc_dim,
 			ierr = nc_def_var_deflate( ncid,
 			        nc_zfactors[lnzfactors],
 			        ics, icd, icdl );
+
 			if( ierr != NC_NOERR ) {
 			    snprintf( msg, CMOR_MAX_STRING,
 			            "NCError (%i: %s) defining compression\n! "
@@ -2554,7 +2555,7 @@ void cmor_setGblAttr(int var_id) {
 
         if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_HISTORY) == 0) {
             cmor_get_cur_dataset_attribute(GLOBAL_ATT_HISTORY, msg);
-            snprintf(ctmp2, CMOR_MAX_STRING, "%s %s", msg, ctmp);
+            snprintf(ctmp2, CMOR_MAX_STRING, "%s ; %s", msg, ctmp);
             strncpy(ctmp, ctmp2, CMOR_MAX_STRING);
         }
         cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_HISTORY, ctmp, 0);
@@ -3145,7 +3146,7 @@ void cmor_define_dimensions(int var_id, int ncid,
         if (pAxis->cvalues == NULL) {
 /* -------------------------------------------------------------------- */
 /*       first we need to figure out the output type                    */
-            /* -------------------------------------------------------------------- */
+/* -------------------------------------------------------------------- */
             switch (cmor_tables[pAxis->ref_table_id].axes[pAxis->ref_axis_id].type) {
 
             case ('f'):
@@ -3224,12 +3225,15 @@ void cmor_define_dimensions(int var_id, int ncid,
                 if ((CMOR_NETCDF_MODE != CMOR_REPLACE_3)
                         && (CMOR_NETCDF_MODE != CMOR_PRESERVE_3)
                         && (CMOR_NETCDF_MODE != CMOR_APPEND_3)) {
+                    int nVarID = cmor_vars[var_id].ref_var_id;
                     cmor_var_def_t *pVar;
-                    pVar =
-                            &cmor_tables[nVarRefTblID].vars[cmor_vars[var_id].ref_var_id];
+
+                    pVar = &cmor_tables[nVarRefTblID].vars[nVarID];
+
                     ics = pVar->shuffle;
                     icd = pVar->deflate;
                     icdl = pVar->deflate_level;
+
                     ierr = nc_def_var_deflate(ncafid, nc_vars_af[i], ics, icd,
                             icdl);
                     if (ierr != NC_NOERR) {
@@ -3399,11 +3403,14 @@ void cmor_define_dimensions(int var_id, int ncid,
             if ((CMOR_NETCDF_MODE != CMOR_REPLACE_3)
                     && (CMOR_NETCDF_MODE != CMOR_PRESERVE_3)
                     && (CMOR_NETCDF_MODE != CMOR_APPEND_3)) {
+                int nVarID = cmor_vars[var_id].ref_var_id;
+                cmor_var_def_t *pVar;
 
-                ics = cmor_tables[nVarRefTblID].vars[nVarRefTblID].shuffle;
-                icd = cmor_tables[nVarRefTblID].vars[nVarRefTblID].deflate;
-                icdl =
-                        cmor_tables[nVarRefTblID].vars[nVarRefTblID].deflate_level;
+                pVar = &cmor_tables[nVarRefTblID].vars[nVarID];
+
+                ics = pVar->shuffle;
+                icd = pVar->deflate;
+                icdl = pVar->deflate_level;
 
                 ierr = nc_def_var_deflate(ncafid, nc_bnds_vars[i], ics, icd,
                         icdl);
@@ -3867,12 +3874,14 @@ int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af) {
                     && (CMOR_NETCDF_MODE != CMOR_PRESERVE_3)
                     && (CMOR_NETCDF_MODE != CMOR_APPEND_3)) {
                 if (cmor_vars[j].ndims > 0) {
+
                     ics =
                             cmor_tables[cmor_vars[j].ref_table_id].vars[cmor_vars[j].ref_var_id].shuffle;
                     icd =
                             cmor_tables[cmor_vars[j].ref_table_id].vars[cmor_vars[j].ref_var_id].deflate;
                     icdl =
                             cmor_tables[cmor_vars[j].ref_table_id].vars[cmor_vars[j].ref_var_id].deflate_level;
+
                     ierr = nc_def_var_deflate(ncafid, nc_associated_vars[i],
                             ics, icd, icdl);
                     if (ierr != NC_NOERR) {
@@ -4416,6 +4425,7 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
                     cmor_vars[var_id].id);
         } else {
             ierr = cmor_put_nc_num_attribute(ncid,
+
                     cmor_vars[var_id].nc_var_id,
                     cmor_vars[var_id].attributes[j],
                     cmor_vars[var_id].attributes_type[j],
@@ -4430,9 +4440,14 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
 /* -------------------------------------------------------------------- */
 /*      Compression stuff                                               */
 /* -------------------------------------------------------------------- */
-        ics = cmor_tables[nVarRefTblID].vars[nVarRefTblID].shuffle;
-        icd = cmor_tables[nVarRefTblID].vars[nVarRefTblID].deflate;
-        icdl = cmor_tables[nVarRefTblID].vars[nVarRefTblID].deflate_level;
+        int nVarID = cmor_vars[var_id].ref_var_id;
+        cmor_var_def_t *pVar;
+
+        pVar = &cmor_tables[nVarRefTblID].vars[nVarID];
+
+        ics = pVar->shuffle;
+        icd = pVar->deflate;
+        icdl = pVar->deflate_level;
         ierr = nc_def_var_deflate(ncid, cmor_vars[var_id].nc_var_id, ics, icd,
                 icdl);
 
@@ -5447,7 +5462,7 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
 /*      first time point                                                */
 /* -------------------------------------------------------------------- */
 
-	   // strncat( outname, "_", CMOR_MAX_STRING - strlen( outname ) );
+	    strncat( outname, "_", CMOR_MAX_STRING - strlen( outname ) );
 	    snprintf( msg2, CMOR_MAX_STRING, "%.4ld", comptime.year );
 	    strncat( outname, msg2, CMOR_MAX_STRING - strlen( outname ) );
 /* -------------------------------------------------------------------- */
