@@ -2,6 +2,7 @@ import cmor,numpy,sys,os
 from time import localtime, strftime
 today = strftime("%Y%m%d", localtime())
 
+
 try:
     import cdms2
     cdms2.setNetcdfShuffleFlag(0)
@@ -11,36 +12,13 @@ except:
     print "This test code needs a recent cdms2 interface for i/0"
     sys.exit()
 
-if len(sys.argv)>1:
-    level = int(sys.argv[1])
-else:
-    level=int(os.environ.get("DEFLATE_LEVEL",0))
-
-if len(sys.argv)>2:
-    shuffle= int(sys.argv[2])
-else:
-    shuffle=int(os.environ.get("SHUFFLE",0))
-
-if level==0:
-    deflate = 0
-else:
-    deflate = 1
-
-f=open("Test/speed_test_table_A")
-s=f.read()
-f.close()
-s=s.replace("${DEFLATE_LEVEL}",str(level))
-s=s.replace("${DEFLATE}",str(deflate))
-s=s.replace("${SHUFFLE}",str(shuffle))
-f=open("mytable","w")
-f.write(s)
-f.close()
-
+level = 3
+shuffle = 1
 cmor.setup(inpath="Tables",set_verbosity=cmor.CMOR_NORMAL, netcdf_file_action = cmor.CMOR_REPLACE_4, exit_control = cmor.CMOR_EXIT_ON_MAJOR);
 cmor.dataset_json("Test/cmor_speed_and_compression.json")
 
 tables=[]
-tables.append(cmor.load_table("mytable"))
+tables.append(cmor.load_table("CMIP6_Amon.json"))
 print 'Tables ids:',tables
 
 
@@ -75,7 +53,7 @@ myvars[0] = cmor.variable( table_entry = varout,
                            history = 'no history',
                            comment = 'testing speed'
                            )
-
+cmor.set_deflate(myvars[0], shuffle, 1, level)
 
 import time,MV2
 st = time.time()

@@ -3,7 +3,7 @@
 
 #define CMOR_VERSION_MAJOR 3
 #define CMOR_VERSION_MINOR 0
-#define CMOR_VERSION_PATCH 5
+#define CMOR_VERSION_PATCH 6
 
 #define CMOR_CF_VERSION_MAJOR 1
 #define CMOR_CF_VERSION_MINOR 6
@@ -36,14 +36,17 @@
 #define CMOR_N_VALID_CALS 8
 
 #define CMOR_PRESERVE_4 10
-#define CMOR_APPEND_4 11
-#define CMOR_REPLACE_4 12
+#define CMOR_APPEND_4   11
+#define CMOR_REPLACE_4  12
+
 #define CMOR_PRESERVE_3 13
-#define CMOR_APPEND_3 14
-#define CMOR_REPLACE_3 15
+#define CMOR_APPEND_3   14
+#define CMOR_REPLACE_3  15
+
 #define CMOR_PRESERVE CMOR_PRESERVE_3
 #define CMOR_APPEND CMOR_APPEND_3
 #define CMOR_REPLACE CMOR_REPLACE_3
+
 #define CMOR_INPUTFILENAME       GLOBAL_INTERNAL"dataset_json"
 #define CV_INPUTFILENAME         GLOBAL_INTERNAL"CV"
 /* -------------------------------------------------------------------- */
@@ -169,6 +172,7 @@
 #define GLOBAL_ATT_GRID_RESOLUTION    "grid_resolution"
 #define GLOBAL_ATT_TITLE_MSG          "%s model output prepared for %s"
 #define GLOBAL_ATT_EXTERNAL_VAR       "external_variables"
+#define GLOBAL_ATT_MIP_ERA            "mip_era"
 #define GLOBAL_CV_FILENAME            GLOBAL_INTERNAL"control_vocabulary_file"
 #define GLOBAL_IS_CMIP6               GLOBAL_INTERNAL"cmip6_option"
 

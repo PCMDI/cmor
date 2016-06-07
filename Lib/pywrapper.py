@@ -929,6 +929,22 @@ def set_variable_attribute(var_id,name,value):
         val = str(value)
     return _cmor.set_variable_attribute(var_id,name,val)
 
+def set_deflate(var_id,shuffle,deflate,deflate_level):
+    """Sets shuffle/deflate on a cmor variable
+    Usage:
+      cmor.set_deflate(var_id, shuffle, deflate, deflate_level)
+    Where:
+      var_id: is cmor variable id
+      shuffle: if true, turn on netCDF the shuffle filter
+      deflate: if true, turn on the deflate filter at the level 
+               specified by the deflate_level parameter
+      deflate_level: if the deflate parameter is non-zero. 
+                     Set the deflate value. Must be between 0 and 9
+      
+    """
+
+    return _cmor.set_deflate(var_id, shuffle, deflate, deflate_level)
+
 def has_variable_attribute(var_id,name):
     """determines if the a cmor variable has an attribute
     Usage:

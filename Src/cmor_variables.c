@@ -2128,10 +2128,39 @@ int cmor_set_var_def_att( cmor_var_def_t * var, char att[CMOR_MAX_STRING],
     cmor_pop_traceback(  );
     return( 0 );
 }
+
+/************************************************************************/
+/*                       cmor_set_var_deflate()                         */
+/************************************************************************/
+int cmor_set_deflate( int var_id, int shuffle,
+                      int deflate, int deflate_level ) {
+    char msg[CMOR_MAX_STRING];
+
+    cmor_add_traceback( "cmor_get_original_shape" );
+    cmor_is_setup();
+
+    if(cmor_vars[var_id].self != var_id) {
+        snprintf( msg, CMOR_MAX_STRING,
+                  "You attempt to deflate variable id(%d) which was "
+                   "not initialized",
+                   var_id);
+        cmor_handle_error( msg, CMOR_CRITICAL );
+        cmor_pop_traceback();
+
+        return(-1);
+    }
+
+    cmor_vars[var_id].shuffle = shuffle;
+    cmor_vars[var_id].deflate = deflate;
+    cmor_vars[var_id].deflate_level = deflate_level;
+    printf("id = %s\n", cmor_vars[var_id].id);
+    cmor_pop_traceback();
+    return( 0 );
+}
+
 /************************************************************************/
 /*                   cmor_get_variable_time_length()                    */
 /************************************************************************/
-
 int cmor_get_variable_time_length( int *var_id, int *length ) {
     cmor_var_t avar;
     int i;

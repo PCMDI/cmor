@@ -31,9 +31,19 @@
  *
  */
 
+#include <string.h>
 #include <stdio.h>
 #include <cdmsint.h>
 #include <isdb.h>
+extern void   xy_index(REG_GEOM *, long *, long *, long *, int *);
+extern void   latlon_index(REG_GEOM *, double *, double *, long *, int *);
+extern void   index_xy(REG_GEOM *, long *, long *, long *, int *);
+extern void   index_latlon(REG_GEOM *, long *, double *, double *, int *);
+extern void   xy_latlon(REG_GEOM *, double *, double *, double *, double *, int *);
+extern void   latlon_xy(REG_GEOM *, double *, double *, double *, double *, int *);
+extern void   getf_latlon(REG_GEOM *, double *, double *, float *, float *, int *);
+extern void   putf_latlon(REG_GEOM *, double *, double *, float *, float *, int *);
+
 					     /* copy CDMS geom to NEONS ngeom */
 void
 CdCopyGeom(CdRegGeom *geom, REG_GEOM *ngeom)

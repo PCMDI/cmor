@@ -7,14 +7,14 @@
 
 static PyObject *PyCMOR_get_original_shape( PyObject * self,
 					    PyObject * args ) {
-    int tmp, i, shape_array[CMOR_MAX_DIMENSIONS], var_id, blank_time;
+    int  i, shape_array[CMOR_MAX_DIMENSIONS], var_id, blank_time;
 
     i = CMOR_MAX_DIMENSIONS;
     PyObject *mylist;
 
     if( !PyArg_ParseTuple( args, "ii", &var_id, &blank_time ) )
 	return NULL;
-    tmp = cmor_get_original_shape( &var_id, &shape_array[0], &i,
+    cmor_get_original_shape( &var_id, &shape_array[0], &i,
 		                            blank_time );
 
     mylist = PyList_New( 0 );
@@ -77,6 +77,20 @@ static PyObject *PyCMOR_has_cur_dataset_attribute( PyObject * self,
 	return NULL;
     ierr = cmor_has_cur_dataset_attribute( name );
     return Py_BuildValue( "i", ierr );
+}
+/************************************************************************/
+/*                   PyCMOR_set_deflate()                    */
+/************************************************************************/
+static PyObject *PyCMOR_set_deflate( PyObject * self,
+                                     PyObject * args ) {
+    int ierr, var_id, shuffle, deflate, deflate_level;
+
+    if( !PyArg_ParseTuple( args, "iiii", &var_id, &shuffle, &deflate, &deflate_level ) )
+        return NULL;
+
+    ierr =  cmor_set_deflate( var_id, shuffle, deflate, deflate_level );
+    return Py_BuildValue( "i", ierr );
+
 }
 
 /************************************************************************/
@@ -896,6 +910,7 @@ static PyMethodDef MyExtractMethods[] = {
      METH_VARARGS},
     {"get_original_shape", PyCMOR_get_original_shape, METH_VARARGS},
     {"get_final_filename", PyCMOR_getFinalFilename, METH_VARARGS},
+    {"set_deflate", PyCMOR_set_deflate, METH_VARARGS},
     {NULL, NULL}		/*sentinel */
 };
 

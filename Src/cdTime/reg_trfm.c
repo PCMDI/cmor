@@ -15,6 +15,17 @@
 #define MIN_LON  -180.
 #define MAX_LON   180.
 
+extern void   xy_index(REG_GEOM *, long *, long *, long *, int *);
+extern void   latlon_index(REG_GEOM *, double *, double *, long *, int *);
+extern void   index_xy(REG_GEOM *, long *, long *, long *, int *);
+extern void   index_latlon(REG_GEOM *, long *, double *, double *, int *);
+extern void   xy_latlon(REG_GEOM *, double *, double *, double *, double *, int *);
+extern void   latlon_xy(REG_GEOM *, double *, double *, double *, double *, int *);
+extern void   getf_latlon(REG_GEOM *, double *, double *, float *, float *, int *);
+extern void   putf_latlon(REG_GEOM *, double *, double *, float *, float *, int *);
+
+
+
 /***************************************************************/
 /*
  * transform from x, y coordinates within a registered grid to the index
@@ -126,7 +137,6 @@ double	 *x;			/* x coord in units of columns, left col is 1 */
 double	 *y;			/* y coord in units of rows, top row is 1 */
 int	 *status;		/* return status */
 {
-    extern void CdLookup(double *, long, double, long *);
     double temp1, temp2, temp3, temp4, temp5, *tempp;	/* temporary variables */
     double sign;		/* temporary variable containing sign */
     double diff_lon;		/* longitude difference holder */
@@ -535,7 +545,6 @@ int	 *status;
     double y;			/* y coord in units of rows, top row is 1 */
     long  ix;			/* column number, left column is 1 */
     long  iy;			/* row number, top row is 1 */
-    extern void index_xy(), xy_latlon();
 
 /*  Convert from index to ix, iy */
     index_xy(geom, index, &ix, &iy, status);
@@ -575,7 +584,6 @@ int	 *status;		/* return status */
     double y;			/* y coord in units of rows, top row is 1 */
     long   ix;			/* column number, left column is 1 */
     long   iy;			/* row number, top row is 1 */
-    extern void latlon_xy(), xy_index();
 
    
 /*  Convert from lat, lon to x, y */
@@ -619,7 +627,6 @@ int	 *status;		/* return status */
     long   iy, iy1;		/* row number, top row is 1 */
     double x;			/* x coord in units of columns, left col is 1 */
     double y;			/* y coord in units of rows, top row is 1 */
-    extern void latlon_xy(), xy_index();
 
     *fpixel = 0.;
 
@@ -698,7 +705,6 @@ int	 *status;		/* return status */
     long   iy, iy1;		/* row number, top row is 1 */
     double x;			/* x coord in units of columns, left col is 1 */
     double y;			/* y coord in units of rows, top row is 1 */
-    extern void latlon_xy(), xy_index();
 
 /*  Convert from lat, lon to x, y */
     latlon_xy(geom, lat, lon, &x, &y, status);
@@ -891,9 +897,6 @@ int	  *status;	        /* return status from routine */
     double	lat;			/* latitude in degrees */
     double	lon;			/* longitude in degrees */
 
-    extern void   xy_index();
-    extern void   xy_latlon();
-    extern void   getf_latlon();
 
 /*  Loop over gridpoints of output grid */
     for(j = 1; j <= geom_b->ny; j++){

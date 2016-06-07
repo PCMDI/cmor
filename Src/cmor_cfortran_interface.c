@@ -8,9 +8,8 @@
 
 int cmor_ftn_get_tlen_cff_( int *var_id ) {
     int length;
-    int ierr;
 
-    ierr = cmor_get_variable_time_length( var_id, &length );
+    cmor_get_variable_time_length( var_id, &length );
     return length;
 }
 
@@ -70,6 +69,14 @@ int cmor_has_cur_dset_attribute_cff_( char *name ) {
 
 int cmor_set_variable_attribute_cff_( int *varid, char *name, char *value ) {
     return cmor_set_variable_attribute( *varid, name, 'c', value );
+}
+
+/************************************************************************/
+/*                       cmor_set_deflate_cff_()                        */
+/************************************************************************/
+int cmor_set_deflate_cff_( int *var_id, int *shuffle,
+                           int *deflate, int *deflate_level ) {
+return( cmor_set_deflate( *var_id, *shuffle, *deflate, *deflate_level ) );
 }
 
 /************************************************************************/
@@ -323,9 +330,8 @@ int cmor_load_table_cff_( char table[CMOR_MAX_STRING], int *table_id ) {
 /*                        cmor_set_table_cff_()                         */
 /************************************************************************/
 void cmor_set_table_cff_( int *table ) {
-    int i;
 
-    i = cmor_set_table( *table );
+    cmor_set_table( *table );
 }
 
 /************************************************************************/

@@ -1307,12 +1307,11 @@ int cmor_put_nc_char_attribute(int ncid,
 /*                  cmor_set_cur_dataset_attribute()                    */
 /************************************************************************/
 int cmor_set_cur_dataset_attribute(char *name, char *value, int optional) {
-  char msg[CMOR_MAX_STRING];
   int rc;
   cmor_add_traceback("cmor_set_cur_dataset_attribute");
   cmor_is_setup();
 
-  rc = cmor_set_cur_dataset_attribute_internal(name,value,optional);
+  rc = cmor_set_cur_dataset_attribute_internal(name, value, optional);
 
   cmor_pop_traceback();
   return(rc);
@@ -2509,11 +2508,9 @@ void cmor_setGblAttr(int var_id) {
     char ctmp[CMOR_MAX_STRING];
     char ctmp2[CMOR_MAX_STRING];
     char words[CMOR_MAX_STRING];
-    char *pszToken;
     int i;
     int n_matches = 10;
     regmatch_t m[n_matches];
-    int ireg;
     regex_t regex;
     char *ret;
     int numchar;
@@ -2633,7 +2630,9 @@ void cmor_setGblAttr(int var_id) {
 /* -------------------------------------------------------------------- */
 /*     check source and model_id are identical                          */
 /* -------------------------------------------------------------------- */
-    if (strcmp(cmor_tables[nVarRefTblID].mip_era, CMIP6) == 0) {
+    if (cmor_tables[nVarRefTblID].mip_era[0] != '\0' ){
+            cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_MIP_ERA,
+                    cmor_tables[nVarRefTblID].mip_era, 0);
     }
 
 /* -------------------------------------------------------------------- */
@@ -2662,7 +2661,7 @@ void cmor_setGblAttr(int var_id) {
 /* -------------------------------------------------------------------- */
             regcomp(&regex, EXTERNAL_VARIABLE_REGEX, REG_EXTENDED);
 
-            ireg = regexec(&regex, ctmp , n_matches, m, 0);
+            regexec(&regex, ctmp , n_matches, m, 0);
 
             words[0]='\0';
             ctmp2[0]='\0';
@@ -2803,7 +2802,6 @@ void cmor_generate_uuid(){
     void *myuuid_str = NULL;
     size_t uuidlen;
     char value[CMOR_MAX_STRING];
-    int len;
 
     cmor_add_traceback("cmor_generate_uuid");
 
@@ -2823,7 +2821,6 @@ void cmor_generate_uuid(){
 
     if( cmor_has_cur_dataset_attribute( GLOBAL_ATT_TRACKING_PREFIX ) == 0 ) {
         cmor_get_cur_dataset_attribute( GLOBAL_ATT_TRACKING_PREFIX, value );
-        len = strlen(value);
 
         strncpy(cmor_current_dataset.tracking_id,
                 value, CMOR_MAX_STRING);
@@ -3181,10 +3178,9 @@ void cmor_define_dimensions(int var_id, int ncid,
                     (CMOR_NETCDF_MODE != CMOR_PRESERVE_3) &&
                     (CMOR_NETCDF_MODE != CMOR_APPEND_3)) {
 
-                int nVarID = cmor_vars[var_id].ref_var_id;
-                cmor_var_def_t *pVar;
+                cmor_var_t *pVar;
 
-                pVar = &cmor_tables[nVarRefTblID].vars[nVarID];
+                pVar = &cmor_vars[var_id];
 
                 ics = pVar->shuffle;
                 icd = pVar->deflate;
@@ -3225,10 +3221,9 @@ void cmor_define_dimensions(int var_id, int ncid,
                 if ((CMOR_NETCDF_MODE != CMOR_REPLACE_3)
                         && (CMOR_NETCDF_MODE != CMOR_PRESERVE_3)
                         && (CMOR_NETCDF_MODE != CMOR_APPEND_3)) {
-                    int nVarID = cmor_vars[var_id].ref_var_id;
-                    cmor_var_def_t *pVar;
+                    cmor_var_t *pVar;
 
-                    pVar = &cmor_tables[nVarRefTblID].vars[nVarID];
+                    pVar = &cmor_vars[var_id];
 
                     ics = pVar->shuffle;
                     icd = pVar->deflate;
@@ -3403,10 +3398,9 @@ void cmor_define_dimensions(int var_id, int ncid,
             if ((CMOR_NETCDF_MODE != CMOR_REPLACE_3)
                     && (CMOR_NETCDF_MODE != CMOR_PRESERVE_3)
                     && (CMOR_NETCDF_MODE != CMOR_APPEND_3)) {
-                int nVarID = cmor_vars[var_id].ref_var_id;
-                cmor_var_def_t *pVar;
+                cmor_var_t *pVar;
 
-                pVar = &cmor_tables[nVarRefTblID].vars[nVarID];
+                pVar = &cmor_vars[var_id];
 
                 ics = pVar->shuffle;
                 icd = pVar->deflate;
@@ -4015,9 +4009,6 @@ int cmor_write( int var_id, void *data, char type,
     int zfactors[CMOR_MAX_VARIABLES];
     int nc_zfactors[CMOR_MAX_VARIABLES];
     int refvarid;
-    int isfixed = 0;
-    int origRealization = 0;
-    size_t uuidlen;
 
     int  nVarRefTblID;
     char szPathTemplate[CMOR_MAX_STRING];
@@ -4440,15 +4431,14 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
 /* -------------------------------------------------------------------- */
 /*      Compression stuff                                               */
 /* -------------------------------------------------------------------- */
-        int nVarID = cmor_vars[var_id].ref_var_id;
-        cmor_var_def_t *pVar;
+        cmor_var_t *pVar;
 
-        pVar = &cmor_tables[nVarRefTblID].vars[nVarID];
+        pVar = &cmor_vars[var_id];
 
         ics = pVar->shuffle;
         icd = pVar->deflate;
         icdl = pVar->deflate_level;
-        ierr = nc_def_var_deflate(ncid, cmor_vars[var_id].nc_var_id, ics, icd,
+        ierr = nc_def_var_deflate(ncid, pVar->nc_var_id, ics, icd,
                 icdl);
 
         if (ierr != NC_NOERR) {

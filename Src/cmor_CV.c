@@ -18,9 +18,8 @@ void cmor_CV_set_att(cmor_CV_def_t *CV,
     json_bool bValue;
     double dValue;
     int nValue;
-    char szValue[CMOR_MAX_STRING];
     array_list *pArray;
-    int i, k, length;
+    int k, length;
 
 
     strcpy(CV->key, szKey);
@@ -115,8 +114,7 @@ void cmor_CV_init( cmor_CV_def_t *CV, int table_id ) {
 /*                         cmor_CV_print()                              */
 /************************************************************************/
 void cmor_CV_print(cmor_CV_def_t *CV) {
-    int nCVs;
-    int i,j,k;
+    int k;
 
     if (CV != NULL) {
         if(CV->key[0] != '\0'){
@@ -165,7 +163,7 @@ void cmor_CV_print(cmor_CV_def_t *CV) {
 /*                       cmor_CV_printall()                             */
 /************************************************************************/
 void cmor_CV_printall() {
-    int j,i,k;
+    int j,i;
     cmor_CV_def_t *CV;
     int nCVs;
 /* -------------------------------------------------------------------- */
@@ -187,7 +185,7 @@ void cmor_CV_printall() {
 /*                  cmor_CV_search_child_key()                          */
 /************************************************************************/
 cmor_CV_def_t *cmor_CV_search_child_key(cmor_CV_def_t *CV, char *key){
-    int i,j;
+    int i;
     cmor_CV_def_t *searchCV;
     int nbCVs = -1;
     cmor_add_traceback("cmor_CV_search_child_key");
@@ -219,8 +217,7 @@ cmor_CV_def_t *cmor_CV_search_child_key(cmor_CV_def_t *CV, char *key){
 /*                     cmor_CV_rootsearch()                             */
 /************************************************************************/
 cmor_CV_def_t * cmor_CV_rootsearch(cmor_CV_def_t *CV, char *key){
-    int i,j;
-    cmor_CV_def_t *searchCV;
+    int i;
     int nbCVs = -1;
     cmor_add_traceback("cmor_CV_rootsearch");
 
@@ -247,9 +244,6 @@ cmor_CV_def_t * cmor_CV_rootsearch(cmor_CV_def_t *CV, char *key){
 /*                      cmor_CV_get_value()                             */
 /************************************************************************/
 char *cmor_CV_get_value(cmor_CV_def_t *CV, char *key) {
-        char *szValue;
-        int i,j;
-        int nCVs;
 
         switch(CV->type) {
         case CV_string:
@@ -273,16 +267,17 @@ char *cmor_CV_get_value(cmor_CV_def_t *CV, char *key) {
             break;
 
         case CV_undef:
+            CV->szValue[0]='\0';
             break;
         }
 
-        return(szValue);
+        return(CV->szValue);
 }
 /************************************************************************/
 /*                         cmor_CV_free()                               */
 /************************************************************************/
 void cmor_CV_free(cmor_CV_def_t *CV) {
-    int i,k;
+    int k;
 /* -------------------------------------------------------------------- */
 /* Recursively go down the tree and free branch                         */
 /* -------------------------------------------------------------------- */
@@ -303,7 +298,6 @@ void cmor_CV_free(cmor_CV_def_t *CV) {
 void cmor_CV_checkFurtherInfoURL(int var_id){
     char szFurtherInfoURLTemplate[CMOR_MAX_STRING];
     char szFurtherInfoURL[CMOR_MAX_STRING];
-    char msg[CMOR_MAX_STRING];
     char copyURL[CMOR_MAX_STRING];
     char szFurtherInfoBaseURL[CMOR_MAX_STRING];
     char szFurtherInfoFileURL[CMOR_MAX_STRING];
@@ -311,7 +305,6 @@ void cmor_CV_checkFurtherInfoURL(int var_id){
     char *baseURL;
     char *fileURL;
     char *szToken;
-    int rc;
 
     szFurtherInfoURL[0]='\0';
     szFurtherInfoFileURL[0]='\0';
@@ -348,7 +341,7 @@ void cmor_CV_checkFurtherInfoURL(int var_id){
 
     strncpy(szFurtherInfoURL, szFurtherInfoBaseURL, CMOR_MAX_STRING);
     strcat(szFurtherInfoURL, "/");
-    strncat(szFurtherInfoURL, szFurtherInfoFileURL, CMOR_MAX_STRING);
+    strncat(szFurtherInfoURL, szFurtherInfoFileURL, strlen(szFurtherInfoFileURL));
 
 
     cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_FURTHERINFOURL,
@@ -370,13 +363,10 @@ void cmor_CV_checkSourceType(cmor_CV_def_t *CV_exp, char *szExptID){
     char msg[CMOR_MAX_STRING];
     char CV_Filename[CMOR_MAX_STRING];
     int i;
-    int nCHEMAER = 0;
-    char *szToken;
     char *szTokenRequired;
     char *szTokenAdd;
     int nbSourceType;
     char *ptr;
-    int nbToken;
     int nbGoodType=0;
 
     cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
@@ -403,7 +393,7 @@ void cmor_CV_checkSourceType(cmor_CV_def_t *CV_exp, char *szExptID){
     if(cmor_has_cur_dataset_attribute(GLOBAL_ATT_SOURCE_TYPE) == 0) {
         cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE_TYPE, szSourceType);
     }
-    // Count how many are toke we have.
+    // Count how many are token  we have.
     ptr= szSourceType;
     if( szSourceType[0] != '\0') {
       nbSourceType = 1;
@@ -476,16 +466,14 @@ void cmor_CV_checkSourceType(cmor_CV_def_t *CV_exp, char *szExptID){
 /************************************************************************/
 void cmor_CV_checkSourceID(cmor_CV_def_t *CV){
     cmor_CV_def_t *CV_source_ids;
-    cmor_CV_def_t *CV_source_id;
+    cmor_CV_def_t *CV_source_id = NULL;
 
     char szSource_ID[CMOR_MAX_STRING];
     char szSource[CMOR_MAX_STRING];
 
     char msg[CMOR_MAX_STRING];
-    char szValue[CMOR_MAX_STRING];
     char CV_Filename[CMOR_MAX_STRING];
     int rc;
-    int nElements;
     int i;
 
     cmor_add_traceback("cmor_CV_checkSourceID");
@@ -761,6 +749,7 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t *CV, char *szKey){
     int i;
     regex_t regex;
     int reti;
+    int ierr;
 
     cmor_add_traceback( "cmor_CV_ValidateAttribute" );
 
@@ -777,7 +766,7 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t *CV, char *szKey){
         return(0);
     }
 
-    cmor_get_cur_dataset_attribute( szKey, szValue );
+    ierr = cmor_get_cur_dataset_attribute( szKey, szValue );
     for(i=0; i< attr_CV->anElements; i++) {
         reti = regcomp(&regex, attr_CV->aszValue[i],0);
         if(reti) {
@@ -802,6 +791,9 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t *CV, char *szKey){
         regfree(&regex);
     }
 
+    if( ierr != 0) {
+        return(-1);
+    }
 /* -------------------------------------------------------------------- */
 /* We could not validate this attribute, exit.                          */
 /* -------------------------------------------------------------------- */
@@ -963,14 +955,12 @@ void cmor_CV_checkGblAttributes( cmor_CV_def_t *CV ) {
 int cmor_CV_set_entry(cmor_table_t* table,
                       json_object *value) {
     extern int cmor_ntables;
-    char msg[CMOR_MAX_STRING];
     int nCVId;
     int nbObjects = 0;
     cmor_CV_def_t *CV;
     cmor_CV_def_t *newCV;
     cmor_table_t *cmor_table;
     cmor_table = &cmor_tables[cmor_ntables];
-    char szName[CMOR_MAX_STRING];
 
     cmor_add_traceback("cmor_CV_set_entry");
     cmor_is_setup();

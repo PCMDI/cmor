@@ -97,9 +97,9 @@ extern int cmor_close_variable( int var_id, char *file_name,
 extern int cmor_close( void );
 
 extern int cmor_writeGblAttr(int var_id, int ncid, int ncafid);
-extern void cmor_setGblAttr();
+extern void cmor_setGblAttr( int );
 
-extern void cmor_generate_uuid();
+extern void cmor_generate_uuid( void );
 extern void cmor_define_dimensions(int var_id, int ncid,
                             int ncafid, double *time_bounds,
                             int *nc_dim,
@@ -142,7 +142,7 @@ extern void cmor_CV_free(cmor_CV_def_t *CV);
 extern char *cmor_CV_get_value(cmor_CV_def_t *CV, char *key);
 extern void cmor_CV_init( cmor_CV_def_t *CV, int table_id );
 extern void cmor_CV_print(cmor_CV_def_t *CV);
-extern void cmor_CV_printall();
+extern void cmor_CV_printall( void );
 extern cmor_CV_def_t *cmor_CV_search_child_key(cmor_CV_def_t *CV, char *key);
 extern cmor_CV_def_t * cmor_CV_rootsearch(cmor_CV_def_t *CV, char *key);
 
@@ -221,6 +221,9 @@ extern int cmor_variable( int *var_id, char *name, char *units, int ndims,
 			  double *tolerance, char *positive,
 			  char *original_name, char *history,
 			  char *comment );
+extern int cmor_set_deflate( int var_id, int shuffle,
+                             int deflate, int deflate_level );
+
 extern int cmor_set_var_def_att( cmor_var_def_t * var,
 				 char att[CMOR_MAX_STRING],
 				 char val[CMOR_MAX_STRING] );
@@ -296,6 +299,6 @@ extern int cmor_time_varying_grid_coordinate( int *coord_grid_id,
 extern void cmor_cat_unique_string( char *dest, char *src );
 extern int cmor_stringinstring( char *dest, char *src );
 extern void cmor_checkMissing(int varid, int var_id, char type);
-extern char *cmor_getFinalFilename();
+extern char *cmor_getFinalFilename( void );
 
 #endif

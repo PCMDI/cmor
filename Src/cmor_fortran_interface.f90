@@ -56,6 +56,17 @@ module cmor_users_functions
      end subroutine cmor_load_table_cff
   end interface
 
+  interface
+     function cmor_set_deflate_cff(var_id, shuffle, deflate, deflate_level )result (ierr)
+
+       integer, intent(in) :: var_id
+       integer, intent(in) :: shuffle
+       integer, intent(in) :: deflate
+       integer, intent(in) :: deflate_level
+       integer :: ierr
+     end function cmor_set_deflate_cff
+  end interface
+
   interface 
      function cmor_setup_cff_nolog(path,ncmode,verbosity,mode,crsub) result (j)
        integer ncmode,verbosity,mode, j, crsub
@@ -6952,6 +6963,16 @@ contains
     integer ierr
     ierr = cmor_set_variable_attribute_cff(var_id,trim(name)//char(0), trim(value)//char(0))
   end function cmor_set_variable_attribute
+
+  function cmor_set_deflate(var_id, shuffle, deflate, deflate_level) result (ierr)
+    implicit none
+    integer, intent (in) :: var_id
+    integer, intent (in) :: shuffle
+    integer, intent (in) :: deflate
+    integer, intent (in) :: deflate_level
+    integer ierr
+    ierr = cmor_set_deflate_cff(var_id, shuffle, deflate, deflate_level)
+  end function cmor_set_deflate
 
   function cmor_setup_ints(inpath,netcdf_file_action, set_verbosity,&
        exit_control, logfile, create_subdirectories) result(ierr)
