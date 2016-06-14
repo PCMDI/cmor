@@ -1,25 +1,14 @@
 import cmor,numpy
 
-ipth="Test"
+ipth="Tables"
 cmor.setup(inpath=ipth,
            set_verbosity=cmor.CMOR_NORMAL,
            netcdf_file_action = cmor.CMOR_REPLACE,
            logfile = None)
 
-cmor.dataset(
-    outpath = ipth,
-    experiment_id = "lgm",
-    institution = "PCMDI",
-    source = "GICCM1 2002",
-    institute_id="PCMDI",
-    calendar = "standard",
-    contact="Bengie Molina",
-    model_id="GICCM1",forcing="SO",
-    parent_experiment_id="historical",
-    parent_experiment_rip="r3i8p1",
-    branch_time=0.)
+cmor.dataset_json("Test/test_python_new_tables.json")
 
-cmor.load_table("Tables/CMIP5_Amon")
+cmor.load_table("CMIP6_Amon.json")
 
 nlat = 90
 dlat = 180/nlat

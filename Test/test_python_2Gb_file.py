@@ -4,7 +4,6 @@ import cmor,numpy
 
 
 
-
 nlat = 360
 dlat = 180./nlat
 nlon = 720
@@ -18,16 +17,16 @@ lons = numpy.arange(0+dlon/2.,360.,dlon)
 blons = numpy.arange(0,360.+dlon,dlon)
 
 
-cmor.setup(inpath='.',netcdf_file_action=cmor.CMOR_REPLACE)
-cmor.dataset('historical', 'ukmo', 'HadCM3', 'gregorian',model_id='HadCM3',outpath='Test',forcing='N/A', parent_experiment_id="lgm", parent_experiment_rip="r1i1p1",branch_time=0,contact="Juan Uribe",institute_id="myinst")
-table='Tables/CMIP5_Amon'
+cmor.setup(inpath='Tables',netcdf_file_action=cmor.CMOR_REPLACE)
+cmor.dataset_json("Test/test_python_2Gb_file.json")
+table='CMIP6_Amon.json'
 cmor.load_table(table)
 
 
 ilat = cmor.axis(table_entry='latitude',coord_vals=lats,cell_bounds=blats,units='degrees_north')
 ilon = cmor.axis(table_entry='longitude',coord_vals=lons,cell_bounds=blons,units='degrees_east')
 itim = cmor.axis(table_entry='time',units='months since 2010')#,coord_vals=numpy.arange(ntimes,dtype=numpy.float),cell_bounds=numpy.arange(ntimes+1,dtype=float),units='months since 2000')
-ilev = cmor.axis(table_entry='plevs',coord_vals=numpy.array([1000.,925,850,700,600,500,400,300,250,200,150,100,70,50,30,20,10]),units='hPa')
+ilev = cmor.axis(table_entry='plev17',coord_vals=numpy.array([1000.,925,850,700,600,500,400,300,250,200,150,100,70,50,30,20,10]),units='hPa')
     
 axes=[itim,ilev,ilat,ilon]
 

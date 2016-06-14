@@ -6,22 +6,14 @@ def main():
     
     cmor.setup(inpath='Tables',
                netcdf_file_action = cmor.CMOR_REPLACE_3)
-    cmor.dataset('pre-industrial control', 'ukmo', 'HadCM3', '360_day',
-                 institute_id = 'ukmo',
-                 model_id = 'HadCM3',
-                 history = 'some global history',
-                 forcing = 'N/A',
-                 parent_experiment_id = 'N/A',
-                 parent_experiment_rip = 'N/A',
-                 branch_time = 0,
-                 contact = 'brian clough')
+    cmor.dataset_json("Test/test_python_jamie_10.json")
  
-    table = 'CMIP5_Amon'
+    table = 'CMIP6_Amon.json'
     cmor.load_table(table)
     axes = [ {'table_entry': 'time',
               'units': 'days since 2000-01-01 00:00:00',
               },
-             {'table_entry': 'plevs',
+             {'table_entry': 'plev17',
               'units': 'Pa',
               'coord_vals': [100000., 92500., 85000., 70000., 60000., 50000., 40000., 30000., 25000., 20000., 15000., 10000., 7000., 5000., 3000., 2000., 1000.]},
              {'table_entry': 'latitude',

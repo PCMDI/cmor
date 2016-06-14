@@ -14,7 +14,7 @@ cmor.dataset(
     calendar = "standard",
     model_id="pcmdi-09a",forcing="forcing")
 
-cmor.load_table("Tables/CMIP5_Omon")
+cmor.load_table("Tables/CMIP6_Omon.json")
 
 nlat = 90
 dlat = 180/nlat

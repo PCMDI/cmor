@@ -217,36 +217,13 @@ PROGRAM ipcc_test_code
 
   mycal = '360_day'
 
-  error_flag = cmor_dataset(                                   &
-       outpath='Test',                                         &
-       experiment_id='abrupt 4XCO2',           &
-       institution=                                            &
-       'GICC (Generic International Climate Center, ' //       &
-       'Geneva, Switzerland)',                                 &
-       source='GICCM1 (2002): ' //                             &
-       'atmosphere:  GICAM3 (gicam_0_brnchT_itea_2, T63L32); '// &
-       'ocean: MOM (mom3_ver_3.5.2, 2x3L15); '             //  &
-       'sea ice: GISIM4; land: GILSM2.5',                      &
-       calendar=mycal,                                      &
-       realization=1,                                          &
-       history='Output from archive/giccm_03_std_2xCO2_2256.', &
-       institute_id = 'PCMDI', &
-       comment='Equilibrium reached after 30-year spin-up ' // &
-       'after which data were output starting with nominal '// &
-       'date of January 2030',                                 &
-       references='Model described by Koder and Tolkien ' //   &
-       '(J. Geophys. Res., 2001, 576-591).  Also '        //   &
-       'see http://www.GICC.su/giccm/doc/index.html '     //   &
-       ' 2XCO2 simulation described in Dorkey et al. '    //   &
-       '(Clim. Dyn., 2003, 323-357.)',&
-       model_id='GICCM1',forcing='TO',contact="Barry Bonds",&
-       parent_experiment_rip="N/A",parent_experiment_id="N/A",branch_time=bt)
+  error_flag = cmor_dataset_json("Test/test2.json")
   
   
   !  Define all axes that will be needed
 
   ilat = cmor_axis(  &
-       table='Tables/CMIP5_Amon',    &
+       table='Tables/CMIP6_Amon.json',    &
        table_entry='latitude',       &
        units='degrees_north',        &  
        length=lat,                   &
@@ -254,7 +231,7 @@ PROGRAM ipcc_test_code
        cell_bounds=bnds_lat)        
       
   ilon2 = cmor_axis(  &
-       table='Tables/CMIP5_Lmon',    &
+       table='Tables/CMIP6_Lmon.json',    &
        table_entry='longitude',      &
        length=lon,                   &
        units='degrees_east',         &
@@ -262,7 +239,7 @@ PROGRAM ipcc_test_code
        cell_bounds=bnds_lon)      
         
   ilat2 = cmor_axis(  &
-       table='Tables/CMIP5_Lmon',    &
+       table='Tables/CMIP6_Lmon.json',    &
        table_entry='latitude',       &
        units='degrees_north',        &  
        length=lat,                   &
@@ -270,7 +247,7 @@ PROGRAM ipcc_test_code
        cell_bounds=bnds_lat)        
       
   ilon = cmor_axis(  &
-       table='Tables/CMIP5_Amon',    &
+       table='Tables/CMIP6_Amon.json',    &
        table_entry='longitude',      &
        length=lon,                   &
        units='degrees_east',         &
@@ -278,8 +255,8 @@ PROGRAM ipcc_test_code
        cell_bounds=bnds_lon)      
         
   ipres = cmor_axis(  &
-       table='Tables/CMIP5_Amon',    &
-       table_entry='plevs',       &
+       table='Tables/CMIP6_Amon.json',    &
+       table_entry='plev17',       &
        units='Pa',                   &
        length=lev2,                   &
        coord_vals=plevs)
@@ -289,13 +266,13 @@ PROGRAM ipcc_test_code
   !   cmor_write (later, below).
 
   itim = cmor_axis(  &
-       table='Tables/CMIP5_Amon',    &
+       table='Tables/CMIP6_Amon.json',    &
        table_entry='time',           &
        units='days since 2030-1-1',  &
        length=ntimes,                &
        interval='20 minutes')
   itim2 = cmor_axis(  &
-       table='Tables/CMIP5_Lmon',    &
+       table='Tables/CMIP6_Lmon.json',    &
        table_entry='time',           &
        units='days since 2030-1-1',  &
        length=ntimes,                &
@@ -307,7 +284,7 @@ PROGRAM ipcc_test_code
   zlev_bnds=(/ 0.,.2, .42, .62, .8, 1. /)
 
   ilev = cmor_axis(  &
-       table='Tables/CMIP5_Amon',    &
+       table='Tables/CMIP6_Amon.json',    &
        table_entry='standard_hybrid_sigma',       &
        units='1', &
        length=lev,                   &
@@ -352,7 +329,7 @@ PROGRAM ipcc_test_code
   !    (appearing in IPCC table A1c)
 
   var3d_ids(1) = cmor_variable(    &
-       table='Tables/CMIP5_Amon',  &
+       table='Tables/CMIP6_Amon.json',  &
        table_entry=entry3d(1),     &
        units=units3d(1),           &
        axis_ids=(/ ilon, ilat, ilev, itim /),  &
@@ -364,7 +341,7 @@ PROGRAM ipcc_test_code
   
   DO m=2,n3d
      var3d_ids(m) = cmor_variable(    &
-          table='Tables/CMIP5_Amon',  &
+          table='Tables/CMIP6_Amon.json',  &
           table_entry=entry3d(m),     &
           units=units3d(m),           &
           axis_ids=(/ ilon, ilat, ipres, itim /), &
@@ -378,7 +355,7 @@ PROGRAM ipcc_test_code
   DO m=1,n2d
      if (m.ne.3) then
      var2d_ids(m) = cmor_variable(    &
-          table='Tables/CMIP5_Amon',      &
+          table='Tables/CMIP6_Amon.json',      &
           table_entry=entry2d(m),     & 
           units=units2d(m),           & 
           axis_ids=(/ ilon, ilat, itim /), &
@@ -387,7 +364,7 @@ PROGRAM ipcc_test_code
           original_name=varin2d(m))   
   else
      var2d_ids(m) = cmor_variable(    &
-          table='Tables/CMIP5_Lmon',      &
+          table='Tables/CMIP6_Lmon.json',      &
           table_entry=entry2d(m),     & 
           units=units2d(m),           & 
           axis_ids=(/ ilon2, ilat2, itim2 /), &
@@ -456,8 +433,6 @@ PROGRAM ipcc_test_code
        
         ! append a single time sample of data for a single field to 
         ! the appropriate netCDF file.
-        call cmor_create_output_path(var3d_ids(m),outpath)
-        print*, 'Ok we will dump that at: ',outpath
         error_flag = cmor_write(                                  &
              var_id        = var3d_ids(m),                        &
              data          = data3d,                              &

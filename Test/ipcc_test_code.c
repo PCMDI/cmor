@@ -150,7 +150,7 @@ int main()
   double data3d[lev*lat*lon];
   double alats[lat];
   double alons[lon];
- int ilats[lat];
+  int ilats[lat];
   int ilons[lon];
   double   plevs[lev];
   int   iplevs[lev];
@@ -210,7 +210,7 @@ int main()
 
   
   m = CMOR_EXIT_ON_MAJOR;
-  j = CMOR_REPLACE;
+  j = CMOR_REPLACE_4;
   i=1;
   it=0;
   printf("ok mode is:%i\n",m);
@@ -226,29 +226,16 @@ int main()
 
 
   printf("yep: %s, %s\n",c1,c2);
-  ierr = cmor_dataset(
-       "Test",
-       "abrupt 4XCO2",
-       "GICC (Generic International Climate Center, Geneva, Switzerland)",
-       "GICCM1(2002): atmosphere:  GICAM3 (gicam_0_brnchT_itea_2, T63L32); ocean: MOM (mom3_ver_3.5.2, 2x3L15); sea ice: GISIM4; land: GILSM2.5",
-       "360_day",
-       1,
-       "Rusty Koder (koder@middle_earth.net)",
-       "Output from archive/giccm_03_std_2xCO2_2256.",
-       "Equilibrium reached after 30-year spin-up after which data were output starting with nominal date of January 2030",
-       "Model described by Koder and Tolkien (J. Geophys. Res., 2001, 576-591).  Also see http://www.GICC.su/giccm/doc/index.html  2XCO2 simulation described in Dorkey et al. '(Clim. Dyn., 2003, 323-357.)",
-       0,
-       0,
-       &tmpmo[0],&c1[0],&c2[0],
-       0,
-       0,"GICC","N/A",&bt,"r1i1p1");
+  ierr = cmor_dataset_json("Test/ipcc_test_code.json");
 
   printf("Test code: ok load cmor table(s)\n");
-  ierr = cmor_load_table("Tables/CMIP5_Omon",&tables[0]);
-  ierr = cmor_load_table("Tables/CMIP5_Amon",&tables[1]);
+  ierr = cmor_load_table("Tables/CMIP6_Omon.json",&tables[0]);
+  ierr = cmor_load_table("Tables/CMIP6_Amon.json",&tables[1]);
+
   strcpy(id,"time");
   strcpy(units,"months since 1980");
   strcpy(interval,"1 month");
+
   read_time(0, &Time[0], &bnds_time[0]);
   read_time(1, &Time[1], &bnds_time[2]);
   ierr = cmor_axis(&myaxes[0],id,units,ntimes,&Time[0],'d',&bnds_time[0],2,interval);
@@ -257,10 +244,12 @@ int main()
   strcpy(units,"degrees_north");
   strcpy(interval,"");
   ierr = cmor_axis(&myaxes[1],id,units,lat,&alats,'d',&bnds_lat,2,interval);
+
   strcpy(id,"longitude");
   strcpy(units,"degrees_east");
   ierr = cmor_axis(&myaxes[2],id,units,lon,&alons,'d',&bnds_lon,2,interval);
-  strcpy(id,"plevs");
+
+  strcpy(id,"plev17");
   strcpy(units,"hPa");
   ierr = cmor_axis(&myaxes[3],id,units,lev,&iplevs,'i',NULL,0,interval);
 
@@ -314,16 +303,14 @@ int main()
   myaxes2[3] = myaxes[2];
 
   printf("Test code: defining variables from table 1, %s\n",positive2d[0]);
-  ierr = cmor_variable(&myvars[0],entry2d[0],units2d[0],3,myaxes,'d',NULL,&dtmp2,&positive2d[0][0],varin2d[0],"no history","no future");
+  ierr = cmor_variable(&myvars[0],entry2d[0],units2d[0],3,myaxes,'d',NULL,&dtmp2,positive2d[0],varin2d[0],"no history","no future");
   ierr = cmor_variable(&myvars[1],entry3d[2],units3d[2],4,myaxes2,'d',NULL,&dtmp2,NULL,varin3d[2],"no history","no future");
+
   printf("Test code: definig tas\n");
   ierr = cmor_variable(&myvars[5],"tas","K",3,myaxes,'d',NULL,&dtmp2,NULL,"TS","no history","no future");
 
   myaxes2[1] = myaxes[4];
   ierr = cmor_variable(&myvars[2],entry3d[0],units3d[0],4,myaxes2,'d',NULL,&dtmp2,NULL,varin3d[0],"no history","no future");
-
-
-  
   ierr = cmor_zfactor(&myvars[3],myaxes2[1],"p0","Pa",0,NULL,'f',&p0,NULL);
   ierr = cmor_zfactor(&myvars[3],myaxes2[1],"b","",1,&myaxes2[1],'d',&b_coeff,&b_coeff_bnds);
   ierr = cmor_zfactor(&myvars[3],myaxes2[1],"a","",1,&myaxes2[1],'d',&a_coeff,&a_coeff_bnds);
@@ -339,9 +326,10 @@ int main()
   myaxes2[1] = myaxes[5]; /* region */
   myaxes2[2] = myaxes[8]; /* latitudes */
   printf("Test code: ok we define hfogo positive: %s\n",positive2d[0]);
-  ierr = cmor_variable(&myvars[4],"htovgyre","W",3,myaxes2,'d',NULL,&dtmp2,&positive2d[0][0],varin2d[0],"no history","no future");
+  ierr = cmor_variable(&myvars[4],"htovgyre","W",3,myaxes2,'d',NULL,&dtmp2,NULL,varin2d[0],"no history","no future");
 
   cmor_set_table(tables[1]);
+
 
   for (i=0;i<ntimes;i++) {
     printf("Test code: writing time: %i of %i\n",i+1,ntimes);
@@ -349,36 +337,29 @@ int main()
     printf("2d\n");
     read_2d_input_files(i, varin2d[0], &data2d,lat,lon);
     sprintf(id,"%i",i);
-/*     ierr = cmor_write(myvars[0],&data2d,'d',id,1,&time,&bnds_time,NULL); */
-/*     read_3d_input_files(i, varin3d[2], &data3d,lev,lat,lon); */
-/*     ierr = cmor_write(myvars[1],&data3d,'d',id,1,&time,&bnds_time,NULL); */
-/*     read_3d_input_files(i, varin3d[0], &data3d,5,lat,lon); */
-/*     ierr = cmor_write(myvars[2],&data3d,'d',id,1,&time,&bnds_time,NULL); */
-/*     read_2d_input_files(i, varin2d[3], &data2d,lat,lon); */
-/*     ierr = cmor_write(myvars[3],&data2d,'d',id,1,&time,&bnds_time,&myvars[2]); */
-    ierr = cmor_write(myvars[0],&data2d,'d',NULL,1,NULL,NULL,NULL);
+    ierr = cmor_write(myvars[0],&data2d,'d',1,NULL,NULL,NULL);
 
     printf("3d\n");
     read_3d_input_files(i, varin3d[2], &data3d,lev,lat,lon);
-    ierr = cmor_write(myvars[1],&data3d,'d',NULL,1,NULL,NULL,NULL);
+    ierr = cmor_write(myvars[1],&data3d,'d',1,NULL,NULL,NULL);
     printf("writing tas\n");
     read_2d_input_files(i, varin2d[1], &data2d,lat,lon);
-    ierr = cmor_write(myvars[5],&data2d,'d',NULL,1,NULL,NULL,NULL);
+    ierr = cmor_write(myvars[5],&data2d,'d',1,NULL,NULL,NULL);
 
     printf("3d zfactor\n");
     read_3d_input_files(i, varin3d[0], &data3d,5,lat,lon);
-    ierr = cmor_write(myvars[2],&data3d,'d',NULL,1,NULL,NULL,NULL);
+    ierr = cmor_write(myvars[2],&data3d,'d',1,NULL,NULL,NULL);
 
     printf("writing ps\n");
     read_2d_input_files(i, varin2d[3], &data2d,lat,lon);
-    ierr = cmor_write(myvars[3],&data2d,'d',NULL,1,NULL,NULL,&myvars[2]);
+    ierr = cmor_write(myvars[3],&data2d,'d',1,NULL,NULL,&myvars[2]);
 
     /* rereading hfls to fake hfogo */
     printf("2d region\n");
     read_2d_input_files(i, "htov", &data2d,lat,lon);
-    ierr = cmor_write(myvars[4],&data2d,'d',NULL,1,NULL,NULL,NULL);
+    ierr = cmor_write(myvars[4],&data2d,'d',1,NULL,NULL,NULL);
   }
   ierr = cmor_close_variable(myvars[0],NULL,NULL);
   ierr = cmor_close();
-  return 0;
+  return( 0 );
 }

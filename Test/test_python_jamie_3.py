@@ -7,15 +7,9 @@ def main():
     missing = -99.
     cmor.setup(inpath='Tables',
                netcdf_file_action = cmor.CMOR_REPLACE)
-    cmor.dataset('historical', 'ukmo', 'HadCM3', '360_day',
-                 institute_id = 'ukmo',
-                 forcing = 'Nat',
-                 model_id = 'HadCM3',
-                 contact="Bleachers 140",
-                 parent_experiment_rip="r1i3p2",
-                 parent_experiment_id="lgm",branch_time=0.)
+    cmor.dataset_json("Test/test_python_jamie_3.json")
 
-    table = 'CMIP5_Amon'
+    table = 'CMIP6_Amon.json'
     cmor.load_table(table)
     axes = [ {'table_entry': 'time',
               'units': 'days since 2000-01-01 00:00:00',

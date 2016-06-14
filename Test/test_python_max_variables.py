@@ -2,24 +2,7 @@ import cmor,numpy
 
 error_flag = cmor.setup(inpath='Test', netcdf_file_action=cmor.CMOR_REPLACE)
   
-error_flag = cmor.dataset(                                   
-       outpath='Test',                                         
-       experiment_id='noVolc2000',
-       institution= 'GICC (Generic International Climate Center, Geneva, Switzerland)',                                 
-       source='GICCM1 (2002): ',
-       calendar='360_day',                                      
-       realization=1,                                          
-       contact = 'Rusty Koder (koder@middle_earth.net) ',      
-       history='Output from archivcl_A1.nce/giccm_03_std_2xCO2_2256.', 
-       comment='Equilibrium reached after 30-year spin-up ',                                 
-       references='Model described by Koder and Tolkien ',
-       model_id="GICCM1", 
-       forcing="Nat, SO",
-       institute_id='pcmdi',
-       parent_experiment_id="lgm",
-       parent_experiment_rip="r2i3p1",
-       branch_time=3.14159)
-  
+error_flag = cmor.dataset_json("Test/test_python_max_variables.json")
 
 # creates 10 degree grid
 nlat=18
@@ -28,7 +11,7 @@ alats = numpy.arange(180)-89.5
 bnds_lat = numpy.arange(181)-90.
 alons=numpy.arange(360)+.5
 bnds_lon=numpy.arange(361)
-cmor.load_table("Tables/CMIP5_Amon")
+cmor.load_table("Tables/CMIP6_Amon.json")
 ilat = cmor.axis(  
     table_entry='latitude',       
     units='degrees_north',          
@@ -56,7 +39,7 @@ itim = cmor.axis(
     interval='1 month')
 
 ilev = cmor.axis(  
-        table_entry='plevs',       
+        table_entry='plev17',       
         units='Pa',
         coord_vals=plevs,             
         cell_bounds=None)

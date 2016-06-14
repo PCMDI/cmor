@@ -1,8 +1,8 @@
-dnl                                                -*- Autoconf -*-
-dnl  Process this file with autoconf to produce a configure script.
+dnl
+dnl Process this file with autoconf to produce a configure script.
 
 dnl AC_PREREQ(2.59)
-AC_INIT(cmor, 2.9.1, doutriaux1@llnl.gov)
+AC_INIT(cmor, 3.0.0, nadeau11@llnl.gov)
 
 GIT_TAG=`./get_git_version.sh`
 
@@ -25,7 +25,7 @@ CMOR_VERSION=${PACKAGE_VERSION}" (commit: ${GIT_TAG})"
 AC_PREFIX_DEFAULT([/usr/local/cmor])
 AC_CONFIG_FILES([Makefile setup.py compile_line.txt include/cmor_locale.h])
 
-INCFILES="include/cmor.h  include/cmor_func_def.h include/cmor_md5.h "`ls -x --width=10000 include/cdTime/*.h include/cdTime/cdunifpp/*.h`
+INCFILES="include/cmor.h include/cmor_func_def.h include/cmor_md5.h `ls include/cdTime/*.h include/cdTime/cdunifpp/*.h include/json-c/*.h | tr \"\n\" \" \" `"
 AC_SUBST(RTAG)
 AC_SUBST(FTAG)
 
@@ -93,7 +93,7 @@ if test ${enable_debug} == "yes" ; then
   DEBUG="-g"
 fi
 
-LIBFILES="cmor.o cmor_axes.o cmor_variables.o cmor_tables.o cdTimeConv.o cdUtil.o timeConv.o timeArith.o cmor_grids.o cmor_md5.o "
+LIBFILES="cmor.o cmor_axes.o cmor_CV.o cmor_variables.o cmor_tables.o cdTimeConv.o cdUtil.o timeConv.o timeArith.o cmor_grids.o cmor_md5.o arraylist.o  json_c_version.o  json_object_iterator.o json_util.o linkhash.o random_seed.o debug.o json_object.o json_tokener.o libjson.o printbuf.o"
 LIBFFILES="cmor_cfortran_interface.o cmor_fortran_interface.o"
 
 dnl ##########################################################
@@ -240,6 +240,7 @@ else
    NCLDFLAGS=""
   fi
 fi
+LIBS=""
 
 USERCFLAGS=${CFLAGS}
 USERFFLAGS=${FFLAGS}
@@ -291,12 +292,15 @@ if [ test ${HAS_NC4} == "no" ] ; then
   fi
 fi
 LIBS=${OLIBS}
-CFLAGS=${CFLAGS}" -Iinclude -Iinclude/cdTime"
+CFLAGS=${CFLAGS}" -Iinclude/json-c -Iinclude -Iinclude/cdTime"
 LDFLAGS=${SV_LDFLAGS}
 MAINDIR=`pwd`
 
 # Library sources
-LIBSOURCES="Src/cmor.c Src/cmor_variables.c Src/cmor_axes.c Src/cmor_tables.c Src/cmor_grids.c Src/cdTime/cdTimeConv.c Src/cdTime/cdUtil.c Src/cdTime/timeConv.c Src/cdTime/timeArith.c Src/cmor_cfortran_interface.c Src/cmor_md5.c"
+#LIBSOURCES="Src/cmor.c Src/cmor_variables.c Src/cmor_axes.c Src/cmor_tables.c Src/cmor_grids.c Src/cdTime/cdTimeConv.c Src/cdTime/cdUtil.c Src/cdTime/timeConv.c Src/cdTime/timeArith.c Src/cmor_cfortran_interface.c Src/cmor_md5.c Src/json-c/arraylist.cSrc/json-c/json_c_version.c  Src/json-c/json_object_iterator.c Src/json-c/json_util.c Src/json-c/linkhash.c  Src/json-cmor/random_seed.c Src/json-c/debug.c Src/json-c/json_object.c Src/json-c/json_tokener.c Src/json-c/libjson.c Src/json-c/printbuf.c"
+#LIBSOURCES=`ls -x --width=10000 Src/*.c Src/cdTime/*.c Src/json-c/*.c`
+LIBSOURCES=`ls Src/*.c Src/cdTime/*.c Src/json-c/*.c | tr "\n" " "`
+
 LIBFSOURCES="Src/cmor_fortran_interface.f90"
 
 

@@ -1,2388 +1,2013 @@
-cmor_version: 2.0         ! version of CMOR that can read this table
-cf_version:   1.0         ! version of CF that output conforms to
-project_id:   IPCC Fourth Assessment  ! project id
-table_id:     Table A1    ! table id
-table_date:   17 November 2004 ! date this table was constructed
-required_global_attributes: creation_date tracking_id model_id forcing
+{
+    "Header": {
+        "#product": "output",
+        "missing_value": "1e20",
+        "approx_interval": "30.00000",
+        "#baseURL": "http://cmip-pcmdi.llnl.gov/CMIP6/dataLocation",
+        "cmor_version": "3.0",
+        "forcings": "N/A Nat Ant GHG SD SI SA TO SO Oz LU Sl Vl SS Ds BC MD OC AA",
+        "frequency": "mon",
+        "table_id": "Table Amon",
+        "table_date": "24 February 2016",
+        "modeling_realm": "atmos",
+        "generic_levels": "alevel alevhalf",
+        "activity_id": "CMIP6-XXXXX",
+        "data_specs_version": "3.0",
+        "Conventions": "CF-1.8 CMIP-6.0"
+    },
+    "axis_entry": {
+        "olayer100m": {
+            "requested": "", 
+            "stored_direction": "increasing", 
+            "z_factors": "", 
+            "positive": "down", 
+            "must_have_bounds": "no", 
+            "valid_min": "0.0", 
+            "value": "50.0", 
+            "z_bounds_factors": "", 
+            "long_name": "depth", 
+            "standard_name": "depth", 
+            "out_name": "depth", 
+            "type": "double", 
+            "units": "m", 
+            "formula": "", 
+            "climatology": "", 
+            "tolerance": "", 
+            "valid_max": "100.0", 
+            "axis": "Z"
+        }, 
+        "ocean_sigma_z": {
+            "requested": "", 
+            "stored_direction": "", 
+            "z_factors": "sigma: sigma eta: eta depth: depth depth_c: depth_c nsigma: nsigma zlev: zlev", 
+            "positive": "", 
+            "must_have_bounds": "yes", 
+            "valid_min": "", 
+            "value": "", 
+            "z_bounds_factors": "sigma: sigma_bnds eta: eta depth: depth depth_c: depth_c nsigma: nsigma zlev: zlev_bnds", 
+            "long_name": "ocean sigma over z coordinate", 
+            "standard_name": "ocean_sigma_z", 
+            "out_name": "lev", 
+            "type": "", 
+            "units": "", 
+            "formula": "for k <= nsigma: z(n,k,j,i) = eta(n,j,i) + sigma(k)*(min(depth_c,depth(j,i))+eta(n,j,i)) ; for k > nsigma: z(n,k,j,i) = zlev(k)", 
+            "climatology": "", 
+            "tolerance": "", 
+            "valid_max": "", 
+            "axis": "Z"
+        }, 
+        "smooth_level": {
+            "requested": "", 
+            "stored_direction": "increasing", 
+            "z_factors": "a: a b1: b1 b2: b2 ztop: ztop zsurf1: zsurf1 zsurf2: zsurf2", 
+            "positive": "up", 
+            "must_have_bounds": "yes", 
+            "valid_min": "-200.0", 
+            "value": "", 
+            "z_bounds_factors": "a: a_bnds b1: b1_bnds b2: b2_bnds ztop: ztop zsurf1: zsurf1 zsurf2: zsurf2", 
+            "long_name": "atmosphere smooth level vertical (SLEVE) coordinate", 
+            "standard_name": "atmosphere_sleve_coordinate", 
+            "out_name": "lev", 
+            "type": "", 
+            "units": "m", 
+            "formula": "z = a*ztop + b1*zsurf1 + b2*zsurf2", 
+            "climatology": "", 
+            "tolerance": "", 
+            "valid_max": "800000.0", 
+            "axis": "Z"
+        }, 
+        "ocean_sigma": {
+            "requested": "", 
+            "stored_direction": "decreasing", 
+            "z_factors": "sigma: lev eta: eta depth: depth", 
+            "positive": "up", 
+            "must_have_bounds": "yes", 
+            "valid_min": "-1.0", 
+            "value": "", 
+            "z_bounds_factors": "sigma: lev_bnds eta: eta depth: depth", 
+            "long_name": "ocean sigma coordinate", 
+            "standard_name": "ocean_sigma_coordinate", 
+            "out_name": "lev", 
+            "type": "", 
+            "units": "", 
+            "formula": "z(n,k,j,i) = eta(n,j,i) + sigma(k)*(depth(j,i)+eta(n,j,i))", 
+            "climatology": "", 
+            "tolerance": "", 
+            "valid_max": "0.0", 
+            "axis": "Z"
+        }, 
+        "depth0m": {
+            "requested": "", 
+            "stored_direction": "increasing", 
+            "z_factors": "", 
+            "positive": "down", 
+            "must_have_bounds": "no", 
+            "valid_min": "0.0", 
+            "value": "0.0", 
+            "z_bounds_factors": "", 
+            "long_name": "depth", 
+            "standard_name": "depth", 
+            "out_name": "depth", 
+            "type": "double", 
+            "units": "m", 
+            "formula": "", 
+            "climatology": "", 
+            "tolerance": "", 
+            "valid_max": "100.0", 
+            "axis": "Z"
+        }, 
+        "ocean_s": {
+            "requested": "", 
+            "stored_direction": "decreasing", 
+            "z_factors": "s: lev eta: eta depth: depth a: a_coeff b: b_coeff depth_c: depth_c", 
+            "positive": "up", 
+            "must_have_bounds": "yes", 
+            "valid_min": "-1.0", 
+            "value": "", 
+            "z_bounds_factors": "s: lev_bnds eta: eta depth: depth a: a b: b depth_c: depth_c", 
+            "long_name": "ocean s-coordinate", 
+            "standard_name": "ocean_s_coordinate", 
+            "out_name": "lev", 
+            "type": "", 
+            "units": "", 
+            "formula": "z(n,k,j,i) = eta(n,j,i)*(1+s(k)) + depth_c*s(k) + (depth(j,i)-depth_c)*C(k) \n where \n C(k)=(1-b)*sinh(a*s(k))/sinh(a) +\n           b*(tanh(a*(s(k)+0.5))/(2*tanh(0.5*a)) - 0.5)", 
+            "climatology": "", 
+            "tolerance": "", 
+            "valid_max": "0.0", 
+            "axis": "Z"
+        }, 
+        "height2m": {
+            "requested": "", 
+            "stored_direction": "increasing", 
+            "z_factors": "", 
+            "positive": "up", 
+            "must_have_bounds": "no", 
+            "valid_min": "1.0", 
+            "value": "2.0", 
+            "z_bounds_factors": "", 
+            "long_name": "height", 
+            "standard_name": "height", 
+            "out_name": "height", 
+            "type": "double", 
+            "units": "m", 
+            "formula": "", 
+            "climatology": "", 
+            "tolerance": "", 
+            "valid_max": "10.0", 
+            "axis": "Z"
+        }, 
+        "depth_coord": {
+            "requested": "", 
+            "stored_direction": "decreasing", 
+            "z_factors": "", 
+            "positive": "down", 
+            "must_have_bounds": "yes", 
+            "valid_min": "0.0", 
+            "value": "", 
+            "z_bounds_factors": "", 
+            "long_name": "ocean depth coordinate", 
+            "standard_name": "depth", 
+            "out_name": "lev", 
+            "type": "", 
+            "units": "m", 
+            "formula": "", 
+            "climatology": "", 
+            "tolerance": "", 
+            "valid_max": "12000.0", 
+            "axis": "Z"
+        }, 
+        "alternate_hybrid_sigma": {
+            "requested": "", 
+            "stored_direction": "decreasing", 
+            "z_factors": "ap: ap b: b ps: ps", 
+            "positive": "down", 
+            "must_have_bounds": "yes", 
+            "valid_min": "0.0", 
+            "value": "", 
+            "z_bounds_factors": "ap: ap_bnds b: b_bnds ps: ps", 
+            "long_name": "hybrid sigma pressure coordinate", 
+            "standard_name": "atmosphere_hybrid_sigma_pressure_coordinate", 
+            "out_name": "lev", 
+            "type": "", 
+            "units": "1", 
+            "formula": "p = ap + b*ps", 
+            "climatology": "", 
+            "tolerance": "", 
+            "valid_max": "1.0", 
+            "axis": "Z"
+        }, 
+        "time2": {
+            "requested": "", 
+            "stored_direction": "increasing", 
+            "z_factors": "", 
+            "positive": "", 
+            "must_have_bounds": "yes", 
+            "valid_min": "", 
+            "value": "", 
+            "z_bounds_factors": "", 
+            "long_name": "time", 
+            "standard_name": "time", 
+            "out_name": "time", 
+            "type": "double", 
+            "units": "days since ?", 
+            "formula": "", 
+            "climatology": "yes", 
+            "tolerance": "", 
+            "valid_max": "", 
+            "axis": "T"
+        }, 
 
-expt_id_ok:   'pre-industrial control experiment'
-expt_id_ok:   'present-day control experiment'
-expt_id_ok:   'climate of the 20th Century experiment (20C3M)'
-expt_id_ok:   'committed climate change experiment'  ! official name(s) of 
-expt_id_ok:   'SRES A2 experiment'                   !  project's experiments
-expt_id_ok:   '720 ppm stabilization experiment (SRES A1B)'    
-expt_id_ok:   '550 ppm stabilization experiment (SRES B1)'
-expt_id_ok:   '1%/year CO2 increase experiment (to doubling)'
-expt_id_ok:   '1%/year CO2 increase experiment (to quadrupling)'
-expt_id_ok:   'slab ocean control experiment'
-expt_id_ok:   '2xCO2 equilibrium experiment'
-expt_id_ok:   'AMIP experiment'
-
-baseURL: http://cmip-pcmdi.llnl.gov
-
-magic_number: -1          ! used to check whether this file has been 
-                          !   altered from the official version.
-                          !   should be set to number of non-blank 
-                          !   characters in file. 
-approx_interval:  30.     ! approximate spacing between successive time
-                          !   samples (in units of the output time 
-                          !   coordinate), but this is ignored if set to 0.
-missing_value: 1.e20      ! value used to indicate a missing value
-                          !   in arrays output by netCDF as 32-bit IEEE 
-                          !   floating-point numbers (float or real)
-
-!*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
-!
-! SUBROUTINE ARGUMENT DEFAULT INFORMATION
-!
-!*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
-!
-!  set default specifications for subroutine arguments to:
-!     required/indeterminate/optional/ignored/forbidden
-!    (indeterminate may or may not be required information, but is not always
-!     required as an argument of the function call)
-!
-!
-!============
-subroutine_entry: cmor_axis
-!============
-!
-required: table axis_name units length coord_vals cell_bounds
-ignored: interval
-!
-!============
-subroutine_entry: cmor_variable
-!============
-!
-required: table table_entry units axis_ids
-indeterminate: missing_value
-optional: tolerance original_name history comment
-ignored: positive
-!
-!============
-subroutine_entry: cmor_write
-!============
-!
-required:  var_id data 
-indeterminate: ntimes_passed time_vals time_bnds store_with
-optional: file_suffix
-!
-!
-!*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
-!
-! AXIS INFORMATION
-!
-!*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
-!
-! ??? what about climatology???
-! ??? what about model level data???
-!
-!
-!  TEMPLATE FOR AXES
-!
-!============
-!axis_entry:               ! (required)
-!============
-!
-!    Override default argument specifications for cmor_axis 
-!------------
-!    acceptable arguments include units length coord_vals cell_bounds interval
-!required:                  ! (default: table axis_name units length
-!                                        coord_vals cell_bounds)
-!indeterminate:
-!optional:
-!ignored:                   ! (default: interval)
-!forbidden:
-!------------
-!
-! Axis attributes:
-!----------------------------------	
-!standard_name:             ! (required)
-!units:                     ! (required)
-!axis:                      ! X, Y, Z, T (default: undeclared)
-!positive:                  ! up or down (default: undeclared)
-!long_name:                 ! (default: undeclared)
-!----------------------------------	
-!
-! Additional axis information:
-!----------------------------------	
-!out_name:                ! (default: same as axis_entry) 
-!type:                    ! double (default), real, character, integer
-!stored_direction:        ! increasing (default) or decreasing
-!valid_min:               ! type: double precision (default: no check performed
-!valid_max:               ! type: double precision (default: no check performed
-!requested:               ! space-separated list of requested coordinates 
-                          !       (default: undeclared)
-!bounds_requested:        ! space-separated list of requested coordinate bounds
-                          !       (default: undeclared)
-!tol_on_requests:         ! fractional tolerance for meeting request
-                          !  (default=1.e-3, which is used in the formula:
-                          !     eps =  MIN(( tol*interval between grid-points)
-                          !          and (1.e-3*tol*coordinate value)))
-!value:                   ! of scalar (singleton) dimension 
-!bounds_values:           ! of scalar (singleton) dimension bounds
-!----------------------------------	
-!
-!
-!  TEMPLATE FOR VARIABLES
-!
-!
-!============
-!variable_entry:                ! (required)
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-!        acceptable arguments include  file_suffix missing_value tolerance 
-!                               original_name history comment positive
-!required:                   ! (default: table table_entry units axis_ids)
-!indeterminate:              ! (default: file_suffix missing_value)
-!optional:                   ! (default: original_name history comment)
-!ignored:                    ! (default: positive)
-!forbidden:
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-!standard_name:              ! (required)
-!units:                      ! (required)
-!cell_methods:               ! (default: undeclared)
-!long_name:                  ! (default: undeclared)
-!comment:                    ! (default: undeclared)
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-!dimensions:                 ! (required)  (scalar dimension(s) should appear
-                             !      last in list)
-!out_name:                   ! (default: variable_entry)
-!type:                       ! real (default), double, integer 
-!positive:                   ! up or down (default: undeclared)
-!valid_min:                  ! type: real (default: no check performed)
-!valid_max:                  ! type: real (default: no check performed)
-!ok_min_mean_abs:            ! type: real (default: no check performed)
-!ok_max_mean_abs:            ! type: real (default: no check performed)
-!----------------------------------	
-! 
-
-!
-!============
-axis_entry: longitude
-!============
-!
-!------------
-!
-! Axis attributes:
-!----------------------------------	
-standard_name:    longitude
-units:            degrees_east
-axis:             X
-long_name:        longitude
-!----------------------------------	
-!
-! Additional axis information:
-!----------------------------------	
-out_name:         lon
-valid_min:        0.           ! CMOR will add n*360 to input values
-                               ! (where n is an integer) to ensure 
-                               !  longitudes are in proper range.  The
-                               !  data will also be rearranged 
-                               !  appropriately.
-valid_max:        360.         !  see above comment.
-!----------------------------------	
-!
-!
-!=============
-axis_entry: latitude
-!=============
-!
-! Axis attributes:
-!----------------------------------	
-standard_name:    latitude
-units:            degrees_north
-axis:             Y
-long_name:        latitude
-!----------------------------------	
-!
-! Additional axis information:
-!----------------------------------	
-out_name:         lat
-valid_min:        -90.
-valid_max:        90.
-!----------------------------------	
-!
-!
-
-! ??? What about climatological data???
-!
-
-!============
-axis_entry: time
-!============
-!
-!    Override default argument specifications for cmor_axis 
-!------------
-optional: interval length
-indeterminate: coord_vals cell_bounds
-!------------
-!
-! Axis attributes:
-!----------------------------------	
-standard_name:    time
-units:            days since ?
-axis:             T
-long_name:        time
-!----------------------------------	
-!
-!
-!============
-axis_entry: pressure
-!============
-!
-!    Override default argument specifications for cmor_axis 
-!------------
-ignored: cell_bounds
-!------------
-!
-! Axis attributes:
-!----------------------------------	
-standard_name:    air_pressure
-units:            Pa 
-axis:             Z
-positive:         down
-long_name:        pressure
-!----------------------------------	
-!
-! Additional axis information:
-!----------------------------------	
-out_name:         plev
-stored_direction: decreasing
-valid_min:        0.
-valid_max:        110000.
-!requested:        100000. 92500. 85000. 70000. 60000. 50000. 40000. 
-!requested:         30000. 25000. 20000. 15000. 10000.  7000.  5000.
-!requested:          3000.  2000.  1000.
-!----------------------------------	
-!
-!
-!============
-axis_entry: height1
-!============
-!
-!    Override default argument specifications for cmor_axis 
-!------------
-ignored: cell_bounds
-!------------
-!
-! Axis attributes:
-!----------------------------------	
-standard_name:    height
-units:            m
-axis:             Z
-positive:         up
-long_name:        height
-!----------------------------------	
-!
-! Additional axis information:
-!----------------------------------	
-out_name:         height
-valid_min:        0.
-valid_max:        10.
-value:            2.
-!----------------------------------	
-!
-!
-!============
-axis_entry: height2
-!============
-!
-!    Override default argument specifications for cmor_axis 
-!------------
-ignored: cell_bounds
-!------------
-!
-! Axis attributes:
-!----------------------------------	
-standard_name:    height
-units:            m
-axis:             Z
-positive:         up
-long_name:        height
-!----------------------------------	
-!
-! Additional axis information:
-!----------------------------------	
-out_name:         height
-valid_min:        0.
-valid_max:        30.
-value:            10.
-!----------------------------------	
-!
-!
-!============
-axis_entry: depth1
-!============
-!
-!------------
-!
-! Axis attributes:
-!----------------------------------	
-standard_name:    depth
-units:            m
-axis:             Z
-positive:         down
-long_name:         depth
-!----------------------------------	
-!
-! Additional axis information:
-!----------------------------------	
-out_name:         depth
-valid_min:        0.0
-valid_max:        1.0
-value:            0.05
-bounds_values:    0.0 0.1
-!----------------------------------
-!
-!
-!============
-axis_entry: pressure1
-!
-!   Scalar dimension (200 hPa) defined for near-tropopause radiation fluxes
-!      (rsntp, rlntp, rsntpcs, rlntpcs, rsftropa_?, rsftropi_?, rlftropa_?, 
-!       rlftropi_?, rsftropacs_?, rsftropics_?, rlftropacs_?, rlftropics_?)
-!============
-!
-!    Override default argument specifications for cmor_axis 
-!------------
-ignored: cell_bounds
-!------------
-!
-!------------
-!
-! Axis attributes:
-!----------------------------------	
-standard_name:    air_pressure
-units:            Pa
-axis:             Z
-positive:         down
-long_name:        pressure
-!----------------------------------	
-!
-! Additional axis information:
-!----------------------------------	
-out_name:         plev
-valid_min:        10000.
-valid_max:        30000.
-value:            20000.
-!----------------------------------
-!
-!
-!============
-axis_entry: pressure2
-!============
-!
-!------------
-!
-! Axis attributes:
-!----------------------------------	
-standard_name:    air_pressure
-stored_direction: decreasing
-units:            Pa
-axis:             Z
-positive:         down
-long_name:        pressure
-!----------------------------------	
-!
-! Additional axis information:
-!----------------------------------	
-out_name:         plev
-bounds_requested: 100000. 80000. 80000. 68000. 68000. 56000. 56000. 44000. 44000. 31000. 31000. 18000. 18000.   0.
-!bounds_requested:  56000. 44000. 44000. 31000. 31000. 18000.
-!bounds_requested:  18000.     0.
-!----------------------------------!
-!
-!
-!============
-axis_entry: pressure3
-!
-!   Is defined for Table A1e: sulfate aerosol data (trsul)
-!============
-!
-!    Override default argument specifications for cmor_axis 
-!------------
-optional: cell_bounds
-!------------
-!
-! Axis attributes:
-!----------------------------------	
-standard_name:    air_pressure
-units:            Pa 
-axis:             Z
-positive:         down
-long_name:        pressure
-!----------------------------------	
-!
-! Additional axis information:
-!----------------------------------	
-out_name:         plev
-stored_direction: decreasing
-valid_min:        0.
-valid_max:        110000.
-requested:        100400. 98300. 95300. 91000. 84800. 76500. 66300. 
-requested:         54600. 42500. 31800. 23800. 18300. 14000. 10300.
-requested:          7200.  4700.  2700.  1300.   400.
-!----------------------------------	
-!
-!
-!============
-axis_entry: tau
-!============
-!
-!------------
-!
-! Axis attributes:
-!----------------------------------	
-standard_name:    cloud_optical_depth
-units:            1
-long_name:        optical depth
-!----------------------------------	
-!
-! Additional axis information:
-!----------------------------------	
-bounds_requested:  0.0  0.3  0.3  1.3  1.3  3.6  3.6  9.4 
-bounds_requested:  9.4 23.0 23.0 60.0 60.0 100000.
-!----------------------------------
-!
-!
-!============
-axis_entry: standard_sigma
-!============
-!
-!    Override default argument specifications for cmor_axis 
-!------------
-optional: units
-!------------
-!
-! Axis attributes:
-!----------------------------------	
-standard_name:    atmosphere_sigma_coordinate
-axis:             Z
-positive:         down
-long_name:        sigma coordinate
-!----------------------------------	
-!
-! Additional axis information:
-!----------------------------------	
-out_name:         lev
-stored_direction: decreasing
-valid_min:        0.0
-valid_max:        1.0
-formula:          p(n,k,j,i) = ptop + sigma(k)*(ps(n,j,i) - ptop)
-convert_to:       standard_hybrid_sigma
-z_factors:        ptop: ptop sigma: sigma ps: ps
-z_bounds_factors: ptop: ptop sigma: sigma_bnds ps: ps
-!----------------------------------	
-!
-!
-!============
-axis_entry:  standard_hybrid_sigma
-!============
-!
-!    Override default argument specifications for cmor_axis 
-!------------
-optional: units
-!------------
-!
-! Axis attributes:
-!----------------------------------	
-standard_name:    atmosphere_hybrid_sigma_pressure_coordinate
-units:            1
-axis:             Z 
-positive:         down
-long_name:        hybrid sigma pressure coordinate
-!----------------------------------	
-!
-! Additional axis information:
-!----------------------------------	
-out_name:         lev
-stored_direction: decreasing
-valid_min:        0.0
-valid_max:        1.0
-formula:          p(n,k,j,i) = a(k)*p0 + b(k)*ps(n,j,i)
-z_factors:        p0: p0 a: a b: b ps: ps
-z_bounds_factors: p0: p0 a: a_bnds b: b_bnds ps: ps
-!----------------------------------		
-!
-!
-!============
-axis_entry:  alternate_hybrid_sigma
-!============
-!
-!    Override default argument specifications for cmor_axis 
-!------------
-optional: units
-!------------
-!
-! Axis attributes:
-!----------------------------------	
-standard_name:    atmosphere_hybrid_sigma_pressure_coordinate
-stored_direction: decreasing
-units:            1
-axis:             Z
-positive:         down
-long_name:        hybrid sigma pressure coordinate
-!----------------------------------	
-!
-! Additional axis information:
-!----------------------------------	
-out_name:         lev
-valid_min:        0.0
-valid_max:        1.0
-formula:          p(n,k,j,i) = ap(k) + b(k)*ps(n,j,i)
-convert_to:       standard_hybrid_sigma
-z_factors:        p0: p0 ap: ap b: b ps: ps
-z_bounds_factors: p0 ap: ap_bnds b: b_bnds ps: ps
-!----------------------------------		
-!
-!
-!============
-axis_entry:  hybrid_height
-!============
-!
-!    Override default argument specifications for cmor_axis 
-!------------
-optional: units
-!------------
-!
-! Axis attributes:
-!----------------------------------	
-standard_name:    atmosphere_hybrid_height_coordinate
-units:            m
-axis:             Z 
-positive:         up
-long_name:        hybrid height coordinate
-!----------------------------------	
-!
-! Additional axis information:
-!----------------------------------	
-out_name:         lev
-stored_direction: increasing
-valid_min:        0.0
-formula:          z(k,j,i) = a(k) + b(k)*orog(j,i)
-z_factors:        a: a b: b orog: orog
-z_bounds_factors: a: a_bnds b: b_bnds orog: orog
-!----------------------------------		
-!
-!
-!*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
-!
-! VARIABLE INFORMATION
-!
-!*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
-!
-!
-!
-! ***************************************************************
-!
-! Vertical dimensionless coordinate variables:
-!
-! ***************************************************************
-!
-!
-!
-!============
-variable_entry: p0
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-ignored: axis_ids
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-long_name:       reference pressure for hybrid sigma coordinate 
-units:           Pa
-!----------------------------------	
-!
-!
-!============
-variable_entry: ptop
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-ignored: axis_ids
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-long_name:       pressure at top of model 
-units:           Pa
-!----------------------------------	
-!
-!
-!============
-variable_entry: sigma
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-optional: units
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-long_name:  sigma coordinate
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:         zlevel
-type:               double
-!----------------------------------	
-!
-!
-!============
-variable_entry: sigma_bnds
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-optional: units
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-long_name:  sigma coordinate for layer bounds
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:         zlevel
-type:               double
-!----------------------------------	
-!
-!
-!============
-variable_entry: a
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-optional: units
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-long_name:   hybrid sigma coordinate A coefficient for layer
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:         zlevel
-type:               double
-!----------------------------------	
-!
-!
-!============
-variable_entry: b
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-optional: units
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-long_name:   hybrid sigma coordinate B coefficient for layer
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:         zlevel
-type:               double
-!----------------------------------	
-!
-!
-!============
-variable_entry: a_bnds
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-optional: units
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-long_name:   hybrid sigma coordinate A coefficient for layer bounds
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:         zlevel
-type:               double
-!----------------------------------	
-!
-!
-!============
-variable_entry: b_bnds
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-optional: units
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-long_name:   hybrid sigma coordinate B coefficient for layer bounds
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:         zlevel
-type:               double
-!----------------------------------
-!
-!
-!============
-variable_entry: ap
-!============
-!
-! Variable attributes:
-!----------------------------------	
-long_name:   alternate hybrid sigma coordinate A coefficient for layer
-units:           Pa
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:         zlevel
-type:               double
-!----------------------------------	
-!
-!
-!============
-variable_entry: ap_bnds
-!============
-!
-! Variable attributes:
-!----------------------------------	
-long_name:   alternate hybrid sigma coordinate A coefficient for layer bounds
-units:           Pa
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:         zlevel
-type:               double
-!----------------------------------	
-!
-!
-!============
-variable_entry: ztop
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-ignored: axis_ids
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-long_name:       height of top of model 
-units:           m
-!----------------------------------	
-!
-!
-!============
-variable_entry: az
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-optional: units
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-long_name:   hybrid height coordinate coefficient (eta) for layer
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:         zlevel
-type:               double
-!----------------------------------	
-!
-!
-!============
-variable_entry: bz
-!============
-!
-!    Override default argument specifications for cmor_variable 
-!------------
-optional: units
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-long_name:   hybrid height coordinate coefficient (tau) for layer
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:         zlevel
-type:               double
-!----------------------------------	
-!
-!
-!============
-variable_entry: az_bnds
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-optional: units
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-long_name:   hybrid sigma coordinate coefficient (eta) for layer bounds
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:         zlevel
-type:               double
-!----------------------------------	
-!
-!
-!============
-variable_entry: bz_bnds
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-optional: units
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-long_name:   hybrid sigma coordinate B coefficient (tau) for layer bounds
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:         zlevel
-type:               double
-!----------------------------------
-!
-!
-!
-! ***************************************************************
-!
-! IPCC Table A1a: Monthly-mean 2-d atmosphere or land surface data
-!
-! ***************************************************************
-!
-!
-!
-!============
-variable_entry: psl
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name:   air_pressure_at_sea_level     
-units:           Pa
-cell_methods:    time: mean
-long_name:       Sea Level Pressure
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-valid_min:        90000.
-valid_max:        120000.
-ok_min_mean_abs:  102000.
-ok_max_mean_abs:  98000.
-!----------------------------------	
-! 
-!
-!============
-variable_entry: pr
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name:  precipitation_flux
-units:          kg m-2 s-1
-cell_methods:   time: mean
-long_name:      Precipitation
-comment:        includes all types (rain, snow, large-scale, convective, etc.)
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:         longitude latitude time
-valid_min:          0.0
-valid_max:          1.e-3
-ok_min_mean_abs:    1.e-6
-ok_max_mean_abs:    5.e-5 
-!----------------------------------	
-!
-!
-!============
-variable_entry: tas
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name:   air_temperature     
-units:           K
-cell_methods:    time: mean
-long_name:       Surface Air Temperature
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time height1
-valid_min:        195.
-valid_max:        330.
-ok_min_mean_abs:  270.
-ok_max_mean_abs:  300.
-!----------------------------------	
-! 
-!
-!============
-variable_entry: mrsos
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: moisture_content_of_soil_layer
-units:         kg m-2
-cell_methods:  time: mean
-long_name:     Moisture in Upper 0.1 m of Soil Column
-comment:         includes subsurface frozen water but not surface snow and ice 
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time depth1
-!----------------------------------	 
-!
-!
-!============
-variable_entry: mrso
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: soil_moisture_content
-units:         kg m-2
-cell_methods:  time: mean
-long_name:     Total Soil Moisture Content
-comment:         includes subsurface frozen water but not surface snow and ice 
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-!----------------------------------	 
-!
-!
-!============
-variable_entry: tauu
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-required: positive
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: surface_downward_eastward_stress
-units:         Pa
-cell_methods:  time: mean
-long_name:     Zonal Surface Wind Stress
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-positive:         down
-!----------------------------------	
-! 
-!
-!============
-variable_entry: tauv
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-required: positive
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: surface_downward_northward_stress
-units:         Pa
-cell_methods:  time: mean
-long_name:     Meridional Surface Wind Stress
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-positive:         down
-!----------------------------------	
-! 
-!
-!============
-variable_entry: snd
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: surface_snow_thickness
-units:         m
-cell_methods:  time: mean
-long_name:     Snow Depth
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-valid_min:        0.0
-!----------------------------------	
-! 
-!
-!============
-variable_entry: hfls
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-required: positive
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: surface_upward_latent_heat_flux
-units:         W m-2
-cell_methods:  time: mean
-long_name:     Surface Latent Heat Flux
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-positive:         up
-valid_min:        -120
-valid_max:        900.
-ok_min_mean_abs:  50.
-ok_max_mean_abs:  120.
-!----------------------------------	
-! 
-!
-!============
-variable_entry: hfss
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-required: positive
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: surface_upward_sensible_heat_flux
-units:         W m-2
-cell_methods:  time: mean
-long_name:     Surface Sensible Heat Flux
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-positive:         up
-!----------------------------------	
-! 
-!
-!============
-variable_entry: rlds
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-required: positive
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: surface_downwelling_longwave_flux_in_air
-units:         W m-2
-cell_methods:  time: mean
-long_name:     Surface Downwelling Longwave Radiation
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-positive:         down
-valid_min:        20.
-valid_max:        600.
-ok_min_mean_abs:  300.
-ok_max_mean_abs:  370.
-!----------------------------------	
-! 
-!
-!============
-variable_entry: rlus
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-required: positive
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: surface_upwelling_longwave_flux_in_air
-units:         W m-2
-cell_methods:  time: mean
-long_name:     Surface Upwelling Longwave Radiation
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-positive:         up
-valid_min:        50.
-valid_max:        750.
-ok_min_mean_abs:  250.
-ok_max_mean_abs:  450.
-!----------------------------------	
-! 
-!
-!============
-variable_entry: rsds
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-required: positive
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: surface_downwelling_shortwave_flux_in_air
-units:         W m-2
-cell_methods:  time: mean
-long_name:     Surface Downwelling Shortwave Radiation
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-positive:         down
-valid_min:        0.
-valid_max:        550.
-ok_min_mean_abs:  150.
-ok_max_mean_abs:  220.
-!----------------------------------	
-! 
-!
-!============
-variable_entry: rsus
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-required: positive
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: surface_upwelling_shortwave_flux_in_air
-units:         W m-2
-cell_methods:  time: mean
-long_name:     Surface Upwelling Shortwave Radiation
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-valid_min:        0.
-positive:         up
-!----------------------------------	
-! 
-!
-!============
-variable_entry: ts
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: surface_temperature
-units:         K    
-cell_methods:  time: mean
-long_name:     Surface Skin Temperature
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-valid_min:        170.
-valid_max:        340.
-ok_min_mean_abs:  280.
-ok_max_mean_abs:  300.
-!----------------------------------	
-! 
-!
-!============
-variable_entry: ps
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name:   surface_air_pressure     
-units:           Pa
-cell_methods:    time: mean
-long_name:       Surface Pressure
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-valid_min:        0.48e5
-valid_max:        1.1e5
-ok_min_mean_abs:  0.97e5
-ok_max_mean_abs:  1.0e5
-!----------------------------------	
-!
-!
-!============
-variable_entry: prsn
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name:  snowfall_flux
-units:          kg m-2 s-1
-cell_methods:   time: mean
-long_name:      Snowfall Flux
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:         longitude latitude time
-valid_min:          0.0
-!----------------------------------	
-!
-!
-!============
-variable_entry: prc
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name:  convective_precipitation_flux
-units:          kg m-2 s-1
-cell_methods:   time: mean
-long_name:      Convective Precipitation
-comment:        includes both liquid and solid phases
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:         longitude latitude time
-valid_min:          0.0
-!----------------------------------	
-!
-!
-!============
-variable_entry: prw
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name:  atmosphere_water_vapor_content
-units:          kg m-2
-cell_methods:   time: mean
-long_name:      Precipitable Water
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:         longitude latitude time
-valid_min:          0.0
-valid_max:          150.
-ok_min_mean_abs:    20.
-ok_max_mean_abs:    30. 
-!----------------------------------	
-!
-!
-!============
-variable_entry: mrfso
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: soil_frozen_water_content
-units:         kg m-2
-cell_methods:  time: mean
-long_name:     Soil Frozen Water Content
-comment:       excludes surface snow and ice
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-valid_min:          0.0
-!----------------------------------	 
-!
-!
-!============
-variable_entry: mrros
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: surface_runoff_flux
-units:         kg m-2 s-1
-cell_methods:  time: mean
-long_name:     Surface Runoff
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-!----------------------------------	 
-!
-!
-!============
-variable_entry: mrro
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: runoff_flux
-units:         kg m-2 s-1
-cell_methods:  time: mean
-long_name:     Surface and Subsurface Runoff
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-!----------------------------------	 
-!
-!
-!============
-variable_entry: snw
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: surface_snow_amount_where_land
-units:         kg m-2
-cell_methods:  time: mean
-long_name:     Snow Amount
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-valid_min:          0.0
-!----------------------------------	 
-!
-!
-!============
-variable_entry: snc
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: surface_snow_area_fraction_where_land
-units:         %
-cell_methods:  time: mean
-long_name:     Snow Area Fraction
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-valid_min:          0.0
-valid_max:          100.
-!----------------------------------	 
-!
-!
-!============
-variable_entry: snm
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: surface_snow_melt_flux_where_land
-units:         kg m-2 s-1
-cell_methods:  time: mean
-long_name:     Snow Melt
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-valid_min:          0.0
-!----------------------------------	 
-!
-!
-!============
-variable_entry: uas
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name:   eastward_wind    
-units:           m s-1
-cell_methods:    time: mean
-long_name:       Zonal Surface Wind Speed
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time height2
-!----------------------------------	
-! 
-!
-!============
-variable_entry: vas
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name:   northward_wind    
-units:           m s-1
-cell_methods:    time: mean
-long_name:       Meridional Surface Wind Speed
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time height2
-!----------------------------------	
-! 
-!
-!============
-variable_entry: huss
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name:   specific_humidity   
-units:           kg kg-1
-cell_methods:    time: mean
-long_name:       Surface Specific Humidity
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time height1
-valid_min:        0.0
-!----------------------------------	
-! 
-!
-!============
-variable_entry: rsdt
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-required: positive
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: toa_incoming_shortwave_flux
-units:         W m-2
-cell_methods:  time: mean
-long_name:     TOA Incident Shortwave Radiation
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-valid_min:        0.
-positive:         down
-!----------------------------------	
-! 
-!
-!============
-variable_entry: rsut
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-required: positive
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: toa_outgoing_shortwave_flux
-units:         W m-2
-cell_methods:  time: mean
-long_name:     TOA Reflected Shortwave Radiation
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-valid_min:        0.
-positive:         up
-!----------------------------------	
-! 
-!
-!============
-variable_entry: rlut
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-required: positive
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: toa_outgoing_longwave_flux
-units:         W m-2
-cell_methods:  time: mean
-long_name:     Outgoing Longwave Radiation
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-valid_min:        10.
-valid_max:        500.
-positive:         up
-!----------------------------------	
-! 
-!
-!============
-variable_entry: rtmt
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-required: positive
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: net_downward_radiative_flux_at_top_of_atmosphere_model
-units:         W m-2
-cell_methods:  time: mean
-long_name:     Net Flux at Top of Model
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-positive:         down
-!----------------------------------	
-! 
-!
-!============
-variable_entry: rsntp
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-required: positive
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: net_downward_shortwave_flux_in_air
-units:         W m-2
-cell_methods:  time: mean
-long_name:     Net Downward Shortwave Flux at 200 hPa
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time pressure1
-valid_min:        0.
-positive:         down
-!----------------------------------	
-! 
-!
-!============
-variable_entry: rlntp
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-required: positive
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: net_upward_longwave_flux_in_air
-units:         W m-2
-cell_methods:  time: mean
-long_name:     Net Upward Longwave Flux at 200 hPa
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time pressure1
-valid_min:        0.
-positive:         up
-!----------------------------------	
-! 
-!
-!============
-variable_entry: rsntpcs
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-required: positive
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: net_downward_shortwave_flux_in_air_assuming_clear_sky
-units:         W m-2
-cell_methods:  time: mean
-long_name:     Net Downward Clear-Sky Shortwave Flux at 200 hPa
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time pressure1
-valid_min:        0.
-positive:         down
-!----------------------------------	
-! 
-!
-!============
-variable_entry: rlntpcs
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-required: positive
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: net_upward_longwave_flux_in_air_assuming_clear_sky
-units:         W m-2
-cell_methods:  time: mean
-long_name:     Net Upward Clear-Sky Longwave Flux at 200 hPa
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time pressure1
-valid_min:        0.
-positive:         up
-!----------------------------------	
-! 
-!
-!============
-variable_entry: rsdscs
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-required: positive
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: surface_downwelling_shortwave_flux_in_air_assuming_clear_sky
-units:         W m-2
-cell_methods:  time: mean
-long_name:     Incident Surface Clear-Sky Shortwave
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-valid_min:        0.
-positive:         down
-!----------------------------------	
-! 
-!
-!============
-variable_entry: rsuscs
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-required: positive
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: surface_upwelling_shortwave_flux_in_air_assuming_clear_sky
-units:         W m-2
-cell_methods:  time: mean
-long_name:     Reflected Surface Clear-Sky Shortwave
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-valid_min:        0.
-positive:         up
-!----------------------------------	
-! 
-!
-!============
-variable_entry: rldscs
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-required: positive
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: surface_downwelling_longwave_flux_in_air_assuming_clear_sky
-units:         W m-2
-cell_methods:  time: mean
-long_name:     Downwelling Surface Clear-Sky Longwave
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-valid_min:        0.
-positive:         down
-!----------------------------------	
-! 
-!
-!============
-variable_entry: rlutcs
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-required: positive
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: toa_outgoing_longwave_flux_assuming_clear_sky
-units:         W m-2
-cell_methods:  time: mean
-long_name:     Outgoing Clear-Sky Longwave
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-valid_min:        10.
-valid_max:        500.
-positive:         up
-!----------------------------------	
-! 
-!
-!============
-variable_entry: rsutcs
-!============
-!
-!    Override default argument specifications for cmor_variable
-!------------
-required: positive
-!------------
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: toa_outgoing_shortwave_flux_assuming_clear_sky
-units:         W m-2
-cell_methods:  time: mean
-long_name:     Reflected Clear-Sky Shortwave
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-valid_min:        0.
-positive:         up
-!----------------------------------	
-! 
-!
-!============
-variable_entry: clt2
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: cloud_area_fraction
-units:         %
-cell_methods:  time: mean
-long_name:     Total Cloud Fraction
-deflate: 1
-deflate_level: 9
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-valid_min:        0.0
-valid_max:        100.0
-ok_min_mean_abs:  30.
-ok_max_mean_abs:  75.
-!----------------------------------	
-! 
-!
-!============
-variable_entry: clt
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: cloud_area_fraction
-units:         %
-cell_methods:  time: mean
-long_name:     Total Cloud Fraction
-deflate: 0
-deflate_level: 0
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-valid_min:        0.0
-valid_max:        100.0
-ok_min_mean_abs:  30.
-ok_max_mean_abs:  75.
-!----------------------------------	
-! 
-!
-!============
-variable_entry: clwvi
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: atmosphere_cloud_condensed_water_content
-units:         kg m-2
-cell_methods:  time: mean
-long_name:     Column Integerated Cloud Water Content
-comment:       should include both liquid and solid phase
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-valid_min:        0.0
-!----------------------------------	
-! 
-!
-!============
-variable_entry: clivi
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: atmosphere_cloud_ice_content
-units:         kg m-2
-cell_methods:  time: mean
-long_name:     Column Integerated Cloud Ice Content
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-valid_min:        0.0
-!----------------------------------	
-!
-!
-!
-!
-! ***************************************************************
-!
-! IPCC Table A1b: Time-independent 2-d land surface data
-!
-! ***************************************************************
-!
-!
-!
-!============
-variable_entry: orog
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: surface_altitude
-units:         m
-long_name:     Surface Altitude
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude
-valid_min:        -500.
-valid_max:        12000.
-ok_min_mean_abs:  0.
-ok_max_mean_abs:  2000.
-!----------------------------------	
-!
-!
-!============
-variable_entry: sftlf
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: land_area_fraction
-units:         %
-long_name:     Land Area Fraction
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude
-valid_min:        0.0
-valid_max:        100.
-ok_min_mean_abs:  20.
-ok_max_mean_abs:  40.
-!----------------------------------	
-!
-!
-!============
-variable_entry: sftgif
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: land_ice_area_fraction
-units:         %
-long_name:     Fraction of Grid Cell Covered with Glacier
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude
-valid_min:        0.0
-valid_max:        100.
-!----------------------------------	
-!
-!
-!============
-variable_entry: mrsofc
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: soil_moisture_content_at_field_capacity
-units:         kg m-2
-long_name:     Capacity of Soil to Store Water
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude
-!----------------------------------	
-!
-!
-!
-!
-! ***************************************************************
-!
-! IPCC Table A1c: Monthly-mean 3-d atmosphere data
-!
-! ***************************************************************
-!
-!
-!
-!============
-variable_entry: cl
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name:  cloud_area_fraction_in_atmosphere_layer
-units:          %
-cell_methods:   time: mean
-long_name:      Cloud Fraction
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:         longitude latitude zlevel time
-valid_min:          0.0
-valid_max:          100.0
-ok_min_mean_abs:    10.0
-ok_max_mean_abs:    90.0
-!----------------------------------	
-!
-!
-!============
-variable_entry: ta
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: air_temperature
-units:         K
-cell_methods:  time: mean
-long_name:     Temperature
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude pressure2 time
-valid_min:        150.
-valid_max:        350.
-ok_min_mean_abs:  200.
-ok_max_mean_abs:  300.
-!----------------------------------	
-!
-!
-!============
-variable_entry: ua
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: eastward_wind
-units:         m s-1
-cell_methods:  time: mean
-long_name:     Zonal Wind Component
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude pressure time
-valid_min:        -200.
-valid_max:        300.
-ok_min_mean_abs:  0.1
-ok_max_mean_abs:  100.
-!----------------------------------	
-!
-!
-!============
-variable_entry: va
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: northward_wind
-units:         m s-1
-cell_methods:  time: mean
-long_name:     Meridional Wind Component
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude pressure time
-valid_min:        -100.
-valid_max:        100.
-ok_min_mean_abs:  0.1
-ok_max_mean_abs:  50.
-!----------------------------------	
-!
-!
-!============
-variable_entry: hus
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: specific_humidity
-units:         1
-cell_methods:  time: mean
-long_name:     Specific Humidity 
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude pressure time
-!----------------------------------	
-!
-!
-!============
-variable_entry: wap
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: lagrangian_tendency_of_air_pressure
-units:         Pa s-1
-cell_methods:  time: mean
-long_name:     Omega (=dp/dt) 
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude pressure time
-!----------------------------------	
-!
-!
-!============
-variable_entry: zg
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: geopotential_height
-units:         m
-cell_methods:  time: mean
-long_name:     Geopotential Height 
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude pressure time
-!----------------------------------	
-!
-!
-!============
-variable_entry: hur
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: relative_humidity
-units:         %
-cell_methods:  time: mean
-long_name:     Relative Humidity 
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude pressure time
-valid_min:        0.
-valid_max:        100.
-ok_min_mean_abs:  1.
-ok_max_mean_abs:  99.
-!----------------------------------	
-!
-!
-!============
-variable_entry: tro3
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: mole_fraction_of_o3_in_air
-units:         1e-9
-cell_methods:  time: mean
-long_name:     Ozone Mole Fraction
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude pressure time
-!----------------------------------	
-!
-!
-!
-!
-! ***************************************************************
-!
-! IPCC Table A1d: Monthly-mean 3-d ISCCP simulator data
-!
-! ***************************************************************
-!
-!
-!
-!============
-variable_entry: clisccp
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: isccp_cloud_area_fraction
-units:         1
-cell_methods:  time: mean
-long_name:     Cloud Fraction as Calculated by the ISCCP Simulator
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude pressure2 tau time
-valid_min:        0.0
-valid_max:        1.0
-ok_min_mean_abs:  0.001
-ok_max_mean_abs:  0.9
-!----------------------------------	
-!
-!
-!
-!
-! ***************************************************************
-!
-! IPCC Table A1e: Monthly-mean 2-d and 3-d sulfate aerosol fields
-!
-! ***************************************************************
-!
-!
-!
-!============
-variable_entry: trsul
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: mass_concentration_of_sulfate_aerosol_in_air 
-units:         1e-9 kg m-3
-cell_methods:  time: mean
-long_name:     Mass Concentration of Sulfate Aerosol
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude pressure3 time
-!----------------------------------	
-!
-!
-!============
-variable_entry: trsult
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: atmosphere_content_of_sulfate_aerosol 
-units:         1e-6 kg m-2
-cell_methods:  time: mean
-long_name:     Sulfate Burden
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-!----------------------------------	
-!
-!
-!
-!
-! ***************************************************************
-!
-! IPCC Table A1f: Monthly-mean land surface fields and prescribed land surface characteristics
-!
-! ***************************************************************
-!
-!
-!
-!============
-variable_entry: prveg
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: precipitation_flux_onto_canopy
-units:         kg m-2 s-1 
-cell_methods:  time: mean
-long_name:     Precipitation Intercepted by Vegetation Canopy
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-!----------------------------------	
-!
-!
-!============
-variable_entry: evspsblveg
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: water_evaporation_flux_from_canopy
-units:         kg m-2 s-1 
-cell_methods:  time: mean
-long_name:     Evaporation from Vegetation Canopy
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-!----------------------------------	
-!
-!
-!============
-variable_entry: zmla
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: atmosphere_boundary_layer_thickness
-units:         m
-cell_methods:  time: mean
-long_name:     Atmospheric Boundary Layer Thickness
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time
-!----------------------------------	
-!
-!
-!============
-variable_entry: rootd
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: root_depth
-units:         m
-long_name:     Root Depth
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude
-!----------------------------------	
-!
-!
-!============
-variable_entry: tasmin
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: air_temperature
-units:         K
-cell_methods:  time: minimum within days time: mean over days
-long_name:     Daily Minimum Surface Air Temperature
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time height1
-!----------------------------------	
-!
-!
-!============
-variable_entry: tasmax
-!============
-!
-! Variable attributes:
-!----------------------------------	
-standard_name: air_temperature
-units:         K
-cell_methods:  time: maximum within days time: mean over days
-long_name:     Daily Miximum Surface Air Temperature
-!----------------------------------	
-!
-! Additional variable information:
-!----------------------------------	
-dimensions:       longitude latitude time height1
-!----------------------------------	
-!
-!
+"pressure2": {
+                "standard_name":    "air_pressure",
+                "stored_direction": "decreasing",
+                "units":            "Pa",
+                "axis":             "Z",
+                "positive":         "down",
+                "long_name":        "pressure",
+                "out_name":         "plev",
+                "bounds_requested":    [   "100000.",   "80000.", "80000.", "68000.", "68000.", "56000.", "56000.", "44000.", "44000.", "31000.", "31000.", "18000.", "18000.", "0." ],
+},
+        "oline": {
+            "requested": [
+                "barents_opening", 
+                "bering_strait", 
+                "canadian_archipelago", 
+                "denmark_strait", 
+                "drake_passage", 
+                "english_channel", 
+                "pacific_equatorial_undercurrent", 
+                "faroe_scotland_channel", 
+                "florida_bahamas_strait", 
+                "fram_strait", 
+                "iceland_faroe_channel", 
+                "indonesian_thoughflow", 
+                "mozambique_channel", 
+                "taiwan_luzon_straits", 
+                "windward_passage"
+            ], 
+            "stored_direction": "", 
+            "z_factors": "", 
+            "positive": "", 
+            "must_have_bounds": "no", 
+            "valid_min": "", 
+            "value": "", 
+            "z_bounds_factors": "", 
+            "long_name": "ocean passage", 
+            "standard_name": "region", 
+            "out_name": "line", 
+            "type": "character", 
+            "units": "1", 
+            "formula": "", 
+            "climatology": "", 
+            "tolerance": "", 
+            "valid_max": "", 
+            "axis": ""
+        }, 
+        "latitude": {
+            "requested": "", 
+            "stored_direction": "increasing", 
+            "z_factors": "", 
+            "positive": "", 
+            "must_have_bounds": "", 
+            "valid_min": "-90.0", 
+            "value": "", 
+            "z_bounds_factors": "", 
+            "long_name": "latitude", 
+            "standard_name": "latitude", 
+            "out_name": "lat", 
+            "type": "double", 
+            "units": "degrees_north", 
+            "formula": "", 
+            "climatology": "", 
+            "tolerance": "", 
+            "valid_max": "90.0", 
+            "axis": "Y"
+        }, 
+        "basin": {
+            "requested": [
+                "atlantic_arctic_ocean", 
+                "indian_pacific_ocean", 
+                "global_ocean"
+            ], 
+            "stored_direction": "", 
+            "z_factors": "", 
+            "positive": "", 
+            "must_have_bounds": "no", 
+            "valid_min": "", 
+            "value": "", 
+            "z_bounds_factors": "", 
+            "long_name": "ocean basin", 
+            "standard_name": "region", 
+            "out_name": "basin", 
+            "type": "character", 
+            "units": "1", 
+            "formula": "", 
+            "climatology": "", 
+            "tolerance": "", 
+            "valid_max": "", 
+            "axis": ""
+        }, 
+        "height10m": {
+            "requested": "", 
+            "stored_direction": "increasing", 
+            "z_factors": "", 
+            "positive": "up", 
+            "must_have_bounds": "no", 
+            "valid_min": "1.0", 
+            "value": "10.0", 
+            "z_bounds_factors": "", 
+            "long_name": "height", 
+            "standard_name": "height", 
+            "out_name": "height", 
+            "type": "double", 
+            "units": "m", 
+            "formula": "", 
+            "climatology": "", 
+            "tolerance": "", 
+            "valid_max": "30.0", 
+            "axis": "Z"
+        }, 
+        "standard_sigma": {
+            "requested": "", 
+            "stored_direction": "decreasing", 
+            "z_factors": "ptop: ptop sigma: lev ps: ps", 
+            "positive": "down", 
+            "must_have_bounds": "yes", 
+            "valid_min": "0.0", 
+            "value": "", 
+            "z_bounds_factors": "ptop: ptop sigma: lev_bnds ps: ps", 
+            "long_name": "sigma coordinate", 
+            "standard_name": "atmosphere_sigma_coordinate", 
+            "out_name": "lev", 
+            "type": "", 
+            "units": "", 
+            "formula": "p = ptop + sigma*(ps - ptop)", 
+            "climatology": "", 
+            "tolerance": "", 
+            "valid_max": "1.0", 
+            "axis": "Z"
+        }, 
+        "rho": {
+            "requested": "", 
+            "stored_direction": "decreasing", 
+            "z_factors": "", 
+            "positive": "down", 
+            "must_have_bounds": "yes", 
+            "valid_min": "", 
+            "value": "", 
+            "z_bounds_factors": "", 
+            "long_name": "density++++?", 
+            "standard_name": "", 
+            "out_name": "rho", 
+            "type": "double", 
+            "units": "kg m-3", 
+            "formula": "", 
+            "climatology": "", 
+            "tolerance": "", 
+            "valid_max": "", 
+            "axis": "Z"
+        }, 
+        "depth100m": {
+            "requested": "", 
+            "stored_direction": "increasing", 
+            "z_factors": "", 
+            "positive": "down", 
+            "must_have_bounds": "no", 
+            "valid_min": "80.0", 
+            "value": "100.0", 
+            "z_bounds_factors": "", 
+            "long_name": "depth", 
+            "standard_name": "depth", 
+            "out_name": "depth", 
+            "type": "double", 
+            "units": "m", 
+            "formula": "", 
+            "climatology": "", 
+            "tolerance": "", 
+            "valid_max": "120.0", 
+            "axis": "Z"
+        }, 
+        "natural_log_pressure": {
+            "requested": "", 
+            "stored_direction": "decreasing", 
+            "z_factors": "p0: p0 lev: lev", 
+            "positive": "down", 
+            "must_have_bounds": "yes", 
+            "valid_min": "-1.0", 
+            "value": "", 
+            "z_bounds_factors": "p0: p0 lev: lev_bnds", 
+            "long_name": "atmosphere natural log pressure coordinate", 
+            "standard_name": "atmosphere_ln_pressure_coordinate", 
+            "out_name": "lev", 
+            "type": "", 
+            "units": "", 
+            "formula": "p = p0 * exp(-lev)", 
+            "climatology": "", 
+            "tolerance": "", 
+            "valid_max": "20.0", 
+            "axis": "Z"
+        }, 
+        "hybrid_height": {
+            "requested": "", 
+            "stored_direction": "increasing", 
+            "z_factors": "a: lev b: b orog: orog", 
+            "positive": "up", 
+            "must_have_bounds": "yes", 
+            "valid_min": "0.0", 
+            "value": "", 
+            "z_bounds_factors": "a: lev_bnds b: b_bnds orog: orog", 
+            "long_name": "hybrid height coordinate", 
+            "standard_name": "atmosphere_hybrid_height_coordinate", 
+            "out_name": "lev", 
+            "type": "", 
+            "units": "m", 
+            "formula": "z = a + b*orog", 
+            "climatology": "", 
+            "tolerance": "", 
+            "valid_max": "", 
+            "axis": "Z"
+        }, 
+        "longitude": {
+            "requested": "", 
+            "stored_direction": "increasing", 
+            "z_factors": "", 
+            "positive": "", 
+            "must_have_bounds": "no", 
+            "valid_min": "0.0", 
+            "value": "", 
+            "z_bounds_factors": "", 
+            "long_name": "longitude", 
+            "standard_name": "longitude", 
+            "out_name": "lon", 
+            "type": "double", 
+            "units": "degrees_east", 
+            "formula": "", 
+            "climatology": "", 
+            "tolerance": "", 
+            "valid_max": "360.0", 
+            "axis": "X"
+        }, 
+        "time": {
+            "requested": "", 
+            "stored_direction": "increasing", 
+            "z_factors": "", 
+            "positive": "", 
+            "must_have_bounds": "no", 
+            "valid_min": "", 
+            "value": "", 
+            "z_bounds_factors": "", 
+            "long_name": "time", 
+            "standard_name": "time", 
+            "out_name": "time", 
+            "type": "double", 
+            "units": "days since ?", 
+            "formula": "", 
+            "climatology": "", 
+            "tolerance": "", 
+            "valid_max": "", 
+            "axis": "T"
+        }, 
+        "ocean_double_sigma": {
+            "requested": "", 
+            "stored_direction": "", 
+            "z_factors": "sigma: sigma depth: depth z1: z1 z2: z2 a: a_coeff href: href k_c: k_c", 
+            "positive": "up", 
+            "must_have_bounds": "yes", 
+            "valid_min": "", 
+            "value": "", 
+            "z_bounds_factors": "sigma: sigma_bnds depth: depth z1: z1 z2: z2 a: a href: href k_c: k_c", 
+            "long_name": "ocean double sigma coordinate", 
+            "standard_name": "ocean_double_sigma", 
+            "out_name": "lev", 
+            "type": "", 
+            "units": "", 
+            "formula": "for k <= k_c:\n z(k,j,i)= sigma(k)*f(j,i) \n for k > k_c:\n z(k,j,i)= f(j,i) + (sigma(k)-1)*(depth(j,i)-f(j,i)) \n f(j,i)= 0.5*(z1+ z2) + 0.5*(z1-z2)* tanh(2*a/(z1-z2)*(depth(j,i)-href))", 
+            "climatology": "", 
+            "tolerance": "", 
+            "valid_max": "", 
+            "axis": "Z"
+        }, 
+        "plevs": {
+            "requested": [
+                "100000.", 
+                "92500.", 
+                "85000.", 
+                "70000.", 
+                "60000.", 
+                "50000.", 
+                "40000.", 
+                "30000.", 
+                "25000.", 
+                "20000.", 
+                "15000.", 
+                "10000.", 
+                "7000.", 
+                "5000.", 
+                "3000.", 
+                "2000.", 
+                "1000."
+            ], 
+            "stored_direction": "decreasing", 
+            "z_factors": "", 
+            "positive": "down", 
+            "must_have_bounds": "no", 
+            "valid_min": "", 
+            "value": "", 
+            "z_bounds_factors": "", 
+            "long_name": "pressure", 
+            "standard_name": "air_pressure", 
+            "out_name": "plev", 
+            "type": "double", 
+            "units": "Pa", 
+            "formula": "", 
+            "climatology": "", 
+            "tolerance": "0.001", 
+            "valid_max": "", 
+            "axis": "Z"
+        }, 
+        "standard_hybrid_sigma": {
+            "requested": "", 
+            "stored_direction": "decreasing", 
+            "z_factors": "p0: p0 a: a b: b ps: ps", 
+            "positive": "down", 
+            "must_have_bounds": "yes", 
+            "valid_min": "0.0", 
+            "value": "", 
+            "z_bounds_factors": "p0: p0 a: a_bnds b: b_bnds ps: ps", 
+            "long_name": "hybrid sigma pressure coordinate", 
+            "standard_name": "atmosphere_hybrid_sigma_pressure_coordinate", 
+            "out_name": "lev", 
+            "type": "", 
+            "units": "1", 
+            "formula": "p = a*p0 + b*ps", 
+            "climatology": "", 
+            "tolerance": "", 
+            "valid_max": "1.0", 
+            "axis": "Z"
+        }
+    }, 
+    "variable_entry": {
+        "sci": {
+            "comment": "Fraction of time that shallow convection occurs in the grid cell.", 
+            "dimensions": "longitude latitude time", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Fraction of Time Shallow Convection Occurs", 
+            "standard_name": "shallow_convection_time_fraction", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "", 
+            "units": "1", 
+            "out_name": "sci", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "depth_c": {
+            "units": "", 
+            "long_name": "vertical coordinate formula term: depth_c", 
+            "type": "double", 
+            "dimensions": ""
+        }, 
+        "tro3": {
+            "comment": "", 
+            "dimensions": "longitude latitude plevs time", 
+            "positive": "", 
+            "valid_min": "-419.2", 
+            "long_name": "Mole Fraction of O3", 
+            "standard_name": "mole_fraction_of_ozone_in_air", 
+            "modeling_realm": "atmos atmosChem", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "-149.1", 
+            "units": "0.000000001", 
+            "out_name": "tro3", 
+            "type": "real", 
+            "valid_max": "1.162e+04", 
+            "ok_max_mean_abs": "7558"
+        }, 
+        "rsutcs": {
+            "comment": "", 
+            "dimensions": "longitude latitude time", 
+            "positive": "up", 
+            "valid_min": "0", 
+            "long_name": "TOA Outgoing Clear-Sky Shortwave Radiation", 
+            "standard_name": "toa_outgoing_shortwave_flux_assuming_clear_sky", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "54.7", 
+            "units": "W m-2", 
+            "out_name": "rsutcs", 
+            "type": "real", 
+            "valid_max": "444", 
+            "ok_max_mean_abs": "73.36"
+        }, 
+        "rldscs": {
+            "comment": "", 
+            "dimensions": "longitude latitude time", 
+            "positive": "down", 
+            "valid_min": "33.55", 
+            "long_name": "Surface Downwelling Clear-Sky Longwave Radiation", 
+            "standard_name": "surface_downwelling_longwave_flux_in_air_assuming_clear_sky", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "238.6", 
+            "units": "W m-2", 
+            "out_name": "rldscs", 
+            "type": "real", 
+            "valid_max": "543.6", 
+            "ok_max_mean_abs": "293.8"
+        }, 
+        "n2oglobal": {
+            "comment": "", 
+            "dimensions": "time", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Global Mean Mole Fraction of N2O", 
+            "standard_name": "mole_fraction_of_nitrous_oxide_in_air", 
+            "modeling_realm": "atmos atmosChem", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "", 
+            "ok_min_mean_abs": "", 
+            "units": "0.000000001", 
+            "out_name": "n2oglobal", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "cli": {
+            "comment": "Includes both large-scale and convective cloud. This is the mass of  cloud ice  in the grid cell divided by the mass of air (including the water in all phases) in the grid cell.  This includes precipitating hydrometeors ONLY if the precipitating hydrometeors affect the calculation of radiative transfer in model.", 
+            "dimensions": "longitude latitude alevel time", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Mass Fraction of Cloud Ice", 
+            "standard_name": "mass_fraction_of_cloud_ice_in_air", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "", 
+            "units": "1", 
+            "out_name": "cli", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "ts": {
+            "comment": "''skin'' temperature (i.e., SST for open ocean)", 
+            "dimensions": "longitude latitude time", 
+            "positive": "", 
+            "valid_min": "176.8", 
+            "long_name": "Surface Temperature", 
+            "standard_name": "surface_temperature", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "262.8", 
+            "units": "K", 
+            "out_name": "ts", 
+            "type": "real", 
+            "valid_max": "339.6", 
+            "ok_max_mean_abs": "293.3"
+        }, 
+        "clt": {
+            "comment": "For the whole atmospheric column, as seen from the surface or the top of the atmosphere. Include both large-scale and convective cloud.", 
+            "dimensions": "longitude latitude time", 
+            "positive": "", 
+            "valid_min": "-0.0001822", 
+            "long_name": "Total Cloud Fraction", 
+            "standard_name": "cloud_area_fraction", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "39.37", 
+            "units": "%", 
+            "out_name": "clt", 
+            "type": "real", 
+            "valid_max": "105", 
+            "ok_max_mean_abs": "84.98"
+        }, 
+        "clw": {
+            "comment": "Includes both large-scale and convective cloud.  This is the mass of  cloud liquid water in the grid cell divided by the mass of air (including the water in all phases) in the grid cell.  This includes precipitating hydrometeors ONLY if the precipitating hydrometeors affect the calculation of radiative transfer in model.", 
+            "dimensions": "longitude latitude alevel time", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Mass Fraction of Cloud Liquid Water", 
+            "standard_name": "mass_fraction_of_cloud_liquid_water_in_air", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "", 
+            "units": "1", 
+            "out_name": "clw", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "ta": {
+            "comment": "", 
+            "dimensions": "longitude latitude pressure2 time", 
+            "positive": "", 
+            "valid_min": "157.1", 
+            "long_name": "Air Temperature", 
+            "standard_name": "air_temperature", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "194.3", 
+            "units": "K", 
+            "out_name": "ta", 
+            "type": "real", 
+            "valid_max": "336.3", 
+            "ok_max_mean_abs": "299.8"
+        }, 
+        "psl": {
+            "comment": "", 
+            "dimensions": "longitude latitude time", 
+            "positive": "", 
+            "valid_min": "9.122e+04", 
+            "long_name": "Sea Level Pressure", 
+            "standard_name": "air_pressure_at_sea_level", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "9.57e+04", 
+            "units": "Pa", 
+            "out_name": "psl", 
+            "type": "real", 
+            "valid_max": "1.137e+05", 
+            "ok_max_mean_abs": "1.063e+05"
+        }, 
+        "nsigma": {
+            "units": "", 
+            "long_name": "vertical coordinate formula term: nsigma", 
+            "type": "integer", 
+            "dimensions": ""
+        }, 
+        "co2Clim": {
+            "comment": "", 
+            "dimensions": "longitude latitude plevs time2", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Mole Fraction of CO2", 
+            "standard_name": "mole_fraction_of_carbon_dioxide_in_air", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean within years time: mean over years", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "", 
+            "units": "0.000001", 
+            "out_name": "co2Clim", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "sfcWind": {
+            "comment": "near-surface (usually, 10 meters) wind speed.", 
+            "dimensions": "longitude latitude time", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Near-Surface Wind Speed", 
+            "standard_name": "wind_speed", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "", 
+            "ok_min_mean_abs": "", 
+            "units": "m s-1", 
+            "out_name": "sfcWind", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "ch4Clim": {
+            "comment": "", 
+            "dimensions": "longitude latitude plevs time2", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Mole Fraction of CH4", 
+            "standard_name": "mole_fraction_of_methane_in_air", 
+            "modeling_realm": "atmos atmosChem", 
+            "cell_measures": "time: mean within years time: mean over years", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "", 
+            "units": "0.000000001", 
+            "out_name": "ch4Clim", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "clwvi": {
+            "comment": "Mass of condensed (liquid + ice) water in the column divided by the area of the column (not just the area of the cloudy portion of the column). Includes precipitating hydrometeors ONLY if the precipitating hydrometeors affect the calculation of radiative transfer in model.", 
+            "dimensions": "longitude latitude time", 
+            "positive": "", 
+            "valid_min": "-3.827e-06", 
+            "long_name": "Condensed Water Path", 
+            "standard_name": "atmosphere_cloud_condensed_water_content", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "-0.03549", 
+            "units": "kg m-2", 
+            "out_name": "clwvi", 
+            "type": "real", 
+            "valid_max": "3.364", 
+            "ok_max_mean_abs": "0.2846"
+        }, 
+        "rsdscs": {
+            "comment": "", 
+            "dimensions": "longitude latitude time", 
+            "positive": "down", 
+            "valid_min": "-1.748e+30", 
+            "long_name": "Surface Downwelling Clear-Sky Shortwave Radiation", 
+            "standard_name": "surface_downwelling_shortwave_flux_in_air_assuming_clear_sky", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "206.9", 
+            "units": "W m-2", 
+            "out_name": "rsdscs", 
+            "type": "real", 
+            "valid_max": "522.4", 
+            "ok_max_mean_abs": "239"
+        }, 
+        "huss": {
+            "comment": "near-surface (usually, 2 meter) specific humidity.", 
+            "dimensions": "longitude latitude time", 
+            "positive": "", 
+            "valid_min": "-7.21e-06", 
+            "long_name": "Near-Surface Specific Humidity", 
+            "standard_name": "specific_humidity", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "0.006391", 
+            "units": "1", 
+            "out_name": "huss", 
+            "type": "real", 
+            "valid_max": "0.02992", 
+            "ok_max_mean_abs": "0.008749"
+        }, 
+        "rtmt": {
+            "comment": "i.e., at the top of that portion of the atmosphere where dynamics are explicitly treated by the model. This is reported only if it differs from the net downward radiative flux at the top of the atmosphere.", 
+            "dimensions": "longitude latitude time", 
+            "positive": "down", 
+            "valid_min": "-232.8", 
+            "long_name": "Net Downward Flux at Top of Model", 
+            "standard_name": "net_downward_radiative_flux_at_top_of_atmosphere_model", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "76.91", 
+            "units": "W m-2", 
+            "out_name": "rtmt", 
+            "type": "real", 
+            "valid_max": "218.7", 
+            "ok_max_mean_abs": "89.25"
+        }, 
+        "evspsbl": {
+            "comment": "at surface; flux of water into the atmosphere due to conversion of both liquid and solid phases to vapor (from underlying surface and vegetation)", 
+            "dimensions": "longitude latitude time", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Evaporation", 
+            "standard_name": "water_evaporation_flux", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "", 
+            "units": "kg m-2 s-1", 
+            "out_name": "evspsbl", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "a_bnds": {
+            "units": "", 
+            "long_name": "vertical coordinate formula term: a(k+1/2)", 
+            "type": "double", 
+            "dimensions": "alevel"
+        }, 
+        "co2": {
+            "comment": "", 
+            "dimensions": "longitude latitude plevs time", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Mole Fraction of CO2", 
+            "standard_name": "mole_fraction_of_carbon_dioxide_in_air", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "", 
+            "units": "0.000001", 
+            "out_name": "co2", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "cfc11global": {
+            "comment": "", 
+            "dimensions": "time", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Global Mean Mole Fraction of CFC11", 
+            "standard_name": "mole_fraction_of_cfc11_in_air", 
+            "modeling_realm": "atmos atmosChem", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "", 
+            "ok_min_mean_abs": "", 
+            "units": "1E-012", 
+            "out_name": "cfc11global", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "rlds": {
+            "comment": "This is the 3-hour mean flux.", 
+            "dimensions": "longitude latitude time", 
+            "positive": "down", 
+            "valid_min": "30.71", 
+            "long_name": "Surface Downwelling Longwave Radiation", 
+            "standard_name": "surface_downwelling_longwave_flux_in_air", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "271.2", 
+            "units": "W m-2", 
+            "out_name": "rlds", 
+            "type": "real", 
+            "valid_max": "520.5", 
+            "ok_max_mean_abs": "323.6"
+        }, 
+        "sigma_bnds": {
+            "units": "", 
+            "long_name": "vertical coordinate formula term: sigma(k+1/2)", 
+            "type": "double", 
+            "dimensions": "olevel"
+        }, 
+        "ch4globalClim": {
+            "comment": "", 
+            "dimensions": "time2", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Global Mean Mole Fraction of CH4", 
+            "standard_name": "mole_fraction_of_methane_in_air", 
+            "modeling_realm": "atmos atmosChem", 
+            "cell_measures": "time: mean within years time: mean over years", 
+            "cell_methods": "", 
+            "ok_min_mean_abs": "", 
+            "units": "0.000000001", 
+            "out_name": "ch4globalClim", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "tauv": {
+            "comment": "", 
+            "dimensions": "longitude latitude time", 
+            "positive": "down", 
+            "valid_min": "-2.472", 
+            "long_name": "Surface Downward Northward Wind Stress", 
+            "standard_name": "surface_downward_northward_stress", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "", 
+            "ok_min_mean_abs": "0.01447", 
+            "units": "Pa", 
+            "out_name": "tauv", 
+            "type": "real", 
+            "valid_max": "2.527", 
+            "ok_max_mean_abs": "0.08134"
+        }, 
+        "rlut": {
+            "comment": "at the top of the atmosphere.", 
+            "dimensions": "longitude latitude time", 
+            "positive": "up", 
+            "valid_min": "67.48", 
+            "long_name": "TOA Outgoing Longwave Radiation", 
+            "standard_name": "toa_outgoing_longwave_flux", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "207.4", 
+            "units": "W m-2", 
+            "out_name": "rlut", 
+            "type": "real", 
+            "valid_max": "383.2", 
+            "ok_max_mean_abs": "234.4"
+        }, 
+        "rsdt": {
+            "comment": "at the top of the atmosphere", 
+            "dimensions": "longitude latitude time", 
+            "positive": "down", 
+            "valid_min": "0", 
+            "long_name": "TOA Incident Shortwave Radiation", 
+            "standard_name": "toa_incoming_shortwave_flux", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "282.6", 
+            "units": "W m-2", 
+            "out_name": "rsdt", 
+            "type": "real", 
+            "valid_max": "580.4", 
+            "ok_max_mean_abs": "315.8"
+        }, 
+        "rsds": {
+            "comment": "This is the 3-hour mean flux.", 
+            "dimensions": "longitude latitude time", 
+            "positive": "down", 
+            "valid_min": "-0.002946", 
+            "long_name": "Surface Downwelling Shortwave Radiation", 
+            "standard_name": "surface_downwelling_shortwave_flux_in_air", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "143.9", 
+            "units": "W m-2", 
+            "out_name": "rsds", 
+            "type": "real", 
+            "valid_max": "524.4", 
+            "ok_max_mean_abs": "181.6"
+        }, 
+        "z1": {
+            "units": "", 
+            "long_name": "vertical coordinate formula term: z1", 
+            "type": "double", 
+            "dimensions": ""
+        }, 
+        "sbl": {
+            "comment": "The snow and ice sublimation flux is the loss of snow and ice mass from the surface resulting from their conversion to water vapor that enters the atmosphere.", 
+            "dimensions": "longitude latitude time", 
+            "positive": "", 
+            "valid_min": "-0.004959", 
+            "long_name": "Surface Snow and Ice Sublimation Flux", 
+            "standard_name": "surface_snow_and_ice_sublimation_flux", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "-5.521e-05", 
+            "units": "kg m-2 s-1", 
+            "out_name": "sbl", 
+            "type": "real", 
+            "valid_max": "0.0009936", 
+            "ok_max_mean_abs": "9.61e-05"
+        }, 
+        "cfc113global": {
+            "comment": "", 
+            "dimensions": "time", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Global Mean Mole Fraction of CFC113", 
+            "standard_name": "mole_fraction_of_cfc113_in_air", 
+            "modeling_realm": "atmos atmosChem", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "", 
+            "ok_min_mean_abs": "", 
+            "units": "1E-012", 
+            "out_name": "cfc113global", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "rsus": {
+            "comment": "", 
+            "dimensions": "longitude latitude time", 
+            "positive": "up", 
+            "valid_min": "-0.006589", 
+            "long_name": "Surface Upwelling Shortwave Radiation", 
+            "standard_name": "surface_upwelling_shortwave_flux_in_air", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "26.22", 
+            "units": "W m-2", 
+            "out_name": "rsus", 
+            "type": "real", 
+            "valid_max": "422.2", 
+            "ok_max_mean_abs": "43.77"
+        }, 
+        "cfc12global": {
+            "comment": "", 
+            "dimensions": "time", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Global Mean Mole Fraction of CFC12", 
+            "standard_name": "mole_fraction_of_cfc12_in_air", 
+            "modeling_realm": "atmos atmosChem", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "", 
+            "ok_min_mean_abs": "", 
+            "units": "1E-012", 
+            "out_name": "cfc12global", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "rsut": {
+            "comment": "at the top of the atmosphere", 
+            "dimensions": "longitude latitude time", 
+            "positive": "up", 
+            "valid_min": "-0.02689", 
+            "long_name": "TOA Outgoing Shortwave Radiation", 
+            "standard_name": "toa_outgoing_shortwave_flux", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "96.72", 
+            "units": "W m-2", 
+            "out_name": "rsut", 
+            "type": "real", 
+            "valid_max": "421.9", 
+            "ok_max_mean_abs": "114.1"
+        }, 
+        "ci": {
+            "comment": "Fraction of time that convection occurs in the grid cell .", 
+            "dimensions": "longitude latitude time", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Fraction of Time Convection Occurs", 
+            "standard_name": "convection_time_fraction", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "", 
+            "units": "1", 
+            "out_name": "ci", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "n2oClim": {
+            "comment": "", 
+            "dimensions": "longitude latitude plevs time2", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Mole Fraction of N2O", 
+            "standard_name": "mole_fraction_of_nitrous_oxide_in_air", 
+            "modeling_realm": "atmos atmosChem", 
+            "cell_measures": "time: mean within years time: mean over years", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "", 
+            "units": "0.000000001", 
+            "out_name": "n2oClim", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "co2massClim": {
+            "comment": "", 
+            "dimensions": "time2", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Total Atmospheric Mass of CO2", 
+            "standard_name": "atmosphere_mass_of_carbon_dioxide", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean within years time: mean over years", 
+            "cell_methods": "", 
+            "ok_min_mean_abs": "", 
+            "units": "kg", 
+            "out_name": "co2massClim", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "cl": {
+            "comment": "Includes both large-scale and convective cloud.", 
+            "dimensions": "longitude latitude alevel time", 
+            "positive": "", 
+            "valid_min": "0", 
+            "long_name": "Cloud Area Fraction", 
+            "standard_name": "cloud_area_fraction_in_atmosphere_layer", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "-0.04479", 
+            "units": "%", 
+            "out_name": "cl", 
+            "type": "real", 
+            "valid_max": "105", 
+            "ok_max_mean_abs": "26.07"
+        }, 
+        "n2oglobalClim": {
+            "comment": "", 
+            "dimensions": "time2", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Global Mean Mole Fraction of N2O", 
+            "standard_name": "mole_fraction_of_nitrous_oxide_in_air", 
+            "modeling_realm": "atmos atmosChem", 
+            "cell_measures": "time: mean within years time: mean over years", 
+            "cell_methods": "", 
+            "ok_min_mean_abs": "", 
+            "units": "0.000000001", 
+            "out_name": "n2oglobalClim", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "rlutcs": {
+            "comment": "", 
+            "dimensions": "longitude latitude time", 
+            "positive": "up", 
+            "valid_min": "70.59", 
+            "long_name": "TOA Outgoing Clear-Sky Longwave Radiation", 
+            "standard_name": "toa_outgoing_longwave_flux_assuming_clear_sky", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "228.9", 
+            "units": "W m-2", 
+            "out_name": "rlutcs", 
+            "type": "real", 
+            "valid_max": "377.5", 
+            "ok_max_mean_abs": "260.4"
+        }, 
+        "href": {
+            "units": "", 
+            "long_name": "vertical coordinate formula term: href", 
+            "type": "double", 
+            "dimensions": ""
+        }, 
+        "hfls": {
+            "comment": "includes both evaporation and sublimation", 
+            "dimensions": "longitude latitude time", 
+            "positive": "up", 
+            "valid_min": "-76.77", 
+            "long_name": "Surface Upward Latent Heat Flux", 
+            "standard_name": "surface_upward_latent_heat_flux", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "50.39", 
+            "units": "W m-2", 
+            "out_name": "hfls", 
+            "type": "real", 
+            "valid_max": "790.7", 
+            "ok_max_mean_abs": "73.2"
+        }, 
+        "co2mass": {
+            "comment": "", 
+            "dimensions": "time", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Total Atmospheric Mass of CO2", 
+            "standard_name": "atmosphere_mass_of_carbon_dioxide", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "", 
+            "ok_min_mean_abs": "", 
+            "units": "kg", 
+            "out_name": "co2mass", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "pr": {
+            "comment": "at surface; includes both liquid and solid phases from all types of clouds (both large-scale and convective)", 
+            "dimensions": "longitude latitude time", 
+            "positive": "", 
+            "valid_min": "0", 
+            "long_name": "Precipitation", 
+            "standard_name": "precipitation_flux", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "2.156e-05", 
+            "units": "kg m-2 s-1", 
+            "out_name": "pr", 
+            "type": "real", 
+            "valid_max": "0.001254", 
+            "ok_max_mean_abs": "3.215e-05"
+        }, 
+        "ps": {
+            "comment": "surface pressure, not mean sea level pressure", 
+            "dimensions": "longitude latitude time", 
+            "positive": "", 
+            "valid_min": "4.791e+04", 
+            "long_name": "Surface Air Pressure", 
+            "standard_name": "surface_air_pressure", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "9.165e+04", 
+            "units": "Pa", 
+            "out_name": "ps", 
+            "type": "real", 
+            "valid_max": "1.119e+05", 
+            "ok_max_mean_abs": "1.019e+05"
+        }, 
+        "rlus": {
+            "comment": "", 
+            "dimensions": "longitude latitude time", 
+            "positive": "up", 
+            "valid_min": "43.75", 
+            "long_name": "Surface Upwelling Longwave Radiation", 
+            "standard_name": "surface_upwelling_longwave_flux_in_air", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "325.6", 
+            "units": "W m-2", 
+            "out_name": "rlus", 
+            "type": "real", 
+            "valid_max": "658", 
+            "ok_max_mean_abs": "376.3"
+        }, 
+        "z2": {
+            "units": "", 
+            "long_name": "vertical coordinate formula term: z2", 
+            "type": "double", 
+            "dimensions": ""
+        }, 
+        "vas": {
+            "comment": "", 
+            "dimensions": "longitude latitude time", 
+            "positive": "", 
+            "valid_min": "-18.04", 
+            "long_name": "Northward Near-Surface Wind", 
+            "standard_name": "northward_wind", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "", 
+            "ok_min_mean_abs": "1.065", 
+            "units": "m s-1", 
+            "out_name": "vas", 
+            "type": "real", 
+            "valid_max": "22.84", 
+            "ok_max_mean_abs": "2.678"
+        }, 
+        "wap": {
+            "comment": "commonly referred to as ''omega'', this represents the vertical component of velocity in pressure coordinates (positive down)", 
+            "dimensions": "longitude latitude plevs time", 
+            "positive": "", 
+            "valid_min": "-1.126", 
+            "long_name": "omega (=dp/dt)", 
+            "standard_name": "lagrangian_tendency_of_air_pressure", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "-0.005083", 
+            "units": "Pa s-1", 
+            "out_name": "wap", 
+            "type": "real", 
+            "valid_max": "2.319", 
+            "ok_max_mean_abs": "0.04256"
+        }, 
+        "a": {
+            "units": "", 
+            "long_name": "vertical coordinate formula term: a(k)", 
+            "type": "double", 
+            "dimensions": "alevel"
+        }, 
+        "zg": {
+            "comment": "", 
+            "dimensions": "longitude latitude plevs time", 
+            "positive": "", 
+            "valid_min": "-719.7", 
+            "long_name": "Geopotential Height", 
+            "standard_name": "geopotential_height", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "-113.4", 
+            "units": "m", 
+            "out_name": "zg", 
+            "type": "real", 
+            "valid_max": "3.437e+04", 
+            "ok_max_mean_abs": "3.299e+04"
+        }, 
+        "hurs": {
+            "comment": "This is the relative humidity with respect to liquid water for T> 0 C, and with respect to ice for T<0 C.", 
+            "dimensions": "longitude latitude time", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Near-Surface Relative Humidity", 
+            "standard_name": "relative_humidity", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "", 
+            "units": "%", 
+            "out_name": "hurs", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "tsAdjust": {
+            "comment": "''skin'' temperature (i.e., SST for open ocean)", 
+            "dimensions": "longitude latitude time", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Bias-Corrected Surface Temperature", 
+            "standard_name": "surface_temperature", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "", 
+            "units": "K", 
+            "out_name": "tsAdjust", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "pfull": {
+            "comment": "", 
+            "dimensions": "longitude latitude alevel time2", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Pressure on Model Levels", 
+            "standard_name": "air_pressure", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean within years time: mean over years", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "", 
+            "units": "Pa", 
+            "out_name": "pfull", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "ch4global": {
+            "comment": "", 
+            "dimensions": "time", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Global Mean Mole Fraction of CH4", 
+            "standard_name": "mole_fraction_of_methane_in_air", 
+            "modeling_realm": "atmos atmosChem", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "", 
+            "ok_min_mean_abs": "", 
+            "units": "0.000000001", 
+            "out_name": "ch4global", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "hur": {
+            "comment": "This is the relative humidity with respect to liquid water for T> 0 C, and with respect to ice for T<0 C.", 
+            "dimensions": "longitude latitude plevs time", 
+            "positive": "", 
+            "valid_min": "-2.642", 
+            "long_name": "Relative Humidity", 
+            "standard_name": "relative_humidity", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "-10.31", 
+            "units": "%", 
+            "out_name": "hur", 
+            "type": "real", 
+            "valid_max": "135.7", 
+            "ok_max_mean_abs": "97"
+        }, 
+        "hus": {
+            "comment": "", 
+            "dimensions": "longitude latitude plevs time", 
+            "positive": "", 
+            "valid_min": "-0.000299", 
+            "long_name": "Specific Humidity", 
+            "standard_name": "specific_humidity", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "-0.0003539", 
+            "units": "1", 
+            "out_name": "hus", 
+            "type": "real", 
+            "valid_max": "0.02841", 
+            "ok_max_mean_abs": "0.01041"
+        }, 
+        "p0": {
+            "units": "Pa", 
+            "long_name": "vertical coordinate formula term: reference pressure", 
+            "type": "", 
+            "dimensions": ""
+        }, 
+        "b": {
+            "units": "", 
+            "long_name": "vertical coordinate formula term: b(k)", 
+            "type": "double", 
+            "dimensions": "alevel"
+        }, 
+        "mc": {
+            "comment": "The net mass flux should represent the difference between the updraft and downdraft components.  The flux is computed as the mass divided by the area of the grid cell.", 
+            "dimensions": "longitude latitude alevhalf time", 
+            "positive": "up", 
+            "valid_min": "", 
+            "long_name": "Convective Mass Flux", 
+            "standard_name": "atmosphere_net_upward_convective_mass_flux", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "", 
+            "units": "kg m-2 s-1", 
+            "out_name": "mc", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "fco2antt": {
+            "comment": "This is requested only for the emission-driven coupled carbon climate model runs.  Does not include natural fire sources but, includes all anthropogenic sources, including fossil fuel use, cement production, agricultural burning, and sources associated with anthropogenic land use change excluding forest regrowth.", 
+            "dimensions": "longitude latitude time", 
+            "positive": "up", 
+            "valid_min": "", 
+            "long_name": "Carbon Mass Flux into Atmosphere Due to All Anthropogenic Emissions of CO2", 
+            "standard_name": "tendency_of_atmosphere_mass_content_of_carbon_dioxide_expressed_as_carbon_due_to_anthropogenic_emission", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "", 
+            "units": "kg  m-2 s-1", 
+            "out_name": "fco2antt", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "ch4": {
+            "comment": "", 
+            "dimensions": "longitude latitude plevs time", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Mole Fraction of CH4", 
+            "standard_name": "mole_fraction_of_methane_in_air", 
+            "modeling_realm": "atmos atmosChem", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "", 
+            "units": "0.000000001", 
+            "out_name": "ch4", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "tasmin": {
+            "comment": "minimum near-surface (usually, 2 meter) air temperature (add cell_method attribute time: min)", 
+            "dimensions": "longitude latitude time", 
+            "positive": "", 
+            "valid_min": "182.8", 
+            "long_name": "Daily Minimum Near-Surface Air Temperature", 
+            "standard_name": "air_temperature", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: minimum within days time: mean over days", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "260.9", 
+            "units": "K", 
+            "out_name": "tasmin", 
+            "type": "real", 
+            "valid_max": "323", 
+            "ok_max_mean_abs": "290.6"
+        }, 
+        "tauu": {
+            "comment": "", 
+            "dimensions": "longitude latitude time", 
+            "positive": "down", 
+            "valid_min": "-2.729", 
+            "long_name": "Surface Downward Eastward Wind Stress", 
+            "standard_name": "surface_downward_eastward_stress", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "", 
+            "ok_min_mean_abs": "0.03979", 
+            "units": "Pa", 
+            "out_name": "tauu", 
+            "type": "real", 
+            "valid_max": "2.934", 
+            "ok_max_mean_abs": "0.1065"
+        }, 
+        "tasmax": {
+            "comment": "maximum near-surface (usually, 2 meter) air temperature (add cell_method attribute time: max)", 
+            "dimensions": "longitude latitude time", 
+            "positive": "", 
+            "valid_min": "181.9", 
+            "long_name": "Daily Maximum Near-Surface Air Temperature", 
+            "standard_name": "air_temperature", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: maximum within days time: mean over days", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "264.9", 
+            "units": "K", 
+            "out_name": "tasmax", 
+            "type": "real", 
+            "valid_max": "341.9", 
+            "ok_max_mean_abs": "294"
+        }, 
+        "pslAdjust": {
+            "comment": "not, in general, the same as surface pressure", 
+            "dimensions": "longitude latitude time", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Bias-Corrected Sea Level Pressure", 
+            "standard_name": "air_pressure_at_sea_level", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "", 
+            "units": "Pa", 
+            "out_name": "pslAdjust", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "k_c": {
+            "units": "", 
+            "long_name": "vertical coordinate formula term: k_c", 
+            "type": "integer", 
+            "dimensions": ""
+        }, 
+        "ua": {
+            "comment": "", 
+            "dimensions": "longitude latitude plevs time", 
+            "positive": "", 
+            "valid_min": "-68.65", 
+            "long_name": "Eastward Wind", 
+            "standard_name": "eastward_wind", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "", 
+            "ok_min_mean_abs": "1.101", 
+            "units": "m s-1", 
+            "out_name": "ua", 
+            "type": "real", 
+            "valid_max": "136.6", 
+            "ok_max_mean_abs": "22.42"
+        }, 
+        "orog": {
+            "comment": "height above the geoid; as defined here, ''the geoid'' is a surface of constant geopotential that, if the ocean were at rest, would coincide with mean sea level. Under this definition, the geoid changes as the mean volume of the ocean changes (e.g., due to glacial melt, or global warming of the ocean).  Report here the height above the present-day geoid.  Over ocean, report as 0.0", 
+            "dimensions": "longitude latitude", 
+            "positive": "", 
+            "valid_min": "-700", 
+            "long_name": "Surface Altitude", 
+            "standard_name": "surface_altitude", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "", 
+            "cell_methods": "", 
+            "ok_min_mean_abs": "", 
+            "units": "m", 
+            "out_name": "orog", 
+            "type": "real", 
+            "valid_max": "1.00E+04", 
+            "ok_max_mean_abs": ""
+        }, 
+        "va": {
+            "comment": "", 
+            "dimensions": "longitude latitude plevs time", 
+            "positive": "", 
+            "valid_min": "-71.1", 
+            "long_name": "Northward Wind", 
+            "standard_name": "northward_wind", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "", 
+            "ok_min_mean_abs": "0.9886", 
+            "units": "m s-1", 
+            "out_name": "va", 
+            "type": "real", 
+            "valid_max": "69.93", 
+            "ok_max_mean_abs": "4.679"
+        }, 
+        "n2o": {
+            "comment": "", 
+            "dimensions": "longitude latitude plevs time", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Mole Fraction of N2O", 
+            "standard_name": "mole_fraction_of_nitrous_oxide_in_air", 
+            "modeling_realm": "atmos atmosChem", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "", 
+            "units": "0.000000001", 
+            "out_name": "n2o", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "prc": {
+            "comment": "at surface; includes both liquid and solid phases.", 
+            "dimensions": "longitude latitude time", 
+            "positive": "", 
+            "valid_min": "0", 
+            "long_name": "Convective Precipitation", 
+            "standard_name": "convective_precipitation_flux", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "-2.528e-06", 
+            "units": "kg m-2 s-1", 
+            "out_name": "prc", 
+            "type": "real", 
+            "valid_max": "0.0006323", 
+            "ok_max_mean_abs": "3.209e-05"
+        }, 
+        "tas": {
+            "comment": "near-surface (usually, 2 meter) air temperature", 
+            "dimensions": "longitude latitude time", 
+            "positive": "", 
+            "valid_min": "180.6", 
+            "long_name": "Near-Surface Air Temperature", 
+            "standard_name": "air_temperature", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "262.4", 
+            "units": "K", 
+            "out_name": "tas", 
+            "type": "real", 
+            "valid_max": "335.1", 
+            "ok_max_mean_abs": "293"
+        }, 
+        "rsuscs": {
+            "comment": "", 
+            "dimensions": "longitude latitude time", 
+            "positive": "up", 
+            "valid_min": "-0.01446", 
+            "long_name": "Surface Upwelling Clear-Sky Shortwave Radiation", 
+            "standard_name": "surface_upwelling_shortwave_flux_in_air_assuming_clear_sky", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "31.65", 
+            "units": "W m-2", 
+            "out_name": "rsuscs", 
+            "type": "real", 
+            "valid_max": "462.2", 
+            "ok_max_mean_abs": "61.59"
+        }, 
+        "uas": {
+            "comment": "near-surface (usually, 10 meters) eastward component of wind.", 
+            "dimensions": "longitude latitude time", 
+            "positive": "", 
+            "valid_min": "-19.01", 
+            "long_name": "Eastward Near-Surface Wind", 
+            "standard_name": "eastward_wind", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "", 
+            "ok_min_mean_abs": "1.668", 
+            "units": "m s-1", 
+            "out_name": "uas", 
+            "type": "real", 
+            "valid_max": "18.68", 
+            "ok_max_mean_abs": "4.106"
+        }, 
+        "hfss": {
+            "comment": "", 
+            "dimensions": "longitude latitude time", 
+            "positive": "up", 
+            "valid_min": "-264.5", 
+            "long_name": "Surface Upward Sensible Heat Flux", 
+            "standard_name": "surface_upward_sensible_heat_flux", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "10.7", 
+            "units": "W m-2", 
+            "out_name": "hfss", 
+            "type": "real", 
+            "valid_max": "844.8", 
+            "ok_max_mean_abs": "34.84"
+        }, 
+        "ap_bnds": {
+            "units": "Pa", 
+            "long_name": "vertical coordinate formula term: ap(k+1/2)", 
+            "type": "double", 
+            "dimensions": "alevel"
+        }, 
+        "ap": {
+            "units": "Pa", 
+            "long_name": "vertical coordinate formula term: ap(k)", 
+            "type": "double", 
+            "dimensions": "alevel"
+        }, 
+        "prw": {
+            "comment": "vertically integrated through the atmospheric column", 
+            "dimensions": "longitude latitude time", 
+            "positive": "", 
+            "valid_min": "-0.0006775", 
+            "long_name": "Water Vapor Path", 
+            "standard_name": "atmosphere_water_vapor_content", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "12.75", 
+            "units": "kg m-2", 
+            "out_name": "prw", 
+            "type": "real", 
+            "valid_max": "78.04", 
+            "ok_max_mean_abs": "23.09"
+        }, 
+        "prsn": {
+            "comment": "at surface; includes precipitation of all forms of water in the solid phase", 
+            "dimensions": "longitude latitude time", 
+            "positive": "", 
+            "valid_min": "0", 
+            "long_name": "Snowfall Flux", 
+            "standard_name": "snowfall_flux", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "1.449e-06", 
+            "units": "kg m-2 s-1", 
+            "out_name": "prsn", 
+            "type": "real", 
+            "valid_max": "0.0002987", 
+            "ok_max_mean_abs": "6.11e-06"
+        }, 
+        "zlev": {
+            "units": "", 
+            "long_name": "vertical coordinate formula term: zlev(k)", 
+            "type": "double", 
+            "dimensions": "olevel"
+        }, 
+        "fco2nat": {
+            "comment": "This is what the atmosphere sees (on its own grid).  This field should be equivalent to the combined natural fluxes of carbon (requested in the L_mon and O_mon tables) that account for natural exchanges between the atmosphere and land or ocean reservoirs (i.e., ''net ecosystem biospheric productivity'', for land, and ''air to sea CO2 flux'', for ocean.)", 
+            "dimensions": "longitude latitude time", 
+            "positive": "up", 
+            "valid_min": "", 
+            "long_name": "Surface Carbon Mass Flux into the Atmosphere Due to Natural Sources", 
+            "standard_name": "surface_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_natural_sources", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "", 
+            "units": "kg m-2 s-1", 
+            "out_name": "fco2nat", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "b_bnds": {
+            "units": "", 
+            "long_name": "vertical coordinate formula term: b(k+1/2)", 
+            "type": "double", 
+            "dimensions": "alevel"
+        }, 
+        "phalf": {
+            "comment": "", 
+            "dimensions": "longitude latitude alevhalf time2", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Pressure on Model Half-Levels", 
+            "standard_name": "air_pressure", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean within years time: mean over years", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "", 
+            "units": "Pa", 
+            "out_name": "phalf", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "tasAdjust": {
+            "comment": "", 
+            "dimensions": "longitude latitude time", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Bias-Corrected Near-Surface Air Temperature", 
+            "standard_name": "air_temperature", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "", 
+            "units": "K", 
+            "out_name": "tasAdjust", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "fco2fos": {
+            "comment": "This is the prescribed anthropogenic CO2 flux from fossil fuel use, including cement production, and flaring (but not from land-use changes, agricultural burning, forest regrowth, etc.)", 
+            "dimensions": "longitude latitude time", 
+            "positive": "up", 
+            "valid_min": "", 
+            "long_name": "Carbon Mass Flux into Atmosphere Due to Fossil Fuel Emissions of CO2", 
+            "standard_name": "tendency_of_atmosphere_mass_content_of_carbon_dioxide_expressed_as_carbon_due_to_emission_from_fossil_fuel_combustion", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "", 
+            "units": "kg m-2 s-1", 
+            "out_name": "fco2fos", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "hcfc22global": {
+            "comment": "", 
+            "dimensions": "time", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Global Mean Mole Fraction of HCFC22", 
+            "standard_name": "mole_fraction_of_hcfc22_in_air", 
+            "modeling_realm": "atmos atmosChem", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "", 
+            "ok_min_mean_abs": "", 
+            "units": "1E-012", 
+            "out_name": "hcfc22global", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "tro3Clim": {
+            "comment": "", 
+            "dimensions": "longitude latitude plevs time2", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Mole Fraction of O3", 
+            "standard_name": "mole_fraction_of_ozone_in_air", 
+            "modeling_realm": "atmos atmosChem", 
+            "cell_measures": "time: mean within years time: mean over years", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "", 
+            "units": "0.000000001", 
+            "out_name": "tro3Clim", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "zlev_bnds": {
+            "units": "", 
+            "long_name": "vertical coordinate formula term: zlev(k+1/2)", 
+            "type": "double", 
+            "dimensions": "olevel"
+        }, 
+        "clivi": {
+            "comment": "Mass of ice water in the column divided by the area of the column (not just the area of the cloudy portion of the column). Includes precipitating frozen hydrometeors ONLY if the precipitating hydrometeor affects the calculation of radiative transfer in model.", 
+            "dimensions": "longitude latitude time", 
+            "positive": "", 
+            "valid_min": "-1.872e-06", 
+            "long_name": "Ice Water Path", 
+            "standard_name": "atmosphere_mass_content_of_cloud_ice", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "-0.0348", 
+            "units": "kg m-2", 
+            "out_name": "clivi", 
+            "type": "real", 
+            "valid_max": "1.535", 
+            "ok_max_mean_abs": "0.1187"
+        }, 
+        "prAdjust": {
+            "comment": "at surface; includes both liquid and solid phases from all types of clouds (both large-scale and convective)", 
+            "dimensions": "longitude latitude time", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Bias-Corrected Precipitation", 
+            "standard_name": "precipitation_flux", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "", 
+            "units": "kg m-2 s-1", 
+            "out_name": "prAdjust", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "cct": {
+            "comment": "", 
+            "dimensions": "longitude latitude time", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Air Pressure at Convective Cloud Top", 
+            "standard_name": "air_pressure_at_convective_cloud_top", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "", 
+            "units": "Pa", 
+            "out_name": "cct", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "sigma": {
+            "units": "", 
+            "long_name": "vertical coordinate formula term: sigma(k)", 
+            "type": "double", 
+            "dimensions": "olevel"
+        }, 
+        "ccb": {
+            "comment": "", 
+            "dimensions": "longitude latitude time", 
+            "positive": "", 
+            "valid_min": "", 
+            "long_name": "Air Pressure at Convective Cloud Base", 
+            "standard_name": "air_pressure_at_convective_cloud_base", 
+            "modeling_realm": "atmos", 
+            "cell_measures": "time: mean", 
+            "cell_methods": "area: areacella", 
+            "ok_min_mean_abs": "", 
+            "units": "Pa", 
+            "out_name": "ccb", 
+            "type": "real", 
+            "valid_max": "", 
+            "ok_max_mean_abs": ""
+        }
+    }
+}

@@ -2,6 +2,7 @@
 /*
  * set of routines to transform between x-y and lat-lon on registered grids
  */
+#include <string.h>
 #include <stdio.h> 
 #include <math.h> 
 #include <isdb.h> 
@@ -14,6 +15,23 @@
 #define MAX_LAT   90.
 #define MIN_LON  -180.
 #define MAX_LON   180.
+
+extern void   xy_index(REG_GEOM *, long *, long *, long *, int *);
+extern void   latlon_index(REG_GEOM *, double *, double *, long *, int *);
+extern void   index_xy(REG_GEOM *, long *, long *, long *, int *);
+extern void   index_latlon(REG_GEOM *, long *, double *, double *, int *);
+extern void   xy_latlon(REG_GEOM *, double *, double *, double *, double *, int *);
+extern void   latlon_xy(REG_GEOM *, double *, double *, double *, double *, int *);
+extern void   getf_latlon(REG_GEOM *, double *, double *, float *, float *, int *);
+extern void   putf_latlon(REG_GEOM *, double *, double *, float *, float *, int *);
+extern void   CdLookup(double *, long , double , long *);
+extern void   get_int_dis(REG_GEOM *, double *, double *, double *, double *, int *);
+extern void   grid_map(REG_GEOM *, REG_GEOM *, float *, float *, int *);
+
+
+
+
+
 
 /***************************************************************/
 /*
@@ -78,7 +96,7 @@ int	 *status;		/* return status */
 
 /*  Check index is within 1, nx*ny */
     if ((*index < 1) || (*index > geom->nx * geom->ny)) {
-	fprintf(stderr, "Error in index_xy;  index: %d  nx*ny: %d\n",
+	fprintf(stderr, "Error in index_xy;  index: %ld  nx*ny: %ld\n",
 		*index, geom->nx * geom->ny);
 	*status = -1;
 	return;
@@ -126,7 +144,6 @@ double	 *x;			/* x coord in units of columns, left col is 1 */
 double	 *y;			/* y coord in units of rows, top row is 1 */
 int	 *status;		/* return status */
 {
-    extern void CdLookup(double *, long, double, long *);
     double temp1, temp2, temp3, temp4, temp5, *tempp;	/* temporary variables */
     double sign;		/* temporary variable containing sign */
     double diff_lon;		/* longitude difference holder */
@@ -198,7 +215,7 @@ int	 *status;		/* return status */
 		len = T106_LEN;
 		break;
 	  default:
-		  fprintf(stderr, "Error in latlon_xy; no Gaussian latitude of length %d\n",
+		  fprintf(stderr, "Error in latlon_xy; no Gaussian latitude of length %ld\n",
 			  geom->ny);
 		  *status = -1;
 		  return;
@@ -363,7 +380,7 @@ int	 *status;
 
 /*  Check if x is within 0, nx + 1 */
     if ((*x < 0.) || (*x > (double) geom->nx + 1.)) { 
-	fprintf(stderr, "Error in xy_latlon;  x: %lf  not in  0, %d\n",
+	fprintf(stderr, "Error in xy_latlon;  x: %lf  not in  0, %ld\n",
 		*x, geom->nx + 1);
 	*status = -1;
 	return;
@@ -371,7 +388,7 @@ int	 *status;
 
 /*  Check if y is within 0, ny + 1 */
     if ((*y < 0.) || (*y > (double) geom->ny + 1.)) { 
-	fprintf(stderr, "Error in xy_latlon;  y: %lf  not in  0, %d\n",
+	fprintf(stderr, "Error in xy_latlon;  y: %lf  not in  0, %ld\n",
 		*y, geom->ny + 1);
 	*status = -1;
 	return;
@@ -414,7 +431,7 @@ int	 *status;
 		tempp = t106Lats+i;
 		break;
 	  default:
-		  fprintf(stderr, "Error in xy_latlon; no Gaussian latitude of length %d\n",
+		  fprintf(stderr, "Error in xy_latlon; no Gaussian latitude of length %ld\n",
 			  geom->ny);
 		  *status = -1;
 		  return;
@@ -535,7 +552,6 @@ int	 *status;
     double y;			/* y coord in units of rows, top row is 1 */
     long  ix;			/* column number, left column is 1 */
     long  iy;			/* row number, top row is 1 */
-    extern void index_xy(), xy_latlon();
 
 /*  Convert from index to ix, iy */
     index_xy(geom, index, &ix, &iy, status);
@@ -575,7 +591,6 @@ int	 *status;		/* return status */
     double y;			/* y coord in units of rows, top row is 1 */
     long   ix;			/* column number, left column is 1 */
     long   iy;			/* row number, top row is 1 */
-    extern void latlon_xy(), xy_index();
 
    
 /*  Convert from lat, lon to x, y */
@@ -619,7 +634,6 @@ int	 *status;		/* return status */
     long   iy, iy1;		/* row number, top row is 1 */
     double x;			/* x coord in units of columns, left col is 1 */
     double y;			/* y coord in units of rows, top row is 1 */
-    extern void latlon_xy(), xy_index();
 
     *fpixel = 0.;
 
@@ -698,7 +712,6 @@ int	 *status;		/* return status */
     long   iy, iy1;		/* row number, top row is 1 */
     double x;			/* x coord in units of columns, left col is 1 */
     double y;			/* y coord in units of rows, top row is 1 */
-    extern void latlon_xy(), xy_index();
 
 /*  Convert from lat, lon to x, y */
     latlon_xy(geom, lat, lon, &x, &y, status);
@@ -792,7 +805,7 @@ int	 *status;		/* return status */
 
 /*  Check y value different from y of origin */
     if (fabs(*y - (double) geom->orig_iy) < 1.e-5) {
-	fprintf(stderr, "Error in get_int_dis;  y: %f  equals  orig_iy: %d\n",
+	fprintf(stderr, "Error in get_int_dis;  y: %f  equals  orig_iy: %ld\n",
 		*y, geom->orig_iy);
 	*status = -1;
 	return;
@@ -800,7 +813,7 @@ int	 *status;		/* return status */
 
 /*  Check x value different from x of origin */
     if (fabs(*x - (double) geom->orig_ix) < 1.e-5) {
-	fprintf(stderr, "Error in get_int_dis;  x: %f  equals  orig_ix: %d\n",
+	fprintf(stderr, "Error in get_int_dis;  x: %f  equals  orig_ix: %ld\n",
 		*x, geom->orig_ix);
 	*status = -1;
 	return;
@@ -891,9 +904,6 @@ int	  *status;	        /* return status from routine */
     double	lat;			/* latitude in degrees */
     double	lon;			/* longitude in degrees */
 
-    extern void   xy_index();
-    extern void   xy_latlon();
-    extern void   getf_latlon();
 
 /*  Loop over gridpoints of output grid */
     for(j = 1; j <= geom_b->ny; j++){
@@ -953,7 +963,7 @@ void CdLookup(double tab[], long n, double x, long *k)
 	incr=(tab[n-1] > tab[0]);
 	while (kupper-klower > 1) {
 		kmid=(kupper+klower) >> 1;
-		if (x > tab[kmid] == incr)
+		if ( (x > tab[kmid]) == incr)
 			klower=kmid;
 		else
 			kupper=kmid;

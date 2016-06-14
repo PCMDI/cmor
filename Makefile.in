@@ -36,7 +36,6 @@ MACROS=@MACROS@
 LIBNAME=libcmor.a
 
 # Library sources
-#LIBSOURCES=Src/cmor.c Src/cmor_variables.c Src/cmor_axes.c Src/cmor_tables.c Src/cmor_grids.c Src/cdTime/cdTimeConv.c Src/cdTime/cdUtil.c Src/cdTime/timeConv.c Src/cdTime/timeArith.c
 LIBSOURCES=@LIBSOURCES@
 LIBFSOURCES=@LIBFSOURCES@
 
@@ -64,6 +63,8 @@ cmor_tables.o: Src/cmor_tables.c include/cmor.h include/cmor_func_def.h
 	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cmor_tables.c
 cmor_grids.o: Src/cmor_grids.c include/cmor.h include/cmor_func_def.h
 	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cmor_grids.c
+cmor_CV.o: Src/cmor_CV.c include/cmor.h include/cmor_func_def.h 
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cmor_CV.c
 cmor_md5.o: Src/cmor_md5.c include/cmor.h include/cmor_func_def.h include/cmor_md5.h
 	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cmor_md5.c
 cmor_cfortran_interface.o: Src/cmor_cfortran_interface.c include/cmor.h include/cmor_func_def.h
@@ -76,6 +77,28 @@ timeConv.o: Src/cdTime/timeConv.c include/cmor.h include/cmor_func_def.h
 	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cdTime/timeConv.c
 timeArith.o:Src/cdTime/timeArith.c include/cmor.h include/cmor_func_def.h
 	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cdTime/timeArith.c
+arraylist.o:Src/json-c/
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/arraylist.c
+debug.o:Src/json-c/
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/debug.c
+json_c_version.o:Src/json-c/
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/json_c_version.c
+json_object.o:Src/json-c/
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/json_object.c
+json_object_iterator.o:Src/json-c/
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/json_object_iterator.c
+json_tokener.o:Src/json-c/
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/json_tokener.c
+json_util.o:Src/json-c/
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/json_util.c
+libjson.o:Src/json-c/
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/libjson.c
+linkhash.o:Src/json-c/
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/linkhash.c
+printbuf.o:Src/json-c/
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/printbuf.c
+random_seed.o:Src/json-c/
+	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/random_seed.c
 cmor_fortran_interface.o: Src/cmor_fortran_interface.f90
 	${FC} -c ${FCFLAGS} ${USERFFLAGS} ${DEBUG} ${MACROS} Src/cmor_fortran_interface.f90
 cmor:  $(LIBFILES) @MAKEDEPPYTHON@
@@ -221,6 +244,7 @@ test_fortran_old_cmor_tables: cmor
 	@env TEST_NAME="test_region" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
 	@env TEST_NAME="test_sigma" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
 	@env TEST_NAME="test_singleton" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
+	@env TEST_NAME="test_singleton_5D_tas" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
 	@env TEST_NAME="mytest_4d_r_big_array" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
 	@env TEST_NAME="mytest_4d_d_big_array_2" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
 	@env TEST_NAME="mytest_4d_d_big_array_3" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
@@ -261,6 +285,7 @@ test_fortran: cmor
 	@env TEST_NAME="test_region" INPUT_FILE="Test/noinput" make test_case
 	@env TEST_NAME="test_sigma" INPUT_FILE="Test/noinput" make test_case
 	@env TEST_NAME="test_singleton" INPUT_FILE="Test/noinput" make test_case
+	@env TEST_NAME="test_singleton_5D_tas" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
 	@env TEST_NAME="mytest_4d_r_big_array" INPUT_FILE="Test/noinput" make test_case
 	@env TEST_NAME="mytest_4d_d_big_array_2" INPUT_FILE="Test/noinput" make test_case
 	@env TEST_NAME="mytest_4d_d_big_array_3" INPUT_FILE="Test/noinput" make test_case

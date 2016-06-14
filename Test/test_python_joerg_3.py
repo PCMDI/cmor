@@ -6,27 +6,9 @@ nlon=90
 nlev=5
 
 def prep(mode):
-    error_flag = cmor.setup(inpath='Test', netcdf_file_action=mode                       )
+    error_flag = cmor.setup(inpath='Tables', netcdf_file_action=mode,logfile="Denis.LOG" )
 
-    error_flag = cmor.dataset(                                   
-           outpath='Test',                                         
-           experiment_id='noVolc2000',
-           institution= 'GICC (Generic International Climate Center, Geneva, Switzerland)',                                 
-           source='GICCM1 (2002): ',
-           calendar='standard',                                      
-           realization=1,                                          
-           contact = 'Rusty Koder (koder@middle_earth.net) ',      
-           history='Output from archivcl_A1.nce/giccm_03_std_2xCO2_2256.', 
-           comment='Equilibrium reached after 30-year spin-up ',                                 
-           references='Model described by Koder and Tolkien ',
-           institute_id="PCMDI",
-           model_id="GICCM1", 
-           forcing="TO, SO, Nat",
-           ## month_lengths=[30,28,30,30,30,30,30,31,30,31,30,30],
-           ## leap_year=3,
-           ## leap_month=1,
-           parent_experiment_rip="r1i3p2",
-           parent_experiment_id="N/A",branch_time=1)
+    error_flag = cmor.dataset_json("Test/test_python_joerg_3.json")
 
 def prep_var(var,units):
     # creates 1 degree grid
@@ -36,7 +18,7 @@ def prep_var(var,units):
     bnds_lat = numpy.arange(-90,90+dlat,dlat)
     alons = numpy.arange(0+dlon/2.,360.,dlon)-180.
     bnds_lon = numpy.arange(0,360.+dlon,dlon)-180.
-    cmor.load_table("Tables/CMIP5_6hrLev")
+    cmor.load_table("Tables/CMIP6_6hrLev.json")
     #cmor.load_table("Test/IPCC_table_A1")
     ilat = cmor.axis(  
         table_entry='latitude',       
@@ -116,8 +98,6 @@ def prep_var(var,units):
     ivar1 =cmor.variable(var,axis_ids=[itim,ilev,ilat,ilon],units=units,missing_value=0.)
     return ivar1,ips
 
-file_suffix1=''
-file_suffix2=''
 for d in range(2):
     mode = cmor.CMOR_APPEND
     if d==0: mode = cmor.CMOR_REPLACE
@@ -126,15 +106,17 @@ for d in range(2):
     ivar2,ips2=prep_var("hus","%")
     for i in range(4):
         tval = [i/4.+d]
-        tbnd = [i/4.+d-.125,i/4.+d+.125]
-        print 'writing time:',i,i/4.,file_suffix1
+        tbnd = [i/4.+d-0.125,i/4.+d+0.125]
+        print 'tvar',tval
+        print 'tbnd',tbnd
+        print 'writing time:',i,i/4.
         data=numpy.random.random((ntimes,nlev,nlat,nlon))*30.+273
         data=data.astype("f")
-        cmor.write(ivar1,data,time_vals=tval,time_bnds=tbnd,file_suffix=file_suffix1)
+        cmor.write(ivar1,data,time_vals=tval,time_bnds=tbnd)
         print 'wrote var 1 time:',i
         data=numpy.random.random((ntimes,nlev,nlat,nlon))
         data=data.astype("f")
-        cmor.write(ivar2,data,time_vals=tval,time_bnds=tbnd,file_suffix=file_suffix2)
+        cmor.write(ivar2,data,time_vals=tval,time_bnds=tbnd)
         print 'wrote var 2 time:',i
         data=numpy.random.random((ntimes,nlat,nlon))*8.+96300.
         data=data.astype("f")
@@ -142,9 +124,10 @@ for d in range(2):
         print 'wrote ps in var 1 time:',i
         cmor.write(ips2,data,store_with=ivar2,ntimes_passed=1,time_vals=tval,time_bnds=tbnd)
         print 'wrote ps in var 2 time:',i
-    file_suffix1=cmor.close(ivar1,True)
-    file_suffix2=cmor.close(ivar2,True)
-    print 'File:',file_suffix1,file_suffix2
+    file1=cmor.close(ivar1,True)
+    file2=cmor.close(ivar2,True)
+    print 'File1:',file1
+    print 'File2:',file2
     cmor.close()
 print cmor.close(ivar1,True)
 cmor.close()

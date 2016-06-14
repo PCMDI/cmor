@@ -211,26 +211,7 @@ PROGRAM mip_contribution
   !   attributes in all CF-netCDF files written as part of this dataset.
 
   print*, 'calling cmor_dataset'
-  error_flag = cmor_dataset(                                   &
-       outpath='Test',         &
-       experiment_id='abrupt 4XCO2',           &
-       institution=                                            &
-       'GICC (Generic International Climate Center, ' //       &
-       'Geneva, Switzerland)',                                 &
-       source='GICCM1  2002(giccm_0_brnchT_itea_2, T63L32)',    &
-       calendar='360_day',                                      &
-       realization=1,                                          &
-       history='Output from archive/giccm_03_std_2xCO2_2256.', &
-       comment='Equilibrium reached after 30-year spin-up ' // &
-       'after which data were output starting with nominal '// &
-       'date of January 2030',                                 &
-       references='Model described by Koder and Tolkien ' //   &
-       '(J. Geophys. Res., 2001, 576-591).  Also ' //          &
-       'see http://www.GICC.su/giccm/doc/index.html '  //      &
-       ' 2XCO2 simulation described in Dorkey et al. '//       &
-       '(Clim. Dyn., 2003, 323-357.)', model_id="GICCM1", &
-       forcing='TO',contact="Barry Bonds",institute_id="PCMDI",&
-       parent_experiment_rip="N/A",parent_experiment_id="N/A",branch_time=bt)
+  error_flag = cmor_dataset_json("Test/test2.json")
   
   print*, 'returned from cmor_dataset'
 
@@ -238,43 +219,43 @@ PROGRAM mip_contribution
 
   print*, 'defining 3-d axes'
    axis2d_ids2(1) = cmor_axis(  &
-       table='Tables/CMIP5_Lmon',    &
+       table='Tables/CMIP6_Lmon.json',    &
        table_entry='latitude',       &
        units='degrees_north',        &  
        length=lat,                   &
        coord_vals=alats,             & 
        cell_bounds=bnds_lat)              
   axis2d_ids2(2) = cmor_axis(  &
-       table='Tables/CMIP5_Lmon',    &
+       table='Tables/CMIP6_Lmon.json',    &
        table_entry='longitude',      &
        length=lon,                   &
        units='degrees_east',         &
        coord_vals=alons,             &
        cell_bounds=bnds_lon)              
   axis2d_ids2(3) = cmor_axis(  &
-       table='Tables/CMIP5_Lmon',    &
+       table='Tables/CMIP6_Lmon.json',    &
        table_entry='time',           &
        units='days since 1979-1-1',  &
        length=ntimes,                &
        interval='1 month')
  
   axis3d_ids(2) = cmor_axis(  &
-       table='Tables/CMIP5_Amon',    &
+       table='Tables/CMIP6_Amon.json',    &
        table_entry='latitude',       &
        units='degrees_north',        &  
        length=lat,                   &
        coord_vals=alats,             & 
        cell_bounds=bnds_lat)              
   axis3d_ids(1) = cmor_axis(  &
-       table='Tables/CMIP5_Amon',    &
+       table='Tables/CMIP6_Amon.json',    &
        table_entry='longitude',      &
        length=lon,                   &
        units='degrees_east',         &
        coord_vals=alons,             &
        cell_bounds=bnds_lon)              
   axis3d_ids(3) = cmor_axis(  &
-       table='Tables/CMIP5_Amon',    &
-       table_entry='plevs',       &
+       table='Tables/CMIP6_Amon.json',    &
+       table_entry='plev17',       &
        units='Pa',                   &
        length=lev,                   &
        coord_vals=plevs)
@@ -283,7 +264,7 @@ PROGRAM mip_contribution
   !   cmor_write (below).
 print*, 'before time '
   axis3d_ids(4) = cmor_axis(  &
-       table='Tables/CMIP5_Amon',    &
+       table='Tables/CMIP6_Amon.json',    &
        table_entry='time',           &
        units='days since 1979-1-1',  &
        length=ntimes,                &
@@ -305,7 +286,7 @@ print*, 'finished defining 2-d axes'
   
   DO m=1,n3d
      var3d_ids(m) = cmor_variable(    &   
-          table='Tables/CMIP5_Amon',  &
+          table='Tables/CMIP6_Amon.json',  &
           table_entry=entry3d(m),     &
           units=units3d(m),           &
           axis_ids=axis3d_ids,        &
@@ -320,7 +301,7 @@ print*, 'finished defining 2-d axes'
   DO m=1,n2d
      if (m.eq.3) then
         var2d_ids(m) = cmor_variable(    &
-             table='Tables/CMIP5_Lmon',  & 
+             table='Tables/CMIP6_Lmon.json',  & 
              table_entry=entry2d(m),     & 
 !!$          file_suffix='1979-2001',    &
              units=units2d(m),           & 
@@ -330,7 +311,7 @@ print*, 'finished defining 2-d axes'
              original_name=varin2d(m))  
      else 
      var2d_ids(m) = cmor_variable(    &
-          table='Tables/CMIP5_Amon',  & 
+          table='Tables/CMIP6_Amon.json',  & 
           table_entry=entry2d(m),     & 
           units=units2d(m),           & 
           axis_ids=axis2d_ids,        &

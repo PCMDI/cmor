@@ -518,6 +518,7 @@ cdRel2Comp(cdCalenType timetype, char* relunits, double reltime, cdCompTime* com
 		}
 	}
 
+    baseunits = cdMonth;
 	switch(unit){
 	  case cdSecond:
 		delta = reltime/3600.0;

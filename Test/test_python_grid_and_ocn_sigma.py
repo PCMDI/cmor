@@ -48,44 +48,19 @@ def gen_irreg_grid(lon,lat):
 
 
 
-pth = os.path.split(os.path.realpath(os.curdir))
-if pth[-1]=='Test':
-    ipth = opth = '.'
-else:
-    ipth = opth = 'Test'
-
 
 myaxes=numpy.zeros(9,dtype='i')
 myaxes2=numpy.zeros(9,dtype='i')
 myvars=numpy.zeros(9,dtype='i')
 
 
-cmor.setup(inpath=ipth,set_verbosity=cmor.CMOR_NORMAL, netcdf_file_action = cmor.CMOR_REPLACE, exit_control = cmor.CMOR_EXIT_ON_MAJOR);
-cmor.dataset(
-    outpath = opth,
-    experiment_id = "historical",
-    institution = "GICC (Generic International Climate Center, Geneva, Switzerland)",
-    source = "GICCM1 2002: atmosphere:  GICAM3 (gicam_0_brnchT_itea_2, T63L32); ocean: MOM (mom3_ver_3.5.2, 2x3L15); sea ice: GISIM4; land: GILSM2.5",
-    calendar = "standard",
-    realization = 1,
-    contact = "Tim Lincecum",
-    history = "Testing noncartesian grid and ocn sigma",
-    comment = "trying to see if it core dumps",
-    references = "ref",
-    leap_year=0,
-    leap_month=0,
-    month_lengths=None,
-    model_id="GICCM1",
-    forcing="Ant, Nat",
-    institute_id="pcmdi",
-    parent_experiment_id="piControl",
-    parent_experiment_rip="r1i2p3",
-    branch_time=18336.33)
+cmor.setup(inpath="Tables",set_verbosity=cmor.CMOR_NORMAL, netcdf_file_action = cmor.CMOR_REPLACE, exit_control = cmor.CMOR_EXIT_ON_MAJOR);
+cmor.dataset_json("Test/test_python_grid_and_ocn_sigma.json")
 
 tables=[]
-a = cmor.load_table("Tables/CMIP5_grids")
+a = cmor.load_table("CMIP6_grids.json")
 tables.append(a)
-tables.append(cmor.load_table("Tables/CMIP5_Omon"))
+tables.append(cmor.load_table("CMIP6_Omon.json"))
 print 'Tables ids:',tables
 
 cmor.set_table(tables[0])
@@ -150,7 +125,7 @@ bnds_time = numpy.zeros(ntimes*2,dtype='d')
 Time[0],bnds_time[0:2] = read_time(0)
 Time[1],bnds_time[2:4] = read_time(1)
 for i in range(ntimes):
-    data3d = numpy.random.random((lev,lon,lat,ntimes))
+    data3d = numpy.random.random((lev,lon,lat,ntimes))*40.+273.15
     eta = numpy.random.random((lon,lat,ntimes))*10000.
     #print 'writing time: ',i,data3d.shape,data3d
     #print Time[i],bnds_time[2*i:2*i+2]

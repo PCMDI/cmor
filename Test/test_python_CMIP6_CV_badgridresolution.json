@@ -1,0 +1,92 @@
+{
+           "_control_vocabulary_file": "CMIP6_CV.json",
+           "_cmip6_option":           "CMIP6",
+
+           "activity_id":            "AerChemMIP",
+
+           "branch_method":          "standard",
+           "branch_time_in_child":   "365.0",
+           "#output":                "Output Path where files are written",
+           "outpath":                "CMIP6",
+
+           "#experiment_id":         "Correspond to id found in CV json file",
+           "#experiment_id":          "piClim-aer",
+           "experiment_id":          "piControl-withism",
+           "#experiment_id":          "land-hist",
+
+           "source_type":            "AGCM AER CHEM DENIS",
+           "source_type":            "AGCM AER DENIS",
+           "source_type":            "AOGCM ISM AER",
+           "#source_type":            "LND",
+           "sub_experiment":         "none",
+           "sub_experiment_id":      "none",
+           "#parent_sub_experiment_id": "N/A",
+           "parent_mip_era":         "N/A",
+           "mip_era":                "CMIP6",
+           "#calendar":              "",
+           "calendar":               "360_day",
+           "branch_time":            "1.34",
+
+           "#realization_index":     "",
+           "realization_index":      "1",
+
+           "#initialization_index":  "",
+           "initialization_index":   "1",
+
+           "#physics_index":         "",
+           "physics_index":          "1",
+
+           "#forcing_index":         "",
+           "forcing_index":          "1",
+
+           "#contact ":              "Not required",
+           "#contact ":              "Rusty Koder (koder@middle_earth.net)",
+
+           "#history":               "not required, supplemented by CMOR",
+           "history":                "Output from archivcl_A1.nce/giccm_03_std_2xCO2_2256.",
+
+           "#comment":               "Not required",
+           "comment":                "Equilibrium reached after 30-year spin-up after which data were output starting with nominal date of January 2030",
+
+           "#references":            "Not required",
+           "references":             "Model described by Koder and Tolkien (J. Geophys. Res., 2001, 576-591).  Also see http://www.GICC.su/giccm/doc/index.html  2XCO2 simulation described in Dorkey et al. '(Clim. Dyn., 2003, 323-357.)'",
+
+
+           "#driving_variant_label":     "no-driver",
+
+           "further_info_url":       "http://furtherinfo.es-doc.org/<mip_era>/<institution_id><source_id><experiment_id><sub_experiment_id><variant_label>",
+
+           "grid":                   "gs1x1",
+           "grid_label":             "gn",
+           "grid_resolution":        "335 km",
+
+           "institution_id":         "BNU",
+
+           "parent_activity_id":     "CMIP",
+           "parent_experiment_id":   "histALL",
+           "parent_source_id":       "GFDL-CM2-1",
+           "parent_variant_label":      "r1i1p1f3",
+
+
+           "#run_variant":           "Description of run variant (Recommended).",
+           "run_variant":            "forcing: black carbon aerosol only",
+
+           "#source_id":              "Model Source",
+           "source_id":               "CESM1-CAM5",
+
+           "#source":                "source title, first part is source_id",
+           "source":                 "CESM1 (CAM5): model version ca. 2009",
+
+
+           "#output_path_template":   "Template for output path directory using tables keys or global attributes",
+           "output_path_template":    "<activity_id><institution_id><source_id><experiment_id><variant_label><table><variable_id><grid_label><version>",
+
+
+           "output_file_template":    "<variable_id><table><experiment_id><source_id><variant_label><grid_label>",
+
+           "license":                "One of 2 licenses: ----- CMIP6 model data produced by <Your CentreName> is licensed under a Creative Commons Attribution 'NonCommercial Share Alike' 4.0 International License (http://creativecommons.org/licenses/by/4.0/). Use of the data should be acknowledged following guidelines found at <what URL???> The data is hosted via the Earth System Grid Federation. Permissions beyond the scope of this license may be available at http://pcmdi.org/cmip5/terms-of-use.   Individuals using this data should register at ??? to receive notice of selected categories of errata and updates. Further information about this data, including some limitations, can be found at ???. The data producers and data providers make no warranty, either express or implied, including but not limited to, warranties of merchantability and fitness for a particular purpose. All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law. "
+
+
+
+}
+

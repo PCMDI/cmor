@@ -3,11 +3,9 @@ import cmor
 def path_test():
     cmor.setup(inpath='Test',netcdf_file_action=cmor.CMOR_REPLACE)
 
-    cmor.dataset('mytest2010030812', 'ukmo', 'HadCM3', '360_day',
-                 institute_id="PCMDI",
-                 model_id='HadCM3',forcing='co2')
+    cmor.dataset_json("Test/test_python_YYYMMDDHH_exp_fmt.json")
     
-    table='CMIP5_Amon_YYYYMMDDHH'
+    table='Tables/CMIP6_Amon.json'
     cmor.load_table(table)
     axes = [ {'table_entry': 'time',
               'units': 'days since 2000-01-01 00:00:00',

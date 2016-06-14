@@ -5,16 +5,7 @@ def cmor_initialisation():
     cmor.setup(inpath='Tables',
                netcdf_file_action = cmor.CMOR_REPLACE_3,
                create_subdirectories = 0)
-    cmor.dataset('pre-industrial control', 'ukmo', 'HadCM3', '360_day',
-                 institute_id = 'ukmo',
-                 model_id = 'HadCM3',
-                 history = 'some global history',
-                 forcing = 'N/A',
-                 parent_experiment_id = 'N/A',
-                 parent_experiment_rip = 'N/A',
-                 branch_time = 0.,
-                 contact = 'bob',
-                 outpath = 'Test')
+    cmor.dataset_json("Test/test_python_jamie_site_surface.json")
 
 def setup_data():
     axes = [ {'table_entry': 'time1',
@@ -29,7 +20,7 @@ def setup_data():
     return values, axes
 
 def cmor_define_and_write(values, axes):
-    table = 'CMIP5_cfSites'
+    table = 'CMIP6_cfSites.json'
     cmor.load_table(table)
     site_axis_id = cmor.axis(**axes[1])
 

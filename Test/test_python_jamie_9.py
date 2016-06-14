@@ -6,24 +6,16 @@ def main():
     
     cmor.setup(inpath='Tables',
                netcdf_file_action = cmor.CMOR_REPLACE_3)
-    cmor.dataset('pre-industrial control', 'ukmo', 'HadCM3', '360_day',
-                 institute_id = 'ukmo',
-                 model_id = 'HadCM3',
-                 history = 'some global history',
-                 forcing = 'N/A',
-                 parent_experiment_id = 'N/A',
-                 parent_experiment_rip = 'N/A',
-                 branch_time = 0,
-                 contact = 'brian clough')
+    cmor.dataset_json("Test/test_python_jamie_9.json")
  
-    table = 'CMIP5_Amon'
+    table = 'CMIP6_Amon.json'
     cmor.load_table(table)
     axes = [ {'table_entry': 'time',
               'units': 'days since 2000-01-01 00:00:00',
               },
-             {'table_entry': 'plevs',
+             {'table_entry': 'plev17',
               'units': 'Pa',
-              'coord_vals': '100000. 92500. 85000. 70000. 60000. 50000. 40000. 30000. 25000. 20000. 15000. 10000. 7000. 5000. 3000. 2000. 1000.'.split(' ')},
+              'coord_vals': map(float,'100000. 92500. 85000. 70000. 60000. 50000. 40000. 30000. 25000. 20000. 15000. 10000. 7000. 5000. 3000. 2000. 1000.'.split(' '))},
              {'table_entry': 'latitude',
               'units': 'degrees_north',
               'coord_vals': [0],
@@ -41,7 +33,7 @@ def main():
         axis_id = cmor.axis(**axis)
         axis_ids.append(axis_id)
 
-    for var, units, value in (('ta', 'K', 274), ('ua', 'm s-1', 10)):
+    for var, units, value in (('ta', 'K', 274), ('ua', 'm s-1', 10) ):
         values = numpy.array([value,]*len(axes[1]['coord_vals']), numpy.float32)
         varid = cmor.variable(var,
                               units,

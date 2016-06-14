@@ -6,16 +6,9 @@ import numpy
 def test_mode(mode,i,suffix=''):
     cmor.setup(inpath='Tables',
                netcdf_file_action = mode)
-    cmor.dataset('pre-industrial control', 'ukmo', 'HadCM3', '360_day',
-                 institute_id = 'ukmo',
-                 model_id = 'HadCM3',
-                 forcing="TO",
-                 contact="Derek Jeter",
-                 history = 'some global history',
-                 parent_experiment_rip="r1i3p2",
-                 parent_experiment_id="lgm",branch_time=0)
+    cmor.dataset_json("Test/test_python_joerg_2.json")
     
-    table = 'CMIP5_Amon'
+    table = 'CMIP6_Amon.json'
     cmor.load_table(table)
     levels = [100000.,
               92500.,
@@ -52,7 +45,7 @@ def test_mode(mode,i,suffix=''):
               'units': 'degrees_east',
               'coord_vals': [90],
               'cell_bounds': [89, 91]},
-             {'table_entry': 'plevs',
+             {'table_entry': 'plev17',
               'units': 'Pa',
               'coord_vals': levels},
              ]
@@ -70,9 +63,8 @@ def test_mode(mode,i,suffix=''):
                               history = 'variable history',
                               missing_value = -99
                               )
-        print 'suffix is:',suffix
         print "Sending time bounds:",[[i,i+1]]
-        cmor.write(varid, values, time_vals = [i], time_bnds = [ [i,i+1] ],file_suffix=suffix)
+        cmor.write(varid, values, time_vals = [i], time_bnds = [ [i,i+1] ])
 
     fnm = cmor.close(varid,file_name=True)
     cmor.close()

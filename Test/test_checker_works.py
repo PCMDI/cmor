@@ -19,7 +19,7 @@ if fo != sys.stdout:
 # First of all run the Test script that generates the "good" file
 #execfile("Test/test_python_joerg_3.py")
 
-file = 'Test/CMIP5/output/INSTITUTE_ID/pcmdi-10a/noVolc2000/6hr/atmos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc'
+file = 'Test/CMIP5/output/INSTITUTE_ID/pcmdi-10a/DcppC2/6hr/atmos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc'
 
 
 cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
@@ -29,7 +29,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## # Ok testing the DRS
 
 ## try:
-##     F="Test/CMIP5/output/INSTITUTE_ID/pcmdi-10a/noVolc2000/6hr/atmos/hus/hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="Test/CMIP5/output/INSTITUTE_ID/pcmdi-10a/DcppC2/6hr/atmos/hus/hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     print 'Testing DRS'
 ##     cmor.checkCMOR(fo,F,"Tables/CMIP5_6hrLev")
@@ -42,7 +42,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## os.remove(F)
 
 ## try:
-##     F="Test/CMIP5/output/INSTITUTE_ID/pcmdi-10a/noVolc2000/6hr/atmos/huhs/r1i1p1/hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="Test/CMIP5/output/INSTITUTE_ID/pcmdi-10a/DcppC2/6hr/atmos/huhs/r1i1p1/hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     try:
 ##         os.makedirs(os.path.split(F)[0])
 ##     except:
@@ -59,7 +59,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## os.remove(F)
 
 ## try:
-##     F="Test/CMIP5/output/INSTITUTE_ID/pcmdi-10a/noVolc2000/6hr/atmfos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="Test/CMIP5/output/INSTITUTE_ID/pcmdi-10a/DcppC2/6hr/atmfos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     try:
 ##         os.makedirs(os.path.split(F)[0])
 ##     except:
@@ -76,7 +76,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## os.remove(F)
 
 ## try:
-##     F="Test/CMIP5/output/INSTITUTE_ID/pcmdi-10a/noVolc2000/16hr/atmos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="Test/CMIP5/output/INSTITUTE_ID/pcmdi-10a/DcppC2/16hr/atmos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     try:
 ##         os.makedirs(os.path.split(F)[0])
 ##     except:
@@ -93,7 +93,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## os.remove(F)
 
 ## try:
-##     F="Test/CMIP5/output/INSTITUTE_ID/pcmdi-10a/noVolfdc2000/6hr/atmos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="Test/CMIP5/output/INSTITUTE_ID/pcmdi-10a/noVolfdc2000/6hr/atmos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     try:
 ##         os.makedirs(os.path.split(F)[0])
 ##     except:
@@ -110,7 +110,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## os.remove(F)
 
 ## try:
-##     F="Test/CMIP5/output/INSTITUTE_ID/pcmdi-10b/noVolc2000/6hr/atmos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="Test/CMIP5/output/INSTITUTE_ID/pcmdi-10b/DcppC2/6hr/atmos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     try:
 ##         os.makedirs(os.path.split(F)[0])
 ##     except:
@@ -127,7 +127,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## os.remove(F)
 
 ## try:
-##     F="Test/CMIP5/output/INSTITUTEd_ID/pcmdi-10a/noVolc2000/6hr/atmos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="Test/CMIP5/output/INSTITUTEd_ID/pcmdi-10a/DcppC2/6hr/atmos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     try:
 ##         os.makedirs(os.path.split(F)[0])
 ##     except:
@@ -144,7 +144,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## os.remove(F)
 
 ## try:
-##     F="Test/CMIP5/outputt/INSTITUTE_ID/pcmdi-10a/noVolc2000/6hr/atmos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="Test/CMIP5/outputt/INSTITUTE_ID/pcmdi-10a/DcppC2/6hr/atmos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     try:
 ##         os.makedirs(os.path.split(F)[0])
 ##     except:
@@ -161,7 +161,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## os.remove(F)
 
 ## try:
-##     F="Test/CMIpP5/output/INSTITUTE_ID/pcmdi-10a/noVolc2000/6hr/atmos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="Test/CMIpP5/output/INSTITUTE_ID/pcmdi-10a/DcppC2/6hr/atmos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     try:
 ##         os.makedirs(os.path.split(F)[0])
 ##     except:
@@ -179,7 +179,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 
 
 ## try:
-##     F="Test/hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="Test/hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     try:
 ##         os.makedirs(os.path.split(F)[0])
 ##     except:
@@ -196,7 +196,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## os.remove(F)
 
 ## try:
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     try:
 ##         os.makedirs(os.path.split(F)[0])
 ##     except:
@@ -213,7 +213,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## os.remove(F)
 
 ## #The following should pass, DRS test turned off
-## F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+## F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ## try:
 ##     os.makedirs(os.path.split(F)[0])
 ## except:
@@ -224,7 +224,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## os.remove(F)
 
 ## try:
-##     F="Test/CMIP5/output/INSTITUTE_ID/pcmdi-10a/noVolc2000/6hr/atmos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_20f10010100-2010010218.nc"
+##     F="Test/CMIP5/output/INSTITUTE_ID/pcmdi-10a/DcppC2/6hr/atmos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_20f10010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     print 'Testing DRS wrong date'
 ##     cmor.checkCMOR(fo,F,"Tables/CMIP5_6hrLev")
@@ -236,7 +236,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ##     raise Exception,err
 ## os.remove(F)
 ## try:
-##     F="Test/CMIP5/output/INSTITUTE_ID/pcmdi-10a/noVolc2000/6hr/atmos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_20100g10100-2010010218.nc"
+##     F="Test/CMIP5/output/INSTITUTE_ID/pcmdi-10a/DcppC2/6hr/atmos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_20100g10100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     print 'Testing DRS wrong date'
 ##     cmor.checkCMOR(fo,F,"Tables/CMIP5_6hrLev")
@@ -248,7 +248,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ##     raise Exception,err
 ## os.remove(F)
 ## try:
-##     F="Test/CMIP5/output/INSTITUTE_ID/pcmdi-10a/noVolc2000/6hr/atmos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010g100-2010010218.nc"
+##     F="Test/CMIP5/output/INSTITUTE_ID/pcmdi-10a/DcppC2/6hr/atmos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010g100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     print 'Testing DRS wrong date'
 ##     cmor.checkCMOR(fo,F,"Tables/CMIP5_6hrLev")
@@ -260,7 +260,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ##     raise Exception,err
 ## os.remove(F)
 ## try:
-##     F="Test/CMIP5/output/INSTITUTE_ID/pcmdi-10a/noVolc2000/6hr/atmos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_201001010g0-2010010218.nc"
+##     F="Test/CMIP5/output/INSTITUTE_ID/pcmdi-10a/DcppC2/6hr/atmos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_201001010g0-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     print 'Testing DRS wrong date'
 ##     cmor.checkCMOR(fo,F,"Tables/CMIP5_6hrLev")
@@ -272,7 +272,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ##     raise Exception,err
 ## os.remove(F)
 ## try:
-##     F="Test/CMIP5/output/INSTITUTE_ID/pcmdi-10a/noVolc2000/6hr/atmos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2f01001041 8.nc"
+##     F="Test/CMIP5/output/INSTITUTE_ID/pcmdi-10a/DcppC2/6hr/atmos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2f01001041 8.nc"
 ##     shutil.copy(file,F)
 ##     print 'Testing DRS wrong date'
 ##     cmor.checkCMOR(fo,F,"Tables/CMIP5_6hrLev")
@@ -284,7 +284,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ##     raise Exception,err
 ## os.remove(F)
 ## try:
-##     F="Test/CMIP5/output/INSTITUTE_ID/pcmdi-10a/noVolc2000/6hr/atmos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010h010218.nc"
+##     F="Test/CMIP5/output/INSTITUTE_ID/pcmdi-10a/DcppC2/6hr/atmos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010h010218.nc"
 ##     shutil.copy(file,F)
 ##     print 'Testing DRS wrong date'
 ##     cmor.checkCMOR(fo,F,"Tables/CMIP5_6hrLev")
@@ -296,7 +296,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ##     raise Exception,err
 ## os.remove(F)
 ## try:
-##     F="Test/CMIP5/output/INSTITUTE_ID/pcmdi-10a/noVolc2000/6hr/atmos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010h418.nc"
+##     F="Test/CMIP5/output/INSTITUTE_ID/pcmdi-10a/DcppC2/6hr/atmos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010h418.nc"
 ##     shutil.copy(file,F)
 ##     print 'Testing DRS wrong date'
 ##     cmor.checkCMOR(fo,F,"Tables/CMIP5_6hrLev")
@@ -308,7 +308,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ##     raise Exception,err
 ## os.remove(F)
 ## try:
-##     F="Test/CMIP5/output/INSTITUTE_ID/pcmdi-10a/noVolc2000/6hr/atmos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-201001041g8.nc"
+##     F="Test/CMIP5/output/INSTITUTE_ID/pcmdi-10a/DcppC2/6hr/atmos/hus/r1i1p1/hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-201001041g8.nc"
 ##     shutil.copy(file,F)
 ##     print 'Testing DRS wrong date'
 ##     cmor.checkCMOR(fo,F,"Tables/CMIP5_6hrLev")
@@ -321,7 +321,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## os.remove(F)
 
 ## try:
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     f=cdms2.open(F,"a")
 ##     h=f("hus")
@@ -341,7 +341,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## for gatt in gbl:
 ##     try:
 ##         print 'Testing no %s global att' % (gatt)
-##         F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##         F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##         shutil.copy(file,F)
 ##         os.popen("ncdump %s > crap.txt"%F).readlines()
 ##         fi=open("crap.txt")
@@ -376,7 +376,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## try:
 ##     gatt = "creation_date"
 ##     print 'Testing Validity of %s' % (gatt)
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -412,7 +412,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## try:
 ##     gatt = "branch_time"
 ##     print 'Testing Validity of %s' % (gatt)
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -447,7 +447,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## try:
 ##     gatt = "branch_time"
 ##     print 'Testing Validity of %s' % (gatt)
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -482,7 +482,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## try:
 ##     gatt = "experiment_id"
 ##     print 'Testing Validity of %s' % (gatt)
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -517,7 +517,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## try:
 ##     gatt = "experiment"
 ##     print 'Testing Validity of %s' % (gatt)
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -552,7 +552,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## try:
 ##     gatt = "forcing"
 ##     print 'Testing Validity of %s' % (gatt)
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -587,7 +587,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## try:
 ##     gatt = "frequency"
 ##     print 'Testing Validity of %s' % (gatt)
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -622,7 +622,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## try:
 ##     gatt = "frequency"
 ##     print 'Testing Validity of %s' % (gatt)
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -657,7 +657,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## try:
 ##     gatt = "parent_experiment_id"
 ##     print 'Testing Validity of %s' % (gatt)
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -692,7 +692,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## try:
 ##     gatt = "parent_experiment_id"
 ##     print 'Testing Validity of %s' % (gatt)
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -706,7 +706,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ##         elif l.find(":%s" % gatt)==-1:
 ##             f.write(l)
 ##         else:
-##             f.write(l.strip()[:-6]+'noVolc2000" ;\n')
+##             f.write(l.strip()[:-6]+'DcppC2" ;\n')
 ##     f.close()
 ##     fi.close()
 ##     os.remove(F)
@@ -727,7 +727,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## try:
 ##     gatt = "project_id"
 ##     print 'Testing Validity of %s' % (gatt)
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -762,7 +762,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 
 ## try:
 ##     print 'Testing Validity of variable type'
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -792,7 +792,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## os.remove(F)
 ## try:
 ##     print 'Testing Validity of coordinate type'
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -822,7 +822,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## os.remove(F)
 ## try:
 ##     print 'Testing Validity of coordinate type'
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -852,7 +852,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## os.remove(F)
 ## try:
 ##     print 'Testing Validity of coordinate name'
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -884,7 +884,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## os.remove(F)
 ## try:
 ##     print 'Testing Validity of coordinate units'
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -914,7 +914,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## try:
 ##     import cdms2
 ##     print 'Testing Validity of time units'
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     f=cdms2.open(F,"r+")
 ##     t=f['hus'].getTime()
@@ -963,7 +963,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## try:
 ##     import cdms2
 ##     print 'Testing time is mean of bounds'
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -999,7 +999,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## try:
 ##     import cdms2
 ##     print 'Testing lack of bounds'
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -1045,7 +1045,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## try:
 ##     import cdms2
 ##     print 'Testing lack of bounds'
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -1105,7 +1105,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## try:
 ##     import cdms2
 ##     print 'Testing lack of formulaterms'
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -1148,7 +1148,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## os.remove(F)
 ## try:
 ##     print 'Testing wrong names on zfactors axis for hybrid'
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -1180,7 +1180,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## os.remove(F)
 ## try:
 ##     print 'Testing wrong names on stabdard_name axis for hybrid'
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -1208,7 +1208,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## for anm in ['lon','lat','lev','time']:
     ## try:
     ##     print 'Testing axis attribute'
-    ##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+    ##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
     ##     shutil.copy(file,F)
     ##     os.popen("ncdump %s > crap.txt"%F).readlines()
     ##     fi=open("crap.txt")
@@ -1236,7 +1236,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
     ## os.remove(F)
 ## try:
 ##     print 'Testing calendar attribute'
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -1264,7 +1264,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## os.remove(F)
 ## try:
 ##     print 'Testing wrong calendar attribute'
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -1293,7 +1293,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## os.remove(F)
 ## try:
 ##     print 'Testing wrong variable datatype'
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -1322,7 +1322,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## os.remove(F)
 ## try:
 ##     print 'Testing wrong variable name'
-##     F="HUS_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="HUS_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -1351,7 +1351,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## os.remove(F)
 ## try:
 ##     print 'Testing wrong variable name'
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -1380,7 +1380,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## os.remove(F)
 ## try:
 ##     print 'Testing wrong variable units'
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -1409,7 +1409,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## os.remove(F)
 ## try:
 ##     print 'Testing wrong dim ordering'
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -1446,7 +1446,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## datanew = """ lon = """+"""358, 354, 350, 346, 342, 338, 334, 330, 326, 322, 318, 314, 310, 306, 302, 298, 294, 290, 286, 282, 278, 274, 270, 266, 262, 258, 254, 250, 246, 242, 238, 234, 230, 226, 222, 218, 214, 210, 206, 202, 198, 194, 190, 186, 182, 178, 174, 170, 166, 162, 158, 154, 150, 146, 142, 138, 134, 130, 126, 122, 118, 114, 110, 106, 102, 98, 94, 90, 86, 82, 78, 74, 70, 66, 62, 58, 54, 50, 46, 42, 38, 34, 30, 26, 22, 18, 14, 10, 6, 2 ;"""
 ## try:
 ##     print 'Testing wrong dim ordering'
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -1478,7 +1478,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## os.remove(F)
 ## try:
 ##     print 'Testing wrong dim ordering'
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -1513,7 +1513,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ##     -36, -40, -44, -48, -52, -56, -60, -64, -68, -72, -76, -80, -84, -88 ;"""
 ## try:
 ##     print 'Testing wrong dim ordering'
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -1548,7 +1548,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 
 ## try:
 ##     print 'Testing wrong dim ordering'
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2009123018.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2009123018.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -1580,7 +1580,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## os.remove(F)
 ## try:
 ##     print 'Testing fill and miss values different ordering'
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -1612,7 +1612,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## os.remove(F)
 ## try:
 ##     print 'Testing fill and miss values different ordering'
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -1645,7 +1645,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## for att in ['associated_files','cell_measures','long_name','standard_name','units']:
 ##     try:
 ##         print 'Testing required var att %s' % att
-##         F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##         F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##         shutil.copy(file,F)
 ##         os.popen("ncdump %s > crap.txt"%F).readlines()
 ##         fi=open("crap.txt")
@@ -1674,7 +1674,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## att = 'associated_files'
 ## try:
 ##     print 'Testing wrong var att %s' % att
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
@@ -1703,14 +1703,14 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 ## os.remove(F)
 ## try:
 ##     print 'Testing wrong var att %s' % att
-##     F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+##     F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
 ##     shutil.copy(file,F)
 ##     os.popen("ncdump %s > crap.txt"%F).readlines()
 ##     fi=open("crap.txt")
 ##     f=open("crapo.txt","w")
 ##     for ln in fi.xreadlines():
 ##         if ln.find("hus:%s"%att)>-1:
-##             f.write(' hus:associated_files = "baseURL: http://cmip-pcmdi.llnl.gov/CMIP5/dataLocation gridspecFile: gridspec_fx_pcmdi-10a_noVolc2000_r0i0p0.nc cellAreaFile: areacellla_fx_pcmdi-10a_noVolc2000_r0i0p0.nc" ;')
+##             f.write(' hus:associated_files = "baseURL: http://cmip-pcmdi.llnl.gov/CMIP5/dataLocation gridspecFile: gridspec_fx_pcmdi-10a_DcppC2_r0i0p0.nc cellAreaFile: areacellla_fx_pcmdi-10a_DcppC2_r0i0p0.nc" ;')
 ##             continue
 ##         f.write(ln)
 ##     f.close()
@@ -1733,7 +1733,7 @@ cmor.checkCMOR(fo,file,"Tables/CMIP5_6hrLev")
 att="cell_measures"
 try:
     print 'Testing wrong var att %s' % att
-    F="hus_6hrLev_pcmdi-10a_noVolc2000_r1i1p1_2010010100-2010010218.nc"
+    F="hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
     shutil.copy(file,F)
     os.popen("ncdump %s > crap.txt"%F).readlines()
     fi=open("crap.txt")

@@ -4,19 +4,11 @@ import numpy
 
 def main():
     
-    cmor.setup(inpath='/git/cmip5-cmor-tables/Tables',
+    cmor.setup(inpath='Tables',
                netcdf_file_action = cmor.CMOR_REPLACE_3)
-    cmor.dataset('pre-industrial control', 'ukmo', 'HadCM3', '360_day',
-                 institute_id = 'ukmo',
-                 model_id = 'HadCM3',
-                 history = 'some global history',
-                 forcing = 'N/A',
-                 parent_experiment_id = 'N/A',
-                 parent_experiment_rip = 'N/A',
-                 branch_time = 0,
-                 contact = 'brian clough')
+    cmor.dataset_json("Test/test_python_joerg_tim2_clim_02.json")
  
-    table = 'CMIP5_Oclim'
+    table = 'CMIP6_Oclim.json'
     cmor.load_table(table)
     axes = [ {'table_entry': 'time2',
               'units': 'days since 1850-01-01 00:00:00',

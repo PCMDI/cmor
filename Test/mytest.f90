@@ -51,24 +51,7 @@ program main
        exit_control=1)
     
   print*,'CMOR DATASET'
-  ierr = cmor_dataset(                                   &
-       outpath='Test',         &
-       experiment_id='abrupt 4XCO2',           &
-       institution=                                            &
-       'GICC (Generic International Climate Center, ' //       &
-       ' Geneva, Switzerland)',                                &
-       source='GICCM  2002(giccm_0_brnchT_itea_2, T63L32)',    &
-       calendar='noleap',                                      &
-       realization=1,                                          &
-       history='Output from archive/giccm_03_std_2xCO2_2256.', &
-       comment='Equilibrium reached after 30-year spin-up ' // &
-       'after which data were output starting with nominal '// &
-       'date of January 2030',                                 &
-       references='Model described by Koder and Tolkien ' //   &
-       '(J. Geophys. Res., 2001, 576-591).  Also ' //          &
-       'see http://www.GICC.su/giccm/doc/index.html '  //      &
-       ' 2XCO2 simulation described in Dorkey et al. '//       &
-       '(Clim. Dyn., 2003, 323-357.)' )
+  ierr = cmor_dataset_json("Test/test2.json")
   
   current=>mydims
   do i = 0,ndim-1

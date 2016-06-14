@@ -35,20 +35,9 @@ def mywrite(data = None, time_vals = None, append_to = None,cell_bounds=None):
                netcdf_file_action = mode,
                logfile = None)
 
-    cmor.dataset(
-        outpath = ipth,
-        experiment_id = "lgm",
-        institution = "PCMDI",
-        source = "GICCM1 2002",
-        institute_id="PCMDI",
-        calendar = "standard",
-        contact="Pablo Sandoval",
-        model_id="GICCM1",forcing="Nat",
-        parent_experiment_id="historical",
-        parent_experiment_rip="r1i3p2",
-        branch_time=3.14159)
+    cmor.dataset_json("Test/test_python_appending.json")
 
-    cmor.load_table("Tables/CMIP5_Amon")
+    cmor.load_table("Tables/CMIP6_Amon.json")
 
     dlat = 180/nlat
     dlon = 360./nlon
@@ -66,7 +55,7 @@ def mywrite(data = None, time_vals = None, append_to = None,cell_bounds=None):
     ilat = cmor.axis(table_entry='latitude',coord_vals=lats,units='degrees_north',cell_bounds=bnds_lat)
     ilon = cmor.axis(table_entry='longitude',coord_vals=lons,units='degrees_east',cell_bounds=bnds_lon)
     print 'so far',itim,ilat,ilon
-    ilev = cmor.axis(table_entry="plevs",coord_vals=plevs,units="Pa")
+    ilev = cmor.axis(table_entry="plev17",coord_vals=plevs,units="Pa")
 
     iv = cmor.variable(table_entry='ta',axis_ids=numpy.array((itim,ilev,ilat,ilon)),units='K')
 

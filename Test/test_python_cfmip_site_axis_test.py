@@ -41,14 +41,7 @@ def setup_cmor() :
       set_verbosity=cmor.CMOR_NORMAL, create_subdirectories=0)
 
    # Create CMOR dataset
-   cmor.dataset(outpath='Test', institution='Met Office Hadley Centre', institute_id="MOHC",
-      experiment_id='amip', model_id="HadGEM2-A", source='HadGEM2-A 2009',
-      calendar='360_day', contact='mark.webb@metoffice.gov.uk',
-      realization=1, initialization_method=1, physics_version=1,
-      history='history', comment='CMIP5 site axis test',
-      references='references', forcing="GHG, TO (yeah or some think)",
-      parent_experiment_id='N/A', parent_experiment_rip='N/A', branch_time=0
-   )
+   cmor.dataset_json("Test/test_python_cfmip_site_axis_test.json")
 
 #---------------------------------------------------------------------------------------------------
 if __name__ == '__main__' :
@@ -62,7 +55,7 @@ if __name__ == '__main__' :
    site_lons = numpy.array([0.0, 0.0, 0.0], dtype=numpy.float32)
 
    # Create CMOR axes and grids
-   table_id = cmor.load_table('CMIP5_cfSites')
+   table_id = cmor.load_table('CMIP6_cfSites.json')
    taxis_id = cmor.axis('time1', units='days since 2000-01-01 00:00:00') #, length=1, interval='30 minutes')
    print 'ok: created time axis'
 
@@ -79,13 +72,13 @@ if __name__ == '__main__' :
    print 'ok: created b zfactors'
 
    # Create grid object to link site-dimensioned variables to (lat,long).
-   # Need to make CMIP5_grids the current MIP table for this to work.
-   table_id = cmor.load_table('CMIP5_grids')
+   # Need to make CMIP6_grids the current MIP table for this to work.
+   table_id = cmor.load_table('CMIP6_grids.json')
    gaxis_id = cmor.grid([saxis_id], site_lats, site_lons)
    print 'ok: created site grid'
 
    # Create CMOR variable for cloud area fraction: MIP name = 'cl', STASH = m01s02i261*100
-   table_id = cmor.load_table('CMIP5_cfSites')
+   table_id = cmor.load_table('CMIP6_cfSites.json')
    var_id = cmor.variable('cl', '%', [taxis_id, gaxis_id, zaxis_id], type='f',
       missing_value=-99.0, original_name='STASH m01s02i261*100')
    print 'ok: created variable for "cl"'

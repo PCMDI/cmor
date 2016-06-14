@@ -167,34 +167,12 @@ PROGRAM test_region
   !   experiment conditions, and provide information to be included as 
   !   attributes in all CF-netCDF files written as part of this dataset.
 
-  error_flag = cmor_dataset(                                   &
-       outpath='Test',                                         &
-       experiment_id='abrupt 4XCO2',           &
-       institution=                                            &
-       'GICC (Generic International Climate Center, ' //       &
-       'Geneva, Switzerland)',                                 &
-       source='GICCM1 (2002): ' //                             &
-       'atmosphere:  GICAM3 (gicam_0_brnchT_itea_2, T63L32); '// &
-       'ocean: MOM (mom3_ver_3.5.2, 2x3L15); '             //  &
-       'sea ice: GISIM4; land: GILSM2.5',                      &
-       calendar='360_day',                                      &
-       realization=1,                                          &
-       history='Output from archive/giccm_03_std_2xCO2_2256.', &
-       comment='Equilibrium reached after 30-year spin-up ' // &
-       'after which data were output starting with nominal '// &
-       'date of January 2030',                                 &
-       references='Model described by Koder and Tolkien ' //   &
-       '(J. Geophys. Res., 2001, 576-591).  Also '        //   &
-       'see http://www.GICC.su/giccm/doc/index.html '     //   &
-       ' 2XCO2 simulation described in Dorkey et al. '    //   &
-       '(Clim. Dyn., 2003, 323-357.)' , model_id="GICCM1", &
-       forcing='TO',contact="Barry Bonds",institute_id="PCMDI",&
-       parent_experiment_rip="N/A",parent_experiment_id="N/A",branch_time=bt)
+  error_flag = cmor_dataset_json("Test/test2.json")
     
   !  Define all axes that will be needed
   
   ilat = cmor_axis(  &
-       table='Tables/CMIP5_Omon',    &
+       table='Tables/CMIP6_Omon.json',    &
        table_entry='latitude',       &
        units='degrees_north',        &  
        length=lat,                   &
@@ -202,7 +180,7 @@ PROGRAM test_region
        cell_bounds=bnds_lat)        
       
   ireg = cmor_axis(  &
-       table='Tables/CMIP5_Omon',        &
+       table='Tables/CMIP6_Omon.json',        &
        table_entry='basin',         &
        length=reg,                   &
        units='none',                 &
@@ -214,7 +192,7 @@ PROGRAM test_region
   !   cmor_write (later, below).
 
   itim = cmor_axis(  &
-       table='Tables/CMIP5_Omon',        &
+       table='Tables/CMIP6_Omon.json',        &
        table_entry='time',           &
        units='days since 2030-1-1',  &
        length=ntimes,                &
@@ -225,7 +203,7 @@ PROGRAM test_region
   
   DO m=1,n1d
      var1d_ids(m) = cmor_variable(    &
-          table='Tables/CMIP5_Omon',      &
+          table='Tables/CMIP6_Omon.json',      &
           table_entry=entry1d(m),     &
           units=units1d(m),           &
           axis_ids=(/ ilat, ireg, itim /), &

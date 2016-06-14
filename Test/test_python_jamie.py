@@ -1,16 +1,11 @@
 import cmor
 
 def path_test():
-    cmor.setup(inpath='TestTables',netcdf_file_action=cmor.CMOR_REPLACE)
+    cmor.setup(inpath='Tables',netcdf_file_action=cmor.CMOR_REPLACE)
 
-    cmor.dataset('historical', 'ukmo', 'HadCM3', '360_day',model_id='HadCM3',forcing='Nat',
-                 contact="J.T. Snow",
-                 institute_id="PCMDI",
-                 parent_experiment_id="N/A",
-                 parent_experiment_rip="N/A",
-                 branch_time=0)
+    cmor.dataset_json("Test/test_python_jamie.json")
     
-    table='CMIP5_Amon'
+    table='CMIP6_Amon.json'
     cmor.load_table(table)
     axes = [ {'table_entry': 'time',
               'units': 'days since 2000-01-01 00:00:00',

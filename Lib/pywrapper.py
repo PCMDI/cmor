@@ -1,5 +1,11 @@
 
 import cmor_const,numpy,os,_cmor
+import signal
+
+def sig_handler(signum, frame):
+    os.kill(os.getpid(),signal.SIGABRT)
+
+signal.signal(signal.SIGTERM, sig_handler)
 
 try:
     import cdtime
@@ -94,13 +100,13 @@ def grid(axis_ids,latitude=None,longitude=None,latitude_vertices=None,longitude_
     elif not isinstance(axis_ids, numpy.ndarray):
         raise Exception, "Error could not convert axis_ids list to a numpy array"
 
-    if numpy.rank(axis_ids)>1:
+    if numpy.ndim(axis_ids)>1:
         raise Exception, "error axes list/array must be 1D"
 
     if latitude is not None:
         latitude = _to_numpy(latitude, 'latitude')
             
-        if numpy.rank(latitude)!=len(axis_ids):
+        if numpy.ndim(latitude)!=len(axis_ids):
             raise Exception, "latitude's rank does not match number of axes passed via axis_ids"
 
         type = latitude.dtype.char
@@ -110,7 +116,7 @@ def grid(axis_ids,latitude=None,longitude=None,latitude_vertices=None,longitude_
 
         longitude = _to_numpy(longitude, 'longitude')
 
-        if numpy.rank(longitude)!=len(axis_ids):
+        if numpy.ndim(longitude)!=len(axis_ids):
             raise Exception, "longitude's rank does not match number of axes passed via axis_ids"
         
     ##     print 'longitude type:',longitude.dtype.char
@@ -128,7 +134,7 @@ def grid(axis_ids,latitude=None,longitude=None,latitude_vertices=None,longitude_
     if latitude_vertices is not None:
         latitude_vertices = _to_numpy(latitude_vertices, 'latitude_vertices')
 
-        if numpy.rank(latitude_vertices)!=len(axis_ids)+1:
+        if numpy.ndim(latitude_vertices)!=len(axis_ids)+1:
             raise Exception, "latitude_vertices's rank does not match number of axes passed via axis_ids +1 (for vertices)"
 ##         print 'latitude_vert type:',latitude_vertices.dtype.char
         if latitude_vertices.dtype.char!=type:
@@ -140,7 +146,7 @@ def grid(axis_ids,latitude=None,longitude=None,latitude_vertices=None,longitude_
         
     if longitude_vertices is not None:
         longitude_vertices = _to_numpy(longitude_vertices, 'longitude_vertices')
-        if numpy.rank(longitude_vertices)!=len(axis_ids)+1:
+        if numpy.ndim(longitude_vertices)!=len(axis_ids)+1:
             raise Exception, "longitude_vertices's rank does not match number of axes passed via axis_ids +1 (for vertices)"
 ##         print 'longitude_vert type:',longitude_vertices.dtype.char
         if longitude_vertices.dtype.char!=type:
@@ -288,7 +294,7 @@ def axis(table_entry,units=None,length=None,coord_vals=None,cell_bounds=None,int
         if not isinstance(coord_vals,numpy.ndarray):
             raise Exception, "Error coord_vals must be an array or cdms2 axis or list/tuple"
 
-        if numpy.rank(coord_vals)>1:
+        if numpy.ndim(coord_vals)>1:
             raise Exception, "Error, you must pass a 1D array!"
 
     if numpy.ma.isMA(cell_bounds):
@@ -303,9 +309,9 @@ def axis(table_entry,units=None,length=None,coord_vals=None,cell_bounds=None,int
         cell_bounds = numpy.ascontiguousarray(cell_bounds)
         
     if cell_bounds is not None:
-        if numpy.rank(cell_bounds)>2:
+        if numpy.ndim(cell_bounds)>2:
             raise Exception, "Error cell_bounds rank must be at most 2"
-        if numpy.rank(cell_bounds)==2:
+        if numpy.ndim(cell_bounds)==2:
             if cell_bounds.shape[0]!=coord_vals.shape[0]:
                 raise Exception, "Error, coord_vals and cell_bounds do not have the same length"
             if cell_bounds.shape[1]!=2:
@@ -393,7 +399,7 @@ def variable(table_entry,units,axis_ids,type='f',missing_value=None,tolerance = 
     elif not isinstance(axis_ids, numpy.ndarray):
         raise Exception, "Error could not convert axis_ids list to a numpy array"
 
-    if numpy.rank(axis_ids)>1:
+    if numpy.ndim(axis_ids)>1:
         raise Exception, "error axis_ids list/array must be 1D"
 
     if not isinstance(type,str):
@@ -464,7 +470,7 @@ def zfactor(zaxis_id,zfactor_name,units="",axis_ids=None,type=None,zfactor_value
     elif not isinstance(axis_ids, numpy.ndarray):
         raise Exception, "Error could not convert axis_ids list to a numpy array"
 
-    if numpy.rank(axis_ids)>1:
+    if numpy.ndim(axis_ids)>1:
         raise Exception, "error axis_ids list/array must be 1D"
 
     if axis_ids is None:
@@ -525,9 +531,9 @@ def zfactor(zaxis_id,zfactor_name,units="",axis_ids=None,type=None,zfactor_value
             zfactor_bounds = numpy.ascontiguousarray(zfactor_bounds)
         elif not isinstance(zfactor_bounds, numpy.ndarray):
             raise Exception, "Error could not convert zfactor_bounds to a numpy array"
-        if numpy.rank(zfactor_bounds)>2:
+        if numpy.ndim(zfactor_bounds)>2:
             raise Exception, "error zfactor_bounds must be rank 2 at most"
-        elif numpy.rank(zfactor_bounds)==2:
+        elif numpy.ndim(zfactor_bounds)==2:
             if zfactor_bounds.shape[1]!=2:
                 raise Exception, "error zfactor_bounds' 2nd dimension must be of length 2"
             bnds =[]
@@ -651,9 +657,9 @@ def write(var_id,data,ntimes_passed=None,file_suffix="",time_vals=None,time_bnds
         elif not isinstance(time_bnds, numpy.ndarray):
             raise Exception, "Error could not convert time_bnds to a numpy array"
 
-        if numpy.rank(time_bnds)>2:
+        if numpy.ndim(time_bnds)>2:
             raise Exception, "bounds rank cannot be greater than 2"
-        elif numpy.rank(time_bnds)==2:
+        elif numpy.ndim(time_bnds)==2:
             if time_bnds.shape[1]!=2:
                 raise Exception, "error time_bnds' 2nd dimension must be of length 2"
             bnds =[]
@@ -664,7 +670,7 @@ def write(var_id,data,ntimes_passed=None,file_suffix="",time_vals=None,time_bnds
                 bnds = time_bnds.ravel()
             time_bnds=numpy.array(bnds)
         else: # ok it is a rank 1!
-            if numpy.rank(time_vals)==0:
+            if numpy.ndim(time_vals)==0:
                 ltv=1
             else:
                 ltv=len(time_vals)
@@ -687,7 +693,7 @@ def write(var_id,data,ntimes_passed=None,file_suffix="",time_vals=None,time_bnds
     if not type in ['f','d','i','l']:
         raise Exception, "Error data type must one of: 'f','d','i','l', please convert first"
 
-    return _cmor.write(var_id,data,type,file_suffix,ntimes_passed,time_vals,time_bnds,store_with)
+    return _cmor.write(var_id,data,type,ntimes_passed,time_vals,time_bnds,store_with)
 
 def _check_time_bounds_contiguous(time_bnds):
     '''
@@ -749,83 +755,16 @@ def load_table(table):
 ##         raise Exception, "Error, the table you specified (%s) does not exists" % table
     return _cmor.load_table(table)
 
-def dataset(experiment_id,institution,source,calendar,outpath='.',realization=1,contact="",history="",comment="",references="",leap_year=0,leap_month=0,month_lengths=None,model_id="",forcing="",initialization_method=None,physics_version=None,institute_id="",parent_experiment_id="",branch_time=None,parent_experiment_rip=""):
-    """ Initialize a cmor dataset 
+def dataset_json(rcfile):
+    """ load dataset JSON file
     Usage:
-    dataset(experiment_id,institution,source,outpath='.',calendar=None,realization=None,contact=None,history="",comment="",references="",leap_year=None,leap_month=None,month_lengths=None,model_id="",forcing="",initialization_method=None,physics_version=None,institute_id="",parent_experiment_id="",branch_time=None,parent_experiment_rip="")
+    dataset_json(rcfile)
     """
-
-    if isinstance(calendar,int):
-        if has_cdtime: # put this in a try loop in case cdtime is not available on the system 
-            if calendar == cdtime.Calendar360:
-                calendar = "360_day"
-            elif calendar == cdtime.ClimCalendar:
-                calendar = "clim"
-            elif calendar == cdtime.DefaultCalendar:
-                calendar = "standard"
-            elif calendar == cdtime.GregorianCalendar:
-                calendar = "proleptic_gregorian"
-            elif calendar == cdtime.JulianCalendar:
-                calendar = "julian"
-            elif calendar == cdtime.MixedCalendar:
-                calendar= "standard"
-            elif calendar == cdtime.NoLeapCalendar:
-                calendar = "noleap"
-            elif calendar == cdtime.StandardCalendar:
-                calendar = "proleptic_gregorian"
-            elif calendar == cdtime.ClimLeapCalendar:
-                calendar = "climleap"
-    elif calendar is None:
-        calendar ="none"
-                
-    for st in [outpath,experiment_id,institution,source,contact,history,comment,references,model_id,forcing,institute_id,parent_experiment_id,parent_experiment_rip]:
-        if not isinstance(st,str):
-            for o in dir():
-                if locals()[o] is st:
-                    raise Exception, "Error argument %s must be a string" % o
-
-    calendar = calendar.lower()
-    
-    for i in [realization,leap_year,leap_month]:
-        if not isinstance(i,int):
-            for o in dir():
-                if locals()[o] is i:
-                    raise Exception, "Error argument %s must be an integer" % o
-    if isinstance(month_lengths,(list,tuple)):
-        month_lengths = numpy.array(month_lengths)
-    elif has_cdms2 and cdms2.isVariable(month_lengths):
-        month_lengths = month_lengths.filled()
-    elif isinstance(month_lengths,(numpy.ma.core.MaskedArray)):
-        month_lengths = month_lengths.filled()
-    elif has_oldma and isinstance(month_lengths,numpy.oldnumeric.ma.MaskedArray):
-        month_lengths = month_lengths.filled()
-        
-    if isinstance(month_lengths,numpy.ndarray):
-        if not numpy.rank(month_lengths)==1:
-            raise Exception, "Error month_lengths must be 1D"
-        if len(month_lengths)!=12:
-            raise Exception, "Error month_lengths must have 12 elements exactly"
-        months_lengths = numpy.ascontiguousarray(month_lengths)
-    elif month_lengths is not None:
-        raise Exception, "Error month_lengths must be a 12 elts array or list"
-    if initialization_method is not None:
-        if not isinstance(initialization_method,int):
-            raise Exception, "initialization_method must be an int"
-    else:
-        initialization_method=0
-    if physics_version is not None:
-        if not isinstance(physics_version,int):
-            raise Exception, "physics_version must be an int"
-    else:
-        physics_version=0
-
-    if branch_time is not None:
-        if not isinstance(branch_time,(float,int,numpy.float,numpy.float32,numpy.int,numpy.int32)):
-            raise Exception,"branch_time must be a float"
-        else:
-            branch_time=float(branch_time)
-
-    return _cmor.dataset(outpath,experiment_id,institution,source,calendar,realization,contact,history,comment,references,leap_year,leap_month,month_lengths,model_id,forcing,initialization_method,physics_version,institute_id,parent_experiment_id,branch_time,parent_experiment_rip)
+    if not isinstance(rcfile,str):
+        raise Exception, "Error, must pass a string"
+##     if not os.path.exists(table):
+##         raise Exception, "Error, the table you specified (%s) does not exists" % table
+    return _cmor.dataset_json(rcfile)
 
 def set_table(table):
     if not isinstance(table,int):
@@ -912,6 +851,22 @@ def set_variable_attribute(var_id,name,value):
         val = str(value)
     return _cmor.set_variable_attribute(var_id,name,val)
 
+def set_deflate(var_id,shuffle,deflate,deflate_level):
+    """Sets shuffle/deflate on a cmor variable
+    Usage:
+      cmor.set_deflate(var_id, shuffle, deflate, deflate_level)
+    Where:
+      var_id: is cmor variable id
+      shuffle: if true, turn on netCDF the shuffle filter
+      deflate: if true, turn on the deflate filter at the level 
+               specified by the deflate_level parameter
+      deflate_level: if the deflate parameter is non-zero. 
+                     Set the deflate value. Must be between 0 and 9
+      
+    """
+
+    return _cmor.set_deflate(var_id, shuffle, deflate, deflate_level)
+
 def has_variable_attribute(var_id,name):
     """determines if the a cmor variable has an attribute
     Usage:
@@ -943,7 +898,11 @@ def get_variable_attribute(var_id,name):
     else:
         return None
     
-    
+def get_final_filename():
+   """ Retrieve renamed file after cmor.close() has been called.  This is useful to reopen the file in the same program.
+   """
+   return _cmor.get_final_filename()
+
 def create_output_path(varid):
     """returns the output path where a variable would be stored, given a varid (as returned by a call to cmor.variable)
     Usage:

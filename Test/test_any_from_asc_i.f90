@@ -71,26 +71,7 @@ program main
        exit_control=1)
     
   print*,'Test Code: CMOR DATASET'
-  ierr = cmor_dataset(                                   &
-       outpath='Test',         &
-       experiment_id='abrupt 4XCO2',           &
-       institution=                                            &
-       'GICC (Generic International Climate Center, ' //       &
-       ' Geneva, Switzerland)',                                &
-       source='GICCM1  2002(giccm_0_brnchT_itea_2, T63L32)',    &
-       calendar='noleap',                                      &
-       realization=1,                                          &
-       history='Output from archive/giccm_03_std_2xCO2_2256.', &
-       comment='Equilibrium reached after 30-year spin-up ' // &
-       'after which data were output starting with nominal '// &
-       'date of January 2030',                                 &
-       references='Model described by Koder and Tolkien ' //   &
-       '(J. Geophys. Res., 2001, 576-591).  Also ' //          &
-       'see http://www.GICC.su/giccm/doc/index.html '  //      &
-       ' 2XCO2 simulation described in Dorkey et al. '//       &
-       '(Clim. Dyn., 2003, 323-357.)', &
-       model_id = "GICCM1", forcing='TO',contact="Barry Bonds",&
-       parent_experiment_rip="N/A",parent_experiment_id="N/A",branch_time=bt,institute_id="PCMDI")
+  ierr = cmor_dataset_json("Test/test2.json")
   
   current=>mydims
   do i = 0,ndim-1
@@ -99,7 +80,7 @@ program main
      if (trim(adjustl(current%name)).eq.'time') then
         print*, 'Test Code: time found'
         ptimes => current
-        myaxis(ndim-i)=cmor_axis('Tables/CMIP5_Amon', &
+        myaxis(ndim-i)=cmor_axis('Tables/CMIP6_Amon.json', &
              table_entry=current%name,&
              units=current%units,&
              length=current%n,&
@@ -107,7 +88,7 @@ program main
 !!$          cell_bounds=current%bounds, &
              interval='1 month')
      else
-        myaxis(ndim-i)=cmor_axis('Tables/CMIP5_Amon', &
+        myaxis(ndim-i)=cmor_axis('Tables/CMIP6_Amon.json', &
              table_entry=current%name,&
              units=current%units,&
              length=current%n,&
@@ -119,7 +100,7 @@ program main
   enddo
   
   print*,'Test Code: CMOR VAR',var,units
-  myvar=cmor_variable('Tables/CMIP5_Amon',&
+  myvar=cmor_variable('Tables/CMIP6_Amon.json',&
        var,&
        units,&
        myaxis,&

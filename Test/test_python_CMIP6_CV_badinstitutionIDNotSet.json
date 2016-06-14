@@ -1,0 +1,102 @@
+{
+           "_control_vocabulary_file": "CMIP6_CV.json",
+           "_cmip6_option":           "CMIP6",
+
+           "#activity_id":           "Specify an activity PMIP, GeoMIP, (must start with CMIP6-)",
+           "activity_id":            "CMIP",
+
+           "#output":                "Output Path where files are written",
+           "outpath":                "CMIP6",
+
+           "#experiment_id":         "Correspond to id found in experiments.json",
+           "experiment_id":          "piControl",
+           "source_type":            "AOGCM",
+           "sub_experiment":         "none",
+           "sub_experiment_id":      "none",
+           "parent_sub_experiment_id":"N/A",
+           "parent_mip_era":         "N/A",
+           "mip_era":                "CMIP6",
+
+           "#source":                "",
+           "source":                 "MIROC-ESM",
+
+           "#calendar":              "",
+           "calendar":               "gregorian",
+
+           "#realization_index":     "",
+           "realization_index":      "1",
+
+           "#initialization_index":  "",
+           "initialization_index":   "1",
+
+           "#physics_index":         "",
+           "physics_index":          "1",
+
+           "#forcing_index":         "",
+           "forcing_index":          "1",
+
+           "#contact ":              "",
+           "contact ":               "Python Coder (python@a.b.com) ",
+
+           "#history":               "",
+           "history":                "Output from archivcl_A1.nce/giccm_03_std_2xCO2_2256.",
+
+           "#comment":               "",
+           "comment":                "Equilibrium reached after 30-year spin-up ",
+
+           "#references":            "",
+           "references":             "Model described by Koder and Tolkien ",
+
+           "#institution_id":         "",
+           "institution_id":          "",
+
+           "#institution":           "Controlled Vocabulary",
+           "institution":            "PCMDI",
+            
+           "#model_id":              "",
+           "model_id":               "GICCM1",
+
+           "#forcing":               "",
+           "forcing":                "TO, SO, Nat",
+
+           "#parent_experiment_rip": "",
+           "parent_variant_label":  "r1i3p2",
+
+           "#parent_experiment_id":  "",
+           "parent_experiment_id":   "N/A",
+
+           "#branch_time":            "",
+           "branch_time":             "1",
+
+
+           "parent_activity_id": "CMIP",
+           "parent_experiment_id": "histALL",
+           "parent_source_id":   "GFDL-CM2-1",
+           "parent_variant_label":  "r1i1p1f3",
+
+           "branch_method":         "standard",
+           "branch_time_in_child":  "00D0",
+           "branch_time_in_parent":"3650.0D0",
+           "branch_time_units_in_parent": "days since 1000-1-1",
+
+
+           "further_info_url":       "http://furtherinfo.es-doc.org/<mip_era>/<institution_id><source_id><experiment_id><sub_experiment_id><variant_label>",
+           "grid":                   "native atmosphere T63 gaussian grid (64x128 latxlon)",
+           "grid_label":             "gn",
+           "grid_resolution":        "5 km",
+           "references":             "Model described by Koder and Tolkien (J. Geophys. Res.,2001, 576 - 591).  Also see http://www.GICC.su/giccm/doc/index.html  2XCO2 simulation described in Dorkey et al. '(Clim. Dyn., 2003, 323 - 357.)",
+           "run_variant":            "forcing: black carbon aerosol only",
+           "source_id":              "MIROC-ESM",
+
+           "#output_path_template":   "Template for output path directory using tables keys or global attributes",
+           "output_path_template":    "<activity_id><institution_id><source_id><experiment_id><variant_label><table><variable_id><grid_label><version>",
+
+           "#output_file_template":   "Template for output filename using table keys or global attributes",
+           "output_file_template":    "<variable_id><table><experiment_id><source_id><variant_label><grid_label>",
+
+           "license":                "One of 2 licenses: ----- CMIP6 model data produced by <Your CentreName> is licensed under a Creative Commons Attribution 'NonCommercial Share Alike' 4.0 International License (http://creativecommons.org/licenses/by/4.0/). Use of the data should be acknowledged following guidelines found at <what URL???> The data is hosted via the Earth System Grid Federation. Permissions beyond the scope of this license may be available at http://pcmdi.org/cmip5/terms-of-use.   Individuals using this data should register at ??? to receive notice of selected categories of errata and updates. Further information about this data, including some limitations, can be found at ???. The data producers and data providers make no warranty, either express or implied, including but not limited to, warranties of merchantability and fitness for a particular purpose. All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law. "
+
+
+}
+
+

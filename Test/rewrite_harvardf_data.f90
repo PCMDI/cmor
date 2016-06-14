@@ -15,7 +15,7 @@ USE cmor_users_functions
       character(len = 20) :: units_string = 'K'
 !     character(len = 20) :: input_table  = 'IPCC_test_table_A'
 !!$      character(len = 20) :: input_table  = 'IPCC_table_A2'
-      character(len = 20) :: input_table  = 'Tables/CMIP5_day'
+      character(len = 25) :: input_table  = 'Tables/CMIP6_day.json'
 
       character :: first_line    ! throwaway
 
@@ -63,19 +63,7 @@ USE cmor_users_functions
       ierrorflag = cmor_setup(netcdf_file_action = 'replace')
 
       print *, 'Identifying output data sets for CMOR ...'
-      ierrorflag = cmor_dataset(                               &
-                      outpath       = 'Test',                    &
-                      experiment_id =                          &
-      'abrupt 4XCO2',        &
-                      institution   =                          &
-      'Berkeley CAS (Center for Atmospheric Science)',         &
-                      source        =                          &
-      'GICCM1 ftp://ftp.as.harvard.edu/pub/nigec/HU_Wofsy/hf_data',   &
-                      calendar      = 'gregorian',             &
-                      contact       =                          &
-      'Jasmin John, Berkeley CAS <jjohn@berkeley.edu>', &
-                      model_id = "GICCM1" ,institute_id="PCMDI",&
-                      parent_experiment_rip="N/A",parent_experiment_id='N/A',forcing='SO',branch_time=bt)
+      ierrorflag = cmor_dataset_json("Test/test2.json")
 
 !     print *, ' ** Time coordinate vector:', t
 !     print *, ' ** Time bounds vector:',     tbounds

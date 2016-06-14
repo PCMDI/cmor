@@ -7,7 +7,8 @@ except:
     
 import cmor,numpy
 
-f=cdms2.open(os.path.join(sys.prefix,'sample_data/clt.nc'))
+f=cdms2.open(os.path.join('data/clt.nc'))
+
 
 pth = os.path.split(os.path.realpath(os.curdir))
 if pth[-1]=='Test':
@@ -18,20 +19,9 @@ cmor.setup(inpath=ipth,
            set_verbosity=cmor.CMOR_NORMAL,
            netcdf_file_action = cmor.CMOR_REPLACE)
 
-cmor.dataset(
-    outpath = opth,
-    experiment_id = "historical",
-    institution = "PCMDI",
-    source = "GICCM1 2002",
-    calendar = "standard",
-    contact="Tim Lincecum",
-    institute_id="PCMDI",
-    model_id="GICCM1",forcing="Nat",
-    parent_experiment_id="N/A",
-    parent_experiment_rip="N/A",
-    branch_time=0.)
+cmor.dataset_json("test_compression.json")
 
-cmor.load_table("Tables/CMIP5_Amon")
+cmor.load_table("Tables/CMIP6_Amon.json")
 
 s=f("clt",slice(14))
 Saxes = s.getAxisList()
@@ -57,7 +47,7 @@ sh=list(s.shape)
 sh[0]=nt
 s=numpy.resize(s,sh)
 #s=numpy.where(numpy.greater(s,100.),100,s)
-s=numpy.random.random(s.shape)*100.
+s=numpy.random.random(s.shape)*10000.
 print s.shape
 cmor.write(var_id1,s)
 cmor.close(var_id1)
