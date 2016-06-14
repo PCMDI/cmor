@@ -762,7 +762,6 @@ int cmor_setup( char *path,
 #ifdef COLOREDOUTPUT
 #undef COLOREDOUTPUT
 #endif
-
         cmor_trim_string(logfile, tmplogfile);
         output_logfile = NULL;
         output_logfile = fopen(tmplogfile, "r");

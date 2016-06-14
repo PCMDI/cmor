@@ -11,73 +11,72 @@ except:
     print "This test code needs a recent cdms2 interface for i/0"
     sys.exit()
 
-if len(sys.argv)>1:
+if len(sys.argv) > 1:
     level = int(sys.argv[1])
 else:
-    level=int(os.environ.get("DEFLATE_LEVEL",0))
+    level = int(os.environ.get("DEFLATE_LEVEL", 0))
 
-if len(sys.argv)>2:
-    shuffle= int(sys.argv[2])
+if len(sys.argv) > 2:
+    shuffle = int(sys.argv[2])
 else:
-    shuffle=int(os.environ.get("SHUFFLE",0))
+    shuffle = int(os.environ.get("SHUFFLE", 0))
 
-if level==0:
+if level == 0:
     deflate = 0
 else:
     deflate = 1
 
-f=open("Test/speed_test_table_A")
-s=f.read()
+f = open("Test/speed_test_table_A")
+s = f.read()
 f.close()
-s=s.replace("${DEFLATE_LEVEL}",str(level))
-s=s.replace("${DEFLATE}",str(deflate))
-s=s.replace("${SHUFFLE}",str(shuffle))
-f=open("mytable","w")
+s = s.replace("${DEFLATE_LEVEL}", str(level))
+s = s.replace("${DEFLATE}", str(deflate))
+s = s.replace("${SHUFFLE}", str(shuffle))
+f = open("mytable", "w")
 f.write(s)
 f.close()
 
 cmor.setup(inpath="Tables",set_verbosity=cmor.CMOR_NORMAL, netcdf_file_action = cmor.CMOR_REPLACE_4, exit_control = cmor.CMOR_EXIT_ON_MAJOR);
 cmor.dataset_json("Test/cmor_speed_and_compression.json")
 
-tables=[]
+tables = []
 tables.append(cmor.load_table("mytable"))
-print 'Tables ids:',tables
+print 'Tables ids:', tables
 
 
 ## read in data, just one slice
 f=cdms2.open('data/tas_ccsr-95a.xml')
 s=f("tas",time=slice(0,12),squeeze=1)
-
 ntimes = 12
-varout='tas'
+varout = 'tas'
 
-myaxes=numpy.arange(10)
-myvars=numpy.arange(10)
-myaxes[0] = cmor.axis(table_entry = 'latitude', 
-                      units = 'degrees_north', 
-                      coord_vals = s.getLatitude()[:],cell_bounds=s.getLatitude().getBounds())
-myaxes[1] = cmor.axis(table_entry = 'longitude', 
-                      units = 'degrees_north', 
-                      coord_vals = s.getLongitude()[:],cell_bounds=s.getLongitude().getBounds())
-
-
-
-myaxes[2] = cmor.axis(table_entry = 'time',
-                      units = s.getTime().units,
-                      coord_vals = s.getTime()[:],cell_bounds=s.getTime().getBounds())
-
-pass_axes = [myaxes[2],myaxes[0],myaxes[1]]
-
-myvars[0] = cmor.variable( table_entry = varout,
-                           units = s.units,
-                           axis_ids = pass_axes,
-                           original_name = s.id,
-                           history = 'no history',
-                           comment = 'testing speed'
-                           )
+myaxes = numpy.arange(10)
+myvars = numpy.arange(10)
+myaxes[0] = cmor.axis(table_entry='latitude',
+                      units='degrees_north',
+                      coord_vals=s.getLatitude()[:], cell_bounds=s.getLatitude().getBounds())
+myaxes[1] = cmor.axis(table_entry='longitude',
+                      units='degrees_north',
+                      coord_vals=s.getLongitude()[:], cell_bounds=s.getLongitude().getBounds())
 
 
-import time,MV2
+myaxes[2] = cmor.axis(table_entry='time',
+                      units=s.getTime().units,
+                      coord_vals=s.getTime()[:], cell_bounds=s.getTime().getBounds())
+
+pass_axes = [myaxes[2], myaxes[0], myaxes[1]]
+
+myvars[0] = cmor.variable(table_entry=varout,
+                          units=s.units,
+                          axis_ids=pass_axes,
+                          original_name=s.id,
+                          history='no history',
+                          comment='testing speed'
+                          )
+
+
+import time
+import MV2
 st = time.time()
 totcmor=0
 totcdms=0
@@ -116,25 +115,24 @@ lcmor = os.stat("CMIP6/CMIP/CSIRO-BOM/NICAM/piControl/r1i1p1f1/Amon/tas/gn/v%s/t
 print 'level:',level,"shuffle:",shuffle
 print 'total cmor:',totcmor,mincmor,totcmor/ntimes,maxcmor,lcmor
 lcdms = os.stat("Test/crap.nc")[6]
-print 'total cdms:',totcdms,mincdms,totcdms/ntimes,maxcdms,lcdms
-print 'Size diff:',float(lcmor)/float(lcdms)
-print 'speed diff:', totcmor/totcdms
+print 'total cdms:', totcdms, mincdms, totcdms / ntimes, maxcdms, lcdms
+print 'Size diff:', float(lcmor) / float(lcdms)
+print 'speed diff:', totcmor / totcdms
 
 if os.path.exists("summary.txt"):
     f = open("summary.txt")
-    s=f.read()
+    s = f.read()
     f.close()
     dic = eval(s)
 else:
     dic = {}
 
-dic[(level,shuffle)]=(float(lcmor)/float(lcdms),totcmor/totcdms)
+dic[(level, shuffle)] = (float(lcmor) / float(lcdms), totcmor / totcdms)
 
 for i in range(10):
-    a = dic.get((i,0),"N/A")
-    b = dic.get((i,1),"N/A")
-    print 'Level: ',i,"no suffle:",a,"shuffle",b
-f=open("summary.txt","w")
+    a = dic.get((i, 0), "N/A")
+    b = dic.get((i, 1), "N/A")
+    print 'Level: ', i, "no suffle:", a, "shuffle", b
+f = open("summary.txt", "w")
 f.write(repr(dic))
 f.close()
-
