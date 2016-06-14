@@ -1,15 +1,14 @@
 {
     "Header": {
-        "activity_id": "CMIP6", 
+        "product": "output", 
         "cf_version": "1.6", 
         "baseURL": "http://cmip-pcmdi.llnl.gov/CMIP6/dataLocation", 
-        "cmor_version": "3.0", 
+        "cmor_version": "3.1", 
         "Conventions": "CF-1.6 CMIP-6.0", 
-        "product": "output", 
         "table_id": "Table grids", 
         "data_specs_version": "<data_specs_version>", 
         "missing_value": "1e20", 
-        "table_date": "14 April 2016"
+        "table_date": "14 June 2016"
     }, 
     "mapping_entry": {
         "sample_user_mapping": {

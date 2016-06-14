@@ -1024,7 +1024,7 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
     extern int cmor_nvars, cmor_naxes;
     extern int CMOR_TABLE;
     extern cmor_var_t cmor_vars[];
-    int i, iref, j, k, ierr, l;
+    int i, iref, j, k, l;
     char msg[CMOR_MAX_STRING];
     char ctmp[CMOR_MAX_STRING];
     cmor_var_def_t refvar;
@@ -1035,7 +1035,7 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
     int aint;
     long along;
     int did_grid_reorder = 0;
-    int vrid;
+    int vrid=-1;
 
     cmor_add_traceback( "cmor_variable" );
     cmor_is_setup(  );
@@ -1490,27 +1490,27 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
 
 		    if( pAxis->bounds_value[0] != 1.e20 ) {
 
-		        ierr = cmor_axis( &k,
-			                  pAxis->id,
-			                  pAxis->units,
-			                  1,
-			                  &pAxis->value,
-			                  'd',
-				          &pAxis->bounds_value[0],
-				          2,
-				          "" );
+		             cmor_axis( &k,
+		                     pAxis->id,
+		                     pAxis->units,
+		                     1,
+		                     &pAxis->value,
+		                     'd',
+		                     &pAxis->bounds_value[0],
+		                     2,
+		                     "" );
 
 		    } else {
 
-		        ierr = cmor_axis(&k,
-                                         pAxis->id,
-                                         pAxis->units,
-                                         1,
-                                         &pAxis->value,
-                                         'd',
-                                         NULL,
-                                         0,
-                                         "");
+		            cmor_axis(&k,
+		                    pAxis->id,
+		                    pAxis->units,
+		                    1,
+		                    &pAxis->value,
+		                    'd',
+		                    NULL,
+		                    0,
+		                    "");
 		    }
 
 		    laxes_ids[olndims] = k;
@@ -2319,10 +2319,11 @@ int cmor_write_var_to_file( int ncid, cmor_var_t * avar, void *data,
 /* -------------------------------------------------------------------- */
 
     for( i = 0; i < avar->ndims; i++ ) {
-	for( j = 0; j < avar->ndims; j++ ) {
-	    if( avar->axes_ids[i] == avar->original_order[j] )
-		counter_orig2[i] = counter_orig[j + 1];
-	}
+        for( j = 0; j < avar->ndims; j++ ) {
+            if( avar->axes_ids[i] == avar->original_order[j] ) {
+                counter_orig2[i] = counter_orig[j + 1];
+            }
+        }
     }
 
 /* -------------------------------------------------------------------- */

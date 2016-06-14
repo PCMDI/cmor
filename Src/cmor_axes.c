@@ -1674,7 +1674,6 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
     extern int CMOR_TABLE;
 
     int i, iref, j, k, l;
-    int ierr;
     cmor_axis_def_t refaxis;
     char msg[CMOR_MAX_STRING];
     char ctmp[CMOR_MAX_STRING];
@@ -1734,13 +1733,13 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
         strcpy(ctmp, refaxis.units);
     }
 
-    ierr = cmor_set_axis_attribute(cmor_naxes, "units", 'c', ctmp);
+    cmor_set_axis_attribute(cmor_naxes, "units", 'c', ctmp);
     ctmp[0] = refaxis.axis;
     ctmp[1] = '\0';
     cmor_axes[cmor_naxes].axis = refaxis.axis;
 
     if (refaxis.axis != '\0') {
-        ierr = cmor_set_axis_attribute(cmor_naxes, "axis", 'c', ctmp);
+        cmor_set_axis_attribute(cmor_naxes, "axis", 'c', ctmp);
     }
 
     if (refaxis.positive != '\0') {
@@ -1753,23 +1752,23 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
     }
 
     if (refaxis.long_name[0] != '\0') {
-        ierr = cmor_set_axis_attribute(cmor_naxes, "long_name", 'c',
+         cmor_set_axis_attribute(cmor_naxes, "long_name", 'c',
                 refaxis.long_name);
     }
     if (refaxis.standard_name[0] != '\0') {
-        ierr = cmor_set_axis_attribute(cmor_naxes, "standard_name", 'c',
+        cmor_set_axis_attribute(cmor_naxes, "standard_name", 'c',
                 refaxis.standard_name);
     }
     if (refaxis.formula[0] != '\0') {
-        ierr = cmor_set_axis_attribute(cmor_naxes, "formula", 'c',
+        cmor_set_axis_attribute(cmor_naxes, "formula", 'c',
                 refaxis.formula);
     }
     if (refaxis.z_factors[0] != '\0') {
-        ierr = cmor_set_axis_attribute(cmor_naxes, "z_factors", 'c',
+        cmor_set_axis_attribute(cmor_naxes, "z_factors", 'c',
                 refaxis.z_factors);
     }
     if ((refaxis.z_bounds_factors[0] != '\0') && (cell_bounds != NULL)) {
-        ierr = cmor_set_axis_attribute(cmor_naxes, "z_bounds_factors", 'c',
+        cmor_set_axis_attribute(cmor_naxes, "z_bounds_factors", 'c',
                 refaxis.z_bounds_factors);
     }
 
@@ -1800,7 +1799,7 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
                     cmor_handle_error(msg, CMOR_CRITICAL);
                 }
 
-                ierr = cmor_axis(axis_id, refaxis.convert_to, units, length,
+                cmor_axis(axis_id, refaxis.convert_to, units, length,
                         coord_vals, type, cell_bounds, cell_bounds_ndim,
                         interval);
                 cmor_axes[cmor_naxes].hybrid_in = i;
@@ -1826,7 +1825,7 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
 /* -------------------------------------------------------------------- */
 
     if ((interval != NULL) && (interval[0] != '\0')) {
-        ierr = cmor_set_axis_attribute(cmor_naxes, "interval", 'c', interval);
+        cmor_set_axis_attribute(cmor_naxes, "interval", 'c', interval);
     }
 
 /* -------------------------------------------------------------------- */
@@ -1994,7 +1993,7 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
             return( 0 );
         }
 
-        ierr = cmor_treat_axis_values(cmor_naxes,
+        cmor_treat_axis_values(cmor_naxes,
                 &cmor_axes[cmor_naxes].values[0],
                 length,
                 refaxis.n_requested,
@@ -2095,14 +2094,14 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
                 }
             }
 
-            ierr = cmor_treat_axis_values(cmor_naxes,
+            cmor_treat_axis_values(cmor_naxes,
                     &cmor_axes[cmor_naxes].bounds[0], 2 * length, 0, units,
                     name, 1);
 /* -------------------------------------------------------------------- */
 /*      At this point we are checking that                              */
 /*      the axis values are within bounds                               */
 /* -------------------------------------------------------------------- */
-            ierr = cmor_check_values_inside_bounds(
+            cmor_check_values_inside_bounds(
                     &cmor_axes[cmor_naxes].values[0],
                     &cmor_axes[cmor_naxes].bounds[0], length, name);
 

@@ -46,7 +46,7 @@ def sig_handler(signum, frame):
 #  main thread
 # ==============================
 def run():
-    unittest.main()
+    return(unittest.main())
 
 
 # ---------------------
@@ -88,7 +88,7 @@ class TestInstitutionMethods(unittest.TestCase):
             # ------------------------------------------
             # Check error after signal handler is back
             # ------------------------------------------
-            self.assertIn("\"1209374928349823498274987234987\"", testOK)
+            self.assertIn("\"Denis1209374928349823498274987234987\"", testOK)
 
 
 if __name__ == '__main__':

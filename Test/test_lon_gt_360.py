@@ -51,7 +51,7 @@ def version(cmor):
                         cmor.CMOR_VERSION_PATCH)
 
 def main():
-    assert version(cmor) == '3.0.0'
+    assert version(cmor) >= '3.0.0'
     cmor_initialisation()
     values, axes = setup_data()
     cmor_define_and_write(values, axes)

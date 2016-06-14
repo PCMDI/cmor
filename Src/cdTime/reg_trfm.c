@@ -2,6 +2,7 @@
 /*
  * set of routines to transform between x-y and lat-lon on registered grids
  */
+#include <string.h>
 #include <stdio.h> 
 #include <math.h> 
 #include <isdb.h> 
@@ -23,6 +24,12 @@ extern void   xy_latlon(REG_GEOM *, double *, double *, double *, double *, int 
 extern void   latlon_xy(REG_GEOM *, double *, double *, double *, double *, int *);
 extern void   getf_latlon(REG_GEOM *, double *, double *, float *, float *, int *);
 extern void   putf_latlon(REG_GEOM *, double *, double *, float *, float *, int *);
+extern void   CdLookup(double *, long , double , long *);
+extern void   get_int_dis(REG_GEOM *, double *, double *, double *, double *, int *);
+extern void   grid_map(REG_GEOM *, REG_GEOM *, float *, float *, int *);
+
+
+
 
 
 
@@ -89,7 +96,7 @@ int	 *status;		/* return status */
 
 /*  Check index is within 1, nx*ny */
     if ((*index < 1) || (*index > geom->nx * geom->ny)) {
-	fprintf(stderr, "Error in index_xy;  index: %d  nx*ny: %d\n",
+	fprintf(stderr, "Error in index_xy;  index: %ld  nx*ny: %ld\n",
 		*index, geom->nx * geom->ny);
 	*status = -1;
 	return;
@@ -208,7 +215,7 @@ int	 *status;		/* return status */
 		len = T106_LEN;
 		break;
 	  default:
-		  fprintf(stderr, "Error in latlon_xy; no Gaussian latitude of length %d\n",
+		  fprintf(stderr, "Error in latlon_xy; no Gaussian latitude of length %ld\n",
 			  geom->ny);
 		  *status = -1;
 		  return;
@@ -373,7 +380,7 @@ int	 *status;
 
 /*  Check if x is within 0, nx + 1 */
     if ((*x < 0.) || (*x > (double) geom->nx + 1.)) { 
-	fprintf(stderr, "Error in xy_latlon;  x: %lf  not in  0, %d\n",
+	fprintf(stderr, "Error in xy_latlon;  x: %lf  not in  0, %ld\n",
 		*x, geom->nx + 1);
 	*status = -1;
 	return;
@@ -381,7 +388,7 @@ int	 *status;
 
 /*  Check if y is within 0, ny + 1 */
     if ((*y < 0.) || (*y > (double) geom->ny + 1.)) { 
-	fprintf(stderr, "Error in xy_latlon;  y: %lf  not in  0, %d\n",
+	fprintf(stderr, "Error in xy_latlon;  y: %lf  not in  0, %ld\n",
 		*y, geom->ny + 1);
 	*status = -1;
 	return;
@@ -424,7 +431,7 @@ int	 *status;
 		tempp = t106Lats+i;
 		break;
 	  default:
-		  fprintf(stderr, "Error in xy_latlon; no Gaussian latitude of length %d\n",
+		  fprintf(stderr, "Error in xy_latlon; no Gaussian latitude of length %ld\n",
 			  geom->ny);
 		  *status = -1;
 		  return;
@@ -798,7 +805,7 @@ int	 *status;		/* return status */
 
 /*  Check y value different from y of origin */
     if (fabs(*y - (double) geom->orig_iy) < 1.e-5) {
-	fprintf(stderr, "Error in get_int_dis;  y: %f  equals  orig_iy: %d\n",
+	fprintf(stderr, "Error in get_int_dis;  y: %f  equals  orig_iy: %ld\n",
 		*y, geom->orig_iy);
 	*status = -1;
 	return;
@@ -806,7 +813,7 @@ int	 *status;		/* return status */
 
 /*  Check x value different from x of origin */
     if (fabs(*x - (double) geom->orig_ix) < 1.e-5) {
-	fprintf(stderr, "Error in get_int_dis;  x: %f  equals  orig_ix: %d\n",
+	fprintf(stderr, "Error in get_int_dis;  x: %f  equals  orig_ix: %ld\n",
 		*x, geom->orig_ix);
 	*status = -1;
 	return;
@@ -956,7 +963,7 @@ void CdLookup(double tab[], long n, double x, long *k)
 	incr=(tab[n-1] > tab[0]);
 	while (kupper-klower > 1) {
 		kmid=(kupper+klower) >> 1;
-		if (x > tab[kmid] == incr)
+		if ( (x > tab[kmid]) == incr)
 			klower=kmid;
 		else
 			kupper=kmid;
