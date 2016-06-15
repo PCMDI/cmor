@@ -13,7 +13,7 @@ export PREFIX=$HOME/build
 # -------------------
 mkdir build
 cd build
-wget http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.16.tar
+wget http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.17.tar
 wget ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4.4.0.tar.gz
 wget ftp://ftp.unidata.ucar.edu/pub/udunits/udunits-2.2.20.tar.gz
 wget http://www.mirrorservice.org/sites/ftp.ossp.org/pkg/lib/uuid/uuid-1.6.2.tar.gz
@@ -21,7 +21,7 @@ wget http://www.mirrorservice.org/sites/ftp.ossp.org/pkg/lib/uuid/uuid-1.6.2.tar
 # -------------------
 # Untar packages
 # -------------------
-tar xf hdf5-1.8.16.tar
+tar xf hdf5-1.8.17.tar
 tar xzf netcdf-4.4.0.tar.gz
 tar xzf udunits-2.2.20.tar.gz
 tar xzf uuid-1.6.2.tar.gz
@@ -48,7 +48,7 @@ make install
 # build hdf5
 # -------------------
 #
-cd ../hdf5-1.8.16
+cd ../hdf5-1.8.17
 ./configure --prefix=$PREFIX
 make  
 make install
