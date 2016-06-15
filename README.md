@@ -7,4 +7,4 @@ Climate Model Output Rewriter
 ![platforms](http://img.shields.io/badge/platforms-linux | osx-lightgrey.svg)
 
 [![Anaconda-Server Badge](https://anaconda.org/pcmdi/cmor/badges/installer/conda.svg)](https://conda.anaconda.org/pcmdi)
-[![Anaconda-Server Badge](https://anaconda.org/pcmdi/cmor/badges/downloads.svg)](https://anaconda.org/uvcdat/pcmdi)
+[![Anaconda-Server Badge](https://anaconda.org/pcmdi/cmor/badges/downloads.svg)](https://anaconda.org/pcmdi)
