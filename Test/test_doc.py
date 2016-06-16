@@ -1,6 +1,6 @@
 import cmor
 
-cmor.setup(inpath='Tables',netcdf_file_action=cmor.CMOR_REPLACE)
+cmor.setup(inpath='Tables',netcdf_file_action=cmor.CMOR_REPLACE_4)
 
 cmor.dataset_json("Test/test_doc.json")
     
@@ -24,8 +24,8 @@ axis_ids = [itime,ilat,ilon]
               
 varid = cmor.variable('ts', 'K', axis_ids)
 cmor.write(varid, [273])
-path=cmor.close(varid, file_name=True)
-print path
+outfile=cmor.close(varid, file_name=True)
+print "File written: ",outfile
 cmor.close()
 
 

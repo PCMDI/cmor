@@ -58,7 +58,7 @@
            "branch_time":             "1",
 
 
-           "further_info_url":       "http://furtherinfo.es-doc.org/<mip_era>/<institution_id><source_id><experiment_id><sub_experiment_id><variant_label>",
+           "further_info_url":       "http://furtherinfo.es-doc.org/<mip_era><institution_id><source_id><experiment_id><sub_experiment_id><variant_label>",
            "grid":                   "native atmosphere T63 gaussian grid (64x128 latxlon)",
            "grid_label":             "gn",
            "grid_resolution":        "5 km",

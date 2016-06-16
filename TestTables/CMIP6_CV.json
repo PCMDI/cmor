@@ -36,9 +36,6 @@
         "variable_id"
         ],
 
-    "required_parent_attributes": [
-        "parent_experiment_id"
-        ],
 
     "variant_label": [ "^r[[:digit:]]\\{1,\\}i[[:digit:]]\\{1,\\}p[[:digit:]]\\{1,\\}f[[:digit:]]\\{1,\\}$" ],
 
@@ -168,11 +165,6 @@
 
     "#license": [ "CMIP6 model data produced by [[:alpha:]]\\{1,\\} is licensed under a Creative Commons Attribution \\“[NonCommercial] Share Alike\\” 4.0 International License \\(http\\://creativecommons.org/licenses/by/4.0/). Use of the data should be acknowledged following guidelines found at https://pcmdi.llnl.gov/home/CMIP6/citation.html. The data is made available via the Earth System Grid Federation. [Permissions beyond the scope of this license may be available at [[:alpha:]]\\{1,\\} .]   Individuals using this data should register at [[:alpha:]]\\{1,\\} to receive notice of selected categories of errata and updates. [Further information about this data, including some limitations, can be found at [[:alpha:]]\\{1,\\} .]  The data producers and data providers make no warranty, either express or implied, including but not limited to, warranties of merchantability and fitness for a particular purpose. All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law." ], 
 
-    "mandatory_attributes": {
-        "Conventions": [ "CF-1.6", "CMIP-6.0", "UGRID-0.9"],
-        "data_specs_version_options":"CMIP-6.0.1.3",
-        "product":"output"
-    },
 
     "experiment_ids": { 
 
