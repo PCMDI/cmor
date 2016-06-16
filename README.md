@@ -1,4 +1,4 @@
-# cmor
+# CMOR
 Climate Model Output Rewriter
 
 CMOR 3.1 documentation can be found here: http://cmor.llnl.gov
