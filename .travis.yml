@@ -27,14 +27,15 @@ install:
     - tar xzf ~/uuid-1.6.2.tar.gz
     - pushd uuid-1.6.2 && ./configure --prefix=$PREFIX && make && make install && popd 
     - wget ftp://ftp.unidata.ucar.edu/pub/udunits/udunits-2.2.20.tar.gz -O ~/udunits-2.2.20.tar.gz 
-    - tar xvf ~/udunits-2.2.20.tar.gz
+    - tar xzf ~/udunits-2.2.20.tar.gz
     - pushd udunits-2.2.20 && ./configure --prefix=$PREFIX && make && make install && popd
     - wget http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.17.tar -O ~/hdf5-1.8.17.tar
-    - tar xvf ~/hdf5-1.8.17
+    - tar xvf ~/hdf5-1.8.17.tar
     - pushd hdf5-1.8.17 &&  ./configure --prefix=$PREFIX && make && make install && popd
     - export CFLAGS="-I${PREFIX}/include"
     - export LDFLAGS="-L${PREFIX}/lib"
     - wget ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4.4.0.tar.gz -O ~/netcdf-4.4.0.tar.gz 
+    - tar xzf ~/netcdf-4.4.0.tar.gz
     - pushd netcdf-4.4.0 && ./configure --prefix=$PREFIX --enable-netcdf4 && make && make install && popd
     - cd ${PREFIX}
     - git clone https://github.com/PCMDI/cmor.git
