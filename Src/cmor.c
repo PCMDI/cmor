@@ -1188,8 +1188,6 @@ int cmor_dataset_json(char * ressource){
 
     json_obj = cmor_open_inpathFile(ressource);
     if(json_obj == NULL) {
-        cmor_handle_error( "JSON resource file not found", CMOR_CRITICAL );
-        cmor_pop_traceback();
         return( 1 );
     }
     cmor_set_cur_dataset_attribute_internal(CMOR_INPUTFILENAME, ressource, 1);
