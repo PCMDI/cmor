@@ -535,7 +535,7 @@ void cmor_handle_error( char error_msg[CMOR_MAX_STRING], int level ) {
 	if( CMOR_VERBOSITY != CMOR_QUIET ) {
 	    
 #ifdef COLOREDOUTPUT
-	    fprintf( output_logfile, "%c[%d;%dm", 0X1B, 2, 34 );
+	    fprintf( output_logfile, "%c[%d;%d;%dm", 0X1B, 2, 34, 47 );
 #endif
 	    
 	    fprintf( output_logfile, "C Traceback:\nIn function: %s",
