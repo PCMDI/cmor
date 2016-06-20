@@ -62,7 +62,6 @@
            "grid":                   "native atmosphere T63 gaussian grid (64x128 latxlon)",
            "grid_label":             "gn",
            "grid_resolution":        "5 km",
-           "institution_id":         "BNU",
            "references":             "Model described by Koder and Tolkien (J. Geophys. Res.,2001, 576 - 591).  Also see http://www.GICC.su/giccm/doc/index.html  2XCO2 simulation described in Dorkey et al. '(Clim. Dyn., 2003, 323 - 357.)",
            "run_variant":            "forcing: black carbon aerosol only",
            "source_id":              "MIROC-ESM",
