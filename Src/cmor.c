@@ -596,6 +596,7 @@ void cmor_handle_error( char error_msg[CMOR_MAX_STRING], int level ) {
     
     if( level == CMOR_NOT_SETUP) {
         exit(1);
+
     }
     if( ( CMOR_MODE == CMOR_EXIT_ON_WARNING )
 	|| ( level == CMOR_CRITICAL ) ) {
@@ -1462,6 +1463,7 @@ int  cmor_outpath_exist(char *outpath) {
     struct stat buf;
     char msg[CMOR_MAX_STRING];
     FILE *test_file = NULL;
+    int ierr;
 
     cmor_add_traceback( "cmor_outpath_exist" );
     cmor_is_setup(  );
@@ -1489,7 +1491,7 @@ int  cmor_outpath_exist(char *outpath) {
 
         }
 /* -------------------------------------------------------------------- */
-/*      ok if not root then test permssions                             */
+/*      ok if not root then test permissions                            */
 /* -------------------------------------------------------------------- */
         if( getuid(  ) != 0 ) {
             strcpy( msg, cmor_current_dataset.outpath );
@@ -1513,11 +1515,23 @@ int  cmor_outpath_exist(char *outpath) {
     } else if( errno == ENOENT ) {
         sprintf( msg,
                  "You defined your output directory to be: '%s', but this\n! "
-                "directory does not exist",
+                "directory does not exist. CMOR will create it!",
                  cmor_current_dataset.outpath );
-        cmor_handle_error( msg, CMOR_CRITICAL );
-        cmor_pop_traceback(  );
-        return(1);
+        cmor_handle_error( msg, CMOR_WARNING );
+/* -------------------------------------------------------------------- */
+/* Create directory with 755 permission for user                        */
+/* -------------------------------------------------------------------- */
+        ierr = mkdir(cmor_current_dataset.outpath, S_IRWXU | S_IRGRP | S_IXGRP |
+                                                   S_IROTH | S_IXOTH);
+        if( ierr != 0 ) {
+            sprintf( msg,
+                    "CMOR was unable to create this directory %s\n! "
+                    "You do not have write permissions!",
+                    cmor_current_dataset.outpath );
+            cmor_handle_error( msg, CMOR_CRITICAL );
+            cmor_pop_traceback(  );
+            return(1);
+        }
 
 
     } else if( errno == EACCES ) {
@@ -1528,6 +1542,7 @@ int  cmor_outpath_exist(char *outpath) {
         cmor_handle_error( msg, CMOR_CRITICAL );
         cmor_pop_traceback(  );
         return(1);
+
 
     }
     cmor_pop_traceback(  );
