@@ -50,29 +50,29 @@ expt_template ="""
 """
 print "{"
 print "    \"experiment_ids\": { "
-with open('../Tables/CMIP6_expt_list_042716-1.csv', 'rU') as csvfile:
+with open('../Tables/CMIP6_expt_list_062116.csv', 'rU') as csvfile:
     spamreader = csv.reader(csvfile, dialect=csv.excel)
     for row in spamreader:
-        if row[5] == 'original label':
+        if row[1] == 'original label':
            break
     expt = ""
     i=13
     for  row in spamreader:    
 ##        if (row[5] == "") & (row[22] != ""):
 ##            print i
-        if (row[14] != "" ):
+        if (row[9] != "" ):
             expt = expt + expt_template
-            expt = replaceString(expt, row[14], "experiment_id")
-            expt = replaceString(expt, row[23].replace('"', '\''), "title")
-            expt = replaceString(expt, row[19].replace('"', '\''), "sub_experiment_id")
-            expt = replaceString(expt, row[7], "mip")
-            expt = replaceString(expt, row[20], "required_source_type")
-            expt = replaceString(expt, row[21], "add_source_type")
-            expt = replaceString(expt, row[25], "parent_sub_experiment_id")
-            expt = replaceString(expt, row[26], "parent_activity_id")
+            expt = replaceString(expt, row[9], "experiment_id")
+            expt = replaceString(expt, row[17].replace('"', '\''), "title")
+            expt = replaceString(expt, row[18].replace('"', '\''), "sub_experiment_id")
+            expt = replaceString(expt, row[3], "mip")
+            expt = replaceString(expt, row[14], "required_source_type")
+            expt = replaceString(expt, row[15], "add_source_type")
+            expt = replaceString(expt, row[20], "parent_sub_experiment_id")
+            expt = replaceString(expt, row[21], "parent_activity_id")
 
             if (row[24] != ""):
-                expt = replaceString(expt, row[24], "parent_experiment_id")
+                expt = replaceString(expt, row[19], "parent_experiment_id")
             else:
                 expt = deleteLine(expt, "parent_experiment_id")
                 expt = deleteLine(expt, "parent_sub_experiment_id")

@@ -741,8 +741,8 @@ int cmor_setup( char *path,
         }
     } else {
         sprintf( msg,
-                "You are using a wrong version of NetCDF (%s), you need 3.6.3\n! "
-                "or 4.1",
+                "You are using a wrong version of NetCDF (%s), you need \n! "
+                "4.1 or an earlier netCDF release.",
                 nc_inq_libvers( ) );
         cmor_handle_error( msg, CMOR_CRITICAL );
     }
