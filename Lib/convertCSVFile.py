@@ -65,7 +65,7 @@ with open('../Tables/CMIP6_expt_list_062116.csv', 'rU') as csvfile:
             expt = replaceString(expt, row[9], "experiment_id")
             expt = replaceString(expt, row[17].replace('"', '\''), "title")
             expt = replaceString(expt, row[18].replace('"', '\''), "sub_experiment_id")
-            expt = replaceString(expt, row[3], "mip")
+            expt = replaceString(expt, row[2], "mip")
             expt = replaceString(expt, row[14], "required_source_type")
             expt = replaceString(expt, row[15], "add_source_type")
             expt = replaceString(expt, row[20], "parent_sub_experiment_id")
