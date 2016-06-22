@@ -42,6 +42,6 @@ install:
     - git clone https://github.com/PCMDI/cmor.git
     - pushd  cmor &&./configure --prefix=$PREFIX --with-python --with-uuid --with-udunits --with-netcdf=$PREFIX/  && make && make install && make python && popd
 script:
-    - cd ${PREFIX}
+    - cd ${PREFIX}/cmor
     - make test
 
