@@ -1,0 +1,4 @@
+from cmor_const import *
+
+from pywrapper import setup,load_table,set_table,close,set_cur_dataset_attribute,get_cur_dataset_attribute,has_cur_dataset_attribute,set_variable_attribute,get_variable_attribute,has_variable_attribute,dataset_json
+

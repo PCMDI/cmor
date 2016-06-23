@@ -39,43 +39,49 @@ def time_varying_grid_coordinate(grid_id, table_entry,units,type='f',missing_val
     grid_id : The grid_id return by a call to cmor.grid
     table_entry: The name of the variable in the CMOR table
     units: variable units
-    type: type of the missing_value, which must be the same as the type of the array  that will be passed to cmor_write.  The options are: 'd' (double), 'f' (float), 'l' (long) or 'i' (int).
-    missing_value : scalar that is used to indicate missing data for this variable.  It must be the same type as the data that will be passed to cmor_write.  This missing_value will in general be replaced by a standard missing_value specified in the MIP table.  If there are no missing data, and the user chooses not to declare the missing value, then this argument may be either omitted or assigned the value 'none' (i.e., missing_value='none').
+    type: type of the missing_value, which must be the same as the type of the array  that will be passed to cmor_write.
+    The options are: 'd' (double), 'f' (float), 'l' (long) or 'i' (int).
+    missing_value : scalar that is used to indicate missing data for this variable.
+    It must be the same type as the data that will be passed to cmor_write.
+    This missing_value will in general be replaced by a standard missing_value specified in the MIP table.
+    If there are no missing data, and the user chooses not to declare the missing value, then this argument may be either
+    omitted or assigned the value 'none' (i.e., missing_value='none').
     """
-    if not isinstance(table_entry,str):
+    if not isinstance(table_entry, str):
         raise Exception, "Error you must pass a string for the variable table_entry"
-    
-    if not isinstance(units,str):
+
+    if not isinstance(units, str):
         raise Exception, "Error you must pass a string for the variable units"
-    if not isinstance(type,str):
+    if not isinstance(type, str):
         raise Exception, "error tpye must a a string"
     type = type.lower()
     if type == 's':
-        type ='c'
-    if not type in ["c","d","f","l","i"]:
+        type = 'c'
+    if type not in ["c", "d", "f", "l", "i"]:
         raise Exception, 'error unknown type: "%s", must be one of: "c","d","f","l","i"'
 
-    if not isinstance(grid_id,(int,numpy.int,numpy.int32)):
+    if not isinstance(grid_id, (int, numpy.int, numpy.int32)):
         raise Exception, "error grid_id must be an integer"
+        
     grid_id = int(grid_id)
 
     if missing_value is not None:
-        if not isinstance(missing_value,(float,int,numpy.float,numpy.float32,numpy.int,numpy.int32)):
+        if not isinstance(missing_value, (float, int, numpy.float, numpy.float32, numpy.int, numpy.int32)):
             raise Exception, "error missing_value must be a number, you passed: %s" % type(missing_value)
         missing_value = float(missing_value)
-        
-    return _cmor.time_varying_grid_coordinate(grid_id,table_entry,units,type,missing_value)
-    
+
+    return _cmor.time_varying_grid_coordinate(grid_id, table_entry, units, type, missing_value)
+
 
 def _to_numpy(vals, message):
     if isinstance(vals, (list, tuple)):
         vals = numpy.ascontiguousarray(vals)
-    elif not isinstance(vals,numpy.ndarray):
+    elif not isinstance(vals, numpy.ndarray):
         try:
             vals = numpy.ascontiguousarray(vals.filled())
         except:
             raise Exception, "Error could not convert %s to a numpy array" % message
-        
+
     return vals
 
 def grid(axis_ids,latitude=None,longitude=None,latitude_vertices=None,longitude_vertices=None,nvertices=None):
@@ -105,7 +111,7 @@ def grid(axis_ids,latitude=None,longitude=None,latitude_vertices=None,longitude_
 
     if latitude is not None:
         latitude = _to_numpy(latitude, 'latitude')
-            
+
         if numpy.ndim(latitude)!=len(axis_ids):
             raise Exception, "latitude's rank does not match number of axes passed via axis_ids"
 
@@ -118,7 +124,7 @@ def grid(axis_ids,latitude=None,longitude=None,latitude_vertices=None,longitude_
 
         if numpy.ndim(longitude)!=len(axis_ids):
             raise Exception, "longitude's rank does not match number of axes passed via axis_ids"
-        
+
     ##     print 'longitude type:',longitude.dtype.char
         if longitude.dtype.char!=type:
             longitude = longitude.astype(type)
@@ -130,7 +136,7 @@ def grid(axis_ids,latitude=None,longitude=None,latitude_vertices=None,longitude_
             nvert=0
         else:
             nvert = nvertices
-        
+
     if latitude_vertices is not None:
         latitude_vertices = _to_numpy(latitude_vertices, 'latitude_vertices')
 
@@ -143,7 +149,7 @@ def grid(axis_ids,latitude=None,longitude=None,latitude_vertices=None,longitude_
         if nvertices is not None:
             if nvert!=nvertices:
                 raise Exception,"you passed nvertices as: %i, but from your latitude_vertices it seems to be: %i" % (nvertices,nvert)
-        
+
     if longitude_vertices is not None:
         longitude_vertices = _to_numpy(longitude_vertices, 'longitude_vertices')
         if numpy.ndim(longitude_vertices)!=len(axis_ids)+1:
@@ -160,7 +166,7 @@ def grid(axis_ids,latitude=None,longitude=None,latitude_vertices=None,longitude_
             if nvert!=nvertices:
                 raise Exception,"you passed nvertices as: %i, but from your longitude_vertices it seems to be: %i" % (nvertices,nvert)
 
-        
+
 ##     if area is not None:
 ##         if not isinstance(area,numpy.ndarray):
 ##             try:
@@ -246,7 +252,7 @@ def set_grid_mapping(grid_id,mapping_name,parameter_names,parameter_values=None,
     pvals = numpy.ascontiguousarray(pvals).astype('d')
     return _cmor.set_grid_mapping(grid_id,mapping_name,pnms,pvals,punit)
 
-    
+
 
 def axis(table_entry,units=None,length=None,coord_vals=None,cell_bounds=None,interval=None):
     """ Creates an cmor_axis
@@ -307,7 +313,7 @@ def axis(table_entry,units=None,length=None,coord_vals=None,cell_bounds=None,int
         cell_bounds = numpy.ascontiguousarray(cell_bounds.filled())
     elif isinstance(cell_bounds,(list,tuple)):
         cell_bounds = numpy.ascontiguousarray(cell_bounds)
-        
+
     if cell_bounds is not None:
         if numpy.ndim(cell_bounds)>2:
             raise Exception, "Error cell_bounds rank must be at most 2"
@@ -343,30 +349,30 @@ def axis(table_entry,units=None,length=None,coord_vals=None,cell_bounds=None,int
     else:
         l = 0
         type = 'd'
-        
+
     if cell_bounds is not None:
         if type !=cell_bounds.dtype.char:
             cell_bounds = cell_bounds.astype(type)
-            
+
     if units is None:
         if coord_vals is not None:
             raise Exception, "Error you need to provide the units your coord_vals are in"
         else:
             units = "1"
-    
+
     if interval is None:
         interval = ""
 
     if length is not None:
         l = int(length)
-        
+
     return _cmor.axis(table_entry,units,l,coord_vals,type,cell_bounds,cbnds,interval)
 
 def variable(table_entry,units,axis_ids,type='f',missing_value=None,tolerance = 1.e-4,positive=None,original_name=None,history=None,comment=None):
-    
+
     if not isinstance(table_entry,str):
         raise Exception, "Error you must pass a string for the variable table_entry"
-    
+
     if not isinstance(units,str):
         raise Exception, "Error you must pass a string for the variable units"
 
@@ -375,19 +381,19 @@ def variable(table_entry,units,axis_ids,type='f',missing_value=None,tolerance = 
             raise Exception, "Error you must pass a string for the variable original_name"
     else:
         original_name = ""
-        
+
     if history is not None:
         if not isinstance(history,str):
             raise Exception, "Error you must pass a string for the variable history"
     else:
         history = ""
-        
+
     if comment is not None:
         if not isinstance(comment,str):
             raise Exception, "Error you must pass a string for the variable comment"
     else:
         comment = ""
-        
+
     if numpy.ma.isMA(axis_ids):
         axis_ids = numpy.ascontiguousarray(axis_ids.filled())
     elif has_oldma and numpy.oldnumeric.ma.isMA(axis_ids):
@@ -440,7 +446,7 @@ def variable(table_entry,units,axis_ids,type='f',missing_value=None,tolerance = 
 
     axis_ids=axis_ids.astype('i')
     return _cmor.variable(table_entry,units,ndims,axis_ids,type,missing_value,tolerance,positive,original_name,history,comment)
-    
+
 def zfactor(zaxis_id,zfactor_name,units="",axis_ids=None,type=None,zfactor_values=None,zfactor_bounds=None):
 
     if not isinstance(zaxis_id,(int,numpy.int,numpy.int32)):
@@ -449,7 +455,7 @@ def zfactor(zaxis_id,zfactor_name,units="",axis_ids=None,type=None,zfactor_value
 
     if not isinstance(zfactor_name,str):
         raise Exception, "Error you must pass a string for the variable zfactor_name"
-    
+
     if not isinstance(units,str):
         raise Exception, "Error you must pass a string for the variable units"
 
@@ -510,8 +516,8 @@ def zfactor(zaxis_id,zfactor_name,units="",axis_ids=None,type=None,zfactor_value
                     raise Exception, "Error unknown type for zfactor_values: %s" % repr(zfactor_values)
     elif type is None:
         type='d'
-        
-        
+
+
     if not isinstance(type,str):
         raise Exception, "error tpye must a a string"
     type = type.lower()
@@ -519,7 +525,7 @@ def zfactor(zaxis_id,zfactor_name,units="",axis_ids=None,type=None,zfactor_value
         type ='c'
     if not type in ["c","d","f","l","i"]:
         raise Exception, 'error unknown type: "%s", must be one of: "c","d","f","l","i"'
-    
+
     if zfactor_bounds is not None:
         if numpy.ma.isMA(zfactor_bounds):
             zfactor_bounds = numpy.ascontiguousarray(zfactor_bounds.filled())
@@ -574,7 +580,7 @@ def write(var_id,data,ntimes_passed=None,file_suffix="",time_vals=None,time_bnds
         data = numpy.ascontiguousarray(data.filled())
     elif has_cdms2 and cdms2.isVariable(data):
         if time_vals is None:
-            time_vals = data.getTime() 
+            time_vals = data.getTime()
         data = numpy.ascontiguousarray(data.filled())
     elif isinstance(data,(list,tuple)):
         data = numpy.ascontiguousarray(data)
@@ -607,7 +613,7 @@ def write(var_id,data,ntimes_passed=None,file_suffix="",time_vals=None,time_bnds
         if not type in ['f','d','i','l']:
             raise Exception, "Error time_vals type must one of: 'f','d','i','l', please convert first"
         time_vals=time_vals.astype("d")
-       
+
 
     if ntimes_passed is None:
         if time_vals is None:
@@ -650,7 +656,7 @@ def write(var_id,data,ntimes_passed=None,file_suffix="",time_vals=None,time_bnds
             time_bnds = numpy.ascontiguousarray(time_bnds.filled())
         elif has_cdms2 and cdms2.isVariable(time_bnds):
             if time_vals is None:
-                time_vals = time_bnds.getTime() 
+                time_vals = time_bnds.getTime()
             time_bnds = numpy.ascontiguousarray(time_bnds.filled())
         elif isinstance(time_bnds,(list,tuple)):
             time_bnds = numpy.ascontiguousarray(time_bnds)
@@ -793,7 +799,7 @@ def close(var_id=None,file_name=False, preserve=False):
             return _cmor.close(var_id,0,1)
         else:
             return _cmor.close(var_id,1,1)
-        
+
 
 def set_cur_dataset_attribute(name,value):
     """Sets an attribute onto the current cmor dataset
@@ -835,7 +841,7 @@ def get_cur_dataset_attribute(name):
         return _cmor.get_cur_dataset_attribute(name)
     else:
         return None
-    
+
 def set_variable_attribute(var_id,name,value):
     """Sets an attribute onto a cmor variable
     Usage:
@@ -858,11 +864,11 @@ def set_deflate(var_id,shuffle,deflate,deflate_level):
     Where:
       var_id: is cmor variable id
       shuffle: if true, turn on netCDF the shuffle filter
-      deflate: if true, turn on the deflate filter at the level 
+      deflate: if true, turn on the deflate filter at the level
                specified by the deflate_level parameter
-      deflate_level: if the deflate parameter is non-zero. 
+      deflate_level: if the deflate parameter is non-zero.
                      Set the deflate value. Must be between 0 and 9
-      
+
     """
 
     return _cmor.set_deflate(var_id, shuffle, deflate, deflate_level)
@@ -897,7 +903,7 @@ def get_variable_attribute(var_id,name):
         return _cmor.get_variable_attribute(var_id,name)
     else:
         return None
-    
+
 def get_final_filename():
    """ Retrieve renamed file after cmor.close() has been called.  This is useful to reopen the file in the same program.
    """
