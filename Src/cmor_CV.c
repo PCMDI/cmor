@@ -93,7 +93,7 @@ void cmor_CV_init( cmor_CV_def_t *CV, int table_id ) {
     int i;
 
     cmor_is_setup(  );
-    cmor_add_traceback("cmor_init_CV_def");
+    cmor_add_traceback("_init_CV_def");
     CV->table_id = table_id;
     CV->type = CV_undef;  //undefined
     CV->nbObjects = -1;
@@ -188,7 +188,7 @@ cmor_CV_def_t *cmor_CV_search_child_key(cmor_CV_def_t *CV, char *key){
     int i;
     cmor_CV_def_t *searchCV;
     int nbCVs = -1;
-    cmor_add_traceback("cmor_CV_search_child_key");
+    cmor_add_traceback("_CV_search_child_key");
 
     nbCVs = CV->nbObjects;
 
@@ -219,7 +219,7 @@ cmor_CV_def_t *cmor_CV_search_child_key(cmor_CV_def_t *CV, char *key){
 cmor_CV_def_t * cmor_CV_rootsearch(cmor_CV_def_t *CV, char *key){
     int i;
     int nbCVs = -1;
-    cmor_add_traceback("cmor_CV_rootsearch");
+    cmor_add_traceback("_CV_rootsearch");
 
     // Look at first objects
     if(strcmp(CV->key, key)== 0){
@@ -301,6 +301,9 @@ void cmor_CV_checkFurtherInfoURL(int var_id){
     char copyURL[CMOR_MAX_STRING];
     char szFurtherInfoBaseURL[CMOR_MAX_STRING];
     char szFurtherInfoFileURL[CMOR_MAX_STRING];
+    char szValue[CMOR_MAX_STRING];
+    char msg[CMOR_MAX_STRING];
+    char CV_Filename[CMOR_MAX_STRING];
 
     char *baseURL;
     char *fileURL;
@@ -343,7 +346,27 @@ void cmor_CV_checkFurtherInfoURL(int var_id){
     strcat(szFurtherInfoURL, "/");
     strncat(szFurtherInfoURL, szFurtherInfoFileURL, strlen(szFurtherInfoFileURL));
 
+    if(cmor_has_cur_dataset_attribute(GLOBAL_ATT_FURTHERINFOURL) == 0) {
+        cmor_get_cur_dataset_attribute(GLOBAL_ATT_FURTHERINFOURL, szValue );
+        if( strncmp(szFurtherInfoURL, szValue, CMOR_MAX_STRING) != 0) {
+            cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
+            snprintf( msg, CMOR_MAX_STRING,
+                    "The further info in attribute does not match "
+                    "the one created by CMIP6. \n! "
+                    "We found \"%s\" and \n! "
+                    "CMIP6 requires \"%s\" \n! "
 
+                    "Check your Control Vocabulary file \"%s\" %d.\n! ",
+                    szValue,
+                    szFurtherInfoURL,
+                    CV_Filename, strcmp(szFurtherInfoURL, szValue) );
+
+            cmor_handle_error( msg, CMOR_WARNING );
+            cmor_pop_traceback(  );
+
+        }
+
+    }
     cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_FURTHERINFOURL,
             szFurtherInfoURL, 0);
 }
@@ -476,7 +499,7 @@ void cmor_CV_checkSourceID(cmor_CV_def_t *CV){
     int rc;
     int i;
 
-    cmor_add_traceback("cmor_CV_checkSourceID");
+    cmor_add_traceback("_CV_checkSourceID");
 
     cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
 /* -------------------------------------------------------------------- */
@@ -575,7 +598,7 @@ void cmor_CV_checkExperiment( cmor_CV_def_t *CV){
     int nObjects;
     int i;
 
-    cmor_add_traceback("cmor_CV_checkExperiment");
+    cmor_add_traceback("_CV_checkExperiment");
 
     cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
     cmor_get_cur_dataset_attribute(GLOBAL_ATT_EXPERIMENTID, szExperiment_ID);
@@ -588,7 +611,7 @@ void cmor_CV_checkExperiment( cmor_CV_def_t *CV){
 
     if(CV_experiment == NULL){
         snprintf( msg, CMOR_MAX_STRING,
-                "Your experiment_id \"%s\" defined in your input JSON file\n! "
+                "Your experiment_id \"%s\" defined in your input file\n! "
                 "could not be found in your Control Vocabulary file.(%s)\n! ",
                 szExperiment_ID,
                 CV_Filename);
@@ -651,7 +674,7 @@ void cmor_CV_setInstitution( cmor_CV_def_t *CV){
     char CV_Filename[CMOR_MAX_STRING];
     int rc;
 
-    cmor_add_traceback("cmor_CV_setInstitution");
+    cmor_add_traceback("_CV_setInstitution");
 /* -------------------------------------------------------------------- */
 /*  Find current Insitution ID                                          */
 /* -------------------------------------------------------------------- */
@@ -754,7 +777,7 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t *CV, char *szKey){
     int reti;
     int ierr;
 
-    cmor_add_traceback( "cmor_CV_ValidateAttribute" );
+    cmor_add_traceback( "_CV_ValidateAttribute" );
 
     szValids[0] = '\0';
     szOutput[0] = '\0';
@@ -840,7 +863,7 @@ void cmor_CV_checkGrids(cmor_CV_def_t *CV) {
     cmor_CV_def_t *CV_obj_gridres;
     int i;
 
-    cmor_add_traceback( "cmor_CV_checkGrids" );
+    cmor_add_traceback( "_CV_checkGrids" );
 
     rc = cmor_has_cur_dataset_attribute( GLOBAL_ATT_GRID_LABEL );
     if( rc == 0 ) {
@@ -921,7 +944,7 @@ void cmor_CV_checkGblAttributes( cmor_CV_def_t *CV ) {
     int rc;
     char msg[CMOR_MAX_STRING];
     int bCriticalError = FALSE;
-    cmor_add_traceback( "cmor_CV_checkGblAttributes" );
+    cmor_add_traceback( "_CV_checkGblAttributes" );
     required_attrs = cmor_CV_rootsearch(CV, CV_KEY_REQUIRED_GBL_ATTRS);
     if( required_attrs != NULL) {
         for(i=0; i< required_attrs->anElements; i++) {
@@ -929,9 +952,9 @@ void cmor_CV_checkGblAttributes( cmor_CV_def_t *CV ) {
             if( rc != 0) {
                 snprintf( msg, CMOR_MAX_STRING,
                           "Your Control Vocabulary file specifies one or more\n! "
-                          "required attributes.  CMOR found that the following\n! "
+                          "required attributes.  The following\n! "
                           "attribute was not properly set.\n! \n! "
-                          "Please set attribute: \"%s\" in your input JSON file.",
+                          "Please set attribute: \"%s\" in your input file.",
                           required_attrs->aszValue[i] );
                 cmor_handle_error( msg, CMOR_NORMAL );
                 bCriticalError = TRUE;
@@ -965,7 +988,7 @@ int cmor_CV_set_entry(cmor_table_t* table,
     cmor_table_t *cmor_table;
     cmor_table = &cmor_tables[cmor_ntables];
 
-    cmor_add_traceback("cmor_CV_set_entry");
+    cmor_add_traceback("_CV_set_entry");
     cmor_is_setup();
 /* -------------------------------------------------------------------- */
 /* CV 0 contains number of objects                                      */

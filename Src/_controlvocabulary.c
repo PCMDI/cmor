@@ -10,9 +10,11 @@ static PyObject *PyCV_setInstitution( PyObject * self, PyObject * args ) {
     cmor_is_setup();
 
     if( !PyArg_ParseTuple( args, "i", &nVarRefTblID) ) {
-        cmor_CV_setInstitution(cmor_tables[nVarRefTblID].CV);
+        return(Py_BuildValue( "i", -1 ));
     }
-  
+
+    cmor_CV_setInstitution(cmor_tables[nVarRefTblID].CV);
+
     return( Py_BuildValue( "i", 0 ) );
 }
 
@@ -25,8 +27,9 @@ static PyObject *PyCV_checkSourceID( PyObject * self,
     cmor_is_setup();
 
     if( !PyArg_ParseTuple( args, "i", &nVarRefTblID) ) {
-         cmor_CV_checkSourceID(cmor_tables[nVarRefTblID].CV);
+        return(Py_BuildValue( "i", -1 ));
     }
+    cmor_CV_checkSourceID(cmor_tables[nVarRefTblID].CV);
     return( Py_BuildValue( "i", 0 ) );
 }
 
@@ -39,8 +42,11 @@ static PyObject *PyCV_checkExperiment( PyObject * self,
     cmor_is_setup();
 
     if( !PyArg_ParseTuple( args, "i", &nVarRefTblID) ) {
-        cmor_CV_checkExperiment(cmor_tables[nVarRefTblID].CV);
+        return(Py_BuildValue( "i", -1 ));
     }
+
+    cmor_CV_checkExperiment(cmor_tables[nVarRefTblID].CV);
+
     return( Py_BuildValue( "i", 0 ) );
 }
 
@@ -53,8 +59,11 @@ static PyObject *PyCV_checkGrids( PyObject * self,
     cmor_is_setup();
 
     if( !PyArg_ParseTuple( args, "i", &nVarRefTblID) ) {
-        cmor_CV_checkGrids(cmor_tables[nVarRefTblID].CV);
+        return(Py_BuildValue( "i", -1 ));
     }
+
+    cmor_CV_checkGrids(cmor_tables[nVarRefTblID].CV);
+
     return( Py_BuildValue( "i", 0 ) );
 }
 
@@ -63,12 +72,15 @@ static PyObject *PyCV_checkGrids( PyObject * self,
 /************************************************************************/
 static PyObject *PyCV_checkFurtherInfoURL( PyObject * self,
 					    PyObject * args ) {
-    int var_id;
+    int nVarRefTblID;
     cmor_is_setup();
 
-    if( !PyArg_ParseTuple( args, "i", &var_id) ) {
-        cmor_CV_checkFurtherInfoURL(var_id);
+    if( !PyArg_ParseTuple( args, "i", &nVarRefTblID) ) {
+        return(Py_BuildValue( "i", -1 ));
     }
+
+    cmor_CV_checkFurtherInfoURL(nVarRefTblID);
+
     return( Py_BuildValue( "i", 0 ) );
 }
 
@@ -81,8 +93,11 @@ static PyObject *PyCV_GblAttributes( PyObject * self,
     cmor_is_setup();
 
     if( !PyArg_ParseTuple( args, "i", &nVarRefTblID) ) {
-        cmor_CV_checkGblAttributes(cmor_tables[nVarRefTblID].CV);
+        return(Py_BuildValue( "i", -1 ));
     }
+
+    cmor_CV_checkGblAttributes(cmor_tables[nVarRefTblID].CV);
+
     return( Py_BuildValue( "i", 0 ));
 }
 
@@ -229,6 +244,18 @@ static PyObject *PyCMOR_setup( PyObject * self, PyObject * args ) {
 	    cmor_setup( path, &netcdf, &verbosity, &mode, logfile,
 			&createsub );
     }
+    strncpytrim( cmor_current_dataset.path_template,
+                        CMOR_DEFAULT_PATH_TEMPLATE,
+                        CMOR_MAX_STRING);
+
+    strncpytrim( cmor_current_dataset.file_template,
+                        CMOR_DEFAULT_FILE_TEMPLATE,
+                        CMOR_MAX_STRING );
+
+    strncpytrim( cmor_current_dataset.furtherinfourl,
+                 CMOR_DEFAULT_FURTHERURL_TEMPLATE,
+                        CMOR_MAX_STRING );
+
     if( ierr != 0 )
 	return NULL;
     Py_INCREF( Py_None );
@@ -352,6 +379,19 @@ static PyObject *PyCMOR_getincvalues( PyObject * self, PyObject * args ) {
         return Py_BuildValue( "i", CMOR_APPEND_4 );
     } else if( strcmp( att_name, "CMOR_REPLACE_4" ) == 0 ) {
         return Py_BuildValue( "i", CMOR_REPLACE_4 );
+    } else if( strcmp( att_name, "TABLE_CONTROL_FILENAME" ) == 0 ) {
+        return Py_BuildValue( "s", TABLE_CONTROL_FILENAME );
+    } else if( strcmp( att_name, "GLOBAL_CV_FILENAME" ) == 0 ) {
+        return Py_BuildValue( "s", GLOBAL_CV_FILENAME );
+    } else if( strcmp( att_name, "CMOR_DEFAULT_FURTHERURL_TEMPLATE" ) == 0 ) {
+        return Py_BuildValue( "s", CMOR_DEFAULT_FURTHERURL_TEMPLATE );
+    } else if( strcmp( att_name, "FILE_PATH_TEMPLATE" ) == 0 ) {
+        return Py_BuildValue( "s", FILE_PATH_TEMPLATE );
+    } else if( strcmp( att_name, "FILE_NAME_TEMPLATE" ) == 0 ) {
+        return Py_BuildValue( "s", FILE_NAME_TEMPLATE );
+    } else if( strcmp( att_name, "GLOBAL_ATT_FURTHERINFOURLTMPL" ) == 0 ) {
+        return Py_BuildValue( "s", GLOBAL_ATT_FURTHERINFOURLTMPL );
+
     } else {
         /* Return NULL Python Object */
         Py_INCREF( Py_None );
@@ -402,7 +442,7 @@ static PyMethodDef MyExtractMethods[] = {
     {"set_institution",           PyCV_setInstitution, METH_VARARGS },
     {"check_sourceID",            PyCV_checkSourceID, METH_VARARGS },
     {"check_grids",               PyCV_checkGrids, METH_VARARGS },
-    {"check_experiement",         PyCV_checkExperiment, METH_VARARGS},
+    {"check_experiment",          PyCV_checkExperiment, METH_VARARGS},
     {"check_furtherinfourl",      PyCV_checkFurtherInfoURL, METH_VARARGS },
     {"check_gblattributes",       PyCV_GblAttributes, METH_VARARGS },
     {"check_ISOTime",             PyCV_checkISOTime, METH_VARARGS },

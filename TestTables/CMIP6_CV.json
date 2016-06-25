@@ -2,7 +2,6 @@
 "CV": {
     "required_global_attributes": 
         [
-        "variant_label",
         "activity_id",
         "branch_method",
         "Conventions",

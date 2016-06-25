@@ -4,17 +4,23 @@ Created on Fri Feb 19 11:33:52 2016
 
 @author: Denis Nadeau LLNL
 '''
+
 import cmip6_cv
 import cdms2
 import argparse
 import sys
 import os
 import json
-import pdb
 
-EXPERIMENTS = 'Tables/experiments.json'
-CONTROLVOCABULARY = 'Tables/CV.json'
-
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[1;32m'
+    WARNING = '\033[1;34;47m'
+    FAIL = '\033[1;31;47m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
 
 # =========================
 # JSONAction()
@@ -25,13 +31,12 @@ class JSONAction(argparse.Action):
     '''
 
     def __call__(self, parser, namespace, values, option_string=None):
-        pdb.set_trace()
         fn = values
         if not os.path.isfile(fn):
             raise argparse.ArgumentTypeError('JSONAction:{0} is file not found'.format(fn))
         f = open(fn)
-        lines=f.readlines()
-        jsonobject=json.loads(" ".join(lines))
+        lines = f.readlines()
+        jsonobject = json.loads(" ".join(lines))
         if not jsonobject:
             raise argparse.ArgumentTypeError('JSONAction:{0} is file not a valid JSON file'.format(fn))
         setattr(namespace, self.dest, values)
@@ -79,107 +84,99 @@ class checkCMIP6(object):
 
     Class need to read CMIP6 Table and Controled Vocabulary file.
 
-    As well,the class will load the EXPERIMENT json file 
+    As well,the class will load the EXPERIMENT json file
 
     Input:
         args.cmip6_table:  CMIP6 table used to creat this file,
                            variable attributes and dimensions will be controled.
         args.CV:           Controled Vocabulary "json" file.
+
     Output:
         outfile:      Log file, default is stdout.
+
     '''
 
     # *************************
     #   __init__()
     # *************************
     def __init__(self, args):
-        pdb.set_trace()
-        self.expfile = EXPERIMENTS
+        # -------------------------------------------------------------------
+        #  Initilaze arrays
+        # -------------------------------------------------------------------
         self.cmip6_table = args.cmip6_table
-        self.infile = args.infile
+        self.infile     = args.infile
+        self.attributes = self.infile.listglobal()
+        self.variables  = self.infile.listvariable()
 
-        cmip6_cv.setup()
-        cmip6_cv.load_table(self.cmip6_table)
-        self.f = cdms2.open(self.infile, 'r')
-        self.attributes = self.f.listglobal()
-        self.variables = self.f.listvariable()
+        # -------------------------------------------------------------------
+        # find variable that contains a "standard_name" (should only be one)
+        # -------------------------------------------------------------------
+        self.var = [var for var in self.variables if 'standard_name' in self.infile.listattribute(var)]
+        if( (self.var == []) or (len(self.var) > 1) ):
+            raise KeyboardInterrupt
 
-        for attribute in self.attributes:
-            cmip6_cv.set_cur_dataset_attribute(attribute, self.f.getglobal(attribute))
+        self.keys = self.infile.listattribute(var)
 
+        # -------------------------------------------------------------------
+        # call setup() to clean all 'C' internal memory.
+        # -------------------------------------------------------------------
+        cmip6_cv.setup(inpath="../Tables")
 
-    # *************************
-    #   ControlVocab()
-    # *************************
-    def ControlVocab(self, Element, Control):
+        # -------------------------------------------------------------------
+        # Set Control Vocabulary file to use (default from cmor.h)
+        # -------------------------------------------------------------------
+        cmip6_cv.set_cur_dataset_attribute(cmip6_cv.GLOBAL_CV_FILENAME, cmip6_cv.TABLE_CONTROL_FILENAME)
+        cmip6_cv.set_cur_dataset_attribute(cmip6_cv.FILE_PATH_TEMPLATE, cmip6_cv.CMOR_DEFAULT_PATH_TEMPLATE)
+        cmip6_cv.set_cur_dataset_attribute(cmip6_cv.FILE_NAME_TEMPLATE, cmip6_cv.CMOR_DEFAULT_FILE_TEMPLATE)
+        cmip6_cv.set_cur_dataset_attribute(cmip6_cv.GLOBAL_ATT_FURTHERINFOURLTMPL, cmip6_cv.CMOR_DEFAULT_FURTHERURL_TEMPLATE)
+
+        # -------------------------------------------------------------------
+        # Create alist of all Global Attributes and set "dataset"
+        # -------------------------------------------------------------------
+        self.dictGbl = {key: self.infile.getglobal(key) for key in self.attributes}
+        ierr = [cmip6_cv.set_cur_dataset_attribute(key, value) for key, value in self.dictGbl.iteritems()]
+
+        # -------------------------------------------------------------------
+        # Create a dictionnary of attributes for var
+        # -------------------------------------------------------------------
+        self.dictVars = dict((y, x) for y, x in
+                                    [(key, value) for key in self.keys
+                                        if self.infile.getattribute(self.var[0], key) is not None
+                                        for value in [self.infile.getattribute(self.var[0], key)]])
+        # -------------------------------------------------------------------
+        # Set Global Attributes
+        # -------------------------------------------------------------------
+        ierr = [cmip6_cv.set_cur_dataset_attribute(key,value) for key, value in self.dictGbl.iteritems()]
+
+        # -------------------------------------------------------------------
+        # Load CMIP6 table into memory
+        # -------------------------------------------------------------------
+        self.table_id = cmip6_cv.load_table(self.cmip6_table)
+
+    def ControlVocab(self):
+        ''' 
+            Check CMIP6 global attributes against Control Vocabulary file.
+
+                1. Validate required attribute if presents and some values.
+                2. Validate registered institution and institution_id
+                3. Validate registered source and source_id
+                4. Validate experiment, experiment_id and attribute associated with the experiment.
+                5. Validate grid_label and grid_resolution
+                6. Validate creation time in ISO format (YYYY-MM-DDTHH:MM:SS)
+                7. Validate furtherinfourl from CV internal template 
         '''
-        '''
-        # -------------------------------------------------
-        # We have a dictionary pass on the keys recursively
-        # -------------------------------------------------
-        if(isinstance(Control, dict)):
-            bInList = self.ControlVocab(Element, Control.keys())
-            return(bInList)
-        # -------------------------------------------------
-        # Check if Elment is in a list
-        # -------------------------------------------------
-        elif(isinstance(Element, str) and isinstance(Control, list)):
-            bInList = Element in Control
-            return(bInList)
-        # -------------------------------------------------
-        # Check if Elment is in a list
-        # -------------------------------------------------
-        elif(isinstance(Element, list) and isinstance(Control, list)):
-            ControlVocab = [ControlItem  for ControlItem in Control
-                            if ControlItem not in Element]
-            return(ControlVocab)
-
-        # -------------------------------------------------
-        # File instance check global attributes with list
-        # -------------------------------------------------
-        elif(isinstance(Element, cdms2.dataset.CdmsFile) and isinstance(Control, list)):
-            ControlVocab = [ControlItem  for ControlItem in Control
-                            if ControlItem not in Element.__dict__.keys()]
-            return(ControlVocab)
-        # -------------------------------------------------
-        # Variableinstance check dimensions attribute and min/max
-        # -------------------------------------------------
-        elif(isinstance(Element, cdms2.fvariable.FileVariable) and isinstance(Control, list)):
-            pass
-
-    # *************************
-    #   CheckExperiments()
-    # *************************
-    def checkExperiments(self):
-        '''
-        Control experiment_id and experiment
-        '''
-        #pdb.set_trace()
-        bValid = self.ControlVocab(self.infile.experiment_id, self.experiment['experiments'])
-        if(not bValid):
-            print "{0} not found in {1}".format(self.infile.experiment_id, self.expfile)
-        bValid = self.ControlVocab(self.infile.experiment, [self.experiment['experiments'][self.infile.experiment_id]])
-        if(not bValid):
-            print "{0} not valid experiment definitin check {1}".format(self.infile.experiment, self.expfile)
-
-    # *************************
-    #   CheckGlobalAttributes()
-    # *************************
-    def checkRequiredGlobalAttributes(self):
-        '''
-        Control Global Attributes.
-        '''
-        pdb.set_trace()
-        Control = self.ControlVocab(self.infile.attributes.keys(),
-                                    self.CV['CV']['required_global_attributes'])
-
-        if(Control):
-            for Vocab in Control:
-                print "Global Attribute '{0}' not in CMIP6 file".format(Vocab)
-            if(Vocab.find("source") != -1):
-                print "coucou"
-                pdb.set_trace()
-                print "coucou"
+        cmip6_cv.check_requiredattributes(self.table_id)
+        cmip6_cv.check_institution(self.table_id)
+        cmip6_cv.check_sourceID(self.table_id)
+        cmip6_cv.check_experiment(self.table_id)
+        cmip6_cv.check_grids(self.table_id)
+        cmip6_cv.check_ISOTime()
+        cmip6_cv.check_furtherinfourl(self.table_id)
+        print bcolors.OKGREEN
+        print "*********************************************************************************"
+        print "* This file is compliant with CMIP6 specification and can be published in ESGF. *"
+        print "*********************************************************************************"
+        print bcolors.ENDC
 
 
 
@@ -193,7 +190,6 @@ def main():
 
     parser.add_argument('cmip6_table',
                         help='CMIP6 CMOR table (JSON file) ex: Tables/CMIP6_Amon.json', action=JSONAction)
-
 
     parser.add_argument('infile',
                         help='Input CMIP6 netCDF file to Validate ex: clisccp_cfMon_DcppC22_NICAM_gn_200001-200001.nc',
@@ -213,12 +209,24 @@ def main():
     except SystemExit:
         return 1
 
-    pdb.set_trace()
     process = checkCMIP6(args)
+    process.ControlVocab()
 
 # process.checkActivities()
     return(0)
 
 
 if(__name__ == '__main__'):
-    sys.exit(main())
+    try:
+        sys.exit(main())
+
+    except KeyboardInterrupt:
+        print bcolors.FAIL
+        print "!!!!!!!!!!!!!!!!!!!!!!!!!"
+        print "! Error:  The input file is not CMIP6 compliant"
+        print "! No variable containing the attribute 'standard_name' could be found!"
+        print "! Check your file or use CMOR 3.1 to achieve compliancy for ESGF publication."
+        print "!!!!!!!!!!!!!!!!!!!!!!!!!"
+        print bcolors.ENDC
+        sys.exit(-1)
+
