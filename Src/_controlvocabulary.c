@@ -389,6 +389,8 @@ static PyObject *PyCMOR_getincvalues( PyObject * self, PyObject * args ) {
         return Py_BuildValue( "s", FILE_PATH_TEMPLATE );
     } else if( strcmp( att_name, "FILE_NAME_TEMPLATE" ) == 0 ) {
         return Py_BuildValue( "s", FILE_NAME_TEMPLATE );
+    } else if( strcmp( att_name, "CV_CHECK_ERROR" ) == 0 ) {
+        return Py_BuildValue( "s", CV_CHECK_ERROR );
     } else if( strcmp( att_name, "GLOBAL_ATT_FURTHERINFOURLTMPL" ) == 0 ) {
         return Py_BuildValue( "s", GLOBAL_ATT_FURTHERINFOURLTMPL );
 

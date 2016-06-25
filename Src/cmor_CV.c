@@ -356,10 +356,10 @@ void cmor_CV_checkFurtherInfoURL(int var_id){
                     "We found \"%s\" and \n! "
                     "CMIP6 requires \"%s\" \n! "
 
-                    "Check your Control Vocabulary file \"%s\" %d.\n! ",
+                    "Check your Control Vocabulary file \"%s\".\n! ",
                     szValue,
                     szFurtherInfoURL,
-                    CV_Filename, strcmp(szFurtherInfoURL, szValue) );
+                    CV_Filename);
 
             cmor_handle_error( msg, CMOR_WARNING );
             cmor_pop_traceback(  );
@@ -567,7 +567,7 @@ void cmor_CV_checkSourceID(cmor_CV_def_t *CV){
                 "your Controlled Vocabulary file. (%s) \n! \n! "
                 "Please correct your input file or contact "
                 "cmor@listserv.llnl.gov to register\n! "
-                "a new source.  See c for further information about. ",
+                "a new source.   ",
                 szSource_ID, CV_Filename);
 
         cmor_handle_error(msg, CMOR_CRITICAL);
@@ -698,7 +698,7 @@ void cmor_CV_setInstitution( cmor_CV_def_t *CV){
 
     if(CV_institution == NULL){
         snprintf( msg, CMOR_MAX_STRING,
-                "The institution_id, \"%s\",  which you specified in your \n! "
+                "The institution_id, \"%s\",  found in your \n! "
                 "input file (%s) could not be found in \n! "
                 "your Controlled Vocabulary file. (%s) \n! \n! "
                 "Please correct your input file or contact "

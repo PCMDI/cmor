@@ -109,9 +109,9 @@ class checkCMIP6(object):
         self.variables  = self.infile.listvariable()
 
         # -------------------------------------------------------------------
-        # find variable that contains a "standard_name" (should only be one)
+        # find variable that contains a "cell_methods" (should only be one)
         # -------------------------------------------------------------------
-        self.var = [var for var in self.variables if 'standard_name' in self.infile.listattribute(var)]
+        self.var = [var for var in self.variables if 'cell_methods' in self.infile.listattribute(var)]
         if( (self.var == []) or (len(self.var) > 1) ):
             raise KeyboardInterrupt
 
@@ -120,7 +120,8 @@ class checkCMIP6(object):
         # -------------------------------------------------------------------
         # call setup() to clean all 'C' internal memory.
         # -------------------------------------------------------------------
-        cmip6_cv.setup(inpath="../Tables")
+#        cmip6_cv.setup(inpath="../Tables", exit_control=cmip6_cv.CMOR_EXIT_ON_WARNING)
+        cmip6_cv.setup(inpath="../Tables", exit_control=cmip6_cv.CMOR_NORMAL)
 
         # -------------------------------------------------------------------
         # Set Control Vocabulary file to use (default from cmor.h)
@@ -172,6 +173,8 @@ class checkCMIP6(object):
         cmip6_cv.check_grids(self.table_id)
         cmip6_cv.check_ISOTime()
         cmip6_cv.check_furtherinfourl(self.table_id)
+        if(cmip6_cv.has_cur_dataset_attribute(cmip6_cv.CV_CHECK_ERROR)):
+            raise KeyboardInterrupt
         print bcolors.OKGREEN
         print "*********************************************************************************"
         print "* This file is compliant with CMIP6 specification and can be published in ESGF. *"
@@ -224,7 +227,6 @@ if(__name__ == '__main__'):
         print bcolors.FAIL
         print "!!!!!!!!!!!!!!!!!!!!!!!!!"
         print "! Error:  The input file is not CMIP6 compliant"
-        print "! No variable containing the attribute 'standard_name' could be found!"
         print "! Check your file or use CMOR 3.1 to achieve compliancy for ESGF publication."
         print "!!!!!!!!!!!!!!!!!!!!!!!!!"
         print bcolors.ENDC

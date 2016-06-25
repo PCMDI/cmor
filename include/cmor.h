@@ -49,6 +49,7 @@
 
 #define CMOR_INPUTFILENAME       GLOBAL_INTERNAL"dataset_json"
 #define CV_INPUTFILENAME         GLOBAL_INTERNAL"CV"
+#define CV_CHECK_ERROR           GLOBAL_INTERNAL"CV_ERROR"
 /* -------------------------------------------------------------------- */
 /*      Define AXIS attribue strings                                    */
 /* -------------------------------------------------------------------- */

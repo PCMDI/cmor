@@ -593,7 +593,8 @@ void cmor_handle_error( char error_msg[CMOR_MAX_STRING], int level ) {
 	
 	fprintf( output_logfile, "\n\n" );
     }
-    
+    cmor_set_cur_dataset_attribute_internal(CV_CHECK_ERROR, "CV_ERROR", 0);
+
     if( level == CMOR_NOT_SETUP) {
         exit(1);
 
