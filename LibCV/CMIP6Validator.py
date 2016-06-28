@@ -173,12 +173,12 @@ class checkCMIP6(object):
         cmip6_cv.check_grids(self.table_id)
         cmip6_cv.check_ISOTime()
         cmip6_cv.check_furtherinfourl(self.table_id)
-        if(cmip6_cv.has_cur_dataset_attribute(cmip6_cv.CV_CHECK_ERROR)):
+        if(cmip6_cv.get_CV_Error()):
             raise KeyboardInterrupt
         print bcolors.OKGREEN
-        print "*********************************************************************************"
-        print "* This file is compliant with CMIP6 specification and can be published in ESGF. *"
-        print "*********************************************************************************"
+        print "*************************************************************************************"
+        print "* This file is compliant with the CMIP6 specification and can be published in ESGF. *"
+        print "*************************************************************************************"
         print bcolors.ENDC
 
 
@@ -227,7 +227,7 @@ if(__name__ == '__main__'):
         print bcolors.FAIL
         print "!!!!!!!!!!!!!!!!!!!!!!!!!"
         print "! Error:  The input file is not CMIP6 compliant"
-        print "! Check your file or use CMOR 3.1 to achieve compliancy for ESGF publication."
+        print "! Check your file or use CMOR 3.1 to achieve compliance for ESGF publication."
         print "!!!!!!!!!!!!!!!!!!!!!!!!!"
         print bcolors.ENDC
         sys.exit(-1)

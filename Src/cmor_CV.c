@@ -372,6 +372,12 @@ void cmor_CV_checkFurtherInfoURL(int var_id){
 }
 
 /************************************************************************/
+/*                            get_CV_Error()                            */
+/************************************************************************/
+int get_CV_Error(){
+    return(CV_ERROR);
+}
+/************************************************************************/
 /*                      cmor_CV_checkSourceType()                       */
 /************************************************************************/
 void cmor_CV_checkSourceType(cmor_CV_def_t *CV_exp, char *szExptID){
@@ -499,8 +505,8 @@ void cmor_CV_checkSourceID(cmor_CV_def_t *CV){
     int rc;
     int i;
 
+    cmor_is_setup(  );
     cmor_add_traceback("_CV_checkSourceID");
-
     cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
 /* -------------------------------------------------------------------- */
 /*  Find experiment_ids dictionary in Control Vocabulary                */
@@ -988,8 +994,9 @@ int cmor_CV_set_entry(cmor_table_t* table,
     cmor_table_t *cmor_table;
     cmor_table = &cmor_tables[cmor_ntables];
 
-    cmor_add_traceback("_CV_set_entry");
     cmor_is_setup();
+
+    cmor_add_traceback("_CV_set_entry");
 /* -------------------------------------------------------------------- */
 /* CV 0 contains number of objects                                      */
 /* -------------------------------------------------------------------- */
@@ -1072,3 +1079,218 @@ void cmor_CV_checkISOTime(char *szAttribute) {
     cmor_pop_traceback(  );
     return;
 }
+
+
+
+/************************************************************************/
+/*                         cmor_CV_variable()                           */
+/************************************************************************/
+int cmor_CV_variable( int *var_id, char *name, char *units,
+        void *missing ) {
+
+    extern int cmor_naxes;
+    extern int CMOR_TABLE;
+    extern cmor_var_t cmor_vars[];
+    int i, iref, j, k, l;
+    char msg[CMOR_MAX_STRING];
+    char ctmp[CMOR_MAX_STRING];
+    cmor_var_def_t refvar;
+    int grid_id = 1000;
+    float afloat;
+    int aint;
+    long along;
+    int did_grid_reorder = 0;
+    int vrid=-1;
+    cmor_is_setup(  );
+
+    cmor_add_traceback( "cmor_CV_variable" );
+
+    if( CMOR_TABLE == -1 ) {
+        cmor_handle_error( "You did not define a table yet!",
+                           CMOR_CRITICAL );
+    }
+
+
+/* -------------------------------------------------------------------- */
+/*      ok now look which variable is corresponding in table if not     */
+/*      found then error                                                */
+/* -------------------------------------------------------------------- */
+    iref = -1;
+    cmor_trim_string( name, ctmp );
+    for( i = 0; i < cmor_tables[CMOR_TABLE].nvars + 1; i++ ) {
+        if( strcmp( cmor_tables[CMOR_TABLE].vars[i].id, ctmp ) == 0 ) {
+            iref = i;
+            break;
+        }
+    }
+/* -------------------------------------------------------------------- */
+/*      ok now look for out_name to see if we can it.                   */
+/* -------------------------------------------------------------------- */
+
+    if (iref == -1) {
+        for (i = 0; i < cmor_tables[CMOR_TABLE].nvars + 1; i++) {
+            if (strcmp(cmor_tables[CMOR_TABLE].vars[i].out_name, ctmp) == 0) {
+                iref = i;
+                break;
+            }
+        }
+    }
+
+    if( iref == -1 ) {
+        snprintf( msg, CMOR_MAX_STRING,
+                  "Could not find a matching variable for name: '%s'",
+                  ctmp );
+        cmor_handle_error( msg, CMOR_CRITICAL );
+    }
+
+    refvar = cmor_tables[CMOR_TABLE].vars[iref];
+    for( i = 0; i < CMOR_MAX_VARIABLES; i++ ) {
+        if( cmor_vars[i].self == -1 ) {
+            vrid = i;
+            break;
+        }
+    }
+
+
+    cmor_vars[vrid].ref_table_id = CMOR_TABLE;
+    cmor_vars[vrid].ref_var_id = iref;
+
+/* -------------------------------------------------------------------- */
+/*      init some things                                                */
+/* -------------------------------------------------------------------- */
+
+    strcpy( cmor_vars[vrid].suffix, "" );
+    strcpy( cmor_vars[vrid].base_path, "" );
+    strcpy( cmor_vars[vrid].current_path, "" );
+    cmor_vars[vrid].suffix_has_date = 0;
+
+/* -------------------------------------------------------------------- */
+/*      output missing value                                            */
+/* -------------------------------------------------------------------- */
+
+    cmor_vars[vrid].omissing =
+        ( double ) cmor_tables[CMOR_TABLE].missing_value;
+
+/* -------------------------------------------------------------------- */
+/*      copying over values from ref var                                */
+/* -------------------------------------------------------------------- */
+
+    cmor_vars[vrid].valid_min = refvar.valid_min;
+    cmor_vars[vrid].valid_max = refvar.valid_max;
+    cmor_vars[vrid].ok_min_mean_abs = refvar.ok_min_mean_abs;
+    cmor_vars[vrid].ok_max_mean_abs = refvar.ok_max_mean_abs;
+    cmor_vars[vrid].shuffle = refvar.shuffle;
+    cmor_vars[vrid].deflate = refvar.deflate;
+    cmor_vars[vrid].deflate_level = refvar.deflate_level;
+
+    if (refvar.out_name[0] == '\0') {
+        strncpy(cmor_vars[vrid].id, name, CMOR_MAX_STRING);
+    } else {
+        strncpy(cmor_vars[vrid].id, refvar.out_name, CMOR_MAX_STRING);
+    }
+
+    cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_STANDARDNAME, 'c',
+            refvar.standard_name);
+
+    cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_LONGNAME, 'c',
+            refvar.long_name);
+    if ((refvar.flag_values != NULL) && (refvar.flag_values[0] != '\0')) {
+        cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_FLAGVALUES, 'c',
+                refvar.flag_values);
+    }
+    if ((refvar.flag_meanings != NULL) && (refvar.flag_meanings[0] != '\0')) {
+
+        cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_FLAGMEANINGS,
+                'c', refvar.flag_meanings);
+    }
+
+    cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_COMMENT, 'c',
+            refvar.comment);
+
+    if (strcmp(refvar.units, "?") == 0) {
+        strncpy(cmor_vars[vrid].ounits, units, CMOR_MAX_STRING);
+    } else {
+        strncpy(cmor_vars[vrid].ounits, refvar.units, CMOR_MAX_STRING);
+    }
+
+    if (refvar.type != 'c') {
+        cmor_set_variable_attribute_internal(vrid,
+                VARIABLE_ATT_UNITS,
+                'c',
+                cmor_vars[vrid].ounits);
+    }
+
+    strncpy(cmor_vars[vrid].iunits, units, CMOR_MAX_STRING);
+
+    cmor_set_variable_attribute_internal( vrid, VARIABLE_ATT_CELLMETHODS,
+            'c',
+            refvar.cell_methods );
+
+    cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_CELLMEASURES, 'c',
+            refvar.cell_measures);
+
+    if (refvar.positive == 'u') {
+        if (cmor_is_required_variable_attribute(refvar, VARIABLE_ATT_POSITIVE)
+                == 0) {
+
+            cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_POSITIVE,
+                    'c', "up");
+
+        }
+
+    } else if (refvar.positive == 'd') {
+        if (cmor_is_required_variable_attribute(refvar, VARIABLE_ATT_POSITIVE)
+                == 0) {
+
+            cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_POSITIVE,
+                    'c', "down");
+
+        }
+    }
+
+    if( refvar.type == '\0' ) {
+        cmor_vars[vrid].type = 'f';
+    }
+    else {
+        cmor_vars[vrid].type = refvar.type;
+    }
+
+
+
+    if (refvar.type == 'd') {
+
+        cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_MISSINGVALUES,
+                'd', &cmor_vars[vrid].omissing);
+        cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_FILLVAL, 'd',
+                &cmor_vars[vrid].omissing);
+
+    } else if (refvar.type == 'f') {
+
+        afloat = (float) cmor_vars[vrid].omissing;
+        cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_MISSINGVALUES,
+                'f', &afloat);
+        cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_FILLVAL, 'f',
+                &afloat);
+    } else if (refvar.type == 'l') {
+
+        along = (long) cmor_vars[vrid].omissing;
+        cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_MISSINGVALUES,
+                'l', &along);
+        cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_FILLVAL, 'l',
+                &along);
+
+    } else if (refvar.type == 'i') {
+
+        aint = (int) cmor_vars[vrid].omissing;
+        cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_MISSINGVALUES,
+                'i', &aint);
+        cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_FILLVAL, 'i',
+                &aint);
+    }
+
+
+    cmor_vars[vrid].self = vrid;
+    *var_id = vrid;
+    cmor_pop_traceback(  );
+    return( 0 );
+};

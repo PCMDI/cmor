@@ -73,6 +73,7 @@ const char CMOR_VALID_CALENDARS[CMOR_N_VALID_CALS][CMOR_MAX_STRING] =
 };
 
 int CMOR_HAS_BEEN_SETUP = 0;
+int CV_ERROR = 0;
 ut_system *ut_read = NULL;
 FILE *output_logfile;
 
@@ -593,8 +594,8 @@ void cmor_handle_error( char error_msg[CMOR_MAX_STRING], int level ) {
 	
 	fprintf( output_logfile, "\n\n" );
     }
-    cmor_set_cur_dataset_attribute_internal(CV_CHECK_ERROR, "CV_ERROR", 0);
 
+    CV_ERROR=1;
     if( level == CMOR_NOT_SETUP) {
         exit(1);
 

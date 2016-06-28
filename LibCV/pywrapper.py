@@ -93,16 +93,6 @@ def load_table(table):
     return _cmip6_cv.load_table(table)
 
 
-def dataset_json(rcfile):
-    """ load dataset JSON file
-    Usage:
-    dataset_json(rcfile)
-    """
-    if not isinstance(rcfile, str):
-        raise Exception, "Error, must pass a string"
-    return _cmip6_cv.dataset_json(rcfile)
-
-
 def set_table(table):
     if not isinstance(table, int):
         raise Exception, "error you need to pass and integer as the table id"
@@ -309,6 +299,14 @@ def check_ISOTime():
       Return 0 on success
     '''
     ierr = _cmip6_cv.check_ISOTime()
+    return(ierr)
+
+
+def get_CV_Error():
+    '''
+    return 0 if no error 
+    '''
+    ierr = _cmip6_cv.get_CV_Error()
     return(ierr)
 
 

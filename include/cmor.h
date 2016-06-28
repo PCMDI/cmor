@@ -238,6 +238,7 @@ extern int CMOR_MODE;
 extern int CMOR_TABLE;
 extern int CMOR_VERBOSITY;
 extern int CMOR_NETCDF_MODE;
+extern int CV_ERROR;
 
 extern int cleanup_varid;
 

@@ -189,6 +189,17 @@ static PyObject *PyCMOR_set_variable_attribute( PyObject * self,
     return Py_None;
 }
 
+/************************************************************************/
+/*                         PyCV_get_Error()                             */
+/************************************************************************/
+static PyObject *PyCV_get_Error( PyObject * self,
+                                                PyObject * args ) {
+    int cv_error;
+    cmor_is_setup();
+
+    cv_error = get_CV_Error();
+    return( Py_BuildValue( "i", cv_error ) );
+}
 
 /************************************************************************/
 /*                   PyCMOR_get_variable_attribute()                    */
@@ -264,27 +275,6 @@ static PyObject *PyCMOR_setup( PyObject * self, PyObject * args ) {
 }
 
 
-
-/************************************************************************/
-/*                       PyCMOR_dataset_json()                          */
-/************************************************************************/
-
-static PyObject *PyCMOR_dataset_json( PyObject * self, PyObject * args ) {
-    int ierr;
-    char *rcfile;
-    cmor_is_setup();
-
-    if( !PyArg_ParseTuple( args, "s", &rcfile ) ) {
-        return( Py_BuildValue( "i", -1) );
-    }
-
-    ierr = cmor_dataset_json( rcfile );
-    if( ierr != 0 ) {
-        return( Py_BuildValue( "i", ierr) );
-    }
-
-    return Py_None;
-}
 
 /************************************************************************/
 /*                         PyCMOR_load_table()                          */
@@ -400,7 +390,25 @@ static PyObject *PyCMOR_getincvalues( PyObject * self, PyObject * args ) {
         return Py_None;
     }
 }
+/************************************************************************/
+/*                       PyCV_check_variable()                          */
+/************************************************************************/
+static PyObject *PyCV_check_variable( PyObject * self, PyObject * args ) {
+    char *name;
+    char *units;
+    float missing;
+    int var_id;
+    int ierr;
 
+    if( !PyArg_ParseTuple( args, "ssf", &name, &units,  &missing ) ){
+        return( Py_BuildValue( "i", -1 ) );
+    }
+
+    ierr = cmor_CV_variable( &var_id, name, units, missing );
+
+    return( Py_BuildValue( "i", var_id) );
+
+}
 /************************************************************************/
 /*                          PyCMOR_set_table()                          */
 /************************************************************************/
@@ -426,7 +434,6 @@ static PyObject *PyCMOR_set_table( PyObject * self, PyObject * args ) {
 
 static PyMethodDef MyExtractMethods[] = {
     {"setup",                     PyCMOR_setup, METH_VARARGS},
-    {"dataset_json",              PyCMOR_dataset_json, METH_VARARGS},
     {"load_table",                PyCMOR_load_table, METH_VARARGS},
     {"set_table",                 PyCMOR_set_table, METH_VARARGS},
     {"set_cur_dataset_attribute", PyCMOR_set_cur_dataset_attribute,
@@ -448,7 +455,10 @@ static PyMethodDef MyExtractMethods[] = {
     {"check_furtherinfourl",      PyCV_checkFurtherInfoURL, METH_VARARGS },
     {"check_gblattributes",       PyCV_GblAttributes, METH_VARARGS },
     {"check_ISOTime",             PyCV_checkISOTime, METH_VARARGS },
-    {"getCMOR_defaults_include", PyCMOR_getincvalues, METH_VARARGS},
+    {"getCMOR_defaults_include",  PyCMOR_getincvalues, METH_VARARGS},
+    {"check_variable",            PyCV_check_variable, METH_VARARGS},
+    {"get_CV_Error",              PyCV_get_Error, METH_VARARGS},
+
     {NULL, NULL}		/*sentinel */
 };
 
