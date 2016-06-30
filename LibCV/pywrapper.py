@@ -302,9 +302,24 @@ def check_ISOTime():
     return(ierr)
 
 
+def setup_variable(name, units, missing):
+    '''
+    Create variable  attributes from the table loaded by load_table.
+    
+    Usage:
+        cmip6_cv.check_variable( name, units, missing )
+    Where:
+        name is the variable name to validate
+        units are the variable units
+        missing is the missing value for this variable.
+    return: variable_id on success
+           -1 on failure
+    '''
+    ierr = _cmip6_cv.csetup_variable(name, units, missing)
+    return(ierr)
 def get_CV_Error():
     '''
-    return 0 if no error 
+    return 0 if no error was set by CV
     '''
     ierr = _cmip6_cv.get_CV_Error()
     return(ierr)

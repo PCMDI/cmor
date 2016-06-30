@@ -11,6 +11,7 @@ import argparse
 import sys
 import os
 import json
+import pdb
 
 class bcolors:
     HEADER = '\033[95m'
@@ -103,6 +104,7 @@ class checkCMIP6(object):
         # -------------------------------------------------------------------
         #  Initilaze arrays
         # -------------------------------------------------------------------
+        pdb.set_trace()
         self.cmip6_table = args.cmip6_table
         self.infile     = args.infile
         self.attributes = self.infile.listglobal()
@@ -111,7 +113,7 @@ class checkCMIP6(object):
         # -------------------------------------------------------------------
         # find variable that contains a "cell_methods" (should only be one)
         # -------------------------------------------------------------------
-        self.var = [var for var in self.variables if 'cell_methods' in self.infile.listattribute(var)]
+        self.var = [var for var in self.variables if 'history' in self.infile.listattribute(var)]
         if( (self.var == []) or (len(self.var) > 1) ):
             raise KeyboardInterrupt
 
@@ -173,6 +175,9 @@ class checkCMIP6(object):
         cmip6_cv.check_grids(self.table_id)
         cmip6_cv.check_ISOTime()
         cmip6_cv.check_furtherinfourl(self.table_id)
+        pdb.set_trace()
+        cmip6_cv.check_variable(self.var[0],'m',1e55)
+
         if(cmip6_cv.get_CV_Error()):
             raise KeyboardInterrupt
         print bcolors.OKGREEN

@@ -1099,6 +1099,7 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
 
     cmor_vars[vrid].omissing =
 	( double ) cmor_tables[CMOR_TABLE].missing_value;
+    printf("missing= %lf\n", cmor_vars[vrid].omissing);
 
 /* -------------------------------------------------------------------- */
 /*      copying over values from ref var                                */

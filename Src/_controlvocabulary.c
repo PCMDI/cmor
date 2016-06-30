@@ -393,7 +393,7 @@ static PyObject *PyCMOR_getincvalues( PyObject * self, PyObject * args ) {
 /************************************************************************/
 /*                       PyCV_check_variable()                          */
 /************************************************************************/
-static PyObject *PyCV_check_variable( PyObject * self, PyObject * args ) {
+static PyObject *PyCV_setup_variable( PyObject * self, PyObject * args ) {
     char *name;
     char *units;
     float missing;
@@ -456,7 +456,7 @@ static PyMethodDef MyExtractMethods[] = {
     {"check_gblattributes",       PyCV_GblAttributes, METH_VARARGS },
     {"check_ISOTime",             PyCV_checkISOTime, METH_VARARGS },
     {"getCMOR_defaults_include",  PyCMOR_getincvalues, METH_VARARGS},
-    {"check_variable",            PyCV_check_variable, METH_VARARGS},
+    {"setup_variable",            PyCV_setup_variable, METH_VARARGS},
     {"get_CV_Error",              PyCV_get_Error, METH_VARARGS},
 
     {NULL, NULL}		/*sentinel */
