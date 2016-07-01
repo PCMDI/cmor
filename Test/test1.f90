@@ -214,7 +214,7 @@ PROGRAM mip_contribution
 
   print*, 'calling cmor_set_cur_dataset_attribute'
   error_flag = cmor_set_cur_dataset_attribute("language","Fortran",0)
-  print*, 'returned from cmor_set_cur_dataset_attriute'
+  print*, 'returned from cmor_set_cur_dataset_attribute'
   !  Define axes for 3-d fields
 
   print*, 'defining 3-d axes'
