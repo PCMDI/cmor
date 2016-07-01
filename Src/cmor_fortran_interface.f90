@@ -1,5 +1,13 @@
 module cmor_users_functions
   interface 
+     function cmor_set_cur_dset_attribute_cff(name, value, optional) result (ierr)
+       character(*) name
+       character(*) value
+       integer optional
+       integer ierr
+     end function cmor_set_cur_dset_attribute_cff
+  end interface
+  interface
      function cmor_get_cur_dset_attribute_cff(name, value) result (ierr)
        character(*) name
        character(*) value
@@ -6937,6 +6945,15 @@ contains
     integer ierr
     ierr = cmor_get_cur_dset_attribute_cff(trim(name)//char(0), value)
   end function cmor_get_cur_dataset_attribute
+
+  function cmor_set_cur_dataset_attribute(name, value, optional) result (ierr)
+    implicit none
+    character (*), intent (in) :: name
+    character (*), intent (in) :: value
+    integer, intent (in) :: optional
+    integer ierr
+    ierr = cmor_set_cur_dset_attribute_cff(trim(name)//char(0),trim(value)//char(0),optional)
+  end function cmor_set_cur_dataset_attribute
 
   function cmor_has_variable_attribute(var_id, value) result (ierr)
     implicit none

@@ -1088,19 +1088,16 @@ void cmor_CV_checkISOTime(char *szAttribute) {
 int cmor_CV_variable( int *var_id, char *name, char *units,
         void *missing ) {
 
-    extern int cmor_naxes;
-    extern int CMOR_TABLE;
-    extern cmor_var_t cmor_vars[];
-    int i, iref, j, k, l;
+    int vrid=-1;
+    int i;
+    int iref;
     char msg[CMOR_MAX_STRING];
     char ctmp[CMOR_MAX_STRING];
     cmor_var_def_t refvar;
-    int grid_id = 1000;
     float afloat;
     int aint;
     long along;
-    int did_grid_reorder = 0;
-    int vrid=-1;
+
     cmor_is_setup(  );
 
     cmor_add_traceback( "cmor_CV_variable" );
@@ -1257,35 +1254,14 @@ int cmor_CV_variable( int *var_id, char *name, char *units,
 
 
 
-    if (refvar.type == 'd') {
-
-        cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_MISSINGVALUES,
-                'd', &cmor_vars[vrid].omissing);
-        cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_FILLVAL, 'd',
-                &cmor_vars[vrid].omissing);
-
-    } else if (refvar.type == 'f') {
+    if (refvar.type == 'f') {
 
         afloat = (float) cmor_vars[vrid].omissing;
         cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_MISSINGVALUES,
                 'f', &afloat);
         cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_FILLVAL, 'f',
                 &afloat);
-    } else if (refvar.type == 'l') {
 
-        along = (long) cmor_vars[vrid].omissing;
-        cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_MISSINGVALUES,
-                'l', &along);
-        cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_FILLVAL, 'l',
-                &along);
-
-    } else if (refvar.type == 'i') {
-
-        aint = (int) cmor_vars[vrid].omissing;
-        cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_MISSINGVALUES,
-                'i', &aint);
-        cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_FILLVAL, 'i',
-                &aint);
     }
 
 

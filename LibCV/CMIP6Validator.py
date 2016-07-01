@@ -114,7 +114,7 @@ class checkCMIP6(object):
         # find variable that contains a "cell_methods" (should only be one)
         # -------------------------------------------------------------------
         self.var = [var for var in self.variables if 'history' in self.infile.listattribute(var)]
-        if( (self.var == []) or (len(self.var) > 1) ):
+        if((self.var == []) or (len(self.var) > 1)):
             raise KeyboardInterrupt
 
         self.keys = self.infile.listattribute(var)
@@ -157,7 +157,7 @@ class checkCMIP6(object):
         self.table_id = cmip6_cv.load_table(self.cmip6_table)
 
     def ControlVocab(self):
-        ''' 
+        '''
             Check CMIP6 global attributes against Control Vocabulary file.
 
                 1. Validate required attribute if presents and some values.
@@ -166,7 +166,7 @@ class checkCMIP6(object):
                 4. Validate experiment, experiment_id and attribute associated with the experiment.
                 5. Validate grid_label and grid_resolution
                 6. Validate creation time in ISO format (YYYY-MM-DDTHH:MM:SS)
-                7. Validate furtherinfourl from CV internal template 
+                7. Validate furtherinfourl from CV internal template
         '''
         cmip6_cv.check_requiredattributes(self.table_id)
         cmip6_cv.check_institution(self.table_id)
@@ -176,7 +176,7 @@ class checkCMIP6(object):
         cmip6_cv.check_ISOTime()
         cmip6_cv.check_furtherinfourl(self.table_id)
         pdb.set_trace()
-        cmip6_cv.check_variable(self.var[0],'m',1e55)
+        cmip6_cv.check_variable(self.var[0], 'm', 1e20)
 
         if(cmip6_cv.get_CV_Error()):
             raise KeyboardInterrupt
