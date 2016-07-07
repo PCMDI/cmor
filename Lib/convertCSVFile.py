@@ -56,7 +56,6 @@ with open('../Tables/CMIP6_expt_list_062116.csv', 'rU') as csvfile:
         if row[1] == 'original label':
            break
     expt = ""
-    i=13
     for  row in spamreader:    
 ##        if (row[5] == "") & (row[22] != ""):
 ##            print i
@@ -71,7 +70,7 @@ with open('../Tables/CMIP6_expt_list_062116.csv', 'rU') as csvfile:
             expt = replaceString(expt, row[20], "parent_sub_experiment_id")
             expt = replaceString(expt, row[21], "parent_activity_id")
 
-            if (row[24] != ""):
+            if (row[19] != ""):
                 expt = replaceString(expt, row[19], "parent_experiment_id")
             else:
                 expt = deleteLine(expt, "parent_experiment_id")
@@ -80,7 +79,6 @@ with open('../Tables/CMIP6_expt_list_062116.csv', 'rU') as csvfile:
                 expt = deleteLine(expt, "parent_mip_era")
                 expt = deleteComa(expt )
 
-            i=i+1
 
 #nexpt = expt + "\"Dummy\":{}\n     }"
 expt = expt + "\n    }\n}"

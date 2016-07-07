@@ -22,6 +22,7 @@ for st in ["@NCLDFLAGS@", "@NCCFLAGS@",
         include_dirs.append(s[2:])
 
 srcfiles = "@LIBSOURCES@".split()
+srcfiles_CV = "@LIBSOURCESCV@".split()
 
 macros=[]
 for m in "@MACROS@".split():
@@ -47,22 +48,30 @@ print 'src:',srcfiles
 print 'macros:',macros
 
 setup (name = "CMOR",
-       version='3.0',
+       version='3.1',
        author='Denis Nadeau, AIMS',
        description = "Python Interface to CMOR output library",
-       url = "http://www-pcmdi.llnl.gov/cmor",
-       packages = ['cmor'],
-       package_dir = {'cmor': 'Lib'},
+       url = "http://cmor.llnl.gov/",
+       packages = ['cmor', 'cmip6_cv'],
+       package_dir = {'cmor': 'Lib', 'cmip6_cv': 'LibCV'},
        ext_modules = [
     Extension('cmor._cmor',
               srcfiles,
-	      include_dirs = include_dirs,
+              include_dirs = include_dirs,
               library_dirs = library_dirs,
               libraries = libraries,
               define_macros = macros,
-              extra_compile_args = [ "@DEBUG@", ]
+              extra_compile_args = [ "-g", "-DgFortran"]
               ),
-    
+    Extension('cmip6_cv._cmip6_cv',
+              srcfiles_CV,
+              include_dirs = include_dirs,
+              library_dirs = library_dirs,
+              libraries = libraries,
+              define_macros = macros,
+              extra_compile_args = [ "-g", "-DgFortran"]
+              ),
     ]
+
       )
 
