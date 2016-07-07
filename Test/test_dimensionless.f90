@@ -37,7 +37,7 @@ CONTAINS
     END DO
           plevs = (/100000., 92500., 85000., 70000.,&
        60000., 50000., 40000., 30000., 25000., 20000.,&
-       15000., 10000., 7000., 5000., 3000., 2000., 1000. /)
+       15000., 10000., 7000., 5000., 3000., 2000., 1000., 500., 100./)
 
     RETURN
   END SUBROUTINE read_coords
@@ -111,10 +111,10 @@ PROGRAM ipcc_test_code
   INTEGER, PARAMETER :: lon = 4       ! number of longitude grid cells  
   INTEGER, PARAMETER :: lat = 3       ! number of latitude grid cells
   INTEGER, PARAMETER :: lev = 5       ! number of standard pressure levels
-  INTEGER, PARAMETER :: lev2 = 17       ! number of standard pressure levels
+  INTEGER, PARAMETER :: lev2 = 19       ! number of standard pressure levels
   INTEGER, PARAMETER :: n2d = 4       ! number of IPCC Table A1a fields to be
                                       !     output.
-  INTEGER, PARAMETER :: n3d = 4       ! number of IPCC Table A1c fields to 
+  INTEGER, PARAMETER :: n3d = 1       ! number of IPCC Table A1c fields to 
                                       !     be output.  
 
   !   Tables associating the user's variables with IPCC standard output 
@@ -128,14 +128,14 @@ PROGRAM ipcc_test_code
 
                                 ! My variable names for IPCC Table A1c fields
   CHARACTER (LEN=5), DIMENSION(n3d) :: &
-                                 varin3d=(/'CLOUD', 'tro3 ', 'U    ', 'T    '/)
+                                 varin3d=(/'tro3 '/)
 
                                 ! Units appropriate to my data
   CHARACTER (LEN=5), DIMENSION(n3d) :: &
-                                  units3d=(/ '%    ', '1e-9 ',  'm s-1',   'K    '  /)
+                                  units3d=(/ '1e-9 '/)
 
                      ! Corresponding IPCC Table A1c entry (variable name) 
-  CHARACTER (LEN=4), DIMENSION(n3d) :: entry3d = (/ 'cl  ', 'tro3', 'ua  ', 'ta  ' /)
+  CHARACTER (LEN=4), DIMENSION(n3d) :: entry3d = (/ 'tro3' /)
 
                                 ! My variable names for IPCC Table A1a fields
   CHARACTER (LEN=8), DIMENSION(n2d) :: &
@@ -175,7 +175,7 @@ PROGRAM ipcc_test_code
   REAL :: p0
   REAL, DIMENSION(lev+1) :: a_coeff_bnds
   REAL, DIMENSION(lev+1) :: b_coeff_bnds
-  INTEGER :: ilon, ilat, ipres, ilev, itim, ilon2,ilat2,itim2
+  INTEGER :: ilon, ilat, ipres, ilev, itim, ilon2,ilat2,itim2, itim3
   double precision bt
 
   !  Other variables:
@@ -254,7 +254,7 @@ PROGRAM ipcc_test_code
 print*, 'Test Code:',lev,':',plevs
   ipres = cmor_axis(  &
        table='Tables/CMIP6_Amon.json',        &
-       table_entry='plev17',       &
+       table_entry='plev19',       &
        units='Pa',                   &
        length=lev2,                   &
        coord_vals=plevs)
@@ -275,6 +275,14 @@ print*, 'Test Code:',lev,':',plevs
        units='days since 2030-1-1',  &
        length=ntimes,                &
        interval='1 month')
+
+  itim3 = cmor_axis(  &
+       table='Tables/CMIP6_Amon.json',        &
+       table_entry='time2',           &
+       units='days since 2030-1-1',  &
+       length=ntimes,                &
+       interval='1 month')
+  
   
   !  define model eta levels
   zlevs = (/ 0.1, 0.3, 0.55, 0.7, 0.9 /)
@@ -329,22 +337,9 @@ print*, 'Test Code:',lev,':',plevs
        table='Tables/CMIP6_Amon.json',      &
        table_entry=entry3d(1),     &
        units=units3d(1),           &
-       axis_ids=(/ ilev, ilon, ilat, itim /),  &
+       axis_ids=(/ ipres, ilon, ilat, itim3 /),  &
        missing_value=1.0e28, &
        original_name=varin3d(1))
-  
-  !  Define variables appearing in IPCC table A1c that are a function of pressure
-  !         (3-d variables)
-  
-  DO m=2,n3d
-     var3d_ids(m) = cmor_variable(    &
-          table='Tables/CMIP6_Amon.json',      &
-          table_entry=entry3d(m),     &
-          units=units3d(m),           &
-          axis_ids=(/ ipres, ilon, ilat, itim /), &
-          missing_value=1.0e28,       &
-          original_name=varin3d(m))
-  ENDDO
   
 
   !  Define variables appearing in IPCC table A1a (2-d variables)
@@ -406,16 +401,6 @@ print*, 'Test Code:',lev,':',plevs
          ntimes_passed = 1,                                   &
          time_vals     = time,                                &
          time_bnds     = bnds_time   )
-
-    call read_2d_input_files(it, varin2d(4), data2d)                  
-
-    error_flag = cmor_write(                                  &
-         var_id        = zfactor_id,                          &
-         data          = data2d,                              &
-         ntimes_passed = 1,                                   &
-         time_vals     = time,                                &
-         time_bnds     = bnds_time,                           &
-         store_with    = var3d_ids(1) )
 
     ! Cycle through the 3-d fields (stored on pressure levels), 
     ! and retrieve the requested variable and append each to the 

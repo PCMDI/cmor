@@ -315,7 +315,7 @@ def setup_variable(name, units, missing):
     return: variable_id on success
            -1 on failure
     '''
-    ierr = _cmip6_cv.csetup_variable(name, units, missing)
+    ierr = _cmip6_cv.setup_variable(name, units, missing)
     return(ierr)
 def get_CV_Error():
     '''

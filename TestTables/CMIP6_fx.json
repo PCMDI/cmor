@@ -5,7 +5,7 @@
         "realm": "ocean", 
         "frequency": "fx", 
         "cmor_version": "3.1", 
-        "table_date": "01 July 2016", 
+        "table_date": "05 July 2016", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "0.00000", 
@@ -2396,6 +2396,8 @@
             "positive": "", 
             "valid_min": "0.0", 
             "valid_max": "10.0", 
+            "flag_values": "0 1 2 3 4 5 6 7 8 9 10", 
+            "flag_meanings": "global_land southern_ocean atlantic_ocean pacific_ocean arctic_ocean indian_ocean mediterranean_sea black_sea hudson_bay baltic_sea red_sea", 
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 

@@ -32,7 +32,7 @@ myaxes[1] = cmor._cmor.axis(id,units,lat,alats,'d',bnds_lat,2,interval)
 id="longitude"
 units="degrees_east"
 myaxes[2] = cmor._cmor.axis(id,units,lon,alons,'d',bnds_lon,2,interval)
-id="plev17"
+id="plev19"
 units="Pa"
 print plevs.astype("d")
 myaxes[3] = cmor._cmor.axis(id,units,lev2,plevs.astype("d"),'d',None,0,interval)

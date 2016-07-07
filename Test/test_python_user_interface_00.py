@@ -40,7 +40,7 @@ myaxes[1] = cmor.axis(id,coord_vals=alats,units=units,cell_bounds=bnds_lat)
 id="longitude"
 units="degrees_east"
 myaxes[2] = cmor.axis(id,coord_vals=alons,units=units,cell_bounds=bnds_lon)
-id="plev17"
+id="plev19"
 units="Pa"
 myaxes[3] = cmor.axis(id,coord_vals=plevs,units=units)
 

@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <math.h>
 
+float fvalue;
+
 /************************************************************************/
 /*                cmor_is_required_variable_attribute()                 */
 /************************************************************************/
@@ -265,13 +267,13 @@ int cmor_get_variable_attribute( int id, char *attribute_name,
 	strncpy( value, cmor_vars[id].attributes_values_char[index],
 		 CMOR_MAX_STRING );
     else if( type == 'f' )
-	value = ( float * ) &cmor_vars[id].attributes_values_num[index];
+	*(float *)value = (float) cmor_vars[id].attributes_values_num[index];
     else if( type == 'i' )
-	value = ( int * ) &cmor_vars[id].attributes_values_num[index];
+	*(int *)  value = (int) cmor_vars[id].attributes_values_num[index];
     else if( type == 'l' )
-	value = ( long * ) &cmor_vars[id].attributes_values_num[index];
+	*(long*)  value = (long) cmor_vars[id].attributes_values_num[index];
     else
-	value = ( double * ) &cmor_vars[id].attributes_values_num[index];
+	*(double *)value = (double) cmor_vars[id].attributes_values_num[index];
     cmor_pop_traceback(  );
     return( 0 );
 }

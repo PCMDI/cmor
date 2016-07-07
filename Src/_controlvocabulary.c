@@ -1,7 +1,9 @@
 #include <Python.h>
 #include "numpy/arrayobject.h"
 #include "cmor.h"
-    
+
+extern int cmor_CV_variable(int *, char *, char *, float *);
+
 /************************************************************************/
 /*                     PyCV_setInstitution()                            */
 /************************************************************************/
@@ -208,6 +210,7 @@ static PyObject *PyCMOR_get_variable_attribute( PyObject * self,
 						PyObject * args ) {
     char *name;
     char value[CMOR_MAX_STRING];
+    float fValue;
     int ierr, var_id;
     cmor_is_setup();
 
@@ -216,6 +219,11 @@ static PyObject *PyCMOR_get_variable_attribute( PyObject * self,
     ierr = cmor_get_variable_attribute( var_id, name, ( void * ) value );
     if( ierr != 0 )
 	return NULL;
+    if((strcmp(name, "_FillValue") == 0) ||
+            (strcmp(name, "missing_values") == 0)) {
+        ierr = cmor_get_variable_attribute( var_id, name, &fValue );
+        return(Py_BuildValue("f", fValue));
+    }
     return( Py_BuildValue( "s", value ) );
 }
 
@@ -398,13 +406,12 @@ static PyObject *PyCV_setup_variable( PyObject * self, PyObject * args ) {
     char *units;
     float missing;
     int var_id;
-    int ierr;
 
     if( !PyArg_ParseTuple( args, "ssf", &name, &units,  &missing ) ){
         return( Py_BuildValue( "i", -1 ) );
     }
 
-    ierr = cmor_CV_variable( &var_id, name, units, missing );
+    cmor_CV_variable( &var_id, name, units, &missing );
 
     return( Py_BuildValue( "i", var_id) );
 

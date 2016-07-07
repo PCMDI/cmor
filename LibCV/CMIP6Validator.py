@@ -11,6 +11,7 @@ import argparse
 import sys
 import os
 import json
+import numpy
 import pdb
 
 class bcolors:
@@ -104,7 +105,6 @@ class checkCMIP6(object):
         # -------------------------------------------------------------------
         #  Initilaze arrays
         # -------------------------------------------------------------------
-        pdb.set_trace()
         self.cmip6_table = args.cmip6_table
         self.infile     = args.infile
         self.attributes = self.infile.listglobal()
@@ -147,11 +147,6 @@ class checkCMIP6(object):
                                         if self.infile.getattribute(self.var[0], key) is not None
                                         for value in [self.infile.getattribute(self.var[0], key)]])
         # -------------------------------------------------------------------
-        # Set Global Attributes
-        # -------------------------------------------------------------------
-        ierr = [cmip6_cv.set_cur_dataset_attribute(key,value) for key, value in self.dictGbl.iteritems()]
-
-        # -------------------------------------------------------------------
         # Load CMIP6 table into memory
         # -------------------------------------------------------------------
         self.table_id = cmip6_cv.load_table(self.cmip6_table)
@@ -175,8 +170,29 @@ class checkCMIP6(object):
         cmip6_cv.check_grids(self.table_id)
         cmip6_cv.check_ISOTime()
         cmip6_cv.check_furtherinfourl(self.table_id)
-        pdb.set_trace()
-        cmip6_cv.check_variable(self.var[0], 'm', 1e20)
+        varid = cmip6_cv.setup_variable(self.var[0], 'm', 1e20)
+
+        for key in self.dictVars.keys():
+            # Is this attritue in the input table?
+            if( cmip6_cv.has_variable_attribute(varid, key) ):
+                # Verify that attribute value is equal to file attribute
+                table_value = cmip6_cv.get_variable_attribute(varid,key)
+                file_value = self.dictVars[key]
+                if isinstance(table_value, numpy.ndarray):
+                    table_value = table_value[0]
+                if isinstance(file_value, numpy.ndarray):
+                    file_value= file_value[0]
+
+                if isinstance(table_value, float):
+                    if( table_value/file_value < 1.1 ):
+                            table_value = file_value
+
+                file_value = str(file_value)
+                table_value = str(table_value)
+                if table_value != file_value:
+                    print "You variable attribute differ from table attribute!"
+                    print "You file contains "+key+":"+file_value+" and"
+                    print "CMIP6 tables requires "+key+":"+table_value+"."
 
         if(cmip6_cv.get_CV_Error()):
             raise KeyboardInterrupt

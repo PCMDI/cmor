@@ -51,7 +51,7 @@
            "references":             "Model described by Koder and Tolkien ",
 
            "#institution_id":          "",
-           "institution_id":           "PCMDI",
+           "institution_id":           "NOAA-GFDL",
 
            "#model_id":              "",
            "model_id":               "GICCM1",
@@ -71,11 +71,9 @@
            "branch_time_units_in_parent": "days since 1000-1-1",
 
 
-           "further_info_url":       "http://furtherinfo.es-doc.org/<mip_era><institution_id><source_id><experiment_id><sub_experiment_id><variant_label>",
            "grid":                   "native atmosphere T63 gaussian grid (64x128 latxlon)",
            "grid_label":            "gn",
            "grid_resolution":        "5 km",
-           "institution_id":         "d",
            "references":             "Model described by Koder and Tolkien (J. Geophys. Res.,2001, 576 - 591).  Also see http://www.GICC.su/giccm/doc/index.html  2XCO2 simulation described in Dorkey et al. '(Clim. Dyn., 2003, 323 - 357.)",
            "run_variant":            "forcing: black carbon aerosol only",
            "source_id":              "MIROC-ESM",

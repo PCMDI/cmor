@@ -18,7 +18,7 @@ blats = numpy.arange(-90,90+dlat,dlat)
 lons = numpy.arange(0+dlon/2.,360.,dlon)
 blons = numpy.arange(0,360.+dlon,dlon)
 
-levs = numpy.array([1000.,925,900,850,800,700,600,500,400,300,250,200,150,100,75,70,50,30,20,10,7.5,5,2.5,1])
+levs = numpy.array([1000.,925,900,850,800,700,600,500,400,300,250,200,150,100,75,70,50,30,20,10,7.5,5,2.5,1,.5,.1])
 alllevs = numpy.arange(1000,0,-dlev).tolist()
 print len(alllevs)
 
@@ -31,7 +31,7 @@ cmor.load_table(table)
 ilat = cmor.axis(table_entry='latitude',coord_vals=lats,cell_bounds=blats,units='degrees_north')
 ilon = cmor.axis(table_entry='longitude',coord_vals=lons,cell_bounds=blons,units='degrees_east')
 itim = cmor.axis(table_entry='time',units='months since 2010')#,coord_vals=numpy.arange(ntimes,dtype=numpy.float),cell_bounds=numpy.arange(ntimes+1,dtype=float),units='months since 2000')
-ilev = cmor.axis(table_entry='plev17',coord_vals=levs,units='hPa')
+ilev = cmor.axis(table_entry='plev19',coord_vals=levs,units='hPa')
     
 axes=[itim,ilev,ilat,ilon]
 

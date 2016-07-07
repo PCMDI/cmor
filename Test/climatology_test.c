@@ -89,14 +89,14 @@ test_convert(void)
 {
 #define NLON 4
 #define NLAT 2
-#define NPLEV 17
+#define NPLEV 19
     static double lon[] = {0., 90., 180., 270.};
     static double lat[] = {-45., 45.};
     static double lon_bnds[] = { -45., 45, 135., 225., 315.};
     static double lat_bnds[] = { -90., 0, 90.};
     static double plevs[] = {
         1000., 925., 850., 700., 600., 500., 400., 300.,
-        250., 200., 150., 100., 70., 50., 30., 20., 10.
+        250., 200., 150., 100., 70., 50., 30., 20., 10., 5., 1.
     };
     double time[] = {
         380.5, 410., 439.5, 470., 500.5, 531.,
@@ -122,7 +122,7 @@ test_convert(void)
         double *values, *bnds;
         size_t len;
     } dims[] = {
-        {"plevs",     "hPa",           plevs, NULL,     NPLEV},
+        {"plevs19",     "hPa",           plevs, NULL,     NPLEV},
         {"latitude",  "degrees_north", lat,   lat_bnds, NLAT},
         {"longitude", "degrees_east",  lon,   lon_bnds, NLON}
     };

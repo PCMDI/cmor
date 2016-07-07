@@ -2,8 +2,6 @@
            "_control_vocabulary_file": "CMIP6_CV.json",
            "_cmip6_option":           "CMIP6",
 
-           "_control_vocabulary_file": "CMIP6_CV.json",
-           "_cmip6_option":           "CMIP6",
            "activity_id":            "CMIP",
 
            "#output":                "Output Path where files are written",
@@ -12,11 +10,11 @@
            "#experiment_id":         "Correspond to id found in experiments.json",
            "experiment_id":          "piControl",
 
-           "#institution":           "Controlled Vocaburaly in instition.json",
-           "institution":            "GICC (Generic International Climate Center, Geneva, Switzerland)",
+           "#institution":           "Controlled Vocabulary ",
             
            "#source":                "",
-           "source":                 "MIROC-ESM",
+           "source":                 "MIROC-ESM:",
+           "source_type":            "AOGCM",
 
            "#calendar":              "",
            "calendar":               "gregorian",
@@ -45,8 +43,8 @@
            "#references":            "",
            "references":             "Model described by Koder and Tolkien ",
 
-           "#institution_id":          "",
-           "institution_id":           "PCMDI",
+           "#institution_id":        "",
+           "institution_id":         "BNU",
 
            "#model_id":              "",
            "model_id":               "GICCM1",
@@ -57,8 +55,11 @@
            "#branch_time":            "",
            "branch_time":             "1",
 
+           "sub_experiment_id":      "none",
+           "sub_experiment":         "none",
 
-           "further_info_url":       "http://furtherinfo.es-doc.org/<mip_era><institution_id><source_id><experiment_id><sub_experiment_id><variant_label>",
+           "branch_method":          "standard",
+
            "grid":                   "native atmosphere T63 gaussian grid (64x128 latxlon)",
            "grid_label":             "gn",
            "grid_resolution":        "5 km",

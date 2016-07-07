@@ -43,6 +43,8 @@ void read_coords(alats, alons, plevs, bnds_lat, bnds_lon,lon,lat,lev)
   plevs[14]=30;
   plevs[15]=20;
   plevs[16]=10;
+  plevs[17]=5;
+  plevs[18]=1;
 }
 
 void read_time(it, time, time_bnds)
@@ -105,7 +107,7 @@ int main()
 #define   ntimes  2    /* number of time samples to process */
 #define   lon  4       /* number of longitude grid cells   */
 #define   lat  3       /* number of latitude grid cells */
-#define   lev  17       /* number of standard pressure levels */
+#define   lev  19       /* number of standard pressure levels */
 #define   n2d  4       /* number of IPCC Table A1a fields to be */                                      /*     output. */
 #define n3d 3       /* number of IPCC Table A1c fields to  */
                      /*                                be output.   */
@@ -249,7 +251,7 @@ int main()
   strcpy(units,"degrees_east");
   ierr = cmor_axis(&myaxes[2],id,units,lon,&alons,'d',&bnds_lon,2,interval);
 
-  strcpy(id,"plev17");
+  strcpy(id,"plev19");
   strcpy(units,"hPa");
   ierr = cmor_axis(&myaxes[3],id,units,lev,&iplevs,'i',NULL,0,interval);
 

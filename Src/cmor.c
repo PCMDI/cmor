@@ -2740,6 +2740,7 @@ void cmor_setGblAttr(int var_id) {
         cmor_CV_checkExperiment(cmor_tables[nVarRefTblID].CV);
         cmor_CV_checkGrids(cmor_tables[nVarRefTblID].CV);
         cmor_CV_checkFurtherInfoURL(var_id);
+
     }
 
     cmor_CV_checkGblAttributes(cmor_tables[nVarRefTblID].CV);
