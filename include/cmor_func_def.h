@@ -134,7 +134,7 @@ extern void cmor_CV_set_att(cmor_CV_def_t *CV,
 extern void cmor_CV_checkExperiment( cmor_CV_def_t *CV);
 extern void cmor_CV_checkSourceID(cmor_CV_def_t *CV);
 extern void cmor_CV_checkSourceType(cmor_CV_def_t *CV, char *);
-
+extern int get_CV_Error(void);
 extern int cmor_attNameCmp(const void *v1, const void *v2);
 
 extern void cmor_CV_checkGblAttributes( cmor_CV_def_t *CV );
@@ -203,6 +203,10 @@ extern int cmor_is_required_variable_attribute( cmor_var_def_t var,
 extern int cmor_has_required_variable_attributes( int var_id );
 extern int cmor_set_variable_attribute( int id, char *attribute_name,
 					char type, void *value );
+extern int cmor_set_variable_attribute_internal( int id,
+                                                 char *attribute_name,
+                                                 char type, void *value );
+
 extern int cmor_get_variable_attribute( int id, char *attribute_name,
 					void *value );
 extern int cmor_has_variable_attribute( int id, char *attribute_name );

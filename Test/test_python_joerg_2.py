@@ -32,7 +32,9 @@ def test_mode(mode,i,suffix=''):
               997,
               996,
               995,
-              994]
+              994, 
+              993, 
+              992]
     
     axes = [ {'table_entry': 'time',
               'units': 'months since 2000-01-01 00:00:00',
@@ -45,7 +47,7 @@ def test_mode(mode,i,suffix=''):
               'units': 'degrees_east',
               'coord_vals': [90],
               'cell_bounds': [89, 91]},
-             {'table_entry': 'plev17',
+             {'table_entry': 'plev19',
               'units': 'Pa',
               'coord_vals': levels},
              ]

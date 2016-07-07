@@ -27,9 +27,8 @@ ilon = cmor.axis(
     cell_bounds=bnds_lon)      
 
 ntimes=12
-plevs = numpy.array([100000., 92500, 85000, 70000, 60000, 50000, 40000, 30000, 25000,
-   20000, 15000, 10000, 7000, 5000, 3000, 2000, 1000, 999, 998, 997, 996,
-   995, 994])
+plevs = numpy.array([100000., 92500., 85000., 70000., 60000., 50000., 40000., 30000., 25000., 
+   20000., 15000., 10000., 7000., 5000., 3000., 2000., 1000., 500., 100.])
 plevs=plevs[::-1]
 
 itim = cmor.axis(  
@@ -39,7 +38,7 @@ itim = cmor.axis(
     interval='1 month')
 
 ilev = cmor.axis(  
-        table_entry='plev17',       
+        table_entry='plev19',       
         units='Pa',
         coord_vals=plevs,             
         cell_bounds=None)

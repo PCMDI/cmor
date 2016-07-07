@@ -37,7 +37,7 @@ CONTAINS
     END DO
        plevs = (/100000., 92500., 85000., 70000.,&
        60000., 50000., 40000., 30000., 25000., 20000.,&
-       15000., 10000., 7000., 5000., 3000., 2000., 1000. /)
+       15000., 10000., 7000., 5000., 3000., 2000., 1000., 500., 100. /)
    
     k = 1
     DO i = 1, SIZE(alons)
@@ -82,7 +82,7 @@ program testing
   INTEGER, PARAMETER :: ntimes = 2    ! number of time samples to process
   INTEGER, PARAMETER :: lon = 4       ! number of longitude grid cells  
   INTEGER, PARAMETER :: lat = 3       ! number of latitude grid cells
-  INTEGER, PARAMETER :: lev = 17       ! number of standard pressure levels
+  INTEGER, PARAMETER :: lev = 19       ! number of standard pressure levels
   INTEGER, PARAMETER :: nst = 12      ! number of stations
   INTEGER, PARAMETER :: n2d = 4       ! number of IPCC Table A1a fields to be
                                       !     output.
@@ -175,7 +175,7 @@ program testing
   print*, 'Test code: ok calling axis stuff pressure',ist
   ipres = cmor_axis(  &
        table='Tables/CMIP6_Amon.json',    &
-       table_entry='plev17',       &
+       table_entry='plev19',       &
        units='Pa',                   &
        length=lev,                   &
        coord_vals=plevs)

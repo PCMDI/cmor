@@ -10,7 +10,7 @@ nlat = 90
 dlat = 180/nlat
 nlon = 180
 dlon = 360./nlon
-nlev = 17
+nlev = 19
 ntimes = 12
 
 lats = numpy.arange(-90+dlat/2.,90,dlat)
@@ -30,7 +30,7 @@ for var in tvars:
     ilat = cmor.axis(table_entry='latitude',coord_vals=lats,cell_bounds=blats,units='degrees_north')
     ilon = cmor.axis(table_entry='longitude',coord_vals=lons,cell_bounds=blons,units='degrees_east')
     itim = cmor.axis(table_entry='time',coord_vals=numpy.arange(ntimes,dtype=numpy.float),cell_bounds=numpy.arange(ntimes+1,dtype=float),units='months since 2000')
-    ilev = cmor.axis(table_entry='plev17',coord_vals=numpy.array([1000.,925,850,700,600,500,400,300,250,200,150,100,70,50,30,20,10]),units='hPa')
+    ilev = cmor.axis(table_entry='plev19',coord_vals=numpy.array([1000.,925,850,700,600,500,400,300,250,200,150,100,70,50,30,20,10,5,1]),units='hPa')
     
     if var!='ta':
         axes = [itim,ilat,ilon]
