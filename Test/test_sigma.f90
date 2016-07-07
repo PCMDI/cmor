@@ -37,7 +37,7 @@ CONTAINS
     END DO
         plevs = (/100000., 92500., 85000., 70000.,&
        60000., 50000., 40000., 30000., 25000., 20000.,&
-       15000., 10000., 7000., 5000., 3000., 2000., 1000. /)
+       15000., 10000., 7000., 5000., 3000., 2000., 1000., 500., 100. /)
   
     RETURN
   END SUBROUTINE read_coords
@@ -111,10 +111,10 @@ PROGRAM ipcc_test_code
   INTEGER, PARAMETER :: lon = 4       ! number of longitude grid cells  
   INTEGER, PARAMETER :: lat = 3       ! number of latitude grid cells
   INTEGER, PARAMETER :: lev = 5       ! number of standard pressure levels
-  INTEGER, PARAMETER :: lev2 = 17       ! number of standard pressure levels
+  INTEGER, PARAMETER :: lev2 = 19       ! number of standard pressure levels
   INTEGER, PARAMETER :: n2d = 4       ! number of IPCC Table A1a fields to be
                                       !     output.
-  INTEGER, PARAMETER :: n3d = 4       ! number of IPCC Table A1c fields to 
+  INTEGER, PARAMETER :: n3d = 3       ! number of IPCC Table A1c fields to 
                                       !     be output.  
 
   !   Tables associating the user's variables with IPCC standard output 
@@ -128,14 +128,14 @@ PROGRAM ipcc_test_code
 
                                 ! My variable names for IPCC Table A1c fields
   CHARACTER (LEN=5), DIMENSION(n3d) :: &
-                                 varin3d=(/'CLOUD', 'tro3 ', 'U    ', 'T    '/)
+                                 varin3d=(/'CLOUD', 'U    ', 'T    '/)
 
                                 ! Units appropriate to my data
   CHARACTER (LEN=5), DIMENSION(n3d) :: &
-                                  units3d=(/ '%    ', '1e-9 ',  'm s-1',   'K    '  /)
+                                  units3d=(/ '%    ',  'm s-1',   'K    '  /)
 
                      ! Corresponding IPCC Table A1c entry (variable name) 
-  CHARACTER (LEN=4), DIMENSION(n3d) :: entry3d = (/ 'cl  ', 'tro3', 'ua  ', 'ta  ' /)
+  CHARACTER (LEN=4), DIMENSION(n3d) :: entry3d = (/ 'cl  ', 'ua  ', 'ta  ' /)
 
                                 ! My variable names for IPCC Table A1a fields
   CHARACTER (LEN=8), DIMENSION(n2d) :: &
@@ -251,7 +251,7 @@ PROGRAM ipcc_test_code
         
   ipres = cmor_axis(  &
        table='Tables/CMIP6_Amon.json',        &
-       table_entry='plev17',       &
+       table_entry='plev19',       &
        units='Pa',                   &
        length=lev2,                   &
        coord_vals=plevs)

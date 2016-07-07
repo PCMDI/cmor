@@ -58,7 +58,7 @@ def save(opts,threeD=True):
         # Pressure
         plev = np.array([100000, 92500, 85000, 70000, 60000, 50000,
                          40000, 30000, 25000, 20000, 15000, 10000,
-                         7000, 5000, 3000, 2000, 1000])
+                         7000, 5000, 3000, 2000, 1000, 500, 100])
         plev_bounds = np.array([
             [103750, 96250],
             [96250, 88750],
@@ -76,8 +76,10 @@ def save(opts,threeD=True):
             [6000, 4000],
             [4000, 2500],
             [2500, 1500],
-            [1500, 500]])
-        plev_axis_id = cmor.axis(table_entry='plev17',
+            [1500, 750],
+            [750, 300],
+            [300, 0])
+        plev_axis_id = cmor.axis(table_entry='plev19',
                 units='Pa', length=len(plev),
                 coord_vals=plev[:], cell_bounds=plev_bounds[:],
                 interval=None)

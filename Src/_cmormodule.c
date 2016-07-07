@@ -272,12 +272,12 @@ static PyObject *PyCMOR_dataset_json( PyObject * self, PyObject * args ) {
     char *rcfile;
 
     if( !PyArg_ParseTuple( args, "s", &rcfile ) ) {
-        return NULL;
+        return Py_BuildValue( "i", -1);
     }
 
     ierr = cmor_dataset_json( rcfile );
     if( ierr != 0 ) {
-        return NULL;
+        return Py_BuildValue( "i", ierr);
     }
 
     return Py_None;

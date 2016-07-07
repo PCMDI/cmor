@@ -73,6 +73,7 @@ const char CMOR_VALID_CALENDARS[CMOR_N_VALID_CALS][CMOR_MAX_STRING] =
 };
 
 int CMOR_HAS_BEEN_SETUP = 0;
+int CV_ERROR = 0;
 ut_system *ut_read = NULL;
 FILE *output_logfile;
 
@@ -535,7 +536,7 @@ void cmor_handle_error( char error_msg[CMOR_MAX_STRING], int level ) {
 	if( CMOR_VERBOSITY != CMOR_QUIET ) {
 	    
 #ifdef COLOREDOUTPUT
-	    fprintf( output_logfile, "%c[%d;%dm", 0X1B, 2, 34 );
+	    fprintf( output_logfile, "%c[%d;%d;%dm", 0X1B, 2, 34, 47 );
 #endif
 	    
 	    fprintf( output_logfile, "C Traceback:\nIn function: %s",
@@ -593,9 +594,11 @@ void cmor_handle_error( char error_msg[CMOR_MAX_STRING], int level ) {
 	
 	fprintf( output_logfile, "\n\n" );
     }
-    
+
+    CV_ERROR=1;
     if( level == CMOR_NOT_SETUP) {
         exit(1);
+
     }
     if( ( CMOR_MODE == CMOR_EXIT_ON_WARNING )
 	|| ( level == CMOR_CRITICAL ) ) {
@@ -740,8 +743,8 @@ int cmor_setup( char *path,
         }
     } else {
         sprintf( msg,
-                "You are using a wrong version of NetCDF (%s), you need 3.6.3\n! "
-                "or 4.1",
+                "You are using a wrong version of NetCDF (%s), you need \n! "
+                "4.1 or an earlier netCDF release.",
                 nc_inq_libvers( ) );
         cmor_handle_error( msg, CMOR_CRITICAL );
     }
@@ -1188,8 +1191,6 @@ int cmor_dataset_json(char * ressource){
 
     json_obj = cmor_open_inpathFile(ressource);
     if(json_obj == NULL) {
-        cmor_handle_error( "JSON resource file not found", CMOR_CRITICAL );
-        cmor_pop_traceback();
         return( 1 );
     }
     cmor_set_cur_dataset_attribute_internal(CMOR_INPUTFILENAME, ressource, 1);
@@ -1332,7 +1333,7 @@ int cmor_set_cur_dataset_attribute_internal(char *name, char *value,
 
     if ((int) strlen(name) > CMOR_MAX_STRING) {
         snprintf(msg, CMOR_MAX_STRING,
-                "CMOR Dataset error, attribute name: %s; length (%i) is "
+                "Dataset error, attribute name: %s; length (%i) is "
                 "greater than limit: %i",
                 name, (int) strlen(name), CMOR_MAX_STRING);
         cmor_handle_error(msg, CMOR_NORMAL);
@@ -1346,7 +1347,7 @@ int cmor_set_cur_dataset_attribute_internal(char *name, char *value,
             return( 0 );
         } else {
             snprintf(msg, CMOR_MAX_STRING,
-                    "CMOR Dataset error, required attribute %s was not "
+                    "Dataset error, required attribute %s was not "
                     "passed or blanked",
                     name);
             cmor_handle_error(msg, CMOR_CRITICAL);
@@ -1376,10 +1377,29 @@ int cmor_set_cur_dataset_attribute_internal(char *name, char *value,
         return( 1 );
     }
 
-    strncpy(cmor_current_dataset.attributes[n].names, msg, CMOR_MAX_STRING);
-    cmor_trim_string(value, msg);
-    strncpytrim(cmor_current_dataset.attributes[n].values, msg, CMOR_MAX_STRING);
-    cmor_current_dataset.nattributes += 1;
+    if(strcmp(msg, FILE_PATH_TEMPLATE ) == 0 ){
+        cmor_trim_string(value, msg);
+        strncpytrim( cmor_current_dataset.path_template,
+                    msg,
+                    CMOR_MAX_STRING );
+    } else if(strcmp(msg, FILE_NAME_TEMPLATE) == 0 ){
+        cmor_trim_string(value, msg);
+        strncpytrim( cmor_current_dataset.file_template,
+                    msg,
+                    CMOR_MAX_STRING );
+
+    } else if(strcmp(msg, GLOBAL_ATT_FURTHERINFOURLTMPL) == 0 ){
+        cmor_trim_string(value, msg);
+        strncpytrim( cmor_current_dataset.furtherinfourl,
+                    msg,
+                    CMOR_MAX_STRING );
+    } else {
+        strncpy(cmor_current_dataset.attributes[n].names, msg, CMOR_MAX_STRING);
+        cmor_trim_string(value, msg);
+        strncpytrim(cmor_current_dataset.attributes[n].values, msg,
+                CMOR_MAX_STRING);
+        cmor_current_dataset.nattributes += 1;
+    }
     cmor_pop_traceback();
     return( 0 );
 }
@@ -1396,7 +1416,7 @@ int cmor_get_cur_dataset_attribute( char *name, char *value ) {
     cmor_is_setup(  );
     if( strlen( name ) > CMOR_MAX_STRING ) {
 	snprintf( msg, CMOR_MAX_STRING,
-		  "CMOR Dataset: %s length is greater than limit: %i",
+		  "Dataset: %s length is greater than limit: %i",
 		  name, CMOR_MAX_STRING );
 	cmor_handle_error( msg, CMOR_NORMAL );
 	cmor_pop_traceback(  );
@@ -1409,7 +1429,7 @@ int cmor_get_cur_dataset_attribute( char *name, char *value ) {
     }
     if( n == -1 ) {
 	snprintf( msg, CMOR_MAX_STRING,
-		  "CMOR Dataset: current dataset does not have attribute : %s",
+		  "Dataset: current dataset does not have attribute : %s",
 		  name );
 	cmor_handle_error( msg, CMOR_NORMAL );
 	cmor_pop_traceback(  );
@@ -1437,7 +1457,7 @@ int cmor_has_cur_dataset_attribute( char *name ) {
     cmor_is_setup(  );
     if( ( int ) strlen( name ) > CMOR_MAX_STRING ) {
 	snprintf( msg, CMOR_MAX_STRING,
-		  "CMOR Dataset: attribute name (%s) length\n! "
+		  "Dataset: attribute name (%s) length\n! "
 	          "(%i) is greater than limit: %i",
 		  name, ( int ) strlen( name ), CMOR_MAX_STRING );
 	cmor_handle_error( msg, CMOR_NORMAL );
@@ -1464,6 +1484,7 @@ int  cmor_outpath_exist(char *outpath) {
     struct stat buf;
     char msg[CMOR_MAX_STRING];
     FILE *test_file = NULL;
+    int ierr;
 
     cmor_add_traceback( "cmor_outpath_exist" );
     cmor_is_setup(  );
@@ -1491,7 +1512,7 @@ int  cmor_outpath_exist(char *outpath) {
 
         }
 /* -------------------------------------------------------------------- */
-/*      ok if not root then test permssions                             */
+/*      ok if not root then test permissions                            */
 /* -------------------------------------------------------------------- */
         if( getuid(  ) != 0 ) {
             strcpy( msg, cmor_current_dataset.outpath );
@@ -1515,11 +1536,23 @@ int  cmor_outpath_exist(char *outpath) {
     } else if( errno == ENOENT ) {
         sprintf( msg,
                  "You defined your output directory to be: '%s', but this\n! "
-                "directory does not exist",
+                "directory does not exist. CMOR will create it!",
                  cmor_current_dataset.outpath );
-        cmor_handle_error( msg, CMOR_CRITICAL );
-        cmor_pop_traceback(  );
-        return(1);
+        cmor_handle_error( msg, CMOR_WARNING );
+/* -------------------------------------------------------------------- */
+/* Create directory with 755 permission for user                        */
+/* -------------------------------------------------------------------- */
+        ierr = mkdir(cmor_current_dataset.outpath, S_IRWXU | S_IRGRP | S_IXGRP |
+                                                   S_IROTH | S_IXOTH);
+        if( ierr != 0 ) {
+            sprintf( msg,
+                    "CMOR was unable to create this directory %s\n! "
+                    "You do not have write permissions!",
+                    cmor_current_dataset.outpath );
+            cmor_handle_error( msg, CMOR_CRITICAL );
+            cmor_pop_traceback(  );
+            return(1);
+        }
 
 
     } else if( errno == EACCES ) {
@@ -1530,6 +1563,7 @@ int  cmor_outpath_exist(char *outpath) {
         cmor_handle_error( msg, CMOR_CRITICAL );
         cmor_pop_traceback(  );
         return(1);
+
 
     }
     cmor_pop_traceback(  );
@@ -2706,6 +2740,7 @@ void cmor_setGblAttr(int var_id) {
         cmor_CV_checkExperiment(cmor_tables[nVarRefTblID].CV);
         cmor_CV_checkGrids(cmor_tables[nVarRefTblID].CV);
         cmor_CV_checkFurtherInfoURL(var_id);
+
     }
 
     cmor_CV_checkGblAttributes(cmor_tables[nVarRefTblID].CV);
@@ -4103,10 +4138,10 @@ int cmor_write( int var_id, void *data, char type,
         }
 
 	if( CMOR_CREATE_SUBDIRECTORIES == 1 ) {
-	    cmor_CreateFromTemplate(var_id, szPathTemplate,
+	    cmor_CreateFromTemplate(nVarRefTblID, szPathTemplate,
 	                                outname, "/");
 	} else {
-	    cmor_CreateFromTemplate( var_id, szPathTemplate, msg, "/");
+	    cmor_CreateFromTemplate( nVarRefTblID, szPathTemplate, msg, "/");
 	}
 	ierr = cmor_mkdir(outname);
         if( (ierr != 0) && (errno != EEXIST ) ) {
@@ -4137,7 +4172,7 @@ int cmor_write( int var_id, void *data, char type,
 /* -------------------------------------------------------------------- */
 /*    Create/Save filename                                              */
 /* -------------------------------------------------------------------- */
-	ierr = cmor_CreateFromTemplate(var_id,
+	ierr = cmor_CreateFromTemplate(nVarRefTblID,
 	        cmor_current_dataset.file_template,
 	        outname, "_");
 
@@ -4990,18 +5025,16 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
 /************************************************************************/
 /*                    cmor_CreateFromTemplate()                         */
 /************************************************************************/
-int cmor_CreateFromTemplate(int var_id, char *template,
+int cmor_CreateFromTemplate(int nVarRefTblID, char *template,
                             char *szJoin, char *separator ){
     char *szToken;
     char *szFirstItem;
     char tmp[CMOR_MAX_STRING];
     char path_template[CMOR_MAX_STRING];
     cmor_table_t *pTable;
-    cmor_var_t *pVariable;
     int rc;
 
-    pTable = &cmor_tables[cmor_vars[var_id].ref_table_id];
-    pVariable = &cmor_vars[var_id];
+    pTable = &cmor_tables[nVarRefTblID];
 
     cmor_add_traceback( "cmor_CreateFromTemplate" );
     cmor_is_setup();
@@ -5051,9 +5084,8 @@ int cmor_CreateFromTemplate(int var_id, char *template,
                 return(rc);
             }
             strcat(szJoin, separator);
-
         } else if(strcmp(szToken, GLOBAL_ATT_VARIABLE_ID) == 0) {
-            strncat(szJoin, pVariable->id, CMOR_MAX_STRING);
+            strncat(szJoin, szToken, CMOR_MAX_STRING);
             strcat(szJoin, separator);
         // check if attribute start with '_"
         } else {

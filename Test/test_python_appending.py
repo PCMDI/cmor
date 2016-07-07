@@ -48,14 +48,14 @@ def mywrite(data = None, time_vals = None, append_to = None,cell_bounds=None):
 
     plevs = numpy.array([100000., 92500., 85000., 70000.,
                          60000., 50000., 40000., 30000., 25000., 20000.,
-                         15000., 10000., 7000., 5000., 3000., 2000., 1000.])
+                         15000., 10000., 7000., 5000., 3000., 2000., 1000., 500., 100.])
 
     itim = cmor.axis(table_entry='time',units='month since 2008')
     #itim = cmor.axis(table_entry='time',units='month since 2008',coord_vals=numpy.arange(0,12,1))
     ilat = cmor.axis(table_entry='latitude',coord_vals=lats,units='degrees_north',cell_bounds=bnds_lat)
     ilon = cmor.axis(table_entry='longitude',coord_vals=lons,units='degrees_east',cell_bounds=bnds_lon)
     print 'so far',itim,ilat,ilon
-    ilev = cmor.axis(table_entry="plev17",coord_vals=plevs,units="Pa")
+    ilev = cmor.axis(table_entry="plev19",coord_vals=plevs,units="Pa")
 
     iv = cmor.variable(table_entry='ta',axis_ids=numpy.array((itim,ilev,ilat,ilon)),units='K')
 
@@ -75,7 +75,7 @@ def mywrite(data = None, time_vals = None, append_to = None,cell_bounds=None):
 
 
 ntime = 12
-data = numpy.random.random((ntime,17,nlat,nlon))+280.
+data = numpy.random.random((ntime,19,nlat,nlon))+280.
 
 
 f1 = mywrite(data = data[:6], time_vals = numpy.arange(0,6,1),cell_bounds=numpy.arange(0,7,1))

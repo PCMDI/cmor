@@ -46,7 +46,12 @@ int cmor_get_original_shape_cff_( int *var_id, int *shape_array ) {
     return 0;
 }
 
-
+/************************************************************************/
+/*                  cmor_set_cur_dset_attribute_cff_()                  */
+/************************************************************************/
+int cmor_set_cur_dset_attribute_cff_( char *name, char *value, int option ) {
+    return(cmor_set_cur_dataset_attribute( name, value, option));
+}
 /************************************************************************/
 /*                  cmor_get_cur_dset_attribute_cff_()                  */
 /************************************************************************/

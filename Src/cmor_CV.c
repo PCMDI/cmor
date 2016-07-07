@@ -93,7 +93,7 @@ void cmor_CV_init( cmor_CV_def_t *CV, int table_id ) {
     int i;
 
     cmor_is_setup(  );
-    cmor_add_traceback("cmor_init_CV_def");
+    cmor_add_traceback("_init_CV_def");
     CV->table_id = table_id;
     CV->type = CV_undef;  //undefined
     CV->nbObjects = -1;
@@ -188,7 +188,7 @@ cmor_CV_def_t *cmor_CV_search_child_key(cmor_CV_def_t *CV, char *key){
     int i;
     cmor_CV_def_t *searchCV;
     int nbCVs = -1;
-    cmor_add_traceback("cmor_CV_search_child_key");
+    cmor_add_traceback("_CV_search_child_key");
 
     nbCVs = CV->nbObjects;
 
@@ -219,7 +219,7 @@ cmor_CV_def_t *cmor_CV_search_child_key(cmor_CV_def_t *CV, char *key){
 cmor_CV_def_t * cmor_CV_rootsearch(cmor_CV_def_t *CV, char *key){
     int i;
     int nbCVs = -1;
-    cmor_add_traceback("cmor_CV_rootsearch");
+    cmor_add_traceback("_CV_rootsearch");
 
     // Look at first objects
     if(strcmp(CV->key, key)== 0){
@@ -301,6 +301,9 @@ void cmor_CV_checkFurtherInfoURL(int var_id){
     char copyURL[CMOR_MAX_STRING];
     char szFurtherInfoBaseURL[CMOR_MAX_STRING];
     char szFurtherInfoFileURL[CMOR_MAX_STRING];
+    char szValue[CMOR_MAX_STRING];
+    char msg[CMOR_MAX_STRING];
+    char CV_Filename[CMOR_MAX_STRING];
 
     char *baseURL;
     char *fileURL;
@@ -309,6 +312,7 @@ void cmor_CV_checkFurtherInfoURL(int var_id){
     szFurtherInfoURL[0]='\0';
     szFurtherInfoFileURL[0]='\0';
     szFurtherInfoBaseURL[0]='\0';
+    cmor_add_traceback("_CV_checkFurtherInfoURL");
 
 /* -------------------------------------------------------------------- */
 /* Retrieve default Further URL info                                    */
@@ -343,11 +347,38 @@ void cmor_CV_checkFurtherInfoURL(int var_id){
     strcat(szFurtherInfoURL, "/");
     strncat(szFurtherInfoURL, szFurtherInfoFileURL, strlen(szFurtherInfoFileURL));
 
+    if(cmor_has_cur_dataset_attribute(GLOBAL_ATT_FURTHERINFOURL) == 0) {
+        cmor_get_cur_dataset_attribute(GLOBAL_ATT_FURTHERINFOURL, szValue );
+        if( strncmp(szFurtherInfoURL, szValue, CMOR_MAX_STRING) != 0) {
+            cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
+            snprintf( msg, CMOR_MAX_STRING,
+                    "The further info in attribute does not match "
+                    "the one created by CMIP6. \n! "
+                    "We found \"%s\" and \n! "
+                    "CMIP6 requires \"%s\" \n! "
 
+                    "Check your Control Vocabulary file \"%s\".\n! ",
+                    szValue,
+                    szFurtherInfoURL,
+                    CV_Filename);
+
+            cmor_handle_error( msg, CMOR_WARNING );
+            cmor_pop_traceback(  );
+
+        }
+
+    }
     cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_FURTHERINFOURL,
             szFurtherInfoURL, 0);
+    cmor_pop_traceback( );
 }
 
+/************************************************************************/
+/*                            get_CV_Error()                            */
+/************************************************************************/
+int get_CV_Error(){
+    return(CV_ERROR);
+}
 /************************************************************************/
 /*                      cmor_CV_checkSourceType()                       */
 /************************************************************************/
@@ -368,6 +399,13 @@ void cmor_CV_checkSourceType(cmor_CV_def_t *CV_exp, char *szExptID){
     int nbSourceType;
     char *ptr;
     int nbGoodType=0;
+    cmor_add_traceback("_CV_checkSourceType");
+
+    szAddSourceType[0] = '\0';
+    szReqSourceType[0] = '\0';
+    szAddSourceTypeCpy[0] = '\0';
+    szReqSourceTypeCpy[0] = '\0';
+    szSourceType[0] = '\0';
 
     cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
 
@@ -390,36 +428,38 @@ void cmor_CV_checkSourceType(cmor_CV_def_t *CV_exp, char *szExptID){
         }
 
     }
-    if(cmor_has_cur_dataset_attribute(GLOBAL_ATT_SOURCE_TYPE) == 0) {
+    if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_SOURCE_TYPE) == 0) {
         cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE_TYPE, szSourceType);
-    }
-    // Count how many are token  we have.
-    ptr= szSourceType;
-    if( szSourceType[0] != '\0') {
-      nbSourceType = 1;
-    } else {
-        return;
-    }
-    while((ptr = strpbrk(ptr, " ")) != NULL) {
-        nbSourceType++;
-        ptr++;
+
+        // Count how many are token  we have.
+        ptr = szSourceType;
+        if (szSourceType[0] != '\0') {
+            nbSourceType = 1;
+        } else {
+            cmor_pop_traceback();
+            return;
+        }
+        while ((ptr = strpbrk(ptr, " ")) != NULL) {
+            nbSourceType++;
+            ptr++;
+        }
     }
 
     szTokenRequired = strtok(szReqSourceType, " ");
-    while( szTokenRequired != NULL ) {
-        if( strstr(szSourceType, szTokenRequired) == NULL ) {
 
-            snprintf( msg, CMOR_MAX_STRING,
+    while(szTokenRequired != NULL) {
+        if(strstr(szSourceType, szTokenRequired) == NULL) {
+
+            snprintf(msg, CMOR_MAX_STRING,
                     "The following source type(s) \"%s\" are required and\n! "
-                    "some source type(s) could not be found in your input file. \n! "
-                    "Your file contains a source type of \"%s\".\n! "
-                    "Check your Control Vocabulary file \"%s\".\n! ",
-                    szReqSourceTypeCpy,
-                    szSourceType,
-                    CV_Filename);
+                            "some source type(s) could not be found in your "
+                            "input file. \n! "
+                            "Your file contains a source type of \"%s\".\n! "
+                            "Check your Control Vocabulary file \"%s\".\n! ",
+                    szReqSourceTypeCpy, szSourceType, CV_Filename);
 
-            cmor_handle_error( msg, CMOR_CRITICAL );
-            cmor_pop_traceback(  );
+            cmor_handle_error(msg, CMOR_CRITICAL);
+            cmor_pop_traceback();
             return;
         } else {
             nbGoodType++;
@@ -428,37 +468,35 @@ void cmor_CV_checkSourceType(cmor_CV_def_t *CV_exp, char *szExptID){
     }
 
     szTokenAdd = strtok(szAddSourceType, " ");
-    while( szTokenAdd != NULL ) {
-        if(strcmp(szTokenAdd, "CHEM") == 0){
-            if( strstr(szSourceType, szTokenAdd) != NULL) {
+    while (szTokenAdd != NULL) {
+        if (strcmp(szTokenAdd, "CHEM") == 0) {
+            if (strstr(szSourceType, szTokenAdd) != NULL) {
                 nbGoodType++;
             }
-        } else if(strcmp(szTokenAdd, "AER") == 0){
-            if( strstr(szSourceType, szTokenAdd) != NULL) {
+        } else if (strcmp(szTokenAdd, "AER") == 0) {
+            if (strstr(szSourceType, szTokenAdd) != NULL) {
                 nbGoodType++;
             }
-        } else if( strstr(szSourceType, szTokenAdd) != NULL) {
+        } else if (strstr(szSourceType, szTokenAdd) != NULL) {
             nbGoodType++;
         }
-        szTokenAdd= strtok(NULL, " ");
+        szTokenAdd = strtok(NULL, " ");
     }
 
-    if( nbGoodType != nbSourceType ) {
-        snprintf( msg, CMOR_MAX_STRING,
+    if (nbGoodType != nbSourceType) {
+        snprintf(msg, CMOR_MAX_STRING,
                 "You source_type attribute contains invalid source types\n! "
-                "Your source type is set to \"%s\".  The required source types\n! "
-                "are \"%s\" and possible additional source types are \"%s\" \n! "
-                "Check your Control Vocabulary file \"%s\".\n! %d, %d",
-                szSourceType,
-                szReqSourceTypeCpy,
-                szAddSourceTypeCpy,
-
+                        "Your source type is set to \"%s\".  The required source types\n! "
+                        "are \"%s\" and possible additional source types are \"%s\" \n! "
+                        "Check your Control Vocabulary file \"%s\".\n! %d, %d",
+                szSourceType, szReqSourceTypeCpy, szAddSourceTypeCpy,
                 CV_Filename, nbGoodType, nbSourceType);
-
-        cmor_handle_error( msg, CMOR_CRITICAL );
-        cmor_pop_traceback(  );
-        return;
+        cmor_handle_error(msg, CMOR_CRITICAL);
     }
+
+    cmor_pop_traceback(  );
+    return;
+
 
 }
 /************************************************************************/
@@ -476,8 +514,8 @@ void cmor_CV_checkSourceID(cmor_CV_def_t *CV){
     int rc;
     int i;
 
-    cmor_add_traceback("cmor_CV_checkSourceID");
-
+    cmor_is_setup(  );
+    cmor_add_traceback("_CV_checkSourceID");
     cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
 /* -------------------------------------------------------------------- */
 /*  Find experiment_ids dictionary in Control Vocabulary                */
@@ -542,8 +580,9 @@ void cmor_CV_checkSourceID(cmor_CV_def_t *CV){
                 "The source_id, \"%s\",  which you specified in your \n! "
                 "input file could not be found in \n! "
                 "your Controlled Vocabulary file. (%s) \n! \n! "
-                "Please correct your input file or contact ???? to register\n! "
-                "a new source.  See ???? for further information about. ",
+                "Please correct your input file or contact "
+                "cmor@listserv.llnl.gov to register\n! "
+                "a new source.   ",
                 szSource_ID, CV_Filename);
 
         cmor_handle_error(msg, CMOR_CRITICAL);
@@ -574,8 +613,7 @@ void cmor_CV_checkExperiment( cmor_CV_def_t *CV){
     int nObjects;
     int i;
 
-    cmor_add_traceback("cmor_CV_checkExperiment");
-
+    cmor_add_traceback("_CV_checkExperiment");
     cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
     cmor_get_cur_dataset_attribute(GLOBAL_ATT_EXPERIMENTID, szExperiment_ID);
 /* -------------------------------------------------------------------- */
@@ -587,10 +625,11 @@ void cmor_CV_checkExperiment( cmor_CV_def_t *CV){
 
     if(CV_experiment == NULL){
         snprintf( msg, CMOR_MAX_STRING,
-                "Your experiment_id \"%s\" defined in your input JSON file\n! "
+                "Your experiment_id \"%s\" defined in your input file\n! "
                 "could not be found in your Control Vocabulary file.(%s)\n! ",
                 szExperiment_ID,
                 CV_Filename);
+
         cmor_handle_error( msg, CMOR_CRITICAL );
         cmor_pop_traceback(  );
         return;
@@ -606,6 +645,7 @@ void cmor_CV_checkExperiment( cmor_CV_def_t *CV){
             cmor_CV_checkSourceType(CV_experiment, szExperiment_ID);
             continue;
         }
+
         // Warn user if experiment value from input file is different than
         // Control Vocabulary value.
         // experiment from Control Vocabulary will replace User entry value.
@@ -632,6 +672,7 @@ void cmor_CV_checkExperiment( cmor_CV_def_t *CV){
                 CV_experiment_attr->szValue,1);
     }
     cmor_pop_traceback();
+
     return;
 }
 
@@ -650,7 +691,7 @@ void cmor_CV_setInstitution( cmor_CV_def_t *CV){
     char CV_Filename[CMOR_MAX_STRING];
     int rc;
 
-    cmor_add_traceback("cmor_CV_setInstitution");
+    cmor_add_traceback("_CV_setInstitution");
 /* -------------------------------------------------------------------- */
 /*  Find current Insitution ID                                          */
 /* -------------------------------------------------------------------- */
@@ -674,11 +715,13 @@ void cmor_CV_setInstitution( cmor_CV_def_t *CV){
 
     if(CV_institution == NULL){
         snprintf( msg, CMOR_MAX_STRING,
-                "The institution_id, \"%s\",  which you specified in your \n! "
+                "The institution_id, \"%s\",  found in your \n! "
                 "input file (%s) could not be found in \n! "
                 "your Controlled Vocabulary file. (%s) \n! \n! "
-                "Please correct your input file or contact ???? to register\n! "
-                "a new institution_id.  See ???? for further information about\n! "
+                "Please correct your input file or contact "
+                "\"cmor@listserv.llnl.gov\" to register\n! "
+                "a new institution_id.  \n! \n! "
+                "See \"http://cmor.llnl.gov/mydoc_cmor3_CV/\" for further information about\n! "
                 "the \"institution_id\" and \"institution\" global attributes.  " ,
                 szInstitution_ID, CMOR_Filename, CV_Filename);
         cmor_handle_error( msg, CMOR_CRITICAL );
@@ -751,7 +794,7 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t *CV, char *szKey){
     int reti;
     int ierr;
 
-    cmor_add_traceback( "cmor_CV_ValidateAttribute" );
+    cmor_add_traceback( "_CV_ValidateAttribute" );
 
     szValids[0] = '\0';
     szOutput[0] = '\0';
@@ -837,7 +880,7 @@ void cmor_CV_checkGrids(cmor_CV_def_t *CV) {
     cmor_CV_def_t *CV_obj_gridres;
     int i;
 
-    cmor_add_traceback( "cmor_CV_checkGrids" );
+    cmor_add_traceback( "_CV_checkGrids" );
 
     rc = cmor_has_cur_dataset_attribute( GLOBAL_ATT_GRID_LABEL );
     if( rc == 0 ) {
@@ -918,7 +961,7 @@ void cmor_CV_checkGblAttributes( cmor_CV_def_t *CV ) {
     int rc;
     char msg[CMOR_MAX_STRING];
     int bCriticalError = FALSE;
-    cmor_add_traceback( "cmor_CV_checkGblAttributes" );
+    cmor_add_traceback( "_CV_checkGblAttributes" );
     required_attrs = cmor_CV_rootsearch(CV, CV_KEY_REQUIRED_GBL_ATTRS);
     if( required_attrs != NULL) {
         for(i=0; i< required_attrs->anElements; i++) {
@@ -926,9 +969,9 @@ void cmor_CV_checkGblAttributes( cmor_CV_def_t *CV ) {
             if( rc != 0) {
                 snprintf( msg, CMOR_MAX_STRING,
                           "Your Control Vocabulary file specifies one or more\n! "
-                          "required attributes.  CMOR found that the following\n! "
+                          "required attributes.  The following\n! "
                           "attribute was not properly set.\n! \n! "
-                          "Please set attribute: \"%s\" in your input JSON file.",
+                          "Please set attribute: \"%s\" in your input file.",
                           required_attrs->aszValue[i] );
                 cmor_handle_error( msg, CMOR_NORMAL );
                 bCriticalError = TRUE;
@@ -962,8 +1005,9 @@ int cmor_CV_set_entry(cmor_table_t* table,
     cmor_table_t *cmor_table;
     cmor_table = &cmor_tables[cmor_ntables];
 
-    cmor_add_traceback("cmor_CV_set_entry");
     cmor_is_setup();
+
+    cmor_add_traceback("_CV_set_entry");
 /* -------------------------------------------------------------------- */
 /* CV 0 contains number of objects                                      */
 /* -------------------------------------------------------------------- */
@@ -1046,3 +1090,184 @@ void cmor_CV_checkISOTime(char *szAttribute) {
     cmor_pop_traceback(  );
     return;
 }
+
+
+
+/************************************************************************/
+/*                         cmor_CV_variable()                           */
+/************************************************************************/
+int cmor_CV_variable( int *var_id, char *name, char *units, float *missing ) {
+
+    int vrid=-1;
+    int i;
+    int iref;
+    char msg[CMOR_MAX_STRING];
+    char ctmp[CMOR_MAX_STRING];
+    cmor_var_def_t refvar;
+
+    cmor_is_setup(  );
+
+    cmor_add_traceback( "cmor_CV_variable" );
+
+    if( CMOR_TABLE == -1 ) {
+        cmor_handle_error( "You did not define a table yet!",
+                           CMOR_CRITICAL );
+    }
+
+/* -------------------------------------------------------------------- */
+/*      ok now look which variable is corresponding in table if not     */
+/*      found then error                                                */
+/* -------------------------------------------------------------------- */
+    iref = -1;
+    cmor_trim_string( name, ctmp );
+    for( i = 0; i < cmor_tables[CMOR_TABLE].nvars + 1; i++ ) {
+        if( strcmp( cmor_tables[CMOR_TABLE].vars[i].id, ctmp ) == 0 ) {
+            iref = i;
+            break;
+        }
+    }
+/* -------------------------------------------------------------------- */
+/*      ok now look for out_name to see if we can it.                   */
+/* -------------------------------------------------------------------- */
+
+    if (iref == -1) {
+        for (i = 0; i < cmor_tables[CMOR_TABLE].nvars + 1; i++) {
+            if (strcmp(cmor_tables[CMOR_TABLE].vars[i].out_name, ctmp) == 0) {
+                iref = i;
+                break;
+            }
+        }
+    }
+
+    if( iref == -1 ) {
+        snprintf( msg, CMOR_MAX_STRING,
+                  "Could not find a matching variable for name: '%s'",
+                  ctmp );
+        cmor_handle_error( msg, CMOR_CRITICAL );
+    }
+
+    refvar = cmor_tables[CMOR_TABLE].vars[iref];
+    for( i = 0; i < CMOR_MAX_VARIABLES; i++ ) {
+        if( cmor_vars[i].self == -1 ) {
+            vrid = i;
+            break;
+        }
+    }
+
+
+    cmor_vars[vrid].ref_table_id = CMOR_TABLE;
+    cmor_vars[vrid].ref_var_id = iref;
+
+/* -------------------------------------------------------------------- */
+/*      init some things                                                */
+/* -------------------------------------------------------------------- */
+
+    strcpy( cmor_vars[vrid].suffix, "" );
+    strcpy( cmor_vars[vrid].base_path, "" );
+    strcpy( cmor_vars[vrid].current_path, "" );
+    cmor_vars[vrid].suffix_has_date = 0;
+
+/* -------------------------------------------------------------------- */
+/*      output missing value                                            */
+/* -------------------------------------------------------------------- */
+
+    cmor_vars[vrid].omissing =
+        ( double ) cmor_tables[CMOR_TABLE].missing_value;
+
+/* -------------------------------------------------------------------- */
+/*      copying over values from ref var                                */
+/* -------------------------------------------------------------------- */
+
+    cmor_vars[vrid].valid_min = refvar.valid_min;
+    cmor_vars[vrid].valid_max = refvar.valid_max;
+    cmor_vars[vrid].ok_min_mean_abs = refvar.ok_min_mean_abs;
+    cmor_vars[vrid].ok_max_mean_abs = refvar.ok_max_mean_abs;
+    cmor_vars[vrid].shuffle = refvar.shuffle;
+    cmor_vars[vrid].deflate = refvar.deflate;
+    cmor_vars[vrid].deflate_level = refvar.deflate_level;
+
+    if (refvar.out_name[0] == '\0') {
+        strncpy(cmor_vars[vrid].id, name, CMOR_MAX_STRING);
+    } else {
+        strncpy(cmor_vars[vrid].id, refvar.out_name, CMOR_MAX_STRING);
+    }
+
+    cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_STANDARDNAME, 'c',
+            refvar.standard_name);
+
+    cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_LONGNAME, 'c',
+            refvar.long_name);
+
+    if ((refvar.flag_values != NULL) && (refvar.flag_values[0] != '\0')) {
+        cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_FLAGVALUES, 'c',
+                refvar.flag_values);
+    }
+    if ((refvar.flag_meanings != NULL) && (refvar.flag_meanings[0] != '\0')) {
+
+        cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_FLAGMEANINGS,
+                'c', refvar.flag_meanings);
+    }
+
+    cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_COMMENT, 'c',
+            refvar.comment);
+
+    if (strcmp(refvar.units, "?") == 0) {
+        strncpy(cmor_vars[vrid].ounits, units, CMOR_MAX_STRING);
+    } else {
+        strncpy(cmor_vars[vrid].ounits, refvar.units, CMOR_MAX_STRING);
+    }
+
+    if (refvar.type != 'c') {
+        cmor_set_variable_attribute_internal(vrid,
+                VARIABLE_ATT_UNITS,
+                'c',
+                cmor_vars[vrid].ounits);
+    }
+
+    strncpy(cmor_vars[vrid].iunits, units, CMOR_MAX_STRING);
+
+    cmor_set_variable_attribute_internal( vrid, VARIABLE_ATT_CELLMETHODS,
+            'c',
+            refvar.cell_methods );
+
+    cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_CELLMEASURES, 'c',
+            refvar.cell_measures);
+
+    if (refvar.positive == 'u') {
+        if (cmor_is_required_variable_attribute(refvar, VARIABLE_ATT_POSITIVE)
+                == 0) {
+
+            cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_POSITIVE,
+                    'c', "up");
+
+        }
+
+    } else if (refvar.positive == 'd') {
+        if (cmor_is_required_variable_attribute(refvar, VARIABLE_ATT_POSITIVE)
+                == 0) {
+
+            cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_POSITIVE,
+                    'c', "down");
+
+        }
+    }
+
+    if( refvar.type == '\0' ) {
+        cmor_vars[vrid].type = 'f';
+    }
+    else {
+        cmor_vars[vrid].type = refvar.type;
+    }
+
+
+
+    cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_MISSINGVALUES,
+                'f', missing);
+    cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_FILLVAL, 'f',
+            missing);
+
+    cmor_vars[vrid].self = vrid;
+    *var_id = vrid;
+    cmor_pop_traceback(  );
+    return( 0 );
+};

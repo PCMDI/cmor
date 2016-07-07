@@ -2,7 +2,6 @@
 "CV": {
     "required_global_attributes": 
         [
-        "variant_label",
         "activity_id",
         "branch_method",
         "Conventions",
@@ -174,7 +173,7 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM AER CHEM",
-                               "additional_source_type":    ""
+                               "additional_source_type":    "BGM"
 
                           },
 
@@ -184,7 +183,7 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM AER",
-                               "additional_source_type":    "CHEM"
+                               "additional_source_type":    "CHEM BGM"
 
                           },
 
@@ -194,7 +193,7 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM AER CHEM",
-                               "additional_source_type":    ""
+                               "additional_source_type":    "BGM"
 
                           },
 
@@ -264,17 +263,7 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER CHEM",
-                               "additional_source_type":    ""
-
-                          },
-
-        "ssp370": {
-                               "experiment":                "Gap-filling scenario reaching 7.0 based on SSP3",
-                               "sub_experiment_id":         "none",
-                               "activity_id":               "ScenarioMIP AerChemMIP",
-                               "mip_era":                   "CMIP6",
-                               "source_type":               "AOGCM AER",
-                               "additional_source_type":    "CHEM"
+                               "additional_source_type":    "BGM"
 
                           },
 
@@ -284,7 +273,7 @@
                                "activity_id":               "AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM AER",
-                               "additional_source_type":    "CHEM"
+                               "additional_source_type":    "CHEM BGM"
 
                           },
 
@@ -348,20 +337,10 @@
 
                           },
 
-        "ssp370SST-lowLu": {
-                               "experiment":                "SSP3-7.0, prescribed SSTs, with low land-use change",
+        "ssp370SST-ssp126Lu": {
+                               "experiment":                "SSP3-7.0, prescribed SSTs, with SSP1-2.6 land use",
                                "sub_experiment_id":         "none",
                                "activity_id":               "AerChemMIP",
-                               "mip_era":                   "CMIP6",
-                               "source_type":               "AGCM AER",
-                               "additional_source_type":    "CHEM"
-
-                          },
-
-        "piClim-control": {
-                               "experiment":                "pre-industrial with prescribed climatological SSTs",
-                               "sub_experiment_id":         "none",
-                               "activity_id":               "RFMIP, AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM AER",
                                "additional_source_type":    "CHEM"
@@ -524,7 +503,7 @@
                                "activity_id":               "C4MIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM BGM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
@@ -534,7 +513,7 @@
                                "activity_id":               "C4MIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM BGM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
@@ -544,7 +523,7 @@
                                "activity_id":               "C4MIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM BGM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
@@ -554,7 +533,7 @@
                                "activity_id":               "C4MIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM BGM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
@@ -564,257 +543,277 @@
                                "activity_id":               "C4MIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM BGM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
         "esm-ssp585": {
-                               "experiment":                "update of emission-driven RCP8.5 based on SSP5",
+                               "experiment":                "emission-driven RCP8.5 based on SSP5",
                                "sub_experiment_id":         "none",
                                "activity_id":               "C4MIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "ESM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
         "ssp585-bgc": {
-                               "experiment":                "biogeochemically-coupled version of the updated emission-driven RCP8.5 based on SSP5",
+                               "experiment":                "biogeochemically-coupled version of the RCP8.5 based on SSP5",
                                "sub_experiment_id":         "none",
                                "activity_id":               "C4MIP",
                                "mip_era":                   "CMIP6",
-                               "source_type":               "ESM",
-                               "additional_source_type":    "CHEM AER"
+                               "source_type":               "AOGCM BGM",
+                               "additional_source_type":    "AER CHEM"
+
+                          },
+
+        "ssp585-over-bgc": {
+                               "experiment":                "biogeochemically-coupled version of the RCP3.4-overshoot based on SSP5",
+                               "sub_experiment_id":         "none",
+                               "activity_id":               "C4MIP",
+                               "mip_era":                   "CMIP6",
+                               "source_type":               "AOGCM BGM",
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
         "abrupt-0p5xCO2": {
-                               "experiment":                "",
+                               "experiment":                "abrupt halving of CO2",
                                "sub_experiment_id":         "none",
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER BGM"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
         "abrupt-2xCO2": {
-                               "experiment":                "",
+                               "experiment":                "abrupt doubling of CO2",
                                "sub_experiment_id":         "none",
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
         "abrupt-solm4p": {
-                               "experiment":                "",
+                               "experiment":                "abrupt 4% decrease in solar constant",
                                "sub_experiment_id":         "none",
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
-                               "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "source_type":               "AGCM",
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
         "abrupt-solp4p": {
-                               "experiment":                "",
+                               "experiment":                "abrupt 4% increase in solar constant",
                                "sub_experiment_id":         "none",
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
-                               "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "source_type":               "AGCM",
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
         "amip-p4K": {
-                               "experiment":                "AMIP plus 4K SSTs",
+                               "experiment":                "AMIP with uniform 4K SST increase",
                                "sub_experiment_id":         "none",
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
         "amip-4xCO2": {
-                               "experiment":                "control SSTs with 4xCO2",
+                               "experiment":                "AMIP SSTs with 4xCO2",
                                "sub_experiment_id":         "none",
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
-        "amip-pat4K": {
-                               "experiment":                "AMIP plus warming pattern SSTs",
+        "amip-future4K": {
+                               "experiment":                "AMIP with patterned 4K SST increase",
                                "sub_experiment_id":         "none",
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
         "amip-m4K": {
-                               "experiment":                "AMIP minus 4K SSTs",
+                               "experiment":                "AMIP with uniform 4K SST decrease",
                                "sub_experiment_id":         "none",
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
         "amip-piForcing": {
-                               "experiment":                "AMIP SSTs with control forcing",
+                               "experiment":                "AMIP SSTs with pre-industrial anthro and natural forcing",
                                "sub_experiment_id":         "none",
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
-
-                          },
-
-        "amipFuture-4xCO2-all": {
-                               "experiment":                "AMIP plus warming pattern SSTs with 4xCO2",
-                               "sub_experiment_id":         "none",
-                               "activity_id":               "CFMIP",
-                               "mip_era":                   "CMIP6",
-                               "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
         "aqua-p4K": {
-                               "experiment":                "aquaplanet plus 4K SSTs",
+                               "experiment":                "aquaplanet with uniform 4K SST increase",
                                "sub_experiment_id":         "none",
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
         "aqua-4xCO2": {
-                               "experiment":                "aquaplanet with 4xCO2",
+                               "experiment":                "aquaplanet with control SST and 4xCO2",
                                "sub_experiment_id":         "none",
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
         "aqua-control": {
-                               "experiment":                "Aquaplanet control",
+                               "experiment":                "aquaplanet control",
                                "sub_experiment_id":         "none",
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
         "amip-lwoff": {
-                               "experiment":                "AMIP SSTs with longwave cloud-radiative effects off",
+                               "experiment":                "AMIP experiment with longwave cloud-radiative effects off",
                                "sub_experiment_id":         "none",
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
         "amip-p4K-lwoff": {
-                               "experiment":                "AMIP plus 4K SSTs with longwave cloud radiative effects off",
+                               "experiment":                "AMIP experiment with uniform 4K SST increase and with longwave cloud radiative effects off",
                                "sub_experiment_id":         "none",
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
         "aqua-p4K-lwoff": {
-                               "experiment":                "aquaplanet plus 4K SSTs with longwave cloud radiative effects off",
+                               "experiment":                "aquaplanet with uniform 4K SST increase and with longwave cloud radiative effects off",
                                "sub_experiment_id":         "none",
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
         "aqua-control-lwoff": {
-                               "experiment":                "aquaplanet with longwave cloud radiative effects off",
+                               "experiment":                "aquaplanet control with longwave cloud radiative effects off",
                                "sub_experiment_id":         "none",
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
-        "piSST-control": {
-                               "experiment":                "control SSTs",
+        "piSST": {
+                               "experiment":                "experiment forced with pre-industrial SSTs, sea ice and atmospheric constituents.",
                                "sub_experiment_id":         "none",
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
         "piSST-pxK": {
-                               "experiment":                "control plus scaled warming pattern",
+                               "experiment":                "as piSST with uniform SST increase with magnitude based on abrupt4xCO2 response",
                                "sub_experiment_id":         "none",
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
         "piSST-4xCO2-rad": {
-                               "experiment":                "control SSTs with radiation-only seeing 4xCO2",
+                               "experiment":                "as piSST with radiation-only seeing 4xCO2",
                                "sub_experiment_id":         "none",
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
-        "piSST-4xCO2-all": {
-                               "experiment":                "control SSTs with 4xCO2",
+        "piSST-4xCO2": {
+                               "experiment":                "as piSST with radiation and vegetation seeing 4xCO2",
                                "sub_experiment_id":         "none",
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
-        "futureSST": {
-                               "experiment":                "control plus warming pattern SSTs ",
+        "a4SST": {
+                               "experiment":                "as piSST but with SSTs from abrupt4xCO2",
                                "sub_experiment_id":         "none",
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
-        "futureSST-4xCO2-all": {
-                               "experiment":                "control plus warming pattern SSTs with 4xCO2",
+        "a4SSTice": {
+                               "experiment":                "as piSST but with SSTs and sea ice from abrupt4xCO2",
                                "sub_experiment_id":         "none",
                                "activity_id":               "CFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER BGM"
+                               "additional_source_type":    "AER CHEM"
+
+                          },
+
+        "a4SSTice-4xCO2": {
+                               "experiment":                "as piSST but with SSTs and sea ice from abrupt4xCO2, and 4xCO2 seen by radiation and vegetation.",
+                               "sub_experiment_id":         "none",
+                               "activity_id":               "CFMIP",
+                               "mip_era":                   "CMIP6",
+                               "source_type":               "AGCM",
+                               "additional_source_type":    "AER CHEM"
+
+                          },
+
+        "amip-a4SST-4xCO2": {
+                               "experiment":                "as AMIP but with warming pattern from abrupt4xCO2 added to SSTs and 4xCO2 seen by radiation and vegetation",
+                               "sub_experiment_id":         "none",
+                               "activity_id":               "CFMIP",
+                               "mip_era":                   "CMIP6",
+                               "source_type":               "AGCM",
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
@@ -824,7 +823,7 @@
                                "activity_id":               "CMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
@@ -834,7 +833,7 @@
                                "activity_id":               "CMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
@@ -844,17 +843,17 @@
                                "activity_id":               "CMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
         "piControl": {
-                               "experiment":                "pre-Industrial control",
+                               "experiment":                "pre-industrial control",
                                "sub_experiment_id":         "none",
                                "activity_id":               "CMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
@@ -864,7 +863,27 @@
                                "activity_id":               "CMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "ESM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
+
+                          },
+
+        "piControl-spinup": {
+                               "experiment":                "pre-industrial control (spin-up)",
+                               "sub_experiment_id":         "none",
+                               "activity_id":               "CMIP",
+                               "mip_era":                   "CMIP6",
+                               "source_type":               "AOGCM",
+                               "additional_source_type":    "AER CHEM BGM"
+
+                          },
+
+        "esm-piControl-spinup": {
+                               "experiment":                "pre-industrial control simulation with CO2 concentration calculated (spiin-up)",
+                               "sub_experiment_id":         "none",
+                               "activity_id":               "CMIP",
+                               "mip_era":                   "CMIP6",
+                               "source_type":               "ESM",
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
@@ -874,7 +893,7 @@
                                "activity_id":               "CMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
@@ -884,7 +903,7 @@
                                "activity_id":               "CMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "ESM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
@@ -894,7 +913,7 @@
                                "activity_id":               "CMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
@@ -904,7 +923,7 @@
                                "activity_id":               "CMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "ESM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
@@ -914,7 +933,7 @@
                                "activity_id":               "DAMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER BGM"
+                               "additional_source_type":    "AER CHEM, BGM"
 
                           },
 
@@ -924,7 +943,7 @@
                                "activity_id":               "DAMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER BGM"
+                               "additional_source_type":    "AER CHEM, BGM"
 
                           },
 
@@ -934,7 +953,7 @@
                                "activity_id":               "DAMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER BGM"
+                               "additional_source_type":    "AER CHEM, BGM"
 
                           },
 
@@ -944,7 +963,7 @@
                                "activity_id":               "DAMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER BGM"
+                               "additional_source_type":    "AER CHEM, BGM"
 
                           },
 
@@ -954,7 +973,7 @@
                                "activity_id":               "DAMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER BGM"
+                               "additional_source_type":    "AER CHEM, BGM"
 
                           },
 
@@ -964,7 +983,7 @@
                                "activity_id":               "DAMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER BGM"
+                               "additional_source_type":    "AER CHEM, BGM"
 
                           },
 
@@ -974,7 +993,7 @@
                                "activity_id":               "DAMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER BGM"
+                               "additional_source_type":    "AER CHEM, BGM"
 
                           },
 
@@ -984,7 +1003,7 @@
                                "activity_id":               "DAMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER BGM"
+                               "additional_source_type":    "AER CHEM, BGM"
 
                           },
 
@@ -994,7 +1013,7 @@
                                "activity_id":               "DAMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER BGM"
+                               "additional_source_type":    "AER CHEM, BGM"
 
                           },
 
@@ -1004,7 +1023,7 @@
                                "activity_id":               "DAMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER BGM"
+                               "additional_source_type":    "AER CHEM, BGM"
 
                           },
 
@@ -1014,7 +1033,7 @@
                                "activity_id":               "DAMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER BGM"
+                               "additional_source_type":    "AER CHEM, BGM"
 
                           },
 
@@ -1024,7 +1043,7 @@
                                "activity_id":               "DAMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER BGM"
+                               "additional_source_type":    "AER CHEM, BGM"
 
                           },
 
@@ -1034,207 +1053,277 @@
                                "activity_id":               "DAMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER BGM"
+                               "additional_source_type":    "AER CHEM, BGM"
 
                           },
 
-        "hindcast": {
-                               "experiment":                "hindcast initialized from observations with historical forcing",
-                               "sub_experiment_id":         "none",
+        "dcppA-hindcast": {
+                               "experiment":                "year 1-5 hindcast initialized based on observations and using historical forcing",
+                               "sub_experiment_id":         "initialized near end of year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
-        "hindcast-control": {
-                               "experiment":                "simulation initialized from control with forcing prescribed from a portion of the historical period",
-                               "sub_experiment_id":         "none",
+        "dcppA-historical": {
+                               "experiment":                "climate simulations initialized from control with forcing prescribed from the historical period and future scenario as in A1",
+                               "sub_experiment_id":         "initialized near end of year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
-        "hindcast-honest": {
-                               "experiment":                "hindcast initialized from observations without observed forcing after initialization",
-                               "sub_experiment_id":         "initiate with year YYYY",
+        "dcppA-assim": {
+                               "experiment":                "assimilation runs (if available) that are used to generate initial conditions for hindcasts and which parallel the historical simulations and use the same forcing ",
+                               "sub_experiment_id":         "initialized near end of year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
-        "hindcast-hist": {
-                               "experiment":                "initialized from historical simulation without observed forcing after initialization",
-                               "sub_experiment_id":         "initiate with year YYYY",
+        "dcppA-hindcast-niff": {
+                               "experiment":                "hindcast initialized from observations without future observed forcing after initialization",
+                               "sub_experiment_id":         "initialized near end of year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
-        "forecast": {
-                               "experiment":                "forecast initialized from observations",
-                               "sub_experiment_id":         "initiate with year YYYY",
+        "dcppA-historical-niff": {
+                               "experiment":                "hindcast initialized from historical climate simulations without observed forcing after initialization",
+                               "sub_experiment_id":         "initialized near end of year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
-        "amv-control": {
+        "dcppB-forecast": {
+                               "experiment":                "year 1-5 forecast initialized from observations",
+                               "sub_experiment_id":         "initialized near end of year YYYY",
+                               "activity_id":               "DCPP",
+                               "mip_era":                   "CMIP6",
+                               "source_type":               "AOGCM",
+                               "additional_source_type":    "AER CHEM BGM"
+
+                          },
+
+        "dcppC-atl-control": {
                                "experiment":                "idealized Atlantic control",
-                               "sub_experiment_id":         "initiate with year YYYY",
+                               "sub_experiment_id":         "initialized near end of year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
-        "amv-plus": {
+        "dcppC-amv-plus": {
                                "experiment":                "idealized positive AMV anomaly pattern",
-                               "sub_experiment_id":         "initiate with year YYYY",
+                               "sub_experiment_id":         "initialized near end of year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
-        "amv-minus": {
+        "dcppC-amv-minus": {
                                "experiment":                "idealized negative AMV anomaly pattern",
-                               "sub_experiment_id":         "initiate with year YYYY",
+                               "sub_experiment_id":         "initialized near end of year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
-        "pdv-control": {
+        "dcppC-pac": {
                                "experiment":                "idealized Pacific control",
-                               "sub_experiment_id":         "initiate with year YYYY",
+                               "sub_experiment_id":         "initialized near end of year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
-        "pdv-plus": {
-                               "experiment":                "idealized positive PDV anomaly pattern",
-                               "sub_experiment_id":         "initiate with year YYYY",
+        "dcppC-ipv-plus": {
+                               "experiment":                "idealized positive IPV anomaly pattern",
+                               "sub_experiment_id":         "initialized near end of year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
-        "pdv-minus": {
-                               "experiment":                "idealized negative PDV anomaly pattern",
-                               "sub_experiment_id":         "initiate with year YYYY",
+        "dcppC-ipv-minus": {
+                               "experiment":                "idealized negative IPV anomaly pattern",
+                               "sub_experiment_id":         "initialized near end of year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
-        "pdv-plus-extraTrop": {
+        "dcppC-amv-extrop-plus": {
                                "experiment":                "idealized positive extratropical AMV anomaly pattern",
-                               "sub_experiment_id":         "initiate with year YYYY",
+                               "sub_experiment_id":         "initialized near end of year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
-        "pdv-minus-extraTrop": {
+        "dcppC-amv-extrop-minus": {
                                "experiment":                "idealizedÊ impact of a negative extratropical AMV anomaly pattern",
-                               "sub_experiment_id":         "initiate with year YYYY",
+                               "sub_experiment_id":         "initialized near end of year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
-        "amv-plus-trop": {
+        "dcppC-amv-trop-plus": {
                                "experiment":                "idealized positive tropical AMV anomaly pattern",
-                               "sub_experiment_id":         "initiate with year YYYY",
+                               "sub_experiment_id":         "initialized near end of year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
-        "amv-minus-trop": {
+        "dcppC-amv-trop-minus": {
                                "experiment":                "idealized impact of a positive tropical AMV anomaly pattern",
-                               "sub_experiment_id":         "initiate with year YYYY",
+                               "sub_experiment_id":         "initialized near end of year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
-        "predictability-atlGyre": {
-                               "experiment":                "predictability of 1990s warming of Atlantic gyre",
-                               "sub_experiment_id":         "initiate with year YYYY",
+        "dcppC-ipv-nextrop-plus": {
+                               "experiment":                "idealized impact of a positive northern extratropical IPV anomaly pattern",
+                               "sub_experiment_id":         "initialized near end of year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
-        "hindcast-novolc": {
+        "dcppC-ipv-nextrop-minus": {
+                               "experiment":                "idealized impact of a negative northern extratropical IPV anomaly pattern",
+                               "sub_experiment_id":         "initialized near end of year YYYY",
+                               "activity_id":               "DCPP",
+                               "mip_era":                   "CMIP6",
+                               "source_type":               "AOGCM",
+                               "additional_source_type":    "AER CHEM BGM"
+
+                          },
+
+        "dcppC-pac-pacemaker": {
+                               "experiment":                "pacemaker pacific experiment",
+                               "sub_experiment_id":         "initialized near end of year YYYY",
+                               "activity_id":               "DCPP",
+                               "mip_era":                   "CMIP6",
+                               "source_type":               "AOGCM",
+                               "additional_source_type":    "AER CHEM BGM"
+
+                          },
+
+        "dcppC-atl-pacemaker": {
+                               "experiment":                "pacemaker atlantic experiment ",
+                               "sub_experiment_id":         "initialized near end of year YYYY",
+                               "activity_id":               "DCPP",
+                               "mip_era":                   "CMIP6",
+                               "source_type":               "AOGCM",
+                               "additional_source_type":    "AER CHEM BGM"
+
+                          },
+
+        "dcppC-atl-spg": {
+                               "experiment":                "predictability of 1990s warming of Atlantic sub-polar gyre",
+                               "sub_experiment_id":         "initialized near end of year YYYY",
+                               "activity_id":               "DCPP",
+                               "mip_era":                   "CMIP6",
+                               "source_type":               "AOGCM",
+                               "additional_source_type":    "AER CHEM BGM"
+
+                          },
+
+        "dcppC-hindcast-noPinatubo": {
                                "experiment":                "hindcast but with only background volcanic forcing",
-                               "sub_experiment_id":         "initiate with year YYYY",
+                               "sub_experiment_id":         "initialized near end of year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
-        "forecast-Pinatubo": {
+        "dcppC-hindcast-noElChichon": {
+                               "experiment":                "",
+                               "sub_experiment_id":         "initialized near end of year YYYY",
+                               "activity_id":               "DCPP",
+                               "mip_era":                   "CMIP6",
+                               "source_type":               "AOGCM",
+                               "additional_source_type":    "AER CHEM BGM"
+
+                          },
+
+        "dcppC-hindcast-noAgung": {
+                               "experiment":                "",
+                               "sub_experiment_id":         "initialized near end of year YYYY",
+                               "activity_id":               "DCPP",
+                               "mip_era":                   "CMIP6",
+                               "source_type":               "AOGCM",
+                               "additional_source_type":    "AER CHEM BGM"
+
+                          },
+
+        "dcppC-forecast-addPinatubo": {
                                "experiment":                "2015 forecast with added Pinatubo forcing",
-                               "sub_experiment_id":         "initiate with year YYYY",
+                               "sub_experiment_id":         "initialized near end of year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
-        "forecast-ElChichon": {
+        "dcppC-forecast-addElChichon": {
                                "experiment":                "2015 forecast with added El Chichon forcing",
-                               "sub_experiment_id":         "initiate with year YYYY",
+                               "sub_experiment_id":         "initialized near end of year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
-        "forecast-Agung": {
+        "dcppC-forecast-addAgung": {
                                "experiment":                "2015 forecast with added Agung forcing",
-                               "sub_experiment_id":         "initiate with year YYYY",
+                               "sub_experiment_id":         "initialized near end of year YYYY",
                                "activity_id":               "DCPP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
@@ -1244,7 +1333,7 @@
                                "activity_id":               "FAFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
@@ -1254,7 +1343,7 @@
                                "activity_id":               "FAFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
@@ -1264,7 +1353,7 @@
                                "activity_id":               "FAFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
@@ -1274,7 +1363,7 @@
                                "activity_id":               "FAFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
@@ -1284,7 +1373,7 @@
                                "activity_id":               "FAFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
@@ -1294,7 +1383,7 @@
                                "activity_id":               "GeoMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
@@ -1304,7 +1393,7 @@
                                "activity_id":               "GeoMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
@@ -1314,7 +1403,7 @@
                                "activity_id":               "GeoMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
@@ -1324,7 +1413,7 @@
                                "activity_id":               "GeoMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
@@ -1334,7 +1423,7 @@
                                "activity_id":               "GeoMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
@@ -1344,7 +1433,7 @@
                                "activity_id":               "GeoMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
@@ -1354,7 +1443,7 @@
                                "activity_id":               "GeoMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
@@ -1364,7 +1453,7 @@
                                "activity_id":               "GeoMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
@@ -1374,7 +1463,7 @@
                                "activity_id":               "GeoMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
@@ -1384,7 +1473,7 @@
                                "activity_id":               "GeoMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
@@ -1394,7 +1483,7 @@
                                "activity_id":               "GeoMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
@@ -1404,7 +1493,7 @@
                                "activity_id":               "GMMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
@@ -1414,7 +1503,7 @@
                                "activity_id":               "GMMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
@@ -1424,7 +1513,7 @@
                                "activity_id":               "GMMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
@@ -1434,7 +1523,7 @@
                                "activity_id":               "GMMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
@@ -1444,7 +1533,7 @@
                                "activity_id":               "GMMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
@@ -1454,7 +1543,7 @@
                                "activity_id":               "GMMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
@@ -1464,7 +1553,7 @@
                                "activity_id":               "HighResMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
@@ -1474,7 +1563,7 @@
                                "activity_id":               "HighResMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
@@ -1484,7 +1573,7 @@
                                "activity_id":               "HighResMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
@@ -1494,7 +1583,7 @@
                                "activity_id":               "HighResMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
@@ -1504,7 +1593,7 @@
                                "activity_id":               "HighResMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
@@ -1514,7 +1603,7 @@
                                "activity_id":               "HighResMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
@@ -1524,7 +1613,7 @@
                                "activity_id":               "HighResMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
@@ -1534,7 +1623,7 @@
                                "activity_id":               "HighResMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
@@ -1544,68 +1633,147 @@
                                "activity_id":               "HighResMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
-        "ism-1pctCO2": {
-                               "experiment":                "",
+        "ism-1pctCO2to4x-std": {
+                               "experiment":                "offline ice sheet model forced by ISMIP6-specified AOGCM 1pctCO2to4x output ",
                                "sub_experiment_id":         "none",
                                "activity_id":               "ISMIP6",
                                "mip_era":                   "CMIP6",
                                "source_type":               "ISM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    ""
 
                           },
 
-        "1pctCO2-withism": {
-                               "experiment":                "",
+        "ism-1pctCO2to4x-self": {
+                               "experiment":                "offline ice sheet model forced by ISM's own AOGCM 1pctCO2to4x output ",
+                               "sub_experiment_id":         "none",
+                               "activity_id":               "ISMIP6",
+                               "mip_era":                   "CMIP6",
+                               "source_type":               "ISM",
+                               "additional_source_type":    ""
+
+                          },
+
+        "1pctCO2to4x-withism": {
+                               "experiment":                "simulation with interactive ice sheet forced by 1 percent per year increase in CO2 to 4xCO2 (subsequently held fixed)",
                                "sub_experiment_id":         "none",
                                "activity_id":               "ISMIP6",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM ISM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
-        "ism-piControl": {
-                               "experiment":                "",
+        "ism-pdControl-std": {
+                               "experiment":                "offline ice sheet forced by ISMIP6-specified AOGCM pdControl output",
                                "sub_experiment_id":         "none",
                                "activity_id":               "ISMIP6",
                                "mip_era":                   "CMIP6",
                                "source_type":               "ISM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    ""
+
+                          },
+
+        "ism-piControl-self": {
+                               "experiment":                "offline ice sheet forced by ISM's own AOGCM piControl output",
+                               "sub_experiment_id":         "none",
+                               "activity_id":               "ISMIP6",
+                               "mip_era":                   "CMIP6",
+                               "source_type":               "ISM",
+                               "additional_source_type":    ""
 
                           },
 
         "piControl-withism": {
-                               "experiment":                "to be filled",
+                               "experiment":                "preindustrial control with interactive ice sheet",
                                "sub_experiment_id":         "none",
-                               "sub_experiment_id":         "s1968",
                                "activity_id":               "ISMIP6",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM ISM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
-        "ism-ssp585": {
-                               "experiment":                "",
+        "ism-historical-std": {
+                               "experiment":                "offline ice sheet forced by ISMIP6-specified AOGCM historical output",
                                "sub_experiment_id":         "none",
                                "activity_id":               "ISMIP6",
                                "mip_era":                   "CMIP6",
                                "source_type":               "ISM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    ""
 
                           },
 
-        "ssp585-withism": {
-                               "experiment":                "",
+        "ism-historical-self": {
+                               "experiment":                "offline ice sheet forced by ISM's own AOGCM historical output",
+                               "sub_experiment_id":         "none",
+                               "activity_id":               "ISMIP6",
+                               "mip_era":                   "CMIP6",
+                               "source_type":               "ISM",
+                               "additional_source_type":    ""
+
+                          },
+
+        "historical-withism": {
+                               "experiment":                "historical with interactive ice sheet",
                                "sub_experiment_id":         "none",
                                "activity_id":               "ISMIP6",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM ISM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
+
+                          },
+
+        "ism-ssp585-std": {
+                               "experiment":                "offline ice sheet forced by ISMIP6-specified AOGCM ssp585 output",
+                               "sub_experiment_id":         "none",
+                               "activity_id":               "ISMIP6",
+                               "mip_era":                   "CMIP6",
+                               "source_type":               "ISM",
+                               "additional_source_type":    ""
+
+                          },
+
+        "ism-ssp585-self": {
+                               "experiment":                "offline ice sheet forced by ISM's own AOGCM ssp585 output",
+                               "sub_experiment_id":         "none",
+                               "activity_id":               "ISMIP6",
+                               "mip_era":                   "CMIP6",
+                               "source_type":               "ISM",
+                               "additional_source_type":    ""
+
+                          },
+
+        "ssp585-withism": {
+                               "experiment":                "ssp585 with interactive ice sheet",
+                               "sub_experiment_id":         "none",
+                               "activity_id":               "ISMIP6",
+                               "mip_era":                   "CMIP6",
+                               "source_type":               "AOGCM ISM",
+                               "additional_source_type":    "AER CHEM BGM"
+
+                          },
+
+        "ism-amip-std": {
+                               "experiment":                "offline ice sheet forced by ISMIP6-specified AGCM AMIP output",
+                               "sub_experiment_id":         "none",
+                               "activity_id":               "ISMIP6",
+                               "mip_era":                   "CMIP6",
+                               "source_type":               "ISM",
+                               "additional_source_type":    ""
+
+                          },
+
+        "ism-lig127k-std": {
+                               "experiment":                "offline ice sheet forced by ISMIP6-specified AGCM last interglacial output",
+                               "sub_experiment_id":         "none",
+                               "activity_id":               "ISMIP6",
+                               "mip_era":                   "CMIP6",
+                               "source_type":               "ISM",
+                               "additional_source_type":    ""
 
                           },
 
@@ -1615,7 +1783,7 @@
                                "activity_id":               "LS3MIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
@@ -1625,7 +1793,7 @@
                                "activity_id":               "LS3MIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
@@ -1635,7 +1803,7 @@
                                "activity_id":               "LS3MIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
@@ -1645,7 +1813,7 @@
                                "activity_id":               "LS3MIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
@@ -1655,7 +1823,7 @@
                                "activity_id":               "LS3MIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
@@ -1665,12 +1833,12 @@
                                "activity_id":               "LS3MIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
         "land-future": {
-                               "experiment":                "offline land simulations for future climate",
+                               "experiment":                "future land-only",
                                "sub_experiment_id":         "none",
                                "activity_id":               "LS3MIP",
                                "mip_era":                   "CMIP6",
@@ -1680,7 +1848,7 @@
                           },
 
         "land-hist": {
-                               "experiment":                "offline land simulations for present climate",
+                               "experiment":                "historical land-only",
                                "sub_experiment_id":         "none",
                                "activity_id":               "LS3MIP LUMIP",
                                "mip_era":                   "CMIP6",
@@ -1725,7 +1893,7 @@
                                "activity_id":               "LUMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "ESM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
@@ -1735,7 +1903,7 @@
                                "activity_id":               "LUMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
@@ -1745,7 +1913,7 @@
                                "activity_id":               "LUMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
@@ -1753,16 +1921,6 @@
                                "experiment":                "historical land-only alternate start year",
                                "sub_experiment_id":         "none",
                                "activity_id":               "LUMIP",
-                               "mip_era":                   "CMIP6",
-                               "source_type":               "LND",
-                               "additional_source_type":    ""
-
-                          },
-
-        "land-hist": {
-                               "experiment":                "historical land-only",
-                               "sub_experiment_id":         "none",
-                               "activity_id":               "LS3MIP LUMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "LND",
                                "additional_source_type":    ""
@@ -1885,7 +2043,7 @@
                                "activity_id":               "LUMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
@@ -1895,12 +2053,12 @@
                                "activity_id":               "LUMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
-        "omip-core2": {
-                               "experiment":                "OMIP experiment forced by CORE-2 atmospheric data set and initialized with observed physical and biogeochemical ocean data",
+        "omipv1": {
+                               "experiment":                "OMIP experiment forced by Large & Yeager (CORE-2, NCEP) atmospheric data set and initialized with observed physical and biogeochemical ocean data",
                                "sub_experiment_id":         "none",
                                "activity_id":               "OMIP",
                                "mip_era":                   "CMIP6",
@@ -1909,8 +2067,8 @@
 
                           },
 
-        "omip-core2-spunup": {
-                               "experiment":                "OMIP experiment forced by CORE-2 atmospheric data set and initialized from at least a 2000-year spin up of the coupled physical-biogeochemical model",
+        "omipv1-spunup": {
+                               "experiment":                "OMIP experiment forced by Large & Yeager (CORE-2, NCEP) atmospheric data set and initialized from at least a 2000-year spin up of the coupled physical-biogeochemical model",
                                "sub_experiment_id":         "none",
                                "activity_id":               "OMIP",
                                "mip_era":                   "CMIP6",
@@ -1919,7 +2077,7 @@
 
                           },
 
-        "omip-jra55": {
+        "omipv2": {
                                "experiment":                "OMIP experiment forced by JRA-55 atmospheric data set and initialized with observed physical and biogeochemical ocean data",
                                "sub_experiment_id":         "none",
                                "activity_id":               "OMIP",
@@ -1929,7 +2087,7 @@
 
                           },
 
-        "omip-jra55-spunup": {
+        "omipv2-spunup": {
                                "experiment":                "OMIP experiment forced by JRA-55 atmospheric data set and initialized from at least a 2000-year spin up of the coupled physical-biogeochemical model",
                                "sub_experiment_id":         "none",
                                "activity_id":               "OMIP",
@@ -1940,187 +2098,177 @@
                           },
 
         "lgm": {
-                               "experiment":                "",
+                               "experiment":                "last glacial maximum ",
                                "sub_experiment_id":         "none",
                                "activity_id":               "PMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
         "lig127k": {
-                               "experiment":                "",
+                               "experiment":                "last interglacial (127k)",
                                "sub_experiment_id":         "none",
                                "activity_id":               "PMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
         "midHolocene": {
-                               "experiment":                "",
+                               "experiment":                "mid-Holocene",
                                "sub_experiment_id":         "none",
                                "activity_id":               "PMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
         "past1000": {
-                               "experiment":                "",
+                               "experiment":                "last millenium",
                                "sub_experiment_id":         "none",
                                "activity_id":               "PMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
         "midPliocene-eoi400": {
-                               "experiment":                "",
+                               "experiment":                "mid-Pliocene warm period",
                                "sub_experiment_id":         "none",
                                "activity_id":               "PMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM BGM"
 
                           },
 
         "piClim-control": {
-                               "experiment":                "",
+                               "experiment":                "effective radiative forcing in present-day ",
                                "sub_experiment_id":         "none",
-                               "activity_id":               "RFMIP, AerChemMIP",
+                               "activity_id":               "RFMIP AerChemMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
         "piClim-4xCO2": {
-                               "experiment":                "",
+                               "experiment":                "effective radiative forcing by 4xCO2 ",
                                "sub_experiment_id":         "none",
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
         "piClim-aerO3": {
-                               "experiment":                "",
+                               "experiment":                "effective radiative forcing by present-day aerosols and ozone",
                                "sub_experiment_id":         "none",
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
         "piClim-aerO3x0p1": {
-                               "experiment":                "",
+                               "experiment":                "effective radiative forcing by present-day aerosols and ozone scaled by 0.1 ",
                                "sub_experiment_id":         "none",
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
         "piClim-aerO3x2": {
-                               "experiment":                "",
+                               "experiment":                "effective radiative forcing by present-day aerosols and ozone scaled by 2",
                                "sub_experiment_id":         "none",
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
         "piClim-anthro": {
-                               "experiment":                "",
+                               "experiment":                "effective radiative forcing by present day anthropogenic agents",
                                "sub_experiment_id":         "none",
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
         "piClim-GHG": {
-                               "experiment":                "",
+                               "experiment":                "effective radiative forcing by present-day greenhouse gases",
                                "sub_experiment_id":         "none",
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
         "piClim-histaer03": {
-                               "experiment":                "",
+                               "experiment":                "transient effective radiative forcing by aerosols ",
                                "sub_experiment_id":         "none",
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
         "piClim-histAll": {
-                               "experiment":                "",
+                               "experiment":                "transient effective radiative forcing",
                                "sub_experiment_id":         "none",
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
         "piClim-histGHG": {
-                               "experiment":                "",
+                               "experiment":                "transient effective radiative forcing by greenhouse gases",
                                "sub_experiment_id":         "none",
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
         "piClim-histNat": {
-                               "experiment":                "",
+                               "experiment":                "transient effective radiative forcing by natural perturbations",
                                "sub_experiment_id":         "none",
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
         "piClim-lu": {
-                               "experiment":                "",
+                               "experiment":                "effective radiative forcing by present-day land use ",
                                "sub_experiment_id":         "none",
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM",
-                               "additional_source_type":    "CHEM AER"
+                               "additional_source_type":    "AER CHEM"
 
                           },
 
-        "piClim-spAer-histall": {
-                               "experiment":                "",
-                               "sub_experiment_id":         "none",
-                               "activity_id":               "RFMIP",
-                               "mip_era":                   "CMIP6",
-                               "source_type":               "AGCM",
-                               "additional_source_type":    ""
-
-                          },
-
-        "piClim-spAer-histaer": {
-                               "experiment":                "",
+        "piClim-spAerO3-histall": {
+                               "experiment":                " transient effective radiative forcing with specified anthropogenic aerosol optical properties, all forcings",
                                "sub_experiment_id":         "none",
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
@@ -2129,8 +2277,8 @@
 
                           },
 
-        "piClim-spAer-aer": {
-                               "experiment":                "",
+        "piClim-spAerO3-histaer": {
+                               "experiment":                "transient effective radiative forcing with specified anthropogenic aerosol optical properties, aerosol forcing",
                                "sub_experiment_id":         "none",
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
@@ -2139,8 +2287,8 @@
 
                           },
 
-        "piClim-spAer-anthro": {
-                               "experiment":                "",
+        "piClim-spAerO3-aer": {
+                               "experiment":                "effective radiative forcing at present day with specified anthropogenic aerosol optical properties, all forcings",
                                "sub_experiment_id":         "none",
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
@@ -2149,8 +2297,18 @@
 
                           },
 
-        "hist-spAer": {
-                               "experiment":                "",
+        "piClim-spAerO3-anthro": {
+                               "experiment":                "effective radiative forcing at present day with specified anthropogenic aerosol optical properties, anthropogenic forcings",
+                               "sub_experiment_id":         "none",
+                               "activity_id":               "RFMIP",
+                               "mip_era":                   "CMIP6",
+                               "source_type":               "AGCM",
+                               "additional_source_type":    ""
+
+                          },
+
+        "hist-spAerO3": {
+                               "experiment":                "historical simulations with specified anthropogenc aerosols, no other forcings",
                                "sub_experiment_id":         "none",
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
@@ -2159,8 +2317,8 @@
 
                           },
 
-        "hist-all-spAer": {
-                               "experiment":                "",
+        "hist-all-spAerO3": {
+                               "experiment":                "historical simulations with specified anthropogenc aerosols ",
                                "sub_experiment_id":         "none",
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
@@ -2170,7 +2328,7 @@
                           },
 
         "rad-irf": {
-                               "experiment":                "",
+                               "experiment":                "offline assessment of radiative transfer parmaeterizations in clear skies",
                                "sub_experiment_id":         "none",
                                "activity_id":               "RFMIP",
                                "mip_era":                   "CMIP6",
@@ -2185,11 +2343,8 @@
                                "activity_id":               "ScenarioMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "historical",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "AER CHEM BGM"
+
                           },
 
         "ssp534-over": {
@@ -2198,11 +2353,8 @@
                                "activity_id":               "ScenarioMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "ssp585",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "ScenarioMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "AER CHEM BGM"
+
                           },
 
         "ssp460": {
@@ -2211,11 +2363,8 @@
                                "activity_id":               "ScenarioMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "historical",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "AER CHEM BGM"
+
                           },
 
         "ssp245": {
@@ -2224,24 +2373,18 @@
                                "activity_id":               "ScenarioMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "historical",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "AER CHEM BGM"
+
                           },
 
         "ssp370": {
                                "experiment":                "gap-filling scenario reaching 7.0 based on SSP3",
                                "sub_experiment_id":         "none",
-                               "activity_id":               "ScenarioMIP AerChemMIP LUMIP",
+                               "activity_id":               "ScenarioMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "historical",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "AER CHEM BGM"
+
                           },
 
         "ssp434": {
@@ -2250,11 +2393,8 @@
                                "activity_id":               "ScenarioMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "historical",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "AER CHEM BGM"
+
                           },
 
         "ssp585": {
@@ -2263,11 +2403,8 @@
                                "activity_id":               "ScenarioMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "historical",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "AER CHEM BGM"
+
                           },
 
         "sspxy": {
@@ -2276,118 +2413,130 @@
                                "activity_id":               "ScenarioMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "historical",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "AER CHEM BGM"
+
                           },
 
-        "volcCluster": {
-                               "experiment":                "long volcanic-forcing-only experiment with cluster of eruption",
+        "volc-cluster-ctrl": {
+                               "experiment":                "19th century volcanic cluster initialized from PiControl",
                                "sub_experiment_id":         "none",
                                "activity_id":               "VolMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "AER CHEM BGM"
+
                           },
 
-        "volcEq-S60": {
-                               "experiment":                "long volcanic-forcing-only experiment with single equatorial eruption",
+        "volc-cluster-mill": {
+                               "experiment":                "19th century volcanic cluster initialized from past1000",
                                "sub_experiment_id":         "none",
                                "activity_id":               "VolMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "AER CHEM BGM"
+
                           },
 
-        "volcHL-S100": {
-                               "experiment":                "long volcanic-forcing-only experiment with single high-latitude eruption",
+        "volc-long-eq": {
+                               "experiment":                "idealized equatorial volcanic eruption emitting 56.2 Tg SO2 ",
                                "sub_experiment_id":         "none",
                                "activity_id":               "VolMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "AER CHEM BGM"
+
                           },
 
-        "volcEq-full": {
-                               "experiment":                "Pinatubo experiment with full volcanic forcing ",
+        "volc-long-hlN": {
+                               "experiment":                "idealized Northern Hemisphere high-latitude eruption emitting 28.1 Tg of SO2",
                                "sub_experiment_id":         "none",
                                "activity_id":               "VolMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "AER CHEM BGM"
+
                           },
 
-        "volcEq-ini": {
-                               "experiment":                "Pinatubo experiment in decadal climate prediction setup",
+        "volc-pinatubo-full": {
+                               "experiment":                "Pinatubo experiment",
                                "sub_experiment_id":         "none",
                                "activity_id":               "VolMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "AER CHEM BGM"
+
                           },
 
-        "volcEq-slab": {
-                               "experiment":                "Pinatubo experiment with full volcanic forcing and slab ocean",
+        "volc-pinatubo-ini": {
+                               "experiment":                "Pinatubo experiment for decadal climate prediction",
+                               "sub_experiment_id":         "initialized near end of year 2014",
+                               "activity_id":               "VolMIP",
+                               "mip_era":                   "CMIP6",
+                               "source_type":               "AOGCM",
+                               "additional_source_type":    "AER CHEM BGM"
+
+                          },
+
+        "control-slab": {
+                               "experiment":                "control with slab ocean",
                                "sub_experiment_id":         "none",
                                "activity_id":               "VolMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AGCM SLAB",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "AER CHEM BGM"
+
                           },
 
-        "volcEq-strat": {
-                               "experiment":                "Pinatubo experiment with only long-wave forcing",
+        "volc-pinatubo-slab": {
+                               "experiment":                "Pinatubo experiment with slab ocean",
+                               "sub_experiment_id":         "none",
+                               "activity_id":               "VolMIP",
+                               "mip_era":                   "CMIP6",
+                               "source_type":               "AGCM SLAB",
+                               "additional_source_type":    "AER CHEM BGM"
+
+                          },
+
+        "volc-pinatubo-strat": {
+                               "experiment":                "Pinatubo experiment with partial radiative forcing, includes only stratospheric warming",
                                "sub_experiment_id":         "none",
                                "activity_id":               "VolMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "AER CHEM BGM"
+
                           },
 
-        "volcEq-surf": {
-                               "experiment":                "Pinatubo experiment with only short-wave forcing",
+        "volc-pinatubo-surf": {
+                               "experiment":                "Pinatubo experiment with partial radiative forcing, solar radiation scattering only",
                                "sub_experiment_id":         "none",
                                "activity_id":               "VolMIP",
                                "mip_era":                   "CMIP6",
                                "source_type":               "AOGCM",
-                               "additional_source_type":    "CHEM AER",
-                               "parent_experiment_id" :     "piControl",
-                               "parent_sub_experiment_id":  "none",
-                               "parent_activity_id ":       "CMIP",
-                               "parent_mip_era ":           "CMIP6"
+                               "additional_source_type":    "AER CHEM BGM"
+
+                          },
+
+        "volc-cluster-21C": {
+                               "experiment":                "volcanic cluster experiment under 21st century SSP2-4.5 scenario",
+                               "sub_experiment_id":         "none",
+                               "activity_id":               "VolMIP",
+                               "mip_era":                   "CMIP6",
+                               "source_type":               "AOGCM",
+                               "additional_source_type":    "AER CHEM BGM"
+
+                          },
+
+        "volc-long-hlS": {
+                               "experiment":                "Idealized Southern Hemisphere high-latitude eruption emitting 28.1 Tg of SO2",
+                               "sub_experiment_id":         "none",
+                               "activity_id":               "VolMIP",
+                               "mip_era":                   "CMIP6",
+                               "source_type":               "AOGCM",
+                               "additional_source_type":    "AER CHEM BGM"
+
                           }
 
-
-         }
-     }
+             }
+        }
 }

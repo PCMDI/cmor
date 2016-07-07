@@ -3,7 +3,7 @@
 
 #define CMOR_VERSION_MAJOR 3
 #define CMOR_VERSION_MINOR 1
-#define CMOR_VERSION_PATCH 0
+#define CMOR_VERSION_PATCH 1
 
 #define CMOR_CF_VERSION_MAJOR 1
 #define CMOR_CF_VERSION_MINOR 6
@@ -49,6 +49,7 @@
 
 #define CMOR_INPUTFILENAME       GLOBAL_INTERNAL"dataset_json"
 #define CV_INPUTFILENAME         GLOBAL_INTERNAL"CV"
+#define CV_CHECK_ERROR           GLOBAL_INTERNAL"CV_ERROR"
 /* -------------------------------------------------------------------- */
 /*      Define AXIS attribue strings                                    */
 /* -------------------------------------------------------------------- */
@@ -168,6 +169,7 @@
 #define GLOBAL_ATT_INSTITUTION_ID     "institution_id"
 #define GLOBAL_ATT_INSTITUTION        "institution"
 #define GLOBAL_ATT_FURTHERINFOURL     "further_info_url"
+#define GLOBAL_ATT_FURTHERINFOURLTMPL GLOBAL_INTERNAL"further_info_url_tmpl"
 #define GLOBAL_ATT_GRID_LABEL         "grid_label"
 #define GLOBAL_ATT_GRID_RESOLUTION    "grid_resolution"
 #define GLOBAL_ATT_TITLE_MSG          "%s model output prepared for %s"
@@ -226,9 +228,9 @@
 #define DIMENSION_OLEVEL              "olevel"
 
 #define CMIP6                         "CMIP6"
-#define CMOR_DEFAULT_PATH_TEMPLATE    "<mip_era><institute_id><source_id><activity_id><experiment_id><variant_id><table><variable_id><grid_label><version>"
-#define CMOR_DEFAULT_FILE_TEMPLATE    "<variable_id><table><experiment_id><source_id><variant_id><grid_label>"
-#define CMOR_DEFAULT_FURTHERURL_TEMPLATE "http://furtherinfo.es-doc.org/<mip_era>/<institution_id><source_id><experiment_id><sub_experiment_id><variant_label>"
+#define CMOR_DEFAULT_PATH_TEMPLATE    "<mip_era><institute_id><source_id><activity_id><experiment_id><variant_label><table><variable_id><grid_label><version>"
+#define CMOR_DEFAULT_FILE_TEMPLATE    "<variable_id><table><experiment_id><source_id><variant_label><grid_label>"
+#define CMOR_DEFAULT_FURTHERURL_TEMPLATE "http://furtherinfo.es-doc.org/<mip_era><institution_id><source_id><experiment_id><sub_experiment_id><variant_label>"
 #define EXTERNAL_VARIABLE_REGEX       "area:[[:blank:]]*([[:alpha:]]+)([[:blank:]]*volume:[[:blank:]]*([[:alpha:]]+))*"
 
 extern int USE_NETCDF_4;
@@ -236,6 +238,7 @@ extern int CMOR_MODE;
 extern int CMOR_TABLE;
 extern int CMOR_VERBOSITY;
 extern int CMOR_NETCDF_MODE;
+extern int CV_ERROR;
 
 extern int cleanup_varid;
 

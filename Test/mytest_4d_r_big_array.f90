@@ -168,7 +168,7 @@ contains
        ntot=ntot*n
        read(file_unit,'(A)') current%name
        print*, 'Test Code: NAME is:',current%name,trim(adjustl(mydims%name))
-       if (current%name.eq."pressure") current%name="plev17"
+       if (current%name.eq."pressure") current%name="plev19"
        read(file_unit,'(A)') current%units
        read(file_unit,*) (current%values(j),j=1,n)
        read(file_unit,*) ((current%bounds(j,k),j=1,2),k=1,n)

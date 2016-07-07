@@ -137,7 +137,7 @@ PROGRAM ipcc_test_code
   INTEGER, PARAMETER :: ntimes = 1    ! number of time samples to process
   INTEGER, PARAMETER :: lon = 4       ! number of longitude grid cells  
   INTEGER, PARAMETER :: lat = 3       ! number of latitude grid cells
-  INTEGER, PARAMETER :: lev = 17       ! number of latitude grid cells
+  INTEGER, PARAMETER :: lev = 19       ! number of latitude grid cells
   INTEGER, PARAMETER :: n2d = 1       ! number of IPCC Table A1a fields to be
                                       !     output.
   !   Tables associating the user's variables with IPCC standard output 
@@ -162,7 +162,7 @@ PROGRAM ipcc_test_code
 
                      ! Corresponding IPCC Table A1a entry (variable name) 
   CHARACTER (LEN=10), DIMENSION(n2d) :: &
-                        entry2d = (/ 'co2Clim' /)
+                        entry2d = (/ 'co2' /)
 
 !  uninitialized variables used in communicating with CMOR:
 !  ---------------------------------------------------------
@@ -189,7 +189,7 @@ PROGRAM ipcc_test_code
   bt=0.
       plevs = (/100000., 92500., 85000., 70000.,&
        60000., 50000., 40000., 30000., 25000., 20000.,&
-       15000., 10000., 7000., 5000., 3000., 2000., 1000. /)
+       15000., 10000., 7000., 5000., 3000., 2000., 1000., 500., 100./)
   
   ! ================================
   !  Execution begins here:
@@ -227,7 +227,7 @@ PROGRAM ipcc_test_code
 
   ipres = cmor_axis(  &
        table='Tables/CMIP6_Amon.json',        &
-       table_entry='plev17',       &
+       table_entry='plev19',       &
        units='Pa',                   &
        length=lev,                   &
        coord_vals=plevs)
