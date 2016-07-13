@@ -4032,9 +4032,9 @@ else
   UUIDFLAGS=""
 fi
 
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for uuid_create in -luuid" >&5
-$as_echo_n "checking for uuid_create in -luuid... " >&6; }
-if ${ac_cv_lib_uuid_uuid_create+:} false; then :
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for uuid_generate in -luuid" >&5
+$as_echo_n "checking for uuid_generate in -luuid... " >&6; }
+if ${ac_cv_lib_uuid_uuid_generate+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ac_check_lib_save_LIBS=$LIBS
@@ -4048,27 +4048,27 @@ cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 #ifdef __cplusplus
 extern "C"
 #endif
-char uuid_create ();
+char uuid_generate ();
 int
 main ()
 {
-return uuid_create ();
+return uuid_generate ();
   ;
   return 0;
 }
 _ACEOF
 if ac_fn_c_try_link "$LINENO"; then :
-  ac_cv_lib_uuid_uuid_create=yes
+  ac_cv_lib_uuid_uuid_generate=yes
 else
-  ac_cv_lib_uuid_uuid_create=no
+  ac_cv_lib_uuid_uuid_generate=no
 fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
 LIBS=$ac_check_lib_save_LIBS
 fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_uuid_uuid_create" >&5
-$as_echo "$ac_cv_lib_uuid_uuid_create" >&6; }
-if test "x$ac_cv_lib_uuid_uuid_create" = xyes; then :
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_uuid_uuid_generate" >&5
+$as_echo "$ac_cv_lib_uuid_uuid_generate" >&6; }
+if test "x$ac_cv_lib_uuid_uuid_generate" = xyes; then :
   cat >>confdefs.h <<_ACEOF
 #define HAVE_LIBUUID 1
 _ACEOF
