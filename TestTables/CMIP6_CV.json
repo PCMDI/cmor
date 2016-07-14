@@ -152,9 +152,9 @@
 
     "grid_labels": {
 
-        "gs1x1":     { "grid_resolution":"1x1" },
-        "gs1x1 gn":  { "grid_resolution":"1x1" },
-        "gs1x1 gr":  { "grid_resolution":"1x1" },
+        "gs1x1":     { "grid_resolution":"1x1 degree" },
+        "gs1x1 gn":  { "grid_resolution":"1x1 degree" },
+        "gs1x1 gr":  { "grid_resolution":"1x1 degree" },
         "gn": { "grid_resolution":[  "5 km",   "10 km",   "25 km",   "50 km",   "100 km", "250 km", 
                 "500 km", "1000 km", "2500 km", "5000 km", "10000 km" ] },
         "gr":  { "grid_resolution":[  "5 km",   "10 km",   "25 km",   "50 km",   "100 km", "250 km", 

@@ -39,6 +39,7 @@ AC_SUBST(UDUNITS2LDFLAGS)
 AC_SUBST(UUIDFLAGS)
 AC_SUBST(UUIDLDFLAGS)
 AC_SUBST(LIBSOURCES)
+AC_SUBST(LIBSOURCESCV)
 AC_SUBST(LIBFSOURCES)
 AC_SUBST(FC)
 AC_SUBST(FFLAGS)
@@ -299,7 +300,9 @@ MAINDIR=`pwd`
 # Library sources
 #LIBSOURCES="Src/cmor.c Src/cmor_variables.c Src/cmor_axes.c Src/cmor_tables.c Src/cmor_grids.c Src/cdTime/cdTimeConv.c Src/cdTime/cdUtil.c Src/cdTime/timeConv.c Src/cdTime/timeArith.c Src/cmor_cfortran_interface.c Src/cmor_md5.c Src/json-c/arraylist.cSrc/json-c/json_c_version.c  Src/json-c/json_object_iterator.c Src/json-c/json_util.c Src/json-c/linkhash.c  Src/json-cmor/random_seed.c Src/json-c/debug.c Src/json-c/json_object.c Src/json-c/json_tokener.c Src/json-c/libjson.c Src/json-c/printbuf.c"
 #LIBSOURCES=`ls -x --width=10000 Src/*.c Src/cdTime/*.c Src/json-c/*.c`
-LIBSOURCES=`ls Src/*.c Src/cdTime/*.c Src/json-c/*.c | tr "\n" " "`
+LIBSOURCES=`ls Src/*.c Src/cdTime/*.c Src/json-c/*.c | tr "\n" " " | sed  's#Src/_controlvocabulary.c##'`
+LIBSOURCESCV=`ls Src/*.c Src/cdTime/*.c Src/json-c/*.c | tr "\n" " " | sed  's#Src/_cmormodule.c##'`
+
 
 LIBFSOURCES="Src/cmor_fortran_interface.f90"
 
