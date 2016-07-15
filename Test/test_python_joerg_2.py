@@ -33,8 +33,8 @@ def test_mode(mode,i,suffix=''):
               996,
               995,
               994, 
-              993, 
-              992]
+              500,
+              100]
     
     axes = [ {'table_entry': 'time',
               'units': 'months since 2000-01-01 00:00:00',

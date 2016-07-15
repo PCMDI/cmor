@@ -1,4 +1,15 @@
 # -*- coding: utf-8 -*-
+# 
+# Please first complete the following steps:
+#
+#   1. Download
+#      https://github.com/PCMDI/cmip6-cmor-tables.git
+#      Create a soft link cmip6-cmor-tables/Tables to ./Tables in your 
+#      working directory
+#
+#   python CMIP6Validtor ../Tables/CMIP6_Amon.json ../CMIP6/yourfile.nc
+#
+
 '''
 Created on Fri Feb 19 11:33:52 2016
 
@@ -111,7 +122,7 @@ class checkCMIP6(object):
         self.variables  = self.infile.listvariable()
 
         # -------------------------------------------------------------------
-        # find variable that contains a "cell_methods" (should only be one)
+        # find variable that contains a "history" (should only be one)
         # -------------------------------------------------------------------
         self.var = [var for var in self.variables if 'history' in self.infile.listattribute(var)]
         if((self.var == []) or (len(self.var) > 1)):
@@ -122,7 +133,6 @@ class checkCMIP6(object):
         # -------------------------------------------------------------------
         # call setup() to clean all 'C' internal memory.
         # -------------------------------------------------------------------
-#        cmip6_cv.setup(inpath="../Tables", exit_control=cmip6_cv.CMOR_EXIT_ON_WARNING)
         cmip6_cv.setup(inpath="../Tables", exit_control=cmip6_cv.CMOR_NORMAL)
 
         # -------------------------------------------------------------------
@@ -162,6 +172,7 @@ class checkCMIP6(object):
                 5. Validate grid_label and grid_resolution
                 6. Validate creation time in ISO format (YYYY-MM-DDTHH:MM:SS)
                 7. Validate furtherinfourl from CV internal template
+                8. Validate variable attributes with CMOR JSON table.
         '''
         cmip6_cv.check_requiredattributes(self.table_id)
         cmip6_cv.check_institution(self.table_id)
@@ -208,7 +219,7 @@ class checkCMIP6(object):
 #   main()
 #  =========================
 def main():
-    parser = argparse.ArgumentParser(prog='CMIP6Checker',
+    parser = argparse.ArgumentParser(prog='CMIP6Validator',
                                      description='Validate CMIP6 file '
                                      'for ESGF publication.')
 

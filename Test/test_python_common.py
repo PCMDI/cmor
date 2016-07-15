@@ -5,7 +5,7 @@ ntimes=2
 lon=4
 lat=3
 lev=5
-lev2=17
+lev2=19
 varin3d=["CLOUD", "U", "T" ];
   
 #  /* Units appropriate to my data */
@@ -73,7 +73,7 @@ def read_coords(lon,lat,lev):
 
     plevs = numpy.array([100000., 92500., 85000., 70000.,
                          60000., 50000., 40000., 30000., 25000., 20000.,
-                         15000., 10000., 7000., 5000., 3000., 2000., 1000.])
+                         15000., 10000., 7000., 5000., 3000., 2000., 1000., 500., 100.])
 
     return alats, alons, plevs, bnds_lat, bnds_lon
 

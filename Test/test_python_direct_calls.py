@@ -64,11 +64,11 @@ myaxes2[3] = myaxes[2];
 print 'ok doing the vars thing'
 myvars[0] = cmor._cmor.variable(entry2d[0],units2d[0],3,myaxes,'d',None,dtmp2,positive2d[0],varin2d[0],"no history","no future")
 print 'vars 2'
-myvars[1] = cmor._cmor.variable(entry3d[2],units3d[2],4,myaxes2,'d',None,dtmp2,"",varin3d[2],"no history","no future")
+myvars[1] = cmor._cmor.variable(entry3d[2],units3d[2],4,myaxes2,'d',None,dtmp2,"down",varin3d[2],"no history","no future")
 print 'vars 2'
 
 myaxes2[1] = myaxes[4];
-myvars[2] = cmor._cmor.variable(entry3d[0],units3d[0],4,myaxes2,'d',None,dtmp2,"",varin3d[0],"no history","no future")
+myvars[2] = cmor._cmor.variable(entry3d[0],units3d[0],4,myaxes2,'d',None,dtmp2,"down",varin3d[0],"no history","no future")
 
 print 'vars 2'
 
