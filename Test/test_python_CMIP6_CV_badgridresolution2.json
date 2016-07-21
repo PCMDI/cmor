@@ -54,7 +54,6 @@
 
            "#driving_variant_label":     "no-driver",
 
-           "further_info_url":       "http://furtherinfo.es-doc.org/<mip_era><institution_id><source_id><experiment_id><sub_experiment_id><variant_label>",
 
            "grid":                   "gs1x1",
            "grid_label":             "gs1x1 gn",

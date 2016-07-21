@@ -78,7 +78,7 @@ def save(opts,threeD=True):
             [2500, 1500],
             [1500, 750],
             [750, 300],
-            [300, 0])
+            [300, 0]])
         plev_axis_id = cmor.axis(table_entry='plev19',
                 units='Pa', length=len(plev),
                 coord_vals=plev[:], cell_bounds=plev_bounds[:],
