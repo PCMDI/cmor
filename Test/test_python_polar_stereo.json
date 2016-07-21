@@ -1,0 +1,37 @@
+{
+    "_control_vocabulary_file":     "CMIP6_CV.json",
+    "_cmip6_option":                "CMIP6",
+
+    "institution_id":               "IPSL",
+    "activity_id":                  "ISMIP6",
+    "outpath":                      "ISMIP6",
+    "experiment_id":                "piControl-withism",
+    "calendar":                     "gregorian",
+    "realization_index":            "1",
+    "initialization_index":         "1",
+    "forcing_index":                "1",
+    "physics_index":                "1",
+    "source_type":                  "AOGCM ISM",
+    "sub_experiment_id":            "none",
+    "sub_experiment":               "none",
+    "contact ":                     "Fabien Gillet-Chaulet (gillet-chaulet@lgge.obs.ujf-grenoble.fr)",
+    "source_id":                    "IPSL",
+    "history":                      "orog was conservatively regridded to a 5km grid using the 'cdo remapycon' utility. More details on the remapycon utility can be found here: https://code.zmaw.de/projects/cdo or by typing 'cdo -h remapycon' at the command prompt",
+    "comment":                      "asmb experiment for InitMIP",
+    "branch_time":                  "0",
+    "branch_method":                "standard",
+
+    "grid":                         "Polar Stereographic",
+    "grid_label":                   "gn",
+    "grid_resolution":              "5 km",
+
+    "output_path_template":         "<activity_id><institution_id><source_id><experiment_id><variant_label><table><variable_id><grid_label><version>",
+    "output_file_template":         "<variable_id><table><experiment_id><source_id><variant_label><grid_label>",
+
+    "license":                      "CMIP6 model data produced by <Your CentreName> is licensed under a Creative Commons Attribution 'NonCommercial Share Alike' 4.0 International License (http://creativecommons.org/licenses/by/4.0/). Use of the data should be acknowledged following guidelines found at <what URL???> The data is hosted via the Earth System Grid Federation. Permissions beyond the scope of this license may be available at http://pcmdi.org/cmip5/terms-of-use.   Individuals using this data should register at ??? to receive notice of selected categories of errata and updates. Further information about this data, including some limitations, can be found at ???. The data producers and data providers make no warranty, either express or implied, including but not limited to, warranties of merchantability and fitness for a particular purpose. All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law. "
+
+
+}
+
+
+
