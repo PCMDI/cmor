@@ -3271,7 +3271,7 @@
             "dimensions": "longitude latitude plev19 time", 
             "out_name": "ta", 
             "type": "real", 
-            "positive": "up", 
+            "positive": "", 
             "valid_min": "157.1", 
             "valid_max": "336.3", 
             "ok_min_mean_abs": "194.3", 
