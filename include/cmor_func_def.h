@@ -107,7 +107,7 @@ extern void cmor_define_dimensions(int var_id, int ncid,
                             int *nc_vars_af,
                             size_t *nc_dim_chunking, int *dim_bnds,
                             int *zfactors, int *nc_zfactors,
-                            int *nc_dim_af);
+                            int *nc_dim_af, int *nzfactors);
 extern void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
                                        int *nc_vars, int *nc_bnds_vars,
                                        int *nc_vars_af, int *nc_associated_vars,

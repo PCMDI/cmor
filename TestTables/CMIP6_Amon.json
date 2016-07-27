@@ -4053,7 +4053,28 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
+<<<<<<< Updated upstream
         "uas": {
+=======
+        "ta": {
+            "modeling_realm": "atmos", 
+            "standard_name": "air_temperature", 
+            "units": "K", 
+            "cell_methods": "area: areacella", 
+            "cell_measures": "time: mean", 
+            "long_name": "Air Temperature", 
+            "comment": "", 
+            "dimensions": "longitude latitude plev19 time", 
+            "out_name": "ta", 
+            "type": "real", 
+            "positive": "", 
+            "valid_min": "157.1", 
+            "valid_max": "336.3", 
+            "ok_min_mean_abs": "194.3", 
+            "ok_max_mean_abs": "299.8"
+        }, 
+        "tas": {
+>>>>>>> Stashed changes
             "modeling_realm": "atmos", 
             "standard_name": "eastward_wind", 
             "units": "m s-1", 

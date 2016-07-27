@@ -3077,7 +3077,7 @@ void cmor_define_dimensions(int var_id, int ncid,
                             int *nc_vars_af,
                             size_t *nc_dim_chunking, int *dim_bnds,
                             int *zfactors, int *nc_zfactors,
-                            int *nc_dim_af){
+                            int *nc_dim_af, int *nzfactors){
     int i,j,k,l,n;
     char msg[CMOR_MAX_STRING];
     char ctmp[CMOR_MAX_STRING];
@@ -3087,7 +3087,6 @@ void cmor_define_dimensions(int var_id, int ncid,
     int ierr;
     int tmp_dims[2];
     int dims_bnds_ids[2];
-    int nzfactors = 0;
     int nVarRefTblID = cmor_vars[var_id].ref_table_id;
     int ics, icd, icdl;
     int itmpmsg, itmp2, itmp3;
@@ -3514,7 +3513,7 @@ void cmor_define_dimensions(int var_id, int ncid,
                     }
                 }
                 ierr = cmor_define_zfactors_vars(var_id, ncafid, &nc_dim_af[0],
-                        msg, &nzfactors, &zfactors[0], &nc_zfactors[0], i, -1);
+                        msg, nzfactors, &zfactors[0], &nc_zfactors[0], i, -1);
             } else if (strcmp(
                     cmor_axes[cmor_vars[var_id].axes_ids[i]].attributes[j],
                     "z_bounds_factors") == 0) {
@@ -3541,7 +3540,7 @@ void cmor_define_dimensions(int var_id, int ncid,
                 ierr = nc_put_att_text(ncafid, nc_bnds_vars[i], "formula_terms",
                         n, msg);
                 ierr = cmor_define_zfactors_vars(var_id, ncafid, nc_dim, msg,
-                        &nzfactors, &zfactors[0], &nc_zfactors[0], i, *dim_bnds);
+                        nzfactors, &zfactors[0], &nc_zfactors[0], i, *dim_bnds);
             } else if (strcmp(
                     cmor_axes[cmor_vars[var_id].axes_ids[i]].attributes[j],
                     "interval") == 0) {
@@ -4250,7 +4249,7 @@ int cmor_write( int var_id, void *data, char type,
 
         cmor_define_dimensions(var_id, ncid, ncafid, time_bounds, nc_dim,
                 nc_vars, nc_bnds_vars, nc_vars_af, nc_dim_chunking, &dim_bnds,
-                zfactors, nc_zfactors,nc_dim_af);
+                zfactors, nc_zfactors,nc_dim_af, &nzfactors);
 
 /* -------------------------------------------------------------------- */
 /*      Store the dimension id for reuse when writting                  */
