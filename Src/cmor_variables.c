@@ -1440,12 +1440,9 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
 /* -------------------------------------------------------------------- */
 
 	j = refvar.ndims - olndims + aint;
-
 	for( i = 0; i < refvar.ndims; i++ ) {
-
 	    if( cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].value !=
 		1.e20 ) {
-
 /* -------------------------------------------------------------------- */
 /*      ok it could be a dummy but we need to check if the user         */
 /*      already defined this dummy dimension or notd                    */
@@ -1453,8 +1450,8 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
 
 		l = -1;
 		for( k = 0; k < olndims; k++ ) {
-		    if( cmor_has_axis_attribute
-			( laxes_ids[k], VARIABLE_ATT_STANDARDNAME ) == 0 ) {
+		    if( cmor_has_axis_attribute( laxes_ids[k],
+		            VARIABLE_ATT_STANDARDNAME ) == 0 ) {
 			cmor_get_axis_attribute( laxes_ids[k],
 						 VARIABLE_ATT_STANDARDNAME,
 						 'c',
@@ -1697,7 +1694,8 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
 		k++;
 	    }
 	    did_grid_reorder = 1;
-	} else if( ( refvar.dimensions[i] == -2 ) || ( cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].value == 1.e20 ) ) {
+	} else if( ( refvar.dimensions[i] == -2 ) ||
+	        ( cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].value == 1.e20 ) ) {
 /* -------------------------------------------------------------------- */
 /*      not a singleton dim                                             */
 /* -------------------------------------------------------------------- */
@@ -2493,7 +2491,7 @@ int cmor_write_var_to_file( int ncid, cmor_var_t * avar, void *data,
 	if( avar->isbounds ) {
 
 /* -------------------------------------------------------------------- */
-/*      ok here's the code for filipping the code if necessary          */
+/*      ok here's the code to flip the code if necessary                */
 /* -------------------------------------------------------------------- */
 	    if( cmor_axes[avar->axes_ids[0]].revert == -1 ) {
 		loc = nelements - i - 1;
@@ -3132,18 +3130,24 @@ int cmor_write_var_to_file( int ncid, cmor_var_t * avar, void *data,
 	starts[avar->ndims] = 0;
     }
 
-    if( mtype == 'd' )
+    if( mtype == 'd' ) {
 	ierr =  nc_put_vara_double( ncid, avar->nc_var_id, starts, counts,
 	        data_tmp );
-    else if( mtype == 'f' )
+    }
+    else if( mtype == 'f' ) {
 	ierr =  nc_put_vara_float( ncid, avar->nc_var_id, starts, counts,
 	        fdata_tmp );
-    else if( mtype == 'l' )
+	printf("id = %s\n", avar->id);
+	printf("fdata_tmp = %f\n",fdata_tmp[0]);
+    }
+    else if( mtype == 'l' ) {
 	ierr = nc_put_vara_long( ncid, avar->nc_var_id, starts, counts,
 	        ldata_tmp );
-    else if( mtype == 'i' )
+    }
+    else if( mtype == 'i' ) {
 	ierr = nc_put_vara_int( ncid, avar->nc_var_id, starts, counts,
 	        idata_tmp );
+    }
 
     if( ierr != NC_NOERR ) {
 	snprintf( msg, CMOR_MAX_STRING,

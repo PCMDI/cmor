@@ -15,7 +15,7 @@ myvars=numpy.zeros(9,dtype='i')
 # Initialize CMOR
 # -------------------
 cmor.setup(inpath="Tables",set_verbosity=cmor.CMOR_NORMAL, netcdf_file_action = cmor.CMOR_REPLACE_4 );
-cmor.dataset_json("Test/test_python_polar_stereo.json")
+cmor.dataset_json("./test_python_polar_stereo.json")
 
 tables=[]
 grid_table = cmor.load_table("CMIP6_grids.json")
@@ -32,18 +32,17 @@ cmor.set_table(tables[0])
 
 f=cdms2.open("~/Downloads/orog_GIS_LGGE_ELMER2_asmb.nc")
 fg=cdms2.open("~/Downloads/Greenland_5km_v1.1.nc")
-x=fg['x1'][:]
-y=fg['y1'][:]
-pdb.set_trace()
+x=f['x'][:]
+y=f['y'][:]
 lon_coords=fg['lon'][0,:]
 lat_coords=fg['lat'][0,:]
 
 
 
-myaxes[0] = cmor.axis(table_entry = 'ygre', 
+myaxes[0] = cmor.axis(table_entry = 'y', 
                       units = 'm', 
                       coord_vals = y)
-myaxes[1] = cmor.axis(table_entry = 'xgre', 
+myaxes[1] = cmor.axis(table_entry = 'x', 
                       units = 'm', 
                       coord_vals = x)
 
@@ -73,13 +72,15 @@ cmor.set_grid_mapping(grid_id=myaxes[2],
 cmor.set_table(tables[1])
 pass_axes = [myaxes[2]]
 
+data = f['orog'][0,:]
 myvars[0] = cmor.variable( table_entry = te,
                            units = u,
                            axis_ids = pass_axes,
+                           missing_value = data.missing,
                            history = '',
                            comment = ''
                            )
-
-cmor.write(myvars[0], f['orog'][0,:])
+pdb.set_trace()
+cmor.write(myvars[0], data)
 
 cmor.close()

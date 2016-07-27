@@ -2851,7 +2851,6 @@ void cmor_generate_uuid(){
     uuid_unparse(myuuid, myuuid_str);
 
     //fmt = UUID_FMT_STR;
-
 /* -------------------------------------------------------------------- */
 /*      Write tracking_id and tracking_prefix                           */
 /* -------------------------------------------------------------------- */
@@ -3653,13 +3652,13 @@ void cmor_define_dimensions(int var_id, int ncid,
 /************************************************************************/
 /*                         cmor_grids_def()                             */
 /************************************************************************/
-int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af) {
+int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af,
+        int *nc_associated_vars) {
     int ierr;
     int m;
     char msg[CMOR_MAX_STRING];
     double tmps[2];
     int i,j,k,l;
-    int nc_associated_vars[6];
     int nc_dims_associated[CMOR_MAX_AXES];
     int nVarRefTblID = cmor_vars[var_id].ref_table_id;
     int m2[5];
@@ -3903,12 +3902,12 @@ int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af) {
                     && (CMOR_NETCDF_MODE != CMOR_APPEND_3)) {
                 if (cmor_vars[j].ndims > 0) {
 
-                    ics =
-                            cmor_tables[cmor_vars[j].ref_table_id].vars[cmor_vars[j].ref_var_id].shuffle;
-                    icd =
-                            cmor_tables[cmor_vars[j].ref_table_id].vars[cmor_vars[j].ref_var_id].deflate;
-                    icdl =
-                            cmor_tables[cmor_vars[j].ref_table_id].vars[cmor_vars[j].ref_var_id].deflate_level;
+                    ics = cmor_tables[cmor_vars[j].ref_table_id].
+                            vars[cmor_vars[j].ref_var_id].shuffle;
+                    icd = cmor_tables[cmor_vars[j].ref_table_id].
+                            vars[cmor_vars[j].ref_var_id].deflate;
+                    icdl = cmor_tables[cmor_vars[j].ref_table_id].
+                            vars[cmor_vars[j].ref_var_id].deflate_level;
 
                     ierr = nc_def_var_deflate(ncafid, nc_associated_vars[i],
                             ics, icd, icdl);
@@ -4265,7 +4264,8 @@ int cmor_write( int var_id, void *data, char type,
 /*      check if it is a grid thing                                     */
 /* -------------------------------------------------------------------- */
 	if( nGridID > -1 ) {
-	    ierr = cmor_grids_def(var_id, nGridID,ncafid, nc_dim_af);
+	    ierr = cmor_grids_def(var_id, nGridID,ncafid, nc_dim_af,
+	            nc_associated_vars);
 	    if(ierr) return(ierr);
 	}
 
@@ -4306,7 +4306,7 @@ int cmor_write( int var_id, void *data, char type,
 	}
 
 /* -------------------------------------------------------------------- */
-/*      Store the var id for reuse when writting                        */
+/*      Store the var id for reuse when writing                         */
 /*      over multiple call to cmor_write and for cmor_close             */
 /* -------------------------------------------------------------------- */
 	cmor_vars[var_id].nc_var_id = nc_vars[cmor_vars[var_id].ndims];
