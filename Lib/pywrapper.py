@@ -908,13 +908,3 @@ def get_final_filename():
    """ Retrieve renamed file after cmor.close() has been called.  This is useful to reopen the file in the same program.
    """
    return _cmor.get_final_filename()
-
-def create_output_path(varid):
-    """returns the output path where a variable would be stored, given a varid (as returned by a call to cmor.variable)
-    Usage:
-      path = create_output_path(var_id)
-    Where:
-      var_id : id to variable as returned by a call to variable(...)
-    Returns: the path where the file will be created
-    """
-    return _cmor.create_output_path(varid)
