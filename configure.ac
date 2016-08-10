@@ -2,7 +2,7 @@ dnl
 dnl Process this file with autoconf to produce a configure script.
 
 dnl AC_PREREQ(2.59)
-AC_INIT(cmor, 3.0.0, nadeau11@llnl.gov)
+AC_INIT(cmor, 3.1.2, nadeau11@llnl.gov)
 
 GIT_TAG=`./get_git_version.sh`
 
@@ -186,7 +186,7 @@ else
   UUIDLDFLAGS="-luuid"
   UUIDFLAGS=""
 fi
-AC_CHECK_LIB([uuid],[uuid_generate],[],[AC_ERROR([Could not get a working uuid])],[ ${UUIDFLAGS} ${UUIDLDFLAGS}  ])
+AC_CHECK_LIB([uuid],[uuid_create],[],[AC_ERROR([Could not get a working uuid])],[ ${UUIDFLAGS} ${UUIDLDFLAGS}  ])
 
 LIBS=""
 AC_ARG_WITH([udunits2],[AS_HELP_STRING([--with-udunits2],[enable support for udunits2 in none standard location])],[],[with_udunits2="no"])

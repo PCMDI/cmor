@@ -52,7 +52,7 @@
     "output_path_template":         "<activity_id><institution_id><source_id><experiment_id><variant_label><table><variable_id><grid_label><version>",
     "output_file_template":         "<variable_id><table><experiment_id><source_id><variant_label><grid_label>",
 
-    "#license":                     " The 'license' attribute should be an edited version of the sample below (with segments in brackets optional): The [*] indicates that institutions may choose to use the Non-commercial version of this license by inserting the words 'NonCommercial' at this point, but this will significantly limit the use of the data in downstream climate mitigation and adaptation applications.  ",
+    "license":                     " The 'license' attribute should be an edited version of the sample below (with segments in brackets optional): The [*] indicates that institutions may choose to use the Non-commercial version of this license by inserting the words 'NonCommercial' at this point, but this will significantly limit the use of the data in downstream climate mitigation and adaptation applications.  ",
 
 
 
