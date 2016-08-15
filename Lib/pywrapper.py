@@ -1,11 +1,9 @@
+import numpy
+import os
 
-import cmor_const,numpy,os,_cmor
-import signal
-
-def sig_handler(signum, frame):
-    os.kill(os.getpid(),signal.SIGABRT)
-
-signal.signal(signal.SIGTERM, sig_handler)
+import cmor_const
+import _cmor
+from _cmor import CMORError
 
 try:
     import cdtime
