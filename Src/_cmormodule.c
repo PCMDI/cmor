@@ -4,11 +4,12 @@
 
 static PyObject *CMORError;
 volatile sig_atomic_t raise_exception = 0;
-char *message = "Problem with cmor.%s. Please check the logfile (if defined)";
+char *exception_message = "Problem with 'cmor.%s'. Please check the logfile "
+                          "(if defined).";
 int signal_to_catch = SIGTERM;
 
-void signal_handler(int sig) {
-    if (sig == signal_to_catch) {
+void signal_handler(int signal) {
+    if (signal == signal_to_catch) {
         raise_exception = 1;
     }
 }
@@ -40,7 +41,7 @@ static PyObject *PyCMOR_get_original_shape( PyObject * self,
     
     if (raise_exception) {
         raise_exception = 0;
-        PyErr_Format(CMORError, message, "get_original_shape");
+        PyErr_Format(CMORError, exception_message, "get_original_shape");
         return NULL;
     }
     
@@ -64,7 +65,7 @@ static PyObject *PyCMOR_set_cur_dataset_attribute(PyObject *self,
 
   if (ierr != 0 || raise_exception) {
     raise_exception = 0;
-    PyErr_Format(CMORError, message, "set_cur_dataset_attribute");
+    PyErr_Format(CMORError, exception_message, "set_cur_dataset_attribute");
     return NULL;
   }
   
@@ -88,7 +89,8 @@ static PyObject *PyCMOR_get_cur_dataset_attribute( PyObject * self,
     
     if (ierr != 0 || raise_exception) {
         raise_exception = 0;
-        PyErr_Format(CMORError, message, "get_cur_dataset_attribute");
+        PyErr_Format(CMORError, exception_message,
+                     "get_cur_dataset_attribute");
         return NULL;
     }
 
@@ -110,7 +112,8 @@ static PyObject *PyCMOR_has_cur_dataset_attribute( PyObject * self,
 
     if (ierr != 0 || raise_exception) {
         raise_exception = 0;
-        PyErr_Format(CMORError, message, "has_cur_dataset_attribute");
+        PyErr_Format(CMORError, exception_message,
+                     "has_cur_dataset_attribute");
         return NULL;
     }
     
@@ -132,7 +135,7 @@ static PyObject *PyCMOR_set_deflate( PyObject * self,
     
     if (ierr != 0 || raise_exception) {
         raise_exception = 0;
-        PyErr_Format(CMORError, message, "set_deflate");
+        PyErr_Format(CMORError, exception_message, "set_deflate");
         return NULL;
     }
     
@@ -157,7 +160,7 @@ static PyObject *PyCMOR_set_variable_attribute( PyObject * self,
     
     if (ierr != 0 || raise_exception) {
         raise_exception = 0;
-        PyErr_Format(CMORError, message, "set_variable_attribute");
+        PyErr_Format(CMORError, exception_message, "set_variable_attribute");
         return NULL;
     }
     
@@ -181,7 +184,7 @@ static PyObject *PyCMOR_get_variable_attribute( PyObject * self,
     
     if (ierr != 0 || raise_exception) {
         raise_exception = 0;
-        PyErr_Format(CMORError, message, "get_variable_attribute");
+        PyErr_Format(CMORError, exception_message, "get_variable_attribute");
         return NULL;
     }
 
@@ -204,7 +207,7 @@ static PyObject *PyCMOR_has_variable_attribute( PyObject * self,
     
     if (ierr != 0 || raise_exception) {
         raise_exception = 0;
-        PyErr_Format(CMORError, message, "has_variable_attribute");
+        PyErr_Format(CMORError, exception_message, "has_variable_attribute");
         return NULL;
     }
     
@@ -236,7 +239,7 @@ static PyObject *PyCMOR_setup( PyObject * self, PyObject * args ) {
     
     if (ierr != 0 || raise_exception) {
         raise_exception = 0;
-        PyErr_Format(CMORError, message, "setup");
+        PyErr_Format(CMORError, exception_message, "setup");
         return NULL;
     }
     
@@ -350,7 +353,7 @@ static PyObject *PyCMOR_dataset_json( PyObject * self, PyObject * args ) {
     
     if (ierr != 0 || raise_exception) {
         raise_exception = 0;
-        PyErr_Format(CMORError, message, "dataset_json");
+        PyErr_Format(CMORError, exception_message, "dataset_json");
         return NULL;
     }
     
@@ -373,7 +376,7 @@ static PyObject *PyCMOR_load_table( PyObject * self, PyObject * args ) {
     
     if (ierr != 0 || raise_exception) {
         raise_exception = 0;
-        PyErr_Format(CMORError, message, "load_table");
+        PyErr_Format(CMORError, exception_message, "load_table");
         return NULL;
     }
 
@@ -476,7 +479,7 @@ static PyObject *PyCMOR_axis( PyObject * self, PyObject * args ) {
 
     if (ierr != 0 || raise_exception) {
         raise_exception = 0;
-        PyErr_Format(CMORError, message, "axis");
+        PyErr_Format(CMORError, exception_message, "axis");
         return NULL;
     }
 
@@ -498,7 +501,7 @@ static PyObject *PyCMOR_set_table( PyObject * self, PyObject * args ) {
     
     if (ierr != 0 || raise_exception) {
         raise_exception = 0;
-        PyErr_Format(CMORError, message, "set_table");
+        PyErr_Format(CMORError, exception_message, "set_table");
         return NULL;
     }
     
@@ -572,7 +575,7 @@ static PyObject *PyCMOR_variable( PyObject * self, PyObject * args ) {
     
     if (ierr != 0 || raise_exception) {
         raise_exception = 0;
-        PyErr_Format(CMORError, message, "variable");
+        PyErr_Format(CMORError, exception_message, "variable");
         return NULL;
     }
     
@@ -653,7 +656,7 @@ static PyObject *PyCMOR_zfactor( PyObject * self, PyObject * args ) {
     
     if (ierr != 0 || raise_exception) {
         raise_exception = 0;
-        PyErr_Format(CMORError, message, "zfactor");
+        PyErr_Format(CMORError, exception_message, "zfactor");
         return NULL;
     }
     
@@ -705,7 +708,7 @@ static PyObject *PyCMOR_grid_mapping( PyObject * self, PyObject * args ) {
 
     if (ierr != 0 || raise_exception) {
         raise_exception = 0;
-        PyErr_Format(CMORError, message, "grid_mapping");
+        PyErr_Format(CMORError, exception_message, "grid_mapping");
         return NULL;
     }
     
@@ -795,7 +798,7 @@ static PyObject *PyCMOR_write( PyObject * self, PyObject * args ) {
 
     if (ierr != 0 || raise_exception) {
         raise_exception = 0;
-        PyErr_Format(CMORError, message, "write");
+        PyErr_Format(CMORError, exception_message, "write");
         return NULL;
     }
     
@@ -848,7 +851,7 @@ static PyObject *PyCMOR_close( PyObject * self, PyObject * args ) {
 
     if (ierr != 0 || raise_exception) {
         raise_exception = 0;
-        PyErr_Format(CMORError, message, "close");
+        PyErr_Format(CMORError, exception_message, "close");
         return NULL;
     } else {
 	if( dofile == 1 ) {
@@ -892,7 +895,8 @@ static PyObject *PyCMOR_time_varying_grid_coordinate( PyObject * self,
 
     if (ierr != 0 || raise_exception) {
         raise_exception = 0;
-        PyErr_Format(CMORError, message, "time_varying_grid_coordinate");
+        PyErr_Format(CMORError, exception_message,
+                     "time_varying_grid_coordinate");
         return NULL;
     }
     
@@ -987,7 +991,7 @@ static PyObject *PyCMOR_grid( PyObject * self, PyObject * args ) {
     
     if (ierr != 0 || raise_exception) {
         raise_exception = 0;
-        PyErr_Format(CMORError, message, "time_varying_grid_coordinate");
+        PyErr_Format(CMORError, exception_message, "grid");
         return NULL;
     }
     return Py_BuildValue( "i", id );
@@ -1030,6 +1034,6 @@ PyMODINIT_FUNC init_cmor( void ) {
     PyObject *cmor_module;
     cmor_module = Py_InitModule("_cmor", MyExtractMethods);
     import_array(  );
-    CMORError = PyErr_NewException("cmor.CMORError", NULL, NULL);
+    CMORError = PyErr_NewException("_cmor.CMORError", NULL, NULL);
     PyModule_AddObject(cmor_module, "CMORError", CMORError);
 }
