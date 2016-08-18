@@ -1,12 +1,26 @@
 #include <Python.h>
 #include "numpy/arrayobject.h"
 #include "cmor.h"
+
+static PyObject *CMORError;
+volatile sig_atomic_t raise_exception = 0;
+char *exception_message = "Problem with 'cmor.%s'. Please check the logfile "
+                          "(if defined).";
+int signal_to_catch = SIGTERM;
+
+void signal_handler(int signal) {
+    if (signal == signal_to_catch) {
+        raise_exception = 1;
+    }
+}
+
 /************************************************************************/
 /*                     PyCMOR_get_original_shape()                      */
 /************************************************************************/
 
 static PyObject *PyCMOR_get_original_shape( PyObject * self,
 					    PyObject * args ) {
+    signal(signal_to_catch, signal_handler);
     int  i, shape_array[CMOR_MAX_DIMENSIONS], var_id, blank_time;
 
     i = CMOR_MAX_DIMENSIONS;
@@ -24,14 +38,22 @@ static PyObject *PyCMOR_get_original_shape( PyObject * self,
 	}
     }
     Py_INCREF( mylist );
+    
+    if (raise_exception) {
+        raise_exception = 0;
+        PyErr_Format(CMORError, exception_message, "get_original_shape");
+        return NULL;
+    }
+    
     return(mylist);
 }
+
 /************************************************************************/
 /*                  PyCMOR_set_cur_dataset_attribute()                  */
 /************************************************************************/
 static PyObject *PyCMOR_set_cur_dataset_attribute(PyObject *self,
-                                                  PyObject *args)
-{
+                                                  PyObject *args) {
+  signal(signal_to_catch, signal_handler);
   char *name;
   char *value;
   int ierr;
@@ -41,11 +63,13 @@ static PyObject *PyCMOR_set_cur_dataset_attribute(PyObject *self,
 
   ierr = cmor_set_cur_dataset_attribute(name, value, 1);
 
-  if (ierr != 0 ) return NULL;
-
-  Py_INCREF(Py_None);
-
-  return(Py_None);
+  if (ierr != 0 || raise_exception) {
+    raise_exception = 0;
+    PyErr_Format(CMORError, exception_message, "set_cur_dataset_attribute");
+    return NULL;
+  }
+  
+  return Py_BuildValue( "i", ierr );
 }
 
 /************************************************************************/
@@ -53,16 +77,24 @@ static PyObject *PyCMOR_set_cur_dataset_attribute(PyObject *self,
 /************************************************************************/
 static PyObject *PyCMOR_get_cur_dataset_attribute( PyObject * self,
 						   PyObject * args ) {
+    signal(signal_to_catch, signal_handler);
     char *name;
     char value[CMOR_MAX_STRING];
     int ierr;
 
     if( !PyArg_ParseTuple( args, "s", &name ) )
 	return NULL;
+    
     ierr = cmor_get_cur_dataset_attribute( name, value );
-    if( ierr != 0 )
-	return NULL;
-    return(Py_BuildValue( "s", value ) );
+    
+    if (ierr != 0 || raise_exception) {
+        raise_exception = 0;
+        PyErr_Format(CMORError, exception_message,
+                     "get_cur_dataset_attribute");
+        return NULL;
+    }
+
+    return Py_BuildValue( "s", value );
 }
 
 /************************************************************************/
@@ -70,27 +102,44 @@ static PyObject *PyCMOR_get_cur_dataset_attribute( PyObject * self,
 /************************************************************************/
 static PyObject *PyCMOR_has_cur_dataset_attribute( PyObject * self,
 						   PyObject * args ) {
+    signal(signal_to_catch, signal_handler);
     char *name;
     int ierr;
 
     if( !PyArg_ParseTuple( args, "s", &name ) )
 	return NULL;
     ierr = cmor_has_cur_dataset_attribute( name );
+
+    if (ierr != 0 || raise_exception) {
+        raise_exception = 0;
+        PyErr_Format(CMORError, exception_message,
+                     "has_cur_dataset_attribute");
+        return NULL;
+    }
+    
     return Py_BuildValue( "i", ierr );
 }
+
 /************************************************************************/
 /*                   PyCMOR_set_deflate()                    */
 /************************************************************************/
 static PyObject *PyCMOR_set_deflate( PyObject * self,
                                      PyObject * args ) {
+    signal(signal_to_catch, signal_handler);
     int ierr, var_id, shuffle, deflate, deflate_level;
 
     if( !PyArg_ParseTuple( args, "iiii", &var_id, &shuffle, &deflate, &deflate_level ) )
         return NULL;
 
     ierr =  cmor_set_deflate( var_id, shuffle, deflate, deflate_level );
+    
+    if (ierr != 0 || raise_exception) {
+        raise_exception = 0;
+        PyErr_Format(CMORError, exception_message, "set_deflate");
+        return NULL;
+    }
+    
     return Py_BuildValue( "i", ierr );
-
 }
 
 /************************************************************************/
@@ -98,36 +147,47 @@ static PyObject *PyCMOR_set_deflate( PyObject * self,
 /************************************************************************/
 static PyObject *PyCMOR_set_variable_attribute( PyObject * self,
 						PyObject * args ) {
+    signal(signal_to_catch, signal_handler);
     char *name;
     char *value;
     int ierr, var_id;
 
     if( !PyArg_ParseTuple( args, "iss", &var_id, &name, &value ) )
 	return NULL;
+    
     ierr =
 	cmor_set_variable_attribute( var_id, name, 'c', ( void * ) value );
-    if( ierr != 0 )
-	return NULL;
-    /* Return NULL Python Object */
-    Py_INCREF( Py_None );
-    return Py_None;
+    
+    if (ierr != 0 || raise_exception) {
+        raise_exception = 0;
+        PyErr_Format(CMORError, exception_message, "set_variable_attribute");
+        return NULL;
+    }
+    
+    return Py_BuildValue( "i", ierr );
 }
-
 
 /************************************************************************/
 /*                   PyCMOR_get_variable_attribute()                    */
 /************************************************************************/
 static PyObject *PyCMOR_get_variable_attribute( PyObject * self,
 						PyObject * args ) {
+    signal(signal_to_catch, signal_handler);
     char *name;
     char value[CMOR_MAX_STRING];
     int ierr, var_id;
 
     if( !PyArg_ParseTuple( args, "is", &var_id, &name ) )
 	return NULL;
+    
     ierr = cmor_get_variable_attribute( var_id, name, ( void * ) value );
-    if( ierr != 0 )
-	return NULL;
+    
+    if (ierr != 0 || raise_exception) {
+        raise_exception = 0;
+        PyErr_Format(CMORError, exception_message, "get_variable_attribute");
+        return NULL;
+    }
+
     return Py_BuildValue( "s", value );
 }
 
@@ -136,12 +196,21 @@ static PyObject *PyCMOR_get_variable_attribute( PyObject * self,
 /************************************************************************/
 static PyObject *PyCMOR_has_variable_attribute( PyObject * self,
 						PyObject * args ) {
+    signal(signal_to_catch, signal_handler);
     char *name;
     int ierr, var_id;
 
     if( !PyArg_ParseTuple( args, "is", &var_id, &name ) )
 	return NULL;
+    
     ierr = cmor_has_variable_attribute( var_id, name );
+    
+    if (ierr != 0 || raise_exception) {
+        raise_exception = 0;
+        PyErr_Format(CMORError, exception_message, "has_variable_attribute");
+        return NULL;
+    }
+    
     return Py_BuildValue( "i", ierr );
 }
 
@@ -149,6 +218,7 @@ static PyObject *PyCMOR_has_variable_attribute( PyObject * self,
 /*                            PyCMOR_setup()                            */
 /************************************************************************/
 static PyObject *PyCMOR_setup( PyObject * self, PyObject * args ) {
+    signal(signal_to_catch, signal_handler);
     int mode, ierr, netcdf, verbosity, createsub;
     char *path;
     char *logfile;
@@ -166,11 +236,14 @@ static PyObject *PyCMOR_setup( PyObject * self, PyObject * args ) {
 	    cmor_setup( path, &netcdf, &verbosity, &mode, logfile,
 			&createsub );
     }
-    if( ierr != 0 )
-	return NULL;
-    /* Return NULL Python Object */
-    Py_INCREF( Py_None );
-    return Py_None;
+    
+    if (ierr != 0 || raise_exception) {
+        raise_exception = 0;
+        PyErr_Format(CMORError, exception_message, "setup");
+        return NULL;
+    }
+    
+    return Py_BuildValue( "i", ierr );
 }
 
 /************************************************************************/
@@ -268,6 +341,7 @@ static PyObject *PyCMOR_getFinalFilename( PyObject * self, PyObject * args ) {
 /************************************************************************/
 
 static PyObject *PyCMOR_dataset_json( PyObject * self, PyObject * args ) {
+    signal(signal_to_catch, signal_handler);
     int ierr;
     char *rcfile;
 
@@ -276,11 +350,14 @@ static PyObject *PyCMOR_dataset_json( PyObject * self, PyObject * args ) {
     }
 
     ierr = cmor_dataset_json( rcfile );
-    if( ierr != 0 ) {
-        return Py_BuildValue( "i", ierr);
+    
+    if (ierr != 0 || raise_exception) {
+        raise_exception = 0;
+        PyErr_Format(CMORError, exception_message, "dataset_json");
+        return NULL;
     }
-
-    return Py_None;
+    
+    return Py_BuildValue( "i", ierr);
 }
 
 /************************************************************************/
@@ -288,15 +365,21 @@ static PyObject *PyCMOR_dataset_json( PyObject * self, PyObject * args ) {
 /************************************************************************/
 
 static PyObject *PyCMOR_load_table( PyObject * self, PyObject * args ) {
+    signal(signal_to_catch, signal_handler);
     int ierr, table_id;
     char *table;
 
     if( !PyArg_ParseTuple( args, "s", &table ) )
 	return NULL;
+    
     ierr = cmor_load_table( table, &table_id );
-    if( ierr != 0 ) {
-	return NULL;
+    
+    if (ierr != 0 || raise_exception) {
+        raise_exception = 0;
+        PyErr_Format(CMORError, exception_message, "load_table");
+        return NULL;
     }
+
     return Py_BuildValue( "i", table_id );
 }
 
@@ -305,6 +388,7 @@ static PyObject *PyCMOR_load_table( PyObject * self, PyObject * args ) {
 /************************************************************************/
 
 static PyObject *PyCMOR_axis( PyObject * self, PyObject * args ) {
+    signal(signal_to_catch, signal_handler);
     int ierr, axis_id, n = 0;
     char *name;
     char *units;
@@ -389,13 +473,15 @@ static PyObject *PyCMOR_axis( PyObject * self, PyObject * args ) {
 	Py_DECREF( bounds );
     }
 
-    if( ierr != 0 )
-	return NULL;
-
     if( type == 'c' ) {
 	free( tmpstr );
     }
 
+    if (ierr != 0 || raise_exception) {
+        raise_exception = 0;
+        PyErr_Format(CMORError, exception_message, "axis");
+        return NULL;
+    }
 
     return Py_BuildValue( "i", axis_id );
 }
@@ -405,22 +491,25 @@ static PyObject *PyCMOR_axis( PyObject * self, PyObject * args ) {
 /************************************************************************/
 
 static PyObject *PyCMOR_set_table( PyObject * self, PyObject * args ) {
+    signal(signal_to_catch, signal_handler);
     int table, ierr;
 
     if( !PyArg_ParseTuple( args, "i", &table ) )
 	return NULL;
+    
     ierr = cmor_set_table( table );
-    if( ierr != 0 )
-	return NULL;
-/* -------------------------------------------------------------------- */
-/*      Return NULL Python Object                                       */
-/* -------------------------------------------------------------------- */
-
-    Py_INCREF( Py_None );
-    return Py_None;
+    
+    if (ierr != 0 || raise_exception) {
+        raise_exception = 0;
+        PyErr_Format(CMORError, exception_message, "set_table");
+        return NULL;
+    }
+    
+    return Py_BuildValue( "i", ierr);
 }
 
 static PyObject *PyCMOR_variable( PyObject * self, PyObject * args ) {
+    signal(signal_to_catch, signal_handler);
     int ierr, var_id;
     char *name;
     char *units;
@@ -483,12 +572,18 @@ static PyObject *PyCMOR_variable( PyObject * self, PyObject * args ) {
     if( axes != NULL ) {
 	Py_DECREF( axes );
     }
-    if( ierr != 0 )
-	return NULL;
+    
+    if (ierr != 0 || raise_exception) {
+        raise_exception = 0;
+        PyErr_Format(CMORError, exception_message, "variable");
+        return NULL;
+    }
+    
     return Py_BuildValue( "i", var_id );
 }
 
 static PyObject *PyCMOR_zfactor( PyObject * self, PyObject * args ) {
+    signal(signal_to_catch, signal_handler);
     int ierr, zvar_id;
     int itmp;
     int axis_id;
@@ -558,13 +653,19 @@ static PyObject *PyCMOR_zfactor( PyObject * self, PyObject * args ) {
     if( bounds_array != NULL ) {
 	Py_DECREF( bounds_array );
     }
-    if( ierr != 0 )
-	return NULL;
+    
+    if (ierr != 0 || raise_exception) {
+        raise_exception = 0;
+        PyErr_Format(CMORError, exception_message, "zfactor");
+        return NULL;
+    }
+    
     return Py_BuildValue( "i", zvar_id );
 }
 
 
 static PyObject *PyCMOR_grid_mapping( PyObject * self, PyObject * args ) {
+    signal(signal_to_catch, signal_handler);
     int ierr;
     PyObject *param_nm_obj, *param_val_obj, *param_un_obj, *tmp;
     PyArrayObject *param_val_arr = NULL;
@@ -605,13 +706,13 @@ static PyObject *PyCMOR_grid_mapping( PyObject * self, PyObject * args ) {
 	Py_DECREF( param_val_arr );
     }
 
-    if( ierr != 0 ) {
-	return NULL;
-    } else {
-	/* Return NULL Python Object */
-	Py_INCREF( Py_None );
-	return Py_None;
+    if (ierr != 0 || raise_exception) {
+        raise_exception = 0;
+        PyErr_Format(CMORError, exception_message, "grid_mapping");
+        return NULL;
     }
+    
+    return Py_BuildValue( "i", ierr);
 }
 
 /************************************************************************/
@@ -619,6 +720,7 @@ static PyObject *PyCMOR_grid_mapping( PyObject * self, PyObject * args ) {
 /************************************************************************/
 
 static PyObject *PyCMOR_write( PyObject * self, PyObject * args ) {
+    signal(signal_to_catch, signal_handler);
     int ierr, var_id;
     PyObject *data_obj = NULL;
     PyArrayObject *data_array = NULL;
@@ -694,12 +796,13 @@ static PyObject *PyCMOR_write( PyObject * self, PyObject * args ) {
 	Py_DECREF( times_bnds_array );
     }
 
-    if( ierr != 0 )
-	return NULL;
-
-
-    Py_INCREF( Py_None );
-    return Py_None;
+    if (ierr != 0 || raise_exception) {
+        raise_exception = 0;
+        PyErr_Format(CMORError, exception_message, "write");
+        return NULL;
+    }
+    
+    return Py_BuildValue( "i", ierr);
 }
 
 /************************************************************************/
@@ -707,6 +810,7 @@ static PyObject *PyCMOR_write( PyObject * self, PyObject * args ) {
 /************************************************************************/
 
 static PyObject *PyCMOR_close( PyObject * self, PyObject * args ) {
+    signal(signal_to_catch, signal_handler);
     PyObject *var;
     int varid, ierr;
     int dofile = 0;
@@ -745,8 +849,10 @@ static PyObject *PyCMOR_close( PyObject * self, PyObject * args ) {
 	}
     }
 
-    if( ierr != 0 ) {
-	return NULL;
+    if (ierr != 0 || raise_exception) {
+        raise_exception = 0;
+        PyErr_Format(CMORError, exception_message, "close");
+        return NULL;
     } else {
 	if( dofile == 1 ) {
 	    return Py_BuildValue( "s", file_name );
@@ -762,6 +868,7 @@ static PyObject *PyCMOR_close( PyObject * self, PyObject * args ) {
 
 static PyObject *PyCMOR_time_varying_grid_coordinate( PyObject * self,
 						      PyObject * args ) {
+    signal(signal_to_catch, signal_handler);
     int ierr, grid_id, coord_var_id;
     char *table_entry;
     char *units;
@@ -786,8 +893,13 @@ static PyObject *PyCMOR_time_varying_grid_coordinate( PyObject * self,
 					   table_entry, units, type,
 					   pass_missing, NULL );
 
-    if( ierr != 0 )
-	return NULL;
+    if (ierr != 0 || raise_exception) {
+        raise_exception = 0;
+        PyErr_Format(CMORError, exception_message,
+                     "time_varying_grid_coordinate");
+        return NULL;
+    }
+    
     return Py_BuildValue( "i", coord_var_id );
 }
 
@@ -796,6 +908,7 @@ static PyObject *PyCMOR_time_varying_grid_coordinate( PyObject * self,
 /************************************************************************/
 
 static PyObject *PyCMOR_grid( PyObject * self, PyObject * args ) {
+    signal(signal_to_catch, signal_handler);
     int ierr;
     PyObject *axes_obj, *lat_obj, *lon_obj, *blat_obj, *blon_obj;
     PyArrayObject *axes_arr = NULL, *lat_arr = NULL, *lon_arr =
@@ -875,11 +988,14 @@ static PyObject *PyCMOR_grid( PyObject * self, PyObject * args ) {
     if( blon_arr != NULL ) {
 	Py_DECREF( blon_arr );
     }
-    if( ierr != 0 )
-	return NULL;
+    
+    if (ierr != 0 || raise_exception) {
+        raise_exception = 0;
+        PyErr_Format(CMORError, exception_message, "grid");
+        return NULL;
+    }
     return Py_BuildValue( "i", id );
 }
-
 
 static PyMethodDef MyExtractMethods[] = {
     {"setup", PyCMOR_setup, METH_VARARGS},
@@ -915,7 +1031,9 @@ static PyMethodDef MyExtractMethods[] = {
 };
 
 PyMODINIT_FUNC init_cmor( void ) {
-    ( void ) Py_InitModule( "_cmor", MyExtractMethods );
+    PyObject *cmor_module;
+    cmor_module = Py_InitModule("_cmor", MyExtractMethods);
     import_array(  );
-
+    CMORError = PyErr_NewException("_cmor.CMORError", NULL, NULL);
+    PyModule_AddObject(cmor_module, "CMORError", CMORError);
 }
