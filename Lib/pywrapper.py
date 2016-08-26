@@ -1,11 +1,9 @@
+import numpy
+import os
 
-import cmor_const,numpy,os,_cmor
-import signal
-
-def sig_handler(signum, frame):
-    os.kill(os.getpid(),signal.SIGABRT)
-
-signal.signal(signal.SIGTERM, sig_handler)
+import cmor_const
+import _cmor
+from _cmor import CMORError
 
 try:
     import cdtime
@@ -910,13 +908,3 @@ def get_final_filename():
    """ Retrieve renamed file after cmor.close() has been called.  This is useful to reopen the file in the same program.
    """
    return _cmor.get_final_filename()
-
-def create_output_path(varid):
-    """returns the output path where a variable would be stored, given a varid (as returned by a call to cmor.variable)
-    Usage:
-      path = create_output_path(var_id)
-    Where:
-      var_id : id to variable as returned by a call to variable(...)
-    Returns: the path where the file will be created
-    """
-    return _cmor.create_output_path(varid)
