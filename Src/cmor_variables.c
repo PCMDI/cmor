@@ -2153,7 +2153,6 @@ int cmor_set_deflate( int var_id, int shuffle,
     cmor_vars[var_id].shuffle = shuffle;
     cmor_vars[var_id].deflate = deflate;
     cmor_vars[var_id].deflate_level = deflate_level;
-    printf("id = %s\n", cmor_vars[var_id].id);
     cmor_pop_traceback();
     return( 0 );
 }
@@ -3137,8 +3136,6 @@ int cmor_write_var_to_file( int ncid, cmor_var_t * avar, void *data,
     else if( mtype == 'f' ) {
 	ierr =  nc_put_vara_float( ncid, avar->nc_var_id, starts, counts,
 	        fdata_tmp );
-	printf("id = %s\n", avar->id);
-	printf("fdata_tmp = %f\n",fdata_tmp[0]);
     }
     else if( mtype == 'l' ) {
 	ierr = nc_put_vara_long( ncid, avar->nc_var_id, starts, counts,

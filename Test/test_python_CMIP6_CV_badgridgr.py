@@ -12,15 +12,14 @@
 #      https://github.com/PCMDI/cmor/blob/master/Test/<filename>.json
 #      to the 'Test/' directory.
 
-from threading import Thread
 import time
-import cmor,numpy
+import cmor
+import numpy
 import contextlib
 import unittest
 import signal
 import sys,os
 import tempfile
-import pdb
 import atexit
 
 
@@ -37,37 +36,12 @@ os.dup2(tmpfile[0], 1)
 os.dup2(tmpfile[0], 2)
 os.close(tmpfile[0])
 
-global testOK 
-testOK = []
-
-# ==============================
-# Handle SIGINT receive by CMOR
-# ==============================
-def sig_handler(signum, frame):
-    global testOK
-
-    f=open(tmpfile[1],'r')
-    lines=f.readlines()
-    for line in lines:
-        if line.find('Error:') != -1:
-            testOK = line.strip()
-            break
-    f.close()
-    os.unlink(tmpfile[1])
-
 
 # ==============================
 #  main thread
 # ==============================
 def run():
     unittest.main()
-
-
-# ---------------------
-# Hook up SIGTEM signal 
-# ---------------------
-signal.signal(signal.SIGINT, sig_handler)
-
 
 class TestInstitutionMethods(unittest.TestCase):
 
@@ -104,9 +78,6 @@ class TestInstitutionMethods(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    t = Thread(target=run)
-    t.start()
-    while t.is_alive():
-        t.join(1)
+    run()
 
 
