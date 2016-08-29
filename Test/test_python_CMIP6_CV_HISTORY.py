@@ -16,6 +16,9 @@ import cmor
 import numpy
 import unittest
 import cdms2
+import os
+import sys
+import tempfile
 
 
 # ==============================
@@ -25,7 +28,20 @@ def run():
     unittest.main()
 
 
-class TestInstitutionMethods(unittest.TestCase):
+class TestCase(unittest.TestCase):
+    def setUp(self, *args, **kwargs):
+        # ------------------------------------------------------
+        # Copy stdout and stderr file descriptor for cmor output
+        # ------------------------------------------------------
+        self.newstdout = os.dup(1)
+        self.newstderr = os.dup(2)
+        # --------------
+        # Create tmpfile
+        # --------------
+        self.tmpfile = tempfile.mkstemp()
+        os.dup2(self.tmpfile[0], 1)
+        os.dup2(self.tmpfile[0], 2)
+        os.close(self.tmpfile[0])
 
     def testCMIP6(self):
         ''' '''
@@ -55,6 +71,10 @@ class TestInstitutionMethods(unittest.TestCase):
         f = cdms2.open(cmor.get_final_filename(), "r")
         a = f.getglobal("history")
         self.assertIn("set for CMIP6 unittest", a)
+        os.dup2(self.newstdout, 1)
+        os.dup2(self.newstderr, 2)
+        sys.stdout = os.fdopen(self.newstdout, 'w', 0)
+        sys.stderr = os.fdopen(self.newstderr, 'w', 0)
 
 
 if __name__ == '__main__':

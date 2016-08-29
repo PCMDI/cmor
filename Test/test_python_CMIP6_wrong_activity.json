@@ -10,12 +10,12 @@
 
            "#experiment_id":         "Correspond to id found in experiments.json",
            "experiment_id":          "piControl",
-     "source_type":                      "AOGCM",
-     "sub_experiment":                      "none",
-     "sub_experiment_id":                      "none",
-     "parent_sub_experiment_id":                      "N/A",
-     "parent_mip_era":                      "N/A",
-     "mip_era":                      "CMIP6",
+           "source_type":            "AOGCM",
+           "sub_experiment":         "none",
+           "sub_experiment_id":      "none",
+           "parent_sub_experiment_id":"N/A",
+           "parent_mip_era":         "N/A",
+           "mip_era":                "CMIP6",
 
            "#institution":           "Controlled Vocaburaly in instition.json",
            "institution":            "GICC (Generic International Climate Center, Geneva, Switzerland)",

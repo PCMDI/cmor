@@ -19,39 +19,11 @@ import sys
 import os
 import tempfile
 
-
-# ------------------------------------------------------
-# Copy stdout and stderr file descriptor for cmor output
-# ------------------------------------------------------
-newstdout = os.dup(1)
-newstderr = os.dup(2)
-# --------------
-# Create tmpfile
-# --------------
-tmpfile = tempfile.mkstemp()
-os.dup2(tmpfile[0], 1)
-os.dup2(tmpfile[0], 2)
-
-
-# ==============================
-#  getAssertTest()
-# ==============================
-def getAssertTest():
-
-    f = open(tmpfile[1], 'r')
-    lines = f.readlines()
-    for line in lines:
-        if line.find('Error:') != -1:
-            testOK = line.strip()
-            break
-    f.close()
-    os.unlink(tmpfile[1])
-    return testOK
-
-
 # ==============================
 #  main thread
 # ==============================
+
+
 def run():
     unittest.main()
 
@@ -61,7 +33,32 @@ def run():
 # ---------------------
 
 
-class TestInstitutionMethods(unittest.TestCase):
+class TestCase(unittest.TestCase):
+
+    def setUp(self, *args, **kwargs):
+        # ------------------------------------------------------
+        # Copy stdout and stderr file descriptor for cmor output
+        # ------------------------------------------------------
+        self.newstdout = os.dup(1)
+        self.newstderr = os.dup(2)
+        # --------------
+        # Create tmpfile
+        # --------------
+        self.tmpfile = tempfile.mkstemp()
+        os.dup2(self.tmpfile[0], 1)
+        os.dup2(self.tmpfile[0], 2)
+        os.close(self.tmpfile[0])
+
+    def getAssertTest(self):
+        f = open(self.tmpfile[1], 'r')
+        lines = f.readlines()
+        for line in lines:
+            if line.find('Error:') != -1:
+                testOK = line.strip()
+                break
+        f.close()
+        os.unlink(self.tmpfile[1])
+        return testOK
 
     def testCMIP6(self):
         try:
@@ -87,12 +84,12 @@ class TestInstitutionMethods(unittest.TestCase):
             for i in range(0, 5):
                 cmor.write(ivar, data[i:i])
         except:
-            os.dup2(newstdout, 1)
-            os.dup2(newstderr, 2)
-            testOK = getAssertTest()
+            os.dup2(self.newstdout, 1)
+            os.dup2(self.newstderr, 2)
+            testOK = self.getAssertTest()
 
-            sys.stdout = os.fdopen(newstdout, 'w', 0)
-            sys.stderr = os.fdopen(newstderr, 'w', 0)
+            sys.stdout = os.fdopen(self.newstdout, 'w', 0)
+            sys.stderr = os.fdopen(self.newstderr, 'w', 0)
             # ------------------------------------------
             # Check error after signal handler is back
             # ------------------------------------------

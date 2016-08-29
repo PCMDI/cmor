@@ -15,10 +15,9 @@
 import cmor
 import numpy
 import unittest
-import sys
 import os
+import sys
 import tempfile
-
 
 
 # ==============================
@@ -30,10 +29,23 @@ def run():
     unittest.main()
 
 
-class TestInstitutionMethods(unittest.TestCase):
+class TestCase(unittest.TestCase):
+
+    def setUp(self, *args, **kwargs):
+        # ------------------------------------------------------
+        # Copy stdout and stderr file descriptor for cmor output
+        # ------------------------------------------------------
+        self.newstdout = os.dup(1)
+        self.newstderr = os.dup(2)
+        # --------------
+        # Create tmpfile
+        # --------------
+        self.tmpfile = tempfile.mkstemp()
+        os.dup2(self.tmpfile[0], 1)
+        os.dup2(self.tmpfile[0], 2)
+        os.close(self.tmpfile[0])
 
     def testCMIP6(self):
-        ''' This test will not fail we veirfy the attribute further_info_url'''
 
         # -------------------------------------------
         # Try to call cmor with a bad institution_ID
@@ -67,6 +79,10 @@ class TestInstitutionMethods(unittest.TestCase):
 
         cmor.write(ivar, data)
         cmor.close()
+        os.dup2(self.newstdout, 1)
+        os.dup2(self.newstderr, 2)
+        sys.stdout = os.fdopen(self.newstdout, 'w', 0)
+        sys.stderr = os.fdopen(self.newstderr, 'w', 0)
 
 
 if __name__ == '__main__':

@@ -20,9 +20,9 @@ import os
 import tempfile
 
 
-class TestInstitutionMethods(unittest.TestCase):
+class TestCase(unittest.TestCase):
 
-    def test_Institution(self):
+    def TestCase(self):
 
         # ------------------------------------------------------
         # Copy stdout and stderr file descriptor for cmor output

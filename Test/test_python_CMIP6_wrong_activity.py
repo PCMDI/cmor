@@ -12,18 +12,72 @@
 #      https://github.com/PCMDI/cmor/blob/master/Test/<filename>.json
 #      to the 'Test/' directory.
 
+import cmor
+import numpy
+import unittest
+import os
+import sys
+import tempfile
 
-import cmor,numpy
 
-error_flag = cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
-  
-error_flag = cmor.dataset_json("Test/test_python_CMIP6_wrong_activity.json")
-  
-cmor.load_table("CMIP6_Omon.json")
-itime = cmor.axis(table_entry="time",units='months since 2010',coord_vals=numpy.array([0,1,2,3,4.]),cell_bounds=numpy.array([0,1,2,3,4,5.]))
-ivar = cmor.variable(table_entry="masso",axis_ids=[itime],units='kg')
-data=numpy.random.random(5)
-for i in range(0,5):
-    cmor.write(ivar,data[i:i])#,time_vals=numpy.array([i,]),time_bnds=numpy.array([i,i+1]))
-error_flag = cmor.close()
+# ==============================
+#  main thread
+# ==============================
 
+
+def run():
+    unittest.main()
+
+
+class TestCase(unittest.TestCase):
+
+    def setUp(self, *args, **kwargs):
+        # ------------------------------------------------------
+        # Copy stdout and stderr file descriptor for cmor output
+        # ------------------------------------------------------
+        self.newstdout = os.dup(1)
+        self.newstderr = os.dup(2)
+        # --------------
+        # Create tmpfile
+        # --------------
+        self.tmpfile = tempfile.mkstemp()
+        os.dup2(self.tmpfile[0], 1)
+        os.dup2(self.tmpfile[0], 2)
+        os.close(self.tmpfile[0])
+
+    def getAssertTest(self):
+        f = open(self.tmpfile[1], 'r')
+        lines = f.readlines()
+        for line in lines:
+            if line.find('Error:') != -1:
+                testOK = line.strip()
+                break
+        f.close()
+        os.unlink(self.tmpfile[1])
+        return testOK
+
+    def testCMIP6(self):
+        try:
+            cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
+
+            cmor.dataset_json("Test/test_python_CMIP6_wrong_activity.json")
+
+            cmor.load_table("CMIP6_Omon.json")
+            itime = cmor.axis(table_entry="time", units='months since 2010', coord_vals=numpy.array(
+                [0, 1, 2, 3, 4.]), cell_bounds=numpy.array([0, 1, 2, 3, 4, 5.]))
+            ivar = cmor.variable(table_entry="masso", axis_ids=[itime], units='kg')
+            data = numpy.random.random(5)
+            for i in range(0, 5):
+                cmor.write(ivar, data[i:i])  # ,time_vals=numpy.array([i,]),time_bnds=numpy.array([i,i+1]))
+            cmor.close()
+            os.dup2(self.newstdout, 1)
+            os.dup2(self.newstderr, 2)
+            sys.stdout = os.fdopen(self.newstdout, 'w', 0)
+            sys.stderr = os.fdopen(self.newstderr, 'w', 0)
+            testOK = self.getAssertTest()
+            self.assertIn('CMIP5-PMIP', testOK)
+        except:
+            raise
+
+if __name__ == '__main__':
+    run()

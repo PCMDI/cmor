@@ -15,7 +15,9 @@
 import cmor
 import numpy
 import unittest
-
+import os
+import sys
+import tempfile
 import cdms2
 
 
@@ -26,7 +28,20 @@ def run():
     unittest.main()
 
 
-class TestInstitutionMethods(unittest.TestCase):
+class TestCase(unittest.TestCase):
+    def setUp(self, *args, **kwargs):
+        # ------------------------------------------------------
+        # Copy stdout and stderr file descriptor for cmor output
+        # ------------------------------------------------------
+        self.newstdout = os.dup(1)
+        self.newstderr = os.dup(2)
+        # --------------
+        # Create tmpfile
+        # --------------
+        self.tmpfile = tempfile.mkstemp()
+        os.dup2(self.tmpfile[0], 1)
+        os.dup2(self.tmpfile[0], 2)
+        os.close(self.tmpfile[0])
 
     def testCMIP6(self):
 
@@ -64,8 +79,13 @@ class TestInstitutionMethods(unittest.TestCase):
 
         data = numpy.random.random((ntimes, nlev, nlat, nlon)) * 100.
 
-        a = cmor.write(ivar, data)
+        cmor.write(ivar, data)
         cmor.close()
+        os.dup2(self.newstdout, 1)
+        os.dup2(self.newstderr, 2)
+        sys.stdout = os.fdopen(self.newstdout, 'w', 0)
+        sys.stderr = os.fdopen(self.newstderr, 'w', 0)
+
         f = cdms2.open(cmor.get_final_filename(), "r")
         a = f.getglobal("external_variables")
         self.assertEqual("areacello volcello", a)
