@@ -17,6 +17,7 @@ before_install:
   - conda update -y -q conda
   - conda install openssl=1.0.2d
   - conda install cdms2 -c uvcdat/label/nightly -c uvcdat
+  - conda install udunits2 -c uvcdat/label/nightly  -c uvcdat
 
 install:
     - ./configure --prefix=$PREFIX --with-python --with-uuid=$PREFIX --with-udunits=$PREFIX --with-netcdf=$PREFIX  
