@@ -21,7 +21,8 @@ before_install:
 
 install:
     - ./configure --prefix=$PREFIX --with-python --with-uuid=$PREFIX --with-udunits2=$PREFIX --with-netcdf=$PREFIX  
+    - cat config.log | grep -i udunits2
     - make install 
 script:
-    - make test
+    - make test_python
 
