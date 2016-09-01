@@ -20,6 +20,9 @@ before_install:
   - conda install udunits2 -c uvcdat/label/nightly  -c uvcdat
 
 install:
+    - echo $PREFIX
+    - ls -l $PREFIX/lib
+    - ls -l $PREFIX/include
     - ./configure --prefix=$PREFIX --with-python --with-uuid=$PREFIX --with-udunits2=$PREFIX --with-netcdf=$PREFIX  
     - cat config.log | grep -i udunits2
     - make install 
