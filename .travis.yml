@@ -22,9 +22,10 @@ before_install:
   - conda install udunits2 -c uvcdat/label/nightly  -c uvcdat
 
 install:
+    - git clone https://github.com/PCMDI/cmip6-cmor-tables 
+    - ln -s cmip6-cmor-tables/Tables Tables
     - ./configure --prefix=$PREFIX --with-python --with-uuid=$PREFIX --with-udunits2=$PREFIX --with-netcdf=$PREFIX  
-    - cat config.log | grep -i udunits2
     - make install 
 script:
-    - make test_python
+    - python run_tests.py
 
