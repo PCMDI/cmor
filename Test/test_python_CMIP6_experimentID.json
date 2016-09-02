@@ -8,7 +8,7 @@
            "outpath":                "CMIP6",
 
            "#experiment_id":         "Correspond to id found in experiments.json",
-           "experiment_id":          "piControl",
+           "experiment_id":          "piControlbad",
 
            "#institution":           "Controlled Vocabulary ",
             

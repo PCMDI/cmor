@@ -44,7 +44,7 @@ def define_write_clisccp():
               'units': 'degrees_east',
               'coord_vals': [90],
               'cell_bounds': [89, 91]},
-             {'table_entry': 'plev7',
+             {'table_entry': 'plev7c',
               'coord_vals': [90000., 74000., 62000., 50000., 37500., 24500., 9000.],
               'cell_bounds': [[100000., 80000.], [80000.,  68000.],  [68000.,  56000.],  [56000.,  44000.],  [44000.,  31000.],  [31000.,  18000.],  [18000.,   0.]],
               'units': 'Pa',

@@ -165,7 +165,7 @@ int cmor_set_axis_entry( cmor_table_t* table,
                          char *axis_entry,
                          json_object *json ){
     extern int cmor_ntables;
-    char szValue[CMOR_MAX_STRING*4];
+    char szValue[CMOR_MAX_STRING*20];
     char msg[CMOR_MAX_STRING];
     int nAxisId;
     char *szTableId;
@@ -631,7 +631,7 @@ int cmor_load_table_internal( char table[CMOR_MAX_STRING], int *table_id,
         return(TABLE_ERROR);
     }
 /* -------------------------------------------------------------------- */
-/*      print errro and exit if file was not completly read             */
+/*      print error and exit if file was not completely read            */
 /* -------------------------------------------------------------------- */
     if( nTableSize != read_size ) {
         free(buffer);

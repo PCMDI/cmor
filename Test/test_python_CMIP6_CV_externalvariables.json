@@ -19,7 +19,7 @@
            "source_type":            "AOGCM ISM AER",
            "#source_type":            "LND",
            "sub_experiment":         "Initialization in year 1968",
-           "sub_experiment_id":      "s1968",
+           "sub_experiment_id":      "none",
            "#parent_sub_experiment_id": "N/A",
            "parent_mip_era":         "N/A",
            "mip_era":                "CMIP6",

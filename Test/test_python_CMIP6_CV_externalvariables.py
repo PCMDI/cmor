@@ -12,16 +12,13 @@
 #      https://github.com/PCMDI/cmor/blob/master/Test/<filename>.json
 #      to the 'Test/' directory.
 
-from threading import Thread
-import time
-import cmor,numpy
-import contextlib
+import cmor
+import numpy
 import unittest
-import signal
-import sys,os
+import os
+import sys
 import tempfile
 import cdms2
-
 
 
 # ==============================
@@ -31,57 +28,68 @@ def run():
     unittest.main()
 
 
-
-class TestInstitutionMethods(unittest.TestCase):
+class TestCase(unittest.TestCase):
+    def setUp(self, *args, **kwargs):
+        # ------------------------------------------------------
+        # Copy stdout and stderr file descriptor for cmor output
+        # ------------------------------------------------------
+        self.newstdout = os.dup(1)
+        self.newstderr = os.dup(2)
+        # --------------
+        # Create tmpfile
+        # --------------
+        self.tmpfile = tempfile.mkstemp()
+        os.dup2(self.tmpfile[0], 1)
+        os.dup2(self.tmpfile[0], 2)
+        os.close(self.tmpfile[0])
 
     def testCMIP6(self):
 
         nlat = 10
-        dlat = 180./nlat
+        dlat = 180. / nlat
         nlon = 20
-        dlon = 360./nlon
-        nlev =5 
+        dlon = 360. / nlon
+        nlev = 5
         ntimes = 5
 
-        lats = numpy.arange(90-dlat/2.,-90,-dlat)
-        blats = numpy.arange(90,-90-dlat,-dlat)
-        lons = numpy.arange(0+dlon/2.,360.,dlon)
-        blons = numpy.arange(0,360.+dlon,dlon)
+        lats = numpy.arange(90 - dlat / 2., -90, -dlat)
+        blats = numpy.arange(90, -90 - dlat, -dlat)
+        lons = numpy.arange(0 + dlon / 2., 360., dlon)
+        blons = numpy.arange(0, 360. + dlon, dlon)
 
         # -------------------------------------------
         # Try to call cmor with a bad institution_ID
         # -------------------------------------------
-        global testOK
-        error_flag = cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
-        error_flag = cmor.dataset_json("Test/test_python_CMIP6_CV_externalvariables.json")
-  
+        cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
+        cmor.dataset_json("Test/test_python_CMIP6_CV_externalvariables.json")
+
         # --------------------------------------------
         # load Omon table and create masscello variable
         # --------------------------------------------
         cmor.load_table("CMIP6_Omon.json")
-        itime = cmor.axis(table_entry="time",units='months since 2010',
-                          coord_vals=numpy.array([0,1,2,3,4.]),
-                          cell_bounds=numpy.array([0,1,2,3,4,5.]))
-        ilat = cmor.axis(table_entry='latitude', coord_vals=lats, cell_bounds=blats,units='degrees_north')
-        ilon = cmor.axis(table_entry='longitude', coord_vals=lons, cell_bounds=blons,units='degrees_east')
+        itime = cmor.axis(table_entry="time", units='months since 2010',
+                          coord_vals=numpy.array([0, 1, 2, 3, 4.]),
+                          cell_bounds=numpy.array([0, 1, 2, 3, 4, 5.]))
+        ilat = cmor.axis(table_entry='latitude', coord_vals=lats, cell_bounds=blats, units='degrees_north')
+        ilon = cmor.axis(table_entry='longitude', coord_vals=lons, cell_bounds=blons, units='degrees_east')
         ilev = cmor.axis(table_entry='depth_coord', length=5,
-                         cell_bounds=numpy.arange(0,12000,2000), coord_vals=numpy.arange(0,10000,2000), units="m")
+                         cell_bounds=numpy.arange(0, 12000, 2000), coord_vals=numpy.arange(0, 10000, 2000), units="m")
 
-        ivar = cmor.variable(table_entry="masscello",axis_ids=[itime, ilev, ilat,ilon,],units='kg/m2')
+        ivar = cmor.variable(table_entry="masscello", axis_ids=[itime, ilev, ilat, ilon, ], units='kg/m2')
 
-        data = numpy.random.random((ntimes,nlev,nlat,nlon))*100.
+        data = numpy.random.random((ntimes, nlev, nlat, nlon)) * 100.
 
-        a = cmor.write(ivar,data)
+        cmor.write(ivar, data)
         cmor.close()
-        f=cdms2.open(cmor.get_final_filename(),"r")
-        a=f.getglobal("external_variables")
+        os.dup2(self.newstdout, 1)
+        os.dup2(self.newstderr, 2)
+        sys.stdout = os.fdopen(self.newstdout, 'w', 0)
+        sys.stderr = os.fdopen(self.newstderr, 'w', 0)
+
+        f = cdms2.open(cmor.get_final_filename(), "r")
+        a = f.getglobal("external_variables")
         self.assertEqual("areacello volcello", a)
 
 
 if __name__ == '__main__':
-    t = Thread(target=run)
-    t.start()
-    while t.is_alive():
-        t.join(1)
-
-
+    run()

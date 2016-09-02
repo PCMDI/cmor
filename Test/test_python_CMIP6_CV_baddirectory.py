@@ -11,78 +11,60 @@
 #   3. Download
 #      https://github.com/PCMDI/cmor/blob/master/Test/<filename>.json
 #      to the 'Test/' directory.
-
-from threading import Thread
-import time
-import cmor,numpy
+import cmor
 import unittest
-import signal
-import sys,os
+import sys
+import os
 import tempfile
-
-
-# ------------------------------------------------------
-# Copy stdout and stderr file descriptor for cmor output
-# ------------------------------------------------------
-newstdout = os.dup(1)
-newstderr = os.dup(2)
-# --------------
-# Create tmpfile
-# --------------
-tmpfile = tempfile.mkstemp()
-os.dup2(tmpfile[0], 1)
-os.dup2(tmpfile[0], 2)
-os.close(tmpfile[0])
-
-global testOK 
-testOK = []
-
-# --------------
-# Create thread
-# --------------
-def sig_handler(signum, frame):
-
-    global testOK
-
-    f=open(tmpfile[1],'r')
-    lines=f.readlines()
-    for line in lines:
-        if line.find('Error:') != -1:
-            testOK = line.strip()
-            break
-    f.close()
-#    os.unlink(tmpfile[1])
 
 
 def run():
     unittest.main()
 
-signal.signal(signal.SIGINT, sig_handler)
-signal.signal(signal.SIGINT, sig_handler)
-
 
 class TestdirectoryMethods(unittest.TestCase):
+
+    def setUp(self, *args, **kwargs):
+        # ------------------------------------------------------
+        # Copy stdout and stderr file descriptor for cmor output
+        # ------------------------------------------------------
+        self.newstdout = os.dup(1)
+        self.newstderr = os.dup(2)
+        # --------------
+        # Create tmpfile
+        # --------------
+        self.tmpfile = tempfile.mkstemp()
+        os.dup2(self.tmpfile[0], 1)
+        os.dup2(self.tmpfile[0], 2)
+        os.close(self.tmpfile[0])
+
+    def getAssertTest(self):
+        f = open(self.tmpfile[1], 'r')
+        lines = f.readlines()
+        for line in lines:
+            if line.find('Error:') != -1:
+                testOK = line.strip()
+                break
+        f.close()
+        os.unlink(self.tmpfile[1])
+        return testOK
 
     def test_Directory(self):
 
         # -------------------------------------------
         # Try to call cmor with a bad institution_ID
         # -------------------------------------------
-        global testOK
-        error_flag = cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
-        error_flag = cmor.dataset_json("Test/test_python_CMIP6_CV_baddirectory.json")
-  
-        os.dup2(newstdout,1)
-        os.dup2(newstderr,2)
-        sys.stdout = os.fdopen(newstdout, 'w', 0)
-        time.sleep(1)
-        self.assertIn("unable to create this directory", testOK)
+        cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
+        try:
+            cmor.dataset_json("Test/test_python_CMIP6_CV_baddirectory.json")
+        except:
+            testOK = self.getAssertTest()
+            os.dup2(self.newstdout, 1)
+            os.dup2(self.newstderr, 2)
+            sys.stdout = os.fdopen(self.newstdout, 'w', 0)
+            sys.stderr = os.fdopen(self.newstderr, 'w', 0)
+            self.assertIn("unable to create this directory", testOK)
 
 
 if __name__ == '__main__':
-    t = Thread(target=run)
-    t.start()
-    while t.is_alive():
-        t.join(1)
-
-
+    run()

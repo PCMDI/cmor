@@ -108,6 +108,7 @@ extern void cmor_define_dimensions(int var_id, int ncid,
                             size_t *nc_dim_chunking, int *dim_bnds,
                             int *zfactors, int *nc_zfactors,
                             int *nc_dim_af, int *nzfactors);
+
 extern void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
                                        int *nc_vars, int *nc_bnds_vars,
                                        int *nc_vars_af, int *nc_associated_vars,
@@ -115,7 +116,10 @@ extern void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
                                        int *nc_zfactors, int *zfactors, int nzfactors,
                                        size_t *nc_dim_chunking, char *outname);
 
-extern int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af);
+extern int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af,
+        int *nc_associated_vars);
+
+
 extern void create_singleton_dimensions(int var_id, int ncid,
         int *nc_singletons, int *nc_singletons_bnds, int *dim_bnds);
 

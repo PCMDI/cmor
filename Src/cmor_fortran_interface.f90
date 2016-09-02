@@ -4978,6 +4978,7 @@ contains
 
     if (present(table)) then
        i = cmor_load_table(table)
+       call cmor_set_table(i)
     endif
 
     if (present(tolerance)) then
