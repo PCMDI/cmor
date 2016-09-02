@@ -48,7 +48,7 @@ class TestCase(unittest.TestCase):
         f = open(self.tmpfile[1], 'r')
         lines = f.readlines()
         for line in lines:
-            if line.find('Please') != -1:
+            if line.find('Error') != -1:
                 testOK = line.strip()
                 break
         f.close()
@@ -60,14 +60,13 @@ class TestCase(unittest.TestCase):
             # -------------------------------------------
             # Try to call cmor with a bad institution_ID
             # -------------------------------------------
-            global testOK
-            cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
+            cmor.setup(inpath='TestTables', netcdf_file_action=cmor.CMOR_REPLACE)
             cmor.dataset_json("Test/test_python_CMIP6_CV_nomipera.json")
 
             # ------------------------------------------
             # load Omon table and create masso variable
             # ------------------------------------------
-            cmor.load_table("CMIP6_badOmon.json")
+            cmor.load_table("CMIP6_Omonbad.json")
             itime = cmor.axis(table_entry="time", units='months since 2010',
                               coord_vals=numpy.array([0, 1, 2, 3, 4.]),
                               cell_bounds=numpy.array([0, 1, 2, 3, 4, 5.]))
