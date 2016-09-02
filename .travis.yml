@@ -14,6 +14,7 @@ before_install:
   - export PATH="$HOME/miniconda/bin:$PATH"
   - export PREFIX="$HOME/miniconda"
   - export UDUNITS2_XML_PATH=$HOME/miniconda/share/udunits/udunits2.xml
+  - export UVCDAT_ANONYMOUS_LOG=no
   - bash miniconda.sh -b -p $HOME/miniconda
   - conda config --set always_yes yes --set changeps1 no
   - conda update -y -q conda
