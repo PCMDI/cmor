@@ -12,6 +12,8 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then wget https://repo.continuum.io/miniconda/Miniconda-latest-MacOSX-x86_64.sh -O miniconda.sh; fi
 #  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then wget https://github.com/UV-CDAT/uvcdat/releases/download/v2.4.1/gfortran-4.9.2-Mac.tar.gz -O ~/gfortran-4.9.2-Mac.tar.gz ; pushd / ; sudo tar xzvf ~/gfortran-4.9.2-Mac.tar.gz ; popd ; fi
   - export PATH="$HOME/miniconda/bin:$PATH"
+  - export PREFIX="$HOME/miniconda"
+  - export UDUNITS2_XML_PATH=$HOME/miniconda/share/udunits/udunits2.xml
   - bash miniconda.sh -b -p $HOME/miniconda
   - conda config --set always_yes yes --set changeps1 no
   - conda update -y -q conda
