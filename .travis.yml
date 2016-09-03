@@ -1,8 +1,10 @@
 os:
-#  - linux
-  - osx
+  - linux
+#  - osx
 
 sudo: false
+
+dist: trusty
 
 before_install:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get update -qq; sudo apt-get install -y gfortran ; fi
@@ -27,6 +29,5 @@ install:
     - ln -s cmip6-cmor-tables/Tables Tables
     - ./configure --prefix=$PREFIX --with-python --with-uuid=$PREFIX --with-udunits2=$PREFIX --with-netcdf=$PREFIX  
     - make install 
-script:
     - python run_tests.py
 
