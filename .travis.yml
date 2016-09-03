@@ -2,7 +2,7 @@ os:
   - linux
 #  - osx
 
-sudo: false
+sudo: required
 
 dist: trusty
 
