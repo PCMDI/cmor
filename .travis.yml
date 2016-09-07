@@ -1,47 +1,34 @@
 os:
   - linux
-  - osx
+#  - osx
 
-language: python
-    - "2.7"
+sudo: required
+
+dist: trusty
 
 before_install:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get update -qq; sudo apt-get install -y gfortran ; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then wget https://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh; fi
 
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update ; fi 
+#  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update ; fi 
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then wget https://repo.continuum.io/miniconda/Miniconda-latest-MacOSX-x86_64.sh -O miniconda.sh; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then wget https://github.com/UV-CDAT/uvcdat/releases/download/v2.4.1/gfortran-4.9.2-Mac.tar.gz -O ~/gfortran-4.9.2-Mac.tar.gz ; pushd / ; sudo tar xzvf ~/gfortran-4.9.2-Mac.tar.gz ; popd ; fi
+#  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then wget https://github.com/UV-CDAT/uvcdat/releases/download/v2.4.1/gfortran-4.9.2-Mac.tar.gz -O ~/gfortran-4.9.2-Mac.tar.gz ; pushd / ; sudo tar xzvf ~/gfortran-4.9.2-Mac.tar.gz ; popd ; fi
   - export PATH="$HOME/miniconda/bin:$PATH"
+  - export PREFIX="$HOME/miniconda"
+  - export UDUNITS2_XML_PATH=$HOME/miniconda/share/udunits/udunits2.xml
+  - export UVCDAT_ANONYMOUS_LOG=no
   - bash miniconda.sh -b -p $HOME/miniconda
   - conda config --set always_yes yes --set changeps1 no
   - conda update -y -q conda
   - conda install openssl=1.0.2d
-  - conda install cdms2 -c uvcdat
-b
+  - conda install cdms2 -c uvcdat/label/nightly -c uvcdat
+  - conda install udunits2 -c uvcdat/label/nightly  -c uvcdat
+
 install:
-    - cd ..
-    - export PREFIX=$HOME/_build
-    - mkdir ${PREFIX}
-    - cd ${PREFIX}
-    - wget http://www.mirrorservice.org/sites/ftp.ossp.org/pkg/lib/uuid/uuid-1.6.2.tar.gz -O ~/uuid-1.6.2.tar.gz 
-    - tar xzf ~/uuid-1.6.2.tar.gz
-    - pushd uuid-1.6.2 && ./configure --prefix=$PREFIX && make && make install && popd 
-    - wget ftp://ftp.unidata.ucar.edu/pub/udunits/udunits-2.2.20.tar.gz -O ~/udunits-2.2.20.tar.gz 
-    - tar xzf ~/udunits-2.2.20.tar.gz
-    - pushd udunits-2.2.20 && ./configure --prefix=$PREFIX && make && make install && popd
-    - wget http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.17.tar -O ~/hdf5-1.8.17.tar
-    - tar xvf ~/hdf5-1.8.17.tar
-    - pushd hdf5-1.8.17 &&  ./configure --prefix=$PREFIX && make && make install && popd
-    - export CFLAGS="-I${PREFIX}/include"
-    - export LDFLAGS="-L${PREFIX}/lib"
-    - wget ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4.4.0.tar.gz -O ~/netcdf-4.4.0.tar.gz 
-    - tar xzf ~/netcdf-4.4.0.tar.gz
-    - pushd netcdf-4.4.0 && ./configure --prefix=$PREFIX --enable-netcdf4 && make && make install && popd
-    - cd ${PREFIX}
-    - git clone https://github.com/PCMDI/cmor.git
-    - pushd  cmor &&./configure --prefix=$PREFIX --with-python --with-uuid --with-udunits --with-netcdf=$PREFIX/  && make && make install && make python && popd
-script:
-    - cd ${PREFIX}/cmor
-    - make test
+    - git clone https://github.com/PCMDI/cmip6-cmor-tables 
+    - ln -s cmip6-cmor-tables/Tables Tables
+    - ./configure --prefix=$PREFIX --with-python --with-uuid=$PREFIX --with-udunits2=$PREFIX --with-netcdf=$PREFIX  
+    - make install 
+
+script: python run_tests.py
 

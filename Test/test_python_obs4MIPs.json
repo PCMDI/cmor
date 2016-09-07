@@ -5,7 +5,6 @@
     "#tracking_prefix":              "http://doi.com",
     "outpath":                      "CMIP6",
     "data_structure":               "grid",
-    "further_info_url":             "https://obs4mips.nasa.jpl.gov",     
     "instituion_id":                "USDOE",
     "institution":                  "U.S. Department of Energy",
     "license":                      "One of 2 license",

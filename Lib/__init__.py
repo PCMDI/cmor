@@ -1,3 +1,9 @@
+import os
+import sys
+xml_pth = os.path.join(sys.prefix,"share","udunits","udunits2.xml")
+if os.path.exists(xml_pth):
+    os.environ["UDUNITS2_XML_PATH"] = xml_pth
+
 from cmor_const import *
 
 from pywrapper import (

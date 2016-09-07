@@ -17,7 +17,7 @@ PROGRAM test_cmor_grid
    double precision :: profile_ax(n_points),section_ax(n_sections)
    real :: lat(n_points,n_sections),lon(n_points,n_sections)
    real :: lat_bounds(4,n_points,n_sections),lon_bounds(4,n_points,n_sections)
-   character(len=128) :: table='CMIP5_cf3hr'
+   character(len=128) :: table='CMIP6_cf3hr.json'
    character(len=32) :: sec_units='days since 2000-01-01'
    integer :: error_flag,height_axid,time_axid,profile_axid,grid_id,section_axid,dbz_axid
    real :: lat_step,lon_step
@@ -96,11 +96,7 @@ PROGRAM test_cmor_grid
    !+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
    ! Define dataset as output from COSP, and other model details
    !+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-   error_flag = cmor_dataset(outpath='./',experiment_id='AMIP',institution='Met Office Hadley Centre', &
-                    source='MetUM',calendar='360_day',realization=1,contact='alejandro.bodas@metoffice.gov.uk', &
-                    history='history',comment='En un lugar de la Mancha de cuyo nombre no quiero acordarme', &
-                    references='references',model_id='MetUM',forcing='N/A',parent_experiment_id='N/A', &
-                    branch_time=0.d0, institute_id='MOHC',parent_experiment_rip='prip')
+   error_flag = cmor_dataset_json("Test/test_cmor_grid_time_varying.json")
    
    print *, '---------------Define axis'
    !+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

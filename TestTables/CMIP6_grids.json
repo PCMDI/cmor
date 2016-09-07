@@ -90,6 +90,22 @@
             "type": "integer", 
             "axis": ""
         }, 
+        "ygre": {
+            "long_name": "y coordinate of projection", 
+            "standard_name": "projection_y_coordinate", 
+            "out_name": "", 
+            "units": "m", 
+            "type": "", 
+            "axis": "Y"
+        }, 
+        "xgre": {
+            "long_name": "x coordinate of projection", 
+            "standard_name": "projection_x_coordinate", 
+            "out_name": "", 
+            "units": "m", 
+            "type": "", 
+            "axis": "X"
+        }, 
         "y": {
             "long_name": "y coordinate of projection", 
             "standard_name": "projection_y_coordinate", 

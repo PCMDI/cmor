@@ -736,8 +736,8 @@ void cmor_CV_setInstitution( cmor_CV_def_t *CV){
     if( rc == 0 ) {
 /* -------------------------------------------------------------------- */
 /* Retrieve institution and compare with the one we have in the         */
-/* Control Vocabulary file.  If it does not matche tell the user        */
-/* the we will supersede his defintion with the one in the Control      */
+/* Control Vocabulary file.  If it does not matches tell the user       */
+/* the we will supersede his definition with the one in the Control     */
 /* Vocabulary file.                                                     */
 /* -------------------------------------------------------------------- */
         cmor_get_cur_dataset_attribute(GLOBAL_ATT_INSTITUTION, szInstitution);

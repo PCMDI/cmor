@@ -637,7 +637,7 @@ def write(var_id,data,ntimes_passed=None,file_suffix="",time_vals=None,time_bnds
         if goodshape[i]!=0:
             if sh[j]!=goodshape[i]:
                 if goodshape[i]!=1:
-                    raise Exception,"error your data shape (%s) does not match the expect variable shape (%s)" % (str(osh),str(ogoodshape))
+                    raise Exception,"Error: your data shape (%s) does not match the expected variable shape (%s)\nCheck your variable dimensions before caling cmor_write" % (str(osh),str(ogoodshape))
             j+=1
         elif ntimes_passed!=1:
             j+=1

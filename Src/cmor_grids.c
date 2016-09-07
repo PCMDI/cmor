@@ -635,7 +635,7 @@ int cmor_set_grid_mapping( int gid, char *name, int nparam,
 	}
     }
 /* -------------------------------------------------------------------- */
-/*      checks all paramter (but last 6 which are optional) have        */
+/*      checks all parameter (but last 6 which are optional) have       */
 /*      been set                                                        */
 /* -------------------------------------------------------------------- */
 
@@ -722,7 +722,7 @@ int cmor_time_varying_grid_coordinate( int *coord_grid_id, int grid_id,
     case ( 2 ):
 	if( nvertices == 0 ) {
 	    sprintf( msg,
-		     "your defining a vertices dependent variable (%s) associated wth grid %i, but you declared this grid as having 0 vertices",
+		     "your defining a vertices dependent variable (%s) associated with grid %i, but you declared this grid as having 0 vertices",
 		     table_entry, grid_id );
 	    cmor_handle_error( msg, CMOR_CRITICAL );
 	}
@@ -863,8 +863,7 @@ int cmor_time_varying_grid_coordinate( int *coord_grid_id, int grid_id,
 /************************************************************************/
 
 int cmor_grid( int *grid_id, int ndims, int *axes_ids, char type,
-	       void *lat, void *lon, int nvertices, void *blat,
-	       void *blon ) {
+	       void *lat, void *lon, int nvertices, void *blat, void *blon ) {
 
     int i, j, n, did_vertices = 0;
     char msg[CMOR_MAX_STRING];

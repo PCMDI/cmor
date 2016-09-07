@@ -1,4 +1,15 @@
 # -*- coding: utf-8 -*-
+#
+# Please first complete the following steps:
+#
+#   1. Download
+#      https://github.com/PCMDI/cmip6-cmor-tables.git
+#      Create a soft link cmip6-cmor-tables/Tables to ./Tables in your
+#      working directory
+#
+#   python CMIP6Validtor ../Tables/CMIP6_Amon.json ../CMIP6/yourfile.nc
+#
+
 '''
 Created on Fri Feb 19 11:33:52 2016
 
@@ -12,7 +23,7 @@ import sys
 import os
 import json
 import numpy
-import pdb
+
 
 class bcolors:
     HEADER = '\033[95m'
@@ -27,6 +38,8 @@ class bcolors:
 # =========================
 # JSONAction()
 # =========================
+
+
 class JSONAction(argparse.Action):
     '''
     Check if argparse is JSON file
@@ -67,6 +80,7 @@ class readable_dir(argparse.Action):
     '''
     Check if argparse is a directory.
     '''
+
     def __call__(self, parser, namespace, values, option_string=None):
         prospective_dir = values
         if not os.path.isdir(prospective_dir):
@@ -111,7 +125,7 @@ class checkCMIP6(object):
         self.variables  = self.infile.listvariable()
 
         # -------------------------------------------------------------------
-        # find variable that contains a "cell_methods" (should only be one)
+        # find variable that contains a "history" (should only be one)
         # -------------------------------------------------------------------
         self.var = [var for var in self.variables if 'history' in self.infile.listattribute(var)]
         if((self.var == []) or (len(self.var) > 1)):
@@ -122,7 +136,6 @@ class checkCMIP6(object):
         # -------------------------------------------------------------------
         # call setup() to clean all 'C' internal memory.
         # -------------------------------------------------------------------
-#        cmip6_cv.setup(inpath="../Tables", exit_control=cmip6_cv.CMOR_EXIT_ON_WARNING)
         cmip6_cv.setup(inpath="../Tables", exit_control=cmip6_cv.CMOR_NORMAL)
 
         # -------------------------------------------------------------------
@@ -162,6 +175,7 @@ class checkCMIP6(object):
                 5. Validate grid_label and grid_resolution
                 6. Validate creation time in ISO format (YYYY-MM-DDTHH:MM:SS)
                 7. Validate furtherinfourl from CV internal template
+                8. Validate variable attributes with CMOR JSON table.
         '''
         cmip6_cv.check_requiredattributes(self.table_id)
         cmip6_cv.check_institution(self.table_id)
@@ -174,25 +188,25 @@ class checkCMIP6(object):
 
         for key in self.dictVars.keys():
             # Is this attritue in the input table?
-            if( cmip6_cv.has_variable_attribute(varid, key) ):
+            if(cmip6_cv.has_variable_attribute(varid, key)):
                 # Verify that attribute value is equal to file attribute
-                table_value = cmip6_cv.get_variable_attribute(varid,key)
+                table_value = cmip6_cv.get_variable_attribute(varid, key)
                 file_value = self.dictVars[key]
                 if isinstance(table_value, numpy.ndarray):
                     table_value = table_value[0]
                 if isinstance(file_value, numpy.ndarray):
-                    file_value= file_value[0]
+                    file_value = file_value[0]
 
                 if isinstance(table_value, float):
-                    if( table_value/file_value < 1.1 ):
-                            table_value = file_value
+                    if(table_value / file_value < 1.1):
+                        table_value = file_value
 
                 file_value = str(file_value)
                 table_value = str(table_value)
                 if table_value != file_value:
                     print "You variable attribute differ from table attribute!"
-                    print "You file contains "+key+":"+file_value+" and"
-                    print "CMIP6 tables requires "+key+":"+table_value+"."
+                    print "You file contains " + key + ":" + file_value + " and"
+                    print "CMIP6 tables requires " + key + ":" + table_value + "."
 
         if(cmip6_cv.get_CV_Error()):
             raise KeyboardInterrupt
@@ -203,12 +217,11 @@ class checkCMIP6(object):
         print bcolors.ENDC
 
 
-
 #  =========================
 #   main()
 #  =========================
 def main():
-    parser = argparse.ArgumentParser(prog='CMIP6Checker',
+    parser = argparse.ArgumentParser(prog='CMIP6Validator',
                                      description='Validate CMIP6 file '
                                      'for ESGF publication.')
 
@@ -227,7 +240,7 @@ def main():
 
     try:
         args = parser.parse_args()
-    except argparse.ArgumentTypeError, errmsg:
+    except argparse.ArgumentTypeError as errmsg:
         print >> sys.stderr, str(errmsg)
         return 1
     except SystemExit:
@@ -252,4 +265,3 @@ if(__name__ == '__main__'):
         print "!!!!!!!!!!!!!!!!!!!!!!!!!"
         print bcolors.ENDC
         sys.exit(-1)
-
