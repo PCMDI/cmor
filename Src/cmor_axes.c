@@ -860,6 +860,7 @@ int cmor_check_monotonic( double *values, int length, char *name,
 		    values[length - 1 - i] = tmp;
 		}
 	    }
+
 /* -------------------------------------------------------------------- */
 /*      ok make sure we have data spanning only 1 modulo                */
 /* -------------------------------------------------------------------- */
