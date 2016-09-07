@@ -82,7 +82,7 @@ class TestCase(unittest.TestCase):
         sys.stderr = os.fdopen(self.newstderr, 'w', 0)
         f = cdms2.open(cmor.get_final_filename(), "r")
         a = f.getglobal("further_info_url")
-        self.assertEqual("http://furtherinfo.es-doc.org/CMIP6.NCC.MIROC-ESM.piControl-withism.s1968.r1i1p1f1", a)
+        self.assertEqual("http://furtherinfo.es-doc.org/CMIP6.NCC.MIROC-ESM.piControl-withism.none.r1i1p1f1", a)
 
 
 if __name__ == '__main__':
