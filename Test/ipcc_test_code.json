@@ -11,7 +11,7 @@
            "outpath":                "CMIP6",
 
            "experiment_id":          "piControl-withism",
-           "sub_experiment_id":      "s1968",
+           "sub_experiment_id":      "none",
            "sub_experiment":         "none",
 
            "source_type":            "AGCM AER CHEM DENIS",
