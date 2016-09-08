@@ -115,9 +115,11 @@ install: cmor
 	mkdir -p ${PREFIX}/lib
 	mkdir -p ${PREFIX}/include
 	mkdir -p ${PREFIX}/include/cdTime
+	mkdir -p ${PREFIX}/include/json-c
 	mkdir -p ${PREFIX}/include/cdTime/cdunifpp
 	cp -p $(LIBNAME) ${PREFIX}/lib
 	cp -pr include/*.h @MODFILES@ ${PREFIX}/include
+	cp -pr include/json-c/*.h ${PREFIX}/include/json-c
 	cp -pr include/cdTime/*.h ${PREFIX}/include/cdTime
 	cp -pr include/cdTime/cdunifpp/*.h ${PREFIX}/include/cdTime/cdunifpp
 uninstall: distclean 

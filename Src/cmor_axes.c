@@ -610,7 +610,7 @@ int cmor_check_monotonic( double *values, int length, char *name,
 /* -------------------------------------------------------------------- */
 /*      ok make sure we have data spanning only 1 modulo                */
 /* -------------------------------------------------------------------- */
-	    if( abs( values[length - 1] - values[0] ) > 360. ) {
+	    if( fabs( values[length - 1] - values[0] ) > 360. ) {
 		snprintf( msg, CMOR_MAX_STRING,
 			  "axis %s has bounds values spanning\n! "
 			  "more 360 degrees %lf, %lf",
@@ -860,10 +860,11 @@ int cmor_check_monotonic( double *values, int length, char *name,
 		    values[length - 1 - i] = tmp;
 		}
 	    }
+
 /* -------------------------------------------------------------------- */
 /*      ok make sure we have data spanning only 1 modulo                */
 /* -------------------------------------------------------------------- */
-	    if( abs( values[length - 1] - values[0] ) > 360. ) {
+	    if( fabs( values[length - 1] - values[0] ) > 360. ) {
 		snprintf( msg, CMOR_MAX_STRING,
 			  "axis %s (table: %s) has values spanning more\n! "
 			  "360 degrees %lf, %lf",

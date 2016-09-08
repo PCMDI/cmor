@@ -59,7 +59,7 @@
            "branch_time":             "1",
 
            "branch_method":           "standard",
-           "sub_experiment":     "none",
+           "sub_experiment":          "none",
 
            "grid":                   "native atmosphere T63 gaussian grid (64x128 latxlon)",
            "grid_label":             "gn",
