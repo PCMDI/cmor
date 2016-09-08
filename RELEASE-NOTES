@@ -1,7 +1,7 @@
 2016-09-08 : Release 3.1.2
 2016-06-14 : Release 3.1.0
 2015-12-23 : Clean up cmor code, preparation for cmor3.
-2013-12-03 : Tagging 2.9.1 for official release
+2013-12-03 : Tagging 2.9.1 for official release.
 2012-12-14 : Tagging 2.9.0
 2013-11-20 : Merged Jamie's branch fixes #4
 2013-11-20 : Make sure -lm is in C test compile line
