@@ -110,7 +110,7 @@ static PyObject *PyCMOR_has_cur_dataset_attribute( PyObject * self,
 	return NULL;
     ierr = cmor_has_cur_dataset_attribute( name );
 
-    if (ierr != 0 || raise_exception) {
+    if (raise_exception) {
         raise_exception = 0;
         PyErr_Format(CMORError, exception_message,
                      "has_cur_dataset_attribute");
@@ -205,7 +205,7 @@ static PyObject *PyCMOR_has_variable_attribute( PyObject * self,
     
     ierr = cmor_has_variable_attribute( var_id, name );
     
-    if (ierr != 0 || raise_exception) {
+    if (raise_exception) {
         raise_exception = 0;
         PyErr_Format(CMORError, exception_message, "has_variable_attribute");
         return NULL;
