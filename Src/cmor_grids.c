@@ -509,10 +509,10 @@ void cmor_set_mapping_attribute( cmor_mappings_t * mapping,
 /************************************************************************/
 
 int cmor_set_grid_mapping( int gid, char *name, int nparam,
-			   char **attributes_names, int lparams,
+			   char *attributes_names, int lparams,
 			   double
 			   attributes_values[CMOR_MAX_GRID_ATTRIBUTES],
-			   char **units, int lnunits ) {
+			   char *units, int lnunits ) {
     int grid_id, nattributes, ndims;
     int i, j, k, l;
     char *achar, *bchar;

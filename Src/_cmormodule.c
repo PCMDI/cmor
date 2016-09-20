@@ -698,9 +698,9 @@ static PyObject *PyCMOR_grid_mapping( PyObject * self, PyObject * args ) {
     }
 
     ierr =
-	cmor_set_grid_mapping( gid, name, n, ( char ** ) nms,
+	cmor_set_grid_mapping( gid, name, n, ( char * ) nms,
 			       CMOR_MAX_STRING, param_val,
-			       ( char ** ) units, CMOR_MAX_STRING );
+			       ( char * ) units, CMOR_MAX_STRING );
 
     if( param_val_arr != NULL ) {
 	Py_DECREF( param_val_arr );

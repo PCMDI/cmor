@@ -140,8 +140,8 @@ int cmor_close_var_fnm_preserve_cff_( int *var_id, char *fnm,
 /*                       cmor_set_grd_map_cff_()                        */
 /************************************************************************/
 int cmor_set_grd_map_cff_( int *gid, char *name, int *nparam,
-			   char **attributes_names, int *lparam,
-			   double *values, char **units, int *lnunits ) {
+			   char *attributes_names, int *lparam,
+			   double *values, char *units, int *lnunits ) {
     return cmor_set_grid_mapping( *gid, name, *nparam, attributes_names,
 				  *lparam, values, units, *lnunits );
 }

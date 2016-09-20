@@ -293,7 +293,7 @@ if [ test ${HAS_NC4} == "no" ] ; then
   fi
 fi
 LIBS=${OLIBS}
-CFLAGS=${CFLAGS}" -Iinclude/json-c -Iinclude -Iinclude/cdTime"
+CFLAGS=" -Iinclude/json-c -Iinclude -Iinclude/cdTime ${CFLAGS}"
 LDFLAGS=${SV_LDFLAGS}
 MAINDIR=`pwd`
 

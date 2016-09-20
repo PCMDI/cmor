@@ -4426,7 +4426,7 @@ $as_echo "\"yes\"" >&6; }
   fi
 fi
 LIBS=${OLIBS}
-CFLAGS=${CFLAGS}" -Iinclude/json-c -Iinclude -Iinclude/cdTime"
+CFLAGS=" -Iinclude/json-c -Iinclude -Iinclude/cdTime ${CFLAGS}"
 LDFLAGS=${SV_LDFLAGS}
 MAINDIR=`pwd`
 
