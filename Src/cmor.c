@@ -229,7 +229,7 @@ void cmor_check_forcing_validity( int table_id, char *value ) {
 	    astr[i] = ' ';
 
 /* -------------------------------------------------------------------- */
-/*      removes everything  after first paranthesis                     */
+/*      removes everything  after first parenthesis                     */
 /* -------------------------------------------------------------------- */
 	if( astr[i] == '(' )
 	    astr[i] = '\0';
@@ -1116,7 +1116,7 @@ json_object *cmor_open_inpathFile(char *szFilename ) {
     buffer[nFileSize] = '\0';
 
 /* -------------------------------------------------------------------- */
-/*      print errror and exist if this is not a JSON file               */
+/*      print error and exist if this is not a JSON file                */
 /* -------------------------------------------------------------------- */
     if(buffer[0]!= '{') {
         free(buffer);
@@ -2907,7 +2907,7 @@ void cmor_write_all_attributes(int ncid, int ncafid, int var_id) {
             continue;
         }
 /* -------------------------------------------------------------------- */
-/* Write license last, not now!!                                       */
+/* Write license last, not now!!                                        */
 /* -------------------------------------------------------------------- */
         if (strcmp(cmor_current_dataset.attributes[i].names,
                 GLOBAL_ATT_LICENSE) == 0) {
@@ -4137,11 +4137,11 @@ int cmor_write( int var_id, void *data, char type,
         }
 
 	if( CMOR_CREATE_SUBDIRECTORIES == 1 ) {
-	    cmor_CreateFromTemplate(nVarRefTblID, szPathTemplate,
-	                                outname, "/");
+	    cmor_CreateFromTemplate(nVarRefTblID, szPathTemplate, outname, "/");
 	} else {
 	    cmor_CreateFromTemplate( nVarRefTblID, szPathTemplate, msg, "/");
 	}
+
 	ierr = cmor_mkdir(outname);
         if( (ierr != 0) && (errno != EEXIST ) ) {
             sprintf( ctmp,
@@ -4247,7 +4247,6 @@ int cmor_write( int var_id, void *data, char type,
 /* -------------------------------------------------------------------- */
 /*      define dimensions in NetCDF file                                */
 /* -------------------------------------------------------------------- */
-
         cmor_define_dimensions(var_id, ncid, ncafid, time_bounds, nc_dim,
                 nc_vars, nc_bnds_vars, nc_vars_af, nc_dim_chunking, &dim_bnds,
                 zfactors, nc_zfactors,nc_dim_af, &nzfactors);
@@ -4315,10 +4314,7 @@ int cmor_write( int var_id, void *data, char type,
 	        nc_vars_af, nc_associated_vars, nc_singletons, nc_singletons_bnds,
 	        nc_zfactors, zfactors, nzfactors, nc_dim_chunking, outname);
 
-
-
     } else {
-
 /* --------------------------------------------------------------------- */
 /*      Variable already been thru cmor_write,                          */
 /*      we just get the netcdf file id                                  */
@@ -4342,7 +4338,6 @@ int cmor_write( int var_id, void *data, char type,
 		     (char *) ctmp2 );
 	    cmor_handle_error( msg, CMOR_CRITICAL );
 	}
-
 
 /* -------------------------------------------------------------------- */
 /*      in case we are doing a zfactor var                              */
@@ -5199,7 +5194,7 @@ int cmor_addRIPF(char *variant) {
         strncat(variant, tmp, CMOR_MAX_STRING - strlen(variant));
     }
 /* -------------------------------------------------------------------- */
-/*      initialization id (re== 0quired)                                    */
+/*      initialization id (re== 0quired)                                */
 /* -------------------------------------------------------------------- */
     if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_INITIA_IDX) == 0) {
         cmor_get_cur_dataset_attribute(GLOBAL_ATT_INITIA_IDX, tmp);
