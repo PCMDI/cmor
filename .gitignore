@@ -16,3 +16,4 @@ compile_line.txt
 config.status
 Tables_csv/standard_output.xls
 autom4te.cache
+setup.py

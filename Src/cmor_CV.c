@@ -620,6 +620,16 @@ void cmor_CV_checkExperiment( cmor_CV_def_t *CV){
 /*  Find experiment_ids dictionary in Control Vocabulary                */
 /* -------------------------------------------------------------------- */
     CV_experiment_ids = cmor_CV_rootsearch(CV, CV_KEY_EXPERIMENT_IDS);
+    if(CV_experiment_ids == NULL){
+        snprintf( msg, CMOR_MAX_STRING,
+                "Your \"experiment_ids\" key could not be found in\n! "
+                "your Control Vocabulary file.(%s)\n! ",
+                CV_Filename);
+
+        cmor_handle_error( msg, CMOR_CRITICAL );
+        cmor_pop_traceback(  );
+        return;
+    }
     CV_experiment = cmor_CV_search_child_key( CV_experiment_ids,
                                                szExperiment_ID);
 
@@ -710,6 +720,16 @@ void cmor_CV_setInstitution( cmor_CV_def_t *CV){
 /*  Find Institution dictionaries in Control Vocabulary                 */
 /* -------------------------------------------------------------------- */
     CV_institution_ids = cmor_CV_rootsearch(CV, CV_KEY_INSTITUTION_IDS);
+    if(CV_institution_ids == NULL) {
+        snprintf( msg, CMOR_MAX_STRING,
+                "Your \"institution_ids\" key could not be found in\n! "
+                "your Control Vocabulary file.(%s)\n! ",
+                CV_Filename);
+
+        cmor_handle_error( msg, CMOR_CRITICAL );
+        cmor_pop_traceback(  );
+        return;
+    }
     CV_institution = cmor_CV_search_child_key( CV_institution_ids,
                                                szInstitution_ID);
 
@@ -902,10 +922,18 @@ void cmor_CV_checkGrids(cmor_CV_def_t *CV) {
     }
 
     CV_grid_labels = cmor_CV_rootsearch(CV, CV_KEY_GRID_LABELS);
+    if(CV_grid_labels == NULL) {
+        snprintf( msg, CMOR_MAX_STRING,
+                "Your \"grid_labels\" key could not be found in\n! "
+                "your Control Vocabulary file.(%s)\n! ",
+                CV_Filename);
 
+        cmor_handle_error( msg, CMOR_CRITICAL );
+        cmor_pop_traceback(  );
+        return;
+    }
     CV_grid_resolution = cmor_CV_search_child_key( CV_grid_labels,
                                                szGridLabel);
-    cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
     if(CV_grid_resolution == NULL ) {
         snprintf( msg, CMOR_MAX_STRING,
                   "Your attribute grid_label is set to \"%s\" which is invalid."
@@ -916,6 +944,17 @@ void cmor_CV_checkGrids(cmor_CV_def_t *CV) {
         return;
 
     }
+    if(CV_grid_resolution->oValue == NULL){
+        snprintf( msg, CMOR_MAX_STRING,
+                "Your \"grid_resolution\" key could not be found in\n! "
+                "your Control Vocabulary file.(%s)\n! ",
+                CV_Filename);
+
+        cmor_handle_error( msg, CMOR_CRITICAL );
+        cmor_pop_traceback(  );
+        return;
+    }
+
     CV_obj_gridres = CV_grid_resolution->oValue;
     if( strcmp(CV_obj_gridres->key, CV_KEY_GRID_RESOLUTION )== 0 ) {
         if(CV_obj_gridres->anElements > 0) {
