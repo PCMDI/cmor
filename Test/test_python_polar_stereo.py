@@ -4,7 +4,6 @@ import cmor
 import cdms2
 import numpy
 import os
-import pdb
 
 # Create some empty arrays
 # -------------------------
@@ -15,7 +14,7 @@ myvars=numpy.zeros(9,dtype='i')
 # Initialize CMOR
 # -------------------
 cmor.setup(inpath="Tables",set_verbosity=cmor.CMOR_NORMAL, netcdf_file_action = cmor.CMOR_REPLACE_4 );
-cmor.dataset_json("./test_python_polar_stereo.json")
+cmor.dataset_json("Test/test_python_polar_stereo.json")
 
 tables=[]
 grid_table = cmor.load_table("CMIP6_grids.json")
@@ -80,7 +79,6 @@ myvars[0] = cmor.variable( table_entry = te,
                            history = '',
                            comment = ''
                            )
-pdb.set_trace()
 cmor.write(myvars[0], data)
 
 cmor.close()
