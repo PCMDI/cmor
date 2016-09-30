@@ -2056,7 +2056,35 @@ int cmor_define_zfactors_vars( int var_id, int ncid, int *nc_dim,
 				  szTable_id );
 			cmor_handle_error( msg, CMOR_CRITICAL );
 		    }
-		}
+/* -------------------------------------------------------------------- */
+/*      Chunking stuff                                                  */
+/* -------------------------------------------------------------------- */
+#ifndef NC_CHUNKED
+#define NC_CHUNKED 0
+#endif
+                    if (!((cmor_vars[var_id].grid_id > -1)
+                            && (cmor_grids[cmor_vars[var_id].grid_id].istimevarying
+                                    == 1))) {
+                        int ndims = cmor_vars[var_id].ndims;
+                        size_t nc_chunking[ndims];
+
+                        for( n = 0; n < cmor_vars[var_id].ndims; n++) {
+                            nc_chunking[n] = 1;
+                        }
+                        ierr = nc_def_var_chunking(ncid,
+                                nc_zfactors[lnzfactors],
+                                NC_CHUNKED, &nc_chunking[0]);
+                        if (ierr != NC_NOERR) {
+                            snprintf(msg, CMOR_MAX_STRING,
+                                    "NetCDF Error (%i: %s) defining chunking\n! "
+                                            "parameters for variable '%s' (table: %s)",
+                                    ierr, nc_strerror(ierr),
+                                    cmor_vars[var_id].id,
+                                    cmor_tables[cmor_vars[var_id].ref_table_id].szTable_id);
+                            cmor_handle_error(msg, CMOR_CRITICAL);
+                        }
+                    }
+                }
 
 /* -------------------------------------------------------------------- */
 /*      Creates attribute related to that variable                      */
@@ -3230,6 +3258,32 @@ void cmor_define_dimensions(int var_id, int ncid,
                             cmor_tables[nVarRefTblID].szTable_id);
                     cmor_handle_error(msg, CMOR_CRITICAL);
                 }
+/* -------------------------------------------------------------------- */
+/*      Chunking stuff                                                  */
+/* -------------------------------------------------------------------- */
+#ifndef NC_CHUNKED
+#define NC_CHUNKED 0
+#endif
+                if (!((cmor_vars[var_id].grid_id > -1)
+                        && (cmor_grids[pVar->grid_id].istimevarying
+                                == 1))) {
+                    int ndims = pVar->ndims;
+                    size_t nc_chunking[ndims];
+
+                    for (n = 0; n < pVar->ndims; n++) {
+                        nc_chunking[n] = 1;
+                    }
+                    ierr = nc_def_var_chunking(ncid, nc_vars[i],
+                                NC_CHUNKED, &nc_chunking[0]);
+                    if (ierr != NC_NOERR) {
+                        snprintf(msg, CMOR_MAX_STRING,
+                                "NetCDF Error (%i: %s) defining chunking\n! "
+                                "parameters for variable '%s' (table: %s)",
+                                ierr, nc_strerror(ierr), pVar->id,
+                                cmor_tables[pVar->ref_table_id].szTable_id);
+                        cmor_handle_error(msg, CMOR_CRITICAL);
+                    }
+                }
             }
 
             nc_vars_af[i] = nc_vars[i];
@@ -3273,6 +3327,32 @@ void cmor_define_dimensions(int var_id, int ncid,
                                 cmor_vars[var_id].id,
                                 cmor_tables[nVarRefTblID].szTable_id);
                         cmor_handle_error(msg, CMOR_CRITICAL);
+                    }
+/* -------------------------------------------------------------------- */
+/*      Chunking stuff                                                  */
+/* -------------------------------------------------------------------- */
+#ifndef NC_CHUNKED
+#define NC_CHUNKED 0
+#endif
+                    if (!((cmor_vars[var_id].grid_id > -1)
+                            && (cmor_grids[pVar->grid_id].istimevarying
+                                    == 1))) {
+                        int ndims = pVar->ndims;
+                        size_t nc_chunking[ndims];
+
+                        for(n= 0; n < pVar->ndims; n++) {
+                            nc_chunking[n] = 1;
+                        }
+                        ierr = nc_def_var_chunking(ncafid, nc_vars_af[i],
+                                NC_CHUNKED, &nc_chunking[0]);
+                        if (ierr != NC_NOERR) {
+                            snprintf(msg, CMOR_MAX_STRING,
+                                    "NetCDF Error (%i: %s) defining chunking\n! "
+                                    "parameters for variable '%s' (table: %s)",
+                                    ierr, nc_strerror(ierr), pVar->id,
+                                    cmor_tables[pVar->ref_table_id].szTable_id);
+                            cmor_handle_error(msg, CMOR_CRITICAL);
+                        }
                     }
                 }
             }
@@ -3450,6 +3530,7 @@ void cmor_define_dimensions(int var_id, int ncid,
                             cmor_tables[nVarRefTblID].szTable_id);
                     cmor_handle_error(msg, CMOR_CRITICAL);
                 }
+
             }
 /* -------------------------------------------------------------------- */
 /* sets the bounds attribute of parent var                              */
@@ -3658,7 +3739,7 @@ int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af,
     int m;
     char msg[CMOR_MAX_STRING];
     double tmps[2];
-    int i,j,k,l;
+    int i,j,k,l,n;
     int nc_dims_associated[CMOR_MAX_AXES];
     int nVarRefTblID = cmor_vars[var_id].ref_table_id;
     int m2[5];
@@ -3921,6 +4002,31 @@ int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af,
                                 cmor_vars[var_id].id,
                                 cmor_tables[nVarRefTblID].szTable_id);
                         cmor_handle_error(msg, CMOR_CRITICAL);
+                    }
+/* -------------------------------------------------------------------- */
+/*      Chunking stuff                                                  */
+/* -------------------------------------------------------------------- */
+#ifndef NC_CHUNKED
+#define NC_CHUNKED 0
+#endif
+                    if (!((cmor_vars[var_id].grid_id > -1)
+                            && (cmor_grids[cmor_vars[j].grid_id].istimevarying == 1))) {
+                        int ndims = cmor_vars[j].ndims;
+                        size_t nc_chunking[ndims];
+
+                        for (n = 0; n < cmor_vars[j].ndims; n++) {
+                            nc_chunking[n] = 1;
+                        }
+                        ierr = nc_def_var_chunking(ncafid, nc_associated_vars[i],
+                        NC_CHUNKED, &nc_chunking[0]);
+                        if (ierr != NC_NOERR) {
+                            snprintf(msg, CMOR_MAX_STRING,
+                                    "NetCDF Error (%i: %s) defining chunking\n! "
+                                            "parameters for variable '%s' (table: %s)",
+                                    ierr, nc_strerror(ierr), cmor_vars[j].id,
+                                    cmor_tables[nVarRefTblID].szTable_id);
+                            cmor_handle_error(msg, CMOR_CRITICAL);
+                        }
                     }
                 }
             }

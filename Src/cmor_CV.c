@@ -1,7 +1,7 @@
 #define _XOPEN_SOURCE
 
+#define _GNU_SOURCE
 #include <string.h>
-#include <stdio.h>
 #include <time.h>
 #include <regex.h>
 #include "cmor.h"
