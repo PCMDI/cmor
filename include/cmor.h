@@ -191,7 +191,7 @@
 #define CV_KEY_SOURCE_IDS             "source_ids"
 #define CV_KEY_GRID_LABELS            "grid_labels"
 #define CV_KEY_GRID_RESOLUTION        "grid_resolution"
-#define CV_KEY_GRIDLABEL_GR            "gr"
+#define CV_KEY_GRIDLABEL_GR           "gr"
 
 #define CV_EXP_ATTR_ADDSOURCETYPE     "additional_source_type"
 #define CV_EXP_ATTR_REQSOURCETYPE     "source_type"
