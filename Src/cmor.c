@@ -2713,10 +2713,10 @@ void cmor_setGblAttr(int var_id) {
 /* -------------------------------------------------------------------- */
 /*     Create external_variables                                        */
 /* -------------------------------------------------------------------- */
-    if (cmor_has_variable_attribute(var_id, VARIABLE_ATT_CELLMEASURES) == 0) {
+    if (cmor_has_variable_attribute(var_id, VARIABLE_ATT_CELLMETHODS) == 0) {
 
-        if (cmor_has_variable_attribute(var_id, VARIABLE_ATT_CELLMETHODS) == 0) {
-            cmor_get_variable_attribute(var_id, VARIABLE_ATT_CELLMETHODS, ctmp);
+        if (cmor_has_variable_attribute(var_id, VARIABLE_ATT_CELLMEASURES) == 0) {
+            cmor_get_variable_attribute(var_id, VARIABLE_ATT_CELLMEASURES, ctmp);
 /* -------------------------------------------------------------------- */
 /*     Extract 2 words after "area:" or "volume:" if exist.             */
 /* -------------------------------------------------------------------- */

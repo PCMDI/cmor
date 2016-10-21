@@ -1,11 +1,11 @@
 {
     "Header": {
-        "mip_era":     "CMIP6", 
+        "activity_id": "CMIP6-XXXX", 
         "approx_interval": "0.017361", 
         "realm": "atmos", 
         "product": "output", 
         "cmor_version": "3.0", 
-        "Conventions": "CF-1.6 CMIP-6.0", 
+        "Conventions": "CF-1.8 CMIP-6.0", 
         "approx_interval_error": "0.75", 
         "frequency": "subhr", 
         "table_id": "Table cfsites", 
