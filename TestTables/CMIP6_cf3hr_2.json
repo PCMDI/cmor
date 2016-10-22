@@ -126,6 +126,22 @@
         } 
 },
 "variable_entry": {
+        "cllcalipso": {
+            "modeling_realm": "atmos",
+            "standard_name": "cloud_area_fraction_in_atmosphere_layer",
+            "units": "%",
+            "cell_methods": "time: point",
+            "cell_measures": "area: areacella",
+            "long_name": "CALIPSO Cloud Fraction",
+            "comment": "Percentage cloud cover at CALIPSO standard heights.",
+            "dimensions": "latitude longitude",
+            "out_name": "cllcalipso",
+            "type": "real",
+            "positive": "",
+            "valid_min": "",
+            "valid_max": "",
+            "ok_min_mean_abs": "",                                                                                                                                                                                                                 "ok_max_mean_abs": ""                                                                                                                                                                                                              },
+ 
         "clcalipso": {
             "modeling_realm": "atmos",
             "standard_name": "cloud_area_fraction_in_atmosphere_layer",
@@ -134,7 +150,7 @@
             "cell_measures": "area: areacella",
             "long_name": "CALIPSO Cloud Fraction",
             "comment": "Percentage cloud cover at CALIPSO standard heights.",
-            "dimensions": "latitude longitude height40 time1",
+            "dimensions": "latitude longitude height40",
             "out_name": "clcalipso",
             "type": "real",
             "positive": "",

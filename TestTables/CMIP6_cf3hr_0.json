@@ -14,37 +14,6 @@
         "Conventions": "CF-1.6 CMIP-6.0"
     }, 
     "axis_entry": {
-        "time1": {
-            "standard_name": "time",
-            "units": "days since ?",
-            "axis": "T",
-            "long_name": "time",
-            "climatology": "",
-            "formula": "",
-            "must_have_bounds": "no",
-            "out_name": "time",
-            "positive": "",
-            "requested": "",
-            "requested_bounds": "",
-            "stored_direction": "increasing",
-            "tolerance": "",
-            "type": "double",
-            "valid_max": "",
-            "valid_min": "",
-            "value": "",
-            "z_bounds_factors": "",
-            "z_factors": "",
-            "bounds_values": ""
-        },
-        "dbze": {
-            "standard_name": "equivalent_reflectivity_factor",
-            "units": "dBZ",
-            "long_name": "CloudSat simulator equivalent radar reflectivity factor",
-            "must_have_bounds": "yes",
-            "out_name": "dbze",
-            "stored_direction": "increasing",
-            "type": "double"
-        },
         "height40": {
             "standard_name": "altitude", 
             "units": "m", 
@@ -58,9 +27,8 @@
         }, 
     "section": {
             "standard_name": "section_id", 
-            "units": "days since ?", 
-            "axis": "T", 
-            "long_name": "location index", 
+            "units": "1", 
+            "long_name": "location", 
             "must_have_bounds": "no", 
             "out_name": "section", 
             "stored_direction": "increasing", 
@@ -126,22 +94,6 @@
         } 
 },
 "variable_entry": {
-        "clcalipso": {
-            "modeling_realm": "atmos",
-            "standard_name": "cloud_area_fraction_in_atmosphere_layer",
-            "units": "%",
-            "cell_methods": "time: mean",
-            "cell_measures": "area: areacella",
-            "long_name": "CALIPSO Cloud Fraction",
-            "comment": "Percentage cloud cover at CALIPSO standard heights.",
-            "dimensions": "latitude longitude height40 time1",
-            "out_name": "clcalipso",
-            "type": "real",
-            "positive": "",
-            "valid_min": "",
-            "valid_max": "",
-            "ok_min_mean_abs": "",                                                                                                                                                                                                                 "ok_max_mean_abs": ""                                                                                                                                                                                                              },
- 
         "latitude": {
             "dimensions": "longitude latitude",
             "valid_min": "-90.0",
