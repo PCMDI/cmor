@@ -5,7 +5,7 @@
         "realm": "atmos", 
         "frequency": "6hr", 
         "cmor_version": "3.1", 
-        "table_date": "21 October 2016", 
+        "table_date": "25 October 2016", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "0.250000", 
@@ -2525,7 +2525,7 @@
             "ok_max_mean_abs": ""
         }, 
         "pmlev": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "air_pressure", 
             "units": "Pa", 
             "cell_methods": "", 
@@ -2536,44 +2536,44 @@
             "out_name": "pmlev", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "zmswaero": {
             "modeling_realm": "atmos", 
-            "standard_name": "shortwave heating rate due to volcanic aerosols", 
+            "standard_name": "shortwave_heating_rate_due_to_volcanic_aerosols", 
             "units": "K s-1", 
             "cell_methods": "time: point", 
-            "cell_measures": "area: areacella", 
+            "cell_measures": "", 
             "long_name": "Zonal mean shortwave heating rate due to volcanic aerosols", 
             "comment": "shortwave heating rate due to volcanic aerosols to be diagnosed through double radiation call, zonal average values required", 
             "dimensions": "latitude alevel time1", 
             "out_name": "zmswaero", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "zmlwaero": {
             "modeling_realm": "atmos", 
-            "standard_name": "longwave heating rate due to volcanic aerosols", 
+            "standard_name": "longwave_heating_rate_due_to_volcanic_aerosols", 
             "units": "K s-1", 
             "cell_methods": "time: point", 
-            "cell_measures": "area: areacella", 
+            "cell_measures": "", 
             "long_name": "Zonal mean longwave heating rate due to volcanic aerosols", 
             "comment": "longwave heating rate due to volcanic aerosols to be diagnosed through double radiation call, zonal average values required", 
             "dimensions": "latitude alevel time1", 
             "out_name": "zmlwaero", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }
     }
 }

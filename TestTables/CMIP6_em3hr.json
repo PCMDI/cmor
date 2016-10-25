@@ -2,10 +2,10 @@
     "Header": {
         "data_specs_version": "01.beta.37", 
         "table_id": "Table em3hr", 
-        "realm": "", 
+        "realm": "atmos", 
         "frequency": "3hr", 
         "cmor_version": "3.1", 
-        "table_date": "21 October 2016", 
+        "table_date": "25 October 2016", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "0.125000", 
@@ -2445,25 +2445,8 @@
             "dimensions": "olevel", 
             "type": "double"
         }, 
-        "pr": {
-            "modeling_realm": "", 
-            "standard_name": "precipitation_flux", 
-            "units": "kg m-2 s-1", 
-            "cell_methods": "time: mean", 
-            "cell_measures": "area: areacella", 
-            "long_name": "Precipitation", 
-            "comment": "includes both liquid and solid phases", 
-            "dimensions": "longitude latitude time", 
-            "out_name": "pr", 
-            "type": "", 
-            "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
-        }, 
         "prw": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "atmosphere_water_vapor_content", 
             "units": "kg m-2", 
             "cell_methods": "time: mean", 
@@ -2474,13 +2457,13 @@
             "out_name": "prw", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "clwvi": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "atmosphere_cloud_condensed_water_content", 
             "units": "kg m-2", 
             "cell_methods": "time: mean", 
@@ -2491,13 +2474,13 @@
             "out_name": "clwvi", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "rsut": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "toa_outgoing_shortwave_flux", 
             "units": "W m-2", 
             "cell_methods": "time: mean", 
@@ -2508,13 +2491,13 @@
             "out_name": "rsut", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "clisccp7c": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "isccp_cloud_area_fraction", 
             "units": "%", 
             "cell_methods": "time: mean", 
@@ -2525,13 +2508,13 @@
             "out_name": "clisccp7c", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "psl": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "air_pressure_at_sea_level", 
             "units": "Pa", 
             "cell_methods": "time: mean", 
@@ -2542,13 +2525,13 @@
             "out_name": "psl", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "rsdt": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "toa_incoming_shortwave_flux", 
             "units": "W m-2", 
             "cell_methods": "time: mean", 
@@ -2559,13 +2542,13 @@
             "out_name": "rsdt", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "rsutcs": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "toa_outgoing_shortwave_flux_assuming_clear_sky", 
             "units": "W m-2", 
             "cell_methods": "time: mean", 
@@ -2576,13 +2559,13 @@
             "out_name": "rsutcs", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "rlutcs": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "toa_outgoing_longwave_flux_assuming_clear_sky", 
             "units": "W m-2", 
             "cell_methods": "time: mean", 
@@ -2593,13 +2576,13 @@
             "out_name": "rlutcs", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "rlut": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "toa_outgoing_longwave_flux", 
             "units": "W m-2", 
             "cell_methods": "time: mean", 
@@ -2610,13 +2593,13 @@
             "out_name": "rlut", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "clivi": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "atmosphere_mass_content_of_cloud_ice", 
             "units": "kg m-2", 
             "cell_methods": "time: mean", 
@@ -2627,10 +2610,10 @@
             "out_name": "clivi", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }
     }
 }

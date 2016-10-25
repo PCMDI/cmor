@@ -5,7 +5,7 @@
         "realm": "", 
         "frequency": "6hr", 
         "cmor_version": "3.1", 
-        "table_date": "21 October 2016", 
+        "table_date": "25 October 2016", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "0.250000", 
@@ -2457,10 +2457,10 @@
             "out_name": "ta", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "psl": {
             "modeling_realm": "atmos", 
@@ -2474,10 +2474,10 @@
             "out_name": "psl", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "ua": {
             "modeling_realm": "", 
@@ -2491,10 +2491,10 @@
             "out_name": "ua", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "va": {
             "modeling_realm": "", 
@@ -2508,10 +2508,10 @@
             "out_name": "va", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "hus27": {
             "modeling_realm": "atmos", 
@@ -2525,10 +2525,10 @@
             "out_name": "hus27", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "rainmxrat27": {
             "modeling_realm": "atmos", 
@@ -2542,10 +2542,10 @@
             "out_name": "rainmxrat27", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "mrlsl": {
             "modeling_realm": "atmos", 
@@ -2559,10 +2559,10 @@
             "out_name": "mrlsl", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "zg27": {
             "modeling_realm": "atmos", 
@@ -2576,10 +2576,10 @@
             "out_name": "zg27", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "dtauc": {
             "modeling_realm": "atmos", 
@@ -2593,10 +2593,10 @@
             "out_name": "dtauc", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "cldicemxrat27": {
             "modeling_realm": "atmos", 
@@ -2610,10 +2610,10 @@
             "out_name": "cldicemxrat27", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "grplmxrat27": {
             "modeling_realm": "atmos", 
@@ -2627,10 +2627,10 @@
             "out_name": "grplmxrat27", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "snowmxrat27": {
             "modeling_realm": "atmos", 
@@ -2644,10 +2644,10 @@
             "out_name": "snowmxrat27", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "mrsos": {
             "modeling_realm": "atmos", 
@@ -2661,10 +2661,10 @@
             "out_name": "mrsos", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "snw": {
             "modeling_realm": "atmos", 
@@ -2678,10 +2678,10 @@
             "out_name": "snw", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "tsl": {
             "modeling_realm": "atmos", 
@@ -2695,10 +2695,10 @@
             "out_name": "tsl", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "vortmean": {
             "modeling_realm": "atmos", 
@@ -2712,10 +2712,10 @@
             "out_name": "vortmean", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "tas": {
             "modeling_realm": "atmos", 
@@ -2729,10 +2729,10 @@
             "out_name": "tas", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "ta27": {
             "modeling_realm": "atmos", 
@@ -2746,10 +2746,10 @@
             "out_name": "ta27", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "dtaus": {
             "modeling_realm": "atmos", 
@@ -2763,10 +2763,10 @@
             "out_name": "dtaus", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "cldwatmxrat27": {
             "modeling_realm": "atmos", 
@@ -2780,10 +2780,10 @@
             "out_name": "cldwatmxrat27", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "ts": {
             "modeling_realm": "atmos", 
@@ -2797,10 +2797,10 @@
             "out_name": "ts", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "huss": {
             "modeling_realm": "atmos", 
@@ -2814,10 +2814,10 @@
             "out_name": "huss", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "pfull27": {
             "modeling_realm": "atmos", 
@@ -2831,10 +2831,10 @@
             "out_name": "pfull27", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "uas": {
             "modeling_realm": "atmos", 
@@ -2848,10 +2848,10 @@
             "out_name": "uas", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "vas": {
             "modeling_realm": "atmos", 
@@ -2865,10 +2865,10 @@
             "out_name": "vas", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "alb": {
             "modeling_realm": "atmos", 
@@ -2882,10 +2882,10 @@
             "out_name": "alb", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "sfcWind": {
             "modeling_realm": "atmos", 
@@ -2899,14 +2899,14 @@
             "out_name": "sfcWind", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "swsffluxaero": {
             "modeling_realm": "atmos", 
-            "standard_name": "shortwave  flux due to volcanic aerosols at  the surface", 
+            "standard_name": "shortwave__flux_due_to_volcanic_aerosols_at__the_surface", 
             "units": "W m-2 ", 
             "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
@@ -2916,14 +2916,14 @@
             "out_name": "swsffluxaero", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "lwtoafluxaerocs": {
             "modeling_realm": "atmos", 
-            "standard_name": "longwave flux due to volcanic aerosols at TOA under clear sky", 
+            "standard_name": "longwave_flux_due_to_volcanic_aerosols_at_TOA_under_clear_sky", 
             "units": "W m-2 ", 
             "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
@@ -2933,14 +2933,14 @@
             "out_name": "lwtoafluxaerocs", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "lwsffluxaero": {
             "modeling_realm": "atmos", 
-            "standard_name": "longwave  flux  due to volcanic aerosols at the surface", 
+            "standard_name": "longwave__flux__due_to_volcanic_aerosols_at_the_surface", 
             "units": "W m-2 ", 
             "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
@@ -2950,14 +2950,14 @@
             "out_name": "lwsffluxaero", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "swtoafluxaerocs": {
             "modeling_realm": "atmos", 
-            "standard_name": "shortwave flux due to volcanic aerosols at TOA under clear sky", 
+            "standard_name": "shortwave_flux_due_to_volcanic_aerosols_at_TOA_under_clear_sky", 
             "units": "W m-2 ", 
             "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
@@ -2967,10 +2967,10 @@
             "out_name": "swtoafluxaerocs", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }
     }
 }

@@ -5,7 +5,7 @@
         "realm": "", 
         "frequency": "3hr", 
         "cmor_version": "3.1", 
-        "table_date": "21 October 2016", 
+        "table_date": "25 October 2016", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "0.125000", 
@@ -2446,7 +2446,7 @@
             "type": "double"
         }, 
         "tas": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "air_temperature", 
             "units": "K", 
             "cell_methods": "time: point", 
@@ -2457,13 +2457,13 @@
             "out_name": "tas", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "huss": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "specific_humidity", 
             "units": "1.0", 
             "cell_methods": "time: point", 
@@ -2474,10 +2474,10 @@
             "out_name": "huss", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "hus7h": {
             "modeling_realm": "", 
@@ -2491,10 +2491,10 @@
             "out_name": "hus7h", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "wap7h": {
             "modeling_realm": "", 
@@ -2508,10 +2508,10 @@
             "out_name": "wap7h", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "ta7h": {
             "modeling_realm": "", 
@@ -2525,10 +2525,10 @@
             "out_name": "ta7h", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "ua7h": {
             "modeling_realm": "", 
@@ -2542,10 +2542,10 @@
             "out_name": "ua7h", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "va7h": {
             "modeling_realm": "", 
@@ -2559,10 +2559,10 @@
             "out_name": "va7h", 
             "type": "", 
             "positive": "", 
-            "valid_min": "0", 
-            "valid_max": "0", 
-            "ok_min_mean_abs": "0", 
-            "ok_max_mean_abs": "0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }
     }
 }
