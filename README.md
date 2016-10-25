@@ -8,3 +8,4 @@ CMOR 3.1 documentation can be found here: http://cmor.llnl.gov
 ![platforms](http://img.shields.io/badge/platforms-linux | osx-lightgrey.svg)
 [![Anaconda-Server Badge](https://anaconda.org/pcmdi/cmor/badges/installer/conda.svg)](https://conda.anaconda.org/pcmdi)
 [![Anaconda-Server Badge](https://anaconda.org/pcmdi/cmor/badges/downloads.svg)](https://anaconda.org/pcmdi)
+[![Coverage Status](https://coveralls.io/repos/github/PCMDI/cmor/badge.svg?branch=master)](https://coveralls.io/github/PCMDI/cmor?branch=master)
