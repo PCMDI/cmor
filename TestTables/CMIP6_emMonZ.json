@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.beta.37", 
+        "data_specs_version": "01.beta.38", 
         "table_id": "Table emMonZ", 
         "realm": "aerosol", 
         "frequency": "mon", 
         "cmor_version": "3.1", 
-        "table_date": "25 October 2016", 
+        "table_date": "27 October 2016", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "30.00000", 
