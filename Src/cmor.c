@@ -2713,7 +2713,6 @@ void cmor_setGblAttr(int var_id) {
 /* -------------------------------------------------------------------- */
 /*     Create external_variables                                        */
 /* -------------------------------------------------------------------- */
-    cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_EXTERNAL_VAR, "none", 0);
     if (cmor_has_variable_attribute(var_id, VARIABLE_ATT_CELLMETHODS) == 0) {
 
         if (cmor_has_variable_attribute(var_id, VARIABLE_ATT_CELLMEASURES) == 0) {
