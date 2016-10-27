@@ -278,7 +278,7 @@ print*, 'Test Code:',lev,':',plevs
 
   itim3 = cmor_axis(  &
        table='Tables/CMIP6_Amon.json',        &
-       table_entry='time2',           &
+       table_entry='time',           &
        units='days since 2030-1-1',  &
        length=ntimes,                &
        interval='1 month')
@@ -406,33 +406,35 @@ print*, 'Test Code:',lev,':',plevs
     ! and retrieve the requested variable and append each to the 
     ! appropriate netCDF file.
 
-    DO m=2,n3d
-        
-        ! The user must write the code that fills the arrays of data
-        ! that will be passed to CMOR.  The following line is simply a
-        ! a place-holder for the user's code, which should replace it.
-
-        call read_3d_input_files(it, varin3d(m), data3d)
-       
-        ! append a single time sample of data for a single field to 
-        ! the appropriate netCDF file.
-        
-        error_flag = cmor_write(                                  &
-             var_id        = var3d_ids(m),                        &
-             data          = data3d,                              &
-             ntimes_passed = 1,                                   &
-             time_vals     = time,                                &
-             time_bnds     = bnds_time  )
-
-        IF (error_flag < 0) THEN
-           ! write diagnostic messages to standard output device
-           write(*,*) ' Error encountered writing IPCC Table A1c ' &
-                // 'field ', entry3d(m), ', which I call ', varin3d(m)
-           write(*,*) ' Was processing time sample: ', time
-                      
-        END IF
-
-     END DO
+    !DO m=2,n3d
+    !    
+    !    ! The user must write the code that fills the arrays of data
+    !    ! that will be passed to CMOR.  The following line is simply a
+    !    ! a place-holder for the user's code, which should replace it.
+!
+!        call read_3d_input_files(it, varin3d(m), data3d)
+!       
+!        ! append a single time sample of data for a single field to 
+!        ! the appropriate netCDF file.
+!        
+!        print *, time
+!        print *, bnds_time
+!        error_flag = cmor_write(                                  &
+!             var_id        = var3d_ids(m),                        &
+!             data          = data3d,                              &
+!             ntimes_passed = 1,                                   &
+!             time_vals     = time,                                &
+!             time_bnds     = bnds_time  )
+!
+!        IF (error_flag < 0) THEN
+!           ! write diagnostic messages to standard output device
+!           write(*,*) ' Error encountered writing IPCC Table A1c ' &
+!                // 'field ', entry3d(m), ', which I call ', varin3d(m)
+!           write(*,*) ' Was processing time sample: ', time
+!                      
+!        END IF
+!
+!     END DO
      
      ! Cycle through the 2-d fields, retrieve the requested variable and 
      ! append each to the appropriate netCDF file.

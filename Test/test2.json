@@ -33,14 +33,10 @@
     "parent_source_id":             "GFDL-CM2-1",
     "parent_variant_label":            "r1i1p1f3",
 
-    "branch_method":                "standard",
-    "branch_time_in_child":         "00D0",
-    "branch_time_in_parent":        "3650.0D0",
-    "branch_time_units_in_parent":  "days since 1000-1-1",
-
     "grid":                         "native atmosphere T63 gaussian grid (64x128 latxlon)",
     "grid_label":                   "gn",
     "grid_resolution":              "5 km",
+    "branch_method":                "1",
 
     "institution_id":               "CSIRO-BOM",
     "institution":                  "Commonwealth Scientific and Industrial Research Organisation, Australia, and Bureau of Meteorology, Australia",

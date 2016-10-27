@@ -14,7 +14,7 @@ PROGRAM test_cmor_grid
    double precision :: profile_ax(n_points),section_ax(n_sections)
    real :: lat(n_points,n_sections),lon(n_points,n_sections)
    real :: lat_bounds(4,n_points,n_sections),lon_bounds(4,n_points,n_sections)
-   character(len=128) :: table='Test/CMIP5_cf3hr.txt'
+   character(len=128) :: table='TestTables/CMIP6_cf3hr.json'
    character(len=32) :: sec_units='days since 2000-01-01'
    integer :: error_flag,height_axid,time_axid,profile_axid,grid_id,section_axid
    real :: lat_step,lon_step
@@ -25,11 +25,11 @@ PROGRAM test_cmor_grid
    read(*,*) option
 
    if (option == 0) then ! 1D grid, no time dimension
-      table='Test/CMIP5_cf3hr_0.txt'
+      table='TestTables/CMIP6_cf3hr_0.json'
       sec_units='1'
    endif
    if (option == 1) then ! 1D grid, section as time dimension
-      table='Test/CMIP5_cf3hr_1.txt'
+      table='TestTables/CMIP6_cf3hr_1.json'
       sec_units='days since 2000-01-01'
    endif
    

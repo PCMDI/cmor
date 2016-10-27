@@ -101,7 +101,7 @@ program testing
                     ! Corresponding IPCC Table A1a entry (variable name) 
  CHARACTER (LEN=5), DIMENSION(n2d) :: &
 !                        entry2d = (/ 'hfls ', 'tas  ', 'mrsos', 'ps   ' /)
-                       entry2d = (/ 'sftlf ' /)
+                       entry2d = (/ 'sftof ' /)
 
 !  uninitialized variables used in communicating with CMOR:
 !  ---------------------------------------------------------

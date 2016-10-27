@@ -266,10 +266,9 @@ extern int cmor_grid_valid_mapping_attribute_names( char *name, int *natt,
 						    char ( *dims )
 						    [CMOR_MAX_STRING] );
 extern int cmor_set_grid_mapping( int gid, char *name, int nparam,
-				  char **attributes_names, int lparams,
-				  double
-				  attributes_values
-				  [CMOR_MAX_GRID_ATTRIBUTES], char **units,
+				  char *attributes_names, int lparams,
+				  double attributes_values[CMOR_MAX_GRID_ATTRIBUTES],
+				  char *units,
 				  int lnunits );
 extern int cmor_grid( int *grid_id, int ndims, int *axes_ids, char type,
 		      void *lat, void *lon, int nvertices, void *blat,
