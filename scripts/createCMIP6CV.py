@@ -19,9 +19,9 @@ filelist = [
         "CMIP6_grid_resolution.json",
         "CMIP6_realm.json",
         "CMIP6_table_id.json",
-        "CMIP6_experiment_id.json",
         "CMIP6_license.json",
-        "mip_era.json"
+        "mip_era.json",
+        "CMIP6_experiment_id.json"
         ]
 # Github repository with CMIP6 related Control Vocabulary files
 # -------------------------------------------------------------
@@ -45,6 +45,7 @@ class readWCRP():
 
 def run():
     f = open("CMIP6_CV.json", "w")
+    pdb.set_trace()
     gather = readWCRP()
     CV = gather.readGit()
     f.write(json.dumps(CV, indent=4, separators=(',', ':'), sort_keys=False) )

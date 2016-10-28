@@ -186,12 +186,14 @@
 #define JSON_KEY_CV_ENTRY             "CV"
 
 #define CV_KEY_REQUIRED_GBL_ATTRS     "required_global_attributes"
-#define CV_KEY_INSTITUTION_IDS        "institution_ids"
-#define CV_KEY_EXPERIMENT_IDS         "experiment_ids"
-#define CV_KEY_SOURCE_IDS             "source_ids"
-#define CV_KEY_GRID_LABELS            "grid_labels"
+#define CV_KEY_INSTITUTION_IDS        "institution_id"
+#define CV_KEY_EXPERIMENT_IDS         "experiment_id"
+#define CV_KEY_SOURCE_IDS             "source_id"
+#define CV_KEY_GRID_LABELS            "grid_label"
 #define CV_KEY_GRID_RESOLUTION        "grid_resolution"
 #define CV_KEY_GRIDLABEL_GR           "gr"
+#define CV_KEY_SOURCE_LABEL           "label"
+
 
 #define CV_EXP_ATTR_ADDSOURCETYPE     "additional_source_type"
 #define CV_EXP_ATTR_REQSOURCETYPE     "source_type"
