@@ -195,8 +195,8 @@
 #define CV_KEY_SOURCE_LABEL           "label"
 
 
-#define CV_EXP_ATTR_ADDSOURCETYPE     "additional_source_type"
-#define CV_EXP_ATTR_REQSOURCETYPE     "source_type"
+#define CV_EXP_ATTR_ADDSOURCETYPE     "additional_allowed_model_components"
+#define CV_EXP_ATTR_REQSOURCETYPE     "required_model_components"
 
 #define GLOBAL_INT_ATT_PARENT_EXPT    GLOBAL_INTERNAL"parent_experiment"
 #define GLOBAL_ATT_VERSION            GLOBAL_INTERNAL"version"

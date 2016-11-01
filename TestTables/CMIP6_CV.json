@@ -95,12 +95,32 @@
                 ],
                 "sea_ice":"CICE4.1",
                 "label":"ACCESS 1.0",
+                "label_extended":"PCMDI-test 1.0 (This entry is free text for users to contribute verbose information)",
                 "institution_id":[
                     "CSIRO-BOM"
                 ],
                 "land_surface":"MOSES2.2",
                 "aerosol":"CLASSIC",
                 "ocean":"ACCESS-OM (MOM4p1; tripolar primarily 1deg latitude/longitude; 50 levels; top grid cell 0-10m)",
+                "land_ice":"None"
+            },
+            "PCMDI-test-1-0":{
+                "atmospheric_chemistry":"None",
+                "atmosphere":"Earth1.0-gettingHotter",
+                "ocean_biogeochemistry":"None",
+                "release_year":"1989",
+                "cohort":[
+                    "CMIP5"
+                ],
+                "sea_ice":"Declining",
+                "label":"PCMDI-test 1.0",
+                "institution_id":[
+                    "PCMDI"
+                ],
+                "source_id":"PCMDI-test-1-0 an alternative could be \"ACCESS1-0\")",
+                "land_surface":"Earth1.0",
+                "aerosol":"None",
+                "ocean":"BlueMarble1.0-warming",
                 "land_ice":"None"
             }
         },

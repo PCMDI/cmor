@@ -393,7 +393,7 @@ void cmor_CV_checkSourceType(cmor_CV_def_t *CV_exp, char *szExptID){
     char szSourceType[CMOR_MAX_STRING];
     char msg[CMOR_MAX_STRING];
     char CV_Filename[CMOR_MAX_STRING];
-    int i;
+    int i, j;
     char *szTokenRequired;
     char *szTokenAdd;
     int nbSourceType;
@@ -415,15 +415,23 @@ void cmor_CV_checkSourceType(cmor_CV_def_t *CV_exp, char *szExptID){
     for (i = 0; i < nObjects; i++) {
         CV_exp_attr = &CV_exp->oValue[i];
         if(strcmp(CV_exp_attr->key, CV_EXP_ATTR_ADDSOURCETYPE) == 0 ) {
-            strcpy(szAddSourceType, CV_exp_attr->szValue);
-            strcpy(szAddSourceTypeCpy, CV_exp_attr->szValue);
+        	for(j = 0; j< CV_exp_attr->anElements; j++) {
+        		strcat(szAddSourceType, CV_exp_attr->aszValue[j]);
+        		strcat(szAddSourceType, " ");
+        		strcat(szAddSourceTypeCpy, CV_exp_attr->aszValue[j]);
+        		strcat(szAddSourceTypeCpy, " ");
 
+        	}
             continue;
         }
         if(strcmp(CV_exp_attr->key, CV_EXP_ATTR_REQSOURCETYPE) == 0) {
-            strcpy(szReqSourceType, CV_exp_attr->szValue);
-            strcpy(szReqSourceTypeCpy, CV_exp_attr->szValue);
+        	for(j = 0; j< CV_exp_attr->anElements; j++) {
+        		strcat(szReqSourceType, CV_exp_attr->aszValue[j]);
+        		strcat(szReqSourceType, " ");
+        		strcat(szReqSourceTypeCpy, CV_exp_attr->aszValue[j]);
+        		strcat(szReqSourceTypeCpy, " ");
 
+        	}
             continue;
         }
 
@@ -553,7 +561,7 @@ void cmor_CV_checkSourceID(cmor_CV_def_t *CV){
             // Make sure that "source" exist.
             if(cmor_has_cur_dataset_attribute(GLOBAL_ATT_SOURCE) != 0 ) {
                 cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_SOURCE,
-                        CV_source_id->szValue, 1);
+                        CV_source_id->aszValue[0], 1);
             }
             // Check source with experiment_id label.
             rc = cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE, szSource);
@@ -666,7 +674,7 @@ void cmor_CV_checkExperiment( cmor_CV_def_t *CV){
         CV_experiment_attr = &CV_experiment->oValue[i];
         rc = cmor_has_cur_dataset_attribute(CV_experiment_attr->key);
         // Validate source type first
-        if(strcmp(CV_experiment_attr->key, GLOBAL_ATT_SOURCE_TYPE) == 0) {
+        if(strcmp(CV_experiment_attr->key, CV_EXP_ATTR_REQSOURCETYPE) == 0) {
             cmor_CV_checkSourceType(CV_experiment, szExperiment_ID);
             continue;
         }
@@ -675,17 +683,17 @@ void cmor_CV_checkExperiment( cmor_CV_def_t *CV){
         // experiment from Control Vocabulary will replace User entry value.
         if( rc == 0) {
             cmor_get_cur_dataset_attribute(CV_experiment_attr->key, szValue);
-            if( CV_experiment_attr->nValue > 0) {
-            	for( i = 0; i < CV_experiment_attr->nValue; i++) {
+            if( CV_experiment_attr->anElements > 0) {
+            	for( i = 0; i < CV_experiment_attr->anElements; i++) {
             		//
             		// Find a string that match this value in the list?
             		//
-            		 if( strncmp( CV_experiment_attr->aszValue[0], szValue,
+            		 if( strncmp( CV_experiment_attr->aszValue[i], szValue,
             				      CMOR_MAX_STRING) == 0) {
             			 break;
             		 }
             	}
-				if (i == CV_experiment_attr->nValue) {
+				if (i == CV_experiment_attr->anElements) {
 					bWarning = TRUE;
 				}
 			} else
@@ -972,7 +980,7 @@ void cmor_CV_checkGrids(cmor_CV_def_t *CV) {
     		if (i == CV_grid_labels->anElements) {
     			snprintf(msg, CMOR_MAX_STRING,
     					"Your attribute grid_label is set to \"%s\" which is invalid."
-    							"\n! \n! Check your Control Vocabulary file \"%s\".\n! ",
+    					"\n! \n! Check your Control Vocabulary file \"%s\".\n! ",
     					szGridLabel, CV_Filename);
     			cmor_handle_error(msg, CMOR_CRITICAL);
     			cmor_pop_traceback();

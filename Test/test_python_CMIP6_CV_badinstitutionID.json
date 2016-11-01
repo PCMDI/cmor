@@ -18,7 +18,7 @@
            "mip_era":                "CMIP6",
 
            "#source":                "",
-           "source":                 "MIROC-ESM",
+           "source":                 "PCMDI-test-1-0",
 
            "#calendar":              "",
            "calendar":               "gregorian",
@@ -85,7 +85,7 @@
            "grid_resolution":        "5 km",
            "references":             "Model described by Koder and Tolkien (J. Geophys. Res.,2001, 576 - 591).  Also see http://www.GICC.su/giccm/doc/index.html  2XCO2 simulation described in Dorkey et al. '(Clim. Dyn., 2003, 323 - 357.)",
            "run_variant":            "forcing: black carbon aerosol only",
-           "source_id":              "MIROC-ESM",
+           "source_id":              "PCMDI-test-1-0",
 
            "#output_path_template":   "Template for output path directory using tables keys or global attributes",
            "output_path_template":    "<activity_id><institution_id><source_id><experiment_id><variant_label><table><variable_id><grid_label><version>",

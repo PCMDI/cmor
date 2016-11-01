@@ -17,7 +17,7 @@
            "parent_mip_era":         "N/A",
            "#mip_era":                "CMIP6",
 
-           "source_id":              "KMA-ACE",
+           "source_id":              "PCMDI-test-1-0",
            "source_type":            "AOGCM",
 
            "#calendar":              "",
