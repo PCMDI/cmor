@@ -167,7 +167,7 @@ PROGRAM test_region
   !   experiment conditions, and provide information to be included as 
   !   attributes in all CF-netCDF files written as part of this dataset.
 
-  error_flag = cmor_dataset_json("Test/test2.json")
+  error_flag = cmor_dataset_json("Test/common_user_input.json")
     
   !  Define all axes that will be needed
   

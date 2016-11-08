@@ -160,7 +160,7 @@ PROGRAM mip_contribution
   !   all CF-netCDF files written as part of this dataset.
 
   print*, 'calling cmor_dataset'
-  error_flag = cmor_dataset_json("Test/test2.json")
+  error_flag = cmor_dataset_json("Test/common_user_input.json")
   
   print*, 'returned from cmor_dataset'
 

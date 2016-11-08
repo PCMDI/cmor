@@ -188,7 +188,7 @@ PROGRAM mip_contribution
   !   all CF-netCDF files written as part of this dataset.
 
   print*, 'calling cmor_dataset'
-  error_flag = cmor_dataset_json("Test/test2.json")
+  error_flag = cmor_dataset_json("Test/common_user_input.json")
 
   !error_flag  = cmor_set_cur_dataset_attribute("initialization_method","4")
   !error_flag  = cmor_set_cur_dataset_attribute("physics_version","6")

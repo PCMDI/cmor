@@ -2560,7 +2560,7 @@ int cmor_validateFilename(char *outname, int var_id) {
 
 
 /************************************************************************/
-/*                      cmor_setGblAttr()                             */
+/*                      cmor_setGblAttr()                               */
 /************************************************************************/
 void cmor_setGblAttr(int var_id) {
     struct tm *ptr;
@@ -2622,7 +2622,6 @@ void cmor_setGblAttr(int var_id) {
 /* -------------------------------------------------------------------- */
 /*    Set attribute Conventions for netCDF file metadata                */
 /* -------------------------------------------------------------------- */
-
     snprintf(msg, CMOR_MAX_STRING, "%s", cmor_tables[nVarRefTblID].Conventions);
 
     cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_CONVENTIONS, msg, 0);
@@ -2654,7 +2653,6 @@ void cmor_setGblAttr(int var_id) {
 /* -------------------------------------------------------------------- */
     snprintf(msg, CMOR_MAX_STRING, "%s",
             cmor_tables[nVarRefTblID].szTable_id);
-
 
     cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_TABLE_ID, msg, 0);
 
@@ -2713,67 +2711,67 @@ void cmor_setGblAttr(int var_id) {
 /* -------------------------------------------------------------------- */
 /*     Create external_variables                                        */
 /* -------------------------------------------------------------------- */
-    if (cmor_has_variable_attribute(var_id, VARIABLE_ATT_CELLMETHODS) == 0) {
+	if (cmor_has_variable_attribute(var_id, VARIABLE_ATT_CELLMEASURES) == 0) {
+		cmor_get_variable_attribute(var_id, VARIABLE_ATT_CELLMEASURES, ctmp);
 
-        if (cmor_has_variable_attribute(var_id, VARIABLE_ATT_CELLMEASURES) == 0) {
-            cmor_get_variable_attribute(var_id, VARIABLE_ATT_CELLMEASURES, ctmp);
+/* -------------------------------------------------------------------- */
+/*     If CELLMEASURE is set to @OPT we don't do anything               */
+/* -------------------------------------------------------------------- */
+		if( strcmp(ctmp, "@OPT") == 0) {
+			cmor_set_variable_attribute(var_id,
+			        VARIABLE_ATT_CELLMEASURES, "", 0);
+		}
+
 /* -------------------------------------------------------------------- */
 /*     Extract 2 words after "area:" or "volume:" if exist.             */
 /* -------------------------------------------------------------------- */
-            regcomp(&regex, EXTERNAL_VARIABLE_REGEX, REG_EXTENDED);
+		regcomp(&regex, EXTERNAL_VARIABLE_REGEX, REG_EXTENDED);
 
-            regexec(&regex, ctmp , n_matches, m, 0);
+		regexec(&regex, ctmp, n_matches, m, 0);
 
-            words[0]='\0';
-            ctmp2[0]='\0';
-            for( i = 0; i< n_matches; i++ ) {
-                numchar = (int)m[i].rm_eo - (int) m[i].rm_so;
+		words[0] = '\0';
+		ctmp2[0] = '\0';
+		for (i = 0; i < n_matches; i++) {
+			numchar = (int) m[i].rm_eo - (int) m[i].rm_so;
 /* -------------------------------------------------------------------- */
 /*     If rm_so is negative, there is not more matches.                 */
 /* -------------------------------------------------------------------- */
-                if(((int)m[i].rm_so < 0) || (numchar == 0)) {
-                    break;
-                }
+			if (((int) m[i].rm_so < 0) || (numchar == 0)) {
+				break;
+			}
 
-                strncpy(words, ctmp+m[i].rm_so, numchar);
-                words[numchar]='\0';
-                ret = strstr(words,":");
+			strncpy(words, ctmp + m[i].rm_so, numchar);
+			words[numchar] = '\0';
+			ret = strstr(words, ":");
 /* -------------------------------------------------------------------- */
 /*      Rejects all line with ":" in it                                 */
 /* -------------------------------------------------------------------- */
-                if( ret == NULL ) {
-                    if(ctmp2[0]=='\0') {
-                        strncat(ctmp2, words, numchar);
-                    } else {
-                        strcat(ctmp2, " ");
-                        strncat(ctmp2, words, numchar);
-                    }
-                }
-            }
-            cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_EXTERNAL_VAR,
-                    ctmp2, 0);
-            regfree(&regex);
-        }
-    }
-
-
+			if (ret == NULL) {
+				if (ctmp2[0] == '\0') {
+					strncat(ctmp2, words, numchar);
+				} else {
+					strcat(ctmp2, " ");
+					strncat(ctmp2, words, numchar);
+				}
+			}
+		}
+		cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_EXTERNAL_VAR, ctmp2,
+				0);
+		regfree(&regex);
+	}
 
     if( cmor_has_cur_dataset_attribute(GLOBAL_ATT_INSTITUTION_ID) == 0) {
         cmor_CV_setInstitution(cmor_tables[nVarRefTblID].CV);
     }
-
 
     if( cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP6) == 0) {
         cmor_CV_checkSourceID(cmor_tables[nVarRefTblID].CV);
         cmor_CV_checkExperiment(cmor_tables[nVarRefTblID].CV);
         cmor_CV_checkGrids(cmor_tables[nVarRefTblID].CV);
         cmor_CV_checkFurtherInfoURL(var_id);
-
     }
-
     cmor_CV_checkGblAttributes(cmor_tables[nVarRefTblID].CV);
     cmor_CV_checkISOTime(GLOBAL_ATT_CREATION_DATE);
-
 }
 /************************************************************************/
 /*                      cmor_writeGblAttr()                             */

@@ -63,7 +63,7 @@ USE cmor_users_functions
       ierrorflag = cmor_setup(netcdf_file_action = 'replace')
 
       print *, 'Identifying output data sets for CMOR ...'
-      ierrorflag = cmor_dataset_json("Test/test2.json")
+      ierrorflag = cmor_dataset_json("Test/common_user_input.json")
 
 !     print *, ' ** Time coordinate vector:', t
 !     print *, ' ** Time bounds vector:',     tbounds

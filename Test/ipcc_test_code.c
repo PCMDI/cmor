@@ -228,7 +228,7 @@ int main()
 
 
   printf("yep: %s, %s\n",c1,c2);
-  ierr = cmor_dataset_json("Test/ipcc_test_code.json");
+  ierr = cmor_dataset_json("Test/common_user_input.json");
 
   printf("Test code: ok load cmor table(s)\n");
   ierr = cmor_load_table("Tables/CMIP6_Omon.json",&tables[0]);

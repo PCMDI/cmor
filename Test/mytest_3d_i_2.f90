@@ -51,7 +51,7 @@ program main
        exit_control=1)
     
   print*,'CMOR DATASET'
-  ierr = cmor_dataset_json("Test/test2.json")
+  ierr = cmor_dataset_json("Test/common_user_input.json")
   
   current=>mydims
   do i = 0,ndim-1

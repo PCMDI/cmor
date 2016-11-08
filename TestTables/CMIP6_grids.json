@@ -1,7 +1,6 @@
 {
     "Header": {
         "product": "output", 
-        "cf_version": "1.6", 
         "baseURL": "http://cmip-pcmdi.llnl.gov/CMIP6/dataLocation", 
         "cmor_version": "3.1", 
         "Conventions": "CF-1.6 CMIP-6.0", 
