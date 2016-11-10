@@ -17,6 +17,7 @@
             "initialization_index",
             "institution",
             "institution_id",
+            "license",
             "mip_era",
             "physics_index",
             "product",
@@ -34,10 +35,10 @@
             "variant_label"
         ],
         "version_metadata":{
-            "note":"Fix #68 - Add AerChemMIP experiments, piClim-SO2, piClim-OC, piClim-NH3",
-            "previous_commit":"4a74bdad7fb72791f68fccd83b0e9b991bdb0793",
+            "note":"Fix invalid source_type syntax - rogue ,",
+            "previous_commit":"bfa08761c90b97caa5f8a64ee2548b7a49e2f4ee",
             "author":"Paul J. Durack <durack1@llnl.gov>",
-            "creation_date":"Tue Oct 4 12:26:34 2016 -0700",
+            "creation_date":"Thu Nov 3 07:19:34 2016 -0700",
             "institution_id":"PCMDI",
             "latest_tag_point":"None"
         },
@@ -62,30 +63,34 @@
             "VolMIP"
         ],
         "institution_id":{
-            "NUIST":"Nanjing University of Information Science & Technology, Nanjing, 210044, China",
-            "LASG-IAP":"Institute of Atmospheric Physics, Chinese Academy of Sciences, Beijing 100029, China",
+            "CSIR-CSIRO":"CSIR (Council for Scientific and Industrial Research - Natural Resources and the Environment, Pretoria, 0001, South Africa), CSIRO (Commonwealth Scientific and Industrial Research Organisation and Bureau of Meteorology, Melbourne, Victoria 3208, Australia)",
+            "CCCma":"Canadian Centre for Climate Modelling and Analysis, Victoria, BC V8P 5C2, Canada",
+            "MIROC":"JAMSTEC (Japan Agency for Marine-Earth Science and Technology, Kanagawa 236-0001, Japan), AORI (Atmosphere and Ocean Research Institute, The University of Tokyo, Chiba 277-8564, Japan), NIES (National Institute for Environmental Studies, Ibaraki 305-8506, Japan), and AICS (RIKEN Advanced Institute for Computational Science, Hyogo 650-0047, Japan)",
+            "MOHC":"Met Office Hadley Centre, Fitzroy Road, Exeter, Devon, EX1 3PB, UK",
+            "IPSL":"Institut Pierre Simon Laplace, Paris 75252, France",
+            "EC-Earth-Consortium":"KNMI, The Netherlands; SMHI, Sweden; DMI, Denmark; AEMET, Spain; Met \u00c9ireann, Ireland; CNR-ISAC, Italy; Instituto de Meteorologia, Portugal; FMI, Finland; BSC, Spain; Centro de Geofisica, University of Lisbon, Portugal; ENEA, Italy; Geomar, Germany; Geophysical Institute, University of Bergen, Norway; ICHEC, Ireland; ICTP, Italy; IMAU, The Netherlands; IRV, Sweden;  Lund University, Sweden; Meteorologiska Institutionen, Stockholms University, Sweden; Niels Bohr Institute, University of Copenhagen, Denmark; NTNU, Norway; SARA, The Netherlands; Unit\u00e9 ASTR, Belgium; Universiteit Utrecht, The Netherlands; Universiteit Wageningen, The Netherlands; University College Dublin, Ireland; Vrije Universiteit Amsterdam, the Netherlands; University of Helsinki, Finland; KIT, Karlsruhe, Germany; USC, University of Santiago de Compostela, Spain; Uppsala Universitet, Sweden; NLeSC, Netherlands eScience Center, The Netherlands",
+            "CMCC":"Centro Euro-Mediterraneo per i Cambiamenti Climatici, Bologna 40127, Italy",
+            "CSIRO-BOM":"Commonwealth Scientific and Industrial Research Organisation and Bureau of Meteorology, Melbourne, Victoria 3208, Australia",
+            "COLA-CFS":"Center for Ocean-Land-Atmosphere Studies, Fairfax, VA 22030, USA",
+            "MPI-M":"Max Planck Institute for Meteorology, Hamburg 20146, Germany",
+            "NCAR":"National Center for Atmospheric Research, Boulder, CO 80307, USA",
+            "NIMS-KMA":"National Institute of Meteorological Sciences/Korea Meteorological Administration, Climate Research Division, Seoho-bukro 33, Seogwipo-si, Jejudo 63568, Republic of Korea",
+            "CCCR-IITM":"Centre for Climate Change Research, Indian Institute of Tropical Meteorology Pune, Maharashtra 411 008, India",
+            "BNU":"Beijing Normal University, Beijing 100875, China",
             "NOAA-NCEP":"National Oceanic and Atmospheric Administration, National Centers for Environmental Prediction, Camp Springs, MD 20746, USA",
             "MRI":"Meteorological Research Institute, Tsukuba, Ibaraki 305-0052, Japan",
             "NASA-GISS":"Goddard Institute for Space Studies, New York, NY 10025, USA",
-            "CCCma":"Canadian Centre for Climate Modelling and Analysis, Victoria, BC V8P 5C2, Canada",
-            "CMCC":"Centro Euro-Mediterraneo per i Cambiamenti Climatici, Bologna 40127, Italy",
-            "CSIRO-BOM":"Commonwealth Scientific and Industrial Research Organisation and Bureau of Meteorology, Melbourne, Victoria 3208, Australia",
-            "NIMS-KMA":"National Institute of Meteorological Sciences/Korea Meteorological Administration, Climate Research Division, Seoho-bukro 33, Seogwipo-si, Jejudo 63568, Republic of Korea",
-            "INM":"Institute for Numerical Mathematics, Moscow 119991, Russia",
-            "COLA-CFS":"Center for Ocean-Land-Atmosphere Studies, Fairfax, VA 22030, USA",
-            "MIROC":"JAMSTEC (Japan Agency for Marine-Earth Science and Technology, Kanagawa, Japan), AORI (Atmosphere and Ocean Research Institute, The University of Tokyo, Chiba, Japan), and NIES (National Institute for Environmental Studies, Ibaraki, Japan)",
-            "BNU":"GCESS, BNU, Beijing, China",
-            "MOHC":"Met Office Hadley Centre, Fitzroy Road, Exeter, Devon, EX1 3PB, UK",
-            "NCAR":"National Center for Atmospheric Research, Boulder, CO 80307, USA",
             "PCMDI":"Program for Climate Model Diagnosis and Intercomparison, Lawrence Livermore National Laboratory, Livermore, CA 94550, USA",
-            "NCC":"UNI Bjerknes Centre for Climate Research, Norwegian Climate Centre, Bergen 5007, Norway",
-            "NOAA-GFDL":"National Oceanic and Atmospheric Administration, Geophysical Fluid Dynamics Laboratory, Princeton, NJ 08540, USA",
             "FIO":"The First Institution of Oceanography (SOA), Qingdao, China",
-            "IPSL":"Institut Pierre Simon Laplace, Paris 75252, France",
-            "MPI-M":"Max Planck Institute for Meteorology, Hamburg 20146, Germany"
+            "NOAA-GFDL":"National Oceanic and Atmospheric Administration, Geophysical Fluid Dynamics Laboratory, Princeton, NJ 08540, USA",
+            "LASG-IAP":"Institute of Atmospheric Physics, Chinese Academy of Sciences, Beijing 100029, China",
+            "INM":"Institute for Numerical Mathematics, Moscow 119991, Russia",
+            "NCC":"UNI Bjerknes Centre for Climate Research, Norwegian Climate Centre, Bergen 5007, Norway",
+            "NUIST":"Nanjing University of Information Science & Technology, Nanjing, 210044, China"
         },
         "source_id":{
             "ACCESS-1-0":{
+                "label_extended":"ACCESS 1.0 (This entry is free text for users to contribute verbose information)",
                 "atmospheric_chemistry":"None",
                 "atmosphere":"HadGAM2 (r1.1; 192 x 145 N96; 38 levels; top level 39255m)",
                 "ocean_biogeochemistry":"None",
@@ -95,31 +100,52 @@
                 ],
                 "sea_ice":"CICE4.1",
                 "label":"ACCESS 1.0",
-                "label_extended":"PCMDI-test 1.0 (This entry is free text for users to contribute verbose information)",
                 "institution_id":[
                     "CSIRO-BOM"
                 ],
                 "land_surface":"MOSES2.2",
-                "aerosol":"CLASSIC",
+                "aerosol":"CLASSIC (v1.0)",
+                "source_id":"ACCESS-1-0",
                 "ocean":"ACCESS-OM (MOM4p1; tripolar primarily 1deg latitude/longitude; 50 levels; top grid cell 0-10m)",
                 "land_ice":"None"
             },
+            "IITM-ESM":{
+                "label_extended":"IITM-ESM",
+                "atmospheric_chemistry":"",
+                "atmosphere":"GFS (192 x 94 T62; 64 levels; top level 0.2 mb)",
+                "ocean_biogeochemistry":"TOPAZ",
+                "release_year":"2015",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"SIS",
+                "label":"IITM-ESM",
+                "institution_id":[
+                    "CCCR-IITM"
+                ],
+                "land_surface":"Earth1.0",
+                "aerosol":"unnamed (prescribed MAC-v2)",
+                "source_id":"IITM-ESM",
+                "ocean":"MOM4p1 (tripolar, 360x200; 50 levels; top grid cell 5m)",
+                "land_ice":"Noah LSM"
+            },
             "PCMDI-test-1-0":{
+                "label_extended":"PCMDI-test 1.0 (This entry is free text for users to contribute verbose information)",
                 "atmospheric_chemistry":"None",
                 "atmosphere":"Earth1.0-gettingHotter",
                 "ocean_biogeochemistry":"None",
                 "release_year":"1989",
                 "cohort":[
-                    "CMIP5"
+                    "CMIP6"
                 ],
                 "sea_ice":"Declining",
                 "label":"PCMDI-test 1.0",
                 "institution_id":[
                     "PCMDI"
                 ],
-                "source_id":"PCMDI-test-1-0 an alternative could be \"ACCESS1-0\")",
                 "land_surface":"Earth1.0",
                 "aerosol":"None",
+                "source_id":"PCMDI-test-1-0",
                 "ocean":"BlueMarble1.0-warming",
                 "land_ice":"None"
             }
@@ -138,12 +164,9 @@
             "SLAB"
         ],
         "frequency":[
-            "1hrClimMon",
             "3hr",
-            "3hrClim",
             "6hr",
             "day",
-            "decadal",
             "fx",
             "mon",
             "monClim",
@@ -220,13 +243,11 @@
             "fx"
         ],
         "license":[
-            "CMIP6 model data produced by <YourCentreName> is licensed under a Creative Commons Attribution \"[*] Share Alike\" 4.0 International License (http://creativecommons.org/licenses/by/4.0/). Use of the data should be acknowledged following guidelines found at https://pcmdi.llnl.gov/home/CMIP6/citation.html. [Permissions beyond the scope of this license may be available at <some URL maintained by modeling group>.] Further information about this data, including some limitations, can be found via the further_info_url (recorded as a global attribute in data files)[and at <some URL maintained by modeling group>]. The data producers and data providers make no warranty, either express or implied, including, but not limited to, warranties of merchantability and fitness for a particular purpose. All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law."
+            [
+                "CMIP6 model data produced by .* is licensed under a Creative Commons Attribution \"Share Alike\" 4.0 International License (http://creativecommons.org/licenses/by/4.0/). Use of the data should be acknowledged following guidelines found at.*Permissions beyond the scope of this license may be available at.* Further information about this data, including some limitations, can be found via the further_info_url (recorded as a global attribute in data files). The data producers and data providers make no warranty, either express or implied, including, but not limited to, warranties of merchantability and fitness for a particular purpose. All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law."
+            ]
         ],
         "mip_era":[
-            "CMIP1",
-            "CMIP2",
-            "CMIP3",
-            "CMIP5",
             "CMIP6"
         ],
         "experiment_id":{
@@ -247,7 +268,7 @@
                 "experiment":"well-mixed GHG-only SSP2-4.5 run",
                 "additional_allowed_model_components":[
                     "AER",
-                    "CHEM,",
+                    "CHEM",
                     "BGCM"
                 ],
                 "required_model_components":[
@@ -322,6 +343,7 @@
                 "parent_activity_id":"",
                 "experiment":"pre-industrial climatological SSTs and forcing, but with 2014 ammonia emissions",
                 "additional_allowed_model_components":[
+                    "AGCM",
                     "CHEM"
                 ],
                 "required_model_components":[
@@ -342,6 +364,7 @@
                 "parent_activity_id":"",
                 "experiment":"pre-industrial climatological SSTs and forcing, but with 2014 organic carbon emissions",
                 "additional_allowed_model_components":[
+                    "AGCM",
                     "CHEM"
                 ],
                 "required_model_components":[
@@ -414,7 +437,7 @@
                 "experiment":"historical land-only constant CO2",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
-                    "LND"
+                    "LAND"
                 ],
                 "tier":"2",
                 "min_number_yrs_per_sim":"165",
@@ -645,6 +668,28 @@
                 "min_number_yrs_per_sim":"3",
                 "sub_experiment_id":"none"
             },
+            "piClim-histall":{
+                "activity_id":[
+                    "RFMIP"
+                ],
+                "description":"Time-varying forcing. SST and sea ice fixed at preindustrial control. Interactive vegetation",
+                "start_year":"1850",
+                "end_year":"2100",
+                "sub_experiment":"none",
+                "parent_experiment_id":"",
+                "parent_activity_id":"",
+                "experiment":"transient effective radiative forcing",
+                "additional_allowed_model_components":[
+                    "AER",
+                    "CHEM"
+                ],
+                "required_model_components":[
+                    "AGCM"
+                ],
+                "tier":"2",
+                "min_number_yrs_per_sim":"251",
+                "sub_experiment_id":"none"
+            },
             "G1":{
                 "activity_id":[
                     "GeoMIP"
@@ -818,25 +863,6 @@
                 "min_number_yrs_per_sim":"121",
                 "sub_experiment_id":"none"
             },
-            "piClim-spAerO3-aer":{
-                "activity_id":[
-                    "RFMIP"
-                ],
-                "description":"Prescribed anthropogenic aerosol optical properties. Aerosol and ozone forcings",
-                "start_year":"",
-                "end_year":"",
-                "sub_experiment":"none",
-                "parent_experiment_id":"",
-                "parent_activity_id":"",
-                "experiment":"effective radiative forcing at present day with specified anthropogenic aerosol optical properties, all forcings",
-                "additional_allowed_model_components":"",
-                "required_model_components":[
-                    "AGCM"
-                ],
-                "tier":"2",
-                "min_number_yrs_per_sim":"",
-                "sub_experiment_id":"none"
-            },
             "dcppC-amv-extrop-plus":{
                 "activity_id":[
                     "DCPP"
@@ -873,7 +899,7 @@
                 "experiment":"historical land-only with cropland as natural grassland",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
-                    "LND"
+                    "LAND"
                 ],
                 "tier":"2",
                 "min_number_yrs_per_sim":"165",
@@ -926,6 +952,28 @@
                 ],
                 "tier":"2",
                 "min_number_yrs_per_sim":"70",
+                "sub_experiment_id":"none"
+            },
+            "piClim-histghg":{
+                "activity_id":[
+                    "RFMIP"
+                ],
+                "description":"Time-varying forcing by GHGs. SST and sea ice fixed at preindustrial control. Interactive vegetation",
+                "start_year":"1850",
+                "end_year":"2100",
+                "sub_experiment":"none",
+                "parent_experiment_id":"",
+                "parent_activity_id":"",
+                "experiment":"transient effective radiative forcing by greenhouse gases",
+                "additional_allowed_model_components":[
+                    "AER",
+                    "CHEM"
+                ],
+                "required_model_components":[
+                    "AGCM"
+                ],
+                "tier":"2",
+                "min_number_yrs_per_sim":"251",
                 "sub_experiment_id":"none"
             },
             "hist-1950":{
@@ -1066,7 +1114,7 @@
                 "experiment":"historical ALL-forcing run with alternate estimates of aerosol forcing",
                 "additional_allowed_model_components":[
                     "AER",
-                    "CHEM,",
+                    "CHEM",
                     "BGCM"
                 ],
                 "required_model_components":[
@@ -1124,6 +1172,31 @@
                 ],
                 "tier":"1",
                 "min_number_yrs_per_sim":"121",
+                "sub_experiment_id":"none"
+            },
+            "ism-bsmb-std":{
+                "activity_id":[
+                    "ISMIP6"
+                ],
+                "description":"Offline ice sheet simulation with synthetic oceanic dataset to explore the uncertainty in sea level due to ice sheet initialization",
+                "start_year":"",
+                "end_year":"",
+                "sub_experiment":"none",
+                "parent_experiment_id":[
+                    ""
+                ],
+                "parent_activity_id":[
+                    "ISMIP"
+                ],
+                "experiment":"offline ice sheet forced by initMIP synthetic oceanic experiment",
+                "additional_allowed_model_components":[
+                    ""
+                ],
+                "required_model_components":[
+                    "ISM"
+                ],
+                "tier":"1",
+                "min_number_yrs_per_sim":"100",
                 "sub_experiment_id":"none"
             },
             "G6solar":{
@@ -1350,23 +1423,29 @@
                 "min_number_yrs_per_sim":"85",
                 "sub_experiment_id":"none"
             },
-            "land-hist-wfdei":{
+            "ism-asmb-std":{
                 "activity_id":[
-                    "LS3MIP"
+                    "ISMIP6"
                 ],
-                "description":"Land only simulations",
-                "start_year":"1850",
-                "end_year":"2014",
+                "description":"Offline ice sheet simulation with synthetic atmospheric dataset to explore the uncertainty in sea level due to ice sheet initialization",
+                "start_year":"",
+                "end_year":"",
                 "sub_experiment":"none",
-                "parent_experiment_id":"",
-                "parent_activity_id":"",
-                "experiment":"as land-hist with WFDEI forcings",
-                "additional_allowed_model_components":"",
-                "required_model_components":[
-                    "LND"
+                "parent_experiment_id":[
+                    ""
                 ],
-                "tier":"2",
-                "min_number_yrs_per_sim":"165",
+                "parent_activity_id":[
+                    "ISMIP"
+                ],
+                "experiment":"offline ice sheet forced by initMIP synthetic atmospheric experiment",
+                "additional_allowed_model_components":[
+                    ""
+                ],
+                "required_model_components":[
+                    "ISM"
+                ],
+                "tier":"1",
+                "min_number_yrs_per_sim":"100",
                 "sub_experiment_id":"none"
             },
             "highresSST-future":{
@@ -1493,23 +1572,49 @@
                 "min_number_yrs_per_sim":"30",
                 "sub_experiment_id":"none"
             },
-            "piClim-spAerO3-anthro":{
+            "volc-pinatubo-ini":{
+                "activity_id":[
+                    "VolMIP"
+                ],
+                "description":"As volc-pinatubo-full, but as decadal prediction runs. Joint experiment with DCPP, forcing input and implementation of the forcing fully comply with the VolMIP protocol",
+                "start_year":"2015",
+                "end_year":"2019",
+                "sub_experiment":"initialized near end of year 2014",
+                "parent_experiment_id":"",
+                "parent_activity_id":"",
+                "experiment":"Pinatubo experiment for decadal climate prediction",
+                "additional_allowed_model_components":[
+                    "AER",
+                    "CHEM",
+                    "BGCM"
+                ],
+                "required_model_components":[
+                    "AOGCM"
+                ],
+                "tier":"3",
+                "min_number_yrs_per_sim":"5",
+                "sub_experiment_id":"s2014"
+            },
+            "piClim-ghg":{
                 "activity_id":[
                     "RFMIP"
                 ],
-                "description":"Prescribed anthropogenic aerosol optical properties. Anthropogenic forcings",
+                "description":"As in RFMIP-ERF-PI-Cntrl but with present-day greenhouse gases",
                 "start_year":"",
                 "end_year":"",
                 "sub_experiment":"none",
                 "parent_experiment_id":"",
                 "parent_activity_id":"",
-                "experiment":"effective radiative forcing at present day with specified anthropogenic aerosol optical properties, anthropogenic forcings",
-                "additional_allowed_model_components":"",
+                "experiment":"effective radiative forcing by present-day greenhouse gases",
+                "additional_allowed_model_components":[
+                    "AER",
+                    "CHEM"
+                ],
                 "required_model_components":[
                     "AGCM"
                 ],
-                "tier":"2",
-                "min_number_yrs_per_sim":"",
+                "tier":"1",
+                "min_number_yrs_per_sim":"30",
                 "sub_experiment_id":"none"
             },
             "omip1-spunup":{
@@ -1680,32 +1785,26 @@
                 "min_number_yrs_per_sim":"36",
                 "sub_experiment_id":"none"
             },
-            "ssp585-withism":{
+            "piClim-histnat":{
                 "activity_id":[
-                    "ISMIP6"
+                    "RFMIP"
                 ],
-                "description":"Future climate from ScenarioMIP SSP5-8.5 simulation that includes interactive ice sheets. Set up follows the standard SSP5-8.5 experiment",
-                "start_year":"2015",
-                "end_year":"2300",
+                "description":"Time-varying forcing from volcanos, solar variability, etc. SST and sea ice fixed at preindustrial control. Interactive vegetation",
+                "start_year":"1850",
+                "end_year":"2100",
                 "sub_experiment":"none",
-                "parent_experiment_id":[
-                    "historical-withism"
-                ],
-                "parent_activity_id":[
-                    "ISMIP6"
-                ],
-                "experiment":"ssp585 with interactive ice sheet",
+                "parent_experiment_id":"",
+                "parent_activity_id":"",
+                "experiment":"transient effective radiative forcing by natural perturbations",
                 "additional_allowed_model_components":[
                     "AER",
-                    "CHEM",
-                    "BGCM"
+                    "CHEM"
                 ],
                 "required_model_components":[
-                    "AOGCM",
-                    "ISM"
+                    "AGCM"
                 ],
                 "tier":"2",
-                "min_number_yrs_per_sim":"286",
+                "min_number_yrs_per_sim":"251",
                 "sub_experiment_id":"none"
             },
             "volc-long-eq":{
@@ -1810,29 +1909,6 @@
                 "min_number_yrs_per_sim":"36",
                 "sub_experiment_id":"none"
             },
-            "volc-pinatubo-ini":{
-                "activity_id":[
-                    "VolMIP"
-                ],
-                "description":"As volc-pinatubo-full, but as decadal prediction runs. Joint experiment with DCPP, forcing input and implementation of the forcing fully comply with the VolMIP protocol",
-                "start_year":"2015",
-                "end_year":"2019",
-                "sub_experiment":"initialized near end of year 2014",
-                "parent_experiment_id":"",
-                "parent_activity_id":"",
-                "experiment":"Pinatubo experiment for decadal climate prediction",
-                "additional_allowed_model_components":[
-                    "AER",
-                    "CHEM",
-                    "BGCM"
-                ],
-                "required_model_components":[
-                    "AOGCM"
-                ],
-                "tier":"3",
-                "min_number_yrs_per_sim":"5",
-                "sub_experiment_id":"s2014"
-            },
             "abrupt-0p5xCO2":{
                 "activity_id":[
                     "CFMIP"
@@ -1932,7 +2008,7 @@
                 "experiment":"historical CO2-only run",
                 "additional_allowed_model_components":[
                     "AER",
-                    "CHEM,",
+                    "CHEM",
                     "BGCM"
                 ],
                 "required_model_components":[
@@ -1940,25 +2016,6 @@
                 ],
                 "tier":"3",
                 "min_number_yrs_per_sim":"171",
-                "sub_experiment_id":"none"
-            },
-            "piClim-spAerO3-histall":{
-                "activity_id":[
-                    "RFMIP"
-                ],
-                "description":"Prescribed anthropogenic aerosol optical properties. Aerosol and ozone forcings",
-                "start_year":"1850",
-                "end_year":"2014",
-                "sub_experiment":"none",
-                "parent_experiment_id":"",
-                "parent_activity_id":"",
-                "experiment":"transient effective radiative forcing with specified anthropogenic aerosol optical properties, all forcings",
-                "additional_allowed_model_components":"",
-                "required_model_components":[
-                    "AGCM"
-                ],
-                "tier":"2",
-                "min_number_yrs_per_sim":"165",
                 "sub_experiment_id":"none"
             },
             "dcppC-amv-trop-plus":{
@@ -2094,7 +2151,7 @@
                 "experiment":"historical land-only alternate start year",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
-                    "LND"
+                    "LAND"
                 ],
                 "tier":"1",
                 "min_number_yrs_per_sim":"165",
@@ -2117,7 +2174,7 @@
                 "experiment":"historical well-mixed GHG-only run",
                 "additional_allowed_model_components":[
                     "AER",
-                    "CHEM,",
+                    "CHEM",
                     "BGCM"
                 ],
                 "required_model_components":[
@@ -2216,7 +2273,7 @@
                 "experiment":"natural-only SSP2-4.5 run",
                 "additional_allowed_model_components":[
                     "AER",
-                    "CHEM,",
+                    "CHEM",
                     "BGCM"
                 ],
                 "required_model_components":[
@@ -2275,26 +2332,23 @@
                 "min_number_yrs_per_sim":"150",
                 "sub_experiment_id":"none"
             },
-            "piClim-histNat":{
+            "piClim-spAer-aer":{
                 "activity_id":[
                     "RFMIP"
                 ],
-                "description":"Time-varying forcing from volcanos, solar variability, etc. SST and sea ice fixed at preindustrial control. Interactive vegetation",
-                "start_year":"1850",
-                "end_year":"2100",
+                "description":"Prescribed anthropogenic aerosol optical properties. Aerosol and ozone forcings",
+                "start_year":"",
+                "end_year":"",
                 "sub_experiment":"none",
                 "parent_experiment_id":"",
                 "parent_activity_id":"",
-                "experiment":"transient effective radiative forcing by natural perturbations",
-                "additional_allowed_model_components":[
-                    "AER",
-                    "CHEM"
-                ],
+                "experiment":"effective radiative forcing at present day with specified anthropogenic aerosol optical properties, all forcings",
+                "additional_allowed_model_components":"",
                 "required_model_components":[
                     "AGCM"
                 ],
                 "tier":"2",
-                "min_number_yrs_per_sim":"251",
+                "min_number_yrs_per_sim":"",
                 "sub_experiment_id":"none"
             },
             "piClim-SO2":{
@@ -2307,6 +2361,7 @@
                 "parent_activity_id":"",
                 "experiment":"pre-industrial climatological SSTs and forcing, but with 2014 SO2 emissions",
                 "additional_allowed_model_components":[
+                    "AGCM",
                     "CHEM"
                 ],
                 "required_model_components":[
@@ -2406,7 +2461,7 @@
                 "experiment":"historical land-only with no irrigation",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
-                    "LND"
+                    "LAND"
                 ],
                 "tier":"2",
                 "min_number_yrs_per_sim":"165",
@@ -2456,7 +2511,7 @@
                 "experiment":"historical stratospheric-ozone-only run",
                 "additional_allowed_model_components":[
                     "AER",
-                    "CHEM,",
+                    "CHEM",
                     "BGCM"
                 ],
                 "required_model_components":[
@@ -2525,7 +2580,7 @@
                 "experiment":"historical land-only with shifting cultivation turned off",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
-                    "LND"
+                    "LAND"
                 ],
                 "tier":"2",
                 "min_number_yrs_per_sim":"165",
@@ -2961,7 +3016,7 @@
                 "experiment":"historical land-only alternate land-use history",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
-                    "LND"
+                    "LAND"
                 ],
                 "tier":"2",
                 "min_number_yrs_per_sim":"165",
@@ -3028,7 +3083,7 @@
                 "experiment":"historical land-only alternate land use history",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
-                    "LND"
+                    "LAND"
                 ],
                 "tier":"2",
                 "min_number_yrs_per_sim":"165",
@@ -3149,7 +3204,7 @@
                 "experiment":"historical land-only constant climate",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
-                    "LND"
+                    "LAND"
                 ],
                 "tier":"2",
                 "min_number_yrs_per_sim":"165",
@@ -3172,7 +3227,7 @@
                 "experiment":"historical anthropogenic aerosols-only run",
                 "additional_allowed_model_components":[
                     "AER",
-                    "CHEM,",
+                    "CHEM",
                     "BGCM"
                 ],
                 "required_model_components":[
@@ -3207,28 +3262,6 @@
                 ],
                 "tier":"1",
                 "min_number_yrs_per_sim":"86",
-                "sub_experiment_id":"none"
-            },
-            "piClim-histAll":{
-                "activity_id":[
-                    "RFMIP"
-                ],
-                "description":"Time-varying forcing. SST and sea ice fixed at preindustrial control. Interactive vegetation",
-                "start_year":"1850",
-                "end_year":"2100",
-                "sub_experiment":"none",
-                "parent_experiment_id":"",
-                "parent_activity_id":"",
-                "experiment":"transient effective radiative forcing",
-                "additional_allowed_model_components":[
-                    "AER",
-                    "CHEM"
-                ],
-                "required_model_components":[
-                    "AGCM"
-                ],
-                "tier":"2",
-                "min_number_yrs_per_sim":"251",
                 "sub_experiment_id":"none"
             },
             "dcppC-hindcast-noAgung":{
@@ -3338,32 +3371,9 @@
                 "experiment":"historical land-only with constant pastureland",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
-                    "LND"
+                    "LAND"
                 ],
                 "tier":"2",
-                "min_number_yrs_per_sim":"165",
-                "sub_experiment_id":"none"
-            },
-            "hist-all-spAerO3":{
-                "activity_id":[
-                    "RFMIP"
-                ],
-                "description":"Prescribed anthropogenic aerosol optical properties. All forcings",
-                "start_year":"1850",
-                "end_year":"2014",
-                "sub_experiment":"none",
-                "parent_experiment_id":[
-                    "piControl"
-                ],
-                "parent_activity_id":[
-                    "CMIP"
-                ],
-                "experiment":"historical simulation with specified anthropogenic aerosols",
-                "additional_allowed_model_components":"",
-                "required_model_components":[
-                    "AOGCM"
-                ],
-                "tier":"1",
                 "min_number_yrs_per_sim":"165",
                 "sub_experiment_id":"none"
             },
@@ -3522,7 +3532,7 @@
                 "experiment":"as land-hist with Princeton forcings",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
-                    "LND"
+                    "LAND"
                 ],
                 "tier":"2",
                 "min_number_yrs_per_sim":"165",
@@ -3532,9 +3542,9 @@
                 "activity_id":[
                     "VolMIP"
                 ],
-                "description":"Early 19th century cluster of strong tropical volcanic eruptions, including the 1809 event of unknown location, the 1815 Tambora and 1835 Cosigueina eruptions. Experiment initialized from past1000 (all forcings except volcanic kept constant from year AD 1790 on)",
-                "start_year":"",
-                "end_year":"",
+                "description":"Parallel experiment to volc-cluster-ctrl but with initial conditions taken from last millennium simulation to account for the effects of a more realistic history of past natural forcing. All forcings except volcanic kept constant from year AD 1790 on",
+                "start_year":"1790",
+                "end_year":"1858",
                 "sub_experiment":"none",
                 "parent_experiment_id":[
                     "past1000"
@@ -3552,7 +3562,7 @@
                     "AOGCM"
                 ],
                 "tier":"3",
-                "min_number_yrs_per_sim":"50",
+                "min_number_yrs_per_sim":"69",
                 "sub_experiment_id":"none"
             },
             "piClim-NOx":{
@@ -3636,7 +3646,7 @@
                 "experiment":"historical solar-only run",
                 "additional_allowed_model_components":[
                     "AER",
-                    "CHEM,",
+                    "CHEM",
                     "BGCM"
                 ],
                 "required_model_components":[
@@ -3735,7 +3745,7 @@
                 "experiment":"aerosol-only SSP2-4.5 run",
                 "additional_allowed_model_components":[
                     "AER",
-                    "CHEM,",
+                    "CHEM",
                     "BGCM"
                 ],
                 "required_model_components":[
@@ -3743,6 +3753,25 @@
                 ],
                 "tier":"3",
                 "min_number_yrs_per_sim":"80",
+                "sub_experiment_id":"none"
+            },
+            "piClim-spAer-histall":{
+                "activity_id":[
+                    "RFMIP"
+                ],
+                "description":"Prescribed anthropogenic aerosol optical properties. Aerosol and ozone forcings",
+                "start_year":"1850",
+                "end_year":"2014",
+                "sub_experiment":"none",
+                "parent_experiment_id":"",
+                "parent_activity_id":"",
+                "experiment":"transient effective radiative forcing with specified anthropogenic aerosol optical properties, all forcings",
+                "additional_allowed_model_components":"",
+                "required_model_components":[
+                    "AGCM"
+                ],
+                "tier":"2",
+                "min_number_yrs_per_sim":"165",
                 "sub_experiment_id":"none"
             },
             "abrupt-solm4p":{
@@ -3825,25 +3854,26 @@
                 "min_number_yrs_per_sim":"5",
                 "sub_experiment_id":"of form: \"sYYYY\""
             },
-            "histSST":{
+            "hist-spAer-aer":{
                 "activity_id":[
-                    "AerChemMIP"
+                    "RFMIP"
                 ],
-                "description":"Historical transient with SSTs prescribed from historical",
+                "description":"Prescribed anthropogenic aerosol optical properties. Changes in aerosols only",
                 "start_year":"1850",
                 "end_year":"2014",
                 "sub_experiment":"none",
-                "parent_experiment_id":"",
-                "parent_activity_id":"",
-                "experiment":"historical prescribed SSTs and historical forcing",
-                "additional_allowed_model_components":[
-                    "CHEM"
+                "parent_experiment_id":[
+                    "piControl"
                 ],
+                "parent_activity_id":[
+                    "CMIP"
+                ],
+                "experiment":"historical simulation with specified anthropogenic aerosols, no other forcings",
+                "additional_allowed_model_components":"",
                 "required_model_components":[
-                    "AGCM",
-                    "AER"
+                    "AOGCM"
                 ],
-                "tier":"1",
+                "tier":"2",
                 "min_number_yrs_per_sim":"165",
                 "sub_experiment_id":"none"
             },
@@ -3872,6 +3902,25 @@
                 ],
                 "tier":"1",
                 "min_number_yrs_per_sim":"86",
+                "sub_experiment_id":"none"
+            },
+            "piClim-spAer-anthro":{
+                "activity_id":[
+                    "RFMIP"
+                ],
+                "description":"Prescribed anthropogenic aerosol optical properties. Anthropogenic forcings",
+                "start_year":"",
+                "end_year":"",
+                "sub_experiment":"none",
+                "parent_experiment_id":"",
+                "parent_activity_id":"",
+                "experiment":"effective radiative forcing at present day with specified anthropogenic aerosol optical properties, anthropogenic forcings",
+                "additional_allowed_model_components":"",
+                "required_model_components":[
+                    "AGCM"
+                ],
+                "tier":"2",
+                "min_number_yrs_per_sim":"",
                 "sub_experiment_id":"none"
             },
             "dcppC-atl-pacemaker":{
@@ -3968,6 +4017,28 @@
                 "min_number_yrs_per_sim":"86",
                 "sub_experiment_id":"none"
             },
+            "histSST":{
+                "activity_id":[
+                    "AerChemMIP"
+                ],
+                "description":"Historical transient with SSTs prescribed from historical",
+                "start_year":"1850",
+                "end_year":"2014",
+                "sub_experiment":"none",
+                "parent_experiment_id":"",
+                "parent_activity_id":"",
+                "experiment":"historical prescribed SSTs and historical forcing",
+                "additional_allowed_model_components":[
+                    "CHEM"
+                ],
+                "required_model_components":[
+                    "AGCM",
+                    "AER"
+                ],
+                "tier":"1",
+                "min_number_yrs_per_sim":"165",
+                "sub_experiment_id":"none"
+            },
             "land-crop-noIrrigFert":{
                 "activity_id":[
                     "LUMIP"
@@ -3981,7 +4052,7 @@
                 "experiment":"historical land-only with managed crops but with irrigation and fertilization held constant",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
-                    "LND"
+                    "LAND"
                 ],
                 "tier":"2",
                 "min_number_yrs_per_sim":"165",
@@ -4053,7 +4124,7 @@
                 "experiment":"stratospheric-ozone-only SSP2-4.5 run",
                 "additional_allowed_model_components":[
                     "AER",
-                    "CHEM,",
+                    "CHEM",
                     "BGCM"
                 ],
                 "required_model_components":[
@@ -4065,6 +4136,7 @@
             },
             "ssp370":{
                 "activity_id":[
+                    "AerChemMIP",
                     "ScenarioMIP"
                 ],
                 "description":"Future scenario with high radiative forcing by the end of century. Reaches about 7.0 W/m2 by 2100; fills gap in RCP forcing pathways between 6.0 and 8.5 W/m2. Concentration-driven",
@@ -4126,7 +4198,7 @@
                 "experiment":"historical land-only",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
-                    "LND"
+                    "LAND"
                 ],
                 "tier":"1",
                 "min_number_yrs_per_sim":"165",
@@ -4153,6 +4225,29 @@
                 ],
                 "tier":"1",
                 "min_number_yrs_per_sim":"100",
+                "sub_experiment_id":"none"
+            },
+            "hist-spAer-all":{
+                "activity_id":[
+                    "RFMIP"
+                ],
+                "description":"Prescribed anthropogenic aerosol optical properties. All forcings",
+                "start_year":"1850",
+                "end_year":"2014",
+                "sub_experiment":"none",
+                "parent_experiment_id":[
+                    "piControl"
+                ],
+                "parent_activity_id":[
+                    "CMIP"
+                ],
+                "experiment":"historical simulation with specified anthropogenic aerosols",
+                "additional_allowed_model_components":"",
+                "required_model_components":[
+                    "AOGCM"
+                ],
+                "tier":"1",
+                "min_number_yrs_per_sim":"165",
                 "sub_experiment_id":"none"
             },
             "esm-ssp585":{
@@ -4274,28 +4369,6 @@
                 "min_number_yrs_per_sim":"41",
                 "sub_experiment_id":"none"
             },
-            "piClim-GHG":{
-                "activity_id":[
-                    "RFMIP"
-                ],
-                "description":"As in RFMIP-ERF-PI-Cntrl but with present-day greenhouse gases",
-                "start_year":"",
-                "end_year":"",
-                "sub_experiment":"none",
-                "parent_experiment_id":"",
-                "parent_activity_id":"",
-                "experiment":"effective radiative forcing by present-day greenhouse gases",
-                "additional_allowed_model_components":[
-                    "AER",
-                    "CHEM"
-                ],
-                "required_model_components":[
-                    "AGCM"
-                ],
-                "tier":"1",
-                "min_number_yrs_per_sim":"30",
-                "sub_experiment_id":"none"
-            },
             "historical-withism":{
                 "activity_id":[
                     "ISMIP6"
@@ -4329,8 +4402,8 @@
                     "LUMIP"
                 ],
                 "description":"Idealized deforestation experiment, 20 million km2 forest removed linearly over a period of 50 years, with an additional 30 years with no specified change in forest cover; all other forcings held constant",
-                "start_year":"",
-                "end_year":"1920",
+                "start_year":"1850",
+                "end_year":"",
                 "sub_experiment":"none",
                 "parent_experiment_id":[
                     "piControl"
@@ -4520,7 +4593,7 @@
                 "experiment":"historical volcanic-only run",
                 "additional_allowed_model_components":[
                     "AER",
-                    "CHEM,",
+                    "CHEM",
                     "BGCM"
                 ],
                 "required_model_components":[
@@ -4547,7 +4620,7 @@
                 "experiment":"historical ALL-forcing run with alternate estimates of natural forcing",
                 "additional_allowed_model_components":[
                     "AER",
-                    "CHEM,",
+                    "CHEM",
                     "BGCM"
                 ],
                 "required_model_components":[
@@ -4651,23 +4724,29 @@
                 "min_number_yrs_per_sim":"286",
                 "sub_experiment_id":"none"
             },
-            "piClim-spAerO3-histaer":{
+            "ism-ctrl-std":{
                 "activity_id":[
-                    "RFMIP"
+                    "ISMIP6"
                 ],
-                "description":"Prescribed anthropogenic aerosol optical properties. Aerosol and ozone forcings",
-                "start_year":"1850",
-                "end_year":"2014",
+                "description":"Offline ice sheet control run for the initMIP experiment that explores the uncertainty in sea level due to ice sheet initialization",
+                "start_year":"",
+                "end_year":"",
                 "sub_experiment":"none",
-                "parent_experiment_id":"",
-                "parent_activity_id":"",
-                "experiment":"transient effective radiative forcing with specified anthropogenic aerosol optical properties, aerosol forcing",
-                "additional_allowed_model_components":"",
-                "required_model_components":[
-                    "AGCM"
+                "parent_experiment_id":[
+                    ""
                 ],
-                "tier":"2",
-                "min_number_yrs_per_sim":"165",
+                "parent_activity_id":[
+                    "ISMIP"
+                ],
+                "experiment":"offline ice sheet model initMIP control",
+                "additional_allowed_model_components":[
+                    ""
+                ],
+                "required_model_components":[
+                    "ISM"
+                ],
+                "tier":"1",
+                "min_number_yrs_per_sim":"100",
                 "sub_experiment_id":"none"
             },
             "aqua-control":{
@@ -4719,29 +4798,6 @@
                 "min_number_yrs_per_sim":"50",
                 "sub_experiment_id":"none"
             },
-            "hist-spAerO3":{
-                "activity_id":[
-                    "RFMIP"
-                ],
-                "description":"Prescribed anthropogenic aerosol optical properties. Changes in aerosols only",
-                "start_year":"1850",
-                "end_year":"2014",
-                "sub_experiment":"none",
-                "parent_experiment_id":[
-                    "piControl"
-                ],
-                "parent_activity_id":[
-                    "CMIP"
-                ],
-                "experiment":"historical simulation with specified anthropogenic aerosols, no other forcings",
-                "additional_allowed_model_components":"",
-                "required_model_components":[
-                    "AOGCM"
-                ],
-                "tier":"2",
-                "min_number_yrs_per_sim":"165",
-                "sub_experiment_id":"none"
-            },
             "amip-lwoff":{
                 "activity_id":[
                     "CFMIP"
@@ -4777,7 +4833,7 @@
                 "experiment":"future land-only",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
-                    "LND"
+                    "LAND"
                 ],
                 "tier":"2",
                 "min_number_yrs_per_sim":"86",
@@ -4872,7 +4928,7 @@
                 "experiment":"historical land-only with no land-use change",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
-                    "LND"
+                    "LAND"
                 ],
                 "tier":"1",
                 "min_number_yrs_per_sim":"165",
@@ -4951,26 +5007,32 @@
                 "min_number_yrs_per_sim":"",
                 "sub_experiment_id":"of form: \"sYYYY\""
             },
-            "piClim-aerO3x2":{
+            "ssp585-withism":{
                 "activity_id":[
-                    "RFMIP"
+                    "ISMIP6"
                 ],
-                "description":"As in RFMIP-ERF-AER but with present-day changes scaled by 2",
-                "start_year":"",
-                "end_year":"",
+                "description":"Future climate from ScenarioMIP SSP5-8.5 simulation that includes interactive ice sheets. Set up follows the standard SSP5-8.5 experiment",
+                "start_year":"2015",
+                "end_year":"2300",
                 "sub_experiment":"none",
-                "parent_experiment_id":"",
-                "parent_activity_id":"",
-                "experiment":"effective radiative forcing by present-day aerosols and ozone scaled by 2",
+                "parent_experiment_id":[
+                    "historical-withism"
+                ],
+                "parent_activity_id":[
+                    "ISMIP6"
+                ],
+                "experiment":"ssp585 with interactive ice sheet",
                 "additional_allowed_model_components":[
                     "AER",
-                    "CHEM"
+                    "CHEM",
+                    "BGCM"
                 ],
                 "required_model_components":[
-                    "AGCM"
+                    "AOGCM",
+                    "ISM"
                 ],
                 "tier":"2",
-                "min_number_yrs_per_sim":"30",
+                "min_number_yrs_per_sim":"286",
                 "sub_experiment_id":"none"
             },
             "highresSST-p4K":{
@@ -5144,28 +5206,6 @@
                 "tier":"1",
                 "min_number_yrs_per_sim":"66",
                 "sub_experiment_id":"of form: \"sYYYY\""
-            },
-            "piClim-histGHG":{
-                "activity_id":[
-                    "RFMIP"
-                ],
-                "description":"Time-varying forcing by GHGs. SST and sea ice fixed at preindustrial control. Interactive vegetation",
-                "start_year":"1850",
-                "end_year":"2100",
-                "sub_experiment":"none",
-                "parent_experiment_id":"",
-                "parent_activity_id":"",
-                "experiment":"transient effective radiative forcing by greenhouse gases",
-                "additional_allowed_model_components":[
-                    "AER",
-                    "CHEM"
-                ],
-                "required_model_components":[
-                    "AGCM"
-                ],
-                "tier":"2",
-                "min_number_yrs_per_sim":"251",
-                "sub_experiment_id":"none"
             },
             "highresSST-present":{
                 "activity_id":[
@@ -5342,7 +5382,7 @@
                 "experiment":"historical natural-only run",
                 "additional_allowed_model_components":[
                     "AER",
-                    "CHEM,",
+                    "CHEM",
                     "BGCM"
                 ],
                 "required_model_components":[
@@ -5392,32 +5432,10 @@
                 "experiment":"historical land-only with no wood harvest",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
-                    "LND"
+                    "LAND"
                 ],
                 "tier":"2",
                 "min_number_yrs_per_sim":"165",
-                "sub_experiment_id":"none"
-            },
-            "piClim-aerO3x0p1":{
-                "activity_id":[
-                    "RFMIP"
-                ],
-                "description":"As in RFMIP-ERF-AER but with present-day changes scaled by 0.1",
-                "start_year":"",
-                "end_year":"",
-                "sub_experiment":"none",
-                "parent_experiment_id":"",
-                "parent_activity_id":"",
-                "experiment":"effective radiative forcing by present-day aerosols and ozone scaled by 0.1",
-                "additional_allowed_model_components":[
-                    "AER",
-                    "CHEM"
-                ],
-                "required_model_components":[
-                    "AGCM"
-                ],
-                "tier":"2",
-                "min_number_yrs_per_sim":"30",
                 "sub_experiment_id":"none"
             },
             "ssp370SST-lowO3":{
@@ -5476,7 +5494,7 @@
                 "experiment":"as land-hist with CRU-NCEP forcings",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
-                    "LND"
+                    "LAND"
                 ],
                 "tier":"2",
                 "min_number_yrs_per_sim":"165",
@@ -5616,7 +5634,7 @@
                 "experiment":"historical land-only with no human fire management",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
-                    "LND"
+                    "LAND"
                 ],
                 "tier":"2",
                 "min_number_yrs_per_sim":"165",
@@ -5660,6 +5678,25 @@
                 ],
                 "tier":"3",
                 "min_number_yrs_per_sim":"30",
+                "sub_experiment_id":"none"
+            },
+            "piClim-spAer-histaer":{
+                "activity_id":[
+                    "RFMIP"
+                ],
+                "description":"Prescribed anthropogenic aerosol optical properties. Aerosol and ozone forcings",
+                "start_year":"1850",
+                "end_year":"2014",
+                "sub_experiment":"none",
+                "parent_experiment_id":"",
+                "parent_activity_id":"",
+                "experiment":"transient effective radiative forcing with specified anthropogenic aerosol optical properties, aerosol forcing",
+                "additional_allowed_model_components":"",
+                "required_model_components":[
+                    "AGCM"
+                ],
+                "tier":"2",
+                "min_number_yrs_per_sim":"165",
                 "sub_experiment_id":"none"
             },
             "dcppC-ipv-plus":{
@@ -5740,7 +5777,7 @@
                 "experiment":"historical land-only with no fertilizer",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
-                    "LND"
+                    "LAND"
                 ],
                 "tier":"2",
                 "min_number_yrs_per_sim":"165",
@@ -5811,6 +5848,25 @@
                 "tier":"2",
                 "min_number_yrs_per_sim":"170",
                 "sub_experiment_id":"of form: \"sYYYY\""
+            },
+            "land-hist-wfdei":{
+                "activity_id":[
+                    "LS3MIP"
+                ],
+                "description":"Land only simulations",
+                "start_year":"1850",
+                "end_year":"2014",
+                "sub_experiment":"none",
+                "parent_experiment_id":"",
+                "parent_activity_id":"",
+                "experiment":"as land-hist with WFDEI forcings",
+                "additional_allowed_model_components":"",
+                "required_model_components":[
+                    "LAND"
+                ],
+                "tier":"2",
+                "min_number_yrs_per_sim":"165",
+                "sub_experiment_id":"none"
             },
             "G7SST1-cirrus":{
                 "activity_id":[
@@ -5949,6 +6005,19 @@
                 "min_number_yrs_per_sim":"36",
                 "sub_experiment_id":"none"
             }
-        }
+        },
+        "product":[
+            "output"
+        ],
+        "further_info_url":[
+            "http://furtherinfo.es-doc.org/[[:alpha:]]\\{1,\\}"
+        ],
+        "variant_label":[
+            "^r[[:digit:]]\\{1,\\}i[[:digit:]]\\{1,\\}p[[:digit:]]\\{1,\\}f[[:digit:]]\\{1,\\}$"
+        ],
+        "sub_experiment_id":[
+            "^s[[:digit:]]\\{4,4\\}$",
+            "none"
+        ]
     }
 }
