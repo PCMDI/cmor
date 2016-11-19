@@ -12,7 +12,7 @@ myvars=numpy.zeros(9,dtype='i')
 
 
 cmor.setup(inpath="Tables",set_verbosity=cmor.CMOR_NORMAL, netcdf_file_action = cmor.CMOR_REPLACE, exit_control = cmor.CMOR_EXIT_ON_MAJOR);
-cmor.dataset_json("Test/test_python_joerg_11.json")
+cmor.dataset_json("Test/common_user_input.json")
 
 tables=[]
 a = cmor.load_table("Tables/CMIP6_grids.json")

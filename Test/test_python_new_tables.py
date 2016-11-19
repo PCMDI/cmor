@@ -6,7 +6,7 @@ cmor.setup(inpath=ipth,
            netcdf_file_action = cmor.CMOR_REPLACE,
            logfile = None)
 
-cmor.dataset_json("Test/test_python_new_tables.json")
+cmor.dataset_json("Test/common_user_input.json")
 
 cmor.load_table("CMIP6_Amon.json")
 

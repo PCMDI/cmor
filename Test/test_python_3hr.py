@@ -2,7 +2,7 @@ import cmor,numpy
 
 error_flag = cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
   
-error_flag = cmor.dataset_json("Test/test_python_3hr.json")
+error_flag = cmor.dataset_json("Test/common_user_input.json")
 
 n_lev = 40
 zlevs = 480.*numpy.arange(0,n_lev)+240.

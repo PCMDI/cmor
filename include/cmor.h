@@ -54,6 +54,7 @@
 /*      Define AXIS attribue strings                                    */
 /* -------------------------------------------------------------------- */
 
+#define CMOR_AXIS_ENTRY_FILE     GLOBAL_INTERNAL"AXIS_ENTRY_FILE"
 #define AXIS_ATT_REQUIRED        "required"
 #define AXIS_ATT_ID              "id"
 #define AXIS_ATT_CLIMATOLOGY     "climatology"
@@ -87,12 +88,16 @@
 #define TABLE_FOUND               -1
 #define TABLE_ERROR                1
 #define TABLE_SUCCESS              0
+#define TABLE_NOTFOUND            -2
 
 #define FILE_ERROR                 1
 #define FILE_PATH_TEMPLATE         "output_path_template"
 #define FILE_NAME_TEMPLATE         "output_file_template"
 #define FILE_OUTPUTPATH            "outpath"
 
+#define FORMULA_VAR_FILENAME          "CMIP6_formula_terms.json"
+#define AXIS_ENTRY_FILENAME           "CMIP6_coordinate.json"
+#define CMOR_FORMULA_VAR_FILE         GLOBAL_INTERNAL"FORMULA_VAR_FILE"
 #define VARIABLE_ATT_UNITS            "units"
 #define VARIABLE_ATT_MISSINGVALUES    "missing_values"
 #define VARIABLE_ATT_FILLVAL          "_FillValue"

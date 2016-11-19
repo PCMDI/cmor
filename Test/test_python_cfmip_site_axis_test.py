@@ -41,7 +41,7 @@ def setup_cmor() :
       set_verbosity=cmor.CMOR_NORMAL, create_subdirectories=0)
 
    # Create CMOR dataset
-   cmor.dataset_json("Test/test_python_cfmip_site_axis_test.json")
+   cmor.dataset_json("Test/common_user_input.json")
 
 #---------------------------------------------------------------------------------------------------
 if __name__ == '__main__' :

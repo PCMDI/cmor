@@ -1193,9 +1193,22 @@ int cmor_dataset_json(char * ressource){
     if(json_obj == NULL) {
         return( 1 );
     }
+
+/* -------------------------------------------------------------------- */
+/* Set Default values for CV, AXIS_ENTRY and FORMULA VAR Filename       */
+/* -------------------------------------------------------------------- */
     cmor_set_cur_dataset_attribute_internal(CMOR_INPUTFILENAME, ressource, 1);
     cmor_set_cur_dataset_attribute_internal(GLOBAL_CV_FILENAME,
                                             TABLE_CONTROL_FILENAME, 1);
+    cmor_set_cur_dataset_attribute_internal(CMOR_AXIS_ENTRY_FILE,
+                                            AXIS_ENTRY_FILENAME, 1);
+    cmor_set_cur_dataset_attribute_internal(CMOR_FORMULA_VAR_FILE,
+                                            FORMULA_VAR_FILENAME, 1);
+
+/* -------------------------------------------------------------------- */
+/* Set all user defined input.  Default value above can be superseded   */
+/* by user input.                                                       */
+/* -------------------------------------------------------------------- */
 
     json_object_object_foreach(json_obj, key, value) {
         if(key[0] == '#') {
@@ -1714,454 +1727,415 @@ int cmor_define_zfactors_vars( int var_id, int ncid, int *nc_dim,
 /* -------------------------------------------------------------------- */
 /*      now figures out the variables for z_factor and loops thru it    */
 /* -------------------------------------------------------------------- */
-    n = strlen( formula_terms );
-    for( j = 0; j < n; j++ ) {
-	while( ( formula_terms[j] != ':' ) && ( j < n ) ) {
-	    j++;
-	}
+	n = strlen(formula_terms);
+	for (j = 0; j < n; j++) {
+		while ((formula_terms[j] != ':') && (j < n)) {
+			j++;
+		}
 /* -------------------------------------------------------------------- */
 /*      at this point we skipped the name thingy                        */
 /* -------------------------------------------------------------------- */
-	j++;
-	while( formula_terms[j] == ' ' ) {
-	    j++;
-	}			/* ok we skipped the blanks as well */
-	/* ok now we can start scanning the zvar name */
-	k = j;
-	while( ( formula_terms[j] != ' ' ) && ( formula_terms[j] != '\0' ) ) {
-	    ctmp[j - k] = formula_terms[j];
-	    j++;
-	}
+		j++;
+		while (formula_terms[j] == ' ') {
+			j++;
+		}			/* ok we skipped the blanks as well */
+		/* ok now we can start scanning the zvar name */
+		k = j;
+		while ((formula_terms[j] != ' ') && (formula_terms[j] != '\0')) {
+			ctmp[j - k] = formula_terms[j];
+			j++;
+		}
 	
 /* -------------------------------------------------------------------- */
 /*      all right here we reach a  blank, the name is finsihed          */
 /* -------------------------------------------------------------------- */
-	ctmp[j - k] = '\0';
+		ctmp[j - k] = '\0';
 	
 /* -------------------------------------------------------------------- */
 /*      here we try to match with the actual variable                   */
 /* -------------------------------------------------------------------- */
-	l = -1;
-	for( k = 0; k < cmor_nvars + 1; k++ ) {
-	    if( strcmp( ctmp, cmor_vars[k].id ) == 0 ) {
+		l = -1;
+		for (k = 0; k < cmor_nvars + 1; k++) {
+			if (strcmp(ctmp, cmor_vars[k].id) == 0) {
 /* -------------------------------------------------------------------- */
 /*      ok that is not enough! We need to know if the dims match!       */
 /* -------------------------------------------------------------------- */
-		nelts = 0;
-		for( m = 0; m < cmor_vars[k].ndims; m++ ) {
-		    for( m2 = 0; m2 < cmor_vars[var_id].ndims; m2++ ) {
-			if( cmor_vars[k].axes_ids[m] ==
-			    cmor_vars[var_id].axes_ids[m2] ) {
-			    nelts += 1;
-			    break;
+				nelts = 0;
+				for (m = 0; m < cmor_vars[k].ndims; m++) {
+					for (m2 = 0; m2 < cmor_vars[var_id].ndims; m2++) {
+						if (cmor_vars[k].axes_ids[m]
+								== cmor_vars[var_id].axes_ids[m2]) {
+							nelts += 1;
+							break;
+						}
+					}
+				}
+				if (nelts == cmor_vars[k].ndims) {
+					l = k;
+					break;
+				}
 			}
-		    }
 		}
-		if( nelts == cmor_vars[k].ndims ) {
-		    l = k;
-		    break;
-		}
-	    }
-	}
 
-	if( l == -1 ) {
+		if (l == -1) {
 /* -------------------------------------------------------------------- */
 /*      ok this looks bad! last hope is that the                        */
 /*      zfactor is actually a coordinate!                               */
 /* -------------------------------------------------------------------- */
-	    found = 0;
-	    for( m = 0; m < cmor_vars[var_id].ndims; m++ ) {
-		if( strcmp( cmor_axes[cmor_vars[var_id].axes_ids[m]].id,
-		        ctmp ) == 0 ) {
-		    found = 1;
-		    break;
-		}
+			found = 0;
+			for (m = 0; m < cmor_vars[var_id].ndims; m++) {
+				if (strcmp(cmor_axes[cmor_vars[var_id].axes_ids[m]].id, ctmp)
+						== 0) {
+					found = 1;
+					break;
+				}
 /* -------------------------------------------------------------------- */
 /*      ok this axes has bounds let's check against his name + _bnds then*/
 /* -------------------------------------------------------------------- */
-		if( cmor_axes[cmor_vars[var_id].axes_ids[m]].bounds != NULL ) {
+				if (cmor_axes[cmor_vars[var_id].axes_ids[m]].bounds != NULL) {
 
-		    sprintf( msg, "%s_bnds",
-			     cmor_axes[cmor_vars[var_id].axes_ids[m]].id );
-		    if( strcmp( msg, ctmp ) == 0 ) {
-			found = 1;
-			break;
-		    }
+					sprintf(msg, "%s_bnds",
+							cmor_axes[cmor_vars[var_id].axes_ids[m]].id);
+					if (strcmp(msg, ctmp) == 0) {
+						found = 1;
+						break;
+					}
+				}
+			}
+			if (found == 0) {
+				snprintf(msg, CMOR_MAX_STRING,
+						"could not find the zfactor variable: %s,\n! "
+								"please define it first, while defining zfactors\n! "
+								"for variable %s (table %s)", ctmp,
+						cmor_vars[var_id].id,
+						cmor_tables[cmor_vars[var_id].ref_table_id].szTable_id);
+				cmor_handle_error(msg, CMOR_CRITICAL);
+				cmor_pop_traceback();
+				return (1);
+			}
+		} else {
+			found = 0;
 		}
-	    }
-	    if( found == 0 ) {
-		snprintf( msg, CMOR_MAX_STRING,
-		        "could not find the zfactor variable: %s,\n! "
-		        "please define it first, while defining zfactors\n! "
-		        "for variable %s (table %s)",
-		        ctmp, cmor_vars[var_id].id,
-		        cmor_tables[cmor_vars[var_id].
-		                    ref_table_id].szTable_id );
-		cmor_handle_error( msg, CMOR_CRITICAL );
-		cmor_pop_traceback(  );
-		return( 1 );
-	    }
-	} else {
-	    found = 0;
-	}
 /* -------------------------------------------------------------------- */
 /*      now figure out if we already defined this zfactor var           */
 /* -------------------------------------------------------------------- */
 
-	for( k = 0; k < lnzfactors; k++ )
-	    if( zfactors[k] == l )
-		found = 1;
-	if( found == 0 ) {
+		for (k = 0; k < lnzfactors; k++)
+			if (zfactors[k] == l)
+				found = 1;
+		if (found == 0) {
 /* -------------------------------------------------------------------- */
 /*      ok it is a new one                                              */
 /* -------------------------------------------------------------------- */
 
-	    zfactors[lnzfactors] = l;
+			zfactors[lnzfactors] = l;
 /* -------------------------------------------------------------------- */
 /*      ok we need to figure out the dimensions of that zfactor         */
 /*      and then define the variable                                    */
 /* -------------------------------------------------------------------- */
-	    for( k = 0; k < cmor_vars[l].ndims; k++ ) {
-		found = 0;
-		for( m = 0; m < cmor_vars[var_id].ndims; m++ ) {
-		    if( strcmp
-			( cmor_axes[cmor_vars[var_id].axes_ids[m]].id,
-			  cmor_axes[cmor_vars[l].axes_ids[k]].id ) == 0 ) {
-			found = 1;
-			dim_holder[k] = nc_dim[m];
+			for (k = 0; k < cmor_vars[l].ndims; k++) {
+				found = 0;
+				for (m = 0; m < cmor_vars[var_id].ndims; m++) {
+					if (strcmp(cmor_axes[cmor_vars[var_id].axes_ids[m]].id,
+							cmor_axes[cmor_vars[l].axes_ids[k]].id) == 0) {
+						found = 1;
+						dim_holder[k] = nc_dim[m];
 /* -------------------------------------------------------------------- */
 /*      ok here we mark this factor has time varying if necessary       */
 /*      so that we can count the number of time written and make        */
 /*      sure it matches the variable                                    */
 /* -------------------------------------------------------------------- */
-			if( cmor_axes[cmor_vars[var_id].axes_ids[m]].axis=='T'){
-			    for( ia = 0; ia < 10; ia++ ) {
-				if( cmor_vars[var_id].associated_ids[ia]== -1) {
-				    cmor_vars[var_id].associated_ids[ia] = l;
-				    break;
+						if (cmor_axes[cmor_vars[var_id].axes_ids[m]].axis
+								== 'T') {
+							for (ia = 0; ia < 10; ia++) {
+								if (cmor_vars[var_id].associated_ids[ia]
+										== -1) {
+									cmor_vars[var_id].associated_ids[ia] = l;
+									break;
+								}
+							}
+						}
+						break;
+					}
 				}
-			    }
+				if (found == 0) {
+					snprintf(msg, CMOR_MAX_STRING,
+							"variable \"%s\" (table: %s) has axis \"%s\"\n! "
+									"defined with formula terms, but term \"%s\"\n! "
+									"depends on axis \"%s\" which is not part of\n! "
+									"the variable", cmor_vars[var_id].id,
+							cmor_tables[cmor_vars[var_id].ref_table_id].szTable_id,
+							cmor_axes[cmor_vars[var_id].axes_ids[i]].id, ctmp,
+							cmor_axes[cmor_vars[l].axes_ids[k]].id);
+					cmor_handle_error(msg, CMOR_CRITICAL);
+				}
 			}
-			break;
-		    }
-		}
-		if( found == 0 ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-		            "variable \"%s\" (table: %s) has axis \"%s\"\n! "
-		            "defined with formula terms, but term \"%s\"\n! "
-		            "depends on axis \"%s\" which is not part of\n! "
-		            "the variable",
-		            cmor_vars[var_id].id,
-		            cmor_tables[cmor_vars[var_id].
-		                        ref_table_id].szTable_id,
-		                        cmor_axes[cmor_vars[var_id].axes_ids[i]].id,
-		                        ctmp,
-		                        cmor_axes[cmor_vars[l].axes_ids[k]].id );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
-		}
-	    }
 /* -------------------------------------------------------------------- */
 /*      at that point we can define the var                             */
 /* -------------------------------------------------------------------- */
-	    if( dim_bnds == -1 ) {	/* we are not defining a bnds one */
-		if( cmor_vars[l].type == 'd' )
-		    ierr =
-			nc_def_var( ncid, cmor_vars[l].id, NC_DOUBLE,
-				    cmor_vars[l].ndims, &dim_holder[0],
-				    &nc_zfactors[lnzfactors] );
-		else if( cmor_vars[l].type == 'f' )
-		    ierr =
-			nc_def_var( ncid, cmor_vars[l].id, NC_FLOAT,
-				    cmor_vars[l].ndims, &dim_holder[0],
-				    &nc_zfactors[lnzfactors] );
-		else if( cmor_vars[l].type == 'l' )
-		    ierr =
-			nc_def_var( ncid, cmor_vars[l].id, NC_INT,
-				    cmor_vars[l].ndims, &dim_holder[0],
-				    &nc_zfactors[lnzfactors] );
-		else if( cmor_vars[l].type == 'i' )
-		    ierr =
-			nc_def_var( ncid, cmor_vars[l].id, NC_INT,
-				    cmor_vars[l].ndims, &dim_holder[0],
-				    &nc_zfactors[lnzfactors] );
-		if( ierr != NC_NOERR ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-		            "NC Error (%i: %s) for variable %s (table %s)\n! "
-		            "error defining zfactor var: %i (%s)",
-		            ierr, nc_strerror( ierr ),
-		            cmor_vars[var_id].id,
-		            cmor_tables[cmor_vars[var_id].
-		                        ref_table_id].szTable_id,
-		                        lnzfactors, cmor_vars[l].id );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
-		}
+			if (dim_bnds == -1) { /* we are not defining a bnds one */
+				if (cmor_vars[l].type == 'd')
+					ierr = nc_def_var(ncid, cmor_vars[l].id, NC_DOUBLE,
+							cmor_vars[l].ndims, &dim_holder[0],
+							&nc_zfactors[lnzfactors]);
+				else if (cmor_vars[l].type == 'f')
+					ierr = nc_def_var(ncid, cmor_vars[l].id, NC_FLOAT,
+							cmor_vars[l].ndims, &dim_holder[0],
+							&nc_zfactors[lnzfactors]);
+				else if (cmor_vars[l].type == 'l')
+					ierr = nc_def_var(ncid, cmor_vars[l].id, NC_INT,
+							cmor_vars[l].ndims, &dim_holder[0],
+							&nc_zfactors[lnzfactors]);
+				else if (cmor_vars[l].type == 'i')
+					ierr = nc_def_var(ncid, cmor_vars[l].id, NC_INT,
+							cmor_vars[l].ndims, &dim_holder[0],
+							&nc_zfactors[lnzfactors]);
+				if (ierr != NC_NOERR) {
+					snprintf(msg, CMOR_MAX_STRING,
+							"NC Error (%i: %s) for variable %s (table %s)\n! "
+									"error defining zfactor var: %i (%s)", ierr,
+							nc_strerror(ierr), cmor_vars[var_id].id,
+							cmor_tables[cmor_vars[var_id].ref_table_id].szTable_id,
+							lnzfactors, cmor_vars[l].id);
+					cmor_handle_error(msg, CMOR_CRITICAL);
+				}
 
 /* -------------------------------------------------------------------- */
 /*      Compression stuff                                               */
 /* -------------------------------------------------------------------- */
-		if( ( CMOR_NETCDF_MODE != CMOR_REPLACE_3 ) &&
-		     ( CMOR_NETCDF_MODE != CMOR_PRESERVE_3 ) &&
-		     ( CMOR_NETCDF_MODE != CMOR_APPEND_3 ) ) {
-		    if( cmor_vars[l].ndims > 0 ) {
-		        int nTableID = cmor_vars[l].ref_table_id;
-			ics =
-			    cmor_tables[nTableID].vars[nTableID].shuffle;
-			icd =
-			    cmor_tables[nTableID].vars[nTableID].deflate;
-			icdl =
-			    cmor_tables[nTableID].vars[nTableID].deflate_level;
-			ierr = nc_def_var_deflate( ncid,
-			        nc_zfactors[lnzfactors],
-			        ics, icd, icdl );
+				if ((CMOR_NETCDF_MODE != CMOR_REPLACE_3)
+						&& (CMOR_NETCDF_MODE != CMOR_PRESERVE_3)
+						&& (CMOR_NETCDF_MODE != CMOR_APPEND_3)) {
+					if (cmor_vars[l].ndims > 0) {
+						int nTableID = cmor_vars[l].ref_table_id;
+						ics = cmor_tables[nTableID].vars[nTableID].shuffle;
+						icd = cmor_tables[nTableID].vars[nTableID].deflate;
+						icdl =
+								cmor_tables[nTableID].vars[nTableID].deflate_level;
+						ierr = nc_def_var_deflate(ncid, nc_zfactors[lnzfactors],
+								ics, icd, icdl);
 
-			if( ierr != NC_NOERR ) {
-			    snprintf( msg, CMOR_MAX_STRING,
-			            "NCError (%i: %s) defining compression\n! "
-			            "parameters for zfactor variable %s for\n! "
-			            "variable '%s' (table %s)",
-			            ierr, nc_strerror( ierr ),
-			            cmor_vars[l].id,
-			            cmor_vars[var_id].id,
-			            cmor_tables[nTableID].szTable_id );
-			    cmor_handle_error( msg, CMOR_CRITICAL );
-			}
-		    }
-		}
+						if (ierr != NC_NOERR) {
+							snprintf(msg, CMOR_MAX_STRING,
+									"NCError (%i: %s) defining compression\n! "
+											"parameters for zfactor variable %s for\n! "
+											"variable '%s' (table %s)", ierr,
+									nc_strerror(ierr), cmor_vars[l].id,
+									cmor_vars[var_id].id,
+									cmor_tables[nTableID].szTable_id);
+							cmor_handle_error(msg, CMOR_CRITICAL);
+						}
+					}
+				}
 
 /* -------------------------------------------------------------------- */
 /*      Creates attribute related to that variable                      */
 /* -------------------------------------------------------------------- */
-		for( k = 0; k < cmor_vars[l].nattributes; k++ ) {
+				for (k = 0; k < cmor_vars[l].nattributes; k++) {
 /* -------------------------------------------------------------------- */
 /*      first of all we need to make sure it is not an empty attribute  */
 /* -------------------------------------------------------------------- */
-		    if( cmor_has_variable_attribute
-			( l, cmor_vars[l].attributes[k] ) != 0 ) {
+					if (cmor_has_variable_attribute(l,
+							cmor_vars[l].attributes[k]) != 0) {
 /* -------------------------------------------------------------------- */
 /*      deleted attribute continue on                                   */
 /* -------------------------------------------------------------------- */
-			continue;
-		    }
-		    if( strcmp( cmor_vars[l].attributes[k], "flag_values" )
-			== 0 ) {
+						continue;
+					}
+					if (strcmp(cmor_vars[l].attributes[k], "flag_values")
+							== 0) {
 /* -------------------------------------------------------------------- */
 /*      ok we need to convert the string to a list of int               */
 /* -------------------------------------------------------------------- */
-			ierr = cmor_convert_string_to_list(
-			        cmor_vars[l].attributes_values_char[k],
-			        'i',
-			        ( void * ) &int_list,
-			        &nelts );
+						ierr = cmor_convert_string_to_list(
+								cmor_vars[l].attributes_values_char[k], 'i',
+								(void *) &int_list, &nelts);
 
-			ierr = nc_put_att_int(
-			        ncid,
-			        nc_zfactors[lnzfactors],
-			        "flag_values",
-			        NC_INT,
-			        nelts,
-			        int_list );
+						ierr = nc_put_att_int(ncid, nc_zfactors[lnzfactors],
+								"flag_values",
+								NC_INT, nelts, int_list);
 
-			if( ierr != NC_NOERR ) {
-			    snprintf( msg, CMOR_MAX_STRING,
-				      "NetCDF Error (%i: %s) setting flags\n! "
-			              "numerical attribute on zfactor\n! "
-			              "variable %s for variable %s (table %s)",
-				      ierr, nc_strerror( ierr ),
-				      cmor_vars[l].id,
-				      cmor_vars[var_id].id,
-				      cmor_tables[cmor_vars[var_id].ref_table_id].
-				      szTable_id );
-			    cmor_handle_error( msg, CMOR_CRITICAL );
-			}
-			free( int_list );
-		    } else if( cmor_vars[l].attributes_type[k] == 'c' ) {
-			ierr = cmor_put_nc_char_attribute(
-			        ncid,
-			        nc_zfactors[lnzfactors],
-			        cmor_vars[l].attributes[k],
-			        cmor_vars[l].attributes_values_char[k],
-			        cmor_vars[l].id );
-		    } else {
-			ierr = cmor_put_nc_num_attribute(
-			        ncid,
-			        nc_zfactors[lnzfactors],
-			        cmor_vars[l].attributes[k],
-			        cmor_vars[l].attributes_type[k],
-			        cmor_vars[l].attributes_values_num[k],
-			        cmor_vars[l].id );
-		    }
-		}
-		lnzfactors += 1;
-	    } else {
+						if (ierr != NC_NOERR) {
+							snprintf(msg, CMOR_MAX_STRING,
+									"NetCDF Error (%i: %s) setting flags\n! "
+											"numerical attribute on zfactor\n! "
+											"variable %s for variable %s (table %s)",
+									ierr, nc_strerror(ierr), cmor_vars[l].id,
+									cmor_vars[var_id].id,
+									cmor_tables[cmor_vars[var_id].ref_table_id].szTable_id);
+							cmor_handle_error(msg, CMOR_CRITICAL);
+						}
+						free(int_list);
+					} else if (cmor_vars[l].attributes_type[k] == 'c') {
+						ierr = cmor_put_nc_char_attribute(ncid,
+								nc_zfactors[lnzfactors],
+								cmor_vars[l].attributes[k],
+								cmor_vars[l].attributes_values_char[k],
+								cmor_vars[l].id);
+					} else {
+						ierr = cmor_put_nc_num_attribute(ncid,
+								nc_zfactors[lnzfactors],
+								cmor_vars[l].attributes[k],
+								cmor_vars[l].attributes_type[k],
+								cmor_vars[l].attributes_values_num[k],
+								cmor_vars[l].id);
+					}
+				}
+				lnzfactors += 1;
+			} else {
 /* -------------------------------------------------------------------- */
 /*      ok now we need to see if we have bounds on that variable        */
 /* -------------------------------------------------------------------- */
-		dim_holder[cmor_vars[l].ndims] = dim_bnds;
-		if( cmor_vars[l].type == 'd' )
-		    ierr =
-			nc_def_var( ncid, cmor_vars[l].id, NC_DOUBLE,
-				    cmor_vars[l].ndims + 1, &dim_holder[0],
-				    &nc_zfactors[lnzfactors] );
-		else if( cmor_vars[l].type == 'f' )
-		    ierr =
-			nc_def_var( ncid, cmor_vars[l].id, NC_FLOAT,
-				    cmor_vars[l].ndims + 1, &dim_holder[0],
-				    &nc_zfactors[lnzfactors] );
-		else if( cmor_vars[l].type == 'l' )
-		    ierr =
-			nc_def_var( ncid, cmor_vars[l].id, NC_INT,
-				    cmor_vars[l].ndims + 1, &dim_holder[0],
-				    &nc_zfactors[lnzfactors] );
-		else if( cmor_vars[l].type == 'i' )
-		    ierr =
-			nc_def_var( ncid, cmor_vars[l].id, NC_INT,
-				    cmor_vars[l].ndims + 1, &dim_holder[0],
-				    &nc_zfactors[lnzfactors] );
-		if( ierr != NC_NOERR ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "NC Error (%i: %s) for variable %s (table: %s),\n! "
-		            "error defining zfactor var: %i (%s)",
-			      ierr, nc_strerror( ierr ),
-			      cmor_vars[var_id].id,
-			      cmor_tables[cmor_vars[var_id].
-					  ref_table_id].szTable_id,
-			      lnzfactors, cmor_vars[l].id );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
-		}
+				dim_holder[cmor_vars[l].ndims] = dim_bnds;
+				if (cmor_vars[l].type == 'd')
+					ierr = nc_def_var(ncid, cmor_vars[l].id, NC_DOUBLE,
+							cmor_vars[l].ndims + 1, &dim_holder[0],
+							&nc_zfactors[lnzfactors]);
+				else if (cmor_vars[l].type == 'f')
+					ierr = nc_def_var(ncid, cmor_vars[l].id, NC_FLOAT,
+							cmor_vars[l].ndims + 1, &dim_holder[0],
+							&nc_zfactors[lnzfactors]);
+				else if (cmor_vars[l].type == 'l')
+					ierr = nc_def_var(ncid, cmor_vars[l].id, NC_INT,
+							cmor_vars[l].ndims + 1, &dim_holder[0],
+							&nc_zfactors[lnzfactors]);
+				else if (cmor_vars[l].type == 'i')
+					ierr = nc_def_var(ncid, cmor_vars[l].id, NC_INT,
+							cmor_vars[l].ndims + 1, &dim_holder[0],
+							&nc_zfactors[lnzfactors]);
+				if (ierr != NC_NOERR) {
+					snprintf(msg, CMOR_MAX_STRING,
+							"NC Error (%i: %s) for variable %s (table: %s),\n! "
+									"error defining zfactor var: %i (%s)", ierr,
+							nc_strerror(ierr), cmor_vars[var_id].id,
+							cmor_tables[cmor_vars[var_id].ref_table_id].szTable_id,
+							lnzfactors, cmor_vars[l].id);
+					cmor_handle_error(msg, CMOR_CRITICAL);
+				}
 
 /* -------------------------------------------------------------------- */
 /*      Compression stuff                                               */
 /* -------------------------------------------------------------------- */
 
-		if( ( CMOR_NETCDF_MODE != CMOR_REPLACE_3 ) &&
-		    ( CMOR_NETCDF_MODE != CMOR_PRESERVE_3 ) &&
-		    ( CMOR_NETCDF_MODE != CMOR_APPEND_3 ) ) {
-                    int nTableID = cmor_vars[l].ref_table_id;
+				if ((CMOR_NETCDF_MODE != CMOR_REPLACE_3)
+						&& (CMOR_NETCDF_MODE != CMOR_PRESERVE_3)
+						&& (CMOR_NETCDF_MODE != CMOR_APPEND_3)) {
+					int nTableID = cmor_vars[l].ref_table_id;
 
-		    ics = cmor_tables[nTableID].vars[nTableID].shuffle;
-		    icd = cmor_tables[nTableID].vars[nTableID].deflate;
-		    icdl = cmor_tables[nTableID].vars[nTableID].deflate_level;
-		    ierr = nc_def_var_deflate( ncid, nc_zfactors[lnzfactors],
-		            ics, icd, icdl );
+					ics = cmor_tables[nTableID].vars[nTableID].shuffle;
+					icd = cmor_tables[nTableID].vars[nTableID].deflate;
+					icdl = cmor_tables[nTableID].vars[nTableID].deflate_level;
+					ierr = nc_def_var_deflate(ncid, nc_zfactors[lnzfactors],
+							ics, icd, icdl);
 
-		    if( ierr != NC_NOERR ) {
-			snprintf( msg, CMOR_MAX_STRING,
-				  "NCError (%i: %s) defining\n! "
-			          "compression parameters\n! "
-			          "for zfactor variable %s for\n! "
-			          "variable '%s' (table %s)",
-				  ierr, nc_strerror( ierr ),
-				  cmor_vars[l].id, cmor_vars[var_id].id,
-				  cmor_tables[cmor_vars[var_id].ref_table_id].
-				  szTable_id );
-			cmor_handle_error( msg, CMOR_CRITICAL );
-		    }
+					if (ierr != NC_NOERR) {
+						snprintf(msg, CMOR_MAX_STRING,
+								"NCError (%i: %s) defining\n! "
+										"compression parameters\n! "
+										"for zfactor variable %s for\n! "
+										"variable '%s' (table %s)", ierr,
+								nc_strerror(ierr), cmor_vars[l].id,
+								cmor_vars[var_id].id,
+								cmor_tables[cmor_vars[var_id].ref_table_id].szTable_id);
+						cmor_handle_error(msg, CMOR_CRITICAL);
+					}
 /* -------------------------------------------------------------------- */
 /*      Chunking stuff                                                  */
 /* -------------------------------------------------------------------- */
 #ifndef NC_CHUNKED
 #define NC_CHUNKED 0
 #endif
-                    if (!((cmor_vars[var_id].grid_id > -1)
-                            && (cmor_grids[cmor_vars[var_id].grid_id].istimevarying
-                                    == 1))) {
-                        int ndims = cmor_vars[var_id].ndims;
-                        size_t nc_chunking[ndims];
+					if (!((cmor_vars[var_id].grid_id > -1)
+							&& (cmor_grids[cmor_vars[var_id].grid_id].istimevarying
+									== 1))) {
+						int ndims = cmor_vars[var_id].ndims;
+						size_t nc_chunking[ndims];
 
-                        for( n = 0; n < cmor_vars[var_id].ndims; n++) {
-                            nc_chunking[n] = 1;
-                        }
-                        ierr = nc_def_var_chunking(ncid,
-                                nc_zfactors[lnzfactors],
-                                NC_CHUNKED, &nc_chunking[0]);
-                        if (ierr != NC_NOERR) {
-                            snprintf(msg, CMOR_MAX_STRING,
-                                    "NetCDF Error (%i: %s) defining chunking\n! "
-                                            "parameters for variable '%s' (table: %s)",
-                                    ierr, nc_strerror(ierr),
-                                    cmor_vars[var_id].id,
-                                    cmor_tables[cmor_vars[var_id].ref_table_id].szTable_id);
-                            cmor_handle_error(msg, CMOR_CRITICAL);
-                        }
-                    }
-                }
+						for (n = 0; n < cmor_vars[var_id].ndims; n++) {
+							nc_chunking[n] = 1;
+						}
+						ierr = nc_def_var_chunking(ncid,
+								nc_zfactors[lnzfactors],
+								NC_CHUNKED, &nc_chunking[0]);
+						if (ierr != NC_NOERR) {
+							snprintf(msg, CMOR_MAX_STRING,
+									"NetCDF Error (%i: %s) defining chunking\n! "
+											"parameters for variable '%s' (table: %s)",
+									ierr, nc_strerror(ierr),
+									cmor_vars[var_id].id,
+									cmor_tables[cmor_vars[var_id].ref_table_id].szTable_id);
+							cmor_handle_error(msg, CMOR_CRITICAL);
+						}
+					}
+				}
 
 /* -------------------------------------------------------------------- */
 /*      Creates attribute related to that variable                      */
 /* -------------------------------------------------------------------- */
-		for( k = 0; k < cmor_vars[l].nattributes; k++ ) {
+				for (k = 0; k < cmor_vars[l].nattributes; k++) {
 /* -------------------------------------------------------------------- */
 /*      first of all we need to make sure it is not an empty attribute  */
 /* -------------------------------------------------------------------- */
-		    if( cmor_has_variable_attribute( l,
-		            cmor_vars[l].attributes[k] ) != 0 ) {
+					if (cmor_has_variable_attribute(l,
+							cmor_vars[l].attributes[k]) != 0) {
 /* -------------------------------------------------------------------- */
 /*      deleted attribute continue on                                   */
 /* -------------------------------------------------------------------- */
-			continue;
-		    }
-		    if(strcmp(cmor_vars[l].attributes[k], "flag_values")== 0 ) {
+						continue;
+					}
+					if (strcmp(cmor_vars[l].attributes[k], "flag_values")
+							== 0) {
 /* -------------------------------------------------------------------- */
 /*      ok we need to convert the string to a list of int               */
 /* -------------------------------------------------------------------- */
-			ierr =cmor_convert_string_to_list(
-			        cmor_vars[l].attributes_values_char[k],
-			        'i',
-			        ( void * ) &int_list,
-			        &nelts );
+						ierr = cmor_convert_string_to_list(
+								cmor_vars[l].attributes_values_char[k], 'i',
+								(void *) &int_list, &nelts);
 
-			ierr = nc_put_att_int( ncid,
-			        nc_zfactors[lnzfactors],
-			        "flag_values",
-			        NC_INT, nelts,
-			        int_list );
+						ierr = nc_put_att_int(ncid, nc_zfactors[lnzfactors],
+								"flag_values",
+								NC_INT, nelts, int_list);
 
-			if( ierr != NC_NOERR ) {
-			    snprintf(
-			            msg,
-			            CMOR_MAX_STRING,
-			            "NetCDF Error (%i: %s) setting flags numerical "
-			            "attribute on zfactor variable %s for variable "
-			            "%s (table: %s)",
-			            ierr, nc_strerror( ierr ),
-			            cmor_vars[l].id,
-			            cmor_vars[var_id].id,
-			            cmor_tables[cmor_vars[var_id].ref_table_id].
-			            szTable_id );
-			    cmor_handle_error( msg, CMOR_CRITICAL );
+						if (ierr != NC_NOERR) {
+							snprintf(msg,
+							CMOR_MAX_STRING,
+									"NetCDF Error (%i: %s) setting flags numerical "
+											"attribute on zfactor variable %s for variable "
+											"%s (table: %s)", ierr,
+									nc_strerror(ierr), cmor_vars[l].id,
+									cmor_vars[var_id].id,
+									cmor_tables[cmor_vars[var_id].ref_table_id].szTable_id);
+							cmor_handle_error(msg, CMOR_CRITICAL);
+						}
+						free(int_list);
+
+					} else if (cmor_vars[l].attributes_type[k] == 'c') {
+						ierr = cmor_put_nc_char_attribute(ncid,
+								nc_zfactors[lnzfactors],
+								cmor_vars[l].attributes[k],
+								cmor_vars[l].attributes_values_char[k],
+								cmor_vars[l].id);
+					} else {
+						ierr = cmor_put_nc_num_attribute(ncid,
+								nc_zfactors[lnzfactors],
+								cmor_vars[l].attributes[k],
+								cmor_vars[l].attributes_type[k],
+								cmor_vars[l].attributes_values_num[k],
+								cmor_vars[l].id);
+					}
+				}
+
+				lnzfactors += 1;
 			}
-			free( int_list );
-
-		    } else if( cmor_vars[l].attributes_type[k] == 'c' ) {
-			ierr = cmor_put_nc_char_attribute(
-			        ncid,
-			        nc_zfactors[lnzfactors],
-			        cmor_vars[l].attributes[k],
-			        cmor_vars[l].attributes_values_char[k],
-			        cmor_vars[l].id );
-		    } else {
-			ierr = cmor_put_nc_num_attribute(
-			        ncid,
-			        nc_zfactors[lnzfactors],
-			        cmor_vars[l].attributes[k],
-			        cmor_vars[l].attributes_type[k],
-			        cmor_vars[l].attributes_values_num[k],
-			        cmor_vars[l].id );
-		    }
 		}
 
-		lnzfactors += 1;
-	    }
+		while ((formula_terms[j] == ' ') && (formula_terms[j] != '\0')) {
+			j++;
+		} /* skip the other whites */
 	}
-
-	while( ( formula_terms[j] == ' ' )
-	       && ( formula_terms[j] != '\0' ) ) {
-	    j++;
-	}			/* skip the other whites */
-    }
-    *nzfactors = lnzfactors;
-    cmor_pop_traceback(  );
-    return( 0 );
+	*nzfactors = lnzfactors;
+	cmor_pop_traceback();
+	return (0);
 }
 
 /************************************************************************/
@@ -2576,6 +2550,7 @@ void cmor_setGblAttr(int var_id) {
     char *ret;
     int numchar;
     int nVarRefTblID;
+    int rc;
 
     cmor_add_traceback("cmor_setGblAttr");
     nVarRefTblID = cmor_vars[var_id].ref_table_id;
@@ -2717,49 +2692,61 @@ void cmor_setGblAttr(int var_id) {
 /* -------------------------------------------------------------------- */
 /*     If CELLMEASURE is set to @OPT we don't do anything               */
 /* -------------------------------------------------------------------- */
-		if( strcmp(ctmp, "@OPT") == 0) {
+		if( (strcmp(ctmp, "@OPT") == 0) || (strcmp(ctmp, "--OPT") == 0) ){
 			cmor_set_variable_attribute(var_id,
-			        VARIABLE_ATT_CELLMEASURES, "", 0);
+			        VARIABLE_ATT_CELLMEASURES, 'c', "");
 		}
-
+		else {
 /* -------------------------------------------------------------------- */
 /*     Extract 2 words after "area:" or "volume:" if exist.             */
 /* -------------------------------------------------------------------- */
-		regcomp(&regex, EXTERNAL_VARIABLE_REGEX, REG_EXTENDED);
+			regcomp(&regex, EXTERNAL_VARIABLE_REGEX, REG_EXTENDED);
 
-		regexec(&regex, ctmp, n_matches, m, 0);
+			rc = regexec(&regex, ctmp, n_matches, m, 0);
+			if (rc == REG_NOMATCH) {
+				snprintf(msg, CMOR_MAX_STRING,
+						"Your table (%s) does not contains CELL_MEASURES\n! "
+								"that matches 'area: <text> volume: <text>\n! "
+								"CMOR cannot build the 'external_variable' attribute.\n! "
+								"Check the following variable: '%s'.\n!",
+						cmor_tables[nVarRefTblID].szTable_id,
+						cmor_vars[var_id].id);
+				cmor_handle_error(msg, CMOR_CRITICAL);
+				regfree(&regex);
+				return;
 
-		words[0] = '\0';
-		ctmp2[0] = '\0';
-		for (i = 0; i < n_matches; i++) {
-			numchar = (int) m[i].rm_eo - (int) m[i].rm_so;
+			}
+			words[0] = '\0';
+			ctmp2[0] = '\0';
+			for (i = 0; i < n_matches; i++) {
+				numchar = (int) m[i].rm_eo - (int) m[i].rm_so;
 /* -------------------------------------------------------------------- */
 /*     If rm_so is negative, there is not more matches.                 */
 /* -------------------------------------------------------------------- */
-			if (((int) m[i].rm_so < 0) || (numchar == 0)) {
-				break;
-			}
+				if (((int) m[i].rm_so < 0) || (numchar == 0)) {
+					break;
+				}
 
-			strncpy(words, ctmp + m[i].rm_so, numchar);
-			words[numchar] = '\0';
-			ret = strstr(words, ":");
+				strncpy(words, ctmp + m[i].rm_so, numchar);
+				words[numchar] = '\0';
+				ret = strstr(words, ":");
 /* -------------------------------------------------------------------- */
 /*      Rejects all line with ":" in it                                 */
 /* -------------------------------------------------------------------- */
-			if (ret == NULL) {
-				if (ctmp2[0] == '\0') {
-					strncat(ctmp2, words, numchar);
-				} else {
-					strcat(ctmp2, " ");
-					strncat(ctmp2, words, numchar);
+				if (ret == NULL) {
+					if (ctmp2[0] == '\0') {
+						strncat(ctmp2, words, numchar);
+					} else {
+						strcat(ctmp2, " ");
+						strncat(ctmp2, words, numchar);
+					}
 				}
 			}
+			cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_EXTERNAL_VAR,
+					ctmp2, 0);
+			regfree(&regex);
 		}
-		cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_EXTERNAL_VAR, ctmp2,
-				0);
-		regfree(&regex);
 	}
-
     if( cmor_has_cur_dataset_attribute(GLOBAL_ATT_INSTITUTION_ID) == 0) {
         cmor_CV_setInstitution(cmor_tables[nVarRefTblID].CV);
     }

@@ -1,8 +1,6 @@
 from test_python_common import * # common subroutines
 import cmor._cmor
 import os
-import pdb
-pdb.set_trace()
 pth = os.path.split(os.path.realpath(os.curdir))
 if pth[-1]=='Test':
     ipth = opth = '.'
@@ -14,7 +12,7 @@ myaxes2=numpy.zeros(9,dtype='i')
 myvars=numpy.zeros(9,dtype='i')
 
 cmor._cmor.setup(ipth,cmor.CMOR_REPLACE,cmor.CMOR_NORMAL,cmor.CMOR_EXIT_ON_MAJOR,"",1);
-cmor.dataset_json("Test/test_python_direct_calls.json")
+cmor.dataset_json("Test/common_user_input.json")
 #cmor.dataset_json("Test/common_user_input.json")
 
 tables=[]

@@ -3,7 +3,7 @@ import cmor
 def path_test():
     cmor.setup(inpath='Tables',netcdf_file_action=cmor.CMOR_REPLACE)
 
-    cmor.dataset_json("Test/test_python_jamie.json")
+    cmor.dataset_json("Test/common_user_input.json")
     
     table='CMIP6_Amon.json'
     cmor.load_table(table)

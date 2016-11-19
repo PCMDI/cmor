@@ -62,7 +62,7 @@ def memory_usage(fhd,mem=0,res=0,stk=0):
 
 def memory_check():
     cmor.setup(inpath='Tables',netcdf_file_action=cmor.CMOR_REPLACE)
-    cmor.dataset_json("Test/test_python_memory_check.json")
+    cmor.dataset_json("Test/common_user_input.json")
     
     table='CMIP6_Amon.json'
     cmor.load_table(table)

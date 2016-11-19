@@ -6,7 +6,7 @@ import numpy
 def test_mode(mode,i,suffix=''):
     cmor.setup(inpath='Tables',
                netcdf_file_action = mode)
-    cmor.dataset_json("Test/test_python_joerg_2.json")
+    cmor.dataset_json("Test/common_user_input.json")
     
     table = 'CMIP6_Amon.json'
     cmor.load_table(table)

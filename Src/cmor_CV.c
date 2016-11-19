@@ -633,6 +633,7 @@ void cmor_CV_checkExperiment( cmor_CV_def_t *CV){
     int rc;
     int nObjects;
     int i;
+    int j;
     int bWarning;
 
     cmor_add_traceback("_CV_checkExperiment");
@@ -668,9 +669,9 @@ void cmor_CV_checkExperiment( cmor_CV_def_t *CV){
     }
 
     nObjects = CV_experiment->nbObjects;
-    bWarning = FALSE;
     // Parse all experiment attributes
     for (i = 0; i < nObjects; i++) {
+        bWarning = FALSE;
         CV_experiment_attr = &CV_experiment->oValue[i];
         rc = cmor_has_cur_dataset_attribute(CV_experiment_attr->key);
         // Validate source type first
@@ -684,19 +685,22 @@ void cmor_CV_checkExperiment( cmor_CV_def_t *CV){
         if( rc == 0) {
             cmor_get_cur_dataset_attribute(CV_experiment_attr->key, szValue);
             if( CV_experiment_attr->anElements > 0) {
-            	for( i = 0; i < CV_experiment_attr->anElements; i++) {
+            	for( j = 0; j < CV_experiment_attr->anElements; j++) {
             		//
             		// Find a string that match this value in the list?
             		//
-            		 if( strncmp( CV_experiment_attr->aszValue[i], szValue,
+            		 if( strncmp( CV_experiment_attr->aszValue[j], szValue,
             				      CMOR_MAX_STRING) == 0) {
             			 break;
             		 }
             	}
-				if (i == CV_experiment_attr->anElements) {
+				if (j == CV_experiment_attr->anElements) {
 					bWarning = TRUE;
 				}
 			} else
+        		//
+        		// Check for string instead of list of string object!
+        		//
 				if( CV_experiment_attr->szValue[0] != '\0') {
 					if (strncmp(CV_experiment_attr->szValue, szValue,
 							CMOR_MAX_STRING) != 0) {
@@ -894,6 +898,7 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t *CV, char *szKey){
     }
 
     if( ierr != 0) {
+        cmor_pop_traceback(  );
         return(-1);
     }
 /* -------------------------------------------------------------------- */

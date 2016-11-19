@@ -292,7 +292,9 @@ extern int cmor_set_variable_entry(cmor_table_t* table,
 extern int cmor_set_table( int table );
 extern int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id );
 extern int cmor_load_table_internal( char table[CMOR_MAX_STRING],
-                                     int *table_id, int );
+                                     int *table_id );
+extern int cmor_search_table( char szTable[CMOR_MAX_STRING],
+								int *table_id);
 
 extern json_object *cmor_open_inpathFile( char *szFilename);
 

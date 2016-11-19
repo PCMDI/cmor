@@ -14,7 +14,7 @@ myvars=numpy.zeros(9,dtype='i')
 # Initialize CMOR
 # -------------------
 cmor.setup(inpath="Tables",set_verbosity=cmor.CMOR_NORMAL, netcdf_file_action = cmor.CMOR_REPLACE_4 );
-cmor.dataset_json("Test/test_python_polar_stereo.json")
+cmor.dataset_json("Test/common_user_input.json")
 
 tables=[]
 grid_table = cmor.load_table("CMIP6_grids.json")

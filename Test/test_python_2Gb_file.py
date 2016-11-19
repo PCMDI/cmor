@@ -18,7 +18,7 @@ blons = numpy.arange(0,360.+dlon,dlon)
 
 
 cmor.setup(inpath='Tables',netcdf_file_action=cmor.CMOR_REPLACE)
-cmor.dataset_json("Test/test_python_2Gb_file.json")
+cmor.dataset_json("Test/common_user_input.json")
 table='CMIP6_Amon.json'
 cmor.load_table(table)
 

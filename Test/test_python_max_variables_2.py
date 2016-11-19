@@ -2,7 +2,7 @@ import cmor,numpy
 
 error_flag = cmor.setup(inpath='Test', netcdf_file_action=cmor.CMOR_REPLACE)
   
-error_flag = cmor.dataset_json("Test/test_python_max_variables.json")
+error_flag = cmor.dataset_json("Test/common_user_input.json")
   
 
 # creates 10 degree grid

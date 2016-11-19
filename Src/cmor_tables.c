@@ -89,11 +89,11 @@ void cmor_init_table( cmor_table_t * table, int id ) {
     table->path[0] = '\0';
     table->frequency[0] = '\0';
     table->nforcings = 0;
-    for( i = 0; i < CMOR_MAX_ELEMENTS; i++ ) {
-	table->expt_ids[i][0] = '\0';
-	table->sht_expt_ids[i][0] = '\0';
-	table->generic_levels[i][0] = '\0';
-    }
+	for (i = 0; i < CMOR_MAX_ELEMENTS; i++) {
+		table->expt_ids[i][0] = '\0';
+		table->sht_expt_ids[i][0] = '\0';
+		table->generic_levels[i][0] = '\0';
+	}
     table->CV = NULL;
 
     cmor_pop_traceback(  );
@@ -482,11 +482,18 @@ int cmor_load_table( char szTable[CMOR_MAX_STRING], int *table_id ) {
     char *szPath;
     char *szTableName;
     char szControlFilenameJSON[CMOR_MAX_STRING];
+    char szAxisEntryFilenameJSON[CMOR_MAX_STRING];
+    char szFormulaVarFilenameJSON[CMOR_MAX_STRING];
     char szCV[CMOR_MAX_STRING];
+    char szAxisEntryFN[CMOR_MAX_STRING];
+    char szFormulaVarFN[CMOR_MAX_STRING];
     char msg[CMOR_MAX_STRING];
     struct stat st;
 
     rc = cmor_get_cur_dataset_attribute(GLOBAL_CV_FILENAME, szCV);
+    rc = cmor_get_cur_dataset_attribute(CMOR_AXIS_ENTRY_FILE, szAxisEntryFN);
+    rc = cmor_get_cur_dataset_attribute(CMOR_FORMULA_VAR_FILE, szFormulaVarFN);
+
 
 /* -------------------------------------------------------------------- */
 /*  build string "path/<CV>.json"                                */
@@ -494,11 +501,18 @@ int cmor_load_table( char szTable[CMOR_MAX_STRING], int *table_id ) {
     szTableName = strdup(szTable);
     szPath = dirname(szTableName);
 /* -------------------------------------------------------------------- */
-/*  build string "path/CV.json"                                         */
+/*  build string "path/filename.json"                                   */
 /* -------------------------------------------------------------------- */
     strcpy(szControlFilenameJSON, szPath);
     strcat(szControlFilenameJSON, "/");
     strcat(szControlFilenameJSON, szCV);
+    strcpy(szAxisEntryFilenameJSON, szPath);
+    strcat(szAxisEntryFilenameJSON, "/");
+    strcat(szAxisEntryFilenameJSON, szAxisEntryFN);
+    strcpy(szFormulaVarFilenameJSON, szPath);
+    strcat(szFormulaVarFilenameJSON, "/");
+    strcat(szFormulaVarFilenameJSON, szFormulaVarFN);
+
 
 /* -------------------------------------------------------------------- */
 /*  try to load table from directory where table is found or from the   */
@@ -509,23 +523,54 @@ int cmor_load_table( char szTable[CMOR_MAX_STRING], int *table_id ) {
         strcpy(szControlFilenameJSON, cmor_input_path);
         strcat(szControlFilenameJSON, "/");
         strcat(szControlFilenameJSON, szCV);
+        strcpy(szAxisEntryFilenameJSON, szPath);
+        strcat(szAxisEntryFilenameJSON, "/");
+        strcat(szAxisEntryFilenameJSON, szAxisEntryFN);
+        strcpy(szFormulaVarFilenameJSON, szPath);
+        strcat(szFormulaVarFilenameJSON, "/");
+        strcat(szFormulaVarFilenameJSON, szFormulaVarFN);
+
+
+    }
+    /* -------------------------------------------------------------------- */
+    /*      Is the table already in memory?                                 */
+    /* -------------------------------------------------------------------- */
+    rc = cmor_search_table(szTable, table_id);
+
+    if( rc == TABLE_FOUND) {
+    	return(TABLE_SUCCESS);
     }
 
-    rc= cmor_load_table_internal( szTable, table_id, TRUE);
 
-    if((rc != TABLE_SUCCESS) && (rc != TABLE_FOUND)){
-        snprintf( msg, CMOR_MAX_STRING, "Can't open table %s", szTable);
-        cmor_handle_error( msg, CMOR_WARNING );
-    }
-    if(rc == TABLE_SUCCESS) {
+    if(rc == TABLE_NOTFOUND) {
+		cmor_ntables += 1;
+		cmor_init_table(&cmor_tables[cmor_ntables], cmor_ntables);
+		*table_id = cmor_ntables;
+
+        strcpy( cmor_tables[cmor_ntables].path, szTable );
         cmor_set_cur_dataset_attribute_internal(CV_INPUTFILENAME,
                                                 szControlFilenameJSON, 1);
-        rc= cmor_load_table_internal( szControlFilenameJSON, table_id, FALSE);
+        rc= cmor_load_table_internal( szAxisEntryFilenameJSON, table_id);
         if(rc != TABLE_SUCCESS){
-            snprintf( msg, CMOR_MAX_STRING, "Can't open table %s",
-                    szControlFilenameJSON);
-            cmor_handle_error( msg, CMOR_CRITICAL );
+            snprintf( msg, CMOR_MAX_STRING, "Can't open table %s", szControlFilenameJSON);
+            cmor_handle_error( msg, CMOR_WARNING );
         }
+        rc= cmor_load_table_internal( szFormulaVarFilenameJSON, table_id);
+        if(rc != TABLE_SUCCESS ){
+            snprintf( msg, CMOR_MAX_STRING, "Can't open table %s", szFormulaVarFN);
+            cmor_handle_error( msg, CMOR_WARNING );
+        }
+        rc= cmor_load_table_internal( szTable, table_id);
+        if(rc != TABLE_SUCCESS ){
+            snprintf( msg, CMOR_MAX_STRING, "Can't open table %s", szTable);
+            cmor_handle_error( msg, CMOR_WARNING );
+        }
+        rc= cmor_load_table_internal( szControlFilenameJSON, table_id);
+        if(rc != TABLE_SUCCESS){
+            snprintf( msg, CMOR_MAX_STRING, "Can't open table %s", szControlFilenameJSON);
+            cmor_handle_error( msg, CMOR_WARNING );
+        }
+
     } else if (rc == TABLE_FOUND) {
         rc = TABLE_SUCCESS;
     }
@@ -534,10 +579,28 @@ int cmor_load_table( char szTable[CMOR_MAX_STRING], int *table_id ) {
     return(rc);
 }
 /************************************************************************/
+/*                       cmor_search_table()                            */
+/************************************************************************/
+int cmor_search_table( char szTable[CMOR_MAX_STRING],
+								int *table_id) {
+	int i;
+	for (i = 0; i < cmor_ntables + 1; i++) {
+
+		if (strcmp(cmor_tables[i].path, szTable) == 0) {
+			CMOR_TABLE = i;
+			*table_id = i;
+			cmor_pop_traceback();
+			return (TABLE_FOUND);
+		}
+	}
+
+	return (TABLE_NOTFOUND);
+}
+
+/************************************************************************/
 /*                   cmor_load_table_internal()                         */
 /************************************************************************/
-int cmor_load_table_internal( char table[CMOR_MAX_STRING], int *table_id,
-                              int bNewTable) {
+int cmor_load_table_internal( char szTable[CMOR_MAX_STRING], int *table_id) {
     FILE *table_file;
     char word[CMOR_MAX_STRING];
     int i, n;
@@ -550,54 +613,29 @@ int cmor_load_table_internal( char table[CMOR_MAX_STRING], int *table_id,
     int nTableSize, read_size;
     json_object *json_obj;
 
+
     cmor_add_traceback( "cmor_load_table_internal" );
     cmor_is_setup(  );
 
-    if( bNewTable ) {
+	table_file = fopen(szTable, "r");
 
-/* -------------------------------------------------------------------- */
-/*      Is the table already loaded?                                    */
-/* -------------------------------------------------------------------- */
-        for (i = 0; i < cmor_ntables + 1; i++) {
-
-            if (strcmp(cmor_tables[i].path, table) == 0) {
-                CMOR_TABLE = i;
-                *table_id = i;
-                cmor_pop_traceback();
-                return (TABLE_FOUND);
-            }
-        }
-/* -------------------------------------------------------------------- */
-/*      Try to open file                                                */
-/*      $path/table                                                     */
-/*      /usr/local/cmor/share/table                                     */
-/* -------------------------------------------------------------------- */
-        cmor_ntables += 1;
-        cmor_init_table( &cmor_tables[cmor_ntables], cmor_ntables );
-    }
-
-    table_file = fopen( table, "r" );
-    
-    if( table_file == NULL ) {
-	if( table[0] != '/' ) {
-	    snprintf( word, CMOR_MAX_STRING, "%s/%s", cmor_input_path,
-		      table );
-	    table_file = fopen( word, "r" );
+	if (table_file == NULL) {
+		if (szTable[0] != '/') {
+			snprintf(word, CMOR_MAX_STRING, "%s/%s", cmor_input_path, szTable);
+			table_file = fopen(word, "r");
+		}
+		if (table_file == NULL) {
+			snprintf(word, CMOR_MAX_STRING, "%s/share/%s", CMOR_PREFIX, szTable);
+			table_file = fopen(word, "r");
+		}
+		if (table_file == NULL) {
+			snprintf(word, CMOR_MAX_STRING, "Could not find file: %s", szTable);
+			cmor_handle_error(word, CMOR_NORMAL);
+			cmor_ntables -= 1;
+			cmor_pop_traceback();
+			return (TABLE_ERROR);
+		}
 	}
-	if( table_file == NULL ) {
-	    snprintf( word, CMOR_MAX_STRING, "%s/share/%s", CMOR_PREFIX,
-		      table );
-	    table_file = fopen( word, "r" );
-	}
-	if( table_file == NULL ) {
-	    snprintf( word, CMOR_MAX_STRING, "Could not find file: %s",
-		      table );
-	    cmor_handle_error( word, CMOR_NORMAL );
-	    cmor_ntables -= 1;
-	    cmor_pop_traceback(  );
-	    return(TABLE_ERROR);
-	}
-    }
 
 
 /* -------------------------------------------------------------------- */
@@ -624,7 +662,7 @@ int cmor_load_table_internal( char table[CMOR_MAX_STRING], int *table_id,
         buffer=NULL;
         snprintf( msg, CMOR_MAX_STRING,
                   "Could not understand file \"%s\" Is this a JSON CMOR table?",
-                   table  );
+                   szTable  );
             cmor_handle_error( msg, CMOR_CRITICAL );
             cmor_ntables--;
             cmor_pop_traceback(  );
@@ -654,7 +692,7 @@ int cmor_load_table_internal( char table[CMOR_MAX_STRING], int *table_id,
                 "Please validate JSON File!\n"
                 "USE: http://jsonlint.com/\n"
                 "Syntax Error in table: %s\n "
-                "%s",table, buffer );
+                "%s",szTable, buffer );
         cmor_handle_error( msg, CMOR_CRITICAL );
         cmor_pop_traceback();
         return(TABLE_ERROR);
@@ -821,9 +859,6 @@ int cmor_load_table_internal( char table[CMOR_MAX_STRING], int *table_id,
         }
     }
     *table_id = cmor_ntables;
-    if( bNewTable ) {
-        strcpy( cmor_tables[cmor_ntables].path, table );
-    }
     CMOR_TABLE = cmor_ntables;
     cmor_pop_traceback(  );
     free(buffer);

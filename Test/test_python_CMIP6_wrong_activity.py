@@ -60,7 +60,7 @@ class TestCase(unittest.TestCase):
         try:
             cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
 
-            cmor.dataset_json("Test/test_python_CMIP6_wrong_activity.json")
+            cmor.dataset_json("Test/common_user_input.json")
 
             cmor.load_table("CMIP6_Omon.json")
             itime = cmor.axis(table_entry="time", units='months since 2010', coord_vals=numpy.array(

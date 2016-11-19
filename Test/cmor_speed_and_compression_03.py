@@ -15,7 +15,7 @@ except:
 level = 3
 shuffle = 1
 cmor.setup(inpath="Tables",set_verbosity=cmor.CMOR_NORMAL, netcdf_file_action = cmor.CMOR_REPLACE_4, exit_control = cmor.CMOR_EXIT_ON_MAJOR);
-cmor.dataset_json("Test/cmor_speed_and_compression.json")
+cmor.dataset_json("Test/common_user_input.json")
 
 tables=[]
 tables.append(cmor.load_table("CMIP6_Amon.json"))
@@ -90,7 +90,8 @@ cmor.close()
 
 import cdtime,os
 ltime = cdtime.reltime(ntimes-1,'month since 1980').tocomp()
-lcmor = os.stat("CMIP6/CMIP/CSIRO-BOM/NICAM/piControl/r1i1p1f1/Amon/tas/gn/v%s/tas_Amon_piControl_NICAM_r1i1p1f1_gn_197901-197912.nc"%(today))[6]
+#lcmor = os.stat("CMIP6/CMIP/CSIRO-BOM/NICAM/piControl/r1i1p1f1/Amon/tas/gn/v%s/tas_Amon_piControl_NICAM_r1i1p1f1_gn_197901-197912.nc"%(today))[6]
+lcmor = os.stat("CMIP6/ISMIP6/PCMDI/PCMDI-test-1-0/piControl-withism/r11i1p1f1/Amon/tas/gr/v%s/tas_Amon_piControl-withism_PCMDI-test-1-0_r11i1p1f1_gr_197901-197912.nc"%(today))[6]
 print 'level:',level,"shuffle:",shuffle
 print 'total cmor:',totcmor,mincmor,totcmor/ntimes,maxcmor,lcmor
 lcdms = os.stat("Test/crap.nc")[6]

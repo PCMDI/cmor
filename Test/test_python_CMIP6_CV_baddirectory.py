@@ -56,7 +56,7 @@ class TestdirectoryMethods(unittest.TestCase):
         # -------------------------------------------
         cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
         try:
-            cmor.dataset_json("Test/test_python_CMIP6_CV_baddirectory.json")
+            cmor.dataset_json("Test/common_user_input.json")
         except:
             testOK = self.getAssertTest()
             os.dup2(self.newstdout, 1)

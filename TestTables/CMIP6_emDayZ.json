@@ -2,10 +2,10 @@
     "Header": {
         "data_specs_version": "01.beta.38", 
         "table_id": "Table emDayZ", 
-        "realm": "", 
+        "realm": "atmos", 
         "frequency": "day", 
         "cmor_version": "3.2", 
-        "table_date": "10 November 2016", 
+        "table_date": "15 November 2016", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "1.00000", 
@@ -15,7 +15,7 @@
     }, 
     "variable_entry": {
         "epfy": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "northward_eliassen_palm_flux_in_air", 
             "units": "m3 s-2", 
             "cell_methods": "time: mean", 
@@ -32,7 +32,7 @@
             "ok_max_mean_abs": ""
         }, 
         "epfz": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "upward_eliassen_palm_flux_in_air", 
             "units": "m3 s-2", 
             "cell_methods": "time: mean", 
@@ -49,7 +49,7 @@
             "ok_max_mean_abs": ""
         }, 
         "hus": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "specific_humidity", 
             "units": "1.0", 
             "cell_methods": "time: mean", 
@@ -66,7 +66,7 @@
             "ok_max_mean_abs": ""
         }, 
         "psitem": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "meridional_streamfunction_transformed_eulerian_mean", 
             "units": "kg s^-1", 
             "cell_methods": "time: mean", 
@@ -83,7 +83,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ta": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "air_temperature", 
             "units": "K", 
             "cell_methods": "time: mean", 
@@ -100,7 +100,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ua": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "eastward_wind", 
             "units": "m s-1", 
             "cell_methods": "time: mean", 
@@ -117,7 +117,7 @@
             "ok_max_mean_abs": ""
         }, 
         "utendepfd": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "tendency_of_eastward_wind_due_to_eliassen_palm_flux_divergence", 
             "units": "m s-2", 
             "cell_methods": "time: mean", 
@@ -134,7 +134,7 @@
             "ok_max_mean_abs": ""
         }, 
         "utendnogw": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "tendency_of_eastward_wind_due_to_nonorographic_gravity_wave_drag", 
             "units": "m s-2", 
             "cell_methods": "time: mean", 
@@ -151,7 +151,7 @@
             "ok_max_mean_abs": ""
         }, 
         "utendogw": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "tendency_of_eastward_wind_due_to_orographic_gravity_wave_drag", 
             "units": "m s-2", 
             "cell_methods": "time: mean", 
@@ -168,7 +168,7 @@
             "ok_max_mean_abs": ""
         }, 
         "utendvtem": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "u-tendency_by_wstar_advection", 
             "units": "m s-1 d-1", 
             "cell_methods": "time: mean", 
@@ -185,7 +185,7 @@
             "ok_max_mean_abs": ""
         }, 
         "utendwtem": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "u-tendency_by_vstar_advection", 
             "units": "m s-1 d-1", 
             "cell_methods": "time: mean", 
@@ -202,7 +202,7 @@
             "ok_max_mean_abs": ""
         }, 
         "va": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "northward_wind", 
             "units": "m s-1", 
             "cell_methods": "time: mean", 
@@ -219,7 +219,7 @@
             "ok_max_mean_abs": ""
         }, 
         "vtem": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "northward_transformed_eulerian_mean_air_velocity", 
             "units": "m s-1", 
             "cell_methods": "time: mean", 
@@ -236,7 +236,7 @@
             "ok_max_mean_abs": ""
         }, 
         "wtem": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "unset", 
             "units": "m s-1", 
             "cell_methods": "time: mean", 
@@ -245,23 +245,6 @@
             "comment": "Transformed Eulerian Mean Diagnostics w*, meridional component of the residual meridional circulation (v*, w*) derived from 6 hr or higher frequency data fields (use instantaneous daily fields or 12 hr fields if the 6 hr data are not available). Scale height: 6950 m", 
             "dimensions": "latitude plev39 time", 
             "out_name": "wtem", 
-            "type": "", 
-            "positive": "", 
-            "valid_min": "", 
-            "valid_max": "", 
-            "ok_min_mean_abs": "", 
-            "ok_max_mean_abs": ""
-        }, 
-        "zg": {
-            "modeling_realm": "", 
-            "standard_name": "geopotential_height", 
-            "units": "m", 
-            "cell_methods": "time: mean", 
-            "cell_measures": "area: areacella", 
-            "long_name": "Geopotential Height", 
-            "comment": "", 
-            "dimensions": "latitude plev39 time", 
-            "out_name": "zg", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 

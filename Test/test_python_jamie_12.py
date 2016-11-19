@@ -30,7 +30,7 @@ def define_write_var(axis_ids, entry, unit, values):
 def cmor_ini():
     cmor.setup(inpath='/git/cmip5-cmor-tables/Tables',
                netcdf_file_action = cmor.CMOR_REPLACE)
-    cmor.dataset_json("Test/test_python_jamie_12.json")
+    cmor.dataset_json("Test/common_user_input.json")
 
 def define_write_landcoverfrac():
     cmor.load_table('Tables/CMIP6_Lmon.json')
