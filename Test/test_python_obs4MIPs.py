@@ -19,7 +19,7 @@ def test():
              {'table_entry': 'longitude',
               'units': 'degrees_east',
               'coord_vals': [90],
-              'cell_bounds': [89, 91]},
+              'cell_bounds': [89, 91]}
              ]
               
     axis_ids = list()

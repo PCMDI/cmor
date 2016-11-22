@@ -195,7 +195,7 @@
 #define CV_KEY_EXPERIMENT_IDS         "experiment_id"
 #define CV_KEY_SOURCE_IDS             "source_id"
 #define CV_KEY_GRID_LABELS            "grid_label"
-#define CV_KEY_GRID_RESOLUTION        "grid_resolution"
+#define CV_KEY_GRID_RESOLUTION        "nominal_resolution"
 #define CV_KEY_GRIDLABEL_GR           "gr"
 #define CV_KEY_SOURCE_LABEL           "label"
 
