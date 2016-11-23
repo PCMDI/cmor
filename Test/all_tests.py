@@ -1,10 +1,14 @@
 import glob
+import os
 import unittest
 
 def create_test_suite():
     test_file_strings = glob.glob('Test/test_python_CMIP6_CV*.py')
-    module_strings = ['Test.'+str[5:len(str)-3] for str in test_file_strings]
-    suites = [unittest.defaultTestLoader.loadTestsFromName(name) \
-              for name in module_strings]
-    testSuite = unittest.TestSuite(suites)
-    return testSuite
+    test_file_strings.extend(['Test/test_python_has_cur_dataset_attribute.py',
+                              'Test/test_python_has_variable_attribute.py'])
+    module_strings = [os.path.splitext(test_file_string)[0].replace('/', '.')
+                      for test_file_string in test_file_strings]
+    suites = [unittest.defaultTestLoader.loadTestsFromName(module_string)
+              for module_string in module_strings]
+    test_suite = unittest.TestSuite(suites)
+    return test_suite
