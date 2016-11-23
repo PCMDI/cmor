@@ -9,7 +9,7 @@ nlat = 3600
 dlat = 180./nlat
 nlon = 7200
 dlon = 360./nlon
-nlev = 24
+nlev = 26
 dlev = 1000./nlev
 ntimes = 1
 
@@ -23,7 +23,7 @@ alllevs = numpy.arange(1000,0,-dlev).tolist()
 print len(alllevs)
 
 cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
-cmor.dataset_json("Test/test_python_2Gb_slice.json")
+cmor.dataset_json("Test/common_user_input.json")
 table='CMIP6_Amon.json'
 cmor.load_table(table)
 

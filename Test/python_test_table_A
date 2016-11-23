@@ -1,20 +1,18 @@
 {
-    "Header": {
-        "#product": "output",
-        "missing_value": "1e20",
-        "approx_interval": "30.00000",
-        "#baseURL": "http://cmip-pcmdi.llnl.gov/CMIP6/dataLocation",
-        "cmor_version": "3.0",
-        "forcings": "N/A Nat Ant GHG SD SI SA TO SO Oz LU Sl Vl SS Ds BC MD OC AA",
-        "frequency": "mon",
-        "table_id": "Table Amon",
-        "table_date": "24 February 2016",
-        "modeling_realm": "atmos",
-        "generic_levels": "alevel alevhalf",
-        "activity_id": "CMIP6-XXXXX",
-        "data_specs_version": "3.0",
-        "Conventions": "CF-1.8 CMIP-6.0"
-    },
+    "Header": {                                                                                                                                
+        "data_specs_version": "01.beta.38",                                                                                                    
+        "table_id": "Table Amon",                                                                                                              
+        "realm": "atmos atmosChem",                                                                                                            
+        "frequency": "mon",                                                                                                                    
+        "cmor_version": "3.2",                                                                                                                 
+        "table_date": "15 November 2016",                                                                                                      
+        "missing_value": "1e20",                                                                                                               
+        "product": "output",                                                                                                                   
+        "approx_interval": "30.00000",                                                                                                         
+        "generic_levels": "alevel alevhalf",                                                                                                           "mip_era": "CMIP6",                                                                                                                    
+        "Conventions": "CF-1.6 CMIP-6.0"                                                                                                       
+    },                                                                                                                                         
+
     "axis_entry": {
         "olayer100m": {
             "requested": "", 
@@ -714,8 +712,8 @@
             "long_name": "Air Temperature", 
             "standard_name": "air_temperature", 
             "modeling_realm": "atmos", 
-            "cell_measures": "time: mean", 
-            "cell_methods": "area: areacella", 
+            "cell_methods": "time: mean", 
+            "cell_measures": "area: areacella", 
             "ok_min_mean_abs": "194.3", 
             "units": "K", 
             "out_name": "ta", 

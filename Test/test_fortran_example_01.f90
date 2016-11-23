@@ -180,7 +180,7 @@ program testing
   error_flag = cmor_setup(inpath='Test', netcdf_file_action=j,&
        exit_control=k)
   
-    error_flag = cmor_dataset_json("Test/test2.json")
+    error_flag = cmor_dataset_json("Test/common_user_input.json")
 
     tables(1) = cmor_load_table('Tables/CMIP6_Amon.json')
     tables(2) = cmor_load_table('Tables/CMIP6_grids.json')

@@ -73,7 +73,7 @@ mymissing=1.e20;
        exit_control=1)
     
   print*,'Test Code: CMOR DATASET'
-  ierr = cmor_dataset_json("Test/test_any_from_asc_d.json")
+  ierr = cmor_dataset_json("Test/common_user_input.json")
   
   current=>mydims
   do i = 0,ndim-1

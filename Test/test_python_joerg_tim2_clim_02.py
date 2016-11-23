@@ -6,14 +6,14 @@ def main():
     
     cmor.setup(inpath='Tables',
                netcdf_file_action = cmor.CMOR_REPLACE_3)
-    cmor.dataset_json("Test/test_python_joerg_tim2_clim_02.json")
+    cmor.dataset_json("Test/common_user_input.json")
  
     table = 'CMIP6_Oclim.json'
     cmor.load_table(table)
     axes = [ {'table_entry': 'time2',
               'units': 'days since 1850-01-01 00:00:00',
               'coord_vals' : [15.5, 45,],
-              'cell_bounds':[[0,396],[31,424]]
+              'cell_bounds':[[0,31],[31,62]]
               },
              {'table_entry': 'depth_coord',
               'units': 'm',

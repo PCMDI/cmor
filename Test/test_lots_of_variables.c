@@ -274,7 +274,7 @@ int main()
 
 
   printf("yep: %s, %s\n",c1,c2);
-  ierr = cmor_dataset_json("Test/test_lots_of_variables.json");
+  ierr = cmor_dataset_json("Test/common_user_input.json");
 
 
   printf("Test code: ok load cmor table(s)\n");

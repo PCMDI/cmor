@@ -266,10 +266,9 @@ extern int cmor_grid_valid_mapping_attribute_names( char *name, int *natt,
 						    char ( *dims )
 						    [CMOR_MAX_STRING] );
 extern int cmor_set_grid_mapping( int gid, char *name, int nparam,
-				  char **attributes_names, int lparams,
-				  double
-				  attributes_values
-				  [CMOR_MAX_GRID_ATTRIBUTES], char **units,
+				  char *attributes_names, int lparams,
+				  double attributes_values[CMOR_MAX_GRID_ATTRIBUTES],
+				  char *units,
 				  int lnunits );
 extern int cmor_grid( int *grid_id, int ndims, int *axes_ids, char type,
 		      void *lat, void *lon, int nvertices, void *blat,
@@ -293,7 +292,9 @@ extern int cmor_set_variable_entry(cmor_table_t* table,
 extern int cmor_set_table( int table );
 extern int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id );
 extern int cmor_load_table_internal( char table[CMOR_MAX_STRING],
-                                     int *table_id, int );
+                                     int *table_id );
+extern int cmor_search_table( char szTable[CMOR_MAX_STRING],
+								int *table_id);
 
 extern json_object *cmor_open_inpathFile( char *szFilename);
 

@@ -3,16 +3,17 @@
            "_cmip6_option":           "CMIP6",
 
            "#activity_id":           "Specify an activity PMIP, GeoMIP, (default in Control Vocabulary File)",
+           "activity_id":            "CMIP",
 
            "#output":                "Output Path where files are written",
            "outpath":                "CMIP6",
 
            "#experiment_id":         "Correspond to id found in experiments.json",
            "experiment_id":          "piControl-withism",
-           "source_type":            "AOGCM",
+           "source_type":            "AOGCM ISM",
            "mip_era":                "CMIP6",
 
-           "source_id":              "MIROC-ESM",
+           "source_id":              "PCMDI-test-1-0",
            "#source":                "Defined int Control Vocabulary File",
 
            "#calendar":              "",
@@ -58,6 +59,8 @@
 
            "#branch_time":            "",
            "branch_time":             "1",
+
+           "branch_method":          "standard",                                                                                               
 
            "sub_experiment":     "none",
 

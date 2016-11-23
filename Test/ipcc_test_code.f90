@@ -217,7 +217,7 @@ PROGRAM ipcc_test_code
 
   mycal = '360_day'
 
-  error_flag = cmor_dataset_json("Test/test2.json")
+  error_flag = cmor_dataset_json("Test/common_user_input.json")
   
   
   !  Define all axes that will be needed

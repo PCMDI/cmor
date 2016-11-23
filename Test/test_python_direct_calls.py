@@ -12,7 +12,8 @@ myaxes2=numpy.zeros(9,dtype='i')
 myvars=numpy.zeros(9,dtype='i')
 
 cmor._cmor.setup(ipth,cmor.CMOR_REPLACE,cmor.CMOR_NORMAL,cmor.CMOR_EXIT_ON_MAJOR,"",1);
-cmor.dataset_json("Test/test_python_direct_calls.json")
+cmor.dataset_json("Test/common_user_input.json")
+#cmor.dataset_json("Test/common_user_input.json")
 
 tables=[]
 a = cmor._cmor.load_table("Tables/CMIP6_Omon.json")

@@ -1,1 +1,52 @@
-no Variable found for emDaypt
+{
+    "Header": {
+        "data_specs_version": "01.beta.42", 
+        "table_id": "Table emDaypt", 
+        "realm": "atmos", 
+        "frequency": "day", 
+        "cmor_version": "3.2", 
+        "table_date": "22 November 2016", 
+        "missing_value": "1e20", 
+        "product": "output", 
+        "approx_interval": "1.00000", 
+        "generic_levels": "", 
+        "mip_era": "CMIP6", 
+        "Conventions": "CF-1.6 CMIP-6.0"
+    }, 
+    "variable_entry": {
+        "prhmax": {
+            "modeling_realm": "atmos", 
+            "standard_name": "precipitation_flux", 
+            "units": "kg m-2 s-1", 
+            "cell_methods": "time: point", 
+            "cell_measures": "area: areacella", 
+            "long_name": "Daily Maximum Hourly Precipitation Rate", 
+            "comment": "", 
+            "dimensions": "longitude latitude time1", 
+            "out_name": "prhmax", 
+            "type": "", 
+            "positive": "", 
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "prmax": {
+            "modeling_realm": "atmos", 
+            "standard_name": "precipitation_flux", 
+            "units": "kg m-2 s-1", 
+            "cell_methods": "time: point", 
+            "cell_measures": "area: areacella", 
+            "long_name": "Precipitation maximum", 
+            "comment": "Maximum instantaneous precipitation", 
+            "dimensions": "longitude latitude time1", 
+            "out_name": "prmax", 
+            "type": "", 
+            "positive": "", 
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
+        }
+    }
+}

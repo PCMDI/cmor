@@ -105,10 +105,10 @@ int cmor_has_required_variable_attributes( int var_id ) {
 
 
 }
+
 /************************************************************************/
 /*                cmor_set_variable_attribute_internal()                */
 /************************************************************************/
-
 int cmor_set_variable_attribute_internal( int id, char *attribute_name,
 					  char type, void *value ) {
     extern cmor_var_t cmor_vars[];
@@ -121,16 +121,16 @@ int cmor_set_variable_attribute_internal( int id, char *attribute_name,
     index = -1;
     cmor_trim_string( attribute_name, msg );
 
-    for( i = 0; i < cmor_vars[id].nattributes; i++ ) {
-	if( strcmp( cmor_vars[id].attributes[i], msg ) == 0 ) {
-	    index = i;
-	    break;
+	for (i = 0; i < cmor_vars[id].nattributes; i++) {
+		if (strcmp(cmor_vars[id].attributes[i], msg) == 0) {
+			index = i;
+			break;
+		}
 	}
-    }
-    if( index == -1 ) {
-	index = cmor_vars[id].nattributes;
-	cmor_vars[id].nattributes += 1;
-    }
+	if (index == -1) {
+		index = cmor_vars[id].nattributes;
+		cmor_vars[id].nattributes += 1;
+	}
 
     /*stores the name */
 
@@ -138,47 +138,39 @@ int cmor_set_variable_attribute_internal( int id, char *attribute_name,
 
     cmor_vars[id].attributes_type[index] = type;
 
-    if( type == 'c' ) {
+	if (type == 'c') {
 
-	if( strlen( value ) > 0 ) {
-	    strncpytrim( cmor_vars[id].attributes_values_char[index],
-			 value, CMOR_MAX_STRING );
+		if (strlen(value) > 0) {
+			strncpytrim(cmor_vars[id].attributes_values_char[index], value,
+					CMOR_MAX_STRING);
+		} else {
+			strcpy(cmor_vars[id].attributes[index], "");
+		}
+
+	} else if (type == 'f') {
+
+		cmor_vars[id].attributes_values_num[index] = (double) *(float *) value;
+	} else if (type == 'i') {
+
+		cmor_vars[id].attributes_values_num[index] = (double) *(int *) value;
+	} else if (type == 'd') {
+
+		cmor_vars[id].attributes_values_num[index] = (double) *(double *) value;
+	} else if (type == 'l') {
+
+		cmor_vars[id].attributes_values_num[index] = (double) *(long *) value;
 	} else {
-	    strcpy( cmor_vars[id].attributes[index], "" );
+		snprintf(msg, CMOR_MAX_STRING,
+				"unknown type %c for attribute %s of variable %s "
+						"(table %s),allowed types are c,i,l,f,d", type,
+				attribute_name, cmor_vars[id].id,
+				cmor_tables[cmor_vars[id].ref_table_id].szTable_id);
+		cmor_handle_error(msg, CMOR_NORMAL);
+		cmor_pop_traceback();
+		return (1);
 	}
-
-    } else if( type == 'f' ) {
-
-	cmor_vars[id].attributes_values_num[index] =
-	        ( double ) *( float * ) value;
-    }
-    else if( type == 'i' ) {
-
-	cmor_vars[id].attributes_values_num[index] =
-	        ( double ) *( int * ) value;
-    }
-    else if( type == 'd' ) {
-
-	cmor_vars[id].attributes_values_num[index] =
-	        ( double ) *( double * ) value;
-    }
-    else if( type == 'l' ) {
-
-	cmor_vars[id].attributes_values_num[index] =
-	        ( double ) *( long * ) value;
-    }
-    else {
-	snprintf( msg, CMOR_MAX_STRING,
-		  "unknown type %c for attribute %s of variable %s "
-	          "(table %s),allowed types are c,i,l,f,d",
-		  type, attribute_name, cmor_vars[id].id,
-		  cmor_tables[cmor_vars[id].ref_table_id].szTable_id );
-	cmor_handle_error( msg, CMOR_NORMAL );
-	cmor_pop_traceback(  );
-	return( 1 );
-    }
-    cmor_pop_traceback(  );
-    return( 0 );
+	cmor_pop_traceback();
+	return (0);
 }
 
 /************************************************************************/
@@ -1941,13 +1933,12 @@ int cmor_set_var_def_att( cmor_var_def_t * var, char att[CMOR_MAX_STRING],
 /*      check that the dimension as been defined in the table           */
 /* -------------------------------------------------------------------- */
 	    n = -1;		/* not found yet */
-	    for( j = 0; j <= cmor_tables[var->table_id].naxes; j++ ) {
-		if( strcmp( dim, cmor_tables[var->table_id].axes[j].id ) ==
-		    0 ) {
-		    n = j;
-		    break;
-		}
-	    }
+			for (j = 0; j <= cmor_tables[var->table_id].naxes; j++) {
+				if (strcmp(dim, cmor_tables[var->table_id].axes[j].id) == 0) {
+					n = j;
+					break;
+				}
+			}
 	    
 	    if( n == -1 ) {
 		j = strcmp( DIMENSION_ZLEVEL, dim );

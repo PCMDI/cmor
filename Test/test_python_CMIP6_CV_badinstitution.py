@@ -18,12 +18,12 @@ import unittest
 import sys
 import os
 import tempfile
+import pdb
 
 
 class TestCase(unittest.TestCase):
 
-    def TestCase(self):
-
+    def testCMIP6(self):
         # ------------------------------------------------------
         # Copy stdout and stderr file descriptor for cmor output
         # ------------------------------------------------------
@@ -40,8 +40,9 @@ class TestCase(unittest.TestCase):
         # Try to call cmor with a bad institution_ID
         # -------------------------------------------
         try:
+            pdb.set_trace()
             cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
-            cmor.dataset_json("Test/test_python_CMIP6_CV_badinstitution.json")
+            cmor.dataset_json("Test/common_user_input.json")
 
             # ------------------------------------------
             # load Omon table and create masso variable
@@ -57,10 +58,11 @@ class TestCase(unittest.TestCase):
                 cmor.write(ivar, data[i:i])
             cmor.close()
         except:
-            os.dup2(newstdout, 1)
-            os.dup2(newstderr, 2)
-            sys.stdout = os.fdopen(newstdout, 'w', 0)
-            sys.stderr = os.fdopen(newstderr, 'w', 0)
+            pass
+        os.dup2(newstdout, 1)
+        os.dup2(newstderr, 2)
+        sys.stdout = os.fdopen(newstdout, 'w', 0)
+        sys.stderr = os.fdopen(newstderr, 'w', 0)
         f = open(tmpfile[1], 'r')
         lines = f.readlines()
         for line in lines:

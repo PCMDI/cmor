@@ -5,7 +5,7 @@ def cmor_initialisation():
     cmor.setup(inpath='Tables',
                netcdf_file_action = cmor.CMOR_REPLACE_3,
                create_subdirectories = 0)
-    cmor.dataset_json("Test/test_lon_gt_360.json")
+    cmor.dataset_json("Test/common_user_input.json")
 
 def setup_data():
     axes = [ {'table_entry': 'time',

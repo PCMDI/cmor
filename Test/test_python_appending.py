@@ -35,7 +35,7 @@ def mywrite(data = None, time_vals = None, append_to = None,cell_bounds=None):
                netcdf_file_action = mode,
                logfile = None)
 
-    cmor.dataset_json("Test/test_python_appending.json")
+    cmor.dataset_json("Test/common_user_input.json")
 
     cmor.load_table("Tables/CMIP6_Amon.json")
 

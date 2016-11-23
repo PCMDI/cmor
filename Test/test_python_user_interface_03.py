@@ -53,7 +53,7 @@ def prep_var(data):
 
 def prep_cmor():
     cmor.setup(inpath="Tables",set_verbosity=cmor.CMOR_QUIET, netcdf_file_action = cmor.CMOR_REPLACE, exit_control = cmor.CMOR_EXIT_ON_MAJOR);
-    cmor.dataset_json("Test/test_python_user_interface_03.json")
+    cmor.dataset_json("Test/common_user_input.json")
     
     tables=[]
     a = cmor.load_table("CMIP6_Omon.json")
@@ -74,7 +74,8 @@ for var in ['tas',]:
         df = data.filled(data.missing_value)
         cmor.write(var_id,df)
         cmor.close()
-        fn = "CMIP6/CMIP/CSIRO-BOM/NICAM/piControl/r1i1p1f1/Amon/%s/gn/v%s/%s_Amon_piControl_NICAM_r1i1p1f1_gn_197901-199605.nc" %(var,today,var)
+#        fn = "CMIP6/CMIP/CSIRO-BOM/NICAM/piControl/r1i1p1f1/Amon/%s/gn/v%s/%s_Amon_piControl_NICAM_r1i1p1f1_gn_197901-199605.nc" %(var,today,var)
+        fn = "CMIP6/ISMIP6/PCMDI/PCMDI-test-1-0/piControl-withism/r11i1p1f1/Amon/%s/gr/v%s/%s_Amon_piControl-withism_PCMDI-test-1-0_r11i1p1f1_gr_197901-199605.nc" %(var,today,var)                                                                                                                               
         f=cdms2.open(fn)
         s=f(var)
         if not numpy.allclose(s,data_ordered):

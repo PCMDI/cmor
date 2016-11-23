@@ -22,7 +22,7 @@ blons = numpy.arange(0,360.+dlon,dlon)
 tvars= ['hfls','tas','clt','ta']
 
 cmor.setup(inpath='Tables',netcdf_file_action=cmor.CMOR_REPLACE)
-cmor.dataset_json("Test/test_python_open_close_cmor_multiple.json")
+cmor.dataset_json("Test/common_user_input.json")
 table='CMIP6_Amon.json'
 cmor.load_table(table)
 

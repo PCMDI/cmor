@@ -17,7 +17,7 @@ PROGRAM test_cmor_grid
    double precision :: profile_ax(n_points),section_ax(n_sections)
    real :: lat(n_points,n_sections),lon(n_points,n_sections)
    real :: lat_bounds(4,n_points,n_sections),lon_bounds(4,n_points,n_sections)
-   character(len=128) :: table='CMIP6_cf3hr.json'
+   character(len=128) :: table='CMIP6_cf3hr_2.json'
    character(len=32) :: sec_units='days since 2000-01-01'
    integer :: error_flag,height_axid,time_axid,profile_axid,grid_id,section_axid,dbz_axid
    real :: lat_step,lon_step
@@ -96,7 +96,7 @@ PROGRAM test_cmor_grid
    !+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
    ! Define dataset as output from COSP, and other model details
    !+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-   error_flag = cmor_dataset_json("Test/test_cmor_grid_time_varying.json")
+   error_flag = cmor_dataset_json("Test/common_user_input.json")
    
    print *, '---------------Define axis'
    !+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -104,7 +104,7 @@ PROGRAM test_cmor_grid
    !+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
    profile_axid = cmor_axis(table=table, table_entry='location', units='1', &
                                                        length=n_points, coord_vals=profile_ax)
-   height_axid  = cmor_axis(table=table, table_entry='alt40', units='m', &
+   height_axid  = cmor_axis(table=table, table_entry='height40', units='m', &
                                                        length=n_lev, coord_vals=z_ax,cell_bounds=z_bounds)
    dbz_axid     = cmor_axis(table=table, table_entry='dbze', units='dBZ', &
                                                        length=15, coord_vals=dbz_ax,cell_bounds=dbz_bounds)

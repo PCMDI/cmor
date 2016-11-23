@@ -72,10 +72,10 @@
            "run_variant":            "forcing: black carbon aerosol only",
 
            "#source_id":              "Model Source",
-           "source_id":               "CESM1-CAM5",
+           "source_id":               "PCMDI-test-1-0",
 
            "#source":                "source title, first part is source_id",
-           "source":                 "CESM1 (CAM5): model version ca. 2009",
+           "source":                 "PCMDI-test 1.0",
 
 
            "#output_path_template":   "Template for output path directory using tables keys or global attributes",

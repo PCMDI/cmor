@@ -47,8 +47,8 @@ CONTAINS
     DO i=1,SIZE(time)
        time(i) = (it-1)*size(time)*30+(i-.5)*30!+ (i-.5)/SIZE(time)
        time_bnds(1,i) = (it-1)*size(time)*30.+(i-1)*30!+ (i-1)*1.0/SIZE(time)
-       time_bnds(2,i) = (it-1)*size(time)*30.+(i+108)*30!+ i*1.0/SIZE(time) + 29.
-       time(i) = (it-1)*size(time)*30.+(i+47.5)*30!+ i*1.0/SIZE(time) + 29.
+       time_bnds(2,i) = (it-1)*size(time)*30.+(i)*30!+ i*1.0/SIZE(time) + 29.
+!       time(i) = (it-1)*size(time)*30.+(i+47.5)*30!+ i*1.0/SIZE(time) + 29.
        !time(i) = (time_bnds(2,i)+time_bnds(1,i))/2.
        print*, i,time_bnds(1,i),time(i),time_bnds(2,i)
     END DO
@@ -162,7 +162,7 @@ PROGRAM ipcc_test_code
 
                      ! Corresponding IPCC Table A1a entry (variable name) 
   CHARACTER (LEN=10), DIMENSION(n2d) :: &
-                        entry2d = (/ 'co2' /)
+                        entry2d = (/ 'co2Clim' /)
 
 !  uninitialized variables used in communicating with CMOR:
 !  ---------------------------------------------------------
@@ -221,7 +221,7 @@ PROGRAM ipcc_test_code
   !   experiment conditions, and provide information to be included as 
   !   attributes in all CF-netCDF files written as part of this dataset.
 
-  error_flag = cmor_dataset_json("Test/test2.json")
+  error_flag = cmor_dataset_json("Test/common_user_input.json")
 
   !  Define all axes that will be needed
 

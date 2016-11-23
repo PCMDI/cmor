@@ -2,7 +2,7 @@ import cmor,numpy
 
 error_flag = cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
   
-error_flag = cmor.dataset_json("Test/test_python_joerg_6.json")
+error_flag = cmor.dataset_json("Test/common_user_input.json")
 
 cmor.load_table("CMIP6_Omon.json")
 itime = cmor.axis(table_entry="time",units='months since 2010',coord_vals=numpy.array([0,1,2,3,4.]),cell_bounds=numpy.array([0,1,2,3,4,5.]))

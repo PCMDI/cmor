@@ -101,7 +101,7 @@ program testing
                     ! Corresponding IPCC Table A1a entry (variable name) 
  CHARACTER (LEN=5), DIMENSION(n2d) :: &
 !                        entry2d = (/ 'hfls ', 'tas  ', 'mrsos', 'ps   ' /)
-                       entry2d = (/ 'sftlf ' /)
+                       entry2d = (/ 'sftof ' /)
 
 !  uninitialized variables used in communicating with CMOR:
 !  ---------------------------------------------------------
@@ -146,7 +146,7 @@ program testing
  error_flag = cmor_setup(inpath='Test', netcdf_file_action=j,&
       exit_control=k)
  print*,'Test code: done'
- error_flag = cmor_dataset_json("Test/test2.json")
+ error_flag = cmor_dataset_json("Test/common_user_input.json")
   
  print*, 'Test code: done 2 lalala'
 

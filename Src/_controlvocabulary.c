@@ -188,7 +188,7 @@ static PyObject *PyCMOR_set_variable_attribute( PyObject * self,
     if( ierr != 0 )
 	return NULL;
     Py_INCREF( Py_None );
-    return Py_None;
+    return( Py_None);
 }
 
 /************************************************************************/
@@ -278,7 +278,7 @@ static PyObject *PyCMOR_setup( PyObject * self, PyObject * args ) {
     if( ierr != 0 )
 	return NULL;
     Py_INCREF( Py_None );
-    return Py_None;
+    return( Py_None);
   
 }
 
@@ -314,88 +314,88 @@ static PyObject *PyCMOR_getincvalues( PyObject * self, PyObject * args ) {
         return NULL;
     }
     if( strcmp( att_name, "CMOR_MAX_STRING" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_MAX_STRING );
+        return( Py_BuildValue( "i", CMOR_MAX_STRING ));
     } else if( strcmp( att_name, "CMOR_MAX_ELEMENTS" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_MAX_ELEMENTS );
+        return( Py_BuildValue( "i", CMOR_MAX_ELEMENTS ));
     } else if( strcmp( att_name, "CMOR_MAX_AXES" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_MAX_AXES );
+        return( Py_BuildValue( "i", CMOR_MAX_AXES ));
     } else if( strcmp( att_name, "CMOR_MAX_VARIABLES" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_MAX_VARIABLES );
+        return( Py_BuildValue( "i", CMOR_MAX_VARIABLES ));
     } else if( strcmp( att_name, "CMOR_MAX_GRIDS" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_MAX_GRIDS );
+        return( Py_BuildValue( "i", CMOR_MAX_GRIDS ));
     } else if( strcmp( att_name, "CMOR_MAX_DIMENSIONS" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_MAX_DIMENSIONS );
+        return( Py_BuildValue( "i", CMOR_MAX_DIMENSIONS ));
     } else if( strcmp( att_name, "CMOR_MAX_ATTRIBUTES" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_MAX_ATTRIBUTES );
+        return( Py_BuildValue( "i", CMOR_MAX_ATTRIBUTES ));
     } else if( strcmp( att_name, "CMOR_MAX_ERRORS" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_MAX_ERRORS );
+        return( Py_BuildValue( "i", CMOR_MAX_ERRORS ));
     } else if( strcmp( att_name, "CMOR_MAX_TABLES" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_MAX_TABLES );
+        return( Py_BuildValue( "i", CMOR_MAX_TABLES ));
     } else if( strcmp( att_name, "CMOR_MAX_GRID_ATTRIBUTES" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_MAX_GRID_ATTRIBUTES );
+        return( Py_BuildValue( "i", CMOR_MAX_GRID_ATTRIBUTES ));
     } else if( strcmp( att_name, "CMOR_QUIET" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_QUIET );
+        return( Py_BuildValue( "i", CMOR_QUIET ));
     } else if( strcmp( att_name, "CMOR_EXIT_ON_MAJOR" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_EXIT_ON_MAJOR );
+        return( Py_BuildValue( "i", CMOR_EXIT_ON_MAJOR ));
     } else if( strcmp( att_name, "CMOR_EXIT" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_EXIT );
+        return( Py_BuildValue( "i", CMOR_EXIT ));
     } else if( strcmp( att_name, "CMOR_EXIT_ON_WARNING" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_EXIT_ON_WARNING );
+        return( Py_BuildValue( "i", CMOR_EXIT_ON_WARNING ));
     } else if( strcmp( att_name, "CMOR_VERSION_MAJOR" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_VERSION_MAJOR );
+        return( Py_BuildValue( "i", CMOR_VERSION_MAJOR ));
     } else if( strcmp( att_name, "CMOR_VERSION_MINOR" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_VERSION_MINOR );
+        return( Py_BuildValue( "i", CMOR_VERSION_MINOR ));
     } else if( strcmp( att_name, "CMOR_VERSION_PATCH" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_VERSION_PATCH );
+        return( Py_BuildValue( "i", CMOR_VERSION_PATCH ));
     } else if( strcmp( att_name, "CMOR_CF_VERSION_MAJOR" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_CF_VERSION_MAJOR );
+        return( Py_BuildValue( "i", CMOR_CF_VERSION_MAJOR ));
     } else if( strcmp( att_name, "CMOR_CF_VERSION_MINOR" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_CF_VERSION_MINOR );
+        return( Py_BuildValue( "i", CMOR_CF_VERSION_MINOR ));
     } else if( strcmp( att_name, "CMOR_WARNING" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_WARNING );
+        return( Py_BuildValue( "i", CMOR_WARNING ));
     } else if( strcmp( att_name, "CMOR_NORMAL" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_NORMAL );
+        return( Py_BuildValue( "i", CMOR_NORMAL ));
     } else if( strcmp( att_name, "CMOR_CRITICAL" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_CRITICAL );
+        return( Py_BuildValue( "i", CMOR_CRITICAL ));
     } else if( strcmp( att_name, "CMOR_N_VALID_CALS" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_N_VALID_CALS );
+        return( Py_BuildValue( "i", CMOR_N_VALID_CALS ));
     } else if( strcmp( att_name, "CMOR_PRESERVE" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_PRESERVE );
+        return( Py_BuildValue( "i", CMOR_PRESERVE ));
     } else if( strcmp( att_name, "CMOR_APPEND" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_APPEND );
+        return( Py_BuildValue( "i", CMOR_APPEND ));
     } else if( strcmp( att_name, "CMOR_REPLACE" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_REPLACE );
+        return( Py_BuildValue( "i", CMOR_REPLACE ));
     } else if( strcmp( att_name, "CMOR_PRESERVE_3" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_PRESERVE_3 );
+        return( Py_BuildValue( "i", CMOR_PRESERVE_3 ));
     } else if( strcmp( att_name, "CMOR_APPEND_3" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_APPEND_3 );
+        return( Py_BuildValue( "i", CMOR_APPEND_3 ));
     } else if( strcmp( att_name, "CMOR_REPLACE_3" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_REPLACE_3 );
+        return( Py_BuildValue( "i", CMOR_REPLACE_3 ));
     } else if( strcmp( att_name, "CMOR_PRESERVE_4" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_PRESERVE_4 );
+        return( Py_BuildValue( "i", CMOR_PRESERVE_4 ));
     } else if( strcmp( att_name, "CMOR_APPEND_4" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_APPEND_4 );
+        return( Py_BuildValue( "i", CMOR_APPEND_4 ));
     } else if( strcmp( att_name, "CMOR_REPLACE_4" ) == 0 ) {
-        return Py_BuildValue( "i", CMOR_REPLACE_4 );
+        return( Py_BuildValue( "i", CMOR_REPLACE_4 ));
     } else if( strcmp( att_name, "TABLE_CONTROL_FILENAME" ) == 0 ) {
-        return Py_BuildValue( "s", TABLE_CONTROL_FILENAME );
+        return( Py_BuildValue( "s", TABLE_CONTROL_FILENAME ));
     } else if( strcmp( att_name, "GLOBAL_CV_FILENAME" ) == 0 ) {
-        return Py_BuildValue( "s", GLOBAL_CV_FILENAME );
+        return( Py_BuildValue( "s", GLOBAL_CV_FILENAME ));
     } else if( strcmp( att_name, "CMOR_DEFAULT_FURTHERURL_TEMPLATE" ) == 0 ) {
-        return Py_BuildValue( "s", CMOR_DEFAULT_FURTHERURL_TEMPLATE );
+        return( Py_BuildValue( "s", CMOR_DEFAULT_FURTHERURL_TEMPLATE ));
     } else if( strcmp( att_name, "FILE_PATH_TEMPLATE" ) == 0 ) {
-        return Py_BuildValue( "s", FILE_PATH_TEMPLATE );
+        return( Py_BuildValue( "s", FILE_PATH_TEMPLATE ));
     } else if( strcmp( att_name, "FILE_NAME_TEMPLATE" ) == 0 ) {
-        return Py_BuildValue( "s", FILE_NAME_TEMPLATE );
+        return( Py_BuildValue( "s", FILE_NAME_TEMPLATE ));
     } else if( strcmp( att_name, "CV_CHECK_ERROR" ) == 0 ) {
-        return Py_BuildValue( "s", CV_CHECK_ERROR );
+        return( Py_BuildValue( "s", CV_CHECK_ERROR ));
     } else if( strcmp( att_name, "GLOBAL_ATT_FURTHERINFOURLTMPL" ) == 0 ) {
-        return Py_BuildValue( "s", GLOBAL_ATT_FURTHERINFOURLTMPL );
+        return( Py_BuildValue( "s", GLOBAL_ATT_FURTHERINFOURLTMPL ));
 
     } else {
         /* Return NULL Python Object */
         Py_INCREF( Py_None );
-        return Py_None;
+        return( Py_None);
     }
 }
 /************************************************************************/
@@ -434,7 +434,7 @@ static PyObject *PyCMOR_set_table( PyObject * self, PyObject * args ) {
 /* -------------------------------------------------------------------- */
 
     Py_INCREF( Py_None );
-    return Py_None;
+    return( Py_None);
 }
 
 

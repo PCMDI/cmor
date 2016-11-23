@@ -10,7 +10,7 @@
 
            "#experiment_id":         "Correspond to id found in Control Vocabulary File",
            "experiment_id":          "piControl-withism",
-           "source_id":              "MIROC-ESM",
+           "source_id":              "PCMDI-test-1-0",
            "source_type":            "AOGCM ISM",
            "#source":                "Defined int Control Vocabulary File",
 

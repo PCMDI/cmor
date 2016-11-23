@@ -2,7 +2,7 @@ import cmor
 
 error_flag = cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
 
-error_flag = cmor.dataset_json("Test/test_python_1D_var.json")
+error_flag = cmor.dataset_json("Test/common_user_input.json")
 
 cmor.load_table("CMIP6_Omon.json")
 itim = cmor.axis(  

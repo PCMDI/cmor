@@ -25,7 +25,7 @@ cmor.setup(inpath="Tables",
            netcdf_file_action = cmor.CMOR_REPLACE,
            logfile = None)
 
-cmor.dataset_json("Test/test_python_bounds_request.json")
+cmor.dataset_json("Test/common_user_input.json")
 
 cmor.load_table("Test/python_test_table_A")
 

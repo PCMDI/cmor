@@ -2,8 +2,8 @@
 #define CMOR_H
 
 #define CMOR_VERSION_MAJOR 3
-#define CMOR_VERSION_MINOR 1
-#define CMOR_VERSION_PATCH 2
+#define CMOR_VERSION_MINOR 2
+#define CMOR_VERSION_PATCH 0
 
 #define CMOR_CF_VERSION_MAJOR 1
 #define CMOR_CF_VERSION_MINOR 6
@@ -54,6 +54,7 @@
 /*      Define AXIS attribue strings                                    */
 /* -------------------------------------------------------------------- */
 
+#define CMOR_AXIS_ENTRY_FILE     GLOBAL_INTERNAL"AXIS_ENTRY_FILE"
 #define AXIS_ATT_REQUIRED        "required"
 #define AXIS_ATT_ID              "id"
 #define AXIS_ATT_CLIMATOLOGY     "climatology"
@@ -87,12 +88,16 @@
 #define TABLE_FOUND               -1
 #define TABLE_ERROR                1
 #define TABLE_SUCCESS              0
+#define TABLE_NOTFOUND            -2
 
 #define FILE_ERROR                 1
 #define FILE_PATH_TEMPLATE         "output_path_template"
 #define FILE_NAME_TEMPLATE         "output_file_template"
 #define FILE_OUTPUTPATH            "outpath"
 
+#define FORMULA_VAR_FILENAME          "CMIP6_formula_terms.json"
+#define AXIS_ENTRY_FILENAME           "CMIP6_coordinate.json"
+#define CMOR_FORMULA_VAR_FILE         GLOBAL_INTERNAL"FORMULA_VAR_FILE"
 #define VARIABLE_ATT_UNITS            "units"
 #define VARIABLE_ATT_MISSINGVALUES    "missing_values"
 #define VARIABLE_ATT_FILLVAL          "_FillValue"
@@ -171,7 +176,7 @@
 #define GLOBAL_ATT_FURTHERINFOURL     "further_info_url"
 #define GLOBAL_ATT_FURTHERINFOURLTMPL GLOBAL_INTERNAL"further_info_url_tmpl"
 #define GLOBAL_ATT_GRID_LABEL         "grid_label"
-#define GLOBAL_ATT_GRID_RESOLUTION    "grid_resolution"
+#define GLOBAL_ATT_GRID_RESOLUTION    "nominal_resolution"
 #define GLOBAL_ATT_TITLE_MSG          "%s model output prepared for %s"
 #define GLOBAL_ATT_EXTERNAL_VAR       "external_variables"
 #define GLOBAL_ATT_MIP_ERA            "mip_era"
@@ -186,15 +191,17 @@
 #define JSON_KEY_CV_ENTRY             "CV"
 
 #define CV_KEY_REQUIRED_GBL_ATTRS     "required_global_attributes"
-#define CV_KEY_INSTITUTION_IDS        "institution_ids"
-#define CV_KEY_EXPERIMENT_IDS         "experiment_ids"
-#define CV_KEY_SOURCE_IDS             "source_ids"
-#define CV_KEY_GRID_LABELS            "grid_labels"
-#define CV_KEY_GRID_RESOLUTION        "grid_resolution"
-#define CV_KEY_GRIDLABEL_GR            "gr"
+#define CV_KEY_INSTITUTION_IDS        "institution_id"
+#define CV_KEY_EXPERIMENT_IDS         "experiment_id"
+#define CV_KEY_SOURCE_IDS             "source_id"
+#define CV_KEY_GRID_LABELS            "grid_label"
+#define CV_KEY_GRID_RESOLUTION        "nominal_resolution"
+#define CV_KEY_GRIDLABEL_GR           "gr"
+#define CV_KEY_SOURCE_LABEL           "label"
 
-#define CV_EXP_ATTR_ADDSOURCETYPE     "additional_source_type"
-#define CV_EXP_ATTR_REQSOURCETYPE     "source_type"
+
+#define CV_EXP_ATTR_ADDSOURCETYPE     "additional_allowed_model_components"
+#define CV_EXP_ATTR_REQSOURCETYPE     "required_model_components"
 
 #define GLOBAL_INT_ATT_PARENT_EXPT    GLOBAL_INTERNAL"parent_experiment"
 #define GLOBAL_ATT_VERSION            GLOBAL_INTERNAL"version"
