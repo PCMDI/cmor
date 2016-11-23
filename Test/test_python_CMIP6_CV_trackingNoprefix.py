@@ -19,7 +19,6 @@ import sys
 import os
 import tempfile
 import cdms2
-import pdb
 
 
 # ==============================
@@ -40,10 +39,10 @@ class TestCase(unittest.TestCase):
         # --------------
         # Create tmpfile
         # --------------
-#        self.tmpfile = tempfile.mkstemp()
-#        os.dup2(self.tmpfile[0], 1)
-#        os.dup2(self.tmpfile[0], 2)
-#        os.close(self.tmpfile[0])
+        self.tmpfile = tempfile.mkstemp()
+        os.dup2(self.tmpfile[0], 1)
+        os.dup2(self.tmpfile[0], 2)
+        os.close(self.tmpfile[0])
 
     def getAssertTest(self):
         f = open(self.tmpfile[1], 'r')
@@ -88,6 +87,10 @@ class TestCase(unittest.TestCase):
             self.assertNotIn("hdl:21.14100/", a)
         except:
             raise
+
+    def tearDown(self):                                                                                                                        
+        import shutil                                                                                                                          
+        shutil.rmtree("./CMIP6")                                                                                                               
 
 
 if __name__ == '__main__':

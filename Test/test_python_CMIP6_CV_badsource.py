@@ -43,6 +43,7 @@ class TestCase(unittest.TestCase):
         try:
             cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
             cmor.dataset_json("Test/common_user_input.json")
+            cmor.set_cur_dataset_attribute("source", "bad_source")
 
             # ------------------------------------------
             # load Omon table and create masso variable
@@ -71,6 +72,10 @@ class TestCase(unittest.TestCase):
                 break
         f.close()
         os.unlink(tmpfile[1])
+
+    def tearDown(self):                                                                                                                        
+        import shutil                                                                                                                          
+        shutil.rmtree("./CMIP6")                                                                                                               
 
 
 if __name__ == '__main__':

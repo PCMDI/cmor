@@ -16,6 +16,8 @@ import unittest
 import sys
 import os
 import tempfile
+import numpy
+import shutil
 
 
 def run():
@@ -56,7 +58,8 @@ class TestdirectoryMethods(unittest.TestCase):
         # -------------------------------------------
         cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
         try:
-            cmor.dataset_json("Test/common_user_input.json")
+            cmor.dataset_json("Test/baddirectory.json")
+
         except:
             testOK = self.getAssertTest()
             os.dup2(self.newstdout, 1)
@@ -64,6 +67,8 @@ class TestdirectoryMethods(unittest.TestCase):
             sys.stdout = os.fdopen(self.newstdout, 'w', 0)
             sys.stderr = os.fdopen(self.newstderr, 'w', 0)
             self.assertIn("unable to create this directory", testOK)
+
+
 
 
 if __name__ == '__main__':
