@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.beta.42", 
+        "data_specs_version": "01.beta.42.01", 
         "table_id": "Table LIfxant", 
         "realm": "", 
         "frequency": "fx", 
         "cmor_version": "3.2", 
-        "table_date": "22 November 2016", 
+        "table_date": "23 November 2016", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "", 

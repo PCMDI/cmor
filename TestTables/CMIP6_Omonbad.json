@@ -4,7 +4,7 @@
         "table_id": "Table Omon", 
         "realm": "ocean", 
         "frequency": "mon", 
-        "cmor_version": "3.1", 
+        "cmor_version": "3.2", 
         "table_date": "10 August 2016", 
         "missing_value": "1e20", 
         "product": "output", 

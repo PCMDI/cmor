@@ -4,7 +4,7 @@
         "table_id": "Table cf3hr", 
         "realm": "atmos", 
         "frequency": "3hr", 
-        "cmor_version": "3.1", 
+        "cmor_version": "3.2", 
         "table_date": "04 October 2016", 
         "missing_value": "1e20", 
         "product": "output", 
