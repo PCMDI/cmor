@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.beta.38", 
+        "data_specs_version": "01.beta.42", 
         "table_id": "Table AmonAdj", 
         "realm": "atmos", 
         "frequency": "mon", 
         "cmor_version": "3.2", 
-        "table_date": "15 November 2016", 
+        "table_date": "22 November 2016", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "30.00000", 

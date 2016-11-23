@@ -1,15 +1,15 @@
 {
     "Header": {
-        "data_specs_version": "01.beta.38", 
+        "data_specs_version": "01.beta.42", 
         "table_id": "Table cf3hr", 
         "realm": "atmos", 
         "frequency": "3hr", 
         "cmor_version": "3.2", 
-        "table_date": "15 November 2016", 
+        "table_date": "22 November 2016", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "0.125000", 
-        "generic_levels": "alevhalf alevel", 
+        "generic_levels": "", 
         "mip_era": "CMIP6", 
         "Conventions": "CF-1.6 CMIP-6.0"
     }, 

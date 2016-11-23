@@ -477,7 +477,7 @@
             "positive": "down", 
             "requested": "", 
             "requested_bounds": "", 
-            "stored_direction": "decreasing", 
+            "stored_direction": "increasing", 
             "tolerance": "", 
             "type": "", 
             "valid_max": "12000.0", 

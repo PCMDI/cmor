@@ -6,12 +6,6 @@
             "dimensions": "alevel", 
             "type": "double"
         }, 
-        "ps1": {
-            "long_name": "Surface Air Pressure", 
-            "units": "Pa", 
-            "dimensions": "longitude latitude time1", 
-            "type": "real"
-        }, 
         "ps": {
             "long_name": "Surface Air Pressure", 
             "units": "Pa", 
