@@ -13,7 +13,7 @@
             "further_info_url",
             "grid",
             "grid_label",
-            "grid_resolution",
+            "nominal_resolution",
             "initialization_index",
             "institution",
             "institution_id",
@@ -198,7 +198,7 @@
             "gr9z",
             "grz"
         ],
-        "grid_resolution":[
+        "nominal_resolution":[
             "10 km",
             "100 km",
             "1000 km",
