@@ -18,7 +18,6 @@ import unittest
 import sys
 import os
 import tempfile
-import pdb
 
 
 class TestCase(unittest.TestCase):
@@ -40,9 +39,10 @@ class TestCase(unittest.TestCase):
         # Try to call cmor with a bad institution_ID
         # -------------------------------------------
         try:
-            pdb.set_trace()
             cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
             cmor.dataset_json("Test/common_user_input.json")
+            cmor.set_cur_dataset_attribute("institution", "NCC2")
+
 
             # ------------------------------------------
             # load Omon table and create masso variable
@@ -66,11 +66,15 @@ class TestCase(unittest.TestCase):
         f = open(tmpfile[1], 'r')
         lines = f.readlines()
         for line in lines:
-            if line.find('Warning:') != -1:
+            if line.find('Your attribute') != -1:
                 self.assertIn('bad institution', line.strip())
                 break
         f.close()
         os.unlink(tmpfile[1])
+
+    def tearDown(self):                                                                                                                        
+        import shutil                                                                                                                          
+        shutil.rmtree("./CMIP6")                                                                                                               
 
 
 if __name__ == '__main__':

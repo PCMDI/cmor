@@ -39,16 +39,16 @@ class TestCase(unittest.TestCase):
         # --------------
         # Create tmpfile
         # --------------
-#        self.tmpfile = tempfile.mkstemp()
-#        os.dup2(self.tmpfile[0], 1)
-#        os.dup2(self.tmpfile[0], 2)
-#        os.close(self.tmpfile[0])
+        self.tmpfile = tempfile.mkstemp()
+        os.dup2(self.tmpfile[0], 1)
+        os.dup2(self.tmpfile[0], 2)
+        os.close(self.tmpfile[0])
 
     def getAssertTest(self):
         f = open(self.tmpfile[1], 'r')
         lines = f.readlines()
         for line in lines:
-            if line.find('Error:') != -1:
+            if line.find('Your ') != -1:
                 testOK = line.strip()
                 break
         f.close()
@@ -62,6 +62,7 @@ class TestCase(unittest.TestCase):
             # -------------------------------------------
             cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
             cmor.dataset_json("Test/common_user_input.json")
+            cmor.set_cur_dataset_attribute("source_type", "AOGCM ISM BGCM LAND")
 
             # ------------------------------------------
             # load Omon table and create masso variable
@@ -75,6 +76,8 @@ class TestCase(unittest.TestCase):
             data = numpy.random.random(5)
             for i in range(0, 5):
                 a = cmor.write(ivar, data[i:i])
+            cmor.close()                                                                                                                       
+
         except:
             os.dup2(self.newstdout, 1)
             os.dup2(self.newstderr, 2)
@@ -84,7 +87,11 @@ class TestCase(unittest.TestCase):
         # ------------------------------------------
         # Check error after signal handler is back
         # ------------------------------------------
-        self.assertIn("\"AOGCM ISM\"", testOK)
+        self.assertIn("\"AOGCM ISM BGCM LAND\"", testOK)
+
+    def tearDown(self):                                                                                                                        
+        import shutil                                                                                                                          
+        shutil.rmtree("./CMIP6")                                                                                                               
 
 
 if __name__ == '__main__':

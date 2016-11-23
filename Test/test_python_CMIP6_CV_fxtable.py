@@ -67,7 +67,7 @@ class TestCase(unittest.TestCase):
 
         data = lats[:, numpy.newaxis] * lons[numpy.newaxis, :]
 
-        data = (data + 29000) / 750. + 233.2
+        data = (data + 1e10) / 750. + 233.2
 
         ilat = cmor.axis(table_entry='latitude', coord_vals=lats, cell_bounds=blats, units='degrees_north')
         ilon = cmor.axis(table_entry='longitude', coord_vals=lons, cell_bounds=blons, units='degrees_east')
@@ -75,7 +75,7 @@ class TestCase(unittest.TestCase):
         # ------------------------------------------
         # load Omon table and create masso variable
         # ------------------------------------------
-        ivar = cmor.variable(table_entry="areacello", axis_ids=[ilat, ilon], units='m2')
+        ivar = cmor.variable(table_entry="areacella", axis_ids=[ilat, ilon], units='m2')
 
         cmor.write(ivar, data)
         cmor.close()
@@ -84,6 +84,9 @@ class TestCase(unittest.TestCase):
         sys.stdout = os.fdopen(self.newstdout, 'w', 0)
         sys.stderr = os.fdopen(self.newstderr, 'w', 0)
 
+    def tearDown(self):                                                                                                                        
+        import shutil                                                                                                                          
+        shutil.rmtree("./CMIP6")                                                                                                               
 
 if __name__ == '__main__':
     run()

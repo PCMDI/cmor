@@ -70,6 +70,7 @@ class TestCase(unittest.TestCase):
                 netcdf_file_action=cmor.CMOR_REPLACE)
 
             cmor.dataset_json("Test/common_user_input.json")
+            cmor.set_cur_dataset_attribute("grid_label", "gs1n")
 
             # ------------------------------------------
             # load Omon table and create masso variable
@@ -83,6 +84,7 @@ class TestCase(unittest.TestCase):
             data = numpy.random.random(5)
             for i in range(0, 5):
                 cmor.write(ivar, data[i:i])
+            cmor.close()
         except:
             os.dup2(self.newstdout, 1)
             os.dup2(self.newstderr, 2)
@@ -94,6 +96,10 @@ class TestCase(unittest.TestCase):
             # Check error after signal handler is back
             # ------------------------------------------
             self.assertIn("\"gs1n\"", testOK)
+
+    def tearDown(self):                                                                                                                        
+        import shutil                                                                                                                          
+        shutil.rmtree("./CMIP6")                                                                                                               
 
 
 if __name__ == '__main__':
