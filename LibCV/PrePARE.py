@@ -128,15 +128,7 @@ class checkCMIP6(object):
         # find variable that contains a "history" (should only be one)
         # -------------------------------------------------------------------
         self.var = [var for var in self.variables if 'history' in self.infile.listattribute(var)]
-        self.var =["ts"]
         if((self.var == []) or (len(self.var) > 1)):
-            print bcolors.FAIL
-            print "!!!!!!!!!!!!!!!!!!!!!!!!!"
-            print "! Error:  The input file does not have an history attribute and the CMIP6 variable could not be found"
-            print "! Check your file or use CMOR 3.x to achieve compliance for ESGF publication."
-            print "!!!!!!!!!!!!!!!!!!!!!!!!!"
-            print bcolors.ENDC
-            
             raise KeyboardInterrupt
 
         self.keys = self.infile.listattribute(var)
@@ -153,6 +145,9 @@ class checkCMIP6(object):
         cmip6_cv.set_cur_dataset_attribute(cmip6_cv.FILE_PATH_TEMPLATE, cmip6_cv.CMOR_DEFAULT_PATH_TEMPLATE)
         cmip6_cv.set_cur_dataset_attribute(cmip6_cv.FILE_NAME_TEMPLATE, cmip6_cv.CMOR_DEFAULT_FILE_TEMPLATE)
         cmip6_cv.set_cur_dataset_attribute(cmip6_cv.GLOBAL_ATT_FURTHERINFOURLTMPL, cmip6_cv.CMOR_DEFAULT_FURTHERURL_TEMPLATE)
+        cmip6_cv.set_cur_dataset_attribute(cmip6_cv.CMOR_AXIS_ENTRY_FILE, "CMIP6_coordinate.json") 
+        cmip6_cv.set_cur_dataset_attribute(cmip6_cv.CMOR_FORMULA_VAR_FILE, "CMIP6_formula_terms.json")
+
 
         # -------------------------------------------------------------------
         # Create alist of all Global Attributes and set "dataset"
@@ -269,7 +264,7 @@ if(__name__ == '__main__'):
         print bcolors.FAIL
         print "!!!!!!!!!!!!!!!!!!!!!!!!!"
         print "! Error:  The input file is not CMIP6 compliant"
-        print "! Check your file or use CMOR 3.x to achieve compliance for ESGF publication."
+        print "! Check your file or use CMOR 3.2 to achieve compliance for ESGF publication."
         print "!!!!!!!!!!!!!!!!!!!!!!!!!"
         print bcolors.ENDC
         sys.exit(-1)
