@@ -629,6 +629,7 @@ void cmor_CV_checkExperiment( cmor_CV_def_t *CV){
     char szExperiment_ID[CMOR_MAX_STRING];
     char msg[CMOR_MAX_STRING];
     char szValue[CMOR_MAX_STRING];
+    char szExpValue[CMOR_MAX_STRING];
     char CV_Filename[CMOR_MAX_STRING];
     int rc;
     int nObjects;
@@ -636,6 +637,7 @@ void cmor_CV_checkExperiment( cmor_CV_def_t *CV){
     int j;
     int bWarning;
 
+    szExpValue[0] = '\0';
     cmor_add_traceback("_CV_checkExperiment");
     cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
     cmor_get_cur_dataset_attribute(GLOBAL_ATT_EXPERIMENTID, szExperiment_ID);
@@ -695,6 +697,7 @@ void cmor_CV_checkExperiment( cmor_CV_def_t *CV){
             		 }
             	}
 				if (j == CV_experiment_attr->anElements) {
+					strcpy(szExpValue, CV_experiment_attr->aszValue[0] );
 					bWarning = TRUE;
 				}
 			} else
@@ -704,6 +707,7 @@ void cmor_CV_checkExperiment( cmor_CV_def_t *CV){
 				if( CV_experiment_attr->szValue[0] != '\0') {
 					if (strncmp(CV_experiment_attr->szValue, szValue,
 							CMOR_MAX_STRING) != 0) {
+						strcpy(szExpValue,CV_experiment_attr->szValue);
 						bWarning = TRUE;
 					}
 				}
@@ -716,7 +720,7 @@ void cmor_CV_checkExperiment( cmor_CV_def_t *CV){
 							"as defined for experiment_id \"%s\".\n! \n!  "
 							"See Control Vocabulary JSON file.(%s)\n! ",
 					CV_experiment_attr->key, szValue,
-					CV_experiment_attr->szValue, CV_experiment->key,
+					szExpValue, CV_experiment->key,
 					CV_Filename);
 			cmor_handle_error(msg, CMOR_WARNING);
 		}
