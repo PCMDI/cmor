@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.beta.42.01", 
+        "data_specs_version": "01.beta.44", 
         "table_id": "Table LIfxgre", 
-        "realm": "", 
+        "realm": "landIce", 
         "frequency": "fx", 
         "cmor_version": "3.2", 
-        "table_date": "23 November 2016", 
+        "table_date": "02 December 2016", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "", 
@@ -15,7 +15,7 @@
     }, 
     "variable_entry": {
         "areacellg": {
-            "modeling_realm": "", 
+            "modeling_realm": "land", 
             "standard_name": "cell_area", 
             "units": "m2", 
             "cell_methods": "", 
@@ -32,7 +32,7 @@
             "ok_max_mean_abs": ""
         }, 
         "hfgeoubed": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce", 
             "standard_name": "upward_geothermal_heat_flux_at_ground_level", 
             "units": "W m-2", 
             "cell_methods": "time: mean", 
@@ -49,7 +49,7 @@
             "ok_max_mean_abs": ""
         }, 
         "lithk": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce", 
             "standard_name": "land_ice_thickness", 
             "units": "m", 
             "cell_methods": "time: mean", 
@@ -66,7 +66,7 @@
             "ok_max_mean_abs": ""
         }, 
         "topg": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce", 
             "standard_name": "bedrock_altitude", 
             "units": "m", 
             "cell_methods": "time: mean", 

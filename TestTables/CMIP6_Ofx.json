@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.beta.42.01", 
+        "data_specs_version": "01.beta.44", 
         "table_id": "Table Ofx", 
         "realm": "ocean", 
         "frequency": "fx", 
         "cmor_version": "3.2", 
-        "table_date": "23 November 2016", 
+        "table_date": "02 December 2016", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "", 
@@ -50,6 +50,23 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
+        "cpocean": {
+            "modeling_realm": "ocean", 
+            "standard_name": "specific_heat_capacity_of_seawater", 
+            "units": "J kg-1 K-1", 
+            "cell_methods": "", 
+            "cell_measures": "", 
+            "long_name": "Sea water specific heat capacity", 
+            "comment": "A global constant used to convert between temperature flux and heat flux, and to compute heat content of sea water.", 
+            "dimensions": "", 
+            "out_name": "cpocean", 
+            "type": "real", 
+            "positive": "", 
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
+        }, 
         "deptho": {
             "modeling_realm": "ocean", 
             "standard_name": "sea_floor_depth_below_geoid", 
@@ -83,6 +100,23 @@
             "valid_max": "1e+15", 
             "ok_min_mean_abs": "0.0", 
             "ok_max_mean_abs": "1e+15"
+        }, 
+        "rhozero": {
+            "modeling_realm": "ocean", 
+            "standard_name": "reference_sea_water_density_for_Boussinesq_approximation", 
+            "units": "kg m-3", 
+            "cell_methods": "", 
+            "cell_measures": "", 
+            "long_name": "Boussinesq reference density", 
+            "comment": "Relevant only for Boussinesq ocean models", 
+            "dimensions": "", 
+            "out_name": "rhozero", 
+            "type": "real", 
+            "positive": "", 
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }
     }
 }

@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.beta.42.01", 
+        "data_specs_version": "01.beta.44", 
         "table_id": "Table aerhourly", 
         "realm": "aerosol", 
         "frequency": "hr", 
         "cmor_version": "3.2", 
-        "table_date": "23 November 2016", 
+        "table_date": "02 December 2016", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "0.017361", 
@@ -67,7 +67,7 @@
         }, 
         "sfpm25": {
             "modeling_realm": "aerosol", 
-            "standard_name": "mass_fraction_of_pm2p5_ambient_aerosol_in_air", 
+            "standard_name": "mass_fraction_of_pm2p5_ambient_aerosol_particles_in_air", 
             "units": "kg kg-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 

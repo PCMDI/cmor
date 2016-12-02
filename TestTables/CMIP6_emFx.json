@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.beta.42.01", 
+        "data_specs_version": "01.beta.44", 
         "table_id": "Table emFx", 
         "realm": "atmos", 
         "frequency": "fx", 
         "cmor_version": "3.2", 
-        "table_date": "23 November 2016", 
+        "table_date": "02 December 2016", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "0.00000", 

@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.beta.42.01", 
+        "data_specs_version": "01.beta.44", 
         "table_id": "Table 6hrPlevpt", 
         "realm": "atmos", 
         "frequency": "6hr", 
         "cmor_version": "3.2", 
-        "table_date": "23 November 2016", 
+        "table_date": "02 December 2016", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "0.250000", 
@@ -105,7 +105,7 @@
             "units": "1.0", 
             "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
-            "long_name": "graupel_mixing_ratio", 
+            "long_name": "Graupel Mixing Ratio", 
             "comment": "Graupel mixing ratio", 
             "dimensions": "longitude latitude plev27 time1", 
             "out_name": "grplmxrat27", 
