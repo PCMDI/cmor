@@ -54,7 +54,7 @@ setup (name = "CMOR",
        url = "http://cmor.llnl.gov/",
        packages = ['cmor', 'cmip6_cv', 'cmor.Test' ],
        package_dir = {'cmor': 'Lib', 'cmip6_cv': 'LibCV', 'cmor.Test':'Test'},
-       scripts=['scripts/Pre-PARE.py' ],
+       scripts=['scripts/PrePARE.py' ],
        ext_modules = [
             Extension('cmor._cmor',
                   srcfiles,

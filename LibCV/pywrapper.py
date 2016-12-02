@@ -201,6 +201,17 @@ def has_variable_attribute(var_id, name):
         return False
 
 
+def list_variable_attributes(var_id):
+    """List all attribute from a cmor variable
+    Usage:
+      cmip6_cv.list_variable_attribute(var_id)
+    Where:
+      var_id: is cmor variable id
+    Returns none if the variable as no attribute
+    """
+    var_list = _cmip6_cv.list_variable_attributes(var_id)
+    return var_list
+
 def get_variable_attribute(var_id, name):
     """Gets an attribute from a cmor variable
     Usage:
@@ -324,6 +335,12 @@ def get_CV_Error():
     ierr = _cmip6_cv.get_CV_Error()
     return(ierr)
 
+def set_CV_Error():
+    '''
+    set CV_ERROR to 1.
+    '''
+    _cmip6_cv.set_CV_Error()
+    return
 
 def check_furtherinfourl(table_id):
     '''

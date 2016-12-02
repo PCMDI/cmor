@@ -192,6 +192,16 @@ static PyObject *PyCMOR_set_variable_attribute( PyObject * self,
 }
 
 /************************************************************************/
+/*                         PyCV_set_Error()                             */
+/************************************************************************/
+static PyObject *PyCV_set_Error( PyObject * self,
+                                                PyObject * args ) {
+    cmor_is_setup();
+    CV_ERROR=1;
+    return( Py_None );
+}
+
+/************************************************************************/
 /*                         PyCV_get_Error()                             */
 /************************************************************************/
 static PyObject *PyCV_get_Error( PyObject * self,
@@ -202,7 +212,68 @@ static PyObject *PyCV_get_Error( PyObject * self,
     cv_error = get_CV_Error();
     return( Py_BuildValue( "i", cv_error ) );
 }
+/************************************************************************/
+/*                 PyCMOR_get_variable_attribute_list()                 */
+/************************************************************************/
+static PyObject* PyCMOR_get_variable_attribute_list(PyObject* self,
+						PyObject* args){
 
+	int index;
+    int var_id;
+    cmor_is_setup();
+    char attribute_name[CMOR_MAX_STRING];
+    char type;
+    int i;
+
+    if( !PyArg_ParseTuple( args, "i", &var_id ) )
+	return NULL;
+
+	index = cmor_vars[var_id].nattributes;
+	if( index == -1 ) return NULL;
+
+    PyObject* dico = PyDict_New();
+    for(i = 0; i < index; i++) {
+    	strcpy(attribute_name, cmor_vars[var_id].attributes[i]);
+    	if(attribute_name[0] == '\0') continue;
+    	type = cmor_vars[var_id].attributes_type[i];
+    	    if( type == 'c' ) {
+            PyDict_SetItemString(dico,
+            		cmor_vars[var_id].attributes[i],
+            		Py_BuildValue("s", cmor_vars[var_id].
+            						attributes_values_char[i]));
+    	    }
+    	    else if( type == 'f' ) {
+    	        PyDict_SetItemString(dico,
+                		cmor_vars[var_id].attributes[i],
+    	        		Py_BuildValue("f",
+    	        		(float) cmor_vars[var_id].
+									attributes_values_num[i]));
+    	    }
+    	    else if( type == 'i' ) {
+    	        PyDict_SetItemString(dico,
+                		 cmor_vars[var_id].attributes[i],
+    	        		Py_BuildValue("i",
+    	        		(int) cmor_vars[var_id].
+									attributes_values_num[i]));
+    	    }
+    	    else if( type == 'l' ){
+    	        PyDict_SetItemString(dico,
+                		cmor_vars[var_id].attributes[i],
+    	        		Py_BuildValue("l",
+    	        		(long) cmor_vars[var_id].
+									attributes_values_num[i]));
+    	    }
+    	    else {
+    	    	PyDict_SetItemString(dico,
+            		cmor_vars[var_id].attributes[i],
+            		Py_BuildValue("d",
+            			(double) cmor_vars[var_id].
+									attributes_values_num[i]));
+    	    }
+    }
+    cmor_pop_traceback(  );
+    return(dico);
+}
 /************************************************************************/
 /*                   PyCMOR_get_variable_attribute()                    */
 /************************************************************************/
@@ -442,7 +513,6 @@ static PyObject *PyCMOR_set_table( PyObject * self, PyObject * args ) {
 }
 
 
-
 static PyMethodDef MyExtractMethods[] = {
     {"setup",                     PyCMOR_setup, METH_VARARGS},
     {"load_table",                PyCMOR_load_table, METH_VARARGS},
@@ -458,7 +528,9 @@ static PyMethodDef MyExtractMethods[] = {
     {"get_variable_attribute",    PyCMOR_get_variable_attribute,
             METH_VARARGS},
     {"has_variable_attribute",    PyCMOR_has_variable_attribute,
-           METH_VARARGS},
+            METH_VARARGS},
+	{"list_variable_attributes",  PyCMOR_get_variable_attribute_list,
+		    METH_VARARGS},
     {"set_institution",           PyCV_setInstitution, METH_VARARGS },
     {"check_sourceID",            PyCV_checkSourceID, METH_VARARGS },
     {"check_grids",               PyCV_checkGrids, METH_VARARGS },
@@ -469,6 +541,7 @@ static PyMethodDef MyExtractMethods[] = {
     {"getCMOR_defaults_include",  PyCMOR_getincvalues, METH_VARARGS},
     {"setup_variable",            PyCV_setup_variable, METH_VARARGS},
     {"get_CV_Error",              PyCV_get_Error, METH_VARARGS},
+    {"set_CV_Error",              PyCV_set_Error, METH_VARARGS},
 
     {NULL, NULL}		/*sentinel */
 };
