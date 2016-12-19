@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.beta.44", 
+        "data_specs_version": "01.beta.45", 
         "table_id": "Table em1hrclimmon", 
         "realm": "atmos", 
         "frequency": "1hrClimMon", 
         "cmor_version": "3.2", 
-        "table_date": "02 December 2016", 
+        "table_date": "19 December 2016", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "0.017361", 
@@ -71,7 +71,7 @@
             "units": "W m-2", 
             "cell_methods": "area: mean time: mean within days time: mean over days", 
             "cell_measures": "area: areacella", 
-            "long_name": "toa outgoing shortwave radiation", 
+            "long_name": "Top-of-Atmosphere Outgoing Shortwave Radiation", 
             "comment": "at the top of the atmosphere", 
             "dimensions": "longitude latitude time3", 
             "out_name": "rsut", 

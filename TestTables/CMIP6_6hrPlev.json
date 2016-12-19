@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.beta.44", 
+        "data_specs_version": "01.beta.45", 
         "table_id": "Table 6hrPlev", 
         "realm": "atmos", 
         "frequency": "6hr", 
         "cmor_version": "3.2", 
-        "table_date": "02 December 2016", 
+        "table_date": "19 December 2016", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "0.250000", 
@@ -94,8 +94,8 @@
             "out_name": "psl", 
             "type": "real", 
             "positive": "", 
-            "valid_min": "92500.0", 
-            "valid_max": "113000.0", 
+            "valid_min": "", 
+            "valid_max": "", 
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
@@ -128,8 +128,8 @@
             "out_name": "ta", 
             "type": "real", 
             "positive": "", 
-            "valid_min": "144.0", 
-            "valid_max": "330.0", 
+            "valid_min": "", 
+            "valid_max": "", 
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
@@ -162,8 +162,8 @@
             "out_name": "ua", 
             "type": "real", 
             "positive": "", 
-            "valid_min": "-90.0", 
-            "valid_max": "145.0", 
+            "valid_min": "", 
+            "valid_max": "", 
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
@@ -247,8 +247,8 @@
             "out_name": "va", 
             "type": "real", 
             "positive": "", 
-            "valid_min": "-80.0", 
-            "valid_max": "80.0", 
+            "valid_min": "", 
+            "valid_max": "", 
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 

@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.beta.44", 
+        "data_specs_version": "01.beta.45", 
         "table_id": "Table aerdaily", 
         "realm": "aerosol", 
         "frequency": "day", 
         "cmor_version": "3.2", 
-        "table_date": "02 December 2016", 
+        "table_date": "19 December 2016", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "1.00000", 

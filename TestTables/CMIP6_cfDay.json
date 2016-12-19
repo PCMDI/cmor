@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.beta.44", 
+        "data_specs_version": "01.beta.45", 
         "table_id": "Table cfDay", 
         "realm": "atmos", 
         "frequency": "day", 
         "cmor_version": "3.2", 
-        "table_date": "02 December 2016", 
+        "table_date": "19 December 2016", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "1.00000", 
@@ -133,7 +133,7 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "clisccp7c": {
+        "clisccp": {
             "modeling_realm": "atmos", 
             "standard_name": "isccp_cloud_area_fraction", 
             "units": "%", 
@@ -142,7 +142,7 @@
             "long_name": "ISCCP Cloud Area Fraction", 
             "comment": "Percentage cloud cover in optical depth categories.", 
             "dimensions": "longitude latitude plev7c tau time", 
-            "out_name": "clisccp7c", 
+            "out_name": "clisccp", 
             "type": "real", 
             "positive": "", 
             "valid_min": "", 

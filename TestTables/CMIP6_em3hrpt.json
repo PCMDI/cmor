@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.beta.44", 
+        "data_specs_version": "01.beta.45", 
         "table_id": "Table em3hrpt", 
         "realm": "atmos", 
         "frequency": "3hr", 
         "cmor_version": "3.2", 
-        "table_date": "02 December 2016", 
+        "table_date": "19 December 2016", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "0.125000", 
@@ -99,7 +99,7 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "clisccp7c": {
+        "clisccp": {
             "modeling_realm": "atmos", 
             "standard_name": "isccp_cloud_area_fraction", 
             "units": "%", 
@@ -108,7 +108,7 @@
             "long_name": "ISCCP Cloud Area Fraction", 
             "comment": "Percentage cloud cover in optical depth categories.", 
             "dimensions": "longitude latitude plev7c tau time1", 
-            "out_name": "clisccp7c", 
+            "out_name": "clisccp", 
             "type": "real", 
             "positive": "", 
             "valid_min": "", 
@@ -201,7 +201,7 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "jpdftaureicemodis7c": {
+        "jpdftaureicemodis": {
             "modeling_realm": "atmos", 
             "standard_name": "cloud_area_fraction_in_atmosphere_layer", 
             "units": "%", 
@@ -210,7 +210,7 @@
             "long_name": "MODIS Optical Thickness-Particle Size joint  distribution, ice", 
             "comment": "", 
             "dimensions": "longitude latitude plev7c effectRadIc|tau time1", 
-            "out_name": "jpdftaureicemodis7c", 
+            "out_name": "jpdftaureicemodis", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -218,7 +218,7 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "jpdftaureliqmodis7c": {
+        "jpdftaureliqmodis": {
             "modeling_realm": "atmos", 
             "standard_name": "cloud_area_fraction_in_atmosphere_layer", 
             "units": "%", 
@@ -227,7 +227,7 @@
             "long_name": "MODIS Optical Thickness-Particle Size joint  distribution, liquid", 
             "comment": "", 
             "dimensions": "longitude latitude plev7c effectRadLi|tau time1", 
-            "out_name": "jpdftaureliqmodis7c", 
+            "out_name": "jpdftaureliqmodis", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -279,23 +279,6 @@
             "comment": "Air Temperature", 
             "dimensions": "longitude latitude plev7h time1", 
             "out_name": "ta7h", 
-            "type": "", 
-            "positive": "", 
-            "valid_min": "", 
-            "valid_max": "", 
-            "ok_min_mean_abs": "", 
-            "ok_max_mean_abs": ""
-        }, 
-        "tas": {
-            "modeling_realm": "atmos", 
-            "standard_name": "air_temperature", 
-            "units": "K", 
-            "cell_methods": "time: point", 
-            "cell_measures": "area: areacella", 
-            "long_name": "Near-Surface Air Temperature", 
-            "comment": "near-surface (usually, 2 meter) air temperature", 
-            "dimensions": "longitude latitude time1", 
-            "out_name": "tas", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 

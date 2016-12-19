@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.beta.44", 
+        "data_specs_version": "01.beta.45", 
         "table_id": "Table emDay", 
         "realm": "aerosol", 
         "frequency": "day", 
         "cmor_version": "3.2", 
-        "table_date": "02 December 2016", 
+        "table_date": "19 December 2016", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "1.00000", 
@@ -677,7 +677,7 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "jpdftaureicemodis7c": {
+        "jpdftaureicemodis": {
             "modeling_realm": "atmos", 
             "standard_name": "cloud_area_fraction_in_atmosphere_layer", 
             "units": "%", 
@@ -686,7 +686,7 @@
             "long_name": "MODIS Optical Thickness-Particle Size joint  distribution, ice", 
             "comment": "", 
             "dimensions": "longitude latitude plev7c tau time", 
-            "out_name": "jpdftaureicemodis7c", 
+            "out_name": "jpdftaureicemodis", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -694,7 +694,7 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "jpdftaureliqmodis7c": {
+        "jpdftaureliqmodis": {
             "modeling_realm": "atmos", 
             "standard_name": "cloud_area_fraction_in_atmosphere_layer", 
             "units": "%", 
@@ -703,7 +703,7 @@
             "long_name": "MODIS Optical Thickness-Particle Size joint  distribution, liquid", 
             "comment": "", 
             "dimensions": "longitude latitude plev7c tau time", 
-            "out_name": "jpdftaureliqmodis7c", 
+            "out_name": "jpdftaureliqmodis", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -1204,23 +1204,6 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "prhmax": {
-            "modeling_realm": "atmos", 
-            "standard_name": "precipitation_flux", 
-            "units": "kg m-2 s-1", 
-            "cell_methods": "time: mean", 
-            "cell_measures": "area: areacella", 
-            "long_name": "Daily Maximum Hourly Precipitation Rate", 
-            "comment": "", 
-            "dimensions": "longitude latitude time", 
-            "out_name": "prhmax", 
-            "type": "", 
-            "positive": "", 
-            "valid_min": "", 
-            "valid_max": "", 
-            "ok_min_mean_abs": "", 
-            "ok_max_mean_abs": ""
-        }, 
         "prra": {
             "modeling_realm": "atmos", 
             "standard_name": "rainfall_flux", 
@@ -1258,7 +1241,7 @@
         "prrsn": {
             "modeling_realm": "atmos", 
             "standard_name": "mass_fraction_of_rainfall_onto_snow", 
-            "units": "-", 
+            "units": "1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Fraction of rainfall on snow.", 
@@ -1292,7 +1275,7 @@
         "prsnsn": {
             "modeling_realm": "atmos", 
             "standard_name": "mass_fraction_of_snowfall_onto_snow", 
-            "units": "-", 
+            "units": "1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Fraction of snowfall on snow.", 
@@ -1477,7 +1460,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sbl": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "landIce", 
             "standard_name": "surface_snow_and_ice_sublimation_flux", 
             "units": "kg m-2 s-1", 
             "cell_methods": "time: mean", 
@@ -1520,6 +1503,23 @@
             "comment": "near-surface (usually, 10 meters) wind speed.", 
             "dimensions": "longitude latitude time", 
             "out_name": "sfcWind", 
+            "type": "real", 
+            "positive": "", 
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "sfcWindmax": {
+            "modeling_realm": "atmos", 
+            "standard_name": "wind_speed", 
+            "units": "m s-1", 
+            "cell_methods": "time: mean", 
+            "cell_measures": "area: areacella", 
+            "long_name": "Daily Maximum Near-Surface Wind Speed", 
+            "comment": "Daily maximum near-surface (usually, 10 meters) wind speed.", 
+            "dimensions": "longitude latitude time", 
+            "out_name": "sfcWindmax", 
             "type": "real", 
             "positive": "", 
             "valid_min": "", 

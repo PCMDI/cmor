@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.beta.44", 
+        "data_specs_version": "01.beta.45", 
         "table_id": "Table Ofx", 
         "realm": "ocean", 
         "frequency": "fx", 
         "cmor_version": "3.2", 
-        "table_date": "02 December 2016", 
+        "table_date": "19 December 2016", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "", 
@@ -26,10 +26,10 @@
             "out_name": "areacello", 
             "type": "real", 
             "positive": "", 
-            "valid_min": "0.0", 
-            "valid_max": "1e+12", 
-            "ok_min_mean_abs": "0.0", 
-            "ok_max_mean_abs": "1e+12"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "basin": {
             "modeling_realm": "ocean", 
@@ -43,8 +43,8 @@
             "out_name": "basin", 
             "type": "integer", 
             "positive": "", 
-            "valid_min": "0.0", 
-            "valid_max": "10.0", 
+            "valid_min": "", 
+            "valid_max": "", 
             "flag_values": "0 1 2 3 4 5 6 7 8 9 10", 
             "flag_meanings": "global_land southern_ocean atlantic_ocean pacific_ocean arctic_ocean indian_ocean mediterranean_sea black_sea hudson_bay baltic_sea red_sea", 
             "ok_min_mean_abs": "", 
@@ -79,10 +79,10 @@
             "out_name": "deptho", 
             "type": "real", 
             "positive": "", 
-            "valid_min": "0.0", 
-            "valid_max": "10000.0", 
-            "ok_min_mean_abs": "2000.0", 
-            "ok_max_mean_abs": "5000.0"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "masscello": {
             "modeling_realm": "ocean", 
@@ -96,10 +96,10 @@
             "out_name": "masscello", 
             "type": "real", 
             "positive": "", 
-            "valid_min": "0.0", 
-            "valid_max": "1e+15", 
-            "ok_min_mean_abs": "0.0", 
-            "ok_max_mean_abs": "1e+15"
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
         }, 
         "rhozero": {
             "modeling_realm": "ocean", 
