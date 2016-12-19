@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.beta.42.01", 
+        "data_specs_version": "01.beta.45", 
         "table_id": "Table LImongre", 
-        "realm": "", 
+        "realm": "atmos", 
         "frequency": "mon", 
         "cmor_version": "3.2", 
-        "table_date": "23 November 2016", 
+        "table_date": "19 December 2016", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "", 
@@ -15,7 +15,7 @@
     }, 
     "variable_entry": {
         "acabf": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce", 
             "standard_name": "land_ice_surface_specific_mass_balance_flux", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: time: mean where ice_shelf", 
@@ -32,7 +32,7 @@
             "ok_max_mean_abs": ""
         }, 
         "hfls": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "surface_upward_latent_heat_flux", 
             "units": "W m-2", 
             "cell_methods": "area: time: mean where ice_shelf", 
@@ -42,14 +42,14 @@
             "dimensions": "longitude latitude time", 
             "out_name": "hfls", 
             "type": "", 
-            "positive": "", 
+            "positive": "up", 
             "valid_min": "", 
             "valid_max": "", 
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
         "hfss": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "surface_upward_sensible_heat_flux", 
             "units": "W m-2", 
             "cell_methods": "area: time: mean where ice_shelf", 
@@ -59,14 +59,14 @@
             "dimensions": "longitude latitude time", 
             "out_name": "hfss", 
             "type": "", 
-            "positive": "", 
+            "positive": "up", 
             "valid_min": "", 
             "valid_max": "", 
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
         "icem": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce", 
             "standard_name": "land_ice_surface_melt_flux", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: time: mean where ice_shelf", 
@@ -83,7 +83,7 @@
             "ok_max_mean_abs": ""
         }, 
         "lialb": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce", 
             "standard_name": "surface_albedo", 
             "units": "1.0", 
             "cell_methods": "area: time: mean where ice_shelf", 
@@ -100,7 +100,7 @@
             "ok_max_mean_abs": ""
         }, 
         "libmassbffl": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce", 
             "standard_name": "land_ice_basal_specific_mass_balance_flux", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: time: mean where floating_ice_shelf", 
@@ -117,7 +117,7 @@
             "ok_max_mean_abs": ""
         }, 
         "libmassbfgr": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce", 
             "standard_name": "land_ice_basal_specific_mass_balance_flux", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: time: mean where grounded_ice_shelf", 
@@ -134,7 +134,7 @@
             "ok_max_mean_abs": ""
         }, 
         "licalvf": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce", 
             "standard_name": "land_ice_specific_mass_flux_due_to_calving", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: time: mean where ice_shelf", 
@@ -151,7 +151,7 @@
             "ok_max_mean_abs": ""
         }, 
         "lifmassbf": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce", 
             "standard_name": "land_ice_specific_mass_flux_due_to_calving_and_ice_front_melting", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: time: mean where ice_shelf", 
@@ -168,7 +168,7 @@
             "ok_max_mean_abs": ""
         }, 
         "litempbotfl": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce", 
             "standard_name": "land_ice_basal_temperature", 
             "units": "K", 
             "cell_methods": "area: time: mean where floating_ice_shelf", 
@@ -185,7 +185,7 @@
             "ok_max_mean_abs": ""
         }, 
         "litempbotgr": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce", 
             "standard_name": "land_ice_basal_temperature", 
             "units": "K", 
             "cell_methods": "area: time: mean where grounded_ice_shelf", 
@@ -201,16 +201,16 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "litempsnic": {
-            "modeling_realm": "", 
-            "standard_name": "snow_land_ice_interface_temperature", 
+        "litemptop": {
+            "modeling_realm": "landIce", 
+            "standard_name": "temperature_at_top_of_ice_sheet_model", 
             "units": "K", 
             "cell_methods": "area: time: mean where ice_shelf", 
             "cell_measures": "area: areacellg", 
-            "long_name": "Temperature at snow-ice interface over land ice", 
-            "comment": "Surface Temperature that is used to force ice sheet models. It is the temperature at the base of the snowpack models, and does not vary with seasons. Report surface temperature of ice sheet where snow thickness is zero", 
+            "long_name": "Temperature at top of ice sheet model", 
+            "comment": "Upper boundary temperature that is used to force ice sheet models. It is the temperature at the base of the snowpack models, and does not vary with seasons. Report surface temperature of ice sheet where snow thickness is zero", 
             "dimensions": "longitude latitude time", 
-            "out_name": "litempsnic", 
+            "out_name": "litemptop", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -236,7 +236,7 @@
             "ok_max_mean_abs": ""
         }, 
         "orog": {
-            "modeling_realm": "", 
+            "modeling_realm": "land", 
             "standard_name": "surface_altitude", 
             "units": "m", 
             "cell_methods": "area: time: mean where ice_shelf", 
@@ -252,25 +252,8 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "pr": {
-            "modeling_realm": "", 
-            "standard_name": "precipitation_flux", 
-            "units": "kg m-2 s-1", 
-            "cell_methods": "area: time: mean where ice_shelf", 
-            "cell_measures": "area: areacellg", 
-            "long_name": "Precipitation over Land Ice", 
-            "comment": "includes both liquid and solid phases", 
-            "dimensions": "longitude latitude time", 
-            "out_name": "pr", 
-            "type": "", 
-            "positive": "", 
-            "valid_min": "", 
-            "valid_max": "", 
-            "ok_min_mean_abs": "", 
-            "ok_max_mean_abs": ""
-        }, 
         "prra": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "rainfall_flux", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: time: mean where ice_shelf", 
@@ -287,7 +270,7 @@
             "ok_max_mean_abs": ""
         }, 
         "prsn": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "snowfall_flux", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: time: mean where ice_shelf", 
@@ -304,41 +287,41 @@
             "ok_max_mean_abs": ""
         }, 
         "rlds": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "surface_downwelling_longwave_flux_in_air", 
             "units": "W m-2", 
             "cell_methods": "area: time: mean where ice_shelf", 
             "cell_measures": "area: areacellg", 
-            "long_name": "surface downwelling longwave radiation", 
+            "long_name": "Surface Downwelling Longwave Radiation", 
             "comment": "", 
             "dimensions": "longitude latitude time", 
             "out_name": "rlds", 
             "type": "", 
-            "positive": "", 
+            "positive": "down", 
             "valid_min": "", 
             "valid_max": "", 
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
         "rlus": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "surface_upwelling_longwave_flux_in_air", 
             "units": "W m-2", 
             "cell_methods": "area: time: mean where ice_shelf", 
             "cell_measures": "area: areacellg", 
-            "long_name": "surface upwelling longwave radiation", 
+            "long_name": "Surface Upwelling Longwave Radiation", 
             "comment": "", 
             "dimensions": "longitude latitude time", 
             "out_name": "rlus", 
             "type": "", 
-            "positive": "", 
+            "positive": "up", 
             "valid_min": "", 
             "valid_max": "", 
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
         "rsds": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "surface_downwelling_shortwave_flux_in_air", 
             "units": "W m-2", 
             "cell_methods": "area: time: mean where ice_shelf", 
@@ -348,31 +331,31 @@
             "dimensions": "longitude latitude time", 
             "out_name": "rsds", 
             "type": "", 
-            "positive": "", 
+            "positive": "down", 
             "valid_min": "", 
             "valid_max": "", 
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
         "rsus": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "surface_upwelling_shortwave_flux_in_air", 
             "units": "W m-2", 
             "cell_methods": "area: time: mean where ice_shelf", 
             "cell_measures": "area: areacellg", 
-            "long_name": "surface upwelling shortwave radiation", 
+            "long_name": "Surface Upwelling Shortwave Radiation", 
             "comment": "", 
             "dimensions": "longitude latitude time", 
             "out_name": "rsus", 
             "type": "", 
-            "positive": "", 
+            "positive": "up", 
             "valid_min": "", 
             "valid_max": "", 
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
         "sbl": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce", 
             "standard_name": "surface_snow_and_ice_sublimation_flux", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: time: mean where ice_shelf", 
@@ -389,7 +372,7 @@
             "ok_max_mean_abs": ""
         }, 
         "snc": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce land", 
             "standard_name": "surface_snow_area_fraction", 
             "units": "%", 
             "cell_methods": "area: time: mean where ice_shelf", 
@@ -406,7 +389,7 @@
             "ok_max_mean_abs": ""
         }, 
         "snicefreez": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce", 
             "standard_name": "surface_snow_and_ice_refreezing_flux", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: time: mean where ice_shelf", 
@@ -423,7 +406,7 @@
             "ok_max_mean_abs": ""
         }, 
         "snicem": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce", 
             "standard_name": "surface_snow_and_ice_melt_flux", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: time: mean where ice_shelf", 
@@ -457,7 +440,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tas": {
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "air_temperature", 
             "units": "K", 
             "cell_methods": "area: time: mean where ice_shelf", 

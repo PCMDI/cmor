@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.beta.42.01", 
+        "data_specs_version": "01.beta.45", 
         "table_id": "Table emFx", 
         "realm": "atmos", 
         "frequency": "fx", 
         "cmor_version": "3.2", 
-        "table_date": "23 November 2016", 
+        "table_date": "19 December 2016", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "0.00000", 
@@ -111,8 +111,8 @@
             "out_name": "sftgif", 
             "type": "real", 
             "positive": "", 
-            "valid_min": "0.0", 
-            "valid_max": "100.0", 
+            "valid_min": "", 
+            "valid_max": "", 
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 

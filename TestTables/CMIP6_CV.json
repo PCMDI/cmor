@@ -13,12 +13,12 @@
             "further_info_url",
             "grid",
             "grid_label",
-            "nominal_resolution",
             "initialization_index",
             "institution",
             "institution_id",
             "license",
             "mip_era",
+            "nominal_resolution",
             "physics_index",
             "product",
             "realization_index",
@@ -35,12 +35,12 @@
             "variant_label"
         ],
         "version_metadata":{
-            "note":"Fix invalid source_type syntax - rogue ,",
-            "previous_commit":"bfa08761c90b97caa5f8a64ee2548b7a49e2f4ee",
+            "note":"Add GISS-E2-1 variants",
+            "previous_commit":"c401abb0f2616dec58a20d62a5b781d05595b4cf",
             "author":"Paul J. Durack <durack1@llnl.gov>",
-            "creation_date":"Thu Nov 3 07:19:34 2016 -0700",
+            "creation_date":"Wed Dec 14 15:49:55 2016 -0800",
             "institution_id":"PCMDI",
-            "latest_tag_point":"None"
+            "latest_tag_point":"3.2.0 (44; gb2f427b)"
         },
         "activity_id":[
             "AerChemMIP",
@@ -65,10 +65,11 @@
         "institution_id":{
             "CSIR-CSIRO":"CSIR (Council for Scientific and Industrial Research - Natural Resources and the Environment, Pretoria, 0001, South Africa), CSIRO (Commonwealth Scientific and Industrial Research Organisation and Bureau of Meteorology, Melbourne, Victoria 3208, Australia)",
             "CCCma":"Canadian Centre for Climate Modelling and Analysis, Victoria, BC V8P 5C2, Canada",
+            "MESSy-Consortium":"The Modular Earth Submodel System (MESSy) Consortium, represented by the Institute for Physics of the Atmosphere, Deutsches Zentrum fur Luft- und Raumfahrt (DLR), Wessling, Bavaria 82234, Germany",
             "MIROC":"JAMSTEC (Japan Agency for Marine-Earth Science and Technology, Kanagawa 236-0001, Japan), AORI (Atmosphere and Ocean Research Institute, The University of Tokyo, Chiba 277-8564, Japan), NIES (National Institute for Environmental Studies, Ibaraki 305-8506, Japan), and AICS (RIKEN Advanced Institute for Computational Science, Hyogo 650-0047, Japan)",
             "MOHC":"Met Office Hadley Centre, Fitzroy Road, Exeter, Devon, EX1 3PB, UK",
             "IPSL":"Institut Pierre Simon Laplace, Paris 75252, France",
-            "EC-Earth-Consortium":"KNMI, The Netherlands; SMHI, Sweden; DMI, Denmark; AEMET, Spain; Met \u00c9ireann, Ireland; CNR-ISAC, Italy; Instituto de Meteorologia, Portugal; FMI, Finland; BSC, Spain; Centro de Geofisica, University of Lisbon, Portugal; ENEA, Italy; Geomar, Germany; Geophysical Institute, University of Bergen, Norway; ICHEC, Ireland; ICTP, Italy; IMAU, The Netherlands; IRV, Sweden;  Lund University, Sweden; Meteorologiska Institutionen, Stockholms University, Sweden; Niels Bohr Institute, University of Copenhagen, Denmark; NTNU, Norway; SARA, The Netherlands; Unit\u00e9 ASTR, Belgium; Universiteit Utrecht, The Netherlands; Universiteit Wageningen, The Netherlands; University College Dublin, Ireland; Vrije Universiteit Amsterdam, the Netherlands; University of Helsinki, Finland; KIT, Karlsruhe, Germany; USC, University of Santiago de Compostela, Spain; Uppsala Universitet, Sweden; NLeSC, Netherlands eScience Center, The Netherlands",
+            "EC-Earth-Consortium":"KNMI, The Netherlands; SMHI, Sweden; DMI, Denmark; AEMET, Spain; Met Eireann, Ireland; CNR-ISAC, Italy; Instituto de Meteorologia, Portugal; FMI, Finland; BSC, Spain; Centro de Geofisica, University of Lisbon, Portugal; ENEA, Italy; Geomar, Germany; Geophysical Institute, University of Bergen, Norway; ICHEC, Ireland; ICTP, Italy; IMAU, The Netherlands; IRV, Sweden;  Lund University, Sweden; Meteorologiska Institutionen, Stockholms University, Sweden; Niels Bohr Institute, University of Copenhagen, Denmark; NTNU, Norway; SARA, The Netherlands; Unite ASTR, Belgium; Universiteit Utrecht, The Netherlands; Universiteit Wageningen, The Netherlands; University College Dublin, Ireland; Vrije Universiteit Amsterdam, the Netherlands; University of Helsinki, Finland; KIT, Karlsruhe, Germany; USC, University of Santiago de Compostela, Spain; Uppsala Universitet, Sweden; NLeSC, Netherlands eScience Center, The Netherlands",
             "CMCC":"Centro Euro-Mediterraneo per i Cambiamenti Climatici, Bologna 40127, Italy",
             "CSIRO-BOM":"Commonwealth Scientific and Industrial Research Organisation and Bureau of Meteorology, Melbourne, Victoria 3208, Australia",
             "COLA-CFS":"Center for Ocean-Land-Atmosphere Studies, Fairfax, VA 22030, USA",
@@ -78,6 +79,7 @@
             "CCCR-IITM":"Centre for Climate Change Research, Indian Institute of Tropical Meteorology Pune, Maharashtra 411 008, India",
             "BNU":"Beijing Normal University, Beijing 100875, China",
             "NOAA-NCEP":"National Oceanic and Atmospheric Administration, National Centers for Environmental Prediction, Camp Springs, MD 20746, USA",
+            "CNRM-CERFACS":"CNRM (Centre National de Recherches Meteorologiques, Toulouse 31057, France), CERFACS (Centre Europeen de Recherche et de Formation Avancee en Calcul Scientifique, Toulouse 31100, France)",
             "MRI":"Meteorological Research Institute, Tsukuba, Ibaraki 305-0052, Japan",
             "NASA-GISS":"Goddard Institute for Space Studies, New York, NY 10025, USA",
             "PCMDI":"Program for Climate Model Diagnosis and Intercomparison, Lawrence Livermore National Laboratory, Livermore, CA 94550, USA",
@@ -85,10 +87,130 @@
             "NOAA-GFDL":"National Oceanic and Atmospheric Administration, Geophysical Fluid Dynamics Laboratory, Princeton, NJ 08540, USA",
             "LASG-IAP":"Institute of Atmospheric Physics, Chinese Academy of Sciences, Beijing 100029, China",
             "INM":"Institute for Numerical Mathematics, Moscow 119991, Russia",
-            "NCC":"UNI Bjerknes Centre for Climate Research, Norwegian Climate Centre, Bergen 5007, Norway",
+            "NCC":"NorESM Climate modeling Consortium consisting of CICERO (Center for International Climate and Environmental Research, Oslo 0349),MET-Norway (Norwegian Meteorological Institute, Oslo 0313),NERSC (Nansen Environmental and Remote Sensing Center, Bergen 5006),NILU (Norwegian Institute for Air Research, Kjeller 2027),UiB (University of Bergen, Bergen 5007),UiO (University of Oslo, Oslo 0313) and UNI (Uni Research, Bergen 5008), Norway",
             "NUIST":"Nanjing University of Information Science & Technology, Nanjing, 210044, China"
         },
         "source_id":{
+            "GISS-E2-1G":{
+                "label_extended":"GISS-E2.1G",
+                "atmospheric_chemistry":"varies with physics-version (p==1 Non-interactive, p>1 GPUCCINI)",
+                "atmosphere":"GISS-E2.1 (90 x 144 2x2.5; 40 levels; top level 0.1hPa)",
+                "ocean_biogeochemistry":"None",
+                "release_year":"2016",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"GISS SI",
+                "label":"GISS-E2.1G",
+                "institution_id":[
+                    "NASA-GISS"
+                ],
+                "land_surface":"GISS LSM",
+                "aerosol":"varies with physics-version (p==1 None, p==3 OMA, p==4 TOMAS, p==5 MATRIX) ",
+                "source_id":"GISS-E2-1G",
+                "ocean":"GISS Ocean (1 deg latitude/longitude; 32 levels; top grid cell 0-10m)",
+                "land_ice":"Fixed"
+            },
+            "EC-Earth-3":{
+                "label_extended":"EC-Earth v3.2.x",
+                "atmospheric_chemistry":"None",
+                "atmosphere":"IFS cy36r4 (TL255, linearly reduced Gaussian grid equivalent to 512 x 256; 91 levels; top level 1 Pa)",
+                "ocean_biogeochemistry":"None",
+                "release_year":"2017",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"LIM3 (same version as ocean)",
+                "label":"EC-Earth 3",
+                "institution_id":[
+                    "EC-Earth-Consortium"
+                ],
+                "land_surface":"H-TESSEL (same version as atmosphere)",
+                "aerosol":"None",
+                "source_id":"EC-Earth-3",
+                "ocean":"NEMO3.6 (ORCA1: tripolar, 360x200; 75 levels; top grid cell 5m)",
+                "land_ice":"None"
+            },
+            "GISS-E2-1H":{
+                "label_extended":"GISS-E2.1H",
+                "atmospheric_chemistry":"varies with physics-version (p==1 Non-interactive, p>1 GPUCCINI)",
+                "atmosphere":"GISS-E2.1 (90 x 144 2x2.5; 40 levels; top level 0.1hPa)",
+                "ocean_biogeochemistry":"None",
+                "release_year":"2016",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"GISS SI",
+                "label":"GISS-E2.1H",
+                "institution_id":[
+                    "NASA-GISS"
+                ],
+                "land_surface":"GISS LSM",
+                "aerosol":"varies with physics-version (p==1 None, p==3 OMA, p==4 TOMAS, p==5 MATRIX) ",
+                "source_id":"GISS-E2-1H",
+                "ocean":"HYCOM Ocean (tripolar grid; ~1 deg latitude/longitude; 26 levels; top grid cell 0-10m)",
+                "land_ice":"Fixed"
+            },
+            "BNU-ESM-1-1":{
+                "label_extended":"BNU-ESM 1.1",
+                "atmospheric_chemistry":"None",
+                "atmosphere":"CAM4 (FV, 144 x 96; 26 levels; top level 2.194 mb)",
+                "ocean_biogeochemistry":"Dynamic ecosystem-carbon model version 1",
+                "release_year":"2016",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"CICE4.1",
+                "label":"BNU-ESM 1.1",
+                "institution_id":[
+                    "BNU"
+                ],
+                "land_surface":"CoLM version 2014 with carbon-nitrogen interactions",
+                "aerosol":"CAM-chem; semi-interactive",
+                "source_id":"BNU-ESM-1-1",
+                "ocean":"MOM4p1 (tripolar, 360x200, primarily 1deg latitude/longitude, down to 1/3deg within 30deg of the equatorial tropics; 50 levels; top grid cell 0-10m)",
+                "land_ice":"None"
+            },
+            "PCMDI-test-1-0":{
+                "label_extended":"PCMDI-test 1.0 (This entry is free text for users to contribute verbose information)",
+                "atmospheric_chemistry":"None",
+                "atmosphere":"Earth1.0-gettingHotter (360x180; 50 levels; top level 0.1 mb)",
+                "ocean_biogeochemistry":"None",
+                "release_year":"1989",
+                "cohort":[
+                    "CMIP6"
+                ],
+                "sea_ice":"Declining1.0-warming",
+                "label":"PCMDI-test 1.0",
+                "institution_id":[
+                    "PCMDI"
+                ],
+                "land_surface":"Earth1.0",
+                "aerosol":"None",
+                "source_id":"PCMDI-test-1-0",
+                "ocean":"BlueMarble1.0-warming (360x180; 50 levels; top grid cell 0-10m)",
+                "land_ice":"None"
+            },
+            "NorESM2-LMEC":{
+                "label_extended":"NorESM2-LMEC (low atmosphere-medium ocean resolution, GHG emission driven, complex atmospheric chemistry)",
+                "atmospheric_chemistry":"OsloChemComp",
+                "atmosphere":"CAM-OSLO (2 degree resolution; 144 x 96; 32 levels; top level 3 mb)",
+                "ocean_biogeochemistry":"HAMOCC",
+                "release_year":"2017",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"CICE",
+                "label":"NorESM2-LMEC",
+                "institution_id":[
+                    "NCC"
+                ],
+                "land_surface":"CLM",
+                "aerosol":"OsloAero",
+                "source_id":"NorESM2-LMEC",
+                "ocean":"MICOM (1 degree resolution; 360 x 384; 70 levels; top grid cell minimum 0-2.5 m [native model uses hybrid density and generic upper-layer coordinate interpolated to z-level for contributed data])",
+                "land_ice":"CISM"
+            },
             "ACCESS-1-0":{
                 "label_extended":"ACCESS 1.0 (This entry is free text for users to contribute verbose information)",
                 "atmospheric_chemistry":"None",
@@ -109,9 +231,29 @@
                 "ocean":"ACCESS-OM (MOM4p1; tripolar primarily 1deg latitude/longitude; 50 levels; top grid cell 0-10m)",
                 "land_ice":"None"
             },
+            "EC-Earth-3-HR":{
+                "label_extended":"EC-Earth v3.2.x at high resolution",
+                "atmospheric_chemistry":"None",
+                "atmosphere":"IFS cy36r4 (TL511, linearly reduced Gaussian grid equivalent to 1024 x 512; 91 levels; top level 1 Pa)",
+                "ocean_biogeochemistry":"None",
+                "release_year":"2017",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"LIM3 (same version as ocean)",
+                "label":"EC-Earth 3-HR",
+                "institution_id":[
+                    "EC-Earth-Consortium"
+                ],
+                "land_surface":"H-TESSEL (same version as atmosphere)",
+                "aerosol":"None",
+                "source_id":"EC-Earth-3-HR",
+                "ocean":"NEMO3.6 (tripolar, 1442x1921; 75 levels; top grid cell 5m)",
+                "land_ice":"None"
+            },
             "IITM-ESM":{
                 "label_extended":"IITM-ESM",
-                "atmospheric_chemistry":"",
+                "atmospheric_chemistry":"None",
                 "atmosphere":"GFS (192 x 94 T62; 64 levels; top level 0.2 mb)",
                 "ocean_biogeochemistry":"TOPAZ",
                 "release_year":"2015",
@@ -123,30 +265,150 @@
                 "institution_id":[
                     "CCCR-IITM"
                 ],
-                "land_surface":"Earth1.0",
+                "land_surface":"NOAH LSM",
                 "aerosol":"unnamed (prescribed MAC-v2)",
                 "source_id":"IITM-ESM",
                 "ocean":"MOM4p1 (tripolar, 360x200; 50 levels; top grid cell 5m)",
-                "land_ice":"Noah LSM"
+                "land_ice":"None"
             },
-            "PCMDI-test-1-0":{
-                "label_extended":"PCMDI-test 1.0 (This entry is free text for users to contribute verbose information)",
+            "VRESM-1-0":{
+                "label_extended":"VRESM 1.0 (Variable-resolution Earth System Model 1.0)",
                 "atmospheric_chemistry":"None",
-                "atmosphere":"Earth1.0-gettingHotter",
-                "ocean_biogeochemistry":"None",
-                "release_year":"1989",
+                "atmosphere":"VCAM-1.0 (192 x 192 x 6 C192; 35 levels; top level 35km)",
+                "ocean_biogeochemistry":"PISCES v3.4socco",
+                "release_year":"2016",
                 "cohort":[
-                    "CMIP6"
+                    ""
                 ],
-                "sea_ice":"Declining",
-                "label":"PCMDI-test 1.0",
+                "sea_ice":"CSIR-ICE (visco-plastic)",
+                "label":"VRESM 1.0",
                 "institution_id":[
-                    "PCMDI"
+                    "CSIR-CSIRO"
                 ],
-                "land_surface":"Earth1.0",
+                "land_surface":"CABLE v2.2.3",
+                "aerosol":"Rotstayn-1.0",
+                "source_id":"VRESM-1-0",
+                "ocean":"VCOM-1.0 (192 x 192 x 6 C192; 35 levels; top grid cell 0-10m)",
+                "land_ice":"None"
+            },
+            "NorESM2-HH":{
+                "label_extended":"NorESM2-HH (high atmosphere-high ocean resolution, GHG concentration driven)",
+                "atmospheric_chemistry":"OsloChemSimp",
+                "atmosphere":"CAM-OSLO (0.25 degree resolution; 1152 x 768; 32 levels; top level 3 mb)",
+                "ocean_biogeochemistry":"HAMOCC",
+                "release_year":"2018",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"CICE",
+                "label":"NorESM2-HH",
+                "institution_id":[
+                    "NCC"
+                ],
+                "land_surface":"CLM",
+                "aerosol":"OsloAero",
+                "source_id":"NorESM2-HH",
+                "ocean":"MICOM (0.25 degree resolution; 1440 x 1152; 70 levels; top grid cell minimum 0-2.5 m [native model uses hybrid density and generic upper-layer coordinate interpolated to z-level for contributed data])",
+                "land_ice":"CISM"
+            },
+            "NorESM2-LM":{
+                "label_extended":"NorESM2-LM (low atmosphere-medium ocean resolution, GHG concentration driven)",
+                "atmospheric_chemistry":"OsloChemSimp",
+                "atmosphere":"CAM-OSLO (2 degree resolution; 144 x 96; 32 levels; top level 3 mb)",
+                "ocean_biogeochemistry":"HAMOCC",
+                "release_year":"2017",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"CICE",
+                "label":"NorESM2-LM",
+                "institution_id":[
+                    "NCC"
+                ],
+                "land_surface":"CLM",
+                "aerosol":"OsloAero",
+                "source_id":"NorESM2-LM",
+                "ocean":"MICOM (1 degree resolution; 360 x 384; 70 levels; top grid cell minimum 0-2.5 m [native model uses hybrid density and generic upper-layer coordinate interpolated to z-level for contributed data])",
+                "land_ice":"CISM"
+            },
+            "NorESM2-MH":{
+                "label_extended":"NorESM2-MH",
+                "atmospheric_chemistry":"OsloChemSimp",
+                "atmosphere":"CAM-OSLO (1 degree resolution; 288 x 192; 32 levels; top level 3 mb)",
+                "ocean_biogeochemistry":"HAMOCC",
+                "release_year":"2017",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"CICE",
+                "label":"NorESM2-MH",
+                "institution_id":[
+                    "NCC"
+                ],
+                "land_surface":"CLM",
+                "aerosol":"OsloAero",
+                "source_id":"NorESM2-MH",
+                "ocean":"MICOM (0.25 degree resolution; 1440 x 1152; 70 levels; top grid cell minimum 0-2.5 m [native model uses hybrid density and generic upper-layer coordinate interpolated to z-level for contributed data])",
+                "land_ice":"CISM"
+            },
+            "NorESM2-MM":{
+                "label_extended":"NorESM2-MM (medium atmosphere-medium ocean resolution, GHG concentration driven)",
+                "atmospheric_chemistry":"OsloChemSimp",
+                "atmosphere":"CAM-OSLO (1 degree resolution; 288 x 192; 32 levels; top level 3 mb)",
+                "ocean_biogeochemistry":"HAMOCC",
+                "release_year":"2017",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"CICE",
+                "label":"NorESM2-MM",
+                "institution_id":[
+                    "NCC"
+                ],
+                "land_surface":"CLM",
+                "aerosol":"OsloAero",
+                "source_id":"NorESM2-MM",
+                "ocean":"MICOM (1 degree resolution; 360 x 384; 70 levels; top grid cell minimum 0-2.5 m [native model uses hybrid density and generic upper-layer coordinate interpolated to z-level for contributed data])",
+                "land_ice":"CISM"
+            },
+            "NorESM2-LME":{
+                "label_extended":"NorESM2-LME (low atmosphere-medium ocean resolution, GHG emission driven)",
+                "atmospheric_chemistry":"OsloChemSimp",
+                "atmosphere":"CAM-OSLO (2 degree resolution; 144 x 96; 32 levels; top level 3 mb)",
+                "ocean_biogeochemistry":"HAMOCC",
+                "release_year":"2017",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"CICE",
+                "label":"NorESM2-LME",
+                "institution_id":[
+                    "NCC"
+                ],
+                "land_surface":"CLM",
+                "aerosol":"OsloAero",
+                "source_id":"NorESM2-LME",
+                "ocean":"MICOM (1 degree resolution; 360 x 384; 70 levels; top grid cell minimum 0-2.5 m [native model uses hybrid density and generic upper-layer coordinate interpolated to z-level for contributed data])",
+                "land_ice":"CISM"
+            },
+            "EC-Earth-3-LR":{
+                "label_extended":"EC-Earth v3.2.x at low resolution",
+                "atmospheric_chemistry":"None",
+                "atmosphere":"IFS cy36r4 (TL159, linearly reduced Gaussian grid equivalent to 320 x 160; 62 levels; top level 5 Pa)",
+                "ocean_biogeochemistry":"None",
+                "release_year":"2017",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"LIM3 (same version as ocean)",
+                "label":"EC-Earth 3-LR",
+                "institution_id":[
+                    "EC-Earth-Consortium"
+                ],
+                "land_surface":"H-TESSEL (same version as atmosphere)",
                 "aerosol":"None",
-                "source_id":"PCMDI-test-1-0",
-                "ocean":"BlueMarble1.0-warming",
+                "source_id":"EC-Earth-3-LR",
+                "ocean":"NEMO3.6 (ORCA1: tripolar, 360x200; 75 levels; top grid cell 5m)",
                 "land_ice":"None"
             }
         },
@@ -176,34 +438,59 @@
         "grid_label":[
             "gm",
             "gn",
+            "gna",
+            "gng",
             "gnz",
             "gr",
             "gr1",
+            "gr1a",
+            "gr1g",
             "gr1z",
             "gr2",
+            "gr2a",
+            "gr2g",
             "gr2z",
             "gr3",
+            "gr3a",
+            "gr3g",
             "gr3z",
             "gr4",
+            "gr4a",
+            "gr4g",
             "gr4z",
             "gr5",
+            "gr5a",
+            "gr5g",
             "gr5z",
             "gr6",
+            "gr6a",
+            "gr6g",
             "gr6z",
             "gr7",
+            "gr7a",
+            "gr7g",
             "gr7z",
             "gr8",
+            "gr8a",
+            "gr8g",
             "gr8z",
             "gr9",
+            "gr9a",
+            "gr9g",
             "gr9z",
+            "gra",
+            "grg",
             "grz"
         ],
         "nominal_resolution":[
+            "0.5 km",
+            "1 km",
             "10 km",
             "100 km",
             "1000 km",
             "10000 km",
             "1x1 degree",
+            "2.5 km",
             "25 km",
             "250 km",
             "2500 km",
@@ -228,6 +515,7 @@
             "6hr",
             "6hrpt",
             "day",
+            "Aday",
             "Amon",
             "LImon",
             "Lmon",
@@ -239,7 +527,6 @@
             "Oyr",
             "aero",
             "cfOff",
-            "cfMon",
             "cfSites",
             "fx"
         ],
@@ -270,7 +557,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -298,7 +585,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -324,7 +611,7 @@
                 "experiment":"SSP3-7.0, with low NTCF emissions",
                 "additional_allowed_model_components":[
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM",
@@ -416,7 +703,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -550,7 +837,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -660,7 +947,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -709,7 +996,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -736,7 +1023,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -765,7 +1052,8 @@
                     "CHEM"
                 ],
                 "required_model_components":[
-                    "ESM"
+                    "AOGCM",
+                    "BGC"
                 ],
                 "tier":"2",
                 "min_number_yrs_per_sim":"1",
@@ -810,7 +1098,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -833,7 +1121,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -878,7 +1166,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -946,7 +1234,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -995,7 +1283,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -1018,7 +1306,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -1066,7 +1354,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -1089,7 +1377,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -1116,7 +1404,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -1139,7 +1427,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -1166,7 +1454,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -1218,7 +1506,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -1274,7 +1562,7 @@
                 ],
                 "required_model_components":[
                     "AOGCM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "tier":"2",
                 "min_number_yrs_per_sim":"150",
@@ -1294,7 +1582,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -1317,7 +1605,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -1388,7 +1676,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -1415,7 +1703,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -1495,7 +1783,8 @@
                     "CHEM"
                 ],
                 "required_model_components":[
-                    "ESM"
+                    "AOGCM",
+                    "BGC"
                 ],
                 "tier":"1",
                 "min_number_yrs_per_sim":"86",
@@ -1520,7 +1809,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -1587,7 +1876,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -1672,7 +1961,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AGCM",
@@ -1826,7 +2115,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -1853,7 +2142,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -1928,7 +2217,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -1955,7 +2244,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -1983,7 +2272,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -2010,7 +2299,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -2033,7 +2322,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -2059,7 +2348,7 @@
                 "experiment":"historical forcing, but with pre-industrial aerosol emissions",
                 "additional_allowed_model_components":[
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM",
@@ -2130,7 +2419,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -2176,7 +2465,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -2203,7 +2492,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AGCM",
@@ -2248,7 +2537,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -2275,7 +2564,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -2324,7 +2613,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -2411,12 +2700,12 @@
                 ],
                 "experiment":"historical forcing, but with pre-industrial NTCF emissions",
                 "additional_allowed_model_components":[
-                    "BGCM"
+                    "CHEM",
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM",
-                    "AER",
-                    "CHEM"
+                    "AER"
                 ],
                 "tier":"1",
                 "min_number_yrs_per_sim":"165",
@@ -2440,7 +2729,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -2486,7 +2775,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -2513,7 +2802,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -2536,7 +2825,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -2559,7 +2848,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -2624,7 +2913,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -2654,7 +2943,7 @@
                 ],
                 "required_model_components":[
                     "AOGCM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "tier":"2",
                 "min_number_yrs_per_sim":"85",
@@ -2678,7 +2967,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -2705,7 +2994,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM",
@@ -2799,7 +3088,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -2822,7 +3111,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -2845,7 +3134,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -2894,7 +3183,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -2947,7 +3236,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -2997,7 +3286,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -3037,7 +3326,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -3064,7 +3353,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -3109,7 +3398,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -3136,7 +3425,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -3165,7 +3454,8 @@
                     "CHEM"
                 ],
                 "required_model_components":[
-                    "ESM"
+                    "AOGCM",
+                    "BGC"
                 ],
                 "tier":"1",
                 "min_number_yrs_per_sim":"500",
@@ -3182,11 +3472,13 @@
                 "parent_experiment_id":"",
                 "parent_activity_id":"",
                 "experiment":"pre-industrial climatological SSTs and forcing, but with 2014 NTCF emissions",
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    "CHEM",
+                    "BGC"
+                ],
                 "required_model_components":[
                     "AGCM",
-                    "AER",
-                    "CHEM"
+                    "AER"
                 ],
                 "tier":"1",
                 "min_number_yrs_per_sim":"30",
@@ -3229,7 +3521,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -3256,7 +3548,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -3284,7 +3576,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -3421,7 +3713,7 @@
                 ],
                 "required_model_components":[
                     "AOGCM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "tier":"2",
                 "min_number_yrs_per_sim":"165",
@@ -3470,7 +3762,7 @@
                 ],
                 "required_model_components":[
                     "AOGCM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "tier":"1",
                 "min_number_yrs_per_sim":"150",
@@ -3557,7 +3849,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -3648,7 +3940,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -3675,7 +3967,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -3720,7 +4012,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -3747,7 +4039,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -3846,7 +4138,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -3896,7 +4188,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -3938,7 +4230,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -4009,7 +4301,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -4099,7 +4391,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -4126,7 +4418,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -4137,8 +4429,8 @@
             },
             "ssp370":{
                 "activity_id":[
-                    "AerChemMIP",
-                    "ScenarioMIP"
+                    "ScenarioMIP",
+                    "AerChemMIP"
                 ],
                 "description":"Future scenario with high radiative forcing by the end of century. Reaches about 7.0 W/m2 by 2100; fills gap in RCP forcing pathways between 6.0 and 8.5 W/m2. Concentration-driven",
                 "start_year":"2015",
@@ -4154,7 +4446,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -4219,7 +4511,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -4271,7 +4563,8 @@
                     "CHEM"
                 ],
                 "required_model_components":[
-                    "ESM"
+                    "AOGCM",
+                    "BGC"
                 ],
                 "tier":"1",
                 "min_number_yrs_per_sim":"85",
@@ -4297,7 +4590,8 @@
                     "CHEM"
                 ],
                 "required_model_components":[
-                    "ESM"
+                    "AOGCM",
+                    "BGC"
                 ],
                 "tier":"1",
                 "min_number_yrs_per_sim":"165",
@@ -4317,7 +4611,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -4360,11 +4654,13 @@
                 "parent_experiment_id":"",
                 "parent_activity_id":"",
                 "experiment":"SSP3-7.0, prescribed SSTs, with low NTCF emissions",
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    "CHEM",
+                    "BGC"
+                ],
                 "required_model_components":[
                     "AGCM",
-                    "AER",
-                    "CHEM"
+                    "AER"
                 ],
                 "tier":"1",
                 "min_number_yrs_per_sim":"41",
@@ -4388,7 +4684,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM",
@@ -4416,7 +4712,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -4444,7 +4740,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -4470,12 +4766,11 @@
                 "experiment":"1 percent per year increasing CO2 experiment with increasing N-deposition",
                 "additional_allowed_model_components":[
                     "AER",
-                    "CHEM",
-                    "BGCM"
+                    "CHEM"
                 ],
                 "required_model_components":[
                     "AOGCM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "tier":"2",
                 "min_number_yrs_per_sim":"150",
@@ -4493,7 +4788,7 @@
                 "parent_activity_id":"",
                 "experiment":"historical SSTs and historical forcings, but with pre-industrial N2O concentrations",
                 "additional_allowed_model_components":[
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AGCM",
@@ -4518,7 +4813,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM",
@@ -4568,7 +4863,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -4595,7 +4890,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -4622,7 +4917,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -4649,7 +4944,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -4790,7 +5085,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -4858,7 +5153,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -4885,7 +5180,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -4954,7 +5249,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -4999,7 +5294,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -5026,7 +5321,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM",
@@ -5081,7 +5376,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -5104,7 +5399,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -5131,7 +5426,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -5199,7 +5494,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -5248,7 +5543,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -5338,7 +5633,7 @@
                 ],
                 "required_model_components":[
                     "AOGCM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "tier":"2",
                 "min_number_yrs_per_sim":"85",
@@ -5384,7 +5679,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -5414,7 +5709,7 @@
                 ],
                 "required_model_components":[
                     "AOGCM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "tier":"2",
                 "min_number_yrs_per_sim":"150",
@@ -5539,7 +5834,8 @@
                     "CHEM"
                 ],
                 "required_model_components":[
-                    "ESM"
+                    "AOGCM",
+                    "BGC"
                 ],
                 "tier":"2",
                 "min_number_yrs_per_sim":"100",
@@ -5586,7 +5882,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -5613,7 +5909,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -5714,7 +6010,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -5755,11 +6051,13 @@
                 "parent_experiment_id":"",
                 "parent_activity_id":"",
                 "experiment":"historical SSTs and historical forcing, but with pre-industrial NTCF emissions",
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    "CHEM",
+                    "BGC"
+                ],
                 "required_model_components":[
                     "AGCM",
-                    "AER",
-                    "CHEM"
+                    "AER"
                 ],
                 "tier":"1",
                 "min_number_yrs_per_sim":"165",
@@ -5841,7 +6139,7 @@
                 "additional_allowed_model_components":[
                     "AER",
                     "CHEM",
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM"
@@ -5951,7 +6249,7 @@
                 ],
                 "experiment":"historical forcing, but with1950s halocarbon concentrations; initialized in 1950",
                 "additional_allowed_model_components":[
-                    "BGCM"
+                    "BGC"
                 ],
                 "required_model_components":[
                     "AOGCM",
@@ -5960,6 +6258,33 @@
                 ],
                 "tier":"1",
                 "min_number_yrs_per_sim":"65",
+                "sub_experiment_id":"none"
+            },
+            "1pctCO2-4xext":{
+                "activity_id":[
+                    "ISMIP6"
+                ],
+                "description":"branched from 1pctCO2 run at year 140 and run with CO2 fixed at 4x pre-industrial concentration",
+                "start_year":"",
+                "end_year":"",
+                "sub_experiment":"none",
+                "parent_experiment_id":[
+                    "1pctCO2"
+                ],
+                "parent_activity_id":[
+                    "CMIP"
+                ],
+                "experiment":"extension from year 140 of 1pctCO2 with 4xCO2",
+                "additional_allowed_model_components":[
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "required_model_components":[
+                    "AOGCM"
+                ],
+                "tier":"1",
+                "min_number_yrs_per_sim":"210",
                 "sub_experiment_id":"none"
             },
             "piClim-aerO3":{

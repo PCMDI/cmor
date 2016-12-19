@@ -288,7 +288,7 @@ test_fortran: cmor
 	@env TEST_NAME="test_region" INPUT_FILE="Test/noinput" make test_case
 	@env TEST_NAME="test_sigma" INPUT_FILE="Test/noinput" make test_case
 	@env TEST_NAME="test_singleton" INPUT_FILE="Test/noinput" make test_case
-	@env TEST_NAME="test_singleton_5D_tas" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
+	#@env TEST_NAME="test_singleton_5D_tas" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
 	@env TEST_NAME="mytest_4d_r_big_array" INPUT_FILE="Test/noinput" make test_case
 	@env TEST_NAME="mytest_4d_d_big_array_2" INPUT_FILE="Test/noinput" make test_case
 	@env TEST_NAME="mytest_4d_d_big_array_3" INPUT_FILE="Test/noinput" make test_case

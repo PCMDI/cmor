@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.beta.42.01", 
+        "data_specs_version": "01.beta.45", 
         "table_id": "Table aermonthly", 
         "realm": "aerosol", 
         "frequency": "mon", 
         "cmor_version": "3.2", 
-        "table_date": "23 November 2016", 
+        "table_date": "19 December 2016", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "30.00000", 
@@ -75,6 +75,23 @@
             "comment": "", 
             "dimensions": "longitude latitude time", 
             "out_name": "albsrfc", 
+            "type": "float", 
+            "positive": "", 
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "aoanh": {
+            "modeling_realm": "aerosol", 
+            "standard_name": "tracer_lifetime", 
+            "units": "yr", 
+            "cell_methods": "time: mean", 
+            "cell_measures": "area: areacella", 
+            "long_name": "aoa_nh", 
+            "comment": "Fixed surface layer mixing ratio over 30o-50oN (0 ppbv), uniform fixed source (at all levels) everywhere else (source is unspecified but must be constant in space and time and documented). Note that the source could be 1yr/yr, so the tracer concentration provides mean age in years. For method using linearly increasing tracer include a method attribute: 'linearly increasing tracer'For method using uniform source (1yr/yr) include a method attribute: 'uniform source'", 
+            "dimensions": "longitude latitude alevel time", 
+            "out_name": "aoanh", 
             "type": "float", 
             "positive": "", 
             "valid_min": "", 
@@ -152,7 +169,7 @@
         }, 
         "ccn": {
             "modeling_realm": "aerosol", 
-            "standard_name": "number_concentration_of_ambient_aerosol_in_air_at_liquid_water_cloud_top", 
+            "standard_name": "number_concentration_of_cloud_condensation_nuclei_at_stp_in_air", 
             "units": "m-3", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -220,7 +237,7 @@
         }, 
         "cheaqpso4": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_aqueous_phase_net_chemical_production", 
+            "standard_name": "tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_particles_due_to_aqueous_phase_net_chemical_production", 
             "units": "kg m-2 s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -237,7 +254,7 @@
         }, 
         "chegpso4": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_gas_phase_net_chemical_production", 
+            "standard_name": "tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_particles_due_to_gaseous_phase_net_chemical_production", 
             "units": "kg m-2 s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -254,7 +271,7 @@
         }, 
         "chepasoa": {
             "modeling_realm": "aerosol", 
-            "standard_name": "unset", 
+            "standard_name": "tendency_of_atmosphere_mass_content_of_secondary_particulate_organic_matter_dry_aerosol_particles_due_to_net_chemical_production", 
             "units": "kg m-2 s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -271,7 +288,7 @@
         }, 
         "chepsoa": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_atmosphere_mass_content_of_secondary_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production", 
+            "standard_name": "tendency_of_atmosphere_mass_content_of_secondary_particulate_organic_matter_dry_aerosol_particles_due_to_net_chemical_production", 
             "units": "kg m-2 s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -407,7 +424,7 @@
         }, 
         "drybc": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_dry_deposition", 
+            "standard_name": "tendency_of_atmosphere_mass_content_of_elemental_carbon_dry_aerosol_particles_due_to_dry_deposition", 
             "units": "kg m-2 s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -424,7 +441,7 @@
         }, 
         "drydust": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_dry_deposition", 
+            "standard_name": "tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_particles_due_to_dry_deposition", 
             "units": "kg m-2 s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -458,7 +475,7 @@
         }, 
         "drynh4": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_atmosphere_mass_content_of_ammonium_dry_aerosol_due_to_dry_deposition", 
+            "standard_name": "tendency_of_atmosphere_mass_content_of_ammonium_dry_aerosol_particles_due_to_dry_deposition", 
             "units": "kg m-2 s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -475,7 +492,7 @@
         }, 
         "drynoy": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_atmosphere_mass_content_of_all_nitrogen_oxides_due_to_dry_deposition.", 
+            "standard_name": "tendency_of_atmosphere_mass_content_of_noy_expressed_as_nitrogen_due_to_dry_deposition", 
             "units": "kg m-2 s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -509,7 +526,7 @@
         }, 
         "dryoa": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_dry_deposition", 
+            "standard_name": "tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_particles_due_to_dry_deposition", 
             "units": "kg m-2 s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -543,7 +560,7 @@
         }, 
         "dryso4": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_dry_deposition", 
+            "standard_name": "tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_particles_due_to_dry_deposition", 
             "units": "kg m-2 s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -560,7 +577,7 @@
         }, 
         "dryss": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_dry_deposition", 
+            "standard_name": "tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_particles_due_to_dry_deposition", 
             "units": "kg m-2 s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -577,7 +594,7 @@
         }, 
         "emiaco": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_atmosphere_mass_content_of_anthropogenic_carbon_monoxide_due_to_emission", 
+            "standard_name": "tendency_of_atmosphere_mass_content_of_carbon_monoxide_due_to_emission", 
             "units": "kg m-2 s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -594,7 +611,7 @@
         }, 
         "emianox": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_atmosphere_mass_content_of_anthropogenic_nox_expressed_as_nitrogen_due_to_emission", 
+            "standard_name": "tendency_of_atmosphere_mass_content_of_nox_expressed_as_nitrogen_due_to_emission", 
             "units": "kg m-2 s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -611,7 +628,7 @@
         }, 
         "emiaoa": {
             "modeling_realm": "aerosol", 
-            "standard_name": "unset", 
+            "standard_name": "tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_particles_due_to_net_chemical_production_and_emission", 
             "units": "kg m-2 s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -628,7 +645,7 @@
         }, 
         "emibc": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_emission", 
+            "standard_name": "tendency_of_atmosphere_mass_content_of_elemental_carbon_dry_aerosol_particles_due_to_emission", 
             "units": "kg m-2 s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -645,7 +662,7 @@
         }, 
         "emibvoc": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_atmosphere_mass_content_of_non_methane_volatile_organic_compounds_expressed_as_carbon_due_to_emission_from_vegetation", 
+            "standard_name": "tendency_of_atmosphere_mass_content_of_biogenic_nmvoc_expressed_as_carbon_due_to_emission", 
             "units": "kg m-2 s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -696,7 +713,7 @@
         }, 
         "emidust": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_emission", 
+            "standard_name": "tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_particles_due_to_emission", 
             "units": "kg m-2 s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -730,8 +747,8 @@
         }, 
         "emilnox": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_atmosphere_mass_content_of_nox_from_lightning", 
-            "units": "kg m-2 s-1", 
+            "standard_name": "tendency_of_atmosphere_moles_of_nox_expressed_as_nitrogen", 
+            "units": "mol s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "layer-integrated lightning production of NOx", 
@@ -781,7 +798,7 @@
         }, 
         "emioa": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_net_chemical_production_and_emission", 
+            "standard_name": "tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_particles_due_to_net_chemical_production_and_emission", 
             "units": "kg m-2 s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -815,7 +832,7 @@
         }, 
         "emiso4": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_emission", 
+            "standard_name": "tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_particles_due_to_emission", 
             "units": "kg m-2 s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -832,7 +849,7 @@
         }, 
         "emiss": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_emission", 
+            "standard_name": "tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_particles_due_to_emission", 
             "units": "kg m-2 s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -849,7 +866,7 @@
         }, 
         "emivoc": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_atmosphere_mass_content_of_non_methane_volatile_organic_compounds_as_carbon_due_to_emission", 
+            "standard_name": "tendency_of_atmosphere_mass_content_of_nmvoc_due_to_emission", 
             "units": "kg m-2 s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -951,7 +968,7 @@
         }, 
         "iwp": {
             "modeling_realm": "aerosol", 
-            "standard_name": "atmosphere_cloud_ice_content", 
+            "standard_name": "atmosphere_mass_content_of_cloud_ice", 
             "units": "kg m-2", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -985,8 +1002,8 @@
         }, 
         "lossch4": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_mole_concentration_of_methane_due_to_chemical_gross_destruction", 
-            "units": "mol m-3 s-1", 
+            "standard_name": "tendency_of_atmosphere_moles_of_methane", 
+            "units": "mol s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Annual Loss of atmospheric Methane", 
@@ -1002,8 +1019,8 @@
         }, 
         "lossco": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_mole_concentration_of_carbon_monoxide_due_to_chemical_gross_destruction", 
-            "units": "mol m-3 s-1", 
+            "standard_name": "tendency_of_atmosphere_moles_of_carbon_monoxide", 
+            "units": "mol s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Annual Loss of atmospheric Carbon Monoxide", 
@@ -1019,7 +1036,7 @@
         }, 
         "lossn2o": {
             "modeling_realm": "aerosol", 
-            "standard_name": "", 
+            "standard_name": "tendency_of_atmosphere_moles_of_nitrous_oxide", 
             "units": "mol yr-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1036,7 +1053,7 @@
         }, 
         "lwp": {
             "modeling_realm": "aerosol", 
-            "standard_name": "atmosphere_cloud_liquid_water_content", 
+            "standard_name": "atmosphere_mass_content_of_cloud_liquid_water", 
             "units": "kg m-2", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1053,7 +1070,7 @@
         }, 
         "lwtoaasaer": {
             "modeling_realm": "aerosol", 
-            "standard_name": "toa_instantaneous_longwave_forcing_due_to_ambient_aerosol", 
+            "standard_name": "toa_instantaneous_longwave_forcing", 
             "units": "W m-2", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1070,7 +1087,7 @@
         }, 
         "lwtoaasdust": {
             "modeling_realm": "aerosol", 
-            "standard_name": "toa_instantaneous_longwave_forcing_due_to_dust_ambient_aerosol", 
+            "standard_name": "toa_instantaneous_longwave_forcing", 
             "units": "W m-2", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1087,7 +1104,7 @@
         }, 
         "lwtoacsaer": {
             "modeling_realm": "aerosol", 
-            "standard_name": "toa_instantaneous_longwave_forcing_due_to_ambient_aerosol_assuming_clear_sky", 
+            "standard_name": "toa_instantaneous_longwave_forcing", 
             "units": "W m-2", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1113,7 +1130,7 @@
             "dimensions": "longitude latitude alevel time", 
             "out_name": "mcu", 
             "type": "float", 
-            "positive": "", 
+            "positive": "up", 
             "valid_min": "", 
             "valid_max": "", 
             "ok_min_mean_abs": "", 
@@ -1121,7 +1138,7 @@
         }, 
         "mmraerh2o": {
             "modeling_realm": "aerosol", 
-            "standard_name": "mass_fraction_of_water_in_ambient_aerosol_in_air", 
+            "standard_name": "mass_fraction_of_water_in_ambient_aerosol_particles_in_air", 
             "units": "kg kg-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1138,7 +1155,7 @@
         }, 
         "mmrbc": {
             "modeling_realm": "aerosol", 
-            "standard_name": "mass_fraction_of_black_carbon_dry_aerosol_in_air", 
+            "standard_name": "mass_fraction_of_elemental_carbon_dry_aerosol_particles_in_air", 
             "units": "kg kg-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1155,7 +1172,7 @@
         }, 
         "mmrdust": {
             "modeling_realm": "aerosol", 
-            "standard_name": "mass_fraction_of_dust_dry_aerosol_in_air", 
+            "standard_name": "mass_fraction_of_dust_dry_aerosol_particles_in_air", 
             "units": "kg kg-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1172,7 +1189,7 @@
         }, 
         "mmrnh4": {
             "modeling_realm": "aerosol", 
-            "standard_name": "mass_fraction_of_ammonium_dry_aerosol_in_air", 
+            "standard_name": "mass_fraction_of_ammonium_dry_aerosol_particles_in_air", 
             "units": "kg kg-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1189,7 +1206,7 @@
         }, 
         "mmrno3": {
             "modeling_realm": "aerosol", 
-            "standard_name": "mass_fraction_of_nitrate_dry_aerosol_in_air", 
+            "standard_name": "mass_fraction_of_nitrate_dry_aerosol_particles_in_air", 
             "units": "kg kg-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1206,7 +1223,7 @@
         }, 
         "mmroa": {
             "modeling_realm": "aerosol", 
-            "standard_name": "mass_fraction_of_particulate_organic_matter_dry_aerosol_in_air", 
+            "standard_name": "mass_fraction_of_particulate_organic_matter_dry_aerosol_particles_in_air", 
             "units": "kg kg-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1223,7 +1240,7 @@
         }, 
         "mmrpm1": {
             "modeling_realm": "aerosol", 
-            "standard_name": "mass_fraction_of_pm1_dry_aerosol_in_air", 
+            "standard_name": "mass_fraction_of_pm1_dry_aerosol_particles_in_air", 
             "units": "kg kg-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1240,7 +1257,7 @@
         }, 
         "mmrpm10": {
             "modeling_realm": "aerosol", 
-            "standard_name": "mass_fraction_of_pm10_dry_aerosol_in_air", 
+            "standard_name": "mass_fraction_of_pm10_ambient_aerosol_particles_in_air", 
             "units": "kg kg-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1257,7 +1274,7 @@
         }, 
         "mmrpm2p5": {
             "modeling_realm": "aerosol", 
-            "standard_name": "mass_fraction_of_pm2p5_dry_aerosol_in_air", 
+            "standard_name": "mass_fraction_of_pm2p5_dry_aerosol_particles_in_air", 
             "units": "kg kg-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1274,7 +1291,7 @@
         }, 
         "mmrso4": {
             "modeling_realm": "aerosol", 
-            "standard_name": "mass_fraction_of_sulfate_dry_aerosol_in_air", 
+            "standard_name": "mass_fraction_of_sulfate_dry_aerosol_particles_in_air", 
             "units": "kg kg-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1291,7 +1308,7 @@
         }, 
         "mmrsoa": {
             "modeling_realm": "aerosol", 
-            "standard_name": "mass_fraction_of_secondary_particulate_organic_matter_dry_aerosol_in_air", 
+            "standard_name": "mass_fraction_of_secondary_particulate_organic_matter_dry_aerosol_particles_in_air", 
             "units": "kg kg-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1308,7 +1325,7 @@
         }, 
         "mmrss": {
             "modeling_realm": "aerosol", 
-            "standard_name": "mass_fraction_of_seasalt_dry_aerosol_in_air", 
+            "standard_name": "mass_fraction_of_seasalt_dry_aerosol_particles_in_air", 
             "units": "kg kg-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1333,6 +1350,23 @@
             "comment": "", 
             "dimensions": "longitude latitude alevel time", 
             "out_name": "n2o", 
+            "type": "float", 
+            "positive": "", 
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "nh50": {
+            "modeling_realm": "aerosol", 
+            "standard_name": "mole_fraction_of_artificial_tracer_with_fixed_lifetime_in_air", 
+            "units": "mol mol-1", 
+            "cell_methods": "time: mean", 
+            "cell_measures": "area: areacella", 
+            "long_name": "nh_50", 
+            "comment": "", 
+            "dimensions": "longitude latitude alevel time", 
+            "out_name": "nh50", 
             "type": "float", 
             "positive": "", 
             "valid_min": "", 
@@ -1393,8 +1427,8 @@
         }, 
         "o3loss": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_mole_concentration_of_ozone_due_to_chemical_loss", 
-            "units": "kg m-3 s-1", 
+            "standard_name": "tendency_of_atmosphere_mole_concentration_of_ozone_due_to_chemical_destruction", 
+            "units": "mol m-3 s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "O3 destruction rate", 
@@ -1410,8 +1444,8 @@
         }, 
         "o3prod": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_mole_concentration_of_ozone_due_to_chemical_production", 
-            "units": "kg m-3 s-1", 
+            "standard_name": "tendency_of_atmosphere_mole_concentration_of_ozone_due_to_chemical_production", 
+            "units": "mol m-3 s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "O3 production rate", 
@@ -1427,8 +1461,8 @@
         }, 
         "o3ste": {
             "modeling_realm": "aerosol", 
-            "standard_name": "", 
-            "units": "kg m-2 s-1", 
+            "standard_name": "mole_fraction_of_ozone_in_air", 
+            "units": "mol mol-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Ozone volume mixing ratio", 
@@ -1444,7 +1478,7 @@
         }, 
         "od440aer": {
             "modeling_realm": "aerosol", 
-            "standard_name": "", 
+            "standard_name": "atmosphere_optical_thickness_due_to_ambient_aerosol_particles", 
             "units": "1.0", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1461,7 +1495,7 @@
         }, 
         "od550aer": {
             "modeling_realm": "aerosol", 
-            "standard_name": "atmosphere_optical_thickness_due_to_ambient_aerosol", 
+            "standard_name": "atmosphere_optical_thickness_due_to_ambient_aerosol_particles", 
             "units": "1.0", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1495,7 +1529,7 @@
         }, 
         "od550bb": {
             "modeling_realm": "aerosol", 
-            "standard_name": "atmosphere_optical_thickness_due_to_biomass_burning_ambient_aerosol", 
+            "standard_name": "atmosphere_optical_thickness_due_to_particulate_organic_matter_ambient_aerosol", 
             "units": "1.0", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1631,7 +1665,7 @@
         }, 
         "od870aer": {
             "modeling_realm": "aerosol", 
-            "standard_name": "", 
+            "standard_name": "atmosphere_optical_thickness_due_to_ambient_aerosol_particles", 
             "units": "1.0", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1682,7 +1716,7 @@
         }, 
         "photo1d": {
             "modeling_realm": "aerosol", 
-            "standard_name": "photolysis_rate_of_ozone_to_O1D", 
+            "standard_name": "photolysis_rate_of_ozone_to_1D_oxygen_atom", 
             "units": "s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1699,7 +1733,7 @@
         }, 
         "pilev": {
             "modeling_realm": "aerosol", 
-            "standard_name": "", 
+            "standard_name": "air_pressure", 
             "units": "Pa", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1818,7 +1852,7 @@
         }, 
         "swtoaasaer": {
             "modeling_realm": "aerosol", 
-            "standard_name": "toa_instantaneous_shortwave_forcing_due_to_ambient_aerosol", 
+            "standard_name": "toa_instantaneous_shortwave_forcing", 
             "units": "W m-2", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1835,7 +1869,7 @@
         }, 
         "swtoaasbb": {
             "modeling_realm": "aerosol", 
-            "standard_name": "toa_instantaneous_shortwave_forcing_due_to_biomass_burning_ambient_aerosol", 
+            "standard_name": "toa_instantaneous_shortwave_forcing", 
             "units": "W m-2", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1852,7 +1886,7 @@
         }, 
         "swtoaasbcff": {
             "modeling_realm": "aerosol", 
-            "standard_name": "toa_instantaneous_shortwave_forcing_due_to_black_carbon_ambient_aerosol_from_fossil_fuels", 
+            "standard_name": "toa_instantaneous_shortwave_forcing", 
             "units": "W m-2", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1869,7 +1903,7 @@
         }, 
         "swtoaasdust": {
             "modeling_realm": "aerosol", 
-            "standard_name": "toa_instantaneous_shortwave_forcing_due_to_dust_ambient_aerosol", 
+            "standard_name": "toa_instantaneous_shortwave_forcing", 
             "units": "W m-2", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1886,7 +1920,7 @@
         }, 
         "swtoaasno3": {
             "modeling_realm": "aerosol", 
-            "standard_name": "toa_instantaneous_shortwave_forcing_due_to_nitrate_ambient_aerosol", 
+            "standard_name": "toa_instantaneous_shortwave_forcing", 
             "units": "W m-2", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1903,7 +1937,7 @@
         }, 
         "swtoaasoaff": {
             "modeling_realm": "aerosol", 
-            "standard_name": "toa_instantaneous_shortwave_forcing_due_to_particulate_organic_matter_ambient_aerosol_from_fossil_fuels", 
+            "standard_name": "toa_instantaneous_shortwave_forcing", 
             "units": "W m-2", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1920,7 +1954,7 @@
         }, 
         "swtoaasso4": {
             "modeling_realm": "aerosol", 
-            "standard_name": "toa_instantaneous_shortwave_forcing_due_to_sulfate_ambient_aerosol", 
+            "standard_name": "toa_instantaneous_shortwave_forcing", 
             "units": "W m-2", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1937,7 +1971,7 @@
         }, 
         "swtoaassoa": {
             "modeling_realm": "aerosol", 
-            "standard_name": "toa_instantaneous_shortwave_forcing_due_to_secondary_particulate_organic_matter_ambient_aerosol", 
+            "standard_name": "toa_instantaneous_shortwave_forcing", 
             "units": "W m-2", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1954,7 +1988,7 @@
         }, 
         "swtoaasss": {
             "modeling_realm": "aerosol", 
-            "standard_name": "toa_instantaneous_shortwave_forcing_due_to_seasalt_ambient_aerosol", 
+            "standard_name": "toa_instantaneous_shortwave_forcing", 
             "units": "W m-2", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1971,7 +2005,7 @@
         }, 
         "swtoacsaer": {
             "modeling_realm": "aerosol", 
-            "standard_name": "toa_instantaneous_shortwave_forcing_due_to_ambient_aerosol_assuming_clear_sky", 
+            "standard_name": "toa_instantaneous_shortwave_forcing", 
             "units": "W m-2", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -1988,7 +2022,7 @@
         }, 
         "swtoacsbb": {
             "modeling_realm": "aerosol", 
-            "standard_name": "toa_instantaneous_shortwave_forcing_due_to_biomass_burning_ambient_aerosol_assuming_clear_sky", 
+            "standard_name": "toa_instantaneous_shortwave_forcing", 
             "units": "W m-2", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -2005,7 +2039,7 @@
         }, 
         "swtoacsbcff": {
             "modeling_realm": "aerosol", 
-            "standard_name": "toa_instantaneous_shortwave_forcing_due_to_black_carbon_ambient_aerosol_from_fossil_fuels_assuming_clear_sky", 
+            "standard_name": "toa_instantaneous_shortwave_forcing", 
             "units": "W m-2", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -2022,7 +2056,7 @@
         }, 
         "swtoacsdust": {
             "modeling_realm": "aerosol", 
-            "standard_name": "toa_instantaneous_shortwave_forcing_due_to_dust_ambient_aerosol_assuming_clear_sky", 
+            "standard_name": "toa_instantaneous_shortwave_forcing", 
             "units": "W m-2", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -2039,7 +2073,7 @@
         }, 
         "swtoacsoaff": {
             "modeling_realm": "aerosol", 
-            "standard_name": "toa_instantaneous_shortwave_forcing_due_to_particulate_organic_matter_ambient_aerosol_from_fossil_fuels_assuming_clear_sky", 
+            "standard_name": "toa_instantaneous_shortwave_forcing", 
             "units": "W m-2", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -2105,23 +2139,6 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "tos": {
-            "modeling_realm": "aerosol", 
-            "standard_name": "sea_surface_temperature", 
-            "units": "K", 
-            "cell_methods": "time: mean", 
-            "cell_measures": "area: areacella", 
-            "long_name": "Sea Surface Temperature", 
-            "comment": "this may differ from 'surface temperature' in regions of sea ice.", 
-            "dimensions": "longitude latitude time", 
-            "out_name": "tos", 
-            "type": "float", 
-            "positive": "", 
-            "valid_min": "", 
-            "valid_max": "", 
-            "ok_min_mean_abs": "", 
-            "ok_max_mean_abs": ""
-        }, 
         "toz": {
             "modeling_realm": "aerosol", 
             "standard_name": "equivalent_thickness_at_stp_of_atmosphere_ozone_content", 
@@ -2141,8 +2158,8 @@
         }, 
         "tropoz": {
             "modeling_realm": "aerosol", 
-            "standard_name": "", 
-            "units": "DU", 
+            "standard_name": "equivalent_thickness_at_stp_of_atmosphere_ozone_content", 
+            "units": "m", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "tropospheric ozone column", 
@@ -2226,7 +2243,7 @@
         }, 
         "wetbc": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_atmosphere_mass_content_of_black_carbon_dry_aerosol_due_to_wet_deposition", 
+            "standard_name": "tendency_of_atmosphere_mass_content_of_elemental_carbon_dry_aerosol_particles_due_to_wet_deposition", 
             "units": "kg m-2 s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -2243,7 +2260,7 @@
         }, 
         "wetdust": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_due_to_wet_deposition", 
+            "standard_name": "tendency_of_atmosphere_mass_content_of_dust_dry_aerosol_particles_due_to_wet_deposition", 
             "units": "kg m-2 s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -2277,7 +2294,7 @@
         }, 
         "wetnh4": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_atmosphere_mass_content_of_ammonium_dry_aerosol_due_to_wet_deposition", 
+            "standard_name": "tendency_of_atmosphere_mass_content_of_ammonium_dry_aerosol_particles_due_to_wet_deposition", 
             "units": "kg m-2 s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -2294,7 +2311,7 @@
         }, 
         "wetnoy": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_atmosphere_mass_content_of_all_nitrogen_oxides_due_to_wet_deposition", 
+            "standard_name": "tendency_of_atmosphere_mass_content_of_noy_expressed_as_nitrogen_due_to_wet_deposition", 
             "units": "kg m-2 s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -2311,7 +2328,7 @@
         }, 
         "wetoa": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_due_to_wet_deposition", 
+            "standard_name": "tendency_of_atmosphere_mass_content_of_particulate_organic_matter_dry_aerosol_particles_due_to_wet_deposition", 
             "units": "kg m-2 s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -2345,7 +2362,7 @@
         }, 
         "wetso4": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_due_to_wet_deposition", 
+            "standard_name": "tendency_of_atmosphere_mass_content_of_sulfate_dry_aerosol_particles_due_to_wet_deposition", 
             "units": "kg m-2 s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -2362,7 +2379,7 @@
         }, 
         "wetss": {
             "modeling_realm": "aerosol", 
-            "standard_name": "tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_due_to_wet_deposition", 
+            "standard_name": "tendency_of_atmosphere_mass_content_of_seasalt_dry_aerosol_particles_due_to_wet_deposition", 
             "units": "kg m-2 s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 

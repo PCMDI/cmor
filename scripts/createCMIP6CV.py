@@ -16,7 +16,7 @@ filelist = [
         "CMIP6_source_type.json",
         "CMIP6_frequency.json",
         "CMIP6_grid_label.json",
-        "CMIP6_grid_resolution.json",
+        "CMIP6_nominal_resolution.json",
         "CMIP6_realm.json",
         "CMIP6_table_id.json",
         "CMIP6_license.json",
@@ -36,6 +36,7 @@ class readWCRP():
         for file in filelist:
             url = githubRepo + file 
             response = urllib.urlopen(url)
+            print url
             myjson = json.loads(response.read())
             Dico = OrderedDict(Dico.items() + myjson.items())
          

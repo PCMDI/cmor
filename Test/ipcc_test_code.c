@@ -305,7 +305,7 @@ int main()
   myaxes2[3] = myaxes[2];
 
   printf("Test code: defining variables from table 1, %s\n",positive2d[0]);
-  ierr = cmor_variable(&myvars[0],entry2d[0],units2d[0],3,myaxes,'d',NULL,&dtmp2,positive2d[0],varin2d[0],"no history","no future");
+  ierr = cmor_variable(&myvars[0],entry2d[0],units2d[0],3,myaxes,'d',&dtmp,&dtmp2,positive2d[0],varin2d[0],"no history","no future");
   ierr = cmor_variable(&myvars[1],entry3d[2],units3d[2],4,myaxes2,'d',NULL,&dtmp2,NULL,varin3d[2],"no history","no future");
 
   printf("Test code: definig tas\n");

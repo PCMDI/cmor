@@ -3,7 +3,7 @@
 
 #define CMOR_VERSION_MAJOR 3
 #define CMOR_VERSION_MINOR 2
-#define CMOR_VERSION_PATCH 0
+#define CMOR_VERSION_PATCH 1
 
 #define CMOR_CF_VERSION_MAJOR 1
 #define CMOR_CF_VERSION_MINOR 6
@@ -182,6 +182,7 @@
 #define GLOBAL_ATT_MIP_ERA            "mip_era"
 #define GLOBAL_CV_FILENAME            GLOBAL_INTERNAL"control_vocabulary_file"
 #define GLOBAL_IS_CMIP6               GLOBAL_INTERNAL"cmip6_option"
+
 
 #define JSON_KEY_HEADER               "Header"
 #define JSON_KEY_EXPERIMENT           "experiments"

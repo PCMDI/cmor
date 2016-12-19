@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.beta.42.01", 
+        "data_specs_version": "01.beta.45", 
         "table_id": "Table LIyrgre", 
-        "realm": "", 
+        "realm": "landIce", 
         "frequency": "yr", 
         "cmor_version": "3.2", 
-        "table_date": "23 November 2016", 
+        "table_date": "19 December 2016", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "", 
@@ -15,7 +15,7 @@
     }, 
     "variable_entry": {
         "acabf": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce", 
             "standard_name": "land_ice_surface_specific_mass_balance_flux", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: time: mean where ice_shelf", 
@@ -32,7 +32,7 @@
             "ok_max_mean_abs": ""
         }, 
         "areacelli": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce", 
             "standard_name": "cell_area", 
             "units": "m2", 
             "cell_methods": "time: mean", 
@@ -49,7 +49,7 @@
             "ok_max_mean_abs": ""
         }, 
         "hfgeoubed": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce", 
             "standard_name": "upward_geothermal_heat_flux_at_ground_level", 
             "units": "W m-2", 
             "cell_methods": "area: time: mean where ice_shelf", 
@@ -100,7 +100,7 @@
             "ok_max_mean_abs": ""
         }, 
         "libmassbffl": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce", 
             "standard_name": "land_ice_basal_specific_mass_balance_flux", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: time: mean where floating_ice_shelf", 
@@ -117,7 +117,7 @@
             "ok_max_mean_abs": ""
         }, 
         "libmassbfgr": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce", 
             "standard_name": "land_ice_basal_specific_mass_balance_flux", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: time: mean where grounded_ice_shelf", 
@@ -134,7 +134,7 @@
             "ok_max_mean_abs": ""
         }, 
         "licalvf": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce", 
             "standard_name": "land_ice_specific_mass_flux_due_to_calving", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: time: mean where ice_shelf", 
@@ -151,7 +151,7 @@
             "ok_max_mean_abs": ""
         }, 
         "lifmassbf": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce", 
             "standard_name": "land_ice_specific_mass_flux_due_to_calving_and_ice_front_melting", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: time: mean where ice_shelf", 
@@ -173,7 +173,7 @@
             "units": "kg", 
             "cell_methods": "area: time: mean where ice_shelf", 
             "cell_measures": "", 
-            "long_name": "ice sheet mass", 
+            "long_name": "Ice sheet mass", 
             "comment": "The ice sheet mass is computed as the volume times density", 
             "dimensions": "time", 
             "out_name": "lim", 
@@ -202,7 +202,7 @@
             "ok_max_mean_abs": ""
         }, 
         "litempbotfl": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce", 
             "standard_name": "land_ice_basal_temperature", 
             "units": "K", 
             "cell_methods": "area: time: mean where floating_ice_shelf", 
@@ -219,7 +219,7 @@
             "ok_max_mean_abs": ""
         }, 
         "litempbotgr": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce", 
             "standard_name": "land_ice_basal_temperature", 
             "units": "K", 
             "cell_methods": "area: time: mean where grounded_ice_shelf", 
@@ -235,16 +235,16 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "litempsnic": {
-            "modeling_realm": "", 
-            "standard_name": "snow_land_ice_interface_temperature", 
+        "litemptop": {
+            "modeling_realm": "landIce", 
+            "standard_name": "temperature_at_top_of_ice_sheet_model", 
             "units": "K", 
             "cell_methods": "area: time: mean where ice_shelf", 
             "cell_measures": "area: areacellg", 
-            "long_name": "Temperature at snow-ice interface over land ice", 
-            "comment": "Surface Temperature that is used to force ice sheet models. It is the temperature at the base of the snowpack models, and does not vary with seasons. Report surface temperature of ice sheet where snow thickness is zero", 
+            "long_name": "Temperature at top of ice sheet model", 
+            "comment": "Upper boundary temperature that is used to force ice sheet models. It is the temperature at the base of the snowpack models, and does not vary with seasons. Report surface temperature of ice sheet where snow thickness is zero", 
             "dimensions": "longitude latitude time", 
-            "out_name": "litempsnic", 
+            "out_name": "litemptop", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -253,7 +253,7 @@
             "ok_max_mean_abs": ""
         }, 
         "lithk": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce", 
             "standard_name": "land_ice_thickness", 
             "units": "m", 
             "cell_methods": "area: time: mean where ice_shelf", 
@@ -270,7 +270,7 @@
             "ok_max_mean_abs": ""
         }, 
         "orog": {
-            "modeling_realm": "", 
+            "modeling_realm": "land", 
             "standard_name": "surface_altitude", 
             "units": "m", 
             "cell_methods": "area: time: mean where ice_shelf", 
@@ -287,7 +287,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sftflf": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce", 
             "standard_name": "floating_ice_shelf_area_fraction", 
             "units": "%", 
             "cell_methods": "time: mean", 
@@ -315,13 +315,13 @@
             "out_name": "sftgif", 
             "type": "real", 
             "positive": "", 
-            "valid_min": "0.0", 
-            "valid_max": "100.0", 
+            "valid_min": "", 
+            "valid_max": "", 
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
         "sftgrf": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce", 
             "standard_name": "grounded_ice_sheet_area_fraction", 
             "units": "%", 
             "cell_methods": "time: mean", 
@@ -338,7 +338,7 @@
             "ok_max_mean_abs": ""
         }, 
         "snc": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce land", 
             "standard_name": "surface_snow_area_fraction", 
             "units": "%", 
             "cell_methods": "area: time: mean where ice_shelf", 
@@ -355,7 +355,7 @@
             "ok_max_mean_abs": ""
         }, 
         "strbasemag": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce", 
             "standard_name": "magnitude_of_basal_drag_at_land_ice_base", 
             "units": "Pa", 
             "cell_methods": "area: time: mean where ice_shelf", 
@@ -423,7 +423,7 @@
             "ok_max_mean_abs": ""
         }, 
         "topg": {
-            "modeling_realm": "", 
+            "modeling_realm": "landIce", 
             "standard_name": "bedrock_altitude", 
             "units": "m", 
             "cell_methods": "area: time: mean where ice_shelf", 
@@ -439,16 +439,16 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "uvelbase": {
-            "modeling_realm": "", 
+        "xvelbase": {
+            "modeling_realm": "landIce", 
             "standard_name": "land_ice_basal_x_velocity", 
             "units": "m s-1", 
             "cell_methods": "area: time: mean where ice_shelf", 
             "cell_measures": "area: areacellg", 
             "long_name": "X-component of land ice basal velocity", 
-            "comment": "u-velocity at land ice base", 
+            "comment": "A velocity is a vector quantity. 'x' indicates a vector component along the grid x-axis, positive with increasing x. 'Land ice' means glaciers, ice-caps and ice-sheets resting on bedrock and also includes ice-shelves. 'basal' means the lower boundary of the land ice.", 
             "dimensions": "longitude latitude time", 
-            "out_name": "uvelbase", 
+            "out_name": "xvelbase", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -456,8 +456,8 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "uvelmean": {
-            "modeling_realm": "", 
+        "xvelmean": {
+            "modeling_realm": "landIce", 
             "standard_name": "land_ice_vertical_mean_x_velocity", 
             "units": "m s-1", 
             "cell_methods": "area: time: mean where ice_shelf", 
@@ -465,7 +465,7 @@
             "long_name": "X-component of land ice vertical mean velocity", 
             "comment": "The vertical mean land ice velocity is the average from the bedrock to the surface of the ice", 
             "dimensions": "longitude latitude time", 
-            "out_name": "uvelmean", 
+            "out_name": "xvelmean", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -473,16 +473,16 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "uvelsurf": {
-            "modeling_realm": "", 
+        "xvelsurf": {
+            "modeling_realm": "landIce", 
             "standard_name": "land_ice_surface_x_velocity", 
             "units": "m s-1", 
             "cell_methods": "area: time: mean where ice_shelf", 
             "cell_measures": "area: areacellg", 
             "long_name": "X-component of land ice surface velocity", 
-            "comment": "u-velocity at land ice surface", 
+            "comment": "A velocity is a vector quantity. 'x' indicates a vector component along the grid x-axis, positive with increasing x. 'Land ice' means glaciers, ice-caps and ice-sheets resting on bedrock and also includes ice-shelves. The surface called 'surface' means the lower boundary of the atmosphere.", 
             "dimensions": "longitude latitude time", 
-            "out_name": "uvelsurf", 
+            "out_name": "xvelsurf", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -490,16 +490,16 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "vvelbase": {
-            "modeling_realm": "", 
+        "yvelbase": {
+            "modeling_realm": "landIce", 
             "standard_name": "land_ice_basal_y_velocity", 
             "units": "m s-1", 
             "cell_methods": "area: time: mean where ice_shelf", 
             "cell_measures": "area: areacellg", 
             "long_name": "Y-component of land ice basal velocity", 
-            "comment": "v-velocity at land ice base", 
+            "comment": "A velocity is a vector quantity. 'y' indicates a vector component along the grid y-axis, positive with increasing y. 'Land ice' means glaciers, ice-caps and ice-sheets resting on bedrock and also includes ice-shelves. 'basal' means the lower boundary of the land ice.", 
             "dimensions": "longitude latitude time", 
-            "out_name": "vvelbase", 
+            "out_name": "yvelbase", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -507,8 +507,8 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "vvelmean": {
-            "modeling_realm": "", 
+        "yvelmean": {
+            "modeling_realm": "landIce", 
             "standard_name": "land_ice_vertical_mean_y_velocity", 
             "units": "m s-1", 
             "cell_methods": "area: time: mean where ice_shelf", 
@@ -516,7 +516,7 @@
             "long_name": "Y-component of land ice vertical mean velocity", 
             "comment": "The vertical mean land ice velocity is the average from the bedrock to the surface of the ice", 
             "dimensions": "longitude latitude time", 
-            "out_name": "vvelmean", 
+            "out_name": "yvelmean", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -524,16 +524,16 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "vvelsurf": {
-            "modeling_realm": "", 
+        "yvelsurf": {
+            "modeling_realm": "landIce", 
             "standard_name": "land_ice_surface_y_velocity", 
             "units": "m s-1", 
             "cell_methods": "area: time: mean where ice_shelf", 
             "cell_measures": "area: areacellg", 
             "long_name": "Y-component of land ice surface velocity", 
-            "comment": "v-velocity at land ice surface", 
+            "comment": "A velocity is a vector quantity. 'y' indicates a vector component along the grid y-axis, positive with increasing y. 'Land ice' means glaciers, ice-caps and ice-sheets resting on bedrock and also includes ice-shelves. The surface called 'surface' means the lower boundary of the atmosphere.'", 
             "dimensions": "longitude latitude time", 
-            "out_name": "vvelsurf", 
+            "out_name": "yvelsurf", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -541,16 +541,16 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "wvelbase": {
-            "modeling_realm": "", 
+        "zvelbase": {
+            "modeling_realm": "landIce", 
             "standard_name": "land_ice_basal_upward_velocity", 
             "units": "m s-1", 
             "cell_methods": "area: time: mean where ice_shelf", 
             "cell_measures": "area: areacellg", 
             "long_name": "Upward-component of land ice basal velocity", 
-            "comment": "w-velocity at land ice base", 
+            "comment": "A velocity is a vector quantity. 'Upward' indicates a vector component which is positive when directed upward (negative downward). 'basal' means the lower boundary of the atmosphere", 
             "dimensions": "longitude latitude time", 
-            "out_name": "wvelbase", 
+            "out_name": "zvelbase", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -558,16 +558,16 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "wvelsurf": {
-            "modeling_realm": "", 
+        "zvelsurf": {
+            "modeling_realm": "landIce", 
             "standard_name": "land_ice_surface_upward_velocity", 
             "units": "m s-1", 
             "cell_methods": "area: time: mean where ice_shelf", 
             "cell_measures": "area: areacellg", 
             "long_name": "Upward component of land ice surface velocity", 
-            "comment": "w-velocity at land ice surface", 
+            "comment": "A velocity is a vector quantity. 'Upward' indicates a vector component which is positive when directed upward (negative downward). The surface called 'surface' means the lower boundary of the atmosphere", 
             "dimensions": "longitude latitude time", 
-            "out_name": "wvelsurf", 
+            "out_name": "zvelsurf", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 

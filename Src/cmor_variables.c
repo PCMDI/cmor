@@ -1778,7 +1778,7 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
 		      cmor_vars[vrid].missing, cmor_vars[vrid].omissing );
 	    cmor_update_history( vrid, msg );
 	}
-
+    }
 	if( refvar.type == 'd' ) {
 
 	    cmor_set_variable_attribute_internal( vrid,
@@ -1827,7 +1827,7 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
 	            'i',
 	            &aint );
 	}
-    }
+
 
 
     cmor_vars[vrid].tolerance = 1.e-4;

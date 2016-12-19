@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.beta.42.01", 
+        "data_specs_version": "01.beta.45", 
         "table_id": "Table Lmon", 
         "realm": "land", 
         "frequency": "mon", 
         "cmor_version": "3.2", 
-        "table_date": "23 November 2016", 
+        "table_date": "19 December 2016", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "30.00000", 
@@ -72,7 +72,7 @@
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Total C4 PFT Cover Fraction", 
-            "comment": "Fraction of entire grid cell  that is covered by C4 PFTs (including grass and crops).", 
+            "comment": "Percentage of entire grid cell  that is covered by C4 PFTs (including grass and crops).", 
             "dimensions": "longitude latitude time typec4pft", 
             "out_name": "c4PftFrac", 
             "type": "real", 
