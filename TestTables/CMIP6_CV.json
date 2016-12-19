@@ -514,7 +514,6 @@
             "3hrpt",
             "6hr",
             "6hrpt",
-            "day",
             "Aday",
             "Amon",
             "LImon",
@@ -6334,6 +6333,9 @@
         },
         "product":[
             "output"
+        ],
+        "tracking_id":[
+            "hdl:21.14100/.*"
         ],
         "further_info_url":[
             "http://furtherinfo.es-doc.org/[[:alpha:]]\\{1,\\}"
