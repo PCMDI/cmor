@@ -272,7 +272,7 @@ class checkCMIP6(object):
 #   main()
 #  =========================
 def main():
-    parser = argparse.ArgumentParser(prog='CMIP6Validator',
+    parser = argparse.ArgumentParser(prog='PrePARE',
                                      description='Validate CMIP6 file '
                                      'for ESGF publication.')
 
