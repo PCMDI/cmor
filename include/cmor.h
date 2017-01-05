@@ -99,7 +99,7 @@
 #define AXIS_ENTRY_FILENAME           "CMIP6_coordinate.json"
 #define CMOR_FORMULA_VAR_FILE         GLOBAL_INTERNAL"FORMULA_VAR_FILE"
 #define VARIABLE_ATT_UNITS            "units"
-#define VARIABLE_ATT_MISSINGVALUES    "missing_values"
+#define VARIABLE_ATT_MISSINGVALUES    "missing_value"
 #define VARIABLE_ATT_FILLVAL          "_FillValue"
 #define VARIABLE_ATT_STANDARDNAME     "standard_name"
 #define VARIABLE_ATT_LONGNAME         "long_name"

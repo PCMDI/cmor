@@ -2692,7 +2692,8 @@ void cmor_setGblAttr(int var_id) {
 /* -------------------------------------------------------------------- */
 /*     If CELLMEASURE is set to @OPT we don't do anything               */
 /* -------------------------------------------------------------------- */
-		if( (strcmp(ctmp, "@OPT") == 0) || (strcmp(ctmp, "--OPT") == 0) ){
+		if( (strcmp(ctmp, "@OPT") == 0) || (strcmp(ctmp, "--OPT") == 0) ||
+			(strcmp(ctmp, "--MODEL") == 0)){
 			cmor_set_variable_attribute(var_id,
 			        VARIABLE_ATT_CELLMEASURES, 'c', "");
 		}
