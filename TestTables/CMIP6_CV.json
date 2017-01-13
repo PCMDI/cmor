@@ -35,12 +35,12 @@
             "variant_label"
         ],
         "version_metadata":{
-            "note":"Add GISS-E2-1 variants",
-            "previous_commit":"c401abb0f2616dec58a20d62a5b781d05595b4cf",
+            "note":"Register multiple EC-Earth3 source_ids",
+            "previous_commit":"e5b6d3c4b375dc46cbc81f7b06993a54a083c861",
             "author":"Paul J. Durack <durack1@llnl.gov>",
-            "creation_date":"Wed Dec 14 15:49:55 2016 -0800",
+            "creation_date":"Thu Jan 5 15:53:28 2017 -0800",
             "institution_id":"PCMDI",
-            "latest_tag_point":"3.2.0 (44; gb2f427b)"
+            "latest_tag_point":"3.2.1 (21; gaaa1b79)"
         },
         "activity_id":[
             "AerChemMIP",
@@ -83,6 +83,7 @@
             "MRI":"Meteorological Research Institute, Tsukuba, Ibaraki 305-0052, Japan",
             "NASA-GISS":"Goddard Institute for Space Studies, New York, NY 10025, USA",
             "PCMDI":"Program for Climate Model Diagnosis and Intercomparison, Lawrence Livermore National Laboratory, Livermore, CA 94550, USA",
+            "NERC":"Natural Environment Research Council, STFC-RAL, Harwell, Oxford, OX11 0QX, UK",
             "FIO":"The First Institution of Oceanography (SOA), Qingdao, China",
             "NOAA-GFDL":"National Oceanic and Atmospheric Administration, Geophysical Fluid Dynamics Laboratory, Princeton, NJ 08540, USA",
             "LASG-IAP":"Institute of Atmospheric Physics, Chinese Academy of Sciences, Beijing 100029, China",
@@ -91,6 +92,46 @@
             "NUIST":"Nanjing University of Information Science & Technology, Nanjing, 210044, China"
         },
         "source_id":{
+            "HadGEM3-GC31-HM":{
+                "label_extended":"HadGEM3-GC3.1-N512ORCA025",
+                "atmospheric_chemistry":"None",
+                "atmosphere":"MetUM-HadGEM3-GA7.1 (1024 x 768 N512; 85 levels; top level 85km)",
+                "ocean_biogeochemistry":"None",
+                "release_year":"2016",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"CICE-HadGEM3-GSI8 (ORCA025 tripolar primarily 0.25 deg latitude/longitude)",
+                "label":"HadGEM3-GC31-HM",
+                "institution_id":[
+                    "MOHC"
+                ],
+                "land_surface":"JULES-HadGEM3-GL7.1",
+                "aerosol":"UKCA-GLOMAP-mode",
+                "source_id":"HadGEM3-GC31-HM",
+                "ocean":"NEMO-HadGEM3-GO6.0 (ORCA025 tripolar primarily 0.25 deg latitude/longitude; 75 levels; top grid cell 0-1m)",
+                "land_ice":"None"
+            },
+            "HadGEM3-GC31-HH":{
+                "label_extended":"HadGEM3-GC3.1-N512ORCA12",
+                "atmospheric_chemistry":"None",
+                "atmosphere":"MetUM-HadGEM3-GA7.1 (1024 x 768 N512; 85 levels; top level 85km)",
+                "ocean_biogeochemistry":"None",
+                "release_year":"2016",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"CICE-HadGEM3-GSI8 (ORCA12 tripolar primarily 1/12 deg latitude/longitude)",
+                "label":"HadGEM3-GC31-HH",
+                "institution_id":[
+                    "MOHC"
+                ],
+                "land_surface":"JULES-HadGEM3-GL7.1",
+                "aerosol":"UKCA-GLOMAP-mode",
+                "source_id":"HadGEM3-GC31-HH",
+                "ocean":"NEMO-HadGEM3-GO6.0 (ORCA12 tripolar primarily 1/12 deg latitude/longitude; 75 levels; top grid cell 0-1m)",
+                "land_ice":"None"
+            },
             "GISS-E2-1G":{
                 "label_extended":"GISS-E2.1G",
                 "atmospheric_chemistry":"varies with physics-version (p==1 Non-interactive, p>1 GPUCCINI)",
@@ -111,25 +152,46 @@
                 "ocean":"GISS Ocean (1 deg latitude/longitude; 32 levels; top grid cell 0-10m)",
                 "land_ice":"Fixed"
             },
-            "EC-Earth-3":{
-                "label_extended":"EC-Earth v3.2.x",
-                "atmospheric_chemistry":"None",
-                "atmosphere":"IFS cy36r4 (TL255, linearly reduced Gaussian grid equivalent to 512 x 256; 91 levels; top level 1 Pa)",
+            "CNRM-CM6-1-HR":{
+                "label_extended":"CNRM-CM6-1-HR",
+                "atmospheric_chemistry":"OZL_v2",
+                "atmosphere":"Arpege 6.2 (Tl359; 91 levels; top level 78.4 km)",
                 "ocean_biogeochemistry":"None",
+                "release_year":"2016",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"Gelato 6.1",
+                "label":"CNRM-CM6-1-HR",
+                "institution_id":[
+                    "CNRM-CERFACS"
+                ],
+                "land_surface":"Surfex 8.0c",
+                "aerosol":"climatological fields computed by TACTIC (v2.0)",
+                "source_id":"CNRM-CM6-1-HR",
+                "ocean":"Nemo 3.6 (eORCA025; tripolar primarily 1/4deg latitude/longitude; 75 levels; top grid cell 0-1 m)",
+                "land_ice":"None"
+            },
+            "UKESM1-0-LL":{
+                "label_extended":"UKESM1.0-N96ORCA1",
+                "atmospheric_chemistry":"UKCA-StratTrop",
+                "atmosphere":"MetUM-HadGEM3-GA7.1 (192 x 144 N96; 85 levels; top level 85km)",
+                "ocean_biogeochemistry":"MEDUSA2",
                 "release_year":"2017",
                 "cohort":[
                     ""
                 ],
-                "sea_ice":"LIM3 (same version as ocean)",
-                "label":"EC-Earth 3",
+                "sea_ice":"CICE-HadGEM3-GSI8 (ORCA1 tripolar primarily 1 deg latitude/longitude)",
+                "label":"UKESM1.0-LL",
                 "institution_id":[
-                    "EC-Earth-Consortium"
+                    "MOHC",
+                    "NERC"
                 ],
-                "land_surface":"H-TESSEL (same version as atmosphere)",
-                "aerosol":"None",
-                "source_id":"EC-Earth-3",
-                "ocean":"NEMO3.6 (ORCA1: tripolar, 360x200; 75 levels; top grid cell 5m)",
-                "land_ice":"None"
+                "land_surface":"JULES-HadGEM3-GL7.1",
+                "aerosol":"UKCA-GLOMAP-mode",
+                "source_id":"UKESM1-0-LL",
+                "ocean":"NEMO-HadGEM3-GO6.0 (ORCA1 tripolar primarily 1 deg latitude/longitude with meridional refinement down to 1/3 degree in the tropics; 75 levels; top grid cell 0-1m)",
+                "land_ice":"BISICLES (only active in ISMIP experiments)"
             },
             "GISS-E2-1H":{
                 "label_extended":"GISS-E2.1H",
@@ -151,144 +213,44 @@
                 "ocean":"HYCOM Ocean (tripolar grid; ~1 deg latitude/longitude; 26 levels; top grid cell 0-10m)",
                 "land_ice":"Fixed"
             },
-            "BNU-ESM-1-1":{
-                "label_extended":"BNU-ESM 1.1",
+            "HadGEM3-GC31-LL":{
+                "label_extended":"HadGEM3-GC3.1-N96ORCA1",
                 "atmospheric_chemistry":"None",
-                "atmosphere":"CAM4 (FV, 144 x 96; 26 levels; top level 2.194 mb)",
-                "ocean_biogeochemistry":"Dynamic ecosystem-carbon model version 1",
+                "atmosphere":"MetUM-HadGEM3-GA7.1 (192 x 144 N96; 85 levels; top level 85km)",
+                "ocean_biogeochemistry":"None",
                 "release_year":"2016",
                 "cohort":[
                     ""
                 ],
-                "sea_ice":"CICE4.1",
-                "label":"BNU-ESM 1.1",
+                "sea_ice":"CICE-HadGEM3-GSI8 (ORCA1 tripolar primarily 1 deg latitude/longitude)",
+                "label":"HadGEM3-GC31-LL",
                 "institution_id":[
-                    "BNU"
+                    "MOHC"
                 ],
-                "land_surface":"CoLM version 2014 with carbon-nitrogen interactions",
-                "aerosol":"CAM-chem; semi-interactive",
-                "source_id":"BNU-ESM-1-1",
-                "ocean":"MOM4p1 (tripolar, 360x200, primarily 1deg latitude/longitude, down to 1/3deg within 30deg of the equatorial tropics; 50 levels; top grid cell 0-10m)",
+                "land_surface":"JULES-HadGEM3-GL7.1",
+                "aerosol":"UKCA-GLOMAP-mode",
+                "source_id":"HadGEM3-GC31-LL",
+                "ocean":"NEMO-HadGEM3-GO6.0 (ORCA1 tripolar primarily 1 deg latitude/longitude with meridional refinement down to 1/3 degree in the tropics; 75 levels; top grid cell 0-1m)",
                 "land_ice":"None"
             },
-            "PCMDI-test-1-0":{
-                "label_extended":"PCMDI-test 1.0 (This entry is free text for users to contribute verbose information)",
-                "atmospheric_chemistry":"None",
-                "atmosphere":"Earth1.0-gettingHotter (360x180; 50 levels; top level 0.1 mb)",
-                "ocean_biogeochemistry":"None",
-                "release_year":"1989",
-                "cohort":[
-                    "CMIP6"
-                ],
-                "sea_ice":"Declining1.0-warming",
-                "label":"PCMDI-test 1.0",
-                "institution_id":[
-                    "PCMDI"
-                ],
-                "land_surface":"Earth1.0",
-                "aerosol":"None",
-                "source_id":"PCMDI-test-1-0",
-                "ocean":"BlueMarble1.0-warming (360x180; 50 levels; top grid cell 0-10m)",
-                "land_ice":"None"
-            },
-            "NorESM2-LMEC":{
-                "label_extended":"NorESM2-LMEC (low atmosphere-medium ocean resolution, GHG emission driven, complex atmospheric chemistry)",
-                "atmospheric_chemistry":"OsloChemComp",
-                "atmosphere":"CAM-OSLO (2 degree resolution; 144 x 96; 32 levels; top level 3 mb)",
-                "ocean_biogeochemistry":"HAMOCC",
-                "release_year":"2017",
-                "cohort":[
-                    ""
-                ],
-                "sea_ice":"CICE",
-                "label":"NorESM2-LMEC",
-                "institution_id":[
-                    "NCC"
-                ],
-                "land_surface":"CLM",
-                "aerosol":"OsloAero",
-                "source_id":"NorESM2-LMEC",
-                "ocean":"MICOM (1 degree resolution; 360 x 384; 70 levels; top grid cell minimum 0-2.5 m [native model uses hybrid density and generic upper-layer coordinate interpolated to z-level for contributed data])",
-                "land_ice":"CISM"
-            },
-            "ACCESS-1-0":{
-                "label_extended":"ACCESS 1.0 (This entry is free text for users to contribute verbose information)",
-                "atmospheric_chemistry":"None",
-                "atmosphere":"HadGAM2 (r1.1; 192 x 145 N96; 38 levels; top level 39255m)",
-                "ocean_biogeochemistry":"None",
-                "release_year":"2011",
-                "cohort":[
-                    "CMIP5"
-                ],
-                "sea_ice":"CICE4.1",
-                "label":"ACCESS 1.0",
-                "institution_id":[
-                    "CSIRO-BOM"
-                ],
-                "land_surface":"MOSES2.2",
-                "aerosol":"CLASSIC (v1.0)",
-                "source_id":"ACCESS-1-0",
-                "ocean":"ACCESS-OM (MOM4p1; tripolar primarily 1deg latitude/longitude; 50 levels; top grid cell 0-10m)",
-                "land_ice":"None"
-            },
-            "EC-Earth-3-HR":{
-                "label_extended":"EC-Earth v3.2.x at high resolution",
-                "atmospheric_chemistry":"None",
-                "atmosphere":"IFS cy36r4 (TL511, linearly reduced Gaussian grid equivalent to 1024 x 512; 91 levels; top level 1 Pa)",
-                "ocean_biogeochemistry":"None",
+            "EC-Earth-3-AerChem":{
+                "label_extended":"EC-Earth 3.2 - AerChem",
+                "atmospheric_chemistry":"TM5",
+                "atmosphere":"IFS cy36r4 (TL255, linearly reduced Gaussian grid equivalent to 512 x 256; 91 levels; top level 1 Pa)",
+                "ocean_biogeochemistry":"PISCES (#which version#)",
                 "release_year":"2017",
                 "cohort":[
                     ""
                 ],
                 "sea_ice":"LIM3 (same version as ocean)",
-                "label":"EC-Earth 3-HR",
+                "label":"EC-Earth 3.2 - AerChem",
                 "institution_id":[
                     "EC-Earth-Consortium"
                 ],
-                "land_surface":"H-TESSEL (same version as atmosphere)",
+                "land_surface":"LPJ-GUESS (same version as atmosphere)",
                 "aerosol":"None",
-                "source_id":"EC-Earth-3-HR",
-                "ocean":"NEMO3.6 (tripolar, 1442x1921; 75 levels; top grid cell 5m)",
-                "land_ice":"None"
-            },
-            "IITM-ESM":{
-                "label_extended":"IITM-ESM",
-                "atmospheric_chemistry":"None",
-                "atmosphere":"GFS (192 x 94 T62; 64 levels; top level 0.2 mb)",
-                "ocean_biogeochemistry":"TOPAZ",
-                "release_year":"2015",
-                "cohort":[
-                    ""
-                ],
-                "sea_ice":"SIS",
-                "label":"IITM-ESM",
-                "institution_id":[
-                    "CCCR-IITM"
-                ],
-                "land_surface":"NOAH LSM",
-                "aerosol":"unnamed (prescribed MAC-v2)",
-                "source_id":"IITM-ESM",
-                "ocean":"MOM4p1 (tripolar, 360x200; 50 levels; top grid cell 5m)",
-                "land_ice":"None"
-            },
-            "VRESM-1-0":{
-                "label_extended":"VRESM 1.0 (Variable-resolution Earth System Model 1.0)",
-                "atmospheric_chemistry":"None",
-                "atmosphere":"VCAM-1.0 (192 x 192 x 6 C192; 35 levels; top level 35km)",
-                "ocean_biogeochemistry":"PISCES v3.4socco",
-                "release_year":"2016",
-                "cohort":[
-                    ""
-                ],
-                "sea_ice":"CSIR-ICE (visco-plastic)",
-                "label":"VRESM 1.0",
-                "institution_id":[
-                    "CSIR-CSIRO"
-                ],
-                "land_surface":"CABLE v2.2.3",
-                "aerosol":"Rotstayn-1.0",
-                "source_id":"VRESM-1-0",
-                "ocean":"VCOM-1.0 (192 x 192 x 6 C192; 35 levels; top grid cell 0-10m)",
+                "source_id":"EC-Earth-3-AerChem",
+                "ocean":"NEMO3.6 (ORCA1 tripolar primarily 1 deg latitude/longitude with meridional refinement down to 1/3 degree in the tropics; 75 levels; top grid cell 5 m)",
                 "land_ice":"None"
             },
             "NorESM2-HH":{
@@ -331,6 +293,226 @@
                 "ocean":"MICOM (1 degree resolution; 360 x 384; 70 levels; top grid cell minimum 0-2.5 m [native model uses hybrid density and generic upper-layer coordinate interpolated to z-level for contributed data])",
                 "land_ice":"CISM"
             },
+            "EC-Earth-3-CC":{
+                "label_extended":"EC-Earth-3-CC",
+                "atmospheric_chemistry":"TM5",
+                "atmosphere":"IFS cy36r4 (TL255 (N128); 91 levels; top level 1 Pa)",
+                "ocean_biogeochemistry":"PISCES",
+                "release_year":"2017",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"LIM3 (same version as ocean)",
+                "label":"EC-Earth-3-CC",
+                "institution_id":[
+                    "EC-Earth-Consortium"
+                ],
+                "land_surface":"LPJ-Guess",
+                "aerosol":"None",
+                "source_id":"EC-Earth-3-CC",
+                "ocean":"NEMO3.6 (ORCA1: tripolar, 360x200; 75 levels; top grid cell 5m)",
+                "land_ice":"None"
+            },
+            "EC-Earth-3-Veg":{
+                "label_extended":"EC-Earth 3.2 - LPJ-GUESS",
+                "atmospheric_chemistry":"None",
+                "atmosphere":"IFS cy36r4 (TL255, linearly reduced Gaussian grid equivalent to 512 x 256; 91 levels; top level 1 Pa)",
+                "ocean_biogeochemistry":"None",
+                "release_year":"2017",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"LIM3 (same version as ocean)",
+                "label":"EC-Earth 3.2 - Veg",
+                "institution_id":[
+                    "EC-Earth-Consortium"
+                ],
+                "land_surface":"LPJ-GUESS (same version as atmosphere)",
+                "aerosol":"None",
+                "source_id":"EC-Earth-3-Veg",
+                "ocean":"NEMO3.6 (ORCA1 tripolar primarily 1 deg latitude/longitude with meridional refinement down to 1/3 degree in the tropics; 75 levels; top grid cell 5 m)",
+                "land_ice":"None"
+            },
+            "EC-Earth-3-Veg-LR":{
+                "label_extended":"EC-Earth 3.2 - LPJ-GUESS at low resolution",
+                "atmospheric_chemistry":"None",
+                "atmosphere":"IFS cy36r4 (TL159, linearly reduced Gaussian grid equivalent to 320 x 160; 62 levels; top level 5 hPa)",
+                "ocean_biogeochemistry":"None",
+                "release_year":"2017",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"LIM3 (same version as ocean)",
+                "label":"EC-Earth 3.2 Veg LR",
+                "institution_id":[
+                    "EC-Earth-Consortium"
+                ],
+                "land_surface":"LPJ-GUESS (same version as atmosphere)",
+                "aerosol":"None",
+                "source_id":"EC-Earth-3-Veg-LR",
+                "ocean":"NEMO3.6 (ORCA1 tripolar primarily 1 deg latitude/longitude with meridional refinement down to 1/3 degree in the tropics; 75 levels; top grid cell 5 m)",
+                "land_ice":"None"
+            },
+            "CNRM-ESM2-1":{
+                "label_extended":"CNRM-ESM2-1",
+                "atmospheric_chemistry":"REPROBUS-C (v2.0)",
+                "atmosphere":"Arpege 6.2 (Tl127; 91 levels; top level 78.4 km)",
+                "ocean_biogeochemistry":"Pisces 2.s",
+                "release_year":"2016",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"Gelato 6.1",
+                "label":"CNRM-ESM2-1",
+                "institution_id":[
+                    "CNRM-CERFACS"
+                ],
+                "land_surface":"Surfex 8.0c",
+                "aerosol":"TACTIC (v2.0)",
+                "source_id":"CNRM-ESM2-1",
+                "ocean":"Nemo 3.6 (eORCA1; tripolar primarily 1deg latitude/longitude; 75 levels; top grid cell 0-1 m)",
+                "land_ice":"None"
+            },
+            "CNRM-CM6-1":{
+                "label_extended":"CNRM-CM6-1",
+                "atmospheric_chemistry":"OZL_v2",
+                "atmosphere":"Arpege 6.2 (Tl127; 91 levels; top level 78.4 km)",
+                "ocean_biogeochemistry":"None",
+                "release_year":"2016",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"Gelato 6.1",
+                "label":"CNRM-CM6-1",
+                "institution_id":[
+                    "CNRM-CERFACS"
+                ],
+                "land_surface":"Surfex 8.0c",
+                "aerosol":"climatological fields computed by TACTIC (v2.0)",
+                "source_id":"CNRM-CM6-1",
+                "ocean":"Nemo 3.6 (eORCA1; tripolar primarily 1deg latitude/longitude; 75 levels; top grid cell 0-1 m)",
+                "land_ice":"None (except for some FAFMIP experiments)"
+            },
+            "EC-Earth-3-GrIS":{
+                "label_extended":"EC-Earth 3.2 - PISM",
+                "atmospheric_chemistry":"None",
+                "atmosphere":"IFS cy36r4 (TL255, linearly reduced Gaussian grid equivalent to 512 x 256; 91 levels; top level 1 Pa)",
+                "ocean_biogeochemistry":"None",
+                "release_year":"2017",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"LIM3 (same version as ocean)",
+                "label":"EC-Earth 3.2 - GrIS",
+                "institution_id":[
+                    "EC-Earth-Consortium"
+                ],
+                "land_surface":"H-TESSEL (same version as atmosphere)",
+                "aerosol":"None",
+                "source_id":"EC-Earth-3-GrIS",
+                "ocean":"NEMO3.6 (ORCA1 tripolar primarily 1 deg latitude/longitude with meridional refinement down to 1/3 degree in the tropics; 75 levels; top grid cell 5 m)",
+                "land_ice":"PISM 0.7 (5 km x 5 km, L442)"
+            },
+            "BNU-ESM-1-1":{
+                "label_extended":"BNU-ESM 1.1",
+                "atmospheric_chemistry":"None",
+                "atmosphere":"CAM4 (FV, 144 x 96; 26 levels; top level 2.194 mb)",
+                "ocean_biogeochemistry":"Dynamic ecosystem-carbon model version 1",
+                "release_year":"2016",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"CICE4.1",
+                "label":"BNU-ESM 1.1",
+                "institution_id":[
+                    "BNU"
+                ],
+                "land_surface":"CoLM version 2014 with carbon-nitrogen interactions",
+                "aerosol":"CAM-chem; semi-interactive",
+                "source_id":"BNU-ESM-1-1",
+                "ocean":"MOM4p1 (tripolar, 360x200, primarily 1deg latitude/longitude, down to 1/3deg within 30deg of the equatorial tropics; 50 levels; top grid cell 0-10m)",
+                "land_ice":"None"
+            },
+            "PCMDI-test-1-0":{
+                "label_extended":"PCMDI-test 1.0 (This entry is free text for users to contribute verbose information)",
+                "atmospheric_chemistry":"None",
+                "atmosphere":"Earth1.0-gettingHotter (360x180; 50 levels; top level 0.1 mb)",
+                "ocean_biogeochemistry":"None",
+                "release_year":"1989",
+                "cohort":[
+                    "CMIP6"
+                ],
+                "sea_ice":"Declining1.0-warming",
+                "label":"PCMDI-test 1.0",
+                "institution_id":[
+                    "PCMDI"
+                ],
+                "land_surface":"Earth1.0",
+                "aerosol":"None",
+                "source_id":"PCMDI-test-1-0",
+                "ocean":"BlueMarble1.0-warming (360x180; 50 levels; top grid cell 0-10m)",
+                "land_ice":"None"
+            },
+            "HadGEM3-GC31-MM":{
+                "label_extended":"HadGEM3-GC3.1-N216ORCA025",
+                "atmospheric_chemistry":"None",
+                "atmosphere":"MetUM-HadGEM3-GA7.1 (432 x 324 N216; 85 levels; top level 85km)",
+                "ocean_biogeochemistry":"None",
+                "release_year":"2016",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"CICE-HadGEM3-GSI8 (ORCA025 tripolar primarily 0.25 deg latitude/longitude)",
+                "label":"HadGEM3-GC31-MM",
+                "institution_id":[
+                    "MOHC"
+                ],
+                "land_surface":"JULES-HadGEM3-GL7.1",
+                "aerosol":"UKCA-GLOMAP-mode",
+                "source_id":"HadGEM3-GC31-MM",
+                "ocean":"NEMO-HadGEM3-GO6.0 (ORCA025 tripolar primarily 0.25 deg latitude/longitude; 75 levels; top grid cell 0-1m)",
+                "land_ice":"None"
+            },
+            "NorESM2-LMEC":{
+                "label_extended":"NorESM2-LMEC (low atmosphere-medium ocean resolution, GHG emission driven, complex atmospheric chemistry)",
+                "atmospheric_chemistry":"OsloChemComp",
+                "atmosphere":"CAM-OSLO (2 degree resolution; 144 x 96; 32 levels; top level 3 mb)",
+                "ocean_biogeochemistry":"HAMOCC",
+                "release_year":"2017",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"CICE",
+                "label":"NorESM2-LMEC",
+                "institution_id":[
+                    "NCC"
+                ],
+                "land_surface":"CLM",
+                "aerosol":"OsloAero",
+                "source_id":"NorESM2-LMEC",
+                "ocean":"MICOM (1 degree resolution; 360 x 384; 70 levels; top grid cell minimum 0-2.5 m [native model uses hybrid density and generic upper-layer coordinate interpolated to z-level for contributed data])",
+                "land_ice":"CISM"
+            },
+            "EC-Earth-3-HR":{
+                "label_extended":"EC-Earth v3.2.x at high resolution",
+                "atmospheric_chemistry":"None",
+                "atmosphere":"IFS cy36r4 (TL511, linearly reduced Gaussian grid equivalent to 1024 x 512; 91 levels; top level 1 Pa)",
+                "ocean_biogeochemistry":"None",
+                "release_year":"2017",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"LIM3 (same version as ocean)",
+                "label":"EC-Earth 3-HR",
+                "institution_id":[
+                    "EC-Earth-Consortium"
+                ],
+                "land_surface":"H-TESSEL (same version as atmosphere)",
+                "aerosol":"None",
+                "source_id":"EC-Earth-3-HR",
+                "ocean":"NEMO3.6 (tripolar, 1442x1921; 75 levels; top grid cell 5m)",
+                "land_ice":"None"
+            },
             "NorESM2-MH":{
                 "label_extended":"NorESM2-MH",
                 "atmospheric_chemistry":"OsloChemSimp",
@@ -371,6 +553,147 @@
                 "ocean":"MICOM (1 degree resolution; 360 x 384; 70 levels; top grid cell minimum 0-2.5 m [native model uses hybrid density and generic upper-layer coordinate interpolated to z-level for contributed data])",
                 "land_ice":"CISM"
             },
+            "EC-Earth-3-LR":{
+                "label_extended":"EC-Earth v3.2.x at low resolution",
+                "atmospheric_chemistry":"None",
+                "atmosphere":"IFS cy36r4 (TL159, linearly reduced Gaussian grid equivalent to 320 x 160; 62 levels; top level 5 hPa)",
+                "ocean_biogeochemistry":"None",
+                "release_year":"2017",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"LIM3 (same version as ocean)",
+                "label":"EC-Earth 3-LR",
+                "institution_id":[
+                    "EC-Earth-Consortium"
+                ],
+                "land_surface":"H-TESSEL (same version as atmosphere)",
+                "aerosol":"None",
+                "source_id":"EC-Earth-3-LR",
+                "ocean":"NEMO3.6 (ORCA1: tripolar, 360x200; 75 levels; top grid cell 5m)",
+                "land_ice":"None"
+            },
+            "VRESM-1-0":{
+                "label_extended":"VRESM 1.0 (Variable-resolution Earth System Model 1.0)",
+                "atmospheric_chemistry":"None",
+                "atmosphere":"VCAM-1.0 (192 x 192 x 6 C192; 35 levels; top level 35km)",
+                "ocean_biogeochemistry":"PISCES v3.4socco",
+                "release_year":"2016",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"CSIR-ICE (visco-plastic)",
+                "label":"VRESM 1.0",
+                "institution_id":[
+                    "CSIR-CSIRO"
+                ],
+                "land_surface":"CABLE v2.2.3",
+                "aerosol":"Rotstayn-1.0",
+                "source_id":"VRESM-1-0",
+                "ocean":"VCOM-1.0 (192 x 192 x 6 C192; 35 levels; top grid cell 0-10m)",
+                "land_ice":"None"
+            },
+            "ACCESS-1-0":{
+                "label_extended":"ACCESS 1.0 (This entry is free text for users to contribute verbose information)",
+                "atmospheric_chemistry":"None",
+                "atmosphere":"HadGAM2 (r1.1; 192 x 145 N96; 38 levels; top level 39255m)",
+                "ocean_biogeochemistry":"None",
+                "release_year":"2011",
+                "cohort":[
+                    "CMIP5"
+                ],
+                "sea_ice":"CICE4.1",
+                "label":"ACCESS 1.0",
+                "institution_id":[
+                    "CSIRO-BOM"
+                ],
+                "land_surface":"MOSES2.2",
+                "aerosol":"CLASSIC (v1.0)",
+                "source_id":"ACCESS-1-0",
+                "ocean":"ACCESS-OM (MOM4p1; tripolar primarily 1deg latitude/longitude; 50 levels; top grid cell 0-10m)",
+                "land_ice":"None"
+            },
+            "EC-Earth-3":{
+                "label_extended":"EC-Earth v3.2.x",
+                "atmospheric_chemistry":"None",
+                "atmosphere":"IFS cy36r4 (TL255, linearly reduced Gaussian grid equivalent to 512 x 256; 91 levels; top level 1 Pa)",
+                "ocean_biogeochemistry":"None",
+                "release_year":"2017",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"LIM3 (same version as ocean)",
+                "label":"EC-Earth 3",
+                "institution_id":[
+                    "EC-Earth-Consortium"
+                ],
+                "land_surface":"H-TESSEL (same version as atmosphere)",
+                "aerosol":"None",
+                "source_id":"EC-Earth-3",
+                "ocean":"NEMO3.6 (ORCA1: tripolar, 360x200; 75 levels; top grid cell 5m)",
+                "land_ice":"None"
+            },
+            "CNRM-ESM2-1-HR":{
+                "label_extended":"CNRM-ESM2-1-HR",
+                "atmospheric_chemistry":"OZL_v2",
+                "atmosphere":"Arpege 6.2 (Tl359; 91 levels; top level 78.4 km)",
+                "ocean_biogeochemistry":"Pisces 2.s",
+                "release_year":"2016",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"Gelato 6.1",
+                "label":"CNRM-ESM2-1-HR",
+                "institution_id":[
+                    "CNRM-CERFACS"
+                ],
+                "land_surface":"Surfex 8.0c",
+                "aerosol":"TACTIC (v2.0)",
+                "source_id":"CNRM-ESM2-1-HR",
+                "ocean":"Nemo 3.6 (eORCA025; tripolar primarily 1/4deg latitude/longitude; 75 levels; top grid cell 0-1 m)",
+                "land_ice":"None"
+            },
+            "UKESM1-0-MMh":{
+                "label_extended":"UKESM1.0-N216ORCA025hybrid",
+                "atmospheric_chemistry":"UKCA-StratTrop (horizontal resolution degraded relative to that used for atmosphere physics)",
+                "atmosphere":"MetUM-HadGEM3-GA7.1 (432 x 324 N216; 85 levels; top level 85km)",
+                "ocean_biogeochemistry":"MEDUSA2 (horizontal resolution degraded relative to that used for ocean physics)",
+                "release_year":"2018",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"CICE-HadGEM3-GSI8 (ORCA025 tripolar primarily 0.25 deg latitude/longitude)",
+                "label":"UKESM1.0-MMh",
+                "institution_id":[
+                    "MOHC",
+                    "NERC"
+                ],
+                "land_surface":"JULES-HadGEM3-GL7.1",
+                "aerosol":"UKCA-GLOMAP-mode (horizontal resolution degraded relative to that used for atmosphere physics)",
+                "source_id":"UKESM1-0-MMh",
+                "ocean":"NEMO-HadGEM3-GO6.0 (ORCA025 tripolar primarily 0.25 deg latitude/longitude; 75 levels; top grid cell 0-1m)",
+                "land_ice":"BISICLES (only active in ISMIP experiments)"
+            },
+            "IITM-ESM":{
+                "label_extended":"IITM-ESM",
+                "atmospheric_chemistry":"None",
+                "atmosphere":"GFS (192 x 94 T62; 64 levels; top level 0.2 mb)",
+                "ocean_biogeochemistry":"TOPAZ",
+                "release_year":"2015",
+                "cohort":[
+                    ""
+                ],
+                "sea_ice":"SIS",
+                "label":"IITM-ESM",
+                "institution_id":[
+                    "CCCR-IITM"
+                ],
+                "land_surface":"NOAH LSM",
+                "aerosol":"unnamed (prescribed MAC-v2)",
+                "source_id":"IITM-ESM",
+                "ocean":"MOM4p1 (tripolar, 360x200; 50 levels; top grid cell 5m)",
+                "land_ice":"None"
+            },
             "NorESM2-LME":{
                 "label_extended":"NorESM2-LME (low atmosphere-medium ocean resolution, GHG emission driven)",
                 "atmospheric_chemistry":"OsloChemSimp",
@@ -390,26 +713,6 @@
                 "source_id":"NorESM2-LME",
                 "ocean":"MICOM (1 degree resolution; 360 x 384; 70 levels; top grid cell minimum 0-2.5 m [native model uses hybrid density and generic upper-layer coordinate interpolated to z-level for contributed data])",
                 "land_ice":"CISM"
-            },
-            "EC-Earth-3-LR":{
-                "label_extended":"EC-Earth v3.2.x at low resolution",
-                "atmospheric_chemistry":"None",
-                "atmosphere":"IFS cy36r4 (TL159, linearly reduced Gaussian grid equivalent to 320 x 160; 62 levels; top level 5 Pa)",
-                "ocean_biogeochemistry":"None",
-                "release_year":"2017",
-                "cohort":[
-                    ""
-                ],
-                "sea_ice":"LIM3 (same version as ocean)",
-                "label":"EC-Earth 3-LR",
-                "institution_id":[
-                    "EC-Earth-Consortium"
-                ],
-                "land_surface":"H-TESSEL (same version as atmosphere)",
-                "aerosol":"None",
-                "source_id":"EC-Earth-3-LR",
-                "ocean":"NEMO3.6 (ORCA1: tripolar, 360x200; 75 levels; top grid cell 5m)",
-                "land_ice":"None"
             }
         },
         "source_type":[
@@ -514,7 +817,6 @@
             "3hrpt",
             "6hr",
             "6hrpt",
-            "day",
             "Aday",
             "Amon",
             "LImon",
@@ -532,7 +834,8 @@
         ],
         "license":[
             [
-                "CMIP6 model data produced by .* is licensed under a Creative Commons Attribution \"Share Alike\" 4.0 International License (http://creativecommons.org/licenses/by/4.0/). Use of the data should be acknowledged following guidelines found at.*Permissions beyond the scope of this license may be available at.* Further information about this data, including some limitations, can be found via the further_info_url (recorded as a global attribute in data files). The data producers and data providers make no warranty, either express or implied, including, but not limited to, warranties of merchantability and fitness for a particular purpose. All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law."
+                "*.",
+                "CMIP6 model data produced by .* is licensed under a Creative Commons Attribution \"Share Alike\" 4.0 International License (http://creativecommons.org/licenses/by/4.0/). Use of the data must be acknowledged following guidelines found at.* Further information about this data, including some limitations, can be found via the further_info_url (recorded as a global attribute in data files). The data producers and data providers make no warranty, either express or implied, including, but not limited to, warranties of merchantability and fitness for a particular purpose. All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law."
             ]
         ],
         "mip_era":[

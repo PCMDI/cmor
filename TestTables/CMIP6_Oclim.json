@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.beta.45", 
+        "data_specs_version": "01.00.00", 
         "table_id": "Table Oclim", 
         "realm": "ocean", 
         "frequency": "monClim", 
         "cmor_version": "3.2", 
-        "table_date": "19 December 2016", 
+        "table_date": "13 January 2017", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "30.00000", 
@@ -476,7 +476,7 @@
         "tnkebto": {
             "modeling_realm": "ocean", 
             "standard_name": "tendency_of_ocean_eddy_kinetic_energy_content_due_to_bolus_transport", 
-            "units": "W m-2 ", 
+            "units": "W m-2", 
             "cell_methods": "time: mean within years time: mean over years", 
             "cell_measures": "area: areacello volume: volcello", 
             "long_name": "Tendency of Ocean Eddy Kinetic Energy Content due to Bolus Transport", 
@@ -493,7 +493,7 @@
         "tnkebto2d": {
             "modeling_realm": "ocean", 
             "standard_name": "tendency_of_ocean_eddy_kinetic_energy_content_due_to_bolus_transport", 
-            "units": "W m-2 ", 
+            "units": "W m-2", 
             "cell_methods": "time: mean within years time: mean over years", 
             "cell_measures": "area: areacello", 
             "long_name": "Tendency of Ocean Eddy Kinetic Energy Content due to Bolus Transport", 
@@ -510,7 +510,7 @@
         "tnpeo": {
             "modeling_realm": "ocean", 
             "standard_name": "tendency_of_ocean_potential_energy_content", 
-            "units": "W m-2 ", 
+            "units": "W m-2", 
             "cell_methods": "time: mean within years time: mean over years", 
             "cell_measures": "area: areacello volume: volcello", 
             "long_name": "Tendency of Ocean Potential Energy Content", 

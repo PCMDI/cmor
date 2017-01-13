@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.beta.45", 
+        "data_specs_version": "01.00.00", 
         "table_id": "Table Ofx", 
         "realm": "ocean", 
         "frequency": "fx", 
         "cmor_version": "3.2", 
-        "table_date": "19 December 2016", 
+        "table_date": "13 January 2017", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "", 
