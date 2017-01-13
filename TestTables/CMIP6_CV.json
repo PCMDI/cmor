@@ -6638,6 +6638,9 @@
         "product":[
             "output"
         ],
+        "tracking_id":[
+            "hdl:21.14100/.*"
+        ],
         "further_info_url":[
             "http://furtherinfo.es-doc.org/[[:alpha:]]\\{1,\\}"
         ],

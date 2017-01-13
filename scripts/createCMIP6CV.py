@@ -51,6 +51,7 @@ def run():
     regexp = {}
     regexp["variant_label"] = [ "^r[[:digit:]]\\{1,\\}i[[:digit:]]\\{1,\\}p[[:digit:]]\\{1,\\}f[[:digit:]]\\{1,\\}$" ] 
     regexp["sub_experiment_id"] = [ "^s[[:digit:]]\\{4,4\\}$", "none" ]
+    regexp["tracking_id"] = [ "hdl:21.14100/.*" ]  
     regexp["product"] = [ "output" ] 
     regexp["mip_era"] = [ "CMIP6" ]
     regexp["frequency"] = [ "3hr", "6hr", "day", "fx", "mon", "monClim", "subhr", "yr" ]
