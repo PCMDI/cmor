@@ -1,0 +1,52 @@
+{
+    "Header": {
+        "data_specs_version": "01.00.00", 
+        "table_id": "Table E6hrZ", 
+        "realm": "atmos", 
+        "frequency": "6hr", 
+        "cmor_version": "3.2", 
+        "table_date": "13 January 2017", 
+        "missing_value": "1e20", 
+        "product": "output", 
+        "approx_interval": "", 
+        "generic_levels": "", 
+        "mip_era": "CMIP6", 
+        "Conventions": "CF-1.6 CMIP-6.0"
+    }, 
+    "variable_entry": {
+        "zmlwaero": {
+            "modeling_realm": "atmos", 
+            "standard_name": "longwave_heating_rate_due_to_volcanic_aerosols", 
+            "units": "K s-1", 
+            "cell_methods": "time: point", 
+            "cell_measures": "", 
+            "long_name": "Zonal mean longwave heating rate due to volcanic aerosols", 
+            "comment": "longwave heating rate due to volcanic aerosols to be diagnosed through double radiation call, zonal average values required", 
+            "dimensions": "latitude alevel time1", 
+            "out_name": "zmlwaero", 
+            "type": "", 
+            "positive": "", 
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "zmswaero": {
+            "modeling_realm": "atmos", 
+            "standard_name": "shortwave_heating_rate_due_to_volcanic_aerosols", 
+            "units": "K s-1", 
+            "cell_methods": "time: point", 
+            "cell_measures": "", 
+            "long_name": "Zonal mean shortwave heating rate due to volcanic aerosols", 
+            "comment": "shortwave heating rate due to volcanic aerosols to be diagnosed through double radiation call, zonal average values required", 
+            "dimensions": "latitude alevel time1", 
+            "out_name": "zmswaero", 
+            "type": "", 
+            "positive": "", 
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
+        }
+    }
+}
