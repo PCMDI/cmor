@@ -25,6 +25,7 @@ before_install:
   - conda install cdms2 -c uvcdat/label/nightly -c conda-forge -c uvcdat
   - conda install udunits2 -c uvcdat/label/nightly  -c conda-forge -c uvcdat
   - conda install gcc 
+  - ulimit -s 1082768
 
 install:
     - git clone https://github.com/PCMDI/cmip6-cmor-tables 
