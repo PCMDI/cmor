@@ -128,14 +128,14 @@ PROGRAM ipcc_test_code
 
                                 ! My variable names for IPCC Table A1c fields
   CHARACTER (LEN=5), DIMENSION(n3d) :: &
-                                 varin3d=(/'tro3 '/)
+                                 varin3d=(/'o3 '/)
 
                                 ! Units appropriate to my data
   CHARACTER (LEN=5), DIMENSION(n3d) :: &
                                   units3d=(/ '1e-9 '/)
 
                      ! Corresponding IPCC Table A1c entry (variable name) 
-  CHARACTER (LEN=4), DIMENSION(n3d) :: entry3d = (/ 'tro3' /)
+  CHARACTER (LEN=4), DIMENSION(n3d) :: entry3d = (/ 'o3' /)
 
                                 ! My variable names for IPCC Table A1a fields
   CHARACTER (LEN=8), DIMENSION(n2d) :: &
