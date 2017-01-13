@@ -1,0 +1,52 @@
+{
+    "Header": {
+        "data_specs_version": "01.00.00", 
+        "table_id": "Table AERfx", 
+        "realm": "aerosol", 
+        "frequency": "fx", 
+        "cmor_version": "3.2", 
+        "table_date": "13 January 2017", 
+        "missing_value": "1e20", 
+        "product": "output", 
+        "approx_interval": "", 
+        "generic_levels": "", 
+        "mip_era": "CMIP6", 
+        "Conventions": "CF-1.6 CMIP-6.0"
+    }, 
+    "variable_entry": {
+        "areacella": {
+            "modeling_realm": "aerosol", 
+            "standard_name": "cell_area", 
+            "units": "m2", 
+            "cell_methods": "time: mean", 
+            "cell_measures": "area: areacella", 
+            "long_name": "area of grid cell", 
+            "comment": "For atmospheres with more than 1 mesh (e.g., staggered grids), report areas that apply to surface vertical fluxes of energy.", 
+            "dimensions": "longitude latitude time", 
+            "out_name": "areacella", 
+            "type": "float", 
+            "positive": "", 
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "sftlf": {
+            "modeling_realm": "aerosol", 
+            "standard_name": "land_area_fraction", 
+            "units": "1", 
+            "cell_methods": "time: mean", 
+            "cell_measures": "area: areacella", 
+            "long_name": "fraction of the grid  cell occupied by land", 
+            "comment": "Please express 'X_area_fraction' as the fraction of horizontal area occupied by X.", 
+            "dimensions": "longitude latitude time", 
+            "out_name": "sftlf", 
+            "type": "float", 
+            "positive": "", 
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
+        }
+    }
+}

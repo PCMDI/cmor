@@ -290,8 +290,8 @@ static PyObject *PyCMOR_get_variable_attribute( PyObject * self,
     ierr = cmor_get_variable_attribute( var_id, name, ( void * ) value );
     if( ierr != 0 )
 	return NULL;
-    if((strcmp(name, "_FillValue") == 0) ||
-            (strcmp(name, "missing_values") == 0)) {
+    if((strcmp(name, VARIABLE_ATT_FILLVAL) == 0) ||
+            (strcmp(name, VARIABLE_ATT_MISSINGVALUES) == 0)) {
         ierr = cmor_get_variable_attribute( var_id, name, &fValue );
         return(Py_BuildValue("f", fValue));
     }
