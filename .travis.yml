@@ -36,8 +36,12 @@ install:
     - ulimit -a
 
 script: 
-    - bundle exec python run_tests.py 
-    - bundle exec find CMIP6 
-    - bundle exec df -kh ./
-    - bundle exec ulimit -a
+    - python run_tests.py 
+    - find CMIP6 
+    - df -kh ./
+    - ulimit -a
 
+after_failure:
+    - ulimit -a
+    - find CMIP6/
+    - df -kh ./
