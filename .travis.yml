@@ -36,12 +36,12 @@ install:
     - ulimit -a
 
 script: 
-    - python run_tests.py 
-    - find CMIP6 
-    - df -kh ./
-    - ulimit -a
+    - for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file; done
+#    - python run_tests.py 
 
 after_failure:
     - ulimit -a
     - find CMIP6/
     - df -kh ./
+    - ls -lR
+    - cat build.sh
