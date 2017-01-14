@@ -33,6 +33,11 @@ install:
     - ./configure --prefix=$PREFIX --with-python --with-uuid=$PREFIX --with-udunits2=$PREFIX --with-netcdf=$PREFIX  
     - make install 
     - df -kh
+    - ulimit -a
 
-script: bundle python run_tests.py && bundle find CMIP6 && bundle df -kh ./
+script: 
+    - bundle exec python run_tests.py 
+    - bundle exec find CMIP6 
+    - bundle exec df -kh ./
+    - bundle exec ulimit -a
 
