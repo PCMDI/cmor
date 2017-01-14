@@ -32,8 +32,6 @@ install:
     - ln -s cmip6-cmor-tables/Tables Tables
     - ./configure --prefix=$PREFIX --with-python --with-uuid=$PREFIX --with-udunits2=$PREFIX --with-netcdf=$PREFIX  
     - make install 
-    - df -kh
-    - ulimit -a
 
 script: 
     - nosetests -vv --collect-only Test/test_python_CMIP6_CV_*.py
