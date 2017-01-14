@@ -32,6 +32,7 @@ install:
     - ln -s cmip6-cmor-tables/Tables Tables
     - ./configure --prefix=$PREFIX --with-python --with-uuid=$PREFIX --with-udunits2=$PREFIX --with-netcdf=$PREFIX  
     - make install 
+    - df -kh
 
-script: python run_tests.py
+script: bundle python run_tests.py && bundle find CMIP6 && bundle df -kh ./
 
