@@ -37,7 +37,8 @@ install:
 
 script: 
     - for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file; done
-    - travis_wait 20 python run_tests.py 
+    - python run_tests2.py 
+    - python run_tests.py 
 
 after_failure:
     - ulimit -a
