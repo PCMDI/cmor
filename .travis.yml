@@ -41,7 +41,8 @@ script:
 
 after_failure:
     - ulimit -a
+    - free -m
     - find CMIP6/
     - df -kh ./
     - ls -lR
-    - cat build.sh
+    - cat ~/build.sh
