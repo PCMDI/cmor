@@ -34,8 +34,8 @@ install:
     - make install 
 
 script: 
-    - for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file; if [[ "$?" != "0" ]]; then return $?; fi; done
     - make test
+    - for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file; if [[ "$?" != "0" ]]; then return $?; fi; done
 #    - nosetests -vv --collect-only Test/test_python_CMIP6_CV_*.py
 #    - nosetests -vv --collect-only Test/test_python_has_*.py
 #    - for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file; done
