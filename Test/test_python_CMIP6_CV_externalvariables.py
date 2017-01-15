@@ -90,9 +90,9 @@ class TestCase(unittest.TestCase):
         a = f.getglobal("external_variables")
         self.assertEqual("areacello volcello", a)
 
-    def tearDown(self):                                                                                                                        
-        import shutil                                                                                                                          
-        shutil.rmtree("./CMIP6")                                                                                                               
+    def tearDown(self):
+        import shutil
+        shutil.rmtree("./CMIP6")
 
 
 if __name__ == '__main__':

@@ -12,7 +12,6 @@
 #      https://github.com/PCMDI/cmor/blob/master/Test/<filename>.json
 #      to the 'Test/' directory.
 
-from threading import Thread
 import cmor
 import numpy
 import unittest
@@ -26,6 +25,7 @@ def run():
 
 
 class TestCase(unittest.TestCase):
+
     def setUp(self, *args, **kwargs):
         # ------------------------------------------------------
         # Copy stdout and stderr file descriptor for cmor output
@@ -51,14 +51,14 @@ class TestCase(unittest.TestCase):
         os.unlink(self.tmpfile[1])
         return testOK
 
-    def TestCase(self):
+    def testCMIP6(self):
         try:
             # -------------------------------------------
             # Try to call cmor with a bad institution_ID
             # -------------------------------------------
             cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
             cmor.dataset_json("Test/common_user_input.json")
-            cmor.set_cur_dataset_attribute("institution_id", "PCMDI")
+            cmor.set_cur_dataset_attribute("institution_id", "ddPCMDI")
 
             # ------------------------------------------
             # load Omon table and create masso variable
@@ -72,22 +72,19 @@ class TestCase(unittest.TestCase):
             data = numpy.random.random(5)
             for i in range(0, 5):
                 cmor.write(ivar, data[i:i])
-            cmor.close()                                                                                                                       
+            cmor.close() 
 
         except:
             os.dup2(self.newstdout, 1)
             os.dup2(self.newstderr, 2)
             sys.stdout = os.fdopen(self.newstdout, 'w', 0)
         testOK = self.getAssertTest()
-        self.assertIn("PCMDI", testOK)
+        self.assertIn("ddPCMDI", testOK)
 
 
-    def tearDown(self):                                                                                                                        
-        import shutil                                                                                                                          
-        shutil.rmtree("./CMIP6")                                                                                                               
+    def tearDown(self):
+        import shutil
+        shutil.rmtree("./CMIP6")
 
 if __name__ == '__main__':
-    t = Thread(target=run)
-    t.start()
-    while t.is_alive():
-        t.join(1)
+    run()

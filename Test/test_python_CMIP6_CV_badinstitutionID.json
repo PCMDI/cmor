@@ -48,7 +48,7 @@
            "references":             "Model described by Koder and Tolkien ",
 
            "#institution_id":         "",
-           "institution_id":          "PCMDI",
+           "institution_id":          "ddPCMDI",
 
            "#institution":           "Controlled Vocabulary",
            "institution":            "PCMDI",

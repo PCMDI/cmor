@@ -89,9 +89,9 @@ class TestCase(unittest.TestCase):
         # ------------------------------------------
         self.assertIn("\"AOGCM ISM BGCM LAND\"", testOK)
 
-    def tearDown(self):                                                                                                                        
-        import shutil                                                                                                                          
-        shutil.rmtree("./CMIP6")                                                                                                               
+    def tearDown(self):
+        import shutil
+        shutil.rmtree("./CMIP6")
 
 
 if __name__ == '__main__':

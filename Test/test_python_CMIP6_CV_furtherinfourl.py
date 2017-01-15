@@ -89,8 +89,8 @@ class TestCase(unittest.TestCase):
         self.assertEqual("http://furtherinfo.es-doc.org/CMIP6.PCMDI.PCMDI-test-1-0.piControl-withism.none.r11i1p1f1", a)
 
 
-    def tearDown(self):                                                                                                                        
-        import shutil                                                                                                                          
-        shutil.rmtree("./CMIP6")                                                                                                               
+    def tearDown(self):
+        import shutil
+        shutil.rmtree("./CMIP6")
 if __name__ == '__main__':
     run()

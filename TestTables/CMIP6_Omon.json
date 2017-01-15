@@ -5,7 +5,7 @@
         "realm": "ocnBgchem", 
         "frequency": "mon", 
         "cmor_version": "3.2", 
-        "table_date": "13 January 2017", 
+        "table_date": "14 January 2017", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "30.00000", 

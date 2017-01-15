@@ -72,9 +72,9 @@ class TestCase(unittest.TestCase):
         f.close()
         os.unlink(tmpfile[1])
 
-    def tearDown(self):                                                                                                                        
-        import shutil                                                                                                                          
-        shutil.rmtree("./CMIP6")                                                                                                               
+    def tearDown(self):
+        import shutil
+        shutil.rmtree("./CMIP6")
 
 
 if __name__ == '__main__':

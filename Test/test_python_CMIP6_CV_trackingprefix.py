@@ -78,9 +78,9 @@ class TestCase(unittest.TestCase):
         a = f.getglobal("tracking_id").split('/')[0]
         self.assertIn("hdl:21.14100", a)
 
-    def tearDown(self):                                                                                                                        
-        import shutil                                                                                                                          
-        shutil.rmtree("./CMIP6")                                                                                                               
+    def tearDown(self):
+        import shutil
+        shutil.rmtree("./CMIP6")
 
 
 if __name__ == '__main__':

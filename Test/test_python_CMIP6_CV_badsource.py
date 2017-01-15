@@ -23,7 +23,7 @@ import tempfile
 
 class TestCase(unittest.TestCase):
 
-    def TestCase(self):
+    def testCMIP6(self):
 
         # ------------------------------------------------------
         # Copy stdout and stderr file descriptor for cmor output
@@ -67,15 +67,15 @@ class TestCase(unittest.TestCase):
         f = open(tmpfile[1], 'r')
         lines = f.readlines()
         for line in lines:
-            if line.find('Warning:') != -1:
-                self.assertIn('\"source\"', line.strip())
+            if line.find('Error:') != -1:
+                self.assertIn('bad_source', line.strip())
                 break
         f.close()
         os.unlink(tmpfile[1])
 
-    def tearDown(self):                                                                                                                        
-        import shutil                                                                                                                          
-        shutil.rmtree("./CMIP6")                                                                                                               
+    def tearDown(self):
+        import shutil
+        shutil.rmtree("./CMIP6")
 
 
 if __name__ == '__main__':

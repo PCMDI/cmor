@@ -5,10 +5,10 @@
         "realm": "aerosol", 
         "frequency": "fx", 
         "cmor_version": "3.2", 
-        "table_date": "13 January 2017", 
+        "table_date": "14 January 2017", 
         "missing_value": "1e20", 
         "product": "output", 
-        "approx_interval": "", 
+        "approx_interval": "0.00000", 
         "generic_levels": "", 
         "mip_era": "CMIP6", 
         "Conventions": "CF-1.6 CMIP-6.0"
