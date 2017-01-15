@@ -1,0 +1,142 @@
+{
+    "Header": {
+        "data_specs_version": "01.beta.36", 
+        "table_id": "Table cf3hr", 
+        "realm": "atmos", 
+        "frequency": "3hr", 
+        "cmor_version": "3.2", 
+        "table_date": "04 October 2016", 
+        "missing_value": "1e20", 
+        "product": "output", 
+        "approx_interval": "1.00", 
+        "generic_levels": "", 
+        "mip_era": "CMIP6", 
+        "Conventions": "CF-1.6 CMIP-6.0"
+    }, 
+    "axis_entry": {
+        "height40": {
+            "standard_name": "altitude", 
+            "units": "m", 
+            "axis": "Z", 
+            "long_name": "altitude",
+            "must_have_bounds": "yes", 
+            "out_name": "height40", 
+            "positive": "up", 
+            "tolerance": "0.001", 
+            "type": "double"
+        }, 
+    "section": {
+            "standard_name": "section_id", 
+            "units": "days since ?", 
+            "axis": "T", 
+            "long_name": "location index", 
+            "must_have_bounds": "no", 
+            "out_name": "section", 
+            "stored_direction": "increasing", 
+            "type": "double"
+        }, 
+        "location": {
+            "standard_name": "profile_id", 
+            "units": "1", 
+            "long_name": "location index", 
+            "must_have_bounds": "no", 
+            "out_name": "loc", 
+            "stored_direction": "increasing", 
+            "type": "double"
+        }, 
+        "vertices": {                                                                                                                          
+            "standard_name": "vertices",                                                                                                       
+            "units": "1",                                                                                                                      
+            "long_name": "vertices"
+        },                                                                                                                                     
+        "grid_latitude": {
+            "standard_name": "latitude", 
+            "units": "degrees_north", 
+            "axis": "Y", 
+            "long_name": "latitude", 
+            "climatology": "", 
+            "formula": "", 
+            "must_have_bounds": "yes", 
+            "out_name": "lat", 
+            "positive": "", 
+            "requested": "", 
+            "requested_bounds": "", 
+            "stored_direction": "increasing", 
+            "tolerance": "", 
+            "type": "double", 
+            "valid_max": "90.0", 
+            "valid_min": "-90.0", 
+            "value": "", 
+            "z_bounds_factors": "", 
+            "z_factors": "", 
+            "bounds_values": ""
+        }, 
+        "grid_longitude": {
+            "standard_name": "longitude", 
+            "units": "degrees_east", 
+            "axis": "X", 
+            "long_name": "longitude", 
+            "climatology": "", 
+            "formula": "", 
+            "must_have_bounds": "yes", 
+            "out_name": "lon", 
+            "positive": "", 
+            "requested": "", 
+            "requested_bounds": "", 
+            "stored_direction": "increasing", 
+            "tolerance": "", 
+            "type": "double", 
+            "valid_max": "360.0", 
+            "valid_min": "0.0", 
+            "value": "", 
+            "z_bounds_factors": "", 
+            "z_factors": "", 
+            "bounds_values": ""
+        } 
+},
+"variable_entry": {
+        "latitude": {
+            "dimensions": "longitude latitude",
+            "valid_min": "-90.0",
+            "long_name": "",
+            "standard_name": "latitude",
+            "out_name": "latitude",
+            "units": "degrees_north",
+            "valid_max": "90.0"     
+        },
+        "longitude": {
+            "dimensions": "longitude latitude",
+            "valid_min": "0.0",
+            "long_name": "",
+            "standard_name": "longitude",
+            "out_name": "longitude",
+            "units": "degrees_east",
+            "valid_max": "360.0"
+        },                     
+        "vertices_latitude": {
+            "standard_name": "vertices_latitude", 
+            "units": "degrees_north", 
+            "long_name": "latitude vertices coordinate", 
+            "dimensions":"vertices location section",
+            "out_name": "vertices_lat", 
+            "valid_max": "90.0", 
+            "valid_min": "-90.0"
+        }, 
+        "vertices_longitude": {
+            "standard_name": "vertices_longitude", 
+            "units": "degrees_east", 
+            "long_name": "longitude vertices coordinate", 
+            "dimensions":"vertices location section",
+            "out_name": "vertices_lon", 
+            "valid_max": "360.0", 
+            "valid_min": "0.0"
+        }, 
+        "curtain": {
+            "units": "1", 
+            "long_name": "curtain", 
+            "dimensions":"height40 location section",
+            "out_name": "curtain", 
+            "type": "real"
+        }
+    }
+}
