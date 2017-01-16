@@ -5065,10 +5065,10 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
         int nRefAxTableID;
         int nRefAxisID;
 
+        j = cmor_vars[var_id].singleton_ids[i];
         nRefAxTableID = cmor_axes[j].ref_table_id;
         nRefAxisID = cmor_axes[j].ref_axis_id;
 
-        j = cmor_vars[var_id].singleton_ids[i];
         if (j != -1) {
             if (cmor_tables[nRefAxTableID].axes[nRefAxisID].type == 'c') {
                 ierr = nc_put_var_text(ncid, nc_singletons[i],

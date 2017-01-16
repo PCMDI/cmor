@@ -1,4 +1,4 @@
 #ifndef _CMOR_LOCALE
 #define _CMOR_LOCALE
-#define CMOR_PREFIX  "/home/dnadeau/anaconda2/envs/devel"
+#define CMOR_PREFIX  "/Users/nadeau1/anaconda2/envs/travis"
 #endif
