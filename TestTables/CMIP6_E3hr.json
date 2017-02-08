@@ -1,14 +1,14 @@
 {
     "Header": {
-        "data_specs_version": "01.00.00", 
+        "data_specs_version": "01.00.02", 
         "table_id": "Table E3hr", 
         "realm": "atmos", 
         "frequency": "3hr", 
         "cmor_version": "3.2", 
-        "table_date": "14 January 2017", 
+        "table_date": "07 February 2017", 
         "missing_value": "1e20", 
         "product": "output", 
-        "approx_interval": "0.125000", 
+        "approx_interval": "", 
         "generic_levels": "", 
         "mip_era": "CMIP6", 
         "Conventions": "CF-1.6 CMIP-6.0"
@@ -218,6 +218,23 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
+        "huss": {
+            "modeling_realm": "atmos", 
+            "standard_name": "specific_humidity", 
+            "units": "1.0", 
+            "cell_methods": "time: mean", 
+            "cell_measures": "area: areacella", 
+            "long_name": "Near-Surface Specific Humidity", 
+            "comment": "Near-surface (usually, 2 meter) specific humidity.", 
+            "dimensions": "longitude latitude time", 
+            "out_name": "huss", 
+            "type": "real", 
+            "positive": "", 
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
+        }, 
         "n2o": {
             "modeling_realm": "atmos", 
             "standard_name": "mole_fraction_of_nitrous_oxide_in_air", 
@@ -372,7 +389,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ps": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "", 
             "standard_name": "surface_air_pressure", 
             "units": "Pa", 
             "cell_methods": "time: mean", 
@@ -864,6 +881,23 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
+        "tas": {
+            "modeling_realm": "atmos", 
+            "standard_name": "air_temperature", 
+            "units": "K", 
+            "cell_methods": "time: mean", 
+            "cell_measures": "area: areacella", 
+            "long_name": "Near-Surface Air Temperature", 
+            "comment": "near-surface (usually, 2 meter) air temperature", 
+            "dimensions": "longitude latitude time", 
+            "out_name": "tas", 
+            "type": "", 
+            "positive": "", 
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
+        }, 
         "ts": {
             "modeling_realm": "atmos", 
             "standard_name": "surface_temperature", 
@@ -942,7 +976,7 @@
             "comment": "", 
             "dimensions": "longitude latitude alevel time", 
             "out_name": "zhalf", 
-            "type": "real", 
+            "type": "", 
             "positive": "", 
             "valid_min": "", 
             "valid_max": "", 

@@ -1,14 +1,14 @@
 {
     "Header": {
-        "data_specs_version": "01.00.00", 
+        "data_specs_version": "01.00.02", 
         "table_id": "Table E1hr", 
         "realm": "atmos", 
         "frequency": "1hr", 
         "cmor_version": "3.2", 
-        "table_date": "14 January 2017", 
+        "table_date": "07 February 2017", 
         "missing_value": "1e20", 
         "product": "output", 
-        "approx_interval": "0.017361", 
+        "approx_interval": "", 
         "generic_levels": "", 
         "mip_era": "CMIP6", 
         "Conventions": "CF-1.6 CMIP-6.0"

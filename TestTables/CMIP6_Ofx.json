@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.00.00", 
+        "data_specs_version": "01.00.02", 
         "table_id": "Table Ofx", 
         "realm": "ocean", 
         "frequency": "fx", 
         "cmor_version": "3.2", 
-        "table_date": "14 January 2017", 
+        "table_date": "07 February 2017", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "", 
@@ -35,7 +35,7 @@
             "modeling_realm": "ocean", 
             "standard_name": "region", 
             "units": "1.0", 
-            "cell_methods": "area: point", 
+            "cell_methods": "area: point time: mean", 
             "cell_measures": "area: areacello", 
             "long_name": "Region Selection Index", 
             "comment": "", 

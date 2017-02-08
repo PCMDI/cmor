@@ -1,36 +1,19 @@
 {
     "Header": {
-        "data_specs_version": "01.00.00", 
+        "data_specs_version": "01.00.02", 
         "table_id": "Table AERfx", 
         "realm": "aerosol", 
         "frequency": "fx", 
         "cmor_version": "3.2", 
-        "table_date": "14 January 2017", 
+        "table_date": "07 February 2017", 
         "missing_value": "1e20", 
         "product": "output", 
-        "approx_interval": "0.00000", 
+        "approx_interval": "", 
         "generic_levels": "", 
         "mip_era": "CMIP6", 
         "Conventions": "CF-1.6 CMIP-6.0"
     }, 
     "variable_entry": {
-        "areacella": {
-            "modeling_realm": "aerosol", 
-            "standard_name": "cell_area", 
-            "units": "m2", 
-            "cell_methods": "time: mean", 
-            "cell_measures": "area: areacella", 
-            "long_name": "area of grid cell", 
-            "comment": "For atmospheres with more than 1 mesh (e.g., staggered grids), report areas that apply to surface vertical fluxes of energy.", 
-            "dimensions": "longitude latitude time", 
-            "out_name": "areacella", 
-            "type": "float", 
-            "positive": "", 
-            "valid_min": "", 
-            "valid_max": "", 
-            "ok_min_mean_abs": "", 
-            "ok_max_mean_abs": ""
-        }, 
         "sftlf": {
             "modeling_realm": "aerosol", 
             "standard_name": "land_area_fraction", 

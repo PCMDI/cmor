@@ -2226,7 +2226,7 @@
             "bounds_values": ""
         }, 
         "vegtype": {
-            "standard_name": "area_type", 
+            "standard_name": "", 
             "units": "", 
             "axis": "", 
             "long_name": "plant functional type", 

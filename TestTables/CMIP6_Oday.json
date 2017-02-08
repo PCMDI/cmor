@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.00.00", 
+        "data_specs_version": "01.00.02", 
         "table_id": "Table Oday", 
         "realm": "ocean", 
         "frequency": "day", 
         "cmor_version": "3.2", 
-        "table_date": "14 January 2017", 
+        "table_date": "07 February 2017", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "1.00000", 
@@ -85,7 +85,7 @@
         "tos": {
             "modeling_realm": "ocean", 
             "standard_name": "sea_surface_temperature", 
-            "units": "K", 
+            "units": "degC", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacello", 
             "long_name": "Sea Surface Temperature", 

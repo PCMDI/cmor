@@ -1,5 +1,7 @@
 {
            "_control_vocabulary_file": "CMIP6_CV.json",
+           "_AXIS_ENTRY_FILE":         "CMIP6_coordinate.json",
+           "_FORMULA_VAR_FILE":        "CMIP6_formula_terms.json",
            "_cmip6_option":           "CMIP6",
 
            "tracking_prefix":        "hdl:21.14100",
