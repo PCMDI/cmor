@@ -4344,7 +4344,7 @@ int cmor_write( int var_id, void *data, char type,
                 zfactors, nc_zfactors,nc_dim_af, &nzfactors);
 
 /* -------------------------------------------------------------------- */
-/*      Store the dimension id for reuse when writting                  */
+/*      Store the dimension id for reuse when writing                   */
 /*      over multiple call to cmor_write                                */
 /* -------------------------------------------------------------------- */
 	cmor_vars[var_id].time_nc_id = nc_vars[0];
