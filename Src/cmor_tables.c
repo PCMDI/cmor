@@ -552,17 +552,17 @@ int cmor_load_table( char szTable[CMOR_MAX_STRING], int *table_id ) {
                                                 szControlFilenameJSON, 1);
         rc= cmor_load_table_internal( szAxisEntryFilenameJSON, table_id);
         if(rc != TABLE_SUCCESS){
-            snprintf( msg, CMOR_MAX_STRING, "Can't open/read JSON table %s", szControlFilenameJSON);
-            cmor_handle_error( msg, CMOR_WARNING );
-        }
-        rc= cmor_load_table_internal( szFormulaVarFilenameJSON, table_id);
-        if(rc != TABLE_SUCCESS ){
-            snprintf( msg, CMOR_MAX_STRING, "Can't open/read JSON table %s", szFormulaVarFN);
+            snprintf( msg, CMOR_MAX_STRING, "Can't open/read JSON table %s", szAxisEntryFilenameJSON);
             cmor_handle_error( msg, CMOR_WARNING );
         }
         rc= cmor_load_table_internal( szTable, table_id);
         if(rc != TABLE_SUCCESS ){
             snprintf( msg, CMOR_MAX_STRING, "Can't open/read JSON table %s", szTable);
+            cmor_handle_error( msg, CMOR_WARNING );
+        }
+        rc= cmor_load_table_internal( szFormulaVarFilenameJSON, table_id);
+        if(rc != TABLE_SUCCESS ){
+            snprintf( msg, CMOR_MAX_STRING, "Can't open/read JSON table %s", szFormulaVarFilenameJSON);
             cmor_handle_error( msg, CMOR_WARNING );
         }
         rc= cmor_load_table_internal( szControlFilenameJSON, table_id);
@@ -618,7 +618,6 @@ int cmor_load_table_internal( char szTable[CMOR_MAX_STRING], int *table_id) {
     cmor_is_setup(  );
 
 	table_file = fopen(szTable, "r");
-
 	if (table_file == NULL) {
 		if (szTable[0] != '/') {
 			snprintf(word, CMOR_MAX_STRING, "%s/%s", cmor_input_path, szTable);
