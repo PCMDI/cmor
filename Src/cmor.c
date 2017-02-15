@@ -4267,10 +4267,13 @@ int cmor_write( int var_id, void *data, char type,
 	        cmor_current_dataset.file_template,
 	        outname, "_");
 
+
 	strcat(outpath, outname);
 	strncpy(outname, outpath, CMOR_MAX_STRING);
 	strncpytrim(cmor_vars[var_id].base_path, outname, CMOR_MAX_STRING);
-
+    strcat(outname, "XXXXXX");
+    mkstemp(outname);
+    unlink(outname);
 /* -------------------------------------------------------------------- */
 /*      Add Process ID and a random number to filename                  */
 /* -------------------------------------------------------------------- */
@@ -4286,7 +4289,6 @@ int cmor_write( int var_id, void *data, char type,
 /*      Decides NetCDF mode                                             */
 /* -------------------------------------------------------------------- */
 	ncid = cmor_validateFilename(outname, var_id);
-
 /* -------------------------------------------------------------------- */
 /*      we closed and reopened the same test, in case we                */
 /*      were appending, in which case all declaration have              */
@@ -5207,7 +5209,7 @@ int cmor_CreateFromTemplate(int nVarRefTblID, char *template,
         szToken = strtok(NULL, "><");
     }
 /* -------------------------------------------------------------------- */
-/*     If the last character is the sepator delete it.                  */
+/*     If the last character is the separator delete it.                */
 /* -------------------------------------------------------------------- */
     if( strcmp( &szJoin[ strlen( szJoin ) - 1 ], separator ) == 0 ) {
         szJoin[ strlen( szJoin ) - 1 ] = '\0';
@@ -5516,7 +5518,6 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
 /* -------------------------------------------------------------------- */
 	strncpytrim( outname, cmor_vars[var_id].base_path,
 		     CMOR_MAX_STRING );
-
 	if( cmor_tables
 	    [cmor_axes[cmor_vars[var_id].axes_ids[0]].
 	     ref_table_id].axes[cmor_axes[cmor_vars[var_id].axes_ids[0]].
