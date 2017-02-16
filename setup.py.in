@@ -1,4 +1,5 @@
 import numpy
+# do not push to master
 from numpy.distutils.core import setup, Extension
 #from numpy.distutils.ccompiler import CCompiler
 import os,sys,string
