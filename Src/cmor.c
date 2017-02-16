@@ -210,16 +210,17 @@ void cmor_cat_unique_string( char *dest, char *src ) {
 /*             cmor_check_forcing_validity()                              */
 /*                                                                        */
 /**************************************************************************/
-void cmor_check_forcing_validity( int table_id, char *value ) {
+int cmor_check_forcing_validity( int table_id, char *value ) {
     int i, j, n, found = 0;
     char msg[CMOR_MAX_STRING];
     char astr[CMOR_MAX_STRING];
     char **bstr;
+    int ierr=0;
 
     cmor_add_traceback("cmor_check_forcing_validity");
     if( cmor_tables[table_id].nforcings == 0 ) {
         cmor_pop_traceback();
-	return;
+	return(0);
     }
     strcpy( astr, value );
     found = 0;
@@ -237,7 +238,7 @@ void cmor_check_forcing_validity( int table_id, char *value ) {
     cmor_convert_string_to_list( astr, 'c', ( void ** ) &bstr, &n );
     if( n == 0 ){
         cmor_pop_traceback();
-	return;
+	return(0);
     }
     for( i = 0; i < n; i++ ) {
 	found = 0;
@@ -258,7 +259,9 @@ void cmor_check_forcing_validity( int table_id, char *value ) {
 		strncat( msg, ",", CMOR_MAX_STRING - strlen( msg ) );
 	    }
 	    msg[strlen( msg ) - 1] = '\0';
-	    cmor_handle_error( msg, CMOR_CRITICAL );
+	    cmor_handle_error( msg, CMOR_NORMAL );
+	    cmor_pop_traceback();
+	    return(-1);
 	}
     }
 /* -------------------------------------------------------------------- */
@@ -269,7 +272,7 @@ void cmor_check_forcing_validity( int table_id, char *value ) {
     }
     free( bstr );
     cmor_pop_traceback();
-    return;
+    return(0);
 }
 
 /**************************************************************************/
@@ -2536,7 +2539,7 @@ int cmor_validateFilename(char *outname, int var_id) {
 /************************************************************************/
 /*                      cmor_setGblAttr()                               */
 /************************************************************************/
-void cmor_setGblAttr(int var_id) {
+int cmor_setGblAttr(int var_id) {
     struct tm *ptr;
     time_t lt;
     char msg[CMOR_MAX_STRING];
@@ -2551,15 +2554,17 @@ void cmor_setGblAttr(int var_id) {
     int numchar;
     int nVarRefTblID;
     int rc;
+    int ierr=0;
 
     cmor_add_traceback("cmor_setGblAttr");
     nVarRefTblID = cmor_vars[var_id].ref_table_id;
 
     if( cmor_has_cur_dataset_attribute( GLOBAL_ATT_FORCING ) == 0 ) {
         cmor_get_cur_dataset_attribute( GLOBAL_ATT_FORCING, ctmp2 );
-        cmor_check_forcing_validity( nVarRefTblID,
+        ierr += cmor_check_forcing_validity( nVarRefTblID,
                                      ctmp2 );
     }
+
 /* -------------------------------------------------------------------- */
 /*  Defined "product" from Table if not defined by users                */
 /* -------------------------------------------------------------------- */
@@ -2714,7 +2719,7 @@ void cmor_setGblAttr(int var_id) {
 						cmor_vars[var_id].id);
 				cmor_handle_error(msg, CMOR_CRITICAL);
 				regfree(&regex);
-				return;
+				return(-1);
 
 			}
 			words[0] = '\0';
@@ -2749,17 +2754,18 @@ void cmor_setGblAttr(int var_id) {
 		}
 	}
     if( cmor_has_cur_dataset_attribute(GLOBAL_ATT_INSTITUTION_ID) == 0) {
-        cmor_CV_setInstitution(cmor_tables[nVarRefTblID].CV);
+        ierr += cmor_CV_setInstitution(cmor_tables[nVarRefTblID].CV);
     }
 
     if( cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP6) == 0) {
-        cmor_CV_checkSourceID(cmor_tables[nVarRefTblID].CV);
-        cmor_CV_checkExperiment(cmor_tables[nVarRefTblID].CV);
-        cmor_CV_checkGrids(cmor_tables[nVarRefTblID].CV);
-        cmor_CV_checkFurtherInfoURL(var_id);
+        ierr += cmor_CV_checkSourceID(cmor_tables[nVarRefTblID].CV);
+        ierr += cmor_CV_checkExperiment(cmor_tables[nVarRefTblID].CV);
+        ierr += cmor_CV_checkGrids(cmor_tables[nVarRefTblID].CV);
+        ierr += cmor_CV_checkFurtherInfoURL(var_id);
     }
-    cmor_CV_checkGblAttributes(cmor_tables[nVarRefTblID].CV);
-    cmor_CV_checkISOTime(GLOBAL_ATT_CREATION_DATE);
+    ierr += cmor_CV_checkGblAttributes(cmor_tables[nVarRefTblID].CV);
+    ierr += cmor_CV_checkISOTime(GLOBAL_ATT_CREATION_DATE);
+    return(ierr);
 }
 /************************************************************************/
 /*                      cmor_writeGblAttr()                             */
@@ -4161,12 +4167,8 @@ int cmor_write( int var_id, void *data, char type,
 
 
 
-    ierr = cmor_addVersion();
-    ierr = cmor_addRIPF(ctmp);
-    if(ierr) {
-        cmor_pop_traceback(  );
-        return(ierr);
-    }
+    ierr += cmor_addVersion();
+    ierr += cmor_addRIPF(ctmp);
 
 /* -------------------------------------------------------------------- */
 /*    Make sure that variable_id is set Global Attributes and for       */
@@ -4181,7 +4183,7 @@ int cmor_write( int var_id, void *data, char type,
 /*      here we check that the variable actually has all                */
 /*      the required attributes set                                     */
 /* -------------------------------------------------------------------- */
-    cmor_has_required_variable_attributes( var_id );
+    ierr += cmor_has_required_variable_attributes( var_id );
 
 /* -------------------------------------------------------------------- */
 /*  Do we have associated variables (z_factors)?                        */
@@ -4208,7 +4210,7 @@ int cmor_write( int var_id, void *data, char type,
 	}
 
 
-       cmor_setGblAttr(var_id);
+    ierr += cmor_setGblAttr(var_id);
 
 /* -------------------------------------------------------------------- */
 /*      Figures out path                                                */
@@ -4229,10 +4231,16 @@ int cmor_write( int var_id, void *data, char type,
         }
 
 	if( CMOR_CREATE_SUBDIRECTORIES == 1 ) {
-	    cmor_CreateFromTemplate(nVarRefTblID, szPathTemplate, outname, "/");
+	    ierr += cmor_CreateFromTemplate(nVarRefTblID, szPathTemplate, outname, "/");
 	} else {
-	    cmor_CreateFromTemplate( nVarRefTblID, szPathTemplate, msg, "/");
+	    ierr += cmor_CreateFromTemplate( nVarRefTblID, szPathTemplate, msg, "/");
 	}
+
+    if( ierr != 0 ) {
+        sprintf( ctmp,
+                "Cannot continue until you fix the errors listed above: %d", ierr);
+        cmor_handle_error( ctmp, CMOR_CRITICAL );
+    }
 
 	ierr = cmor_mkdir(outname);
         if( (ierr != 0) && (errno != EEXIST ) ) {
@@ -5250,6 +5258,7 @@ int cmor_addRIPF(char *variant) {
     int forcing_index;
     int reti;
     regex_t regex;
+    int ierr=0;
 
     char msg[CMOR_MAX_STRING];
 
@@ -5267,9 +5276,8 @@ int cmor_addRIPF(char *variant) {
                     "Your realization_index \"%s\" is invalid. \n! "
                     "It cannot contains more than 4 digits. \n! ",
                     tmp );
-            cmor_handle_error( msg, CMOR_CRITICAL );
-            cmor_pop_traceback(  );
-            return(-1);
+            cmor_handle_error( msg, CMOR_NORMAL );
+            ierr+=-1;
 
         }
         reti = regexec(&regex, tmp , 0, NULL, 0);
@@ -5278,9 +5286,8 @@ int cmor_addRIPF(char *variant) {
                     "Your realization_index \"%s\" is invalid. \n! "
                     "It must contain only characters between 0 and 9 \n!",
                     tmp );
-            cmor_handle_error( msg, CMOR_CRITICAL );
-            cmor_pop_traceback(  );
-            return(-1);
+            cmor_handle_error( msg, CMOR_NORMAL );
+            ierr+=-1;
         }
 
         sscanf(tmp, "%d", &realization_index);
@@ -5297,9 +5304,8 @@ int cmor_addRIPF(char *variant) {
                     "Your initialization_index \"%s\" is invalid. \n! "
                     "It cannot contains more than 4 digits. \n! ",
                     tmp );
-            cmor_handle_error( msg, CMOR_CRITICAL );
-            cmor_pop_traceback(  );
-            return(-1);
+            cmor_handle_error( msg, CMOR_NORMAL );
+            ierr+=-1;
 
         }
         reti = regexec(&regex, tmp , 0, NULL, 0);
@@ -5308,9 +5314,9 @@ int cmor_addRIPF(char *variant) {
                     "Your initialization_index \"%s\" is invalid. \n! "
                     "It must contain only characters between 0 and 9 \n!",
                     tmp );
-            cmor_handle_error( msg, CMOR_CRITICAL );
-            cmor_pop_traceback(  );
-            return(-1);
+            cmor_handle_error( msg, CMOR_NORMAL );
+            ierr+=-1;
+
         }
         sscanf(tmp, "%d", &initialization_index);
         snprintf(tmp, CMOR_MAX_STRING, "i%d", initialization_index);
@@ -5327,9 +5333,9 @@ int cmor_addRIPF(char *variant) {
                     "Your physics_index \"%s\" is invalid. \n! "
                     "It cannot contains more than 4 digits. \n! ",
                     tmp );
-            cmor_handle_error( msg, CMOR_CRITICAL );
-            cmor_pop_traceback(  );
-            return(-1);
+            cmor_handle_error( msg, CMOR_NORMAL );
+            ierr+=-1;
+
 
         }
         reti = regexec(&regex, tmp , 0, NULL, 0);
@@ -5338,9 +5344,9 @@ int cmor_addRIPF(char *variant) {
                     "Your physics_index \"%s\" is invalid. \n! "
                     "It must contain only characters between 0 and 9 \n!",
                     tmp );
-            cmor_handle_error( msg, CMOR_CRITICAL );
-            cmor_pop_traceback(  );
-            return(-1);
+            cmor_handle_error( msg, CMOR_NORMAL );
+            ierr+=-1;
+
         }
         sscanf(tmp, "%d", &physics_index);
         snprintf(tmp, CMOR_MAX_STRING, "p%d", physics_index);
@@ -5356,9 +5362,9 @@ int cmor_addRIPF(char *variant) {
                     "Your forcing_index \"%s\" is invalid. \n! "
                     "It cannot contains more than 4 digits. \n! ",
                     tmp );
-            cmor_handle_error( msg, CMOR_CRITICAL );
-            cmor_pop_traceback(  );
-            return(-1);
+            cmor_handle_error( msg, CMOR_NORMAL );
+            ierr+=-1;
+
 
         }
         reti = regexec(&regex, tmp , 0, NULL, 0);
@@ -5367,9 +5373,9 @@ int cmor_addRIPF(char *variant) {
                     "Your forcing_index \"%s\" is invalid. \n! "
                     "It must contain only characters between 0 and 9 \n!",
                     tmp );
-            cmor_handle_error( msg, CMOR_CRITICAL );
-            cmor_pop_traceback(  );
-            return(-1);
+            cmor_handle_error( msg, CMOR_NORMAL );
+            ierr+=-1;
+
         }
         sscanf(tmp, "%d", &forcing_index);
 
@@ -5379,7 +5385,7 @@ int cmor_addRIPF(char *variant) {
     cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_VARIANT_LABEL, variant, 1);
     regfree(&regex);
     cmor_pop_traceback();
-    return(0);
+    return(ierr);
 
 }
 
@@ -5802,7 +5808,7 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
 		      "could not rename temporary file: %s to final file\n"
 	              "name: %s",
 		      cmor_vars[var_id].current_path, outname );
-	    // cmor_handle_error( msg, CMOR_CRITICAL );
+	     cmor_handle_error( msg, CMOR_CRITICAL );
 	}
 	if( file_name != NULL ) {
 	    strncpy( file_name, outname, CMOR_MAX_STRING );

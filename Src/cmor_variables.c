@@ -91,7 +91,9 @@ int cmor_has_required_variable_attributes( int var_id ) {
 		      pTable->szTable_id,
 		      astr );
 
-	    cmor_handle_error( msg, CMOR_CRITICAL );
+	    cmor_handle_error( msg, CMOR_NORMAL );
+	    cmor_pop_traceback(  );
+	    return( -1 );
 	}
 
 	j = 0;

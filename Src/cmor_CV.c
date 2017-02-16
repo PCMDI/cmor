@@ -295,7 +295,7 @@ void cmor_CV_free(cmor_CV_def_t *CV) {
 /************************************************************************/
 /*                    cmor_CV_checkFurtherInfoURL()                     */
 /************************************************************************/
-void cmor_CV_checkFurtherInfoURL(int var_id){
+int cmor_CV_checkFurtherInfoURL(int var_id){
     char szFurtherInfoURLTemplate[CMOR_MAX_STRING];
     char szFurtherInfoURL[CMOR_MAX_STRING];
     char copyURL[CMOR_MAX_STRING];
@@ -325,7 +325,7 @@ void cmor_CV_checkFurtherInfoURL(int var_id){
 /* -------------------------------------------------------------------- */
     szToken = strtok(szFurtherInfoURLTemplate, "<>");
     if( strcmp(szToken, cmor_current_dataset.furtherinfourl) == 0) {
-        return;
+        return(0);
     }
     strncpy(szFurtherInfoURLTemplate, cmor_current_dataset.furtherinfourl,
             CMOR_MAX_STRING);
@@ -353,9 +353,9 @@ void cmor_CV_checkFurtherInfoURL(int var_id){
             cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
             snprintf( msg, CMOR_MAX_STRING,
                     "The further info in attribute does not match "
-                    "the one created by CMIP6. \n! "
+                    "the one found in your Control Vocabulary(CV) File. \n! "
                     "We found \"%s\" and \n! "
-                    "CMIP6 requires \"%s\" \n! "
+                    "CV requires \"%s\" \n! "
 
                     "Check your Control Vocabulary file \"%s\".\n! ",
                     szValue,
@@ -364,6 +364,7 @@ void cmor_CV_checkFurtherInfoURL(int var_id){
 
             cmor_handle_error( msg, CMOR_WARNING );
             cmor_pop_traceback(  );
+            return(-1);
 
         }
 
@@ -371,6 +372,7 @@ void cmor_CV_checkFurtherInfoURL(int var_id){
     cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_FURTHERINFOURL,
             szFurtherInfoURL, 0);
     cmor_pop_traceback( );
+    return(0);
 }
 
 /************************************************************************/
@@ -384,7 +386,7 @@ int get_CV_Error(){
 /************************************************************************/
 /*                      cmor_CV_checkSourceType()                       */
 /************************************************************************/
-void cmor_CV_checkSourceType(cmor_CV_def_t *CV_exp, char *szExptID){
+int cmor_CV_checkSourceType(cmor_CV_def_t *CV_exp, char *szExptID){
     int nObjects;
     cmor_CV_def_t *CV_exp_attr;
     char szAddSourceType[CMOR_MAX_STRING];
@@ -447,7 +449,7 @@ void cmor_CV_checkSourceType(cmor_CV_def_t *CV_exp, char *szExptID){
             nbSourceType = 1;
         } else {
             cmor_pop_traceback();
-            return;
+            return(-1);
         }
         while ((ptr = strpbrk(ptr, " ")) != NULL) {
             nbSourceType++;
@@ -468,9 +470,9 @@ void cmor_CV_checkSourceType(cmor_CV_def_t *CV_exp, char *szExptID){
                             "Check your Control Vocabulary file \"%s\".\n! ",
                     szReqSourceTypeCpy, szSourceType, CV_Filename);
 
-            cmor_handle_error(msg, CMOR_CRITICAL);
+            cmor_handle_error(msg, CMOR_NORMAL);
             cmor_pop_traceback();
-            return;
+            return(-1);
         } else {
             nbGoodType++;
         }
@@ -501,18 +503,20 @@ void cmor_CV_checkSourceType(cmor_CV_def_t *CV_exp, char *szExptID){
                         "Check your Control Vocabulary file \"%s\".\n! %d, %d",
                 szSourceType, szReqSourceTypeCpy, szAddSourceTypeCpy,
                 CV_Filename, nbGoodType, nbSourceType);
-        cmor_handle_error(msg, CMOR_CRITICAL);
+        cmor_handle_error(msg, CMOR_NORMAL);
+        cmor_pop_traceback();
+        return(-1);
     }
 
     cmor_pop_traceback(  );
-    return;
+    return(0);
 
 
 }
 /************************************************************************/
 /*                      cmor_CV_checkSourceID()                         */
 /************************************************************************/
-void cmor_CV_checkSourceID(cmor_CV_def_t *CV){
+int cmor_CV_checkSourceID(cmor_CV_def_t *CV){
     cmor_CV_def_t *CV_source_ids;
     cmor_CV_def_t *CV_source_id = NULL;
 
@@ -538,9 +542,9 @@ void cmor_CV_checkSourceID(cmor_CV_def_t *CV){
                 "your Control Vocabulary file.(%s)\n! ",
                 CV_Filename);
 
-        cmor_handle_error( msg, CMOR_CRITICAL );
+        cmor_handle_error( msg, CMOR_NORMAL );
         cmor_pop_traceback(  );
-        return;
+        return(-1);
     }
 
 
@@ -552,8 +556,9 @@ void cmor_CV_checkSourceID(cmor_CV_def_t *CV){
                 "See Control Vocabulary JSON file.(%s)\n! ",
                 GLOBAL_ATT_SOURCE_ID,
                 CV_Filename);
-        cmor_handle_error( msg, CMOR_CRITICAL );
+        cmor_handle_error( msg, CMOR_NORMAL );
         cmor_pop_traceback(  );
+        return(-1);
     }
 
     // Validate  source_id
@@ -608,7 +613,8 @@ void cmor_CV_checkSourceID(cmor_CV_def_t *CV){
                 "a new source.   ",
                 szSource_ID, CV_Filename);
 
-        cmor_handle_error(msg, CMOR_CRITICAL);
+        cmor_handle_error(msg, CMOR_NORMAL);
+        return(-1);
     }
     // Set/replace attribute.
     cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_SOURCE_ID,
@@ -617,13 +623,13 @@ void cmor_CV_checkSourceID(cmor_CV_def_t *CV){
             CV_source_id->oValue[j].szValue,1);
 
     cmor_pop_traceback();
-    return;
+    return(0);
 }
 
 /************************************************************************/
 /*                     cmor_CV_checkExperiment()                        */
 /************************************************************************/
-void cmor_CV_checkExperiment( cmor_CV_def_t *CV){
+int cmor_CV_checkExperiment( cmor_CV_def_t *CV){
     cmor_CV_def_t *CV_experiment_ids;
     cmor_CV_def_t *CV_experiment;
     cmor_CV_def_t *CV_experiment_attr;
@@ -653,9 +659,9 @@ void cmor_CV_checkExperiment( cmor_CV_def_t *CV){
                 "your Control Vocabulary file.(%s)\n! ",
                 CV_Filename);
 
-        cmor_handle_error( msg, CMOR_CRITICAL );
+        cmor_handle_error( msg, CMOR_NORMAL );
         cmor_pop_traceback(  );
-        return;
+        return(-1);
     }
     CV_experiment = cmor_CV_search_child_key( CV_experiment_ids,
                                                szExperiment_ID);
@@ -667,9 +673,9 @@ void cmor_CV_checkExperiment( cmor_CV_def_t *CV){
                 szExperiment_ID,
                 CV_Filename);
 
-        cmor_handle_error( msg, CMOR_CRITICAL );
+        cmor_handle_error( msg, CMOR_NORMAL );
         cmor_pop_traceback(  );
-        return;
+        return(-1);
     }
 
     nObjects = CV_experiment->nbObjects;
@@ -732,13 +738,13 @@ void cmor_CV_checkExperiment( cmor_CV_def_t *CV){
 	}
 	cmor_pop_traceback();
 
-	return;
+	return(0);
 }
 
 /************************************************************************/
 /*                      cmor_CV_setInstitution()                        */
 /************************************************************************/
-void cmor_CV_setInstitution( cmor_CV_def_t *CV){
+int cmor_CV_setInstitution( cmor_CV_def_t *CV){
     cmor_CV_def_t *CV_institution_ids;
     cmor_CV_def_t *CV_institution;
 
@@ -775,9 +781,9 @@ void cmor_CV_setInstitution( cmor_CV_def_t *CV){
                 "your Control Vocabulary file.(%s)\n! ",
                 CV_Filename);
 
-        cmor_handle_error( msg, CMOR_CRITICAL );
+        cmor_handle_error( msg, CMOR_NORMAL );
         cmor_pop_traceback(  );
-        return;
+        return(-1);
     }
     CV_institution = cmor_CV_search_child_key( CV_institution_ids,
                                                szInstitution_ID);
@@ -793,9 +799,9 @@ void cmor_CV_setInstitution( cmor_CV_def_t *CV){
                 "See \"http://cmor.llnl.gov/mydoc_cmor3_CV/\" for further information about\n! "
                 "the \"institution_id\" and \"institution\" global attributes.  " ,
                 szInstitution_ID, CMOR_Filename, CV_Filename);
-        cmor_handle_error( msg, CMOR_CRITICAL );
+        cmor_handle_error( msg, CMOR_NORMAL );
         cmor_pop_traceback(  );
-        return;
+        return(-1);
     }
 /* -------------------------------------------------------------------- */
 /* Did the user defined an Institution Attribute?                       */
@@ -820,9 +826,9 @@ void cmor_CV_setInstitution( cmor_CV_def_t *CV){
                     "in your Control Vocabulary file.\n! "
                     "Check your institution_ids dictionary!!\n! ",
                             szInstitution_ID);
-            cmor_handle_error( msg, CMOR_CRITICAL );
+            cmor_handle_error( msg, CMOR_NORMAL );
             cmor_pop_traceback(  );
-            return;
+            return(-1);
         }
 /* -------------------------------------------------------------------- */
 /*  Check if they have the same string                                  */
@@ -841,7 +847,7 @@ void cmor_CV_setInstitution( cmor_CV_def_t *CV){
     cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_INSTITUTION,
                                             CV_institution->szValue, 1);
     cmor_pop_traceback();
-    return;
+    return(0);
 }
 
 /************************************************************************/
@@ -938,7 +944,7 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t *CV, char *szKey){
 /************************************************************************/
 /*                        cmor_CV_checkGrids()                          */
 /************************************************************************/
-void cmor_CV_checkGrids(cmor_CV_def_t *CV) {
+int  cmor_CV_checkGrids(cmor_CV_def_t *CV) {
     int rc;
     char szGridLabel[CMOR_MAX_STRING];
     char szGridResolution[CMOR_MAX_STRING];
@@ -977,9 +983,9 @@ void cmor_CV_checkGrids(cmor_CV_def_t *CV) {
                 "your Control Vocabulary file.(%s)\n! ",
                 CV_Filename);
 
-        cmor_handle_error( msg, CMOR_CRITICAL );
+        cmor_handle_error( msg, CMOR_NORMAL );
         cmor_pop_traceback(  );
-        return;
+        return(-1);
     }
     if (CV_grid_labels->anElements > 0) {
     		for (i = 0; i < CV_grid_labels->anElements; i++) {
@@ -993,9 +999,9 @@ void cmor_CV_checkGrids(cmor_CV_def_t *CV) {
     					"Your attribute grid_label is set to \"%s\" which is invalid."
     					"\n! \n! Check your Control Vocabulary file \"%s\".\n! ",
     					szGridLabel, CV_Filename);
-    			cmor_handle_error(msg, CMOR_CRITICAL);
+    			cmor_handle_error(msg, CMOR_NORMAL);
     			cmor_pop_traceback();
-    			return;
+    			return(-1);
 
     		}
     }
@@ -1005,9 +1011,9 @@ void cmor_CV_checkGrids(cmor_CV_def_t *CV) {
                   "Your attribute grid_label is set to \"%s\" which is invalid."
                   "\n! \n! Check your Control Vocabulary file \"%s\".\n! ",
                   szGridLabel, CV_Filename);
-        cmor_handle_error( msg, CMOR_CRITICAL );
+        cmor_handle_error( msg, CMOR_NORMAL );
         cmor_pop_traceback();
-        return;
+        return(-1);
 
     }
 
@@ -1023,26 +1029,27 @@ void cmor_CV_checkGrids(cmor_CV_def_t *CV) {
 					"Your attribute grid_resolution is set to \"%s\" which is invalid."
 							"\n! \n! Check your Control Vocabulary file \"%s\".\n! ",
 					szGridResolution, CV_Filename);
-			cmor_handle_error(msg, CMOR_CRITICAL);
+			cmor_handle_error(msg, CMOR_NORMAL);
 			cmor_pop_traceback();
-			return;
+			return(-1);
 
 		}
 	}
 
     cmor_pop_traceback(  );
-    return;
+    return(0);
 }
 
 /************************************************************************/
 /*                    cmor_CV_CheckGblAttributes()                      */
 /************************************************************************/
-void cmor_CV_checkGblAttributes( cmor_CV_def_t *CV ) {
+int cmor_CV_checkGblAttributes( cmor_CV_def_t *CV ) {
     cmor_CV_def_t *required_attrs;
     int i;
     int rc;
     char msg[CMOR_MAX_STRING];
     int bCriticalError = FALSE;
+    int ierr =0;
     cmor_add_traceback( "_CV_checkGblAttributes" );
     required_attrs = cmor_CV_rootsearch(CV, CV_KEY_REQUIRED_GBL_ATTRS);
     if( required_attrs != NULL) {
@@ -1057,20 +1064,22 @@ void cmor_CV_checkGblAttributes( cmor_CV_def_t *CV ) {
                           required_attrs->aszValue[i] );
                 cmor_handle_error( msg, CMOR_NORMAL );
                 bCriticalError = TRUE;
+                ierr +=-1;
             }
             rc = cmor_CV_ValidateAttribute(CV, required_attrs->aszValue[i]);
             if( rc != 0) {
                 bCriticalError = TRUE;
+                ierr +=-1;
             }
         }
     }
     if( bCriticalError ) {
         cmor_handle_error( "Please fix required attributes mentioned in\n! "
-                           "the warnings above and rerun. (aborting!)\n! "
-                           ,CMOR_CRITICAL );
+                           "the warnings/error above and rerun. (aborting!)\n! "
+                           ,CMOR_NORMAL );
     }
     cmor_pop_traceback(  );
-    return;
+    return(ierr);
 }
 
 
@@ -1140,7 +1149,7 @@ int cmor_CV_set_entry(cmor_table_t* table,
 /************************************************************************/
 /*                       cmor_CV_checkTime()                            */
 /************************************************************************/
-void cmor_CV_checkISOTime(char *szAttribute) {
+int cmor_CV_checkISOTime(char *szAttribute) {
     struct tm tm;
     int rc;
     char *szReturn;
@@ -1165,12 +1174,12 @@ void cmor_CV_checkISOTime(char *szAttribute) {
                       "\"%s\" set to \"%s\" is not a valid date.\n! "
                       "ISO 8601 date format \"YYYY-MM-DDTHH:MM:SSZ\" is required."
                       "\n! ", szAttribute, szDate);
-            cmor_handle_error( msg, CMOR_CRITICAL );
+            cmor_handle_error( msg, CMOR_NORMAL );
             cmor_pop_traceback(  );
-            return;
+            return(-1);
     }
     cmor_pop_traceback(  );
-    return;
+    return(0);
 }
 
 
