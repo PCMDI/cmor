@@ -299,10 +299,12 @@ test_fortran: cmor
 	env TEST_NAME="mytest_4d_d_big_array_4" INPUT_FILE="Test/noinput" make test_case
 	env TEST_NAME="mytest_4d_d_big_array_5" INPUT_FILE="Test/noinput" make test_case
 	env TEST_NAME="climatology_test_code" INPUT_FILE="Test/noinput" make test_case
-	env TEST_NAME="test_lots_of_variables" INPUT_FILE="Test/noinput" make test_case
 	env TEST_NAME="test_shrt_exp_nm_set_att_initi" INPUT_FILE="Test/noinput" make test_case
 	env TEST_NAME="test_sophie" INPUT_FILE="Test/noinput" make test_case
 	env TEST_NAME="ipcc_test_code" INPUT_FILE="Test/noinput" make test_case
+ifeq ($(UNAME), Linux)
+	env TEST_NAME="test_lots_of_variables" INPUT_FILE="Test/noinput" make test_case
+endif
 atest: cmor
 #	@env TEST_NAME="mytest_4d_d_big_array_2" INPUT_FILE="Test/noinput" make test_case
 	@env TEST_NAME="test_lots_of_variables" INPUT_FILE="Test/noinput" make test_case
