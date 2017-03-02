@@ -61,7 +61,7 @@ myaxes[2] = grid_id
 ##                       parameter_units = punits)
 
 cmor.set_table(tables[1])
-myaxes[4] = cmor.axis(table_entry = "depth_coord",
+myaxes[4] = cmor.axis(table_entry = "depth0m",
                      coord_vals=[0],
                      cell_bounds=[0,1],
                      units="m")

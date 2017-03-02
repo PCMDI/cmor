@@ -685,6 +685,9 @@ int cmor_CV_checkExperiment( cmor_CV_def_t *CV){
         CV_experiment_attr = &CV_experiment->oValue[i];
         rc = cmor_has_cur_dataset_attribute(CV_experiment_attr->key);
         // Validate source type first
+        if(strcmp(CV_experiment_attr->key, CV_EXP_ATTR_DESCRIPTION) == 0) {
+        	continue;
+        }
         if(strcmp(CV_experiment_attr->key, CV_EXP_ATTR_REQSOURCETYPE) == 0) {
             cmor_CV_checkSourceType(CV_experiment, szExperiment_ID);
             continue;

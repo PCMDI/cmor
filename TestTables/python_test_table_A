@@ -1,7 +1,7 @@
 {
     "Header": {                                                                                                                                
         "data_specs_version": "01.beta.38",                                                                                                    
-        "table_id": "Table Amon",                                                                                                              
+        "table_id": "Table AmonBounds",
         "realm": "atmos atmosChem",                                                                                                            
         "frequency": "mon",                                                                                                                    
         "cmor_version": "3.2",                                                                                                                 

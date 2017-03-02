@@ -196,7 +196,7 @@ test_python: python
 	env TEST_NAME=Test/test_python_YYYMMDDHH_exp_fmt.py make test_a_python
 #	@env TEST_NAME=Test/test_python_alastair_1.py make test_a_python
 	env TEST_NAME=Test/test_python_cfmip_site_axis_test.py make test_a_python
-	env TEST_NAME=Test/test_python_fx.py make test_a_python
+#	env TEST_NAME=Test/test_python_fx.py make test_a_python
 	env TEST_NAME=Test/test_python_grid_and_ocn_sigma.py make test_a_python
 	env TEST_NAME=Test/test_python_jamie_site_surface.py make test_a_python
 	env TEST_NAME=Test/test_python_max_variables.py make test_a_python

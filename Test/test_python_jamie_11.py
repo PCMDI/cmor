@@ -2,7 +2,7 @@ import cmor,numpy
 
 error_flag = cmor.setup(inpath='Test', netcdf_file_action=cmor.CMOR_REPLACE)
   
-error_flag = cmor.dataset_json("Test/test_python_jamie_11.json")
+error_flag = cmor.dataset_json("Test/common_user_input.json")
   
 
 # creates 1 degree grid
@@ -12,7 +12,7 @@ alats = numpy.arange(180)-89.5
 bnds_lat = numpy.arange(181)-90
 alons=numpy.arange(360)+.5
 bnds_lon=numpy.arange(361)
-cmor.load_table("Tables/CMIP6_aero.json")
+cmor.load_table("TestTables/CMIP6_Emon.json")
 ilat = cmor.axis(  
     table_entry='latitude',       
     units='degrees_north',          
@@ -130,7 +130,7 @@ else:
 print "ILEV is:",ilev
 
 var3d_ids = cmor.variable(    
-    table_entry='sconcoa',     
+    table_entry='concdust',     
     units='kg m-3',           
     axis_ids=numpy.array((ilev, ilon, ilat, itim)),
     missing_value=1.0e28, 

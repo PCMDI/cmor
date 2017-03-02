@@ -63,7 +63,7 @@ setup (name = "CMOR",
                   library_dirs = library_dirs,
                   libraries = libraries,
                   define_macros = macros,
-                  extra_compile_args = [ "-g", "-DgFortran"]
+                  extra_compile_args = [ "-DgFortran"]
                   ),
             Extension('cmip6_cv._cmip6_cv',
                   srcfiles_CV,
@@ -71,7 +71,7 @@ setup (name = "CMOR",
                   library_dirs = library_dirs,
                   libraries = libraries,
                   define_macros = macros,
-                  extra_compile_args = [ "-g", "-DgFortran"]
+                  extra_compile_args = [ "-DgFortran"]
                   ),
         ]
 

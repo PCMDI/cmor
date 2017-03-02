@@ -544,39 +544,39 @@ Apollo                                           : neg.   = TRUE, else FALSE.
 #endif /* LOGICAL_STRICT */
 
 /* Convert a vector of C strings into FORTRAN strings. */
-#ifndef __CF__KnR
-static char *c2fstrv(char* cstr, char *fstr, int elem_len, int sizeofcstr)
-#else
-static char *c2fstrv(      cstr,       fstr,     elem_len,     sizeofcstr)
-                     char* cstr; char *fstr; int elem_len; int sizeofcstr;
-#endif
-{ int i,j;
-/* elem_len includes \0 for C strings. Fortran strings don't have term. \0.
-   Useful size of string must be the same in both languages. */
-for (i=0; i<sizeofcstr/elem_len; i++) {
-  for (j=1; j<elem_len && *cstr; j++) *fstr++ = *cstr++;
-  cstr += 1+elem_len-j;
-  for (; j<elem_len; j++) *fstr++ = ' ';
-} /* 95109 - Seems to be returning the original fstr. */
-return fstr-sizeofcstr+sizeofcstr/elem_len; }
+//#ifndef __CF__KnR
+//static char *c2fstrv(char* cstr, char *fstr, int elem_len, int sizeofcstr)
+//#else
+//static char *c2fstrv(      cstr,       fstr,     elem_len,     sizeofcstr)
+//                     char* cstr; char *fstr; int elem_len; int sizeofcstr;
+//#endif
+//{ int i,j;
+///* elem_len includes \0 for C strings. Fortran strings don't have term. \0.
+//   Useful size of string must be the same in both languages. */
+//for (i=0; i<sizeofcstr/elem_len; i++) {
+//  for (j=1; j<elem_len && *cstr; j++) *fstr++ = *cstr++;
+//  cstr += 1+elem_len-j;
+//  for (; j<elem_len; j++) *fstr++ = ' ';
+//} /* 95109 - Seems to be returning the original fstr. */
+//return fstr-sizeofcstr+sizeofcstr/elem_len; }
 
 /* Convert a vector of FORTRAN strings into C strings. */
-#ifndef __CF__KnR
-static char *f2cstrv(char *fstr, char* cstr, int elem_len, int sizeofcstr)
-#else
-static char *f2cstrv(      fstr,       cstr,     elem_len,     sizeofcstr)
-                     char *fstr; char* cstr; int elem_len; int sizeofcstr; 
-#endif
-{ int i,j;
-/* elem_len includes \0 for C strings. Fortran strings don't have term. \0.
-   Useful size of string must be the same in both languages. */
-cstr += sizeofcstr;
-fstr += sizeofcstr - sizeofcstr/elem_len;
-for (i=0; i<sizeofcstr/elem_len; i++) {
-  *--cstr = '\0';
-  for (j=1; j<elem_len; j++) *--cstr = *--fstr;
-} return cstr; }
-
+//#ifndef __CF__KnR
+//static char *f2cstrv(char *fstr, char* cstr, int elem_len, int sizeofcstr)
+//#else
+//static char *f2cstrv(      fstr,       cstr,     elem_len,     sizeofcstr)
+//                     char *fstr; char* cstr; int elem_len; int sizeofcstr;
+//#endif
+//{ int i,j;
+///* elem_len includes \0 for C strings. Fortran strings don't have term. \0.
+//   Useful size of string must be the same in both languages. */
+//cstr += sizeofcstr;
+//fstr += sizeofcstr - sizeofcstr/elem_len;
+//for (i=0; i<sizeofcstr/elem_len; i++) {
+//  *--cstr = '\0';
+//  for (j=1; j<elem_len; j++) *--cstr = *--fstr;
+//} return cstr; }
+//
 /* kill the trailing char t's in string s. */
 #ifndef __CF__KnR
 static char *kill_trailing(char *s, char t)
@@ -608,16 +608,16 @@ else if (e>s) {                      /* Watch out for neg. length string.*/
 
 /* Note the following assumes that any element which has t's to be chopped off,
 does indeed fill the entire element. */
-#ifndef __CF__KnR
-static char *vkill_trailing(char* cstr, int elem_len, int sizeofcstr, char t)
-#else
-static char *vkill_trailing(      cstr,     elem_len,     sizeofcstr,      t)
-                            char* cstr; int elem_len; int sizeofcstr; char t;
-#endif
-{ int i;
-for (i=0; i<sizeofcstr/elem_len; i++) /* elem_len includes \0 for C strings. */
-  kill_trailingn(cstr+elem_len*i,t,cstr+elem_len*(i+1)-1);
-return cstr; }
+//#ifndef __CF__KnR
+//static char *vkill_trailing(char* cstr, int elem_len, int sizeofcstr, char t)
+//#else
+//static char *vkill_trailing(      cstr,     elem_len,     sizeofcstr,      t)
+//                            char* cstr; int elem_len; int sizeofcstr; char t;
+//#endif
+//{ int i;
+//for (i=0; i<sizeofcstr/elem_len; i++) /* elem_len includes \0 for C strings. */
+//  kill_trailingn(cstr+elem_len*i,t,cstr+elem_len*(i+1)-1);
+//return cstr; }
 
 #ifdef vmsFortran
 typedef struct dsc$descriptor_s fstring;
@@ -651,32 +651,32 @@ typedef DSC$DESCRIPTOR_A(1) fstringvector;
 #define NUM_ELEMS(A)    A,_NUM_ELEMS
 #define NUM_ELEM_ARG(B) *_2(A,B),_NUM_ELEM_ARG
 #define TERM_CHARS(A,B) A,B
-#ifndef __CF__KnR
-static int num_elem(char *strv, unsigned elem_len, int term_char, int num_term)
-#else
-static int num_elem(      strv,          elem_len,     term_char,     num_term)
-                    char *strv; unsigned elem_len; int term_char; int num_term;
-#endif
-/* elem_len is the number of characters in each element of strv, the FORTRAN
-vector of strings. The last element of the vector must begin with at least
-num_term term_char characters, so that this routine can determine how 
-many elements are in the vector. */
-{
-unsigned num,i;
-if (num_term == _NUM_ELEMS || num_term == _NUM_ELEM_ARG) 
-  return term_char;
-if (num_term <=0) num_term = (int)elem_len;
-for (num=0; ; num++) {
-  for (i=0; i<(unsigned)num_term && *strv==term_char; i++,strv++){;}
-  if (i==(unsigned)num_term) break;
-  else strv += elem_len-i;
-}
-if (0) {  /* to prevent not used warnings in gcc (added by ROOT) */
-   c2fstrv(0, 0, 0, 0); f2cstrv(0, 0, 0, 0); kill_trailing(0, 0);
-   vkill_trailing(0, 0, 0, 0); num_elem(0, 0, 0, 0);
-}
-return (int)num;
-}
+//#ifndef __CF__KnR
+//static int num_elem(char *strv, unsigned elem_len, int term_char, int num_term)
+//#else
+//static int num_elem(      strv,          elem_len,     term_char,     num_term)
+//                    char *strv; unsigned elem_len; int term_char; int num_term;
+//#endif
+///* elem_len is the number of characters in each element of strv, the FORTRAN
+//vector of strings. The last element of the vector must begin with at least
+//num_term term_char characters, so that this routine can determine how
+//many elements are in the vector. */
+//{
+//unsigned num,i;
+//if (num_term == _NUM_ELEMS || num_term == _NUM_ELEM_ARG)
+//  return term_char;
+//if (num_term <=0) num_term = (int)elem_len;
+//for (num=0; ; num++) {
+//  for (i=0; i<(unsigned)num_term && *strv==term_char; i++,strv++){;}
+//  if (i==(unsigned)num_term) break;
+//  else strv += elem_len-i;
+//}
+//if (0) {  /* to prevent not used warnings in gcc (added by ROOT) */
+//   c2fstrv(0, 0, 0, 0); f2cstrv(0, 0, 0, 0); kill_trailing(0, 0);
+//   vkill_trailing(0, 0, 0, 0); num_elem(0, 0, 0, 0);
+//}
+//return (int)num;
+//}
 /* #endif removed 2/10/98 (CFITSIO) */
 
 /*-------------------------------------------------------------------------*/
@@ -760,7 +760,7 @@ return (int)num;
    while the following equivalent typedef is fine.
    For consistency use the typedef on all machines.
  */
-typedef void (*cfCAST_FUNCTION)(CF_NULL_PROTO);
+/*typedef void (*cfCAST_FUNCTION)(CF_NULL_PROTO);*/
 
 #define VCF(TN,I)       _Icf4(4,V,TN,_(A,I),_(B,I),F)
 #define VVCF(TN,AI,BI)  _Icf4(4,V,TN,AI,BI,S)

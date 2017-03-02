@@ -5,7 +5,7 @@ def cmor_initialisation():
     cmor.setup(inpath='Tables',
                netcdf_file_action = cmor.CMOR_REPLACE_3,
                create_subdirectories = 0)
-    cmor.dataset_json("Test/test_python_jamie_site_surface.json")
+    cmor.dataset_json("Test/common_user_input.json")
 
 def setup_data():
     axes = [ {'table_entry': 'time1',
@@ -20,16 +20,19 @@ def setup_data():
     return values, axes
 
 def cmor_define_and_write(values, axes):
-    table = 'CMIP6_cfSites.json'
-    cmor.load_table(table)
+    table = 'CMIP6_CFsubhr.json'
+    tid1=cmor.load_table(table)
     site_axis_id = cmor.axis(**axes[1])
 
     time_axis_id = cmor.axis(**axes[0])
 
+    table2 = 'CMIP6_grids.json'
+    tid2=cmor.load_table(table2)
     gid = cmor.grid([site_axis_id,],latitude=numpy.array([-20,]),longitude=numpy.array([150,]))
 
 
     axis_ids = [time_axis_id,gid]
+    cmor.set_table(tid1)
     varid = cmor.variable('rlut',
                           'W m-2',
                           axis_ids,

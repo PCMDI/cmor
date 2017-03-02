@@ -25,9 +25,9 @@ cmor.setup(inpath="Tables",
            netcdf_file_action = cmor.CMOR_REPLACE,
            logfile = None)
 
-cmor.dataset_json("Test/common_user_input.json")
+cmor.dataset_json("Test/common_user_inputNOBOUNDS.json")
 
-cmor.load_table("Test/python_test_table_A")
+cmor.load_table("TestTables/python_test_table_A")
 
 nlat = 90
 dlat = 180/nlat

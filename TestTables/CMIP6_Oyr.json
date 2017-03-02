@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.00.02", 
+        "data_specs_version": "01.00.03", 
         "table_id": "Table Oyr", 
         "realm": "ocnBgchem", 
         "frequency": "yr", 
         "cmor_version": "3.2", 
-        "table_date": "08 February 2017", 
+        "table_date": "24 February 2017", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "365.00000", 

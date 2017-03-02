@@ -32,7 +32,7 @@ def cmor_ini():
     cmor.dataset_json("Test/common_user_input.json")
 
 def define_write_clisccp():
-    cmor.load_table('CMIP6_cfMon.json')
+    cmor.load_table('CMIP6_CFmon.json')
     axes = [ {'table_entry': 'time',
               'units': 'days since 2000-01-01 00:00:00',
               },
@@ -61,7 +61,7 @@ def define_write_clisccp():
     values = numpy.array([0.0004,]*49, numpy.float32)
     values = numpy.reshape(values, (1, 1, 1, 7, 7))
 
-    define_write_var(axis_ids, 'clisccp7c', '1', values)
+    define_write_var(axis_ids, 'clisccp', '1', values)
 
 def define_write_landcoverfrac():
     cmor.load_table('Tables/CMIP6_Lmon.json')

@@ -603,7 +603,7 @@ int cmor_search_table( char szTable[CMOR_MAX_STRING],
 int cmor_load_table_internal( char szTable[CMOR_MAX_STRING], int *table_id) {
     FILE *table_file;
     char word[CMOR_MAX_STRING];
-    int i, n;
+    int n;
     int done=0;
     extern int CMOR_TABLE, cmor_ntables;
     extern char cmor_input_path[CMOR_MAX_STRING];
@@ -730,15 +730,15 @@ int cmor_load_table_internal( char szTable[CMOR_MAX_STRING], int *table_id) {
             done=1;
 
         } else  if( strcmp( key, JSON_KEY_EXPERIMENT ) == 0 ){
-            json_object_object_foreach(value, shortname, description) {
+            json_object_object_foreach(value, shortname, experiment) {
                 if( shortname[0] == '#') {
                     continue;
                 }
-                if( description == NULL) {
+                if( experiment == NULL) {
                 	return(TABLE_ERROR);
                 }
 
-                strcpy(szVal, json_object_get_string(description));
+                strcpy(szVal, json_object_get_string(experiment));
                 if( cmor_set_experiments( &cmor_tables[cmor_ntables],
                                           shortname,
                                           szVal ) == 1 ) {
