@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.00.00", 
+        "data_specs_version": "01.00.03", 
         "table_id": "Table 3hr", 
         "realm": "atmos", 
         "frequency": "3hr", 
         "cmor_version": "3.2", 
-        "table_date": "13 January 2017", 
+        "table_date": "24 February 2017", 
         "missing_value": "1e20", 
         "product": "output", 
         "approx_interval": "0.125000", 

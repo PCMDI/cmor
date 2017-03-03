@@ -3,7 +3,7 @@
 
 #define CMOR_VERSION_MAJOR 3
 #define CMOR_VERSION_MINOR 2
-#define CMOR_VERSION_PATCH 1
+#define CMOR_VERSION_PATCH 2
 
 #define CMOR_CF_VERSION_MAJOR 1
 #define CMOR_CF_VERSION_MINOR 6
@@ -125,6 +125,7 @@
 #define VARIABLE_ATT_VALIDMAX         "valid_max"
 #define VARIABLE_ATT_MINMEANABS       "ok_min_mean_abs"
 #define VARIABLE_ATT_MAXMEANABS       "ok_max_mean_abs"
+#define VARIABLE_ATT_CHUNKING         "chunk_dimensions"
 #define VARIABLE_ATT_SHUFFLE          "shuffle"
 #define VARIABLE_ATT_DEFLATE          "deflate"
 #define VARIABLE_ATT_DEFLATELEVEL     "deflate_level"
@@ -203,7 +204,7 @@
 
 #define CV_EXP_ATTR_ADDSOURCETYPE     "additional_allowed_model_components"
 #define CV_EXP_ATTR_REQSOURCETYPE     "required_model_components"
-
+#define CV_EXP_ATTR_DESCRIPTION       "description"
 #define GLOBAL_INT_ATT_PARENT_EXPT    GLOBAL_INTERNAL"parent_experiment"
 #define GLOBAL_ATT_VERSION            GLOBAL_INTERNAL"version"
 
@@ -237,7 +238,7 @@
 
 #define CMIP6                         "CMIP6"
 #define CMOR_DEFAULT_PATH_TEMPLATE    "<mip_era><institute_id><source_id><activity_id><experiment_id><variant_label><table><variable_id><grid_label><version>"
-#define CMOR_DEFAULT_FILE_TEMPLATE    "<variable_id><table><experiment_id><source_id><variant_label><grid_label>"
+#define CMOR_DEFAULT_FILE_TEMPLATE    "<variable_id><table><source_id><experiment_id><variant_label><grid_label>"
 #define CMOR_DEFAULT_FURTHERURL_TEMPLATE "http://furtherinfo.es-doc.org/<mip_era><institution_id><source_id><experiment_id><sub_experiment_id><variant_label>"
 #define EXTERNAL_VARIABLE_REGEX       "area:[[:blank:]]*([[:alpha:]]+)([[:blank:]]*volume:[[:blank:]]*([[:alpha:]]+))*"
 
@@ -388,6 +389,7 @@ typedef struct cmor_variable_def_ {
     float valid_max;
     float ok_min_mean_abs;
     float ok_max_mean_abs;
+    char chunking_dimensions[CMOR_MAX_STRING];
     int shuffle;
     int deflate;
     int deflate_level;
@@ -436,6 +438,7 @@ typedef struct cmor_var_ {
     float valid_max;
     float ok_min_mean_abs;
     float ok_max_mean_abs;
+    char chunking_dimensions[CMOR_MAX_STRING];
     int shuffle;
     int deflate;
     int deflate_level;

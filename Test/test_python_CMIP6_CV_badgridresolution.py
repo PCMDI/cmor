@@ -85,6 +85,11 @@ class TestCase(unittest.TestCase):
         testOK = self.getAssertTest()
         self.assertIn("\"335 km\"", testOK)
 
+    def tearDown(self):
+        import shutil
+        shutil.rmtree("./CMIP6")                                                                                                               
+
+
 
 if __name__ == '__main__':
     run()

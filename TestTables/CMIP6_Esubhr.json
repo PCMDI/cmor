@@ -1,15 +1,15 @@
 {
     "Header": {
-        "data_specs_version": "01.00.00", 
+        "data_specs_version": "01.00.03", 
         "table_id": "Table Esubhr", 
         "realm": "atmos", 
         "frequency": "subhr", 
         "cmor_version": "3.2", 
-        "table_date": "13 January 2017", 
+        "table_date": "24 February 2017", 
         "missing_value": "1e20", 
         "product": "output", 
-        "approx_interval": "", 
-        "generic_levels": "", 
+        "approx_interval": "0.017361", 
+        "generic_levels": "alevel", 
         "mip_era": "CMIP6", 
         "Conventions": "CF-1.6 CMIP-6.0"
     }, 

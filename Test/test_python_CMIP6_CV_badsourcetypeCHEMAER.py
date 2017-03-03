@@ -50,14 +50,13 @@ class TestCase(unittest.TestCase):
         os.unlink(self.tmpfile[1])
         return testOK
 
-    def TestCase(self):
+    def testCMIP6(self):
         try:
             # -------------------------------------------
             # Try to call cmor with a bad institution_ID
             # -------------------------------------------
             cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
-            cmor.dataset_json("Test/common_user_input.json")
-            cmor.set_cur_dataset_attribute("source_type", "AOGCM ISM CHEM AER")
+            cmor.dataset_json("Test/test_python_CMIP6_CV_badsourcetypeCHEMAER.json")
 
             # ------------------------------------------
             # load Omon table and create masso variable
@@ -74,17 +73,18 @@ class TestCase(unittest.TestCase):
             cmor.close()                                                                                                                       
 
         except:
-            raise
+            pass
+
         os.dup2(self.newstdout, 1)
         os.dup2(self.newstderr, 2)
         sys.stdout = os.fdopen(self.newstdout, 'w', 0)
         sys.stderr = os.fdopen(self.newstderr, 'w', 0)
-#        testOK = getAssertTest()
-#        self.assertIn("\"CHEM\" and \"AER\"", testOK)
+        testOK = self.getAssertTest()
+        self.assertIn("invalid source", testOK)
 
-    def tearDown(self):                                                                                                                        
-        import shutil                                                                                                                          
-        shutil.rmtree("./CMIP6")                                                                                                               
+    def tearDown(self):
+        import shutil
+        shutil.rmtree("./CMIP6")
 
 
 if __name__ == '__main__':

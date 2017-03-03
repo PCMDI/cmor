@@ -2,10 +2,10 @@ os:
   - linux
   - osx
 
+python:
+  - 2.7
 #sudo: required
 sudo: false
-
-dist: trusty
 
 before_install:
 #  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get update -qq; sudo apt-get install -y gfortran ; fi
@@ -25,12 +25,27 @@ before_install:
   - conda install cdms2 -c uvcdat/label/nightly -c conda-forge -c uvcdat
   - conda install udunits2 -c uvcdat/label/nightly  -c conda-forge -c uvcdat
   - conda install gcc 
+  - conda install nose
 
 install:
     - git clone https://github.com/PCMDI/cmip6-cmor-tables 
     - ln -s cmip6-cmor-tables/Tables Tables
-    - ./configure --prefix=$PREFIX --with-python --with-uuid=$PREFIX --with-udunits2=$PREFIX --with-netcdf=$PREFIX  
+    - ./configure --prefix=$PREFIX --with-python --with-uuid=$PREFIX --with-udunits2=$PREFIX --with-netcdf=$PREFIX  --enable-verbose-test
     - make install 
 
-script: python run_tests.py
+script: 
+    - make test
+    - for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file; if [[ "$?" != "0" ]]; then return $?; fi; done
+#    - nosetests -vv --collect-only Test/test_python_CMIP6_CV_*.py
+#    - nosetests -vv --collect-only Test/test_python_has_*.py
+#    - for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file; done
+#    - python run_tests2.py 
+#    - python run_tests.py 
 
+after_failure:
+    - ulimit -a
+    - free -m
+    - find CMIP6/
+    - df -kh ./
+    - ls -lR
+    - cat ~/build.sh

@@ -97,7 +97,7 @@ extern int cmor_close_variable( int var_id, char *file_name,
 extern int cmor_close( void );
 
 extern int cmor_writeGblAttr(int var_id, int ncid, int ncafid);
-extern void cmor_setGblAttr( int );
+extern int cmor_setGblAttr( int );
 
 extern void cmor_generate_uuid( void );
 extern void cmor_define_dimensions(int var_id, int ncid,
@@ -131,17 +131,17 @@ extern void create_singleton_dimensions(int var_id, int ncid,
 /* ==================================================================== */
 
 
-extern void cmor_CV_checkISOTime(char *szAttribute);
+extern int cmor_CV_checkISOTime(char *szAttribute);
 extern void cmor_CV_set_att(cmor_CV_def_t *CV,
                                 char *key,
                                 json_object *joValue);
-extern void cmor_CV_checkExperiment( cmor_CV_def_t *CV);
-extern void cmor_CV_checkSourceID(cmor_CV_def_t *CV);
-extern void cmor_CV_checkSourceType(cmor_CV_def_t *CV, char *);
+extern int cmor_CV_checkExperiment( cmor_CV_def_t *CV);
+extern int cmor_CV_checkSourceID(cmor_CV_def_t *CV);
+extern int cmor_CV_checkSourceType(cmor_CV_def_t *CV, char *);
 extern int get_CV_Error(void);
 extern int cmor_attNameCmp(const void *v1, const void *v2);
 
-extern void cmor_CV_checkGblAttributes( cmor_CV_def_t *CV );
+extern int cmor_CV_checkGblAttributes( cmor_CV_def_t *CV );
 extern void cmor_CV_free(cmor_CV_def_t *CV);
 extern char *cmor_CV_get_value(cmor_CV_def_t *CV, char *key);
 extern void cmor_CV_init( cmor_CV_def_t *CV, int table_id );
@@ -150,9 +150,9 @@ extern void cmor_CV_printall( void );
 extern cmor_CV_def_t *cmor_CV_search_child_key(cmor_CV_def_t *CV, char *key);
 extern cmor_CV_def_t * cmor_CV_rootsearch(cmor_CV_def_t *CV, char *key);
 
-extern void cmor_CV_checkFurtherInfoURL(int var_id);
-extern void cmor_CV_checkGrids(cmor_CV_def_t *CV);
-extern void cmor_CV_setInstitution( cmor_CV_def_t *CV);
+extern int cmor_CV_checkFurtherInfoURL(int var_id);
+extern int cmor_CV_checkGrids(cmor_CV_def_t *CV);
+extern int cmor_CV_setInstitution( cmor_CV_def_t *CV);
 
 extern int cmor_CV_set_entry(cmor_table_t* table, json_object *value);
 extern int  cmor_CV_ValidateGblAttributes( char *name);
@@ -231,6 +231,8 @@ extern int cmor_variable( int *var_id, char *name, char *units, int ndims,
 			  char *comment );
 extern int cmor_set_deflate( int var_id, int shuffle,
                              int deflate, int deflate_level );
+extern int cmor_set_chunking( int var_id, int nTableID,
+							    size_t nc_dim_chunking[]);
 
 extern int cmor_set_var_def_att( cmor_var_def_t * var,
 				 char att[CMOR_MAX_STRING],

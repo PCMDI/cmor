@@ -90,9 +90,9 @@ class TestCase(unittest.TestCase):
             # ------------------------------------------
             self.assertIn("1209374928349823498274987234987", testOK)
 
-    def tearDown(self):                                                                                                                        
-        import shutil                                                                                                                          
-        shutil.rmtree("./CMIP6")                                                                                                               
+    def tearDown(self):
+        import shutil
+        shutil.rmtree("./CMIP6")
 
 
 if __name__ == '__main__':

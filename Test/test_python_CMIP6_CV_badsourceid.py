@@ -51,7 +51,7 @@ class TestCase(unittest.TestCase):
         os.unlink(self.tmpfile[1])
         return testOK
 
-    def TestCase(self):
+    def testCMIP6(self):
         try:
             # -------------------------------------------
             # Try to call cmor with a bad institution_ID
@@ -59,6 +59,7 @@ class TestCase(unittest.TestCase):
             global testOK
             cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
             cmor.dataset_json("Test/common_user_input.json")
+            cmor.set_cur_dataset_attribute("source_id", "bad_sourceid")
 
             # ------------------------------------------
             # load Omon table and create masso variable
@@ -81,9 +82,9 @@ class TestCase(unittest.TestCase):
         testOK = self.getAssertTest()
         self.assertIn("bad_sourceid", testOK)
 
-    def tearDown(self):                                                                                                                        
-        import shutil                                                                                                                          
-        shutil.rmtree("./CMIP6")                                                                                                               
+    def tearDown(self):
+        import shutil
+        shutil.rmtree("./CMIP6")
 
 
 if __name__ == '__main__':

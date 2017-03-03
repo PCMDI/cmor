@@ -1,8 +1,0 @@
-{
-"CV": {
-    "institution_ids": { "BNU":"" },
-    "source_ids": { "CESM1-CAM5": "" },
-    "experiment_ids": { "piControl-withism": { } },
-    "grid_labels": { "gr":     { "grid_resolution":"5 km" } }
-   }
-}

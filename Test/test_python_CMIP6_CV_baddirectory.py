@@ -16,8 +16,6 @@ import unittest
 import sys
 import os
 import tempfile
-import numpy
-import shutil
 
 
 def run():

@@ -2,14 +2,15 @@
            "_control_vocabulary_file": "CMIP6_CV.json",
            "_cmip6_option":           "CMIP6",
 
+           "tracking_prefix":        "hdl:21.14100",
            "#activity_id":           "Specify an activity PMIP, GeoMIP, (must start with CMIP6-)",
-           "activity_id":            "CMIP",
+           "activity_id":            "ISMIP6",
 
            "#output":                "Output Path where files are written",
            "outpath":                "CMIP6",
 
            "#experiment_id":         "Correspond to id found in experiments.json",
-           "experiment_id":          "piControl-withism",
+           "experiment_id":          "hist-spAer-aer",
            "source_type":            "AOGCM ISM CHEM AER",
            "sub_experiment":         "none",
            "sub_experiment_id":      "none",
@@ -18,7 +19,7 @@
            "mip_era":                "CMIP6",
 
            "#source":                "",
-           "source":                 "PCMDI-test-1-0",
+           "source":                 "PCMDI-test 1.0",
 
            "#calendar":              "",
            "calendar":               "gregorian",
@@ -82,7 +83,7 @@
 
            "grid":                   "native atmosphere T63 gaussian grid (64x128 latxlon)",
            "grid_label":             "gn",
-           "grid_resolution":        "5 km",
+           "nominal_resolution":     "5 km",
            "references":             "Model described by Koder and Tolkien (J. Geophys. Res.,2001, 576 - 591).  Also see http://www.GICC.su/giccm/doc/index.html  2XCO2 simulation described in Dorkey et al. '(Clim. Dyn., 2003, 323 - 357.)",
            "run_variant":            "forcing: black carbon aerosol only",
            "source_id":              "PCMDI-test-1-0",

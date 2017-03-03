@@ -91,7 +91,7 @@ def prep_var(var,units):
     ##                  zfactor_values=p0)
 
     ips = cmor.zfactor(zaxis_id=ilev,
-                     zfactor_name='ps1',
+                     zfactor_name='ps',
                      axis_ids=[itim,ilat,ilon],
                      units='Pa')
 

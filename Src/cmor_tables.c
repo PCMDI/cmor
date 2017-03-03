@@ -552,22 +552,22 @@ int cmor_load_table( char szTable[CMOR_MAX_STRING], int *table_id ) {
                                                 szControlFilenameJSON, 1);
         rc= cmor_load_table_internal( szAxisEntryFilenameJSON, table_id);
         if(rc != TABLE_SUCCESS){
-            snprintf( msg, CMOR_MAX_STRING, "Can't open table %s", szControlFilenameJSON);
-            cmor_handle_error( msg, CMOR_WARNING );
-        }
-        rc= cmor_load_table_internal( szFormulaVarFilenameJSON, table_id);
-        if(rc != TABLE_SUCCESS ){
-            snprintf( msg, CMOR_MAX_STRING, "Can't open table %s", szFormulaVarFN);
+            snprintf( msg, CMOR_MAX_STRING, "Can't open/read JSON table %s", szAxisEntryFilenameJSON);
             cmor_handle_error( msg, CMOR_WARNING );
         }
         rc= cmor_load_table_internal( szTable, table_id);
         if(rc != TABLE_SUCCESS ){
-            snprintf( msg, CMOR_MAX_STRING, "Can't open table %s", szTable);
+            snprintf( msg, CMOR_MAX_STRING, "Can't open/read JSON table %s", szTable);
+            cmor_handle_error( msg, CMOR_WARNING );
+        }
+        rc= cmor_load_table_internal( szFormulaVarFilenameJSON, table_id);
+        if(rc != TABLE_SUCCESS ){
+            snprintf( msg, CMOR_MAX_STRING, "Can't open/read JSON table %s", szFormulaVarFilenameJSON);
             cmor_handle_error( msg, CMOR_WARNING );
         }
         rc= cmor_load_table_internal( szControlFilenameJSON, table_id);
         if(rc != TABLE_SUCCESS){
-            snprintf( msg, CMOR_MAX_STRING, "Can't open table %s", szControlFilenameJSON);
+            snprintf( msg, CMOR_MAX_STRING, "Can't open/read JSON table %s", szControlFilenameJSON);
             cmor_handle_error( msg, CMOR_WARNING );
         }
 
@@ -603,7 +603,7 @@ int cmor_search_table( char szTable[CMOR_MAX_STRING],
 int cmor_load_table_internal( char szTable[CMOR_MAX_STRING], int *table_id) {
     FILE *table_file;
     char word[CMOR_MAX_STRING];
-    int i, n;
+    int n;
     int done=0;
     extern int CMOR_TABLE, cmor_ntables;
     extern char cmor_input_path[CMOR_MAX_STRING];
@@ -618,7 +618,6 @@ int cmor_load_table_internal( char szTable[CMOR_MAX_STRING], int *table_id) {
     cmor_is_setup(  );
 
 	table_file = fopen(szTable, "r");
-
 	if (table_file == NULL) {
 		if (szTable[0] != '/') {
 			snprintf(word, CMOR_MAX_STRING, "%s/%s", cmor_input_path, szTable);
@@ -636,7 +635,6 @@ int cmor_load_table_internal( char szTable[CMOR_MAX_STRING], int *table_id) {
 			return (TABLE_ERROR);
 		}
 	}
-
 
 /* -------------------------------------------------------------------- */
 /*      ok now we need to store the md5                                 */
@@ -699,8 +697,13 @@ int cmor_load_table_internal( char szTable[CMOR_MAX_STRING], int *table_id) {
     }
 
     json_object_object_foreach(json_obj, key, value) {
+
+
         if( key[0] == '#') {
             continue;
+        }
+        if( value == NULL) {
+        	return(TABLE_ERROR);
         }
         strcpy(szVal, json_object_get_string(value));
 /* -------------------------------------------------------------------- */
@@ -714,6 +717,9 @@ int cmor_load_table_internal( char szTable[CMOR_MAX_STRING], int *table_id) {
                 if( key[0] == '#') {
                     continue;
                 }
+                if( globalAttr == NULL) {
+                	return(TABLE_ERROR);
+                }
                 strcpy(szVal, json_object_get_string(globalAttr));
                 if( cmor_set_dataset_att( &cmor_tables[cmor_ntables], key, 
                                            szVal ) == 1 ) {
@@ -724,11 +730,15 @@ int cmor_load_table_internal( char szTable[CMOR_MAX_STRING], int *table_id) {
             done=1;
 
         } else  if( strcmp( key, JSON_KEY_EXPERIMENT ) == 0 ){
-            json_object_object_foreach(value, shortname, description) {
+            json_object_object_foreach(value, shortname, experiment) {
                 if( shortname[0] == '#') {
                     continue;
                 }
-                strcpy(szVal, json_object_get_string(description));
+                if( experiment == NULL) {
+                	return(TABLE_ERROR);
+                }
+
+                strcpy(szVal, json_object_get_string(experiment));
                 if( cmor_set_experiments( &cmor_tables[cmor_ntables],
                                           shortname,
                                           szVal ) == 1 ) {
@@ -739,9 +749,14 @@ int cmor_load_table_internal( char szTable[CMOR_MAX_STRING], int *table_id) {
             done=1;
         } else if (strcmp(key, JSON_KEY_AXIS_ENTRY) == 0) {
             json_object_object_foreach(value, axisname, attributes) {
+
+
                 if( axisname[0] == '#') {
                     continue;
                 }
+                if( attributes == NULL) {
+                 	return(TABLE_ERROR);
+                 }
                 if( cmor_set_axis_entry(&cmor_tables[cmor_ntables],
                         axisname,
                         attributes) == 1) {
@@ -752,8 +767,13 @@ int cmor_load_table_internal( char szTable[CMOR_MAX_STRING], int *table_id) {
             done=1;
 	} else if( strcmp( key, JSON_KEY_VARIABLE_ENTRY ) == 0 ) {
             json_object_object_foreach(value, varname, attributes) {
+
+
                 if( varname[0] == '#') {
                     continue;
+                }
+                if( attributes == NULL) {
+                	return(TABLE_ERROR);
                 }
                 if( cmor_set_variable_entry(&cmor_tables[cmor_ntables],
                         varname,
@@ -786,9 +806,14 @@ int cmor_load_table_internal( char szTable[CMOR_MAX_STRING], int *table_id) {
                 return (TABLE_ERROR);
             }
             json_object_object_foreach(value, mapname, jsonValue) {
+
                 if( mapname[0] == '#') {
                     continue;
                 }
+                if( mapname == NULL) {
+                	return(TABLE_ERROR);
+                }
+
                 char szLastMapID[CMOR_MAX_STRING];
                 char szCurrMapID[CMOR_MAX_STRING];
                 cmor_table_t *psCurrCmorTable;
@@ -817,9 +842,14 @@ int cmor_load_table_internal( char szTable[CMOR_MAX_STRING], int *table_id) {
                 cmor_init_grid_mapping(&psCurrCmorTable->mappings[nMap], mapname);
                 json_object_object_foreach(jsonValue, key, mappar)
                 {
+
                     if( key[0] == '#') {
                         continue;
                     }
+                    if( mapname == NULL) {
+                    	return(TABLE_ERROR);
+                    }
+
                     char param[CMOR_MAX_STRING];
 
                     strcpy(param, json_object_get_string(mappar));

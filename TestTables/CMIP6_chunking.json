@@ -1,0 +1,38 @@
+{
+    "Header": {
+        "missing_value": "1e20",
+        "approx_interval": "30.00000",
+        "cmor_version": "3.0",
+        "frequency": "mon",
+        "table_id": "Table AmonChunking",
+        "table_date": "24 February 2016",
+        "realm": "atmos",
+        "generic_levels": "alevel alevhalf",
+        "data_specs_version": "3.0",
+        "Conventions": "CF-1.7 CMIP-6.0"
+    },
+    "variable_entry": {
+        "tas": {
+            "deflate": "1",
+            "shuffle": "1",
+            "deflate_level": "9",
+            "#chunk_dimensions":  "time   ,level  latitude  longitude #Follow CF-1 convention",
+            "chunk_dimensions":   "11       3      15       20",
+            "comment": "near-surface (usually, 2 meter) air temperature", 
+            "dimensions":         "longitude latitude time", 
+            "positive": "", 
+            "valid_min": "180.6", 
+            "long_name": "Near-Surface Air Temperature", 
+            "standard_name": "air_temperature", 
+            "modeling_realm": "atmos", 
+            "cell_methods": "time: mean", 
+            "cell_measures": "area: areacella", 
+            "ok_min_mean_abs": "262.4", 
+            "units": "K", 
+            "out_name": "tas", 
+            "type": "real", 
+            "valid_max": "335.1", 
+            "ok_max_mean_abs": "293"
+        }
+    }
+}

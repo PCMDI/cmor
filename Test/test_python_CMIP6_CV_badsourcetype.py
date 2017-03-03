@@ -51,7 +51,7 @@ class TestCase(unittest.TestCase):
         os.unlink(self.tmpfile[1])
         return testOK
 
-    def TestCase(self):
+    def testCMIP6(self):
         try:
             # -------------------------------------------
             # Try to call cmor with a bad institution_ID
@@ -75,16 +75,17 @@ class TestCase(unittest.TestCase):
                 cmor.write(ivar, data[i:i])
             cmor.close()
         except:
-            os.dup2(self.newstdout, 1)
-            os.dup2(self.newstderr, 2)
-            sys.stdout = os.fdopen(self.newstdout, 'w', 0)
-            sys.stderr = os.fdopen(self.newstderr, 'w', 0)
+            pass
+        os.dup2(self.newstdout, 1)
+        os.dup2(self.newstderr, 2)
+        sys.stdout = os.fdopen(self.newstdout, 'w', 0)
+        sys.stderr = os.fdopen(self.newstderr, 'w', 0)
         testOK = self.getAssertTest()
-        self.assertIn("source_type", testOK)
+        self.assertIn("source type", testOK)
 
-    def tearDown(self):                                                                                                                        
-        import shutil                                                                                                                          
-        shutil.rmtree("./CMIP6")                                                                                                               
+    def tearDown(self):
+        import shutil
+        shutil.rmtree("./CMIP6")
 
 
 if __name__ == '__main__':

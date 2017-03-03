@@ -50,7 +50,7 @@ def run():
     CV = gather.readGit()
     regexp = {}
     regexp["variant_label"] = [ "^r[[:digit:]]\\{1,\\}i[[:digit:]]\\{1,\\}p[[:digit:]]\\{1,\\}f[[:digit:]]\\{1,\\}$" ] 
-    regexp["sub_experiment_id"] = [ "^s[[:digit:]]\\{4,4\\}$", "none" ]
+    regexp["sub_experiment_id"] = [ "^s[[:digit:]]\\{4,4\\}$", "None" ]
     regexp["tracking_id"] = [ "hdl:21.14100/.*" ]  
     regexp["product"] = [ "output" ] 
     regexp["mip_era"] = [ "CMIP6" ]

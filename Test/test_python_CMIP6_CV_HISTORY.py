@@ -76,9 +76,9 @@ class TestCase(unittest.TestCase):
         sys.stdout = os.fdopen(self.newstdout, 'w', 0)
         sys.stderr = os.fdopen(self.newstderr, 'w', 0)
 
-    def tearDown(self):                                                                                                                        
-        import shutil                                                                                                                          
-        shutil.rmtree("./CMIP6")                                                                                                               
+    def tearDown(self):
+        import shutil
+        shutil.rmtree("./CMIP6")
 
 
 if __name__ == '__main__':
