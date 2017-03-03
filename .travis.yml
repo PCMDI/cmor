@@ -33,10 +33,10 @@ install:
 - "./configure --prefix=$PREFIX --with-python --with-uuid=$PREFIX --with-udunits2=$PREFIX
   --with-netcdf=$PREFIX  --enable-verbose-test"
 - make install
-script:
-- make test
-- for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file;
-  if [[ "$?" != "0" ]]; then return $?; fi; done
+#script:
+#- make test
+#- for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file;
+#  if [[ "$?" != "0" ]]; then return $?; fi; done
 after_failure:
 - ulimit -a
 - free -m
@@ -44,9 +44,11 @@ after_failure:
 - df -kh ./
 - ls -lR
 - cat ~/build.sh
+
+env:
+  global:
+    secure: REaCuCbovXcs7mL995KYDU3GsOXgKfEQkhb/lcJ42CxwiL5OliAPRkXOdY0ThbsTSa95Dqvuyon7XTKHx/LCBUy4ukFKxkDKeYIky0Yy+ICNptZGTSqzvYQ/Fz1k65l6JXKTYKigMlsRjr3XYCNmCRtz0xV1ccsuaJT7U8pM0CY=
+
 after_success: 
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then bash scripts/conda_upload.sh ${TRAVIS_BRANCH} ; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then docker run -v `pwd`:/travis_home -e CONDA_UPLOAD_TOKEN=${CONDA_UPLOAD_TOKEN} -a STDOUT -a STDERR cdat/conda:conda-forge-cdms2 /travis_home/scripts/conda_upload.sh ${TRAVIS_BRANCH} ; fi
-env:
-  global:
-  - secure: REaCuCbovXcs7mL995KYDU3GsOXgKfEQkhb/lcJ42CxwiL5OliAPRkXOdY0ThbsTSa95Dqvuyon7XTKHx/LCBUy4ukFKxkDKeYIky0Yy+ICNptZGTSqzvYQ/Fz1k65l6JXKTYKigMlsRjr3XYCNmCRtz0xV1ccsuaJT7U8pM0CY=
