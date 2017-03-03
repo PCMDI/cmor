@@ -33,7 +33,8 @@ install:
 - "./configure --prefix=$PREFIX --with-python --with-uuid=$PREFIX --with-udunits2=$PREFIX
   --with-netcdf=$PREFIX  --enable-verbose-test"
 - make install
-#script:
+script:
+ - ls
 #- make test
 #- for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file;
 #  if [[ "$?" != "0" ]]; then return $?; fi; done
