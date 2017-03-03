@@ -46,7 +46,7 @@ after_failure:
 
 env:
   global:
-    - secure: Ys+z2FqJidkjTV6OtP9w+l9Gbt/quxXtHS6dOan2nb7V197Nc1cM44Taee7vcK4MBmFStCZCkiz47LdRWSZoHv1LgxhhN8oWnQDCn4Mg4scYO16PtYersF153Of7w/kzotJFdM/E0mI43y6BBbOgJQsunYsChqYS6MU1y7dGJ8k=
+    secure: V5q+wzxrJ5Rmk1vVYXimIdHgWUwZSHINd5W+oi3mTmfbtVyrngau9XQVZyiPyg8S309vHAbys9uMaplp83to7OY1Cw3+w002oMWkCaLwlVMn4UWs+xU7lJGn/wwLwN1OikZnTtiXF8RqrtBZpYsbAxjdebqZ8uZx/zDJXHVvvZY=
 
 after_success:
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then bash scripts/conda_upload.sh ${TRAVIS_BRANCH} ; fi
