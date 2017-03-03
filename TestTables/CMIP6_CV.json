@@ -6847,7 +6847,7 @@
         ],
         "sub_experiment_id":[
             "^s[[:digit:]]\\{4,4\\}$",
-            "none"
+            "None"
         ]
     }
 }

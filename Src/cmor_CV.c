@@ -500,9 +500,9 @@ int cmor_CV_checkSourceType(cmor_CV_def_t *CV_exp, char *szExptID){
                 "You source_type attribute contains invalid source types\n! "
                         "Your source type is set to \"%s\".  The required source types\n! "
                         "are \"%s\" and possible additional source types are \"%s\" \n! "
-                        "Check your Control Vocabulary file \"%s\".\n! %d, %d",
+                        "Check your Control Vocabulary file \"%s\".\n!",
                 szSourceType, szReqSourceTypeCpy, szAddSourceTypeCpy,
-                CV_Filename, nbGoodType, nbSourceType);
+                CV_Filename);
         cmor_handle_error(msg, CMOR_NORMAL);
         cmor_pop_traceback();
         return(-1);

@@ -125,6 +125,7 @@
 #define VARIABLE_ATT_VALIDMAX         "valid_max"
 #define VARIABLE_ATT_MINMEANABS       "ok_min_mean_abs"
 #define VARIABLE_ATT_MAXMEANABS       "ok_max_mean_abs"
+#define VARIABLE_ATT_CHUNKING         "chunk_dimensions"
 #define VARIABLE_ATT_SHUFFLE          "shuffle"
 #define VARIABLE_ATT_DEFLATE          "deflate"
 #define VARIABLE_ATT_DEFLATELEVEL     "deflate_level"
@@ -388,6 +389,7 @@ typedef struct cmor_variable_def_ {
     float valid_max;
     float ok_min_mean_abs;
     float ok_max_mean_abs;
+    char chunking_dimensions[CMOR_MAX_STRING];
     int shuffle;
     int deflate;
     int deflate_level;
@@ -436,6 +438,7 @@ typedef struct cmor_var_ {
     float valid_max;
     float ok_min_mean_abs;
     float ok_max_mean_abs;
+    char chunking_dimensions[CMOR_MAX_STRING];
     int shuffle;
     int deflate;
     int deflate_level;

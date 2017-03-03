@@ -79,10 +79,11 @@ class TestCase(unittest.TestCase):
             cmor.close()                                                                                                                       
 
         except:
-            os.dup2(self.newstdout, 1)
-            os.dup2(self.newstderr, 2)
-            sys.stdout = os.fdopen(self.newstdout, 'w', 0)
-            sys.stderr = os.fdopen(self.newstderr, 'w', 0)
+            pass
+        os.dup2(self.newstdout, 1)
+        os.dup2(self.newstderr, 2)
+        sys.stdout = os.fdopen(self.newstdout, 'w', 0)
+        sys.stderr = os.fdopen(self.newstderr, 'w', 0)
         testOK = self.getAssertTest()
         # ------------------------------------------
         # Check error after signal handler is back

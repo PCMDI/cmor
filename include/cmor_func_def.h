@@ -231,6 +231,8 @@ extern int cmor_variable( int *var_id, char *name, char *units, int ndims,
 			  char *comment );
 extern int cmor_set_deflate( int var_id, int shuffle,
                              int deflate, int deflate_level );
+extern int cmor_set_chunking( int var_id, int nTableID,
+							    size_t nc_dim_chunking[]);
 
 extern int cmor_set_var_def_att( cmor_var_def_t * var,
 				 char att[CMOR_MAX_STRING],

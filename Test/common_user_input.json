@@ -15,8 +15,8 @@
 
            "#experiment_id":         "CMIP6 valid experiment_ids are found in CMIP6_CV.json",
            "experiment_id":          "piControl-withism",
-           "sub_experiment_id":      "none",
-           "sub_experiment":         "none",
+           "sub_experiment_id":      "None",
+           "sub_experiment":         "None",
 
            "source_type":            "AOGCM ISM AER",
            "parent_mip_era":         "N/A",
