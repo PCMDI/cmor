@@ -1,9 +1,14 @@
 os:
 - linux
-- osx
+#- osx
 python:
 - 2.7
+
+services:
+    - docker
+
 sudo: false
+
 before_install:
 - if [ "$TRAVIS_OS_NAME" = "linux" ]; then wget https://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh
   -O miniconda.sh; fi
@@ -21,6 +26,7 @@ before_install:
 - conda install udunits2 -c uvcdat/label/nightly  -c conda-forge -c uvcdat
 - conda install gcc
 - conda install nose
+
 install:
 - git clone https://github.com/PCMDI/cmip6-cmor-tables
 - ln -s cmip6-cmor-tables/Tables Tables
