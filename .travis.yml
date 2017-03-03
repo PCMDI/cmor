@@ -1,55 +1,52 @@
 os:
-- linux
-#- osx
+  - linux
 python:
-- 2.7
-
+  - 2.7
 services:
-    - docker
+  - docker
 
 sudo: false
 
 before_install:
-- if [ "$TRAVIS_OS_NAME" = "linux" ]; then wget https://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh
-  -O miniconda.sh; fi
-- if [ "$TRAVIS_OS_NAME" = "osx" ]; then wget https://repo.continuum.io/miniconda/Miniconda-latest-MacOSX-x86_64.sh
-  -O miniconda.sh; fi
-- export PATH="$HOME/miniconda/bin:$PATH"
-- export PREFIX="$HOME/miniconda"
-- export UDUNITS2_XML_PATH=$HOME/miniconda/share/udunits/udunits2.xml
-- export UVCDAT_ANONYMOUS_LOG=no
-- bash miniconda.sh -b -p $HOME/miniconda
-- conda config --set always_yes yes --set changeps1 no
-- conda update -y -q conda
-- conda install openssl=1.0.2d
-- conda install cdms2 -c uvcdat/label/nightly -c conda-forge -c uvcdat
-- conda install udunits2 -c uvcdat/label/nightly  -c conda-forge -c uvcdat
-- conda install gcc
-- conda install nose
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then wget https://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh
+    -O miniconda.sh; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then wget https://repo.continuum.io/miniconda/Miniconda-latest-MacOSX-x86_64.sh
+    -O miniconda.sh; fi
+  - export PATH="$HOME/miniconda/bin:$PATH"
+  - export PREFIX="$HOME/miniconda"
+  - export UDUNITS2_XML_PATH=$HOME/miniconda/share/udunits/udunits2.xml
+  - export UVCDAT_ANONYMOUS_LOG=no
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - conda config --set always_yes yes --set changeps1 no
+  - conda update -y -q conda
+  - conda install openssl=1.0.2d
+  - conda install cdms2 -c uvcdat/label/nightly -c conda-forge -c uvcdat
+  - conda install udunits2 -c uvcdat/label/nightly  -c conda-forge -c uvcdat
+  - conda install gcc
 
 install:
-- git clone https://github.com/PCMDI/cmip6-cmor-tables
-- ln -s cmip6-cmor-tables/Tables Tables
-- "./configure --prefix=$PREFIX --with-python --with-uuid=$PREFIX --with-udunits2=$PREFIX
-  --with-netcdf=$PREFIX  --enable-verbose-test"
-- make install
+  - git clone https://github.com/PCMDI/cmip6-cmor-tables
+  - ln -s cmip6-cmor-tables/Tables Tables
+  - "./configure --prefix=$PREFIX --with-python --with-uuid=$PREFIX --with-udunits2=$PREFIX
+    --with-netcdf=$PREFIX  --enable-verbose-test"
+  - make install
+
 script:
- - ls
-#- make test
-#- for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file;
-#  if [[ "$?" != "0" ]]; then return $?; fi; done
+  - make test
+  - for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file; if [[ "$?" != "0" ]]; then return $?; fi; done
+
 after_failure:
-- ulimit -a
-- free -m
-- find CMIP6/
-- df -kh ./
-- ls -lR
-- cat ~/build.sh
+  - ulimit -a
+  - free -m
+  - find CMIP6/
+  - df -kh ./
+  - ls -lR
+  - cat ~/build.sh
 
 env:
   global:
-    secure: REaCuCbovXcs7mL995KYDU3GsOXgKfEQkhb/lcJ42CxwiL5OliAPRkXOdY0ThbsTSa95Dqvuyon7XTKHx/LCBUy4ukFKxkDKeYIky0Yy+ICNptZGTSqzvYQ/Fz1k65l6JXKTYKigMlsRjr3XYCNmCRtz0xV1ccsuaJT7U8pM0CY=
+    - secure: Ys+z2FqJidkjTV6OtP9w+l9Gbt/quxXtHS6dOan2nb7V197Nc1cM44Taee7vcK4MBmFStCZCkiz47LdRWSZoHv1LgxhhN8oWnQDCn4Mg4scYO16PtYersF153Of7w/kzotJFdM/E0mI43y6BBbOgJQsunYsChqYS6MU1y7dGJ8k=
 
-after_success: 
+after_success:
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then bash scripts/conda_upload.sh ${TRAVIS_BRANCH} ; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then docker run -v `pwd`:/travis_home -e CONDA_UPLOAD_TOKEN=${CONDA_UPLOAD_TOKEN} -a STDOUT -a STDERR cdat/conda:conda-forge-cdms2 /travis_home/scripts/conda_upload.sh ${TRAVIS_BRANCH} ; fi

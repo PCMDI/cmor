@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 PKG_NAME=cmor
-USER=nadeau1
+USER=pcmdi
 echo "Trying to upload conda"
 if [ `uname` == "Linux" ]; then
     OS=linux-64
