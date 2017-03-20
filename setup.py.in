@@ -73,7 +73,10 @@ setup (name = "CMOR",
                   define_macros = macros,
                   extra_compile_args = [ "-DgFortran"]
                   ),
-        ]
+        ],
+      entry_points={
+          'console_scripts':['PrePARE=cmor.PrePARE:main']
+        }
 
       )
 
