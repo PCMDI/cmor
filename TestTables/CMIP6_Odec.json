@@ -1,17 +1,17 @@
 {
     "Header": {
-        "data_specs_version": "01.00.03", 
+        "data_specs_version": "01.00.05", 
         "table_id": "Table Odec", 
         "realm": "ocean", 
         "frequency": "dec", 
         "cmor_version": "3.2", 
-        "table_date": "24 February 2017", 
+        "table_date": "31 March 2017", 
         "missing_value": "1e20", 
-        "product": "output", 
+        "product": "model-output", 
         "approx_interval": "", 
         "generic_levels": "", 
         "mip_era": "CMIP6", 
-        "Conventions": "CF-1.6 CMIP-6.0"
+        "Conventions": "CF-1.7 CMIP-6.0"
     }, 
     "variable_entry": {
         "agessc": {
@@ -305,8 +305,8 @@
         }, 
         "tos": {
             "modeling_realm": "ocean", 
-            "standard_name": "sea_surface_temperature", 
-            "units": "degC", 
+            "standard_name": "surface_temperature", 
+            "units": "K", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacello", 
             "long_name": "Sea Surface Temperature", 
@@ -342,7 +342,7 @@
             "standard_name": "sea_water_x_velocity", 
             "units": "m s-1", 
             "cell_methods": "time: mean", 
-            "cell_measures": "", 
+            "cell_measures": "--OPT", 
             "long_name": "Sea Water X Velocity", 
             "comment": "Prognostic x-ward velocity component resolved by the model.", 
             "dimensions": "longitude latitude olevel time", 
@@ -359,7 +359,7 @@
             "standard_name": "sea_water_y_velocity", 
             "units": "m s-1", 
             "cell_methods": "time: mean", 
-            "cell_measures": "", 
+            "cell_measures": "--OPT", 
             "long_name": "Sea Water Y Velocity", 
             "comment": "Prognostic x-ward velocity component resolved by the model.", 
             "dimensions": "longitude latitude olevel time", 
@@ -410,7 +410,7 @@
             "standard_name": "upward_sea_water_velocity", 
             "units": "m s-1", 
             "cell_methods": "time: mean", 
-            "cell_measures": "", 
+            "cell_measures": "--OPT", 
             "long_name": "Sea Water Z Velocity", 
             "comment": "", 
             "dimensions": "longitude latitude olevel time", 

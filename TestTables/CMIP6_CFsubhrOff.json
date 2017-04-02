@@ -1,17 +1,17 @@
 {
     "Header": {
-        "data_specs_version": "01.00.03", 
+        "data_specs_version": "01.00.05", 
         "table_id": "Table CFsubhrOff", 
         "realm": "atmos", 
         "frequency": "subhr", 
         "cmor_version": "3.2", 
-        "table_date": "24 February 2017", 
+        "table_date": "31 March 2017", 
         "missing_value": "1e20", 
-        "product": "output", 
+        "product": "model-output", 
         "approx_interval": "", 
         "generic_levels": "", 
         "mip_era": "CMIP6", 
-        "Conventions": "CF-1.6 CMIP-6.0"
+        "Conventions": "CF-1.7 CMIP-6.0"
     }, 
     "variable_entry": {
         "cfadDbze94": {

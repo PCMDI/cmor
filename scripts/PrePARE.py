@@ -212,6 +212,35 @@ class checkCMIP6(object):
         cmip6_cv.check_furtherinfourl(self.table_id)
         varid = cmip6_cv.setup_variable(self.var[0], 'm', 1e20)
 
+        if not isinstance(self.dictGbl['realization_index'], numpy.ndarray):
+            print bcolors.FAIL
+            print "====================================================================================="
+            print "realization_index is not an integer: ", type(self.dictGbl['realization_index'])
+            print "====================================================================================="
+            print bcolors.ENDC
+            cmip6_cv.set_CV_Error()
+        if not isinstance(self.dictGbl['initialization_index'], numpy.ndarray):
+            print bcolors.FAIL
+            print "====================================================================================="
+            print "initialization_index is not an integer: ", type(self.dictGbl['initialization_index'])
+            print "====================================================================================="
+            print bcolors.ENDC
+            cmip6_cv.set_CV_Error()
+        if not isinstance(self.dictGbl['physics_index'], numpy.ndarray):
+            print bcolors.FAIL
+            print "====================================================================================="
+            print "physics_index is not an integer: ", type(self.dictGbl['physics_index'])
+            print "====================================================================================="
+            print bcolors.ENDC
+            cmip6_cv.set_CV_Error()
+        if not isinstance(self.dictGbl['forcing_index'], numpy.ndarray):
+            print bcolors.FAIL
+            print "====================================================================================="
+            print "forcing_index is not an integer: ", type(self.dictGbl['forcing_index'])
+            print "====================================================================================="
+            print bcolors.ENDC
+            cmip6_cv.set_CV_Error()
+
         prepLIST =  cmip6_cv.list_variable_attributes(varid)
         for key in prepLIST:
             if(key == "comment"):

@@ -1,17 +1,17 @@
 {
     "Header": {
-        "data_specs_version": "01.00.03", 
+        "data_specs_version": "01.00.05", 
         "table_id": "Table CFday", 
         "realm": "atmos", 
         "frequency": "day", 
         "cmor_version": "3.2", 
-        "table_date": "24 February 2017", 
+        "table_date": "31 March 2017", 
         "missing_value": "1e20", 
-        "product": "output", 
+        "product": "model-output", 
         "approx_interval": "1.00000", 
         "generic_levels": "alevel alevhalf", 
         "mip_era": "CMIP6", 
-        "Conventions": "CF-1.6 CMIP-6.0"
+        "Conventions": "CF-1.7 CMIP-6.0"
     }, 
     "variable_entry": {
         "albisccp": {
@@ -38,7 +38,7 @@
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Air Pressure at Convective Cloud Base", 
-            "comment": "Where convective cloud is present in the grid cell, the instantaneous cloud base altitude should be that of the bottom of the lowest level containing convective cloud. Missing data should be reported in the absence of convective cloud. The time mean should be calculated from these quantities averaging over occasions when convective cloud is present only, and should contain missing data for occasions when no convective cloud is present during the meaning period. ", 
+            "comment": "Where convective cloud is present in the grid cell, the instantaneous cloud base altitude should be that of the bottom of the lowest level containing convective cloud. Missing data should be reported in the absence of convective cloud. The time mean should be calculated from these quantities averaging over occasions when convective cloud is present only, and should contain missing data for occasions when no convective cloud is present during the meaning period.", 
             "dimensions": "longitude latitude time", 
             "out_name": "ccb", 
             "type": "real", 
@@ -135,7 +135,7 @@
         }, 
         "clisccp": {
             "modeling_realm": "atmos", 
-            "standard_name": "isccp_cloud_area_fraction", 
+            "standard_name": "cloud_area_fraction_in_atmosphere_layer", 
             "units": "%", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
@@ -152,12 +152,12 @@
         }, 
         "clivi": {
             "modeling_realm": "atmos", 
-            "standard_name": "atmosphere_mass_content_of_cloud_ice", 
+            "standard_name": "atmosphere_cloud_ice_content", 
             "units": "kg m-2", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Ice Water Path", 
-            "comment": "calculate mass of ice water in the column divided by the area of the column (not just the area of the cloudy portion of the column). This includes precipitating frozen hydrometeors ONLY if the precipitating hydrometeors affect the calculation of radiative transfer in model.", 
+            "comment": "mass of ice water in the column divided by the area of the column (not just the area of the cloudy portion of the column). Includes precipitating frozen hydrometeors ONLY if the precipitating hydrometeor affects the calculation of radiative transfer in model.", 
             "dimensions": "longitude latitude time", 
             "out_name": "clivi", 
             "type": "real", 
@@ -599,7 +599,7 @@
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "omega (=dp/dt)", 
-            "comment": "Omega (vertical velocity in pressure coordinates, positive downwards) at 500 hPa level; ", 
+            "comment": "Omega (vertical velocity in pressure coordinates, positive downwards) at 500 hPa level;", 
             "dimensions": "longitude latitude time p500", 
             "out_name": "wap500", 
             "type": "real", 

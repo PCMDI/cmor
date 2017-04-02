@@ -1,17 +1,17 @@
 {
     "Header": {
-        "data_specs_version": "01.00.03", 
+        "data_specs_version": "01.00.05", 
         "table_id": "Table fx", 
         "realm": "land", 
         "frequency": "fx", 
         "cmor_version": "3.2", 
-        "table_date": "24 February 2017", 
+        "table_date": "31 March 2017", 
         "missing_value": "1e20", 
-        "product": "output", 
+        "product": "model-output", 
         "approx_interval": "0.00000", 
         "generic_levels": "olevel", 
         "mip_era": "CMIP6", 
-        "Conventions": "CF-1.6 CMIP-6.0"
+        "Conventions": "CF-1.7 CMIP-6.0"
     }, 
     "variable_entry": {
         "areacella": {
@@ -66,7 +66,7 @@
             "ok_max_mean_abs": ""
         }, 
         "orog": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "surface_altitude", 
             "units": "m", 
             "cell_methods": "area: mean", 
@@ -119,11 +119,11 @@
         "sftlf": {
             "modeling_realm": "atmos", 
             "standard_name": "land_area_fraction", 
-            "units": "1", 
+            "units": "%", 
             "cell_methods": "area: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Land Area Fraction", 
-            "comment": "Please express 'X_area_fraction' as the fraction of horizontal area occupied by X.", 
+            "comment": "Please express 'X_area_fraction' as the percentage of horizontal area occupied by X.", 
             "dimensions": "longitude latitude", 
             "out_name": "sftlf", 
             "type": "real", 
@@ -150,29 +150,12 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "thkcello": {
-            "modeling_realm": "ocean", 
-            "standard_name": "cell_thickness", 
-            "units": "m", 
-            "cell_methods": "time: mean", 
-            "cell_measures": "area: areacello volume: volcello", 
-            "long_name": "Ocean Model Cell Thickness", 
-            "comment": "", 
-            "dimensions": "longitude latitude olevel", 
-            "out_name": "thkcello", 
-            "type": "real", 
-            "positive": "", 
-            "valid_min": "", 
-            "valid_max": "", 
-            "ok_min_mean_abs": "", 
-            "ok_max_mean_abs": ""
-        }, 
         "volcello": {
             "modeling_realm": "ocean", 
             "standard_name": "ocean_volume", 
             "units": "m3", 
-            "cell_methods": "", 
-            "cell_measures": "area: areacello", 
+            "cell_methods": "area: mean", 
+            "cell_measures": "area: areacello volume: volcello", 
             "long_name": "Ocean Grid-Cell Volume", 
             "comment": "grid-cell volume ca. 2000.", 
             "dimensions": "longitude latitude olevel", 

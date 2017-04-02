@@ -1,17 +1,17 @@
 {
     "Header": {
-        "data_specs_version": "01.00.03", 
+        "data_specs_version": "01.00.05", 
         "table_id": "Table Oclim", 
         "realm": "ocean", 
         "frequency": "monClim", 
         "cmor_version": "3.2", 
-        "table_date": "24 February 2017", 
+        "table_date": "31 March 2017", 
         "missing_value": "1e20", 
-        "product": "output", 
+        "product": "model-output", 
         "approx_interval": "30.00000", 
         "generic_levels": "olevel", 
         "mip_era": "CMIP6", 
-        "Conventions": "CF-1.6 CMIP-6.0"
+        "Conventions": "CF-1.7 CMIP-6.0"
     }, 
     "variable_entry": {
         "difmxybo": {
@@ -442,7 +442,7 @@
         "dispkexyfo": {
             "modeling_realm": "ocean", 
             "standard_name": "ocean_kinetic_energy_dissipation_per_unit_area_due_to_xy_friction", 
-            "units": "W m-2 ", 
+            "units": "W m-2", 
             "cell_methods": "time: mean within years time: mean over years", 
             "cell_measures": "area: areacello volume: volcello", 
             "long_name": "Ocean Kinetic Energy Dissipation Per Unit Area due to XY Friction", 
@@ -459,7 +459,7 @@
         "dispkexyfo2d": {
             "modeling_realm": "ocean", 
             "standard_name": "ocean_kinetic_energy_dissipation_per_unit_area_due_to_xy_friction", 
-            "units": "W m-2 ", 
+            "units": "W m-2", 
             "cell_methods": "time: mean within years time: mean over years", 
             "cell_measures": "area: areacello", 
             "long_name": "Ocean Kinetic Energy Dissipation Per Unit Area due to XY Friction", 
@@ -563,7 +563,7 @@
             "standard_name": "depth_below_geoid", 
             "units": "m", 
             "cell_methods": "time: mean within years time: mean over years", 
-            "cell_measures": "area: areacello", 
+            "cell_measures": "area: areacello volume: volcello", 
             "long_name": "Depth Below Geoid of Ocean Layer", 
             "comment": "Depth below geoid", 
             "dimensions": "longitude latitude olevel time2", 
@@ -580,7 +580,7 @@
             "standard_name": "depth_below_geoid", 
             "units": "m", 
             "cell_methods": "time: mean within years time: mean over years", 
-            "cell_measures": "area: areacello", 
+            "cell_measures": "area: areacello volume: volcello", 
             "long_name": "Depth Below Geoid of Interfaces Between Ocean Layers", 
             "comment": "Depth below geoid", 
             "dimensions": "longitude latitude olevel time2", 

@@ -1,17 +1,17 @@
 {
     "Header": {
-        "data_specs_version": "01.00.03", 
+        "data_specs_version": "01.00.05", 
         "table_id": "Table AERmonZ", 
         "realm": "aerosol", 
         "frequency": "mon", 
         "cmor_version": "3.2", 
-        "table_date": "24 February 2017", 
+        "table_date": "31 March 2017", 
         "missing_value": "1e20", 
-        "product": "output", 
+        "product": "model-output", 
         "approx_interval": "", 
         "generic_levels": "", 
         "mip_era": "CMIP6", 
-        "Conventions": "CF-1.6 CMIP-6.0"
+        "Conventions": "CF-1.7 CMIP-6.0"
     }, 
     "variable_entry": {
         "bry": {
@@ -67,7 +67,7 @@
         }, 
         "h2o": {
             "modeling_realm": "aerosol", 
-            "standard_name": "mole_fraction_of_water_vapor_in_air", 
+            "standard_name": "mass_fraction_of_water_in_air", 
             "units": "1.0", 
             "cell_methods": "longitude: mean time: mean", 
             "cell_measures": "area: areacella", 
@@ -277,7 +277,7 @@
             "cell_measures": "area: areacella", 
             "long_name": "Northward heat flux due to eddies", 
             "comment": "Zonally averaged meridional heat flux at 100 hPa as monthly means derived from daily (or higher frequency) fields.", 
-            "dimensions": "latitude time", 
+            "dimensions": "latitude time p100", 
             "out_name": "vt100", 
             "type": "float", 
             "positive": "", 

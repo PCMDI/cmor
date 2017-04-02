@@ -1,17 +1,17 @@
 {
     "Header": {
-        "data_specs_version": "01.00.03", 
+        "data_specs_version": "01.00.05", 
         "table_id": "Table Eday", 
         "realm": "aerosol", 
         "frequency": "day", 
         "cmor_version": "3.2", 
-        "table_date": "24 February 2017", 
+        "table_date": "31 March 2017", 
         "missing_value": "1e20", 
-        "product": "output", 
-        "approx_interval": "", 
+        "product": "model-output", 
+        "approx_interval": "1.00000", 
         "generic_levels": "", 
         "mip_era": "CMIP6", 
-        "Conventions": "CF-1.6 CMIP-6.0"
+        "Conventions": "CF-1.7 CMIP-6.0"
     }, 
     "variable_entry": {
         "agesno": {
@@ -32,7 +32,7 @@
             "ok_max_mean_abs": ""
         }, 
         "albc": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "canopy_albedo", 
             "units": "1.0", 
             "cell_methods": "area: mean where land time: mean", 
@@ -50,7 +50,7 @@
         }, 
         "albs": {
             "modeling_realm": "aerosol", 
-            "standard_name": "planetary_albedo", 
+            "standard_name": "surface_albedo", 
             "units": "1.0", 
             "cell_methods": "area: mean where land time: mean", 
             "cell_measures": "area: areacella", 
@@ -66,7 +66,7 @@
             "ok_max_mean_abs": ""
         }, 
         "albsn": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "snow_and_ice_albedo", 
             "units": "1.0", 
             "cell_methods": "area: mean where land time: mean", 
@@ -84,12 +84,12 @@
         }, 
         "aod550volso4": {
             "modeling_realm": "atmos", 
-            "standard_name": "aerosol_optical_depth_due_to_stratospheric_volcanic_aerosols_", 
+            "standard_name": "aerosol_optical_depth_due_to_stratospheric_volcanic_aerosols", 
             "units": "1e-09", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
-            "long_name": "Aerosol optical depth at 550 nm due to stratospheric volcanic aerosols ", 
-            "comment": "aerosol optical depth at 550 nm due to stratospheric volcanic aerosols ", 
+            "long_name": "Aerosol optical depth at 550 nm due to stratospheric volcanic aerosols", 
+            "comment": "aerosol optical depth at 550 nm due to stratospheric volcanic aerosols", 
             "dimensions": "longitude latitude time", 
             "out_name": "aod550volso4", 
             "type": "", 
@@ -100,7 +100,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ares": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "aerodynamic_resistance", 
             "units": "s m-1", 
             "cell_methods": "area: mean where land time: mean", 
@@ -136,11 +136,11 @@
         "clivic": {
             "modeling_realm": "atmos", 
             "standard_name": "atmosphere_convective_cloud_ice_content", 
-            "units": "kg m-2 ", 
+            "units": "kg m-2", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Convective Ice Water Path", 
-            "comment": "calculate mass of convective ice water in the column divided by the area of the column (not just the area of the cloudy portion of the column). This includes precipitating frozen hydrometeors ONLY if the precipitating hydrometeors affect the calculation of radiative transfer in model.  ", 
+            "comment": "calculate mass of convective ice water in the column divided by the area of the column (not just the area of the cloudy portion of the column). This includes precipitating frozen hydrometeors ONLY if the precipitating hydrometeors affect the calculation of radiative transfer in model.", 
             "dimensions": "longitude latitude time", 
             "out_name": "clivic", 
             "type": "", 
@@ -153,11 +153,11 @@
         "clwvic": {
             "modeling_realm": "atmos", 
             "standard_name": "atmosphere_convective_cloud_condensed_water_content", 
-            "units": "kg m-2 ", 
+            "units": "kg m-2", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Convective Condensed Water Path", 
-            "comment": "calculate mass of convective condensed (liquid + ice) water in the column divided by the area of the column (not just the area of the cloudy portion of the column). This includes precipitating hydrometeors ONLY if the precipitating hydrometeors affect the calculation of radiative transfer in model.  ", 
+            "comment": "calculate mass of convective condensed (liquid + ice) water in the column divided by the area of the column (not just the area of the cloudy portion of the column). This includes precipitating hydrometeors ONLY if the precipitating hydrometeors affect the calculation of radiative transfer in model.", 
             "dimensions": "longitude latitude time", 
             "out_name": "clwvic", 
             "type": "", 
@@ -168,12 +168,12 @@
             "ok_max_mean_abs": ""
         }, 
         "cnc": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "vegetation_area_fraction", 
-            "units": "", 
+            "units": "%", 
             "cell_methods": "area: mean where land time: mean", 
             "cell_measures": "area: areacella", 
-            "long_name": "Canopy covered fraction", 
+            "long_name": "Canopy covered area percentage", 
             "comment": "", 
             "dimensions": "longitude latitude time", 
             "out_name": "cnc", 
@@ -185,7 +185,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cw": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "canopy_water_amount", 
             "units": "kg m-2", 
             "cell_methods": "area: mean where land time: mean", 
@@ -202,7 +202,7 @@
             "ok_max_mean_abs": ""
         }, 
         "dcw": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "change_over_time_in_canopy_water_amount", 
             "units": "kg m-2", 
             "cell_methods": "area: mean where land time: mean", 
@@ -219,7 +219,7 @@
             "ok_max_mean_abs": ""
         }, 
         "dfr": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "depth_of_frozen_soil", 
             "units": "m", 
             "cell_methods": "area: mean where land time: mean", 
@@ -236,7 +236,7 @@
             "ok_max_mean_abs": ""
         }, 
         "dgw": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "change_over_time_in_groundwater", 
             "units": "kg m-2", 
             "cell_methods": "area: mean where land time: mean", 
@@ -253,7 +253,7 @@
             "ok_max_mean_abs": ""
         }, 
         "dmlt": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "depth_of_subsurface_melting", 
             "units": "m", 
             "cell_methods": "area: mean where land time: mean", 
@@ -270,7 +270,7 @@
             "ok_max_mean_abs": ""
         }, 
         "drivw": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "change_over_time_in_river_water_amount", 
             "units": "kg m-2", 
             "cell_methods": "area: mean where land time: mean", 
@@ -287,7 +287,7 @@
             "ok_max_mean_abs": ""
         }, 
         "dslw": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "change_over_time_in_water_content_of_soil_layer", 
             "units": "kg m-2", 
             "cell_methods": "area: mean where land time: mean", 
@@ -304,7 +304,7 @@
             "ok_max_mean_abs": ""
         }, 
         "dsn": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "change_over_time_in_surface_snow_and_ice_amount", 
             "units": "kg m-2", 
             "cell_methods": "area: mean where land time: mean", 
@@ -321,7 +321,7 @@
             "ok_max_mean_abs": ""
         }, 
         "dsw": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "change_over_time_in_surface_water_amount", 
             "units": "kg m-2", 
             "cell_methods": "area: mean where land time: mean", 
@@ -338,7 +338,7 @@
             "ok_max_mean_abs": ""
         }, 
         "dtes": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "change_over_time_in_thermal_energy_content_of_surface", 
             "units": "J m-2", 
             "cell_methods": "area: mean where land time: mean", 
@@ -355,7 +355,7 @@
             "ok_max_mean_abs": ""
         }, 
         "dtesn": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "change_over_time_in_thermal_energy_content_of_surface_snow_and_ice", 
             "units": "J m-2", 
             "cell_methods": "area: mean where land time: mean", 
@@ -372,7 +372,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ec": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "liquid_water_evaporation_flux_from_canopy", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: mean where land time: mean", 
@@ -389,7 +389,7 @@
             "ok_max_mean_abs": ""
         }, 
         "eow": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "liquid_water_evaporation_flux_from_open_water", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: mean where land time: mean", 
@@ -406,7 +406,7 @@
             "ok_max_mean_abs": ""
         }, 
         "es": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "liquid_water_evaporation_flux_from_soil", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: mean where land time: mean", 
@@ -423,7 +423,7 @@
             "ok_max_mean_abs": ""
         }, 
         "esn": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "liquid_water_evaporation_flux_from_surface_snow", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: mean where land time: mean", 
@@ -440,7 +440,7 @@
             "ok_max_mean_abs": ""
         }, 
         "et": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "surface_evapotranspiration", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: mean where land time: mean", 
@@ -456,16 +456,33 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "hfds": {
-            "modeling_realm": "ocean", 
+        "hfdsl": {
+            "modeling_realm": "atmos", 
             "standard_name": "surface_downward_heat_flux_in_sea_water", 
             "units": "W m-2", 
             "cell_methods": "area: mean where land time: mean", 
             "cell_measures": "area: areacella", 
-            "long_name": "Downward Heat Flux at Sea Water Surface", 
-            "comment": "This is the net flux of heat entering the liquid water column through its upper surface (excluding any 'flux adjustment') .", 
+            "long_name": "Downward Heat Flux at Land Surface", 
+            "comment": "", 
             "dimensions": "longitude latitude time", 
-            "out_name": "hfds", 
+            "out_name": "hfdsl", 
+            "type": "", 
+            "positive": "", 
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "hfdsn": {
+            "modeling_realm": "landIce land", 
+            "standard_name": "surface_downward_heat_flux_in_snow", 
+            "units": "W m-2", 
+            "cell_methods": "area: mean where land time: mean", 
+            "cell_measures": "area: areacella", 
+            "long_name": "Downward Heat Flux into Snow Where Land over Land", 
+            "comment": "the net downward heat flux from the atmosphere into the snow that lies on land divided by the land area in the grid cell; reported as 0.0 for snow-free land regions or where the land fraction is 0.", 
+            "dimensions": "longitude latitude time", 
+            "out_name": "hfdsn", 
             "type": "real", 
             "positive": "down", 
             "valid_min": "", 
@@ -493,7 +510,7 @@
         "hfmlt": {
             "modeling_realm": "atmos", 
             "standard_name": "surface_snow_and_ice_melt_heat_flux", 
-            "units": "W m-2 ", 
+            "units": "W m-2", 
             "cell_methods": "area: mean where land time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Energy of fusion", 
@@ -510,7 +527,7 @@
         "hfrs": {
             "modeling_realm": "atmos", 
             "standard_name": "temperature_flux_due_to_rainfall_expressed_as_heat_flux_onto_snow_and_ice", 
-            "units": "W m-2 ", 
+            "units": "W m-2", 
             "cell_methods": "area: mean where land time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Heat transferred to snowpack by rainfall", 
@@ -527,7 +544,7 @@
         "hfsbl": {
             "modeling_realm": "atmos", 
             "standard_name": "surface_snow_and_ice_sublimation_heat_flux", 
-            "units": "W m-2 ", 
+            "units": "W m-2", 
             "cell_methods": "area: mean where land time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Energy of sublimation", 
@@ -600,7 +617,7 @@
             "cell_measures": "area: areacella", 
             "long_name": "MODIS Optical Thickness-Particle Size joint  distribution, ice", 
             "comment": "", 
-            "dimensions": "longitude latitude plev7c tau time", 
+            "dimensions": "longitude latitude plev7c effectRadLi|tau time", 
             "out_name": "jpdftaureicemodis", 
             "type": "", 
             "positive": "", 
@@ -617,7 +634,7 @@
             "cell_measures": "area: areacella", 
             "long_name": "MODIS Optical Thickness-Particle Size joint  distribution, liquid", 
             "comment": "", 
-            "dimensions": "longitude latitude plev7c tau time", 
+            "dimensions": "longitude latitude plev7c effectRadLi|tau time", 
             "out_name": "jpdftaureliqmodis", 
             "type": "", 
             "positive": "", 
@@ -632,7 +649,7 @@
             "units": "1.0", 
             "cell_methods": "area: mean where land time: mean", 
             "cell_measures": "area: areacella", 
-            "long_name": "leaf area index", 
+            "long_name": "Leaf Area Index", 
             "comment": "", 
             "dimensions": "longitude latitude time", 
             "out_name": "lai", 
@@ -803,7 +820,7 @@
             "cell_methods": "area: mean where land time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Liquid Water Content of Snow Layer", 
-            "comment": "where land over land: this is computed as the total mass of liquid water contained interstitially within the snow layer of the land portion of a grid cell divided by the area of the land portion of the cell.", 
+            "comment": "The total mass of liquid water contained interstitially within the whole depth of the snow layer of the land portion of a grid cell divided by the area of the land portion of the cell.", 
             "dimensions": "longitude latitude time", 
             "out_name": "lwsnl", 
             "type": "real", 
@@ -813,25 +830,8 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "mlotst": {
-            "modeling_realm": "ocean", 
-            "standard_name": "ocean_mixed_layer_thickness_defined_by_sigma_t", 
-            "units": "m", 
-            "cell_methods": "time: mean", 
-            "cell_measures": "area: areacella", 
-            "long_name": "Ocean Mixed Layer Thickness Defined by Sigma T", 
-            "comment": "Sigma T is potential density referenced to ocean surface.", 
-            "dimensions": "longitude latitude time", 
-            "out_name": "mlotst", 
-            "type": "real", 
-            "positive": "", 
-            "valid_min": "", 
-            "valid_max": "", 
-            "ok_min_mean_abs": "", 
-            "ok_max_mean_abs": ""
-        }, 
         "mrfsofr": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "mass_fraction_of_frozen_water_in_soil_moisture", 
             "units": "1.0", 
             "cell_methods": "area: mean where land time: mean", 
@@ -848,7 +848,7 @@
             "ok_max_mean_abs": ""
         }, 
         "mrlqso": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "mass_fraction_of_unfrozen_water_in_soil_moisture", 
             "units": "1.0", 
             "cell_methods": "area: mean where land time: mean", 
@@ -899,7 +899,7 @@
             "ok_max_mean_abs": ""
         }, 
         "mrrob": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "subsurface_runoff_flux", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: mean where land time: mean", 
@@ -984,7 +984,7 @@
             "ok_max_mean_abs": ""
         }, 
         "mrsow": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "volume_fraction_of_condensed_water_in_soil_at_field_capacity", 
             "units": "1.0", 
             "cell_methods": "area: mean where land time: mean", 
@@ -1001,7 +1001,7 @@
             "ok_max_mean_abs": ""
         }, 
         "nudgincsm": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "nudging_increment_in_water_content_of_soil_layer", 
             "units": "kg m-2", 
             "cell_methods": "area: mean where land time: mean", 
@@ -1018,7 +1018,7 @@
             "ok_max_mean_abs": ""
         }, 
         "nudgincswe": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "nudging_increment_in_surface_snow_and_ice_amount", 
             "units": "kg m-2", 
             "cell_methods": "area: mean where land time: mean", 
@@ -1069,7 +1069,7 @@
             "ok_max_mean_abs": ""
         }, 
         "potet": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "water_potential_evapotranspiration_flux", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: mean where land time: mean", 
@@ -1106,9 +1106,9 @@
             "modeling_realm": "atmos", 
             "standard_name": "precipitation_flux", 
             "units": "kg m-2 s-1", 
-            "cell_methods": "area: mean time: mean within hours time: maximum over hours", 
+            "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
-            "long_name": "Daily Maximum Hourly Precipitation Rate", 
+            "long_name": "Maximum Hourly Precipitation Rate", 
             "comment": "", 
             "dimensions": "longitude latitude time", 
             "out_name": "prhmax", 
@@ -1125,11 +1125,11 @@
             "units": "kg m-2 s-1", 
             "cell_methods": "area: mean where land time: mean", 
             "cell_measures": "area: areacella", 
-            "long_name": "Rainfall rate", 
+            "long_name": "Rainfall Flux where Ice Free Ocean over Sea", 
             "comment": "", 
             "dimensions": "longitude latitude time", 
             "out_name": "prra", 
-            "type": "", 
+            "type": "real", 
             "positive": "", 
             "valid_min": "", 
             "valid_max": "", 
@@ -1239,7 +1239,7 @@
             "ok_max_mean_abs": ""
         }, 
         "qgwr": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "water_flux_from_soil_layer_to_groundwater", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: mean where land time: mean", 
@@ -1262,7 +1262,7 @@
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Cloud-Top Effective Droplet Radius In Convective Cloud", 
-            "comment": "Droplets are liquid only.  This is the effective radius 'as seen from space' over convective liquid cloudy portion of grid cell.  This is the value from uppermost model layer with liquid cloud or, if available, or for some models it is the sum over all liquid cloud tops, no matter where they occur, as long as they are seen from the top of the atmosphere. Reported values are weighted by total liquid cloud top fraction of  (as seen from TOA) each time sample when computing monthly mean.daily data, separated to large-scale clouds, convective clouds. If any of the cloud is from more than one process (i.e. shallow convection), please provide them separately. ", 
+            "comment": "Droplets are liquid only.  This is the effective radius 'as seen from space' over convective liquid cloudy portion of grid cell.  This is the value from uppermost model layer with liquid cloud or, if available, or for some models it is the sum over all liquid cloud tops, no matter where they occur, as long as they are seen from the top of the atmosphere. Reported values are weighted by total liquid cloud top fraction of  (as seen from TOA) each time sample when computing monthly mean.daily data, separated to large-scale clouds, convective clouds. If any of the cloud is from more than one process (i.e. shallow convection), please provide them separately.", 
             "dimensions": "longitude latitude time", 
             "out_name": "reffcclwtop", 
             "type": "", 
@@ -1279,7 +1279,7 @@
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Cloud-Top Effective Droplet Radius In Stratiform Cloud", 
-            "comment": "Droplets are liquid only.  This is the effective radius 'as seen from space' over liquid stratiform cloudy portion of grid cell.  This is the value from uppermost model layer with liquid cloud or, if available, or for some models it is the sum over all liquid cloud tops, no matter where they occur, as long as they are seen from the top of the atmosphere. Reported values are weighted by total liquid cloud top fraction of  (as seen from TOA) each time sample when computing monthly mean.daily data, separated to large-scale clouds, convective clouds. If any of the cloud is from more than one process (i.e. shallow convection), please provide them separately. ", 
+            "comment": "Droplets are liquid only.  This is the effective radius 'as seen from space' over liquid stratiform cloudy portion of grid cell.  This is the value from uppermost model layer with liquid cloud or, if available, or for some models it is the sum over all liquid cloud tops, no matter where they occur, as long as they are seen from the top of the atmosphere. Reported values are weighted by total liquid cloud top fraction of  (as seen from TOA) each time sample when computing monthly mean.daily data, separated to large-scale clouds, convective clouds. If any of the cloud is from more than one process (i.e. shallow convection), please provide them separately.", 
             "dimensions": "longitude latitude time", 
             "out_name": "reffsclwtop", 
             "type": "", 
@@ -1290,7 +1290,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rivi": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "water_flux_from_upstream", 
             "units": "m3 s-1", 
             "cell_methods": "area: mean where land time: mean", 
@@ -1307,7 +1307,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rivo": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "water_flux_to_downstream", 
             "units": "m3 s-1", 
             "cell_methods": "area: mean where land time: mean", 
@@ -1358,7 +1358,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rzwc": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "water_content_of_root_zone", 
             "units": "kg m-2", 
             "cell_methods": "area: mean where land time: mean", 
@@ -1375,7 +1375,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sbl": {
-            "modeling_realm": "landIce", 
+            "modeling_realm": "atmos", 
             "standard_name": "surface_snow_and_ice_sublimation_flux", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: mean where land time: mean", 
@@ -1384,7 +1384,7 @@
             "comment": "The snow and ice sublimation flux is the loss of snow and ice mass per unit area from the surface resulting from their direct conversion to water vapor that enters the atmosphere.", 
             "dimensions": "longitude latitude time", 
             "out_name": "sbl", 
-            "type": "", 
+            "type": "real", 
             "positive": "", 
             "valid_min": "", 
             "valid_max": "", 
@@ -1401,23 +1401,6 @@
             "comment": "Droplets are liquid only.  Report concentration 'as seen from space' over stratiform liquid cloudy portion of grid cell.  This is the value from uppermost model layer with liquid cloud or, if available, it is better to sum over all liquid cloud tops, no matter where they occur, as long as they are seen from the top of the atmosphere. Weight by total liquid cloud top fraction of  (as seen from TOA) each time sample when computing monthly mean.", 
             "dimensions": "longitude latitude time", 
             "out_name": "scldncl", 
-            "type": "", 
-            "positive": "", 
-            "valid_min": "", 
-            "valid_max": "", 
-            "ok_min_mean_abs": "", 
-            "ok_max_mean_abs": ""
-        }, 
-        "sic": {
-            "modeling_realm": "atmos", 
-            "standard_name": "sea_ice_area_fraction", 
-            "units": "1.0", 
-            "cell_methods": "time: mean", 
-            "cell_measures": "area: areacella", 
-            "long_name": "Sea Ice Area Fraction", 
-            "comment": "fraction of grid cell covered by sea ice.", 
-            "dimensions": "longitude latitude time", 
-            "out_name": "sic", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -1562,7 +1545,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sw": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "surface_water_amount_assuming_no_snow", 
             "units": "kg m-2", 
             "cell_methods": "area: mean where land time: mean", 
@@ -1571,23 +1554,6 @@
             "comment": "Total liquid water storage, other than soil, snow or interception storage (i.e. lakes, river channel or depression storage).", 
             "dimensions": "longitude latitude time", 
             "out_name": "sw", 
-            "type": "", 
-            "positive": "", 
-            "valid_min": "", 
-            "valid_max": "", 
-            "ok_min_mean_abs": "", 
-            "ok_max_mean_abs": ""
-        }, 
-        "t20d": {
-            "modeling_realm": "atmos", 
-            "standard_name": "depth_of_isosurface_of_sea_water_potential_temperature", 
-            "units": "m", 
-            "cell_methods": "time: mean", 
-            "cell_measures": "area: areacella", 
-            "long_name": "20C isotherm depth", 
-            "comment": "", 
-            "dimensions": "longitude latitude time", 
-            "out_name": "t20d", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -1616,7 +1582,7 @@
             "modeling_realm": "atmos", 
             "standard_name": "air_temperature", 
             "units": "K", 
-            "cell_methods": "", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Air Temperature", 
             "comment": "Temperature on the 500 hPa surface", 
@@ -1633,7 +1599,7 @@
             "modeling_realm": "atmos", 
             "standard_name": "air_temperature", 
             "units": "K", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Air Temperature", 
             "comment": "Air temperature at 850hPa", 
@@ -1766,7 +1732,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tcs": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "canopy_temperature", 
             "units": "K", 
             "cell_methods": "area: mean where land time: mean", 
@@ -1782,25 +1748,8 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "tdps": {
-            "modeling_realm": "atmos", 
-            "standard_name": "dew_point_temperature", 
-            "units": "K", 
-            "cell_methods": "time: mean", 
-            "cell_measures": "area: areacella", 
-            "long_name": "2m dewpoint temperature", 
-            "comment": "", 
-            "dimensions": "longitude latitude time", 
-            "out_name": "tdps", 
-            "type": "", 
-            "positive": "", 
-            "valid_min": "", 
-            "valid_max": "", 
-            "ok_min_mean_abs": "", 
-            "ok_max_mean_abs": ""
-        }, 
         "tgs": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "surface_temperature", 
             "units": "K", 
             "cell_methods": "area: mean where land time: mean", 
@@ -1867,8 +1816,42 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "tsnl": {
+        "ts": {
             "modeling_realm": "atmos", 
+            "standard_name": "surface_temperature", 
+            "units": "K", 
+            "cell_methods": "time: mean", 
+            "cell_measures": "area: areacella", 
+            "long_name": "Surface Temperature", 
+            "comment": "Temperature of the lower boundary of the atmosphere", 
+            "dimensions": "longitude latitude time", 
+            "out_name": "ts", 
+            "type": "real", 
+            "positive": "", 
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "tsl": {
+            "modeling_realm": "land", 
+            "standard_name": "soil_temperature", 
+            "units": "K", 
+            "cell_methods": "area: mean where land time: mean", 
+            "cell_measures": "area: areacella", 
+            "long_name": "Temperature of Soil", 
+            "comment": "Temperature of each soil layer. Reported as missing for grid cells with no land.", 
+            "dimensions": "longitude latitude sdepth time", 
+            "out_name": "tsl", 
+            "type": "real", 
+            "positive": "", 
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "tsnl": {
+            "modeling_realm": "land", 
             "standard_name": "snow_temperature", 
             "units": "K", 
             "cell_methods": "area: mean where land time: mean", 
@@ -1902,7 +1885,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tws": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "canopy_and_surface_and_subsurface_water_amount", 
             "units": "kg m-2", 
             "cell_methods": "area: mean where land time: mean", 
@@ -2038,7 +2021,7 @@
             "ok_max_mean_abs": ""
         }, 
         "wtd": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "depth_of_soil_moisture_saturation", 
             "units": "m", 
             "cell_methods": "area: mean where land time: mean", 
