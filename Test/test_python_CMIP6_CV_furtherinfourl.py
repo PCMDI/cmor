@@ -86,7 +86,7 @@ class TestCase(unittest.TestCase):
 
         f = cdms2.open(cmor.get_final_filename(), "r")
         a = f.getglobal("further_info_url")
-        self.assertEqual("http://furtherinfo.es-doc.org/CMIP6.PCMDI.PCMDI-test-1-0.piControl-withism.None.r11i1p1f1", a)
+        self.assertEqual("http://furtherinfo.es-doc.org/CMIP6.PCMDI.PCMDI-test-1-0.piControl-withism.none.r11i1p1f1", a)
 
 
     def tearDown(self):
