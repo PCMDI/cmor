@@ -170,7 +170,6 @@ class checkCMIP6(object):
         cmip6_cv.set_cur_dataset_attribute(cmip6_cv.CMOR_AXIS_ENTRY_FILE, "CMIP6_coordinate.json") 
         cmip6_cv.set_cur_dataset_attribute(cmip6_cv.CMOR_FORMULA_VAR_FILE, "CMIP6_formula_terms.json")
 
-
         # -------------------------------------------------------------------
         # Create alist of all Global Attributes and set "dataset"
         # -------------------------------------------------------------------

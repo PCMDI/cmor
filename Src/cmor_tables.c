@@ -489,6 +489,15 @@ int cmor_load_table( char szTable[CMOR_MAX_STRING], int *table_id ) {
     char szFormulaVarFN[CMOR_MAX_STRING];
     char msg[CMOR_MAX_STRING];
     struct stat st;
+    cmor_add_traceback( "cmor_load_table" );
+
+    if (cmor_ntables == (CMOR_MAX_TABLES-1)) {
+		snprintf(msg, CMOR_MAX_STRING, "You cannot load more than %d tables",
+		CMOR_MAX_TABLES);
+	    cmor_pop_traceback(  );
+		cmor_handle_error(msg, CMOR_CRITICAL);
+		return (-1);
+	}
 
     rc = cmor_get_cur_dataset_attribute(GLOBAL_CV_FILENAME, szCV);
     rc = cmor_get_cur_dataset_attribute(CMOR_AXIS_ENTRY_FILE, szAxisEntryFN);
@@ -576,6 +585,7 @@ int cmor_load_table( char szTable[CMOR_MAX_STRING], int *table_id ) {
     }
 
     free(szTableName);
+
     return(rc);
 }
 /************************************************************************/
@@ -593,7 +603,7 @@ int cmor_search_table( char szTable[CMOR_MAX_STRING],
 			return (TABLE_FOUND);
 		}
 	}
-
+    cmor_pop_traceback(  );
 	return (TABLE_NOTFOUND);
 }
 
