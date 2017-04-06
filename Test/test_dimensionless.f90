@@ -128,14 +128,14 @@ PROGRAM ipcc_test_code
 
                                 ! My variable names for IPCC Table A1c fields
   CHARACTER (LEN=5), DIMENSION(n3d) :: &
-                                 varin3d=(/'CLOUD'/)
+                                 varin3d=(/'o3 '/)
 
                                 ! Units appropriate to my data
   CHARACTER (LEN=5), DIMENSION(n3d) :: &
-                                  units3d=(/ '%'/)
+                                  units3d=(/ '1e-9 '/)
 
                      ! Corresponding IPCC Table A1c entry (variable name) 
-  CHARACTER (LEN=4), DIMENSION(n3d) :: entry3d = (/ 'cl' /)
+  CHARACTER (LEN=4), DIMENSION(n3d) :: entry3d = (/ 'o3' /)
 
                                 ! My variable names for IPCC Table A1a fields
   CHARACTER (LEN=8), DIMENSION(n2d) :: &
@@ -337,7 +337,7 @@ print*, 'Test Code:',lev,':',plevs
        table='Tables/CMIP6_Amon.json',      &
        table_entry=entry3d(1),     &
        units=units3d(1),           &
-       axis_ids=(/ ilev, ilon, ilat, itim /),  &
+       axis_ids=(/ ipres, ilon, ilat, itim3 /),  &
        missing_value=1.0e28, &
        original_name=varin3d(1))
   
