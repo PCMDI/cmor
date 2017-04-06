@@ -832,7 +832,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t *CV) {
 	if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_SUB_EXPT) != 0) {
 		snprintf(msg, CMOR_MAX_STRING,
 				"Your input attribute \"%s\" was not defined and \n! "
-						"will be set to \"%s\ \n! "
+						"will be set to \"%s\" \n! "
 						"as defined in your Control Vocabulary file \"%s\".\n! ",
 				GLOBAL_ATT_SUB_EXPT, NONE, CV_Filename);
 		cmor_handle_error(msg, CMOR_WARNING);
@@ -845,7 +845,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t *CV) {
 		if (CV_sub_experiment_id_key == NULL) {
 			snprintf(msg, CMOR_MAX_STRING,
 					"Your \"sub_experiment\" text describing  \n! "
-					"sub_experiment_id \"%s\" could not be found in\n! "
+					"sub_experiment_id \"%s\" could not be found in \n! "
 					"your Control Vocabulary file.(%s)\n! ", szSubExptID, CV_Filename);
 			cmor_handle_error(msg, CMOR_NORMAL);
 			cmor_pop_traceback();
@@ -1105,7 +1105,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t *CV) {
 				if(reti) {
 					snprintf(msg, CMOR_MAX_STRING,
 							"You regular expression \"%s\" is invalid. \n! "
-							"Please refer to the CMIP6 documentations.\n! ");
+							"Please refer to the CMIP6 documentations.\n! ", template);
 					regfree(&regex);
 					cmor_handle_error(msg, CMOR_NORMAL);
 					cmor_pop_traceback();

@@ -1722,7 +1722,6 @@ int cmor_define_zfactors_vars( int var_id, int ncid, int *nc_dim,
     int dim_holder[CMOR_MAX_VARIABLES];
     int lnzfactors;
     int ics, icd, icdl, ia;
-    int bChunk;
     cmor_add_traceback( "cmor_define_zfactors_vars" );
     cmor_is_setup(  );
     lnzfactors = *nzfactors;
@@ -3057,7 +3056,6 @@ void cmor_define_dimensions(int var_id, int ncid,
     int nVarRefTblID = cmor_vars[var_id].ref_table_id;
     int ics, icd, icdl;
     int itmpmsg, itmp2, itmp3;
-    int bChunk;
 
     cmor_add_traceback("cmor_define_dimensions");
     for (i = 0; i < cmor_vars[var_id].ndims; i++) {
@@ -4405,7 +4403,6 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
 		size_t nc_dim_chunking[cmor_vars[var_id].ndims];
 		bChunk = cmor_set_chunking(var_id, nVarRefTblID,
 				nc_dim_chunking);
-		int n;
 		if (bChunk != -1
 				&& (!((cmor_vars[var_id].grid_id > -1)
                 && (cmor_grids[cmor_vars[var_id].grid_id].istimevarying == 1)))) {

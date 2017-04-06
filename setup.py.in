@@ -3,6 +3,7 @@ import numpy
 from numpy.distutils.core import setup, Extension
 #from numpy.distutils.ccompiler import CCompiler
 import os,sys,string
+from setuptools import setup, Extension
 
 include_dirs = [numpy.lib.utils.get_include(),"include","include/cdTime","include/json-c"]
 
@@ -53,9 +54,10 @@ setup (name = "CMOR",
        author='Denis Nadeau, AIMS',
        description = "Python Interface to CMOR output library",
        url = "http://cmor.llnl.gov/",
-       packages = ['cmor', 'cmip6_cv', 'cmor.Test' ],
-       package_dir = {'cmor': 'Lib', 'cmip6_cv': 'LibCV', 'cmor.Test':'Test'},
-       scripts=['scripts/PrePARE.py' ],
+       zip_safe=False,
+       packages = ['cmor', 'cmip6_cv', 'cmor.Test', 'cmip6_cv.PrePARE' ],
+       package_dir = {'cmor': 'Lib', 'cmip6_cv': 'LibCV', 'cmor.Test':'Test', 'cmip6_cv.PrePARE':'LibCV/PrePARE'},
+#       scripts=['scripts/PrePARE.py' ],
        ext_modules = [
             Extension('cmor._cmor',
                   srcfiles,
@@ -74,8 +76,8 @@ setup (name = "CMOR",
                   extra_compile_args = [ "-DgFortran"]
                   ),
         ],
-      entry_points={
-          'console_scripts':['PrePARE=cmor.PrePARE:main']
+       entry_points = {
+          'console_scripts':['PrePARE=cmip6_cv.PrePARE:main'],
         }
 
       )
