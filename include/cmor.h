@@ -154,6 +154,8 @@
 #define GLOBAL_ATT_VARIABLE_ID        "variable_id"
 #define GLOBAL_ATT_SOURCE_ID          "source_id"
 #define GLOBAL_ATT_SOURCE             "source"
+#define GLOBAL_ATT_SUB_EXPT_ID        "sub_experiment_id"
+#define GLOBAL_ATT_SUB_EXPT           "sub_experiment"
 #define GLOBAL_ATT_SOURCE_TYPE        "source_type"
 #define GLOBAL_ATT_CONVENTIONS        "Conventions"
 #define GLOBAL_ATT_CREATION_DATE      "creation_date"
@@ -184,6 +186,17 @@
 #define GLOBAL_CV_FILENAME            GLOBAL_INTERNAL"control_vocabulary_file"
 #define GLOBAL_IS_CMIP6               GLOBAL_INTERNAL"cmip6_option"
 
+#define NO_PARENT                     "no parent"
+#define NONE                          "none"
+#define BRANCH_METHOD                 "branch_method"
+#define BRANCH_TIME_IN_CHILD          "branch_time_in_child"
+#define BRANCH_TIME_IN_PARENT         "branch_time_in_parent"
+#define PARENT_ACTIVITY_ID            "parent_activity_id"
+#define PARENT_EXPERIMENT_ID          "parent_experiment_id"
+#define PARENT_MIP_ERA                "parent_mip_era"
+#define PARENT_SOURCE_ID              "parent_source_id"
+#define PARENT_TIME_UNITS             "parent_time_units"
+#define PARENT_VARIANT_LABEL          "parent_variant_label"
 
 #define JSON_KEY_HEADER               "Header"
 #define JSON_KEY_EXPERIMENT           "experiments"
@@ -193,21 +206,20 @@
 #define JSON_KEY_CV_ENTRY             "CV"
 
 #define CV_KEY_REQUIRED_GBL_ATTRS     "required_global_attributes"
-#define CV_KEY_INSTITUTION_IDS        "institution_id"
-#define CV_KEY_EXPERIMENT_IDS         "experiment_id"
+#define CV_KEY_INSTITUTION_ID         "institution_id"
+#define CV_KEY_EXPERIMENT_ID          "experiment_id"
 #define CV_KEY_SOURCE_IDS             "source_id"
 #define CV_KEY_GRID_LABELS            "grid_label"
 #define CV_KEY_GRID_RESOLUTION        "nominal_resolution"
 #define CV_KEY_GRIDLABEL_GR           "gr"
 #define CV_KEY_SOURCE_LABEL           "label"
-
+#define CV_KEY_SUB_EXPERIMENT_ID      "sub_experiment_id"
 
 #define CV_EXP_ATTR_ADDSOURCETYPE     "additional_allowed_model_components"
 #define CV_EXP_ATTR_REQSOURCETYPE     "required_model_components"
 #define CV_EXP_ATTR_DESCRIPTION       "description"
 #define GLOBAL_INT_ATT_PARENT_EXPT    GLOBAL_INTERNAL"parent_experiment"
 #define GLOBAL_ATT_VERSION            GLOBAL_INTERNAL"version"
-
 
 #define TABLE_HEADER_VERSION          "cmor_version"
 #define TABLE_HEADER_GENERIC_LEVS     "generic_levels"

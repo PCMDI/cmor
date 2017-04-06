@@ -33,12 +33,12 @@
             "variant_label"
         ],
         "version_metadata":{
-            "note":"Revise experiment_id piClim-aer",
-            "previous_commit":"8e1058642eef703f93a9d7d74985b433f6a56433",
+            "note":"Convert experiment_id parent* entries to list",
+            "previous_commit":"cd1cf7d739618cd7e48a1d131ea3eee972040bd8",
             "author":"Paul J. Durack <durack1@llnl.gov>",
-            "creation_date":"Wed Mar 29 16:09:01 2017 -0700",
+            "creation_date":"Wed Apr 5 11:29:02 2017 -0700",
             "institution_id":"PCMDI",
-            "latest_tag_point":"3.2.2 (43; g413bbfd)"
+            "latest_tag_point":"3.2.2 (420; ge252ef9)"
         },
         "activity_id":[
             "AerChemMIP",
@@ -1407,7 +1407,6 @@
             "6hrPlev",
             "6hrPlevPt",
             "AERday",
-            "AERfx",
             "AERhr",
             "AERmon",
             "AERmonZ",
@@ -1416,7 +1415,6 @@
             "CFday",
             "CFmon",
             "CFsubhr",
-            "CFsubhrOff",
             "E1hr",
             "E1hrClimMon",
             "E3hr",
@@ -1446,8 +1444,7 @@
             "SIday",
             "SImon",
             "day",
-            "fx",
-            "grids"
+            "fx"
         ],
         "license":[
             "^CMIP6 model data produced by .* is licensed under a Creative Commons Attribution.*ShareAlike 4.0 International License (https://creativecommons.org/licenses)\\. Consult https://pcmdi.llnl.gov/CMIP6/TermsOfUse for terms of use governing CMIP6 output, including citation requirements and proper acknowledgment\\. Further information about this data, including some limitations, can be found via the further_info_url (recorded as a global attribute in this file) .*\\. The data producers and data providers make no warranty, either express or implied, including, but not limited to, warranties of merchantability and fitness for a particular purpose\\. All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law\\.$"
@@ -1455,6 +1452,81 @@
         "mip_era":[
             "CMIP6"
         ],
+        "sub_experiment_id":{
+            "s2000":"initialized near end of year 2000",
+            "s2021":"initialized near end of year 2021",
+            "s2026":"initialized near end of year 2026",
+            "s2004":"initialized near end of year 2004",
+            "s1999":"initialized near end of year 1999",
+            "s1998":"initialized near end of year 1998",
+            "s2008":"initialized near end of year 2008",
+            "s2009":"initialized near end of year 2009",
+            "s2020":"initialized near end of year 2020",
+            "s1950":"initialized near end of year 1950",
+            "s1993":"initialized near end of year 1993",
+            "s1992":"initialized near end of year 1992",
+            "s1991":"initialized near end of year 1991",
+            "s1990":"initialized near end of year 1990",
+            "s1997":"initialized near end of year 1997",
+            "s1996":"initialized near end of year 1996",
+            "s1995":"initialized near end of year 1995",
+            "s1994":"initialized near end of year 1994",
+            "s1979":"initialized near end of year 1979",
+            "s1978":"initialized near end of year 1978",
+            "s1910":"initialized near end of year 1910",
+            "s2001":"initialized near end of year 2001",
+            "s1971":"initialized near end of year 1971",
+            "s1970":"initialized near end of year 1970",
+            "s1973":"initialized near end of year 1973",
+            "s1972":"initialized near end of year 1972",
+            "s1975":"initialized near end of year 1975",
+            "s1974":"initialized near end of year 1974",
+            "s1977":"initialized near end of year 1977",
+            "s1976":"initialized near end of year 1976",
+            "s2002":"initialized near end of year 2002",
+            "s2024":"initialized near end of year 2024",
+            "s2005":"initialized near end of year 2005",
+            "s2003":"initialized near end of year 2003",
+            "s2029":"initialized near end of year 2029",
+            "s1984":"initialized near end of year 1984",
+            "s1985":"initialized near end of year 1985",
+            "s1986":"initialized near end of year 1986",
+            "s1987":"initialized near end of year 1987",
+            "s1980":"initialized near end of year 1980",
+            "s1981":"initialized near end of year 1981",
+            "s1982":"initialized near end of year 1982",
+            "s1983":"initialized near end of year 1983",
+            "s2006":"initialized near end of year 2006",
+            "s1988":"initialized near end of year 1988",
+            "s1968":"initialized near end of year 1968",
+            "s1989":"initialized near end of year 1989",
+            "s2013":"initialized near end of year 2013",
+            "s2012":"initialized near end of year 2012",
+            "s2011":"initialized near end of year 2011",
+            "s2010":"initialized near end of year 2010",
+            "s2017":"initialized near end of year 2017",
+            "s2016":"initialized near end of year 2016",
+            "s2015":"initialized near end of year 2015",
+            "s2014":"initialized near end of year 2014",
+            "s2019":"initialized near end of year 2019",
+            "s2018":"initialized near end of year 2018",
+            "none":"none",
+            "s1969":"initialized near end of year 1969",
+            "s2028":"initialized near end of year 2028",
+            "s2007":"initialized near end of year 2007",
+            "s2027":"initialized near end of year 2027",
+            "s1962":"initialized near end of year 1962",
+            "s1963":"initialized near end of year 1963",
+            "s1960":"initialized near end of year 1960",
+            "s1961":"initialized near end of year 1961",
+            "s1966":"initialized near end of year 1966",
+            "s1967":"initialized near end of year 1967",
+            "s1964":"initialized near end of year 1964",
+            "s1965":"initialized near end of year 1965",
+            "s2025":"initialized near end of year 2025",
+            "s2022":"initialized near end of year 2022",
+            "s2023":"initialized near end of year 2023"
+        },
         "experiment_id":{
             "ssp245-GHG":{
                 "activity_id":[
@@ -1633,8 +1705,12 @@
                 "description":"Extended version of CMIP5/CFMIP-2 aqua4K experiment. Aquaplanet experiment where SSTs are subject to a uniform warming of 4K",
                 "start_year":"",
                 "end_year":"",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"aquaplanet with uniform 4K SST increase",
                 "additional_allowed_model_components":[
                     "AER",
@@ -1772,8 +1848,12 @@
                 "description":"Extended AMIP run that covers 1870-2014. All natural and anthropogenic historical forcings as used in CMIP6 Historical Simulation will be included. AGCM resolution as CMIP6 Historical Simulation. The HadISST data will be used",
                 "start_year":"1870",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"AMIP-style simulation covering the period 1870-2014",
                 "additional_allowed_model_components":[
                     "AER",
@@ -1796,8 +1876,12 @@
                 "description":"Coupled integration from ocean rest state using recommended HighResMIP protocol spinup, starting from 1950 ocean temperature and salinity analysis EN4, using constant 1950s forcing. At least 30 years to satisfy near surface quasi-equilibrium",
                 "start_year":"",
                 "end_year":"",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"coupled spinup with fixed 1950s forcings from 1950 initial conditions (with ocean at rest) to provide initial condition for control-1950 and hist-1950",
                 "additional_allowed_model_components":[
                     "AER"
@@ -1929,8 +2013,12 @@
                 "description":"Pre-industrial control simulation for \"offline\" ice sheets",
                 "start_year":"",
                 "end_year":"",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"offline ice sheet forced by ISM's own AOGCM piControl output",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -1950,8 +2038,12 @@
                 "description":"Offline radiation calculations",
                 "start_year":"",
                 "end_year":"",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"offline assessment of radiative transfer parmeterizations in clear skies",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -2200,8 +2292,12 @@
                 "description":"Prescribed land conditions 1980-2014 climate; AMIP SSTs",
                 "start_year":"1979",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"prescribed land (from current climatology) and AMIP SSTs",
                 "additional_allowed_model_components":[
                     "AER",
@@ -2225,8 +2321,12 @@
                 "description":"Same as land-hist but with all new crop and pastureland treated as unmanaged grassland",
                 "start_year":"1850 or 1700",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"historical land-only with cropland as natural grassland",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -2358,8 +2458,12 @@
                 "description":"C2.1 (&C2.2) Mechanisms and predictability of the hiatus and of similar long timescale variations of both signs. First full hindcast year follows start year (e.g., for s1992, first full hindcast year is 1993)",
                 "start_year":"A year in the range 1992-1999",
                 "end_year":"5 - 10 years after start year",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"predictability of 1990s warming of Atlantic sub-polar gyre",
                 "additional_allowed_model_components":[
                     "AER",
@@ -2726,8 +2830,12 @@
                 "description":"Prescribed land conditions 30yr running mean; AMIP SSTs",
                 "start_year":"1979",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"prescribed land conditions (from running mean climatology) and AMIP SSTs",
                 "additional_allowed_model_components":[
                     "AER",
@@ -3062,8 +3170,12 @@
                 "description":"Same as the omip1 experiment except that it is not initialized with observed climatologies; rather it is initialized with results from at least a 2000-year spin up of the coupled physical-biogeochemical models. The spin up simulations may be made with the classic online or offline approach, or with tracer-acceleration techniques or fast solvers. If an online approach is used, at the end of the 5th cycle of CORE-II forcing, the model's physical fields should be reinitialized to the values at the start of the 3rd cycle in order to avoid long-term drift in those fields and to assure that they will not diverge greatly from physical fields in the omip1 simulation. The spin up also includes radiocarbon to evaluate deep-ocean circulation",
                 "start_year":"",
                 "end_year":"",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"OMIP experiment forced by Large and Yeager (CORE-2, NCEP) atmospheric data set and initialized from at least a 2000-year spin up of the coupled physical-biogeochemical model",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -3083,8 +3195,12 @@
                 "description":"Historical WMGHG concentrations and NTCF emissions, 1950 halocarbon concentrations",
                 "start_year":"1950",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"historical SSTs and historical forcing, but with1950 halocarbon concentrations",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -3106,8 +3222,12 @@
                 "description":"slab control run for volc-pinatubo-slab",
                 "start_year":"",
                 "end_year":"",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"control with slab ocean",
                 "additional_allowed_model_components":[
                     "AER",
@@ -3212,8 +3332,12 @@
                 "description":"Last interglacial simulation of ice sheet evolution driven by PMIP lig127k",
                 "start_year":"",
                 "end_year":"",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"offline ice sheet forced by ISMIP6-specified AGCM last interglacial output",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -3373,8 +3497,12 @@
                 "description":"As amip-p4K experiment, but with cloud-radiative effects switched off in the LW radiation code",
                 "start_year":"1979",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"AMIP experiment with uniform 4K SST increase and with longwave cloud radiative effects off",
                 "additional_allowed_model_components":[
                     "AER",
@@ -3544,8 +3672,12 @@
                 "description":"Surface sensible heat released at the elevation above 500m over the TIP is not allowed to heat the atmosphere. Same model as DECK",
                 "start_year":"1979",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"same as \"amip\" run, but sensible heat not allowed for elevations of the Tibetan-Iranian Plateau and Himalayas above 500m",
                 "additional_allowed_model_components":[
                     "AER",
@@ -3624,8 +3756,12 @@
                 "description":"Same as land-hist except starting from either 1700 (for models that typically start in 1850) or 1850 (for models that typically start in 1700)",
                 "start_year":"1850 or 1700",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"historical land-only alternate start year",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -3731,8 +3867,12 @@
                 "description":"As amip experiment, but with cloud-radiative effects switched off in the LW radiation code",
                 "start_year":"1979",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"AMIP experiment with longwave cloud-radiative effects off",
                 "additional_allowed_model_components":[
                     "AER",
@@ -3784,8 +3924,12 @@
                 "description":"As amip experiment but SSTs are subject to a uniform cooling of 4K",
                 "start_year":"1979",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"AMIP with uniform 4K SST decrease",
                 "additional_allowed_model_components":[
                     "AER",
@@ -3976,8 +4120,12 @@
                 "description":"main forcings: trace gases, volcanoes, solar variability, land use",
                 "start_year":"850",
                 "end_year":"1849",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"last millennium",
                 "additional_allowed_model_components":[
                     "AER",
@@ -4001,8 +4149,12 @@
                 "description":"Same as land-hist but with irrigated area held at 1850 levels",
                 "start_year":"1850 or 1700",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"historical land-only with no irrigation",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -4079,8 +4231,12 @@
                 "description":"main forcings: astronomical parameters, trace gases, dust (forcing, or feedback if dust cycle represented in model)",
                 "start_year":"",
                 "end_year":"",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"last interglacial (127k)",
                 "additional_allowed_model_components":[
                     "AER",
@@ -4104,8 +4260,12 @@
                 "description":"Same as land-hist except shifting cultivation turned off. An additional LUC transitions dataset will be provided as a data layer within LUMIP LUH2 dataset with shifting cultivation deactivated",
                 "start_year":"1850 or 1700",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"historical land-only with shifting cultivation turned off",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -4125,8 +4285,12 @@
                 "description":"Present-day control simulation for \"offline\" ice sheets",
                 "start_year":"",
                 "end_year":"",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"offline ice sheet forced by ISMIP6-specified AOGCM pdControl output",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -4376,8 +4540,12 @@
                 "description":"main forcings: trace gases, orbital parameters, dust (forcing, or feedback if dust cycle represented in model)",
                 "start_year":"",
                 "end_year":"",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"mid-Holocene",
                 "additional_allowed_model_components":[
                     "AER",
@@ -4401,8 +4569,12 @@
                 "description":"The topography of the TIP is modified by setting surface elevations to 500m; to understand the combined thermal and mechanical forcing of the TIP. Same model as DECK",
                 "start_year":"1979",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"same as \"amip\" run, but surface elevations of the Tibetan-Iranian Plateau and Himalayas reduced to 500m",
                 "additional_allowed_model_components":[
                     "AER",
@@ -4425,8 +4597,12 @@
                 "description":"Same as land-hist except with CO2 held constant",
                 "start_year":"1850 or 1700",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"historical land-only constant CO2",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -4556,8 +4732,12 @@
                 "description":"Land only simulations",
                 "start_year":"1850 or 1700",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"historical land-only alternate land-use history",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -4577,8 +4757,12 @@
                 "description":"A2.3 Assimilation runs used to generate initial conditions for hindcasts",
                 "start_year":"before 1961",
                 "end_year":"2016",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"Assimilation run paralleling the historical simulation, which may be used to generate hindcast initial conditions",
                 "additional_allowed_model_components":[
                     "AER",
@@ -4631,8 +4815,12 @@
                 "description":"Land only simulations",
                 "start_year":"1850 or 1700",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"historical land-only alternate land use history",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -4855,8 +5043,12 @@
                 "description":"Same as land-hist except with climate held constant",
                 "start_year":"1850 or 1700",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"historical land-only constant climate",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -4965,8 +5157,12 @@
                 "description":"The topography of the highlands in Africa, N. America and S. America TP is modified by setting surface elevations to a certain height (500m). Same model as DECK",
                 "start_year":"1979",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"same as \"amip\" run, but surface elevations of the East African Highlands in Africa, Sierra Madre in N. America and Andes in S. America reduced to 500m",
                 "additional_allowed_model_components":[
                     "AER",
@@ -5046,8 +5242,12 @@
                 "description":"As CMIP5/CFMIP-2 amip4xCO2 experiment. AMIP experiment where SSTs are held at control values and the CO2 seen by the radiation scheme is quadrupled",
                 "start_year":"1979",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"AMIP SSTs with 4xCO2",
                 "additional_allowed_model_components":[
                     "AER",
@@ -5070,8 +5270,12 @@
                 "description":"Same as land-hist but with grazing and other management on pastureland held at 1850 levels/distribution, i.e. all new pastureland is treated as unmanaged grassland (as in land-crop-grass)",
                 "start_year":"1850 or 1700",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"historical land-only with constant pastureland",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -5091,8 +5295,12 @@
                 "description":"As CMIP5/CFMIP-2 amip4K experiment. AMIP experiment where SSTs are subject to a uniform warming of 4K",
                 "start_year":"1979",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"AMIP with uniform 4K SST increase",
                 "additional_allowed_model_components":[
                     "AER",
@@ -5144,8 +5352,12 @@
                 "description":"As CMIP5/CFMIP-2 amipFuture experiment. AMIP experiment where SSTs are subject to a composite SST warming pattern derived from coupled models, scaled to an ice-free ocean mean of 4K",
                 "start_year":"1979",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"AMIP with patterned 4K SST increase",
                 "additional_allowed_model_components":[
                     "AER",
@@ -5225,8 +5437,12 @@
                 "description":"Extended version of CMIP5/CFMIP-2 aqua4xCO2 experiment. Aquaplanet experiment where SSTs are held at control values and the CO2 seen by the radiation scheme is quadrupled",
                 "start_year":"",
                 "end_year":"",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"aquaplanet with control SST and 4xCO2",
                 "additional_allowed_model_components":[
                     "AER",
@@ -5249,8 +5465,12 @@
                 "description":"Land only simulations",
                 "start_year":"1850",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"as land-hist with Princeton forcings",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -5354,8 +5574,12 @@
                 "description":"Historical WMGHG, halocarbon concentrations and aerosol precursor emissions, 1850 tropospheric ozone precursors emissions, prescribed SSTs",
                 "start_year":"1850",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"historical SSTs and historical forcing, but with pre-industrial ozone precursor emissions",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -5435,8 +5659,12 @@
                 "description":"Land-hist land conditions; AMIP SSTs",
                 "start_year":"1979",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"prescribed land (from pseudo-observations) and AMIP SSTs",
                 "additional_allowed_model_components":[
                     "AER",
@@ -5460,8 +5688,12 @@
                 "description":"DECK: spin-up portion of the control",
                 "start_year":"",
                 "end_year":"",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"pre-industrial control (spin-up)",
                 "additional_allowed_model_components":[
                     "AER",
@@ -5861,8 +6093,12 @@
                 "description":"Historical transient with SSTs prescribed from historical",
                 "start_year":"1850",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"historical prescribed SSTs and historical forcing",
                 "additional_allowed_model_components":[
                     "CHEM"
@@ -5914,8 +6150,12 @@
                 "description":"Same as land-hist except with plants in cropland area utilizing at least some form of crop management (e.g., planting and harvesting) rather than simulating cropland vegetation as a natural grassland. Irrigated area and fertilizer area/use should be held constant",
                 "start_year":"1850 or 1700",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"historical land-only with managed crops but with irrigation and fertilization held constant",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -6078,8 +6318,12 @@
                 "description":"Historical WMGHG, halocarbon concentrations and tropospheric ozone precursors emissions, 1850 aerosol precursor emissions, prescribed SSTs",
                 "start_year":"1850",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"historical SSTs and historical forcing, but with pre-industrial aerosol emissions",
                 "additional_allowed_model_components":[
                     "CHEM"
@@ -6103,8 +6347,12 @@
                 "description":"Land only simulations",
                 "start_year":"1850 or 1700",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"historical land-only",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -6124,8 +6372,12 @@
                 "description":"main forcings: ice-sheet; trace gases, astronomical parameters, dust (forcing, or feedback if dust cycle represented in model)",
                 "start_year":"",
                 "end_year":"",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"last glacial maximum",
                 "additional_allowed_model_components":[
                     "AER",
@@ -6232,8 +6484,12 @@
                 "description":"main forcings: trace gases, orography, ice-sheet",
                 "start_year":"",
                 "end_year":"",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"mid-Pliocene warm period",
                 "additional_allowed_model_components":[
                     "AER",
@@ -6489,8 +6745,12 @@
                 "description":"Historical (non-N2O) WMGHG concentrations and NTCF emissions, 1850 N2O concentrations",
                 "start_year":"1850",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"historical SSTs and historical forcings, but with pre-industrial N2O concentrations",
                 "additional_allowed_model_components":[
                     "BGC"
@@ -6514,8 +6774,12 @@
                 "description":"Pre-industrial control simulation that includes interactive ice sheets",
                 "start_year":"",
                 "end_year":"",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"preindustrial control with interactive ice sheet",
                 "additional_allowed_model_components":[
                     "AER",
@@ -6540,8 +6804,12 @@
                 "description":"As aqua-control experiment, but with cloud-radiative effects switched off in the LW radiation code",
                 "start_year":"",
                 "end_year":"",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"aquaplanet control with longwave cloud radiative effects off",
                 "additional_allowed_model_components":[
                     "AER",
@@ -6760,8 +7028,12 @@
                 "description":"Offline ice sheet control run for the initMIP experiment that explores the uncertainty in sea level due to ice sheet initialization",
                 "start_year":"",
                 "end_year":"",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"offline ice sheet model initMIP control",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -6781,8 +7053,12 @@
                 "description":"Extended version of CMIP5/CFMIP-2 aquaControl experiment. Aquaplanet (no land) experiment with no seasonal cycle forced with specified zonally symmetric SSTs",
                 "start_year":"",
                 "end_year":"",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"aquaplanet control",
                 "additional_allowed_model_components":[
                     "AER",
@@ -6834,8 +7110,12 @@
                 "description":"Land only simulations",
                 "start_year":"2015",
                 "end_year":"2100",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"future land-only",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -7316,8 +7596,12 @@
                 "description":"Forced global atmosphere-land simulations using daily 1/4 degree SST and sea-ice forcings, and aerosol optical properties (not emissions) to constrain model spread",
                 "start_year":"1950",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"forced atmosphere experiment for 1950-2014",
                 "additional_allowed_model_components":[
                     "AER"
@@ -7424,8 +7708,12 @@
                 "description":"Global ocean - sea-ice coupled experiment forced with the Coordinated Ocean - ice Reference Experiments inter-annually varying atmospheric and river data sets for years 1948-2009. Initial ocean tracer fields are based on observations. All Priority=1 OMIP diagnostics are requested for all five cycles of the 62-year forcing to quantify drift. All OMIP diagnostics (Priority=1,2,3) are requested for the 5th cycle",
                 "start_year":"1",
                 "end_year":"310",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"OMIP experiment forced by Large and Yeager (CORE-2, NCEP) atmospheric data set and initialized with observed physical and biogeochemical ocean data",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -7445,8 +7733,12 @@
                 "description":"Global ocean - sea-ice coupled experiment forced with the JRA-55do inter-annually varying atmospheric and river data sets for years 1958-2016. Initial ocean tracer fields are based on observations. All Priority=1 OMIP diagnostics are requested for all five cycles of the 59-year forcing to quantify drift. All OMIP diagnostics (Priority=1,2,3) are requested for the 5th cycle",
                 "start_year":"",
                 "end_year":"",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"OMIP experiment forced by JRA-55do atmospheric data set and initialized with observed physical and biogeochemical ocean data",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -7495,8 +7787,12 @@
                 "description":"Same as amip, but a patterned SST anomaly is applied on top of the monthly-varying amip SSTs. This anomaly is a monthly climatology, taken from each model's own abrupt4xCO2 run minus piControl (using the mean of years 111-140 of abrupt4xCO2, and the parallel 30-year section of piControl). CO2 is quadrupled, and the increase in CO2 is seen by both the radiation scheme and vegetation",
                 "start_year":"1979",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"as AMIP but with warming pattern from abrupt4xCO2 added to SSTs and 4xCO2 seen by radiation and vegetation",
                 "additional_allowed_model_components":[
                     "AER",
@@ -7577,8 +7873,12 @@
                 "description":"Same as land-hist but with wood harvest maintained at 1850 amounts/areas",
                 "start_year":"1850 or 1700",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"historical land-only with no wood harvest",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -7626,8 +7926,12 @@
                 "description":"Land only simulations",
                 "start_year":"1850",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"as land-hist with CRU-NCEP forcings",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -7647,8 +7951,12 @@
                 "description":"Identical to standard AMIP experiment but from 1870-present with constant pre-industrial forcing levels (anthropogenic and natural)",
                 "start_year":"1870",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"AMIP SSTs with pre-industrial anthropogenic and natural forcing",
                 "additional_allowed_model_components":[
                     "AER",
@@ -7671,8 +7979,12 @@
                 "description":"DECK: spin-up portion of the control (emission-driven)",
                 "start_year":"",
                 "end_year":"",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"pre-industrial control simulation with CO2 concentration calculated (spin-up)",
                 "additional_allowed_model_components":[
                     "AER",
@@ -7842,8 +8154,12 @@
                 "description":"Same as land-hist but with anthropogenic ignition and suppression held to 1850 levels",
                 "start_year":"1850 or 1700",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"historical land-only with no human fire management",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -7863,8 +8179,12 @@
                 "description":"Same as the omip2 experiment except that it is not initialized with observed climatologies; rather it is initialized with results from at least a 2000-year spin up of the coupled physical-biogeochemical models. The spin up simulations may be made with the classic online or offline approach, or with tracer-acceleration techniques or fast solvers. If an online approach is used, at the end of the 5th cycle ofthe JRA-55do forcing, the model's physical fields should be reinitialized to the values at the start of the 3rd cycle in order to avoid long-term drift in those fields and to assure that they will not diverge greatly from physical fields in the omip2 simulation. The spin up also includes radiocarbon to evaluate deep-ocean circulation",
                 "start_year":"",
                 "end_year":"",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"OMIP experiment forced by JRA-55do atmospheric data set and initialized from at least a 2000-year spin up of the coupled physical-biogeochemical model",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -7992,8 +8312,12 @@
                 "description":"Historical WMGHG concentrations and halocarbons emissions, 1850 NTCF emissions, prescribed SSTs",
                 "start_year":"1850",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"historical SSTs and historical forcing, but with pre-industrial NTCF emissions",
                 "additional_allowed_model_components":[
                     "CHEM",
@@ -8017,8 +8341,12 @@
                 "description":"Same as land-hist but with fertilization rates and area held at 1850 levels/distribution",
                 "start_year":"1850 or 1700",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"historical land-only with no fertilizer",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -8038,8 +8366,12 @@
                 "description":"Historical (non-CH4) WMGHG concentrations and NTCF emissions, 1850 CH4 concentrations",
                 "start_year":"1850",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"historical SSTs and historical forcing, but with pre-industrial methane concentrations",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -8061,8 +8393,12 @@
                 "description":"As aqua-p4K experiment, but with cloud-radiative effects switched off in the LW radiation code",
                 "start_year":"",
                 "end_year":"",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"aquaplanet with uniform 4K SST increase and with longwave cloud radiative effects off",
                 "additional_allowed_model_components":[
                     "AER",
@@ -8085,8 +8421,12 @@
                 "description":"Same as land-hist except no land-use change",
                 "start_year":"1850 or 1700",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"historical land-only with no land-use change",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -8106,8 +8446,12 @@
                 "description":"Land only simulations",
                 "start_year":"1850",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"as land-hist with WFDEI forcings",
                 "additional_allowed_model_components":"",
                 "required_model_components":[
@@ -8297,8 +8641,12 @@
                 "description":"DECK: AMIP",
                 "start_year":"1979",
                 "end_year":"2014",
-                "parent_experiment_id":"no parent",
-                "parent_activity_id":"no parent",
+                "parent_experiment_id":[
+                    "no parent"
+                ],
+                "parent_activity_id":[
+                    "no parent"
+                ],
                 "experiment":"AMIP",
                 "additional_allowed_model_components":[
                     "AER",
@@ -8344,10 +8692,6 @@
         ],
         "physic_index":[
             "^\\[\\{0,\\}[[:digit:]]\\{1,\\}\\]\\{0,\\}$"
-        ],
-        "sub_experiment_id":[
-            "^s[[:digit:]]\\{4,4\\}$",
-            "none"
         ]
     }
 }

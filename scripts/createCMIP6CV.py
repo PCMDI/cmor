@@ -21,6 +21,7 @@ filelist = [
         "CMIP6_table_id.json",
         "CMIP6_license.json",
         "mip_era.json",
+        "CMIP6_sub_experiment_id.json",
         "CMIP6_experiment_id.json"
         ]
 # Github repository with CMIP6 related Control Vocabulary files
@@ -50,7 +51,6 @@ def run():
     CV = gather.readGit()
     regexp = {}
     regexp["variant_label"] = [ "^r[[:digit:]]\\{1,\\}i[[:digit:]]\\{1,\\}p[[:digit:]]\\{1,\\}f[[:digit:]]\\{1,\\}$" ] 
-    regexp["sub_experiment_id"] = [ "^s[[:digit:]]\\{4,4\\}$", "None" ]
     regexp["tracking_id"] = [ "hdl:21.14100/.*" ]  
     regexp["mip_era"] = [ "CMIP6" ]
     regexp["frequency"] = [ "3hr", "6hr", "day", "fx", "mon", "monClim", "subhr", "yr" ]

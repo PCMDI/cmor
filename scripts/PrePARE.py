@@ -16,7 +16,6 @@ Created on Fri Feb 19 11:33:52 2016
 
 @author: Denis Nadeau LLNL
 '''
-
 import cmip6_cv
 import cdms2
 import argparse
@@ -178,6 +177,8 @@ class checkCMIP6(object):
         self.dictGbl = {key: self.infile.getglobal(key) for key in self.attributes}
         ierr = [cmip6_cv.set_cur_dataset_attribute(key, value) for key, value in self.dictGbl.iteritems()]
 
+        self.setDoubleValue('branch_time_in_parent')
+        self.setDoubleValue('branch_time_in_child')
         # -------------------------------------------------------------------
         # Create a dictionnary of attributes for var
         # -------------------------------------------------------------------
@@ -189,6 +190,12 @@ class checkCMIP6(object):
         # Load CMIP6 table into memory
         # -------------------------------------------------------------------
         self.table_id = cmip6_cv.load_table(self.cmip6_table)
+
+    def setDoubleValue(self, attribute):
+        if( cmip6_cv.has_cur_dataset_attribute(attribute) ):
+            if(isinstance(self.dictGbl[attribute],numpy.ndarray) and type(self.dictGbl[attribute][0]) == numpy.float64):
+                self.dictGbl[attribute] = self.dictGbl[attribute][0]
+                cmip6_cv.set_cur_dataset_attribute(attribute,self.dictGbl[attribute])
 
     def ControlVocab(self):
         '''
@@ -210,6 +217,8 @@ class checkCMIP6(object):
         cmip6_cv.check_grids(self.table_id)
         cmip6_cv.check_ISOTime()
         cmip6_cv.check_furtherinfourl(self.table_id)
+        cmip6_cv.check_parentExpID(self.table_id)
+        cmip6_cv.check_subExpID(self.table_id)
         varid = cmip6_cv.setup_variable(self.var[0], 'm', 1e20)
 
         if not isinstance(self.dictGbl['realization_index'], numpy.ndarray):

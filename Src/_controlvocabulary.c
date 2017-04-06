@@ -5,6 +5,38 @@
 extern int cmor_CV_variable(int *, char *, char *, float *);
 
 /************************************************************************/
+/*                       PyCV_checkSubExpID                             */
+/************************************************************************/
+static PyObject *PyCV_checkSubExpID( PyObject * self, PyObject * args ) {
+    int nVarRefTblID;
+    cmor_is_setup();
+
+    if( !PyArg_ParseTuple( args, "i", &nVarRefTblID) ) {
+        return(Py_BuildValue( "i", -1 ));
+    }
+
+    cmor_CV_checkSubExpID(cmor_tables[nVarRefTblID].CV);
+
+    return( Py_BuildValue( "i", 0 ) );
+}
+
+/************************************************************************/
+/*                     PyCV_checkParentExpID                            */
+/************************************************************************/
+static PyObject *PyCV_checkParentExpID( PyObject * self, PyObject * args ) {
+    int nVarRefTblID;
+    cmor_is_setup();
+
+    if( !PyArg_ParseTuple( args, "i", &nVarRefTblID) ) {
+        return(Py_BuildValue( "i", -1 ));
+    }
+
+    cmor_CV_checkParentExpID(cmor_tables[nVarRefTblID].CV);
+
+    return( Py_BuildValue( "i", 0 ) );
+}
+
+/************************************************************************/
 /*                     PyCV_setInstitution()                            */
 /************************************************************************/
 static PyObject *PyCV_setInstitution( PyObject * self, PyObject * args ) {
@@ -532,6 +564,8 @@ static PyMethodDef MyExtractMethods[] = {
 	{"list_variable_attributes",  PyCMOR_get_variable_attribute_list,
 		    METH_VARARGS},
     {"set_institution",           PyCV_setInstitution, METH_VARARGS },
+    {"check_parentExpID",         PyCV_checkParentExpID, METH_VARARGS },
+    {"check_subExpID",            PyCV_checkSubExpID, METH_VARARGS },
     {"check_sourceID",            PyCV_checkSourceID, METH_VARARGS },
     {"check_grids",               PyCV_checkGrids, METH_VARARGS },
     {"check_experiment",          PyCV_checkExperiment, METH_VARARGS},

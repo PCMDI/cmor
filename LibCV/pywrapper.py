@@ -143,7 +143,7 @@ def set_cur_dataset_attribute(name, value):
 def has_cur_dataset_attribute(name):
     """determines if the current cmor dataset has an attribute
     Usage:
-      cmor.het_cur_dataset_attribute(name)
+      cmor.has_cur_dataset_attribute(name)
     Where:
       name: is the name of the attribute
     Returns True if the dataset has the attribute, False otherwise
@@ -299,6 +299,37 @@ def check_requiredattributes(table_id):
     ierr = _cmip6_cv.check_gblattributes(table_id)
     return(ierr)
 
+
+def check_subExpID(table_id):
+    '''
+      Validate that sub_experiment ind sub_experiment_id are set to appropriate value
+      as defined in the CV file.
+
+      Usage:
+        cmip6_cv.check_subExpID(table_id)
+      Where:
+        table_id is the table id returned by load_table()
+      Return 0 on success
+    '''
+    ierr = _cmip6_cv.check_subExpID(table_id)
+    return(ierr)
+
+def check_parentExpID(table_id):
+    '''
+      Validate that parent_experiement is set to appropriate value
+      if parent is set to "no parent" validate that other related 
+      attributes are set to "no parent"
+
+      if parent is set to any string, validate all related attributes.
+
+      Usage:
+        cmip6_cv.check_parentExpID(table_id)
+      Where:
+        table_id is the table id returned by load_table()
+      Return 0 on success
+    '''
+    ierr = _cmip6_cv.check_parentExpID(table_id)
+    return(ierr)
 
 def check_ISOTime():
     '''
