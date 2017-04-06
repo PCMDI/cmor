@@ -281,7 +281,7 @@ int cmor_set_dataset_att(cmor_table_t * table, char att[CMOR_MAX_STRING],
 		if (d > d2) {
 			snprintf(value2, CMOR_MAX_STRING,
 					"Table %s is defined for cmor_version %f, "
-					"this library verson is: %i.%i.%i, %f",
+					"this library version is: %i.%i.%i, %f",
 					table->szTable_id, d,
 					CMOR_VERSION_MAJOR, CMOR_VERSION_MINOR,
 					CMOR_VERSION_PATCH, d2);
