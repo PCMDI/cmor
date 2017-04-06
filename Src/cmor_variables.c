@@ -203,7 +203,7 @@ int cmor_set_variable_attribute( int id, char *attribute_name, char type,
 	( strcmp( attribute_name, VARIABLE_ATT_POSITIVE) == 0 ) ||
 	( strcmp( attribute_name, VARIABLE_ATT_CELLMETHODS ) == 0 ) ) {
 	snprintf( msg, CMOR_MAX_STRING,
-		  "variable attribute %s (vor variable %s, table %s) must be set via a call to cmor_variable or it is automaticaly set via the tables",
+		  "variable attribute %s (vor variable %s, table %s) must be set via a call to cmor_variable or it is automatically set via the tables",
 		  attribute_name, cmor_vars[id].id,
 		  cmor_tables[cmor_vars[id].ref_table_id].szTable_id );
 	cmor_handle_error( msg, CMOR_NORMAL );
@@ -3073,7 +3073,7 @@ int cmor_write_var_to_file( int ncid, cmor_var_t * avar, void *data,
 					bounds[starts[0] * 2] );
 		if( ierr != NC_NOERR ) {
 		    snprintf( msg, CMOR_MAX_STRING,
-			      "NCError (%i: %s) writting time bounds values for variable '%s' (table: %s)",
+			      "NCError (%i: %s) writing time bounds values for variable '%s' (table: %s)",
 			      ierr, nc_strerror( ierr ), avar->id,
 			      cmor_tables[avar->ref_table_id].szTable_id );
 		    cmor_handle_error( msg, CMOR_CRITICAL );
@@ -3110,7 +3110,7 @@ int cmor_write_var_to_file( int ncid, cmor_var_t * avar, void *data,
 				    values[starts[0]] );
 	    if( ierr != NC_NOERR ) {
 		snprintf( msg, CMOR_MAX_STRING,
-			  "NCError (%i: %s) writting time values for variable '%s' (table: %s)",
+			  "NCError (%i: %s) writing time values for variable '%s' (table: %s)",
 			  ierr, nc_strerror( ierr ), avar->id,
 			  cmor_tables[avar->ref_table_id].szTable_id );
 		cmor_handle_error( msg, CMOR_CRITICAL );
@@ -3178,7 +3178,7 @@ int cmor_write_var_to_file( int ncid, cmor_var_t * avar, void *data,
 
 		if( ierr != NC_NOERR ) {
 		    snprintf( msg, CMOR_MAX_STRING,
-			      "NCError (%i: %s) writting time bounds values for variable '%s' (table: %s)",
+			      "NCError (%i: %s) writing time bounds values for variable '%s' (table: %s)",
 			      ierr, nc_strerror( ierr ), avar->id,
 			      cmor_tables[avar->ref_table_id].szTable_id );
 		    cmor_handle_error( msg, CMOR_CRITICAL );
@@ -3196,7 +3196,7 @@ int cmor_write_var_to_file( int ncid, cmor_var_t * avar, void *data,
 	    if( ierr != NC_NOERR ) {
 
 		snprintf( msg, CMOR_MAX_STRING,
-			  "NCError (%i: %s) writting time values for variable '%s' (table: %s)",
+			  "NCError (%i: %s) writing time values for variable '%s' (table: %s)",
 			  ierr, nc_strerror( ierr ), avar->id,
 			  cmor_tables[avar->ref_table_id].szTable_id );
 		cmor_handle_error( msg, CMOR_CRITICAL );
