@@ -1,8 +1,41 @@
 #include <Python.h>
+#define NPY_NO_DEPRECATED_API  NPY_1_10_API_VERSION
+
 #include "numpy/arrayobject.h"
 #include "cmor.h"
 
-extern int cmor_CV_variable(int *, char *, char *, float *);
+extern int cmor_CV_variable(int *, char *, char *, float *,
+        float, float, float, float);
+
+/************************************************************************/
+/*                       PyCV_checkFilename                             */
+/************************************************************************/
+static PyObject *PyCV_checkFilename( PyObject * self, PyObject * args ) {
+    int ntable;
+    int varid;
+    char *szInTimeCalendar;
+    char *szInTimeUnits;
+    char *infile;
+    int nTimeCalLen;
+    int nTimeUnitsLen;
+    int ninfile;
+    cmor_is_setup();
+
+
+    if( !PyArg_ParseTuple( args, "iis#s#s#", &ntable, &varid,
+            &szInTimeCalendar, &nTimeCalLen,
+            &szInTimeUnits, &nTimeUnitsLen,
+            &infile, &ninfile) ) {
+        return(Py_BuildValue( "i", -1 ));
+    }
+
+    cmor_CV_checkFilename(cmor_tables[ntable].CV, varid,
+            szInTimeCalendar,
+            szInTimeUnits,
+            infile);
+
+    return( Py_BuildValue( "i", 0 ) );
+}
 
 /************************************************************************/
 /*                       PyCV_checkSubExpID                             */
@@ -257,9 +290,9 @@ static PyObject* PyCMOR_get_variable_attribute_list(PyObject* self,
     char type;
     int i;
 
-    if( !PyArg_ParseTuple( args, "i", &var_id ) )
-	return NULL;
-
+    if (!PyArg_ParseTuple(args, "i", &var_id)) {
+        return NULL;
+    }
 	index = cmor_vars[var_id].nattributes;
 	if( index == -1 ) return NULL;
 
@@ -512,13 +545,20 @@ static PyObject *PyCV_setup_variable( PyObject * self, PyObject * args ) {
     char *name;
     char *units;
     float missing;
+    float startime;
+    float endtime;
+    float startimebnds;
+    float endtimebnds;
+
     int var_id;
 
-    if( !PyArg_ParseTuple( args, "ssf", &name, &units,  &missing ) ){
+    if( !PyArg_ParseTuple( args, "ssfffff", &name, &units,  &missing,
+            &startime, &endtime, &startimebnds, &endtimebnds) ){
         return( Py_BuildValue( "i", -1 ) );
     }
 
-    cmor_CV_variable( &var_id, name, units, &missing );
+    cmor_CV_variable( &var_id, name, units, &missing, startime, endtime,
+            startimebnds, endtimebnds);
 
     return( Py_BuildValue( "i", var_id) );
 
@@ -571,6 +611,7 @@ static PyMethodDef MyExtractMethods[] = {
     {"check_experiment",          PyCV_checkExperiment, METH_VARARGS},
     {"check_furtherinfourl",      PyCV_checkFurtherInfoURL, METH_VARARGS },
     {"check_gblattributes",       PyCV_GblAttributes, METH_VARARGS },
+    {"check_filename",            PyCV_checkFilename, METH_VARARGS },
     {"check_ISOTime",             PyCV_checkISOTime, METH_VARARGS },
     {"getCMOR_defaults_include",  PyCMOR_getincvalues, METH_VARARGS},
     {"setup_variable",            PyCV_setup_variable, METH_VARARGS},

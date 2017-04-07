@@ -101,25 +101,27 @@ double cmor_convert_interval_to_seconds( double interv, char *inunits ) {
     user_units = ut_parse( ut_read, msg, UT_ASCII );
     if( ut_get_status(  ) != UT_SUCCESS ) {
 	snprintf( msg, CMOR_MAX_STRING,
-		  "In udunuits parsing user units: %s", msg );
+		  "In udunits parsing user units: %s", msg );
 	cmor_handle_error( msg, CMOR_CRITICAL );
     }
     if( ut_are_convertible( cmor_units, user_units ) == 0 ) {
 	snprintf( ctmp, CMOR_MAX_STRING,
 		  "axis interval units (%s) are incompatible with seconds",
 		  msg );
+	ut_free( user_units );
+	ut_free( cmor_units );
 	cmor_handle_error( ctmp, CMOR_CRITICAL );
 	cmor_pop_traceback(  );
 	return ( 1 );
     }
     ut_cmor_converter = ut_get_converter( user_units, cmor_units );
     if( ut_get_status(  ) != UT_SUCCESS ) {
-	snprintf( msg, CMOR_MAX_STRING, "In udunuits getting converter" );
+	snprintf( msg, CMOR_MAX_STRING, "In udunits getting converter" );
 	cmor_handle_error( msg, CMOR_CRITICAL );
     }
     tmp = cv_convert_double( ut_cmor_converter, interv );
     if( ut_get_status(  ) != UT_SUCCESS ) {
-	snprintf( msg, CMOR_MAX_STRING, "In udunuits converting" );
+	snprintf( msg, CMOR_MAX_STRING, "In udunits converting" );
 	cmor_handle_error( msg, CMOR_CRITICAL );
     }
     cv_free( ut_cmor_converter );

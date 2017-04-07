@@ -2329,6 +2329,7 @@ int cmor_write_var_to_file( int ncid, cmor_var_t * avar, void *data,
     char msg_max[CMOR_MAX_STRING];
     extern ut_system *ut_read;
     int tmpindex = 0;
+    int index;
 
     cmor_add_traceback( "cmor_write_var_to_file" );
     cmor_is_setup(  );
@@ -2408,7 +2409,8 @@ int cmor_write_var_to_file( int ncid, cmor_var_t * avar, void *data,
     for( i = 0; i < avar->ndims; i++ ) {
         for( j = 0; j < avar->ndims; j++ ) {
             if( avar->axes_ids[i] == avar->original_order[j] ) {
-                counter_orig2[i] = counter_orig[j + 1];
+                index = j+1;
+                counter_orig2[i] = counter_orig[index];
             }
         }
     }

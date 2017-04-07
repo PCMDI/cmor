@@ -9,6 +9,15 @@
 #include "json_tokener.h"
 #include "arraylist.h"
 #include "libgen.h"
+
+extern void cdCompAdd( cdCompTime comptime,
+               double value,
+               cdCalenType calendar, cdCompTime * result );
+
+extern void cdCompAddMixed( cdCompTime ct,
+                double value, cdCompTime * result );
+
+
 /************************************************************************/
 /*                        cmor_CV_set_att()                             */
 /************************************************************************/
@@ -295,7 +304,7 @@ void cmor_CV_free(cmor_CV_def_t *CV) {
 /************************************************************************/
 /*                    cmor_CV_checkFurtherInfoURL()                     */
 /************************************************************************/
-int cmor_CV_checkFurtherInfoURL(int var_id){
+int cmor_CV_checkFurtherInfoURL(int nVarRefTblID){
     char szFurtherInfoURLTemplate[CMOR_MAX_STRING];
     char szFurtherInfoURL[CMOR_MAX_STRING];
     char copyURL[CMOR_MAX_STRING];
@@ -334,13 +343,13 @@ int cmor_CV_checkFurtherInfoURL(int var_id){
 /* -------------------------------------------------------------------- */
     strcpy(copyURL, szFurtherInfoURLTemplate);
     baseURL = dirname(copyURL);
-    cmor_CreateFromTemplate( var_id, baseURL,
+    cmor_CreateFromTemplate( nVarRefTblID, baseURL,
             szFurtherInfoBaseURL, "/" );
 
     strcpy(copyURL, szFurtherInfoURLTemplate);
     fileURL = basename(copyURL);
 
-    cmor_CreateFromTemplate( var_id, fileURL,
+    cmor_CreateFromTemplate( nVarRefTblID, fileURL,
                              szFurtherInfoFileURL, "." );
 
     strncpy(szFurtherInfoURL, szFurtherInfoBaseURL, CMOR_MAX_STRING);
@@ -1365,9 +1374,252 @@ int cmor_CV_checkExperiment( cmor_CV_def_t *CV){
 }
 
 /************************************************************************/
+/*                      cmor_CV_checkFilename()                         */
+/************************************************************************/
+int cmor_CV_checkFilename(cmor_CV_def_t *CV,
+        int var_id,
+        char *szInTimeCalendar,
+        char *szInTimeUnits,
+        char *infile) {
+
+    cdCalenType icalo;
+    char outname[CMOR_MAX_STRING];
+    char CV_Filename[CMOR_MAX_STRING];
+    char szTmp[CMOR_MAX_STRING];
+    cdCompTime comptime;
+    double interval;
+    int i, j, n;
+    int ierr;
+    int timeDim;
+
+    outname[0] = '\0';
+    ierr = cmor_CreateFromTemplate(0, cmor_current_dataset.file_template,
+            outname, "_");
+    cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
+    timeDim=-1;
+    for(i = 0; i< cmor_tables[0].vars[0].ndims; i++){
+        int dim = cmor_tables[0].vars[0].dimensions[i];
+        if(cmor_tables[0].axes[dim].axis == 'T'){
+            timeDim=dim;
+            break;
+        }
+    }
+
+    if (timeDim != -1){
+
+        // retrieve calendar
+
+        if (cmor_calendar_c2i(szInTimeCalendar, &icalo) != 0) {
+            snprintf(szInTimeUnits, CMOR_MAX_STRING,
+                    "Cannot convert times for calendar: %s,\n! "
+                            "closing variable %s (table: %s)", szInTimeCalendar,
+                    cmor_vars[var_id].id,
+                    cmor_tables[cmor_vars[var_id].ref_table_id].szTable_id);
+            cmor_handle_error(szInTimeUnits, CMOR_CRITICAL);
+            cmor_pop_traceback();
+            return (1);
+        }
+        //Compute timestamps
+
+        if ((cmor_tables[0].axes[timeDim].climatology == 1)
+                && (cmor_vars[0].first_bound != 1.e20)) {
+            cdRel2Comp(icalo, szInTimeUnits, cmor_vars[0].first_bound,
+                    &comptime);
+        } else {
+            cdRel2Comp(icalo, szInTimeUnits, cmor_vars[0].first_time,
+                    &comptime);
+        }
+        /* -------------------------------------------------------------------- */
+        /*      need to figure out the approximate interval                     */
+        /* -------------------------------------------------------------------- */
+
+        interval = cmor_convert_interval_to_seconds(cmor_tables[0].interval,
+                cmor_tables[0].axes[timeDim].units);
+
+        //first time point
+        strncat(outname, "_", CMOR_MAX_STRING - strlen(outname));
+        //year
+        snprintf(szTmp, CMOR_MAX_STRING, "%.4ld", comptime.year);
+        strncat(outname, szTmp, CMOR_MAX_STRING - strlen(outname));
+        // month
+        if (interval < 29.E6) {
+            snprintf(szTmp, CMOR_MAX_STRING, "%.2i", comptime.month);
+            strncat(outname, szTmp, CMOR_MAX_STRING - strlen(outname));
+        }
+        // day
+        if (interval < 2.E6) {
+            snprintf(szTmp, CMOR_MAX_STRING, "%.2i", comptime.day);
+            strncat(outname, szTmp, CMOR_MAX_STRING - strlen(outname));
+        }
+        // hour
+        if (interval < 86000) {
+            snprintf(szTmp, CMOR_MAX_STRING, "%.2i", (int) comptime.hour);
+            strncat(outname, szTmp,
+            CMOR_MAX_STRING - strlen(outname));
+        }
+        if (interval < 21000) {
+
+/* -------------------------------------------------------------------- */
+/*      from now on add 1 more level of precision since that frequency  */
+/* -------------------------------------------------------------------- */
+            ierr = (int) ((comptime.hour - (int) (comptime.hour)) * 60.);
+            snprintf(szTmp, CMOR_MAX_STRING, "%.2i", ierr);
+            strncat(outname, szTmp,
+            CMOR_MAX_STRING - strlen(outname));
+        }
+        if (interval < 3000) { /* less than an hour */
+            snprintf(szTmp, CMOR_MAX_STRING, "%.2i",
+                    (int) ((comptime.hour - (int) (comptime.hour)) * 3600.)
+                            - ierr * 60);
+            strncat(outname, szTmp,
+            CMOR_MAX_STRING - strlen(outname));
+        }
+
+/* -------------------------------------------------------------------- */
+/*      separator between first and last time                           */
+/* -------------------------------------------------------------------- */
+
+        strncat(outname, "-", CMOR_MAX_STRING - strlen(outname));
+
+        if ((cmor_tables[0].axes[timeDim].climatology == 1)
+                && (cmor_vars[0].last_bound != 1.e20)) {
+            cdRel2Comp(icalo, szInTimeUnits, cmor_vars[0].last_bound,
+                    &comptime);
+/* -------------------------------------------------------------------- */
+/*      ok apparently we don't like the new time format                 */
+/*      if it's ending at midnight exactly so I'm removing              */
+/*      one second...                                                   */
+/* -------------------------------------------------------------------- */
+
+            if (icalo == cdMixed) {
+                cdCompAddMixed(comptime, -1. / 3600., &comptime);
+            } else {
+                cdCompAdd(comptime, -1. / 3600., icalo, &comptime);
+            }
+        } else {
+            cdRel2Comp(icalo, szInTimeUnits, cmor_vars[0].last_time, &comptime);
+        }
+
+/* -------------------------------------------------------------------- */
+/*      last time point                                                 */
+/* -------------------------------------------------------------------- */
+        snprintf(szTmp, CMOR_MAX_STRING, "%.4ld", comptime.year);
+        strncat(outname, szTmp, CMOR_MAX_STRING - strlen(outname));
+
+/* -------------------------------------------------------------------- */
+/*      less than a year                                                */
+/* -------------------------------------------------------------------- */
+        if (interval < 29.E6) {
+            snprintf(szTmp, CMOR_MAX_STRING, "%.2i", comptime.month);
+            strncat(outname, szTmp,
+            CMOR_MAX_STRING - strlen(outname));
+        }
+/* -------------------------------------------------------------------- */
+/*      less than a month                                               */
+/* -------------------------------------------------------------------- */
+
+        if (interval < 2.E6) {
+            snprintf(szTmp, CMOR_MAX_STRING, "%.2i", comptime.day);
+            strncat(outname, szTmp,
+            CMOR_MAX_STRING - strlen(outname));
+        }
+/* -------------------------------------------------------------------- */
+/*      less than a day                                                 */
+/* -------------------------------------------------------------------- */
+
+        if (interval < 86000) {
+            snprintf(szTmp, CMOR_MAX_STRING, "%.2i", (int) comptime.hour);
+            strncat(outname, szTmp,
+            CMOR_MAX_STRING - strlen(outname));
+        }
+/* -------------------------------------------------------------------- */
+/*      less than 6hr                                                   */
+/* -------------------------------------------------------------------- */
+
+        if (interval < 21000) {
+/* -------------------------------------------------------------------- */
+/*      from now on add 1 more level of precision since that frequency  */
+/* -------------------------------------------------------------------- */
+
+            ierr = (int) ((comptime.hour - (int) (comptime.hour)) * 60.);
+            snprintf(szTmp, CMOR_MAX_STRING, "%.2i", ierr);
+            strncat(outname, szTmp,
+            CMOR_MAX_STRING - strlen(outname));
+        }
+/* -------------------------------------------------------------------- */
+/*      less than an hour                                               */
+/* -------------------------------------------------------------------- */
+        if (interval < 3000) {
+            snprintf(szTmp, CMOR_MAX_STRING, "%.2i",
+                    (int) ((comptime.hour - (int) (comptime.hour)) * 3600.)
+                            - ierr * 60);
+            strncat(outname, szTmp,
+            CMOR_MAX_STRING - strlen(outname));
+        }
+
+        if (cmor_tables[0].axes[timeDim].climatology == 1) {
+            strncat(outname, "-clim",
+            CMOR_MAX_STRING - strlen(outname));
+        }
+
+    }
+    if (cmor_vars[0].suffix_has_date == 1) {
+/* -------------------------------------------------------------------- */
+/*      all right we need to pop out the date part....                  */
+/* -------------------------------------------------------------------- */
+        n = strlen(cmor_vars[0].suffix);
+        i = 0;
+        while (cmor_vars[0].suffix[i] != '_')
+            i++;
+        i++;
+        while ((cmor_vars[0].suffix[i] != '_') && i < n)
+            i++;
+/* -------------------------------------------------------------------- */
+/*      ok now we have the length of dates                              */
+/*      at this point we are either at the                              */
+/*      _clim the actual _suffix or the end (==nosuffix)                */
+/*      checking if _clim needs to be added                             */
+/* -------------------------------------------------------------------- */
+        if (cmor_tables[0].axes[timeDim].climatology == 1) {
+            i += 5;
+        }
+        strcpy(szTmp,"");
+        for (j = i; j < n; j++) {
+            szTmp[j - i] = cmor_vars[var_id].suffix[i];
+            szTmp[j - i + 1] = '\0';
+        }
+    } else {
+        strncpy(szTmp, cmor_vars[0].suffix, CMOR_MAX_STRING);
+    }
+
+    if (strlen(szTmp) > 0) {
+        strncat(outname, "_", CMOR_MAX_STRING - strlen(outname));
+        strncat(outname, szTmp, CMOR_MAX_STRING - strlen(outname));
+    }
+    strncat(outname, ".nc", CMOR_MAX_STRING - strlen(outname));
+    if (strcmp(infile, outname) != 0) {
+        snprintf(szTmp, CMOR_MAX_STRING, "Your input filename \n! "
+                "\"%s\" \n! "
+                "does not match the CMIP6 requirement.\n! "
+                "Your output filename is: \n! "
+                "\"%s\"\n! "
+                "and should follow this template: \n!"
+                "\"%s\"\n! "
+                "See your Control Vocabulary file.(%s)\n! ", infile, outname,
+                cmor_current_dataset.file_template, CV_Filename);
+
+        cmor_handle_error(szTmp, CMOR_NORMAL);
+        cmor_pop_traceback();
+        return (-1);
+    }
+    cmor_pop_traceback();
+    return (0);
+
+}
+/************************************************************************/
 /*                      cmor_CV_setInstitution()                        */
 /************************************************************************/
-int cmor_CV_setInstitution( cmor_CV_def_t *CV){
+int cmor_CV_setInstitution(cmor_CV_def_t *CV) {
     cmor_CV_def_t *CV_institution_ids;
     cmor_CV_def_t *CV_institution;
 
@@ -1400,9 +1652,9 @@ int cmor_CV_setInstitution( cmor_CV_def_t *CV){
     CV_institution_ids = cmor_CV_rootsearch(CV, CV_KEY_INSTITUTION_ID);
     if(CV_institution_ids == NULL) {
         snprintf( msg, CMOR_MAX_STRING,
-                "Your \"institution_ids\" key could not be found in\n! "
+                "Your \"%s\" key could not be found in\n! "
                 "your Control Vocabulary file.(%s)\n! ",
-                CV_Filename);
+				CV_KEY_INSTITUTION_ID, CV_Filename);
 
         cmor_handle_error( msg, CMOR_NORMAL );
         cmor_pop_traceback(  );
@@ -1447,8 +1699,8 @@ int cmor_CV_setInstitution( cmor_CV_def_t *CV){
             snprintf( msg, CMOR_MAX_STRING,
                     "There is no institution associated to institution_id \"%s\"\n! "
                     "in your Control Vocabulary file.\n! "
-                    "Check your institution_ids dictionary!!\n! ",
-                            szInstitution_ID);
+                    "Check your \"%s\" dictionary!!\n! ",
+					CV_KEY_INSTITUTION_ID, szInstitution_ID);
             cmor_handle_error( msg, CMOR_NORMAL );
             cmor_pop_traceback(  );
             return(-1);
@@ -1810,7 +2062,9 @@ int cmor_CV_checkISOTime(char *szAttribute) {
 /************************************************************************/
 /*                         cmor_CV_variable()                           */
 /************************************************************************/
-int cmor_CV_variable( int *var_id, char *name, char *units, float *missing ) {
+int cmor_CV_variable( int *var_id, char *name, char *units, float *missing,
+        float startime, float endtime,
+        float startimebnds, float endtimebnds) {
 
     int vrid=-1;
     int i;
@@ -1899,6 +2153,11 @@ int cmor_CV_variable( int *var_id, char *name, char *units, float *missing ) {
     cmor_vars[vrid].shuffle = refvar.shuffle;
     cmor_vars[vrid].deflate = refvar.deflate;
     cmor_vars[vrid].deflate_level = refvar.deflate_level;
+    cmor_vars[vrid].first_bound = startimebnds;
+    cmor_vars[vrid].last_bound = endtimebnds;
+    cmor_vars[vrid].first_time = startime;
+    cmor_vars[vrid].last_time = endtime;
+
 
     if (refvar.out_name[0] == '\0') {
         strncpy(cmor_vars[vrid].id, name, CMOR_MAX_STRING);
@@ -1906,10 +2165,12 @@ int cmor_CV_variable( int *var_id, char *name, char *units, float *missing ) {
         strncpy(cmor_vars[vrid].id, refvar.out_name, CMOR_MAX_STRING);
     }
 
-    cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_STANDARDNAME, 'c',
+    cmor_set_variable_attribute_internal(vrid,
+            VARIABLE_ATT_STANDARDNAME, 'c',
             refvar.standard_name);
 
-    cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_LONGNAME, 'c',
+    cmor_set_variable_attribute_internal(vrid,
+            VARIABLE_ATT_LONGNAME, 'c',
             refvar.long_name);
 
     if ((refvar.flag_values != NULL) && (refvar.flag_values[0] != '\0')) {

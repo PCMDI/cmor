@@ -129,9 +129,9 @@ class checkCMIP6(object):
             # -------------------------------------------------------------------
             # find variable that contains a "history" (should only be one)
             # -------------------------------------------------------------------
-            self.var = [var for var in self.variables if 'history' in self.infile.listattribute(var)]
+            self.var = [self.infile.variable_id]
 
-        if((self.var == []) or (len(self.var) > 1)):
+        if((self.var == []) or (len(self.var) > 1)): 
             print bcolors.FAIL
             print "!!!!!!!!!!!!!!!!!!!!!!!!!"
             print "! Error:  The input file does not have an history attribute and the CMIP6 variable could not be found"
@@ -185,6 +185,14 @@ class checkCMIP6(object):
                                     [(key, value) for key in self.keys
                                         if self.infile.getattribute(self.var[0], key) is not None
                                         for value in [self.infile.getattribute(self.var[0], key)]])
+        try:
+           self.calendar = self.infile.getAxis('time').calendar
+           self.timeunits = self.infile.getAxis('time').units
+           #cmip6_cv.set_cur_dataset_attribute('fileTimeCalendar', calendar)
+           #cmip6_cv.set_cur_dataset_attribute('fileTimeUnits', units)
+        except:
+           self.calendar = "gregorian"
+           self.timeunits = "days since ?"
         # -------------------------------------------------------------------
         # Load CMIP6 table into memory
         # -------------------------------------------------------------------
@@ -218,7 +226,24 @@ class checkCMIP6(object):
         cmip6_cv.check_furtherinfourl(self.table_id)
         cmip6_cv.check_parentExpID(self.table_id)
         cmip6_cv.check_subExpID(self.table_id)
-        varid = cmip6_cv.setup_variable(self.var[0], 'm', 1e20)
+        try:
+            startimebnds = self.infile['time_bnds'][0][0]
+            endtimebnds  = self.infile['time_bnds'][-1][1]
+        except:
+            startimebnds = 0
+            endtimebnds  = 0
+        try:
+            startime = self.infile['time'][0]
+            endtime  = self.infile['time'][-1]
+        except:
+            startime = 0
+            endtime  = 0
+        varunits = self.infile[self.var[0]].units
+        varmissing = self.infile[self.var[0]]._FillValue[0]
+        varid = cmip6_cv.setup_variable(self.var[0], varunits, varmissing, startime, endtime, 
+                startimebnds, endtimebnds)
+        fn = os.path.basename(self.infile.id)
+        cmip6_cv.check_filename(self.table_id, varid, self.calendar, self.timeunits, fn)
 
         if not isinstance(self.dictGbl['realization_index'], numpy.ndarray):
             print bcolors.FAIL

@@ -256,6 +256,21 @@ def check_sourceID(table_id):
     return(ierr)
 
 
+def check_filename(table_id, var_name, calendar, timeunits, infile):
+    '''
+      Validate filename with timestamp for current variable and file
+
+      Usage:
+        cmip6_cv.check_filename(table_id, var_id)
+      Where:
+        table_id is the table id returned by load_table()
+        var_name is the variable name 
+      Return 0 on success
+    '''
+    ierr = _cmip6_cv.check_filename(table_id, var_name, 
+                                    calendar, timeunits, infile)
+    return(ierr)
+
 def check_experiment(table_id):
     '''
       Validate Experiment and Experiement_id against Control Vocabulary file.
@@ -344,7 +359,7 @@ def check_ISOTime():
     return(ierr)
 
 
-def setup_variable(name, units, missing):
+def setup_variable(name, units, missing, startime, endtime, startimebnds, endtimebnds):
     '''
     Create variable  attributes from the table loaded by load_table.
     
@@ -354,10 +369,14 @@ def setup_variable(name, units, missing):
         name is the variable name to validate
         units are the variable units
         missing is the missing value for this variable.
+        startime: time value for first part of timestap -- time[0]
+        endtime: time value for last part of timestap -- time[-1]
+        startimebnds: time bound value for first part of timestap -- time_bnds[0]
+        endtimebnds: time bound value for last part of timestap -- time_bnds[-1]
     return: variable_id on success
            -1 on failure
     '''
-    ierr = _cmip6_cv.setup_variable(name, units, missing)
+    ierr = _cmip6_cv.setup_variable(name, units, missing, startime, endtime, startimebnds, endtimebnds)
     return(ierr)
 def get_CV_Error():
     '''

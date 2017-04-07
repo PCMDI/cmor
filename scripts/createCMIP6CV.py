@@ -38,7 +38,7 @@ class readWCRP():
             url = githubRepo + file 
             response = urllib.urlopen(url)
             print url
-            myjson = json.loads(response.read())
+            myjson = json.loads(response.read(), object_pairs_hook=OrderedDict)
             Dico = OrderedDict(Dico.items() + myjson.items())
          
         finalDico = OrderedDict()
@@ -58,7 +58,7 @@ def run():
     regexp["product"] = [ "model-output" ]
     regexp["Conventions"] = [ "^CF-1.7 CMIP-6.0\\( UGRID-1.0\\)\\{0,\\}$" ]
     regexp["realization_index"] = [ "^\\[\\{0,\\}[[:digit:]]\\{1,\\}\\]\\{0,\\}$" ]
-    regexp["physic_index"] = [ "^\\[\\{0,\\}[[:digit:]]\\{1,\\}\\]\\{0,\\}$" ]
+    regexp["physics_index"] = [ "^\\[\\{0,\\}[[:digit:]]\\{1,\\}\\]\\{0,\\}$" ]
     regexp["forcing_index"] = [ "^\\[\\{0,\\}[[:digit:]]\\{1,\\}\\]\\{0,\\}$" ]
     regexp["initialization_index"] = [ "^\\[\\{0,\\}[[:digit:]]\\{1,\\}\\]\\{0,\\}$" ]
     regexp["data_specs_version"] = [ "^[[:digit:]]\\{2,2\\}\\.[[:digit:]]\\{2,2\\}\\.[[:digit:]]\\{2,2\\}$" ]

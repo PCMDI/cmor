@@ -2489,11 +2489,11 @@ int cmor_setGblAttr(int var_id) {
     char ctmp[CMOR_MAX_STRING];
     char ctmp2[CMOR_MAX_STRING];
     char words[CMOR_MAX_STRING];
+    char trimword[CMOR_MAX_STRING];
     int i;
     int n_matches = 10;
     regmatch_t m[n_matches];
     regex_t regex;
-    char *ret;
     int numchar;
     int nVarRefTblID;
     int rc;
@@ -2672,30 +2672,34 @@ int cmor_setGblAttr(int var_id) {
 /* -------------------------------------------------------------------- */
 /*     If rm_so is negative, there is not more matches.                 */
 /* -------------------------------------------------------------------- */
-				if (((int) m[i].rm_so < 0) || (numchar == 0)) {
-					break;
-				}
+                if (((int) m[i].rm_so < 0) || (numchar == 0)) {
+                    break;
+                }
 
-				strncpy(words, ctmp + m[i].rm_so, numchar);
-				words[numchar] = '\0';
-				ret = strstr(words, ":");
+                strncpy(words, ctmp + m[i].rm_so, numchar);
+                words[numchar] = '\0';
+                if(strstr(words, ":") != 0) {
+                    continue;
+                }
+                cmor_trim_string(words, trimword);
+                if((strcmp(trimword, AREA) != 0) && (strcmp(trimword, VOLUME) != 0)
+                        && (strlen(trimword) != strlen(ctmp))) {
 /* -------------------------------------------------------------------- */
-/*      Rejects all line with ":" in it                                 */
+/*      Rejects all word area and volume.                               */
 /* -------------------------------------------------------------------- */
-				if (ret == NULL) {
-					if (ctmp2[0] == '\0') {
-						strncat(ctmp2, words, numchar);
-					} else {
-						strcat(ctmp2, " ");
-						strncat(ctmp2, words, numchar);
-					}
-				}
-			}
-			cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_EXTERNAL_VAR,
-					ctmp2, 0);
-			regfree(&regex);
-		}
-	}
+                    if (ctmp2[0] == '\0') {
+                        strncat(ctmp2, trimword, numchar);
+                    } else {
+                        strcat(ctmp2, " ");
+                        strncat(ctmp2, trimword, numchar);
+                    }
+                }
+                    }
+            cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_EXTERNAL_VAR,
+                    ctmp2, 0);
+            regfree(&regex);
+        }
+    }
     if( cmor_has_cur_dataset_attribute(GLOBAL_ATT_INSTITUTION_ID) == 0) {
         ierr += cmor_CV_setInstitution(cmor_tables[nVarRefTblID].CV);
     }
@@ -2704,7 +2708,7 @@ int cmor_setGblAttr(int var_id) {
         ierr += cmor_CV_checkSourceID(cmor_tables[nVarRefTblID].CV);
         ierr += cmor_CV_checkExperiment(cmor_tables[nVarRefTblID].CV);
         ierr += cmor_CV_checkGrids(cmor_tables[nVarRefTblID].CV);
-        ierr += cmor_CV_checkFurtherInfoURL(var_id);
+        ierr += cmor_CV_checkFurtherInfoURL(nVarRefTblID);
         ierr += cmor_CV_checkParentExpID(cmor_tables[nVarRefTblID].CV);
         ierr += cmor_CV_checkSubExpID(cmor_tables[nVarRefTblID].CV);
     }
@@ -4092,7 +4096,7 @@ int cmor_write( int var_id, void *data, char type,
 	strncpy(outname, outpath, CMOR_MAX_STRING);
 	strncpytrim(cmor_vars[var_id].base_path, outname, CMOR_MAX_STRING);
     strcat(outname, "XXXXXX");
-    mkstemp(outname);
+    ierr = mkstemp(outname);
     unlink(outname);
 /* -------------------------------------------------------------------- */
 /*      Add Process ID and a random number to filename                  */
