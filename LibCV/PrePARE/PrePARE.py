@@ -175,6 +175,11 @@ class checkCMIP6(object):
         # -------------------------------------------------------------------
         self.dictGbl = {key: self.infile.getglobal(key) for key in self.attributes}
         ierr = [cmip6_cv.set_cur_dataset_attribute(key, value) for key, value in self.dictGbl.iteritems()]
+        if(self.dictGbl["sub_experiment_id"] not in ["none"]):
+            member_id = self.dictGbl["sub_experiment_id"] + '-' +self.dictGbl["variant_label"]
+        else:
+            member_id = self.dictGbl["variant_label"]
+        cmip6_cv.set_cur_dataset_attribute(cmip6_cv.GLOBAL_ATT_MEMBER_ID, member_id)
 
         self.setDoubleValue('branch_time_in_parent')
         self.setDoubleValue('branch_time_in_child')
@@ -188,8 +193,6 @@ class checkCMIP6(object):
         try:
            self.calendar = self.infile.getAxis('time').calendar
            self.timeunits = self.infile.getAxis('time').units
-           #cmip6_cv.set_cur_dataset_attribute('fileTimeCalendar', calendar)
-           #cmip6_cv.set_cur_dataset_attribute('fileTimeUnits', units)
         except:
            self.calendar = "gregorian"
            self.timeunits = "days since ?"

@@ -169,6 +169,7 @@
 #define GLOBAL_ATT_REALM              "realm"
 #define GLOBAL_ATT_TRACKING_ID        "tracking_id"
 #define GLOBAL_ATT_VARIANT_LABEL      "variant_label"
+#define GLOBAL_ATT_MEMBER_ID          GLOBAL_INTERNAL"member_id"
 #define GLOBAL_ATT_DATASPECSVERSION   "data_specs_version"
 #define GLOBAL_ATT_FREQUENCY          "frequency"
 #define GLOBAL_ATT_LICENSE            "license"
@@ -251,8 +252,8 @@
 #define AREA                          "area"
 #define VOLUME                        "volume"
 #define CMIP6                         "CMIP6"
-#define CMOR_DEFAULT_PATH_TEMPLATE    "<mip_era><activity_id><institute_id><source_id><experiment_id><variant_label><table><variable_id><grid_label><version>"
-#define CMOR_DEFAULT_FILE_TEMPLATE    "<variable_id><table><source_id><experiment_id><variant_label><grid_label>"
+#define CMOR_DEFAULT_PATH_TEMPLATE    "<mip_era><activity_id><institute_id><source_id><experiment_id><member_id><table><variable_id><grid_label><version>"
+#define CMOR_DEFAULT_FILE_TEMPLATE    "<variable_id><table><source_id><experiment_id><member_id><grid_label>"
 #define CMOR_DEFAULT_FURTHERURL_TEMPLATE "http://furtherinfo.es-doc.org/<mip_era><institution_id><source_id><experiment_id><sub_experiment_id><variant_label>"
 //#define EXTERNAL_VARIABLE_REGEX       "([[:alpha:]]+):[[:blank:]]*([[:alpha:]]+)[[:blank:]]*([[:alpha:]]+:[[:blank:]]*([[:alpha:]]+))*"
 #define EXTERNAL_VARIABLE_REGEX       "[[:alpha:]]+:[[:blank:]]*([[:alpha:]]+)([[:blank:]]*[[:alpha:]]+:[[:blank:]]*([[:alpha:]]+))*"
@@ -264,7 +265,7 @@ extern int CMOR_VERBOSITY;
 extern int CMOR_NETCDF_MODE;
 extern int CV_ERROR;
 
-extern int cleanup_varid;
+extern int clfeanup_varid;
 
 extern int cmor_naxes;
 extern int cmor_nvars;

@@ -5080,6 +5080,8 @@ int cmor_addRIPF(char *variant) {
     int reti;
     regex_t regex;
     int ierr=0;
+    char szValue[CMOR_MAX_STRING];
+    char szVariant[CMOR_MAX_STRING];
 
     char msg[CMOR_MAX_STRING];
 
@@ -5204,6 +5206,23 @@ int cmor_addRIPF(char *variant) {
         strncat(variant, tmp, CMOR_MAX_STRING - strlen(variant));
     }
     cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_VARIANT_LABEL, variant, 1);
+    cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_MEMBER_ID, variant, 1);
+
+    // append sub_experiment_id
+    if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_SUB_EXPT_ID) ==0) {
+        cmor_get_cur_dataset_attribute(GLOBAL_ATT_SUB_EXPT_ID, szValue);
+        cmor_get_cur_dataset_attribute(GLOBAL_ATT_MEMBER_ID, szVariant);
+        if (strcmp(szValue, NONE) != 0) {
+            // not already in variant
+            if(strstr(szVariant, szValue) == NULL) {
+                strcat(szValue, "-");
+                strcat(szValue, szVariant);
+                cmor_set_cur_dataset_attribute_internal(
+                        GLOBAL_ATT_MEMBER_ID, szValue, 1);
+            }
+        }
+    }
+
     regfree(&regex);
     cmor_pop_traceback();
     return(ierr);

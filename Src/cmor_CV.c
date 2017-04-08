@@ -730,6 +730,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t *CV) {
 	char CV_Filename[CMOR_MAX_STRING];
 	char szSubExptID[CMOR_MAX_STRING];
 	char szValue[CMOR_MAX_STRING];
+    char szVariant[CMOR_MAX_STRING];
 
 	char msg[CMOR_MAX_STRING];
 
@@ -872,6 +873,22 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t *CV) {
 					CV_sub_experiment_id_key->szValue, 1);
 		}
 	}
+    // append sub-experiment_id
+    if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_SUB_EXPT_ID) ==0) {
+        cmor_get_cur_dataset_attribute(GLOBAL_ATT_SUB_EXPT_ID, szValue);
+        cmor_get_cur_dataset_attribute(GLOBAL_ATT_MEMBER_ID, szVariant);
+
+        if (strcmp(szValue, NONE) != 0) {
+            // not already in variant
+            if(strstr(szVariant, szValue) == NULL) {
+                strcat(szValue, "-");
+                strcat(szValue, szVariant);
+                cmor_set_cur_dataset_attribute_internal(
+                        GLOBAL_ATT_MEMBER_ID, szValue, 1);
+            }
+        }
+    }
+
 	cmor_pop_traceback();
 	return (0);
 }
