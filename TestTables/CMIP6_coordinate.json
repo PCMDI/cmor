@@ -1951,8 +1951,8 @@
             "bounds_values": ""
         }, 
         "spectband": {
-            "standard_name": "wave_frequency", 
-            "units": "s-1", 
+            "standard_name": "sensor_band_central_radiation_wavenumber", 
+            "units": "m-1", 
             "axis": "", 
             "long_name": "Spectral Frequency Band", 
             "climatology": "", 

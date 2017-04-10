@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.00.05", 
+        "data_specs_version": "01.00.06", 
         "table_id": "Table Odec", 
         "realm": "ocean", 
         "frequency": "dec", 
         "cmor_version": "3.2", 
-        "table_date": "31 March 2017", 
+        "table_date": "10 April 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "", 

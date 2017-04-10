@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.00.05", 
+        "data_specs_version": "01.00.06", 
         "table_id": "Table Lmon", 
         "realm": "land", 
         "frequency": "mon", 
         "cmor_version": "3.2", 
-        "table_date": "31 March 2017", 
+        "table_date": "10 April 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "30.00000", 
@@ -766,7 +766,7 @@
             "modeling_realm": "land", 
             "standard_name": "area_fraction", 
             "units": "%", 
-            "cell_methods": "time: mean", 
+            "cell_methods": "area: time: mean ", 
             "cell_measures": "area: areacella", 
             "long_name": "Fraction of Grid Cell that is Land but Neither Vegetation-Covered nor Bare Soil", 
             "comment": "Percentage of entire grid cell  that is land and is covered by  neither vegetation nor bare-soil (e.g., urban, ice, lakes, etc.)", 

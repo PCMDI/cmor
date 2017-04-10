@@ -875,7 +875,7 @@ int cmor_load_table_internal( char szTable[CMOR_MAX_STRING], int *table_id) {
 
 	} else {
 /* -------------------------------------------------------------------- */
-/*      nothing knwon we will not be setting any attributes!            */
+/*      nothing known we will not be setting any attributes!            */
 /* -------------------------------------------------------------------- */
 		    
 		    snprintf( msg, CMOR_MAX_STRING,
@@ -900,6 +900,10 @@ int cmor_load_table_internal( char szTable[CMOR_MAX_STRING], int *table_id) {
     }
     *table_id = cmor_ntables;
     CMOR_TABLE = cmor_ntables;
+    if(table_file != NULL) {
+        fclose(table_file);
+        table_file=NULL;
+    }
     cmor_pop_traceback(  );
     free(buffer);
     json_object_put(json_obj);

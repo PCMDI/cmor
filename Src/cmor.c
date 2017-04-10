@@ -1164,6 +1164,9 @@ json_object *cmor_open_inpathFile(char *szFilename ) {
         free(buffer);
         buffer=NULL;
     }
+    if( table_file != NULL ) {
+        fclose(table_file);
+    }
     return(oJSON);
 }
 
@@ -2343,6 +2346,8 @@ int cmor_validateFilename(char *outname, int var_id) {
                             "or use CMOR_REPLACE or CMOR_APPEND for\n! "
                             "CMOR_NETCDF_MODE value in cmor_setup", outname);
             cmor_handle_error(msg, CMOR_CRITICAL);
+            ierr = fclose(fperr);
+            fperr=NULL;
         }
         ierr = nc_create(outname, NC_NOCLOBBER | cmode, &ncid);
     } else if ((CMOR_NETCDF_MODE == CMOR_APPEND_4)
@@ -2362,6 +2367,7 @@ int cmor_validateFilename(char *outname, int var_id) {
         } else { /*ok it was there already */
 
             ierr = fclose(fperr);
+            fperr=NULL;
             ierr = nc_open(outname, NC_WRITE, &ncid);
 
             if (ierr != NC_NOERR) {
@@ -5618,30 +5624,30 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
 /* -------------------------------------------------------------------- */
 /*      ok first let's check if the file does exists or not             */
 /* -------------------------------------------------------------------- */
-	    fperr = NULL;
-	    fperr = fopen( outname, "r" );
-	    if( fperr != NULL ) {
-		sprintf( msg, "%s.copy", outname );
-		if( rename( cmor_vars[var_id].current_path, msg ) == 0 ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "Output file ( %s ) already exists,\n! "
-		             "remove file or use CMOR_REPLACE or\n! "
-		             "CMOR_APPEND for CMOR_NETCDF_MODE value\n! "
-		             "in cmor_setup for convenience the file\n! "
-		             "you were trying to write has been saved\n! "
-		             "at: %s.copy",
-			      outname, outname );
-		} else {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "Output file ( %s ) already exists,\n! "
-		              "remove file or use CMOR_REPLACE or\n! "
-		              "CMOR_APPEND for CMOR_NETCDF_MODE value in\n! "
-		              "cmor_setup.",
-			      outname );
-		}
-		cmor_handle_error( msg, CMOR_CRITICAL );
-	    }
-	}
+            fperr = NULL;
+            fperr = fopen(outname, "r");
+            if (fperr != NULL) {
+                sprintf(msg, "%s.copy", outname);
+                if (rename(cmor_vars[var_id].current_path, msg) == 0) {
+                    snprintf(msg, CMOR_MAX_STRING,
+                            "Output file ( %s ) already exists,\n! "
+                                    "remove file or use CMOR_REPLACE or\n! "
+                                    "CMOR_APPEND for CMOR_NETCDF_MODE value\n! "
+                                    "in cmor_setup for convenience the file\n! "
+                                    "you were trying to write has been saved\n! "
+                                    "at: %s.copy", outname, outname);
+                } else {
+                    snprintf(msg, CMOR_MAX_STRING,
+                            "Output file ( %s ) already exists,\n! "
+                                    "remove file or use CMOR_REPLACE or\n! "
+                                    "CMOR_APPEND for CMOR_NETCDF_MODE value in\n! "
+                                    "cmor_setup.", outname);
+                }
+                ierr = fclose(fperr);
+                fperr=NULL;
+                cmor_handle_error(msg, CMOR_CRITICAL);
+            }
+        }
 	ierr = rename( cmor_vars[var_id].current_path, outname );
 	if( ierr != 0 ) {
 	    snprintf( msg, CMOR_MAX_STRING,
@@ -5704,122 +5710,120 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
 /************************************************************************/
 /*                             cmor_close()                             */
 /************************************************************************/
-int cmor_close( void ) {
-    int i,  j, k;
+int cmor_close(void) {
+    int i, j, k;
     extern int cmor_nvars;
     char msg[CMOR_MAX_STRING];
     extern ut_system *ut_read;
     extern FILE *output_logfile;
 
-    cmor_add_traceback( "cmor_close" );
-    cmor_is_setup(  );
-    if( output_logfile == NULL )
-	output_logfile = stderr;
+    cmor_add_traceback("cmor_close");
+    cmor_is_setup();
+    if (output_logfile == NULL)
+        output_logfile = stderr;
 
-    for( i = 0; i < cmor_nvars + 1; i++ ) {
-	if( cmor_vars[i].initialized != -1 ) {
-	    if( cmor_vars[i].closed == 0 ) {
-	        cmor_close_variable( i, NULL, NULL );
-	    }
-	} else if( ( cmor_vars[i].needsinit == 1 )
-		   && ( cmor_vars[i].closed != 1 ) ) {
-	    snprintf( msg, CMOR_MAX_STRING,
-		      "variable %s (%i, table: %s) has been defined\n! "
-	              "but never initialized",
-		      cmor_vars[i].id, i,
-		      cmor_tables[cmor_vars[i].ref_table_id].szTable_id );
-	    cmor_handle_error( msg, CMOR_WARNING );
-	}
+    for (i = 0; i < cmor_nvars + 1; i++) {
+        if (cmor_vars[i].initialized != -1) {
+            if (cmor_vars[i].closed == 0) {
+                cmor_close_variable(i, NULL, NULL);
+            }
+        } else if ((cmor_vars[i].needsinit == 1)
+                && (cmor_vars[i].closed != 1)) {
+            snprintf(msg, CMOR_MAX_STRING,
+                    "variable %s (%i, table: %s) has been defined\n! "
+                            "but never initialized", cmor_vars[i].id, i,
+                    cmor_tables[cmor_vars[i].ref_table_id].szTable_id);
+            cmor_handle_error(msg, CMOR_WARNING);
+        }
     }
-    for( i = 0; i < CMOR_MAX_TABLES; i++ ) {
-	for( j = 0; j < CMOR_MAX_ELEMENTS; j++ ) {
-	    if( cmor_tables[i].axes[j].requested != NULL ) {
-		free( cmor_tables[i].axes[j].requested );
-		cmor_tables[i].axes[j].requested = NULL;
-	    }
-	    if( cmor_tables[i].axes[j].requested_bounds != NULL ) {
-		free( cmor_tables[i].axes[j].requested_bounds );
-		cmor_tables[i].axes[j].requested_bounds = NULL;
-	    }
-	    if( cmor_tables[i].axes[j].crequested != NULL ) {
-		free( cmor_tables[i].axes[j].crequested );
-		cmor_tables[i].axes[j].crequested = NULL;
-	    }
-	}
-	if( cmor_tables[i].nforcings > 0 ) {
-	    for( j = 0; j < cmor_tables[i].nforcings; j++ ) {
-		free( cmor_tables[i].forcings[j] );
-		cmor_tables[i].forcings[j] = NULL;
-	    }
-	    free( cmor_tables[i].forcings );
-	    cmor_tables[i].forcings = NULL;
-	    cmor_tables[i].nforcings = 0;
-	}
-        if(cmor_tables[i].CV != NULL) {
-            for(k=0; k< cmor_tables[i].CV->nbObjects; k++ ) {
-                if( &cmor_tables[i].CV[k] != NULL ) {
-                    cmor_CV_free( &cmor_tables[i].CV[k] );
+    for (i = 0; i < CMOR_MAX_TABLES; i++) {
+        for (j = 0; j < CMOR_MAX_ELEMENTS; j++) {
+            if (cmor_tables[i].axes[j].requested != NULL) {
+                free(cmor_tables[i].axes[j].requested);
+                cmor_tables[i].axes[j].requested = NULL;
+            }
+            if (cmor_tables[i].axes[j].requested_bounds != NULL) {
+                free(cmor_tables[i].axes[j].requested_bounds);
+                cmor_tables[i].axes[j].requested_bounds = NULL;
+            }
+            if (cmor_tables[i].axes[j].crequested != NULL) {
+                free(cmor_tables[i].axes[j].crequested);
+                cmor_tables[i].axes[j].crequested = NULL;
+            }
+        }
+        if (cmor_tables[i].nforcings > 0) {
+            for (j = 0; j < cmor_tables[i].nforcings; j++) {
+                free(cmor_tables[i].forcings[j]);
+                cmor_tables[i].forcings[j] = NULL;
+            }
+            free(cmor_tables[i].forcings);
+            cmor_tables[i].forcings = NULL;
+            cmor_tables[i].nforcings = 0;
+        }
+        if (cmor_tables[i].CV != NULL) {
+            for (k = 0; k < cmor_tables[i].CV->nbObjects; k++) {
+                if (&cmor_tables[i].CV[k] != NULL) {
+                    cmor_CV_free(&cmor_tables[i].CV[k]);
                 }
             }
-            if(cmor_tables[i].CV != NULL ){
+            if (cmor_tables[i].CV != NULL) {
                 free(cmor_tables[i].CV);
-                cmor_tables[i].CV=NULL;
+                cmor_tables[i].CV = NULL;
             }
         }
 
     }
 
-    for( i = 0; i < CMOR_MAX_GRIDS; i++ ) {
-	if( cmor_grids[i].lons != NULL ) {
-	    free( cmor_grids[i].lons );
-	    cmor_grids[i].lons = NULL;
-	}
-	if( cmor_grids[i].lats != NULL ) {
-	    free( cmor_grids[i].lats );
-	    cmor_grids[i].lats = NULL;
-	}
-	if( cmor_grids[i].blons != NULL ) {
-	    free( cmor_grids[i].blons );
-	    cmor_grids[i].blons = NULL;
-	}
-	if( cmor_grids[i].blats != NULL ) {
-	    free( cmor_grids[i].blats );
-	    cmor_grids[i].blats = NULL;
-	}
+    for (i = 0; i < CMOR_MAX_GRIDS; i++) {
+        if (cmor_grids[i].lons != NULL) {
+            free(cmor_grids[i].lons);
+            cmor_grids[i].lons = NULL;
+        }
+        if (cmor_grids[i].lats != NULL) {
+            free(cmor_grids[i].lats);
+            cmor_grids[i].lats = NULL;
+        }
+        if (cmor_grids[i].blons != NULL) {
+            free(cmor_grids[i].blons);
+            cmor_grids[i].blons = NULL;
+        }
+        if (cmor_grids[i].blats != NULL) {
+            free(cmor_grids[i].blats);
+            cmor_grids[i].blats = NULL;
+        }
     }
-    if( (cmor_nerrors != 0 || cmor_nwarnings != 0 ) ){
-	fprintf( output_logfile,
-		 "! ------\n! CMOR is now closed.\n! ------\n! "
-	         "During execution we encountered:\n! " );
+    if ((cmor_nerrors != 0 || cmor_nwarnings != 0)) {
+        fprintf(output_logfile, "! ------\n! CMOR is now closed.\n! ------\n! "
+                "During execution we encountered:\n! ");
 #ifdef COLOREDOUTPUT
-	fprintf( output_logfile, "%c[%d;%dm", 0X1B, 1, 34 );
+        fprintf( output_logfile, "%c[%d;%dm", 0X1B, 1, 34 );
 #endif
-	fprintf( output_logfile, "%3i Warning(s)", cmor_nwarnings );
+        fprintf(output_logfile, "%3i Warning(s)", cmor_nwarnings);
 #ifdef COLOREDOUTPUT
-	fprintf( output_logfile, "%c[%dm", 0X1B, 0 );
+        fprintf( output_logfile, "%c[%dm", 0X1B, 0 );
 #endif
-	fprintf( output_logfile, "\n! " );
+        fprintf(output_logfile, "\n! ");
 #ifdef COLOREDOUTPUT
-	fprintf( output_logfile, "%c[%d;%dm", 0X1B, 1, 31 );
+        fprintf( output_logfile, "%c[%d;%dm", 0X1B, 1, 31 );
 #endif
-	fprintf( output_logfile, "%3i Error(s)", cmor_nerrors );
+        fprintf(output_logfile, "%3i Error(s)", cmor_nerrors);
 #ifdef COLOREDOUTPUT
-	fprintf( output_logfile, "%c[%dm", 0X1B, 0 );
+        fprintf( output_logfile, "%c[%dm", 0X1B, 0 );
 #endif
-	fprintf( output_logfile,
-		 "\n! ------\n! Please review them.\n! ------\n! " );
-	cmor_nerrors   = 0;
-	cmor_nwarnings = 0;
+        fprintf(output_logfile,
+                "\n! ------\n! Please review them.\n! ------\n! ");
+        cmor_nerrors = 0;
+        cmor_nwarnings = 0;
     } else {
-	fprintf( output_logfile,
-		 "\n! ------\n! All files were closed successfully. \n! ------\n! ");
+        fprintf(output_logfile,
+                "\n! ------\n! All files were closed successfully. \n! ------\n! ");
     }
-    if( output_logfile != stderr ) {
-	fclose( output_logfile );
-	output_logfile = NULL;
+    if (output_logfile != stderr) {
+        fclose(output_logfile);
+        output_logfile = NULL;
     }
-    cmor_pop_traceback(  );
-    return( 0 );
+    cmor_pop_traceback();
+    return (0);
 }
 
 /************************************************************************/

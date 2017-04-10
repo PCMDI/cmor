@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.00.05", 
+        "data_specs_version": "01.00.06", 
         "table_id": "Table Oyr", 
         "realm": "ocnBgchem", 
         "frequency": "yr", 
         "cmor_version": "3.2", 
-        "table_date": "31 March 2017", 
+        "table_date": "10 April 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "365.00000", 
@@ -711,16 +711,16 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "dmso": {
+        "dms": {
             "modeling_realm": "ocnBgchem", 
-            "standard_name": "mole_concentration_of_dimethyl_sulfide_in_sea_water", 
-            "units": "mol m-3", 
+            "standard_name": "mole_fraction_of_dimethyl_sulfide_in_air", 
+            "units": "mol mol-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacello volume: volcello", 
             "long_name": "Mole Concentration of Dimethyl Sulphide in sea water", 
-            "comment": "Mole concentration of dimethyl sulphide in water", 
+            "comment": "", 
             "dimensions": "longitude latitude olevel time", 
-            "out_name": "dmso", 
+            "out_name": "dms", 
             "type": "real", 
             "positive": "", 
             "valid_min": "", 
