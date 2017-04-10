@@ -527,6 +527,8 @@ static PyObject *PyCMOR_getincvalues( PyObject * self, PyObject * args ) {
         return( Py_BuildValue( "s", CV_CHECK_ERROR ));
     } else if( strcmp( att_name, "GLOBAL_ATT_FURTHERINFOURLTMPL" ) == 0 ) {
         return( Py_BuildValue( "s", GLOBAL_ATT_FURTHERINFOURLTMPL ));
+    } else if( strcmp( att_name, "GLOBAL_ATT_MEMBER_ID" ) == 0 ) {
+        return( Py_BuildValue( "s", GLOBAL_ATT_MEMBER_ID ));
     } else if( strcmp( att_name, "CMOR_AXIS_ENTRY_FILE" ) == 0 ) {
         return( Py_BuildValue( "s", CMOR_AXIS_ENTRY_FILE ));
     } else if( strcmp( att_name, "CMOR_FORMULA_VAR_FILE" ) == 0 ) {

@@ -1615,13 +1615,13 @@ int cmor_CV_checkFilename(cmor_CV_def_t *CV,
     }
     strncat(outname, ".nc", CMOR_MAX_STRING - strlen(outname));
     if (strcmp(infile, outname) != 0) {
-        snprintf(szTmp, CMOR_MAX_STRING, "Your input filename \n! "
+        snprintf(szTmp, CMOR_MAX_STRING, "Your filename \n! "
                 "\"%s\" \n! "
-                "does not match the CMIP6 requirement.\n! "
-                "Your output filename is: \n! "
-                "\"%s\"\n! "
+                "does not match the CMIP6 requirement.\n! \n! "
+                "Your output filename should be: \n! "
+                "\"%s\"\n! \n! "
                 "and should follow this template: \n!"
-                "\"%s\"\n! "
+                "\"%s\"\n! \n! "
                 "See your Control Vocabulary file.(%s)\n! ", infile, outname,
                 cmor_current_dataset.file_template, CV_Filename);
 
