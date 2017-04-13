@@ -661,10 +661,9 @@ int cmor_set_grid_mapping( int gid, char *name, int nparam,
 /*                 cmor_time_varying_grid_coordinate()                  */
 /************************************************************************/
 
-int cmor_time_varying_grid_coordinate( int *coord_grid_id, int grid_id,
-				       char *table_entry, char *units,
-				       char type, void *missing,
-				       int *coordinate_type ) {
+int cmor_time_varying_grid_coordinate(int *coord_grid_id, int grid_id,
+        char *table_entry, char *units, char type, void *missing,
+        int *coordinate_type) {
     int ierr = 0, j;
     int axes[2];
     char msg[CMOR_MAX_STRING];
@@ -678,185 +677,177 @@ int cmor_time_varying_grid_coordinate( int *coord_grid_id, int grid_id,
     axes[0] = grid_id;
     current_cmor_grids = &cmor_grids[-grid_id - CMOR_MAX_GRIDS];
     nvertices = current_cmor_grids->nvertices;
-    table_id = cmor_axes[current_cmor_grids->axes_ids[0]].ref_table_id;
+    //table_id = cmor_axes[current_cmor_grids->axes_ids[0]].ref_table_id;
+    table_id = CMOR_TABLE;
+    cmor_add_traceback("cmor_time_varying_grid_coordinate");
+    cmor_is_setup();
 
-    cmor_add_traceback( "cmor_time_varying_grid_coordinate" );
-    cmor_is_setup(  );
-
-    strcpy( msg, "not found" );
-    if( coordinate_type == NULL ) {
-	for( j = 0; j < cmor_tables[table_id].nvars; j++ ) {
-	    if( strcmp( cmor_tables[table_id].vars[j].id, table_entry ) == 0 ) {
-		strncpy( msg, cmor_tables[table_id].vars[j].standard_name,
-			 CMOR_MAX_STRING );
-		break;
-	    }
-	}
-	if( strcmp( msg, "latitude" ) == 0 )
-	    ctype = 0;
-	if( strcmp( msg, "longitude" ) == 0 )
-	    ctype = 1;
-	if( strcmp( msg, "vertices_latitude" ) == 0 )
-	    ctype = 2;
-	if( strcmp( msg, "vertices_longitude" ) == 0 )
-	    ctype = 3;
+    strcpy(msg, "not found");
+    if (coordinate_type == NULL) {
+        for (j = 0; j < cmor_tables[table_id].nvars; j++) {
+            if (strcmp(cmor_tables[table_id].vars[j].id, table_entry) == 0) {
+                strncpy(msg, cmor_tables[table_id].vars[j].standard_name,
+                CMOR_MAX_STRING);
+                break;
+            }
+        }
+        if (strcmp(msg, "latitude") == 0)
+            ctype = 0;
+        if (strcmp(msg, "longitude") == 0)
+            ctype = 1;
+        if (strcmp(msg, "vertices_latitude") == 0)
+            ctype = 2;
+        if (strcmp(msg, "vertices_longitude") == 0)
+            ctype = 3;
     } else {
-	ctype = *coordinate_type;
+        ctype = *coordinate_type;
     }
-    switch ( ctype ) {
-    case ( 0 ):
-	ierr =
-	    cmor_variable( coord_grid_id, table_entry, units, 1, axes,
-			   type, missing, NULL, NULL, NULL, NULL, NULL );
-	cmor_grids[cmor_vars[*coord_grid_id].grid_id].
-	    associated_variables[0] = *coord_grid_id;
-	break;
-    case ( 1 ):
-	ierr =
-	    cmor_variable( coord_grid_id, table_entry, units, 1, axes,
-			   type, missing, NULL, NULL, NULL, NULL, NULL );
-	cmor_grids[cmor_vars[*coord_grid_id].grid_id].
-	    associated_variables[1] = *coord_grid_id;
+    switch (ctype) {
+    case (0):
+        ierr = cmor_variable(coord_grid_id, table_entry, units, 1, axes, type,
+                missing, NULL, NULL, NULL, NULL, NULL);
+        cmor_grids[cmor_vars[*coord_grid_id].grid_id].associated_variables[0] =
+                *coord_grid_id;
+        break;
+    case (1):
+        ierr = cmor_variable(coord_grid_id, table_entry, units, 1, axes, type,
+                missing, NULL, NULL, NULL, NULL, NULL);
+        cmor_grids[cmor_vars[*coord_grid_id].grid_id].associated_variables[1] =
+                *coord_grid_id;
 
-	break;
-    case ( 2 ):
-	if( nvertices == 0 ) {
-	    sprintf( msg,
-		     "your defining a vertices dependent variable (%s) associated with grid %i, but you declared this grid as having 0 vertices",
-		     table_entry, grid_id );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
-	}
-	if( cmor_grids[cmor_vars[*coord_grid_id].grid_id].
-	        associated_variables[3] == -1 ) {
-	    dummy_values = malloc( sizeof ( double ) * nvertices );
+        break;
+    case (2):
+        if (nvertices == 0) {
+            sprintf(msg,
+                    "your defining a vertices dependent variable (%s) associated with grid %i, but you declared this grid as having 0 vertices",
+                    table_entry, grid_id);
+            cmor_handle_error(msg, CMOR_CRITICAL);
+        }
+        if (cmor_grids[cmor_vars[*coord_grid_id].grid_id].associated_variables[3]
+                == -1) {
+            dummy_values = malloc(sizeof(double) * nvertices);
 
-	    for( j = 0; j < nvertices; j++ ) {
-		dummy_values[j] = ( double ) j;
-	    }
+            for (j = 0; j < nvertices; j++) {
+                dummy_values[j] = (double) j;
+            }
 
-	    cmor_axis( &axes[1], "vertices", "1", nvertices, dummy_values,
-		       'd', NULL, 0, NULL );
+            cmor_axis(&axes[1], "vertices", "1", nvertices, dummy_values, 'd',
+                    NULL, 0, NULL);
 
-	    free( dummy_values );
+            free(dummy_values);
 
-	    cmor_grids[-grid_id - CMOR_MAX_GRIDS].nvertices = axes[1];
+            cmor_grids[-grid_id - CMOR_MAX_GRIDS].nvertices = axes[1];
 
-	} else {
+        } else {
 
-	    axes[1] = cmor_grids[-grid_id - CMOR_MAX_GRIDS].nvertices;
+            axes[1] = cmor_grids[-grid_id - CMOR_MAX_GRIDS].nvertices;
 
-	}
-	ierr =
-	    cmor_variable( coord_grid_id, table_entry, units, 2, axes,
-			   type, missing, NULL, NULL, NULL, NULL, NULL );
+        }
+        ierr = cmor_variable(coord_grid_id, table_entry, units, 2, axes, type,
+                missing, NULL, NULL, NULL, NULL, NULL);
 
-	cmor_grids[cmor_vars[*coord_grid_id].grid_id].
-	    associated_variables[2] = *coord_grid_id;
+        cmor_grids[cmor_vars[*coord_grid_id].grid_id].associated_variables[2] =
+                *coord_grid_id;
 
 /* -------------------------------------------------------------------- */
 /*      adds the bounds attribute                                       */
 /* -------------------------------------------------------------------- */
 
-	if( cmor_has_variable_attribute
-	    ( cmor_grids[cmor_vars[*coord_grid_id].grid_id].
-	      associated_variables[0], "bounds" ) == 0 ) {
+        if (cmor_has_variable_attribute(
+                cmor_grids[cmor_vars[*coord_grid_id].grid_id].associated_variables[0],
+                "bounds") == 0) {
 
-	    cmor_get_variable_attribute( cmor_grids
-					 [cmor_vars[*coord_grid_id].
-					  grid_id].associated_variables[0],
-					 "bounds", &msg );
+            cmor_get_variable_attribute(
+                    cmor_grids[cmor_vars[*coord_grid_id].grid_id].associated_variables[0],
+                    "bounds", &msg);
 
-	    strncat( msg, " ", CMOR_MAX_STRING - strlen( msg ) );
-	    strncat( msg, cmor_vars[*coord_grid_id].id,
-		     CMOR_MAX_STRING - strlen( msg ) );
+            strncat(msg, " ", CMOR_MAX_STRING - strlen(msg));
+            strncat(msg, cmor_vars[*coord_grid_id].id,
+            CMOR_MAX_STRING - strlen(msg));
 
-	} else {
+        } else {
 
-	    strncpy( msg, cmor_vars[*coord_grid_id].id, CMOR_MAX_STRING );
+            strncpy(msg, cmor_vars[*coord_grid_id].id, CMOR_MAX_STRING);
 
-	}
+        }
 
-	cmor_set_variable_attribute_internal( cmor_grids
-					      [cmor_vars[*coord_grid_id].grid_id].
-					      associated_variables[0],
-					      "bounds", 'c', msg );
+        cmor_set_variable_attribute_internal(
+                cmor_grids[cmor_vars[*coord_grid_id].grid_id].associated_variables[0],
+                "bounds", 'c', msg);
 
-	break;
-    case ( 3 ):
-	if( nvertices == 0 ) {
+        break;
+    case (3):
+        if (nvertices == 0) {
 
-	    sprintf( msg,"your defining a vertices dependent "
-	             "variable (%s) associated with grid %i, "
-                      "but you declared this grid as having "
-	             "0 vertices",table_entry, grid_id );
+            sprintf(msg, "your defining a vertices dependent "
+                    "variable (%s) associated with grid %i, "
+                    "but you declared this grid as having "
+                    "0 vertices", table_entry, grid_id);
 
-	    cmor_handle_error( msg, CMOR_CRITICAL );
-	}
+            cmor_handle_error(msg, CMOR_CRITICAL);
+        }
 
-	if( cmor_grids[cmor_vars[*coord_grid_id].grid_id].
-	    associated_variables[2] == -1 ) {
+        if (cmor_grids[cmor_vars[*coord_grid_id].grid_id].associated_variables[2]
+                == -1) {
 
-	    dummy_values = malloc( sizeof ( double ) * nvertices );
+            dummy_values = malloc(sizeof(double) * nvertices);
 
-	    for( j = 0; j < nvertices; j++ ) {
-		dummy_values[j] = ( double ) j;
-	    }
-	    cmor_axis( &axes[1], "vertices", "1", nvertices, dummy_values,
-		       'd', NULL, 0, NULL );
+            for (j = 0; j < nvertices; j++) {
+                dummy_values[j] = (double) j;
+            }
+            cmor_axis(&axes[1], "vertices", "1", nvertices, dummy_values, 'd',
+                    NULL, 0, NULL);
 
-	    free( dummy_values );
+            free(dummy_values);
 
-	    cmor_grids[-grid_id - CMOR_MAX_GRIDS].nvertices = axes[1];
+            cmor_grids[-grid_id - CMOR_MAX_GRIDS].nvertices = axes[1];
 
-	} else {
+        } else {
 
-	    axes[1] = cmor_grids[-grid_id - CMOR_MAX_GRIDS].nvertices;
+            axes[1] = cmor_grids[-grid_id - CMOR_MAX_GRIDS].nvertices;
 
-	}
-	ierr = cmor_variable( coord_grid_id, table_entry, units, 2, axes,
-			      type, missing, NULL, NULL, NULL, NULL, NULL );
+        }
+        ierr = cmor_variable(coord_grid_id, table_entry, units, 2, axes, type,
+                missing, NULL, NULL, NULL, NULL, NULL);
 
-	cmor_grids[cmor_vars[*coord_grid_id].grid_id].
-	    associated_variables[3] = *coord_grid_id;
+        cmor_grids[cmor_vars[*coord_grid_id].grid_id].associated_variables[3] =
+                *coord_grid_id;
 
-	/* adds the bounds attribute */
-	if( cmor_has_variable_attribute(
-	        cmor_grids[cmor_vars[*coord_grid_id].grid_id].
-	        associated_variables[1], "bounds" ) == 0 ) {
+        /* adds the bounds attribute */
+        if (cmor_has_variable_attribute(
+                cmor_grids[cmor_vars[*coord_grid_id].grid_id].associated_variables[1],
+                "bounds") == 0) {
 
-	    cmor_get_variable_attribute( cmor_grids
-					 [cmor_vars[*coord_grid_id].
-					  grid_id].associated_variables[1],
-					 "bounds", &msg );
+            cmor_get_variable_attribute(
+                    cmor_grids[cmor_vars[*coord_grid_id].grid_id].associated_variables[1],
+                    "bounds", &msg);
 
-	    strncat( msg, " ", CMOR_MAX_STRING - strlen( msg ) );
+            strncat(msg, " ", CMOR_MAX_STRING - strlen(msg));
 
-	    strncat( msg, cmor_vars[*coord_grid_id].id,
-		     CMOR_MAX_STRING - strlen( msg ) );
+            strncat(msg, cmor_vars[*coord_grid_id].id,
+            CMOR_MAX_STRING - strlen(msg));
 
-	} else {
+        } else {
 
-	    strncpy( msg, cmor_vars[*coord_grid_id].id, CMOR_MAX_STRING );
+            strncpy(msg, cmor_vars[*coord_grid_id].id, CMOR_MAX_STRING);
 
-	}
-	cmor_set_variable_attribute_internal( cmor_grids
-					      [cmor_vars[*coord_grid_id].
-					       grid_id].
-					      associated_variables[1],
-					      "bounds", 'c', msg );
-	break;
+        }
+        cmor_set_variable_attribute_internal(
+                cmor_grids[cmor_vars[*coord_grid_id].grid_id].associated_variables[1],
+                "bounds", 'c', msg);
+        break;
 
     default:
-
-	sprintf( msg, "unknown coord type: %i", ctype );
-	cmor_handle_error( msg, CMOR_CRITICAL );
-	break;
+        sprintf(msg, "unknown coord type: %i", ctype);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+        cmor_pop_traceback();
+        return (-1);
 
     }
     cmor_vars[*coord_grid_id].needsinit = 0;
 
-    cmor_pop_traceback(  );
-    return(ierr);
+    cmor_pop_traceback();
+    return (ierr);
 }
 /************************************************************************/
 /*                             cmor_grid()                              */

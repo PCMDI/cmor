@@ -52,6 +52,9 @@ class TestCase(unittest.TestCase):
             cmor.set_cur_dataset_attribute("parent_variant_label","r11i123p4556f333")
             cmor.set_cur_dataset_attribute("parent_source_id","child")
             cmor.set_cur_dataset_attribute("parent_mip_era" ,"CMIP6")
+            cmor.set_cur_dataset_attribute("parent_timeunits" ,"no parent")
+            cmor.set_cur_dataset_attribute("branch_method" ,"no parent")
+            cmor.set_cur_dataset_attribute("branc_child_in_parent" ,"no parent")
 
 
 
