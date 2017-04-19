@@ -34,7 +34,7 @@ install:
 
 script:
   - make test
-  - for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file; if [[ "$?" != "0" ]]; then return $?; fi; done
+  - for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file; mystatus=$?; if [[ "$mystatus" != "0" ]]; then return ${mystatus}; fi; done
 
 after_failure:
   - ulimit -a
