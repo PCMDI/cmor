@@ -70,12 +70,22 @@ class TestCase(unittest.TestCase):
         itime = cmor.axis(table_entry="time", units='months since 2010',
                           coord_vals=numpy.array([0, 1, 2, 3, 4.]),
                           cell_bounds=numpy.array([0, 1, 2, 3, 4, 5.]))
-        ilat = cmor.axis(table_entry='latitude', coord_vals=lats, cell_bounds=blats, units='degrees_north')
-        ilon = cmor.axis(table_entry='longitude', coord_vals=lons, cell_bounds=blons, units='degrees_east')
+        ilat = cmor.axis(
+            table_entry='latitude',
+            coord_vals=lats,
+            cell_bounds=blats,
+            units='degrees_north')
+        ilon = cmor.axis(
+            table_entry='longitude',
+            coord_vals=lons,
+            cell_bounds=blons,
+            units='degrees_east')
         ilev = cmor.axis(table_entry='depth_coord', length=5,
                          cell_bounds=numpy.arange(0, 12000, 2000), coord_vals=numpy.arange(0, 10000, 2000), units="m")
 
-        ivar = cmor.variable(table_entry="masscello", axis_ids=[itime, ilev, ilat, ilon, ], units='kg/m2')
+        ivar = cmor.variable(
+            table_entry="masscello", axis_ids=[
+                itime, ilev, ilat, ilon, ], units='kg/m2')
 
         data = numpy.random.random((ntimes, nlev, nlat, nlon)) * 100.
 

@@ -72,7 +72,10 @@ class TestCase(unittest.TestCase):
             itime = cmor.axis(table_entry="time", units='months since 2010',
                               coord_vals=numpy.array([0, 1, 2, 3, 4.]),
                               cell_bounds=numpy.array([0, 1, 2, 3, 4, 5.]))
-            ivar = cmor.variable(table_entry="masso", axis_ids=[itime], units='kg')
+            ivar = cmor.variable(
+                table_entry="masso",
+                axis_ids=[itime],
+                units='kg')
 
             data = numpy.random.random(5)
             for i in range(0, 5):
@@ -85,7 +88,7 @@ class TestCase(unittest.TestCase):
             f = cdms2.open(cmor.get_final_filename(), "r")
             a = f.getglobal("tracking_id").split('/')[0]
             self.assertNotIn("hdl:21.14100/", a)
-        except:
+        except BaseException:
             raise
 
     def tearDown(self):

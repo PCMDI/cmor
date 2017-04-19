@@ -20,7 +20,6 @@ import os
 import tempfile
 
 
-
 class TestCase(unittest.TestCase):
 
     def testCMIP6(self):
@@ -51,13 +50,16 @@ class TestCase(unittest.TestCase):
             itime = cmor.axis(table_entry="time", units='months since 2010',
                               coord_vals=numpy.array([0, 1, 2, 3, 4.]),
                               cell_bounds=numpy.array([0, 1, 2, 3, 4, 5.]))
-            ivar = cmor.variable(table_entry="masso", axis_ids=[itime], units='kg')
+            ivar = cmor.variable(
+                table_entry="masso",
+                axis_ids=[itime],
+                units='kg')
 
             data = numpy.random.random(5)
             for i in range(0, 5):
                 cmor.write(ivar, data[i:i])
             cmor.close()
-        except:
+        except BaseException:
             raise
         os.dup2(newstdout, 1)
         os.dup2(newstderr, 2)
@@ -65,18 +67,18 @@ class TestCase(unittest.TestCase):
         sys.stderr = os.fdopen(newstderr, 'w', 0)
         f = open(tmpfile[1], 'r')
         lines = f.readlines()
-        count=0
+        count = 0
         # We need 8 attributes to be replaced
         for line in lines:
             if line.find('replaced') != -1:
-                count=count+1
-        self.assertEqual(count,8)
+                count = count + 1
+        self.assertEqual(count, 9)
         f.close()
         os.unlink(tmpfile[1])
 
     def tearDown(self):
         import shutil
-#        shutil.rmtree("./CMIP6")
+        shutil.rmtree("./CMIP6")
 
 
 if __name__ == '__main__':

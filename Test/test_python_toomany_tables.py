@@ -20,7 +20,6 @@ import os
 import tempfile
 
 
-
 class TestCase(unittest.TestCase):
 
     def testCMIP6(self):
@@ -43,17 +42,17 @@ class TestCase(unittest.TestCase):
         try:
             cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
             cmor.dataset_json("Test/common_user_input.json")
-            cmor.set_cur_dataset_attribute("experiment_id","ssp434")
-            cmor.set_cur_dataset_attribute("parent_experiment_id","historical")
-            cmor.set_cur_dataset_attribute("parent_activity_id","CMIP")
-            cmor.set_cur_dataset_attribute("activity_id","ScenarioMIP")
-            cmor.set_cur_dataset_attribute("source_type","AOGCM")
-            cmor.set_cur_dataset_attribute("sub_experiment_id","none")
-            cmor.set_cur_dataset_attribute("parent_variant_label","r11i123p4556f333")
-            cmor.set_cur_dataset_attribute("parent_source_id","child")
-            cmor.set_cur_dataset_attribute("parent_mip_era" ,"CMIP6")
-
-
+            cmor.set_cur_dataset_attribute("experiment_id", "ssp434")
+            cmor.set_cur_dataset_attribute(
+                "parent_experiment_id", "historical")
+            cmor.set_cur_dataset_attribute("parent_activity_id", "CMIP")
+            cmor.set_cur_dataset_attribute("activity_id", "ScenarioMIP")
+            cmor.set_cur_dataset_attribute("source_type", "AOGCM")
+            cmor.set_cur_dataset_attribute("sub_experiment_id", "none")
+            cmor.set_cur_dataset_attribute(
+                "parent_variant_label", "r11i123p4556f333")
+            cmor.set_cur_dataset_attribute("parent_source_id", "child")
+            cmor.set_cur_dataset_attribute("parent_mip_era", "CMIP6")
 
             # ------------------------------------------
             # load Omon table and create masso variable
@@ -100,7 +99,7 @@ class TestCase(unittest.TestCase):
             cmor.load_table("CMIP6_Oyr.json")
             cmor.load_table("CMIP6_SIday.json")
             cmor.load_table("CMIP6_SImon.json")
-        except:
+        except BaseException:
             pass
         os.dup2(newstdout, 1)
         os.dup2(newstderr, 2)

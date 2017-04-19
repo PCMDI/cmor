@@ -3,11 +3,11 @@ import cmor
 import numpy
 
 
-def test_mode(mode,i,suffix=''):
+def test_mode(mode, i, suffix=''):
     cmor.setup(inpath='Tables',
-               netcdf_file_action = mode)
+               netcdf_file_action=mode)
     cmor.dataset_json("Test/common_user_input.json")
-    
+
     table = 'CMIP6_Amon.json'
     cmor.load_table(table)
     levels = [100000.,
@@ -32,27 +32,27 @@ def test_mode(mode,i,suffix=''):
               997,
               996,
               995,
-              994, 
+              994,
               500,
               100]
-    
-    axes = [ {'table_entry': 'time',
-              'units': 'months since 2000-01-01 00:00:00',
-              },
-             {'table_entry': 'latitude',
-              'units': 'degrees_north',
-              'coord_vals': [0],
-              'cell_bounds': [-1, 1]},             
-             {'table_entry': 'longitude',
-              'units': 'degrees_east',
-              'coord_vals': [90],
-              'cell_bounds': [89, 91]},
-             {'table_entry': 'plev19',
-              'units': 'Pa',
-              'coord_vals': levels},
-             ]
-    
-    values = numpy.array(range(len(levels)), numpy.float32)+195
+
+    axes = [{'table_entry': 'time',
+             'units': 'months since 2000-01-01 00:00:00',
+             },
+            {'table_entry': 'latitude',
+             'units': 'degrees_north',
+             'coord_vals': [0],
+             'cell_bounds': [-1, 1]},
+            {'table_entry': 'longitude',
+             'units': 'degrees_east',
+             'coord_vals': [90],
+             'cell_bounds': [89, 91]},
+            {'table_entry': 'plev19',
+             'units': 'Pa',
+             'coord_vals': levels},
+            ]
+
+    values = numpy.array(range(len(levels)), numpy.float32) + 195
     axis_ids = list()
     for axis in axes:
         axis_id = cmor.axis(**axis)
@@ -62,22 +62,22 @@ def test_mode(mode,i,suffix=''):
         varid = cmor.variable(var,
                               units,
                               axis_ids,
-                              history = 'variable history',
-                              missing_value = -99
+                              history='variable history',
+                              missing_value=-99
                               )
-        print "Sending time bounds:",[[i,i+1]]
-        cmor.write(varid, values, time_vals = [i], time_bnds = [ [i,i+1] ])
+        print "Sending time bounds:", [[i, i + 1]]
+        cmor.write(varid, values, time_vals=[i], time_bnds=[[i, i + 1]])
 
-    fnm = cmor.close(varid,file_name=True)
+    fnm = cmor.close(varid, file_name=True)
     cmor.close()
     return fnm
-    
-fnm=''
+
+
+fnm = ''
 for i in range(5):
-    print i,fnm
-    if i==0:
+    print i, fnm
+    if i == 0:
         mode = cmor.CMOR_REPLACE
     else:
         mode = cmor.CMOR_APPEND
-    fnm = test_mode(cmor.CMOR_APPEND,i,fnm)
-
+    fnm = test_mode(cmor.CMOR_APPEND, i, fnm)

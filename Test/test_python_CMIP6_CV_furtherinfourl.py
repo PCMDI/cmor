@@ -21,7 +21,6 @@ import tempfile
 import cdms2
 
 
-
 # ==============================
 #  main thread
 # ==============================
@@ -30,38 +29,37 @@ def run():
 
 
 class TestCase(unittest.TestCase):
-    def setUp(self, *args, **kwargs):                                                                                                          
-        # ------------------------------------------------------                                                                               
-        # Copy stdout and stderr file descriptor for cmor output                                                                               
-        # ------------------------------------------------------                                                                               
-        self.newstdout = os.dup(1)                                                                                                             
-        self.newstderr = os.dup(2)                                                                                                             
-        # --------------                                                                                                                       
-        # Create tmpfile                                                                                                                       
-        # --------------                                                                                                                       
+    def setUp(self, *args, **kwargs):
+        # ------------------------------------------------------
+        # Copy stdout and stderr file descriptor for cmor output
+        # ------------------------------------------------------
+        self.newstdout = os.dup(1)
+        self.newstderr = os.dup(2)
+        # --------------
+        # Create tmpfile
+        # --------------
         self.tmpfile = tempfile.mkstemp()
-        os.dup2(self.tmpfile[0], 1)     
-        os.dup2(self.tmpfile[0], 2)    
-        os.close(self.tmpfile[0])     
-                                                                                                                                               
-    def getAssertTest(self):                                                                                                                   
-        f = open(self.tmpfile[1], 'r')                                                                                                         
-        lines = f.readlines()                                                                                                                  
-        for line in lines:                                                                                                                     
-            if line.find('Error:') != -1:                                                                                                      
-                testOK = line.strip()                                                                                                          
-                break                                                                                                                          
-        f.close()                                                                                                                              
-        os.unlink(self.tmpfile[1])                                                                                                             
-        return testOK                                                                                                                          
+        os.dup2(self.tmpfile[0], 1)
+        os.dup2(self.tmpfile[0], 2)
+        os.close(self.tmpfile[0])
 
+    def getAssertTest(self):
+        f = open(self.tmpfile[1], 'r')
+        lines = f.readlines()
+        for line in lines:
+            if line.find('Error:') != -1:
+                testOK = line.strip()
+                break
+        f.close()
+        os.unlink(self.tmpfile[1])
+        return testOK
 
     def testCMIP6(self):
         try:
             # -------------------------------------------
             # Try to call cmor with a bad institution_ID
             # -------------------------------------------
-            cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)                                                                  
+            cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
             cmor.dataset_json("Test/common_user_input.json")
 
             # ------------------------------------------
@@ -71,26 +69,32 @@ class TestCase(unittest.TestCase):
             itime = cmor.axis(table_entry="time", units='months since 2000',
                               coord_vals=numpy.array([0, 1, 2, 3, 4.]),
                               cell_bounds=numpy.array([0, 1, 2, 3, 4, 5.]))
-            ivar = cmor.variable(table_entry="masso", axis_ids=[itime], units='kg')
+            ivar = cmor.variable(
+                table_entry="masso",
+                axis_ids=[itime],
+                units='kg')
 
             data = numpy.random.random(5)
             for i in range(0, 5):
                 cmor.write(ivar, data[i:i])
             cmor.close()
-        except:
+        except BaseException:
             raise
-        os.dup2(self.newstdout, 1)                                                                                                         
-        os.dup2(self.newstderr, 2)                                                                                                         
-        sys.stdout = os.fdopen(self.newstdout, 'w', 0)                                                                                     
-        sys.stderr = os.fdopen(self.newstderr, 'w', 0)                                                                                     
+        os.dup2(self.newstdout, 1)
+        os.dup2(self.newstderr, 2)
+        sys.stdout = os.fdopen(self.newstdout, 'w', 0)
+        sys.stderr = os.fdopen(self.newstderr, 'w', 0)
 
         f = cdms2.open(cmor.get_final_filename(), "r")
         a = f.getglobal("further_info_url")
-        self.assertEqual("http://furtherinfo.es-doc.org/CMIP6.PCMDI.PCMDI-test-1-0.piControl-withism.none.r11i1p1f1", a)
-
+        self.assertEqual(
+            "http://furtherinfo.es-doc.org/CMIP6.PCMDI.PCMDI-test-1-0.piControl-withism.none.r11i1p1f1",
+            a)
 
     def tearDown(self):
         import shutil
         shutil.rmtree("./CMIP6")
+
+
 if __name__ == '__main__':
     run()

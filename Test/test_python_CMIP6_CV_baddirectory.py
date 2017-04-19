@@ -58,15 +58,13 @@ class TestdirectoryMethods(unittest.TestCase):
         try:
             cmor.dataset_json("Test/baddirectory.json")
 
-        except:
+        except BaseException:
             testOK = self.getAssertTest()
             os.dup2(self.newstdout, 1)
             os.dup2(self.newstderr, 2)
             sys.stdout = os.fdopen(self.newstdout, 'w', 0)
             sys.stderr = os.fdopen(self.newstderr, 'w', 0)
             self.assertIn("unable to create this directory", testOK)
-
-
 
 
 if __name__ == '__main__':
