@@ -32,6 +32,19 @@ class readWCRP():
     def __init__(self):
         pass
 
+    def createSource(self,myjson):
+        root = myjson['source_id']
+        for key in root.keys():
+            root[key]['source']=root[key]['label'] + ' (' + root[key]['release_year'] + '): ' + chr(10)
+            for realm in root[key]['model_component'].keys():
+                if( root[key]['model_component'][realm]['description'].find('None') == -1):
+                    root[key]['source'] += realm + ': ' 
+                    root[key]['source'] += root[key]['model_component'][realm]['description'] + chr(10)
+            root[key]['source'] = root[key]['source'].rstrip()
+            del root[key]['label']
+            del root[key]['release_year']
+            del root[key]['label_extended']
+            del root[key]['model_component']
     def readGit(self):
         Dico = OrderedDict()
         for file in filelist:
@@ -39,6 +52,8 @@ class readWCRP():
             response = urllib.urlopen(url)
             print url
             myjson = json.loads(response.read(), object_pairs_hook=OrderedDict)
+            if(file == 'CMIP6_source_id.json'):
+                self.createSource(myjson)
             Dico = OrderedDict(Dico.items() + myjson.items())
          
         finalDico = OrderedDict()
