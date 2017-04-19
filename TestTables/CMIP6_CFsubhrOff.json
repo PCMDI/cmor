@@ -1,17 +1,17 @@
 {
     "Header": {
-        "data_specs_version": "01.00.03", 
+        "data_specs_version": "01.00.06", 
         "table_id": "Table CFsubhrOff", 
         "realm": "atmos", 
         "frequency": "subhr", 
         "cmor_version": "3.2", 
-        "table_date": "24 February 2017", 
+        "table_date": "10 April 2017", 
         "missing_value": "1e20", 
-        "product": "output", 
+        "product": "model-output", 
         "approx_interval": "", 
         "generic_levels": "", 
         "mip_era": "CMIP6", 
-        "Conventions": "CF-1.6 CMIP-6.0"
+        "Conventions": "CF-1.7 CMIP-6.0"
     }, 
     "variable_entry": {
         "cfadDbze94": {
@@ -137,7 +137,7 @@
             "modeling_realm": "atmos", 
             "standard_name": "cloud_area_fraction", 
             "units": "%", 
-            "cell_methods": "time: mean", 
+            "cell_methods": "area: time: mean ", 
             "cell_measures": "area: areacella", 
             "long_name": "CALIPSO Total Cloud Fraction", 
             "comment": "", 

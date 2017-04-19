@@ -453,25 +453,24 @@ int cmor_set_dataset_att(cmor_table_t * table, char att[CMOR_MAX_STRING],
 /*                           cmor_set_table()                           */
 /************************************************************************/
 
-int cmor_set_table( int table ) {
+int cmor_set_table(int table) {
     extern int CMOR_TABLE;
     char msg[CMOR_MAX_STRING];
 
-    cmor_add_traceback( "cmor_set_table" );
-    cmor_is_setup(  );
-    if( table > cmor_ntables ) {
-	snprintf( msg, CMOR_MAX_STRING, "Invalid table number: %i",
-		  table );
-	cmor_handle_error( msg, CMOR_CRITICAL );
+    cmor_add_traceback("cmor_set_table");
+    cmor_is_setup();
+    if (table > cmor_ntables) {
+        snprintf(msg, CMOR_MAX_STRING, "Invalid table number: %i", table);
+        cmor_handle_error(msg, CMOR_CRITICAL);
     }
-    if( cmor_tables[table].szTable_id == '\0' ) {
-	snprintf( msg, CMOR_MAX_STRING,
-		  "Invalid table: %i , not loaded yet!", table );
-	cmor_handle_error( msg, CMOR_CRITICAL );
+    if (cmor_tables[table].szTable_id == '\0') {
+        snprintf(msg, CMOR_MAX_STRING, "Invalid table: %i , not loaded yet!",
+                table);
+        cmor_handle_error(msg, CMOR_CRITICAL);
     }
     CMOR_TABLE = table;
-    cmor_pop_traceback(  );
-    return(0);
+    cmor_pop_traceback();
+    return (0);
 }
 
 /************************************************************************/
@@ -489,6 +488,15 @@ int cmor_load_table( char szTable[CMOR_MAX_STRING], int *table_id ) {
     char szFormulaVarFN[CMOR_MAX_STRING];
     char msg[CMOR_MAX_STRING];
     struct stat st;
+    cmor_add_traceback( "cmor_load_table" );
+
+    if (cmor_ntables == (CMOR_MAX_TABLES-1)) {
+		snprintf(msg, CMOR_MAX_STRING, "You cannot load more than %d tables",
+		CMOR_MAX_TABLES);
+	    cmor_pop_traceback(  );
+		cmor_handle_error(msg, CMOR_CRITICAL);
+		return (-1);
+	}
 
     rc = cmor_get_cur_dataset_attribute(GLOBAL_CV_FILENAME, szCV);
     rc = cmor_get_cur_dataset_attribute(CMOR_AXIS_ENTRY_FILE, szAxisEntryFN);
@@ -576,6 +584,7 @@ int cmor_load_table( char szTable[CMOR_MAX_STRING], int *table_id ) {
     }
 
     free(szTableName);
+
     return(rc);
 }
 /************************************************************************/
@@ -593,7 +602,7 @@ int cmor_search_table( char szTable[CMOR_MAX_STRING],
 			return (TABLE_FOUND);
 		}
 	}
-
+    cmor_pop_traceback(  );
 	return (TABLE_NOTFOUND);
 }
 
@@ -865,7 +874,7 @@ int cmor_load_table_internal( char szTable[CMOR_MAX_STRING], int *table_id) {
 
 	} else {
 /* -------------------------------------------------------------------- */
-/*      nothing knwon we will not be setting any attributes!            */
+/*      nothing known we will not be setting any attributes!            */
 /* -------------------------------------------------------------------- */
 		    
 		    snprintf( msg, CMOR_MAX_STRING,
@@ -890,6 +899,10 @@ int cmor_load_table_internal( char szTable[CMOR_MAX_STRING], int *table_id) {
     }
     *table_id = cmor_ntables;
     CMOR_TABLE = cmor_ntables;
+    if(table_file != NULL) {
+        fclose(table_file);
+        table_file=NULL;
+    }
     cmor_pop_traceback(  );
     free(buffer);
     json_object_put(json_obj);

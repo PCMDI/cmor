@@ -1,28 +1,28 @@
 {
     "Header": {
-        "data_specs_version": "01.00.03", 
+        "data_specs_version": "01.00.06", 
         "table_id": "Table EmonZ", 
         "realm": "atmos", 
         "frequency": "mon", 
         "cmor_version": "3.2", 
-        "table_date": "24 February 2017", 
+        "table_date": "10 April 2017", 
         "missing_value": "1e20", 
-        "product": "output", 
-        "approx_interval": "", 
-        "generic_levels": "", 
+        "product": "model-output", 
+        "approx_interval": "30.00000", 
+        "generic_levels": "alevel olevel", 
         "mip_era": "CMIP6", 
-        "Conventions": "CF-1.6 CMIP-6.0"
+        "Conventions": "CF-1.7 CMIP-6.0"
     }, 
     "variable_entry": {
         "co2totalmass": {
             "modeling_realm": "atmos", 
             "standard_name": "CO2_total_mass_in_atmos", 
             "units": "kg", 
-            "cell_methods": "area: mean (global) time: mean", 
+            "cell_methods": "time: mean", 
             "cell_measures": "", 
             "long_name": "Globally integrated Carbon Mass in Atmosphere", 
             "comment": "globally integrated mass of carbon as CO2 in atmsophere. Report as a single number for all emissions-driven runs", 
-            "dimensions": "spectband time", 
+            "dimensions": "time", 
             "out_name": "co2totalmass", 
             "type": "", 
             "positive": "", 
@@ -99,14 +99,31 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
+        "mrsos": {
+            "modeling_realm": "land", 
+            "standard_name": "moisture_content_of_soil_layer", 
+            "units": "kg m-2", 
+            "cell_methods": "area: mean where land time: mean", 
+            "cell_measures": "", 
+            "long_name": "Moisture in Upper Portion of Soil Column", 
+            "comment": "The mass of water in all phases in the upper 10cm of the  soil layer.", 
+            "dimensions": "height10m time", 
+            "out_name": "mrsos", 
+            "type": "real", 
+            "positive": "", 
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
+        }, 
         "oxloss": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "atmosChem", 
             "standard_name": "tendency_of_mole_concentration_of_ozone_and_atomic_oxygen_and_1D_oxygen_atom_due_to_chemical_destruction", 
             "units": "mol m-3 s-1", 
             "cell_methods": "longitude: mean time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "total Ox loss rate", 
-            "comment": "total chemical loss rate for o+o1d+o3 ", 
+            "comment": "total chemical loss rate for o+o1d+o3", 
             "dimensions": "latitude plev39 time", 
             "out_name": "oxloss", 
             "type": "", 
@@ -117,7 +134,7 @@
             "ok_max_mean_abs": ""
         }, 
         "oxprod": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "atmosChem", 
             "standard_name": "tendency_of_mole_concentration_of_ozone_and_atomic_oxygen_and_1D_oxygen_atom_due_to_chemical_production_and_photolysis", 
             "units": "mol m-3 s-1", 
             "cell_methods": "longitude: mean time: mean", 
@@ -134,7 +151,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sltbasin": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "ocean", 
             "standard_name": "northward_ocean_salt_transport", 
             "units": "kg s-1", 
             "cell_methods": "longitude: mean (basin) time: mean", 
@@ -151,7 +168,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sltnorth": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "ocean", 
             "standard_name": "northward_ocean_salt_transport", 
             "units": "kg s-1", 
             "cell_methods": "longitude: mean time: mean", 
@@ -168,7 +185,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sltnortha": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "ocean", 
             "standard_name": "northward_ocean_salt_transport", 
             "units": "kg s-1", 
             "cell_methods": "longitude: mean time: mean", 
@@ -361,7 +378,7 @@
             "cell_methods": "longitude: mean time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "u-tendency nonorographic gravity wave drag", 
-            "comment": "Tendency of the eastward wind by parameterized nonorographic gravity waves.  ", 
+            "comment": "Tendency of the eastward wind by parameterized nonorographic gravity waves.", 
             "dimensions": "latitude plev39 time", 
             "out_name": "utendnogw", 
             "type": "", 
@@ -372,7 +389,7 @@
             "ok_max_mean_abs": ""
         }, 
         "vmrox": {
-            "modeling_realm": "atmos", 
+            "modeling_realm": "atmosChem", 
             "standard_name": "mole_fraction_of_ozone_and_atomic_oxygen_and_1D_oxygen_atom", 
             "units": "mol mol-1", 
             "cell_methods": "longitude: mean time: mean", 

@@ -62,7 +62,7 @@ class TestCase(unittest.TestCase):
             # -------------------------------------------
             cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
             cmor.dataset_json("Test/common_user_input.json")
-            cmor.set_cur_dataset_attribute("physics_index", "1A") 
+            cmor.set_cur_dataset_attribute("physics_index", "1A")
 
             # ------------------------------------------
             # load Omon table and create masso variable
@@ -71,14 +71,17 @@ class TestCase(unittest.TestCase):
             itime = cmor.axis(table_entry="time", units='months since 2010',
                               coord_vals=numpy.array([0, 1, 2, 3, 4.]),
                               cell_bounds=numpy.array([0, 1, 2, 3, 4, 5.]))
-            ivar = cmor.variable(table_entry="masso", axis_ids=[itime], units='kg')
+            ivar = cmor.variable(
+                table_entry="masso",
+                axis_ids=[itime],
+                units='kg')
 
             data = numpy.random.random(5)
             for i in range(0, 5):
                 cmor.write(ivar, data[i:i])
-            cmor.close()                                                                                                                       
+            cmor.close()
 
-        except:
+        except BaseException:
             os.dup2(self.newstdout, 1)
             os.dup2(self.newstderr, 2)
             sys.stdout = os.fdopen(self.newstdout, 'w', 0)
@@ -89,10 +92,10 @@ class TestCase(unittest.TestCase):
         testOK = self.getAssertTest()
         self.assertIn("\"1A\"", testOK)
 
-
     def tearDown(self):
         import shutil
         shutil.rmtree("./CMIP6")
+
 
 if __name__ == '__main__':
 

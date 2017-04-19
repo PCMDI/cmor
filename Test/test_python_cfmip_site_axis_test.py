@@ -33,65 +33,76 @@ import numpy
 
 MIP_TABLE_DIR = 'Tables'   # set according to your MIP table location
 
-#---------------------------------------------------------------------------------------------------
-def setup_cmor() :
-#---------------------------------------------------------------------------------------------------
-   # Initialise CMOR library
-   cmor.setup(inpath=MIP_TABLE_DIR, netcdf_file_action=cmor.CMOR_REPLACE_3,
-      set_verbosity=cmor.CMOR_NORMAL, create_subdirectories=0)
+#-------------------------------------------------------------------------
 
-   # Create CMOR dataset
-   cmor.dataset_json("Test/common_user_input.json")
 
-#---------------------------------------------------------------------------------------------------
-if __name__ == '__main__' :
-#---------------------------------------------------------------------------------------------------
+def setup_cmor():
+    #-------------------------------------------------------------------------
+    # Initialise CMOR library
+    cmor.setup(inpath=MIP_TABLE_DIR, netcdf_file_action=cmor.CMOR_REPLACE_3,
+               set_verbosity=cmor.CMOR_NORMAL, create_subdirectories=0)
 
-   # Initialise CMOR dataset and table
-   setup_cmor()
-   
-   # Set dummy site lats and longs.
-   site_lats = numpy.array([-90.0, 0.0, 90.0], dtype=numpy.float32)
-   site_lons = numpy.array([0.0, 0.0, 0.0], dtype=numpy.float32)
+    # Create CMOR dataset
+    cmor.dataset_json("Test/common_user_input.json")
 
-   # Create CMOR axes and grids
-   table_id = cmor.load_table('CMIP6_CFsubhr.json')
-   taxis_id = cmor.axis('time1', units='days since 2000-01-01 00:00:00') #, length=1, interval='30 minutes')
-   print 'ok: created time axis'
 
-   saxis_id = cmor.axis('site', units='1', coord_vals=[1,2,3])
-   print 'ok: created site axis',saxis_id
+#-------------------------------------------------------------------------
+if __name__ == '__main__':
+    #-------------------------------------------------------------------------
 
-   zaxis_id = cmor.axis('hybrid_height', units='m', coord_vals=[1.0], cell_bounds=[0.0,2.0])
-   print 'ok: created height axis',zaxis_id
+    # Initialise CMOR dataset and table
+    setup_cmor()
 
-   # Create zfactors for b and orog for hybrid height axis.
-   # Where do these get used, if anywhere?
-   bfact_id = cmor.zfactor(zaxis_id, 'b', '1', [zaxis_id], 'd', zfactor_values=[1.0],
-      zfactor_bounds=[0.0,2.0])
-   print 'ok: created b zfactors'
+    # Set dummy site lats and longs.
+    site_lats = numpy.array([-90.0, 0.0, 90.0], dtype=numpy.float32)
+    site_lons = numpy.array([0.0, 0.0, 0.0], dtype=numpy.float32)
 
-   # Create grid object to link site-dimensioned variables to (lat,long).
-   # Need to make CMIP6_grids the current MIP table for this to work.
-   table_id = cmor.load_table('CMIP6_grids.json')
-   gaxis_id = cmor.grid([saxis_id], site_lats, site_lons)
-   print 'ok: created site grid'
+    # Create CMOR axes and grids
+    table_id = cmor.load_table('CMIP6_CFsubhr.json')
+    # , length=1, interval='30 minutes')
+    taxis_id = cmor.axis('time1', units='days since 2000-01-01 00:00:00')
+    print 'ok: created time axis'
 
-   # Create CMOR variable for cloud area fraction: MIP name = 'cl', STASH = m01s02i261*100
-   table_id = cmor.load_table('CMIP6_CFsubhr.json')
-   var_id = cmor.variable('cl', '%', [taxis_id, gaxis_id, zaxis_id], type='f',
-      missing_value=-99.0, original_name='STASH m01s02i261*100')
-   print 'ok: created variable for "cl"'
+    saxis_id = cmor.axis('site', units='1', coord_vals=[1, 2, 3])
+    print 'ok: created site axis', saxis_id
 
-   ofact_id = cmor.zfactor(zaxis_id, 'orog', 'm', [gaxis_id], 'd',
-      zfactor_values=[123.0])
-   print 'ok: created orog zfactors'
-   # Write some data to this variable. First convert raw data to numpy arrays.
-   shape = (1, 3, 1)
-   data = numpy.array([10, 20, 30], dtype=numpy.float32)
-   data = data.reshape(shape)
-   cmor.write(var_id, data, time_vals=[1.0])
-   print 'ok: wrote variable data'
+    zaxis_id = cmor.axis(
+        'hybrid_height',
+        units='m',
+        coord_vals=[1.0],
+        cell_bounds=[
+            0.0,
+            2.0])
+    print 'ok: created height axis', zaxis_id
 
-   # Close CMOR.
-   cmor.close()
+    # Create zfactors for b and orog for hybrid height axis.
+    # Where do these get used, if anywhere?
+    bfact_id = cmor.zfactor(zaxis_id, 'b', '1', [zaxis_id], 'd', zfactor_values=[1.0],
+                            zfactor_bounds=[0.0, 2.0])
+    print 'ok: created b zfactors'
+
+    # Create grid object to link site-dimensioned variables to (lat,long).
+    # Need to make CMIP6_grids the current MIP table for this to work.
+    table_id = cmor.load_table('CMIP6_grids.json')
+    gaxis_id = cmor.grid([saxis_id], site_lats, site_lons)
+    print 'ok: created site grid'
+
+    # Create CMOR variable for cloud area fraction: MIP name = 'cl', STASH =
+    # m01s02i261*100
+    table_id = cmor.load_table('CMIP6_CFsubhr.json')
+    var_id = cmor.variable('cl', '%', [taxis_id, gaxis_id, zaxis_id], type='f',
+                           missing_value=-99.0, original_name='STASH m01s02i261*100')
+    print 'ok: created variable for "cl"'
+
+    ofact_id = cmor.zfactor(zaxis_id, 'orog', 'm', [gaxis_id], 'd',
+                            zfactor_values=[123.0])
+    print 'ok: created orog zfactors'
+    # Write some data to this variable. First convert raw data to numpy arrays.
+    shape = (1, 3, 1)
+    data = numpy.array([10, 20, 30], dtype=numpy.float32)
+    data = data.reshape(shape)
+    cmor.write(var_id, data, time_vals=[1.0])
+    print 'ok: wrote variable data'
+
+    # Close CMOR.
+    cmor.close()

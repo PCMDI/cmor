@@ -30,20 +30,19 @@ def run():
 
 class TestCase(unittest.TestCase):
 
-    def setUp(self, *args, **kwargs):                                                                                                          
-        # ------------------------------------------------------                                                                               
-        # Copy stdout and stderr file descriptor for cmor output                                                                               
-        # ------------------------------------------------------                                                                               
-        self.newstdout = os.dup(1)                                                                                                             
-        self.newstderr = os.dup(2)                                                                                                             
-        # --------------                                                                                                                       
-        # Create tmpfile                                                                                                                       
-        # --------------                                                                                                                       
-        self.tmpfile = tempfile.mkstemp()                                                                                                      
-        os.dup2(self.tmpfile[0], 1)                                                                                                            
-        os.dup2(self.tmpfile[0], 2)                                                                                                            
-        os.close(self.tmpfile[0])                                                                                                              
-
+    def setUp(self, *args, **kwargs):
+        # ------------------------------------------------------
+        # Copy stdout and stderr file descriptor for cmor output
+        # ------------------------------------------------------
+        self.newstdout = os.dup(1)
+        self.newstderr = os.dup(2)
+        # --------------
+        # Create tmpfile
+        # --------------
+        self.tmpfile = tempfile.mkstemp()
+        os.dup2(self.tmpfile[0], 1)
+        os.dup2(self.tmpfile[0], 2)
+        os.close(self.tmpfile[0])
 
     def testCMIP6(self):
         try:
@@ -61,18 +60,21 @@ class TestCase(unittest.TestCase):
             itime = cmor.axis(table_entry="time", units='months since 2011',
                               coord_vals=numpy.array([0, 1, 2, 3, 4.]),
                               cell_bounds=numpy.array([0, 1, 2, 3, 4, 5.]))
-            ivar = cmor.variable(table_entry="masso", axis_ids=[itime], units='kg')
+            ivar = cmor.variable(
+                table_entry="masso",
+                axis_ids=[itime],
+                units='kg')
 
             data = numpy.random.random(5)
             for i in range(0, 5):
                 a = cmor.write(ivar, data[i:i])
             cmor.close()
-        except:
+        except BaseException:
             raise
-        os.dup2(self.newstdout, 1)                                                                                                         
-        os.dup2(self.newstderr, 2)                                                                                                         
-        sys.stdout = os.fdopen(self.newstdout, 'w', 0)                                                                                     
-        sys.stderr = os.fdopen(self.newstderr, 'w', 0)                                                                                     
+        os.dup2(self.newstdout, 1)
+        os.dup2(self.newstderr, 2)
+        sys.stdout = os.fdopen(self.newstdout, 'w', 0)
+        sys.stderr = os.fdopen(self.newstderr, 'w', 0)
 
         f = cdms2.open(cmor.get_final_filename(), "r")
         a = f.getglobal("tracking_id").split('/')[0]

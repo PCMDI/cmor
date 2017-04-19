@@ -16,7 +16,6 @@ Created on Fri Feb 19 11:33:52 2016
 
 @author: Denis Nadeau LLNL
 '''
-
 import cmip6_cv
 import cdms2
 import argparse
@@ -130,9 +129,9 @@ class checkCMIP6(object):
             # -------------------------------------------------------------------
             # find variable that contains a "history" (should only be one)
             # -------------------------------------------------------------------
-            self.var = [var for var in self.variables if 'history' in self.infile.listattribute(var)]
+            self.var = [self.infile.variable_id]
 
-        if((self.var == []) or (len(self.var) > 1)):
+        if((self.var == []) or (len(self.var) > 1)): 
             print bcolors.FAIL
             print "!!!!!!!!!!!!!!!!!!!!!!!!!"
             print "! Error:  The input file does not have an history attribute and the CMIP6 variable could not be found"
@@ -171,13 +170,19 @@ class checkCMIP6(object):
         cmip6_cv.set_cur_dataset_attribute(cmip6_cv.CMOR_AXIS_ENTRY_FILE, "CMIP6_coordinate.json") 
         cmip6_cv.set_cur_dataset_attribute(cmip6_cv.CMOR_FORMULA_VAR_FILE, "CMIP6_formula_terms.json")
 
-
         # -------------------------------------------------------------------
         # Create alist of all Global Attributes and set "dataset"
         # -------------------------------------------------------------------
         self.dictGbl = {key: self.infile.getglobal(key) for key in self.attributes}
         ierr = [cmip6_cv.set_cur_dataset_attribute(key, value) for key, value in self.dictGbl.iteritems()]
+        if(self.dictGbl["sub_experiment_id"] not in ["none"]):
+            member_id = self.dictGbl["sub_experiment_id"] + '-' +self.dictGbl["variant_label"]
+        else:
+            member_id = self.dictGbl["variant_label"]
+        cmip6_cv.set_cur_dataset_attribute(cmip6_cv.GLOBAL_ATT_MEMBER_ID, member_id)
 
+        self.setDoubleValue('branch_time_in_parent')
+        self.setDoubleValue('branch_time_in_child')
         # -------------------------------------------------------------------
         # Create a dictionnary of attributes for var
         # -------------------------------------------------------------------
@@ -185,10 +190,22 @@ class checkCMIP6(object):
                                     [(key, value) for key in self.keys
                                         if self.infile.getattribute(self.var[0], key) is not None
                                         for value in [self.infile.getattribute(self.var[0], key)]])
+        try:
+           self.calendar = self.infile.getAxis('time').calendar
+           self.timeunits = self.infile.getAxis('time').units
+        except:
+           self.calendar = "gregorian"
+           self.timeunits = "days since ?"
         # -------------------------------------------------------------------
         # Load CMIP6 table into memory
         # -------------------------------------------------------------------
         self.table_id = cmip6_cv.load_table(self.cmip6_table)
+
+    def setDoubleValue(self, attribute):
+        if( cmip6_cv.has_cur_dataset_attribute(attribute) ):
+            if(isinstance(self.dictGbl[attribute],numpy.ndarray) and type(self.dictGbl[attribute][0]) == numpy.float64):
+                self.dictGbl[attribute] = self.dictGbl[attribute][0]
+                cmip6_cv.set_cur_dataset_attribute(attribute,self.dictGbl[attribute])
 
     def ControlVocab(self):
         '''
@@ -210,7 +227,55 @@ class checkCMIP6(object):
         cmip6_cv.check_grids(self.table_id)
         cmip6_cv.check_ISOTime()
         cmip6_cv.check_furtherinfourl(self.table_id)
-        varid = cmip6_cv.setup_variable(self.var[0], 'm', 1e20)
+        cmip6_cv.check_parentExpID(self.table_id)
+        cmip6_cv.check_subExpID(self.table_id)
+        try:
+            startimebnds = self.infile['time_bnds'][0][0]
+            endtimebnds  = self.infile['time_bnds'][-1][1]
+        except:
+            startimebnds = 0
+            endtimebnds  = 0
+        try:
+            startime = self.infile['time'][0]
+            endtime  = self.infile['time'][-1]
+        except:
+            startime = 0
+            endtime  = 0
+        varunits = self.infile[self.var[0]].units
+        varmissing = self.infile[self.var[0]]._FillValue[0]
+        varid = cmip6_cv.setup_variable(self.var[0], varunits, varmissing, startime, endtime, 
+                startimebnds, endtimebnds)
+        fn = os.path.basename(self.infile.id)
+        cmip6_cv.check_filename(self.table_id, varid, self.calendar, self.timeunits, fn)
+
+        if not isinstance(self.dictGbl['realization_index'], numpy.ndarray):
+            print bcolors.FAIL
+            print "====================================================================================="
+            print "realization_index is not an integer: ", type(self.dictGbl['realization_index'])
+            print "====================================================================================="
+            print bcolors.ENDC
+            cmip6_cv.set_CV_Error()
+        if not isinstance(self.dictGbl['initialization_index'], numpy.ndarray):
+            print bcolors.FAIL
+            print "====================================================================================="
+            print "initialization_index is not an integer: ", type(self.dictGbl['initialization_index'])
+            print "====================================================================================="
+            print bcolors.ENDC
+            cmip6_cv.set_CV_Error()
+        if not isinstance(self.dictGbl['physics_index'], numpy.ndarray):
+            print bcolors.FAIL
+            print "====================================================================================="
+            print "physics_index is not an integer: ", type(self.dictGbl['physics_index'])
+            print "====================================================================================="
+            print bcolors.ENDC
+            cmip6_cv.set_CV_Error()
+        if not isinstance(self.dictGbl['forcing_index'], numpy.ndarray):
+            print bcolors.FAIL
+            print "====================================================================================="
+            print "forcing_index is not an integer: ", type(self.dictGbl['forcing_index'])
+            print "====================================================================================="
+            print bcolors.ENDC
+            cmip6_cv.set_CV_Error()
 
         prepLIST =  cmip6_cv.list_variable_attributes(varid)
         for key in prepLIST:

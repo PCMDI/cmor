@@ -1,34 +1,35 @@
-import cmor,numpy
+import cmor
+import numpy
 
 error_flag = cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
-  
+
 error_flag = cmor.dataset_json("Test/common_user_input.json")
 
 # creates 1 degree grid
-nlat=180
-nlon=360
-alats = numpy.arange(180)-89.5
-bnds_lat = numpy.arange(181)-90
-alons=numpy.arange(360)+.5
-bnds_lon=numpy.arange(361)
+nlat = 180
+nlon = 360
+alats = numpy.arange(180) - 89.5
+bnds_lat = numpy.arange(181) - 90
+alons = numpy.arange(360) + .5
+bnds_lon = numpy.arange(361)
 cmor.load_table("Tables/CMIP6_Amon.json")
-#cmor.load_table("Test/IPCC_table_A1")
-ilat = cmor.axis(  
-    table_entry='latitude',       
-    units='degrees_north',          
-    length=nlat,                   
-    coord_vals=alats,              
-    cell_bounds=bnds_lat)        
+# cmor.load_table("Test/IPCC_table_A1")
+ilat = cmor.axis(
+    table_entry='latitude',
+    units='degrees_north',
+    length=nlat,
+    coord_vals=alats,
+    cell_bounds=bnds_lat)
 
-ilon = cmor.axis(  
-    table_entry='longitude',      
-    length=nlon,                   
-    units='degrees_east',         
-    coord_vals=alons,             
-    cell_bounds=bnds_lon)      
+ilon = cmor.axis(
+    table_entry='longitude',
+    length=nlon,
+    units='degrees_east',
+    coord_vals=alons,
+    cell_bounds=bnds_lon)
 
 
-mlev_val= """
+mlev_val = """
    0.000000    0.000000    0.000000    0.000000    0.000000
    0.000000    0.000000    0.000000    0.000000    0.000000
    0.000000    0.000000    0.000000    0.000000    0.000000
@@ -40,11 +41,11 @@ mlev_val= """
    0.791300    0.841100    0.886350    0.925950    0.958600
    0.982650    0.996150""".split()
 
-levs=[]
+levs = []
 for l in mlev_val:
     levs.append(float(l))
-    
-BS_bnds= """
+
+BS_bnds = """
    0.000000    0.000000    0.000000    0.000000    0.000000
    0.000000    0.000000    0.000000    0.000000    0.000000
    0.000000    0.000000    0.000000    0.000000    0.000000
@@ -61,32 +62,31 @@ for l in BS_bnds:
     levs_bnds.append(float(l))
 
 
-levs=numpy.array(levs)
-levs_bnds=numpy.array(levs_bnds)
+levs = numpy.array(levs)
+levs_bnds = numpy.array(levs_bnds)
 nlevs = len(levs)
 
-ntimes=12
+ntimes = 12
 
 
-itim = cmor.axis(  
-    table_entry='time',           
-    units='months since 2030-1-1',  
-    length=ntimes,                
+itim = cmor.axis(
+    table_entry='time',
+    units='months since 2030-1-1',
+    length=ntimes,
     interval='1 month')
 
-zlevs = numpy.array(( 0.1, 0.3, 0.55, 0.7, 0.9 ))
-zlev_bnds=numpy.array(( 0.,.2, .42, .62, .8, 1. ))
-table_entry='alternate_hybrid_sigma'
+zlevs = numpy.array((0.1, 0.3, 0.55, 0.7, 0.9))
+zlev_bnds = numpy.array((0., .2, .42, .62, .8, 1.))
+table_entry = 'alternate_hybrid_sigma'
 
-## for i in range(nlevs):
-##     print i,levs_bnds[i],levs[i],levs_bnds[i+1]
-##     if not (levs_bnds[i]<=levs[i]<=levs_bnds[i+1]) :
-##         print 'Yikes'
+# for i in range(nlevs):
+# print i,levs_bnds[i],levs[i],levs_bnds[i+1]
+# if not (levs_bnds[i]<=levs[i]<=levs_bnds[i+1]) :
+# print 'Yikes'
 
-ilev = cmor.axis(  
+ilev = cmor.axis(
     table_entry=table_entry,
     units='',
-    length=nlevs,                   
-    coord_vals=levs,             
+    length=nlevs,
+    coord_vals=levs,
     cell_bounds=levs_bnds)
-

@@ -1,4 +1,5 @@
 #include <Python.h>
+#define NPY_NO_DEPRECATED_API  NPY_1_10_API_VERSION
 #include "numpy/arrayobject.h"
 #include "cmor.h"
 
@@ -419,14 +420,14 @@ static PyObject *PyCMOR_axis( PyObject * self, PyObject * args ) {
 							      NPY_NOTYPE,
 							      1, 0 );
 
-	if( coords->nd != 1 ) {
+	if( PyArray_NDIM(coords) != 1 ) {
 	    printf
 		( "ok we need to pass contiguous flattened arrays only!\n" );
 	    return NULL;
 	}
 
 	if( type != 'c' ) {
-	    coord_vals = ( void * ) coords->data;
+	    coord_vals = ( void * ) PyArray_DATA(coords);
 	    n = cell_bounds_ndim;
 	} else {
 	    tmpstr =
@@ -453,12 +454,12 @@ static PyObject *PyCMOR_axis( PyObject * self, PyObject * args ) {
 	    ( PyArrayObject * ) PyArray_ContiguousFromObject( bounds_obj,
 							      NPY_NOTYPE,
 							      1, 0 );
-	if( bounds->nd != 1 ) {
+	if( PyArray_NDIM(bounds) != 1 ) {
 	    printf
 		( "ok we need to pass contiguous flattened arrays only!\n" );
 	    return NULL;
 	}
-	cell_bounds = ( void * ) bounds->data;
+	cell_bounds = ( void * ) PyArray_DATA(bounds);
     }
 
     ierr =
@@ -541,11 +542,11 @@ static PyObject *PyCMOR_variable( PyObject * self, PyObject * args ) {
 							  NPY_NOTYPE,
 							  1, 0 );
 
-    if( axes->nd != 1 ) {
+    if( PyArray_NDIM(axes) != 1 ) {
 	printf( "ok we need to pass contiguous flattened arrays only!\n" );
 	return NULL;
     }
-    axes_ids = ( int * ) axes->data;
+    axes_ids = ( int * ) PyArray_DATA(axes);
 
     if( missing_obj == Py_None ) {
 	pass_missing = NULL;
@@ -613,7 +614,7 @@ static PyObject *PyCMOR_zfactor( PyObject * self, PyObject * args ) {
 		( PyArrayObject * ) PyArray_ContiguousFromObject( axes_obj,
 								  NPY_NOTYPE,
 								  1, 0 );
-	    axes_ids = ( void * ) axes->data;
+	    axes_ids = ( void * ) PyArray_DATA(axes);
 	} else {
 	    itmp = ( int ) PyInt_AsLong( axes_obj );
 	    axes_ids = &itmp;
@@ -628,7 +629,7 @@ static PyObject *PyCMOR_zfactor( PyObject * self, PyObject * args ) {
 	    ( PyArrayObject * ) PyArray_ContiguousFromObject( values_obj,
 							      NPY_NOTYPE,
 							      1, 0 );
-	values = ( void * ) values_array->data;
+	values = ( void * ) PyArray_DATA(values_array);
     }
 
     if( bounds_obj == Py_None ) {
@@ -638,7 +639,7 @@ static PyObject *PyCMOR_zfactor( PyObject * self, PyObject * args ) {
 	    ( PyArrayObject * ) PyArray_ContiguousFromObject( bounds_obj,
 							      NPY_NOTYPE,
 							      1, 0 );
-	bounds = ( void * ) bounds_array->data;
+	bounds = ( void * ) PyArray_DATA(bounds_array);
     }
 
     ierr =
@@ -685,7 +686,7 @@ static PyObject *PyCMOR_grid_mapping( PyObject * self, PyObject * args ) {
 	( PyArrayObject * ) PyArray_ContiguousFromObject( param_val_obj,
 							  NPY_NOTYPE,
 							  1, 0 );
-    param_val = param_val_arr->data;
+    param_val = PyArray_DATA(param_val_arr);
 
     n = PyList_Size( param_nm_obj );
     for( i = 0; i < n; i++ ) {
@@ -749,7 +750,7 @@ static PyObject *PyCMOR_write( PyObject * self, PyObject * args ) {
 	( PyArrayObject * ) PyArray_ContiguousFromObject( data_obj,
 							  NPY_NOTYPE,
 							  1, 0 );
-    data = data_array->data;
+    data = PyArray_DATA(data_array);
 
     if( times_obj == Py_None ) {
 	times = NULL;
@@ -759,7 +760,7 @@ static PyObject *PyCMOR_write( PyObject * self, PyObject * args ) {
 		( PyArrayObject * )
 		PyArray_ContiguousFromObject( times_obj, NPY_NOTYPE, 1,
 					      0 );
-	    times = ( void * ) times_array->data;
+	    times = ( void * ) PyArray_DATA(times_array);
 	} else {
 	    itime = ( double ) PyFloat_AsDouble( times_obj );
 	    times = &itime;
@@ -773,7 +774,7 @@ static PyObject *PyCMOR_write( PyObject * self, PyObject * args ) {
 	    ( PyArrayObject * )
 	    PyArray_ContiguousFromObject( times_bnds_obj, NPY_NOTYPE,
 					  1, 0 );
-	times_bnds = ( void * ) times_bnds_array->data;
+	times_bnds = ( void * ) PyArray_DATA(times_bnds_array);
     }
 
     if( ref_obj == Py_None ) {
@@ -911,8 +912,8 @@ static PyObject *PyCMOR_grid( PyObject * self, PyObject * args ) {
     signal(signal_to_catch, signal_handler);
     int ierr;
     PyObject *axes_obj, *lat_obj, *lon_obj, *blat_obj, *blon_obj;
-    PyArrayObject *axes_arr = NULL, *lat_arr = NULL, *lon_arr =
-	NULL, *blat_arr = NULL, *blon_arr = NULL;
+    PyArrayObject *axes_arr = NULL, *lat_arr = NULL, *lon_arr = NULL,
+            *blat_arr = NULL, *blon_arr = NULL;
     void *axes, *lon, *lat, *blon, *blat;
     char type;
     int nvert, ndims;
@@ -929,7 +930,7 @@ static PyObject *PyCMOR_grid( PyObject * self, PyObject * args ) {
 	( PyArrayObject * ) PyArray_ContiguousFromObject( axes_obj,
 							  NPY_NOTYPE,
 							  1, 0 );
-    axes = ( void * ) axes_arr->data;
+    axes = ( void * ) PyArray_DATA(axes_arr);
 
     if( lat_obj == Py_None ) {
 	lat = NULL;
@@ -938,7 +939,7 @@ static PyObject *PyCMOR_grid( PyObject * self, PyObject * args ) {
 	    ( PyArrayObject * ) PyArray_ContiguousFromObject( lat_obj,
 							      NPY_NOTYPE,
 							      1, 0 );
-	lat = ( void * ) lat_arr->data;
+	lat = ( void * ) PyArray_DATA(lat_arr);
     }
 
     if( lon_obj == Py_None ) {
@@ -948,7 +949,7 @@ static PyObject *PyCMOR_grid( PyObject * self, PyObject * args ) {
 	    ( PyArrayObject * ) PyArray_ContiguousFromObject( lon_obj,
 							      NPY_NOTYPE,
 							      1, 0 );
-	lon = ( void * ) lon_arr->data;
+	lon = ( void * ) PyArray_DATA(lon_arr);
     }
 
     if( blat_obj == Py_None ) {
@@ -958,7 +959,7 @@ static PyObject *PyCMOR_grid( PyObject * self, PyObject * args ) {
 	    ( PyArrayObject * ) PyArray_ContiguousFromObject( blat_obj,
 							      NPY_NOTYPE,
 							      1, 0 );
-	blat = ( void * ) blat_arr->data;
+	blat = ( void * ) PyArray_DATA(blat_arr);
     }
     if( blon_obj == Py_None ) {
 	blon = NULL;
@@ -967,7 +968,7 @@ static PyObject *PyCMOR_grid( PyObject * self, PyObject * args ) {
 	    ( PyArrayObject * ) PyArray_ContiguousFromObject( blon_obj,
 							      NPY_NOTYPE,
 							      1, 0 );
-	blon = ( void * ) blon_arr->data;
+	blon = ( void * ) PyArray_DATA(blon_arr);
     }
 
     ierr =

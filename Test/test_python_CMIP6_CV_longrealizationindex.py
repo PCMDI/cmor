@@ -61,9 +61,8 @@ class TestCase(unittest.TestCase):
             # -------------------------------------------
             cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
             cmor.dataset_json("Test/common_user_input.json")
-            cmor.set_cur_dataset_attribute("initialization_index", 
+            cmor.set_cur_dataset_attribute("initialization_index",
                                            "1209374928349823498274987234987")
-
 
             # ------------------------------------------
             # load Omon table and create masso variable
@@ -72,14 +71,17 @@ class TestCase(unittest.TestCase):
             itime = cmor.axis(table_entry="time", units='months since 2010',
                               coord_vals=numpy.array([0, 1, 2, 3, 4.]),
                               cell_bounds=numpy.array([0, 1, 2, 3, 4, 5.]))
-            ivar = cmor.variable(table_entry="masso", axis_ids=[itime], units='kg')
+            ivar = cmor.variable(
+                table_entry="masso",
+                axis_ids=[itime],
+                units='kg')
 
             data = numpy.random.random(5)
             for i in range(0, 1):
                 cmor.write(ivar, data[i:i])
-            cmor.close()                                                                                                                       
+            cmor.close()
 
-        except:
+        except BaseException:
             os.dup2(self.newstdout, 1)
             os.dup2(self.newstderr, 2)
             sys.stdout = os.fdopen(self.newstdout, 'w', 0)

@@ -56,7 +56,8 @@ class TestCase(unittest.TestCase):
             # Try to call cmor with a bad institution_ID
             # -------------------------------------------
             cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
-            cmor.dataset_json("Test/test_python_CMIP6_CV_badsourcetypeCHEMAER.json")
+            cmor.dataset_json(
+                "Test/test_python_CMIP6_CV_badsourcetypeCHEMAER.json")
 
             # ------------------------------------------
             # load Omon table and create masso variable
@@ -65,14 +66,17 @@ class TestCase(unittest.TestCase):
             itime = cmor.axis(table_entry="time", units='months since 2010',
                               coord_vals=numpy.array([0, 1, 2, 3, 4.]),
                               cell_bounds=numpy.array([0, 1, 2, 3, 4, 5.]))
-            ivar = cmor.variable(table_entry="masso", axis_ids=[itime], units='kg')
+            ivar = cmor.variable(
+                table_entry="masso",
+                axis_ids=[itime],
+                units='kg')
 
             data = numpy.random.random(5)
             for i in range(0, 5):
                 cmor.write(ivar, data[i:i])
-            cmor.close()                                                                                                                       
+            cmor.close()
 
-        except:
+        except BaseException:
             pass
 
         os.dup2(self.newstdout, 1)

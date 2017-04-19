@@ -172,7 +172,7 @@ program testing
       cell_bounds=bnds_lon)      
 
  ilat2 = cmor_axis(  &
-      table='Tables/CMIP6_fx.json',    &
+      table='Tables/CMIP6_Ofx.json',    &
       table_entry='latitude',       &
       units='degrees_north',        &  
       length=lat,                   &
@@ -181,7 +181,7 @@ program testing
 
  print*, 'Test code: ok calling axis stuff lon',ilat
  ilon2 = cmor_axis(  &
-      table='Tables/CMIP6_fx.json',    &
+      table='Tables/CMIP6_Ofx.json',    &
       table_entry='longitude',      &
       length=lon,                   &
       units='degrees_east',         &
@@ -298,7 +298,7 @@ program testing
  DO m=1,n2d
     print*, 'Test code: var: ',entry2d(m)
     var2d_ids(m) = cmor_variable(    &
-         table='Tables/CMIP6_fx.json',  &
+         table='Tables/CMIP6_Ofx.json',  &
          table_entry=entry2d(m),     & 
          units=units2d(m),           & 
     !     axis_ids=(/ ilon, ilat, itim /), &

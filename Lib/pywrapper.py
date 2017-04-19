@@ -197,11 +197,11 @@ def set_grid_mapping(grid_id,mapping_name,parameter_names,parameter_values=None,
         raise Exception, "mapping name must be a string"
 
     if isinstance(parameter_names,dict):
-        pnams = []
+        pnms = []
         pvals = []
         punit = []
         for k in parameter_names.keys():
-            pnams.append(k)
+            pnms.append(k)
             val = parameter_names[k]
             if isinstance(val,dict):
                 ks = val.keys()
@@ -219,7 +219,7 @@ def set_grid_mapping(grid_id,mapping_name,parameter_names,parameter_values=None,
                         pvals.append(float(v))
                     except:
                         pass
-                if len(pvals)!=len(punits) or len(pvals)!=len(pnams):
+                if len(pvals)!=len(punit) or len(pvals)!=len(pnms):
                     raise Exception, "could not figure out values for parameter_name: '%s' " % k
             else:
                 raise Exception, "could not figure out values for parameter_name: '%s' " % k

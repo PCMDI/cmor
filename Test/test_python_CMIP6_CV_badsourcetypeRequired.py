@@ -48,7 +48,7 @@ class TestCase(unittest.TestCase):
         f = open(self.tmpfile[1], 'r')
         lines = f.readlines()
         for line in lines:
-            if line.find('Your ') != -1:
+            if line.find('source type is set to') != -1:
                 testOK = line.strip()
                 break
         f.close()
@@ -62,7 +62,8 @@ class TestCase(unittest.TestCase):
             # -------------------------------------------
             cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
             cmor.dataset_json("Test/common_user_input.json")
-            cmor.set_cur_dataset_attribute("source_type", "AOGCM ISM BGCM LAND")
+            cmor.set_cur_dataset_attribute(
+                "source_type", "AOGCM ISM BGCM LAND")
 
             # ------------------------------------------
             # load Omon table and create masso variable
@@ -71,14 +72,17 @@ class TestCase(unittest.TestCase):
             itime = cmor.axis(table_entry="time", units='months since 2010',
                               coord_vals=numpy.array([0, 1, 2, 3, 4.]),
                               cell_bounds=numpy.array([0, 1, 2, 3, 4, 5.]))
-            ivar = cmor.variable(table_entry="masso", axis_ids=[itime], units='kg')
+            ivar = cmor.variable(
+                table_entry="masso",
+                axis_ids=[itime],
+                units='kg')
 
             data = numpy.random.random(5)
             for i in range(0, 5):
                 a = cmor.write(ivar, data[i:i])
-            cmor.close()                                                                                                                       
+            cmor.close()
 
-        except:
+        except BaseException:
             pass
         os.dup2(self.newstdout, 1)
         os.dup2(self.newstderr, 2)

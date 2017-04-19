@@ -66,10 +66,14 @@ class TestCase(unittest.TestCase):
             cmor.load_table("CMIP6_Omon.json")
             itime = cmor.axis(table_entry="time", units='months since 2010', coord_vals=numpy.array(
                 [0, 1, 2, 3, 4.]), cell_bounds=numpy.array([0, 1, 2, 3, 4, 5.]))
-            ivar = cmor.variable(table_entry="masso", axis_ids=[itime], units='kg')
+            ivar = cmor.variable(
+                table_entry="masso",
+                axis_ids=[itime],
+                units='kg')
             data = numpy.random.random(5)
             for i in range(0, 5):
-                cmor.write(ivar, data[i:i])  # ,time_vals=numpy.array([i,]),time_bnds=numpy.array([i,i+1]))
+                # ,time_vals=numpy.array([i,]),time_bnds=numpy.array([i,i+1]))
+                cmor.write(ivar, data[i:i])
             cmor.close()
             os.dup2(self.newstdout, 1)
             os.dup2(self.newstderr, 2)
@@ -77,8 +81,9 @@ class TestCase(unittest.TestCase):
             sys.stderr = os.fdopen(self.newstderr, 'w', 0)
             testOK = self.getAssertTest()
             self.assertIn('CMIP5-PMIP', testOK)
-        except:
+        except BaseException:
             raise
+
 
 if __name__ == '__main__':
     run()
