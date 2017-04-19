@@ -75,7 +75,7 @@ for var in ['tas',]:
         cmor.write(var_id,df)
         cmor.close()
 #        fn = "CMIP6/CMIP/CSIRO-BOM/NICAM/piControl/r1i1p1f1/Amon/%s/gn/v%s/%s_Amon_piControl_NICAM_r1i1p1f1_gn_197901-199605.nc" %(var,today,var)
-        fn = "CMIP6/ISMIP6/PCMDI/PCMDI-test-1-0/piControl-withism/r11i1p1f1/Amon/%s/gr/v%s/%s_Amon_piControl-withism_PCMDI-test-1-0_r11i1p1f1_gr_197901-199605.nc" %(var,today,var)                                                                                                                               
+        fn = "CMIP6/CMIP6/ISMIP6/PCMDI/PCMDI-test-1-0/piControl-withism/r11i1p1f1/Amon/%s/gr/v%s/%s_Amon_piControl-withism_PCMDI-test-1-0_r11i1p1f1_gr_197901-199605.nc" %(var,today,var)                                                                                                                               
         f=cdms2.open(fn)
         s=f(var)
         if not numpy.allclose(s,data_ordered):
