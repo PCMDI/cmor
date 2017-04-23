@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.00.06", 
+        "data_specs_version": "01.00.07", 
         "table_id": "Table IfxGre", 
         "realm": "landIce", 
         "frequency": "fx", 
         "cmor_version": "3.2", 
-        "table_date": "10 April 2017", 
+        "table_date": "22 April 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "", 
@@ -33,7 +33,7 @@
         }, 
         "hfgeoubed": {
             "modeling_realm": "landIce", 
-            "standard_name": "upward_geothermal_heat_flux_at_ground_level", 
+            "standard_name": "upward_geothermal_heat_flux_at_ground_level_in_land_ice", 
             "units": "W m-2", 
             "cell_methods": "area: mean", 
             "cell_measures": "area: areacellg", 

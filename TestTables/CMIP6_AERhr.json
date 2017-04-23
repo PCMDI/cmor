@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.00.06", 
+        "data_specs_version": "01.00.07", 
         "table_id": "Table AERhr", 
         "realm": "aerosol", 
         "frequency": "hr", 
         "cmor_version": "3.2", 
-        "table_date": "10 April 2017", 
+        "table_date": "22 April 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "", 
@@ -15,7 +15,7 @@
     }, 
     "variable_entry": {
         "ps": {
-            "modeling_realm": "aerosol", 
+            "modeling_realm": "atmos", 
             "standard_name": "surface_air_pressure", 
             "units": "Pa", 
             "cell_methods": "area: time: mean ", 
@@ -86,11 +86,11 @@
             "modeling_realm": "atmos", 
             "standard_name": "air_temperature", 
             "units": "K", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Surface Temperature", 
             "comment": "near-surface (usually, 2 meter) air temperature", 
-            "dimensions": "longitude latitude time", 
+            "dimensions": "longitude latitude time height2m", 
             "out_name": "tas", 
             "type": "float", 
             "positive": "", 

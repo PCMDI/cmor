@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.00.06", 
+        "data_specs_version": "01.00.07", 
         "table_id": "Table E6hrZ", 
         "realm": "atmos", 
         "frequency": "6hr", 
         "cmor_version": "3.2", 
-        "table_date": "10 April 2017", 
+        "table_date": "22 April 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "0.250000", 
@@ -14,6 +14,23 @@
         "Conventions": "CF-1.7 CMIP-6.0"
     }, 
     "variable_entry": {
+        "ps": {
+            "modeling_realm": "atmos", 
+            "standard_name": "surface_air_pressure", 
+            "units": "Pa", 
+            "cell_methods": "time: mean", 
+            "cell_measures": "area: areacella", 
+            "long_name": "Surface Pressure", 
+            "comment": "surface pressure (not mean sea-level pressure), 2-D field to calculate the 3-D pressure field from hybrid coordinates", 
+            "dimensions": "latitude time", 
+            "out_name": "ps", 
+            "type": "float", 
+            "positive": "", 
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
+        }, 
         "zmlwaero": {
             "modeling_realm": "atmos", 
             "standard_name": "longwave_heating_rate_due_to_volcanic_aerosols", 

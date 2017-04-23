@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.00.06", 
+        "data_specs_version": "01.00.07", 
         "table_id": "Table IyrAnt", 
         "realm": "landIce", 
         "frequency": "yr", 
         "cmor_version": "3.2", 
-        "table_date": "10 April 2017", 
+        "table_date": "22 April 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "365.00", 
@@ -50,7 +50,7 @@
         }, 
         "hfgeoubed": {
             "modeling_realm": "landIce", 
-            "standard_name": "upward_geothermal_heat_flux_at_ground_level", 
+            "standard_name": "upward_geothermal_heat_flux_at_ground_level_in_land_ice", 
             "units": "W m-2", 
             "cell_methods": "area: time: mean where ice_sheet", 
             "cell_measures": "area: areacellg", 
@@ -84,7 +84,7 @@
         }, 
         "iareagr": {
             "modeling_realm": "atmos", 
-            "standard_name": "grounded_land_ice_area", 
+            "standard_name": "grounded_ice_sheet_area", 
             "units": "m2", 
             "cell_methods": "area: time: mean where grounded_ice_sheet (comment: mask=sfgrlf)", 
             "cell_measures": "", 

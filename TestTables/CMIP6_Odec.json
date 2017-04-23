@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.00.06", 
+        "data_specs_version": "01.00.07", 
         "table_id": "Table Odec", 
         "realm": "ocean", 
         "frequency": "dec", 
         "cmor_version": "3.2", 
-        "table_date": "10 April 2017", 
+        "table_date": "22 April 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "", 
@@ -103,7 +103,7 @@
             "modeling_realm": "ocean", 
             "standard_name": "ocean_meridional_overturning_mass_streamfunction", 
             "units": "kg s-1", 
-            "cell_methods": "longitude: mean time: mean", 
+            "cell_methods": "longitude: mean (comment: basin mean[ along zig-zag grid path]) time: mean", 
             "cell_measures": "", 
             "long_name": "Ocean Meridional Overturning Mass Streamfunction", 
             "comment": "Overturning mass streamfunction arising from all advective mass transport processes, resolved and parameterized.", 
@@ -305,7 +305,7 @@
         }, 
         "tos": {
             "modeling_realm": "ocean", 
-            "standard_name": "surface_temperature", 
+            "standard_name": "sea_surface_temperature", 
             "units": "K", 
             "cell_methods": "time: mean", 
             "cell_measures": "area: areacello", 
