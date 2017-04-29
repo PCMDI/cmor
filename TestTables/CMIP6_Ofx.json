@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.00.07", 
+        "data_specs_version": "01.00.08", 
         "table_id": "Table Ofx", 
         "realm": "ocean", 
         "frequency": "fx", 
         "cmor_version": "3.2", 
-        "table_date": "22 April 2017", 
+        "table_date": "28 April 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "", 
@@ -45,6 +45,7 @@
             "positive": "", 
             "valid_min": "", 
             "valid_max": "", 
+            "flag_values": "0 1 2 3 4 5 6 7 8 9 10", 
             "flag_meanings": "global_land southern_ocean atlantic_ocean pacific_ocean arctic_ocean indian_ocean mediterranean_sea black_sea hudson_bay baltic_sea red_sea", 
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""

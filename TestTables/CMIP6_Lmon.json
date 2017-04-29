@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.00.07", 
+        "data_specs_version": "01.00.08", 
         "table_id": "Table Lmon", 
         "realm": "land", 
         "frequency": "mon", 
         "cmor_version": "3.2", 
-        "table_date": "22 April 2017", 
+        "table_date": "28 April 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "30.00000", 
@@ -580,7 +580,7 @@
             "standard_name": "moisture_content_of_soil_layer", 
             "units": "kg m-2", 
             "cell_methods": "area: mean where land time: mean", 
-            "cell_measures": "area: areacella", 
+            "cell_measures": "", 
             "long_name": "Moisture in Upper Portion of Soil Column", 
             "comment": "The mass of water in all phases in the upper 10cm of the  soil layer.", 
             "dimensions": "longitude latitude time sdepth1", 
