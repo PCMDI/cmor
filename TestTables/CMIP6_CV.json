@@ -34,11 +34,11 @@
         ],
         "version_metadata":{
             "author":"Paul J. Durack <durack1@llnl.gov>",
-            "creation_date":"Fri Apr 21 19:40:33 2017 -0700",
+            "creation_date":"Wed Apr 26 09:19:24 2017 -0700",
             "institution_id":"PCMDI",
-            "latest_tag_point":"3.2.3 (24; gae49721)",
-            "note":"Revise CMCC source_id atmos entries",
-            "previous_commit":"3c8ac3bb844356cc5a91767b69c0a2ad5f9f5a7c"
+            "latest_tag_point":"3.2.3 (29; g9be7426)",
+            "note":"Revise source_id BESM-2-7",
+            "previous_commit":"66ea1f100a70977e3400c65e14f0c91fc6590ac6"
         },
         "activity_id":[
             "AerChemMIP",
@@ -131,9 +131,30 @@
                 "source_id":"AWI-CM-1-0",
                 "source":"AWI-CM 1.0 (2017): \naerosol: none\natmos: ECHAM6.3.02p4 (T127L95 native atmosphere T127 gaussian grid; 384 x 192 longitude/latitude; 95 levels; top level 80 km)\natmosChem: none\nland: JSBACH 3.10\nlandIce: none\nocean: FESOM 1.4 (unstructured grid in the horizontal with 830305 wet nodes; 46 levels; top grid cell 0-5 m)\nocnBgchem: none\nseaIce: FESOM 1.4"
             },
+            "BESM-2-7":{
+                "activity_participation":[
+                    "CMIP",
+                    "DCPP",
+                    "HighResMIP",
+                    "ScenarioMIP"
+                ],
+                "cohort":[
+                    "Registered"
+                ],
+                "institution_id":[
+                    "INPE"
+                ],
+                "source_id":"BESM-2-7",
+                "source":"BESM 2.7 (2017): \naerosol: none\natmos: BAM (v1.0, T062L28; 192 x 96 longitude/latitude; 28 levels; top level 3 hPa)\natmosChem: none\nland: SSiB 2.0\nlandIce: none\nocean: MOM-5 (MOM5, tripolar primarily 1 deg, 1/4 deg between 10S-10N; 360 x 300 longitude/latitude; 50 levels; top grid cell 0-10 m)\nocnBgchem: TOPAZ 2.0\nseaIce: SIS 1.0"
+            },
             "BNU-ESM-1-1":{
                 "activity_participation":[
-                    ""
+                    "C4MIP",
+                    "CMIP",
+                    "GMMIP",
+                    "GeoMIP",
+                    "OMIP",
+                    "ScenarioMIP"
                 ],
                 "cohort":[
                     "Registered"
@@ -142,7 +163,7 @@
                     "BNU"
                 ],
                 "source_id":"BNU-ESM-1-1",
-                "source":"BNU-ESM 1.1 (2016): \naerosol: CAM-chem; semi-interactive\natmos: CAM4 (FV, 144 x 96; 26 levels; top level 2.194 mb)\natmosChem: none\nland: CoLM version 2014 with carbon-nitrogen interactions\nlandIce: none\nocean: MOM4p1 (tripolar, 360x200, primarily 1deg latitude/longitude, down to 1/3deg within 30deg of the equatorial tropics; 50 levels; top grid cell 0-10m)\nocnBgchem: Dynamic ecosystem-carbon model version 1\nseaIce: CICE4.1"
+                "source":"BNU-ESM 1.1 (2016): \naerosol: CAM-chem; semi-interactive\natmos: CAM4 (2deg; 144 x 96 longitude/latitude; 26 levels; top level 2.194 mb)\natmosChem: none\nland: CoLM version 2014 with carbon-nitrogen interactions\nlandIce: none\nocean: MOM4p1 (tripolar, primarily 1deg latitude/longitude, down to 1/3deg within 30deg of the equatorial tropics; 360 x 200 longitude/latitude; 50 levels; top grid cell 0-10 m)\nocnBgchem: Dynamic ecosystem-carbon model version 1\nseaIce: CICE4.1"
             },
             "CAMS_CSM1-0":{
                 "activity_participation":[
@@ -159,7 +180,13 @@
             },
             "CIESM":{
                 "activity_participation":[
-                    ""
+                    "CFMIP",
+                    "CMIP",
+                    "CORDEX",
+                    "GMMIP",
+                    "OMIP",
+                    "SIMIP",
+                    "ScenarioMIP"
                 ],
                 "cohort":[
                     "Registered"
@@ -168,7 +195,7 @@
                     "THU"
                 ],
                 "source_id":"CIESM",
-                "source":"CIESM (2017): \naerosol: MAM4\natmos: CIESM-AM (FV/FD, 288 x 192; 30 levels; top level 2.255 hPa)\natmosChem: trop_mam4\nland: CIESM-LM (modified CLM4.5)\nlandIce: none\nocean: CIESM-OM (FD, SCCGrid Displaced Pole, 720x560; 46 levels; top grid cell 0-6 m)\nocnBgchem: none\nseaIce: CICE4"
+                "source":"CIESM (2017): \naerosol: MAM4\natmos: CIESM-AM (FV/FD; 288 x 192 longitude/latitude; 30 levels; top level 2.255 hPa)\natmosChem: trop_mam4\nland: CIESM-LM (modified CLM4.5)\nlandIce: none\nocean: CIESM-OM (FD, SCCGrid Displaced Pole; 720 x 560 longitude/latitude; 46 levels; top grid cell 0-6 m)\nocnBgchem: none\nseaIce: CICE4"
             },
             "CMCC-CM2-HR4":{
                 "activity_participation":[
@@ -416,7 +443,8 @@
             },
             "EMAC-2-53-AerChem":{
                 "activity_participation":[
-                    ""
+                    "AerChemMIP",
+                    "CMIP"
                 ],
                 "cohort":[
                     "Registered"
@@ -425,7 +453,7 @@
                     "MESSy-Consortium"
                 ],
                 "source_id":"EMAC-2-53-AerChem",
-                "source":"EMAC-2-53-AerChem (2017): \naerosol: gmxe 2.2.x\natmos: ECHAM5.3.02 (modified; spectral T42; 128 x 64 longitude/latitude; 90 levels; top level 0.001 hPa)\natmosChem: MECCA 3.8.x\nland: same as Atmosphere\nlandIce: none\nocean: MPIOM 1.3.0-beta (bipolar GR1.5; approximately 1.5deg latitude/longitude; 40 levels; top grid cell 0-12 m)\nocnBgchem: none\nseaIce: thermodynamic (Semtner zero-layer) dynamic (Hibler 79) sea ice model"
+                "source":"EMAC-2-53-AerChem (2017): \naerosol: gmxe 2.2.x\natmos: ECHAM5.3.02 (modified, spectral T42; 128 x 64 longitude/latitude; 47 levels; top level 0.01 hPa)\natmosChem: MECCA 3.8.x\nland: same as Atmosphere\nlandIce: none\nocean: MPIOM 1.3.0-beta (bipolar GR1.5, approximately 1.5deg; 256 x 220 longitude/latitude; 40 levels; top grid cell 0-12 m)\nocnBgchem: none\nseaIce: thermodynamic (Semtner zero-layer) dynamic (Hibler 79) sea ice model"
             },
             "EMAC-2-53-Vol":{
                 "activity_participation":[
@@ -897,14 +925,19 @@
             "SLAB"
         ],
         "frequency":[
+            "1hr",
+            "1hrClimMon",
             "3hr",
+            "3hrClim",
             "6hr",
             "day",
+            "decadal",
             "fx",
             "mon",
             "monClim",
             "subhr",
-            "yr"
+            "yr",
+            "yrClim"
         ],
         "grid_label":[
             "gm",

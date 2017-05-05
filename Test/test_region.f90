@@ -5,7 +5,7 @@ MODULE local_subs
 
   USE cmor_users_functions
   PRIVATE
-  PUBLIC read_coords, read_time, read_1d_input_files
+  PUBLIC read_coords, read_time, read_3d_input_files
 CONTAINS
   
   SUBROUTINE read_coords(alats, bnds_lat)
@@ -91,6 +91,7 @@ PROGRAM test_region
 
   !   dimension parameters:
   ! ---------------------------------
+  INTEGER, PARAMETER :: dbze = 15     ! number of dbz
   INTEGER, PARAMETER :: ntimes = 2    ! number of time samples to process
   INTEGER, PARAMETER :: reg = 4       ! number of regions 
   INTEGER, PARAMETER :: lat = 3       ! number of latitude grid cells
@@ -123,12 +124,14 @@ PROGRAM test_region
 
   INTEGER :: error_flag
   INTEGER, DIMENSION(n1d) :: var1d_ids
-  REAL, DIMENSION(lat,reg) :: data1d
+  REAL, DIMENSION(lat,dbze,reg) :: data1d
+  DOUBLE PRECISION, DIMENSION(dbze) :: adbze
   DOUBLE PRECISION, DIMENSION(lat) :: alats
   DOUBLE PRECISION, DIMENSION(1) :: time
+  DOUBLE PRECISION, DIMENSION(2,dbze) :: bnds_dbze
   DOUBLE PRECISION, DIMENSION(2,1):: bnds_time
   DOUBLE PRECISION, DIMENSION(2,lat) :: bnds_lat
-  INTEGER :: ilat, ireg, itim
+  INTEGER :: ilat, ireg, itim, idbz
   double precision bt
 
   !  Other variables:
@@ -136,7 +139,53 @@ PROGRAM test_region
   
   INTEGER :: it, m  
   bt=0.
-  
+  adbze(1)=-47.5
+  adbze(2)=-42.5
+  adbze(3)=-37.5
+  adbze(4)=-32.5
+  adbze(5)=-27.5
+  adbze(6)=-22.5
+  adbze(7)=-17.5
+  adbze(8)=-12.5
+  adbze(9)=-7.5
+  adbze(10)=-2.5
+  adbze(11)=2.5
+  adbze(12)=7.5
+  adbze(13)=12.5
+  adbze(14)=17.5
+  adbze(15)=22.5
+
+  bnds_dbze(1,1)=-50.
+  bnds_dbze(2,1)=-45.
+  bnds_dbze(1,2)=-45.
+  bnds_dbze(2,2)=-40.
+  bnds_dbze(1,3)=-40.
+  bnds_dbze(2,3)=-35.
+  bnds_dbze(1,4)=-35.
+  bnds_dbze(2,4)=-30.
+  bnds_dbze(1,5)=-30.
+  bnds_dbze(2,5)=-25.
+  bnds_dbze(1,6)=-25.
+  bnds_dbze(2,6)=-20.
+  bnds_dbze(1,7)=-20.
+  bnds_dbze(2,7)=-15.
+  bnds_dbze(1,8)=-15.
+  bnds_dbze(2,8)=-10.
+  bnds_dbze(1,9)=-10.
+  bnds_dbze(2,9)=-5.
+  bnds_dbze(1,10)=-5.
+  bnds_dbze(2,10)=0.
+  bnds_dbze(1,11)=0.
+  bnds_dbze(2,11)=5.
+  bnds_dbze(1,12)=5.
+  bnds_dbze(2,12)=10.
+  bnds_dbze(1,13)=10.
+  bnds_dbze(2,13)=15.
+  bnds_dbze(1,14)=15.
+  bnds_dbze(2,14)=20.
+  bnds_dbze(1,15)=20.
+  bnds_dbze(2,15)=25.
+ 
   ! ================================
   !  Execution begins here:
   ! ================================
@@ -179,6 +228,14 @@ PROGRAM test_region
        coord_vals=alats,             & 
        cell_bounds=bnds_lat)        
       
+  idbz = cmor_axis(  &
+       table='Tables/CMIP6_Omon.json',        &
+       table_entry='dbze',         &
+       length=dbze,                   &
+       units='dBZ',                 &
+       coord_vals= adbze,           &
+       cell_bounds=bnds_dbze )
+        
   ireg = cmor_axis(  &
        table='Tables/CMIP6_Omon.json',        &
        table_entry='basin',         &
@@ -206,7 +263,7 @@ PROGRAM test_region
           table='Tables/CMIP6_Omon.json',      &
           table_entry=entry1d(m),     &
           units=units1d(m),           &
-          axis_ids=(/ ilat, ireg, itim /), &
+          axis_ids=(/ ilat, idbz, ireg, itim /), &
           missing_value=1.0e28,       &
           original_name=varin1d(m))
   ENDDO
@@ -248,7 +305,7 @@ PROGRAM test_region
         ! that will be passed to CMOR.  The following line is simply a
         ! a place-holder for the user's code, which should replace it.
 
-        call read_1d_input_files(it, varin1d(m), data1d)
+        call read_3d_input_files(it, varin1d(m), data1d)
        
         ! append a single time sample of data for a single field to 
         ! the appropriate netCDF file.

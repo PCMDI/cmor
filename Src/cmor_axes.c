@@ -353,114 +353,111 @@ int cmor_set_axis_attribute( int id, char *attribute_name, char type,
 /************************************************************************/
 /*                      cmor_get_axis_attribute()                       */
 /************************************************************************/
-int cmor_get_axis_attribute( int id, char *attribute_name, char type,
-			     void *value ) {
+int cmor_get_axis_attribute(int id, char *attribute_name, char type,
+        void *value) {
     extern cmor_axis_t cmor_axes[];
     char msg[CMOR_MAX_STRING];
     int i, index;
 
-    cmor_add_traceback( "cmor_get_axis_attribute" );
-    cmor_is_setup(  );
+    cmor_add_traceback("cmor_get_axis_attribute");
+    cmor_is_setup();
     index = -1;
-    for( i = 0; i < cmor_axes[id].nattributes; i++ ) {
-	if( strcmp( cmor_axes[id].attributes[i], attribute_name ) == 0 ) {
-	    index = i;
-	    break;
-	}			/* we found it */
+    for (i = 0; i < cmor_axes[id].nattributes; i++) {
+        if (strcmp(cmor_axes[id].attributes[i], attribute_name) == 0) {
+            index = i;
+            break;
+        } /* we found it */
     }
-    if( index == -1 ) {
-	snprintf( msg, CMOR_MAX_STRING,
-		  "Attribute %s could not be found for axis %i (%s, table: %s)",
-		  attribute_name, id, cmor_axes[id].id,
-		  cmor_tables[cmor_axes[id].ref_table_id].szTable_id );
-	cmor_handle_error( msg, CMOR_NORMAL );
-	cmor_pop_traceback(  );
-	return ( 1 );
+    if (index == -1) {
+        snprintf(msg, CMOR_MAX_STRING,
+                "Attribute %s could not be found for axis %i (%s, table: %s)",
+                attribute_name, id, cmor_axes[id].id,
+                cmor_tables[cmor_axes[id].ref_table_id].szTable_id);
+        cmor_handle_error(msg, CMOR_NORMAL);
+        cmor_pop_traceback();
+        return (1);
     }
     type = cmor_axes[id].attributes_type[i];
-    if( type == 'c' )
-	strcpy( value, cmor_axes[id].attributes_values_char[index] );
-    else if( type == 'f' )
-	value = ( float * ) &cmor_axes[id].attributes_values_num[index];
-    else if( type == 'i' )
-	value = ( int * ) &cmor_axes[id].attributes_values_num[index];
-    else if( type == 'd' )
-	value = ( double * ) &cmor_axes[id].attributes_values_num[index];
-    else if( type == 'l' )
-	value = ( long * ) &cmor_axes[id].attributes_values_num[index];
-    cmor_pop_traceback(  );
-    return ( 0 );
+    if (type == 'c')
+        strcpy(value, cmor_axes[id].attributes_values_char[index]);
+    else if (type == 'f')
+        value = (float *) &cmor_axes[id].attributes_values_num[index];
+    else if (type == 'i')
+        value = (int *) &cmor_axes[id].attributes_values_num[index];
+    else if (type == 'd')
+        value = (double *) &cmor_axes[id].attributes_values_num[index];
+    else if (type == 'l')
+        value = (long *) &cmor_axes[id].attributes_values_num[index];
+    cmor_pop_traceback();
+    return (0);
 }
 
 
 /************************************************************************/
 /*                      cmor_has_axis_attribute()                       */
 /************************************************************************/
-int cmor_has_axis_attribute( int id, char *attribute_name ) {
+int cmor_has_axis_attribute(int id, char *attribute_name) {
     extern cmor_axis_t cmor_axes[];
     int i, index;
 
-    cmor_add_traceback( "cmor_has_axis_attribute" );
-    cmor_is_setup(  );
+    cmor_add_traceback("cmor_has_axis_attribute");
+    cmor_is_setup();
     index = -1;
-    for( i = 0; i < cmor_axes[id].nattributes; i++ ) {
-	if( strcmp( cmor_axes[id].attributes[i], attribute_name ) == 0 ) {
-	    index = i;
-	    break;   /* we found it */
-	}
+    for (i = 0; i < cmor_axes[id].nattributes; i++) {
+        if (strcmp(cmor_axes[id].attributes[i], attribute_name) == 0) {
+            index = i;
+            break; /* we found it */
+        }
     }
-    if( index == -1 ) {
-	cmor_pop_traceback(  );
-	return ( 1 );
+    if (index == -1) {
+        cmor_pop_traceback();
+        return (1);
     }
-    cmor_pop_traceback(  );
-    return ( 0 );
+    cmor_pop_traceback();
+    return (0);
 }
 
 /************************************************************************/
 /*                  cmor_check_values_inside_bounds()                   */
 /************************************************************************/
-int cmor_check_values_inside_bounds( double *values, double *bounds,
-				     int length, char *name ) {
+int cmor_check_values_inside_bounds(double *values, double *bounds, int length,
+        char *name) {
     int i;
     char msg[CMOR_MAX_STRING];
 
-    cmor_add_traceback( "cmor_check_values_inside_bounds" );
-    for( i = 0; i < length; i++ ) {
+    cmor_add_traceback("cmor_check_values_inside_bounds");
+    for (i = 0; i < length; i++) {
 
-	if( ( ( bounds[2 * i] < values[i] )
-	      && ( bounds[2 * i + 1] < values[i] ) )
-	    || ( ( bounds[2 * i] > values[i] )
-		 && ( bounds[2 * i + 1] > values[i] ) ) ) {
-	    snprintf( msg, CMOR_MAX_STRING,
-		      "axis %s has values not within bounds at indice:\n! "
-		      "%i: %lf not within: %lf, %lf",
-		      name, i, values[i], bounds[2 * i],
-		      bounds[2 * i + 1] );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
-	}
+        if (((bounds[2 * i] < values[i]) && (bounds[2 * i + 1] < values[i]))
+                || ((bounds[2 * i] > values[i])
+                        && (bounds[2 * i + 1] > values[i]))) {
+            snprintf(msg, CMOR_MAX_STRING,
+                    "axis %s has values not within bounds at indice:\n! "
+                            "%i: %lf not within: %lf, %lf", name, i, values[i],
+                    bounds[2 * i], bounds[2 * i + 1]);
+            cmor_handle_error(msg, CMOR_CRITICAL);
+        }
     }
-    cmor_pop_traceback(  );
-    return ( 0 );
+    cmor_pop_traceback();
+    return (0);
 }
 
 /************************************************************************/
 /*                          cmor_isLongitude()                          */
 /************************************************************************/
-int cmor_isLongitude( cmor_axis_def_t * refaxis ) {
-    if( ( refaxis->axis == 'X' )
-	&& ( strncmp( refaxis->units, "degree", 6 ) == 0 )
-	&& ( strcmp( refaxis->units, "degrees" ) != 0 ) )
-	return ( 1 );
+int cmor_isLongitude(cmor_axis_def_t * refaxis) {
+    if ((refaxis->axis == 'X') && (strncmp(refaxis->units, "degree", 6) == 0)
+            && (strcmp(refaxis->units, "degrees") != 0))
+        return (1);
     else
-	return ( 0 );
+        return (0);
 }
 
 /************************************************************************/
 /*                        cmor_check_monotonic()                        */
 /************************************************************************/
-int cmor_check_monotonic( double *values, int length, char *name,
-			  int isbounds, int axis_id ) {
+int cmor_check_monotonic(double *values, int length, char *name, int isbounds,
+        int axis_id) {
     int i, treatlon = 0, j = 0;
     char msg[CMOR_MAX_STRING];
     cmor_axis_def_t *refaxis;
@@ -475,227 +472,207 @@ int cmor_check_monotonic( double *values, int length, char *name,
 	axes[cmor_axes[axis_id].ref_axis_id];
     treatlon = cmor_isLongitude( refaxis );
 /* -------------------------------------------------------------------- */
-/*       ok ensure that values are monotonic                            */
+/*  ensure that values are monotonic                                    */
 /* -------------------------------------------------------------------- */
-
-    if( isbounds == 1 ) {
-	for( i = 0; i < length / 2 - 2; i++ ) {
-	    if( ( ( values[2 * i] -
-		    values[2 * i + 2] ) / ( values[2 * i + 2] -
-					    values[2 * i + 4] ) ) < 0. ) {
-		if( cmor_isLongitude( refaxis ) == 1 ) {
-		    treatlon = 1;
-		} else {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "axis %s (table: %s) has non monotonic\n! "
-		              "bounds values : %lf, %lf, %lf",
-			      name,
-			      cmor_tables[cmor_axes[axis_id].ref_table_id].
-			      szTable_id, values[2 * i], values[2 * i + 2],
-			      values[2 * i + 4] );
-		    if( refaxis->climatology == 0 ) {
-			cmor_handle_error( msg, CMOR_CRITICAL );
-		    } else {
-			cmor_handle_error( msg, CMOR_WARNING );
-		    }
-		}
-	    }
-	}
+    if (isbounds == 1) {
+        for (i = 0; i < length / 2 - 2; i++) {
+            if (((values[2 * i] - values[2 * i + 2])
+                    * (values[2 * i + 2] - values[2 * i + 4])) < 0.) {
+                if (cmor_isLongitude(refaxis) == 1) {
+                    treatlon = 1;
+                } else {
+                    snprintf(msg, CMOR_MAX_STRING,
+                            "axis %s (table: %s) has non monotonic\n! "
+                                    "bounds values : %lf, %lf, %lf", name,
+                            cmor_tables[cmor_axes[axis_id].ref_table_id].szTable_id,
+                            values[2 * i], values[2 * i + 2],
+                            values[2 * i + 4]);
+                    if (refaxis->climatology == 0) {
+                        cmor_handle_error(msg, CMOR_CRITICAL);
+                    } else {
+                        cmor_handle_error(msg, CMOR_WARNING);
+                    }
+                }
+            }
+        }
 
 /* -------------------------------------------------------------------- */
 /*      ok we are dealing with a longitude                              */
 /*      need to figure out the offset....                               */
 /* -------------------------------------------------------------------- */
-
-	if( ( refaxis->valid_max != 1.e20 ) && ( treatlon ) ) {	
-
+        if ((refaxis->valid_max != 1.e20) && (treatlon)) {
 /* -------------------------------------------------------------------- */
 /*      The VERY first thing is to make sure we are modulo 360          */
 /* -------------------------------------------------------------------- */
-	    values2 = ( double * ) malloc( sizeof ( double ) * length );
-	    for( i = 0; i < length; i++ ) {
-		values2[i] = fmod( values[i], 360. );
-	    }
-
+            values2 = (double *) malloc(sizeof(double) * length);
+            for (i = 0; i < length; i++) {
+                values2[i] = fmod(values[i], 360.);
+            }
 /* -------------------------------------------------------------------- */
 /*      Now keep looping until we do not have up and downs              */
 /* -------------------------------------------------------------------- */
-	    mono = -1;
-	    nloop = 0;
-	    while( mono == -1 ) {
-		mono = 1;
-		tmp = 0;
-		for( i = 0; i < length - 4; i++ ) {
-		    tmp =
-			( values2[i] -
-			  values2[i + 2] ) * ( values2[i + 2] - values2[i +
-									4] );
-		    if( tmp < 0 )
-			break;
-		}
-		if( tmp < 0 ) {	/* ok we flip floppped */
-		    tmp = values2[0];
-		    for( i = 0; i < length - 1; i++ ) {
-			values2[i] = values2[i + 1];
-		    }
-		    values2[i] = tmp;
-		    mono = -1;
-		    nloop += 1;
-		    if( nloop == length ) {
-			sprintf( msg,
-				 "longitude axis bounds are not monotonic,\n! "
-			        "axis %s (table: %s)",
-				 cmor_axes[axis_id].id,
-				 cmor_tables[cmor_axes[axis_id].
-					     ref_table_id].szTable_id );
-			cmor_handle_error( msg, CMOR_CRITICAL );
-		    }
-		}
-	    }
+            mono = -1;
+            nloop = 0;
+            while (mono == -1) {
+                mono = 1;
+                tmp = 0;
+                for (i = 0; i < length - 4; i++) {
+                    tmp = (values2[i] - values2[i + 2])
+                            * (values2[i + 2] - values2[i + 4]);
+                    if (tmp < 0)
+                        break;
+                }
+                if (tmp < 0) { /* ok we flip floppped */
+                    tmp = values2[0];
+                    for (i = 0; i < length - 1; i++) {
+                        values2[i] = values2[i + 1];
+                    }
+                    values2[i] = tmp;
+                    mono = -1;
+                    nloop += 1;
+                    if (nloop == length) {
+                        sprintf(msg,
+                                "longitude axis bounds are not monotonic,\n! "
+                                        "axis %s (table: %s)",
+                                cmor_axes[axis_id].id,
+                                cmor_tables[cmor_axes[axis_id].ref_table_id].szTable_id);
+                        cmor_handle_error(msg, CMOR_CRITICAL);
+                    }
+                }
+            }
+            if (length > 2) {
+                if (values2[0] < values2[2]) {
 
-	    if( length > 2 ) {
-		if( values2[0] < values2[2] ) {
 /* -------------------------------------------------------------------- */
 /*      First keep adding 360 until each value is                       */
 /*      greater than the previous                                       */
 /* -------------------------------------------------------------------- */
-		    for( i = 0; i < length - 2; i++ ) {
-			while( values[i + 2] < values[i] ) {
-			    values[i + 2] += 360.;
-			}
-		    }
-		} else {
-		    
+                    for (i = 0; i < length - 2; i++) {
+                        while (values[i + 2] < values[i]) {
+                            values[i + 2] += 360.;
+                        }
+                    }
+                } else {
+
 /* -------------------------------------------------------------------- */
 /*      first keep adding 360 until each value is                       */
 /*      greater than the previous                                       */
 /* -------------------------------------------------------------------- */
-		    for( i = 0; i < length - 2; i++ ) {
-			while( values[i + 2] > values[i] ) {
-			    values[i + 2] -= 360.;
-			}
-		    }
-		}
-	    }
-	    free( values2 );
+                    for (i = 0; i < length - 2; i++) {
+                        while (values[i + 2] > values[i]) {
+                            values[i + 2] -= 360.;
+                        }
+                    }
+                }
+            }
+            free(values2);
 
 /* -------------------------------------------------------------------- */
 /*      stored_direction                                                */
 /* -------------------------------------------------------------------- */
-	    if( ( length > 1 ) && ( ( ( refaxis->stored_direction == 'i' ) &&
-				      ( values[length - 1] < values[0] ) ) ||
-				    ( ( refaxis->stored_direction == 'd' ) &&
-				      ( values[0] < values[length - 1] ) ) ) ) {
+            if ((length > 1)
+                    && (((refaxis->stored_direction == 'i')
+                            && (values[length - 1] < values[0]))
+                            || ((refaxis->stored_direction == 'd')
+                                    && (values[0] < values[length - 1])))) {
 /* -------------------------------------------------------------------- */
 /*      need to flip that axis                                          */
 /* -------------------------------------------------------------------- */
-		if( cmor_axes[axis_id].revert == 1 ) {
-		    snprintf( msg,
-		            CMOR_MAX_STRING,
-		            "bounds of axis %s (table: %s) need to be\n! "
-		            "flipped but axis values did not need to.\n! "
-		            "This is inconsistent",
-		            name,
-		            cmor_tables[cmor_axes[axis_id].ref_table_id].
-		            szTable_id );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
-		}
+                if (cmor_axes[axis_id].revert == 1) {
+                    snprintf(msg,
+                    CMOR_MAX_STRING,
+                            "bounds of axis %s (table: %s) need to be\n! "
+                                    "flipped but axis values did not need to.\n! "
+                                    "This is inconsistent", name,
+                            cmor_tables[cmor_axes[axis_id].ref_table_id].szTable_id);
+                    cmor_handle_error(msg, CMOR_CRITICAL);
+                }
 
-		for( i = 0; i < length / 2; i++ ) {
-		    tmp = values[i];
-		    values[i] = values[length - 1 - i];
-		    values[length - 1 - i] = tmp;
-		}
-	    }
-
+                for (i = 0; i < length / 2; i++) {
+                    tmp = values[i];
+                    values[i] = values[length - 1 - i];
+                    values[length - 1 - i] = tmp;
+                }
+            }
 
 /* -------------------------------------------------------------------- */
 /*      ok make sure we have data spanning only 1 modulo                */
 /* -------------------------------------------------------------------- */
-	    if( fabs( values[length - 1] - values[0] ) > 360. ) {
-		snprintf( msg, CMOR_MAX_STRING,
-			  "axis %s has bounds values spanning\n! "
-			  "more 360 degrees %lf, %lf",
-			  name, values[0], values[length - 1] );
-		cmor_handle_error( msg, CMOR_CRITICAL );
-	    }
+            if (fabs(values[length - 1] - values[0]) > 360.) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "axis %s has bounds values spanning\n! "
+                                "more 360 degrees %lf, %lf", name, values[0],
+                        values[length - 1]);
+                cmor_handle_error(msg, CMOR_CRITICAL);
+            }
 /* -------------------------------------------------------------------- */
 /*      ok now check the monotonic again                                */
 /* -------------------------------------------------------------------- */
-	    for( i = 0; i < length / 2 - 2; i++ ) {
-		if( ( ( values[2 * i] -
-			values[2 * i + 2] ) / ( values[2 * i + 2] -
-						values[2 * i + 4] ) ) <
-		    0. ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "axis %s (table: %s), has really non monotonic\n! "
-		            "bounds values : %lf, %lf, %lf",
-			      name,
-			      cmor_tables[cmor_axes[axis_id].ref_table_id].
-			      szTable_id, values[i], values[i + 2],
-			      values[i + 4] );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
-		}
-	    }
-	    /* First of all need to check if bounds needs to be flipped */
-	    j = 1;
-	    for( i = 0; i < length - 2; i += 2 ) {
-		if( ( values[i] < values[i + 1] )
-		    && ( values[i] > values[i + 2] ) ) {
-		    sprintf( msg,
-			     "Axis: '%s' (table: %s), your bounds direction seems\n! "
-		            "to be decreasing, but within cell %i they are stored\n! "
-		            "increasingly: you have [%lf, %lf], but the next set\n! "
-		            "is: [%lf, %lf]",
-			     name,
-			     cmor_tables[cmor_axes[axis_id].ref_table_id].
-			     szTable_id, i, values[i], values[i + 1],
-			     values[i + 2], values[i + 3] );
-		    cmor_handle_error( msg, CMOR_WARNING );
-		    j++;
-		}
-		if( ( values[i] > values[i + 1] )
-		    && ( values[i] < values[i + 2] ) ) {
-		    sprintf( msg,
-			     "Axis: '%s' (table: %s), your bounds direction seems\n! "
-		            "to be increasing, but within cell %i they are stored\n! "
-		            "decreasingly: you have [%lf, %lf], but the next set\n! "
-		            "is: [%lf, %lf]",
-			     name,
-			     cmor_tables[cmor_axes[axis_id].ref_table_id].
-			     szTable_id, i, values[i], values[i + 1],
-			     values[i + 2], values[i + 3] );
-		    cmor_handle_error( msg, CMOR_WARNING );
-		    j++;
-		}
-	    }
-	    if( j == length / 2 ) {
-		for( i = 0; i < length; i += 2 ) {
-		    tmp = values[i];
-		    values[i] = values[i + 1];
-		    values[i + 1] = tmp;
-		}
-	    } else if( j != 1 ) {
-		sprintf( msg,
-			 "Some but not all of your longitude bounds need to be\n! "
-		        "flipped, see warnings ot see which ones, axis: %s \n! "
-		        "(table: %s)",
-			 cmor_axes[axis_id].id,
-			 cmor_tables[cmor_axes[axis_id].ref_table_id].
-			 szTable_id );
-		cmor_handle_error( msg, CMOR_CRITICAL );
-	    }
-	}
-
+            for (i = 0; i < length / 2 - 2; i++) {
+                if (((values[2 * i] - values[2 * i + 2])
+                        * (values[2 * i + 2] - values[2 * i + 4])) < 0.) {
+                    snprintf(msg, CMOR_MAX_STRING,
+                            "axis %s (table: %s), has really non monotonic\n! "
+                                    "bounds values : %lf, %lf, %lf", name,
+                            cmor_tables[cmor_axes[axis_id].ref_table_id].szTable_id,
+                            values[i], values[i + 2], values[i + 4]);
+                    cmor_handle_error(msg, CMOR_CRITICAL);
+                }
+            }
+            /* First of all need to check if bounds needs to be flipped */
+            j = 1;
+            for (i = 0; i < length - 2; i += 2) {
+                if ((values[i] < values[i + 1])
+                        && (values[i] > values[i + 2])) {
+                    sprintf(msg,
+                            "Axis: '%s' (table: %s), your bounds direction seems\n! "
+                                    "to be decreasing, but within cell %i they are stored\n! "
+                                    "increasingly: you have [%lf, %lf], but the next set\n! "
+                                    "is: [%lf, %lf]", name,
+                            cmor_tables[cmor_axes[axis_id].ref_table_id].szTable_id,
+                            i, values[i], values[i + 1], values[i + 2],
+                            values[i + 3]);
+                    cmor_handle_error(msg, CMOR_WARNING);
+                    j++;
+                }
+                if ((values[i] > values[i + 1])
+                        && (values[i] < values[i + 2])) {
+                    sprintf(msg,
+                            "Axis: '%s' (table: %s), your bounds direction seems\n! "
+                                    "to be increasing, but within cell %i they are stored\n! "
+                                    "decreasingly: you have [%lf, %lf], but the next set\n! "
+                                    "is: [%lf, %lf]", name,
+                            cmor_tables[cmor_axes[axis_id].ref_table_id].szTable_id,
+                            i, values[i], values[i + 1], values[i + 2],
+                            values[i + 3]);
+                    cmor_handle_error(msg, CMOR_WARNING);
+                    j++;
+                }
+            }
+            if (j == length / 2) {
+                for (i = 0; i < length; i += 2) {
+                    tmp = values[i];
+                    values[i] = values[i + 1];
+                    values[i + 1] = tmp;
+                }
+            } else if (j != 1) {
+                sprintf(msg,
+                        "Some but not all of your longitude bounds need to be\n! "
+                                "flipped, see warnings ot see which ones, axis: %s \n! "
+                                "(table: %s)", cmor_axes[axis_id].id,
+                        cmor_tables[cmor_axes[axis_id].ref_table_id].szTable_id);
+                cmor_handle_error(msg, CMOR_CRITICAL);
+            }
+        }
 
 /* -------------------------------------------------------------------- */
 /*      do not do the following in case of climatological stuff....     */
 /* -------------------------------------------------------------------- */
-	if( refaxis->climatology == 0 ) {
-	    for( i = 0; i < length - 2; i++ ) {
-	        //printf("i=%d: value[i]%f, [i+1]%f [i+2]%f\n",i,
-	        //        values[i],values[i+1],values[i+2]);
-	        //printf("bool:%d",( values[i] < values[i + 1] ) &&
+        if (refaxis->climatology == 0) {
+            for (i = 0; i < length - 2; i++) {
+                //printf("i=%d: value[i]%f, [i+1]%f [i+2]%f\n",i,
+                //        values[i],values[i+1],values[i+2]);
+                //printf("bool:%d",( values[i] < values[i + 1] ) &&
                 //      ( values[i + 2] < values[i + 1] ));
                 //printf("bool:%d",(( values[i] > values[i + 1] ) &&
                 //        ( values[i + 2] > values[i + 1] )));
@@ -703,207 +680,186 @@ int cmor_check_monotonic( double *values, int length, char *name,
 /* -------------------------------------------------------------------- */
 /*      also check that bounds do not overlap                           */
 /* -------------------------------------------------------------------- */
-		if( ( ( values[i] < values[i + 1] ) &&
-		      ( values[i + 2] < values[i + 1] ) ) ||
-		    ( ( values[i] > values[i + 1] ) &&
-		      ( values[i + 2] > values[i + 1] ) ) ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "axis %s (table: %s) has overlapping bounds values:\n! "
-		            "%lf, %lf, %lf at index: %i",
-			      name,
-			      cmor_tables[cmor_axes[axis_id].ref_table_id].
-			      szTable_id, values[i], values[i + 1],
-			      values[i + 2], i );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
-		}
-	    }
-	    for( i = 0; i < length - 2; i = i + 2 ) {
+                if (((values[i] < values[i + 1])
+                        && (values[i + 2] < values[i + 1]))
+                        || ((values[i] > values[i + 1])
+                                && (values[i + 2] > values[i + 1]))) {
+                    snprintf(msg, CMOR_MAX_STRING,
+                            "axis %s (table: %s) has overlapping bounds values:\n! "
+                                    "%lf, %lf, %lf at index: %i", name,
+                            cmor_tables[cmor_axes[axis_id].ref_table_id].szTable_id,
+                            values[i], values[i + 1], values[i + 2], i);
+                    cmor_handle_error(msg, CMOR_CRITICAL);
+                }
+            }
+            for (i = 0; i < length - 2; i = i + 2) {
                 //printf("i=%d: [i+1]%f [i+2]%f\n",i,values[i+1],values[i+2]);
-
-		if( values[i + 1] != values[i + 2] ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-		            "axis %s (table: %s) has bounds values that leave gaps\n! "
-		            "(index %i): %lf, %lf, %lf",
-		            name,
-		            cmor_tables[cmor_axes[axis_id].ref_table_id].
-		            szTable_id, i, values[i], values[i + 1],
-		            values[i + 2] );
-		    cmor_handle_error( msg, CMOR_WARNING );
-		}
-	    }
-	}
+                if (values[i + 1] != values[i + 2]) {
+                    snprintf(msg, CMOR_MAX_STRING,
+                            "axis %s (table: %s) has bounds values that leave gaps\n! "
+                                    "(index %i): %lf, %lf, %lf", name,
+                            cmor_tables[cmor_axes[axis_id].ref_table_id].szTable_id,
+                            i, values[i], values[i + 1], values[i + 2]);
+                    cmor_handle_error(msg, CMOR_WARNING);
+                }
+            }
+        }
     } else {
-	for( i = 0; i < length - 2; i++ ) {
-	    if( ( ( values[i] - values[i + 1] ) / ( values[i + 1] -
-						    values[i + 2] ) ) <
-		0. ) {
-		if( cmor_isLongitude( refaxis ) == 1 ) {
-		    treatlon = 1;
-		    break;
-		} else {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "axis %s (table: %s) has non monotonic values:\n! "
-		            "%lf, %lf and  %lf",
-			      name,
-			      cmor_tables[cmor_axes[axis_id].ref_table_id].
-			      szTable_id, values[i], values[i + 1],
-			      values[i + 2] );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
-		}
-	    }
-	}
+        for (i = 0; i < length - 2; i++) {
+            if (((values[i] - values[i + 1]) * (values[i + 1] - values[i + 2]))
+                    < 0.) {
+                if (cmor_isLongitude(refaxis) == 1) {
+                    treatlon = 1;
+                    break;
+                } else {
+                    snprintf(msg, CMOR_MAX_STRING,
+                            "axis %s (table: %s) has non monotonic values:\n! "
+                                    "%lf, %lf and  %lf", name,
+                            cmor_tables[cmor_axes[axis_id].ref_table_id].szTable_id,
+                            values[i], values[i + 1], values[i + 2]);
+                    cmor_handle_error(msg, CMOR_CRITICAL);
+                }
+            }
+        }
 /* -------------------------------------------------------------------- */
 /*       ok we are dealing with a longitude                             */
 /*       need to figure out the offset....                              */
 /* -------------------------------------------------------------------- */
-	if( ( refaxis->valid_max != 1.e20 ) && ( treatlon ) ) {	
+        if ((refaxis->valid_max != 1.e20) && (treatlon)) {
 
 /* -------------------------------------------------------------------- */
 /*       The VERY first thing is to make sure we are modulo 360         */
 /* -------------------------------------------------------------------- */
-
-	    values2 = ( double * ) malloc( sizeof ( double ) * length );
-	    for( i = 0; i < length; i++ ) {
-		values2[i] = fmod( values[i], 360. );
-	    }
+            values2 = (double *) malloc(sizeof(double) * length);
+            for (i = 0; i < length; i++) {
+                values2[i] = fmod(values[i], 360.);
+            }
 
 /* -------------------------------------------------------------------- */
 /*      Now keep looping until we do not have up and downs              */
 /* -------------------------------------------------------------------- */
-	    mono = -1;
-	    nloop = 0;
-	    while( mono == -1 ) {
-		mono = 1;
-		tmp = 0;
-		for( i = 0; i < length - 2; i++ ) {
-		    tmp =
-			( values2[i] -
-			  values2[i + 1] ) * ( values2[i + 1] - values2[i +
-									2] );
-		    if( tmp < 0 )
-			break;
-		}
+            mono = -1;
+            nloop = 0;
+            while (mono == -1) {
+                mono = 1;
+                tmp = 0;
+                for (i = 0; i < length - 2; i++) {
+                    tmp = (values2[i] - values2[i + 1])
+                            * (values2[i + 1] - values2[i + 2]);
+                    if (tmp < 0)
+                        break;
+                }
 /* -------------------------------------------------------------------- */
 /*      ok we flip floppped                                             */
 /* -------------------------------------------------------------------- */
-		if( tmp < 0 ) {	
-		    tmp = values2[0];
-		    for( i = 0; i < length - 1; i++ ) {
-			values2[i] = values2[i + 1];
-		    }
-		    values2[i] = tmp;
-		    mono = -1;
-		    nloop += 1;
-		    if( nloop == length ) {
-			sprintf( msg,
-			        "longitude axis is not monotonic (axis: %s, "
-			        "table: %s)",
-				 cmor_axes[axis_id].id,
-				 cmor_tables[cmor_axes[axis_id].
-					     ref_table_id].szTable_id );
-			cmor_handle_error( msg, CMOR_CRITICAL );
-		    }
-		}
-	    }
+                if (tmp < 0) {
+                    tmp = values2[0];
+                    for (i = 0; i < length - 1; i++) {
+                        values2[i] = values2[i + 1];
+                    }
+                    values2[i] = tmp;
+                    mono = -1;
+                    nloop += 1;
+                    if (nloop == length) {
+                        sprintf(msg,
+                                "longitude axis is not monotonic (axis: %s, "
+                                        "table: %s)", cmor_axes[axis_id].id,
+                                cmor_tables[cmor_axes[axis_id].ref_table_id].szTable_id);
+                        cmor_handle_error(msg, CMOR_CRITICAL);
+                    }
+                }
+            }
 
-
-	    if( length > 1 ) {
-		if( values2[0] < values2[1] ) {
+            if (length > 1) {
+                if (values2[0] < values2[1]) {
 /* -------------------------------------------------------------------- */
 /*      first keep adding 360 until each value                          */
 /*      is greater than the previous                                    */
 /* -------------------------------------------------------------------- */
-		    for( i = 0; i < length - 1; i++ ) {
-			while( values[i + 1] < values[i] ) {
-			    values[i + 1] += 360.;
-			}
-		    }
-		} else {
+                    for (i = 0; i < length - 1; i++) {
+                        while (values[i + 1] < values[i]) {
+                            values[i + 1] += 360.;
+                        }
+                    }
+                } else {
 /* -------------------------------------------------------------------- */
 /*      first keep removing 360 until each value                        */
 /*      is lower than the previous                                      */
 /* -------------------------------------------------------------------- */
-		    for( i = 0; i < length - 1; i++ ) {
-			while( values[i + 1] > values[i] ) {
-			    values[i + 1] -= 360.;
-			}
-		    }
-		}
-	    }
-	    free( values2 );
+                    for (i = 0; i < length - 1; i++) {
+                        while (values[i + 1] > values[i]) {
+                            values[i + 1] -= 360.;
+                        }
+                    }
+                }
+            }
+            free(values2);
 
 /* -------------------------------------------------------------------- */
 /*      stored_direction                                                */
 /* -------------------------------------------------------------------- */
 
-	    if( ( length > 1 ) &&
-		( ( ( refaxis->stored_direction == 'i' ) &&
-		    ( values[length - 1] < values[0] ) ) ||
-		  ( ( refaxis->stored_direction == 'd' ) &&
-		    ( values[0] < values[length - 1] ) ) ) ) {
+            if ((length > 1)
+                    && (((refaxis->stored_direction == 'i')
+                            && (values[length - 1] < values[0]))
+                            || ((refaxis->stored_direction == 'd')
+                                    && (values[0] < values[length - 1])))) {
 /* -------------------------------------------------------------------- */
 /*      need to flip that axis                                          */
 /* -------------------------------------------------------------------- */
-		if( ( isbounds == 1 )
-		    && ( cmor_axes[axis_id].revert == 1 ) ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "bounds of axis %s (table: %s), need to be\n! "
-			      "flipped but axis values did not need to.\n! "
-			      "This is inconsistent",
-			      name,
-			      cmor_tables[cmor_axes[axis_id].ref_table_id].
-			      szTable_id );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
-		}
-		cmor_axes[axis_id].revert = -1;
-		for( i = 0; i < length / 2; i++ ) {
-		    tmp = values[i];
-		    values[i] = values[length - 1 - i];
-		    values[length - 1 - i] = tmp;
-		}
-	    }
+                if ((isbounds == 1) && (cmor_axes[axis_id].revert == 1)) {
+                    snprintf(msg, CMOR_MAX_STRING,
+                            "bounds of axis %s (table: %s), need to be\n! "
+                                    "flipped but axis values did not need to.\n! "
+                                    "This is inconsistent", name,
+                            cmor_tables[cmor_axes[axis_id].ref_table_id].szTable_id);
+                    cmor_handle_error(msg, CMOR_CRITICAL);
+                }
+                cmor_axes[axis_id].revert = -1;
+                for (i = 0; i < length / 2; i++) {
+                    tmp = values[i];
+                    values[i] = values[length - 1 - i];
+                    values[length - 1 - i] = tmp;
+                }
+            }
 
 /* -------------------------------------------------------------------- */
 /*      ok make sure we have data spanning only 1 modulo                */
 /* -------------------------------------------------------------------- */
-	    if( fabs( values[length - 1] - values[0] ) > 360. ) {
-		snprintf( msg, CMOR_MAX_STRING,
-			  "axis %s (table: %s) has values spanning more\n! "
-			  "360 degrees %lf, %lf",
-			  name,
-			  cmor_tables[cmor_axes[axis_id].ref_table_id].
-			  szTable_id, values[0], values[length - 1] );
-		cmor_handle_error( msg, CMOR_CRITICAL );
-	    }
+            if (fabs(values[length - 1] - values[0]) > 360.) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "axis %s (table: %s) has values spanning more\n! "
+                                "360 degrees %lf, %lf", name,
+                        cmor_tables[cmor_axes[axis_id].ref_table_id].szTable_id,
+                        values[0], values[length - 1]);
+                cmor_handle_error(msg, CMOR_CRITICAL);
+            }
 
 /* -------------------------------------------------------------------- */
 /*       ok now check the monotonic again                               */
 /* -------------------------------------------------------------------- */
-	    for( i = 0; i < length - 2; i++ ) {
-		if( ( ( values[i] - values[i + 1] ) / ( values[i + 1] -
-							values[i + 2] ) ) <
-		    0. ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "axis %s (table: %s) has non monotonic values : %lf, %lf and  %lf",
-			      name,
-			      cmor_tables[cmor_axes[axis_id].ref_table_id].
-			      szTable_id, values[i], values[i + 1],
-			      values[i + 2] );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
-		}
-	    }
-	}
+            for (i = 0; i < length - 2; i++) {
+                if (((values[i] - values[i + 1])
+                        * (values[i + 1] - values[i + 2])) < 0.) {
+                    snprintf(msg, CMOR_MAX_STRING,
+                            "axis %s (table: %s) has non monotonic values : %lf, %lf and  %lf",
+                            name,
+                            cmor_tables[cmor_axes[axis_id].ref_table_id].szTable_id,
+                            values[i], values[i + 1], values[i + 2]);
+                    cmor_handle_error(msg, CMOR_CRITICAL);
+                }
+            }
+        }
     }
-    cmor_pop_traceback(  );
-    return ( treatlon );
+    cmor_pop_traceback();
+    return (treatlon);
 }
 
 /************************************************************************/
 /*                       cmor_treat_axis_values()                       */
 /************************************************************************/
-int cmor_treat_axis_values( int axis_id, double *values, int length,
-			    int n_requested, char *units, char *name,
-			    int isbounds ) {
+int cmor_treat_axis_values(int axis_id, double *values, int length,
+        int n_requested, char *units, char *name, int isbounds) {
     extern ut_system *ut_read;
     ut_unit *user_units, *cmor_units;
     cv_converter *ut_cmor_converter;

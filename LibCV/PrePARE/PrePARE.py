@@ -214,11 +214,16 @@ class checkCMIP6(object):
                 1. Validate required attribute if presents and some values.
                 2. Validate registered institution and institution_id
                 3. Validate registered source and source_id
-                4. Validate experiment, experiment_id and attribute associated with the experiment.
+                4. Validate experiment, experiment_id and all attributes associated with this experiment.
+                       Make sure that all attributes associate with the experiment_id found in CMIP6_CV.json
+                       are set to the appropriate values. 
                 5. Validate grid_label and grid_resolution
                 6. Validate creation time in ISO format (YYYY-MM-DDTHH:MM:SS)
                 7. Validate furtherinfourl from CV internal template
                 8. Validate variable attributes with CMOR JSON table.
+                9. Validate parent_* attribute
+               10. Validate sub_experiment_* atributes.
+               11. Validate that all *_index are integers.
         '''
         cmip6_cv.check_requiredattributes(self.table_id)
         cmip6_cv.check_institution(self.table_id)
