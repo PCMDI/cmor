@@ -2506,11 +2506,13 @@ int cmor_setGblAttr(int var_id) {
     regex_t regex;
     int numchar;
     int nVarRefTblID;
+    int ref_var_id;
     int rc;
     int ierr=0;
 
     cmor_add_traceback("cmor_setGblAttr");
     nVarRefTblID = cmor_vars[var_id].ref_table_id;
+    ref_var_id = cmor_vars[var_id].ref_var_id;
 
     if( cmor_has_cur_dataset_attribute( GLOBAL_ATT_FORCING ) == 0 ) {
         cmor_get_cur_dataset_attribute( GLOBAL_ATT_FORCING, ctmp2 );
@@ -2630,14 +2632,14 @@ int cmor_setGblAttr(int var_id) {
 /* -------------------------------------------------------------------- */
 /*      first check if the variable itself has a realm                  */
 /* -------------------------------------------------------------------- */
-    if (cmor_tables[nVarRefTblID].vars[var_id].realm[0] != '\0') {
-        szToken = strtok(cmor_tables[nVarRefTblID].vars[var_id].realm, " ");
+    if (cmor_tables[nVarRefTblID].vars[ref_var_id].realm[0] != '\0') {
+        szToken = strtok(cmor_tables[nVarRefTblID].vars[ref_var_id].realm, " ");
         if( szToken != NULL){
             cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_REALM,
                     szToken, 0);
         } else {
             cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_REALM,
-                    cmor_tables[nVarRefTblID].vars[var_id].realm, 0);
+                    cmor_tables[nVarRefTblID].vars[ref_var_id].realm, 0);
         }
     } else {
 /* -------------------------------------------------------------------- */
