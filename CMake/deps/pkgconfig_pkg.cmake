@@ -1,0 +1,22 @@
+set(PKG_MAJOR 0)
+set(PKG_MINOR 9)
+set(PKG_PATCH 0)
+set(PKG_MAJOR_SRC 0)
+set(PKG_MINOR_SRC 28)
+set(PKG_PATCH_SRC 0)
+set(PKG_VERSION ${PKG_MAJOR_SRC}.${PKG_MINOR_SRC}.${PKG_PATCH_SRC})
+set(PKG_URL ${LLNL_URL})
+set(PKG_GZ pkg-config-${PKG_MAJOR_SRC}.${PKG_MINOR_SRC}.tar.gz)
+set(PKG_MD5 aa3c86e67551adc3ac865160e34a2a0d)
+set(PKGCONFIG_VERSION ${PKG_VERSION})
+set(PKGCONFIG_SOURCE ${PKG_URL}/${PKG_GZ})
+
+add_cmor_package(pkgconfig "" "" OFF)
+
+if(NOT CMOR_USE_SYSTEM_PKGCONFIG)
+  set(cmor_PKG_CONFIG_EXECUTABLE ${cmor_EXTERNALS}/bin/pkg-config)
+  set(ENV{PKG_CONFIG} "${cmor_PKG_CONFIG_EXECUTABLE}")
+  set(ENV{PKG_CONFIG_PATH} "${cmor_EXTERNALS}/lib/pkgconfig:$ENV{PKG_CONFIG_PATH}")
+  set(ENV{PKG_CONFIG} ${cmor_PKG_CONFIG_EXECUTABLE})
+endif()
+
