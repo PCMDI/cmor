@@ -1086,7 +1086,7 @@
             "long_name": "pressure", 
             "climatology": "", 
             "formula": "", 
-            "must_have_bounds": "no", 
+            "must_have_bounds": "yes", 
             "out_name": "plev", 
             "positive": "down", 
             "requested": "", 
@@ -1130,7 +1130,7 @@
             "long_name": "pressure", 
             "climatology": "", 
             "formula": "", 
-            "must_have_bounds": "no", 
+            "must_have_bounds": "yes", 
             "out_name": "plev", 
             "positive": "down", 
             "requested": "", 
@@ -1165,7 +1165,7 @@
             "value": "70000.", 
             "z_bounds_factors": "", 
             "z_factors": "", 
-            "bounds_values": "85000.0 60000.0"
+            "bounds_values": ""
         }, 
         "p840": {
             "standard_name": "air_pressure", 
@@ -1174,7 +1174,7 @@
             "long_name": "pressure", 
             "climatology": "", 
             "formula": "", 
-            "must_have_bounds": "no", 
+            "must_have_bounds": "yes", 
             "out_name": "plev", 
             "positive": "down", 
             "requested": "", 
@@ -1218,7 +1218,7 @@
             "long_name": "pressure", 
             "climatology": "", 
             "formula": "", 
-            "must_have_bounds": "no", 
+            "must_have_bounds": "yes", 
             "out_name": "plev", 
             "positive": "down", 
             "requested": "", 
@@ -1231,7 +1231,7 @@
             "value": "70000.", 
             "z_bounds_factors": "", 
             "z_factors": "", 
-            "bounds_values": ""
+            "bounds_values": "85000.0 60000.0"
         }, 
         "plev10": {
             "standard_name": "air_pressure", 
@@ -2789,6 +2789,28 @@
             "valid_max": "", 
             "valid_min": "", 
             "value": "vegetation", 
+            "z_bounds_factors": "", 
+            "z_factors": "", 
+            "bounds_values": ""
+        }, 
+        "typewetla": {
+            "standard_name": "area_type", 
+            "units": "", 
+            "axis": "", 
+            "long_name": "Wetland", 
+            "climatology": "", 
+            "formula": "", 
+            "must_have_bounds": "no", 
+            "out_name": "type", 
+            "positive": "", 
+            "requested": "", 
+            "requested_bounds": "", 
+            "stored_direction": "", 
+            "tolerance": "", 
+            "type": "character", 
+            "valid_max": "", 
+            "valid_min": "", 
+            "value": "", 
             "z_bounds_factors": "", 
             "z_factors": "", 
             "bounds_values": ""

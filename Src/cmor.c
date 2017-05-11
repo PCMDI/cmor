@@ -1220,6 +1220,9 @@ int cmor_dataset_json(char * ressource){
 /* -------------------------------------------------------------------- */
 
     json_object_object_foreach(json_obj, key, value) {
+        if(!value){
+            continue;
+        }
         if(key[0] == '#') {
             continue;
         }
@@ -1911,30 +1914,30 @@ int cmor_define_zfactors_vars( int var_id, int ncid, int *nc_dim,
 /* -------------------------------------------------------------------- */
 /*      Compression stuff                                               */
 /* -------------------------------------------------------------------- */
-				if ((CMOR_NETCDF_MODE != CMOR_REPLACE_3)
-						&& (CMOR_NETCDF_MODE != CMOR_PRESERVE_3)
-						&& (CMOR_NETCDF_MODE != CMOR_APPEND_3)) {
-					if (cmor_vars[l].ndims > 0) {
-						int nTableID = cmor_vars[l].ref_table_id;
-						ics = cmor_tables[nTableID].vars[nTableID].shuffle;
-						icd = cmor_tables[nTableID].vars[nTableID].deflate;
-						icdl =
-								cmor_tables[nTableID].vars[nTableID].deflate_level;
-						ierr = nc_def_var_deflate(ncid, nc_zfactors[lnzfactors],
-								ics, icd, icdl);
-
-						if (ierr != NC_NOERR) {
-							snprintf(msg, CMOR_MAX_STRING,
-									"NCError (%i: %s) defining compression\n! "
-											"parameters for zfactor variable %s for\n! "
-											"variable '%s' (table %s)", ierr,
-									nc_strerror(ierr), cmor_vars[l].id,
-									cmor_vars[var_id].id,
-									cmor_tables[nTableID].szTable_id);
-							cmor_handle_error(msg, CMOR_CRITICAL);
-						}
-					}
-				}
+//                if ((CMOR_NETCDF_MODE != CMOR_REPLACE_3)
+//                        && (CMOR_NETCDF_MODE != CMOR_PRESERVE_3)
+//                        && (CMOR_NETCDF_MODE != CMOR_APPEND_3)) {
+//                    if (cmor_vars[l].ndims > 0) {
+//                        int nTableID = cmor_vars[l].ref_table_id;
+//                        ics = cmor_tables[nTableID].vars[nTableID].shuffle;
+//                        icd = cmor_tables[nTableID].vars[nTableID].deflate;
+//                        icdl =
+//                                cmor_tables[nTableID].vars[nTableID].deflate_level;
+//                        ierr = nc_def_var_deflate(ncid, nc_zfactors[lnzfactors],
+//                                ics, icd, icdl);
+//
+//                        if (ierr != NC_NOERR) {
+//                            snprintf(msg, CMOR_MAX_STRING,
+//                                    "NCError (%i: %s) defining compression\n! "
+//                                            "parameters for zfactor variable %s for\n! "
+//                                            "variable '%s' (table %s)", ierr,
+//                                    nc_strerror(ierr), cmor_vars[l].id,
+//                                    cmor_vars[var_id].id,
+//                                    cmor_tables[nTableID].szTable_id);
+//                            cmor_handle_error(msg, CMOR_CRITICAL);
+//                        }
+//                    }
+//                }
 
 /* -------------------------------------------------------------------- */
 /*      Creates attribute related to that variable                      */
@@ -3356,30 +3359,30 @@ void cmor_define_dimensions(int var_id, int ncid,
 /* -------------------------------------------------------------------- */
 /*      Compression stuff                                               */
 /* -------------------------------------------------------------------- */
-            if ((CMOR_NETCDF_MODE != CMOR_REPLACE_3)
-                    && (CMOR_NETCDF_MODE != CMOR_PRESERVE_3)
-                    && (CMOR_NETCDF_MODE != CMOR_APPEND_3)) {
-                cmor_var_t *pVar;
-
-                pVar = &cmor_vars[var_id];
-
-                ics = pVar->shuffle;
-                icd = pVar->deflate;
-                icdl = pVar->deflate_level;
-
-                ierr = nc_def_var_deflate(ncafid, nc_bnds_vars[i], ics, icd,
-                        icdl);
-                if (ierr != NC_NOERR) {
-                    snprintf(msg, CMOR_MAX_STRING,
-                            "NCError (%i: %s) defining compression\n! "
-                                    "parameters for bounds variable %s for\n! "
-                                    "variable '%s' (table: %s)", ierr,
-                            nc_strerror(ierr), ctmp, cmor_vars[var_id].id,
-                            cmor_tables[nVarRefTblID].szTable_id);
-                    cmor_handle_error(msg, CMOR_CRITICAL);
-                }
-
-            }
+//            if ((CMOR_NETCDF_MODE != CMOR_REPLACE_3)
+//                    && (CMOR_NETCDF_MODE != CMOR_PRESERVE_3)
+//                    && (CMOR_NETCDF_MODE != CMOR_APPEND_3)) {
+//                cmor_var_t *pVar;
+//
+//                pVar = &cmor_vars[var_id];
+//
+//                ics = pVar->shuffle;
+//                icd = pVar->deflate;
+//                icdl = pVar->deflate_level;
+//
+//                ierr = nc_def_var_deflate(ncafid, nc_bnds_vars[i], ics, icd,
+//                        icdl);
+//                if (ierr != NC_NOERR) {
+//                    snprintf(msg, CMOR_MAX_STRING,
+//                            "NCError (%i: %s) defining compression\n! "
+//                                    "parameters for bounds variable %s for\n! "
+//                                    "variable '%s' (table: %s)", ierr,
+//                            nc_strerror(ierr), ctmp, cmor_vars[var_id].id,
+//                            cmor_tables[nVarRefTblID].szTable_id);
+//                    cmor_handle_error(msg, CMOR_CRITICAL);
+//                }
+//
+//            }
 /* -------------------------------------------------------------------- */
 /* sets the bounds attribute of parent var                              */
 /* -------------------------------------------------------------------- */
@@ -3826,33 +3829,33 @@ int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af,
 /*      Compression stuff                                               */
 /* -------------------------------------------------------------------- */
 
-            if ((CMOR_NETCDF_MODE != CMOR_REPLACE_3)
-                    && (CMOR_NETCDF_MODE != CMOR_PRESERVE_3)
-                    && (CMOR_NETCDF_MODE != CMOR_APPEND_3)) {
-                if (cmor_vars[j].ndims > 0) {
-
-                    ics = cmor_tables[cmor_vars[j].ref_table_id].
-                            vars[cmor_vars[j].ref_var_id].shuffle;
-                    icd = cmor_tables[cmor_vars[j].ref_table_id].
-                            vars[cmor_vars[j].ref_var_id].deflate;
-                    icdl = cmor_tables[cmor_vars[j].ref_table_id].
-                            vars[cmor_vars[j].ref_var_id].deflate_level;
-
-                    ierr = nc_def_var_deflate(ncafid, nc_associated_vars[i],
-                            ics, icd, icdl);
-                    if (ierr != NC_NOERR) {
-                        snprintf(msg, CMOR_MAX_STRING,
-                                "NetCDF Error (%i: %s) defining\n! "
-                                        "compression parameters for\n! "
-                                        "associated variable '%s' for\n! "
-                                        "variable %s (table: %s)", ierr,
-                                nc_strerror(ierr), cmor_vars[j].id,
-                                cmor_vars[var_id].id,
-                                cmor_tables[nVarRefTblID].szTable_id);
-                        cmor_handle_error(msg, CMOR_CRITICAL);
-                    }
-                }
-            }
+//            if ((CMOR_NETCDF_MODE != CMOR_REPLACE_3)
+//                    && (CMOR_NETCDF_MODE != CMOR_PRESERVE_3)
+//                    && (CMOR_NETCDF_MODE != CMOR_APPEND_3)) {
+//                if (cmor_vars[j].ndims > 0) {
+//
+//                    ics = cmor_tables[cmor_vars[j].ref_table_id].
+//                            vars[cmor_vars[j].ref_var_id].shuffle;
+//                    icd = cmor_tables[cmor_vars[j].ref_table_id].
+//                            vars[cmor_vars[j].ref_var_id].deflate;
+//                    icdl = cmor_tables[cmor_vars[j].ref_table_id].
+//                            vars[cmor_vars[j].ref_var_id].deflate_level;
+//
+//                    ierr = nc_def_var_deflate(ncafid, nc_associated_vars[i],
+//                            ics, icd, icdl);
+//                    if (ierr != NC_NOERR) {
+//                        snprintf(msg, CMOR_MAX_STRING,
+//                                "NetCDF Error (%i: %s) defining\n! "
+//                                        "compression parameters for\n! "
+//                                        "associated variable '%s' for\n! "
+//                                        "variable %s (table: %s)", ierr,
+//                                nc_strerror(ierr), cmor_vars[j].id,
+//                                cmor_vars[var_id].id,
+//                                cmor_tables[nVarRefTblID].szTable_id);
+//                        cmor_handle_error(msg, CMOR_CRITICAL);
+//                    }
+//                }
+//            }
         }
     }
     cmor_pop_traceback();

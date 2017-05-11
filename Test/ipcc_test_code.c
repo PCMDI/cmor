@@ -4,12 +4,11 @@
 #include "cmor.h"
 #include <stdlib.h>
 
-void read_coords(alats, alons, plevs, bnds_lat, bnds_lon,lon,lat,lev,dbze,bnds_dbze)
+void read_coords(alats, alons, plevs, bnds_lat, bnds_lon,lon,lat,lev)
      double *alats,*alons;
      int *plevs;
      double *bnds_lat,*bnds_lon;
      int lon,lat,lev;
-     double *dbze, *bnds_dbze;
 {
   int i;
     
@@ -26,53 +25,6 @@ void read_coords(alats, alons, plevs, bnds_lat, bnds_lon,lon,lat,lev,dbze,bnds_d
     bnds_lat[2*i+1] = (lat-i)*10 - 5.;
   };
   
-
-  dbze[0]=-47.5;
-  dbze[1]=-42.5;
-  dbze[2]=-37.5;
-  dbze[3]=-32.5;
-  dbze[4]=-27.5;
-  dbze[5]=-22.5;
-  dbze[6]=-17.5;
-  dbze[7]=-12.5;
-  dbze[8]=-7.5;
-  dbze[9]=-2.5;
-  dbze[10]=2.5;
-  dbze[11]=7.5;
-  dbze[12]=12.5;
-  dbze[13]=17.5;
-  dbze[14]=22.5;
-
-  bnds_dbze[0]=-50.0;
-  bnds_dbze[1]=-45.0;
-  bnds_dbze[2]=-45.0;
-  bnds_dbze[3]=-40.0;
-  bnds_dbze[4]=-40.0;
-  bnds_dbze[5]=-35.0;
-  bnds_dbze[6]=-35.0;
-  bnds_dbze[7]=-30.0;
-  bnds_dbze[8]=-30.0;
-  bnds_dbze[9]=-25.0;
-  bnds_dbze[10]=-25.0;
-  bnds_dbze[11]=-20.0;
-  bnds_dbze[12]=-20.0;
-  bnds_dbze[13]=-15.0;
-  bnds_dbze[14]=-15.0;
-  bnds_dbze[15]=-10.0;
-  bnds_dbze[16]=-10.0;
-  bnds_dbze[17]=-5.0;
-  bnds_dbze[18]=-5.0;
-  bnds_dbze[19]=0.0;
-  bnds_dbze[20]=0.0;
-  bnds_dbze[21]=5.0;
-  bnds_dbze[22]=5.0;
-  bnds_dbze[23]=10.0;
-  bnds_dbze[24]=10.0;
-  bnds_dbze[25]=15.0;
-  bnds_dbze[26]=15.0;
-  bnds_dbze[27]=20.0;
-  bnds_dbze[28]=20.0;
-  bnds_dbze[29]=25.0;
 
   plevs[0]=1000;
   plevs[1]=925;
@@ -156,7 +108,6 @@ int main()
 #define   lon  4       /* number of longitude grid cells   */
 #define   lat  3       /* number of latitude grid cells */
 #define   lev  19       /* number of standard pressure levels */
-#define   dbz  15       /* number of standard pressure levels */
 #define   n2d  4       /* number of IPCC Table A1a fields to be */                                      /*     output. */
 #define n3d 3       /* number of IPCC Table A1c fields to  */
                      /*                                be output.   */
@@ -204,9 +155,6 @@ int main()
   int ilats[lat];
   int ilons[lon];
   double   plevs[lev];
-  double   dbze[dbz];
-  double bnds_dbze[dbz*2];
-  int   idbze[dbz];
   int   iplevs[lev];
   long   lplevs[lev];
   float   fplevs[lev];
@@ -229,8 +177,8 @@ int main()
   /*  --------------------- */
   
   int it, m, i,ierr , j;
-  int myaxes[11];
-  int myaxes2[11];
+  int myaxes[10];
+  int myaxes2[10];
   int myvars[10];
   char id[CMOR_MAX_STRING];
   char units[CMOR_MAX_STRING];
@@ -270,7 +218,7 @@ int main()
   printf("ok mode is:%i\n",m);
   ierr = cmor_setup(NULL,&j,NULL,&m,NULL,&i);//,"  ipcc_test.LOG  ");
 
-  read_coords(&alats[0], &alons[0], &iplevs[0], &bnds_lat[0], &bnds_lon[0],lon,lat,lev,dbze,bnds_dbze);
+  read_coords(&alats[0], &alons[0], &iplevs[0], &bnds_lat[0], &bnds_lon[0],lon,lat,lev);
   int tmpmo[12];
   printf("Test code: ok init cmor\n");
   char c1[CMOR_MAX_STRING];
@@ -307,11 +255,6 @@ int main()
   strcpy(units,"hPa");
   ierr = cmor_axis(&myaxes[3],id,units,lev,&iplevs,'i',NULL,0,interval);
 
-  cmor_set_table(tables[0]);
-  strcpy(id,"dbze");
-  strcpy(units,"dBZ");
-  ierr = cmor_axis(&myaxes[9],id,units,dbz,&dbze,'d',&bnds_dbze,2,interval);
-
   zlevs[0]=0.1;
   zlevs[1]= 0.3;
   zlevs[2]=0.5;
@@ -331,7 +274,6 @@ int main()
 /*   a_coeff_bnds={0.,.15, .25, .25, .16, 0.}; */
 /*   b_coeff_bnds={0.,.05, .15, .35, .65, 1.}; */
 
-  cmor_set_table(tables[1]);
   ierr = cmor_axis(  &myaxes[4],"standard_hybrid_sigma","1",5,&zlevs,'d',&zlev_bnds,1,interval);
 
   cmor_set_table(tables[0]);
@@ -361,7 +303,6 @@ int main()
   myaxes2[1] = myaxes[3];
   myaxes2[2] = myaxes[1];
   myaxes2[3] = myaxes[2];
-  myaxes2[4] = myaxes[5];
 
   printf("Test code: defining variables from table 1, %s\n",positive2d[0]);
   ierr = cmor_variable(&myvars[0],entry2d[0],units2d[0],3,myaxes,'d',&dtmp,&dtmp2,positive2d[0],varin2d[0],"no history","no future");
@@ -384,11 +325,10 @@ int main()
   /* ok here we decalre a variable for region axis testing */
   cmor_set_table(tables[0]);
   myaxes2[0] = myaxes[7]; /* time */
-  myaxes2[1] = myaxes[9]; /* dbze */
-  myaxes2[2] = myaxes[5]; /* basin */
-  myaxes2[3] = myaxes[8]; /* latitudes */
+  myaxes2[1] = myaxes[5]; /* region */
+  myaxes2[2] = myaxes[8]; /* latitudes */
   printf("Test code: ok we define hfogo positive: %s\n",positive2d[0]);
-  ierr = cmor_variable(&myvars[4],"htovgyre","W",4,myaxes2,'d',NULL,&dtmp2,NULL,varin2d[0],"no history","no future");
+  ierr = cmor_variable(&myvars[4],"htovgyre","W",3,myaxes2,'d',NULL,&dtmp2,NULL,varin2d[0],"no history","no future");
 
   cmor_set_table(tables[1]);
 

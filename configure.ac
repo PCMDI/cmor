@@ -115,7 +115,7 @@ else
   MODFILES="cmor_users_functions.*"
 fi
 
-CDATPREFIX=" "
+CDATPREFIX="--prefix=${prefix}"
 MAKETESTPYTHON=" "
 dnl turn on/off python
 AC_ARG_WITH([cdat],[AS_HELP_STRING([--with-cdat],[enable support for cdat put path root (w/o bin/cdat)])],[],[with_cdat="no"])

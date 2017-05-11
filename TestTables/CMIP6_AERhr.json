@@ -1,11 +1,11 @@
 {
     "Header": {
-        "data_specs_version": "01.00.08", 
+        "data_specs_version": "01.00.10", 
         "table_id": "Table AERhr", 
         "realm": "aerosol", 
         "frequency": "hr", 
         "cmor_version": "3.2", 
-        "table_date": "28 April 2017", 
+        "table_date": "10 May 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "", 
