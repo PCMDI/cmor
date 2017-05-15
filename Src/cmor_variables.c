@@ -91,7 +91,7 @@ int cmor_has_required_variable_attributes( int var_id ) {
 		      pTable->szTable_id,
 		      astr );
 
-	    cmor_handle_error( msg, CMOR_NORMAL );
+	    cmor_handle_error_var( msg, CMOR_NORMAL, var_id );
 	    cmor_pop_traceback(  );
 	    return( -1 );
 	}
@@ -167,7 +167,7 @@ int cmor_set_variable_attribute_internal( int id, char *attribute_name,
 						"(table %s),allowed types are c,i,l,f,d", type,
 				attribute_name, cmor_vars[id].id,
 				cmor_tables[cmor_vars[id].ref_table_id].szTable_id);
-		cmor_handle_error(msg, CMOR_NORMAL);
+		cmor_handle_error_var(msg, CMOR_NORMAL, id);
 		cmor_pop_traceback();
 		return (1);
 	}
@@ -206,7 +206,7 @@ int cmor_set_variable_attribute( int id, char *attribute_name, char type,
 		  "variable attribute %s (vor variable %s, table %s) must be set via a call to cmor_variable or it is automatically set via the tables",
 		  attribute_name, cmor_vars[id].id,
 		  cmor_tables[cmor_vars[id].ref_table_id].szTable_id );
-	cmor_handle_error( msg, CMOR_NORMAL );
+	cmor_handle_error_var( msg, CMOR_NORMAL, id );
 	cmor_pop_traceback(  );
 	return( 1 );
     }
@@ -219,7 +219,7 @@ int cmor_set_variable_attribute( int id, char *attribute_name, char type,
 		  "attribute %s on variable %s (table %s) will probably not be set as the variable has already been created into the output NetCDF file, please place this call BEFORE any cal to cmor_write",
 		  attribute_name, cmor_vars[id].id,
 		  cmor_tables[cmor_vars[id].ref_table_id].szTable_id );
-	cmor_handle_error( msg, CMOR_NORMAL );
+	cmor_handle_error_var( msg, CMOR_NORMAL, id );
 	cmor_pop_traceback(  );
 	return( 1 );
     }
@@ -252,7 +252,7 @@ int cmor_get_variable_attribute( int id, char *attribute_name,
 		  "Attribute %s could not be found for variable %i (%s, table: %s)",
 		  attribute_name, id, cmor_vars[id].id,
 		  cmor_tables[cmor_vars[id].ref_table_id].szTable_id );
-	cmor_handle_error( msg, CMOR_NORMAL );
+	cmor_handle_error_var( msg, CMOR_NORMAL, id );
 	cmor_pop_traceback(  );
 	return( 1 );
     }
@@ -353,7 +353,7 @@ int cmor_get_variable_attribute_type( int id,
 		  "Attribute %s could not be found for variable %i (%s, table: %s)",
 		  attribute_name, id, cmor_vars[id].id,
 		  cmor_tables[cmor_vars[id].ref_table_id].szTable_id );
-	cmor_handle_error( msg, CMOR_NORMAL );
+	cmor_handle_error_var( msg, CMOR_NORMAL, id );
 	cmor_pop_traceback(  );
 	return( 1 );
     }
@@ -422,7 +422,7 @@ int cmor_zfactor( int *zvar_id, int axis_id, char *name, char *units,
 			  cmor_vars[var_id].id,
 			  cmor_tables[cmor_vars[var_id].ref_table_id].
 			  szTable_id );
-		cmor_handle_error( msg, CMOR_CRITICAL );
+		cmor_handle_error_var( msg, CMOR_CRITICAL, var_id );
 	    }
 
 	    for( i = 0; i < n; i++ ) {
@@ -459,7 +459,7 @@ int cmor_zfactor( int *zvar_id, int axis_id, char *name, char *units,
 			  cmor_vars[var_id].id,
 			  cmor_tables[cmor_vars[var_id].ref_table_id].
 			  szTable_id );
-		cmor_handle_error( msg, CMOR_CRITICAL );
+		cmor_handle_error_var( msg, CMOR_CRITICAL, var_id );
 	    }
 	    
 	    strncpy( local_unit, units, CMOR_MAX_STRING );
@@ -474,7 +474,7 @@ int cmor_zfactor( int *zvar_id, int axis_id, char *name, char *units,
 			  cmor_vars[var_id].id,
 			  cmor_tables[cmor_vars[var_id].ref_table_id].
 			  szTable_id );
-		cmor_handle_error( msg, CMOR_CRITICAL );
+		cmor_handle_error_var( msg, CMOR_CRITICAL, var_id );
 
 	    }
 
@@ -487,7 +487,7 @@ int cmor_zfactor( int *zvar_id, int axis_id, char *name, char *units,
 			  cmor_axes[axis_id].id, cmor_vars[var_id].id,
 			  cmor_tables[cmor_vars[var_id].ref_table_id].
 			  szTable_id );
-		cmor_handle_error( msg, CMOR_CRITICAL );
+		cmor_handle_error_var( msg, CMOR_CRITICAL, var_id );
 	    }
 
 	    cv_convert_doubles( ut_cmor_converter,
@@ -501,7 +501,7 @@ int cmor_zfactor( int *zvar_id, int axis_id, char *name, char *units,
 			  cmor_axes[axis_id].id, cmor_vars[var_id].id,
 			  cmor_tables[cmor_vars[var_id].ref_table_id].
 			  szTable_id );
-		cmor_handle_error( msg, CMOR_CRITICAL );
+		cmor_handle_error_var( msg, CMOR_CRITICAL, var_id );
 	    }
 
 	    cv_free( ut_cmor_converter );
@@ -511,7 +511,7 @@ int cmor_zfactor( int *zvar_id, int axis_id, char *name, char *units,
 			  cmor_axes[axis_id].id, cmor_vars[var_id].id,
 			  cmor_tables[cmor_vars[var_id].ref_table_id].
 			  szTable_id );
-		cmor_handle_error( msg, CMOR_CRITICAL );
+		cmor_handle_error_var( msg, CMOR_CRITICAL, var_id );
 	    }
 
 	    ut_free( cmor_units );
@@ -522,7 +522,7 @@ int cmor_zfactor( int *zvar_id, int axis_id, char *name, char *units,
 			  cmor_vars[var_id].id,
 			  cmor_tables[cmor_vars[var_id].ref_table_id].
 			  szTable_id );
-		cmor_handle_error( msg, CMOR_CRITICAL );
+		cmor_handle_error_var( msg, CMOR_CRITICAL, var_id );
 	    }
 
 	    ut_free( user_units );
@@ -533,7 +533,7 @@ int cmor_zfactor( int *zvar_id, int axis_id, char *name, char *units,
 			  cmor_vars[var_id].id,
 			  cmor_tables[cmor_vars[var_id].ref_table_id].
 			  szTable_id );
-		cmor_handle_error( msg, CMOR_CRITICAL );
+		cmor_handle_error_var( msg, CMOR_CRITICAL, var_id );
 	    }
 
 	    cmor_vars[var_id].itype = 'd';
@@ -568,7 +568,7 @@ int cmor_zfactor( int *zvar_id, int axis_id, char *name, char *units,
 			  cmor_axes[axis_id].id, name,
 			  cmor_tables[cmor_vars[var_id].ref_table_id].
 			  szTable_id );
-		cmor_handle_error( msg, CMOR_CRITICAL );
+		cmor_handle_error_var( msg, CMOR_CRITICAL, var_id );
 	    }
 	    *zvar_id = var_id;
 	}
@@ -601,7 +601,7 @@ int cmor_zfactor( int *zvar_id, int axis_id, char *name, char *units,
 			      cmor_vars[var_id].id, cmor_vars[var_id].id,
 			      cmor_tables[cmor_vars[var_id].ref_table_id].
 			      szTable_id );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
+		    cmor_handle_error_var( msg, CMOR_CRITICAL, var_id );
 		}
 
 		cmor_vars[var_id].isbounds = 1;
@@ -650,7 +650,7 @@ int cmor_zfactor( int *zvar_id, int axis_id, char *name, char *units,
 			      cmor_tables[cmor_vars[var_id].ref_table_id].
 			      szTable_id );
 
-		    cmor_handle_error( msg, CMOR_CRITICAL );
+		    cmor_handle_error_var( msg, CMOR_CRITICAL, var_id );
 
 		}
 
@@ -666,7 +666,7 @@ int cmor_zfactor( int *zvar_id, int axis_id, char *name, char *units,
 			      cmor_vars[var_id].id,
 			      cmor_tables[cmor_vars[var_id].ref_table_id].
 			      szTable_id );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
+		    cmor_handle_error_var( msg, CMOR_CRITICAL, var_id );
 
 		}
 		ut_cmor_converter = ut_get_converter( user_units, cmor_units );
@@ -679,7 +679,7 @@ int cmor_zfactor( int *zvar_id, int axis_id, char *name, char *units,
 			      cmor_axes[axis_id].id, cmor_vars[var_id].id,
 			      cmor_tables[cmor_vars[var_id].ref_table_id].
 			      szTable_id );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
+		    cmor_handle_error_var( msg, CMOR_CRITICAL, var_id );
 
 		}
 		cv_convert_doubles( ut_cmor_converter,
@@ -694,7 +694,7 @@ int cmor_zfactor( int *zvar_id, int axis_id, char *name, char *units,
 			      cmor_axes[axis_id].id, cmor_vars[var_id].id,
 			      cmor_tables[cmor_vars[var_id].ref_table_id].
 			      szTable_id );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
+		    cmor_handle_error_var( msg, CMOR_CRITICAL, var_id );
 
 		}
 
@@ -708,7 +708,7 @@ int cmor_zfactor( int *zvar_id, int axis_id, char *name, char *units,
 			      cmor_axes[axis_id].id, cmor_vars[var_id].id,
 			      cmor_tables[cmor_vars[var_id].ref_table_id].
 			      szTable_id );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
+		    cmor_handle_error_var( msg, CMOR_CRITICAL, var_id );
 
 		}
 
@@ -723,7 +723,7 @@ int cmor_zfactor( int *zvar_id, int axis_id, char *name, char *units,
 			      cmor_axes[axis_id].id, cmor_vars[var_id].id,
 			      cmor_tables[cmor_vars[var_id].ref_table_id].
 			      szTable_id );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
+		    cmor_handle_error_var( msg, CMOR_CRITICAL, var_id );
 
 		}
 
@@ -738,7 +738,7 @@ int cmor_zfactor( int *zvar_id, int axis_id, char *name, char *units,
 			      cmor_vars[var_id].id,
 			      cmor_tables[cmor_vars[var_id].ref_table_id].
 			      szTable_id );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
+		    cmor_handle_error_var( msg, CMOR_CRITICAL, var_id );
 
 		}
 
@@ -1213,7 +1213,7 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
 		      cmor_vars[vrid].id,
 		      cmor_tables[cmor_vars[vrid].ref_table_id].szTable_id,
 		      positive, positive[0] );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
+	    cmor_handle_error_var( msg, CMOR_CRITICAL, vrid );
 	}
 
 	if( refvar.positive == 'u' ) {
@@ -1262,7 +1262,7 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
 	              "variable: %s (table %s)",
 		      cmor_vars[vrid].id,
 		      cmor_tables[cmor_vars[vrid].ref_table_id].szTable_id );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
+	    cmor_handle_error_var( msg, CMOR_CRITICAL, vrid );
 	}
 	if( refvar.positive != '\0' ) {
 	    if( refvar.positive == 'u' ) {
@@ -1292,7 +1292,7 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
 			  cmor_tables[cmor_vars[vrid].ref_table_id].
 			  szTable_id );
 	    }
-	    cmor_handle_error( msg, CMOR_CRITICAL );
+	    cmor_handle_error_var( msg, CMOR_CRITICAL, vrid );
 	}
     }
 /* -------------------------------------------------------------------- */
@@ -1347,7 +1347,7 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
 	             "grid (a call to cmor_grid)",
 		     cmor_vars[vrid].id,
 		     cmor_tables[cmor_vars[vrid].ref_table_id].szTable_id );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
+	    cmor_handle_error_var( msg, CMOR_CRITICAL, vrid );
 	}
     }
 
@@ -1369,7 +1369,7 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
 		     cmor_vars[vrid].id,
 		     cmor_tables[cmor_vars[vrid].ref_table_id].szTable_id,
 		     laxes_ids[i] );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
+	    cmor_handle_error_var( msg, CMOR_CRITICAL, vrid );
 	}
 	if( laxes_ids[i] < -CMOR_MAX_GRIDS + 1 ) {	
 	    grid_id = -laxes_ids[i] - CMOR_MAX_GRIDS;
@@ -1380,7 +1380,7 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
 			 cmor_vars[vrid].id,
 			 cmor_tables[cmor_vars[vrid].ref_table_id].
 			 szTable_id, laxes_ids[i] );
-		cmor_handle_error( msg, CMOR_CRITICAL );
+		cmor_handle_error_var( msg, CMOR_CRITICAL, vrid );
 	    }
 /* -------------------------------------------------------------------- */
 /*      here we need to know if the refvar has been defined with        */
@@ -1521,7 +1521,7 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
 		      name,
 		      cmor_tables[cmor_vars[vrid].ref_table_id].szTable_id,
 		      ndims, refvar.ndims );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
+	    cmor_handle_error_var( msg, CMOR_CRITICAL, vrid );
 	    cmor_pop_traceback(  );
 	    return( 1 );
 	} else {
@@ -1586,7 +1586,7 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
 		strcat( msg, " " );
 	    }
 	    strcat( msg, ")" );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
+	    cmor_handle_error_var( msg, CMOR_CRITICAL, vrid );
 	}
     }
     k = 0;
@@ -1600,7 +1600,7 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
 	if( laxes_ids[i] > cmor_naxes ) {
 	    snprintf( msg, CMOR_MAX_STRING, "Axis %i not defined",
 		      axes_ids[i] );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
+	    cmor_handle_error_var( msg, CMOR_CRITICAL, vrid );
 	    cmor_pop_traceback(  );
 	    return( 1 );
 	}
@@ -1618,7 +1618,7 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
 		      szTable_id, CMOR_TABLE,
 		      cmor_tables[CMOR_TABLE].szTable_id,
 		      cmor_axes[laxes_ids[i]].isgridaxis );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
+	    cmor_handle_error_var( msg, CMOR_CRITICAL, vrid );
 	}
 	if( cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].
 	    axes[cmor_axes[laxes_ids[i]].ref_axis_id].value != 1.e20 ) {
@@ -2232,7 +2232,7 @@ int cmor_set_deflate( int var_id, int shuffle,
                   "You attempt to deflate variable id(%d) which was "
                    "not initialized",
                    var_id);
-        cmor_handle_error( msg, CMOR_CRITICAL );
+        cmor_handle_error_var( msg, CMOR_CRITICAL, var_id );
         cmor_pop_traceback();
 
         return(-1);
@@ -2282,7 +2282,7 @@ int cmor_get_original_shape( int *var_id, int *shape_array, int *rank,
 		  "trying to retrieve shape of variable %s (table: %s) into a %id array but this variable is %id",
 		  avar.id, cmor_tables[avar.ref_table_id].szTable_id, *rank,
 		  avar.ndims );
-	cmor_handle_error( msg, CMOR_CRITICAL );
+	cmor_handle_error_var( msg, CMOR_CRITICAL, *var_id );
     }
     for( i = 0; i < avar.ndims; i++ ) {
 	if( ( blank_time == 1 )

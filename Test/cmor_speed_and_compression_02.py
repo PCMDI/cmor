@@ -7,7 +7,8 @@ today = strftime("%Y%m%d", localtime())
 
 try:
     import cdms2
-except BaseException: print "This test code needs cdms2 interface for i/0"
+except BaseException:
+    print "This test code needs cdms2 interface for i/0"
     sys.exit()
 
 cdms2.setNetcdfShuffleFlag(0)
@@ -79,9 +80,11 @@ myaxes = numpy.arange(10)
 myvars = numpy.arange(10)
 try:
     missing_value = s.missing_value[0]
-except BaseException: try:
+except BaseException:
+    try:
         missing_value = s.missing_value
-    except BaseException:        missing_value =None
+    except BaseException:
+        missing_value =None
 
 print 'Missing:', type(missing_value), missing_value
 #missing_value = -999.

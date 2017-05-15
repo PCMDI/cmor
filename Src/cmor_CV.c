@@ -1435,7 +1435,7 @@ int cmor_CV_checkFilename(cmor_CV_def_t *CV,
                             "closing variable %s (table: %s)", szInTimeCalendar,
                     cmor_vars[var_id].id,
                     cmor_tables[cmor_vars[var_id].ref_table_id].szTable_id);
-            cmor_handle_error(szInTimeUnits, CMOR_CRITICAL);
+            cmor_handle_error_var(szInTimeUnits, CMOR_CRITICAL, var_id);
             cmor_pop_traceback();
             return (1);
         }
@@ -1628,7 +1628,7 @@ int cmor_CV_checkFilename(cmor_CV_def_t *CV,
                 "See your Control Vocabulary file.(%s)\n! ", infile, outname,
                 cmor_current_dataset.file_template, CV_Filename);
 
-        cmor_handle_error(szTmp, CMOR_NORMAL);
+        cmor_handle_error_var(szTmp, CMOR_NORMAL, var_id);
         cmor_pop_traceback();
         return (-1);
     }

@@ -24,6 +24,8 @@ extern int cmor_have_NetCDF3( void );
 extern int cmor_have_NetCDF363( void );
 extern void cmor_handle_error( char error_msg[CMOR_MAX_STRING],
 			       int level );
+extern void cmor_handle_error_var( char error_msg[CMOR_MAX_STRING], int level,
+                                   int var_id );
 extern int cmor_setup( char *path, int *netcdf, int *verbosity, int *mode,
 		       char *logfile, int *cmor_create_subdirectories);
 
