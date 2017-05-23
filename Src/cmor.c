@@ -216,63 +216,62 @@ int cmor_check_forcing_validity( int table_id, char *value ) {
     char astr[CMOR_MAX_STRING];
     char **bstr;
 
-
     cmor_add_traceback("cmor_check_forcing_validity");
-    if( cmor_tables[table_id].nforcings == 0 ) {
+    if (cmor_tables[table_id].nforcings == 0) {
         cmor_pop_traceback();
-	return(0);
+        return (0);
     }
-    strcpy( astr, value );
+    strcpy(astr, value);
     found = 0;
-    
-    for( i = 0; i < strlen( astr ); i++ ) {
-	if( astr[i] == ',' )
-	    astr[i] = ' ';
+
+    for (i = 0; i < strlen(astr); i++) {
+        if (astr[i] == ',')
+            astr[i] = ' ';
 
 /* -------------------------------------------------------------------- */
 /*      removes everything  after first parenthesis                     */
 /* -------------------------------------------------------------------- */
-	if( astr[i] == '(' )
-	    astr[i] = '\0';
+        if (astr[i] == '(')
+            astr[i] = '\0';
     }
-    cmor_convert_string_to_list( astr, 'c', ( void ** ) &bstr, &n );
-    if( n == 0 ){
+    cmor_convert_string_to_list(astr, 'c', (void **) &bstr, &n);
+    if (n == 0) {
         cmor_pop_traceback();
-	return(0);
+        return (0);
     }
-    for( i = 0; i < n; i++ ) {
-	found = 0;
-	for( j = 0; j < cmor_tables[table_id].nforcings; j++ ) {
-	    if( strcmp( bstr[i], cmor_tables[table_id].forcings[j] ) == 0 ) {
-		found = 1;
-		break;
-	    }
-	}
-	if( found == 0 ) {
-	    sprintf( msg, "forcing attribute elt %i (%s) is not valid for\n! "
-		     "table %s, valid values are:", i,
-		     bstr[i], cmor_tables[table_id].szTable_id );
-	    for( j = 0; j < cmor_tables[table_id].nforcings; j++ ) {
-		strncat( msg, " ", CMOR_MAX_STRING - strlen( msg ) );
-		strncat( msg, cmor_tables[table_id].forcings[j],
-			 CMOR_MAX_STRING - strlen( msg ) );
-		strncat( msg, ",", CMOR_MAX_STRING - strlen( msg ) );
-	    }
-	    msg[strlen( msg ) - 1] = '\0';
-	    cmor_handle_error( msg, CMOR_NORMAL );
-	    cmor_pop_traceback();
-	    return(-1);
-	}
+    for (i = 0; i < n; i++) {
+        found = 0;
+        for (j = 0; j < cmor_tables[table_id].nforcings; j++) {
+            if (strcmp(bstr[i], cmor_tables[table_id].forcings[j]) == 0) {
+                found = 1;
+                break;
+            }
+        }
+        if (found == 0) {
+            sprintf(msg, "forcing attribute elt %i (%s) is not valid for\n! "
+                    "table %s, valid values are:", i, bstr[i],
+                    cmor_tables[table_id].szTable_id);
+            for (j = 0; j < cmor_tables[table_id].nforcings; j++) {
+                strncat(msg, " ", CMOR_MAX_STRING - strlen(msg));
+                strncat(msg, cmor_tables[table_id].forcings[j],
+                CMOR_MAX_STRING - strlen(msg));
+                strncat(msg, ",", CMOR_MAX_STRING - strlen(msg));
+            }
+            msg[strlen(msg) - 1] = '\0';
+            cmor_handle_error(msg, CMOR_NORMAL);
+            cmor_pop_traceback();
+            return (-1);
+        }
     }
 /* -------------------------------------------------------------------- */
 /*      Ok now we need to clean up the memory allocations....           */
 /* -------------------------------------------------------------------- */
-    for( i = 0; i < n; i++ ) {
-	free( bstr[i] );
+    for (i = 0; i < n; i++) {
+        free(bstr[i]);
     }
-    free( bstr );
+    free(bstr);
     cmor_pop_traceback();
-    return(0);
+    return (0);
 }
 
 /**************************************************************************/
@@ -322,70 +321,68 @@ int strncpytrim( char *out, char *in, int max ) {
 
     cmor_add_traceback("strncpytrim");
     j = 0;
-    n = strlen( in );
+    n = strlen(in);
 
-    if( n > max ) {
-	n = max;
+    if (n > max) {
+        n = max;
     }
 
-/* -------------------------------------------------------------------- */
-/*      Look for first space position and last space position and       */
-/*      copy interval characters in out.                                */
-/* -------------------------------------------------------------------- */
-    while( ( in[j] == ' ' ) && ( j < n ) ) {
-	j++;
+    /* -------------------------------------------------------------------- */
+    /*      Look for first space position and last space position and       */
+    /*      copy interval characters in out.                                */
+    /* -------------------------------------------------------------------- */
+    while ((in[j] == ' ') && (j < n)) {
+        j++;
     }
 
     k = n - 1;
 
-    while( ( in[k] == ' ' ) && ( k > 0 ) ) {
-	k--;
+    while ((in[k] == ' ') && (k > 0)) {
+        k--;
     }
 
-    for( i = j; i <= k; i++ ) {
-	out[i - j] = in[i];
+    for (i = j; i <= k; i++) {
+        out[i - j] = in[i];
     }
 
     out[i - j] = '\0';
 
     cmor_pop_traceback();
-    return( 0 );
+    return (0);
 }
 
 
 /************************************************************************/
 /*                           cmor_is_setup()                            */
 /************************************************************************/
-void cmor_is_setup( void ) {
+void cmor_is_setup(void) {
 
     extern int CMOR_HAS_BEEN_SETUP;
     char msg[CMOR_MAX_STRING];
-    extern void cmor_handle_error( char error_msg[CMOR_MAX_STRING],
-				   int level );
+    extern void cmor_handle_error(char error_msg[CMOR_MAX_STRING], int level);
 
-    cmor_add_traceback( "cmor_is_setup" );
+    cmor_add_traceback("cmor_is_setup");
 
-    if( CMOR_HAS_BEEN_SETUP == 0 ) {
-	snprintf( msg, CMOR_MAX_STRING,
-		"You need to run cmor_setup before calling any cmor_function" );
-	cmor_handle_error( msg, CMOR_NOT_SETUP );
+    if (CMOR_HAS_BEEN_SETUP == 0) {
+        snprintf(msg, CMOR_MAX_STRING,
+                "You need to run cmor_setup before calling any cmor_function");
+        cmor_handle_error(msg, CMOR_NOT_SETUP);
     }
-    cmor_pop_traceback(  );
+    cmor_pop_traceback();
     return;
 }
 
 /************************************************************************/
 /*                         cmor_add_traceback()                         */
 /************************************************************************/
-void cmor_add_traceback( char *name ) {
+void cmor_add_traceback(char *name) {
     char tmp[CMOR_MAX_STRING];
 
-
-    if( strlen( cmor_traceback_info ) == 0 ) {
-        sprintf( cmor_traceback_info, "%s\n! ", name );
+    if (strlen(cmor_traceback_info) == 0) {
+        sprintf(cmor_traceback_info, "%s\n! ", name);
     } else {
-        sprintf( tmp, "%s\n! called from: %s", name, cmor_traceback_info );
-        strncpy( cmor_traceback_info, tmp, CMOR_MAX_STRING );
+        sprintf(tmp, "%s\n! called from: %s", name, cmor_traceback_info);
+        strncpy(cmor_traceback_info, tmp, CMOR_MAX_STRING);
     }
     return;
 }
@@ -393,38 +390,38 @@ void cmor_add_traceback( char *name ) {
 /************************************************************************/
 /*                         cmor_pop_traceback()                         */
 /************************************************************************/
-void cmor_pop_traceback( void ) {
+void cmor_pop_traceback(void) {
     int i;
     char tmp[CMOR_MAX_STRING];
 
-    strcpy( tmp, "" );
-    for( i = 0; i < strlen( cmor_traceback_info ); i++ ) {
-	if( strncmp( &cmor_traceback_info[i], "called from: ", 13 ) == 0 ) {
-	    strcpy( tmp, &cmor_traceback_info[i + 13] );
-	    break;
-	}
+    strcpy(tmp, "");
+    for (i = 0; i < strlen(cmor_traceback_info); i++) {
+        if (strncmp(&cmor_traceback_info[i], "called from: ", 13) == 0) {
+            strcpy(tmp, &cmor_traceback_info[i + 13]);
+            break;
+        }
     }
-    strcpy( cmor_traceback_info, tmp );
+    strcpy(cmor_traceback_info, tmp);
     return;
 }
 
 /************************************************************************/
 /*                         cmor_have_NetCDF4()                          */
 /************************************************************************/
-int cmor_have_NetCDF4( void ) {
+int cmor_have_NetCDF4(void) {
     char version[50];
     int major;
 
     cmor_pop_traceback();
-    strncpy( version, nc_inq_libvers(  ), 50 );
-    sscanf( version, "%1d%*s", &major );
-    if( major != 4 ){
+    strncpy(version, nc_inq_libvers(), 50);
+    sscanf(version, "%1d%*s", &major);
+    if (major != 4) {
         cmor_pop_traceback();
-	return( 1 );
+        return (1);
     }
     cmor_pop_traceback();
 
-    return( 0 );
+    return (0);
 }
 
 
@@ -440,56 +437,56 @@ int cmor_prep_units( char *uunits,
     extern ut_system *ut_read;
     char local_unit[CMOR_MAX_STRING];
     char msg[CMOR_MAX_STRING];
-    extern void cmor_handle_error( char error_msg[CMOR_MAX_STRING],
-                                   int level );
-    cmor_add_traceback( "cmor_prep_units" );
-    cmor_is_setup(  );
-    *cmor_units = ut_parse( ut_read, cunits, UT_ASCII );
-    if( ut_get_status(  ) != UT_SUCCESS ) {
-        snprintf( msg, CMOR_MAX_STRING,
-                  "Udunits: analyzing units from cmor (%s)", cunits );
-        cmor_handle_error( msg, CMOR_CRITICAL );
-        cmor_pop_traceback(  );
-        return( 1 );
+    extern void cmor_handle_error(char error_msg[CMOR_MAX_STRING], int level);
+
+    cmor_add_traceback("cmor_prep_units");
+    cmor_is_setup();
+    *cmor_units = ut_parse(ut_read, cunits, UT_ASCII);
+    if (ut_get_status() != UT_SUCCESS) {
+        snprintf(msg, CMOR_MAX_STRING,
+                "Udunits: analyzing units from cmor (%s)", cunits);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+        cmor_pop_traceback();
+        return (1);
     }
 
-    strncpy( local_unit, uunits, CMOR_MAX_STRING );
-    ut_trim( local_unit, UT_ASCII );
-    *user_units = ut_parse( ut_read, local_unit, UT_ASCII );
+    strncpy(local_unit, uunits, CMOR_MAX_STRING);
+    ut_trim(local_unit, UT_ASCII);
+    *user_units = ut_parse(ut_read, local_unit, UT_ASCII);
 
-    if( ut_get_status(  ) != UT_SUCCESS ) {
-        snprintf( msg, CMOR_MAX_STRING,
-                  "Udunits: analyzing units from user (%s)", local_unit );
-        cmor_handle_error( msg, CMOR_CRITICAL );
-        cmor_pop_traceback(  );
-        return( 1 );
+    if (ut_get_status() != UT_SUCCESS) {
+        snprintf(msg, CMOR_MAX_STRING,
+                "Udunits: analyzing units from user (%s)", local_unit);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+        cmor_pop_traceback();
+        return (1);
     }
 
-    if( ut_are_convertible( *cmor_units, *user_units ) == 0 ) {
-        snprintf( msg, CMOR_MAX_STRING,
-                  "Udunits: cmor and user units are incompatible: %s and %s",
-                  cunits, uunits );
-        cmor_handle_error( msg, CMOR_CRITICAL );
-        cmor_pop_traceback(  );
-        return( 1 );
+    if (ut_are_convertible(*cmor_units, *user_units) == 0) {
+        snprintf(msg, CMOR_MAX_STRING,
+                "Udunits: cmor and user units are incompatible: %s and %s",
+                cunits, uunits);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+        cmor_pop_traceback();
+        return (1);
     }
 
-    *ut_cmor_converter = ut_get_converter( *user_units, *cmor_units );
+    *ut_cmor_converter = ut_get_converter(*user_units, *cmor_units);
 
-    if( *ut_cmor_converter == NULL ) {
+    if (*ut_cmor_converter == NULL) {
     }
 
-    if( ut_get_status(  ) != UT_SUCCESS ) {
-        snprintf( msg, CMOR_MAX_STRING,
-                  "Udunits: Error getting converter from %s to %s", cunits,
-                  local_unit );
-        cmor_handle_error( msg, CMOR_CRITICAL );
-        cmor_pop_traceback(  );
-        return( 1 );
+    if (ut_get_status() != UT_SUCCESS) {
+        snprintf(msg, CMOR_MAX_STRING,
+                "Udunits: Error getting converter from %s to %s", cunits,
+                local_unit);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+        cmor_pop_traceback();
+        return (1);
     }
 
-    cmor_pop_traceback(  );
-    return( 0 );
+    cmor_pop_traceback();
+    return (0);
 }
 
 
