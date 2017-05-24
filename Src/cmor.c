@@ -5427,6 +5427,7 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
 	    int nVarAxisID;
 	    int nVarRefTable;
 	    int nVarRefAxisID;
+	    char ninterval[CMOR_MAX_STRING];
 
 	    nVarAxisID = cmor_vars[var_id].axes_ids[0];
 	    nVarRefTable = cmor_axes[nVarAxisID].ref_table_id;
@@ -5435,6 +5436,12 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
 	    interval = cmor_convert_interval_to_seconds(
 	            cmor_tables[nVarRefTable].interval,
 	            cmor_tables[nVarRefTable].axes[nVarRefAxisID].units );
+        printf("$$$ %f\n", interval);
+        if( cmor_has_cur_dataset_attribute( GLOBAL_ATT_FREQUENCY ) == 0 ) {
+            cmor_get_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY, ninterval);
+            printf("£££ %s\n", ninterval);
+        }
+
 
 /* -------------------------------------------------------------------- */
 /*      first time point                                                */
