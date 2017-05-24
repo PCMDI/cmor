@@ -5264,7 +5264,7 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
     char ctmp[CMOR_MAX_STRING];
     char ctmp2[CMOR_MAX_STRING];
     cdCalenType icalo;
-    cdCompTime comptime;
+    cdCompTime starttime, endtime;
     int i, j, n;
     double interval;
     struct stat buf;
@@ -5407,7 +5407,7 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
 		return( 1 );
 	    }
 /* -------------------------------------------------------------------- */
-/*      ok makes a comptime out of input                                */
+/*      ok makes a comptime for start and end time                      */
 /* -------------------------------------------------------------------- */
 
 	    i = cmor_vars[var_id].axes_ids[0];
@@ -5416,18 +5416,45 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
 	    if( ( cmor_tables[j].axes[i].climatology == 1 )
 		&& ( cmor_vars[var_id].first_bound != 1.e20 ) ) {
 		cdRel2Comp( icalo, msg, cmor_vars[var_id].first_bound,
-			    &comptime );
+			    &starttime );
 	    } else {
 		cdRel2Comp( icalo, msg, cmor_vars[var_id].first_time,
-			    &comptime );
+			    &starttime );
 	    }
+
+	    if( ( cmor_tables[j].axes[i].climatology == 1 )
+		&& ( cmor_vars[var_id].last_bound != 1.e20 ) ) {
+		cdRel2Comp( icalo, msg, cmor_vars[var_id].last_bound,
+			    &endtime );
+
+	    
+/* -------------------------------------------------------------------- */
+/*      ok apparently we don't like the new time format                 */
+/*      if it's ending at midnight exactly so I'm removing              */
+/*      one second...                                                   */
+/* -------------------------------------------------------------------- */
+
+		if( icalo == cdMixed ) {
+		    cdCompAddMixed( endtime, -1. / 3600., &endtime );
+		} else {
+		    cdCompAdd( endtime, -1. / 3600., icalo, &endtime );
+		}
+	    } else {
+		cdRel2Comp( icalo, msg, cmor_vars[var_id].last_time,
+			    &endtime );
+	    }
+	    
 /* -------------------------------------------------------------------- */
 /*      need to figure out the approximate interval                     */
 /* -------------------------------------------------------------------- */
+        int frequency_code;
 	    int nVarAxisID;
 	    int nVarRefTable;
 	    int nVarRefAxisID;
-	    char ninterval[CMOR_MAX_STRING];
+	    char frequency[CMOR_MAX_STRING];
+	    char start_string[CMOR_MAX_STRING];
+	    char end_string[CMOR_MAX_STRING];
+	    float start_seconds, end_seconds;
 
 	    nVarAxisID = cmor_vars[var_id].axes_ids[0];
 	    nVarRefTable = cmor_axes[nVarAxisID].ref_table_id;
@@ -5438,153 +5465,88 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
 	            cmor_tables[nVarRefTable].axes[nVarRefAxisID].units );
         printf("$$$ %f\n", interval);
         if( cmor_has_cur_dataset_attribute( GLOBAL_ATT_FREQUENCY ) == 0 ) {
-            cmor_get_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY, ninterval);
-            printf("£££ %s\n", ninterval);
+        cmor_get_cur_dataset_attribute( GLOBAL_ATT_FREQUENCY, frequency );
+        }
+        
+        if( strstr( frequency, "yr" ) != NULL ) {
+        frequency_code = 1;
+        } 
+        else if( strstr( frequency, "decadal" ) != NULL ) {
+        frequency_code = 1;
+        }
+        else if( strstr( frequency, "mon" ) != NULL ) {
+        frequency_code = 2;
+        }
+        else if( strstr( frequency, "day" ) != NULL ) {
+        frequency_code = 3;
+        }
+        else if( strstr( frequency, "subhr" ) != NULL ) {
+        frequency_code = 5;
+        }
+        else if( strstr( frequency, "hr" ) != NULL ) {
+        frequency_code = 4;
+        }
+        else {
+        frequency_code = 0;
+        }
+        
+        switch ( frequency_code ) {
+        case 1:
+            snprintf( start_string, CMOR_MAX_STRING, "%.4ld", starttime.year );
+            snprintf( end_string, CMOR_MAX_STRING, "%.4ld", endtime.year );
+            break;
+        case 2:
+            snprintf( start_string, CMOR_MAX_STRING, "%.4ld%.2i", 
+                    starttime.year, starttime.month );
+            snprintf( end_string, CMOR_MAX_STRING, "%.4ld%.2i",
+                    endtime.year, endtime.month );
+            break;
+        case 3:
+            snprintf( start_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i", 
+                    starttime.year, starttime.month, starttime.day );
+            snprintf( end_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i",
+                    endtime.year, endtime.month, endtime.day );
+            break;
+        case 4:
+            start_seconds = round( ( starttime.hour - 
+                    ( int ) starttime.hour ) * 3600. );
+            end_seconds = round( ( endtime.hour - 
+                    ( int ) endtime.hour ) * 3600. );
+            snprintf( start_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i%.2i%.2i", 
+                    starttime.year, starttime.month, starttime.day,
+                    ( int ) starttime.hour, ( int ) ( start_seconds / 60. ) );
+            snprintf( end_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i%.2i%.2i",
+                    endtime.year, endtime.month, endtime.day,
+                    ( int ) endtime.hour, ( int ) ( end_seconds / 60. ) );
+            break;
+        case 5:
+            start_seconds = round( ( starttime.hour - 
+                    ( int ) starttime.hour ) * 3600. );
+            end_seconds = round( ( endtime.hour - 
+                    ( int ) endtime.hour ) * 3600. );
+            snprintf( start_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i%.2i%.2i", 
+                    starttime.year, starttime.month, starttime.day,
+                    ( int ) starttime.hour, ( int ) ( start_seconds / 60. ), 
+                    fmod( start_seconds, 60. ) );
+            snprintf( end_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i%.2i%.2i",
+                    endtime.year, endtime.month, endtime.day,
+                    ( int ) endtime.hour, ( int ) ( end_seconds / 60. ), 
+                    fmod( end_seconds, 60. ) );
+            break;
+        default:
+		    snprintf( msg, CMOR_MAX_STRING,
+			      "Cannot find frequnecy. Closing variable %s (table: %s)",
+			      msg2, cmor_vars[var_id].id, cmor_tables[cmor_vars[var_id].
+				          ref_table_id].szTable_id );
+		    cmor_handle_error_var( msg, CMOR_CRITICAL, var_id );
+		    cmor_pop_traceback(  );
+		    return( 1 );
         }
 
-
-/* -------------------------------------------------------------------- */
-/*      first time point                                                */
-/* -------------------------------------------------------------------- */
-
-	    strncat( outname, "_", CMOR_MAX_STRING - strlen( outname ) );
-	    snprintf( msg2, CMOR_MAX_STRING, "%.4ld", comptime.year );
-	    strncat( outname, msg2, CMOR_MAX_STRING - strlen( outname ) );
-/* -------------------------------------------------------------------- */
-/*      less than a year                                                */
-/* -------------------------------------------------------------------- */
-
-	    if( interval < 29.E6 ) {
-		snprintf( msg2, CMOR_MAX_STRING, "%.2i", comptime.month );
-		strncat( outname, msg2,
-			 CMOR_MAX_STRING - strlen( outname ) );
-	    }
-/* -------------------------------------------------------------------- */
-/*      less than a month                                               */
-/* -------------------------------------------------------------------- */
-	    if( interval < 2.E6 ) {
-		snprintf( msg2, CMOR_MAX_STRING, "%.2i", comptime.day );
-		strncat( outname, msg2,
-			 CMOR_MAX_STRING - strlen( outname ) );
-	    }
-/* -------------------------------------------------------------------- */
-/*      less than a day                                                 */
-/* -------------------------------------------------------------------- */
-	    if( interval < 86000 ) {
-		snprintf( msg2, CMOR_MAX_STRING, "%.2i",
-			  ( int ) comptime.hour );
-		strncat( outname, msg2,
-			 CMOR_MAX_STRING - strlen( outname ) );
-	    }
-/* -------------------------------------------------------------------- */
-/*      less than 6hr                                                   */
-/* -------------------------------------------------------------------- */
-	    if( interval < 21000 ) {
-/* -------------------------------------------------------------------- */
-/*      from now on add 1 more level of precision since that frequency  */
-/* -------------------------------------------------------------------- */
-
-		ierr = ( int ) (( comptime.hour -
-		       ( int ) ( comptime.hour )) * 60. );
-		snprintf( msg2, CMOR_MAX_STRING, "%.2i", ierr );
-		strncat( outname, msg2,
-			 CMOR_MAX_STRING - strlen( outname ) );
-	    }
-	    if( interval < 3000 ) {	/* less than an hour */
-		snprintf( msg2, CMOR_MAX_STRING, "%.2i",
-			  ( int ) (( comptime.hour -
-			  ( int ) ( comptime.hour ) ) *
-				     3600. ) - ierr * 60 );
-		strncat( outname, msg2,
-			 CMOR_MAX_STRING - strlen( outname ) );
-	    }
-
-/* -------------------------------------------------------------------- */
-/*      separator between first and last time                           */
-/* -------------------------------------------------------------------- */
-
-	    strncat( outname, "-", CMOR_MAX_STRING - strlen( outname ) );
-
-	    if( ( cmor_tables[j].axes[i].climatology == 1 )
-		&& ( cmor_vars[var_id].last_bound != 1.e20 ) ) {
-		cdRel2Comp( icalo, msg, cmor_vars[var_id].last_bound,
-			    &comptime );
-/* -------------------------------------------------------------------- */
-/*      ok apparently we don't like the new time format                 */
-/*      if it's ending at midnight exactly so I'm removing              */
-/*      one second...                                                   */
-/* -------------------------------------------------------------------- */
-
-		if( icalo == cdMixed ) {
-		    cdCompAddMixed( comptime, -1. / 3600., &comptime );
-		} else {
-		    cdCompAdd( comptime, -1. / 3600., icalo, &comptime );
-		}
-	    } else {
-		cdRel2Comp( icalo, msg, cmor_vars[var_id].last_time,
-			    &comptime );
-	    }
-
-/* -------------------------------------------------------------------- */
-/*      last time point                                                 */
-/* -------------------------------------------------------------------- */
-	    snprintf( msg2, CMOR_MAX_STRING, "%.4ld", comptime.year );
-	    strncat( outname, msg2, CMOR_MAX_STRING - strlen( outname ) );
-
-/* -------------------------------------------------------------------- */
-/*      less than a year                                                */
-/* -------------------------------------------------------------------- */
-	    if( interval < 29.E6 ) {
-		snprintf( msg2, CMOR_MAX_STRING, "%.2i", comptime.month );
-		strncat( outname, msg2,
-			 CMOR_MAX_STRING - strlen( outname ) );
-	    }
-/* -------------------------------------------------------------------- */
-/*      less than a month                                               */
-/* -------------------------------------------------------------------- */
-
-	    if( interval < 2.E6 ) {
-		snprintf( msg2, CMOR_MAX_STRING, "%.2i", comptime.day );
-		strncat( outname, msg2,
-			 CMOR_MAX_STRING - strlen( outname ) );
-	    }
-/* -------------------------------------------------------------------- */
-/*      less than a day                                                 */
-/* -------------------------------------------------------------------- */
-
-	    if( interval < 86000 ) {
-		snprintf( msg2, CMOR_MAX_STRING, "%.2i",
-			  ( int ) comptime.hour );
-		strncat( outname, msg2,
-			 CMOR_MAX_STRING - strlen( outname ) );
-	    }
-/* -------------------------------------------------------------------- */
-/*      less than 6hr                                                   */
-/* -------------------------------------------------------------------- */
-
-	    if( interval < 21000 ) {
-/* -------------------------------------------------------------------- */
-/*      from now on add 1 more level of precision since that frequency  */
-/* -------------------------------------------------------------------- */
-
-		ierr =
-		    ( int ) ( ( comptime.hour -
-				( int ) ( comptime.hour ) ) * 60. );
-		snprintf( msg2, CMOR_MAX_STRING, "%.2i", ierr );
-		strncat( outname, msg2,
-			 CMOR_MAX_STRING - strlen( outname ) );
-	    }
-/* -------------------------------------------------------------------- */
-/*      less than an hour                                               */
-/* -------------------------------------------------------------------- */
-	    if( interval < 3000 ) {
-		snprintf( msg2, CMOR_MAX_STRING, "%.2i",
-			  ( int ) ( ( comptime.hour -
-				      ( int ) ( comptime.hour ) ) *
-				    3600. ) - ierr * 60 );
-		strncat( outname, msg2,
-			 CMOR_MAX_STRING - strlen( outname ) );
-	    }
+        strncat( outname, "_", CMOR_MAX_STRING - strlen( outname ) );
+        strncat( outname, start_string, CMOR_MAX_STRING - strlen( outname ) );
+        strncat( outname, "-", CMOR_MAX_STRING - strlen( outname ) );
+        strncat( outname, end_string, CMOR_MAX_STRING - strlen( outname ) );
 
 	    if( cmor_tables
 		[cmor_axes[cmor_vars[var_id].axes_ids[0]].
