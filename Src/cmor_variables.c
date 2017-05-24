@@ -1514,7 +1514,7 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
 	    }
 	}
 
-	if( j != 0 ) {
+	if(( j != 0 ) && (j != -1)) {
 	    snprintf( msg, CMOR_MAX_STRING,
 		      "You are defining variable '%s' (table %s)  with %i "
 	              "dimensions, when it should have %i",
@@ -1544,50 +1544,56 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
 
     k = -1;
     for( i = 0; i < lndims; i++ ) {
-	for( j = 0; j < refvar.ndims; j++ ) {
-	    if( ( strcmp
-		  ( cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].
-		    axes[cmor_axes[laxes_ids[i]].ref_axis_id].id,
-		    cmor_tables[CMOR_TABLE].axes[refvar.dimensions[j]].
-		    id ) == 0 )
-		||
-		( ( cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].
-		    axes[cmor_axes[laxes_ids[i]].ref_axis_id].axis == 'Z' )
-		  && ( refvar.dimensions[j] == -2 ) ) ) {
+       if(strcmp(cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].
+                    axes[cmor_axes[laxes_ids[i]].ref_axis_id].id,
+                    AXIS_FORECAST_TIME)==0) {
+           k++;
+           continue;
+       }
+       for( j = 0; j < refvar.ndims; j++ ) {
+           if( ( strcmp
+                   ( cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].
+                           axes[cmor_axes[laxes_ids[i]].ref_axis_id].id,
+                           cmor_tables[CMOR_TABLE].axes[refvar.dimensions[j]].
+                           id ) == 0 )
+                   ||
+                   ( ( cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].
+                           axes[cmor_axes[laxes_ids[i]].ref_axis_id].axis == 'Z' )
+                           && ( refvar.dimensions[j] == -2 ) ) ) {
 
-		k++;
-	    }
-	}
-	if( k != i ) {
+               k++;
+           }
+       }
+       if( k != i ) {
 /* -------------------------------------------------------------------- */
 /*      ok we didn't find it, but there is still a slight chance it     */
 /*      is a grid axis!                                                 */
 /* -------------------------------------------------------------------- */
 
-	    for( j = 0; j < cmor_grids[grid_id].ndims; j++ ) {
-		if( laxes_ids[i] ==
-		    cmor_grids[grid_id].original_axes_ids[j] )
-		    k++;
-	    }
-	}
-	if( k != i ) {
-	    snprintf( msg, CMOR_MAX_STRING,
-		      "You defined variable '%s' (table %s) with axis "
-	              "id '%s' which is not part of this variable "
-	              "according to your table, it says: ( ",
-		      refvar.id,
-		      cmor_tables[cmor_vars[vrid].ref_table_id].szTable_id,
-		      cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].
-		      axes[cmor_axes[laxes_ids[i]].ref_axis_id].id );
-	    for( i = 0; i < refvar.ndims; i++ ) {
-		strcat( msg,
-			cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].
-			id );
-		strcat( msg, " " );
-	    }
-	    strcat( msg, ")" );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
-	}
+           for( j = 0; j < cmor_grids[grid_id].ndims; j++ ) {
+               if( laxes_ids[i] ==
+                       cmor_grids[grid_id].original_axes_ids[j] )
+                   k++;
+           }
+       }
+       if( k != i ) {
+           snprintf( msg, CMOR_MAX_STRING,
+                   "You defined variable '%s' (table %s) with axis "
+                   "id '%s' which is not part of this variable "
+                   "according to your table, it says: ( ",
+                   refvar.id,
+                   cmor_tables[cmor_vars[vrid].ref_table_id].szTable_id,
+                   cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].
+                   axes[cmor_axes[laxes_ids[i]].ref_axis_id].id );
+           for( i = 0; i < refvar.ndims; i++ ) {
+               strcat( msg,
+                       cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].
+                       id );
+               strcat( msg, " " );
+           }
+           strcat( msg, ")" );
+           cmor_handle_error( msg, CMOR_CRITICAL );
+       }
     }
     k = 0;
 /* -------------------------------------------------------------------- */

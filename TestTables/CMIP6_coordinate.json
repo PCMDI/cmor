@@ -2089,6 +2089,28 @@
             "z_factors": "", 
             "bounds_values": ""
         }, 
+        "forecast_time": {
+            "standard_name": "forecast_time", 
+            "units": "days since ?", 
+            "axis": "", 
+            "long_name": "forecast time", 
+            "climatology": "", 
+            "formula": "", 
+            "must_have_bounds": "no", 
+            "out_name": "forecast_time", 
+            "positive": "", 
+            "requested": "", 
+            "requested_bounds": "", 
+            "stored_direction": "increasing", 
+            "tolerance": "", 
+            "type": "double", 
+            "valid_max": "", 
+            "valid_min": "", 
+            "value": "0.", 
+            "z_bounds_factors": "", 
+            "z_factors": "", 
+            "bounds_values": ""
+        }, 
         "time": {
             "standard_name": "time", 
             "units": "days since ?", 

@@ -881,7 +881,7 @@ int cmor_treat_axis_values(int axis_id, double *values, int length,
     refaxis = &cmor_tables[axis->ref_table_id].axes[axis->ref_axis_id];
 
 
-    if( refaxis->axis == 'T' ) {
+    if( (refaxis->axis == 'T' ) || strstr(units, "since")) {
 
 /* -------------------------------------------------------------------- */
 /*      ok this part will try to convert time values to the right units */
@@ -1683,7 +1683,7 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
     cmor_axes[cmor_naxes].type = type;
     cmor_axes[cmor_naxes].store_in_netcdf = 1;
 
-    if (refaxis.axis == 'T') {
+    if ((refaxis.axis == 'T') || strstr(units, "since")) {
         cmor_get_cur_dataset_attribute("calendar", ctmp);
         cmor_set_axis_attribute(cmor_naxes, "calendar", 'c', ctmp);
         cmor_convert_time_units(units, refaxis.units, &ctmp[0]);

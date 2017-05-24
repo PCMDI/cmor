@@ -83,6 +83,7 @@
 #define AXIS_ATT_BOUNDSREQUESTED "bounds_requested"
 #define AXIS_ATT_REQUESTEDBOUNDS "requested_bounds"
 #define AXIS_ATT_REQUESTED       "requested"
+#define AXIS_FORECAST_TIME       "forecast_time"
 
 #define TABLE_CONTROL_FILENAME    "CMIP6_CV.json"
 #define TABLE_FOUND               -1
