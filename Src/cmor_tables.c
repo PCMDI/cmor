@@ -37,7 +37,7 @@ int cmor_get_table_attr( char *szToken, cmor_table_t * table, char *out) {
             {"date",        table->date        },
             {"product",     table->product     },
             {"path",        table->path        },
-            {"frequency",   table->frequency   },
+ //           {"frequency",   table->frequency   },
             {"", ""},
             {"", ""},
             {"", ""}
@@ -53,6 +53,7 @@ int cmor_get_table_attr( char *szToken, cmor_table_t * table, char *out) {
             return(0);
         }
     }
+
 
     cmor_pop_traceback(  );
     return(1);
@@ -87,7 +88,7 @@ void cmor_init_table( cmor_table_t * table, int id ) {
     table->URL[0] = '\0';
     strcpy( table->product, "output" );
     table->path[0] = '\0';
-    table->frequency[0] = '\0';
+//    table->frequency[0] = '\0';
     table->nforcings = 0;
 	for (i = 0; i < CMOR_MAX_ELEMENTS; i++) {
 		table->expt_ids[i][0] = '\0';
@@ -335,8 +336,8 @@ int cmor_set_dataset_att(cmor_table_t * table, char att[CMOR_MAX_STRING],
 	} else if (strcmp(att, TABLE_HEADER_PRODUCT) == 0) {
 		strncpy(table->product, value, CMOR_MAX_STRING);
 
-	} else if (strcmp(att, TABLE_HEADER_FREQUENCY) == 0) {
-		strncpy(table->frequency, value, CMOR_MAX_STRING);
+//	} else if (strcmp(att, TABLE_HEADER_FREQUENCY) == 0) {
+//		strncpy(table->frequency, value, CMOR_MAX_STRING);
 
 	} else if (strcmp(att, TABLE_HEADER_TABLE_ID) == 0) {
 		for (n = 0; n == cmor_ntables; n++) {
@@ -711,7 +712,7 @@ int cmor_load_table_internal( char szTable[CMOR_MAX_STRING], int *table_id) {
         if( key[0] == '#') {
             continue;
         }
-        if( value == NULL) {
+        if( value == 0) {
         	return(TABLE_ERROR);
         }
         strcpy(szVal, json_object_get_string(value));

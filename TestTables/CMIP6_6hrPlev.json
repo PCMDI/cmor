@@ -3,9 +3,8 @@
         "data_specs_version": "01.00.10", 
         "table_id": "Table 6hrPlev", 
         "realm": "atmos", 
-        "frequency": "6hr", 
         "cmor_version": "3.2", 
-        "table_date": "10 May 2017", 
+        "table_date": "01 June 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "0.250000", 
@@ -15,10 +14,11 @@
     }, 
     "variable_entry": {
         "bldep": {
+            "frequency": "6hr", 
             "modeling_realm": "aerosol", 
             "standard_name": "atmosphere_boundary_layer_thickness", 
             "units": "m", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "area: time: mean ", 
             "cell_measures": "area: areacella", 
             "long_name": "Boundary Layer Depth", 
             "comment": "Boundary layer depth", 
@@ -32,10 +32,11 @@
             "ok_max_mean_abs": ""
         }, 
         "hurs": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "relative_humidity", 
             "units": "%", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Near-Surface Relative Humidity", 
             "comment": "The relative humidity with respect to liquid water for T> 0 C, and with respect to ice for T<0 C.", 
@@ -49,15 +50,16 @@
             "ok_max_mean_abs": ""
         }, 
         "hus4": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "specific_humidity", 
             "units": "1.0", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "area: mean time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Specific Humidity", 
             "comment": "", 
             "dimensions": "longitude latitude plev4 time", 
-            "out_name": "hus", 
+            "out_name": "hus4", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -66,10 +68,11 @@
             "ok_max_mean_abs": ""
         }, 
         "pr": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "precipitation_flux", 
             "units": "kg m-2 s-1", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "area: time: mean ", 
             "cell_measures": "area: areacella", 
             "long_name": "Precipitation", 
             "comment": "includes both liquid and solid phases", 
@@ -83,6 +86,7 @@
             "ok_max_mean_abs": ""
         }, 
         "prhmax": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "precipitation_flux", 
             "units": "kg m-2 s-1", 
@@ -100,10 +104,11 @@
             "ok_max_mean_abs": ""
         }, 
         "psl": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "air_pressure_at_sea_level", 
             "units": "Pa", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "area: time: mean ", 
             "cell_measures": "area: areacella", 
             "long_name": "Sea Level Pressure", 
             "comment": "Sea Level Pressure", 
@@ -117,10 +122,11 @@
             "ok_max_mean_abs": ""
         }, 
         "rv850": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "atmosphere_relative_vorticity", 
             "units": "s-1", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Relative Vorticity at 850 hPa", 
             "comment": "", 
@@ -134,10 +140,11 @@
             "ok_max_mean_abs": ""
         }, 
         "sfcWind": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "wind_speed", 
             "units": "m s-1", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Near-Surface Wind Speed", 
             "comment": "near-surface (usually, 10 meters) wind speed.", 
@@ -151,10 +158,11 @@
             "ok_max_mean_abs": ""
         }, 
         "tas": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "air_temperature", 
             "units": "K", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Surface Air Temperature", 
             "comment": "near-surface (usually, 2 meter) air temperature", 
@@ -168,10 +176,11 @@
             "ok_max_mean_abs": ""
         }, 
         "ua100m": {
+            "frequency": "6hr", 
             "modeling_realm": "", 
             "standard_name": "eastward_wind", 
             "units": "m s-1", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Eastward Wind at 100m", 
             "comment": "Zonal wind at 100m height", 
@@ -185,6 +194,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ua200": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "eastward_wind", 
             "units": "m s-1", 
@@ -202,6 +212,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ua850": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "eastward_wind", 
             "units": "m s-1", 
@@ -219,10 +230,11 @@
             "ok_max_mean_abs": ""
         }, 
         "uas": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "eastward_wind", 
             "units": "m s-1", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Eastward Near-Surface Wind", 
             "comment": "Eastward component of the near-surface (usually, 10 meters)  wind", 
@@ -236,10 +248,11 @@
             "ok_max_mean_abs": ""
         }, 
         "va100m": {
+            "frequency": "6hr", 
             "modeling_realm": "", 
             "standard_name": "northward_wind", 
             "units": "m s-1", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Northward Wind at 100m", 
             "comment": "Meridional wind at 100m above the surface.", 
@@ -253,6 +266,7 @@
             "ok_max_mean_abs": ""
         }, 
         "va200": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "northward_wind", 
             "units": "m s-1", 
@@ -270,6 +284,7 @@
             "ok_max_mean_abs": ""
         }, 
         "va850": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "northward_wind", 
             "units": "m s-1", 
@@ -287,15 +302,16 @@
             "ok_max_mean_abs": ""
         }, 
         "wap4": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "lagrangian_tendency_of_air_pressure", 
             "units": "Pa s-1", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "area: mean time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "omega (=dp/dt)", 
             "comment": "Omega (vertical velocity in pressure coordinates, positive downwards)", 
             "dimensions": "longitude latitude plev4 time", 
-            "out_name": "wap", 
+            "out_name": "wap4", 
             "type": "real", 
             "positive": "", 
             "valid_min": "", 
@@ -304,6 +320,7 @@
             "ok_max_mean_abs": ""
         }, 
         "wsgmax100m": {
+            "frequency": "6hr", 
             "modeling_realm": "", 
             "standard_name": "wind_speed_of_gust", 
             "units": "m s-1", 
@@ -320,28 +337,12 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "wsgmax10m": {
-            "modeling_realm": "", 
-            "standard_name": "wind_speed_of_gust", 
-            "units": "m s-1", 
-            "cell_methods": "area: mean time: maximum", 
-            "cell_measures": "area: areacella", 
-            "long_name": "Maximum Wind Speed of Gust at 10m", 
-            "comment": "Wind speed gust maximum at 10m above surface", 
-            "dimensions": "longitude latitude time height10m", 
-            "out_name": "wsgmax10m", 
-            "type": "", 
-            "positive": "", 
-            "valid_min": "", 
-            "valid_max": "", 
-            "ok_min_mean_abs": "", 
-            "ok_max_mean_abs": ""
-        }, 
         "zg1000": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "geopotential_height", 
             "units": "m", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Geopotential Height at 1000 hPa", 
             "comment": "Geopotential height on the 1000 hPa surface", 

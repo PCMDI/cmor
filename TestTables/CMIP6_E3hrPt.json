@@ -3,9 +3,8 @@
         "data_specs_version": "01.00.10", 
         "table_id": "Table E3hrPt", 
         "realm": "atmos", 
-        "frequency": "3hr", 
         "cmor_version": "3.2", 
-        "table_date": "10 May 2017", 
+        "table_date": "01 June 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "0.125000", 
@@ -15,10 +14,11 @@
     }, 
     "variable_entry": {
         "aerasymbnd": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "band_aerosol_asymmetry_parameter", 
             "units": "1", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Aerosol level asymmetry parameter for each band", 
             "comment": "", 
@@ -32,10 +32,11 @@
             "ok_max_mean_abs": ""
         }, 
         "aeroptbnd": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "atmosphere_absorption_optical_thickness_due_to_ambient_aerosol_particles", 
             "units": "1", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Aerosol level extinction optical depth for each band", 
             "comment": "", 
@@ -49,10 +50,11 @@
             "ok_max_mean_abs": ""
         }, 
         "aerssabnd": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "single_scattering_albedo_in_air_due_to_ambient_aerosol_particles", 
             "units": "1", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Aerosol level single-scattering albedo for each band", 
             "comment": "", 
@@ -66,6 +68,7 @@
             "ok_max_mean_abs": ""
         }, 
         "albdiffbnd": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "band_diffuse_albedo", 
             "units": "1.0", 
@@ -83,6 +86,7 @@
             "ok_max_mean_abs": ""
         }, 
         "albdirbnd": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "band_direct_albedo", 
             "units": "1.0", 
@@ -100,10 +104,11 @@
             "ok_max_mean_abs": ""
         }, 
         "cfadDbze94": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "histogram_of_equivalent_reflectivity_factor_over_height_above_reference_ellipsoid", 
             "units": "1.0", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "CloudSat Radar Reflectivity", 
             "comment": "CFAD (Cloud Frequency Altitude Diagrams) are frequency distributions of radar  reflectivity (or lidar scattering ratio) as a function of altitude. The variable cfadDbze94 is defined as the simulated relative frequency of occurrence of radar reflectivity in sampling volumes defined by altitude bins. The radar is observing at a frequency of 94GHz.", 
@@ -117,10 +122,11 @@
             "ok_max_mean_abs": ""
         }, 
         "cfadLidarsr532": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "histogram_of_backscattering_ratio_over_height_above_reference_ellipsoid", 
             "units": "1.0", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "CALIPSO Scattering Ratio", 
             "comment": "CFAD (Cloud Frequency Altitude Diagrams) are frequency distributions of radar  reflectivity (or lidar scattering ratio) as a function of altitude. The variable cfadLidarsr532 is defined as the simulated relative frequency of lidar scattering ratio in sampling volumes defined by altitude bins. The lidar is observing at a wavelength of 532nm.", 
@@ -134,10 +140,11 @@
             "ok_max_mean_abs": ""
         }, 
         "ch4": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "mole_fraction_of_methane_in_air", 
             "units": "mol mol-1", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "CH4 volume mixing ratio", 
             "comment": "", 
@@ -151,10 +158,11 @@
             "ok_max_mean_abs": ""
         }, 
         "clcalipso": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "cloud_area_fraction_in_atmosphere_layer", 
             "units": "%", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "CALIPSO Cloud Fraction", 
             "comment": "Percentage cloud cover at CALIPSO standard heights.", 
@@ -168,10 +176,11 @@
             "ok_max_mean_abs": ""
         }, 
         "clcalipso2": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "cloud_area_fraction_in_atmosphere_layer", 
             "units": "%", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "CALIPSO Cloud Fraction Undetected by CloudSat", 
             "comment": "Clouds detected by CALIPSO but below the detectability threshold of CloudSat", 
@@ -185,6 +194,7 @@
             "ok_max_mean_abs": ""
         }, 
         "clhcalipso": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "cloud_area_fraction_in_atmosphere_layer", 
             "units": "%", 
@@ -192,7 +202,7 @@
             "cell_measures": "area: areacella", 
             "long_name": "CALIPSO High Level Cloud Fraction", 
             "comment": "Percentage cloud cover in layer centred on 220hPa", 
-            "dimensions": "longitude latitude time1 p220", 
+            "dimensions": "longitude latitude time1", 
             "out_name": "clhcalipso", 
             "type": "real", 
             "positive": "", 
@@ -202,6 +212,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cllcalipso": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "cloud_area_fraction_in_atmosphere_layer", 
             "units": "%", 
@@ -209,7 +220,7 @@
             "cell_measures": "area: areacella", 
             "long_name": "CALIPSO Percentage Low Level Cloud", 
             "comment": "Percentage cloud cover in layer centred on 840hPa", 
-            "dimensions": "longitude latitude time1 p840", 
+            "dimensions": "longitude latitude time1", 
             "out_name": "cllcalipso", 
             "type": "real", 
             "positive": "", 
@@ -219,6 +230,7 @@
             "ok_max_mean_abs": ""
         }, 
         "clmcalipso": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "cloud_area_fraction_in_atmosphere_layer", 
             "units": "%", 
@@ -226,7 +238,7 @@
             "cell_measures": "area: areacella", 
             "long_name": "CALIPSO Mid Level Cloud Fraction", 
             "comment": "Percentage cloud cover in layer centred on 560hPa", 
-            "dimensions": "longitude latitude time1 p560", 
+            "dimensions": "longitude latitude time1", 
             "out_name": "clmcalipso", 
             "type": "real", 
             "positive": "", 
@@ -236,10 +248,11 @@
             "ok_max_mean_abs": ""
         }, 
         "clmisr": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "cloud_area_fraction_in_atmosphere_layer", 
             "units": "%", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Percentage Cloud Cover as Calculated by the MISR Simulator", 
             "comment": "Cloud percentage in spectral bands and layers as observed by the Multi-angle Imaging SpectroRadiometer (MISR) instrument.", 
@@ -253,6 +266,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cltcalipso": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "cloud_area_fraction", 
             "units": "%", 
@@ -270,10 +284,11 @@
             "ok_max_mean_abs": ""
         }, 
         "co2": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "mole_fraction_of_carbon_dioxide_in_air", 
             "units": "mol mol-1", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "CO2 volume mixing ratio", 
             "comment": "", 
@@ -287,10 +302,11 @@
             "ok_max_mean_abs": ""
         }, 
         "hus": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "specific_humidity", 
             "units": "1.0", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Specific Humidity", 
             "comment": "", 
@@ -304,15 +320,16 @@
             "ok_max_mean_abs": ""
         }, 
         "hus7h": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "specific_humidity", 
             "units": "1.0", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Specific Humidity", 
             "comment": "", 
             "dimensions": "longitude latitude plev7h time1", 
-            "out_name": "hus", 
+            "out_name": "hus7h", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -321,10 +338,11 @@
             "ok_max_mean_abs": ""
         }, 
         "jpdftaureicemodis": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "cloud_area_fraction_in_atmosphere_layer", 
             "units": "%", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "MODIS Optical Thickness-Particle Size joint  distribution, ice", 
             "comment": "", 
@@ -338,10 +356,11 @@
             "ok_max_mean_abs": ""
         }, 
         "jpdftaureliqmodis": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "cloud_area_fraction_in_atmosphere_layer", 
             "units": "%", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "MODIS Optical Thickness-Particle Size joint  distribution, liquid", 
             "comment": "", 
@@ -355,10 +374,11 @@
             "ok_max_mean_abs": ""
         }, 
         "n2o": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "mole_fraction_of_nitrous_oxide_in_air", 
             "units": "mol mol-1", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "N2O volume mixing ratio", 
             "comment": "", 
@@ -372,10 +392,11 @@
             "ok_max_mean_abs": ""
         }, 
         "o3": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "mole_fraction_of_ozone_in_air", 
             "units": "mol mol-1", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Ozone volume mixing ratio", 
             "comment": "", 
@@ -389,6 +410,7 @@
             "ok_max_mean_abs": ""
         }, 
         "parasolRefl": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "toa_bidirectional_reflectance", 
             "units": "1.0", 
@@ -406,6 +428,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ps": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_air_pressure", 
             "units": "Pa", 
@@ -423,6 +446,7 @@
             "ok_max_mean_abs": ""
         }, 
         "psl": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "air_pressure_at_sea_level", 
             "units": "Pa", 
@@ -440,10 +464,11 @@
             "ok_max_mean_abs": ""
         }, 
         "rsdcs": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "downwelling_shortwave_flux_in_air_assuming_clear_sky", 
             "units": "W m-2", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Downwelling Clear-Sky Shortwave Radiation", 
             "comment": "Downwelling clear-sky shortwave radiation (includes the fluxes at the surface and top-of-atmosphere)", 
@@ -457,13 +482,14 @@
             "ok_max_mean_abs": ""
         }, 
         "rsdcsaf": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "downwelling_shortwave_flux_assuming_clean_clear_sky", 
             "units": "W m-2", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Downwelling Clean-Clear-Sky Shortwave Radiation at each level", 
-            "comment": "Calculated in the absence of aerosols and clouds (following Ghan). This requires a double-call in the radiation code with precisely the same meteorology.", 
+            "comment": "Calculated in the absence of aerosols and clouds. This requires a double-call in the radiation code with precisely the same meteorology.", 
             "dimensions": "longitude latitude alevel time1", 
             "out_name": "rsdcsaf", 
             "type": "", 
@@ -474,13 +500,14 @@
             "ok_max_mean_abs": ""
         }, 
         "rsdcsafbnd": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "band_downwelling_shortwave_flux_assuming_clean_clear_sky", 
             "units": "W m-2", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Downwelling Clear-Sky, Aerosol-Free, Shortwave Radiation in Bands", 
-            "comment": "Calculated in the absence of aerosols and clouds (following Ghan). This requires a double-call in the radiation code with precisely the same meteorology.", 
+            "comment": "Calculated in the absence of aerosols and clouds. This requires a double-call in the radiation code with precisely the same meteorology.", 
             "dimensions": "longitude latitude alevel spectband time1", 
             "out_name": "rsdcsafbnd", 
             "type": "", 
@@ -491,10 +518,11 @@
             "ok_max_mean_abs": ""
         }, 
         "rsdcsbnd": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "band_downwelling_shortwave_flux_assuming_clear_sky", 
             "units": "W m-2", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Downwelling Clear-Sky Shortwave Radiation at each level for each band", 
             "comment": "Calculated with aerosols but without clouds. This is a standard clear-sky calculation", 
@@ -508,6 +536,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsdscsaf": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_downwelling_shortwave_flux_in_air_assuming_clean_clear_sky", 
             "units": "W m-2", 
@@ -525,6 +554,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsdscsafbnd": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_downwelling_shortwave_flux_in_air_assuming_clean_clear_sky", 
             "units": "W m-2", 
@@ -542,6 +572,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsdscsbnd": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_downwelling_shortwave_flux_in_air_assuming_clear_sky", 
             "units": "W m-2", 
@@ -559,10 +590,11 @@
             "ok_max_mean_abs": ""
         }, 
         "rsucs": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "upwelling_shortwave_flux_in_air_assuming_clear_sky", 
             "units": "W m-2", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Upwelling Clear-Sky Shortwave Radiation", 
             "comment": "Upwelling clear-sky shortwave radiation  (includes the fluxes at the surface and TOA)", 
@@ -576,13 +608,14 @@
             "ok_max_mean_abs": ""
         }, 
         "rsucsaf": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "upwelling_shortwave_flux_assuming_clean_clear_sky", 
             "units": "W m-2", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Upwelling Clean-Clear-Sky Shortwave Radiation at each level", 
-            "comment": "Calculated in the absence of aerosols and clouds (following Ghan). This requires a double-call in the radiation code with precisely the same meteorology.", 
+            "comment": "Calculated in the absence of aerosols and clouds. This requires a double-call in the radiation code with precisely the same meteorology.", 
             "dimensions": "longitude latitude alevel time1", 
             "out_name": "rsucsaf", 
             "type": "", 
@@ -593,13 +626,14 @@
             "ok_max_mean_abs": ""
         }, 
         "rsucsafbnd": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "band_upwelling_shortwave_flux_assuming_clean_clear_sky", 
             "units": "W m-2", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Upwelling Clear-Sky, Aerosol-Free Shortwave Radiation in Bands", 
-            "comment": "Calculated in the absence of aerosols and clouds (following Ghan). This requires a double-call in the radiation code with precisely the same meteorology.", 
+            "comment": "Calculated in the absence of aerosols and clouds. This requires a double-call in the radiation code with precisely the same meteorology.", 
             "dimensions": "longitude latitude alevel spectband time1", 
             "out_name": "rsucsafbnd", 
             "type": "", 
@@ -610,10 +644,11 @@
             "ok_max_mean_abs": ""
         }, 
         "rsucsbnd": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "band_upwelling_shortwave_flux_assuming_clear_sky", 
             "units": "W m-2", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Upwelling Clear-Sky Shortwave Radiation at each level for each band", 
             "comment": "Calculated with aerosols but without clouds. This is a standard clear-sky calculation", 
@@ -627,13 +662,14 @@
             "ok_max_mean_abs": ""
         }, 
         "rsuscs": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_upwelling_shortwave_flux_in_air_assuming_clear_sky", 
             "units": "W m-2", 
             "cell_methods": "area: mean time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Surface Upwelling Clear-Sky Shortwave Radiation", 
-            "comment": "Surface Upwelling Clear-sky Shortwave Radiation", 
+            "comment": "Surface upwelling clear-sky shortwave radiation", 
             "dimensions": "longitude latitude time1", 
             "out_name": "rsuscs", 
             "type": "real", 
@@ -644,13 +680,14 @@
             "ok_max_mean_abs": ""
         }, 
         "rsuscsaf": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_upwelling_shortwave_flux_in_air_assuming_clean_clear_sky", 
             "units": "W m-2", 
             "cell_methods": "area: mean time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Surface Upwelling Clean Clear-Sky Shortwave Radiation", 
-            "comment": "Surface Upwelling Clear-sky, Aerosol Free Shortwave Radiation", 
+            "comment": "Surface upwelling clean clear-sky shortwave radiation", 
             "dimensions": "longitude latitude time1", 
             "out_name": "rsuscsaf", 
             "type": "", 
@@ -661,6 +698,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsuscsafbnd": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_upwelling_shortwave_flux_in_air_assuming_clean_clear_sky", 
             "units": "W m-2", 
@@ -678,6 +716,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsuscsbnd": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_upwelling_shortwave_flux_in_air_assuming_clear_sky", 
             "units": "W m-2", 
@@ -695,6 +734,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsutcsaf": {
+            "frequency": "3hr", 
             "modeling_realm": "aerosol", 
             "standard_name": "toa_outgoing_shortwave_flux_assuming_clear_sky", 
             "units": "W m-2", 
@@ -712,6 +752,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsutcsafbnd": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "band_toa_outgoing_shortwave_flux_assuming_clean_clear_sky", 
             "units": "W m-2", 
@@ -729,6 +770,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsutcsbnd": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "toa_outgoing_shortwave_flux_assuming_clear_sky", 
             "units": "W m-2", 
@@ -746,6 +788,7 @@
             "ok_max_mean_abs": ""
         }, 
         "solbnd": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "band_solar_insolation", 
             "units": "W m-2", 
@@ -763,6 +806,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sza": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "solar_zenith_angle", 
             "units": "degree", 
@@ -780,15 +824,16 @@
             "ok_max_mean_abs": ""
         }, 
         "ta7h": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "air_temperature", 
             "units": "K", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Air Temperature", 
             "comment": "Air Temperature", 
             "dimensions": "longitude latitude plev7h time1", 
-            "out_name": "ta", 
+            "out_name": "ta7h", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -797,6 +842,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ts": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_temperature", 
             "units": "K", 
@@ -814,15 +860,16 @@
             "ok_max_mean_abs": ""
         }, 
         "ua7h": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "eastward_wind", 
             "units": "m s-1", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Eastward Wind", 
             "comment": "", 
             "dimensions": "longitude latitude plev7h time1", 
-            "out_name": "ua", 
+            "out_name": "ua7h", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -831,6 +878,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ua850": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "eastward_wind", 
             "units": "m s-1", 
@@ -839,7 +887,7 @@
             "long_name": "Eastward Wind", 
             "comment": "", 
             "dimensions": "longitude latitude time1 p850", 
-            "out_name": "ua", 
+            "out_name": "ua850", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -848,15 +896,16 @@
             "ok_max_mean_abs": ""
         }, 
         "va7h": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "northward_wind", 
             "units": "m s-1", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Northward Wind", 
             "comment": "", 
             "dimensions": "longitude latitude plev7h time1", 
-            "out_name": "va", 
+            "out_name": "va7h", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -865,6 +914,7 @@
             "ok_max_mean_abs": ""
         }, 
         "va850": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "northward_wind", 
             "units": "m s-1", 
@@ -873,7 +923,7 @@
             "long_name": "Northward Wind", 
             "comment": "", 
             "dimensions": "longitude latitude time1 p850", 
-            "out_name": "va", 
+            "out_name": "va850", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -882,15 +932,16 @@
             "ok_max_mean_abs": ""
         }, 
         "wap7h": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "lagrangian_tendency_of_air_pressure", 
             "units": "Pa s-1", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "omega (=dp/dt)", 
             "comment": "Omega (vertical velocity in pressure coordinates, positive downwards)", 
             "dimensions": "longitude latitude plev7h time1", 
-            "out_name": "wap", 
+            "out_name": "wap7h", 
             "type": "real", 
             "positive": "", 
             "valid_min": "", 

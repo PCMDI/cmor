@@ -3,9 +3,8 @@
         "data_specs_version": "01.00.10", 
         "table_id": "Table CF3hr", 
         "realm": "atmos", 
-        "frequency": "3hr", 
         "cmor_version": "3.2", 
-        "table_date": "10 May 2017", 
+        "table_date": "01 June 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "0.125000", 
@@ -15,10 +14,11 @@
     }, 
     "variable_entry": {
         "clc": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "convective_cloud_area_fraction_in_atmosphere_layer", 
             "units": "%", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Convective Cloud Area Fraction", 
             "comment": "Include only convective cloud.", 
@@ -32,10 +32,11 @@
             "ok_max_mean_abs": ""
         }, 
         "clic": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "mass_fraction_of_convective_cloud_ice_in_air", 
             "units": "1.0", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Mass Fraction of Convective Cloud Ice", 
             "comment": "Calculated as the mass of convective cloud ice  in the grid cell divided by the mass of air (including the water in all phases) in the grid cell.  This includes precipitating hydrometeors ONLY if the precipitating hydrometeors affect the calculation of radiative transfer in model.", 
@@ -49,10 +50,11 @@
             "ok_max_mean_abs": ""
         }, 
         "clis": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "mass_fraction_of_stratiform_cloud_ice_in_air", 
             "units": "1.0", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Mass Fraction of Stratiform Cloud Ice", 
             "comment": "Calculated as the mass of stratiform cloud ice  in the grid cell divided by the mass of air (including the water in all phases) in the grid cell.  This includes precipitating hydrometeors ONLY if the precipitating hydrometeors affect the calculation of radiative transfer in model.", 
@@ -66,10 +68,11 @@
             "ok_max_mean_abs": ""
         }, 
         "cls": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "stratiform_cloud_area_fraction_in_atmosphere_layer", 
             "units": "%", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Stratiform Cloud Area Fraction", 
             "comment": "", 
@@ -83,6 +86,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cltc": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "convective_cloud_area_fraction", 
             "units": "%", 
@@ -100,10 +104,11 @@
             "ok_max_mean_abs": ""
         }, 
         "clwc": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "mass_fraction_of_convective_cloud_liquid_water_in_air", 
             "units": "1.0", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Mass Fraction of Convective Cloud Liquid Water", 
             "comment": "Calculated as the mass of convective cloud liquid water in the grid cell divided by the mass of air (including the water in all phases) in the grid cell.  This includes precipitating hydrometeors ONLY if the precipitating hydrometeors affect the calculation of radiative transfer in model.", 
@@ -117,10 +122,11 @@
             "ok_max_mean_abs": ""
         }, 
         "clws": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "mass_fraction_of_stratiform_cloud_liquid_water_in_air", 
             "units": "1.0", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Mass Fraction of Stratiform Cloud Liquid Water", 
             "comment": "Calculated as the mass of stratiform cloud liquid water in the grid cell divided by the mass of air (including the water in all phases) in the grid cell.  This includes precipitating hydrometeors ONLY if the precipitating hydrometeors affect the calculation of radiative transfer in model.", 
@@ -134,10 +140,11 @@
             "ok_max_mean_abs": ""
         }, 
         "demc": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "convective_cloud_longwave_emissivity", 
             "units": "1.0", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Convective Cloud Emissivity", 
             "comment": "This is the in-cloud emissivity obtained by considering only the cloudy portion of the grid cell.", 
@@ -151,10 +158,11 @@
             "ok_max_mean_abs": ""
         }, 
         "dems": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "stratiform_cloud_longwave_emissivity", 
             "units": "1.0", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Stratiform Cloud Emissivity", 
             "comment": "This is the in-cloud emissivity obtained by considering only the cloudy portion of the grid cell.", 
@@ -168,10 +176,11 @@
             "ok_max_mean_abs": ""
         }, 
         "dtauc": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "atmosphere_optical_thickness_due_to_convective_cloud", 
             "units": "1.0", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Convective Cloud Optical Depth", 
             "comment": "This is the in-cloud optical depth obtained by considering only the cloudy portion of the grid cell", 
@@ -185,10 +194,11 @@
             "ok_max_mean_abs": ""
         }, 
         "dtaus": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "atmosphere_optical_thickness_due_to_stratiform_cloud", 
             "units": "1.0", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Stratiform Cloud Optical Depth", 
             "comment": "This is the in-cloud optical depth obtained by considering only the cloudy portion of the grid cell.", 
@@ -202,10 +212,11 @@
             "ok_max_mean_abs": ""
         }, 
         "grpllsprof": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "large_scale_graupel_flux", 
             "units": "kg m-2 s-1", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Stratiform Graupel Flux", 
             "comment": "", 
@@ -219,10 +230,11 @@
             "ok_max_mean_abs": ""
         }, 
         "h2o": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "mass_fraction_of_water_in_air", 
             "units": "1.0", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Mass Fraction of Water", 
             "comment": "includes all phases of water", 
@@ -236,10 +248,11 @@
             "ok_max_mean_abs": ""
         }, 
         "pfull": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "air_pressure", 
             "units": "Pa", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Pressure at Model Full-Levels", 
             "comment": "Air pressure on model levels", 
@@ -253,10 +266,11 @@
             "ok_max_mean_abs": ""
         }, 
         "phalf": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "air_pressure", 
             "units": "Pa", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Pressure at Model Half-Levels", 
             "comment": "Air pressure on model half-levels", 
@@ -270,10 +284,11 @@
             "ok_max_mean_abs": ""
         }, 
         "prcprof": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "convective_rainfall_flux", 
             "units": "kg m-2 s-1", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Convective Rainfall Flux", 
             "comment": "", 
@@ -287,10 +302,11 @@
             "ok_max_mean_abs": ""
         }, 
         "prlsns": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "large_scale_snowfall_flux", 
             "units": "kg m-2 s-1", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Stratiform Snowfall Flux", 
             "comment": "large-scale precipitation of all forms of water in the solid phase.", 
@@ -304,10 +320,11 @@
             "ok_max_mean_abs": ""
         }, 
         "prlsprof": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "large_scale_rainfall_flux", 
             "units": "kg m-2 s-1", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Stratiform Rainfall Flux", 
             "comment": "", 
@@ -321,10 +338,11 @@
             "ok_max_mean_abs": ""
         }, 
         "prsnc": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "convective_snowfall_flux", 
             "units": "kg m-2 s-1", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Convective Snowfall Flux", 
             "comment": "convective precipitation of all forms of water in the solid phase.", 
@@ -338,6 +356,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ps": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_air_pressure", 
             "units": "Pa", 
@@ -355,10 +374,11 @@
             "ok_max_mean_abs": ""
         }, 
         "reffclic": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "effective_radius_of_convective_cloud_ice_particle", 
             "units": "m", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Hydrometeor Effective Radius of Convective Cloud Ice", 
             "comment": "This is defined as the in-cloud ratio of the third moment over the second moment of the particle size distribution (obtained by considering only the cloudy portion of the grid cell).", 
@@ -372,10 +392,11 @@
             "ok_max_mean_abs": ""
         }, 
         "reffclis": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "effective_radius_of_stratiform_cloud_ice_particle", 
             "units": "m", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Hydrometeor Effective Radius of Stratiform Cloud Ice", 
             "comment": "This is defined as the in-cloud ratio of the third moment over the second moment of the particle size distribution (obtained by considering only the cloudy portion of the grid cell).", 
@@ -389,10 +410,11 @@
             "ok_max_mean_abs": ""
         }, 
         "reffclwc": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "effective_radius_of_convective_cloud_liquid_water_particle", 
             "units": "m", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Hydrometeor Effective Radius of Convective Cloud Liquid Water", 
             "comment": "Droplets are liquid.  The effective radius is defined as the ratio of the third moment over the second moment of the particle size distribution and the time-mean should be calculated, weighting the individual samples by the cloudy fraction of the grid cell.", 
@@ -406,10 +428,11 @@
             "ok_max_mean_abs": ""
         }, 
         "reffclws": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "effective_radius_of_stratiform_cloud_liquid_water_particle", 
             "units": "m", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Hydrometeor Effective Radius of Stratiform Cloud Liquid Water", 
             "comment": "Droplets are liquid.  The effective radius is defined as the ratio of the third moment over the second moment of the particle size distribution and the time-mean should be calculated, weighting the individual samples by the cloudy fraction of the grid cell.", 
@@ -423,10 +446,11 @@
             "ok_max_mean_abs": ""
         }, 
         "reffgrpls": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "effective_radius_of_stratiform_cloud_graupel_particle", 
             "units": "m", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Hydrometeor Effective Radius of Stratiform Graupel", 
             "comment": "This is defined as the in-cloud ratio of the third moment over the second moment of the particle size distribution (obtained by considering only the cloudy portion of the grid cell).", 
@@ -440,10 +464,11 @@
             "ok_max_mean_abs": ""
         }, 
         "reffrainc": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "effective_radius_of_convective_cloud_rain_particle", 
             "units": "m", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Hydrometeor Effective Radius of Convective Rainfall", 
             "comment": "This is defined as the in-cloud ratio of the third moment over the second moment of the particle size distribution (obtained by considering only the cloudy portion of the grid cell).", 
@@ -457,10 +482,11 @@
             "ok_max_mean_abs": ""
         }, 
         "reffrains": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "effective_radius_of_stratiform_cloud_rain_particle", 
             "units": "m", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Hydrometeor Effective Radius of Stratiform Rainfall", 
             "comment": "This is defined as the in-cloud ratio of the third moment over the second moment of the particle size distribution (obtained by considering only the cloudy portion of the grid cell).", 
@@ -474,10 +500,11 @@
             "ok_max_mean_abs": ""
         }, 
         "reffsnowc": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "effective_radius_of_convective_cloud_snow_particle", 
             "units": "m", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Hydrometeor Effective Radius of Convective Snowfall", 
             "comment": "This is defined as the in-cloud ratio of the third moment over the second moment of the particle size distribution (obtained by considering only the cloudy portion of the grid cell).", 
@@ -491,10 +518,11 @@
             "ok_max_mean_abs": ""
         }, 
         "reffsnows": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "effective_radius_of_stratiform_cloud_snow_particle", 
             "units": "m", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Hydrometeor Effective Radius of Stratiform Snowfall", 
             "comment": "This is defined as the in-cloud ratio of the third moment over the second moment of the particle size distribution (obtained by considering only the cloudy portion of the grid cell).", 
@@ -508,10 +536,11 @@
             "ok_max_mean_abs": ""
         }, 
         "ta": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "air_temperature", 
             "units": "K", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Air Temperature", 
             "comment": "Air Temperature", 
@@ -525,10 +554,11 @@
             "ok_max_mean_abs": ""
         }, 
         "zfull": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "height_above_reference_ellipsoid", 
             "units": "m", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Altitude of Model Full-Levels", 
             "comment": "", 
@@ -542,10 +572,11 @@
             "ok_max_mean_abs": ""
         }, 
         "zhalf": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "height_above_reference_ellipsoid", 
             "units": "m", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Altitude of Model Half-Levels", 
             "comment": "", 

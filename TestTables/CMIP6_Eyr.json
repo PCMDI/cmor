@@ -3,9 +3,8 @@
         "data_specs_version": "01.00.10", 
         "table_id": "Table Eyr", 
         "realm": "land", 
-        "frequency": "yr", 
         "cmor_version": "3.2", 
-        "table_date": "10 May 2017", 
+        "table_date": "01 June 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "365", 
@@ -15,10 +14,11 @@
     }, 
     "variable_entry": {
         "baresoilFrac": {
+            "frequency": "yr", 
             "modeling_realm": "land", 
             "standard_name": "area_fraction", 
             "units": "%", 
-            "cell_methods": "area: mean where land over all_area_types time: mean", 
+            "cell_methods": "area: mean where land time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Bare Soil Fraction", 
             "comment": "Percentage of entire grid cell  that is covered by bare soil.", 
@@ -32,6 +32,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cLitter": {
+            "frequency": "yr", 
             "modeling_realm": "land", 
             "standard_name": "litter_carbon_content", 
             "units": "kg m-2", 
@@ -49,6 +50,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cLitterLut": {
+            "frequency": "yr", 
             "modeling_realm": "land", 
             "standard_name": "litter_carbon_content", 
             "units": "kg m-2", 
@@ -66,6 +68,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cProduct": {
+            "frequency": "yr", 
             "modeling_realm": "land", 
             "standard_name": "carbon_content_of_products_of_anthropogenic_land_use_change", 
             "units": "kg m-2", 
@@ -83,6 +86,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cProductLut": {
+            "frequency": "yr", 
             "modeling_realm": "land", 
             "standard_name": "carbon_content_in_wood_and_agricultural_products", 
             "units": "kg m-2", 
@@ -100,6 +104,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cSoil": {
+            "frequency": "yr", 
             "modeling_realm": "land", 
             "standard_name": "soil_carbon_content", 
             "units": "kg m-2", 
@@ -117,6 +122,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cSoilLut": {
+            "frequency": "yr", 
             "modeling_realm": "land", 
             "standard_name": "soil_carbon_content", 
             "units": "kg m-2", 
@@ -134,6 +140,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cVeg": {
+            "frequency": "yr", 
             "modeling_realm": "land", 
             "standard_name": "vegetation_carbon_content", 
             "units": "kg m-2", 
@@ -151,6 +158,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cVegLut": {
+            "frequency": "yr", 
             "modeling_realm": "land", 
             "standard_name": "vegetation_carbon_content", 
             "units": "kg m-2", 
@@ -168,10 +176,11 @@
             "ok_max_mean_abs": ""
         }, 
         "cropFrac": {
+            "frequency": "yr", 
             "modeling_realm": "land", 
             "standard_name": "area_fraction", 
             "units": "%", 
-            "cell_methods": "area: mean where land over all_area_types time: mean", 
+            "cell_methods": "area: mean where land time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Crop Fraction", 
             "comment": "Percentage of entire grid cell  that is covered by crop.", 
@@ -185,6 +194,7 @@
             "ok_max_mean_abs": ""
         }, 
         "fracInLut": {
+            "frequency": "yr", 
             "modeling_realm": "land", 
             "standard_name": "area_fraction", 
             "units": "%", 
@@ -202,6 +212,7 @@
             "ok_max_mean_abs": ""
         }, 
         "fracLut": {
+            "frequency": "yr", 
             "modeling_realm": "land", 
             "standard_name": "area_fraction", 
             "units": "%", 
@@ -219,6 +230,7 @@
             "ok_max_mean_abs": ""
         }, 
         "fracOutLut": {
+            "frequency": "yr", 
             "modeling_realm": "land", 
             "standard_name": "area_fraction", 
             "units": "%", 
@@ -236,10 +248,11 @@
             "ok_max_mean_abs": ""
         }, 
         "grassFrac": {
+            "frequency": "yr", 
             "modeling_realm": "land", 
             "standard_name": "area_fraction", 
             "units": "%", 
-            "cell_methods": "area: mean where land over all_area_types time: mean", 
+            "cell_methods": "area: mean where land time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Natural Grass Fraction", 
             "comment": "Percentage of entire grid cell that is covered by natural grass.", 
@@ -253,14 +266,15 @@
             "ok_max_mean_abs": ""
         }, 
         "residualFrac": {
+            "frequency": "yr", 
             "modeling_realm": "land", 
             "standard_name": "area_fraction", 
             "units": "%", 
-            "cell_methods": "area: mean where land over all_area_types time: mean", 
+            "cell_methods": "area: mean where land time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Fraction of Grid Cell that is Land but Neither Vegetation-Covered nor Bare Soil", 
             "comment": "Percentage of entire grid cell  that is land and is covered by  neither vegetation nor bare-soil (e.g., urban, ice, lakes, etc.)", 
-            "dimensions": "longitude latitude time typeresidual", 
+            "dimensions": "longitude latitude time", 
             "out_name": "residualFrac", 
             "type": "real", 
             "positive": "", 
@@ -270,10 +284,11 @@
             "ok_max_mean_abs": ""
         }, 
         "shrubFrac": {
+            "frequency": "yr", 
             "modeling_realm": "land", 
             "standard_name": "area_fraction", 
             "units": "%", 
-            "cell_methods": "area: mean where land over all_area_types time: mean", 
+            "cell_methods": "area: mean where land time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Shrub Fraction", 
             "comment": "Percentage of entire grid cell  that is covered by shrub.", 
@@ -287,10 +302,11 @@
             "ok_max_mean_abs": ""
         }, 
         "treeFrac": {
+            "frequency": "yr", 
             "modeling_realm": "land", 
             "standard_name": "area_fraction", 
             "units": "%", 
-            "cell_methods": "area: mean where land over all_area_types time: mean", 
+            "cell_methods": "area: mean where land time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Tree Cover Fraction", 
             "comment": "Percentage of entire grid cell  that is covered by trees.", 
@@ -304,13 +320,14 @@
             "ok_max_mean_abs": ""
         }, 
         "vegFrac": {
+            "frequency": "yr", 
             "modeling_realm": "", 
             "standard_name": "area_fraction", 
             "units": "%", 
-            "cell_methods": "area: mean where land over all_area_types time: mean", 
+            "cell_methods": "area: mean where land time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Total vegetated fraction", 
-            "comment": "fraction of grid cell that is covered by vegetation.This SHOULD be the sum of tree, grass, crop and shrub fractions.", 
+            "comment": "as specified by C4MIP", 
             "dimensions": "longitude latitude time typeveg", 
             "out_name": "vegFrac", 
             "type": "", 
@@ -321,10 +338,11 @@
             "ok_max_mean_abs": ""
         }, 
         "zfullo": {
+            "frequency": "yr", 
             "modeling_realm": "ocean", 
             "standard_name": "depth_below_geoid", 
             "units": "m", 
-            "cell_methods": "area: mean where sea time: mean", 
+            "cell_methods": "time: mean", 
             "cell_measures": "area: areacello volume: volcello", 
             "long_name": "Depth Below Geoid of Ocean Layer", 
             "comment": "Depth below geoid", 

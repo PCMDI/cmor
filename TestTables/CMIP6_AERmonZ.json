@@ -3,9 +3,8 @@
         "data_specs_version": "01.00.10", 
         "table_id": "Table AERmonZ", 
         "realm": "aerosol", 
-        "frequency": "mon", 
         "cmor_version": "3.2", 
-        "table_date": "10 May 2017", 
+        "table_date": "01 June 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "", 
@@ -15,6 +14,7 @@
     }, 
     "variable_entry": {
         "bry": {
+            "frequency": "mon", 
             "modeling_realm": "aerosol", 
             "standard_name": "mole_fraction_of_inorganic_bromine_in_air", 
             "units": "mol mol-1", 
@@ -32,6 +32,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ch4": {
+            "frequency": "mon", 
             "modeling_realm": "aerosol", 
             "standard_name": "mole_fraction_of_methane_in_air", 
             "units": "mol mol-1", 
@@ -49,6 +50,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cly": {
+            "frequency": "mon", 
             "modeling_realm": "aerosol", 
             "standard_name": "mole_fraction_of_inorganic_chlorine_in_air", 
             "units": "mol mol-1", 
@@ -66,6 +68,7 @@
             "ok_max_mean_abs": ""
         }, 
         "h2o": {
+            "frequency": "mon", 
             "modeling_realm": "aerosol", 
             "standard_name": "mass_fraction_of_water_in_air", 
             "units": "1.0", 
@@ -83,6 +86,7 @@
             "ok_max_mean_abs": ""
         }, 
         "hcl": {
+            "frequency": "mon", 
             "modeling_realm": "aerosol", 
             "standard_name": "mole_fraction_of_hydrogen_chloride_in_air", 
             "units": "mol mol-1", 
@@ -100,6 +104,7 @@
             "ok_max_mean_abs": ""
         }, 
         "hno3": {
+            "frequency": "mon", 
             "modeling_realm": "aerosol", 
             "standard_name": "mole_fraction_of_nitric_acid_in_air", 
             "units": "mol mol-1", 
@@ -117,6 +122,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ho2": {
+            "frequency": "mon", 
             "modeling_realm": "aerosol", 
             "standard_name": "mole_fraction_of_hydroperoxyl_radical_in_air", 
             "units": "mol mol-1", 
@@ -134,6 +140,7 @@
             "ok_max_mean_abs": ""
         }, 
         "meanage": {
+            "frequency": "mon", 
             "modeling_realm": "aerosol", 
             "standard_name": "age_of_stratospheric_air", 
             "units": "yr", 
@@ -151,6 +158,7 @@
             "ok_max_mean_abs": ""
         }, 
         "n2o": {
+            "frequency": "mon", 
             "modeling_realm": "aerosol", 
             "standard_name": "mole_fraction_of_nitrous_oxide_in_air", 
             "units": "mol mol-1", 
@@ -168,6 +176,7 @@
             "ok_max_mean_abs": ""
         }, 
         "noy": {
+            "frequency": "mon", 
             "modeling_realm": "aerosol", 
             "standard_name": "mole_fraction_of_noy_expressed_as_nitrogen_in_air", 
             "units": "mol mol-1", 
@@ -185,6 +194,7 @@
             "ok_max_mean_abs": ""
         }, 
         "o3": {
+            "frequency": "mon", 
             "modeling_realm": "aerosol", 
             "standard_name": "mole_fraction_of_ozone_in_air", 
             "units": "mol mol-1", 
@@ -202,6 +212,7 @@
             "ok_max_mean_abs": ""
         }, 
         "oh": {
+            "frequency": "mon", 
             "modeling_realm": "aerosol", 
             "standard_name": "mole_fraction_of_hydroxyl_radical_in_air", 
             "units": "mol mol-1", 
@@ -219,6 +230,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ta": {
+            "frequency": "mon", 
             "modeling_realm": "aerosol", 
             "standard_name": "air_temperature", 
             "units": "K", 
@@ -236,6 +248,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ua": {
+            "frequency": "mon", 
             "modeling_realm": "aerosol", 
             "standard_name": "eastward_wind", 
             "units": "m s-1", 
@@ -253,6 +266,7 @@
             "ok_max_mean_abs": ""
         }, 
         "va": {
+            "frequency": "mon", 
             "modeling_realm": "aerosol", 
             "standard_name": "northward_wind", 
             "units": "m s-1", 
@@ -270,6 +284,7 @@
             "ok_max_mean_abs": ""
         }, 
         "vt100": {
+            "frequency": "mon", 
             "modeling_realm": "aerosol", 
             "standard_name": "northward_heat_flux_in_air_due_to_eddy_advection", 
             "units": "W m-2", 
@@ -287,6 +302,7 @@
             "ok_max_mean_abs": ""
         }, 
         "zg": {
+            "frequency": "mon", 
             "modeling_realm": "atmos", 
             "standard_name": "geopotential_height", 
             "units": "m", 

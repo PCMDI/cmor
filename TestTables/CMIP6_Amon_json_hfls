@@ -586,6 +586,7 @@
 
         "hfls0": {
             "comment": "includes both evaporation and sublimation", 
+            "frequency": "mon",
             "dimensions": "longitude latitude time", 
             "positive": "up", 
             "long_name": "Surface Upward Latent Heat Flux", 
@@ -599,6 +600,7 @@
         }, 
 
         "hfls1": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -613,6 +615,7 @@
         }, 
 
         "hfls2": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -627,6 +630,7 @@
         }, 
 
         "hfls3": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -641,6 +645,7 @@
         }, 
 
         "hfls4": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -655,6 +660,7 @@
         }, 
 
         "hfls5": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -669,6 +675,7 @@
         }, 
 
         "hfls6": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -683,6 +690,7 @@
         }, 
 
         "hfls7": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -697,6 +705,7 @@
         }, 
 
         "hfls8": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -711,6 +720,7 @@
         }, 
 
         "hfls9": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -725,6 +735,7 @@
         }, 
 
         "hfls10": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -739,6 +750,7 @@
         }, 
 
         "hfls11": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -753,6 +765,7 @@
         }, 
 
         "hfls12": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -767,6 +780,7 @@
         }, 
 
         "hfls13": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -781,6 +795,7 @@
         }, 
 
         "hfls14": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -795,6 +810,7 @@
         }, 
 
         "hfls15": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -809,6 +825,7 @@
         }, 
 
         "hfls16": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -823,6 +840,7 @@
         }, 
 
         "hfls17": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -837,6 +855,7 @@
         }, 
 
         "hfls18": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -851,6 +870,7 @@
         }, 
 
         "hfls19": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -865,6 +885,7 @@
         }, 
 
         "hfls20": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -879,6 +900,7 @@
         }, 
 
         "hfls21": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -893,6 +915,7 @@
         }, 
 
         "hfls22": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -907,6 +930,7 @@
         }, 
 
         "hfls23": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -921,6 +945,7 @@
         }, 
 
         "hfls24": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -935,6 +960,7 @@
         }, 
 
         "hfls25": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -949,6 +975,7 @@
         }, 
 
         "hfls26": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -963,6 +990,7 @@
         }, 
 
         "hfls27": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -977,6 +1005,7 @@
         }, 
 
         "hfls28": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -991,6 +1020,7 @@
         }, 
 
         "hfls29": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1005,6 +1035,7 @@
         }, 
 
         "hfls30": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1019,6 +1050,7 @@
         }, 
 
         "hfls31": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1033,6 +1065,7 @@
         }, 
 
         "hfls32": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1047,6 +1080,7 @@
         }, 
 
         "hfls33": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1061,6 +1095,7 @@
         }, 
 
         "hfls34": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1075,6 +1110,7 @@
         }, 
 
         "hfls35": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1089,6 +1125,7 @@
         }, 
 
         "hfls36": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1103,6 +1140,7 @@
         }, 
 
         "hfls37": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1117,6 +1155,7 @@
         }, 
 
         "hfls38": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1131,6 +1170,7 @@
         }, 
 
         "hfls39": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1145,6 +1185,7 @@
         }, 
 
         "hfls40": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1159,6 +1200,7 @@
         }, 
 
         "hfls41": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1173,6 +1215,7 @@
         }, 
 
         "hfls42": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1187,6 +1230,7 @@
         }, 
 
         "hfls43": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1201,6 +1245,7 @@
         }, 
 
         "hfls44": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1215,6 +1260,7 @@
         }, 
 
         "hfls45": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1229,6 +1275,7 @@
         }, 
 
         "hfls46": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1243,6 +1290,7 @@
         }, 
 
         "hfls47": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1257,6 +1305,7 @@
         }, 
 
         "hfls48": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1271,6 +1320,7 @@
         }, 
 
         "hfls49": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1285,6 +1335,7 @@
         }, 
 
         "hfls50": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1299,6 +1350,7 @@
         }, 
 
         "hfls51": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1313,6 +1365,7 @@
         }, 
 
         "hfls52": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1327,6 +1380,7 @@
         }, 
 
         "hfls53": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1341,6 +1395,7 @@
         }, 
 
         "hfls54": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1355,6 +1410,7 @@
         }, 
 
         "hfls55": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1369,6 +1425,7 @@
         }, 
 
         "hfls56": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1383,6 +1440,7 @@
         }, 
 
         "hfls57": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1397,6 +1455,7 @@
         }, 
 
         "hfls58": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1411,6 +1470,7 @@
         }, 
 
         "hfls59": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1425,6 +1485,7 @@
         }, 
 
         "hfls60": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1439,6 +1500,7 @@
         }, 
 
         "hfls61": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1453,6 +1515,7 @@
         }, 
 
         "hfls62": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1467,6 +1530,7 @@
         }, 
 
         "hfls63": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1481,6 +1545,7 @@
         }, 
 
         "hfls64": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1495,6 +1560,7 @@
         }, 
 
         "hfls65": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1509,6 +1575,7 @@
         }, 
 
         "hfls66": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1523,6 +1590,7 @@
         }, 
 
         "hfls67": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1537,6 +1605,7 @@
         }, 
 
         "hfls68": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1551,6 +1620,7 @@
         }, 
 
         "hfls69": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1565,6 +1635,7 @@
         }, 
 
         "hfls70": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1579,6 +1650,7 @@
         }, 
 
         "hfls71": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1593,6 +1665,7 @@
         }, 
 
         "hfls72": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1607,6 +1680,7 @@
         }, 
 
         "hfls73": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1621,6 +1695,7 @@
         }, 
 
         "hfls74": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1635,6 +1710,7 @@
         }, 
 
         "hfls75": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1649,6 +1725,7 @@
         }, 
 
         "hfls76": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1663,6 +1740,7 @@
         }, 
 
         "hfls77": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1677,6 +1755,7 @@
         }, 
 
         "hfls78": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1691,6 +1770,7 @@
         }, 
 
         "hfls79": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1705,6 +1785,7 @@
         }, 
 
         "hfls80": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1719,6 +1800,7 @@
         }, 
 
         "hfls81": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1733,6 +1815,7 @@
         }, 
 
         "hfls82": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1747,6 +1830,7 @@
         }, 
 
         "hfls83": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1761,6 +1845,7 @@
         }, 
 
         "hfls84": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1775,6 +1860,7 @@
         }, 
 
         "hfls85": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1789,6 +1875,7 @@
         }, 
 
         "hfls86": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1803,6 +1890,7 @@
         }, 
 
         "hfls87": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1817,6 +1905,7 @@
         }, 
 
         "hfls88": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1831,6 +1920,7 @@
         }, 
 
         "hfls89": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1845,6 +1935,7 @@
         }, 
 
         "hfls90": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1859,6 +1950,7 @@
         }, 
 
         "hfls91": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1873,6 +1965,7 @@
         }, 
 
         "hfls92": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1887,6 +1980,7 @@
         }, 
 
         "hfls93": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1901,6 +1995,7 @@
         }, 
 
         "hfls94": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1915,6 +2010,7 @@
         }, 
 
         "hfls95": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1929,6 +2025,7 @@
         }, 
 
         "hfls96": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1943,6 +2040,7 @@
         }, 
 
         "hfls97": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1957,6 +2055,7 @@
         }, 
 
         "hfls98": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1971,6 +2070,7 @@
         }, 
 
         "hfls99": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1985,6 +2085,7 @@
         }, 
 
         "hfls100": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1999,6 +2100,7 @@
         }, 
 
         "hfls101": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2013,6 +2115,7 @@
         }, 
 
         "hfls102": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2027,6 +2130,7 @@
         }, 
 
         "hfls103": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2041,6 +2145,7 @@
         }, 
 
         "hfls104": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2055,6 +2160,7 @@
         }, 
 
         "hfls105": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2069,6 +2175,7 @@
         }, 
 
         "hfls106": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2083,6 +2190,7 @@
         }, 
 
         "hfls107": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2097,6 +2205,7 @@
         }, 
 
         "hfls108": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2111,6 +2220,7 @@
         }, 
 
         "hfls109": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2125,6 +2235,7 @@
         }, 
 
         "hfls110": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2139,6 +2250,7 @@
         }, 
 
         "hfls111": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2153,6 +2265,7 @@
         }, 
 
         "hfls112": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2167,6 +2280,7 @@
         }, 
 
         "hfls113": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2181,6 +2295,7 @@
         }, 
 
         "hfls114": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2195,6 +2310,7 @@
         }, 
 
         "hfls115": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2209,6 +2325,7 @@
         }, 
 
         "hfls116": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2223,6 +2340,7 @@
         }, 
 
         "hfls117": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2237,6 +2355,7 @@
         }, 
 
         "hfls118": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2251,6 +2370,7 @@
         }, 
 
         "hfls119": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2265,6 +2385,7 @@
         }, 
 
         "hfls120": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2279,6 +2400,7 @@
         }, 
 
         "hfls121": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2293,6 +2415,7 @@
         }, 
 
         "hfls122": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2307,6 +2430,7 @@
         }, 
 
         "hfls123": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2321,6 +2445,7 @@
         }, 
 
         "hfls124": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2335,6 +2460,7 @@
         }, 
 
         "hfls125": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2349,6 +2475,7 @@
         }, 
 
         "hfls126": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2363,6 +2490,7 @@
         }, 
 
         "hfls127": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2377,6 +2505,7 @@
         }, 
 
         "hfls128": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2391,6 +2520,7 @@
         }, 
 
         "hfls129": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2405,6 +2535,7 @@
         }, 
 
         "hfls130": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2419,6 +2550,7 @@
         }, 
 
         "hfls131": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2433,6 +2565,7 @@
         }, 
 
         "hfls132": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2447,6 +2580,7 @@
         }, 
 
         "hfls133": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2461,6 +2595,7 @@
         }, 
 
         "hfls134": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2475,6 +2610,7 @@
         }, 
 
         "hfls135": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2489,6 +2625,7 @@
         }, 
 
         "hfls136": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2503,6 +2640,7 @@
         }, 
 
         "hfls137": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2517,6 +2655,7 @@
         }, 
 
         "hfls138": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2531,6 +2670,7 @@
         }, 
 
         "hfls139": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2545,6 +2685,7 @@
         }, 
 
         "hfls140": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2559,6 +2700,7 @@
         }, 
 
         "hfls141": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2573,6 +2715,7 @@
         }, 
 
         "hfls142": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2587,6 +2730,7 @@
         }, 
 
         "hfls143": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2601,6 +2745,7 @@
         }, 
 
         "hfls144": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2615,6 +2760,7 @@
         }, 
 
         "hfls145": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2629,6 +2775,7 @@
         }, 
 
         "hfls146": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2643,6 +2790,7 @@
         }, 
 
         "hfls147": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2657,6 +2805,7 @@
         }, 
 
         "hfls148": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2671,6 +2820,7 @@
         }, 
 
         "hfls149": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2685,6 +2835,7 @@
         }, 
 
         "hfls150": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2699,6 +2850,7 @@
         }, 
 
         "hfls151": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2713,6 +2865,7 @@
         }, 
 
         "hfls152": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2727,6 +2880,7 @@
         }, 
 
         "hfls153": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2741,6 +2895,7 @@
         }, 
 
         "hfls154": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2755,6 +2910,7 @@
         }, 
 
         "hfls155": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2769,6 +2925,7 @@
         }, 
 
         "hfls156": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2783,6 +2940,7 @@
         }, 
 
         "hfls157": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2797,6 +2955,7 @@
         }, 
 
         "hfls158": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2811,6 +2970,7 @@
         }, 
 
         "hfls159": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2825,6 +2985,7 @@
         }, 
 
         "hfls160": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2839,6 +3000,7 @@
         }, 
 
         "hfls161": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2853,6 +3015,7 @@
         }, 
 
         "hfls162": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2867,6 +3030,7 @@
         }, 
 
         "hfls163": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2881,6 +3045,7 @@
         }, 
 
         "hfls164": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2895,6 +3060,7 @@
         }, 
 
         "hfls165": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2909,6 +3075,7 @@
         }, 
 
         "hfls166": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2923,6 +3090,7 @@
         }, 
 
         "hfls167": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2937,6 +3105,7 @@
         }, 
 
         "hfls168": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2951,6 +3120,7 @@
         }, 
 
         "hfls169": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2965,6 +3135,7 @@
         }, 
 
         "hfls170": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2979,6 +3150,7 @@
         }, 
 
         "hfls171": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -2993,6 +3165,7 @@
         }, 
 
         "hfls172": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3007,6 +3180,7 @@
         }, 
 
         "hfls173": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3021,6 +3195,7 @@
         }, 
 
         "hfls174": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3035,6 +3210,7 @@
         }, 
 
         "hfls175": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3049,6 +3225,7 @@
         }, 
 
         "hfls176": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3063,6 +3240,7 @@
         }, 
 
         "hfls177": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3077,6 +3255,7 @@
         }, 
 
         "hfls178": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3091,6 +3270,7 @@
         }, 
 
         "hfls179": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3105,6 +3285,7 @@
         }, 
 
         "hfls180": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3119,6 +3300,7 @@
         }, 
 
         "hfls181": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3133,6 +3315,7 @@
         }, 
 
         "hfls182": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3147,6 +3330,7 @@
         }, 
 
         "hfls183": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3161,6 +3345,7 @@
         }, 
 
         "hfls184": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3175,6 +3360,7 @@
         }, 
 
         "hfls185": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3189,6 +3375,7 @@
         }, 
 
         "hfls186": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3203,6 +3390,7 @@
         }, 
 
         "hfls187": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3217,6 +3405,7 @@
         }, 
 
         "hfls188": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3231,6 +3420,7 @@
         }, 
 
         "hfls189": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3245,6 +3435,7 @@
         }, 
 
         "hfls190": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3259,6 +3450,7 @@
         }, 
 
         "hfls191": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3273,6 +3465,7 @@
         }, 
 
         "hfls192": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3287,6 +3480,7 @@
         }, 
 
         "hfls193": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3301,6 +3495,7 @@
         }, 
 
         "hfls194": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3315,6 +3510,7 @@
         }, 
 
         "hfls195": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3329,6 +3525,7 @@
         }, 
 
         "hfls196": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3343,6 +3540,7 @@
         }, 
 
         "hfls197": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3357,6 +3555,7 @@
         }, 
 
         "hfls198": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3371,6 +3570,7 @@
         }, 
 
         "hfls199": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3385,6 +3585,7 @@
         }, 
 
         "hfls200": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3399,6 +3600,7 @@
         }, 
 
         "hfls201": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3413,6 +3615,7 @@
         }, 
 
         "hfls202": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3427,6 +3630,7 @@
         }, 
 
         "hfls203": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3441,6 +3645,7 @@
         }, 
 
         "hfls204": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3455,6 +3660,7 @@
         }, 
 
         "hfls205": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3469,6 +3675,7 @@
         }, 
 
         "hfls206": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3483,6 +3690,7 @@
         }, 
 
         "hfls207": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3497,6 +3705,7 @@
         }, 
 
         "hfls208": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3511,6 +3720,7 @@
         }, 
 
         "hfls209": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3525,6 +3735,7 @@
         }, 
 
         "hfls210": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3539,6 +3750,7 @@
         }, 
 
         "hfls211": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3553,6 +3765,7 @@
         }, 
 
         "hfls212": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3567,6 +3780,7 @@
         }, 
 
         "hfls213": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3581,6 +3795,7 @@
         }, 
 
         "hfls214": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3595,6 +3810,7 @@
         }, 
 
         "hfls215": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3609,6 +3825,7 @@
         }, 
 
         "hfls216": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3623,6 +3840,7 @@
         }, 
 
         "hfls217": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3637,6 +3855,7 @@
         }, 
 
         "hfls218": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3651,6 +3870,7 @@
         }, 
 
         "hfls219": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3665,6 +3885,7 @@
         }, 
 
         "hfls220": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3679,6 +3900,7 @@
         }, 
 
         "hfls221": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3693,6 +3915,7 @@
         }, 
 
         "hfls222": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3707,6 +3930,7 @@
         }, 
 
         "hfls223": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3721,6 +3945,7 @@
         }, 
 
         "hfls224": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3735,6 +3960,7 @@
         }, 
 
         "hfls225": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3749,6 +3975,7 @@
         }, 
 
         "hfls226": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3763,6 +3990,7 @@
         }, 
 
         "hfls227": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3777,6 +4005,7 @@
         }, 
 
         "hfls228": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3791,6 +4020,7 @@
         }, 
 
         "hfls229": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3805,6 +4035,7 @@
         }, 
 
         "hfls230": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3819,6 +4050,7 @@
         }, 
 
         "hfls231": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3833,6 +4065,7 @@
         }, 
 
         "hfls232": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3847,6 +4080,7 @@
         }, 
 
         "hfls233": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3861,6 +4095,7 @@
         }, 
 
         "hfls234": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3875,6 +4110,7 @@
         }, 
 
         "hfls235": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3889,6 +4125,7 @@
         }, 
 
         "hfls236": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3903,6 +4140,7 @@
         }, 
 
         "hfls237": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3917,6 +4155,7 @@
         }, 
 
         "hfls238": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3931,6 +4170,7 @@
         }, 
 
         "hfls239": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3945,6 +4185,7 @@
         }, 
 
         "hfls240": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3959,6 +4200,7 @@
         }, 
 
         "hfls241": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3973,6 +4215,7 @@
         }, 
 
         "hfls242": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -3987,6 +4230,7 @@
         }, 
 
         "hfls243": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4001,6 +4245,7 @@
         }, 
 
         "hfls244": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4015,6 +4260,7 @@
         }, 
 
         "hfls245": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4029,6 +4275,7 @@
         }, 
 
         "hfls246": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4043,6 +4290,7 @@
         }, 
 
         "hfls247": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4057,6 +4305,7 @@
         }, 
 
         "hfls248": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4071,6 +4320,7 @@
         }, 
 
         "hfls249": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4085,6 +4335,7 @@
         }, 
 
         "hfls250": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4099,6 +4350,7 @@
         }, 
 
         "hfls251": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4113,6 +4365,7 @@
         }, 
 
         "hfls252": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4127,6 +4380,7 @@
         }, 
 
         "hfls253": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4141,6 +4395,7 @@
         }, 
 
         "hfls254": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4155,6 +4410,7 @@
         }, 
 
         "hfls255": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4169,6 +4425,7 @@
         }, 
 
         "hfls256": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4183,6 +4440,7 @@
         }, 
 
         "hfls257": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4197,6 +4455,7 @@
         }, 
 
         "hfls258": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4211,6 +4470,7 @@
         }, 
 
         "hfls259": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4225,6 +4485,7 @@
         }, 
 
         "hfls260": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4239,6 +4500,7 @@
         }, 
 
         "hfls261": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4253,6 +4515,7 @@
         }, 
 
         "hfls262": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4267,6 +4530,7 @@
         }, 
 
         "hfls263": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4281,6 +4545,7 @@
         }, 
 
         "hfls264": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4295,6 +4560,7 @@
         }, 
 
         "hfls265": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4309,6 +4575,7 @@
         }, 
 
         "hfls266": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4323,6 +4590,7 @@
         }, 
 
         "hfls267": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4337,6 +4605,7 @@
         }, 
 
         "hfls268": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4351,6 +4620,7 @@
         }, 
 
         "hfls269": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4365,6 +4635,7 @@
         }, 
 
         "hfls270": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4379,6 +4650,7 @@
         }, 
 
         "hfls271": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4393,6 +4665,7 @@
         }, 
 
         "hfls272": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4407,6 +4680,7 @@
         }, 
 
         "hfls273": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4421,6 +4695,7 @@
         }, 
 
         "hfls274": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4435,6 +4710,7 @@
         }, 
 
         "hfls275": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4449,6 +4725,7 @@
         }, 
 
         "hfls276": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4463,6 +4740,7 @@
         }, 
 
         "hfls277": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4477,6 +4755,7 @@
         }, 
 
         "hfls278": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4491,6 +4770,7 @@
         }, 
 
         "hfls279": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4505,6 +4785,7 @@
         }, 
 
         "hfls280": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4519,6 +4800,7 @@
         }, 
 
         "hfls281": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4533,6 +4815,7 @@
         }, 
 
         "hfls282": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4547,6 +4830,7 @@
         }, 
 
         "hfls283": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4561,6 +4845,7 @@
         }, 
 
         "hfls284": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4575,6 +4860,7 @@
         }, 
 
         "hfls285": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4589,6 +4875,7 @@
         }, 
 
         "hfls286": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4603,6 +4890,7 @@
         }, 
 
         "hfls287": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4617,6 +4905,7 @@
         }, 
 
         "hfls288": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4631,6 +4920,7 @@
         }, 
 
         "hfls289": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4645,6 +4935,7 @@
         }, 
 
         "hfls290": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4659,6 +4950,7 @@
         }, 
 
         "hfls291": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4673,6 +4965,7 @@
         }, 
 
         "hfls292": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4687,6 +4980,7 @@
         }, 
 
         "hfls293": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4701,6 +4995,7 @@
         }, 
 
         "hfls294": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4715,6 +5010,7 @@
         }, 
 
         "hfls295": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4729,6 +5025,7 @@
         }, 
 
         "hfls296": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4743,6 +5040,7 @@
         }, 
 
         "hfls297": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4757,6 +5055,7 @@
         }, 
 
         "hfls298": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4771,6 +5070,7 @@
         }, 
 
         "hfls299": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4785,6 +5085,7 @@
         }, 
 
         "hfls300": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4799,6 +5100,7 @@
         }, 
 
         "hfls301": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4813,6 +5115,7 @@
         }, 
 
         "hfls302": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4827,6 +5130,7 @@
         }, 
 
         "hfls303": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4841,6 +5145,7 @@
         }, 
 
         "hfls304": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4855,6 +5160,7 @@
         }, 
 
         "hfls305": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4869,6 +5175,7 @@
         }, 
 
         "hfls306": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4883,6 +5190,7 @@
         }, 
 
         "hfls307": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4897,6 +5205,7 @@
         }, 
 
         "hfls308": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4911,6 +5220,7 @@
         }, 
 
         "hfls309": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4925,6 +5235,7 @@
         }, 
 
         "hfls310": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4939,6 +5250,7 @@
         }, 
 
         "hfls311": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4953,6 +5265,7 @@
         }, 
 
         "hfls312": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4967,6 +5280,7 @@
         }, 
 
         "hfls313": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4981,6 +5295,7 @@
         }, 
 
         "hfls314": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -4995,6 +5310,7 @@
         }, 
 
         "hfls315": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5009,6 +5325,7 @@
         }, 
 
         "hfls316": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5023,6 +5340,7 @@
         }, 
 
         "hfls317": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5037,6 +5355,7 @@
         }, 
 
         "hfls318": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5051,6 +5370,7 @@
         }, 
 
         "hfls319": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5065,6 +5385,7 @@
         }, 
 
         "hfls320": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5079,6 +5400,7 @@
         }, 
 
         "hfls321": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5093,6 +5415,7 @@
         }, 
 
         "hfls322": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5107,6 +5430,7 @@
         }, 
 
         "hfls323": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5121,6 +5445,7 @@
         }, 
 
         "hfls324": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5135,6 +5460,7 @@
         }, 
 
         "hfls325": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5149,6 +5475,7 @@
         }, 
 
         "hfls326": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5163,6 +5490,7 @@
         }, 
 
         "hfls327": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5177,6 +5505,7 @@
         }, 
 
         "hfls328": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5191,6 +5520,7 @@
         }, 
 
         "hfls329": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5205,6 +5535,7 @@
         }, 
 
         "hfls330": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5219,6 +5550,7 @@
         }, 
 
         "hfls331": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5233,6 +5565,7 @@
         }, 
 
         "hfls332": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5247,6 +5580,7 @@
         }, 
 
         "hfls333": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5261,6 +5595,7 @@
         }, 
 
         "hfls334": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5275,6 +5610,7 @@
         }, 
 
         "hfls335": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5289,6 +5625,7 @@
         }, 
 
         "hfls336": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5303,6 +5640,7 @@
         }, 
 
         "hfls337": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5317,6 +5655,7 @@
         }, 
 
         "hfls338": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5331,6 +5670,7 @@
         }, 
 
         "hfls339": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5345,6 +5685,7 @@
         }, 
 
         "hfls340": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5359,6 +5700,7 @@
         }, 
 
         "hfls341": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5373,6 +5715,7 @@
         }, 
 
         "hfls342": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5387,6 +5730,7 @@
         }, 
 
         "hfls343": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5401,6 +5745,7 @@
         }, 
 
         "hfls344": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5415,6 +5760,7 @@
         }, 
 
         "hfls345": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5429,6 +5775,7 @@
         }, 
 
         "hfls346": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5443,6 +5790,7 @@
         }, 
 
         "hfls347": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5457,6 +5805,7 @@
         }, 
 
         "hfls348": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5471,6 +5820,7 @@
         }, 
 
         "hfls349": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5485,6 +5835,7 @@
         }, 
 
         "hfls350": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5499,6 +5850,7 @@
         }, 
 
         "hfls351": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5513,6 +5865,7 @@
         }, 
 
         "hfls352": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5527,6 +5880,7 @@
         }, 
 
         "hfls353": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5541,6 +5895,7 @@
         }, 
 
         "hfls354": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5555,6 +5910,7 @@
         }, 
 
         "hfls355": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5569,6 +5925,7 @@
         }, 
 
         "hfls356": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5583,6 +5940,7 @@
         }, 
 
         "hfls357": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5597,6 +5955,7 @@
         }, 
 
         "hfls358": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5611,6 +5970,7 @@
         }, 
 
         "hfls359": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5625,6 +5985,7 @@
         }, 
 
         "hfls360": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5639,6 +6000,7 @@
         }, 
 
         "hfls361": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5653,6 +6015,7 @@
         }, 
 
         "hfls362": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5667,6 +6030,7 @@
         }, 
 
         "hfls363": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5681,6 +6045,7 @@
         }, 
 
         "hfls364": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5695,6 +6060,7 @@
         }, 
 
         "hfls365": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5709,6 +6075,7 @@
         }, 
 
         "hfls366": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5723,6 +6090,7 @@
         }, 
 
         "hfls367": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5737,6 +6105,7 @@
         }, 
 
         "hfls368": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5751,6 +6120,7 @@
         }, 
 
         "hfls369": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5765,6 +6135,7 @@
         }, 
 
         "hfls370": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5779,6 +6150,7 @@
         }, 
 
         "hfls371": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5793,6 +6165,7 @@
         }, 
 
         "hfls372": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5807,6 +6180,7 @@
         }, 
 
         "hfls373": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5821,6 +6195,7 @@
         }, 
 
         "hfls374": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5835,6 +6210,7 @@
         }, 
 
         "hfls375": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5849,6 +6225,7 @@
         }, 
 
         "hfls376": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5863,6 +6240,7 @@
         }, 
 
         "hfls377": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5877,6 +6255,7 @@
         }, 
 
         "hfls378": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5891,6 +6270,7 @@
         }, 
 
         "hfls379": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5905,6 +6285,7 @@
         }, 
 
         "hfls380": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5919,6 +6300,7 @@
         }, 
 
         "hfls381": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5933,6 +6315,7 @@
         }, 
 
         "hfls382": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5947,6 +6330,7 @@
         }, 
 
         "hfls383": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5961,6 +6345,7 @@
         }, 
 
         "hfls384": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5975,6 +6360,7 @@
         }, 
 
         "hfls385": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -5989,6 +6375,7 @@
         }, 
 
         "hfls386": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -6003,6 +6390,7 @@
         }, 
 
         "hfls387": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -6017,6 +6405,7 @@
         }, 
 
         "hfls388": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -6031,6 +6420,7 @@
         }, 
 
         "hfls389": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -6045,6 +6435,7 @@
         }, 
 
         "hfls390": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -6059,6 +6450,7 @@
         }, 
 
         "hfls391": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -6073,6 +6465,7 @@
         }, 
 
         "hfls392": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -6087,6 +6480,7 @@
         }, 
 
         "hfls393": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -6101,6 +6495,7 @@
         }, 
 
         "hfls394": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -6115,6 +6510,7 @@
         }, 
 
         "hfls395": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -6129,6 +6525,7 @@
         }, 
 
         "hfls396": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -6143,6 +6540,7 @@
         }, 
 
         "hfls397": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -6157,6 +6555,7 @@
         }, 
 
         "hfls398": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -6171,6 +6570,7 @@
         }, 
 
         "hfls399": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 

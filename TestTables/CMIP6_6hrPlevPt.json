@@ -3,9 +3,8 @@
         "data_specs_version": "01.00.10", 
         "table_id": "Table 6hrPlevPt", 
         "realm": "atmos", 
-        "frequency": "6hr", 
         "cmor_version": "3.2", 
-        "table_date": "10 May 2017", 
+        "table_date": "01 June 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "", 
@@ -15,6 +14,7 @@
     }, 
     "variable_entry": {
         "albsrfc": {
+            "frequency": "6hr", 
             "modeling_realm": "aerosol", 
             "standard_name": "surface_albedo", 
             "units": "1.0", 
@@ -32,15 +32,16 @@
             "ok_max_mean_abs": ""
         }, 
         "cldicemxrat27": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "cloud_ice_mixing_ratio", 
             "units": "1.0", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Cloud Ice Mixing Ratio", 
             "comment": "Cloud ice mixing ratio", 
             "dimensions": "longitude latitude plev27 time1", 
-            "out_name": "cldicemxrat", 
+            "out_name": "cldicemxrat27", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -49,15 +50,16 @@
             "ok_max_mean_abs": ""
         }, 
         "cldwatmxrat27": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "cloud_liquid_water_mixing_ratio", 
             "units": "1.0", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Cloud Water Mixing Ratio", 
             "comment": "Cloud water mixing ratio", 
             "dimensions": "longitude latitude plev27 time1", 
-            "out_name": "cldwatmxrat", 
+            "out_name": "cldwatmxrat27", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -66,6 +68,7 @@
             "ok_max_mean_abs": ""
         }, 
         "dtauc": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "atmosphere_optical_thickness_due_to_convective_cloud", 
             "units": "1.0", 
@@ -83,6 +86,7 @@
             "ok_max_mean_abs": ""
         }, 
         "dtaus": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "atmosphere_optical_thickness_due_to_stratiform_cloud", 
             "units": "1.0", 
@@ -100,15 +104,16 @@
             "ok_max_mean_abs": ""
         }, 
         "grplmxrat27": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "mass_fraction_of_graupel_in_air", 
             "units": "1.0", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Graupel Mixing Ratio", 
             "comment": "Graupel mixing ratio", 
             "dimensions": "longitude latitude plev27 time1", 
-            "out_name": "grplmxrat", 
+            "out_name": "grplmxrat27", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -117,15 +122,16 @@
             "ok_max_mean_abs": ""
         }, 
         "hus27": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "specific_humidity", 
             "units": "1.0", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Specific Humidity", 
             "comment": "", 
             "dimensions": "longitude latitude plev27 time1", 
-            "out_name": "hus", 
+            "out_name": "hus27", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -134,15 +140,16 @@
             "ok_max_mean_abs": ""
         }, 
         "hus7h": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "specific_humidity", 
             "units": "1.0", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Specific Humidity", 
             "comment": "", 
             "dimensions": "longitude latitude plev7h time1", 
-            "out_name": "hus", 
+            "out_name": "hus7h", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -151,10 +158,11 @@
             "ok_max_mean_abs": ""
         }, 
         "huss": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "specific_humidity", 
             "units": "1.0", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Near-Surface Specific Humidity", 
             "comment": "Near-surface (usually, 2 meter) specific humidity.", 
@@ -168,6 +176,7 @@
             "ok_max_mean_abs": ""
         }, 
         "lwsffluxaero": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "longwave__flux__due_to_volcanic_aerosols_at_the_surface", 
             "units": "W m-2", 
@@ -185,6 +194,7 @@
             "ok_max_mean_abs": ""
         }, 
         "lwtoafluxaerocs": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "longwave_flux_due_to_volcanic_aerosols_at_TOA_under_clear_sky", 
             "units": "W m-2", 
@@ -202,10 +212,11 @@
             "ok_max_mean_abs": ""
         }, 
         "mrlsl": {
+            "frequency": "6hr", 
             "modeling_realm": "land", 
             "standard_name": "moisture_content_of_soil_layer", 
             "units": "kg m-2", 
-            "cell_methods": "area: mean where land time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Water Content of Soil Layer", 
             "comment": "The mass of water in all phases, including ice, in soil layers.  Report as missing for grid cells with no land.", 
@@ -219,10 +230,11 @@
             "ok_max_mean_abs": ""
         }, 
         "mrsos": {
+            "frequency": "6hr", 
             "modeling_realm": "land", 
             "standard_name": "moisture_content_of_soil_layer", 
             "units": "kg m-2", 
-            "cell_methods": "area: mean where land time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Moisture in Upper Portion of Soil Column", 
             "comment": "The mass of water in all phases in the upper 10cm of the  soil layer.", 
@@ -236,15 +248,16 @@
             "ok_max_mean_abs": ""
         }, 
         "pfull27": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "air_pressure", 
             "units": "Pa", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Pressure on Model Levels", 
             "comment": "Air pressure on model levels", 
             "dimensions": "longitude latitude plev27 time1", 
-            "out_name": "pfull", 
+            "out_name": "pfull27", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -253,6 +266,7 @@
             "ok_max_mean_abs": ""
         }, 
         "psl": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "air_pressure_at_sea_level", 
             "units": "Pa", 
@@ -270,15 +284,16 @@
             "ok_max_mean_abs": ""
         }, 
         "rainmxrat27": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "mass_fraction_of_rain_in_air", 
             "units": "1.0", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "rain_mixing_ratio", 
             "comment": "Rain mixing ratio", 
             "dimensions": "longitude latitude plev27 time1", 
-            "out_name": "rainmxrat", 
+            "out_name": "rainmxrat27", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -287,10 +302,11 @@
             "ok_max_mean_abs": ""
         }, 
         "rv850": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "atmosphere_relative_vorticity", 
             "units": "s-1", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "area: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Relative Vorticity at 850 hPa", 
             "comment": "", 
@@ -304,10 +320,11 @@
             "ok_max_mean_abs": ""
         }, 
         "sfcWind": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "wind_speed", 
             "units": "m s-1", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Near-Surface Wind Speed", 
             "comment": "near-surface (usually, 10 meters) wind speed.", 
@@ -321,15 +338,16 @@
             "ok_max_mean_abs": ""
         }, 
         "snowmxrat27": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "mass_fraction_of_snow_in_air", 
             "units": "1.0", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "snow_mixing_ratio", 
             "comment": "Snow mixing ratio", 
             "dimensions": "longitude latitude plev27 time1", 
-            "out_name": "snowmxrat", 
+            "out_name": "snowmxrat27", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -338,6 +356,7 @@
             "ok_max_mean_abs": ""
         }, 
         "snw": {
+            "frequency": "6hr", 
             "modeling_realm": "landIce land", 
             "standard_name": "surface_snow_amount", 
             "units": "kg m-2", 
@@ -355,6 +374,7 @@
             "ok_max_mean_abs": ""
         }, 
         "swsffluxaero": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "shortwave__flux_due_to_volcanic_aerosols_at__the_surface", 
             "units": "W m-2", 
@@ -372,6 +392,7 @@
             "ok_max_mean_abs": ""
         }, 
         "swtoafluxaerocs": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "shortwave_flux_due_to_volcanic_aerosols_at_TOA_under_clear_sky", 
             "units": "W m-2", 
@@ -389,10 +410,11 @@
             "ok_max_mean_abs": ""
         }, 
         "ta": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "air_temperature", 
             "units": "K", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Air Temperature", 
             "comment": "Air Temperature", 
@@ -406,15 +428,16 @@
             "ok_max_mean_abs": ""
         }, 
         "ta27": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "air_temperature", 
             "units": "K", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Air Temperature", 
             "comment": "Air Temperature", 
             "dimensions": "longitude latitude plev27 time1", 
-            "out_name": "ta", 
+            "out_name": "ta27", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -423,15 +446,16 @@
             "ok_max_mean_abs": ""
         }, 
         "ta7h": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "air_temperature", 
             "units": "K", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Air Temperature", 
             "comment": "Air Temperature", 
             "dimensions": "longitude latitude plev7h time1", 
-            "out_name": "ta", 
+            "out_name": "ta7h", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -440,10 +464,11 @@
             "ok_max_mean_abs": ""
         }, 
         "tas": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "air_temperature", 
             "units": "K", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Surface Air Temperature", 
             "comment": "near-surface (usually, 2 meter) air temperature", 
@@ -457,6 +482,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ts": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_temperature", 
             "units": "K", 
@@ -474,10 +500,11 @@
             "ok_max_mean_abs": ""
         }, 
         "tsl": {
+            "frequency": "6hr", 
             "modeling_realm": "land", 
             "standard_name": "soil_temperature", 
             "units": "K", 
-            "cell_methods": "area: mean where land time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Temperature of Soil", 
             "comment": "Temperature of each soil layer. Reported as missing for grid cells with no land.", 
@@ -491,10 +518,11 @@
             "ok_max_mean_abs": ""
         }, 
         "ua": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "eastward_wind", 
             "units": "m s-1", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Eastward Wind", 
             "comment": "", 
@@ -508,15 +536,16 @@
             "ok_max_mean_abs": ""
         }, 
         "ua7h": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "eastward_wind", 
             "units": "m s-1", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Eastward Wind", 
             "comment": "", 
             "dimensions": "longitude latitude plev7h time1", 
-            "out_name": "ua", 
+            "out_name": "ua7h", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -525,10 +554,11 @@
             "ok_max_mean_abs": ""
         }, 
         "uas": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "eastward_wind", 
             "units": "m s-1", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Eastward Near-Surface Wind", 
             "comment": "Eastward component of the near-surface (usually, 10 meters)  wind", 
@@ -542,10 +572,11 @@
             "ok_max_mean_abs": ""
         }, 
         "va": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "northward_wind", 
             "units": "m s-1", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Northward Wind", 
             "comment": "", 
@@ -559,15 +590,16 @@
             "ok_max_mean_abs": ""
         }, 
         "va7h": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "northward_wind", 
             "units": "m s-1", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Northward Wind", 
             "comment": "", 
             "dimensions": "longitude latitude plev7h time1", 
-            "out_name": "va", 
+            "out_name": "va7h", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -576,10 +608,11 @@
             "ok_max_mean_abs": ""
         }, 
         "vas": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "northward_wind", 
             "units": "m s-1", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Northward Near-Surface Wind", 
             "comment": "Northward component of the near surface wind", 
@@ -593,6 +626,7 @@
             "ok_max_mean_abs": ""
         }, 
         "vortmean": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "atmosphere_relative_vorticity", 
             "units": "s-1", 
@@ -610,15 +644,16 @@
             "ok_max_mean_abs": ""
         }, 
         "wbptemp7h": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "wet_bulb_potential_temperature", 
             "units": "K", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "wet_bulb_potential_temperature", 
             "comment": "Wet bulb potential temperature", 
             "dimensions": "longitude latitude plev7h time1", 
-            "out_name": "wbptemp", 
+            "out_name": "wbptemp7h", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 
@@ -627,15 +662,16 @@
             "ok_max_mean_abs": ""
         }, 
         "zg27": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "geopotential_height", 
             "units": "m", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Geopotential Height", 
             "comment": "", 
             "dimensions": "longitude latitude plev27 time1", 
-            "out_name": "zg", 
+            "out_name": "zg27", 
             "type": "float", 
             "positive": "", 
             "valid_min": "", 
@@ -644,10 +680,11 @@
             "ok_max_mean_abs": ""
         }, 
         "zg500": {
+            "frequency": "6hr", 
             "modeling_realm": "aerosol", 
             "standard_name": "geopotential_height", 
             "units": "m", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "area: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Geopotential Height at 500 hPa", 
             "comment": "geopotential height on the 500 hPa surface", 
@@ -661,15 +698,16 @@
             "ok_max_mean_abs": ""
         }, 
         "zg7h": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "geopotential_height", 
             "units": "m", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Geopotential Height", 
             "comment": "", 
             "dimensions": "longitude latitude plev7h time1", 
-            "out_name": "zg", 
+            "out_name": "zg7h", 
             "type": "float", 
             "positive": "", 
             "valid_min": "", 

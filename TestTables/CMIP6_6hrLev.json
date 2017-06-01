@@ -3,9 +3,8 @@
         "data_specs_version": "01.00.10", 
         "table_id": "Table 6hrLev", 
         "realm": "atmos", 
-        "frequency": "6hr", 
         "cmor_version": "3.2", 
-        "table_date": "10 May 2017", 
+        "table_date": "01 June 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "0.250000", 
@@ -15,10 +14,11 @@
     }, 
     "variable_entry": {
         "bs550aer": {
+            "frequency": "6hr", 
             "modeling_realm": "aerosol", 
             "standard_name": "volume_lidar_backwards_scattering_coefficient_in_air_due_to_ambient_aerosol_particles", 
             "units": "m-1 sr-1", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "area: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Aerosol backscatter coefficient", 
             "comment": "Aerosol  Backscatter @550nm @ 180 degrees, computed from extinction and lidar ratio", 
@@ -32,10 +32,11 @@
             "ok_max_mean_abs": ""
         }, 
         "ec550aer": {
+            "frequency": "6hr", 
             "modeling_realm": "aerosol", 
             "standard_name": "volume_extinction_coefficient_in_air_due_to_ambient_aerosol_particles", 
             "units": "m-1", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "area: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Aerosol extinction coefficient", 
             "comment": "Aerosol Extinction @550nm", 
@@ -49,10 +50,11 @@
             "ok_max_mean_abs": ""
         }, 
         "hus": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "specific_humidity", 
             "units": "1.0", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Specific Humidity", 
             "comment": "", 
@@ -66,10 +68,11 @@
             "ok_max_mean_abs": ""
         }, 
         "pmlev": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "air_pressure", 
             "units": "Pa", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Air Pressure", 
             "comment": "The atmospheric pressure at the model layer midpoints for all times and levels in the associated output variables", 
@@ -83,6 +86,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ps": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_air_pressure", 
             "units": "Pa", 
@@ -100,10 +104,11 @@
             "ok_max_mean_abs": ""
         }, 
         "ta": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "air_temperature", 
             "units": "K", 
-            "cell_methods": "area: mean time: point", 
+            "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Air Temperature", 
             "comment": "Air Temperature", 
@@ -117,6 +122,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ua": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "eastward_wind", 
             "units": "m s-1", 
@@ -134,6 +140,7 @@
             "ok_max_mean_abs": ""
         }, 
         "va": {
+            "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "northward_wind", 
             "units": "m s-1", 

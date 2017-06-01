@@ -83,7 +83,7 @@
 #define AXIS_ATT_BOUNDSREQUESTED "bounds_requested"
 #define AXIS_ATT_REQUESTEDBOUNDS "requested_bounds"
 #define AXIS_ATT_REQUESTED       "requested"
-#define AXIS_FORECAST_TIME       "forecast_time"
+#define AXIS_FORECAST_TIME       "reftime"
 
 #define TABLE_CONTROL_FILENAME    "CMIP6_CV.json"
 #define TABLE_FOUND               -1
@@ -231,7 +231,6 @@
 #define TABLE_HEADER_REALM            "realm"
 #define TABLE_HEADER_TABLE_DATE       "table_date"
 #define TABLE_HEADER_FORCINGS         "forcings"
-#define TABLE_HEADER_FREQUENCY        "frequency"
 #define TABLE_HEADER_TABLE_ID         "table_id"
 #define TABLE_HEADER_BASEURL          "baseURL"
 #define TABLE_HEADER_PRODUCT          "product"
@@ -474,6 +473,7 @@ typedef struct cmor_var_ {
     char current_path[CMOR_MAX_STRING];
     char suffix[CMOR_MAX_STRING];
     int suffix_has_date;
+    char frequency[CMOR_MAX_STRING];
 } cmor_var_t;
 
 extern cmor_var_t cmor_vars[CMOR_MAX_VARIABLES];
@@ -518,7 +518,6 @@ typedef struct cmor_table_ {
     char product[CMOR_MAX_STRING];
     char realm[CMOR_MAX_STRING];
     char path[CMOR_MAX_STRING];
-    char frequency[CMOR_MAX_STRING];
     char **forcings;
     int nforcings;
     unsigned char md5[16];

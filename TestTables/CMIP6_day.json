@@ -3,9 +3,8 @@
         "data_specs_version": "01.00.10", 
         "table_id": "Table day", 
         "realm": "atmos", 
-        "frequency": "day", 
         "cmor_version": "3.2", 
-        "table_date": "10 May 2017", 
+        "table_date": "01 June 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "1.00000", 
@@ -15,10 +14,11 @@
     }, 
     "variable_entry": {
         "clt": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "cloud_area_fraction", 
             "units": "%", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "area: time: mean ", 
             "cell_measures": "area: areacella", 
             "long_name": "Total Cloud Fraction", 
             "comment": "Total cloud area fraction for the whole atmospheric column, as seen from the surface or the top of the atmosphere. Includes both large-scale and convective cloud.", 
@@ -32,10 +32,11 @@
             "ok_max_mean_abs": ""
         }, 
         "hfls": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_upward_latent_heat_flux", 
             "units": "W m-2", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "area: time: mean ", 
             "cell_measures": "area: areacella", 
             "long_name": "Surface Upward Latent Heat Flux", 
             "comment": "", 
@@ -49,10 +50,11 @@
             "ok_max_mean_abs": ""
         }, 
         "hfss": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_upward_sensible_heat_flux", 
             "units": "W m-2", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "area: time: mean ", 
             "cell_measures": "area: areacella", 
             "long_name": "Surface Upward Sensible Heat Flux", 
             "comment": "", 
@@ -66,6 +68,7 @@
             "ok_max_mean_abs": ""
         }, 
         "hur": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "relative_humidity", 
             "units": "%", 
@@ -83,10 +86,11 @@
             "ok_max_mean_abs": ""
         }, 
         "hurs": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "relative_humidity", 
             "units": "%", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Near-Surface Relative Humidity", 
             "comment": "The relative humidity with respect to liquid water for T> 0 C, and with respect to ice for T<0 C.", 
@@ -100,6 +104,7 @@
             "ok_max_mean_abs": ""
         }, 
         "hursmax": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "relative_humidity", 
             "units": "%", 
@@ -117,6 +122,7 @@
             "ok_max_mean_abs": ""
         }, 
         "hursmin": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "relative_humidity", 
             "units": "%", 
@@ -134,6 +140,7 @@
             "ok_max_mean_abs": ""
         }, 
         "hus": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "specific_humidity", 
             "units": "1.0", 
@@ -151,10 +158,11 @@
             "ok_max_mean_abs": ""
         }, 
         "huss": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "specific_humidity", 
             "units": "1.0", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Near-Surface Specific Humidity", 
             "comment": "Near-surface (usually, 2 meter) specific humidity.", 
@@ -168,6 +176,7 @@
             "ok_max_mean_abs": ""
         }, 
         "mrro": {
+            "frequency": "day", 
             "modeling_realm": "land", 
             "standard_name": "runoff_flux", 
             "units": "kg m-2 s-1", 
@@ -185,6 +194,7 @@
             "ok_max_mean_abs": ""
         }, 
         "mrso": {
+            "frequency": "day", 
             "modeling_realm": "land", 
             "standard_name": "soil_moisture_content", 
             "units": "kg m-2", 
@@ -202,6 +212,7 @@
             "ok_max_mean_abs": ""
         }, 
         "mrsos": {
+            "frequency": "day", 
             "modeling_realm": "land", 
             "standard_name": "moisture_content_of_soil_layer", 
             "units": "kg m-2", 
@@ -219,10 +230,11 @@
             "ok_max_mean_abs": ""
         }, 
         "pr": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "precipitation_flux", 
             "units": "kg m-2 s-1", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "area: time: mean ", 
             "cell_measures": "area: areacella", 
             "long_name": "Precipitation", 
             "comment": "includes both liquid and solid phases", 
@@ -236,10 +248,11 @@
             "ok_max_mean_abs": ""
         }, 
         "prc": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "convective_precipitation_flux", 
             "units": "kg m-2 s-1", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "area: time: mean ", 
             "cell_measures": "area: areacella", 
             "long_name": "Convective Precipitation", 
             "comment": "Convective precipitation at surface; includes both liquid and solid phases.", 
@@ -253,10 +266,11 @@
             "ok_max_mean_abs": ""
         }, 
         "prsn": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "snowfall_flux", 
             "units": "kg m-2 s-1", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "area: time: mean ", 
             "cell_measures": "area: areacella", 
             "long_name": "Snowfall Flux", 
             "comment": "at surface; includes precipitation of all forms of water in the solid phase", 
@@ -270,10 +284,11 @@
             "ok_max_mean_abs": ""
         }, 
         "psl": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "air_pressure_at_sea_level", 
             "units": "Pa", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "area: time: mean ", 
             "cell_measures": "area: areacella", 
             "long_name": "Sea Level Pressure", 
             "comment": "Sea Level Pressure", 
@@ -287,10 +302,11 @@
             "ok_max_mean_abs": ""
         }, 
         "rlds": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_downwelling_longwave_flux_in_air", 
             "units": "W m-2", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "area: time: mean ", 
             "cell_measures": "area: areacella", 
             "long_name": "Surface Downwelling Longwave Radiation", 
             "comment": "", 
@@ -304,10 +320,11 @@
             "ok_max_mean_abs": ""
         }, 
         "rlus": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_upwelling_longwave_flux_in_air", 
             "units": "W m-2", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "area: time: mean ", 
             "cell_measures": "area: areacella", 
             "long_name": "Surface Upwelling Longwave Radiation", 
             "comment": "", 
@@ -321,10 +338,11 @@
             "ok_max_mean_abs": ""
         }, 
         "rlut": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "toa_outgoing_longwave_flux", 
             "units": "W m-2", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "area: time: mean ", 
             "cell_measures": "area: areacella", 
             "long_name": "TOA Outgoing Longwave Radiation", 
             "comment": "at the top of the atmosphere (to be compared with satellite measurements)", 
@@ -338,10 +356,11 @@
             "ok_max_mean_abs": ""
         }, 
         "rsds": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_downwelling_shortwave_flux_in_air", 
             "units": "W m-2", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "area: time: mean ", 
             "cell_measures": "area: areacella", 
             "long_name": "Surface Downwelling Shortwave Radiation", 
             "comment": "surface solar irradiance for UV calculations", 
@@ -355,10 +374,11 @@
             "ok_max_mean_abs": ""
         }, 
         "rsus": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_upwelling_shortwave_flux_in_air", 
             "units": "W m-2", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "area: time: mean ", 
             "cell_measures": "area: areacella", 
             "long_name": "Surface Upwelling Shortwave Radiation", 
             "comment": "", 
@@ -372,10 +392,11 @@
             "ok_max_mean_abs": ""
         }, 
         "sfcWind": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "wind_speed", 
             "units": "m s-1", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Daily-Mean Near-Surface Wind Speed", 
             "comment": "near-surface (usually, 10 meters) wind speed.", 
@@ -389,11 +410,12 @@
             "ok_max_mean_abs": ""
         }, 
         "sfcWindmax": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "wind_speed", 
             "units": "m s-1", 
             "cell_methods": "area: mean time: maximum", 
-            "cell_measures": "area: areacella", 
+            "cell_measures": "", 
             "long_name": "Daily Maximum Near-Surface Wind Speed", 
             "comment": "Daily maximum near-surface (usually, 10 meters) wind speed.", 
             "dimensions": "longitude latitude time height10m", 
@@ -406,10 +428,11 @@
             "ok_max_mean_abs": ""
         }, 
         "snc": {
+            "frequency": "day", 
             "modeling_realm": "landIce land", 
             "standard_name": "surface_snow_area_fraction", 
             "units": "%", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "area: time: mean ", 
             "cell_measures": "area: areacella", 
             "long_name": "Snow Area Fraction", 
             "comment": "Fraction of each grid cell that is occupied by snow that rests on land portion of cell.", 
@@ -423,6 +446,7 @@
             "ok_max_mean_abs": ""
         }, 
         "snw": {
+            "frequency": "day", 
             "modeling_realm": "landIce land", 
             "standard_name": "surface_snow_amount", 
             "units": "kg m-2", 
@@ -440,6 +464,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ta": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "air_temperature", 
             "units": "K", 
@@ -457,10 +482,11 @@
             "ok_max_mean_abs": ""
         }, 
         "tas": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "air_temperature", 
             "units": "K", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Near-Surface Air Temperature", 
             "comment": "near-surface (usually, 2 meter) air temperature", 
@@ -474,6 +500,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tasmax": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "air_temperature", 
             "units": "K", 
@@ -491,6 +518,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tasmin": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "air_temperature", 
             "units": "K", 
@@ -508,10 +536,11 @@
             "ok_max_mean_abs": ""
         }, 
         "tslsi": {
+            "frequency": "day", 
             "modeling_realm": "land", 
             "standard_name": "surface_temperature", 
             "units": "K", 
-            "cell_methods": "area: time: mean (comment: over land and sea ice)", 
+            "cell_methods": "area: time: mean ", 
             "cell_measures": "area: areacella", 
             "long_name": "Surface Temperature Where Land or Sea Ice", 
             "comment": "'skin' temperature of all surfaces except open ocean.", 
@@ -525,6 +554,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ua": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "eastward_wind", 
             "units": "m s-1", 
@@ -542,10 +572,11 @@
             "ok_max_mean_abs": ""
         }, 
         "uas": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "eastward_wind", 
             "units": "m s-1", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Eastward Near-Surface Wind", 
             "comment": "Eastward component of the near-surface (usually, 10 meters)  wind", 
@@ -559,6 +590,7 @@
             "ok_max_mean_abs": ""
         }, 
         "va": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "northward_wind", 
             "units": "m s-1", 
@@ -576,10 +608,11 @@
             "ok_max_mean_abs": ""
         }, 
         "vas": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "northward_wind", 
             "units": "m s-1", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Northward Near-Surface Wind", 
             "comment": "Northward component of the near surface wind", 
@@ -593,6 +626,7 @@
             "ok_max_mean_abs": ""
         }, 
         "wap": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "lagrangian_tendency_of_air_pressure", 
             "units": "Pa s-1", 
@@ -610,6 +644,7 @@
             "ok_max_mean_abs": ""
         }, 
         "zg": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "geopotential_height", 
             "units": "m", 

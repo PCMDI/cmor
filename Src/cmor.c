@@ -691,6 +691,7 @@ void cmor_reset_variable( int var_id ) {
     cmor_vars[var_id].current_path[0]                  = '\0';
     cmor_vars[var_id].suffix[0]                        = '\0';
     cmor_vars[var_id].suffix_has_date                  = 0;
+    cmor_vars[var_id].frequency[0]                     = '\0';
 }
 
 
@@ -2572,7 +2573,7 @@ int cmor_setGblAttr(int var_id) {
 /*    Set attribute frequency for netCDF file (CMIP6)                   */
 /* -------------------------------------------------------------------- */
     snprintf(msg, CMOR_MAX_STRING, "%s",
-            cmor_tables[nVarRefTblID].frequency);
+            cmor_vars[var_id].frequency);
     cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_FREQUENCY, msg, 0);
 /* -------------------------------------------------------------------- */
 /*    Set attribute variable_id for netCDF file (CMIP6)                 */
@@ -5853,37 +5854,37 @@ char *cmor_getFinalFilename() {
 /************************************************************************/
 /*                          cmor_trim_string()                          */
 /************************************************************************/
-void cmor_trim_string( char *in, char *out ) {
+void cmor_trim_string(char *in, char *out) {
     int n, i, j;
 
-    if( in == NULL ) {
-	out = NULL;
-	return;
+    if (in == NULL) {
+        out = NULL;
+        return;
     }
-    n = strlen( in );
+    n = strlen(in);
 
-    if( n == 0 ) {
-	out[0] = '\0';
-	return;
+    if (n == 0) {
+        out[0] = '\0';
+        return;
     }
-    if( n > CMOR_MAX_STRING )
-	n = CMOR_MAX_STRING;	
+    if (n > CMOR_MAX_STRING)
+        n = CMOR_MAX_STRING;
     j = 0;
-    for( i = 0; i < n; i++ ) {
-	if( in[i] != ' ' && in[i] != '\n' && in[i] != '\t' ) {
-	    break;
-	} else {
-	    j++;
-	}
+    for (i = 0; i < n; i++) {
+        if (in[i] != ' ' && in[i] != '\n' && in[i] != '\t') {
+            break;
+        } else {
+            j++;
+        }
     }
-    for( i = j; i < n; i++ ) {
-	out[i - j] = in[i];
+    for (i = j; i < n; i++) {
+        out[i - j] = in[i];
     }
     out[i - j] = '\0';
-    n = strlen( out );
+    n = strlen(out);
     i = n;
-    while( ( out[i] == '\0' || out[i] == ' ' ) ) {
-	out[i] = '\0';
-	i--;
+    while ((out[i] == '\0' || out[i] == ' ')) {
+        out[i] = '\0';
+        i--;
     }
 }

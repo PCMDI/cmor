@@ -72,24 +72,23 @@ double cmor_convert_interval_to_seconds( double interv, char *inunits ) {
 /*      first we need to figure out the out units                       */
 /*      step 1 look for the since keyword                               */
 /* -------------------------------------------------------------------- */
-    n = strlen( inunits );
+    n = strlen(inunits);
     oui = -1;
-    for( i = 0; i < n; i++ ) {
-	strncpy( sshort, &inunits[i], 5 );
-	if( strcmp( sshort, "since" ) == 0 ) {
-	    oui = i;
-	    break;
-	}
+    for (i = 0; i < n; i++) {
+        strncpy(sshort, &inunits[i], 5);
+        if (strcmp(sshort, "since") == 0) {
+            oui = i;
+            break;
+        }
     }
-    if( oui == -1 ) {
-	snprintf( msg, CMOR_MAX_STRING,
-		  "Time units conversion, output units must\n! "
-		  "contain the 'since' word, you defined: %s",
-		  inunits );
-	cmor_handle_error( msg, CMOR_CRITICAL );
+    if (oui == -1) {
+        snprintf(msg, CMOR_MAX_STRING,
+                "Time units conversion, output units must\n! "
+                        "contain the 'since' word, you defined: %s", inunits);
+        cmor_handle_error(msg, CMOR_CRITICAL);
     }
 
-    strncpy( msg, inunits, oui - 1 );
+    strncpy(msg, inunits, oui - 1);
     msg[oui - 1] = '\0';
 
 /* -------------------------------------------------------------------- */

@@ -1033,18 +1033,18 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
     int did_grid_reorder = 0;
     int vrid=-1;
 
-    cmor_add_traceback( "cmor_variable" );
-    cmor_is_setup(  );
+    cmor_add_traceback("cmor_variable");
+    cmor_is_setup();
 
-    if( CMOR_TABLE == -1 ) {
-	cmor_handle_error( "You did not define a table yet!",
-			   CMOR_CRITICAL );
+    if (CMOR_TABLE == -1) {
+        cmor_handle_error("You did not define a table yet!",
+        CMOR_CRITICAL);
     }
 
-    if( cmor_nvars == CMOR_MAX_VARIABLES - 1 ) {
-	cmor_handle_error( "Too many variables defined", CMOR_CRITICAL );
-	cmor_pop_traceback(  );
-	return( 1 );
+    if (cmor_nvars == CMOR_MAX_VARIABLES - 1) {
+        cmor_handle_error("Too many variables defined", CMOR_CRITICAL);
+        cmor_pop_traceback();
+        return (1);
     }
 
 /* -------------------------------------------------------------------- */
@@ -1052,30 +1052,29 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
 /*      found then error                                                */
 /* -------------------------------------------------------------------- */
     iref = -1;
-    cmor_trim_string( name, ctmp );
-    for( i = 0; i < cmor_tables[CMOR_TABLE].nvars + 1; i++ ) {
-	if( strcmp( cmor_tables[CMOR_TABLE].vars[i].id, ctmp ) == 0 ) {
-	    iref = i;
-	    break;
-	}
+    cmor_trim_string(name, ctmp);
+    for (i = 0; i < cmor_tables[CMOR_TABLE].nvars + 1; i++) {
+        if (strcmp(cmor_tables[CMOR_TABLE].vars[i].id, ctmp) == 0) {
+            iref = i;
+            break;
+        }
     }
-    if( iref == -1 ) {
-	snprintf( msg, CMOR_MAX_STRING,
-		  "Could not find a matching variable for name: '%s'",
-		  ctmp );
-	cmor_handle_error( msg, CMOR_CRITICAL );
+    if (iref == -1) {
+        snprintf(msg, CMOR_MAX_STRING,
+                "Could not find a matching variable for name: '%s'", ctmp);
+        cmor_handle_error(msg, CMOR_CRITICAL);
     }
 
     refvar = cmor_tables[CMOR_TABLE].vars[iref];
-    for( i = 0; i < CMOR_MAX_VARIABLES; i++ ) {
-	if( cmor_vars[i].self == -1 ) {
-	    vrid = i;
-	    break;
-	}
+    for (i = 0; i < CMOR_MAX_VARIABLES; i++) {
+        if (cmor_vars[i].self == -1) {
+            vrid = i;
+            break;
+        }
     }
 
-    if( vrid > cmor_nvars )
-	cmor_nvars = vrid;
+    if (vrid > cmor_nvars)
+        cmor_nvars = vrid;
 
     cmor_vars[vrid].ref_table_id = CMOR_TABLE;
     cmor_vars[vrid].ref_var_id = iref;
@@ -1087,6 +1086,7 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
     strcpy( cmor_vars[vrid].suffix, "" );
     strcpy( cmor_vars[vrid].base_path, "" );
     strcpy( cmor_vars[vrid].current_path, "" );
+    strcpy( cmor_vars[vrid].frequency, refvar.frequency);
     cmor_vars[vrid].suffix_has_date = 0;
 
 /* -------------------------------------------------------------------- */
@@ -2094,7 +2094,40 @@ int cmor_set_var_def_att( cmor_var_def_t * var, char att[CMOR_MAX_STRING],
 		       ( CMOR_NETCDF_MODE == CMOR_PRESERVE_3 ) ) {
 		sprintf( msg,
 			 "Reading a table (%s) that calls for NetCDF4 features, you asked for NetCDF3 features",
-			 cmor_tables[var->table_id].szTable_id );
+			 cmor_tables[var->table_id].szTable_id );void cmor_trim_string(char *in, char *out) {
+		    int n, i, j;
+
+		    if (in == NULL) {
+		        out = NULL;
+		        return;
+		    }
+		    n = strlen(in);
+
+		    if (n == 0) {
+		        out[0] = '\0';
+		        return;
+		    }
+		    if (n > CMOR_MAX_STRING)
+		        n = CMOR_MAX_STRING;
+		    j = 0;
+		    for (i = 0; i < n; i++) {
+		        if (in[i] != ' ' && in[i] != '\n' && in[i] != '\t') {
+		            break;
+		        } else {
+		            j++;
+		        }
+		    }
+		    for (i = j; i < n; i++) {
+		        out[i - j] = in[i];
+		    }
+		    out[i - j] = '\0';
+		    n = strlen(out);
+		    i = n;
+		    while ((out[i] == '\0' || out[i] == ' ')) {
+		        out[i] = '\0';
+		        i--;
+		    }
+		}
 		cmor_handle_error( msg, CMOR_WARNING );
 	    }
 	}
@@ -2285,7 +2318,8 @@ int cmor_get_original_shape( int *var_id, int *shape_array, int *rank,
 
     if( *rank < avar.ndims ) {
 	snprintf( msg, CMOR_MAX_STRING,
-		  "trying to retrieve shape of variable %s (table: %s) into a %id array but this variable is %id",
+		  "trying to retrieve shape of variable %s (table: %s) into a %id "
+	        "array but this variable is %id",
 		  avar.id, cmor_tables[avar.ref_table_id].szTable_id, *rank,
 		  avar.ndims );
 	cmor_handle_error( msg, CMOR_CRITICAL );
@@ -2395,17 +2429,15 @@ int cmor_write_var_to_file( int ncid, cmor_var_t * avar, void *data,
 /*      the order the user defined its variable                         */
 /* -------------------------------------------------------------------- */
 
-	if( cmor_axes[avar->axes_ids[i]].axis != 'T' )
-	    counter[i] =
-		cmor_axes[avar->axes_ids[i]].length * counter[i + 1];
-	else
-	    counter[i] = counts[0] * counter[i + 1];
-	if( cmor_axes[avar->original_order[i]].axis != 'T' )
-	    counter_orig[i] =
-		cmor_axes[avar->original_order[i]].length *
-		counter_orig[i + 1];
-	else
-	    counter_orig[i] = counts[0] * counter_orig[i + 1];
+        if (cmor_axes[avar->axes_ids[i]].axis != 'T')
+            counter[i] = cmor_axes[avar->axes_ids[i]].length * counter[i + 1];
+        else
+            counter[i] = counts[0] * counter[i + 1];
+        if (cmor_axes[avar->original_order[i]].axis != 'T')
+            counter_orig[i] = cmor_axes[avar->original_order[i]].length
+                    * counter_orig[i + 1];
+        else
+            counter_orig[i] = counts[0] * counter_orig[i + 1];
     }
 /* -------------------------------------------------------------------- */
 /*       Now we need to map, i.e going ahead by 2 elements of final     */
@@ -2426,48 +2458,52 @@ int cmor_write_var_to_file( int ncid, cmor_var_t * avar, void *data,
 /*      reordering and scaling/off-setting needs to figure out if we    */
 /*      need to touch the variable...                                   */
 /* -------------------------------------------------------------------- */
-    if( mtype == 'i' ) {
-	idata_tmp = malloc( sizeof ( int ) * nelements );
-	if( idata_tmp == NULL ) {
-	    snprintf( msg, CMOR_MAX_STRING,
-		      "cannot allocate memory for %i int tmp elts var '%s' (table: %s)",
-		      nelements, avar->id,
-		      cmor_tables[avar->ref_table_id].szTable_id );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
-	}
+    if (mtype == 'i') {
+        idata_tmp = malloc(sizeof(int) * nelements);
+        if (idata_tmp == NULL) {
+            snprintf(msg, CMOR_MAX_STRING,
+                    "cannot allocate memory for %i int tmp elts var '%s' "
+                    "(table: %s)",
+                    nelements, avar->id,
+                    cmor_tables[avar->ref_table_id].szTable_id);
+            cmor_handle_error(msg, CMOR_CRITICAL);
+        }
 
-    } else if( mtype == 'l' ) {
+    } else if (mtype == 'l') {
 
-	ldata_tmp = malloc( sizeof ( long ) * nelements );
-	if( ldata_tmp == NULL ) {
-	    snprintf( msg, CMOR_MAX_STRING,
-		      "cannot allocate memory for %i long tmp elts var '%s' (table: %s)",
-		      nelements, avar->id,
-		      cmor_tables[avar->ref_table_id].szTable_id );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
-	}
+        ldata_tmp = malloc(sizeof(long) * nelements);
+        if (ldata_tmp == NULL) {
+            snprintf(msg, CMOR_MAX_STRING,
+                    "cannot allocate memory for %i long tmp elts var '%s' "
+                    "(table: %s)",
+                    nelements, avar->id,
+                    cmor_tables[avar->ref_table_id].szTable_id);
+            cmor_handle_error(msg, CMOR_CRITICAL);
+        }
 
-    } else if( mtype == 'd' ) {
+    } else if (mtype == 'd') {
 
-	data_tmp = malloc( sizeof ( double ) * nelements );
-	if( data_tmp == NULL ) {
-	    snprintf( msg, CMOR_MAX_STRING,
-		      "cannot allocate memory for %i double tmp elts var '%s' (table: %s)",
-		      nelements, avar->id,
-		      cmor_tables[avar->ref_table_id].szTable_id );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
-	}
+        data_tmp = malloc(sizeof(double) * nelements);
+        if (data_tmp == NULL) {
+            snprintf(msg, CMOR_MAX_STRING,
+                    "cannot allocate memory for %i double tmp elts var '%s' "
+                    "(table: %s)",
+                    nelements, avar->id,
+                    cmor_tables[avar->ref_table_id].szTable_id);
+            cmor_handle_error(msg, CMOR_CRITICAL);
+        }
 
     } else {
 
-	fdata_tmp = malloc( sizeof ( float ) * nelements );
-	if( fdata_tmp == NULL ) {
-	    snprintf( msg, CMOR_MAX_STRING,
-		      "cannot allocate memory for %i float tmp elts var '%s' (table: %s)",
-		      nelements, avar->id,
-		      cmor_tables[avar->ref_table_id].szTable_id );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
-	}
+        fdata_tmp = malloc(sizeof(float) * nelements);
+        if (fdata_tmp == NULL) {
+            snprintf(msg, CMOR_MAX_STRING,
+                    "cannot allocate memory for %i float tmp elts var '%s' "
+                    "(table: %s)",
+                    nelements, avar->id,
+                    cmor_tables[avar->ref_table_id].szTable_id);
+            cmor_handle_error(msg, CMOR_CRITICAL);
+        }
     }
 
 /* -------------------------------------------------------------------- */
@@ -2588,57 +2624,57 @@ int cmor_write_var_to_file( int ncid, cmor_var_t * avar, void *data,
 /* -------------------------------------------------------------------- */
 /*      ok here's the code to flip the code if necessary                */
 /* -------------------------------------------------------------------- */
-	    if( cmor_axes[avar->axes_ids[0]].revert == -1 ) {
-		loc = nelements - i - 1;
-	    } else {
-		loc = i;
-	    }
-	    tmp = ( double ) ( ( double * ) data )[loc];
-	}
+            if (cmor_axes[avar->axes_ids[0]].revert == -1) {
+                loc = nelements - i - 1;
+            } else {
+                loc = i;
+            }
+            tmp = (double) ((double *) data)[loc];
+        }
 
-	tmp2 = ( double ) fabs( tmp - avar->missing );
+        tmp2 = (double) fabs(tmp - avar->missing);
 
-	if( ( avar->nomissing == 0 )
-	    && ( tmp2 <= avar->tolerance * ( double ) fabs( tmp ) ) ) {
-	    tmp = avar->omissing;
+        if ((avar->nomissing == 0)
+                && (tmp2 <= avar->tolerance * (double) fabs(tmp))) {
+            tmp = avar->omissing;
 
-	} else {
-	    if( dounits == 1 ) {
+        } else {
+            if (dounits == 1) {
 
-		tmp = cv_convert_double( ut_cmor_converter, tmp );
+                tmp = cv_convert_double(ut_cmor_converter, tmp);
 
-		if( ut_get_status(  ) != UT_SUCCESS ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "in udunits, converting values from %s to %s for variable %s (table: %s)",
-			      avar->iunits, avar->ounits, avar->id,
-			      cmor_tables[avar->ref_table_id].szTable_id );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
-		    cmor_pop_traceback(  );
-		    return( 1 );
-		}
-	    }
+                if (ut_get_status() != UT_SUCCESS) {
+                    snprintf(msg, CMOR_MAX_STRING,
+                            "in udunits, converting values from %s to %s "
+                            "for variable %s (table: %s)",
+                            avar->iunits, avar->ounits, avar->id,
+                            cmor_tables[avar->ref_table_id].szTable_id);
+                    cmor_handle_error(msg, CMOR_CRITICAL);
+                    cmor_pop_traceback();
+                    return (1);
+                }
+            }
 
-	    tmp = tmp * avar->sign;	/* do we need to change the sign ? */
-	    amean += fabs( tmp );
-	    nelts += 1;
+            tmp = tmp * avar->sign; /* do we need to change the sign ? */
+            amean += fabs(tmp);
+            nelts += 1;
 
-	    if( ( avar->valid_min != ( float ) 1.e20 ) &&
-	            ( tmp < avar->valid_min ) ) {
+            if ((avar->valid_min != (float) 1.e20) && (tmp < avar->valid_min)) {
 
-		n_lower_min += 1;
-		if( ( n_lower_min == 1 ) || ( tmp < emin ) ) {	/*minimum val */
-		    emin = tmp;
-		    snprintf( msg_min, CMOR_MAX_STRING,
-			      "Invalid value(s) detected for variable '%s' "
-		              "(table: %s): %%i values were lower than minimum "
-		              "valid value (%.4g). Minimum encountered bad "
-		              "value (%.5g) was at (axis: index/value):",
-			      avar->id,
-			      cmor_tables[avar->ref_table_id].szTable_id,
-			      avar->valid_min, tmp );
+                n_lower_min += 1;
+                if ((n_lower_min == 1) || (tmp < emin)) { /*minimum val */
+                    emin = tmp;
+                    snprintf(msg_min, CMOR_MAX_STRING,
+                            "Invalid value(s) detected for variable '%s' "
+                                    "(table: %s): %%i values were lower than minimum "
+                                    "valid value (%.4g). Minimum encountered bad "
+                                    "value (%.5g) was at (axis: index/value):",
+                            avar->id,
+                            cmor_tables[avar->ref_table_id].szTable_id,
+                            avar->valid_min, tmp);
 
-		    for( j = 0; j < avar->ndims; j++ ) {
-		        cmor_axis_t *pAxis;
+                    for (j = 0; j < avar->ndims; j++) {
+                        cmor_axis_t *pAxis;
                         pAxis = &cmor_axes[avar->axes_ids[j]];
                         if (pAxis->values != NULL) {
                             snprintf(msg2, CMOR_MAX_STRING, " %s: %i/%.5g",
@@ -2651,27 +2687,26 @@ int cmor_write_var_to_file( int ncid, cmor_var_t * avar, void *data,
                                     time_vals[counter2[j]]);
                         }
                         strncat(msg_min, msg2, CMOR_MAX_STRING - strlen(msg));
-		    }
-		}
-	    }
-	    if( ( avar->valid_max != ( float ) 1.e20 ) &&
-	            ( tmp > avar->valid_max ) ) {
+                    }
+                }
+            }
+            if ((avar->valid_max != (float) 1.e20) && (tmp > avar->valid_max)) {
 
-		n_greater_max += 1;
+                n_greater_max += 1;
 
-		if( ( n_greater_max == 1 ) || ( tmp > emax ) ) {
+                if ((n_greater_max == 1) || (tmp > emax)) {
 
-		    emax = tmp;
-		    snprintf( msg_max, CMOR_MAX_STRING,
-			      "Invalid value(s) detected for variable '%s' "
-		              "(table: %s): %%i values were greater than "
-		              "maximum valid value (%.4g).Maximum encountered "
-		              "bad value (%.5g) was at (axis: index/value):",
-                        	      avar->id,
-			      cmor_tables[avar->ref_table_id].szTable_id,
-			      avar->valid_max, tmp );
+                    emax = tmp;
+                    snprintf(msg_max, CMOR_MAX_STRING,
+                            "Invalid value(s) detected for variable '%s' "
+                                    "(table: %s): %%i values were greater than "
+                                    "maximum valid value (%.4g).Maximum encountered "
+                                    "bad value (%.5g) was at (axis: index/value):",
+                            avar->id,
+                            cmor_tables[avar->ref_table_id].szTable_id,
+                            avar->valid_max, tmp);
 
-		    for( j = 0; j < avar->ndims; j++ ) {
+                    for (j = 0; j < avar->ndims; j++) {
                         cmor_axis_t *pAxis;
                         pAxis = &cmor_axes[avar->axes_ids[j]];
 
@@ -2685,188 +2720,183 @@ int cmor_write_var_to_file( int ncid, cmor_var_t * avar, void *data,
                                     time_vals[counter2[j]]);
                         }
 
-			strncat( msg_max, msg2,
-				 CMOR_MAX_STRING - strlen( msg ) );
-		    }
-		}
-	    }
-	}
+                        strncat(msg_max, msg2,
+                        CMOR_MAX_STRING - strlen(msg));
+                    }
+                }
+            }
+        }
 
-	if( mtype == 'i' )
-	    idata_tmp[i] = ( int ) tmp;
-	else if( mtype == 'l' )
-	    ldata_tmp[i] = ( long ) tmp;
-	else if( mtype == 'f' )
-	    fdata_tmp[i] = ( float ) tmp;
-	else if( mtype == 'd' )
-	    data_tmp[i] = ( double ) tmp;
-
-    }
-    if( n_lower_min != 0 ) {
-
-	snprintf( msg, CMOR_MAX_STRING, msg_min, n_lower_min );
-	cmor_handle_error( msg, CMOR_WARNING );
+        if (mtype == 'i')
+            idata_tmp[i] = (int) tmp;
+        else if (mtype == 'l')
+            ldata_tmp[i] = (long) tmp;
+        else if (mtype == 'f')
+            fdata_tmp[i] = (float) tmp;
+        else if (mtype == 'd')
+            data_tmp[i] = (double) tmp;
 
     }
-    if( n_greater_max != 0 ) {
+    if (n_lower_min != 0) {
 
-	snprintf( msg, CMOR_MAX_STRING, msg_max, n_greater_max );
-	cmor_handle_error( msg, CMOR_WARNING );
+        snprintf(msg, CMOR_MAX_STRING, msg_min, n_lower_min);
+        cmor_handle_error(msg, CMOR_WARNING);
 
     }
-    if( avar->ok_min_mean_abs != ( float ) 1.e20 ) {
+    if (n_greater_max != 0) {
 
-	if( amean / nelts < .1 * avar->ok_min_mean_abs ) {
+        snprintf(msg, CMOR_MAX_STRING, msg_max, n_greater_max);
+        cmor_handle_error(msg, CMOR_WARNING);
 
-	    snprintf( msg, CMOR_MAX_STRING,
-		      "Invalid Absolute Mean for variable '%s' (table: %s) "
-	              "(%.5g) is lower by more than an order of magnitude "
-	              "than minimum allowed: %.4g",
-		      avar->id, cmor_tables[avar->ref_table_id].szTable_id,
-		      amean / nelts, avar->ok_min_mean_abs );
+    }
+    if (avar->ok_min_mean_abs != (float) 1.e20) {
 
-	    cmor_handle_error( msg, CMOR_CRITICAL );
+        if (amean / nelts < .1 * avar->ok_min_mean_abs) {
 
-	}
-	if( amean / nelts < avar->ok_min_mean_abs ) {
+            snprintf(msg, CMOR_MAX_STRING,
+                    "Invalid Absolute Mean for variable '%s' (table: %s) "
+                            "(%.5g) is lower by more than an order of magnitude "
+                            "than minimum allowed: %.4g", avar->id,
+                    cmor_tables[avar->ref_table_id].szTable_id, amean / nelts,
+                    avar->ok_min_mean_abs);
 
-	    snprintf( msg, CMOR_MAX_STRING,
-		      "Invalid Absolute Mean for variable '%s' "
-	              "(table: %s) (%.5g) is lower than minimum allowed: %.4g",
-		      avar->id, cmor_tables[avar->ref_table_id].szTable_id,
-		      amean / nelts, avar->ok_min_mean_abs );
-	    cmor_handle_error( msg, CMOR_WARNING );
-	}
+            cmor_handle_error(msg, CMOR_CRITICAL);
+
+        }
+        if (amean / nelts < avar->ok_min_mean_abs) {
+
+            snprintf(msg, CMOR_MAX_STRING,
+                    "Invalid Absolute Mean for variable '%s' "
+                            "(table: %s) (%.5g) is lower than minimum allowed: %.4g",
+                    avar->id, cmor_tables[avar->ref_table_id].szTable_id,
+                    amean / nelts, avar->ok_min_mean_abs);
+            cmor_handle_error(msg, CMOR_WARNING);
+        }
     }
 
-    if( avar->ok_max_mean_abs != ( float ) 1.e20 ) {
-	if( amean / nelts > 10. * avar->ok_max_mean_abs ) {
-	    snprintf( msg, CMOR_MAX_STRING,
-		      "Invalid Absolute Mean for variable '%s' "
-	              "(table: %s) (%.5g) is greater by more than "
-	              "an order of magnitude than maximum allowed: %.4g",
-		      avar->id, cmor_tables[avar->ref_table_id].szTable_id,
-		      amean / nelts, avar->ok_max_mean_abs );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
-	}
-	if( amean / nelts > avar->ok_max_mean_abs ) {
+    if (avar->ok_max_mean_abs != (float) 1.e20) {
+        if (amean / nelts > 10. * avar->ok_max_mean_abs) {
+            snprintf(msg, CMOR_MAX_STRING,
+                    "Invalid Absolute Mean for variable '%s' "
+                            "(table: %s) (%.5g) is greater by more than "
+                            "an order of magnitude than maximum allowed: %.4g",
+                    avar->id, cmor_tables[avar->ref_table_id].szTable_id,
+                    amean / nelts, avar->ok_max_mean_abs);
+            cmor_handle_error(msg, CMOR_CRITICAL);
+        }
+        if (amean / nelts > avar->ok_max_mean_abs) {
 
-	    snprintf( msg, CMOR_MAX_STRING,
-		      "Invalid Absolute Mean for variable '%s' "
-	              "(table: %s) (%.5g) is greater than maximum "
-	              "allowed: %.4g",
-		      avar->id, cmor_tables[avar->ref_table_id].szTable_id,
-		      amean / nelts, avar->ok_max_mean_abs );
-	    cmor_handle_error( msg, CMOR_WARNING );
+            snprintf(msg, CMOR_MAX_STRING,
+                    "Invalid Absolute Mean for variable '%s' "
+                            "(table: %s) (%.5g) is greater than maximum "
+                            "allowed: %.4g", avar->id,
+                    cmor_tables[avar->ref_table_id].szTable_id, amean / nelts,
+                    avar->ok_max_mean_abs);
+            cmor_handle_error(msg, CMOR_WARNING);
 
-	}
+        }
     }
-    if( dounits == 1 ) {
+    if (dounits == 1) {
 
-	cv_free( ut_cmor_converter );
+        cv_free(ut_cmor_converter);
 
-	if( ut_get_status(  ) != UT_SUCCESS ) {
+        if (ut_get_status() != UT_SUCCESS) {
 
-	    snprintf( msg, CMOR_MAX_STRING,
-		      "Udunits: Error freeing converter, variable %s "
-	              "(table: %s)",
-		      avar->id, cmor_tables[avar->ref_table_id].szTable_id );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
+            snprintf(msg, CMOR_MAX_STRING,
+                    "Udunits: Error freeing converter, variable %s "
+                            "(table: %s)", avar->id,
+                    cmor_tables[avar->ref_table_id].szTable_id);
+            cmor_handle_error(msg, CMOR_CRITICAL);
 
-	}
+        }
 
-	ut_free( cmor_units );
-	if( ut_get_status(  ) != UT_SUCCESS ) {
+        ut_free(cmor_units);
+        if (ut_get_status() != UT_SUCCESS) {
 
-	    snprintf( msg, CMOR_MAX_STRING,
-		      "Udunits: Error freeing units, variable %s (table: %s)",
-		      avar->id, cmor_tables[avar->ref_table_id].szTable_id );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
+            snprintf(msg, CMOR_MAX_STRING,
+                    "Udunits: Error freeing units, variable %s (table: %s)",
+                    avar->id, cmor_tables[avar->ref_table_id].szTable_id);
+            cmor_handle_error(msg, CMOR_CRITICAL);
 
-	}
+        }
 
-	ut_free( user_units );
-	if( ut_get_status(  ) != UT_SUCCESS ) {
+        ut_free(user_units);
+        if (ut_get_status() != UT_SUCCESS) {
 
-	    snprintf( msg, CMOR_MAX_STRING,
-		      "Udunits: Error freeing units, variable %s (table: %s)",
-		      avar->id, cmor_tables[avar->ref_table_id].szTable_id );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
+            snprintf(msg, CMOR_MAX_STRING,
+                    "Udunits: Error freeing units, variable %s (table: %s)",
+                    avar->id, cmor_tables[avar->ref_table_id].szTable_id);
+            cmor_handle_error(msg, CMOR_CRITICAL);
 
-	}
+        }
     }
 /* -------------------------------------------------------------------- */
 /*      Initialize the start index in each dimensions                   */
 /* -------------------------------------------------------------------- */
 
-    for( i = 0; i < avar->ndims; i++ )
-	starts[i] = 0;
+    for (i = 0; i < avar->ndims; i++)
+        starts[i] = 0;
     starts[0] = avar->ntimes_written;
 
 /* -------------------------------------------------------------------- */
 /*      Write the times passed by user                                  */
 /* -------------------------------------------------------------------- */
 
-    if( ntimes_passed != 0 ) {
-	if( time_vals != NULL ) {
-	    if( cmor_axes[avar->axes_ids[0]].values != NULL ) {
-		snprintf( msg, CMOR_MAX_STRING,
-			  "variable '%s' (table %s) you are passing "
-		          "time values but you already defined them "
-		          "via cmor_axis, this is not allowed",
-			  avar->id,
-			  cmor_tables[avar->ref_table_id].szTable_id );
-		cmor_handle_error( msg, CMOR_CRITICAL );
-	    }
+    if (ntimes_passed != 0) {
+        if (time_vals != NULL) {
+            if (cmor_axes[avar->axes_ids[0]].values != NULL) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "variable '%s' (table %s) you are passing "
+                                "time values but you already defined them "
+                                "via cmor_axis, this is not allowed", avar->id,
+                        cmor_tables[avar->ref_table_id].szTable_id);
+                cmor_handle_error(msg, CMOR_CRITICAL);
+            }
 
-	    if( time_bounds != NULL ) {
-		counts2[0] = counts[0];
-		counts2[1] = 2;
-		starts[1] = 0;
-		cmor_get_axis_attribute( avar->axes_ids[0], "units", 'c',
-					 &msg );
-		cmor_get_cur_dataset_attribute( "calendar", msg2 );
+            if (time_bounds != NULL) {
+                counts2[0] = counts[0];
+                counts2[1] = 2;
+                starts[1] = 0;
+                cmor_get_axis_attribute(avar->axes_ids[0], "units", 'c', &msg);
+                cmor_get_cur_dataset_attribute("calendar", msg2);
 
-		tmp_vals =
-		    malloc( ( ntimes_passed +
-			      1 ) * 2 * sizeof ( double ) );
-		if( tmp_vals == NULL ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "cannot malloc %i tmp bounds time vals "
-		              "for variable '%s' (table: %s)",
-			      ntimes_passed * 2, avar->id,
-			      cmor_tables[avar->ref_table_id].szTable_id );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
-		}
-		if( avar->ntimes_written > 0 ) {
-		    if( ( avar->last_time != -999. )
-			&& ( avar->last_bound != 1.e20 ) ) {
-			tmpindex = 1;
-			tmp_vals[0] = avar->last_time;
-		    } else {
-			tmpindex = 0;
-		    }
-		} else {
-		    tmpindex = 0;
-		}
+                tmp_vals = malloc((ntimes_passed + 1) * 2 * sizeof(double));
+                if (tmp_vals == NULL) {
+                    snprintf(msg, CMOR_MAX_STRING,
+                            "cannot malloc %i tmp bounds time vals "
+                                    "for variable '%s' (table: %s)",
+                            ntimes_passed * 2, avar->id,
+                            cmor_tables[avar->ref_table_id].szTable_id);
+                    cmor_handle_error(msg, CMOR_CRITICAL);
+                }
+                if (avar->ntimes_written > 0) {
+                    if ((avar->last_time != -999.)
+                            && (avar->last_bound != 1.e20)) {
+                        tmpindex = 1;
+                        tmp_vals[0] = avar->last_time;
+                    } else {
+                        tmpindex = 0;
+                    }
+                } else {
+                    tmpindex = 0;
+                }
                 ierr = cmor_convert_time_values(time_vals, 'd', ntimes_passed,
                         &tmp_vals[tmpindex],
                         cmor_axes[avar->axes_ids[0]].iunits,
                         msg, msg2, msg2);
 
                 ierr = cmor_check_monotonic(&tmp_vals[0],
-                        ntimes_passed + tmpindex,
-                        "time", 0, avar->axes_ids[0]);
+                        ntimes_passed + tmpindex, "time", 0, avar->axes_ids[0]);
 
-		if( avar->ntimes_written > 0 ) {
+                if (avar->ntimes_written > 0) {
 
-		    if( ( avar->last_time != -999. ) &&
-			( avar->last_bound != 1.e20 ) ) {
+                    if ((avar->last_time != -999.)
+                            && (avar->last_bound != 1.e20)) {
 
-			tmp_vals[0] =  2 * avar->last_time - avar->last_bound;
-			tmp_vals[1] = avar->last_bound;
-		    }
-		}
+                        tmp_vals[0] = 2 * avar->last_time - avar->last_bound;
+                        tmp_vals[1] = avar->last_bound;
+                    }
+                }
 
                 ierr = cmor_convert_time_values(time_bounds, 'd',
                         ntimes_passed * 2, &tmp_vals[2 * tmpindex],
@@ -2934,333 +2964,321 @@ int cmor_write_var_to_file( int ncid, cmor_var_t * avar, void *data,
                             cmor_axes[avar->axes_ids[0]].iunits, msg, msg2,
                             msg2);
 
-		    first_time = tmp_vals[0];	/*store for later */
-		}
+                    first_time = tmp_vals[0]; /*store for later */
+                }
 
+                ierr = nc_put_vara_double(ncid, avar->time_nc_id, starts,
+                        counts, &tmp_vals[0]);
+                if (ierr != NC_NOERR) {
+                    snprintf(msg, CMOR_MAX_STRING,
+                            "NetCDF error (%i: %s) writing time values for variable '%s' (%s)",
+                            ierr, nc_strerror(ierr), avar->id,
+                            cmor_tables[avar->ref_table_id].szTable_id);
+                    cmor_handle_error(msg, CMOR_CRITICAL);
+                }
 
-		ierr =
-		    nc_put_vara_double( ncid, avar->time_nc_id, starts,
-					counts, &tmp_vals[0] );
-		if( ierr != NC_NOERR ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "NetCDF error (%i: %s) writing time values for variable '%s' (%s)",
-			      ierr, nc_strerror( ierr ), avar->id,
-			      cmor_tables[avar->ref_table_id].szTable_id );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
-		}
-
-		if( cmor_tables[cmor_axes[avar->axes_ids[0]].ref_table_id].
-		    axes[cmor_axes[avar->axes_ids[0]].ref_axis_id].
-		    climatology == 0 ) {
+                if (cmor_tables[cmor_axes[avar->axes_ids[0]].ref_table_id].
+                        axes[cmor_axes[avar->axes_ids[0]].ref_axis_id].
+                        climatology == 0) {
 /* -------------------------------------------------------------------- */
 /*      all good in that case                                           */
 /* -------------------------------------------------------------------- */
 
-		} else {
+                } else {
 
-		    tmp_vals[ntimes_passed - 1] =
-			tmp_vals[ntimes_passed * 2 - 1];
+                    tmp_vals[ntimes_passed - 1] =
+                            tmp_vals[ntimes_passed * 2 - 1];
 
-		}
+                }
 /* -------------------------------------------------------------------- */
 /*      ok now we need to store first and last stuff                    */
 /* -------------------------------------------------------------------- */
-		
-		if( avar->ntimes_written == 0 ) {
+
+                if (avar->ntimes_written == 0) {
 /* -------------------------------------------------------------------- */
 /*      ok first time we're putting data  in                            */
 /* -------------------------------------------------------------------- */
-		    
-		    avar->first_time = first_time;
 
-		} else {
+                    avar->first_time = first_time;
 
-		    if( tmp_vals[0] < avar->last_time ) {
+                } else {
+
+                    if (tmp_vals[0] < avar->last_time) {
                         snprintf(msg, CMOR_MAX_STRING,
                                 "Time point: %lf ( %lf in output units) "
-                                "is not monotonic last time was: %lf "
-                                "(in output units), variable %s (table: %s)",
+                                        "is not monotonic last time was: %lf "
+                                        "(in output units), variable %s (table: %s)",
                                 time_vals[0], tmp_vals[0], avar->last_time,
                                 avar->id,
                                 cmor_tables[avar->ref_table_id].szTable_id);
                         cmor_handle_error(msg, CMOR_CRITICAL);
-		    }
-		}
+                    }
+                }
 
-		avar->last_time = tmp_vals[ntimes_passed - 1];
+                avar->last_time = tmp_vals[ntimes_passed - 1];
 
-		free( tmp_vals );
-	    } else {
+                free(tmp_vals);
+            } else {
 /* -------------------------------------------------------------------- */
 /*      checks wether you need bounds or not                            */
 /* -------------------------------------------------------------------- */
-		
-		if( cmor_tables[cmor_axes[avar->axes_ids[0]].ref_table_id].
-		    axes[cmor_axes[avar->axes_ids[0]].ref_axis_id].
-		    must_have_bounds == 1 ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "time axis must have bounds, please pass them to cmor_write along with time values, variable %s, table %s",
-			      avar->id,
-			      cmor_tables[avar->ref_table_id].szTable_id );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
 
-		}
+                if (cmor_tables[cmor_axes[avar->axes_ids[0]].ref_table_id].
+                        axes[cmor_axes[avar->axes_ids[0]].ref_axis_id].
+                        must_have_bounds == 1) {
+                    snprintf(msg, CMOR_MAX_STRING,
+                            "time axis must have bounds, please pass them to "
+                            "cmor_write along with time values, variable %s, table %s",
+                            avar->id,
+                            cmor_tables[avar->ref_table_id].szTable_id);
+                    cmor_handle_error(msg, CMOR_CRITICAL);
 
-		avar->first_bound = 1.e20;
-		avar->last_bound = 1.e20;
+                }
 
-		cmor_get_axis_attribute( avar->axes_ids[0], "units", 'c', &msg );
-		cmor_get_cur_dataset_attribute( "calendar", msg2 );
+                avar->first_bound = 1.e20;
+                avar->last_bound = 1.e20;
 
-		tmp_vals = malloc( ntimes_passed * sizeof ( double ) );
+                cmor_get_axis_attribute(avar->axes_ids[0], "units", 'c', &msg);
+                cmor_get_cur_dataset_attribute("calendar", msg2);
 
-		if( tmp_vals == NULL ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "cannot malloc %i time vals for variable "
-		              "'%s' (table: %s)",
-			      ntimes_passed, avar->id,
-			      cmor_tables[avar->ref_table_id].szTable_id );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
-		}
-		ierr =
-		    cmor_convert_time_values( time_vals, 'd',
-					      ntimes_passed, &tmp_vals[0],
-					      cmor_axes[avar->axes_ids[0]].
-					      iunits, msg, msg2, msg2 );
-		ierr =
-		    nc_put_vara_double( ncid, avar->time_nc_id, starts,
-					counts, tmp_vals );
+                tmp_vals = malloc(ntimes_passed * sizeof(double));
 
-		if( avar->ntimes_written == 0 ) {
+                if (tmp_vals == NULL) {
+                    snprintf(msg, CMOR_MAX_STRING,
+                            "cannot malloc %i time vals for variable "
+                                    "'%s' (table: %s)", ntimes_passed, avar->id,
+                            cmor_tables[avar->ref_table_id].szTable_id);
+                    cmor_handle_error(msg, CMOR_CRITICAL);
+                }
+                ierr = cmor_convert_time_values(time_vals, 'd', ntimes_passed,
+                        &tmp_vals[0], cmor_axes[avar->axes_ids[0]].iunits, msg,
+                        msg2, msg2);
+
+                ierr = nc_put_vara_double(ncid, avar->time_nc_id, starts,
+                        counts, tmp_vals);
+
+                if (avar->ntimes_written == 0) {
 /* -------------------------------------------------------------------- */
 /*       ok first time we're putting data  in                           */
 /* -------------------------------------------------------------------- */
-		    
-		    avar->first_time = tmp_vals[0];
-		}
-		avar->last_time = tmp_vals[ntimes_passed - 1];
 
-		free( tmp_vals );
-		if( ierr != NC_NOERR ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "NetCDF error (%i: %s) writing times for variable '%s' (table: %s), already written in file: %i",
-			      ierr, nc_strerror( ierr ), avar->id,
-			      cmor_tables[avar->ref_table_id].szTable_id,
-			      avar->ntimes_written );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
-		}
-	    }
-	} else {
+                    avar->first_time = tmp_vals[0];
+                }
+                avar->last_time = tmp_vals[ntimes_passed - 1];
+
+                free(tmp_vals);
+                if (ierr != NC_NOERR) {
+                    snprintf(msg, CMOR_MAX_STRING,
+                            "NetCDF error (%i: %s) writing times for variable '%s' "
+                                    "(table: %s), already written in file: %i",
+                            ierr, nc_strerror(ierr), avar->id,
+                            cmor_tables[avar->ref_table_id].szTable_id,
+                            avar->ntimes_written);
+                    cmor_handle_error(msg, CMOR_CRITICAL);
+                }
+            }
+        } else {
 /* -------------------------------------------------------------------- */
 /*      Ok we did not pass time values therefore it means they were     */
 /*      defined via the axis                                            */
 /* -------------------------------------------------------------------- */
-	    
-	    if( cmor_axes[avar->axes_ids[0]].values == NULL ) {
-		snprintf( msg, CMOR_MAX_STRING,
-			  "variable '%s' (table: %s) you are passing %i "
-		          "times but no values and you did not define "
-		          "them via cmor_axis",
-			  avar->id,
-			  cmor_tables[avar->ref_table_id].szTable_id,
-			  ntimes_passed );
-		cmor_handle_error( msg, CMOR_CRITICAL );
-	    }
-	    if( cmor_axes[avar->axes_ids[0]].bounds != NULL ) {
+
+            if (cmor_axes[avar->axes_ids[0]].values == NULL) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "variable '%s' (table: %s) you are passing %i "
+                                "times but no values and you did not define "
+                                "them via cmor_axis", avar->id,
+                        cmor_tables[avar->ref_table_id].szTable_id,
+                        ntimes_passed);
+                cmor_handle_error(msg, CMOR_CRITICAL);
+            }
+            if (cmor_axes[avar->axes_ids[0]].bounds != NULL) {
 /* -------------------------------------------------------------------- */
 /*      ok at that stage the recentering must already be done so we     */
 /*      just need to write the bounds                                   */
 /* -------------------------------------------------------------------- */
-		counts2[0] = counts[0];
-		counts2[1] = 2;
-		starts[1] = 0;
-		ierr =
-		    nc_put_vara_double( ncid, avar->time_bnds_nc_id,
-					starts, counts2,
-					&cmor_axes[avar->axes_ids[0]].
-					bounds[starts[0] * 2] );
-		if( ierr != NC_NOERR ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "NCError (%i: %s) writing time bounds values for variable '%s' (table: %s)",
-			      ierr, nc_strerror( ierr ), avar->id,
-			      cmor_tables[avar->ref_table_id].szTable_id );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
-		}
+                counts2[0] = counts[0];
+                counts2[1] = 2;
+                starts[1] = 0;
+                ierr = nc_put_vara_double(ncid, avar->time_bnds_nc_id, starts,
+                        counts2,
+                        &cmor_axes[avar->axes_ids[0]].bounds[starts[0] * 2]);
+                if (ierr != NC_NOERR) {
+                    snprintf(msg, CMOR_MAX_STRING,
+                            "NCError (%i: %s) writing time bounds values for "
+                            "variable '%s' (table: %s)",
+                            ierr, nc_strerror(ierr), avar->id,
+                            cmor_tables[avar->ref_table_id].szTable_id);
+                    cmor_handle_error(msg, CMOR_CRITICAL);
+                }
 /* -------------------------------------------------------------------- */
 /*      ok we need to store first and last bounds                       */
 /* -------------------------------------------------------------------- */
-		if( avar->ntimes_written == 0 ) {
-		    avar->first_bound =
-			cmor_axes[avar->axes_ids[0]].bounds[starts[0] * 2];
-		}
-		avar->last_bound =
-		    cmor_axes[avar->axes_ids[0]].
-		    bounds[( starts[0] + counts[0] ) * 2 - 1];
-	    } else {
+                if (avar->ntimes_written == 0) {
+                    avar->first_bound =
+                            cmor_axes[avar->axes_ids[0]].bounds[starts[0] * 2];
+                }
+                avar->last_bound =
+                        cmor_axes[avar->axes_ids[0]].bounds[(starts[0]
+                                + counts[0]) * 2 - 1];
+            } else {
 /* -------------------------------------------------------------------- */
 /*      Checks wether you need bounds or not                            */
 /* -------------------------------------------------------------------- */
-		if( cmor_tables[cmor_axes[avar->axes_ids[0]].ref_table_id].
-		    axes[cmor_axes[avar->axes_ids[0]].ref_axis_id].
-		    must_have_bounds == 1 ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "time axis must have bounds, you defined it w/o any for variable %s (table: %s)",
-			      avar->id,
-			      cmor_tables[avar->ref_table_id].szTable_id );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
-		}
-		avar->first_bound = 1.e20;
-		avar->last_bound = 1.e20;
-	    }
-	    ierr =
-		nc_put_vara_double( ncid, avar->time_nc_id, starts, counts,
-				    &cmor_axes[avar->axes_ids[0]].
-				    values[starts[0]] );
-	    if( ierr != NC_NOERR ) {
-		snprintf( msg, CMOR_MAX_STRING,
-			  "NCError (%i: %s) writing time values for variable '%s' (table: %s)",
-			  ierr, nc_strerror( ierr ), avar->id,
-			  cmor_tables[avar->ref_table_id].szTable_id );
-		cmor_handle_error( msg, CMOR_CRITICAL );
-	    }
+                if (cmor_tables[cmor_axes[avar->axes_ids[0]].ref_table_id].
+                        axes[cmor_axes[avar->axes_ids[0]].ref_axis_id].
+                        must_have_bounds == 1) {
+                    snprintf(msg, CMOR_MAX_STRING,
+                            "time axis must have bounds, you defined it w/o "
+                            "any for variable %s (table: %s)",
+                            avar->id,
+                            cmor_tables[avar->ref_table_id].szTable_id);
+                    cmor_handle_error(msg, CMOR_CRITICAL);
+                }
+                avar->first_bound = 1.e20;
+                avar->last_bound = 1.e20;
+            }
+            ierr = nc_put_vara_double(ncid, avar->time_nc_id, starts, counts,
+                    &cmor_axes[avar->axes_ids[0]].values[starts[0]]);
+            if (ierr != NC_NOERR) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "NCError (%i: %s) writing time values for variable '%s' (table: %s)",
+                        ierr, nc_strerror(ierr), avar->id,
+                        cmor_tables[avar->ref_table_id].szTable_id);
+                cmor_handle_error(msg, CMOR_CRITICAL);
+            }
 /* -------------------------------------------------------------------- */
 /*      ok now we need to store first and last stuff                    */
 /* -------------------------------------------------------------------- */
 
-	    if( avar->ntimes_written == 0 ) {
-		avar->first_time =
-		    cmor_axes[avar->axes_ids[0]].values[starts[0]];
-	    }
+            if (avar->ntimes_written == 0) {
+                avar->first_time =
+                        cmor_axes[avar->axes_ids[0]].values[starts[0]];
+            }
 
-	    avar->last_time =
-		cmor_axes[avar->axes_ids[0]].values[starts[0] + counts[0] -
-						    1];
-	}
+            avar->last_time = cmor_axes[avar->axes_ids[0]].values[starts[0]
+                    + counts[0] - 1];
+        }
     } else {
 /* -------------------------------------------------------------------- */
 /*      ok we did not pass time values therefore it means they were     */
 /*      defined via the axis                                            */
 /* -------------------------------------------------------------------- */
-	ierr = -1;
+        ierr = -1;
 /* -------------------------------------------------------------------- */
 /*      look for time dimension                                         */
 /* -------------------------------------------------------------------- */
-	for( i = 0; i < avar->ndims; i++ ) {
-	    if( cmor_axes[avar->axes_ids[0]].axis == 'T' ) {
-		ierr = i;
-		break;
-	    }
-	}
+        for (i = 0; i < avar->ndims; i++) {
+            if (cmor_axes[avar->axes_ids[0]].axis == 'T') {
+                ierr = i;
+                break;
+            }
+        }
 
-	if( ierr != -1 ) {
+        if (ierr != -1) {
 
-	    if( cmor_axes[avar->axes_ids[ierr]].values == NULL ) {
-		snprintf( msg, CMOR_MAX_STRING,
-			  "variable '%s' (table: %s) you are passing %i "
-		          "times but no values and you did not define "
-		          "them via cmor_axis",
-			  avar->id,
-			  cmor_tables[avar->ref_table_id].szTable_id,
-			  ntimes_passed );
-		cmor_handle_error( msg, CMOR_CRITICAL );
+            if (cmor_axes[avar->axes_ids[ierr]].values == NULL) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "variable '%s' (table: %s) you are passing %i "
+                                "times but no values and you did not define "
+                                "them via cmor_axis", avar->id,
+                        cmor_tables[avar->ref_table_id].szTable_id,
+                        ntimes_passed);
+                cmor_handle_error(msg, CMOR_CRITICAL);
 
-	    }
+            }
 
-	    avar->first_bound = 1.e20;
-	    avar->last_bound = 1.e20;
+            avar->first_bound = 1.e20;
+            avar->last_bound = 1.e20;
 
-	    if( cmor_axes[avar->axes_ids[ierr]].bounds != NULL ) {
+            if (cmor_axes[avar->axes_ids[ierr]].bounds != NULL) {
 /* -------------------------------------------------------------------- */
 /*      ok at that stage the recentering must already be done so we     */
 /*      just need to write the bounds                                   */
 /* -------------------------------------------------------------------- */
 
-		counts2[0] = counts[0];
-		counts2[1] = 2;
-		starts[0] = 0;
-		starts[1] = 0;
-                ierr = nc_put_vara_double( ncid, avar->time_bnds_nc_id,
-                        starts,
+                counts2[0] = counts[0];
+                counts2[1] = 2;
+                starts[0] = 0;
+                starts[1] = 0;
+                ierr = nc_put_vara_double(ncid, avar->time_bnds_nc_id, starts,
                         counts2,
-                        &cmor_axes[avar->axes_ids[0]].bounds[starts[0] * 2] );
+                        &cmor_axes[avar->axes_ids[0]].bounds[starts[0] * 2]);
 
-		if( ierr != NC_NOERR ) {
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "NCError (%i: %s) writing time bounds values for variable '%s' (table: %s)",
-			      ierr, nc_strerror( ierr ), avar->id,
-			      cmor_tables[avar->ref_table_id].szTable_id );
-		    cmor_handle_error( msg, CMOR_CRITICAL );
-		}
-		avar->first_bound = cmor_axes[avar->axes_ids[0]].bounds[0];
-		avar->last_bound =
-		    cmor_axes[avar->axes_ids[0]].bounds[counts[0] * 2 - 1];
-	    }
+                if (ierr != NC_NOERR) {
+                    snprintf(msg, CMOR_MAX_STRING,
+                            "NCError (%i: %s) writing time bounds values for "
+                            "variable '%s' (table: %s)",
+                            ierr, nc_strerror(ierr), avar->id,
+                            cmor_tables[avar->ref_table_id].szTable_id);
+                    cmor_handle_error(msg, CMOR_CRITICAL);
+                }
+                avar->first_bound = cmor_axes[avar->axes_ids[0]].bounds[0];
+                avar->last_bound = cmor_axes[avar->axes_ids[0]].bounds[counts[0]
+                        * 2 - 1];
+            }
 
-	    ierr = nc_put_vara_double( ncid, avar->time_nc_id,
-	            starts,
-	            counts,
-	            &cmor_axes[avar->axes_ids[0]].values[starts[0]] );
+            ierr = nc_put_vara_double(ncid, avar->time_nc_id, starts, counts,
+                    &cmor_axes[avar->axes_ids[0]].values[starts[0]]);
 
-	    if( ierr != NC_NOERR ) {
+            if (ierr != NC_NOERR) {
 
-		snprintf( msg, CMOR_MAX_STRING,
-			  "NCError (%i: %s) writing time values for variable '%s' (table: %s)",
-			  ierr, nc_strerror( ierr ), avar->id,
-			  cmor_tables[avar->ref_table_id].szTable_id );
-		cmor_handle_error( msg, CMOR_CRITICAL );
+                snprintf(msg, CMOR_MAX_STRING,
+                        "NCError (%i: %s) writing time values for "
+                        "variable '%s' (table: %s)",
+                        ierr, nc_strerror(ierr), avar->id,
+                        cmor_tables[avar->ref_table_id].szTable_id);
+                cmor_handle_error(msg, CMOR_CRITICAL);
 
-	    }
+            }
 /* -------------------------------------------------------------------- */
 /*      ok now we need to store first and last stuff                    */
 /* -------------------------------------------------------------------- */
 
-	    avar->first_time = cmor_axes[avar->axes_ids[0]].values[0];
-	    avar->last_time = cmor_axes[avar->axes_ids[0]].
-	            values[starts[0] +  counts[0] - 1];
-	}
+            avar->first_time = cmor_axes[avar->axes_ids[0]].values[0];
+            avar->last_time = cmor_axes[avar->axes_ids[0]].values[starts[0]
+                    + counts[0] - 1];
+        }
     }
 
-    if( avar->isbounds ) {
-	counts[avar->ndims] = 2;
-	starts[avar->ndims] = 0;
+    if (avar->isbounds) {
+        counts[avar->ndims] = 2;
+        starts[avar->ndims] = 0;
     }
 
-    if( mtype == 'd' ) {
-	ierr =  nc_put_vara_double( ncid, avar->nc_var_id, starts, counts,
-	        data_tmp );
-    }
-    else if( mtype == 'f' ) {
-	ierr =  nc_put_vara_float( ncid, avar->nc_var_id, starts, counts,
-	        fdata_tmp );
-    }
-    else if( mtype == 'l' ) {
-	ierr = nc_put_vara_long( ncid, avar->nc_var_id, starts, counts,
-	        ldata_tmp );
-    }
-    else if( mtype == 'i' ) {
-	ierr = nc_put_vara_int( ncid, avar->nc_var_id, starts, counts,
-	        idata_tmp );
+    if (mtype == 'd') {
+        ierr = nc_put_vara_double(ncid, avar->nc_var_id, starts, counts,
+                data_tmp);
+    } else if (mtype == 'f') {
+        ierr = nc_put_vara_float(ncid, avar->nc_var_id, starts, counts,
+                fdata_tmp);
+    } else if (mtype == 'l') {
+        ierr = nc_put_vara_long(ncid, avar->nc_var_id, starts, counts,
+                ldata_tmp);
+    } else if (mtype == 'i') {
+        ierr = nc_put_vara_int(ncid, avar->nc_var_id, starts, counts,
+                idata_tmp);
     }
 
-    if( ierr != NC_NOERR ) {
-	snprintf( msg, CMOR_MAX_STRING,
-		  "NetCDF Error (%i: %s), writing variable '%s' (table %s) to file",
-		  ierr, nc_strerror( ierr ), avar->id,
-		  cmor_tables[avar->ref_table_id].szTable_id );
-	cmor_handle_error( msg, CMOR_CRITICAL );
+    if (ierr != NC_NOERR) {
+        snprintf(msg, CMOR_MAX_STRING,
+                "NetCDF Error (%i: %s), writing variable '%s' (table %s) to file",
+                ierr, nc_strerror(ierr), avar->id,
+                cmor_tables[avar->ref_table_id].szTable_id);
+        cmor_handle_error(msg, CMOR_CRITICAL);
     }
 
     avar->ntimes_written += ntimes_passed;
 
-    if( mtype == 'd' )
-	free( data_tmp );
-    else if( mtype == 'f' )
-	free( fdata_tmp );
-    else if( mtype == 'l' )
-	free( ldata_tmp );
-    else if( mtype == 'i' )
-	free( idata_tmp );
+    if (mtype == 'd')
+        free(data_tmp);
+    else if (mtype == 'f')
+        free(fdata_tmp);
+    else if (mtype == 'l')
+        free(ldata_tmp);
+    else if (mtype == 'i')
+        free(idata_tmp);
 
-    cmor_pop_traceback(  );
-    return( 0 );
+    cmor_pop_traceback();
+    return (0);
 }

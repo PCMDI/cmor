@@ -49,10 +49,12 @@ units = "degrees_east"
 myaxes[2] = cmor.axis(id, coord_vals=alons, units=units, cell_bounds=bnds_lon)
 
 
+id = 'reftime'
+units = 'months since 1980'
 myaxes[3] = cmor.axis(
-    "forecast_time",
+    id,
     coord_vals=[20],
-    units="days since 1979-01-01")
+    units=units)
 
 #myaxes[3] = cmor.axis(
 #    "forecast_time",
