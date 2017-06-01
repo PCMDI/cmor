@@ -5266,7 +5266,6 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
     cdCalenType icalo;
     cdCompTime starttime, endtime;
     int i, j, n;
-    double interval;
     struct stat buf;
     off_t sz;
     long maxsz = ( long ) pow( 2, 32 ) - 1;
@@ -5445,7 +5444,7 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
 	    }
 	    
 /* -------------------------------------------------------------------- */
-/*      need to figure out the approximate interval                     */
+/*      need to figure out the frequency                                */
 /* -------------------------------------------------------------------- */
         int frequency_code;
 	    int nVarAxisID;
@@ -5460,9 +5459,6 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
 	    nVarRefTable = cmor_axes[nVarAxisID].ref_table_id;
 	    nVarRefAxisID = cmor_axes[nVarAxisID].ref_axis_id;
 
-	    interval = cmor_convert_interval_to_seconds(
-	            cmor_tables[nVarRefTable].interval,
-	            cmor_tables[nVarRefTable].axes[nVarRefAxisID].units );
         if( cmor_has_cur_dataset_attribute( GLOBAL_ATT_FREQUENCY ) == 0 ) {
         cmor_get_cur_dataset_attribute( GLOBAL_ATT_FREQUENCY, frequency );
         }
@@ -5470,7 +5466,7 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
         if( strstr( frequency, "yr" ) != NULL ) {
         frequency_code = 1;
         } 
-        else if( strstr( frequency, "decadal" ) != NULL ) {
+        else if( strstr( frequency, "dec" ) != NULL ) {
         frequency_code = 1;
         }
         else if( strstr( frequency, "mon" ) != NULL ) {
@@ -5491,22 +5487,26 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
         
         switch ( frequency_code ) {
         case 1:
+            /* frequency is yr, decadal */
             snprintf( start_string, CMOR_MAX_STRING, "%.4ld", starttime.year );
             snprintf( end_string, CMOR_MAX_STRING, "%.4ld", endtime.year );
             break;
         case 2:
+            /* frequency is mon */
             snprintf( start_string, CMOR_MAX_STRING, "%.4ld%.2i", 
                     starttime.year, starttime.month );
             snprintf( end_string, CMOR_MAX_STRING, "%.4ld%.2i",
                     endtime.year, endtime.month );
             break;
         case 3:
+            /* frequency is day */
             snprintf( start_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i", 
                     starttime.year, starttime.month, starttime.day );
             snprintf( end_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i",
                     endtime.year, endtime.month, endtime.day );
             break;
         case 4:
+            /* frequency is 6hr, 3hr, 1hr */
             start_seconds = round( ( starttime.hour - 
                     ( int ) starttime.hour ) * 3600. );
             end_seconds = round( ( endtime.hour - 
@@ -5519,6 +5519,7 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
                     ( int ) endtime.hour, ( int ) ( end_seconds / 60. ) );
             break;
         case 5:
+            /* frequency is subhr */
             start_seconds = round( ( starttime.hour - 
                     ( int ) starttime.hour ) * 3600. );
             end_seconds = round( ( endtime.hour - 

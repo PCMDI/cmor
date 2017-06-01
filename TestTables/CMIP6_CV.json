@@ -809,7 +809,8 @@
             "mon",
             "monClim",
             "subhr",
-            "yr"
+            "yr",
+            "dec"
         ],
         "grid_label":[
             "gm",
