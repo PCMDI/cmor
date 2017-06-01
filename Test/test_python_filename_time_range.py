@@ -264,6 +264,36 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
                          'psl_E1hr_PCMDI-test-1-0_piControl-withism_'
                          'r11i1p1f1_gr_200001010012-200001010038.nc')
 
+    def test_1hrclimmon(self):
+        table = 'Tables/CMIP6_E1hrClimMon.json'
+        cmor.load_table(table)
+        axes = [{'table_entry': 'time3',
+                 'units': 'minutes since 2000-01-01 00:00:00',
+                 'coord_vals': np.array([12.5, 37.5]),
+                 'cell_bounds': [[0, 25], [25, 50]]
+                 },
+                {'table_entry': 'latitude',
+                 'units': 'degrees_north',
+                 'coord_vals': [0],
+                 'cell_bounds': [-1, 1]},
+                {'table_entry': 'longitude',
+                 'units': 'degrees_east',
+                 'coord_vals': [90],
+                 'cell_bounds': [89, 91]},
+                ]
+
+        axis_ids = list()
+        for axis in axes:
+            axis_id = cmor.axis(**axis)
+            axis_ids.append(axis_id)
+        varid = cmor.variable('rlut', 'W m-2', axis_ids, positive='up')
+        cmor.write(varid, [186, 190])
+        self.path = cmor.close(varid, file_name=True)
+
+        self.assertEqual(os.path.basename(self.path),
+                         'rlut_E1hrClimMon_PCMDI-test-1-0_piControl-withism_'
+                         'r11i1p1f1_gr_200001010000-200001010050-clim.nc')
+
     def test_subhr(self):
         table = 'Tables/CMIP6_Esubhr.json'
         cmor.load_table(table)
