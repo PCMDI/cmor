@@ -5453,7 +5453,7 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
 	    char frequency[CMOR_MAX_STRING];
 	    char start_string[CMOR_MAX_STRING];
 	    char end_string[CMOR_MAX_STRING];
-	    float start_seconds, end_seconds;
+	    float start_seconds, end_seconds, start_minutes, end_minutes;
 
 	    nVarAxisID = cmor_vars[var_id].axes_ids[0];
 	    nVarRefTable = cmor_axes[nVarAxisID].ref_table_id;
@@ -5507,31 +5507,33 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
             break;
         case 4:
             /* frequency is 6hr, 3hr, 1hr */
-            start_seconds = round( ( starttime.hour - 
-                    ( int ) starttime.hour ) * 3600. );
-            end_seconds = round( ( endtime.hour - 
-                    ( int ) endtime.hour ) * 3600. );
-            snprintf( start_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i%.2i%.2i", 
+            /* round to the nearest minute */
+            start_minutes = round( ( starttime.hour -
+                    ( int ) starttime.hour ) * 60. );
+            end_minutes = round( ( endtime.hour -
+                    ( int ) endtime.hour ) * 60. );
+            snprintf( start_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i%.2i%.2i",
                     starttime.year, starttime.month, starttime.day,
-                    ( int ) starttime.hour, ( int ) ( start_seconds / 60. ) );
+                    ( int ) starttime.hour, ( int ) start_minutes );
             snprintf( end_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i%.2i%.2i",
                     endtime.year, endtime.month, endtime.day,
-                    ( int ) endtime.hour, ( int ) ( end_seconds / 60. ) );
+                    ( int ) endtime.hour, ( int ) end_minutes );
             break;
         case 5:
             /* frequency is subhr */
-            start_seconds = round( ( starttime.hour - 
+            /* round to the nearest second */
+            start_seconds = round( ( starttime.hour -
                     ( int ) starttime.hour ) * 3600. );
             end_seconds = round( ( endtime.hour - 
                     ( int ) endtime.hour ) * 3600. );
-            snprintf( start_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i%.2i%.2i", 
+            snprintf( start_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i%.2i%.2i%.2i",
                     starttime.year, starttime.month, starttime.day,
-                    ( int ) starttime.hour, ( int ) ( start_seconds / 60. ), 
-                    fmod( start_seconds, 60. ) );
-            snprintf( end_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i%.2i%.2i",
+                    ( int ) starttime.hour, ( int ) ( start_seconds / 60. ),
+                    ( int ) fmod( start_seconds, 60. ) );
+            snprintf( end_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i%.2i%.2i%.2i",
                     endtime.year, endtime.month, endtime.day,
-                    ( int ) endtime.hour, ( int ) ( end_seconds / 60. ), 
-                    fmod( end_seconds, 60. ) );
+                    ( int ) endtime.hour, ( int ) ( end_seconds / 60. ),
+                    ( int ) fmod( end_seconds, 60. ) );
             break;
         default:
 		    snprintf( msg, CMOR_MAX_STRING,
