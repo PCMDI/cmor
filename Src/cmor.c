@@ -5501,6 +5501,9 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
         else if( strstr( frequency, "hr" ) != NULL ) {
         frequency_code = 4;
         }
+        else if( strstr( frequency, "fx" ) != NULL ) {
+        frequency_code = 99;
+        }
         else {
         frequency_code = 0;
         }
@@ -5555,10 +5558,14 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
                     ( int ) endtime.hour, ( int ) ( end_seconds / 60. ),
                     ( int ) fmod( end_seconds, 60. ) );
             break;
+        case 99:
+            /* frequency is fx */
+            /* don't need to do anything, time string will ignored in next step */
+            break;
         default:
 		    snprintf( msg, CMOR_MAX_STRING,
-			      "Cannot find frequnecy. Closing variable %s (table: %s)",
-			      msg2, cmor_vars[var_id].id, cmor_tables[cmor_vars[var_id].
+			      "Cannot find frequency %s. Closing variable %s (table: %s)",
+			      frequency, cmor_vars[var_id].id, cmor_tables[cmor_vars[var_id].
 				          ref_table_id].szTable_id );
 		    cmor_handle_error_var( msg, CMOR_CRITICAL, var_id );
 		    cmor_pop_traceback(  );
