@@ -509,8 +509,29 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
                          'r11i1p1f1_gr_200001-200002-clim.nc')
 
     def test_fx(self):
-        # TODO write me
-        pass
+        table = 'Tables/CMIP6_fx.json'
+        cmor.load_table(table)
+        axes = [{'table_entry': 'latitude',
+                 'units': 'degrees_north',
+                 'coord_vals': [0],
+                 'cell_bounds': [-1, 1]},
+                {'table_entry': 'longitude',
+                 'units': 'degrees_east',
+                 'coord_vals': [90],
+                 'cell_bounds': [89, 91]},
+                ]
+
+        axis_ids = list()
+        for axis in axes:
+            axis_id = cmor.axis(**axis)
+            axis_ids.append(axis_id)
+        varid = cmor.variable('orog', 'm', axis_ids)
+        cmor.write(varid, [273, 274])
+        self.path = cmor.close(varid, file_name=True)
+
+        self.assertEqual(os.path.basename(self.path),
+                         'orog_fx_PCMDI-test-1-0_piControl-withism_'
+                         'r11i1p1f1_gr.nc')
 
     def tearDown(self):
         if os.path.isfile(self.logfile):

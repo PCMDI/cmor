@@ -5442,7 +5442,27 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
 		cdRel2Comp( icalo, msg, cmor_vars[var_id].last_time,
 			    &endtime );
 	    }
-	    
+
+/* -------------------------------------------------------------------- */
+/*      If times are less than half a second before midnight due to     */
+/*      floating point issues then add half a second to make sure       */
+/*      they indicate the next day as intended                          */
+/* -------------------------------------------------------------------- */
+        if( starttime.hour > 23.99986 ) {
+            if( icalo == cdMixed ) {
+                cdCompAddMixed( starttime, 0.5 / 3600., &starttime );
+            } else {
+                cdCompAdd( starttime, 0.5 / 3600., icalo, &starttime );
+            }
+        }
+        if( endtime.hour > 23.99986 ) {
+            if( icalo == cdMixed ) {
+                cdCompAddMixed( endtime, 0.5 / 3600., &endtime );
+            } else {
+                cdCompAdd( endtime, 0.5 / 3600., icalo, &endtime );
+            }
+        }
+
 /* -------------------------------------------------------------------- */
 /*      need to figure out the frequency                                */
 /* -------------------------------------------------------------------- */
