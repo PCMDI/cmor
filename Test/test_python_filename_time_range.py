@@ -324,6 +324,129 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
                          'pr_Esubhr_PCMDI-test-1-0_piControl-withism_'
                          'r11i1p1f1_gr_20000101001230-20000101003730.nc')
 
+    def test_day_rounds(self):
+        table = 'Tables/CMIP6_Eday.json'
+        cmor.load_table(table)
+        axes = [{'table_entry': 'time',
+                 'units': 'days since 1960-01-01 00:00:00',
+                 'coord_vals': np.array([0.9999999, 1.9999999]),
+                 'cell_bounds': [[0.9999999 - 0.5, 0.9999999 + 0.5],
+                                 [0.9999999 + 0.5, 0.9999999 + 1.5]]
+                 },
+                {'table_entry': 'latitude',
+                 'units': 'degrees_north',
+                 'coord_vals': [0],
+                 'cell_bounds': [-1, 1]},
+                {'table_entry': 'longitude',
+                 'units': 'degrees_east',
+                 'coord_vals': [90],
+                 'cell_bounds': [89, 91]},
+                ]
+
+        axis_ids = list()
+        for axis in axes:
+            axis_id = cmor.axis(**axis)
+            axis_ids.append(axis_id)
+        varid = cmor.variable('ts', 'K', axis_ids)
+        cmor.write(varid, [303, 305])
+        self.path = cmor.close(varid, file_name=True)
+
+        self.assertEqual(os.path.basename(self.path),
+                         'ts_Eday_PCMDI-test-1-0_piControl-withism_'
+                         'r11i1p1f1_gr_19600102-19600103.nc')
+
+    def test_hour_rounds_midnight(self):
+        table = 'Tables/CMIP6_6hrLev.json'
+        cmor.load_table(table)
+        axes = [{'table_entry': 'time1',
+                 'units': 'hours since 2000-01-01 00:00:00',
+                 'coord_vals': np.array([23.99999, 30]),
+                 'cell_bounds': [[20.99999, 27], [27, 33]]
+                 },
+                {'table_entry': 'latitude',
+                 'units': 'degrees_north',
+                 'coord_vals': [0],
+                 'cell_bounds': [-1, 1]},
+                {'table_entry': 'longitude',
+                 'units': 'degrees_east',
+                 'coord_vals': [90],
+                 'cell_bounds': [89, 91]},
+                ]
+
+        axis_ids = list()
+        for axis in axes:
+            axis_id = cmor.axis(**axis)
+            axis_ids.append(axis_id)
+        varid = cmor.variable('ps', 'Pa', axis_ids)
+        cmor.write(varid, [99300, 100000])
+        self.path = cmor.close(varid, file_name=True)
+
+        self.assertEqual(os.path.basename(self.path),
+                         'ps_6hrLev_PCMDI-test-1-0_piControl-withism_'
+                         'r11i1p1f1_gr_200001020000-200001020600.nc')
+
+    def test_hour_rounds_minutes(self):
+        table = 'Tables/CMIP6_E1hr.json'
+        cmor.load_table(table)
+        axes = [{'table_entry': 'time1',
+                 'units': 'minutes since 2000-01-01 00:00:00',
+                 'coord_vals': np.array([12.6, 37.4])
+                 },
+                {'table_entry': 'latitude',
+                 'units': 'degrees_north',
+                 'coord_vals': [0],
+                 'cell_bounds': [-1, 1]},
+                {'table_entry': 'longitude',
+                 'units': 'degrees_east',
+                 'coord_vals': [90],
+                 'cell_bounds': [89, 91]},
+                ]
+
+        axis_ids = list()
+        for axis in axes:
+            axis_id = cmor.axis(**axis)
+            axis_ids.append(axis_id)
+        varid = cmor.variable('psl', 'Pa', axis_ids)
+        cmor.write(varid, [99300, 100000])
+        self.path = cmor.close(varid, file_name=True)
+
+        self.assertEqual(os.path.basename(self.path),
+                         'psl_E1hr_PCMDI-test-1-0_piControl-withism_'
+                         'r11i1p1f1_gr_200001010013-200001010037.nc')
+
+    def test_subhr_rounds_seconds(self):
+        table = 'Tables/CMIP6_Esubhr.json'
+        cmor.load_table(table)
+        axes = [{'table_entry': 'time1',
+                 'units': 'seconds since 2000-01-01 00:00:00',
+                 'coord_vals': np.array([750.4, 2250.6])
+                 },
+                {'table_entry': 'latitude',
+                 'units': 'degrees_north',
+                 'coord_vals': [0],
+                 'cell_bounds': [-1, 1]},
+                {'table_entry': 'longitude',
+                 'units': 'degrees_east',
+                 'coord_vals': [90],
+                 'cell_bounds': [89, 91]},
+                ]
+
+        axis_ids = list()
+        for axis in axes:
+            axis_id = cmor.axis(**axis)
+            axis_ids.append(axis_id)
+        varid = cmor.variable('pr', 'kg m-2 s-1', axis_ids)
+        cmor.write(varid, [0.000005, 0.000006])
+        self.path = cmor.close(varid, file_name=True)
+
+        self.assertEqual(os.path.basename(self.path),
+                         'pr_Esubhr_PCMDI-test-1-0_piControl-withism_'
+                         'r11i1p1f1_gr_20000101001230-20000101003731.nc')
+
+    def test_fx(self):
+        # TODO write me
+        pass
+
     def tearDown(self):
         if os.path.isfile(self.logfile):
             os.remove(self.logfile)
