@@ -27,20 +27,20 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
     def test_decadal(self):
         table = 'Tables/CMIP6_Odec.json'
         cmor.load_table(table)
-        axes = [{'table_entry': 'time',
-                 'units': 'years since 2000-01-01 00:00:00',
-                 'coord_vals': [5, 15],
-                 'cell_bounds': [[0, 10], [10, 20]]
-                 },
-                {'table_entry': 'latitude',
-                 'units': 'degrees_north',
-                 'coord_vals': [0],
-                 'cell_bounds': [-1, 1]},
-                {'table_entry': 'longitude',
-                 'units': 'degrees_east',
-                 'coord_vals': [90],
-                 'cell_bounds': [89, 91]},
-                ]
+        axes = [
+            {'table_entry': 'time',
+             'units': 'years since 2000-01-01 00:00:00',
+             'coord_vals': [5, 15],
+             'cell_bounds': [[0, 10], [10, 20]]},
+            {'table_entry': 'latitude',
+             'units': 'degrees_north',
+             'coord_vals': [0],
+             'cell_bounds': [-1, 1]},
+            {'table_entry': 'longitude',
+             'units': 'degrees_east',
+             'coord_vals': [90],
+             'cell_bounds': [89, 91]}
+        ]
 
         axis_ids = list()
         for axis in axes:
@@ -57,20 +57,20 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
     def test_yr(self):
         table = 'Tables/CMIP6_Eyr.json'
         cmor.load_table(table)
-        axes = [{'table_entry': 'time',
-                 'units': 'days since 2000-01-01 00:00:00',
-                 'coord_vals': np.array([182.5, 547.5]),
-                 'cell_bounds': [[0, 365], [365, 730]]
-                 },
-                {'table_entry': 'latitude',
-                 'units': 'degrees_north',
-                 'coord_vals': [0],
-                 'cell_bounds': [-1, 1]},
-                {'table_entry': 'longitude',
-                 'units': 'degrees_east',
-                 'coord_vals': [90],
-                 'cell_bounds': [89, 91]},
-                ]
+        axes = [
+            {'table_entry': 'time',
+             'units': 'days since 2000-01-01 00:00:00',
+             'coord_vals': np.array([182.5, 547.5]),
+             'cell_bounds': [[0, 365], [365, 730]]},
+            {'table_entry': 'latitude',
+             'units': 'degrees_north',
+             'coord_vals': [0],
+             'cell_bounds': [-1, 1]},
+            {'table_entry': 'longitude',
+             'units': 'degrees_east',
+             'coord_vals': [90],
+             'cell_bounds': [89, 91]}
+        ]
 
         axis_ids = list()
         for axis in axes:
@@ -87,20 +87,20 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
     def test_mon(self):
         table = 'Tables/CMIP6_Amon.json'
         cmor.load_table(table)
-        axes = [{'table_entry': 'time',
-                 'units': 'days since 2000-01-01 00:00:00',
-                 'coord_vals': np.array([15, 45]),
-                 'cell_bounds': [[0, 30], [30, 60]]
-                 },
-                {'table_entry': 'latitude',
-                 'units': 'degrees_north',
-                 'coord_vals': [0],
-                 'cell_bounds': [-1, 1]},
-                {'table_entry': 'longitude',
-                 'units': 'degrees_east',
-                 'coord_vals': [90],
-                 'cell_bounds': [89, 91]},
-                ]
+        axes = [
+            {'table_entry': 'time',
+             'units': 'days since 2000-01-01 00:00:00',
+             'coord_vals': np.array([15, 45]),
+             'cell_bounds': [[0, 30], [30, 60]]},
+            {'table_entry': 'latitude',
+             'units': 'degrees_north',
+             'coord_vals': [0],
+             'cell_bounds': [-1, 1]},
+            {'table_entry': 'longitude',
+             'units': 'degrees_east',
+             'coord_vals': [90],
+             'cell_bounds': [89, 91]}
+        ]
 
         axis_ids = list()
         for axis in axes:
@@ -117,20 +117,20 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
     def test_monclim(self):
         table = 'Tables/CMIP6_Oclim.json'
         cmor.load_table(table)
-        axes = [{'table_entry': 'time2',
-                 'units': 'days since 2000-01-01 00:00:00',
-                 'coord_vals': np.array([15, 45]),
-                 'cell_bounds': [[0, 30], [30, 60]]
-                 },
-                {'table_entry': 'latitude',
-                 'units': 'degrees_north',
-                 'coord_vals': [0],
-                 'cell_bounds': [-1, 1]},
-                {'table_entry': 'longitude',
-                 'units': 'degrees_east',
-                 'coord_vals': [90],
-                 'cell_bounds': [89, 91]},
-                ]
+        axes = [
+            {'table_entry': 'time2',
+             'units': 'days since 2000-01-01 00:00:00',
+             'coord_vals': np.array([15, 45]),
+             'cell_bounds': [[0, 30], [30, 60]]},
+            {'table_entry': 'latitude',
+             'units': 'degrees_north',
+             'coord_vals': [0],
+             'cell_bounds': [-1, 1]},
+            {'table_entry': 'longitude',
+             'units': 'degrees_east',
+             'coord_vals': [90],
+             'cell_bounds': [89, 91]}
+        ]
 
         axis_ids = list()
         for axis in axes:
@@ -147,20 +147,20 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
     def test_day(self):
         table = 'Tables/CMIP6_Eday.json'
         cmor.load_table(table)
-        axes = [{'table_entry': 'time',
-                 'units': 'hours since 2000-01-01 00:00:00',
-                 'coord_vals': np.array([12, 36]),
-                 'cell_bounds': [[0, 24], [24, 48]]
-                 },
-                {'table_entry': 'latitude',
-                 'units': 'degrees_north',
-                 'coord_vals': [0],
-                 'cell_bounds': [-1, 1]},
-                {'table_entry': 'longitude',
-                 'units': 'degrees_east',
-                 'coord_vals': [90],
-                 'cell_bounds': [89, 91]},
-                ]
+        axes = [
+            {'table_entry': 'time',
+             'units': 'hours since 2000-01-01 00:00:00',
+             'coord_vals': np.array([12, 36]),
+             'cell_bounds': [[0, 24], [24, 48]]},
+            {'table_entry': 'latitude',
+             'units': 'degrees_north',
+             'coord_vals': [0],
+             'cell_bounds': [-1, 1]},
+            {'table_entry': 'longitude',
+             'units': 'degrees_east',
+             'coord_vals': [90],
+             'cell_bounds': [89, 91]}
+        ]
 
         axis_ids = list()
         for axis in axes:
@@ -177,20 +177,20 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
     def test_6hr(self):
         table = 'Tables/CMIP6_6hrLev.json'
         cmor.load_table(table)
-        axes = [{'table_entry': 'time1',
-                 'units': 'hours since 2000-01-01 00:00:00',
-                 'coord_vals': np.array([3, 9]),
-                 'cell_bounds': [[0, 6], [6, 12]]
-                 },
-                {'table_entry': 'latitude',
-                 'units': 'degrees_north',
-                 'coord_vals': [0],
-                 'cell_bounds': [-1, 1]},
-                {'table_entry': 'longitude',
-                 'units': 'degrees_east',
-                 'coord_vals': [90],
-                 'cell_bounds': [89, 91]},
-                ]
+        axes = [
+            {'table_entry': 'time1',
+             'units': 'hours since 2000-01-01 00:00:00',
+             'coord_vals': np.array([3, 9]),
+             'cell_bounds': [[0, 6], [6, 12]]},
+            {'table_entry': 'latitude',
+             'units': 'degrees_north',
+             'coord_vals': [0],
+             'cell_bounds': [-1, 1]},
+            {'table_entry': 'longitude',
+             'units': 'degrees_east',
+             'coord_vals': [90],
+             'cell_bounds': [89, 91]}
+        ]
 
         axis_ids = list()
         for axis in axes:
@@ -207,20 +207,20 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
     def test_3hr(self):
         table = 'Tables/CMIP6_3hr.json'
         cmor.load_table(table)
-        axes = [{'table_entry': 'time1',
-                 'units': 'hours since 2000-01-01 00:00:00',
-                 'coord_vals': np.array([1.5, 4.5]),
-                 'cell_bounds': [[0, 3], [3, 6]]
-                 },
-                {'table_entry': 'latitude',
-                 'units': 'degrees_north',
-                 'coord_vals': [0],
-                 'cell_bounds': [-1, 1]},
-                {'table_entry': 'longitude',
-                 'units': 'degrees_east',
-                 'coord_vals': [90],
-                 'cell_bounds': [89, 91]},
-                ]
+        axes = [
+            {'table_entry': 'time1',
+             'units': 'hours since 2000-01-01 00:00:00',
+             'coord_vals': np.array([1.5, 4.5]),
+             'cell_bounds': [[0, 3], [3, 6]]},
+            {'table_entry': 'latitude',
+             'units': 'degrees_north',
+             'coord_vals': [0],
+             'cell_bounds': [-1, 1]},
+            {'table_entry': 'longitude',
+             'units': 'degrees_east',
+             'coord_vals': [90],
+             'cell_bounds': [89, 91]}
+        ]
 
         axis_ids = list()
         for axis in axes:
@@ -237,20 +237,20 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
     def test_1hr(self):
         table = 'Tables/CMIP6_E1hr.json'
         cmor.load_table(table)
-        axes = [{'table_entry': 'time1',
-                 'units': 'minutes since 2000-01-01 00:00:00',
-                 'coord_vals': np.array([12.5, 37.5]),
-                 'cell_bounds': [[0, 25], [25, 50]]
-                 },
-                {'table_entry': 'latitude',
-                 'units': 'degrees_north',
-                 'coord_vals': [0],
-                 'cell_bounds': [-1, 1]},
-                {'table_entry': 'longitude',
-                 'units': 'degrees_east',
-                 'coord_vals': [90],
-                 'cell_bounds': [89, 91]},
-                ]
+        axes = [
+            {'table_entry': 'time1',
+             'units': 'minutes since 2000-01-01 00:00:00',
+             'coord_vals': np.array([12.5, 37.5]),
+             'cell_bounds': [[0, 25], [25, 50]]},
+            {'table_entry': 'latitude',
+             'units': 'degrees_north',
+             'coord_vals': [0],
+             'cell_bounds': [-1, 1]},
+            {'table_entry': 'longitude',
+             'units': 'degrees_east',
+             'coord_vals': [90],
+             'cell_bounds': [89, 91]}
+        ]
 
         axis_ids = list()
         for axis in axes:
@@ -267,20 +267,20 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
     def test_1hrclimmon(self):
         table = 'Tables/CMIP6_E1hrClimMon.json'
         cmor.load_table(table)
-        axes = [{'table_entry': 'time3',
-                 'units': 'minutes since 2000-01-01 00:00:00',
-                 'coord_vals': np.array([12.5, 37.5]),
-                 'cell_bounds': [[0, 25], [25, 50]]
-                 },
-                {'table_entry': 'latitude',
-                 'units': 'degrees_north',
-                 'coord_vals': [0],
-                 'cell_bounds': [-1, 1]},
-                {'table_entry': 'longitude',
-                 'units': 'degrees_east',
-                 'coord_vals': [90],
-                 'cell_bounds': [89, 91]},
-                ]
+        axes = [
+            {'table_entry': 'time3',
+             'units': 'minutes since 2000-01-01 00:00:00',
+             'coord_vals': np.array([12.5, 37.5]),
+             'cell_bounds': [[0, 25], [25, 50]]},
+            {'table_entry': 'latitude',
+             'units': 'degrees_north',
+             'coord_vals': [0],
+             'cell_bounds': [-1, 1]},
+            {'table_entry': 'longitude',
+             'units': 'degrees_east',
+             'coord_vals': [90],
+             'cell_bounds': [89, 91]}
+        ]
 
         axis_ids = list()
         for axis in axes:
@@ -297,20 +297,20 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
     def test_subhr(self):
         table = 'Tables/CMIP6_Esubhr.json'
         cmor.load_table(table)
-        axes = [{'table_entry': 'time1',
-                 'units': 'seconds since 2000-01-01 00:00:00',
-                 'coord_vals': np.array([750, 2250]),
-                 'cell_bounds': [[0, 1500], [1500, 3000]]
-                 },
-                {'table_entry': 'latitude',
-                 'units': 'degrees_north',
-                 'coord_vals': [0],
-                 'cell_bounds': [-1, 1]},
-                {'table_entry': 'longitude',
-                 'units': 'degrees_east',
-                 'coord_vals': [90],
-                 'cell_bounds': [89, 91]},
-                ]
+        axes = [
+            {'table_entry': 'time1',
+             'units': 'seconds since 2000-01-01 00:00:00',
+             'coord_vals': np.array([750, 2250]),
+             'cell_bounds': [[0, 1500], [1500, 3000]]},
+            {'table_entry': 'latitude',
+             'units': 'degrees_north',
+             'coord_vals': [0],
+             'cell_bounds': [-1, 1]},
+            {'table_entry': 'longitude',
+             'units': 'degrees_east',
+             'coord_vals': [90],
+             'cell_bounds': [89, 91]}
+        ]
 
         axis_ids = list()
         for axis in axes:
@@ -327,21 +327,21 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
     def test_day_rounds(self):
         table = 'Tables/CMIP6_Eday.json'
         cmor.load_table(table)
-        axes = [{'table_entry': 'time',
-                 'units': 'days since 1960-01-01 00:00:00',
-                 'coord_vals': np.array([0.9999999, 1.9999999]),
-                 'cell_bounds': [[0.9999999 - 0.5, 0.9999999 + 0.5],
-                                 [0.9999999 + 0.5, 0.9999999 + 1.5]]
-                 },
-                {'table_entry': 'latitude',
-                 'units': 'degrees_north',
-                 'coord_vals': [0],
-                 'cell_bounds': [-1, 1]},
-                {'table_entry': 'longitude',
-                 'units': 'degrees_east',
-                 'coord_vals': [90],
-                 'cell_bounds': [89, 91]},
-                ]
+        axes = [
+            {'table_entry': 'time',
+             'units': 'days since 1960-01-01 00:00:00',
+             'coord_vals': np.array([0.9999999, 1.9999999]),
+             'cell_bounds': [[0.9999999 - 0.5, 0.9999999 + 0.5],
+                             [0.9999999 + 0.5, 0.9999999 + 1.5]]},
+            {'table_entry': 'latitude',
+             'units': 'degrees_north',
+             'coord_vals': [0],
+             'cell_bounds': [-1, 1]},
+            {'table_entry': 'longitude',
+             'units': 'degrees_east',
+             'coord_vals': [90],
+             'cell_bounds': [89, 91]}
+        ]
 
         axis_ids = list()
         for axis in axes:
@@ -358,20 +358,20 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
     def test_hour_rounds_midnight(self):
         table = 'Tables/CMIP6_6hrLev.json'
         cmor.load_table(table)
-        axes = [{'table_entry': 'time1',
-                 'units': 'hours since 2000-01-01 00:00:00',
-                 'coord_vals': np.array([23.99999, 30]),
-                 'cell_bounds': [[20.99999, 27], [27, 33]]
-                 },
-                {'table_entry': 'latitude',
-                 'units': 'degrees_north',
-                 'coord_vals': [0],
-                 'cell_bounds': [-1, 1]},
-                {'table_entry': 'longitude',
-                 'units': 'degrees_east',
-                 'coord_vals': [90],
-                 'cell_bounds': [89, 91]},
-                ]
+        axes = [
+            {'table_entry': 'time1',
+             'units': 'hours since 2000-01-01 00:00:00',
+             'coord_vals': np.array([23.99999, 30]),
+             'cell_bounds': [[20.99999, 27], [27, 33]]},
+            {'table_entry': 'latitude',
+             'units': 'degrees_north',
+             'coord_vals': [0],
+             'cell_bounds': [-1, 1]},
+            {'table_entry': 'longitude',
+             'units': 'degrees_east',
+             'coord_vals': [90],
+             'cell_bounds': [89, 91]}
+        ]
 
         axis_ids = list()
         for axis in axes:
@@ -388,19 +388,19 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
     def test_hour_rounds_minutes(self):
         table = 'Tables/CMIP6_E1hr.json'
         cmor.load_table(table)
-        axes = [{'table_entry': 'time1',
-                 'units': 'minutes since 2000-01-01 00:00:00',
-                 'coord_vals': np.array([12.6, 37.4])
-                 },
-                {'table_entry': 'latitude',
-                 'units': 'degrees_north',
-                 'coord_vals': [0],
-                 'cell_bounds': [-1, 1]},
-                {'table_entry': 'longitude',
-                 'units': 'degrees_east',
-                 'coord_vals': [90],
-                 'cell_bounds': [89, 91]},
-                ]
+        axes = [
+            {'table_entry': 'time1',
+             'units': 'minutes since 2000-01-01 00:00:00',
+             'coord_vals': np.array([12.6, 37.4])},
+            {'table_entry': 'latitude',
+             'units': 'degrees_north',
+             'coord_vals': [0],
+             'cell_bounds': [-1, 1]},
+            {'table_entry': 'longitude',
+             'units': 'degrees_east',
+             'coord_vals': [90],
+             'cell_bounds': [89, 91]}
+        ]
 
         axis_ids = list()
         for axis in axes:
@@ -417,19 +417,19 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
     def test_subhr_rounds_seconds(self):
         table = 'Tables/CMIP6_Esubhr.json'
         cmor.load_table(table)
-        axes = [{'table_entry': 'time1',
-                 'units': 'seconds since 2000-01-01 00:00:00',
-                 'coord_vals': np.array([750.4, 2250.6])
-                 },
-                {'table_entry': 'latitude',
-                 'units': 'degrees_north',
-                 'coord_vals': [0],
-                 'cell_bounds': [-1, 1]},
-                {'table_entry': 'longitude',
-                 'units': 'degrees_east',
-                 'coord_vals': [90],
-                 'cell_bounds': [89, 91]},
-                ]
+        axes = [
+            {'table_entry': 'time1',
+             'units': 'seconds since 2000-01-01 00:00:00',
+             'coord_vals': np.array([750.4, 2250.6])},
+            {'table_entry': 'latitude',
+             'units': 'degrees_north',
+             'coord_vals': [0],
+             'cell_bounds': [-1, 1]},
+            {'table_entry': 'longitude',
+             'units': 'degrees_east',
+             'coord_vals': [90],
+             'cell_bounds': [89, 91]}
+        ]
 
         axis_ids = list()
         for axis in axes:
@@ -446,20 +446,20 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
     def test_monclim_rounding_start_time(self):
         table = 'Tables/CMIP6_Oclim.json'
         cmor.load_table(table)
-        axes = [{'table_entry': 'time2',
-                 'units': 'days since 2000-01-01 00:00:00',
-                 'coord_vals': np.array([15, 45]),
-                 'cell_bounds': [[-0.00001, 31], [31, 59]]
-                 },
-                {'table_entry': 'latitude',
-                 'units': 'degrees_north',
-                 'coord_vals': [0],
-                 'cell_bounds': [-1, 1]},
-                {'table_entry': 'longitude',
-                 'units': 'degrees_east',
-                 'coord_vals': [90],
-                 'cell_bounds': [89, 91]},
-                ]
+        axes = [
+            {'table_entry': 'time2',
+             'units': 'days since 2000-01-01 00:00:00',
+             'coord_vals': np.array([15, 45]),
+             'cell_bounds': [[-0.00001, 31], [31, 59]]},
+            {'table_entry': 'latitude',
+             'units': 'degrees_north',
+             'coord_vals': [0],
+             'cell_bounds': [-1, 1]},
+            {'table_entry': 'longitude',
+             'units': 'degrees_east',
+             'coord_vals': [90],
+             'cell_bounds': [89, 91]}
+        ]
 
         axis_ids = list()
         for axis in axes:
@@ -476,25 +476,25 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
     def test_monclim_rounding_end_time(self):
         """
         60 days since 2000-01-01 is 2000-03-01 00:00:00 and so this test makes
-        sure that an end date at the start of the month is displayed as the 
+        sure that an end date at the start of the month is displayed as the
         previous month.
         """
         table = 'Tables/CMIP6_Oclim.json'
         cmor.load_table(table)
-        axes = [{'table_entry': 'time2',
-                 'units': 'days since 2000-01-01 00:00:00',
-                 'coord_vals': np.array([15, 45]),
-                 'cell_bounds': [[0, 31], [31, 60]]
-                 },
-                {'table_entry': 'latitude',
-                 'units': 'degrees_north',
-                 'coord_vals': [0],
-                 'cell_bounds': [-1, 1]},
-                {'table_entry': 'longitude',
-                 'units': 'degrees_east',
-                 'coord_vals': [90],
-                 'cell_bounds': [89, 91]},
-                ]
+        axes = [
+            {'table_entry': 'time2',
+             'units': 'days since 2000-01-01 00:00:00',
+             'coord_vals': np.array([15, 45]),
+             'cell_bounds': [[0, 31], [31, 60]]},
+            {'table_entry': 'latitude',
+             'units': 'degrees_north',
+             'coord_vals': [0],
+             'cell_bounds': [-1, 1]},
+            {'table_entry': 'longitude',
+             'units': 'degrees_east',
+             'coord_vals': [90],
+             'cell_bounds': [89, 91]}
+        ]
 
         axis_ids = list()
         for axis in axes:
@@ -511,15 +511,16 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
     def test_fx(self):
         table = 'Tables/CMIP6_fx.json'
         cmor.load_table(table)
-        axes = [{'table_entry': 'latitude',
-                 'units': 'degrees_north',
-                 'coord_vals': [0],
-                 'cell_bounds': [-1, 1]},
-                {'table_entry': 'longitude',
-                 'units': 'degrees_east',
-                 'coord_vals': [90],
-                 'cell_bounds': [89, 91]},
-                ]
+        axes = [
+            {'table_entry': 'latitude',
+             'units': 'degrees_north',
+             'coord_vals': [0],
+             'cell_bounds': [-1, 1]},
+            {'table_entry': 'longitude',
+             'units': 'degrees_east',
+             'coord_vals': [90],
+             'cell_bounds': [89, 91]}
+        ]
 
         axis_ids = list()
         for axis in axes:
