@@ -24,35 +24,35 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
 
         self.path = None
 
-    # def test_decadal(self):
-    #     table = 'Tables/CMIP6_Odec.json'
-    #     cmor.load_table(table)
-    #     axes = [{'table_entry': 'time',
-    #              'units': 'years since 2000-01-01 00:00:00',
-    #              'coord_vals': [5, 15],
-    #              'cell_bounds': [[0, 10], [10, 20]]
-    #              },
-    #             {'table_entry': 'latitude',
-    #              'units': 'degrees_north',
-    #              'coord_vals': [0],
-    #              'cell_bounds': [-1, 1]},
-    #             {'table_entry': 'longitude',
-    #              'units': 'degrees_east',
-    #              'coord_vals': [90],
-    #              'cell_bounds': [89, 91]},
-    #             ]
-    #
-    #     axis_ids = list()
-    #     for axis in axes:
-    #         axis_id = cmor.axis(**axis)
-    #         axis_ids.append(axis_id)
-    #     varid = cmor.variable('hfds', 'W m-2', axis_ids)
-    #     cmor.write(varid, [5, 10])
-    #     self.path = cmor.close(varid, file_name=True)
-    #
-    #     self.assertEqual(os.path.basename(self.path),
-    #                      'hfds_Odec_PCMDI-test-1-0_piControl-withism_'
-    #                      'r11i1p1f1_gr_2000-2019.nc')
+    def test_decadal(self):
+        table = 'Tables/CMIP6_Odec.json'
+        cmor.load_table(table)
+        axes = [{'table_entry': 'time',
+                 'units': 'years since 2000-01-01 00:00:00',
+                 'coord_vals': [5, 15],
+                 'cell_bounds': [[0, 10], [10, 20]]
+                 },
+                {'table_entry': 'latitude',
+                 'units': 'degrees_north',
+                 'coord_vals': [0],
+                 'cell_bounds': [-1, 1]},
+                {'table_entry': 'longitude',
+                 'units': 'degrees_east',
+                 'coord_vals': [90],
+                 'cell_bounds': [89, 91]},
+                ]
+
+        axis_ids = list()
+        for axis in axes:
+            axis_id = cmor.axis(**axis)
+            axis_ids.append(axis_id)
+        varid = cmor.variable('hfds', 'W m-2', axis_ids, positive='up')
+        cmor.write(varid, [5, 10])
+        self.path = cmor.close(varid, file_name=True)
+
+        self.assertEqual(os.path.basename(self.path),
+                         'hfds_Odec_PCMDI-test-1-0_piControl-withism_'
+                         'r11i1p1f1_gr_2005-2015.nc')
 
     def test_yr(self):
         table = 'Tables/CMIP6_Eyr.json'
