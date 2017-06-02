@@ -443,6 +443,71 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
                          'pr_Esubhr_PCMDI-test-1-0_piControl-withism_'
                          'r11i1p1f1_gr_20000101001230-20000101003731.nc')
 
+    def test_monclim_rounding_start_time(self):
+        table = 'Tables/CMIP6_Oclim.json'
+        cmor.load_table(table)
+        axes = [{'table_entry': 'time2',
+                 'units': 'days since 2000-01-01 00:00:00',
+                 'coord_vals': np.array([15, 45]),
+                 'cell_bounds': [[-0.00001, 31], [31, 59]]
+                 },
+                {'table_entry': 'latitude',
+                 'units': 'degrees_north',
+                 'coord_vals': [0],
+                 'cell_bounds': [-1, 1]},
+                {'table_entry': 'longitude',
+                 'units': 'degrees_east',
+                 'coord_vals': [90],
+                 'cell_bounds': [89, 91]},
+                ]
+
+        axis_ids = list()
+        for axis in axes:
+            axis_id = cmor.axis(**axis)
+            axis_ids.append(axis_id)
+        varid = cmor.variable('difmxybo2d', 'm4 s-1', axis_ids)
+        cmor.write(varid, [273, 274])
+        self.path = cmor.close(varid, file_name=True)
+
+        self.assertEqual(os.path.basename(self.path),
+                         'difmxybo2d_Oclim_PCMDI-test-1-0_piControl-withism_'
+                         'r11i1p1f1_gr_200001-200002-clim.nc')
+
+    def test_monclim_rounding_end_time(self):
+        """
+        60 days since 2000-01-01 is 2000-03-01 00:00:00 and so this test makes
+        sure that an end date at the start of the month is displayed as the 
+        previous month.
+        """
+        table = 'Tables/CMIP6_Oclim.json'
+        cmor.load_table(table)
+        axes = [{'table_entry': 'time2',
+                 'units': 'days since 2000-01-01 00:00:00',
+                 'coord_vals': np.array([15, 45]),
+                 'cell_bounds': [[0, 31], [31, 60]]
+                 },
+                {'table_entry': 'latitude',
+                 'units': 'degrees_north',
+                 'coord_vals': [0],
+                 'cell_bounds': [-1, 1]},
+                {'table_entry': 'longitude',
+                 'units': 'degrees_east',
+                 'coord_vals': [90],
+                 'cell_bounds': [89, 91]},
+                ]
+
+        axis_ids = list()
+        for axis in axes:
+            axis_id = cmor.axis(**axis)
+            axis_ids.append(axis_id)
+        varid = cmor.variable('difmxybo2d', 'm4 s-1', axis_ids)
+        cmor.write(varid, [273, 274])
+        self.path = cmor.close(varid, file_name=True)
+
+        self.assertEqual(os.path.basename(self.path),
+                         'difmxybo2d_Oclim_PCMDI-test-1-0_piControl-withism_'
+                         'r11i1p1f1_gr_200001-200002-clim.nc')
+
     def test_fx(self):
         # TODO write me
         pass
