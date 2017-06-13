@@ -493,27 +493,27 @@ int cmor_prep_units( char *uunits,
 /************************************************************************/
 /*                       cmor_have_NetCDF41min()                        */
 /************************************************************************/
-int cmor_have_NetCDF41min( void ) {
+int cmor_have_NetCDF41min(void) {
     char version[50];
     int major, minor;
 
     cmor_add_traceback("cmor_have_NetCDF41min");
-    strncpy( version, nc_inq_libvers(  ), 50 );
-    sscanf( version, "%1d%*c%1d%*s", &major, &minor );
-    if( major > 4 ){
+    strncpy(version, nc_inq_libvers(), 50);
+    sscanf(version, "%1d%*c%1d%*s", &major, &minor);
+    if (major > 4) {
         cmor_pop_traceback();
-	return( 0 );
+        return (0);
     }
-    if( major < 4 ) {
+    if (major < 4) {
         cmor_pop_traceback();
-	return( 1 );
+        return (1);
     }
-    if( minor < 1 ) {
+    if (minor < 1) {
         cmor_pop_traceback();
-	return( 1 );
+        return (1);
     }
     cmor_pop_traceback();
-    return( 0 );
+    return (0);
 }
 
 /************************************************************************/

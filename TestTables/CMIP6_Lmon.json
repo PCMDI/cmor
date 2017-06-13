@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.10", 
+        "data_specs_version": "01.00.11", 
         "table_id": "Table Lmon", 
         "realm": "land", 
         "cmor_version": "3.2", 
-        "table_date": "01 June 2017", 
+        "table_date": "05 June 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "30.00000", 
@@ -31,17 +31,17 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "burntArea": {
+        "burntFractionAll": {
             "frequency": "mon", 
             "modeling_realm": "land", 
             "standard_name": "area_fraction", 
             "units": "%", 
             "cell_methods": "area: mean where land over all_area_types time: mean", 
             "cell_measures": "area: areacella", 
-            "long_name": "Burnt Area Fraction", 
-            "comment": "Fraction of entire grid cell  that is covered by burnt vegetation.", 
+            "long_name": "Percentage of Entire Grid cell  that is Covered by Burnt Vegetation (All Classes)", 
+            "comment": "Percentage of grid cell burned due to all fires including natural and anthropogenic fires and those associated with anthropogenic land use change", 
             "dimensions": "longitude latitude time typeburnt", 
-            "out_name": "burntArea", 
+            "out_name": "burntFractionAll", 
             "type": "real", 
             "positive": "", 
             "valid_min": "", 
@@ -814,7 +814,7 @@
             "cell_measures": "area: areacella", 
             "long_name": "Fraction of Grid Cell that is Land but Neither Vegetation-Covered nor Bare Soil", 
             "comment": "Percentage of entire grid cell  that is land and is covered by  neither vegetation nor bare-soil (e.g., urban, ice, lakes, etc.)", 
-            "dimensions": "longitude latitude time", 
+            "dimensions": "longitude latitude time typeresidual", 
             "out_name": "residualFrac", 
             "type": "real", 
             "positive": "", 

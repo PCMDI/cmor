@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.10", 
+        "data_specs_version": "01.00.11", 
         "table_id": "Table AERmonZ", 
         "realm": "aerosol", 
         "cmor_version": "3.2", 
-        "table_date": "01 June 2017", 
+        "table_date": "05 June 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "", 
@@ -74,7 +74,7 @@
             "units": "1.0", 
             "cell_methods": "longitude: mean time: mean", 
             "cell_measures": "area: areacella", 
-            "long_name": "H2O volume mixing ratio", 
+            "long_name": "Mass Fraction of Water", 
             "comment": "includes all phases of water", 
             "dimensions": "latitude plev39 time", 
             "out_name": "h2o", 

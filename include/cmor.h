@@ -71,7 +71,7 @@
 #define AXIS_ATT_AXIS            "axis"
 #define AXIS_ATT_INDEXONLY       "index_only"
 #define AXIS_ATT_MUSTBOUNDS      "must_have_bounds"
-#define AXIS_ATT_MUSTCALLGRID    "must_call_cmmore_grid"
+#define AXIS_ATT_MUSTCALLGRID    "must_call_cmor_grid"
 #define AXIS_ATT_TYPE            "type"
 #define AXIS_ATT_VALIDMIN        "valid_min"
 #define AXIS_ATT_VALIDMAX        "valid_max"

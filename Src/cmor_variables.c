@@ -1331,16 +1331,16 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
 /*      ok we MUST HAVE called cmor_grid to generate this variable      */
 /*      let's make sure                                                 */
 /* -------------------------------------------------------------------- */
-    if( k == 1 ) {		
-	j = 0;
-	for( i = 0; i < ndims; i++ ) {
-	    if( laxes_ids[i] < -CMOR_MAX_GRIDS + 1 ) {
-		grid_id = -laxes_ids[i] - CMOR_MAX_GRIDS;
-		if( grid_id > cmor_ngrids )
-		    continue;
-		j = 1;
-	    }
-	}
+    if (k == 1) {
+        j = 0;
+        for (i = 0; i < ndims; i++) {
+            if (laxes_ids[i] < -CMOR_MAX_GRIDS + 1) {
+                grid_id = -laxes_ids[i] - CMOR_MAX_GRIDS;
+                if (grid_id > cmor_ngrids)
+                    continue;
+                j = 1;
+            }
+        }
 	if( j == 0 ) {
 	    sprintf( msg,
 		     "Variable %s (table %s) must be defined using a "
@@ -1361,105 +1361,98 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
 /* -------------------------------------------------------------------- */
 /*      ok we need to replace grids definitions with the grid axes      */
 /* -------------------------------------------------------------------- */
-    for( i = 0; i < ndims; i++ ) {
-	if( laxes_ids[i] > cmor_naxes ) {
-	    sprintf( msg,
-		     "For variable %s (table %s) you requested axis_id "
-	             "(%i) that has not been defined yet",
-		     cmor_vars[vrid].id,
-		     cmor_tables[cmor_vars[vrid].ref_table_id].szTable_id,
-		     laxes_ids[i] );
-	    cmor_handle_error( msg, CMOR_CRITICAL );
-	}
-	if( laxes_ids[i] < -CMOR_MAX_GRIDS + 1 ) {	
-	    grid_id = -laxes_ids[i] - CMOR_MAX_GRIDS;
-	    if( grid_id > cmor_ngrids ) {
-		sprintf( msg,
-			 "For variable %s (table: %s) you requested "
-		         "grid_id (%i) that has not been defined yet",
-			 cmor_vars[vrid].id,
-			 cmor_tables[cmor_vars[vrid].ref_table_id].
-			 szTable_id, laxes_ids[i] );
-		cmor_handle_error( msg, CMOR_CRITICAL );
-	    }
+    for (i = 0; i < ndims; i++) {
+        if (laxes_ids[i] > cmor_naxes) {
+            sprintf(msg, "For variable %s (table %s) you requested axis_id "
+                    "(%i) that has not been defined yet", cmor_vars[vrid].id,
+                    cmor_tables[cmor_vars[vrid].ref_table_id].szTable_id,
+                    laxes_ids[i]);
+            cmor_handle_error(msg, CMOR_CRITICAL);
+        }
+        if (laxes_ids[i] < -CMOR_MAX_GRIDS + 1) {
+            grid_id = -laxes_ids[i] - CMOR_MAX_GRIDS;
+            if (grid_id > cmor_ngrids) {
+                sprintf(msg, "For variable %s (table: %s) you requested "
+                        "grid_id (%i) that has not been defined yet",
+                        cmor_vars[vrid].id,
+                        cmor_tables[cmor_vars[vrid].ref_table_id].szTable_id,
+                        laxes_ids[i]);
+                cmor_handle_error(msg, CMOR_CRITICAL);
+            }
 /* -------------------------------------------------------------------- */
 /*      here we need to know if the refvar has been defined with        */
 /*      lat/lon or in the grid space                                    */
 /* -------------------------------------------------------------------- */
-	    k = 0;
-	    for( j = 0; j < refvar.ndims; j++ ) {
-		if( strcmp
-		    ( cmor_tables[refvar.table_id].
-		      axes[refvar.dimensions[j]].id, DIMENSION_LONGITUDE) == 0 )
-		    k++;
-		if( strcmp
-		    ( cmor_tables[refvar.table_id].
-		      axes[refvar.dimensions[j]].id, DIMENSION_LATITUDE ) == 0 )
-		    k++;
-		if( refvar.dimensions[j] == -CMOR_MAX_GRIDS )
-		    k++;
-	    }
+            k = 0;
+            for (j = 0; j < refvar.ndims; j++) {
+                if (strcmp(
+                        cmor_tables[refvar.table_id].axes[refvar.dimensions[j]].id,
+                        DIMENSION_LONGITUDE) == 0)
+                    k++;
+                if (strcmp(
+                        cmor_tables[refvar.table_id].axes[refvar.dimensions[j]].id,
+                        DIMENSION_LATITUDE) == 0)
+                    k++;
+                if (refvar.dimensions[j] == -CMOR_MAX_GRIDS)
+                    k++;
+            }
 /* -------------------------------------------------------------------- */
 /*      basically replaces the lat/lon with the number of dims in       */
 /*      our grid                                                        */
 /* -------------------------------------------------------------------- */
-	    
-	    if( k == 2 ) {
-		aint = cmor_grids[grid_id].ndims - 2;
-	    }
-	    cmor_vars[vrid].grid_id = grid_id;
-	    k = cmor_grids[grid_id].ndims - 1;
+
+            if (k == 2) {
+                aint = cmor_grids[grid_id].ndims - 2;
+            }
+            cmor_vars[vrid].grid_id = grid_id;
+            k = cmor_grids[grid_id].ndims - 1;
 
 /* -------------------------------------------------------------------- */
 /*      first move everything to the right                              */
 /* -------------------------------------------------------------------- */
 
-	    for( j = lndims - 1; j >= i; j-- )
-		laxes_ids[j + k] = laxes_ids[j];
+            for (j = lndims - 1; j >= i; j--)
+                laxes_ids[j + k] = laxes_ids[j];
 /* -------------------------------------------------------------------- */
 /*      ok now we need to insert the grid dimensions                    */
 /* -------------------------------------------------------------------- */
 
-	    lndims += k;
-	    for( j = 0; j < cmor_grids[grid_id].ndims; j++ ) {
-		laxes_ids[i + j] =
-		    cmor_grids[grid_id].original_axes_ids[j];
-	    }
-	}
+            lndims += k;
+            for (j = 0; j < cmor_grids[grid_id].ndims; j++) {
+                laxes_ids[i + j] = cmor_grids[grid_id].original_axes_ids[j];
+            }
+        }
     }
     olndims = lndims;
     if( refvar.ndims + aint != lndims ) {
-	lndims = 0;
+        lndims = 0;
 /* -------------------------------------------------------------------- */
 /*      ok before we panic we check if there is a "dummy" dim           */
 /* -------------------------------------------------------------------- */
 
-	j = refvar.ndims - olndims + aint;
-	for( i = 0; i < refvar.ndims; i++ ) {
-	    if( cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].value !=
-		1.e20 ) {
+        j = refvar.ndims - olndims + aint;
+        for (i = 0; i < refvar.ndims; i++) {
+            if (cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].value
+                    != 1.e20) {
 /* -------------------------------------------------------------------- */
 /*      ok it could be a dummy but we need to check if the user         */
 /*      already defined this dummy dimension or notd                    */
 /* -------------------------------------------------------------------- */
 
-		l = -1;
-		for( k = 0; k < olndims; k++ ) {
-		    if( cmor_has_axis_attribute( laxes_ids[k],
-		            VARIABLE_ATT_STANDARDNAME ) == 0 ) {
-			cmor_get_axis_attribute( laxes_ids[k],
-						 VARIABLE_ATT_STANDARDNAME,
-						 'c',
-						 &msg );
-		    } else {
-			strcpy( msg, "nope" );
-		    }
+                l = -1;
+                for (k = 0; k < olndims; k++) {
+                    if (cmor_has_axis_attribute(laxes_ids[k],
+                    VARIABLE_ATT_STANDARDNAME) == 0) {
+                        cmor_get_axis_attribute(laxes_ids[k],
+                        VARIABLE_ATT_STANDARDNAME, 'c', &msg);
+                    } else {
+                        strcpy(msg, "nope");
+                    }
 
-		    if( strcmp
-			( msg,
-			  cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].
-			  standard_name ) == 0 ) {
-/* -------------------------------------------------------------------- */
+                    if (strcmp(msg,
+                            cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].standard_name)
+                            == 0) {
+                        /* -------------------------------------------------------------------- */
 /*       ok user did define this one on its own                         */
 /* -------------------------------------------------------------------- */
 

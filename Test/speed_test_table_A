@@ -4,7 +4,6 @@
         "approx_interval": "30.00000",
         "cmor_version": "3.0",
         "forcings": "N/A Nat Ant GHG SD SI SA TO SO Oz LU Sl Vl SS Ds BC MD OC AA",
-        "frequency": "mon",
         "table_id": "Table Amon",
         "table_date": "24 February 2016",
         "realm": "atmos",
@@ -535,6 +534,7 @@
     }, 
     "variable_entry": {
         "sci": {
+            "frequency": "mon",
             "comment": "Fraction of time that shallow convection occurs in the grid cell.", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
@@ -552,12 +552,14 @@
             "ok_max_mean_abs": ""
         }, 
         "depth_c": {
+            "frequency": "mon",
             "units": "", 
             "long_name": "vertical coordinate formula term: depth_c", 
             "type": "double", 
             "dimensions": ""
         }, 
         "tro3": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude plevs time", 
             "positive": "", 
@@ -575,6 +577,7 @@
             "ok_max_mean_abs": "7558"
         }, 
         "rsutcs": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -592,6 +595,7 @@
             "ok_max_mean_abs": "73.36"
         }, 
         "rldscs": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude time", 
             "positive": "down", 
@@ -609,6 +613,7 @@
             "ok_max_mean_abs": "293.8"
         }, 
         "n2oglobal": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "time", 
             "positive": "", 
@@ -626,6 +631,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cli": {
+            "frequency": "mon",
             "comment": "Includes both large-scale and convective cloud. This is the mass of  cloud ice  in the grid cell divided by the mass of air (including the water in all phases) in the grid cell.  This includes precipitating hydrometeors ONLY if the precipitating hydrometeors affect the calculation of radiative transfer in model.", 
             "dimensions": "longitude latitude alevel time", 
             "positive": "", 
@@ -643,6 +649,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ts": {
+            "frequency": "mon",
             "comment": "''skin'' temperature (i.e., SST for open ocean)", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
@@ -660,6 +667,7 @@
             "ok_max_mean_abs": "293.3"
         }, 
         "clt": {
+            "frequency": "mon",
             "comment": "For the whole atmospheric column, as seen from the surface or the top of the atmosphere. Include both large-scale and convective cloud.", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
@@ -677,6 +685,7 @@
             "ok_max_mean_abs": "84.98"
         }, 
         "clw": {
+            "frequency": "mon",
             "comment": "Includes both large-scale and convective cloud.  This is the mass of  cloud liquid water in the grid cell divided by the mass of air (including the water in all phases) in the grid cell.  This includes precipitating hydrometeors ONLY if the precipitating hydrometeors affect the calculation of radiative transfer in model.", 
             "dimensions": "longitude latitude alevel time", 
             "positive": "", 
@@ -694,6 +703,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ta": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude plevs time", 
             "positive": "", 
@@ -711,6 +721,7 @@
             "ok_max_mean_abs": "299.8"
         }, 
         "psl": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
@@ -728,12 +739,14 @@
             "ok_max_mean_abs": "1.063e+05"
         }, 
         "nsigma": {
+            "frequency": "mon",
             "units": "", 
             "long_name": "vertical coordinate formula term: nsigma", 
             "type": "integer", 
             "dimensions": ""
         }, 
         "co2Clim": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude plevs time2", 
             "positive": "", 
@@ -751,6 +764,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sfcWind": {
+            "frequency": "mon",
             "comment": "near-surface (usually, 10 meters) wind speed.", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
@@ -768,6 +782,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ch4Clim": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude plevs time2", 
             "positive": "", 
@@ -785,6 +800,7 @@
             "ok_max_mean_abs": ""
         }, 
         "clwvi": {
+            "frequency": "mon",
             "comment": "Mass of condensed (liquid + ice) water in the column divided by the area of the column (not just the area of the cloudy portion of the column). Includes precipitating hydrometeors ONLY if the precipitating hydrometeors affect the calculation of radiative transfer in model.", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
@@ -802,6 +818,7 @@
             "ok_max_mean_abs": "0.2846"
         }, 
         "rsdscs": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude time", 
             "positive": "down", 
@@ -819,6 +836,7 @@
             "ok_max_mean_abs": "239"
         }, 
         "huss": {
+            "frequency": "mon",
             "comment": "near-surface (usually, 2 meter) specific humidity.", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
@@ -836,6 +854,7 @@
             "ok_max_mean_abs": "0.008749"
         }, 
         "rtmt": {
+            "frequency": "mon",
             "comment": "i.e., at the top of that portion of the atmosphere where dynamics are explicitly treated by the model. This is reported only if it differs from the net downward radiative flux at the top of the atmosphere.", 
             "dimensions": "longitude latitude time", 
             "positive": "down", 
@@ -853,6 +872,7 @@
             "ok_max_mean_abs": "89.25"
         }, 
         "evspsbl": {
+            "frequency": "mon",
             "comment": "at surface; flux of water into the atmosphere due to conversion of both liquid and solid phases to vapor (from underlying surface and vegetation)", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
@@ -870,12 +890,14 @@
             "ok_max_mean_abs": ""
         }, 
         "a_bnds": {
+            "frequency": "mon",
             "units": "", 
             "long_name": "vertical coordinate formula term: a(k+1/2)", 
             "type": "double", 
             "dimensions": "alevel"
         }, 
         "co2": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude plevs time", 
             "positive": "", 
@@ -893,6 +915,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cfc11global": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "time", 
             "positive": "", 
@@ -910,6 +933,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rlds": {
+            "frequency": "mon",
             "comment": "This is the 3-hour mean flux.", 
             "dimensions": "longitude latitude time", 
             "positive": "down", 
@@ -927,12 +951,14 @@
             "ok_max_mean_abs": "323.6"
         }, 
         "sigma_bnds": {
+            "frequency": "mon",
             "units": "", 
             "long_name": "vertical coordinate formula term: sigma(k+1/2)", 
             "type": "double", 
             "dimensions": "olevel"
         }, 
         "ch4globalClim": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "time2", 
             "positive": "", 
@@ -950,6 +976,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tauv": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude time", 
             "positive": "down", 
@@ -967,6 +994,7 @@
             "ok_max_mean_abs": "0.08134"
         }, 
         "rlut": {
+            "frequency": "mon",
             "comment": "at the top of the atmosphere.", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -984,6 +1012,7 @@
             "ok_max_mean_abs": "234.4"
         }, 
         "rsdt": {
+            "frequency": "mon",
             "comment": "at the top of the atmosphere", 
             "dimensions": "longitude latitude time", 
             "positive": "down", 
@@ -1001,6 +1030,7 @@
             "ok_max_mean_abs": "315.8"
         }, 
         "rsds": {
+            "frequency": "mon",
             "comment": "This is the 3-hour mean flux.", 
             "dimensions": "longitude latitude time", 
             "positive": "down", 
@@ -1018,12 +1048,14 @@
             "ok_max_mean_abs": "181.6"
         }, 
         "z1": {
+            "frequency": "mon",
             "units": "", 
             "long_name": "vertical coordinate formula term: z1", 
             "type": "double", 
             "dimensions": ""
         }, 
         "sbl": {
+            "frequency": "mon",
             "comment": "The snow and ice sublimation flux is the loss of snow and ice mass from the surface resulting from their conversion to water vapor that enters the atmosphere.", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
@@ -1041,6 +1073,7 @@
             "ok_max_mean_abs": "9.61e-05"
         }, 
         "cfc113global": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "time", 
             "positive": "", 
@@ -1058,6 +1091,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsus": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1075,6 +1109,7 @@
             "ok_max_mean_abs": "43.77"
         }, 
         "cfc12global": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "time", 
             "positive": "", 
@@ -1092,6 +1127,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsut": {
+            "frequency": "mon",
             "comment": "at the top of the atmosphere", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1109,6 +1145,7 @@
             "ok_max_mean_abs": "114.1"
         }, 
         "ci": {
+            "frequency": "mon",
             "comment": "Fraction of time that convection occurs in the grid cell .", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
@@ -1126,6 +1163,7 @@
             "ok_max_mean_abs": ""
         }, 
         "n2oClim": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude plevs time2", 
             "positive": "", 
@@ -1143,6 +1181,7 @@
             "ok_max_mean_abs": ""
         }, 
         "co2massClim": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "time2", 
             "positive": "", 
@@ -1160,6 +1199,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cl": {
+            "frequency": "mon",
             "comment": "Includes both large-scale and convective cloud.", 
             "dimensions": "longitude latitude alevel time", 
             "positive": "", 
@@ -1177,6 +1217,7 @@
             "ok_max_mean_abs": "26.07"
         }, 
         "n2oglobalClim": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "time2", 
             "positive": "", 
@@ -1194,6 +1235,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rlutcs": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1211,12 +1253,14 @@
             "ok_max_mean_abs": "260.4"
         }, 
         "href": {
+            "frequency": "mon",
             "units": "", 
             "long_name": "vertical coordinate formula term: href", 
             "type": "double", 
             "dimensions": ""
         }, 
         "hfls": {
+            "frequency": "mon",
             "comment": "includes both evaporation and sublimation", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1234,6 +1278,7 @@
             "ok_max_mean_abs": "73.2"
         }, 
         "co2mass": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "time", 
             "positive": "", 
@@ -1251,6 +1296,7 @@
             "ok_max_mean_abs": ""
         }, 
         "pr": {
+            "frequency": "mon",
             "comment": "at surface; includes both liquid and solid phases from all types of clouds (both large-scale and convective)", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
@@ -1268,6 +1314,7 @@
             "ok_max_mean_abs": "3.215e-05"
         }, 
         "ps": {
+            "frequency": "mon",
             "comment": "surface pressure, not mean sea level pressure", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
@@ -1285,6 +1332,7 @@
             "ok_max_mean_abs": "1.019e+05"
         }, 
         "rlus": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1302,12 +1350,14 @@
             "ok_max_mean_abs": "376.3"
         }, 
         "z2": {
+            "frequency": "mon",
             "units": "", 
             "long_name": "vertical coordinate formula term: z2", 
             "type": "double", 
             "dimensions": ""
         }, 
         "vas": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
@@ -1325,6 +1375,7 @@
             "ok_max_mean_abs": "2.678"
         }, 
         "wap": {
+            "frequency": "mon",
             "comment": "commonly referred to as ''omega'', this represents the vertical component of velocity in pressure coordinates (positive down)", 
             "dimensions": "longitude latitude plevs time", 
             "positive": "", 
@@ -1342,12 +1393,14 @@
             "ok_max_mean_abs": "0.04256"
         }, 
         "a": {
+            "frequency": "mon",
             "units": "", 
             "long_name": "vertical coordinate formula term: a(k)", 
             "type": "double", 
             "dimensions": "alevel"
         }, 
         "zg": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude plevs time", 
             "positive": "", 
@@ -1365,6 +1418,7 @@
             "ok_max_mean_abs": "3.299e+04"
         }, 
         "hurs": {
+            "frequency": "mon",
             "comment": "This is the relative humidity with respect to liquid water for T> 0 C, and with respect to ice for T<0 C.", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
@@ -1382,6 +1436,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tsAdjust": {
+            "frequency": "mon",
             "comment": "''skin'' temperature (i.e., SST for open ocean)", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
@@ -1399,6 +1454,7 @@
             "ok_max_mean_abs": ""
         }, 
         "pfull": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude alevel time2", 
             "positive": "", 
@@ -1416,6 +1472,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ch4global": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "time", 
             "positive": "", 
@@ -1433,6 +1490,7 @@
             "ok_max_mean_abs": ""
         }, 
         "hur": {
+            "frequency": "mon",
             "comment": "This is the relative humidity with respect to liquid water for T> 0 C, and with respect to ice for T<0 C.", 
             "dimensions": "longitude latitude plevs time", 
             "positive": "", 
@@ -1450,6 +1508,7 @@
             "ok_max_mean_abs": "97"
         }, 
         "hus": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude plevs time", 
             "positive": "", 
@@ -1479,6 +1538,7 @@
             "dimensions": "alevel"
         }, 
         "mc": {
+            "frequency": "mon",
             "comment": "The net mass flux should represent the difference between the updraft and downdraft components.  The flux is computed as the mass divided by the area of the grid cell.", 
             "dimensions": "longitude latitude alevhalf time", 
             "positive": "up", 
@@ -1496,6 +1556,7 @@
             "ok_max_mean_abs": ""
         }, 
         "fco2antt": {
+            "frequency": "mon",
             "comment": "This is requested only for the emission-driven coupled carbon climate model runs.  Does not include natural fire sources but, includes all anthropogenic sources, including fossil fuel use, cement production, agricultural burning, and sources associated with anthropogenic land use change excluding forest regrowth.", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1513,6 +1574,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ch4": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude plevs time", 
             "positive": "", 
@@ -1530,6 +1592,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tasmin": {
+            "frequency": "mon",
             "comment": "minimum near-surface (usually, 2 meter) air temperature (add cell_method attribute time: min)", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
@@ -1547,6 +1610,7 @@
             "ok_max_mean_abs": "290.6"
         }, 
         "tauu": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude time", 
             "positive": "down", 
@@ -1564,6 +1628,7 @@
             "ok_max_mean_abs": "0.1065"
         }, 
         "tasmax": {
+            "frequency": "mon",
             "comment": "maximum near-surface (usually, 2 meter) air temperature (add cell_method attribute time: max)", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
@@ -1581,6 +1646,7 @@
             "ok_max_mean_abs": "294"
         }, 
         "pslAdjust": {
+            "frequency": "mon",
             "comment": "not, in general, the same as surface pressure", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
@@ -1598,12 +1664,14 @@
             "ok_max_mean_abs": ""
         }, 
         "k_c": {
+            "frequency": "mon",
             "units": "", 
             "long_name": "vertical coordinate formula term: k_c", 
             "type": "integer", 
             "dimensions": ""
         }, 
         "ua": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude plevs time", 
             "positive": "", 
@@ -1621,6 +1689,7 @@
             "ok_max_mean_abs": "22.42"
         }, 
         "orog": {
+            "frequency": "mon",
             "comment": "height above the geoid; as defined here, ''the geoid'' is a surface of constant geopotential that, if the ocean were at rest, would coincide with mean sea level. Under this definition, the geoid changes as the mean volume of the ocean changes (e.g., due to glacial melt, or global warming of the ocean).  Report here the height above the present-day geoid.  Over ocean, report as 0.0", 
             "dimensions": "longitude latitude", 
             "positive": "", 
@@ -1638,6 +1707,7 @@
             "ok_max_mean_abs": ""
         }, 
         "va": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude plevs time", 
             "positive": "", 
@@ -1655,6 +1725,7 @@
             "ok_max_mean_abs": "4.679"
         }, 
         "n2o": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude plevs time", 
             "positive": "", 
@@ -1672,6 +1743,7 @@
             "ok_max_mean_abs": ""
         }, 
         "prc": {
+            "frequency": "mon",
             "comment": "at surface; includes both liquid and solid phases.", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
@@ -1689,6 +1761,7 @@
             "ok_max_mean_abs": "3.209e-05"
         }, 
         "tas": {
+            "frequency": "mon",
             "deflate": "${DEFLATE_LEVEL}",
             "shuffle": "${SHUFFLE}",
             "deflate_level": "${DEFLATE_LEVEL}",
@@ -1709,6 +1782,7 @@
             "ok_max_mean_abs": "293"
         }, 
         "rsuscs": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1726,6 +1800,7 @@
             "ok_max_mean_abs": "61.59"
         }, 
         "uas": {
+            "frequency": "mon",
             "comment": "near-surface (usually, 10 meters) eastward component of wind.", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
@@ -1743,6 +1818,7 @@
             "ok_max_mean_abs": "4.106"
         }, 
         "hfss": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1772,6 +1848,7 @@
             "dimensions": "alevel"
         }, 
         "prw": {
+            "frequency": "mon",
             "comment": "vertically integrated through the atmospheric column", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
@@ -1789,6 +1866,7 @@
             "ok_max_mean_abs": "23.09"
         }, 
         "prsn": {
+            "frequency": "mon",
             "comment": "at surface; includes precipitation of all forms of water in the solid phase", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
@@ -1806,12 +1884,14 @@
             "ok_max_mean_abs": "6.11e-06"
         }, 
         "zlev": {
+            "frequency": "mon",
             "units": "", 
             "long_name": "vertical coordinate formula term: zlev(k)", 
             "type": "double", 
             "dimensions": "olevel"
         }, 
         "fco2nat": {
+            "frequency": "mon",
             "comment": "This is what the atmosphere sees (on its own grid).  This field should be equivalent to the combined natural fluxes of carbon (requested in the L_mon and O_mon tables) that account for natural exchanges between the atmosphere and land or ocean reservoirs (i.e., ''net ecosystem biospheric productivity'', for land, and ''air to sea CO2 flux'', for ocean.)", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1829,12 +1909,14 @@
             "ok_max_mean_abs": ""
         }, 
         "b_bnds": {
+            "frequency": "mon",
             "units": "", 
             "long_name": "vertical coordinate formula term: b(k+1/2)", 
             "type": "double", 
             "dimensions": "alevel"
         }, 
         "phalf": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude alevhalf time2", 
             "positive": "", 
@@ -1852,6 +1934,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tasAdjust": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
@@ -1869,6 +1952,7 @@
             "ok_max_mean_abs": ""
         }, 
         "fco2fos": {
+            "frequency": "mon",
             "comment": "This is the prescribed anthropogenic CO2 flux from fossil fuel use, including cement production, and flaring (but not from land-use changes, agricultural burning, forest regrowth, etc.)", 
             "dimensions": "longitude latitude time", 
             "positive": "up", 
@@ -1886,6 +1970,7 @@
             "ok_max_mean_abs": ""
         }, 
         "hcfc22global": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "time", 
             "positive": "", 
@@ -1903,6 +1988,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tro3Clim": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude plevs time2", 
             "positive": "", 
@@ -1926,6 +2012,7 @@
             "dimensions": "olevel"
         }, 
         "clivi": {
+            "frequency": "mon",
             "comment": "Mass of ice water in the column divided by the area of the column (not just the area of the cloudy portion of the column). Includes precipitating frozen hydrometeors ONLY if the precipitating hydrometeor affects the calculation of radiative transfer in model.", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
@@ -1943,6 +2030,7 @@
             "ok_max_mean_abs": "0.1187"
         }, 
         "prAdjust": {
+            "frequency": "mon",
             "comment": "at surface; includes both liquid and solid phases from all types of clouds (both large-scale and convective)", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
@@ -1960,6 +2048,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cct": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
@@ -1983,6 +2072,7 @@
             "dimensions": "olevel"
         }, 
         "ccb": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude time", 
             "positive": "", 
