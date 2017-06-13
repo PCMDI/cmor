@@ -29,9 +29,10 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
         cmor.load_table(table)
         axes = [
             {'table_entry': 'time',
-             'units': 'years since 2000-01-01 00:00:00',
-             'coord_vals': [5, 15],
-             'cell_bounds': [[0, 10], [10, 20]]},
+             'units': 'days since 2000-01-01 00:00:00',
+             # we're using the 360 day calendar
+             'coord_vals': [5 * 360, 15 * 360],
+             'cell_bounds': [[0, 10 * 360], [10 * 360, 20 * 360]]},
             {'table_entry': 'latitude',
              'units': 'degrees_north',
              'coord_vals': [0],
