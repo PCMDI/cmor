@@ -992,10 +992,7 @@
         ],
         "frequency":[
             "1hr",
-<<<<<<< HEAD
             "1hrClimMon",
-=======
->>>>>>> jonseddon-round-seconds
             "3hr",
             "6hr",
             "day",
@@ -1005,11 +1002,7 @@
             "monClim",
             "subhr",
             "yr",
-<<<<<<< HEAD
             "yrClim"
-=======
-            "dec"
->>>>>>> jonseddon-round-seconds
         ],
         "grid_label":[
             "gm",
