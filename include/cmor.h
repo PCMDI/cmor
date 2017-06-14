@@ -423,6 +423,7 @@ typedef struct cmor_var_ {
     int ref_table_id;
     int ref_var_id;
     int initialized;
+    int error;
     int closed;
     int nc_var_id;
     int nc_zfactors[CMOR_MAX_VARIABLES];
