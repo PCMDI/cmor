@@ -5268,26 +5268,25 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
     int i, j, n;
     struct stat buf;
     off_t sz;
-    long maxsz = ( long ) pow( 2, 32 ) - 1;
+    long maxsz = (long) pow(2, 32) - 1;
 
-    cmor_add_traceback( "cmor_close_variable" );
-    cmor_is_setup(  );
+    cmor_add_traceback("cmor_close_variable");
+    cmor_is_setup();
 
     cleanup_varid = var_id;
 /* -------------------------------------------------------------------- */
 /*  initialized contains ncic, so we close file only once.              */
 /* -------------------------------------------------------------------- */
-    if( cmor_vars[var_id].initialized != -1 && cmor_vars[var_id].error == 0) {
-	ierr = nc_close( cmor_vars[var_id].initialized );
+    if (cmor_vars[var_id].initialized != -1 && cmor_vars[var_id].error == 0) {
+        ierr = nc_close(cmor_vars[var_id].initialized);
 
-	if( ierr != NC_NOERR ) {
-	    snprintf( msg, CMOR_MAX_STRING,
-		      "NetCDF Error (%i: %s) closing variable %s (table: %s)\n! ",
-		      ierr, nc_strerror( ierr ), cmor_vars[var_id].id,
-		      cmor_tables[cmor_vars[var_id].
-				  ref_table_id].szTable_id );
-	    cmor_handle_error_var( msg, CMOR_CRITICAL, var_id );
-	}
+        if (ierr != NC_NOERR) {
+            snprintf(msg, CMOR_MAX_STRING,
+                    "NetCDF Error (%i: %s) closing variable %s (table: %s)\n! ",
+                    ierr, nc_strerror(ierr), cmor_vars[var_id].id,
+                    cmor_tables[cmor_vars[var_id].ref_table_id].szTable_id);
+            cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
+        }
 
 /* -------------------------------------------------------------------- */
 /*      Ok we need to make the associated variables                     */
@@ -5384,257 +5383,246 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
 /* -------------------------------------------------------------------- */
 /*      ok at that point we need to construct the final name!           */
 /* -------------------------------------------------------------------- */
-	strncpytrim( outname, cmor_vars[var_id].base_path,
-		     CMOR_MAX_STRING );
-	if( cmor_tables
-	    [cmor_axes[cmor_vars[var_id].axes_ids[0]].
-	     ref_table_id].axes[cmor_axes[cmor_vars[var_id].axes_ids[0]].
-				ref_axis_id].axis == 'T' ) {
-	    cmor_get_axis_attribute( cmor_vars[var_id].axes_ids[0],
-				     "units", 'c', &msg );
-	    cmor_get_cur_dataset_attribute( "calendar", msg2 );
+        strncpytrim(outname, cmor_vars[var_id].base_path,
+        CMOR_MAX_STRING);
+        if (cmor_tables[cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_table_id].
+                axes[cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_axis_id].axis
+                == 'T') {
+            cmor_get_axis_attribute(cmor_vars[var_id].axes_ids[0], "units", 'c',
+                    &msg);
+            cmor_get_cur_dataset_attribute("calendar", msg2);
 
-	    if( cmor_calendar_c2i( msg2, &icalo ) != 0 ) {
-		snprintf( msg, CMOR_MAX_STRING,
-			  "Cannot convert times for calendar: %s,\n! "
-		          "closing variable %s (table: %s)",
-			  msg2, cmor_vars[var_id].id,
-			  cmor_tables[cmor_vars[var_id].
-				      ref_table_id].szTable_id );
-		cmor_handle_error_var( msg, CMOR_CRITICAL, var_id );
-		cmor_pop_traceback(  );
-		return( 1 );
-	    }
+            if (cmor_calendar_c2i(msg2, &icalo) != 0) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "Cannot convert times for calendar: %s,\n! "
+                                "closing variable %s (table: %s)", msg2,
+                        cmor_vars[var_id].id,
+                        cmor_tables[cmor_vars[var_id].ref_table_id].szTable_id);
+                cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
+                cmor_pop_traceback();
+                return (1);
+            }
 /* -------------------------------------------------------------------- */
 /*      ok makes a comptime for start and end time                      */
 /* -------------------------------------------------------------------- */
 
-	    i = cmor_vars[var_id].axes_ids[0];
-	    j = cmor_axes[i].ref_table_id;
-	    i = cmor_axes[i].ref_axis_id;
-	    if( ( cmor_tables[j].axes[i].climatology == 1 )
-		&& ( cmor_vars[var_id].first_bound != 1.e20 ) ) {
-		cdRel2Comp( icalo, msg, cmor_vars[var_id].first_bound,
-			    &starttime );
-	    } else {
-		cdRel2Comp( icalo, msg, cmor_vars[var_id].first_time,
-			    &starttime );
-	    }
-
-	    if( ( cmor_tables[j].axes[i].climatology == 1 )
-		&& ( cmor_vars[var_id].last_bound != 1.e20 ) ) {
-		cdRel2Comp( icalo, msg, cmor_vars[var_id].last_bound,
-			    &endtime );
-
-	    
-/* -------------------------------------------------------------------- */
-/*      ok apparently we don't like the new time format                 */
-/*      if it's ending at midnight exactly so I'm removing              */
-/*      one second...                                                   */
-/* -------------------------------------------------------------------- */
-
-		if( icalo == cdMixed ) {
-		    cdCompAddMixed( endtime, -1. / 3600., &endtime );
-		} else {
-		    cdCompAdd( endtime, -1. / 3600., icalo, &endtime );
-		}
-	    } else {
-		cdRel2Comp( icalo, msg, cmor_vars[var_id].last_time,
-			    &endtime );
-	    }
-
-/* -------------------------------------------------------------------- */
-/*      If times are less than half a second before midnight due to     */
-/*      floating point issues then add half a second to make sure       */
-/*      they indicate the next day as intended                          */
-/* -------------------------------------------------------------------- */
-        if( starttime.hour > 23.99986 ) {
-            if( icalo == cdMixed ) {
-                cdCompAddMixed( starttime, 0.5 / 3600., &starttime );
+            i = cmor_vars[var_id].axes_ids[0];
+            j = cmor_axes[i].ref_table_id;
+            i = cmor_axes[i].ref_axis_id;
+            if( cmor_tables[j].axes[i].climatology == 1 ) {
+                starttime.year = 0;
+                starttime.month = 0;
+                starttime.day = 0;
+                starttime.hour= 0.0;
+                endtime = starttime;
+                cdRel2Comp(icalo, msg, cmor_vars[var_id].first_bound,
+                        &starttime);
+                cdRel2Comp(icalo, msg, cmor_vars[var_id].last_bound, &endtime);
             } else {
-                cdCompAdd( starttime, 0.5 / 3600., icalo, &starttime );
+                cdRel2Comp(icalo, msg, cmor_vars[var_id].first_time,
+                        &starttime);
+                cdRel2Comp(icalo, msg, cmor_vars[var_id].last_time, &endtime);
             }
-        }
-        if( endtime.hour > 23.99986 ) {
-            if( icalo == cdMixed ) {
-                cdCompAddMixed( endtime, 0.5 / 3600., &endtime );
-            } else {
-                cdCompAdd( endtime, 0.5 / 3600., icalo, &endtime );
-            }
-        }
 
+/* -------------------------------------------------------------------- */
+/*      We want start and end times that are greater than               */
+/*      x minutes 59.5 seconds to be set to x+1 minutes 0 seconds       */
+/*      so add a half second so that when floats are converted to       */
+/*       integers, this will round to nearest second (we know that      */
+/*       the time coordinates are positive                              */
+/*                                                                      */
+/*    note that in the following, cdCompAdd expects the increment added */
+/*      to be expressed in units of hours                               */
+/* -------------------------------------------------------------------- */
+
+            if (icalo == cdMixed) {
+                cdCompAddMixed(starttime, 0.5 / 3600., &starttime);
+                cdCompAddMixed(endtime, 0.5 / 3600., &endtime);
+
+            } else {
+                cdCompAdd(starttime, 0.5 / 3600., icalo, &starttime);
+                cdCompAdd(endtime, 0.5 / 3600., icalo, &endtime);
+            }
 /* -------------------------------------------------------------------- */
 /*      need to figure out the frequency                                */
 /* -------------------------------------------------------------------- */
-        int frequency_code;
-	    int nVarAxisID;
-	    int nVarRefTable;
-	    int nVarRefAxisID;
-	    char frequency[CMOR_MAX_STRING];
-	    char start_string[CMOR_MAX_STRING];
-	    char end_string[CMOR_MAX_STRING];
-	    float start_seconds, end_seconds, start_minutes, end_minutes;
+            int frequency_code;
+            char frequency[CMOR_MAX_STRING];
+            char start_string[CMOR_MAX_STRING];
+            char end_string[CMOR_MAX_STRING];
+            int start_seconds, end_seconds, start_minutes, end_minutes;
 
-	    nVarAxisID = cmor_vars[var_id].axes_ids[0];
-	    nVarRefTable = cmor_axes[nVarAxisID].ref_table_id;
-	    nVarRefAxisID = cmor_axes[nVarAxisID].ref_axis_id;
+            if (cmor_has_cur_dataset_attribute( GLOBAL_ATT_FREQUENCY) == 0) {
+                cmor_get_cur_dataset_attribute( GLOBAL_ATT_FREQUENCY,
+                        frequency);
+            }
 
-        if( cmor_has_cur_dataset_attribute( GLOBAL_ATT_FREQUENCY ) == 0 ) {
-        cmor_get_cur_dataset_attribute( GLOBAL_ATT_FREQUENCY, frequency );
-        }
+            if (strstr(frequency, "yr") != NULL) {
+                frequency_code = 1;
+            } else if (strstr(frequency, "dec") != NULL) {
+                frequency_code = 1;
+            } else if (strstr(frequency, "mon") != NULL) {
+                frequency_code = 2;
+            } else if (strstr(frequency, "day") != NULL) {
+                frequency_code = 3;
+            } else if (strstr(frequency, "hr") != NULL) {
+                frequency_code = 4;
+            } else if (strstr(frequency, "subhr") != NULL) {
+                frequency_code = 5;
+            } else if (strstr(frequency, "monClim") != NULL) {
+                frequency_code = 6;
+            } else if (strstr(frequency, "fx") != NULL) {
+                frequency_code = 99;
+            } else {
+                frequency_code = 0;
+            }
         
-        if( strstr( frequency, "yr" ) != NULL ) {
-        frequency_code = 1;
-        } 
-        else if( strstr( frequency, "dec" ) != NULL ) {
-        frequency_code = 1;
-        }
-        else if( strstr( frequency, "mon" ) != NULL ) {
-        frequency_code = 2;
-        }
-        else if( strstr( frequency, "day" ) != NULL ) {
-        frequency_code = 3;
-        }
-        else if( strstr( frequency, "subhr" ) != NULL ) {
-        frequency_code = 5;
-        }
-        else if( strstr( frequency, "hr" ) != NULL ) {
-        frequency_code = 4;
-        }
-        else if( strstr( frequency, "fx" ) != NULL ) {
-        frequency_code = 99;
-        }
-        else {
-        frequency_code = 0;
-        }
-        
-        switch ( frequency_code ) {
-        case 1:
-            /* frequency is yr, decadal */
-            snprintf( start_string, CMOR_MAX_STRING, "%.4ld", starttime.year );
-            snprintf( end_string, CMOR_MAX_STRING, "%.4ld", endtime.year );
-            break;
-        case 2:
-            /* frequency is mon */
-            snprintf( start_string, CMOR_MAX_STRING, "%.4ld%.2i", 
-                    starttime.year, starttime.month );
-            snprintf( end_string, CMOR_MAX_STRING, "%.4ld%.2i",
-                    endtime.year, endtime.month );
-            break;
-        case 3:
-            /* frequency is day */
-            snprintf( start_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i", 
-                    starttime.year, starttime.month, starttime.day );
-            snprintf( end_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i",
-                    endtime.year, endtime.month, endtime.day );
-            break;
-        case 4:
-            /* frequency is 6hr, 3hr, 1hr */
-            /* round to the nearest minute */
-            start_minutes = round( ( starttime.hour -
-                    ( int ) starttime.hour ) * 60. );
-            end_minutes = round( ( endtime.hour -
-                    ( int ) endtime.hour ) * 60. );
-            snprintf( start_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i%.2i%.2i",
-                    starttime.year, starttime.month, starttime.day,
-                    ( int ) starttime.hour, ( int ) start_minutes );
-            snprintf( end_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i%.2i%.2i",
-                    endtime.year, endtime.month, endtime.day,
-                    ( int ) endtime.hour, ( int ) end_minutes );
-            break;
-        case 5:
-            /* frequency is subhr */
-            /* round to the nearest second */
-            start_seconds = round( ( starttime.hour -
-                    ( int ) starttime.hour ) * 3600. );
-            end_seconds = round( ( endtime.hour - 
-                    ( int ) endtime.hour ) * 3600. );
-            snprintf( start_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i%.2i%.2i%.2i",
-                    starttime.year, starttime.month, starttime.day,
-                    ( int ) starttime.hour, ( int ) ( start_seconds / 60. ),
-                    ( int ) fmod( start_seconds, 60. ) );
-            snprintf( end_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i%.2i%.2i%.2i",
-                    endtime.year, endtime.month, endtime.day,
-                    ( int ) endtime.hour, ( int ) ( end_seconds / 60. ),
-                    ( int ) fmod( end_seconds, 60. ) );
-            break;
-        case 99:
-            /* frequency is fx */
-            /* don't need to do anything, time string will ignored in next step */
-            break;
-        default:
-		    snprintf( msg, CMOR_MAX_STRING,
-			      "Cannot find frequency %s. Closing variable %s (table: %s)",
-			      frequency, cmor_vars[var_id].id, cmor_tables[cmor_vars[var_id].
-				          ref_table_id].szTable_id );
-		    cmor_handle_error_var( msg, CMOR_CRITICAL, var_id );
-		    cmor_pop_traceback(  );
-		    return( 1 );
+        switch (frequency_code) {
+            case 1:
+                /* frequency is yr, decadal */
+                snprintf(start_string, CMOR_MAX_STRING, "%.4ld",
+                        starttime.year);
+                snprintf(end_string, CMOR_MAX_STRING, "%.4ld", endtime.year);
+                break;
+            case 2:
+                /* frequency is mon */
+                snprintf(start_string, CMOR_MAX_STRING, "%.4ld%.2i",
+                        starttime.year, starttime.month);
+                snprintf(end_string, CMOR_MAX_STRING, "%.4ld%.2i", endtime.year,
+                        endtime.month);
+                break;
+            case 3:
+                /* frequency is day */
+                snprintf(start_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i",
+                        starttime.year, starttime.month, starttime.day);
+                snprintf(end_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i",
+                        endtime.year, endtime.month, endtime.day);
+                break;
+            case 4:
+                /* frequency is 6hr, 3hr, 1hr */
+                /* round to the nearest minute */
+                start_minutes = round(
+                        (starttime.hour - (int) starttime.hour) * 60.);
+                end_minutes = round((endtime.hour - (int) endtime.hour) * 60.);
+                snprintf(start_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i%.2i%.2i",
+                        starttime.year, starttime.month, starttime.day,
+                        (int) starttime.hour, start_minutes);
+                snprintf(end_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i%.2i%.2i",
+                        endtime.year, endtime.month, endtime.day,
+                        (int) endtime.hour, end_minutes);
+                break;
+            case 5:
+                /* frequency is subhr */
+                /* round to the nearest second */
+                start_seconds = (int) ((starttime.hour - (int) starttime.hour)
+                        * 3600);
+                end_seconds =
+                        (int) ((endtime.hour - (int) endtime.hour) * 3600);
+                snprintf(start_string, CMOR_MAX_STRING,
+                        "%.4ld%.2i%.2i%.2i%.2i%.2i", starttime.year,
+                        starttime.month, starttime.day, (int) starttime.hour,
+                        (int) (start_seconds / 60), (start_seconds % 60));
+                snprintf(end_string, CMOR_MAX_STRING,
+                        "%.4ld%.2i%.2i%.2i%.2i%.2i", endtime.year,
+                        endtime.month, endtime.day, (int) endtime.hour,
+                        (int) (end_seconds / 60), (end_seconds % 60));
+
+                break;
+            case 6:
+                // frequency is monClim
+                // add/subtract 1 hour (this is overkill, but safe)
+                // to prevent truncation errors from possibly leading you to
+                // the wrong month
+                //
+                // note that cdCompAdd expects the increment added to be
+                //      expressed in units of hours
+
+                if (icalo == cdMixed) {
+                    cdCompAddMixed(starttime, 1.0, &starttime);
+                    cdCompAddMixed(endtime, -1.0, &endtime);
+                } else {
+                    cdCompAdd(starttime, 1.0, icalo, &starttime);
+                    cdCompAdd(endtime, -1.0, icalo, &endtime);
+                }
+                snprintf(start_string, CMOR_MAX_STRING, "%.4ld%.2i",
+                        starttime.year, starttime.month);
+                snprintf(end_string, CMOR_MAX_STRING, "%.4ld%.2i", endtime.year,
+                        endtime.month);
+                break;
+            case 99:
+                /* frequency is fx */
+                /* don't need to do anything, time string will ignored in next step */
+                break;
+            default:
+                snprintf(msg, CMOR_MAX_STRING,
+                        "Cannot find frequency %s. Closing variable %s (table: %s)",
+                        frequency, cmor_vars[var_id].id,
+                        cmor_tables[cmor_vars[var_id].ref_table_id].szTable_id);
+                cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
+                cmor_pop_traceback();
+                return (1);
+            }
+
+            strncat(outname, "_", CMOR_MAX_STRING - strlen(outname));
+            strncat(outname, start_string, CMOR_MAX_STRING - strlen(outname));
+            strncat(outname, "-", CMOR_MAX_STRING - strlen(outname));
+            strncat(outname, end_string, CMOR_MAX_STRING - strlen(outname));
+
+            if (cmor_tables[cmor_axes[cmor_vars[var_id].axes_ids[0]].
+                            ref_table_id].axes[cmor_axes[cmor_vars[var_id].
+                                                         axes_ids[0]].ref_axis_id].
+                                                         climatology== 1) {
+                strncat(outname, "-clim",
+                CMOR_MAX_STRING - strlen(outname));
+            }
         }
 
-        strncat( outname, "_", CMOR_MAX_STRING - strlen( outname ) );
-        strncat( outname, start_string, CMOR_MAX_STRING - strlen( outname ) );
-        strncat( outname, "-", CMOR_MAX_STRING - strlen( outname ) );
-        strncat( outname, end_string, CMOR_MAX_STRING - strlen( outname ) );
-
-	    if( cmor_tables
-		[cmor_axes[cmor_vars[var_id].axes_ids[0]].
-		 ref_table_id].axes[cmor_axes[cmor_vars[var_id].
-					      axes_ids[0]].
-				    ref_axis_id].climatology == 1 ) {
-		strncat( outname, "-clim",
-			 CMOR_MAX_STRING - strlen( outname ) );
-	    }
-	}
-
-	if( cmor_vars[var_id].suffix_has_date == 1 ) {
+        if (cmor_vars[var_id].suffix_has_date == 1) {
 /* -------------------------------------------------------------------- */
 /*      all right we need to pop out the date part....                  */
 /* -------------------------------------------------------------------- */
 
-	    n = strlen( cmor_vars[var_id].suffix );
-	    i = 0;
-	    while( cmor_vars[var_id].suffix[i] != '_' )
-		i++;
-	    i++;
-	    while( ( cmor_vars[var_id].suffix[i] != '_' ) && i < n )
-		i++;
+            n = strlen(cmor_vars[var_id].suffix);
+            i = 0;
+            while (cmor_vars[var_id].suffix[i] != '_')
+                i++;
+            i++;
+            while ((cmor_vars[var_id].suffix[i] != '_') && i < n)
+                i++;
 /* -------------------------------------------------------------------- */
 /*      ok now we have the length of dates                              */
 /*      at this point we are either at the                              */
 /*      _clim the actual _suffix or the end (==nosuffix)                */
 /*      checking if _clim needs to be added                             */
 /* -------------------------------------------------------------------- */
-	    if( cmor_tables
-		[cmor_axes[cmor_vars[var_id].axes_ids[i]].
-		 ref_table_id].axes[cmor_axes[cmor_vars[var_id].
-					      axes_ids[0]].
-				    ref_axis_id].climatology == 1 ) {
-		i += 5;
-	    }
-	    strcpy( msg, "" );
-	    for( j = i; j < n; j++ ) {
-		msg[j - i] = cmor_vars[var_id].suffix[i];
-		msg[j - i + 1] = '\0';
-	    }
-	} else {
-	    strncpy( msg, cmor_vars[var_id].suffix, CMOR_MAX_STRING );
-	}
+            if (cmor_tables[cmor_axes[cmor_vars[var_id].axes_ids[i]].ref_table_id].
+                    axes[cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_axis_id].
+                    climatology == 1) {
+                i += 5;
+            }
+            strcpy(msg, "");
+            for (j = i; j < n; j++) {
+                msg[j - i] = cmor_vars[var_id].suffix[i];
+                msg[j - i + 1] = '\0';
+            }
+        } else {
+            strncpy(msg, cmor_vars[var_id].suffix, CMOR_MAX_STRING);
+        }
 
-	if( strlen( msg ) > 0 ) {
-	    strncat( outname, "_", CMOR_MAX_STRING - strlen( outname ) );
-	    strncat( outname, msg, CMOR_MAX_STRING - strlen( outname ) );
-	}
-	strncat( outname, ".nc", CMOR_MAX_STRING - strlen( outname ) );
+        if (strlen(msg) > 0) {
+            strncat(outname, "_", CMOR_MAX_STRING - strlen(outname));
+            strncat(outname, msg, CMOR_MAX_STRING - strlen(outname));
+        }
+        strncat(outname, ".nc", CMOR_MAX_STRING - strlen(outname));
 
 
 /* -------------------------------------------------------------------- */
 /*      ok now we can actually move the file                            */
 /*      here we need to make sure we are not in preserve mode!          */
 /* -------------------------------------------------------------------- */
-	if( ( CMOR_NETCDF_MODE == CMOR_PRESERVE_4 )
-	    || ( CMOR_NETCDF_MODE == CMOR_PRESERVE_3 ) ) {
-	    FILE *fperr;
+        if ((CMOR_NETCDF_MODE == CMOR_PRESERVE_4)
+                || (CMOR_NETCDF_MODE == CMOR_PRESERVE_3)) {
+            FILE *fperr;
 
 /* -------------------------------------------------------------------- */
 /*      ok first let's check if the file does exists or not             */
@@ -5659,67 +5647,64 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
                                     "cmor_setup.", outname);
                 }
                 ierr = fclose(fperr);
-                fperr=NULL;
+                fperr = NULL;
                 cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
             }
         }
-	ierr = rename( cmor_vars[var_id].current_path, outname );
-	if( ierr != 0 ) {
-	    snprintf( msg, CMOR_MAX_STRING,
-		      "could not rename temporary file: %s to final file\n"
-	              "name: %s",
-		      cmor_vars[var_id].current_path, outname );
-	     cmor_handle_error_var( msg, CMOR_CRITICAL, var_id );
-	}
-	if( file_name != NULL ) {
-	    strncpy( file_name, outname, CMOR_MAX_STRING );
-	}
-        strncpy( cmor_current_dataset.finalfilename, outname,
-                CMOR_MAX_STRING);
+        ierr = rename(cmor_vars[var_id].current_path, outname);
+        if (ierr != 0) {
+            snprintf(msg, CMOR_MAX_STRING,
+                    "could not rename temporary file: %s to final file\n"
+                            "name: %s", cmor_vars[var_id].current_path,
+                    outname);
+            cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
+        }
+        if (file_name != NULL) {
+            strncpy(file_name, outname, CMOR_MAX_STRING);
+        }
+        strncpy(cmor_current_dataset.finalfilename, outname,
+        CMOR_MAX_STRING);
 
 /* -------------------------------------------------------------------- */
 /*      At this point we need to check the file's size                  */
 /*      and issue a warning if greater than 4Gb                         */
 /* -------------------------------------------------------------------- */
-	stat( outname, &buf );
-	sz = buf.st_size;
-	if( sz > maxsz ) {
-	    sprintf( msg,
-		     "Closing file: %s size is greater than 4Gb, while\n! "
-	             "this is acceptable \n! ",
-		     outname );
-	    cmor_handle_error_var( msg, CMOR_WARNING, var_id );
-	}
+//        stat(outname, &buf);
+//        sz = buf.st_size;
+//        if (sz > maxsz) {
+//            sprintf(msg, "Closing file: %s size is greater than 4Gb, while\n! "
+//                    "this is acceptable \n! ", outname);
+//            cmor_handle_error_var(msg, CMOR_WARNING, var_id);
+//        }
 
-	if( preserve != NULL ) {
-	    cmor_vars[var_id].initialized = -1;
-	    cmor_vars[var_id].ntimes_written = 0;
-	    cmor_vars[var_id].time_nc_id = -999;
-	    cmor_vars[var_id].time_bnds_nc_id = -999;
-	    for( i = 0; i < 10; i++ ) {
-		cmor_vars[var_id].ntimes_written_coords[i] = -1;
-		cmor_vars[var_id].ntimes_written_associated[i] = 0;
-		cmor_vars[var_id].associated_ids[i] = -1;
-		cmor_vars[var_id].nc_var_id = -999;
-	    }
-	    for( i = 0; i < cmor_vars[var_id].nattributes; i++ ) {
-		if( strcmp( cmor_vars[var_id].attributes[i],
-		        "cell_methods" ) == 0 ) {
-		    cmor_set_variable_attribute_internal( var_id,
-		            "cell_methods",
-		            'c',
-		            cmor_tables[cmor_vars[var_id].ref_table_id].
-		            vars[cmor_vars[var_id].ref_var_id].cell_methods );
-		}
-	    }
-	} else {
-	    cmor_reset_variable( var_id );
-	    cmor_vars[var_id].closed = 1;
-	}
+        if (preserve != NULL) {
+            cmor_vars[var_id].initialized = -1;
+            cmor_vars[var_id].ntimes_written = 0;
+            cmor_vars[var_id].time_nc_id = -999;
+            cmor_vars[var_id].time_bnds_nc_id = -999;
+            for (i = 0; i < 10; i++) {
+                cmor_vars[var_id].ntimes_written_coords[i] = -1;
+                cmor_vars[var_id].ntimes_written_associated[i] = 0;
+                cmor_vars[var_id].associated_ids[i] = -1;
+                cmor_vars[var_id].nc_var_id = -999;
+            }
+            for (i = 0; i < cmor_vars[var_id].nattributes; i++) {
+                if (strcmp(cmor_vars[var_id].attributes[i], "cell_methods")
+                        == 0) {
+                    cmor_set_variable_attribute_internal(var_id, "cell_methods",
+                            'c',
+                            cmor_tables[cmor_vars[var_id].ref_table_id].
+                            vars[cmor_vars[var_id].ref_var_id].cell_methods);
+                }
+            }
+        } else {
+            cmor_reset_variable(var_id);
+            cmor_vars[var_id].closed = 1;
+        }
     }
     cleanup_varid = -1;
-    cmor_pop_traceback(  );
-    return( 0 );
+    cmor_pop_traceback();
+    return (0);
 }
 
 /************************************************************************/
