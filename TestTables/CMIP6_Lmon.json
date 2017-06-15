@@ -4,7 +4,7 @@
         "table_id": "Table Lmon", 
         "realm": "land", 
         "cmor_version": "3.2", 
-        "table_date": "05 June 2017", 
+        "table_date": "15 June 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "30.00000", 

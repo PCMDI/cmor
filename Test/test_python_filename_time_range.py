@@ -5,7 +5,6 @@ Tests that the time range string in the filename is generated correctly.
 import numpy as np
 import os
 import unittest
-import pdb
 
 import cmor
 
@@ -18,8 +17,8 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
     def setUp(self):
         self.logfile = 'filename_time_range.log'
         cmor.setup(inpath='Test',
-                   netcdf_file_action=cmor.CMOR_REPLACE_4,
-                   logfile=self.logfile)
+                   netcdf_file_action=cmor.CMOR_REPLACE_4)
+ 
 
         cmor.dataset_json("Test/common_user_input.json")
 
@@ -49,7 +48,7 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
             axis_id = cmor.axis(**axis)
             axis_ids.append(axis_id)
         varid = cmor.variable('hfds', 'W m-2', axis_ids, positive='up')
-        cmor.write(varid, [5, 10])
+        cmor.write(varid, [5., 10.])
         self.path = cmor.close(varid, file_name=True)
 
         self.assertEqual(os.path.basename(self.path),
@@ -267,7 +266,6 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
                          'r11i1p1f1_gr_200001010013-200001010038.nc')
 
     def test_1hrclimmon(self):
-        pdb.set_trace()
         table = 'Tables/CMIP6_E1hrClimMon.json'
         cmor.load_table(table)
         axes = [

@@ -34,11 +34,11 @@
         ],
         "version_metadata":{
             "author":"Paul J. Durack <durack1@llnl.gov>",
-            "creation_date":"Tue May 30 17:54:36 2017 -0700",
+            "creation_date":"Thu Jun 15 08:22:07 2017 -0700",
             "institution_id":"PCMDI",
-            "latest_tag_point":"3.2.3 (38; ge149ee4)",
-            "note":"Remove frequency 3hrClim",
-            "previous_commit":"30dc1fd00a027e898ded0d999670f9f11d19cf8a"
+            "latest_tag_point":"3.2.3 (45; g584ff9a)",
+            "note":"Correct experiment_id typo AeroChemMIP -> AerChemMIP in EC-Earth3-AerChem",
+            "previous_commit":"278e765066c7a01dc63b2e04b58d40ae343d8c1b"
         },
         "activity_id":[
             "AerChemMIP",
@@ -71,7 +71,7 @@
             "CCCR-IITM":"Centre for Climate Change Research, Indian Institute of Tropical Meteorology Pune, Maharashtra 411 008, India",
             "CCCma":"Canadian Centre for Climate Modelling and Analysis, Victoria, BC V8P 5C2, Canada",
             "CMCC":"Fondazione Centro Euro-Mediterraneo sui Cambiamenti Climatici, Lecce 73100, Italy",
-            "CNRM-CERFACS":"CNRM (Centre National de Recherches Meteorologiques, Toulouse 31057, France), CERFACS (Centre Europeen de Recherche et de Formation Avancee en Calcul Scientifique, Toulouse 31100, France)",
+            "CNRM-CERFACS":"CNRM (Centre National de Recherches Meteorologiques, Toulouse 31057, France), CERFACS (Centre Europeen de Recherche et de Formation Avancee en Calcul Scientifique, Toulouse 31057, France)",
             "COLA-CFS":"Center for Ocean-Land-Atmosphere Studies, Fairfax, VA 22030, USA",
             "CSIR-CSIRO":"CSIR (Council for Scientific and Industrial Research - Natural Resources and the Environment, Pretoria, 0001, South Africa), CSIRO (Commonwealth Scientific and Industrial Research Organisation and Bureau of Meteorology, Melbourne, Victoria 3208, Australia)",
             "CSIRO-BOM":"Commonwealth Scientific and Industrial Research Organisation and Bureau of Meteorology, Melbourne, Victoria 3208, Australia",
@@ -322,7 +322,17 @@
             },
             "CNRM-CM6-1":{
                 "activity_participation":[
-                    ""
+                    "CFMIP",
+                    "CMIP",
+                    "DAMIP",
+                    "DCPP",
+                    "FAFMIP",
+                    "GMMIP",
+                    "ISMIP6",
+                    "LS3MIP",
+                    "PMIP",
+                    "RFMIP",
+                    "ScenarioMIP"
                 ],
                 "cohort":[
                     "Registered"
@@ -331,11 +341,14 @@
                     "CNRM-CERFACS"
                 ],
                 "source_id":"CNRM-CM6-1",
-                "source":"CNRM-CM6-1 (2016): \naerosol: climatological fields computed by TACTIC (v2.0)\natmos: Arpege 6.2 (Tl127; 91 levels; top level 78.4 km)\natmosChem: OZL_v2\nland: Surfex 8.0c\nlandIce: none (except for some FAFMIP experiments)\nocean: Nemo 3.6 (eORCA1; tripolar primarily 1deg latitude/longitude; 75 levels; top grid cell 0-1 m)\nocnBgchem: none\nseaIce: Gelato 6.1"
+                "source":"CNRM-CM6-1 (2017): \naerosol: prescribed monthly fields computed by TACTIC_v2 scheme\natmos: Arpege 6.3 (T127; Gaussian Reduced with 24572 grid points in total distributed over 128 latitude circles (with 256 grid points per latitude circle between 30degN and 30degS reducing to 20 grid points per latitude circle at 88.9degN and 88.9degS); 91 levels; top level 78.4 km)\natmosChem: OZL_v2\nland: Surfex 8.0c\nlandIce: GRISILI: Collaborating with l'Institut des Geosciences de l'Environnement in Grenoble on offline ice-sheet simulations\nocean: Nemo 3.6 (eORCA1, tripolar primarily 1deg; 362 x 294 longitude/latitude; 75 levels; top grid cell 0-1 m)\nocnBgchem: none\nseaIce: Gelato 6.1"
             },
             "CNRM-CM6-1-HR":{
                 "activity_participation":[
-                    ""
+                    "CMIP",
+                    "DCPP",
+                    "HighResMIP",
+                    "ScenarioMIP"
                 ],
                 "cohort":[
                     "Registered"
@@ -344,11 +357,17 @@
                     "CNRM-CERFACS"
                 ],
                 "source_id":"CNRM-CM6-1-HR",
-                "source":"CNRM-CM6-1-HR (2016): \naerosol: climatological fields computed by TACTIC (v2.0)\natmos: Arpege 6.2 (Tl359; 91 levels; top level 78.4 km)\natmosChem: OZL_v2\nland: Surfex 8.0c\nlandIce: none\nocean: Nemo 3.6 (eORCA025; tripolar primarily 1/4deg latitude/longitude; 75 levels; top grid cell 0-1 m)\nocnBgchem: none\nseaIce: Gelato 6.1"
+                "source":"CNRM-CM6-1-HR (2017): \naerosol: prescribed monthly fields computed by TACTIC_v2 scheme\natmos: Arpege 6.3 (T359; Gaussian Reduced with 181724 grid points in total distributed over 360 latitude circles (with 720 grid points per latitude circle between 33.2degN and 32.2degS reducing to 18 grid points per latitude circle at 89.6degN and 89.6degS); 91 levels; top level 78.4 km)\natmosChem: OZL_v2\nland: Surfex 8.0c\nlandIce: none\nocean: Nemo 3.6 (eORCA025, tripolar primarily 1/4deg; 1442 x 1050 longitude/latitude; 75 levels; top grid cell 0-1 m)\nocnBgchem: none\nseaIce: Gelato 6.1"
             },
             "CNRM-ESM2-1":{
                 "activity_participation":[
-                    ""
+                    "AerChemMIP",
+                    "C4MIP",
+                    "CMIP",
+                    "GeoMIP",
+                    "LUMIP",
+                    "OMIP",
+                    "ScenarioMIP"
                 ],
                 "cohort":[
                     "Registered"
@@ -357,11 +376,13 @@
                     "CNRM-CERFACS"
                 ],
                 "source_id":"CNRM-ESM2-1",
-                "source":"CNRM-ESM2-1 (2016): \naerosol: TACTIC (v2.0)\natmos: Arpege 6.2 (Tl127; 91 levels; top level 78.4 km)\natmosChem: REPROBUS-C (v2.0)\nland: Surfex 8.0c\nlandIce: none\nocean: Nemo 3.6 (eORCA1; tripolar primarily 1deg latitude/longitude; 75 levels; top grid cell 0-1 m)\nocnBgchem: Pisces 2.s\nseaIce: Gelato 6.1"
+                "source":"CNRM-ESM2-1 (2017): \naerosol: TACTIC_v2\natmos: Arpege 6.3 (T127; Gaussian Reduced with 24572 grid points in total distributed over 128 latitude circles (with 256 grid points per latitude circle between 30degN and 30degS reducing to 20 grid points per latitude circle at 88.9degN and 88.9degS); 91 levels; top level 78.4 km)\natmosChem: REPROBUS-C_v2\nland: Surfex 8.0c\nlandIce: none\nocean: Nemo 3.6 (eORCA1, tripolar primarily 1deg; 362 x 294 longitude/latitude; 75 levels; top grid cell 0-1 m)\nocnBgchem: Pisces 2.s\nseaIce: Gelato 6.1"
             },
             "CNRM-ESM2-1-HR":{
                 "activity_participation":[
-                    ""
+                    "CMIP",
+                    "OMIP",
+                    "ScenarioMIP"
                 ],
                 "cohort":[
                     "Registered"
@@ -370,7 +391,7 @@
                     "CNRM-CERFACS"
                 ],
                 "source_id":"CNRM-ESM2-1-HR",
-                "source":"CNRM-ESM2-1-HR (2016): \naerosol: TACTIC (v2.0)\natmos: Arpege 6.2 (Tl359; 91 levels; top level 78.4 km)\natmosChem: OZL_v2\nland: Surfex 8.0c\nlandIce: none\nocean: Nemo 3.6 (eORCA025; tripolar primarily 1/4deg latitude/longitude; 75 levels; top grid cell 0-1 m)\nocnBgchem: Pisces 2.s\nseaIce: Gelato 6.1"
+                "source":"CNRM-ESM2-1-HR (2017): \naerosol: TACTIC_v2\natmos: Arpege 6.3 (T359; Gaussian Reduced with 181724 grid points in total distributed over 360 latitude circles (with 720 grid points per latitude circle between 33.2degN and 32.2degS reducing to 18 grid points per latitude circle at 89.6degN and 89.6degS); 91 levels; top level 78.4 km)\natmosChem: REPROBUS-C_v2\nland: Surfex 8.0c\nlandIce: none\nocean: Nemo 3.6 (eORCA025, tripolar primarily 1/4deg; 1442 x 1050 longitude/latitude; 75 levels; top grid cell 0-1 m)\nocnBgchem: Pisces 2.s\nseaIce: Gelato 6.1"
             },
             "CanESM5":{
                 "activity_participation":[
@@ -404,7 +425,16 @@
             },
             "EC-Earth3":{
                 "activity_participation":[
-                    ""
+                    "CMIP",
+                    "CORDEX",
+                    "DCPP",
+                    "DynVarMIP",
+                    "LS3MIP",
+                    "RFMIP",
+                    "SIMIP",
+                    "ScenarioMIP",
+                    "VIACSAB",
+                    "VolMIP"
                 ],
                 "cohort":[
                     "Registered"
@@ -413,11 +443,13 @@
                     "EC-Earth-Consortium"
                 ],
                 "source_id":"EC-Earth3",
-                "source":"EC-Earth3 (2017): \naerosol: none\natmos: IFS cy36r4 (TL255, linearly reduced Gaussian grid equivalent to 512 x 256, 91 levels, top level: 0,01 hPa)\natmosChem: none\nland: HTESSEL (land surface scheme built in IFS)\nlandIce: none\nocean: NEMO3.6 (ORCA1 tripolar primarily 1 deg latitude/longitude with meridional refinement down to 1/3 degree in the tropics; 75 levels; top grid cell 5 m)\nocnBgchem: none\nseaIce: LIM3"
+                "source":"EC-Earth3 (2017): \naerosol: none\natmos: IFS cy36r4 (TL255; linearly reduced Gaussian grid; 512 x 256 longitude/latitude; 91 levels; top level 0.01 hPa)\natmosChem: none\nland: HTESSEL (land surface scheme built in IFS)\nlandIce: none\nocean: NEMO3.6 (ORCA1; tripolar primarily 1 deg with meridional refinement down to 1/3 degree in the tropics; 362 x 292 longitude/latitude; 75 levels; top grid cell 0-1 m)\nocnBgchem: none\nseaIce: LIM3"
             },
             "EC-Earth3-AerChem":{
                 "activity_participation":[
-                    ""
+                    "AerChemMIP",
+                    "CMIP",
+                    "ScenarioMIP"
                 ],
                 "cohort":[
                     "Registered"
@@ -426,11 +458,13 @@
                     "EC-Earth-Consortium"
                 ],
                 "source_id":"EC-Earth3-AerChem",
-                "source":"EC-Earth3-AerChem (2017): \naerosol: TM5\natmos: IFS cy36r4 (TL255, linearly reduced Gaussian grid equivalent to 512 x 256, 91 levels, top level: 0.01 hPa)\natmosChem: TM5 (3 deg. (long.) x 2 deg. (lat.), 34 levels, top level: 0.1 hPa\nland: HTESSEL (land surface scheme built in IFS)\nlandIce: none\nocean: NEMO3.6 (ORCA1 tripolar primarily 1 deg latitude/longitude with meridional refinement down to 1/3 degree in the tropics; 75 levels; top grid cell 5 m)\nocnBgchem: none\nseaIce: LIM3"
+                "source":"EC-Earth3-AerChem (2017): \naerosol: TM5 (3 x 2 degrees; 120 x 90 longitude/latitude; 34 levels; top level 0.1 hPa)\natmos: IFS cy36r4 (TL255; linearly reduced Gaussian grid; 512 x 256 longitude/latitude; 91 levels; top level 0.01 hPa)\natmosChem: TM5 (3 x 2 degrees; 120 x 90 longitude/latitude; 34 levels; top level 0.1 hPa)\nland: HTESSEL (land surface scheme built in IFS)\nlandIce: none\nocean: NEMO3.6 (ORCA1; tripolar primarily 1 deg with meridional refinement down to 1/3 degree in the tropics; 362 x 292 longitude/latitude; 75 levels; top grid cell 0-1 m)\nocnBgchem: none\nseaIce: LIM3"
             },
             "EC-Earth3-CC":{
                 "activity_participation":[
-                    ""
+                    "C4MIP",
+                    "CMIP",
+                    "LUMIP"
                 ],
                 "cohort":[
                     "Registered"
@@ -439,11 +473,13 @@
                     "EC-Earth-Consortium"
                 ],
                 "source_id":"EC-Earth3-CC",
-                "source":"EC-Earth3-CC (2017): \naerosol: none\natmos: IFS cy36r4 (TL255, linearly reduced Gaussian grid equivalent to 512 x 256, 91 levels, top level: 0.01 hPa)\natmosChem: TM5 (3 deg. (long.) x 2 deg. (lat.), 34 levels, top level: 0.1 hPa\nland: LPJ-GUESS v4\nlandIce: none\nocean: NEMO3.6 (ORCA1 tripolar primarily 1 deg latitude/longitude with meridional refinement down to 1/3 degree in the tropics; 75 levels; top grid cell 5 m)\nocnBgchem: PISCES v2\nseaIce: LIM3"
+                "source":"EC-Earth3-CC (2017): \naerosol: none\natmos: IFS cy36r4 (TL255; linearly reduced Gaussian grid; 512 x 256 longitude/latitude; 91 levels; top level 0.01 hPa)\natmosChem: TM5 (3 x 2 degrees; 120 x 90 longitude/latitude; 34 levels; top level 0.1 hPa)\nland: HTESSEL (land surface scheme built in IFS) and LPJ-GUESS v4\nlandIce: none\nocean: NEMO3.6 (ORCA1; tripolar primarily 1 deg with meridional refinement down to 1/3 degree in the tropics; 362 x 292 longitude/latitude; 75 levels; top grid cell 0-1 m)\nocnBgchem: PISCES v2\nseaIce: LIM3"
             },
             "EC-Earth3-GrIS":{
                 "activity_participation":[
-                    ""
+                    "CMIP",
+                    "ISMIP6",
+                    "PMIP"
                 ],
                 "cohort":[
                     "Registered"
@@ -452,11 +488,12 @@
                     "EC-Earth-Consortium"
                 ],
                 "source_id":"EC-Earth3-GrIS",
-                "source":"EC-Earth3-GrIS (2017): \naerosol: none\natmos: IFS cy36r4 (TL255, linearly reduced Gaussian grid equivalent to 512 x 256, 91 levels, top level: 0.01 hPa)\natmosChem: none\nland: HTESSEL (land surface scheme built in IFS)\nlandIce: PISM 0.7 (5 km x 5 km, L442)\nocean: NEMO3.6 (ORCA1 tripolar primarily 1 deg latitude/longitude with meridional refinement down to 1/3 degree in the tropics; 75 levels; top grid cell 5 m)\nocnBgchem: none\nseaIce: LIM3"
+                "source":"EC-Earth3-GrIS (2017): \naerosol: none\natmos: IFS cy36r4 (TL255; linearly reduced Gaussian grid; 512 x 256 longitude/latitude; 91 levels; top level 0.01 hPa)\natmosChem: none\nland: HTESSEL (land surface scheme built in IFS)\nlandIce: PISM 0.7 (5 x 5 km; 442 levels)\nocean: NEMO3.6 (ORCA1; tripolar primarily 1 deg with meridional refinement down to 1/3 degree in the tropics; 362 x 292 longitude/latitude; 75 levels; top grid cell 0-1 m)\nocnBgchem: none\nseaIce: LIM3"
             },
             "EC-Earth3-HR":{
                 "activity_participation":[
-                    ""
+                    "DCPP",
+                    "HighResMIP"
                 ],
                 "cohort":[
                     "Registered"
@@ -465,11 +502,12 @@
                     "EC-Earth-Consortium"
                 ],
                 "source_id":"EC-Earth3-HR",
-                "source":"EC-Earth3-HR (2017): \naerosol: none\natmos: IFS cy36r4 (TL511, linearly reduced Gaussian grid equivalent to 1024 x 512; 91 levels; top level 0.01 hPa)\natmosChem: none\nland: HTESSEL (land surface scheme built in IFS)\nlandIce: none\nocean: NEMO3.6 (tripolar, 1442x1921; 75 levels; top grid cell 5m)\nocnBgchem: none\nseaIce: LIM3"
+                "source":"EC-Earth3-HR (2017): \naerosol: none\natmos: IFS cy36r4 (TL511; linearly reduced Gaussian grid; 1024 x 512 longitude/latitude; 91 levels; top level 0.01 hPa)\natmosChem: none\nland: HTESSEL (land surface scheme built in IFS)\nlandIce: none\nocean: NEMO3.6 (ORCA1; tripolar primarily 0.25 degrees; 1442 x 1921 longitude/latitude; 75 levels; top grid cell 0-1 m)\nocnBgchem: none\nseaIce: LIM3"
             },
             "EC-Earth3-LR":{
                 "activity_participation":[
-                    ""
+                    "CMIP",
+                    "PMIP"
                 ],
                 "cohort":[
                     "Registered"
@@ -478,11 +516,14 @@
                     "EC-Earth-Consortium"
                 ],
                 "source_id":"EC-Earth3-LR",
-                "source":"EC-Earth3-LR (2017): \naerosol: none\natmos: IFS cy36r4 (TL159, linearly reduced Gaussian grid equivalent to 320 x 160; 62 levels; top level 5 hPa)\natmosChem: none\nland: HTESSEL (land surface scheme built in IFS)\nlandIce: none\nocean: NEMO3.6 (ORCA1 tripolar primarily 1 deg latitude/longitude with meridional refinement down to 1/3 degree in the tropics; 75 levels; top grid cell 5 m)\nocnBgchem: none\nseaIce: LIM3"
+                "source":"EC-Earth3-LR (2017): \naerosol: none\natmos: IFS cy36r4 (TL159; linearly reduced Gaussian grid; 320 x 160 longitude/latitude; 62 levels; top level 5 hPa)\natmosChem: none\nland: HTESSEL (land surface scheme built in IFS)\nlandIce: none\nocean: NEMO3.6 (ORCA1; tripolar primarily 1 deg with meridional refinement down to 1/3 degree in the tropics; 362 x 292 longitude/latitude; 75 levels; top grid cell 0-1 m)\nocnBgchem: none\nseaIce: LIM3"
             },
             "EC-Earth3-Veg":{
                 "activity_participation":[
-                    ""
+                    "CMIP",
+                    "LS3MIP",
+                    "LUMIP",
+                    "ScenarioMIP"
                 ],
                 "cohort":[
                     "Registered"
@@ -491,11 +532,13 @@
                     "EC-Earth-Consortium"
                 ],
                 "source_id":"EC-Earth3-Veg",
-                "source":"EC-Earth3-Veg (2017): \naerosol: none\natmos: IFS cy36r4 (TL255, linearly reduced Gaussian grid equivalent to 512 x 256, 91 levels, top level: 0.01 hPa)\natmosChem: none\nland: LPJ-GUESS v4\nlandIce: none\nocean: NEMO3.6 (ORCA1 tripolar primarily 1 deg latitude/longitude with meridional refinement down to 1/3 degree in the tropics; 75 levels; top grid cell 5 m)\nocnBgchem: none\nseaIce: LIM3"
+                "source":"EC-Earth3-Veg (2017): \naerosol: none\natmos: IFS cy36r4 (TL255; linearly reduced Gaussian grid; 512 x 256 longitude/latitude; 91 levels; top level 0.01 hPa)\natmosChem: none\nland: HTESSEL (land surface scheme built in IFS)\nlandIce: none\nocean: NEMO3.6 (ORCA1; tripolar primarily 1 deg with meridional refinement down to 1/3 degree in the tropics; 362 x 292 longitude/latitude; 75 levels; top grid cell 0-1 m)\nocnBgchem: none\nseaIce: LIM3"
             },
             "EC-Earth3-Veg-LR":{
                 "activity_participation":[
-                    ""
+                    "CMIP",
+                    "PMIP",
+                    "ScenarioMIP"
                 ],
                 "cohort":[
                     "Registered"
@@ -504,7 +547,7 @@
                     "EC-Earth-Consortium"
                 ],
                 "source_id":"EC-Earth3-Veg-LR",
-                "source":"EC-Earth3-Veg-LR (2017): \naerosol: none\natmos: IFS cy36r4 (TL159, linearly reduced Gaussian grid equivalent to 320 x 160; 62 levels; top level 5 hPa)\natmosChem: none\nland: LPJ-GUESS v4\nlandIce: none\nocean: NEMO3.6 (ORCA1 tripolar primarily 1 deg latitude/longitude with meridional refinement down to 1/3 degree in the tropics; 75 levels; top grid cell 5 m)\nocnBgchem: none\nseaIce: LIM3"
+                "source":"EC-Earth3-Veg-LR (2017): \naerosol: none\natmos: IFS cy36r4 (TL159; linearly reduced Gaussian grid; 320 x 160 longitude/latitude; 62 levels; top level 5 hPa)\natmosChem: none\nland: HTESSEL (land surface scheme built in IFS) and LPJ-GUESS v4\nlandIce: none\nocean: NEMO3.6 (ORCA1; tripolar primarily 1 deg with meridional refinement down to 1/3 degree in the tropics; 362 x 292 longitude/latitude; 75 levels; top grid cell 0-1 m)\nocnBgchem: none\nseaIce: LIM3"
             },
             "EMAC-2-53-AerChem":{
                 "activity_participation":[
@@ -990,20 +1033,19 @@
             "RAD",
             "SLAB"
         ],
-        "frequency":[
-            "1hr",
-            "1hrClimMon",
-            "3hr",
-            "6hr",
-            "day",
-            "decadal",
-            "fx",
-            "mon",
-            "monClim",
-            "subhr",
-            "yr",
-            "yrClim"
-        ],
+        "frequency":{
+            "1hr":"sampled hourly",
+            "1hrClimMon":"monthly climatology of diurnal cycle computed from hourly samples",
+            "3hr":"sampled every 3 hours",
+            "6hr":"sampled every 6 hours",
+            "day":"daily mean samples",
+            "dec":"decadal mean samples",
+            "fx":"fixed (time invariant) field",
+            "mon":"monthly mean samples",
+            "monClim":"monthly climatology computed from monthly mean samples",
+            "subhr":"sampled sub-hourly",
+            "yr":"annual mean samples"
+        },
         "grid_label":[
             "gm",
             "gn",
@@ -3907,7 +3949,7 @@
                 ],
                 "tier":"2"
             },
-            "highresSST-4co2":{
+            "highresSST-4xCO2":{
                 "activity_id":[
                     "HighResMIP"
                 ],
@@ -3917,7 +3959,7 @@
                 "description":"Similar to CFMIP amip-4xCO2, SSTs are held at highresSST-present values and the CO2 seen by the radiation scheme is quadrupled",
                 "end_year":"2014",
                 "experiment":"highresSST-present SST with 4xCO2 concentrations",
-                "experiment_id":"highresSST-4co2",
+                "experiment_id":"highresSST-4xCO2",
                 "min_number_yrs_per_sim":"36",
                 "parent_activity_id":[
                     "HighResMIP"
@@ -5722,35 +5764,6 @@
                 ],
                 "tier":"2"
             },
-            "lfmip-pdL-princeton":{
-                "activity_id":[
-                    "LS3MIP"
-                ],
-                "additional_allowed_model_components":[
-                    "AER",
-                    "CHEM",
-                    "BGC"
-                ],
-                "description":"Prescribed land conditions 1980-2014 climate with Land-Hist-princeton",
-                "end_year":"2100",
-                "experiment":"as LFMIP-pdLC with Land-Hist-princeton",
-                "experiment_id":"lfmip-pdL-princeton",
-                "min_number_yrs_per_sim":"121",
-                "parent_activity_id":[
-                    "CMIP"
-                ],
-                "parent_experiment_id":[
-                    "historical"
-                ],
-                "required_model_components":[
-                    "AOGCM"
-                ],
-                "start_year":"1980",
-                "sub_experiment_id":[
-                    "none"
-                ],
-                "tier":"2"
-            },
             "lfmip-pdLC":{
                 "activity_id":[
                     "LS3MIP"
@@ -5793,6 +5806,35 @@
                 "end_year":"2100",
                 "experiment":"as LFMIP-pdLC with Land-Hist-cruNcep",
                 "experiment_id":"lfmip-pdLC-cruNcep",
+                "min_number_yrs_per_sim":"121",
+                "parent_activity_id":[
+                    "CMIP"
+                ],
+                "parent_experiment_id":[
+                    "historical"
+                ],
+                "required_model_components":[
+                    "AOGCM"
+                ],
+                "start_year":"1980",
+                "sub_experiment_id":[
+                    "none"
+                ],
+                "tier":"2"
+            },
+            "lfmip-pdLC-princeton":{
+                "activity_id":[
+                    "LS3MIP"
+                ],
+                "additional_allowed_model_components":[
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description":"Prescribed land conditions 1980-2014 climate with Land-Hist-princeton",
+                "end_year":"2100",
+                "experiment":"as LFMIP-pdLC with Land-Hist-princeton",
+                "experiment_id":"lfmip-pdLC-princeton",
                 "min_number_yrs_per_sim":"121",
                 "parent_activity_id":[
                     "CMIP"

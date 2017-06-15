@@ -78,6 +78,6 @@ myvars[0] = cmor.variable(entry2d[0],
 for i in range(ntimes):
     data2d = read_2d_input_files(i, varin2d[0], lat, lon)
     print 'writing time: ', i, data2d.shape, data2d
-    cmor.write(myvars[0], data2d, 1)
+    cmor.write(myvars[0], data2d)
 
 cmor.close()
