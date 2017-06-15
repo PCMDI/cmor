@@ -1299,8 +1299,8 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
 /*      before anything we copy axes_ids into laxes_ids                 */
 /* -------------------------------------------------------------------- */
 
-    for( i = 0; i < ndims; i++ ) {
-	laxes_ids[i] = axes_ids[i];
+    for (i = 0; i < ndims; i++) {
+        laxes_ids[i] = axes_ids[i];
     }
 /* -------------------------------------------------------------------- */
 /*      Now figure out if the variable ask for an axis that is          */
@@ -1455,7 +1455,7 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
                     if (strcmp(msg,
                             cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].standard_name)
                             == 0) {
-                        /* -------------------------------------------------------------------- */
+/* -------------------------------------------------------------------- */
 /*       ok user did define this one on its own                         */
 /* -------------------------------------------------------------------- */
 
@@ -1543,6 +1543,8 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
        if(strcmp(cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].
                     axes[cmor_axes[laxes_ids[i]].ref_axis_id].id,
                     AXIS_FORECAST_TIME)==0) {
+           refvar.dimensions[lndims-1]= cmor_axes[laxes_ids[i]].ref_axis_id;
+           refvar.ndims++;
            k++;
            continue;
        }
@@ -1669,69 +1671,65 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
 
     k = 0;
 
-    for( i = 0; i < lndims; i++ ) {
+    for (i = 0; i < lndims; i++) {
 
-	if( ( ( strcmp
-		( cmor_tables[refvar.table_id].axes[refvar.dimensions[i]].
-		  id, "latitude" ) == 0 )
-	      ||
-	      ( strcmp
-		( cmor_tables[refvar.table_id].axes[refvar.dimensions[i]].
-		  id, "longitude" ) == 0 ) ) && ( grid_id != 1000 ) ) {
+        if (((strcmp(cmor_tables[refvar.table_id].axes[refvar.dimensions[i]].id,
+                "latitude") == 0)
+                || (strcmp(
+                        cmor_tables[refvar.table_id].axes[refvar.dimensions[i]].id,
+                        "longitude") == 0)) && (grid_id != 1000)) {
 
 /* -------------------------------------------------------------------- */
 /*      ok we are  dealing with a "grid" type of data                   */
 /* -------------------------------------------------------------------- */
 
-	    if( did_grid_reorder != 0 )
-		continue;
-	    for( j = 0; j < cmor_grids[grid_id].ndims; j++ ) {
-		cmor_vars[vrid].axes_ids[k] =
-		    cmor_grids[grid_id].axes_ids[j];
-		k++;
-	    }
-	    did_grid_reorder = 1;
-	} else if( ( refvar.dimensions[i] == -2 ) ||
-	        ( cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].value == 1.e20 ) ) {
+            if (did_grid_reorder != 0)
+                continue;
+            for (j = 0; j < cmor_grids[grid_id].ndims; j++) {
+                cmor_vars[vrid].axes_ids[k] = cmor_grids[grid_id].axes_ids[j];
+                k++;
+            }
+            did_grid_reorder = 1;
+        } else if ((refvar.dimensions[i] == -2)
+                || (cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].value
+                        == 1.e20)) {
 /* -------------------------------------------------------------------- */
 /*      not a singleton dim                                             */
 /* -------------------------------------------------------------------- */
-	    
-	    iref = -1;
-	    for( j = 0; j < lndims; j++ ) {
-		if( ( refvar.table_id ==
-		      cmor_axes[laxes_ids[j]].ref_table_id )
-		    && ( refvar.dimensions[i] ==
-			 cmor_axes[laxes_ids[j]].ref_axis_id ) ) {
-		    cmor_vars[vrid].axes_ids[k] = laxes_ids[j];
-		}
+
+            iref = -1;
+            for (j = 0; j < lndims; j++) {
+                if ((refvar.table_id == cmor_axes[laxes_ids[j]].ref_table_id)
+                        && (refvar.dimensions[i]
+                                == cmor_axes[laxes_ids[j]].ref_axis_id)) {
+                    cmor_vars[vrid].axes_ids[k] = laxes_ids[j];
+                }
 /* -------------------------------------------------------------------- */
 /*      -2 means it is a zaxis                                          */
 /* -------------------------------------------------------------------- */
 
-		if( refvar.dimensions[i] == -2 ) {
-		    if( cmor_axes[laxes_ids[j]].axis == 'Z' )
-			cmor_vars[vrid].axes_ids[i] = laxes_ids[j];
-		}
-	    }
-	    k++;
-	} else if( refvar.dimensions[i] == -CMOR_MAX_GRIDS ) {
+                if (refvar.dimensions[i] == -2) {
+                    if (cmor_axes[laxes_ids[j]].axis == 'Z')
+                        cmor_vars[vrid].axes_ids[i] = laxes_ids[j];
+                }
+            }
+            k++;
+        } else if (refvar.dimensions[i] == -CMOR_MAX_GRIDS) {
 /* -------------------------------------------------------------------- */
 /*      ok this is either a lat/lon                                     */
 /* -------------------------------------------------------------------- */
 
-	    for( j = 0; j < ndims; j++ )
-		if( axes_ids[j] < -CMOR_MAX_GRIDS + 1 )
-		    break;
-	    l = j;
-	    for( j = 0; j < cmor_grids[grid_id].ndims; j++ ) {
-		cmor_vars[vrid].axes_ids[k] =
-		    cmor_grids[grid_id].axes_ids[j];
-		k++;
-		i++;
-	    }
-	    i--;		/* one too many i adds */
-	}
+            for (j = 0; j < ndims; j++)
+                if (axes_ids[j] < -CMOR_MAX_GRIDS + 1)
+                    break;
+            l = j;
+            for (j = 0; j < cmor_grids[grid_id].ndims; j++) {
+                cmor_vars[vrid].axes_ids[k] = cmor_grids[grid_id].axes_ids[j];
+                k++;
+                i++;
+            }
+            i--; /* one too many i adds */
+        }
     }
 
 /* -------------------------------------------------------------------- */
@@ -1915,78 +1913,76 @@ int cmor_set_var_def_att( cmor_var_def_t * var, char att[CMOR_MAX_STRING],
 
     } else if( strcmp( att, VARIABLE_ATT_DIMENSIONS ) == 0 ) {
 
-	n0 = strlen( val );
-	for( i = 0; i < n0; i++ ) {
+        n0 = strlen(val);
+        for (i = 0; i < n0; i++) {
 
-	    j = 0;
-	    while( ( i < n0 ) && ( ( val[i] != ' ' ) && val[i] != '\0' ) ) {
-		dim[j] = val[i];
-		j++;
-		i++;
-	    }
+            j = 0;
+            while ((i < n0) && ((val[i] != ' ') && val[i] != '\0')) {
+                dim[j] = val[i];
+                j++;
+                i++;
+            }
 
-	    dim[j] = '\0';
+            dim[j] = '\0';
 
-	    if( var->ndims > CMOR_MAX_DIMENSIONS ) {
-		snprintf( msg, CMOR_MAX_STRING,
-			  "Too many dimensions (%i) defined for variable "
-		          "(%s), max is: %i",
-			  var->ndims, var->id, CMOR_MAX_DIMENSIONS );
-		cmor_handle_error( msg, CMOR_CRITICAL );
-	    }
+            if (var->ndims > CMOR_MAX_DIMENSIONS) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "Too many dimensions (%i) defined for variable "
+                                "(%s), max is: %i", var->ndims, var->id,
+                        CMOR_MAX_DIMENSIONS);
+                cmor_handle_error(msg, CMOR_CRITICAL);
+            }
 
 /* -------------------------------------------------------------------- */
 /*      check that the dimension as been defined in the table           */
 /* -------------------------------------------------------------------- */
-	    n = -1;		/* not found yet */
-			for (j = 0; j <= cmor_tables[var->table_id].naxes; j++) {
-				if (strcmp(dim, cmor_tables[var->table_id].axes[j].id) == 0) {
-					n = j;
-					break;
-				}
-			}
-	    
-	    if( n == -1 ) {
-		j = strcmp( DIMENSION_ZLEVEL, dim );
-		j *= strcmp( DIMENSION_ALEVEL, dim );
-		j *= strcmp( DIMENSION_OLEVEL, dim );
-		for( k = 0; k < CMOR_MAX_ELEMENTS; k++ ) {
-		    if( cmor_tables[var->table_id].generic_levels[k][0] ==
-			'\0' )
-			break;
-		    j *= strcmp( dim,
-				 cmor_tables[var->table_id].
-				 generic_levels[k] );
-		}
+            n = -1; /* not found yet */
+            for (j = 0; j <= cmor_tables[var->table_id].naxes; j++) {
+                if (strcmp(dim, cmor_tables[var->table_id].axes[j].id) == 0) {
+                    n = j;
+                    break;
+                }
+            }
 
-		if( j == 0 ) {
+            if (n == -1) {
+                j = strcmp( DIMENSION_ZLEVEL, dim);
+                j *= strcmp( DIMENSION_ALEVEL, dim);
+                j *= strcmp( DIMENSION_OLEVEL, dim);
+                for (k = 0; k < CMOR_MAX_ELEMENTS; k++) {
+                    if (cmor_tables[var->table_id].generic_levels[k][0] == '\0')
+                        break;
+                    j *= strcmp(dim,
+                            cmor_tables[var->table_id].generic_levels[k]);
+                }
 
-		    var->dimensions[var->ndims] = -2;
-		} else {
-		    if( ( strcmp( dim, DIMENSION_LONGITUDE ) != 0 ) &&
-			strcmp( dim, DIMENSION_LATITUDE ) != 0 ) {
+                if (j == 0) {
+
+                    var->dimensions[var->ndims] = -2;
+                } else {
+                    if ((strcmp(dim, DIMENSION_LONGITUDE) != 0)
+                            && strcmp(dim, DIMENSION_LATITUDE) != 0) {
 /* -------------------------------------------------------------------- */
 /*      do not raise a warning if the axis is "longitude" /             */
 /*      "latitude" it is probably a grid variable                       */
 /* -------------------------------------------------------------------- */
 
-			snprintf( msg, CMOR_MAX_STRING,
-				  "Reading table %s: axis name: '%s' for "
-			          "variable: '%s' is not defined in table. "
-			          "Table defines dimensions: '%s' for this "
-			          "variable",
-				  cmor_tables[var->table_id].szTable_id, dim,
-				  var->id, val );
-			cmor_handle_error( msg, CMOR_CRITICAL );
-		    } else {
-			var->dimensions[var->ndims] = -CMOR_MAX_GRIDS;
-		    }
-		}
-	    } else {
-		var->dimensions[var->ndims] = n;
-	    }
-	    var->ndims++;
-	}
+                        snprintf(msg, CMOR_MAX_STRING,
+                                "Reading table %s: axis name: '%s' for "
+                                        "variable: '%s' is not defined in table. "
+                                        "Table defines dimensions: '%s' for this "
+                                        "variable",
+                                cmor_tables[var->table_id].szTable_id, dim,
+                                var->id, val);
+                        cmor_handle_error(msg, CMOR_CRITICAL);
+                    } else {
+                        var->dimensions[var->ndims] = -CMOR_MAX_GRIDS;
+                    }
+                }
+            } else {
+                var->dimensions[var->ndims] = n;
+            }
+            var->ndims++;
+        }
 /* -------------------------------------------------------------------- */
 /*      revert to put in C order                                        */
 /* -------------------------------------------------------------------- */

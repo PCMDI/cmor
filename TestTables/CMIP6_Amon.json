@@ -472,6 +472,7 @@
             "cell_measures": "area: areacella", 
             "long_name": "Surface Upward Latent Heat Flux", 
             "comment": "", 
+            "#dimensions": "longitude latitude time reftime", 
             "dimensions": "longitude latitude time", 
             "out_name": "hfls", 
             "type": "real", 

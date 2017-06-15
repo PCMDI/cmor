@@ -15,10 +15,8 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
     """
 
     def setUp(self):
-        self.logfile = 'filename_time_range.log'
         cmor.setup(inpath='Test',
                    netcdf_file_action=cmor.CMOR_REPLACE_4)
- 
 
         cmor.dataset_json("Test/common_user_input.json")
 
@@ -536,9 +534,6 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
                          'r11i1p1f1_gr.nc')
 
     def tearDown(self):
-        if os.path.isfile(self.logfile):
-            os.remove(self.logfile)
-
         if self.path:
             if os.path.exists(self.path):
                 os.remove(self.path)
