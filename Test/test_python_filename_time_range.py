@@ -5,6 +5,7 @@ Tests that the time range string in the filename is generated correctly.
 import numpy as np
 import os
 import unittest
+import pdb
 
 import cmor
 
@@ -142,7 +143,7 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
         self.path = cmor.close(varid, file_name=True)
 
         self.assertEqual(os.path.basename(self.path),
-                         'difmxybo2d_Oclim_PCMDI-test-1-0_piControl-withism_'
+                         'difmxybo_Oclim_PCMDI-test-1-0_piControl-withism_'
                          'r11i1p1f1_gr_200001-200002-clim.nc')
 
     def test_day(self):
@@ -263,16 +264,17 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
 
         self.assertEqual(os.path.basename(self.path),
                          'psl_E1hr_PCMDI-test-1-0_piControl-withism_'
-                         'r11i1p1f1_gr_200001010012-200001010038.nc')
+                         'r11i1p1f1_gr_200001010013-200001010038.nc')
 
     def test_1hrclimmon(self):
+        pdb.set_trace()
         table = 'Tables/CMIP6_E1hrClimMon.json'
         cmor.load_table(table)
         axes = [
             {'table_entry': 'time3',
              'units': 'minutes since 2000-01-01 00:00:00',
              'coord_vals': np.array([12.5, 37.5]),
-             'cell_bounds': [[0, 25], [25, 50]]},
+             'cell_bounds': [[0., 25.], [25., 50.]]},
             {'table_entry': 'latitude',
              'units': 'degrees_north',
              'coord_vals': [0],
@@ -471,7 +473,7 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
         self.path = cmor.close(varid, file_name=True)
 
         self.assertEqual(os.path.basename(self.path),
-                         'difmxybo2d_Oclim_PCMDI-test-1-0_piControl-withism_'
+                         'difmxybo_Oclim_PCMDI-test-1-0_piControl-withism_'
                          'r11i1p1f1_gr_200001-200002-clim.nc')
 
     def test_monclim_rounding_end_time(self):
@@ -506,7 +508,7 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
         self.path = cmor.close(varid, file_name=True)
 
         self.assertEqual(os.path.basename(self.path),
-                         'difmxybo2d_Oclim_PCMDI-test-1-0_piControl-withism_'
+                         'difmxybo_Oclim_PCMDI-test-1-0_piControl-withism_'
                          'r11i1p1f1_gr_200001-200002-clim.nc')
 
     def test_fx(self):

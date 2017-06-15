@@ -2138,7 +2138,7 @@
             "units": "days since ?", 
             "axis": "T", 
             "long_name": "time", 
-            "climatology": "", 
+            "climatology": "yes", 
             "formula": "", 
             "must_have_bounds": "yes", 
             "out_name": "time", 

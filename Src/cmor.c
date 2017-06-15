@@ -5462,16 +5462,16 @@ int cmor_close_variable( int var_id, char *file_name, int *preserve ) {
                 frequency_code = 1;
             } else if (strstr(frequency, "dec") != NULL) {
                 frequency_code = 1;
+            } else if (strstr(frequency, "monClim") != NULL) {
+                frequency_code = 6;
             } else if (strstr(frequency, "mon") != NULL) {
                 frequency_code = 2;
             } else if (strstr(frequency, "day") != NULL) {
                 frequency_code = 3;
-            } else if (strstr(frequency, "hr") != NULL) {
-                frequency_code = 4;
             } else if (strstr(frequency, "subhr") != NULL) {
                 frequency_code = 5;
-            } else if (strstr(frequency, "monClim") != NULL) {
-                frequency_code = 6;
+            } else if (strstr(frequency, "hr") != NULL) {
+                frequency_code = 4;
             } else if (strstr(frequency, "fx") != NULL) {
                 frequency_code = 99;
             } else {
