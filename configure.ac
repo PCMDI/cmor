@@ -2,7 +2,7 @@ dnl
 dnl Process this file with autoconf to produce a configure script.
 
 dnl AC_PREREQ(2.59)
-AC_INIT(cmor, 3.2.3, nadeau1@llnl.gov)
+AC_INIT(cmor, 3.2.4, nadeau1@llnl.gov)
 
 GIT_TAG=`./get_git_version.sh`
 
@@ -115,7 +115,7 @@ else
   MODFILES="cmor_users_functions.*"
 fi
 
-CDATPREFIX=" "
+CDATPREFIX="--prefix=${prefix}"
 MAKETESTPYTHON=" "
 dnl turn on/off python
 AC_ARG_WITH([cdat],[AS_HELP_STRING([--with-cdat],[enable support for cdat put path root (w/o bin/cdat)])],[],[with_cdat="no"])

@@ -1,11 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.06", 
+        "data_specs_version": "01.00.11", 
         "table_id": "Table SImon", 
         "realm": "seaIce", 
-        "frequency": "mon", 
         "cmor_version": "3.2", 
-        "table_date": "10 April 2017", 
+        "table_date": "16 June 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "30.00000", 
@@ -15,6 +14,7 @@
     }, 
     "variable_entry": {
         "siage": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "age_of_sea_ice", 
             "units": "s", 
@@ -31,29 +31,13 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "sialb": {
-            "modeling_realm": "seaIce", 
-            "standard_name": "sea_ice_albedo", 
-            "units": "1.0", 
-            "cell_methods": "area: time: mean where sea_ice (comment: mask=siconc)", 
-            "cell_measures": "area: areacella", 
-            "long_name": "Sea-ice or snow albedo", 
-            "comment": "Mean surface albedo of entire ice-covered part of grid cell", 
-            "dimensions": "longitude latitude time", 
-            "out_name": "sialb", 
-            "type": "", 
-            "positive": "", 
-            "valid_min": "", 
-            "valid_max": "", 
-            "ok_min_mean_abs": "", 
-            "ok_max_mean_abs": ""
-        }, 
         "siareaacrossline": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_area_transport_across_line", 
             "units": "m2 s-1", 
-            "cell_methods": "area: time: mean", 
-            "cell_measures": "", 
+            "cell_methods": "time: mean", 
+            "cell_measures": "area: areacella", 
             "long_name": "Sea ice area flux through straits", 
             "comment": "net (sum of transport in all directions) sea ice area transport through the following four passages, positive into the Arctic Ocean 1. Fram Strait = (11.5W,81.3N to (10.5E,79.6N) 2. Canadian Archipelego = (128.2W,70.6N) to (59.3W,82.1N) 3. Barents opening = (16.8E,76.5N) to (19.2E,70.2N) 4. Bering Strait = (171W,66.2N) to (166W,65N)", 
             "dimensions": "siline time", 
@@ -66,6 +50,7 @@
             "ok_max_mean_abs": ""
         }, 
         "siarean": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_area", 
             "units": "1e6 km2", 
@@ -83,6 +68,7 @@
             "ok_max_mean_abs": ""
         }, 
         "siareas": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_area", 
             "units": "1e6 km2", 
@@ -100,6 +86,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sicompstren": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "compressive_strength_of_sea_ice", 
             "units": "N m-1", 
@@ -117,14 +104,15 @@
             "ok_max_mean_abs": ""
         }, 
         "siconc": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_area_fraction", 
             "units": "%", 
-            "cell_methods": "area: time: mean ", 
-            "cell_measures": "area: areacella", 
+            "cell_methods": "area: mean where sea time: mean", 
+            "cell_measures": "area: areacello", 
             "long_name": "Sea Ice Area Fraction", 
             "comment": "Area fraction of grid cell covered by sea ice", 
-            "dimensions": "longitude latitude time", 
+            "dimensions": "longitude latitude time typesi", 
             "out_name": "siconc", 
             "type": "real", 
             "positive": "", 
@@ -133,11 +121,30 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
+        "siconco": {
+            "frequency": "mon", 
+            "modeling_realm": "seaIce", 
+            "standard_name": "sea_ice_area_fraction", 
+            "units": "%", 
+            "cell_methods": "area: time: mean", 
+            "cell_measures": "area: areacella", 
+            "long_name": "Sea Ice Area Fraction", 
+            "comment": "Area fraction of grid cell covered by sea ice", 
+            "dimensions": "longitude latitude time typesi", 
+            "out_name": "siconco", 
+            "type": "real", 
+            "positive": "", 
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
+        }, 
         "sidconcdyn": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "tendency_of_sea_ice_area_fraction_due_to_dynamics", 
             "units": "s-1", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "sea-ice area fraction change from dynamics", 
             "comment": "Total change in sea-ice area fraction through dynamics-related processes (advection, divergence...)", 
@@ -151,10 +158,11 @@
             "ok_max_mean_abs": ""
         }, 
         "sidconcth": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "tendency_of_sea_ice_area_fraction_due_to_thermodynamics", 
             "units": "s-1", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "sea-ice area fraction change from thermodynamics", 
             "comment": "Total change in sea-ice area fraction through thermodynamic processes", 
@@ -168,6 +176,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sidivvel": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "divergence_of_sea_ice_velocity", 
             "units": "s-1", 
@@ -185,10 +194,11 @@
             "ok_max_mean_abs": ""
         }, 
         "sidmassdyn": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "tendency_of_sea_ice_amount_due_to_dynamics", 
             "units": "kg m-2 s-1", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "sea-ice mass change from dynamics", 
             "comment": "Total change in sea-ice mass through dynamics-related processes (advection,...) divided by grid-cell area", 
@@ -202,10 +212,11 @@
             "ok_max_mean_abs": ""
         }, 
         "sidmassevapsubl": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "water_evaporation_flux", 
             "units": "kg m-2 s-1", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "sea-ice mass change through evaporation and sublimation", 
             "comment": "The rate of change of sea-ice mass change through evaporation and sublimation divided by grid-cell area", 
@@ -219,10 +230,11 @@
             "ok_max_mean_abs": ""
         }, 
         "sidmassgrowthbot": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "tendency_of_sea_ice_amount_due_to_congelation_ice_accumulation", 
             "units": "kg m-2 s-1", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "sea-ice mass change through basal growth", 
             "comment": "The rate of change of sea ice mass due to vertical growth of existing sea ice at its base divided by grid-cell area.", 
@@ -236,10 +248,11 @@
             "ok_max_mean_abs": ""
         }, 
         "sidmassgrowthwat": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "tendency_of_sea_ice_amount_due_to_freezing_in_open_water", 
             "units": "kg m-2 s-1", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "sea-ice mass change through growth in supercooled open water (aka frazil)", 
             "comment": "The rate of change of sea ice mass due to sea ice formation in supercooled water (often through frazil formation) divided by grid-cell area. Together, sidmassgrowthwat and sidmassgrowthbot should give total ice growth", 
@@ -253,10 +266,11 @@
             "ok_max_mean_abs": ""
         }, 
         "sidmasslat": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "tendency_of_sea_ice_amount_due_to_lateral_melting", 
             "units": "kg m-2 s-1", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Lateral sea ice melt rate", 
             "comment": "The rate of change of sea ice mass through lateral melting divided by grid-cell area (report 0 if not explicitly calculated thermodynamically)", 
@@ -270,10 +284,11 @@
             "ok_max_mean_abs": ""
         }, 
         "sidmassmeltbot": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "tendency_of_sea_ice_amount_due_to_basal_melting", 
             "units": "kg m-2 s-1", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "sea-ice mass change through bottom melting", 
             "comment": "The rate of change of sea ice mass through melting at the ice bottom divided by grid-cell area", 
@@ -287,10 +302,11 @@
             "ok_max_mean_abs": ""
         }, 
         "sidmassmelttop": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "tendency_of_sea_ice_amount_due_to_surface_melting", 
             "units": "kg m-2 s-1", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "sea-ice mass change through surface melting", 
             "comment": "The rate of change of sea ice mass through melting at the ice surface divided by grid-cell area", 
@@ -304,10 +320,11 @@
             "ok_max_mean_abs": ""
         }, 
         "sidmasssi": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "tendency_of_sea_ice_amount_due_to_snow_conversion", 
             "units": "kg m-2 s-1", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "sea-ice mass change through snow-to-ice conversion", 
             "comment": "The rate of change of sea ice mass due to transformation of snow to sea ice divided by grid-cell area", 
@@ -321,10 +338,11 @@
             "ok_max_mean_abs": ""
         }, 
         "sidmassth": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "tendency_of_sea_ice_amount_due_to_thermodynamics", 
             "units": "kg m-2 s-1", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "sea-ice mass change from thermodynamics", 
             "comment": "Total change in sea-ice mass from thermodynamic processes divided by grid-cell area", 
@@ -338,6 +356,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sidmasstranx": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_x_transport", 
             "units": "kg s-1", 
@@ -355,6 +374,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sidmasstrany": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_y_transport", 
             "units": "kg s-1", 
@@ -372,6 +392,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sidragbot": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "surface_drag_coefficient_for_momentum_in_water", 
             "units": "1.0", 
@@ -389,6 +410,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sidragtop": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "surface_drag_coefficient_for_momentum_in_air", 
             "units": "1.0", 
@@ -406,6 +428,7 @@
             "ok_max_mean_abs": ""
         }, 
         "siextentn": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_extent", 
             "units": "1e6 km2", 
@@ -423,6 +446,7 @@
             "ok_max_mean_abs": ""
         }, 
         "siextents": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_extent", 
             "units": "1e6 km2", 
@@ -440,6 +464,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sifb": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_freeboard", 
             "units": "m", 
@@ -457,6 +482,7 @@
             "ok_max_mean_abs": ""
         }, 
         "siflcondbot": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "conductive_heat_flux_at_sea_ice_bottom", 
             "units": "W m-2", 
@@ -474,6 +500,7 @@
             "ok_max_mean_abs": ""
         }, 
         "siflcondtop": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "conductive_heat_flux_at_sea_ice_surface", 
             "units": "W m-2", 
@@ -491,6 +518,7 @@
             "ok_max_mean_abs": ""
         }, 
         "siflfwbot": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "freshwater_flux_from_ice", 
             "units": "kg m-2 s-1", 
@@ -508,6 +536,7 @@
             "ok_max_mean_abs": ""
         }, 
         "siflfwdrain": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "freshwater_flux_from_ice_surface", 
             "units": "kg m-2 s-1", 
@@ -525,6 +554,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sifllatstop": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "surface_upward_latent_heat_flux", 
             "units": "W m-2", 
@@ -542,6 +572,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sifllwdtop": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "surface_downwelling_longwave_flux_in_air", 
             "units": "W m-2", 
@@ -559,13 +590,14 @@
             "ok_max_mean_abs": ""
         }, 
         "sifllwutop": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "surface_upwelling_longwave_flux_in_air", 
             "units": "W m-2", 
             "cell_methods": "area: time: mean where sea_ice (comment: mask=siconc)", 
             "cell_measures": "area: areacella", 
-            "long_name": "Upward longwave flux over sea ice", 
-            "comment": "the upward longwave flux over sea ice (always negative)", 
+            "long_name": "Upwelling Longwave Flux over Sea Ice", 
+            "comment": "the upwelling longwave flux over sea ice (always negative)", 
             "dimensions": "longitude latitude time", 
             "out_name": "sifllwutop", 
             "type": "", 
@@ -576,6 +608,7 @@
             "ok_max_mean_abs": ""
         }, 
         "siflsaltbot": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "salt_flux_from_ice", 
             "units": "kg m-2 s-1", 
@@ -593,6 +626,7 @@
             "ok_max_mean_abs": ""
         }, 
         "siflsenstop": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "surface_upward_sensible_heat_flux", 
             "units": "W m-2", 
@@ -610,6 +644,7 @@
             "ok_max_mean_abs": ""
         }, 
         "siflsensupbot": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "ice_ocean_heat_flux", 
             "units": "W m-2", 
@@ -627,13 +662,14 @@
             "ok_max_mean_abs": ""
         }, 
         "siflswdbot": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "bottom_downwelling_shortwave_flux_into_ocean", 
             "units": "W m-2", 
             "cell_methods": "area: time: mean where sea_ice (comment: mask=siconc)", 
             "cell_measures": "area: areacella", 
             "long_name": "Downwelling shortwave flux under sea ice", 
-            "comment": "the downwelling shortwave flux underneath sea ice (always positive)", 
+            "comment": "The downwelling shortwave flux underneath sea ice (always positive)", 
             "dimensions": "longitude latitude time", 
             "out_name": "siflswdbot", 
             "type": "", 
@@ -644,13 +680,14 @@
             "ok_max_mean_abs": ""
         }, 
         "siflswdtop": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "surface_downwelling_shortwave_flux_in_air", 
             "units": "W m-2", 
             "cell_methods": "area: time: mean where sea_ice (comment: mask=siconc)", 
             "cell_measures": "area: areacella", 
             "long_name": "Downwelling shortwave flux over sea ice", 
-            "comment": "the downwelling shortwave flux over sea ice (always positive by sign convention)", 
+            "comment": "The downwelling shortwave flux over sea ice (always positive by sign convention)", 
             "dimensions": "longitude latitude time", 
             "out_name": "siflswdtop", 
             "type": "", 
@@ -661,13 +698,14 @@
             "ok_max_mean_abs": ""
         }, 
         "siflswutop": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "surface_upwelling_shortwave_flux_in_air", 
             "units": "W m-2", 
             "cell_methods": "area: time: mean where sea_ice (comment: mask=siconc)", 
             "cell_measures": "area: areacella", 
-            "long_name": "Upward shortwave flux over sea ice", 
-            "comment": "the upward shortwave flux over sea ice (always negative)", 
+            "long_name": "Upwelling Shortwave Flux over Sea Ice", 
+            "comment": "The upwelling shortwave flux over sea ice (always negative)", 
             "dimensions": "longitude latitude time", 
             "out_name": "siflswutop", 
             "type": "", 
@@ -678,6 +716,7 @@
             "ok_max_mean_abs": ""
         }, 
         "siforcecoriolx": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "coriolis_force_on_sea_ice_x", 
             "units": "N m-2", 
@@ -695,6 +734,7 @@
             "ok_max_mean_abs": ""
         }, 
         "siforcecorioly": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "coriolis_force_on_sea_ice_y", 
             "units": "N m-2", 
@@ -712,6 +752,7 @@
             "ok_max_mean_abs": ""
         }, 
         "siforceintstrx": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "internal_stress_in_sea_ice_x", 
             "units": "N m-2", 
@@ -729,6 +770,7 @@
             "ok_max_mean_abs": ""
         }, 
         "siforceintstry": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "internal_stress_in_sea_ice_y", 
             "units": "N m-2", 
@@ -746,6 +788,7 @@
             "ok_max_mean_abs": ""
         }, 
         "siforcetiltx": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_surface_tilt_force_on_sea_ice_x", 
             "units": "N m-2", 
@@ -763,6 +806,7 @@
             "ok_max_mean_abs": ""
         }, 
         "siforcetilty": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_surface_tilt_force_on_sea_ice_y", 
             "units": "N m-2", 
@@ -780,10 +824,11 @@
             "ok_max_mean_abs": ""
         }, 
         "sihc": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "integral_of_sea_ice_temperature_wrt_depth_expressed_as_heat_content", 
             "units": "J m-2", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Sea-ice heat content per unit area", 
             "comment": "Heat content of all ice in grid cell divided by total grid-cell area. Water at 0 Celsius is assumed to have a heat content of 0 J.  Does not include heat content of snow, but does include heat content of brine. Heat content is always negative, since both the sensible and the latent heat content of ice are less than that of water", 
@@ -797,6 +842,7 @@
             "ok_max_mean_abs": ""
         }, 
         "siitdconc": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_area_fraction_over_categories", 
             "units": "%", 
@@ -814,6 +860,7 @@
             "ok_max_mean_abs": ""
         }, 
         "siitdsnconc": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "snow_area_fraction_over_categories", 
             "units": "%", 
@@ -831,6 +878,7 @@
             "ok_max_mean_abs": ""
         }, 
         "siitdsnthick": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "snow_thickness_over_categories", 
             "units": "m", 
@@ -848,6 +896,7 @@
             "ok_max_mean_abs": ""
         }, 
         "siitdthick": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_thickness_over_categories", 
             "units": "m", 
@@ -865,10 +914,11 @@
             "ok_max_mean_abs": ""
         }, 
         "simass": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_amount", 
             "units": "kg m-2", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Sea-ice mass per area", 
             "comment": "Total mass of sea ice divided by grid-cell area", 
@@ -882,11 +932,12 @@
             "ok_max_mean_abs": ""
         }, 
         "simassacrossline": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
-            "standard_name": "sea_ice_mass_transport_across_line", 
+            "standard_name": "sea_ice_transport_across_line", 
             "units": "kg s-1", 
-            "cell_methods": "area: time: mean", 
-            "cell_measures": "", 
+            "cell_methods": "time: mean", 
+            "cell_measures": "area: areacella", 
             "long_name": "Sea mass area flux through straits", 
             "comment": "net (sum of transport in all directions) sea ice area transport through the following four passages, positive into the Arctic Ocean 1. Fram Strait = (11.5W,81.3N to (10.5E,79.6N) 2. Canadian Archipelego = (128.2W,70.6N) to (59.3W,82.1N) 3. Barents opening = (16.8E,76.5N) to (19.2E,70.2N) 4. Bering Strait = (171W,66.2N) to (166W,65N)", 
             "dimensions": "siline time", 
@@ -899,14 +950,15 @@
             "ok_max_mean_abs": ""
         }, 
         "simpconc": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "area_fraction", 
             "units": "%", 
             "cell_methods": "area: time: mean where sea_ice (comment: mask=siconc)", 
             "cell_measures": "area: areacella", 
-            "long_name": "Meltpond area fraction", 
+            "long_name": "Percentage Cover of Sea-Ice by Meltpond", 
             "comment": "Fraction of sea ice, by area, which is covered by melt ponds, giving equal weight to every square metre of sea ice .", 
-            "dimensions": "longitude latitude typemp time", 
+            "dimensions": "longitude latitude time typemp", 
             "out_name": "simpconc", 
             "type": "", 
             "positive": "", 
@@ -916,12 +968,13 @@
             "ok_max_mean_abs": ""
         }, 
         "simpmass": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "surface_liquid_water_amount", 
             "units": "kg m-2", 
             "cell_methods": "area: time: mean where sea_ice_melt_pond (comment: mask=simpconc)", 
             "cell_measures": "area: areacella", 
-            "long_name": "Meltpond mass per area", 
+            "long_name": "Meltpond Mass per Unit Area", 
             "comment": "Meltpond mass per area of sea ice.", 
             "dimensions": "longitude latitude time", 
             "out_name": "simpmass", 
@@ -933,6 +986,7 @@
             "ok_max_mean_abs": ""
         }, 
         "simprefrozen": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "melt_pond_refrozen_ice", 
             "units": "m", 
@@ -950,6 +1004,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sipr": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "rainfall_flux", 
             "units": "kg m-2 s-1", 
@@ -967,12 +1022,13 @@
             "ok_max_mean_abs": ""
         }, 
         "sirdgconc": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "fraction_of_ridged_sea_ice", 
             "units": "1.0", 
             "cell_methods": "area: time: mean where sea_ice (comment: mask=siconc)", 
             "cell_measures": "area: areacella", 
-            "long_name": "Ridged Ice Area Fraction", 
+            "long_name": "Percentage Cover of Sea-Ice by Ridging", 
             "comment": "Fraction of sea ice, by area, which is covered by sea ice ridges, giving equal weight to every square metre of sea ice .", 
             "dimensions": "longitude latitude time", 
             "out_name": "sirdgconc", 
@@ -984,10 +1040,11 @@
             "ok_max_mean_abs": ""
         }, 
         "sirdgthick": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "thickness_of_ridged_sea_ice", 
             "units": "m", 
-            "cell_methods": "area: time: mean where sea_ice (comment: mask=sirdgconc)", 
+            "cell_methods": "area: time: mean where sea_ice (comment: mask=sirdgconc - ridges only)", 
             "cell_measures": "area: areacella", 
             "long_name": "Ridged ice thickness", 
             "comment": "Sea Ice Ridge Height (representing mean height over the ridged area)", 
@@ -1001,6 +1058,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sisali": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_salinity", 
             "units": "0.001", 
@@ -1018,10 +1076,11 @@
             "ok_max_mean_abs": ""
         }, 
         "sisaltmass": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_salt_mass", 
             "units": "kg m-2", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Mass of salt in sea ice per area", 
             "comment": "Total mass of all salt in sea ice divided by grid-cell area", 
@@ -1035,6 +1094,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sishevel": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "maximum_shear_of_sea_ice_velocity", 
             "units": "s-1", 
@@ -1052,6 +1112,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sisnconc": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "surface_snow_area_fraction", 
             "units": "%", 
@@ -1069,6 +1130,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sisnhc": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "thermal_energy_content_of_surface_snow", 
             "units": "J m-2", 
@@ -1086,6 +1148,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sisnmass": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "liquid_water_content_of_surface_snow", 
             "units": "kg m-2", 
@@ -1103,6 +1166,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sisnthick": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "surface_snow_thickness", 
             "units": "m", 
@@ -1120,6 +1184,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sispeed": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_speed", 
             "units": "m s-1", 
@@ -1137,6 +1202,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sistremax": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "maximum_shear_stress", 
             "units": "N m-1", 
@@ -1154,6 +1220,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sistresave": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "average_normal_stress", 
             "units": "N m-1", 
@@ -1171,6 +1238,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sistrxdtop": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "surface_downward_x_stress", 
             "units": "N m-2", 
@@ -1188,6 +1256,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sistrxubot": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_base_upward_x_stress", 
             "units": "N m-2", 
@@ -1205,6 +1274,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sistrydtop": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "surface_downward_y_stress", 
             "units": "N m-2", 
@@ -1222,6 +1292,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sistryubot": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "downward_y_stress_at_sea_ice_base", 
             "units": "N m-2", 
@@ -1239,6 +1310,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sitempbot": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_bottom_temperature", 
             "units": "K", 
@@ -1256,6 +1328,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sitempsnic": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_surface_temperature", 
             "units": "K", 
@@ -1273,6 +1346,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sitemptop": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_surface_temperature", 
             "units": "K", 
@@ -1289,11 +1363,30 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
+        "sithick": {
+            "frequency": "mon", 
+            "modeling_realm": "seaIce ocean", 
+            "standard_name": "sea_ice_thickness", 
+            "units": "m", 
+            "cell_methods": "area: time: mean where sea_ice (comment: mask=siconc)", 
+            "cell_measures": "area: areacella", 
+            "long_name": "Sea Ice Thickness", 
+            "comment": "Actual (floe) thickness of sea ice (NOT volume divided by grid area as was done in CMIP5)", 
+            "dimensions": "longitude latitude time", 
+            "out_name": "sithick", 
+            "type": "real", 
+            "positive": "", 
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
+        }, 
         "sitimefrac": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_time_fraction", 
             "units": "1.0", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Fraction of time steps with sea ice", 
             "comment": "Fraction of time steps of the averaging period during which sea ice is present (siconc >0 ) in a grid cell", 
@@ -1307,6 +1400,7 @@
             "ok_max_mean_abs": ""
         }, 
         "siu": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_x_velocity", 
             "units": "m s-1", 
@@ -1324,6 +1418,7 @@
             "ok_max_mean_abs": ""
         }, 
         "siv": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_y_velocity", 
             "units": "m s-1", 
@@ -1341,10 +1436,11 @@
             "ok_max_mean_abs": ""
         }, 
         "sivol": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_thickness", 
             "units": "m", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Sea-ice volume per area", 
             "comment": "Total volume of sea ice divided by grid-cell area (this used to be called ice thickness in CMIP5)", 
@@ -1358,6 +1454,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sivoln": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_volume", 
             "units": "1e3 km3", 
@@ -1375,6 +1472,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sivols": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_volume", 
             "units": "1e3 km3", 
@@ -1392,10 +1490,11 @@
             "ok_max_mean_abs": ""
         }, 
         "sndmassdyn": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "tendency_of_snow_mass_due_to_sea_ice_dynamics", 
             "units": "kg m-2 s-1", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Snow Mass Rate of Change through Avection by Sea-ice Dynamics", 
             "comment": "the rate of change of snow mass through advection with sea ice divided by grid-cell area", 
@@ -1409,10 +1508,11 @@
             "ok_max_mean_abs": ""
         }, 
         "sndmassmelt": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "surface_snow_melt_flux", 
             "units": "kg m-2 s-1", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Snow Mass Rate of Change through Melt", 
             "comment": "the rate of change of snow mass through melt divided by grid-cell area", 
@@ -1426,10 +1526,11 @@
             "ok_max_mean_abs": ""
         }, 
         "sndmasssi": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "tendency_of_surface_snow_amount_due_to_conversion_of_snow_to_sea_ice", 
             "units": "kg m-2 s-1", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Snow Mass Rate of Change through Snow-to-Ice Conversion", 
             "comment": "the rate of change of snow mass due to transformation of snow to sea ice divided by grid-cell area", 
@@ -1443,10 +1544,11 @@
             "ok_max_mean_abs": ""
         }, 
         "sndmasssnf": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "snowfall_flux", 
             "units": "kg m-2 s-1", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "snow mass change through snow fall", 
             "comment": "mass of solid precipitation falling onto sea ice divided by grid-cell area", 
@@ -1460,10 +1562,11 @@
             "ok_max_mean_abs": ""
         }, 
         "sndmasssubl": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "surface_snow_sublimation_flux", 
             "units": "kg m-2 s-1", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Snow Mass Rate of Change through Evaporation or Sublimation", 
             "comment": "the rate of change of snow mass through sublimation and evaporation divided by grid-cell area", 
@@ -1477,10 +1580,11 @@
             "ok_max_mean_abs": ""
         }, 
         "sndmasswindrif": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "tendency_of_snow_mass_due_to_drifting_snow", 
             "units": "kg m-2 s-1", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Snow Mass Rate of Change through Wind Drift of Snow", 
             "comment": "the rate of change of snow mass through wind drift of snow (from sea-ice into the sea) divided by grid-cell area", 
@@ -1494,11 +1598,12 @@
             "ok_max_mean_abs": ""
         }, 
         "snmassacrossline": {
+            "frequency": "mon", 
             "modeling_realm": "seaIce", 
             "standard_name": "snow_mass_transport_across_line", 
             "units": "kg s-1", 
-            "cell_methods": "area: time: mean", 
-            "cell_measures": "", 
+            "cell_methods": "time: mean", 
+            "cell_measures": "area: areacella", 
             "long_name": "Snow mass flux through straits", 
             "comment": "net (sum of transport in all directions) snow mass transport through the following four passages, positive into the Arctic Ocean 1. Fram Strait = (11.5W,81.3N to (10.5E,79.6N) 2. Canadian Archipelego = (128.2W,70.6N) to (59.3W,82.1N) 3. Barents opening = (16.8E,76.5N) to (19.2E,70.2N) 4. Bering Strait = (171W,66.2N) to (166W,65N)", 
             "dimensions": "siline time", 

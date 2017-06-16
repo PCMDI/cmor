@@ -1,11 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.06", 
+        "data_specs_version": "01.00.11", 
         "table_id": "Table E3hr", 
         "realm": "land", 
-        "frequency": "3hr", 
         "cmor_version": "3.2", 
-        "table_date": "10 April 2017", 
+        "table_date": "16 June 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "0.125000", 
@@ -15,10 +14,11 @@
     }, 
     "variable_entry": {
         "clivi": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "atmosphere_cloud_ice_content", 
             "units": "kg m-2", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Ice Water Path", 
             "comment": "mass of ice water in the column divided by the area of the column (not just the area of the cloudy portion of the column). Includes precipitating frozen hydrometeors ONLY if the precipitating hydrometeor affects the calculation of radiative transfer in model.", 
@@ -32,10 +32,11 @@
             "ok_max_mean_abs": ""
         }, 
         "clwvi": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "atmosphere_cloud_condensed_water_content", 
             "units": "kg m-2", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Condensed Water Path", 
             "comment": "Mass of condensed (liquid + ice) water in the column divided by the area of the column (not just the area of the cloudy portion of the column). Includes precipitating hydrometeors ONLY if the precipitating hydrometeors affect the calculation of radiative transfer in model.", 
@@ -49,8 +50,9 @@
             "ok_max_mean_abs": ""
         }, 
         "gpp": {
+            "frequency": "3hr", 
             "modeling_realm": "land", 
-            "standard_name": "gross_primary_productivity_of_carbon", 
+            "standard_name": "gross_primary_productivity_of_biomass_expressed_as_carbon", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: mean where land time: mean", 
             "cell_measures": "area: areacella", 
@@ -66,12 +68,13 @@
             "ok_max_mean_abs": ""
         }, 
         "prcsh": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
-            "standard_name": "", 
+            "standard_name": "hallow_convective_precipitation_flux", 
             "units": "kg m-2 s-1", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
-            "long_name": "shallow_conv_precipitation_flux", 
+            "long_name": "Precipitation Flux from Shallow Convection", 
             "comment": "Convection precipitation from shallow convection", 
             "dimensions": "longitude latitude time", 
             "out_name": "prcsh", 
@@ -83,10 +86,11 @@
             "ok_max_mean_abs": ""
         }, 
         "prra": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "rainfall_flux", 
             "units": "kg m-2 s-1", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Rainfall Flux where Ice Free Ocean over Sea", 
             "comment": "", 
@@ -100,10 +104,11 @@
             "ok_max_mean_abs": ""
         }, 
         "prrc": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "convective_rainfall_flux", 
             "units": "kg m-2 s-1", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Convective Rainfall rate", 
             "comment": "", 
@@ -117,10 +122,11 @@
             "ok_max_mean_abs": ""
         }, 
         "prsnc": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "convective_snowfall_flux", 
             "units": "kg m-2 s-1", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Convective Snowfall Flux", 
             "comment": "convective precipitation of all forms of water in the solid phase.", 
@@ -134,10 +140,11 @@
             "ok_max_mean_abs": ""
         }, 
         "prw": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "atmosphere_water_vapor_content", 
             "units": "kg m-2", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Water Vapor Path", 
             "comment": "vertically integrated through the atmospheric column", 
@@ -151,10 +158,11 @@
             "ok_max_mean_abs": ""
         }, 
         "psl": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "air_pressure_at_sea_level", 
             "units": "Pa", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Sea Level Pressure", 
             "comment": "Sea Level Pressure", 
@@ -168,6 +176,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ra": {
+            "frequency": "3hr", 
             "modeling_realm": "land", 
             "standard_name": "plant_respiration_carbon_flux", 
             "units": "kg m-2 s-1", 
@@ -185,6 +194,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rh": {
+            "frequency": "3hr", 
             "modeling_realm": "land", 
             "standard_name": "heterotrophic_respiration_carbon_flux", 
             "units": "kg m-2 s-1", 
@@ -202,10 +212,11 @@
             "ok_max_mean_abs": ""
         }, 
         "rlut": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "toa_outgoing_longwave_flux", 
             "units": "W m-2", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "TOA Outgoing Longwave Radiatio", 
             "comment": "at the top of the atmosphere (to be compared with satellite measurements)", 
@@ -219,10 +230,11 @@
             "ok_max_mean_abs": ""
         }, 
         "rlutcs": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "toa_outgoing_longwave_flux_assuming_clear_sky", 
             "units": "W m-2", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "TOA Outgoing Clear-sky Longwave Radiation", 
             "comment": "", 
@@ -236,10 +248,11 @@
             "ok_max_mean_abs": ""
         }, 
         "rsdt": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "toa_incoming_shortwave_flux", 
             "units": "W m-2", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "TOA Incident Shortwave Radiation", 
             "comment": "Shortwave radiation incident at the top of the atmosphere", 
@@ -253,10 +266,11 @@
             "ok_max_mean_abs": ""
         }, 
         "rsut": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "toa_outgoing_shortwave_flux", 
             "units": "W m-2", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Top-of-Atmosphere Outgoing Shortwave Radiation", 
             "comment": "at the top of the atmosphere", 
@@ -270,10 +284,11 @@
             "ok_max_mean_abs": ""
         }, 
         "rsutcs": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "toa_outgoing_shortwave_flux_assuming_clear_sky", 
             "units": "W m-2", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "TOA Outgoing Clear-Sky Shortwave Radiation", 
             "comment": "Calculated in the absence of clouds.", 
@@ -287,14 +302,15 @@
             "ok_max_mean_abs": ""
         }, 
         "sfcWind": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "wind_speed", 
             "units": "m s-1", 
-            "cell_methods": "time: mean", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Near-Surface Wind Speed", 
             "comment": "near-surface (usually, 10 meters) wind speed.", 
-            "dimensions": "longitude latitude height10m time", 
+            "dimensions": "longitude latitude time height10m", 
             "out_name": "sfcWind", 
             "type": "real", 
             "positive": "", 
@@ -304,16 +320,17 @@
             "ok_max_mean_abs": ""
         }, 
         "uas": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "eastward_wind", 
             "units": "m s-1", 
-            "cell_methods": "time: mean", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Eastward Near-Surface Wind", 
             "comment": "Eastward component of the near-surface (usually, 10 meters)  wind", 
-            "dimensions": "longitude latitude height10m time", 
+            "dimensions": "longitude latitude time height10m", 
             "out_name": "uas", 
-            "type": "real", 
+            "type": "float", 
             "positive": "", 
             "valid_min": "", 
             "valid_max": "", 
@@ -321,14 +338,15 @@
             "ok_max_mean_abs": ""
         }, 
         "vas": {
+            "frequency": "3hr", 
             "modeling_realm": "atmos", 
             "standard_name": "northward_wind", 
             "units": "m s-1", 
-            "cell_methods": "time: mean", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Northward Near-Surface Wind", 
             "comment": "Northward component of the near surface wind", 
-            "dimensions": "longitude latitude height10m time", 
+            "dimensions": "longitude latitude time height10m", 
             "out_name": "vas", 
             "type": "real", 
             "positive": "", 

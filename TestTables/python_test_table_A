@@ -3,7 +3,6 @@
         "data_specs_version": "01.10.38",                                                                                                    
         "table_id": "Table AmonBounds",
         "realm": "atmos atmosChem",                                                                                                            
-        "frequency": "mon",                                                                                                                    
         "cmor_version": "3.2",                                                                                                                 
         "table_date": "15 November 2016",                                                                                                      
         "missing_value": "1e20",                                                                                                               
@@ -217,6 +216,7 @@
         }, 
 
 "pressure2": {
+                "frequency": "mon",                                                                                                                    
                 "standard_name":    "air_pressure",
                 "stored_direction": "decreasing",
                 "units":            "Pa",
@@ -706,6 +706,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ta": {
+            "frequency": "mon",
             "comment": "", 
             "dimensions": "longitude latitude pressure2 time", 
             "positive": "", 

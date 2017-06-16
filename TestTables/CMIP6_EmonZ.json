@@ -1,11 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.06", 
+        "data_specs_version": "01.00.11", 
         "table_id": "Table EmonZ", 
         "realm": "atmos", 
-        "frequency": "mon", 
         "cmor_version": "3.2", 
-        "table_date": "10 April 2017", 
+        "table_date": "16 June 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "30.00000", 
@@ -15,10 +14,11 @@
     }, 
     "variable_entry": {
         "co2totalmass": {
+            "frequency": "mon", 
             "modeling_realm": "atmos", 
             "standard_name": "CO2_total_mass_in_atmos", 
             "units": "kg", 
-            "cell_methods": "time: mean", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "", 
             "long_name": "Globally integrated Carbon Mass in Atmosphere", 
             "comment": "globally integrated mass of carbon as CO2 in atmsophere. Report as a single number for all emissions-driven runs", 
@@ -32,6 +32,7 @@
             "ok_max_mean_abs": ""
         }, 
         "epfy": {
+            "frequency": "mon", 
             "modeling_realm": "atmos", 
             "standard_name": "northward_eliassen_palm_flux_in_air", 
             "units": "m3 s-2", 
@@ -49,6 +50,7 @@
             "ok_max_mean_abs": ""
         }, 
         "epfz": {
+            "frequency": "mon", 
             "modeling_realm": "atmos", 
             "standard_name": "upward_eliassen_palm_flux_in_air", 
             "units": "m3 s-2", 
@@ -66,6 +68,7 @@
             "ok_max_mean_abs": ""
         }, 
         "jo2": {
+            "frequency": "mon", 
             "modeling_realm": "atmos", 
             "standard_name": "photolysis_rate_of_molecular_oxygen", 
             "units": "s-1", 
@@ -83,6 +86,7 @@
             "ok_max_mean_abs": ""
         }, 
         "jo3": {
+            "frequency": "mon", 
             "modeling_realm": "atmos", 
             "standard_name": "photolysis_rate_of_ozone", 
             "units": "s-1", 
@@ -99,24 +103,8 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "mrsos": {
-            "modeling_realm": "land", 
-            "standard_name": "moisture_content_of_soil_layer", 
-            "units": "kg m-2", 
-            "cell_methods": "area: mean where land time: mean", 
-            "cell_measures": "", 
-            "long_name": "Moisture in Upper Portion of Soil Column", 
-            "comment": "The mass of water in all phases in the upper 10cm of the  soil layer.", 
-            "dimensions": "height10m time", 
-            "out_name": "mrsos", 
-            "type": "real", 
-            "positive": "", 
-            "valid_min": "", 
-            "valid_max": "", 
-            "ok_min_mean_abs": "", 
-            "ok_max_mean_abs": ""
-        }, 
         "oxloss": {
+            "frequency": "mon", 
             "modeling_realm": "atmosChem", 
             "standard_name": "tendency_of_mole_concentration_of_ozone_and_atomic_oxygen_and_1D_oxygen_atom_due_to_chemical_destruction", 
             "units": "mol m-3 s-1", 
@@ -134,6 +122,7 @@
             "ok_max_mean_abs": ""
         }, 
         "oxprod": {
+            "frequency": "mon", 
             "modeling_realm": "atmosChem", 
             "standard_name": "tendency_of_mole_concentration_of_ozone_and_atomic_oxygen_and_1D_oxygen_atom_due_to_chemical_production_and_photolysis", 
             "units": "mol m-3 s-1", 
@@ -151,11 +140,12 @@
             "ok_max_mean_abs": ""
         }, 
         "sltbasin": {
+            "frequency": "mon", 
             "modeling_realm": "ocean", 
             "standard_name": "northward_ocean_salt_transport", 
             "units": "kg s-1", 
             "cell_methods": "longitude: mean (basin) time: mean", 
-            "cell_measures": "", 
+            "cell_measures": "area: areacella", 
             "long_name": "Northward Ocean Salt Transport", 
             "comment": "function of latitude, basin", 
             "dimensions": "latitude basin time", 
@@ -167,29 +157,13 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "sltnorth": {
-            "modeling_realm": "ocean", 
-            "standard_name": "northward_ocean_salt_transport", 
-            "units": "kg s-1", 
-            "cell_methods": "longitude: mean time: mean", 
-            "cell_measures": "", 
-            "long_name": "Northward Ocean Salt Transport", 
-            "comment": "", 
-            "dimensions": "latitude basin time", 
-            "out_name": "sltnorth", 
-            "type": "", 
-            "positive": "", 
-            "valid_min": "", 
-            "valid_max": "", 
-            "ok_min_mean_abs": "", 
-            "ok_max_mean_abs": ""
-        }, 
         "sltnortha": {
+            "frequency": "mon", 
             "modeling_realm": "ocean", 
             "standard_name": "northward_ocean_salt_transport", 
             "units": "kg s-1", 
-            "cell_methods": "longitude: mean time: mean", 
-            "cell_measures": "", 
+            "cell_methods": "longitude: mean (basin) time: mean", 
+            "cell_measures": "area: areacella", 
             "long_name": "Atlantic Northward Ocean Salt Transport", 
             "comment": "", 
             "dimensions": "latitude basin time", 
@@ -202,6 +176,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tntc": {
+            "frequency": "mon", 
             "modeling_realm": "atmos", 
             "standard_name": "tendency_of_air_temperature_due_to_convection", 
             "units": "K s-1", 
@@ -219,6 +194,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tntmp": {
+            "frequency": "mon", 
             "modeling_realm": "atmos", 
             "standard_name": "tendency_of_air_temperature_due_to_model_physics", 
             "units": "K s-1", 
@@ -236,6 +212,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tntnogw": {
+            "frequency": "mon", 
             "modeling_realm": "atmos", 
             "standard_name": "temperature_tendency_due_to_dissipation_nonorographic_gravity_wave_drag", 
             "units": "K s-1", 
@@ -253,6 +230,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tntogw": {
+            "frequency": "mon", 
             "modeling_realm": "atmos", 
             "standard_name": "temperature_tendency_due_to_dissipation_orographic_gravity_wave_drag", 
             "units": "K s-1", 
@@ -270,6 +248,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tntrl": {
+            "frequency": "mon", 
             "modeling_realm": "aerosol", 
             "standard_name": "tendency_of_air_temperature_due_to_longwave_heating", 
             "units": "K s-1", 
@@ -287,6 +266,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tntrlcs": {
+            "frequency": "mon", 
             "modeling_realm": "atmos", 
             "standard_name": "tendency_of_air_temperature_due_to_longwave_heating_assuming_clear_sky", 
             "units": "K s-1", 
@@ -304,6 +284,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tntrs": {
+            "frequency": "mon", 
             "modeling_realm": "aerosol", 
             "standard_name": "tendency_of_air_temperature_due_to_shortwave_heating", 
             "units": "K s-1", 
@@ -321,6 +302,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tntrscs": {
+            "frequency": "mon", 
             "modeling_realm": "atmos", 
             "standard_name": "tendency_of_air_temperature_due_to_shortwave_heating_assuming_clear_sky", 
             "units": "K s-1", 
@@ -338,6 +320,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tntscp": {
+            "frequency": "mon", 
             "modeling_realm": "atmos", 
             "standard_name": "tendency_of_air_temperature_due_to_stratiform_clouds_and_precipitation", 
             "units": "K s-1", 
@@ -355,6 +338,7 @@
             "ok_max_mean_abs": ""
         }, 
         "utendepfd": {
+            "frequency": "mon", 
             "modeling_realm": "atmos", 
             "standard_name": "tendency_of_eastward_wind_due_to_eliassen_palm_flux_divergence", 
             "units": "m s-2", 
@@ -372,6 +356,7 @@
             "ok_max_mean_abs": ""
         }, 
         "utendnogw": {
+            "frequency": "mon", 
             "modeling_realm": "atmos", 
             "standard_name": "tendency_of_eastward_wind_due_to_nonorographic_gravity_wave_drag", 
             "units": "m s-2", 
@@ -389,6 +374,7 @@
             "ok_max_mean_abs": ""
         }, 
         "vmrox": {
+            "frequency": "mon", 
             "modeling_realm": "atmosChem", 
             "standard_name": "mole_fraction_of_ozone_and_atomic_oxygen_and_1D_oxygen_atom", 
             "units": "mol mol-1", 
@@ -406,6 +392,7 @@
             "ok_max_mean_abs": ""
         }, 
         "vtem": {
+            "frequency": "mon", 
             "modeling_realm": "atmos", 
             "standard_name": "northward_transformed_eulerian_mean_air_velocity", 
             "units": "m s-1", 
@@ -423,6 +410,7 @@
             "ok_max_mean_abs": ""
         }, 
         "vtendnogw": {
+            "frequency": "mon", 
             "modeling_realm": "atmos", 
             "standard_name": "tendency_of_northward_wind_due_to_nonorographic_gravity_wave_drag", 
             "units": "m s-2", 
@@ -440,6 +428,7 @@
             "ok_max_mean_abs": ""
         }, 
         "wtem": {
+            "frequency": "mon", 
             "modeling_realm": "atmos", 
             "standard_name": "unset", 
             "units": "m s-1", 
@@ -457,6 +446,7 @@
             "ok_max_mean_abs": ""
         }, 
         "xgwdparam": {
+            "frequency": "mon", 
             "modeling_realm": "atmos", 
             "standard_name": "atmosphere_eastward_stress_due_to_gravity_wave_drag", 
             "units": "Pa", 
@@ -474,6 +464,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ygwdparam": {
+            "frequency": "mon", 
             "modeling_realm": "atmos", 
             "standard_name": "atmosphere_northward_stress_due_to_gravity_wave_drag", 
             "units": "Pa", 
@@ -491,6 +482,7 @@
             "ok_max_mean_abs": ""
         }, 
         "zmtnt": {
+            "frequency": "mon", 
             "modeling_realm": "atmos", 
             "standard_name": "tendency_of_air_temperature_due_to_diabatic_processes", 
             "units": "K s-1", 

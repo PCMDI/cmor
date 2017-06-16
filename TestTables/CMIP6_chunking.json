@@ -3,7 +3,6 @@
         "missing_value": "1e20",
         "approx_interval": "30.00000",
         "cmor_version": "3.0",
-        "frequency": "mon",
         "table_id": "Table AmonChunking",
         "table_date": "24 February 2016",
         "realm": "atmos",
@@ -14,6 +13,7 @@
     },
     "variable_entry": {
         "tas": {
+            "frequency": "mon",
             "deflate": "1",
             "shuffle": "1",
             "deflate_level": "9",

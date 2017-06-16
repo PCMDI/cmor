@@ -35,7 +35,5 @@ CMOR_REPLACE_4
 """
 
 for att in atts.split():
-    attnm=att
-    exec("%s = _cmor.getCMOR_defaults_include('%s')" % (att,att))
-    
-    
+    attnm = att
+    exec("%s = _cmor.getCMOR_defaults_include('%s')" % (att, att))

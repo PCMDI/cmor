@@ -1,11 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.06", 
+        "data_specs_version": "01.00.11", 
         "table_id": "Table SIday", 
         "realm": "seaIce", 
-        "frequency": "day", 
         "cmor_version": "3.2", 
-        "table_date": "10 April 2017", 
+        "table_date": "16 June 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "1.00000", 
@@ -15,14 +14,15 @@
     }, 
     "variable_entry": {
         "siconc": {
+            "frequency": "day", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_area_fraction", 
             "units": "%", 
-            "cell_methods": "area: time: mean ", 
-            "cell_measures": "area: areacella", 
+            "cell_methods": "area: mean where sea time: mean", 
+            "cell_measures": "area: areacello", 
             "long_name": "Sea Ice Area Fraction", 
             "comment": "Area fraction of grid cell covered by sea ice", 
-            "dimensions": "longitude latitude time", 
+            "dimensions": "longitude latitude time typesi", 
             "out_name": "siconc", 
             "type": "real", 
             "positive": "", 
@@ -31,7 +31,26 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
+        "siconco": {
+            "frequency": "day", 
+            "modeling_realm": "seaIce", 
+            "standard_name": "sea_ice_area_fraction", 
+            "units": "%", 
+            "cell_methods": "area: time: mean", 
+            "cell_measures": "area: areacella", 
+            "long_name": "Sea Ice Area Fraction", 
+            "comment": "Area fraction of grid cell covered by sea ice", 
+            "dimensions": "longitude latitude time typesi", 
+            "out_name": "siconco", 
+            "type": "real", 
+            "positive": "", 
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
+        }, 
         "sisnthick": {
+            "frequency": "day", 
             "modeling_realm": "seaIce", 
             "standard_name": "surface_snow_thickness", 
             "units": "m", 
@@ -49,6 +68,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sispeed": {
+            "frequency": "day", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_speed", 
             "units": "m s-1", 
@@ -66,6 +86,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sitemptop": {
+            "frequency": "day", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_surface_temperature", 
             "units": "K", 
@@ -82,11 +103,30 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
+        "sithick": {
+            "frequency": "day", 
+            "modeling_realm": "seaIce ocean", 
+            "standard_name": "sea_ice_thickness", 
+            "units": "m", 
+            "cell_methods": "area: time: mean where sea_ice (comment: mask=siconc)", 
+            "cell_measures": "area: areacella", 
+            "long_name": "Sea Ice Thickness", 
+            "comment": "Actual (floe) thickness of sea ice (NOT volume divided by grid area as was done in CMIP5)", 
+            "dimensions": "longitude latitude time", 
+            "out_name": "sithick", 
+            "type": "real", 
+            "positive": "", 
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
+        }, 
         "sitimefrac": {
+            "frequency": "day", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_time_fraction", 
             "units": "1.0", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Fraction of time steps with sea ice", 
             "comment": "Fraction of time steps of the averaging period during which sea ice is present (siconc >0 ) in a grid cell", 
@@ -100,6 +140,7 @@
             "ok_max_mean_abs": ""
         }, 
         "siu": {
+            "frequency": "day", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_x_velocity", 
             "units": "m s-1", 
@@ -117,6 +158,7 @@
             "ok_max_mean_abs": ""
         }, 
         "siv": {
+            "frequency": "day", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_y_velocity", 
             "units": "m s-1", 

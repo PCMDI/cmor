@@ -127,7 +127,7 @@ program testing
  DOUBLE PRECISION :: p0array(1)
  real, DIMENSION(lev+1) :: a_coeff_bnds
  DOUBLE PRECISION, DIMENSION(lev+1) :: b_coeff_bnds
- INTEGER :: ilon, ilat, ipres, ilev, itim,i,ilon2,ilat2
+ INTEGER :: ilon, ilat, ipres, ilev, itim,i,ilon2,ilat2, itype
  real :: missing
  double precision bt
 
@@ -178,6 +178,13 @@ program testing
       length=lat,                   &
       coord_vals=alats,             & 
       cell_bounds=bnds_lat)        
+
+ itype = cmor_axis(  &
+     table='Tables/CMIP6_Ofx.json',    &   
+     table_entry='typesea',       &
+     units='',                   &
+     length=1,                   &
+     coord_vals=(/"sea"/))
 
  print*, 'Test code: ok calling axis stuff lon',ilat
  ilon2 = cmor_axis(  &
@@ -302,7 +309,7 @@ program testing
          table_entry=entry2d(m),     & 
          units=units2d(m),           & 
     !     axis_ids=(/ ilon, ilat, itim /), &
-         axis_ids=(/ ilon2, ilat2 /), &
+         axis_ids=(/ ilon2, ilat2, itype /), &
          missing_value=missing,       &
          positive=positive2d(m),     &
          original_name=varin2d(m))   

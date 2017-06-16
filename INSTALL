@@ -1,6 +1,6 @@
 INSTALLATION INSTRUCTIONS  
 ------------------------- 
-Climate Model Output Rewriter (CMOR) version 3.2.3 installation instructions.
+Climate Model Output Rewriter (CMOR) version 3.2.4 installation instructions.
 
  
 DOWNLOAD 
@@ -13,7 +13,7 @@ cd CMOR
 
 INSTALLATION
 ------------ 
-CMOR 3.2.3 requires external packages that need to be installed first. 
+CMOR 3.2.4 requires external packages that need to be installed first. 
 It can be compiled/linked against either NetCDF3 or NetCDF4. If you
 decide to go with NetCDF4 be sure to build NetCDF4 with the
  --enable-netcdf-4 option! 

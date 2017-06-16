@@ -1,11 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.06", 
+        "data_specs_version": "01.00.11", 
         "table_id": "Table AERday", 
         "realm": "aerosol", 
-        "frequency": "day", 
         "cmor_version": "3.2", 
-        "table_date": "10 April 2017", 
+        "table_date": "16 June 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "", 
@@ -15,10 +14,11 @@
     }, 
     "variable_entry": {
         "cod": {
+            "frequency": "day", 
             "modeling_realm": "aerosol", 
             "standard_name": "atmosphere_optical_thickness_due_to_cloud", 
             "units": "1.0", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "cloud optical depth", 
             "comment": "", 
@@ -32,6 +32,7 @@
             "ok_max_mean_abs": ""
         }, 
         "maxpblz": {
+            "frequency": "day", 
             "modeling_realm": "aerosol", 
             "standard_name": "atmosphere_boundary_layer_thickness", 
             "units": "m", 
@@ -49,6 +50,7 @@
             "ok_max_mean_abs": ""
         }, 
         "minpblz": {
+            "frequency": "day", 
             "modeling_realm": "aerosol", 
             "standard_name": "atmosphere_boundary_layer_thickness", 
             "units": "m", 
@@ -66,10 +68,11 @@
             "ok_max_mean_abs": ""
         }, 
         "od550aer": {
+            "frequency": "day", 
             "modeling_realm": "aerosol", 
             "standard_name": "atmosphere_optical_thickness_due_to_ambient_aerosol_particles", 
             "units": "1.0", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "ambient aerosol optical thickness at 550 nm", 
             "comment": "AOD from the ambient aerosls (i.e., includes aerosol water).  Does not include AOD from stratospheric aerosols if these are prescribed but includes other possible background aerosol types. Needs a comment attribute 'wavelength: 550 nm'", 
@@ -83,6 +86,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sfo3max": {
+            "frequency": "day", 
             "modeling_realm": "aerosol", 
             "standard_name": "mole_fraction_of_ozone_in_air", 
             "units": "mol mol-1", 
@@ -100,10 +104,11 @@
             "ok_max_mean_abs": ""
         }, 
         "toz": {
+            "frequency": "day", 
             "modeling_realm": "aerosol", 
             "standard_name": "equivalent_thickness_at_stp_of_atmosphere_ozone_content", 
             "units": "m", 
-            "cell_methods": "area: time: mean ", 
+            "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Total Column Ozone", 
             "comment": "total ozone column in DU", 
@@ -117,6 +122,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ua10": {
+            "frequency": "day", 
             "modeling_realm": "aerosol", 
             "standard_name": "eastward_wind", 
             "units": "m s-1", 
@@ -134,6 +140,7 @@
             "ok_max_mean_abs": ""
         }, 
         "zg10": {
+            "frequency": "day", 
             "modeling_realm": "aerosol", 
             "standard_name": "geopotential_height", 
             "units": "m", 
@@ -151,6 +158,7 @@
             "ok_max_mean_abs": ""
         }, 
         "zg100": {
+            "frequency": "day", 
             "modeling_realm": "aerosol", 
             "standard_name": "geopotential_height", 
             "units": "m", 
@@ -168,6 +176,7 @@
             "ok_max_mean_abs": ""
         }, 
         "zg1000": {
+            "frequency": "day", 
             "modeling_realm": "atmos", 
             "standard_name": "geopotential_height", 
             "units": "m", 
@@ -185,6 +194,7 @@
             "ok_max_mean_abs": ""
         }, 
         "zg500": {
+            "frequency": "day", 
             "modeling_realm": "aerosol", 
             "standard_name": "geopotential_height", 
             "units": "m", 

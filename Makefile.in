@@ -6,6 +6,7 @@ CPPFLAGS_USER=""
 USERFFLAGS=@USERFFLAGS@
 #MODULE_SUFFIX="mod"
 PREFIX=@prefix@
+PYTHONPATH=@prefix@/lib/python2.7/site-packages
 FCFLAGS=@FCFLAGS@
 PYTHONEXEC=@PYTHONEXEC@
 NO_COLOR2=\x1b[0m
@@ -145,6 +146,7 @@ ifeq ($(UNAME), Linux)
 endif
 python:
 	@echo "Building Python interface"
+	@if [ ! -d "${PYTHONPATH}" ]; then mkdir -p ${PYTHONPATH}; fi
 	@${PYTHONEXEC} setup.py install @CDATPREFIX@
 test_a_python:
 	@echo "${OK_COLOR}Testing ${TEST_NAME} ${NO_COLOR}"
@@ -211,6 +213,7 @@ test_python: python
 	env TEST_NAME=Test/test_python_joerg_tim2_clim_02.py make test_a_python
 	env TEST_NAME=Test/test_site_ts.py make test_a_python
 	env TEST_NAME=Test/test_python_free_wrapping_issue.py make test_a_python
+	env TEST_NAME=Test/test_python_filename_time_range.py make test_a_python
 
 test_case:
 	@echo "${OK_COLOR}Testing: "${TEST_NAME}" with input file: ${INPUT_FILE}${NO_COLOR}"

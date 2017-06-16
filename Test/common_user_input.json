@@ -33,7 +33,7 @@
            "history":                "Output from archivcl_A1.nce/giccm_03_std_2xCO2_2256.",
 
            "#comment":               "Not required",
-           "comment":                "Equilibrium reached after 30-year spin-up after which data were output starting with nominal date of January 2030",
+           "comment":                "",
 
            "#references":            "Not required",
            "references":             "Model described by Koder and Tolkien (J. Geophys. Res., 2001, 576-591).  Also see http://www.GICC.su/giccm/doc/index.html  2XCO2 simulation described in Dorkey et al. '(Clim. Dyn., 2003, 323-357.)'",

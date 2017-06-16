@@ -95,6 +95,7 @@
 },
 "variable_entry": {
         "latitude": {
+            "frequency": "3hr",
             "dimensions": "longitude latitude",
             "valid_min": "-90.0",
             "long_name": "",
@@ -104,6 +105,7 @@
             "valid_max": "90.0"     
         },
         "longitude": {
+            "frequency": "3hr",
             "dimensions": "longitude latitude",
             "valid_min": "0.0",
             "long_name": "",
@@ -113,6 +115,7 @@
             "valid_max": "360.0"
         },                     
         "vertices_latitude": {
+            "frequency": "3hr",
             "standard_name": "vertices_latitude", 
             "units": "degrees_north", 
             "long_name": "latitude vertices coordinate", 
@@ -122,6 +125,7 @@
             "valid_min": "-90.0"
         }, 
         "vertices_longitude": {
+            "frequency": "3hr",
             "standard_name": "vertices_longitude", 
             "units": "degrees_east", 
             "long_name": "longitude vertices coordinate", 
@@ -131,6 +135,7 @@
             "valid_min": "0.0"
         }, 
         "curtain": {
+            "frequency": "3hr",
             "units": "1", 
             "long_name": "curtain", 
             "dimensions":"height40 location section",

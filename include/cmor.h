@@ -3,7 +3,7 @@
 
 #define CMOR_VERSION_MAJOR 3
 #define CMOR_VERSION_MINOR 2
-#define CMOR_VERSION_PATCH 3
+#define CMOR_VERSION_PATCH 4
 
 #define CMOR_CF_VERSION_MAJOR 1
 #define CMOR_CF_VERSION_MINOR 7
@@ -71,7 +71,7 @@
 #define AXIS_ATT_AXIS            "axis"
 #define AXIS_ATT_INDEXONLY       "index_only"
 #define AXIS_ATT_MUSTBOUNDS      "must_have_bounds"
-#define AXIS_ATT_MUSTCALLGRID    "must_call_cmmore_grid"
+#define AXIS_ATT_MUSTCALLGRID    "must_call_cmor_grid"
 #define AXIS_ATT_TYPE            "type"
 #define AXIS_ATT_VALIDMIN        "valid_min"
 #define AXIS_ATT_VALIDMAX        "valid_max"
@@ -83,6 +83,7 @@
 #define AXIS_ATT_BOUNDSREQUESTED "bounds_requested"
 #define AXIS_ATT_REQUESTEDBOUNDS "requested_bounds"
 #define AXIS_ATT_REQUESTED       "requested"
+#define AXIS_FORECAST_TIME       "reftime"
 
 #define TABLE_CONTROL_FILENAME    "CMIP6_CV.json"
 #define TABLE_FOUND               -1
@@ -230,7 +231,6 @@
 #define TABLE_HEADER_REALM            "realm"
 #define TABLE_HEADER_TABLE_DATE       "table_date"
 #define TABLE_HEADER_FORCINGS         "forcings"
-#define TABLE_HEADER_FREQUENCY        "frequency"
 #define TABLE_HEADER_TABLE_ID         "table_id"
 #define TABLE_HEADER_BASEURL          "baseURL"
 #define TABLE_HEADER_PRODUCT          "product"
@@ -252,7 +252,7 @@
 #define AREA                          "area"
 #define VOLUME                        "volume"
 #define CMIP6                         "CMIP6"
-#define CMOR_DEFAULT_PATH_TEMPLATE    "<mip_era><activity_id><institute_id><source_id><experiment_id><member_id><table><variable_id><grid_label><version>"
+#define CMOR_DEFAULT_PATH_TEMPLATE    "<mip_era><activity_id><institution_id><source_id><experiment_id><member_id><table><variable_id><grid_label><version>"
 #define CMOR_DEFAULT_FILE_TEMPLATE    "<variable_id><table><source_id><experiment_id><member_id><grid_label>"
 #define CMOR_DEFAULT_FURTHERURL_TEMPLATE "http://furtherinfo.es-doc.org/<mip_era><institution_id><source_id><experiment_id><sub_experiment_id><variant_label>"
 //#define EXTERNAL_VARIABLE_REGEX       "([[:alpha:]]+):[[:blank:]]*([[:alpha:]]+)[[:blank:]]*([[:alpha:]]+:[[:blank:]]*([[:alpha:]]+))*"
@@ -474,6 +474,7 @@ typedef struct cmor_var_ {
     char current_path[CMOR_MAX_STRING];
     char suffix[CMOR_MAX_STRING];
     int suffix_has_date;
+    char frequency[CMOR_MAX_STRING];
 } cmor_var_t;
 
 extern cmor_var_t cmor_vars[CMOR_MAX_VARIABLES];
@@ -518,7 +519,6 @@ typedef struct cmor_table_ {
     char product[CMOR_MAX_STRING];
     char realm[CMOR_MAX_STRING];
     char path[CMOR_MAX_STRING];
-    char frequency[CMOR_MAX_STRING];
     char **forcings;
     int nforcings;
     unsigned char md5[16];
