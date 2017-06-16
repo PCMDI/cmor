@@ -44,7 +44,7 @@ for f in outfiles:
         print 'Checking output file:', f
         cmor.checkCMOR(sys.stdout, fnm, tbl, other_tables=tables)
         print '----------------------- Success ------------------------------'
-       ## os.remove(fnm)
+       # os.remove(fnm)
     else:
         missing.append(fnm)
 if nfiles == 0 and outfiles != []:

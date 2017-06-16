@@ -29,8 +29,8 @@ ilon = cmor.axis(
 
 ntimes = 12
 plevs = sorted(numpy.array([0, 17.0, 27.0, 37.0, 47.0, 57.0, 68.0, 82.0]))
-plevs_bnds = numpy.array([0, 11, 22.0, 32.0, 42.0, 52.0, 62.5, 75.0, 91.0])
-plevs_bnds.sort()
+plevs_bnds = sorted(numpy.array(
+    [0, 11, 22.0, 32.0, 42.0, 52.0, 62.5, 75.0, 91.0]))
 
 itim = cmor.axis(
     table_entry='time',
