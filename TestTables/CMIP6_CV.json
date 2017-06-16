@@ -34,11 +34,11 @@
         ],
         "version_metadata":{
             "author":"Paul J. Durack <durack1@llnl.gov>",
-            "creation_date":"Thu Jun 15 08:22:07 2017 -0700",
+            "creation_date":"Thu Jun 15 11:54:01 2017 -0700",
             "institution_id":"PCMDI",
-            "latest_tag_point":"3.2.3 (45; g584ff9a)",
-            "note":"Correct experiment_id typo AeroChemMIP -> AerChemMIP in EC-Earth3-AerChem",
-            "previous_commit":"278e765066c7a01dc63b2e04b58d40ae343d8c1b"
+            "latest_tag_point":"3.2.3 (48; gcb1dfab)",
+            "note":"Revise multiple NASA-GISS source_id values",
+            "previous_commit":"5da856972c1bb1ff7c7d6c295860b76a659bdf46"
         },
         "activity_id":[
             "AerChemMIP",
@@ -629,7 +629,7 @@
             },
             "GISS-E2-1G":{
                 "activity_participation":[
-                    ""
+                    "CMIP"
                 ],
                 "cohort":[
                     "Registered"
@@ -638,11 +638,11 @@
                     "NASA-GISS"
                 ],
                 "source_id":"GISS-E2-1G",
-                "source":"GISS-E2.1G (2016): \naerosol: varies with physics-version (p==1 none, p==3 OMA, p==4 TOMAS, p==5 MATRIX)\natmos: GISS-E2.1 (90 x 144 2x2.5; 40 levels; top level 0.1hPa)\natmosChem: varies with physics-version (p==1 Non-interactive, p>1 GPUCCINI)\nland: GISS LSM\nlandIce: Fixed\nocean: GISS Ocean (1 deg latitude/longitude; 32 levels; top grid cell 0-10m)\nocnBgchem: none\nseaIce: GISS SI"
+                "source":"GISS-E2.1G (2016): \naerosol: Varies with physics-version (p==1 none, p==3 OMA, p==4 TOMAS, p==5 MATRIX)\natmos: GISS-E2.1 (2x2.5 degree; 90 x 144 longitude/latitude; 40 levels; top level 0.1 hPa)\natmosChem: Varies with physics-version (p==1 Non-interactive, p>1 GPUCCINI)\nland: GISS LSM\nlandIce: none\nocean: GISS Ocean (1 degree; 360 x 180 latitude/longitude; 32 levels; top grid cell 0-10 m)\nocnBgchem: none\nseaIce: GISS SI"
             },
             "GISS-E2-1H":{
                 "activity_participation":[
-                    ""
+                    "CMIP"
                 ],
                 "cohort":[
                     "Registered"
@@ -651,7 +651,7 @@
                     "NASA-GISS"
                 ],
                 "source_id":"GISS-E2-1H",
-                "source":"GISS-E2.1H (2016): \naerosol: varies with physics-version (p==1 none, p==3 OMA, p==4 TOMAS, p==5 MATRIX)\natmos: GISS-E2.1 (90 x 144 2x2.5; 40 levels; top level 0.1hPa)\natmosChem: varies with physics-version (p==1 Non-interactive, p>1 GPUCCINI)\nland: GISS LSM\nlandIce: Fixed\nocean: HYCOM Ocean (tripolar grid; ~1 deg latitude/longitude; 26 levels; top grid cell 0-10m)\nocnBgchem: none\nseaIce: GISS SI"
+                "source":"GISS-E2.1H (2016): \naerosol: Varies with physics-version (p==1 none, p==3 OMA, p==4 TOMAS, p==5 MATRIX)\natmos: GISS-E2.1 (2x2.5 degree; 90 x 144 longitude/latitude; 40 levels; top level 0.1 hPa)\natmosChem: Varies with physics-version (p==1 Non-interactive, p>1 GPUCCINI)\nland: GISS LSM\nlandIce: none\nocean: HYCOM Ocean (~1 degree tripolar grid; 360 x 180 latitude/longitude; 26 levels; top grid cell 0-10 m)\nocnBgchem: none\nseaIce: GISS SI"
             },
             "HadGEM3-GC31-HH":{
                 "activity_participation":[
@@ -798,7 +798,24 @@
             },
             "MRI-ESM2-0":{
                 "activity_participation":[
-                    ""
+                    "AerChemMIP",
+                    "C4MIP",
+                    "CFMIP",
+                    "CMIP",
+                    "CORDEX",
+                    "DAMIP",
+                    "DCPP",
+                    "DynVarMIP",
+                    "FAFMIP",
+                    "GMMIP",
+                    "GeoMIP",
+                    "LS3MIP",
+                    "OMIP",
+                    "PMIP",
+                    "RFMIP",
+                    "SIMIP",
+                    "ScenarioMIP",
+                    "VolMIP"
                 ],
                 "cohort":[
                     "Registered"
@@ -807,7 +824,7 @@
                     "MRI"
                 ],
                 "source_id":"MRI-ESM2-0",
-                "source":"MRI-ESM2.0 (2017): \naerosol: MASINGAR mk2r4\natmos: MRI-AGCM3.5 (320 x 160 TL159; 80 levels; top level 0.01 hPa)\natmosChem: MRI-CCM2.1\nland: HAL 1.0\nlandIce: none\nocean: MRI.COM4.4 (tripolar primarily 0.5 deg latitude/1 deg longitude with meridional refinement down to 0.3 deg within 10 degrees north and south of the equator; 360 x 364 longitude/latitude; 61 levels; top grid cell 0-2 m)\nocnBgchem: MRI.COM4.4\nseaIce: MRI.COM4.4"
+                "source":"MRI-ESM2.0 (2017): \naerosol: MASINGAR mk2r4 (TL95; 192 x 96 longitude/latitude; 80 levels; top level 0.01 hPa)\natmos: MRI-AGCM3.5 (TL159; 320 x 160 longitude/latitude; 80 levels; top level 0.01 hPa)\natmosChem: MRI-CCM2.1 (T42; 128 x 64 longitude/latitude; 80 levels; top level 0.01 hPa)\nland: HAL 1.0\nlandIce: none\nocean: MRI.COM4.4 (tripolar primarily 0.5 deg latitude/1 deg longitude with meridional refinement down to 0.3 deg within 10 degrees north and south of the equator; 360 x 364 longitude/latitude; 61 levels; top grid cell 0-2 m)\nocnBgchem: MRI.COM4.4\nseaIce: MRI.COM4.4"
             },
             "NICAM16-7S":{
                 "activity_participation":[

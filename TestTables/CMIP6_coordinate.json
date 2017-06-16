@@ -571,28 +571,6 @@
             "z_factors": "", 
             "bounds_values": ""
         }, 
-        "reftime": {
-            "standard_name": "time", 
-            "units": "days since ?", 
-            "axis": "", 
-            "long_name": "time", 
-            "climatology": "", 
-            "formula": "", 
-            "must_have_bounds": "", 
-            "out_name": "reftime", 
-            "positive": "", 
-            "requested": "", 
-            "requested_bounds": "", 
-            "stored_direction": "increasing", 
-            "tolerance": "", 
-            "type": "double", 
-            "valid_max": "", 
-            "valid_min": "", 
-            "value": "", 
-            "z_bounds_factors": "", 
-            "z_factors": "", 
-            "bounds_values": ""
-        }, 
         "height100m": {
             "standard_name": "height", 
             "units": "m", 
