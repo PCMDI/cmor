@@ -1543,7 +1543,8 @@ int cmor_variable( int *var_id, char *name, char *units, int ndims,
        if(strcmp(cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].
                     axes[cmor_axes[laxes_ids[i]].ref_axis_id].id,
                     AXIS_FORECAST_TIME)==0) {
-           refvar.dimensions[lndims-1]= cmor_axes[laxes_ids[i]].ref_axis_id;
+           refvar.dimensions[lndims-1]=
+                   cmor_axes[laxes_ids[i]].ref_axis_id;
            refvar.ndims++;
            k++;
            continue;
@@ -2086,40 +2087,7 @@ int cmor_set_var_def_att( cmor_var_def_t * var, char att[CMOR_MAX_STRING],
 		       ( CMOR_NETCDF_MODE == CMOR_PRESERVE_3 ) ) {
 		sprintf( msg,
 			 "Reading a table (%s) that calls for NetCDF4 features, you asked for NetCDF3 features",
-			 cmor_tables[var->table_id].szTable_id );void cmor_trim_string(char *in, char *out) {
-		    int n, i, j;
-
-		    if (in == NULL) {
-		        out = NULL;
-		        return;
-		    }
-		    n = strlen(in);
-
-		    if (n == 0) {
-		        out[0] = '\0';
-		        return;
-		    }
-		    if (n > CMOR_MAX_STRING)
-		        n = CMOR_MAX_STRING;
-		    j = 0;
-		    for (i = 0; i < n; i++) {
-		        if (in[i] != ' ' && in[i] != '\n' && in[i] != '\t') {
-		            break;
-		        } else {
-		            j++;
-		        }
-		    }
-		    for (i = j; i < n; i++) {
-		        out[i - j] = in[i];
-		    }
-		    out[i - j] = '\0';
-		    n = strlen(out);
-		    i = n;
-		    while ((out[i] == '\0' || out[i] == ' ')) {
-		        out[i] = '\0';
-		        i--;
-		    }
-		}
+			 cmor_tables[var->table_id].szTable_id );
 		cmor_handle_error( msg, CMOR_WARNING );
 	    }
 	}
