@@ -378,7 +378,7 @@ int cmor_zfactor(int *zvar_id, int axis_id, char *name, char *units,
 {
 
     extern int cmor_nvars;
-    extern cmor_var_t cmor_vars[];
+    extern cmor_var_t cmor_formula[];
 
     int i, j, k;
     int n, gid;
@@ -390,10 +390,12 @@ int cmor_zfactor(int *zvar_id, int axis_id, char *name, char *units,
     cv_converter *ut_cmor_converter;
     char local_unit[CMOR_MAX_STRING];
     double tmp;
+    char comment[CMOR_MAX_STRING];
 
     cmor_add_traceback("cmor_zfactor");
     cmor_is_setup();
 
+    strcpy(comment, COMMENT_VARIABLE_ZFACTOR);
 /* -------------------------------------------------------------------- */
 /*      first check if we need to convert values                        */
 /* -------------------------------------------------------------------- */
@@ -403,7 +405,7 @@ int cmor_zfactor(int *zvar_id, int axis_id, char *name, char *units,
 /*      no it's a normal hybrid, no conv                                */
 /* -------------------------------------------------------------------- */
         i = cmor_variable(&var_id, name, units, ndims, axes_ids, type,
-                          NULL, NULL, NULL, NULL, NULL, NULL);
+                          NULL, NULL, NULL, NULL, NULL, comment);
         cmor_vars[var_id].needsinit = 0;
         cmor_vars[var_id].zaxis = axis_id;
         if (values != NULL) {
@@ -585,7 +587,7 @@ int cmor_zfactor(int *zvar_id, int axis_id, char *name, char *units,
                 strncpy(msg, name, CMOR_MAX_STRING);
                 strncat(msg, "_bnds", CMOR_MAX_STRING - strlen(msg));
                 i = cmor_variable(&var_id, msg, units, ndims, axes_ids,
-                                  'd', NULL, NULL, NULL, NULL, NULL, NULL);
+                                  'd', NULL, NULL, NULL, NULL, NULL, comment);
                 cmor_vars[var_id].zaxis = axis_id;
                 cmor_vars[var_id].needsinit = 0;
                 n = cmor_axes[axes_ids[0]].length;
@@ -1018,6 +1020,7 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
     extern int cmor_nvars, cmor_naxes;
     extern int CMOR_TABLE;
     extern cmor_var_t cmor_vars[];
+
     int i, iref, j, k, l;
     char msg[CMOR_MAX_STRING];
     char ctmp[CMOR_MAX_STRING];
@@ -1050,19 +1053,35 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
 /* -------------------------------------------------------------------- */
     iref = -1;
     cmor_trim_string(name, ctmp);
-    for (i = 0; i < cmor_tables[CMOR_TABLE].nvars + 1; i++) {
-        if (strcmp(cmor_tables[CMOR_TABLE].vars[i].id, ctmp) == 0) {
-            iref = i;
-            break;
+    if((comment != NULL) && strcmp(comment, COMMENT_VARIABLE_ZFACTOR) == 0) {
+        for (i = 0; i < cmor_tables[CMOR_TABLE].nformula + 1; i++) {
+            if (strcmp(cmor_tables[CMOR_TABLE].formula[i].id, ctmp) == 0) {
+                iref = i + CMOR_MAX_ELEMENTS;
+                break;
+            }
+        }
+
+    } else {
+        for (i = 0; i < cmor_tables[CMOR_TABLE].nvars + 1; i++) {
+            if (strcmp(cmor_tables[CMOR_TABLE].vars[i].id, ctmp) == 0) {
+                iref = i;
+                break;
+            }
         }
     }
+
     if (iref == -1) {
         snprintf(msg, CMOR_MAX_STRING,
                  "Could not find a matching variable for name: '%s'", ctmp);
         cmor_handle_error(msg, CMOR_CRITICAL);
     }
 
-    refvar = cmor_tables[CMOR_TABLE].vars[iref];
+    if( iref > CMOR_MAX_ELEMENTS) {
+        refvar = cmor_tables[CMOR_TABLE].formula[iref - CMOR_MAX_ELEMENTS];
+    } else {
+        refvar = cmor_tables[CMOR_TABLE].vars[iref];
+
+    }
     for (i = 0; i < CMOR_MAX_VARIABLES; i++) {
         if (cmor_vars[i].self == -1) {
             vrid = i;
@@ -1155,7 +1174,8 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
                                              'c', history);
     }
 
-    if ((comment != NULL) && (comment[0] != '\0')) {
+    if ((comment != NULL) && (comment[0] != '\0') &&
+            strcmp(comment, COMMENT_VARIABLE_ZFACTOR) != 0) {
         if (cmor_has_variable_attribute(vrid, VARIABLE_ATT_COMMENT) == 0) {
             char szActivity[CMOR_MAX_STRING];
 
