@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.11", 
+        "data_specs_version": "01.00.12", 
         "table_id": "Table 6hrPlevPt", 
         "realm": "atmos", 
         "cmor_version": "3.2", 
-        "table_date": "16 June 2017", 
+        "table_date": "20 June 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "", 
@@ -612,7 +612,7 @@
             "modeling_realm": "atmos", 
             "standard_name": "atmosphere_relative_vorticity", 
             "units": "s-1", 
-            "cell_methods": "time: point", 
+            "cell_methods": "area: mean time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "atmosphere_relative_vorticity", 
             "comment": "Mean vorticity over 850,700,600 hPa", 
