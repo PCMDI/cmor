@@ -2735,7 +2735,8 @@ int cmor_setGblAttr(int var_id)
                                                     ctmp2, 0);
             regfree(&regex);
         }
-    }
+    }            // Remove regular expression to compare strings.
+
     if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_INSTITUTION_ID) == 0) {
         ierr += cmor_CV_setInstitution(cmor_tables[nVarRefTblID].CV);
     }
@@ -2743,7 +2744,7 @@ int cmor_setGblAttr(int var_id)
     if (cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP6) == 0) {
         ierr += cmor_CV_checkSourceID(cmor_tables[nVarRefTblID].CV);
         ierr += cmor_CV_checkExperiment(cmor_tables[nVarRefTblID].CV);
-        ierr += cmor_CV_checkGrids(cmor_tables[nVarRefTblID].CV);
+        //ierr += cmor_CV_checkGrids(cmor_tables[nVarRefTblID].CV);
         ierr += cmor_CV_checkFurtherInfoURL(nVarRefTblID);
         ierr += cmor_CV_checkParentExpID(cmor_tables[nVarRefTblID].CV);
         ierr += cmor_CV_checkSubExpID(cmor_tables[nVarRefTblID].CV);

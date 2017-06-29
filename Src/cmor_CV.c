@@ -1756,10 +1756,12 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
     char CV_Filename[CMOR_MAX_STRING];
     char szValids[CMOR_MAX_STRING * 2];
     char szOutput[CMOR_MAX_STRING * 2];
+    char szTmp[CMOR_MAX_STRING];
     int i;
     regex_t regex;
     int reti;
     int ierr;
+    int nValueLen;
 
     cmor_add_traceback("_CV_ValidateAttribute");
 
@@ -1778,6 +1780,17 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
 
     ierr = cmor_get_cur_dataset_attribute(szKey, szValue);
     for (i = 0; i < attr_CV->anElements; i++) {
+        strncpy(szTmp, attr_CV->aszValue[i], CMOR_MAX_STRING);
+        if (attr_CV->aszValue[i][0] != '^') {
+            snprintf(szTmp, CMOR_MAX_STRING, "^%s", attr_CV->aszValue[i]);
+        }
+
+        nValueLen = strlen(szTmp);
+        if (szTmp[nValueLen-1] != '$') {
+            strcat(szTmp, "$");
+        }
+
+        strncpy(attr_CV->aszValue[i], szTmp, CMOR_MAX_STRING);
         reti = regcomp(&regex, attr_CV->aszValue[i], 0);
         if (reti) {
             snprintf(msg, CMOR_MAX_STRING,
@@ -1843,6 +1856,7 @@ int cmor_CV_checkGrids(cmor_CV_def_t * CV)
     char szGridResolution[CMOR_MAX_STRING];
     char msg[CMOR_MAX_STRING];
     char CV_Filename[CMOR_MAX_STRING];
+    char szCompare[CMOR_MAX_STRING];
 
     cmor_CV_def_t *CV_grid_labels;
     cmor_CV_def_t *CV_grid_resolution;
@@ -1880,7 +1894,14 @@ int cmor_CV_checkGrids(cmor_CV_def_t * CV)
     }
     if (CV_grid_labels->anElements > 0) {
         for (i = 0; i < CV_grid_labels->anElements; i++) {
-            rc = strcmp(CV_grid_labels->aszValue[i], szGridLabel);
+            // Remove regular expression to compare strings.
+            strncpy(szCompare, CV_grid_labels->aszValue[i], CMOR_MAX_STRING);
+            if(szCompare[0] == '^') {
+                strncpy(szCompare, &CV_grid_labels->aszValue[i][1],
+                        strlen(CV_grid_labels->aszValue[i])-2);
+                szCompare[strlen(CV_grid_labels->aszValue[i])-2]= '\0';
+            }
+            rc = strcmp(szCompare, szGridLabel);
             if (rc == 0) {
                 break;
             }
@@ -1910,7 +1931,15 @@ int cmor_CV_checkGrids(cmor_CV_def_t * CV)
 
     if (CV_grid_resolution->anElements > 0) {
         for (i = 0; i < CV_grid_resolution->anElements; i++) {
-            rc = strcmp(CV_grid_resolution->aszValue[i], szGridResolution);
+            strncpy(szCompare, CV_grid_resolution->aszValue[i], CMOR_MAX_STRING);
+            // Remove regular expression to compare strings.
+            if(CV_grid_resolution->aszValue[i][0] == '^') {
+                strncpy(szCompare, &CV_grid_resolution->aszValue[i][1],
+                        strlen(CV_grid_resolution->aszValue[i])-2);
+                szCompare[strlen(CV_grid_resolution->aszValue[i])-2]= '\0';
+
+            }
+            rc = strcmp(szCompare, szGridResolution);
             if (rc == 0) {
                 break;
             }

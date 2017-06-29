@@ -1037,19 +1037,6 @@
                 "source":"VRESM 1.0 (2016): \naerosol: Rotstayn-1.0\natmos: VCAM-1.0 (192 x 192 x 6 C192; 35 levels; top level 35km)\natmosChem: none\nland: CABLE v2.2.3\nlandIce: none\nocean: VCOM-1.0 (192 x 192 x 6 C192; 35 levels; top grid cell 0-10m)\nocnBgchem: PISCES v3.4socco\nseaIce: CSIR-ICE (visco-plastic)"
             }
         },
-        "source_type":[
-            "AER",
-            "AGCM",
-            "AOGCM",
-            "BGCM",
-            "CHEM",
-            "ESM",
-            "ISM",
-            "LAND",
-            "OGCM",
-            "RAD",
-            "SLAB"
-        ],
         "frequency":{
             "1hr":"sampled hourly",
             "1hrClimMon":"monthly climatology of diurnal cycle computed from hourly samples",
@@ -8406,7 +8393,7 @@
             "hdl:21.14100/.*"
         ],
         "further_info_url":[
-            "http://furtherinfo.es-doc.org/[[:alpha:]]\\{1,\\}"
+            "http://furtherinfo.es-doc.org/[[:alnum:][:punct:]]\\{1,\\}"
         ],
         "realization_index":[
             "^\\[\\{0,\\}[[:digit:]]\\{1,\\}\\]\\{0,\\}$"
