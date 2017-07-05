@@ -181,7 +181,7 @@ test_python: python
 	env TEST_NAME=Test/test_python_joerg_1.py make test_a_python
 	env TEST_NAME=Test/test_python_joerg_2.py make test_a_python
 	env TEST_NAME=Test/test_python_joerg_3.py make test_a_python
-#	@env TEST_NAME=Test/test_python_joerg_4.py make test_a_python
+	@env TEST_NAME=Test/test_python_joerg_4.py make test_a_python
 	env TEST_NAME=Test/test_python_joerg_5.py make test_a_python
 	env TEST_NAME=Test/test_python_joerg_6.py make test_a_python
 	env TEST_NAME=Test/test_python_joerg_7.py make test_a_python
@@ -209,7 +209,7 @@ test_python: python
 	env TEST_NAME=Test/test_python_reverted_lats.py make test_a_python
 	env TEST_NAME=Test/test_lon_gt_360.py make test_a_python
 	env TEST_NAME=Test/test_lon_thro_360.py make test_a_python
-#	env TEST_NAME=Test/test_python_jamie_11.py make test_a_python
+	env TEST_NAME=Test/test_python_jamie_11.py make test_a_python
 	env TEST_NAME=Test/test_python_joerg_tim2_clim_02.py make test_a_python
 	env TEST_NAME=Test/test_site_ts.py make test_a_python
 	env TEST_NAME=Test/test_python_free_wrapping_issue.py make test_a_python

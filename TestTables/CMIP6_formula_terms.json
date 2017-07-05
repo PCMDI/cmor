@@ -6,13 +6,6 @@
             "dimensions": "alevel", 
             "type": "double"
         }, 
-        "ps1": {
-            "long_name": "Surface Air Pressure", 
-            "units": "Pa", 
-            "dimensions": "longitude latitude time1", 
-            "out_name": "ps",
-            "type": "real"
-        }, 
         "ps": {
             "long_name": "Surface Air Pressure", 
             "units": "Pa", 
@@ -144,6 +137,26 @@
             "units": "", 
             "dimensions": "olevel", 
             "type": "double"
+        }, 
+        "ps2": {
+            "long_name": "vertical coordinate formula term: ps", 
+            "units": "Pa", 
+            "dimensions": "longitude latitude time2", 
+            "type": "real",
+            "out_name": "ps"
+        }, 
+        "ps1": {
+            "long_name": "vertical coordinate formula term: ps", 
+            "units": "Pa", 
+            "dimensions": "longitude latitude time1", 
+            "type": "real",
+            "out_name": "ps"
+        }, 
+        "eta2": {
+            "long_name": "Sea Surface Height formula term: thetao", 
+            "units": "m", 
+            "dimensions": "longitude latitude time2", 
+            "type": "real"
         }
     }
 }

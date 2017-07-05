@@ -10,8 +10,7 @@ nlev = 5
 def prep(mode):
     error_flag = cmor.setup(
         inpath='Tables',
-        netcdf_file_action=mode,
-        logfile="Denis.LOG")
+        netcdf_file_action=mode)
 
     error_flag = cmor.dataset_json("Test/common_user_input.json")
 

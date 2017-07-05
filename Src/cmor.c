@@ -1798,9 +1798,11 @@ int cmor_define_zfactors_vars(int var_id, int ncid, int *nc_dim,
             }
             if (found == 0) {
                 snprintf(msg, CMOR_MAX_STRING,
-                         "could not find the zfactor variable: %s,\n! "
-                         "please define it first, while defining zfactors\n! "
-                         "for variable %s (table %s)", ctmp,
+                         "could not find the zfactor variable: %s. \n! "
+                         "Please define zfactor before defining the\n! "
+                         "variable %s (table %s).\n! \n! "
+                         "Also zfactor dimensions must match variable's"
+                         " dimensions.\n! ", ctmp,
                          cmor_vars[var_id].id,
                          cmor_tables[cmor_vars[var_id].ref_table_id].
                          szTable_id);
@@ -3477,6 +3479,9 @@ void cmor_define_dimensions(int var_id, int ncid,
                 ierr = cmor_define_zfactors_vars(var_id, ncafid, &nc_dim_af[0],
                                                  msg, nzfactors, &zfactors[0],
                                                  &nc_zfactors[0], i, -1);
+                if(ierr != 0) {
+                    break;
+                }
             } else
               if (strcmp
                   (cmor_axes[cmor_vars[var_id].axes_ids[i]].attributes[j],
@@ -3506,6 +3511,9 @@ void cmor_define_dimensions(int var_id, int ncid,
                 ierr = cmor_define_zfactors_vars(var_id, ncafid, nc_dim, msg,
                                                  nzfactors, &zfactors[0],
                                                  &nc_zfactors[0], i, *dim_bnds);
+                if(ierr != 0) {
+                    break;
+                }
             } else
               if (strcmp
                   (cmor_axes[cmor_vars[var_id].axes_ids[i]].attributes[j],
