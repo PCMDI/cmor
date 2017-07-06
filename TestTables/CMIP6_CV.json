@@ -64,6 +64,7 @@
             "VIACSAB",
             "VolMIP"
         ],
+        "test":"test",
         "institution_id":{
             "AWI":"Alfred Wegener Institute, Helmholtz Centre for Polar and Marine Research, Am Handelshafen 12, 27570 Bremerhaven, Germany",
             "BNU":"Beijing Normal University, Beijing 100875, China",
