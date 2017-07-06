@@ -1,8 +1,9 @@
+# -*- coding: utf-8 -*-
 import os
 import sys
 import json
 import pdb
-import urllib
+import requests
 from collections import OrderedDict
 
 
@@ -49,9 +50,10 @@ class readWCRP():
         Dico = OrderedDict()
         for file in filelist:
             url = githubRepo + file 
-            response = urllib.urlopen(url)
+            response = requests.get(url, verify="./cspca.crt")
             print url
-            myjson = json.loads(response.read(), object_pairs_hook=OrderedDict)
+            urlJson = response.content.decode('utf-8')
+            myjson = json.loads(urlJson, object_pairs_hook=OrderedDict)
             if(file == 'CMIP6_source_id.json'):
                 self.createSource(myjson)
             Dico = OrderedDict(Dico.items() + myjson.items())
