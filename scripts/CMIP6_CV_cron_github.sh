@@ -12,9 +12,9 @@ echo $msg
 git commit -am "$msg"
 git push
 URL=`hub pull-request CMIP6_CVupdt -m "$msg"`
-git checkout master
-git pull origin
-hub merge $URL
-git push origin
+#git checkout master
+#git pull origin
+git merge $URL
+#git push origin
 
 #
