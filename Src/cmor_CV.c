@@ -466,41 +466,86 @@ int cmor_CV_checkSourceType(cmor_CV_def_t * CV_exp, char *szExptID)
     }
 
     szTokenRequired = strtok(szReqSourceType, " ");
-
+    regex_t regex;
+    int reti;
     while (szTokenRequired != NULL) {
-        if (strstr(szSourceType, szTokenRequired) == NULL) {
-
+        reti = regcomp(&regex, szTokenRequired, REG_EXTENDED);
+        if (reti) {
             snprintf(msg, CMOR_MAX_STRING,
-                     "The following source type(s) \"%s\" are required and\n! "
-                     "some source type(s) could not be found in your "
-                     "input file. \n! "
-                     "Your file contains a source type of \"%s\".\n! "
-                     "Check your Control Vocabulary file \"%s\".\n! ",
-                     szReqSourceTypeCpy, szSourceType, CV_Filename);
-
+                    "You regular expression \"%s\" is invalid. \n! "
+                            "Please refer to the CMIP6 documentations.\n! ",
+                    szTokenRequired);
+            regfree(&regex);
             cmor_handle_error(msg, CMOR_NORMAL);
             cmor_pop_traceback();
             return (-1);
+        }
+        /* -------------------------------------------------------------------- */
+        /*        Execute regular expression                                    */
+        /* -------------------------------------------------------------------- */
+        reti = regexec(&regex, szSourceType, 0, NULL, 0);
+        if (reti == REG_NOMATCH) {
+            snprintf(msg, CMOR_MAX_STRING,
+                    "The following source type(s) \"%s\" are required and\n! "
+                            "some source type(s) could not be found in your "
+                            "input file. \n! "
+                            "Your file contains a source type of \"%s\".\n! "
+                            "Check your Control Vocabulary file \"%s\".\n! ",
+                    szReqSourceTypeCpy, szSourceType, CV_Filename);
+            regfree(&regex);
+            cmor_handle_error(msg, CMOR_NORMAL);
         } else {
             nbGoodType++;
         }
+        regfree(&regex);
         szTokenRequired = strtok(NULL, " ");
     }
+//    while (szTokenRequired != NULL) {
+//        if (strstr(szSourceType, szTokenRequired) == NULL) {
+//
+//            snprintf(msg, CMOR_MAX_STRING,
+//                     "The following source type(s) \"%s\" are required and\n! "
+//                     "some source type(s) could not be found in your "
+//                     "input file. \n! "
+//                     "Your file contains a source type of \"%s\".\n! "
+//                     "Check your Control Vocabulary file \"%s\".\n! ",
+//                     szReqSourceTypeCpy, szSourceType, CV_Filename);
+//
+//            cmor_handle_error(msg, CMOR_NORMAL);
+//            cmor_pop_traceback();
+//            return (-1);
+//        } else {
+//            nbGoodType++;
+//        }
+//        szTokenRequired = strtok(NULL, " ");
+//    }
 
     szTokenAdd = strtok(szAddSourceType, " ");
     while (szTokenAdd != NULL) {
+        // Is the token "CHEM"?
         if (strcmp(szTokenAdd, "CHEM") == 0) {
-            if (strstr(szSourceType, szTokenAdd) != NULL) {
+            reti = regcomp(&regex, szTokenAdd, REG_EXTENDED);
+            if (regexec(&regex, szSourceType, 0, NULL, 0) == REG_NOERROR) {
                 nbGoodType++;
-            }
+            };
         } else if (strcmp(szTokenAdd, "AER") == 0) {
-            if (strstr(szSourceType, szTokenAdd) != NULL) {
+            regfree(&regex);
+            // Is the token "AER"?
+            reti = regcomp(&regex, szTokenAdd, REG_EXTENDED);
+            if (regexec(&regex, szSourceType, 0, NULL, 0) == REG_NOERROR) {
                 nbGoodType++;
-            }
-        } else if (strstr(szSourceType, szTokenAdd) != NULL) {
-            nbGoodType++;
+            };
+        } else {
+            regfree(&regex);
+            // Is the token in the list of AddSourceType?
+            reti = regcomp(&regex, szTokenAdd, REG_EXTENDED);
+            if (regexec(&regex, szSourceType, 0, NULL, 0) == REG_NOERROR) {
+                nbGoodType++;
+            };
         }
+
         szTokenAdd = strtok(NULL, " ");
+        regfree(&regex);
     }
 
     if (nbGoodType != nbSourceType) {
@@ -1780,16 +1825,18 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
 
     ierr = cmor_get_cur_dataset_attribute(szKey, szValue);
     for (i = 0; i < attr_CV->anElements; i++) {
+        // Special case for source type any element may match
         strncpy(szTmp, attr_CV->aszValue[i], CMOR_MAX_STRING);
-        if (attr_CV->aszValue[i][0] != '^') {
-            snprintf(szTmp, CMOR_MAX_STRING, "^%s", attr_CV->aszValue[i]);
-        }
+        if (strcmp(szKey, GLOBAL_ATT_SOURCE_TYPE) != 0) {
+            if (attr_CV->aszValue[i][0] != '^') {
+                snprintf(szTmp, CMOR_MAX_STRING, "^%s", attr_CV->aszValue[i]);
+            }
 
-        nValueLen = strlen(szTmp);
-        if (szTmp[nValueLen-1] != '$') {
-            strcat(szTmp, "$");
+            nValueLen = strlen(szTmp);
+            if (szTmp[nValueLen - 1] != '$') {
+                strcat(szTmp, "$");
+            }
         }
-
         strncpy(attr_CV->aszValue[i], szTmp, CMOR_MAX_STRING);
         reti = regcomp(&regex, attr_CV->aszValue[i], 0);
         if (reti) {
@@ -1813,8 +1860,10 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
         }
         regfree(&regex);
     }
-
-    if (ierr != 0) {
+/* -------------------------------------------------------------------- */
+/*  only critical if the attribute was not found                        */
+/* -------------------------------------------------------------------- */
+    if (ierr) {
         cmor_pop_traceback();
         return (-1);
     }

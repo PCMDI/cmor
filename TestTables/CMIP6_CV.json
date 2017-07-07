@@ -8499,7 +8499,7 @@
             "hdl:21.14100/.*"
         ],
         "further_info_url":[
-            "http://furtherinfo.es-doc.org/[[:alpha:]]\\{1,\\}"
+            "http://furtherinfo.es-doc.org/.*"
         ],
         "realization_index":[
             "^\\[\\{0,\\}[[:digit:]]\\{1,\\}\\]\\{0,\\}$"
