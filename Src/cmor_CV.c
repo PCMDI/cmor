@@ -9,7 +9,9 @@
 #include "json_tokener.h"
 #include "arraylist.h"
 #include "libgen.h"
-
+#ifndef REG_NOERROR
+#define REG_NOERROR 0
+#endif
 extern void cdCompAdd(cdCompTime comptime,
                       double value, cdCalenType calendar, cdCompTime * result);
 
