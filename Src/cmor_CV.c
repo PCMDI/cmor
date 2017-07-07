@@ -410,6 +410,9 @@ int cmor_CV_checkSourceType(cmor_CV_def_t * CV_exp, char *szExptID)
     int nbSourceType;
     char *ptr;
     int nbGoodType;
+    regex_t regex;
+    int reti;
+
     cmor_add_traceback("_CV_checkSourceType");
 
     szAddSourceType[0] = '\0';
@@ -466,8 +469,6 @@ int cmor_CV_checkSourceType(cmor_CV_def_t * CV_exp, char *szExptID)
     }
 
     szTokenRequired = strtok(szReqSourceType, " ");
-    regex_t regex;
-    int reti;
     while (szTokenRequired != NULL) {
         reti = regcomp(&regex, szTokenRequired, REG_EXTENDED);
         if (reti) {
@@ -500,25 +501,6 @@ int cmor_CV_checkSourceType(cmor_CV_def_t * CV_exp, char *szExptID)
         regfree(&regex);
         szTokenRequired = strtok(NULL, " ");
     }
-//    while (szTokenRequired != NULL) {
-//        if (strstr(szSourceType, szTokenRequired) == NULL) {
-//
-//            snprintf(msg, CMOR_MAX_STRING,
-//                     "The following source type(s) \"%s\" are required and\n! "
-//                     "some source type(s) could not be found in your "
-//                     "input file. \n! "
-//                     "Your file contains a source type of \"%s\".\n! "
-//                     "Check your Control Vocabulary file \"%s\".\n! ",
-//                     szReqSourceTypeCpy, szSourceType, CV_Filename);
-//
-//            cmor_handle_error(msg, CMOR_NORMAL);
-//            cmor_pop_traceback();
-//            return (-1);
-//        } else {
-//            nbGoodType++;
-//        }
-//        szTokenRequired = strtok(NULL, " ");
-//    }
 
     szTokenAdd = strtok(szAddSourceType, " ");
     while (szTokenAdd != NULL) {
@@ -576,7 +558,10 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
 
     char szSource_ID[CMOR_MAX_STRING];
     char szSource[CMOR_MAX_STRING];
+    char szSubstring[CMOR_MAX_STRING];
+    char *pos;
 
+    int nLen;
     char msg[CMOR_MAX_STRING];
     char CV_Filename[CMOR_MAX_STRING];
     int rc;
@@ -638,9 +623,16 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
                 cmor_handle_error(msg, CMOR_WARNING);
                 break;
             }
+            pos = strchr(CV_source_id->oValue[j].szValue, ')');
+            strncpy(szSubstring, CV_source_id->oValue[j].szValue, CMOR_MAX_STRING);
+            nLen = strlen(CV_source_id->oValue[j].szValue);
+            if( pos != 0 ) {
+                nLen = pos - CV_source_id->oValue[j].szValue + 1;
+            }
+            szSubstring[nLen] = '\0';
             if (strncmp
-                (CV_source_id->oValue[j].szValue, szSource,
-                 CMOR_MAX_STRING) != 0) {
+                (szSubstring, szSource,
+                 nLen) != 0) {
                 snprintf(msg, CMOR_MAX_STRING,
                          "Your input attribute \"%s\" with value \n! \"%s\" "
                          "will be replaced with "

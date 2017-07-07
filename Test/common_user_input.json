@@ -64,7 +64,7 @@
            "source_id":               "PCMDI-test-1-0",
 
            "#source":                "source title, first part is source_id",
-           "source":                 "PCMDI-test 1.0",
+           "source":                 "PCMDI-test 1.0 (1980)",
 
 
            "#output_path_template":   "Template for output path directory using tables keys or global attributes",
