@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.12", 
+        "data_specs_version": "01.00.13", 
         "table_id": "Table Esubhr", 
         "realm": "atmos", 
         "cmor_version": "3.2", 
-        "table_date": "20 June 2017", 
+        "table_date": "12 July 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "0.017361", 
@@ -176,7 +176,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ps": {
-            "frequency": "3hr", 
+            "frequency": "subhr", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_air_pressure", 
             "units": "Pa", 
