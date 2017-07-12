@@ -1,20 +1,22 @@
 #!/bin/bash
-export PATH=/software/anaconda2/envs/cmor3/bin:/software/anaconda2/bin:/usr/local/bin:/usr/bin:/bin
+export PATH=~/anaconda2/bin:/usr/local/bin:/usr/bin:/bin
 alias git='hub'
-cd /software/cmor3/cmor/scripts
-python /software/cmor3/cmor/scripts/createCMIP6CV.py
+cd ~/cmor/scripts
+python createCMIP6CV.py
 # -----
-cd /software/cmip6-cmor-tables/Tables
+cd ~/cmip6-cmor-tables/Tables
 git checkout CMIP6_CVupdt
-cp -v /software/cmor3/cmor/scripts/CMIP6_CV.json  .
+git pull 
+cp -v ~/cmor/scripts/CMIP6_CV.json  .
 msg="cron: update CMIP6_CV -- "`date +%Y-%m-%dT%H:%M`
 echo $msg
 git commit -am "$msg"
 git push
 URL=`hub pull-request CMIP6_CVupdt -m "$msg"`
+PR=`echo $URL | awk -F/ '{print $7}'`
+TOKEN=`cat ~/.config/hub  | grep oauth_token | awk -F: '{print $2}' | sed -e 's/^\s*//'`
+echo curl "https://api.github.com/repos/pcmdi/cmip6-cmor-tables/pulls/$PR/merge"   -XPUT   -H "Authorization: token $TOKEN"   -H "Accept: application/vnd.github.polaris-preview"   -d '{ "commit_message":"$msg", "squash": true, "commit_title": "$msg" }'
 git checkout master
 git pull origin
-hub merge $URL
-git push origin
 
 #
