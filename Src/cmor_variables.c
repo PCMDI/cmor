@@ -2191,7 +2191,6 @@ int cmor_set_chunking(int var_id, int nTableID, size_t nc_dim_chunking[])
             nc_dim_chunking[n] = 1;
         }
         n++;
-        token = strtok(NULL, " ");
     }
     cmor_pop_traceback();
     return (0);

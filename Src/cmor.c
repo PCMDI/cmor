@@ -3105,6 +3105,8 @@ void cmor_define_dimensions(int var_id, int ncid,
     int nVarRefTblID = cmor_vars[var_id].ref_table_id;
     int ics, icd, icdl;
     int itmpmsg, itmp2, itmp3;
+    size_t default_chunking_size=1;
+    int bChunk;
 
     cmor_add_traceback("cmor_define_dimensions");
     for (i = 0; i < cmor_vars[var_id].ndims; i++) {
@@ -3218,7 +3220,23 @@ void cmor_define_dimensions(int var_id, int ncid,
                          cmor_tables[nVarRefTblID].szTable_id, i, pAxis->id);
                 cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
             }
+            bChunk = cmor_set_chunking(var_id, nVarRefTblID, nc_dim_chunking);
+            if(strcmp(pAxis->id, "time") == 0) {
+                ierr = nc_def_var_chunking(ncid, nc_vars[i], NC_CHUNKED,
+                        &nc_dim_chunking[0]);
+            } else {
+                ierr = nc_def_var_chunking(ncid, nc_vars[i], NC_CONTIGUOUS,
+                        &nc_dim_chunking[0]);
 
+            }
+            if (ierr != NC_NOERR) {
+                snprintf(msg, CMOR_MAX_STRING,
+                         "NetCDF Error (%i: %s) for variable %s\n! "
+                         "(table: %s) error defining dim var: %i (%s)",
+                         ierr, nc_strerror(ierr), cmor_vars[var_id].id,
+                         cmor_tables[nVarRefTblID].szTable_id, i, pAxis->id);
+                cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
+            }
             nc_vars_af[i] = nc_vars[i];
             if (ncid != ncafid) {
                 ierr = nc_def_var(ncafid, pAxis->id, j, 1, &nc_dim_af[i],
@@ -3511,9 +3529,6 @@ void cmor_define_dimensions(int var_id, int ncid,
                 ierr = cmor_define_zfactors_vars(var_id, ncafid, nc_dim, msg,
                                                  nzfactors, &zfactors[0],
                                                  &nc_zfactors[0], i, *dim_bnds);
-                if(ierr != 0) {
-                    break;
-                }
             } else
               if (strcmp
                   (cmor_axes[cmor_vars[var_id].axes_ids[i]].attributes[j],
@@ -4440,8 +4455,8 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
 /* -------------------------------------------------------------------- */
 /*      first of all we need to make sure it is not an empty attribute  */
 /* -------------------------------------------------------------------- */
-        if (cmor_has_variable_attribute(var_id, cmor_vars[var_id].attributes[j])
-            != 0) {
+        if (cmor_has_variable_attribute(var_id,
+                cmor_vars[var_id].attributes[j]) != 0) {
 /* -------------------------------------------------------------------- */
 /*      deleted attribute continue on                                   */
 /* -------------------------------------------------------------------- */
@@ -4528,7 +4543,7 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
                                   &nc_dim_chunking[0]);
             if (ierr != NC_NOERR) {
                 snprintf(msg, CMOR_MAX_STRING,
-                         "NetCDF Error (%i: %s) defining chunking\n! "
+                         "NetCDFTestTables/CMIP6_chunking.json: Error (%i: %s) defining chunking\n! "
                          "parameters for variable '%s' (table: %s)",
                          ierr, nc_strerror(ierr), cmor_vars[var_id].id,
                          cmor_tables[nVarRefTblID].szTable_id);
