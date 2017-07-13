@@ -400,9 +400,17 @@ def main():
     except SystemExit:
         return 1
 
-    process = checkCMIP6(args)
-    process.ControlVocab()
-
+    try:
+        process = checkCMIP6(args)
+        process.ControlVocab()
+    except KeyboardInterrupt:
+        print bcolors.FAIL
+        print "!!!!!!!!!!!!!!!!!!!!!!!!!"
+        print "! Error:  The input file is not CMIP6 compliant"
+        print "! Check your file or use CMOR 3.x to achieve compliance for ESGF publication."
+        print "!!!!!!!!!!!!!!!!!!!!!!!!!"
+        print bcolors.ENDC
+        sys.exit(-1)
 # process.checkActivities()
     return(0)
 

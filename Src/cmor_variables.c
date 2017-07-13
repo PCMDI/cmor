@@ -6,8 +6,11 @@
 #include <udunits2.h>
 #include <stdlib.h>
 #include <math.h>
+#include <signal.h>
 
 float fvalue;
+
+extern volatile sig_atomic_t stop;
 
 /************************************************************************/
 /*                cmor_is_required_variable_attribute()                 */
@@ -953,7 +956,7 @@ int cmor_zfactor(int *zvar_id, int axis_id, char *name, char *units,
 
     }
     cmor_pop_traceback();
-    return (0);
+    return (stop);
 }
 
 /************************************************************************/
