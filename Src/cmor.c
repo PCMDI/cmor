@@ -2358,6 +2358,7 @@ int cmor_validateFilename(char *outname, int var_id)
     int i;
     cmor_add_traceback("cmor_validateFilename");
     ncid = -1;
+    ierr = 0;
     if (USE_NETCDF_4 == 1) {
         cmode = NC_NETCDF4 | NC_CLASSIC_MODEL;
         if ((CMOR_NETCDF_MODE == CMOR_REPLACE_3)
@@ -3124,8 +3125,6 @@ void cmor_define_dimensions(int var_id, int ncid,
     int nVarRefTblID = cmor_vars[var_id].ref_table_id;
     int ics, icd, icdl;
     int itmpmsg, itmp2, itmp3;
-    size_t default_chunking_size=1;
-    int bChunk;
 
     cmor_add_traceback("cmor_define_dimensions");
     for (i = 0; i < cmor_vars[var_id].ndims; i++) {
@@ -3239,14 +3238,20 @@ void cmor_define_dimensions(int var_id, int ncid,
                          cmor_tables[nVarRefTblID].szTable_id, i, pAxis->id);
                 cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
             }
-            bChunk = cmor_set_chunking(var_id, nVarRefTblID, nc_dim_chunking);
-            if(strcmp(pAxis->id, "time") == 0) {
-                ierr = nc_def_var_chunking(ncid, nc_vars[i], NC_CHUNKED,
-                        &nc_dim_chunking[0]);
-            } else {
-                ierr = nc_def_var_chunking(ncid, nc_vars[i], NC_CONTIGUOUS,
-                        &nc_dim_chunking[0]);
-
+            //
+            // Define Chunking if NETCDF4
+            //
+            cmor_set_chunking(var_id, nVarRefTblID, nc_dim_chunking);
+            if ((CMOR_NETCDF_MODE != CMOR_REPLACE_3)
+                && (CMOR_NETCDF_MODE != CMOR_PRESERVE_3)
+                && (CMOR_NETCDF_MODE != CMOR_APPEND_3)) {
+                if (strcmp(pAxis->id, "time") == 0) {
+                    ierr = nc_def_var_chunking(ncid, nc_vars[i], NC_CHUNKED,
+                            &nc_dim_chunking[0]);
+                } else {
+                    ierr = nc_def_var_chunking(ncid, nc_vars[i], NC_CONTIGUOUS,
+                            &nc_dim_chunking[0]);
+                }
             }
             if (ierr != NC_NOERR) {
                 snprintf(msg, CMOR_MAX_STRING,
@@ -5481,9 +5486,9 @@ int cmor_close_variable(int var_id, char *file_name, int *preserve)
     cdCalenType icalo;
     cdCompTime starttime, endtime;
     int i, j, n;
-    struct stat buf;
-    off_t sz;
-    long maxsz = (long)pow(2, 32) - 1;
+    // struct stat buf;
+    // off_t sz;
+    // long maxsz = (long)pow(2, 32) - 1;
 
     cmor_add_traceback("cmor_close_variable");
     cmor_is_setup();
