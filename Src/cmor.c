@@ -2949,12 +2949,12 @@ void cmor_write_all_attributes(int ncid, int ncafid, int var_id)
 /*  Write Branch_Time as double attribute                               */
 /* -------------------------------------------------------------------- */
 
-        rc = strcmp(cmor_current_dataset.attributes[i].names,
-                    GLOBAL_ATT_BRANCH_TIME);
+        rc = strncmp(cmor_current_dataset.attributes[i].names,
+                    GLOBAL_ATT_BRANCH_TIME,11);
 /* -------------------------------------------------------------------- */
 /*  matches "branch_time" and "branch_time_something"                   */
 /* -------------------------------------------------------------------- */
-        if ((rc == 0) || (rc == 95)) {
+        if (rc == 0) {
             sscanf(cmor_current_dataset.attributes[i].values, "%lf", &tmps[0]);
             ierr = nc_put_att_double(ncid, NC_GLOBAL,
                                      cmor_current_dataset.attributes[i].names,
@@ -3855,6 +3855,7 @@ int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af,
                 }
             }
             mtype = cmor_vars[j].type;
+            ierr = NC_NOERR;
             if (mtype == 'd')
                 ierr = nc_def_var(ncafid, cmor_vars[j].id, NC_DOUBLE,
                                   cmor_vars[j].ndims, &nc_dims_associated[0],
