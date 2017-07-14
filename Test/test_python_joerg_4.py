@@ -39,13 +39,13 @@ itim = cmor.axis(
     interval='1 month')
 
 ilev = cmor.axis(
-    table_entry='depth_coord',
+    table_entry='depth0m',
     units='m',
     coord_vals=plevs,
     cell_bounds=plevs_bnds)
 try:
     ilev = cmor.axis(
-        table_entry='depth_coord',
+        table_entry='depth0m',
         units='m',
         coord_vals=plevs,
         cell_bounds=plevs_bnds)
@@ -55,7 +55,7 @@ except BaseException:
 var3d_ids = cmor.variable(
     table_entry='co3',
     units='mol m-3',
-    axis_ids=numpy.array((ilev, ilon, ilat, itim)),
+    axis_ids=numpy.array((ilon, ilat, itim)),
     missing_value=numpy.array([1.0e28, ], dtype=numpy.float32)[0],
     original_name='cloud')
 
@@ -64,7 +64,7 @@ for it in range(ntimes):
 
     time = numpy.array((it))
     bnds_time = numpy.array((it, it + 1))
-    data3d = numpy.random.random((len(plevs), nlon, nlat)) * 30. + 265.
+    data3d = numpy.random.random((nlon, nlat)) * 30. + 265.
     data3d = data3d.astype('f')
     error_flag = cmor.write(
         var_id=var3d_ids,

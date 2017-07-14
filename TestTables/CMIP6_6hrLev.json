@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.11", 
+        "data_specs_version": "01.00.13", 
         "table_id": "Table 6hrLev", 
         "realm": "atmos", 
         "cmor_version": "3.2", 
-        "table_date": "16 June 2017", 
+        "table_date": "12 July 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "0.250000", 
@@ -67,7 +67,7 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "pmlev": {
+        "pfull": {
             "frequency": "6hr", 
             "modeling_realm": "atmos", 
             "standard_name": "air_pressure", 
@@ -75,9 +75,9 @@
             "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Air Pressure", 
-            "comment": "The atmospheric pressure at the model layer midpoints for all times and levels in the associated output variables", 
+            "comment": "Air pressure on model levels", 
             "dimensions": "longitude latitude alevel time", 
-            "out_name": "pmlev", 
+            "out_name": "pfull", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 

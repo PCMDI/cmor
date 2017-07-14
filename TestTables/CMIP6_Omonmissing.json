@@ -8,10 +8,10 @@
         "table_date": "10 August 2016", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
-        "product": "output", 
+        "product": "model-output", 
         "approx_interval": "30.00000", 
         "generic_levels": "olevel", 
-        "mip_era": "verybad", 
+        "mip_era": "CMIP6", 
         "Conventions": "CF-1.7 CMIP-6.0"
     }, 
     "axis_entry": {
@@ -3637,7 +3637,7 @@
             "long_name": "Sea Water Mass", 
             "comment": "Total mass of liquid seawater. For Boussinesq models, report this diagnostic as Boussinesq reference density times total volume.", 
             "dimensions": "time", 
-            "out_name": "masso", 
+            "out_name": "massoint", 
             "type": "integer", 
             "positive": "", 
             "valid_min": "", 

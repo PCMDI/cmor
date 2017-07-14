@@ -3,7 +3,7 @@
         "missing_value": "1e20",
         "approx_interval": "30.00000",
         "cmor_version": "3.0",
-        "table_id": "Table AmonChunking",
+        "table_id": "Table Amon",
         "table_date": "24 February 2016",
         "realm": "atmos",
         "generic_levels": "alevel alevhalf",

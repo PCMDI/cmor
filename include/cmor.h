@@ -3,14 +3,15 @@
 
 #define CMOR_VERSION_MAJOR 3
 #define CMOR_VERSION_MINOR 2
-#define CMOR_VERSION_PATCH 4
+#define CMOR_VERSION_PATCH 5
 
 #define CMOR_CF_VERSION_MAJOR 1
-#define CMOR_CF_VERSION_MINOR 7
+#define CMOR_CF_VERSION_MINOR 6
 
 #define CMOR_MAX_STRING 1024
 #define CMOR_DEF_ATT_STR_LEN 256
 #define CMOR_MAX_ELEMENTS 500
+#define CMOR_MAX_FORMULA 40
 #define CMOR_MAX_AXES CMOR_MAX_ELEMENTS*3
 #define CMOR_MAX_VARIABLES CMOR_MAX_ELEMENTS
 #define CMOR_MAX_GRIDS 100
@@ -135,7 +136,7 @@
 #define VARIABLE_ATT_FLAGVALUES       "flag_values"
 #define VARIABLE_ATT_FLAGMEANINGS     "flag_meanings"
 #define VARIABLE_ATT_OUTNAME          "out_name"
-
+#define COMMENT_VARIABLE_ZFACTOR      "use formula table"
 #define GLOBAL_SEPARATORS             "><"
 #define GLOBAL_OPENOPTIONAL           "["
 #define GLOBAL_CLOSEOPTIONAL          "]"
@@ -204,6 +205,7 @@
 #define JSON_KEY_EXPERIMENT           "experiments"
 #define JSON_KEY_AXIS_ENTRY           "axis_entry"
 #define JSON_KEY_VARIABLE_ENTRY       "variable_entry"
+#define JSON_KEY_FORMULA_ENTRY        "formula_entry"
 #define JSON_KEY_MAPPING_ENTRY        "mapping_entry"
 #define JSON_KEY_CV_ENTRY             "CV"
 
@@ -239,6 +241,7 @@
 #define TABLE_HEADER_APRX_INTRVL_ERR  "approx_interval_error"
 #define TABLE_HEADER_APRX_INTRVL_WRN  "approx_interval_warning"
 #define TABLE_HEADER_MISSING_VALUE    "missing_value"
+#define TABLE_HEADER_INT_MISSING_VALUE    "int_missing_value"
 #define TABLE_HEADER_MAGIC_NUMBER     "magic_number"
 #define TABLE_HEADER_DATASPECSVERSION "data_specs_version"
 #define OUTPUT_TEMPLATE_RIPF          "run_variant"
@@ -478,6 +481,7 @@ typedef struct cmor_var_ {
 } cmor_var_t;
 
 extern cmor_var_t cmor_vars[CMOR_MAX_VARIABLES];
+extern cmor_var_t cmor_formula[CMOR_MAX_FORMULA];
 
 typedef struct cmor_mappings_ {
     int nattributes;
@@ -495,6 +499,7 @@ typedef struct {
 typedef struct cmor_table_ {
     int id;
     int nvars;
+    int nformula;
     int naxes;
     int nexps;
     int nmappings;
@@ -509,12 +514,14 @@ typedef struct cmor_table_ {
     char date[CMOR_MAX_STRING];
     cmor_axis_def_t axes[CMOR_MAX_ELEMENTS];
     cmor_var_def_t vars[CMOR_MAX_ELEMENTS];
+    cmor_var_def_t formula[CMOR_MAX_FORMULA];
     cmor_mappings_t mappings[CMOR_MAX_ELEMENTS];
     cmor_CV_def_t *CV;
-    float missing_value;
+    double missing_value;
+    long    int_missing_value;
     double interval;
-    float interval_warning;
-    float interval_error;
+    double interval_warning;
+    double interval_error;
     char URL[CMOR_MAX_STRING];
     char product[CMOR_MAX_STRING];
     char realm[CMOR_MAX_STRING];

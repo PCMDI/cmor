@@ -48,7 +48,7 @@ class TestCase(unittest.TestCase):
         f = open(self.tmpfile[1], 'r')
         lines = f.readlines()
         for line in lines:
-            if line.find('Error:') != -1:
+            if line.find('The current input') != -1:
                 testOK = line.strip()
                 break
         f.close()

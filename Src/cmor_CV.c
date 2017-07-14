@@ -9,7 +9,9 @@
 #include "json_tokener.h"
 #include "arraylist.h"
 #include "libgen.h"
-
+#ifndef REG_NOERROR
+#define REG_NOERROR 0
+#endif
 extern void cdCompAdd(cdCompTime comptime,
                       double value, cdCalenType calendar, cdCompTime * result);
 
@@ -410,6 +412,9 @@ int cmor_CV_checkSourceType(cmor_CV_def_t * CV_exp, char *szExptID)
     int nbSourceType;
     char *ptr;
     int nbGoodType;
+    regex_t regex;
+    int reti;
+
     cmor_add_traceback("_CV_checkSourceType");
 
     szAddSourceType[0] = '\0';
@@ -466,10 +471,23 @@ int cmor_CV_checkSourceType(cmor_CV_def_t * CV_exp, char *szExptID)
     }
 
     szTokenRequired = strtok(szReqSourceType, " ");
-
     while (szTokenRequired != NULL) {
-        if (strstr(szSourceType, szTokenRequired) == NULL) {
-
+        reti = regcomp(&regex, szTokenRequired, REG_EXTENDED);
+        if (reti) {
+            snprintf(msg, CMOR_MAX_STRING,
+                     "You regular expression \"%s\" is invalid. \n! "
+                     "Please refer to the CMIP6 documentations.\n! ",
+                     szTokenRequired);
+            regfree(&regex);
+            cmor_handle_error(msg, CMOR_NORMAL);
+            cmor_pop_traceback();
+            return (-1);
+        }
+        /* -------------------------------------------------------------------- */
+        /*        Execute regular expression                                    */
+        /* -------------------------------------------------------------------- */
+        reti = regexec(&regex, szSourceType, 0, NULL, 0);
+        if (reti == REG_NOMATCH) {
             snprintf(msg, CMOR_MAX_STRING,
                      "The following source type(s) \"%s\" are required and\n! "
                      "some source type(s) could not be found in your "
@@ -477,30 +495,41 @@ int cmor_CV_checkSourceType(cmor_CV_def_t * CV_exp, char *szExptID)
                      "Your file contains a source type of \"%s\".\n! "
                      "Check your Control Vocabulary file \"%s\".\n! ",
                      szReqSourceTypeCpy, szSourceType, CV_Filename);
-
+            regfree(&regex);
             cmor_handle_error(msg, CMOR_NORMAL);
-            cmor_pop_traceback();
-            return (-1);
         } else {
             nbGoodType++;
         }
+        regfree(&regex);
         szTokenRequired = strtok(NULL, " ");
     }
 
     szTokenAdd = strtok(szAddSourceType, " ");
     while (szTokenAdd != NULL) {
+        // Is the token "CHEM"?
         if (strcmp(szTokenAdd, "CHEM") == 0) {
-            if (strstr(szSourceType, szTokenAdd) != NULL) {
+            reti = regcomp(&regex, szTokenAdd, REG_EXTENDED);
+            if (regexec(&regex, szSourceType, 0, NULL, 0) == REG_NOERROR) {
                 nbGoodType++;
-            }
+            };
         } else if (strcmp(szTokenAdd, "AER") == 0) {
-            if (strstr(szSourceType, szTokenAdd) != NULL) {
+            regfree(&regex);
+            // Is the token "AER"?
+            reti = regcomp(&regex, szTokenAdd, REG_EXTENDED);
+            if (regexec(&regex, szSourceType, 0, NULL, 0) == REG_NOERROR) {
                 nbGoodType++;
-            }
-        } else if (strstr(szSourceType, szTokenAdd) != NULL) {
-            nbGoodType++;
+            };
+        } else {
+            regfree(&regex);
+            // Is the token in the list of AddSourceType?
+            reti = regcomp(&regex, szTokenAdd, REG_EXTENDED);
+            if (regexec(&regex, szSourceType, 0, NULL, 0) == REG_NOERROR) {
+                nbGoodType++;
+            };
         }
+
         szTokenAdd = strtok(NULL, " ");
+        regfree(&regex);
     }
 
     if (nbGoodType != nbSourceType) {
@@ -531,7 +560,10 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
 
     char szSource_ID[CMOR_MAX_STRING];
     char szSource[CMOR_MAX_STRING];
+    char szSubstring[CMOR_MAX_STRING];
+    char *pos;
 
+    int nLen;
     char msg[CMOR_MAX_STRING];
     char CV_Filename[CMOR_MAX_STRING];
     int rc;
@@ -555,7 +587,6 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
         cmor_pop_traceback();
         return (-1);
     }
-
     // retrieve source_id
     rc = cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE_ID, szSource_ID);
     if (rc != 0) {
@@ -574,8 +605,8 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
             // Make sure that "source" exist.
             if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_SOURCE) != 0) {
                 cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_SOURCE,
-                                                        CV_source_id->
-                                                        aszValue[0], 1);
+                                                        CV_source_id->aszValue
+                                                        [0], 1);
             }
             // Check source with experiment_id label.
             rc = cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE, szSource);
@@ -593,9 +624,15 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
                 cmor_handle_error(msg, CMOR_WARNING);
                 break;
             }
-            if (strncmp
-                (CV_source_id->oValue[j].szValue, szSource,
-                 CMOR_MAX_STRING) != 0) {
+            pos = strchr(CV_source_id->oValue[j].szValue, ')');
+            strncpy(szSubstring, CV_source_id->oValue[j].szValue,
+                    CMOR_MAX_STRING);
+            nLen = strlen(CV_source_id->oValue[j].szValue);
+            if (pos != 0) {
+                nLen = pos - CV_source_id->oValue[j].szValue + 1;
+            }
+            szSubstring[nLen] = '\0';
+            if (strncmp(szSubstring, szSource, nLen) != 0) {
                 snprintf(msg, CMOR_MAX_STRING,
                          "Your input attribute \"%s\" with value \n! \"%s\" "
                          "will be replaced with "
@@ -821,8 +858,8 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
                          CV_experiment_sub_exp_id->aszValue[0]);
                 cmor_handle_error(msg, CMOR_WARNING);
                 cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_SUB_EXPT_ID,
-                                                        CV_experiment_sub_exp_id->
-                                                        aszValue[0], 1);
+                                                        CV_experiment_sub_exp_id->aszValue
+                                                        [0], 1);
 
             } else {
                 // too many options.
@@ -871,8 +908,8 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
                      CV_sub_experiment_id_key->szValue);
             cmor_handle_error(msg, CMOR_WARNING);
             cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_SUB_EXPT,
-                                                    CV_sub_experiment_id_key->
-                                                    szValue, 1);
+                                                    CV_sub_experiment_id_key->szValue,
+                                                    1);
         }
     }
     // append sub-experiment_id
@@ -1456,8 +1493,8 @@ int cmor_CV_checkFilename(cmor_CV_def_t * CV,
         /* -------------------------------------------------------------------- */
 
         interval = cmor_convert_interval_to_seconds(cmor_tables[0].interval,
-                                                    cmor_tables[0].
-                                                    axes[timeDim].units);
+                                                    cmor_tables[0].axes
+                                                    [timeDim].units);
 
         //first time point
         strncat(outname, "_", CMOR_MAX_STRING - strlen(outname));
@@ -1756,10 +1793,12 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
     char CV_Filename[CMOR_MAX_STRING];
     char szValids[CMOR_MAX_STRING * 2];
     char szOutput[CMOR_MAX_STRING * 2];
+    char szTmp[CMOR_MAX_STRING];
     int i;
     regex_t regex;
     int reti;
     int ierr;
+    int nValueLen;
 
     cmor_add_traceback("_CV_ValidateAttribute");
 
@@ -1778,6 +1817,19 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
 
     ierr = cmor_get_cur_dataset_attribute(szKey, szValue);
     for (i = 0; i < attr_CV->anElements; i++) {
+        // Special case for source type any element may match
+        strncpy(szTmp, attr_CV->aszValue[i], CMOR_MAX_STRING);
+        if (strcmp(szKey, GLOBAL_ATT_SOURCE_TYPE) != 0) {
+            if (attr_CV->aszValue[i][0] != '^') {
+                snprintf(szTmp, CMOR_MAX_STRING, "^%s", attr_CV->aszValue[i]);
+            }
+
+            nValueLen = strlen(szTmp);
+            if (szTmp[nValueLen - 1] != '$') {
+                strcat(szTmp, "$");
+            }
+        }
+        strncpy(attr_CV->aszValue[i], szTmp, CMOR_MAX_STRING);
         reti = regcomp(&regex, attr_CV->aszValue[i], 0);
         if (reti) {
             snprintf(msg, CMOR_MAX_STRING,
@@ -1800,8 +1852,10 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
         }
         regfree(&regex);
     }
-
-    if (ierr != 0) {
+/* -------------------------------------------------------------------- */
+/*  only critical if the attribute was not found                        */
+/* -------------------------------------------------------------------- */
+    if (ierr) {
         cmor_pop_traceback();
         return (-1);
     }
@@ -1843,6 +1897,7 @@ int cmor_CV_checkGrids(cmor_CV_def_t * CV)
     char szGridResolution[CMOR_MAX_STRING];
     char msg[CMOR_MAX_STRING];
     char CV_Filename[CMOR_MAX_STRING];
+    char szCompare[CMOR_MAX_STRING];
 
     cmor_CV_def_t *CV_grid_labels;
     cmor_CV_def_t *CV_grid_resolution;
@@ -1880,7 +1935,14 @@ int cmor_CV_checkGrids(cmor_CV_def_t * CV)
     }
     if (CV_grid_labels->anElements > 0) {
         for (i = 0; i < CV_grid_labels->anElements; i++) {
-            rc = strcmp(CV_grid_labels->aszValue[i], szGridLabel);
+            // Remove regular expression to compare strings.
+            strncpy(szCompare, CV_grid_labels->aszValue[i], CMOR_MAX_STRING);
+            if (szCompare[0] == '^') {
+                strncpy(szCompare, &CV_grid_labels->aszValue[i][1],
+                        strlen(CV_grid_labels->aszValue[i]) - 2);
+                szCompare[strlen(CV_grid_labels->aszValue[i]) - 2] = '\0';
+            }
+            rc = strcmp(szCompare, szGridLabel);
             if (rc == 0) {
                 break;
             }
@@ -1910,7 +1972,16 @@ int cmor_CV_checkGrids(cmor_CV_def_t * CV)
 
     if (CV_grid_resolution->anElements > 0) {
         for (i = 0; i < CV_grid_resolution->anElements; i++) {
-            rc = strcmp(CV_grid_resolution->aszValue[i], szGridResolution);
+            strncpy(szCompare, CV_grid_resolution->aszValue[i],
+                    CMOR_MAX_STRING);
+            // Remove regular expression to compare strings.
+            if (CV_grid_resolution->aszValue[i][0] == '^') {
+                strncpy(szCompare, &CV_grid_resolution->aszValue[i][1],
+                        strlen(CV_grid_resolution->aszValue[i]) - 2);
+                szCompare[strlen(CV_grid_resolution->aszValue[i]) - 2] = '\0';
+
+            }
+            rc = strcmp(szCompare, szGridResolution);
             if (rc == 0) {
                 break;
             }
