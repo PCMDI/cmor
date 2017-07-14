@@ -1,7 +1,7 @@
 {
     "Header": {
         "data_specs_version": "01.10.36", 
-        "table_id": "Table cf3hr", 
+        "table_id": "Table CF3hr", 
         "realm": "atmos", 
         "frequency": "3hr", 
         "cmor_version": "3.2", 

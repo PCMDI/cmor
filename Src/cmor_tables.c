@@ -74,6 +74,7 @@ void cmor_init_table(cmor_table_t * table, int id)
     /* init the table */
     table->id = id;
     table->nvars = -1;
+    table->nformula = -1;
     table->naxes = -1;
     table->nexps = -1;
     table->nmappings = -1;
@@ -83,12 +84,13 @@ void cmor_init_table(cmor_table_t * table, int id)
     table->szTable_id[0] = '\0';
     strcpy(table->realm, "REALM");
     table->date[0] = '\0';
-    table->missing_value = 1.e20;
+    table->missing_value = 1.0e+20;
+    table->int_missing_value = 2147483647;
     table->interval = 0.;
     table->interval_warning = .1;
     table->interval_error = .2;
     table->URL[0] = '\0';
-    strcpy(table->product, "output");
+    strcpy(table->product, "model_output");
     table->path[0] = '\0';
 //    table->frequency[0] = '\0';
     table->nforcings = 0;
@@ -101,6 +103,61 @@ void cmor_init_table(cmor_table_t * table, int id)
 
     cmor_pop_traceback();
 
+}
+
+/************************************************************************/
+/*                    cmor_set_formula_entry()                          */
+/************************************************************************/
+int cmor_set_formula_entry(cmor_table_t * table,
+                           char *formula_entry, json_object * json)
+{
+    extern int cmor_ntables;
+    char szValue[CMOR_MAX_STRING];
+    char msg[CMOR_MAX_STRING];
+    int nFormulaId;
+    char *szTableId;
+    cmor_var_def_t *formula;
+    cmor_table_t *cmor_table;
+    cmor_table = &cmor_tables[cmor_ntables];
+
+    szTableId = cmor_table->szTable_id;
+
+    cmor_add_traceback("cmor_set_formula_entry");
+    cmor_is_setup();
+
+    /* -------------------------------------------------------------------- */
+    /*      Check number of formula                                         */
+    /* -------------------------------------------------------------------- */
+    cmor_table->nformula++;
+    nFormulaId = cmor_table->nformula;
+    formula = &cmor_table->formula[nFormulaId];
+
+    if (nFormulaId >= CMOR_MAX_FORMULA) {
+        snprintf(msg, CMOR_MAX_STRING,
+                 "Too many formula defined for table: %s", szTableId);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+        cmor_ntables--;
+        cmor_pop_traceback();
+        return (1);
+    }
+
+    cmor_init_var_def(formula, cmor_ntables);
+    cmor_set_var_def_att(formula, "id", formula_entry);
+
+    json_object_object_foreach(json, attr, value) {
+/* -------------------------------------------------------------------- */
+/*  Attribute keys starting with "#" are seen as comments or examples   */
+/*  and they are skipped!                                               */
+/* -------------------------------------------------------------------- */
+
+        if (attr[0] == '#')
+            continue;
+
+        strcpy(szValue, json_object_get_string(value));
+        cmor_set_var_def_att(formula, attr, szValue);
+    }
+    cmor_pop_traceback();
+    return (0);
 }
 
 /************************************************************************/
@@ -426,11 +483,13 @@ int cmor_set_dataset_att(cmor_table_t * table, char att[CMOR_MAX_STRING],
     } else if (strcmp(att, TABLE_HEADER_APRX_INTRVL) == 0) {
         sscanf(value, "%lf", &table->interval);
     } else if (strcmp(att, TABLE_HEADER_APRX_INTRVL_ERR) == 0) {
-        sscanf(value, "%f", &table->interval_error);
+        sscanf(value, "%lf", &table->interval_error);
     } else if (strcmp(att, TABLE_HEADER_APRX_INTRVL_WRN) == 0) {
-        sscanf(value, "%f", &table->interval_warning);
+        sscanf(value, "%lf", &table->interval_warning);
     } else if (strcmp(att, TABLE_HEADER_MISSING_VALUE) == 0) {
-        sscanf(value, "%f", &table->missing_value);
+        sscanf(value, "%lf", &table->missing_value);
+    } else if (strcmp(att, TABLE_HEADER_INT_MISSING_VALUE) == 0) {
+        sscanf(value, "%ld", &table->int_missing_value);
     } else if (strcmp(att, TABLE_HEADER_MAGIC_NUMBER) == 0) {
 
     } else {
@@ -768,6 +827,22 @@ int cmor_load_table_internal(char szTable[CMOR_MAX_STRING], int *table_id)
                 }
             }
             done = 1;
+        } else if (strcmp(key, JSON_KEY_FORMULA_ENTRY) == 0) {
+            json_object_object_foreach(value, formulaname, attributes) {
+
+                if (formulaname[0] == '#') {
+                    continue;
+                }
+                if (attributes == NULL) {
+                    return (TABLE_ERROR);
+                }
+                if (cmor_set_formula_entry(&cmor_tables[cmor_ntables],
+                                           formulaname, attributes) == 1) {
+                    cmor_pop_traceback();
+                    return (TABLE_ERROR);
+                }
+            }
+            done = 1;
         } else if (strcmp(key, JSON_KEY_VARIABLE_ENTRY) == 0) {
             json_object_object_foreach(value, varname, attributes) {
 
@@ -855,9 +930,9 @@ int cmor_load_table_internal(char szTable[CMOR_MAX_STRING], int *table_id)
 
                     strcpy(param, json_object_get_string(mappar));
 
-                    cmor_set_mapping_attribute(&psCurrCmorTable->
-                                               mappings[psCurrCmorTable->
-                                                        nmappings], key, param);
+                    cmor_set_mapping_attribute(&psCurrCmorTable->mappings
+                                               [psCurrCmorTable->nmappings],
+                                               key, param);
 
                 }
 

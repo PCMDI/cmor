@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.11", 
+        "data_specs_version": "01.00.13", 
         "table_id": "Table Lmon", 
         "realm": "land", 
         "cmor_version": "3.2", 
-        "table_date": "16 June 2017", 
+        "table_date": "12 July 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "30.00000", 
@@ -183,7 +183,7 @@
             "cell_methods": "area: mean where land time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Carbon Mass in Products of Land Use Change", 
-            "comment": "Carbon mass per unit area in that has been removed from the environment through  landuse change.", 
+            "comment": "Carbon mass per unit area in that has been removed from the environment through  land use change.", 
             "dimensions": "longitude latitude time", 
             "out_name": "cProduct", 
             "type": "real", 

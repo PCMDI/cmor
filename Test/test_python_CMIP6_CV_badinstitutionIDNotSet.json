@@ -18,7 +18,7 @@
            "mip_era":                "CMIP6",
 
            "#source":                "",
-           "source":                 "PCMDI-test-1-0",
+           "source":                 "PCMDI-test-1-0 (1989)",
 
            "#calendar":              "",
            "calendar":               "gregorian",

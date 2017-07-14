@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.11", 
+        "data_specs_version": "01.00.13", 
         "table_id": "Table Ofx", 
         "realm": "ocean", 
         "cmor_version": "3.2", 
-        "table_date": "16 June 2017", 
+        "table_date": "12 July 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "0.00000", 
@@ -149,7 +149,7 @@
             "cell_methods": "", 
             "cell_measures": "--UGRID", 
             "long_name": "UGRID Grid Information", 
-            "comment": "", 
+            "comment": "Ony required for models with unstructured grids: this label should be used for a file containing information about the grid structure, following the UGRID convention.", 
             "dimensions": "longitude latitude", 
             "out_name": "ugrido", 
             "type": "float", 

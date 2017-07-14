@@ -299,6 +299,10 @@ extern int cmor_set_variable_entry(cmor_table_t* table,
                             char *variable_entry,
                             json_object *json);
 
+extern int cmor_set_formula_entry(cmor_table_t* table,
+                            char *variable_entry,
+                            json_object *json);
+
 extern int cmor_set_table( int table );
 extern int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id );
 extern int cmor_load_table_internal( char table[CMOR_MAX_STRING],

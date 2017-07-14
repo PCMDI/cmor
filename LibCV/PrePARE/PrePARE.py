@@ -196,11 +196,14 @@ class checkCMIP6(object):
                 key,
                 value) for key,
             value in self.dictGbl.iteritems()]
-        if(self.dictGbl["sub_experiment_id"] not in ["none"]):
-            member_id = self.dictGbl["sub_experiment_id"] + \
-                '-' + self.dictGbl["variant_label"]
-        else:
-            member_id = self.dictGbl["variant_label"]
+        member_id = ""
+        if("sub_experiment_id" in self.dictGbl.keys() ):
+                if(self.dictGbl["sub_experiment_id"] not in ["none"]):
+                    member_id = self.dictGbl["sub_experiment_id"] + \
+                        '-' + self.dictGbl["variant_label"]
+                else:
+                    member_id = self.dictGbl["variant_label"]
+
         cmip6_cv.set_cur_dataset_attribute(
             cmip6_cv.GLOBAL_ATT_MEMBER_ID, member_id)
 
@@ -400,9 +403,17 @@ def main():
     except SystemExit:
         return 1
 
-    process = checkCMIP6(args)
-    process.ControlVocab()
-
+    try:
+        process = checkCMIP6(args)
+        process.ControlVocab()
+    except KeyboardInterrupt:
+        print bcolors.FAIL
+        print "!!!!!!!!!!!!!!!!!!!!!!!!!"
+        print "! Error:  The input file is not CMIP6 compliant"
+        print "! Check your file or use CMOR 3.x to achieve compliance for ESGF publication."
+        print "!!!!!!!!!!!!!!!!!!!!!!!!!"
+        print bcolors.ENDC
+        sys.exit(-1)
 # process.checkActivities()
     return(0)
 

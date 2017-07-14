@@ -584,10 +584,10 @@ int cmor_set_grid_mapping(int gid, char *name, int nparam,
 
                 for (l = 0; l < 4; l++) {
                     if (cmor_vars
-                        [cmor_grids[cmor_ngrids].associated_variables[l]].
-                        ndims != 0) {
-                        cmor_vars[cmor_grids[cmor_ngrids].
-                                  associated_variables[l]].axes_ids[i] =
+                        [cmor_grids[cmor_ngrids].
+                         associated_variables[l]].ndims != 0) {
+                        cmor_vars[cmor_grids[cmor_ngrids].associated_variables
+                                  [l]].axes_ids[i] =
                           cmor_grids[grid_id].original_axes_ids[j];
                     }
                 }
@@ -710,14 +710,14 @@ int cmor_time_varying_grid_coordinate(int *coord_grid_id, int grid_id,
       case (0):
           ierr = cmor_variable(coord_grid_id, table_entry, units, 1, axes, type,
                                missing, NULL, NULL, NULL, NULL, NULL);
-          cmor_grids[cmor_vars[*coord_grid_id].grid_id].
-            associated_variables[0] = *coord_grid_id;
+          cmor_grids[cmor_vars[*coord_grid_id].
+                     grid_id].associated_variables[0] = *coord_grid_id;
           break;
       case (1):
           ierr = cmor_variable(coord_grid_id, table_entry, units, 1, axes, type,
                                missing, NULL, NULL, NULL, NULL, NULL);
-          cmor_grids[cmor_vars[*coord_grid_id].grid_id].
-            associated_variables[1] = *coord_grid_id;
+          cmor_grids[cmor_vars[*coord_grid_id].
+                     grid_id].associated_variables[1] = *coord_grid_id;
 
           break;
       case (2):
@@ -728,8 +728,8 @@ int cmor_time_varying_grid_coordinate(int *coord_grid_id, int grid_id,
                       "as having 0 vertices", table_entry, grid_id);
               cmor_handle_error(msg, CMOR_CRITICAL);
           }
-          if (cmor_grids[cmor_vars[*coord_grid_id].grid_id].
-              associated_variables[3]
+          if (cmor_grids[cmor_vars[*coord_grid_id].grid_id].associated_variables
+              [3]
               == -1) {
               dummy_values = malloc(sizeof(double) * nvertices);
 
@@ -752,21 +752,22 @@ int cmor_time_varying_grid_coordinate(int *coord_grid_id, int grid_id,
           ierr = cmor_variable(coord_grid_id, table_entry, units, 2, axes, type,
                                missing, NULL, NULL, NULL, NULL, NULL);
 
-          cmor_grids[cmor_vars[*coord_grid_id].grid_id].
-            associated_variables[2] = *coord_grid_id;
+          cmor_grids[cmor_vars[*coord_grid_id].
+                     grid_id].associated_variables[2] = *coord_grid_id;
 
 /* -------------------------------------------------------------------- */
 /*      adds the bounds attribute                                       */
 /* -------------------------------------------------------------------- */
 
           if (cmor_has_variable_attribute
-              (cmor_grids[cmor_vars[*coord_grid_id].grid_id].
-               associated_variables[0], "bounds") == 0) {
+              (cmor_grids
+               [cmor_vars[*coord_grid_id].grid_id].associated_variables[0],
+               "bounds") == 0) {
 
               cmor_get_variable_attribute(cmor_grids
-                                          [cmor_vars[*coord_grid_id].grid_id].
-                                          associated_variables[0], "bounds",
-                                          &msg);
+                                          [cmor_vars[*coord_grid_id].
+                                           grid_id].associated_variables[0],
+                                          "bounds", &msg);
 
               strncat(msg, " ", CMOR_MAX_STRING - strlen(msg));
               strncat(msg, cmor_vars[*coord_grid_id].id,
@@ -779,10 +780,9 @@ int cmor_time_varying_grid_coordinate(int *coord_grid_id, int grid_id,
           }
 
           cmor_set_variable_attribute_internal(cmor_grids
-                                               [cmor_vars[*coord_grid_id].
-                                                grid_id].
-                                               associated_variables[0],
-                                               "bounds", 'c', msg);
+                                               [cmor_vars
+                                                [*coord_grid_id].grid_id].associated_variables
+                                               [0], "bounds", 'c', msg);
 
           break;
       case (3):
@@ -796,8 +796,8 @@ int cmor_time_varying_grid_coordinate(int *coord_grid_id, int grid_id,
               cmor_handle_error(msg, CMOR_CRITICAL);
           }
 
-          if (cmor_grids[cmor_vars[*coord_grid_id].grid_id].
-              associated_variables[2]
+          if (cmor_grids[cmor_vars[*coord_grid_id].grid_id].associated_variables
+              [2]
               == -1) {
 
               dummy_values = malloc(sizeof(double) * nvertices);
@@ -820,18 +820,19 @@ int cmor_time_varying_grid_coordinate(int *coord_grid_id, int grid_id,
           ierr = cmor_variable(coord_grid_id, table_entry, units, 2, axes, type,
                                missing, NULL, NULL, NULL, NULL, NULL);
 
-          cmor_grids[cmor_vars[*coord_grid_id].grid_id].
-            associated_variables[3] = *coord_grid_id;
+          cmor_grids[cmor_vars[*coord_grid_id].
+                     grid_id].associated_variables[3] = *coord_grid_id;
 
           /* adds the bounds attribute */
           if (cmor_has_variable_attribute
-              (cmor_grids[cmor_vars[*coord_grid_id].grid_id].
-               associated_variables[1], "bounds") == 0) {
+              (cmor_grids
+               [cmor_vars[*coord_grid_id].grid_id].associated_variables[1],
+               "bounds") == 0) {
 
               cmor_get_variable_attribute(cmor_grids
-                                          [cmor_vars[*coord_grid_id].grid_id].
-                                          associated_variables[1], "bounds",
-                                          &msg);
+                                          [cmor_vars[*coord_grid_id].
+                                           grid_id].associated_variables[1],
+                                          "bounds", &msg);
 
               strncat(msg, " ", CMOR_MAX_STRING - strlen(msg));
 
@@ -844,10 +845,9 @@ int cmor_time_varying_grid_coordinate(int *coord_grid_id, int grid_id,
 
           }
           cmor_set_variable_attribute_internal(cmor_grids
-                                               [cmor_vars[*coord_grid_id].
-                                                grid_id].
-                                               associated_variables[1],
-                                               "bounds", 'c', msg);
+                                               [cmor_vars
+                                                [*coord_grid_id].grid_id].associated_variables
+                                               [1], "bounds", 'c', msg);
           break;
 
       default:
@@ -931,8 +931,8 @@ int cmor_grid(int *grid_id, int ndims, int *axes_ids, char type,
             cmor_variable(&cmor_grids[cmor_ngrids].associated_variables[0],
                           "latitude", "degrees_north", 1, &axes[0], 'd', NULL,
                           NULL, NULL, NULL, NULL, NULL);
-            cmor_vars[cmor_grids[cmor_ngrids].
-                      associated_variables[0]].needsinit = 0;
+            cmor_vars[cmor_grids[cmor_ngrids].associated_variables[0]].
+              needsinit = 0;
         }
     }
 
@@ -993,13 +993,14 @@ int cmor_grid(int *grid_id, int ndims, int *axes_ids, char type,
                                         "bounds", &msg);
             strncat(msg, " ", CMOR_MAX_STRING - strlen(msg));
             strncat(msg,
-                    cmor_vars[cmor_grids[cmor_ngrids].associated_variables[2]].
-                    id, CMOR_MAX_STRING - strlen(msg));
+                    cmor_vars[cmor_grids[cmor_ngrids].
+                              associated_variables[2]].id,
+                    CMOR_MAX_STRING - strlen(msg));
 
         } else {
             strncpy(msg,
-                    cmor_vars[cmor_grids[cmor_ngrids].associated_variables[2]].
-                    id, CMOR_MAX_STRING);
+                    cmor_vars[cmor_grids[cmor_ngrids].
+                              associated_variables[2]].id, CMOR_MAX_STRING);
         }
         cmor_set_variable_attribute_internal(cmor_grids
                                              [cmor_ngrids].associated_variables
@@ -1046,13 +1047,14 @@ int cmor_grid(int *grid_id, int ndims, int *axes_ids, char type,
 
             strncat(msg, " ", CMOR_MAX_STRING - strlen(msg));
             strncat(msg,
-                    cmor_vars[cmor_grids[cmor_ngrids].associated_variables[3]].
-                    id, CMOR_MAX_STRING - strlen(msg));
+                    cmor_vars[cmor_grids[cmor_ngrids].
+                              associated_variables[3]].id,
+                    CMOR_MAX_STRING - strlen(msg));
 
         } else {
             strncpy(msg,
-                    cmor_vars[cmor_grids[cmor_ngrids].associated_variables[3]].
-                    id, CMOR_MAX_STRING);
+                    cmor_vars[cmor_grids[cmor_ngrids].
+                              associated_variables[3]].id, CMOR_MAX_STRING);
         }
         cmor_set_variable_attribute_internal(cmor_grids
                                              [cmor_ngrids].associated_variables

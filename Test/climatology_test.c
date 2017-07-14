@@ -28,9 +28,7 @@ static char *parent_experiment_id = "pre-industrial control";
 static char *parent_experiment_rip = "r1i1p1";
 static double branch_time = 36500.;
 
-
-static int
-setup(void)
+static int setup(void)
 {
     int status;
     int message = CMOR_NORMAL;
@@ -42,28 +40,26 @@ setup(void)
         return -1;
     }
 
-    status = cmor_dataset(
-        "./",
-        experiment_id,
-        institution,
-        source,
-        calendar,
-        realization,
-        contact,
-        history,
-        comment,
-        references,
-        0,
-        0,
-        NULL,
-        model_id,
-        forcing,
-        initialization_method,
-        physics_version,
-        institute_id,
-        parent_experiment_id,
-        &branch_time,
-        parent_experiment_rip);
+    status = cmor_dataset("./",
+                          experiment_id,
+                          institution,
+                          source,
+                          calendar,
+                          realization,
+                          contact,
+                          history,
+                          comment,
+                          references,
+                          0,
+                          0,
+                          NULL,
+                          model_id,
+                          forcing,
+                          initialization_method,
+                          physics_version,
+                          institute_id,
+                          parent_experiment_id,
+                          &branch_time, parent_experiment_rip);
 
     if (status != 0) {
         fprintf(stderr, "cmor_dataset(): failed.\n");
@@ -71,7 +67,6 @@ setup(void)
     }
     return 0;
 }
-
 
 void
 fill_values(float *data, size_t size1, size_t size2, double v0, double step)
@@ -83,17 +78,15 @@ fill_values(float *data, size_t size1, size_t size2, double v0, double step)
             *data++ = (float)(v0 + n * step);
 }
 
-
-int
-test_convert(void)
+int test_convert(void)
 {
 #define NLON 4
 #define NLAT 2
 #define NPLEV 19
-    static double lon[] = {0., 90., 180., 270.};
-    static double lat[] = {-45., 45.};
-    static double lon_bnds[] = { -45., 45, 135., 225., 315.};
-    static double lat_bnds[] = { -90., 0, 90.};
+    static double lon[] = { 0., 90., 180., 270. };
+    static double lat[] = { -45., 45. };
+    static double lon_bnds[] = { -45., 45, 135., 225., 315. };
+    static double lat_bnds[] = { -90., 0, 90. };
     static double plevs[] = {
         1000., 925., 850., 700., 600., 500., 400., 300.,
         250., 200., 150., 100., 70., 50., 30., 20., 10., 5., 1.
@@ -102,9 +95,9 @@ test_convert(void)
         380.5, 410., 439.5, 470., 500.5, 531.,
         561.5, 592.5, 623., 653.5, 684., 714.5
     };
-    double time_bnds[] = { /* climatorogical bounds (1951-1960) */
-        365., 3683., /* 1951-01-01, 1960-02-01 */
-        396., 3712., /* 1951-02-01, 1960-03-01 */
+    double time_bnds[] = {      /* climatorogical bounds (1951-1960) */
+        365., 3683.,            /* 1951-01-01, 1960-02-01 */
+        396., 3712.,            /* 1951-02-01, 1960-03-01 */
         424., 3743.,
         455., 3773.,
         485., 3804.,
@@ -114,7 +107,7 @@ test_convert(void)
         608., 3926.,
         638., 3957.,
         669., 3987.,
-        699., 4018.  /* 1951-12-01, 1961-01-01 */
+        699., 4018.             /* 1951-12-01, 1961-01-01 */
     };
     int i, axis_ids[4];
     struct {
@@ -122,9 +115,10 @@ test_convert(void)
         double *values, *bnds;
         size_t len;
     } dims[] = {
-        {"plevs19",     "hPa",           plevs, NULL,     NPLEV},
-        {"latitude",  "degrees_north", lat,   lat_bnds, NLAT},
-        {"longitude", "degrees_east",  lon,   lon_bnds, NLON}
+        {
+        "plevs19", "hPa", plevs, NULL, NPLEV}, {
+        "latitude", "degrees_north", lat, lat_bnds, NLAT}, {
+        "longitude", "degrees_east", lon, lon_bnds, NLON}
     };
     float miss = -999.f;
     float co2[NLON * NLAT * NPLEV];
@@ -153,8 +147,7 @@ test_convert(void)
 
     if (cmor_variable(&varid, "co2Clim", "1e-6",
                       4, axis_ids,
-                      'f', &miss,
-                      NULL, NULL, "CO2", NULL, NULL) != 0) {
+                      'f', &miss, NULL, NULL, "CO2", NULL, NULL) != 0) {
         fprintf(stderr, "failed to setup var.\n");
         return -1;
     }
@@ -174,9 +167,7 @@ test_convert(void)
     return 0;
 }
 
-
-int
-main(int argc, char **argv)
+int main(int argc, char **argv)
 {
     int table_id, rval;
 

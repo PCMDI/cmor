@@ -10,8 +10,7 @@ nlev = 5
 def prep(mode):
     error_flag = cmor.setup(
         inpath='Tables',
-        netcdf_file_action=mode,
-        logfile="Denis.LOG")
+        netcdf_file_action=mode)
 
     error_flag = cmor.dataset_json("Test/common_user_input.json")
 
@@ -90,7 +89,7 @@ def prep_var(var, units):
     # zfactor_values=p0)
 
     ips = cmor.zfactor(zaxis_id=ilev,
-                       zfactor_name='ps',
+                       zfactor_name='ps1',
                        axis_ids=[itim, ilat, ilon],
                        units='Pa')
 
