@@ -103,11 +103,12 @@ void cmor_init_table(cmor_table_t * table, int id)
     cmor_pop_traceback();
 
 }
+
 /************************************************************************/
 /*                    cmor_set_formula_entry()                          */
 /************************************************************************/
 int cmor_set_formula_entry(cmor_table_t * table,
-                             char *formula_entry, json_object * json)
+                           char *formula_entry, json_object * json)
 {
     extern int cmor_ntables;
     char szValue[CMOR_MAX_STRING];
@@ -157,6 +158,7 @@ int cmor_set_formula_entry(cmor_table_t * table,
     cmor_pop_traceback();
     return (0);
 }
+
 /************************************************************************/
 /*                    cmor_set_variable_entry()                         */
 /************************************************************************/
@@ -832,7 +834,7 @@ int cmor_load_table_internal(char szTable[CMOR_MAX_STRING], int *table_id)
                     return (TABLE_ERROR);
                 }
                 if (cmor_set_formula_entry(&cmor_tables[cmor_ntables],
-                                            formulaname, attributes) == 1) {
+                                           formulaname, attributes) == 1) {
                     cmor_pop_traceback();
                     return (TABLE_ERROR);
                 }
@@ -925,9 +927,9 @@ int cmor_load_table_internal(char szTable[CMOR_MAX_STRING], int *table_id)
 
                     strcpy(param, json_object_get_string(mappar));
 
-                    cmor_set_mapping_attribute(&psCurrCmorTable->
-                                               mappings[psCurrCmorTable->
-                                                        nmappings], key, param);
+                    cmor_set_mapping_attribute(&psCurrCmorTable->mappings
+                                               [psCurrCmorTable->nmappings],
+                                               key, param);
 
                 }
 

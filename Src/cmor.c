@@ -54,7 +54,6 @@ extern void cdCompAdd(cdCompTime comptime,
 
 extern void cdCompAddMixed(cdCompTime ct, double value, cdCompTime * result);
 
-
 /* -------------------------------------------------------------------- */
 /*      Global Variable                                                 */
 /* -------------------------------------------------------------------- */
@@ -106,7 +105,7 @@ int CMOR_CREATE_SUBDIRECTORIES = 1;
 char cmor_input_path[CMOR_MAX_STRING];
 char cmor_traceback_info[CMOR_MAX_STRING];
 
-volatile sig_atomic_t stop =0;
+volatile sig_atomic_t stop = 0;
 
 /**************************************************************************/
 /*                cmor_mkdir()                                            */
@@ -117,6 +116,7 @@ void terminate(int signal)
         stop = 1;
     }
 }
+
 /**************************************************************************/
 /*                cmor_mkdir()                                            */
 /**************************************************************************/
@@ -373,7 +373,7 @@ void cmor_is_setup(void)
     char msg[CMOR_MAX_STRING];
     extern void cmor_handle_error(char error_msg[CMOR_MAX_STRING], int level);
 
-    stop=0;
+    stop = 0;
     cmor_add_traceback("cmor_is_setup");
 
     if (CMOR_HAS_BEEN_SETUP == 0) {
@@ -718,7 +718,6 @@ void cmor_reset_variable(int var_id)
     cmor_vars[var_id].frequency[0] = '\0';
 }
 
-
 /************************************************************************/
 /*                             cmor_setup()                             */
 /************************************************************************/
@@ -1036,7 +1035,6 @@ int cmor_setup(char *path,
         snprintf(msg, CMOR_MAX_STRING, "Udunits: Error mapping percent unit");
         cmor_handle_error(msg, CMOR_CRITICAL);
     }
-
     // -----------------------
     // Create "psu" unit
     // -----------------------
@@ -1059,7 +1057,6 @@ int cmor_setup(char *path,
         snprintf(msg, CMOR_MAX_STRING, "Udunits: Error mapping psu unit");
         cmor_handle_error(msg, CMOR_CRITICAL);
     }
-
     // -----------------------
     // Create "PSS-78" unit
     // -----------------------
@@ -1092,17 +1089,18 @@ int cmor_setup(char *path,
 
     if (ut_get_status() != UT_SUCCESS) {
         snprintf(msg, CMOR_MAX_STRING,
-                "Udunits: creating Practical Salinty Scale 78 unit");
+                 "Udunits: creating Practical Salinty Scale 78 unit");
         cmor_handle_error(msg, CMOR_CRITICAL);
     }
     if (perunit != NULL)
         ut_free(perunit);
     perunit = ut_scale(.001, PracticalSSunit);
-    myutstatus = ut_map_name_to_unit("practical_salinity_scale_", UT_UTF8, perunit);
+    myutstatus =
+      ut_map_name_to_unit("practical_salinity_scale_", UT_UTF8, perunit);
 
     if (myutstatus != UT_SUCCESS) {
         snprintf(msg, CMOR_MAX_STRING,
-                "Udunits: Error mapping Practical Salinity Scale 78 unit");
+                 "Udunits: Error mapping Practical Salinity Scale 78 unit");
         cmor_handle_error(msg, CMOR_CRITICAL);
     }
     ut_free(PracticalSSunit);
@@ -2028,8 +2026,8 @@ int cmor_define_zfactors_vars(int var_id, int ncid, int *nc_dim,
 /*      first of all we need to make sure it is not an empty attribute  */
 /* -------------------------------------------------------------------- */
                     if (cmor_has_variable_attribute(l,
-                                                    cmor_vars[l].
-                                                    attributes[k]) != 0) {
+                                                    cmor_vars[l].attributes[k])
+                        != 0) {
 /* -------------------------------------------------------------------- */
 /*      deleted attribute continue on                                   */
 /* -------------------------------------------------------------------- */
@@ -2041,9 +2039,10 @@ int cmor_define_zfactors_vars(int var_id, int ncid, int *nc_dim,
 /*      ok we need to convert the string to a list of int               */
 /* -------------------------------------------------------------------- */
                         ierr =
-                          cmor_convert_string_to_list(cmor_vars[l].
-                                                      attributes_values_char[k],
-                                                      'i', (void *)&int_list,
+                          cmor_convert_string_to_list(cmor_vars
+                                                      [l].attributes_values_char
+                                                      [k], 'i',
+                                                      (void *)&int_list,
                                                       &nelts);
 
                         ierr = nc_put_att_int(ncid, nc_zfactors[lnzfactors],
@@ -2057,7 +2056,8 @@ int cmor_define_zfactors_vars(int var_id, int ncid, int *nc_dim,
                                      "variable %s for variable %s (table %s)",
                                      ierr, nc_strerror(ierr), cmor_vars[l].id,
                                      cmor_vars[var_id].id,
-                                     cmor_tables[cmor_vars[var_id].
+                                     cmor_tables[cmor_vars
+                                                 [var_id].
                                                  ref_table_id].szTable_id);
                             cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
                         }
@@ -2066,20 +2066,22 @@ int cmor_define_zfactors_vars(int var_id, int ncid, int *nc_dim,
                         ierr = cmor_put_nc_char_attribute(ncid,
                                                           nc_zfactors
                                                           [lnzfactors],
-                                                          cmor_vars[l].
-                                                          attributes[k],
-                                                          cmor_vars[l].
+                                                          cmor_vars
+                                                          [l].attributes[k],
+                                                          cmor_vars
+                                                          [l].
                                                           attributes_values_char
                                                           [k], cmor_vars[l].id);
                     } else {
                         ierr = cmor_put_nc_num_attribute(ncid,
                                                          nc_zfactors
                                                          [lnzfactors],
-                                                         cmor_vars[l].
-                                                         attributes[k],
-                                                         cmor_vars[l].
-                                                         attributes_type[k],
-                                                         cmor_vars[l].
+                                                         cmor_vars[l].attributes
+                                                         [k],
+                                                         cmor_vars
+                                                         [l].attributes_type[k],
+                                                         cmor_vars
+                                                         [l].
                                                          attributes_values_num
                                                          [k], cmor_vars[l].id);
                     }
@@ -2124,8 +2126,8 @@ int cmor_define_zfactors_vars(int var_id, int ncid, int *nc_dim,
 /*      first of all we need to make sure it is not an empty attribute  */
 /* -------------------------------------------------------------------- */
                     if (cmor_has_variable_attribute(l,
-                                                    cmor_vars[l].
-                                                    attributes[k]) != 0) {
+                                                    cmor_vars[l].attributes[k])
+                        != 0) {
 /* -------------------------------------------------------------------- */
 /*      deleted attribute continue on                                   */
 /* -------------------------------------------------------------------- */
@@ -2137,9 +2139,10 @@ int cmor_define_zfactors_vars(int var_id, int ncid, int *nc_dim,
 /*      ok we need to convert the string to a list of int               */
 /* -------------------------------------------------------------------- */
                         ierr =
-                          cmor_convert_string_to_list(cmor_vars[l].
-                                                      attributes_values_char[k],
-                                                      'i', (void *)&int_list,
+                          cmor_convert_string_to_list(cmor_vars
+                                                      [l].attributes_values_char
+                                                      [k], 'i',
+                                                      (void *)&int_list,
                                                       &nelts);
 
                         ierr = nc_put_att_int(ncid, nc_zfactors[lnzfactors],
@@ -2154,7 +2157,8 @@ int cmor_define_zfactors_vars(int var_id, int ncid, int *nc_dim,
                                      "%s (table: %s)", ierr,
                                      nc_strerror(ierr), cmor_vars[l].id,
                                      cmor_vars[var_id].id,
-                                     cmor_tables[cmor_vars[var_id].
+                                     cmor_tables[cmor_vars
+                                                 [var_id].
                                                  ref_table_id].szTable_id);
                             cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
                         }
@@ -2164,20 +2168,22 @@ int cmor_define_zfactors_vars(int var_id, int ncid, int *nc_dim,
                         ierr = cmor_put_nc_char_attribute(ncid,
                                                           nc_zfactors
                                                           [lnzfactors],
-                                                          cmor_vars[l].
-                                                          attributes[k],
-                                                          cmor_vars[l].
+                                                          cmor_vars
+                                                          [l].attributes[k],
+                                                          cmor_vars
+                                                          [l].
                                                           attributes_values_char
                                                           [k], cmor_vars[l].id);
                     } else {
                         ierr = cmor_put_nc_num_attribute(ncid,
                                                          nc_zfactors
                                                          [lnzfactors],
-                                                         cmor_vars[l].
-                                                         attributes[k],
-                                                         cmor_vars[l].
-                                                         attributes_type[k],
-                                                         cmor_vars[l].
+                                                         cmor_vars[l].attributes
+                                                         [k],
+                                                         cmor_vars
+                                                         [l].attributes_type[k],
+                                                         cmor_vars
+                                                         [l].
                                                          attributes_values_num
                                                          [k], cmor_vars[l].id);
                     }
@@ -2550,9 +2556,8 @@ int cmor_validateFilename(char *outname, int var_id)
 
             if (cmor_tables
                 [cmor_axes[cmor_vars[var_id].axes_ids[i]].ref_table_id].
-                axes[cmor_axes
-                     [cmor_vars[var_id].axes_ids[i]].ref_axis_id].climatology ==
-                1) {
+                axes[cmor_axes[cmor_vars[var_id].axes_ids[i]].ref_axis_id].
+                climatology == 1) {
 
                 snprintf(msg, CMOR_MAX_STRING, "climatology");
                 strncpy(ctmp, "climatology_bnds", CMOR_MAX_STRING);
@@ -2738,8 +2743,8 @@ int cmor_setGblAttr(int var_id)
 /* -------------------------------------------------------------------- */
     if (cmor_tables[nVarRefTblID].mip_era[0] != '\0') {
         cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_MIP_ERA,
-                                                cmor_tables[nVarRefTblID].
-                                                mip_era, 0);
+                                                cmor_tables
+                                                [nVarRefTblID].mip_era, 0);
     }
 
 /* -------------------------------------------------------------------- */
@@ -2752,8 +2757,9 @@ int cmor_setGblAttr(int var_id)
                                                     szToken, 0);
         } else {
             cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_REALM,
-                                                    cmor_tables[nVarRefTblID].
-                                                    vars[ref_var_id].realm, 0);
+                                                    cmor_tables
+                                                    [nVarRefTblID].vars
+                                                    [ref_var_id].realm, 0);
         }
     } else {
 /* -------------------------------------------------------------------- */
@@ -2832,7 +2838,7 @@ int cmor_setGblAttr(int var_id)
                                                     ctmp2, 0);
             regfree(&regex);
         }
-    }            // Remove regular expression to compare strings.
+    }                           // Remove regular expression to compare strings.
 
     if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_INSTITUTION_ID) == 0) {
         ierr += cmor_CV_setInstitution(cmor_tables[nVarRefTblID].CV);
@@ -3025,7 +3031,7 @@ void cmor_write_all_attributes(int ncid, int ncafid, int var_id)
 /* -------------------------------------------------------------------- */
 
         rc = strncmp(cmor_current_dataset.attributes[i].names,
-                    GLOBAL_ATT_BRANCH_TIME,11);
+                     GLOBAL_ATT_BRANCH_TIME, 11);
 /* -------------------------------------------------------------------- */
 /*  matches "branch_time" and "branch_time_something"                   */
 /* -------------------------------------------------------------------- */
@@ -3322,10 +3328,10 @@ void cmor_define_dimensions(int var_id, int ncid,
                 && (CMOR_NETCDF_MODE != CMOR_APPEND_3)) {
                 if (strcmp(pAxis->id, "time") == 0) {
                     ierr = nc_def_var_chunking(ncid, nc_vars[i], NC_CHUNKED,
-                            &nc_dim_chunking[0]);
+                                               &nc_dim_chunking[0]);
                 } else {
                     ierr = nc_def_var_chunking(ncid, nc_vars[i], NC_CONTIGUOUS,
-                            &nc_dim_chunking[0]);
+                                               &nc_dim_chunking[0]);
                 }
             }
             if (ierr != NC_NOERR) {
@@ -3596,7 +3602,7 @@ void cmor_define_dimensions(int var_id, int ncid,
                 ierr = cmor_define_zfactors_vars(var_id, ncafid, &nc_dim_af[0],
                                                  msg, nzfactors, &zfactors[0],
                                                  &nc_zfactors[0], i, -1);
-                if(ierr != 0) {
+                if (ierr != 0) {
                     break;
                 }
             } else
@@ -3716,8 +3722,8 @@ void cmor_define_dimensions(int var_id, int ncid,
                         if (ncid != ncafid) {
                             ierr = cmor_put_nc_char_attribute(ncafid,
                                                               nc_vars_af[i],
-                                                              pAxis->
-                                                              attributes[j],
+                                                              pAxis->attributes
+                                                              [j],
                                                               pAxis->
                                                               attributes_values_char
                                                               [j],
@@ -3727,8 +3733,8 @@ void cmor_define_dimensions(int var_id, int ncid,
                     } else {
                         ierr = cmor_put_nc_num_attribute(ncid, nc_vars[i],
                                                          pAxis->attributes[j],
-                                                         pAxis->
-                                                         attributes_type[j],
+                                                         pAxis->attributes_type
+                                                         [j],
                                                          pAxis->
                                                          attributes_values_num
                                                          [j],
@@ -3737,8 +3743,8 @@ void cmor_define_dimensions(int var_id, int ncid,
                         if (ncid != ncafid) {
                             ierr = cmor_put_nc_num_attribute(ncafid,
                                                              nc_vars_af[i],
-                                                             pAxis->
-                                                             attributes[j],
+                                                             pAxis->attributes
+                                                             [j],
                                                              pAxis->
                                                              attributes_type[j],
                                                              pAxis->
@@ -3844,10 +3850,11 @@ int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af,
                 }
             } else {
                 ierr = cmor_put_nc_num_attribute(ncafid, m,
-                                                 cmor_grids[nGridID].
-                                                 attributes_names[k], 'd',
-                                                 cmor_grids[nGridID].
-                                                 attributes_values[k],
+                                                 cmor_grids
+                                                 [nGridID].attributes_names[k],
+                                                 'd',
+                                                 cmor_grids
+                                                 [nGridID].attributes_values[k],
                                                  cmor_grids[nGridID].mapping);
             }
         }
@@ -3892,8 +3899,9 @@ int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af,
                                                              [i]].id);
                         } else {
                             strncpy(msg,
-                                    cmor_vars[cmor_grids[nGridID].
-                                              associated_variables[i]].id,
+                                    cmor_vars[cmor_grids
+                                              [nGridID].associated_variables
+                                              [i]].id,
                                     CMOR_MAX_STRING - strlen(msg));
                         }
                         cmor_set_variable_attribute_internal(var_id,
@@ -3915,9 +3923,8 @@ int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af,
 
                 m = 1;
                 ierr = nc_def_dim(ncafid, "vertices",
-                                  cmor_axes[cmor_vars[j].
-                                            axes_ids[cmor_vars[j].ndims -
-                                                     1]].length,
+                                  cmor_axes[cmor_vars[j].axes_ids
+                                            [cmor_vars[j].ndims - 1]].length,
                                   &nc_dims_associated[l]);
                 if (ierr != NC_NOERR) {
                     snprintf(msg, CMOR_MAX_STRING,
@@ -3977,8 +3984,8 @@ int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af,
 /*      ok we need to convert the string to a list of int               */
 /* -------------------------------------------------------------------- */
                     ierr =
-                      cmor_convert_string_to_list(cmor_vars[j].
-                                                  attributes_values_char[k],
+                      cmor_convert_string_to_list(cmor_vars
+                                                  [j].attributes_values_char[k],
                                                   'i', (void *)&int_list,
                                                   &nelts);
 
@@ -4001,20 +4008,20 @@ int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af,
                 } else if (cmor_vars[j].attributes_type[k] == 'c') {
                     ierr = cmor_put_nc_char_attribute(ncafid,
                                                       nc_associated_vars[i],
-                                                      cmor_vars[j].
-                                                      attributes[k],
-                                                      cmor_vars[j].
-                                                      attributes_values_char[k],
-                                                      cmor_vars[j].id);
+                                                      cmor_vars[j].attributes
+                                                      [k],
+                                                      cmor_vars
+                                                      [j].attributes_values_char
+                                                      [k], cmor_vars[j].id);
                 } else {
                     ierr = cmor_put_nc_num_attribute(ncafid,
                                                      nc_associated_vars[i],
                                                      cmor_vars[j].attributes[k],
-                                                     cmor_vars[j].
-                                                     attributes_type[k],
-                                                     cmor_vars[j].
-                                                     attributes_values_num[k],
-                                                     cmor_vars[j].id);
+                                                     cmor_vars
+                                                     [j].attributes_type[k],
+                                                     cmor_vars
+                                                     [j].attributes_values_num
+                                                     [k], cmor_vars[j].id);
                 }
             }
 /* -------------------------------------------------------------------- */
@@ -4080,12 +4087,12 @@ void create_singleton_dimensions(int var_id, int ncid, int *nc_singletons,
     for (i = 0; i < CMOR_MAX_DIMENSIONS; i++) {
         j = cmor_vars[var_id].singleton_ids[i];
         if (j != -1) {
-            if (cmor_tables[cmor_axes[j].ref_table_id].
-                axes[cmor_axes[j].ref_axis_id].type == 'c') {
+            if (cmor_tables[cmor_axes[j].ref_table_id].axes
+                [cmor_axes[j].ref_axis_id].type == 'c') {
                 ierr =
                   nc_def_dim(ncid, "strlen",
-                             strlen(cmor_tables[cmor_axes[j].ref_table_id].
-                                    axes[cmor_axes[j].ref_axis_id].cvalue), &k);
+                             strlen(cmor_tables[cmor_axes[j].ref_table_id].axes
+                                    [cmor_axes[j].ref_axis_id].cvalue), &k);
                 ierr =
                   nc_def_var(ncid, cmor_axes[j].id, NC_CHAR, 1, &k,
                              &nc_singletons[i]);
@@ -4108,19 +4115,20 @@ void create_singleton_dimensions(int var_id, int ncid, int *nc_singletons,
             for (k = 0; k < cmor_axes[j].nattributes; k++) {
                 if (cmor_axes[j].attributes_type[k] == 'c') {
                     ierr = cmor_put_nc_char_attribute(ncid, nc_singletons[i],
-                                                      cmor_axes[j].
-                                                      attributes[k],
-                                                      cmor_axes[j].
-                                                      attributes_values_char[k],
+                                                      cmor_axes[j].attributes
+                                                      [k],
+                                                      cmor_axes
+                                                      [j].attributes_values_char
+                                                      [k],
                                                       cmor_vars[var_id].id);
                 } else {
                     ierr = cmor_put_nc_num_attribute(ncid, nc_singletons[i],
                                                      cmor_axes[j].attributes[k],
-                                                     cmor_axes[j].
-                                                     attributes_type[k],
-                                                     cmor_axes[j].
-                                                     attributes_values_num[k],
-                                                     cmor_vars[var_id].id);
+                                                     cmor_axes
+                                                     [j].attributes_type[k],
+                                                     cmor_axes
+                                                     [j].attributes_values_num
+                                                     [k], cmor_vars[var_id].id);
                 }
             }
 /* -------------------------------------------------------------------- */
@@ -4282,7 +4290,7 @@ int cmor_write(int var_id, void *data, char type,
                     ierr);
             cmor_handle_error_var(ctmp, CMOR_CRITICAL, var_id);
             cmor_pop_traceback();
-            return(1);
+            return (1);
         }
 
         ierr = cmor_mkdir(outname);
@@ -4294,7 +4302,7 @@ int cmor_write(int var_id, void *data, char type,
                     cmor_tables[cmor_vars[var_id].ref_table_id].szTable_id);
             cmor_handle_error_var(ctmp, CMOR_CRITICAL, var_id);
             cmor_pop_traceback();
-            return(1);
+            return (1);
 
         }
 
@@ -4312,7 +4320,7 @@ int cmor_write(int var_id, void *data, char type,
                          cmor_tables[nVarRefTblID].szTable_id);
                 cmor_handle_error_var(outname, CMOR_CRITICAL, var_id);
                 cmor_pop_traceback();
-                return(1);
+                return (1);
 
             }
         }
@@ -4382,7 +4390,7 @@ int cmor_write(int var_id, void *data, char type,
                      cmor_tables[nVarRefTblID].szTable_id);
             cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
             cmor_pop_traceback();
-            return(1);
+            return (1);
         }
 
         ierr = cmor_writeGblAttr(var_id, ncid, ncafid);
@@ -4491,7 +4499,7 @@ int cmor_write(int var_id, void *data, char type,
                      "tracking_id", (char *)ctmp2);
             cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
             cmor_pop_traceback();
-            return(1);
+            return (1);
 
         }
 
@@ -4569,7 +4577,7 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
 /*      first of all we need to make sure it is not an empty attribute  */
 /* -------------------------------------------------------------------- */
         if (cmor_has_variable_attribute(var_id,
-                cmor_vars[var_id].attributes[j]) != 0) {
+                                        cmor_vars[var_id].attributes[j]) != 0) {
 /* -------------------------------------------------------------------- */
 /*      deleted attribute continue on                                   */
 /* -------------------------------------------------------------------- */
@@ -4581,9 +4589,9 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
 /* -------------------------------------------------------------------- */
 
             ierr =
-              cmor_convert_string_to_list(cmor_vars[var_id].
-                                          attributes_values_char[j], 'i',
-                                          (void *)&int_list, &nelts);
+              cmor_convert_string_to_list(cmor_vars
+                                          [var_id].attributes_values_char[j],
+                                          'i', (void *)&int_list, &nelts);
             ierr =
               nc_put_att_int(ncid, cmor_vars[var_id].nc_var_id, "flag_values",
                              NC_INT, nelts, int_list);
@@ -4604,17 +4612,17 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
             ierr = cmor_put_nc_char_attribute(ncid,
                                               cmor_vars[var_id].nc_var_id,
                                               cmor_vars[var_id].attributes[j],
-                                              cmor_vars[var_id].
-                                              attributes_values_char[j],
-                                              cmor_vars[var_id].id);
+                                              cmor_vars
+                                              [var_id].attributes_values_char
+                                              [j], cmor_vars[var_id].id);
         } else {
             ierr = cmor_put_nc_num_attribute(ncid,
                                              cmor_vars[var_id].nc_var_id,
                                              cmor_vars[var_id].attributes[j],
-                                             cmor_vars[var_id].
-                                             attributes_type[j],
-                                             cmor_vars[var_id].
-                                             attributes_values_num[j],
+                                             cmor_vars[var_id].attributes_type
+                                             [j],
+                                             cmor_vars
+                                             [var_id].attributes_values_num[j],
                                              cmor_vars[var_id].id);
         }
     }
@@ -4655,8 +4663,10 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
         size_t nc_dim_chunking[cmor_vars[var_id].ndims];
         bChunk = cmor_set_chunking(var_id, nVarRefTblID, nc_dim_chunking);
         if (bChunk != -1 && (!((cmor_vars[var_id].grid_id > -1)
-                               && (cmor_grids[cmor_vars[var_id].grid_id].
-                                   istimevarying == 1)))) {
+                               &&
+                               (cmor_grids
+                                [cmor_vars[var_id].grid_id].istimevarying ==
+                                1)))) {
             ierr =
               nc_def_var_chunking(ncid, cmor_vars[var_id].nc_var_id, NC_CHUNKED,
                                   &nc_dim_chunking[0]);
@@ -5036,8 +5046,8 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
         if (cmor_axes[cmor_vars[var_id].axes_ids[i]].cvalues == NULL) {
             if (cmor_axes[cmor_vars[var_id].axes_ids[i]].store_in_netcdf == 1) {
                 ierr = nc_put_var_double(ncid, nc_vars[i],
-                                         cmor_axes[cmor_vars[var_id].
-                                                   axes_ids[i]].values);
+                                         cmor_axes[cmor_vars[var_id].axes_ids
+                                                   [i]].values);
                 if (ierr != NC_NOERR) {
                     snprintf(msg, CMOR_MAX_STRING,
                              "NetCDF Error (%i: %s) writing axis '%s'\n! "
@@ -5053,7 +5063,8 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
                 }
                 if (ncid != ncafid) {
                     ierr = nc_put_var_double(ncafid, nc_vars_af[i],
-                                             cmor_axes[cmor_vars[var_id].
+                                             cmor_axes[cmor_vars
+                                                       [var_id].
                                                        axes_ids[i]].values);
                     if (ierr != NC_NOERR) {
                         snprintf(msg, CMOR_MAX_STRING,
@@ -5155,25 +5166,29 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
                     switch (i) {
                       case (0):
                           cmor_write_var_to_file(ncafid, &cmor_vars[j],
-                                                 cmor_grids[cmor_vars[var_id].
+                                                 cmor_grids[cmor_vars
+                                                            [var_id].
                                                             grid_id].lats, 'd',
                                                  0, NULL, NULL);
                           break;
                       case (1):
                           cmor_write_var_to_file(ncafid, &cmor_vars[j],
-                                                 cmor_grids[cmor_vars[var_id].
+                                                 cmor_grids[cmor_vars
+                                                            [var_id].
                                                             grid_id].lons, 'd',
                                                  0, NULL, NULL);
                           break;
                       case (2):
                           cmor_write_var_to_file(ncafid, &cmor_vars[j],
-                                                 cmor_grids[cmor_vars[var_id].
+                                                 cmor_grids[cmor_vars
+                                                            [var_id].
                                                             grid_id].blats, 'd',
                                                  0, NULL, NULL);
                           break;
                       case (3):
                           cmor_write_var_to_file(ncafid, &cmor_vars[j],
-                                                 cmor_grids[cmor_vars[var_id].
+                                                 cmor_grids[cmor_vars
+                                                            [var_id].
                                                             grid_id].blons, 'd',
                                                  0, NULL, NULL);
                           break;
@@ -5214,8 +5229,8 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
         if (j != -1) {
             if (cmor_tables[nRefAxTableID].axes[nRefAxisID].type == 'c') {
                 ierr = nc_put_var_text(ncid, nc_singletons[i],
-                                       cmor_tables[nRefAxTableID].
-                                       axes[nRefAxisID].cvalue);
+                                       cmor_tables[nRefAxTableID].axes
+                                       [nRefAxisID].cvalue);
             } else {
                 ierr = nc_put_var_double(ncid, nc_singletons[i],
                                          cmor_axes[j].values);
@@ -5583,7 +5598,7 @@ int cmor_close_variable(int var_id, char *file_name, int *preserve)
                      cmor_tables[cmor_vars[var_id].ref_table_id].szTable_id);
             cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
             cmor_pop_traceback();
-            return(1);
+            return (1);
         }
 
 /* -------------------------------------------------------------------- */
@@ -5593,8 +5608,8 @@ int cmor_close_variable(int var_id, char *file_name, int *preserve)
         if ((cmor_vars[var_id].grid_id > -1)
             && (cmor_grids[cmor_vars[var_id].grid_id].istimevarying == 1)) {
             for (i = 0; i < 4; i++) {
-                if (cmor_grids[cmor_vars[var_id].grid_id].
-                    associated_variables[i] != -1) {
+                if (cmor_grids[cmor_vars[var_id].grid_id].associated_variables
+                    [i] != -1) {
 /* -------------------------------------------------------------------- */
 /*      ok this associated coord should be stored                       */
 /* -------------------------------------------------------------------- */
@@ -5645,7 +5660,7 @@ int cmor_close_variable(int var_id, char *file_name, int *preserve)
                                            associated_variables[i]].id, ctmp);
                         cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
                         cmor_pop_traceback();
-                        return(1);
+                        return (1);
 
                     }
                 }
@@ -5673,7 +5688,7 @@ int cmor_close_variable(int var_id, char *file_name, int *preserve)
                              ctmp);
                     cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
                     cmor_pop_traceback();
-                    return(1);
+                    return (1);
 
                 }
             }

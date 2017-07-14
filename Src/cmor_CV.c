@@ -475,9 +475,9 @@ int cmor_CV_checkSourceType(cmor_CV_def_t * CV_exp, char *szExptID)
         reti = regcomp(&regex, szTokenRequired, REG_EXTENDED);
         if (reti) {
             snprintf(msg, CMOR_MAX_STRING,
-                    "You regular expression \"%s\" is invalid. \n! "
-                            "Please refer to the CMIP6 documentations.\n! ",
-                    szTokenRequired);
+                     "You regular expression \"%s\" is invalid. \n! "
+                     "Please refer to the CMIP6 documentations.\n! ",
+                     szTokenRequired);
             regfree(&regex);
             cmor_handle_error(msg, CMOR_NORMAL);
             cmor_pop_traceback();
@@ -489,12 +489,12 @@ int cmor_CV_checkSourceType(cmor_CV_def_t * CV_exp, char *szExptID)
         reti = regexec(&regex, szSourceType, 0, NULL, 0);
         if (reti == REG_NOMATCH) {
             snprintf(msg, CMOR_MAX_STRING,
-                    "The following source type(s) \"%s\" are required and\n! "
-                            "some source type(s) could not be found in your "
-                            "input file. \n! "
-                            "Your file contains a source type of \"%s\".\n! "
-                            "Check your Control Vocabulary file \"%s\".\n! ",
-                    szReqSourceTypeCpy, szSourceType, CV_Filename);
+                     "The following source type(s) \"%s\" are required and\n! "
+                     "some source type(s) could not be found in your "
+                     "input file. \n! "
+                     "Your file contains a source type of \"%s\".\n! "
+                     "Check your Control Vocabulary file \"%s\".\n! ",
+                     szReqSourceTypeCpy, szSourceType, CV_Filename);
             regfree(&regex);
             cmor_handle_error(msg, CMOR_NORMAL);
         } else {
@@ -587,7 +587,6 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
         cmor_pop_traceback();
         return (-1);
     }
-
     // retrieve source_id
     rc = cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE_ID, szSource_ID);
     if (rc != 0) {
@@ -606,8 +605,8 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
             // Make sure that "source" exist.
             if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_SOURCE) != 0) {
                 cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_SOURCE,
-                                                        CV_source_id->
-                                                        aszValue[0], 1);
+                                                        CV_source_id->aszValue
+                                                        [0], 1);
             }
             // Check source with experiment_id label.
             rc = cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE, szSource);
@@ -626,15 +625,14 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
                 break;
             }
             pos = strchr(CV_source_id->oValue[j].szValue, ')');
-            strncpy(szSubstring, CV_source_id->oValue[j].szValue, CMOR_MAX_STRING);
+            strncpy(szSubstring, CV_source_id->oValue[j].szValue,
+                    CMOR_MAX_STRING);
             nLen = strlen(CV_source_id->oValue[j].szValue);
-            if( pos != 0 ) {
+            if (pos != 0) {
                 nLen = pos - CV_source_id->oValue[j].szValue + 1;
             }
             szSubstring[nLen] = '\0';
-            if (strncmp
-                (szSubstring, szSource,
-                 nLen) != 0) {
+            if (strncmp(szSubstring, szSource, nLen) != 0) {
                 snprintf(msg, CMOR_MAX_STRING,
                          "Your input attribute \"%s\" with value \n! \"%s\" "
                          "will be replaced with "
@@ -860,8 +858,8 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
                          CV_experiment_sub_exp_id->aszValue[0]);
                 cmor_handle_error(msg, CMOR_WARNING);
                 cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_SUB_EXPT_ID,
-                                                        CV_experiment_sub_exp_id->
-                                                        aszValue[0], 1);
+                                                        CV_experiment_sub_exp_id->aszValue
+                                                        [0], 1);
 
             } else {
                 // too many options.
@@ -910,8 +908,8 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
                      CV_sub_experiment_id_key->szValue);
             cmor_handle_error(msg, CMOR_WARNING);
             cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_SUB_EXPT,
-                                                    CV_sub_experiment_id_key->
-                                                    szValue, 1);
+                                                    CV_sub_experiment_id_key->szValue,
+                                                    1);
         }
     }
     // append sub-experiment_id
@@ -1495,8 +1493,8 @@ int cmor_CV_checkFilename(cmor_CV_def_t * CV,
         /* -------------------------------------------------------------------- */
 
         interval = cmor_convert_interval_to_seconds(cmor_tables[0].interval,
-                                                    cmor_tables[0].
-                                                    axes[timeDim].units);
+                                                    cmor_tables[0].axes
+                                                    [timeDim].units);
 
         //first time point
         strncat(outname, "_", CMOR_MAX_STRING - strlen(outname));
@@ -1939,10 +1937,10 @@ int cmor_CV_checkGrids(cmor_CV_def_t * CV)
         for (i = 0; i < CV_grid_labels->anElements; i++) {
             // Remove regular expression to compare strings.
             strncpy(szCompare, CV_grid_labels->aszValue[i], CMOR_MAX_STRING);
-            if(szCompare[0] == '^') {
+            if (szCompare[0] == '^') {
                 strncpy(szCompare, &CV_grid_labels->aszValue[i][1],
-                        strlen(CV_grid_labels->aszValue[i])-2);
-                szCompare[strlen(CV_grid_labels->aszValue[i])-2]= '\0';
+                        strlen(CV_grid_labels->aszValue[i]) - 2);
+                szCompare[strlen(CV_grid_labels->aszValue[i]) - 2] = '\0';
             }
             rc = strcmp(szCompare, szGridLabel);
             if (rc == 0) {
@@ -1974,12 +1972,13 @@ int cmor_CV_checkGrids(cmor_CV_def_t * CV)
 
     if (CV_grid_resolution->anElements > 0) {
         for (i = 0; i < CV_grid_resolution->anElements; i++) {
-            strncpy(szCompare, CV_grid_resolution->aszValue[i], CMOR_MAX_STRING);
+            strncpy(szCompare, CV_grid_resolution->aszValue[i],
+                    CMOR_MAX_STRING);
             // Remove regular expression to compare strings.
-            if(CV_grid_resolution->aszValue[i][0] == '^') {
+            if (CV_grid_resolution->aszValue[i][0] == '^') {
                 strncpy(szCompare, &CV_grid_resolution->aszValue[i][1],
-                        strlen(CV_grid_resolution->aszValue[i])-2);
-                szCompare[strlen(CV_grid_resolution->aszValue[i])-2]= '\0';
+                        strlen(CV_grid_resolution->aszValue[i]) - 2);
+                szCompare[strlen(CV_grid_resolution->aszValue[i]) - 2] = '\0';
 
             }
             rc = strcmp(szCompare, szGridResolution);
