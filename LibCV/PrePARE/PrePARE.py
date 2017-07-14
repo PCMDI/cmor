@@ -196,11 +196,14 @@ class checkCMIP6(object):
                 key,
                 value) for key,
             value in self.dictGbl.iteritems()]
-        if(self.dictGbl["sub_experiment_id"] not in ["none"]):
-            member_id = self.dictGbl["sub_experiment_id"] + \
-                '-' + self.dictGbl["variant_label"]
-        else:
-            member_id = self.dictGbl["variant_label"]
+        member_id = ""
+        if("sub_experiment_id" in self.dictGbl.keys() ):
+                if(self.dictGbl["sub_experiment_id"] not in ["none"]):
+                    member_id = self.dictGbl["sub_experiment_id"] + \
+                        '-' + self.dictGbl["variant_label"]
+                else:
+                    member_id = self.dictGbl["variant_label"]
+
         cmip6_cv.set_cur_dataset_attribute(
             cmip6_cv.GLOBAL_ATT_MEMBER_ID, member_id)
 

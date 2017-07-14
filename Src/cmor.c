@@ -735,6 +735,9 @@ int cmor_setup(char *path,
 
     ut_unit *dimlessunit = NULL, *perunit = NULL, *newequnit = NULL;
     ut_status myutstatus;
+    ut_unit *PracticalSSunit = NULL;
+    ut_unit *pss78unit = NULL;
+    ut_unit *psuunit = NULL;
 
     int i, j;
     char msg[CMOR_MAX_STRING];
@@ -1033,6 +1036,78 @@ int cmor_setup(char *path,
         snprintf(msg, CMOR_MAX_STRING, "Udunits: Error mapping percent unit");
         cmor_handle_error(msg, CMOR_CRITICAL);
     }
+
+    // -----------------------
+    // Create "psu" unit
+    // -----------------------
+    if (psuunit != NULL)
+        ut_free(psuunit);
+
+    psuunit = ut_new_dimensionless_unit(ut_read);
+
+    if (ut_get_status() != UT_SUCCESS) {
+        snprintf(msg, CMOR_MAX_STRING, "Udunits: creating psuunit unit");
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+
+    if (perunit != NULL)
+        ut_free(perunit);
+    perunit = ut_scale(.001, psuunit);
+    myutstatus = ut_map_name_to_unit("psu", UT_ASCII, perunit);
+
+    if (myutstatus != UT_SUCCESS) {
+        snprintf(msg, CMOR_MAX_STRING, "Udunits: Error mapping psu unit");
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+
+    // -----------------------
+    // Create "PSS-78" unit
+    // -----------------------
+    if (pss78unit != NULL)
+        ut_free(pss78unit);
+
+    pss78unit = ut_new_dimensionless_unit(ut_read);
+
+    if (ut_get_status() != UT_SUCCESS) {
+        snprintf(msg, CMOR_MAX_STRING, "Udunits: creating dimless unit");
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+
+    if (perunit != NULL)
+        ut_free(perunit);
+    perunit = ut_scale(.001, pss78unit);
+    myutstatus = ut_map_name_to_unit("PSS", UT_UTF8, perunit);
+
+    if (myutstatus != UT_SUCCESS) {
+        snprintf(msg, CMOR_MAX_STRING, "Udunits: Error mapping PSS-78 unit");
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+    // -----------------------
+    // Create "Practical Salinity Scale 78" unit
+    // -----------------------
+    if (PracticalSSunit != NULL)
+        ut_free(PracticalSSunit);
+
+    PracticalSSunit = ut_new_dimensionless_unit(ut_read);
+
+    if (ut_get_status() != UT_SUCCESS) {
+        snprintf(msg, CMOR_MAX_STRING,
+                "Udunits: creating Practical Salinty Scale 78 unit");
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+    if (perunit != NULL)
+        ut_free(perunit);
+    perunit = ut_scale(.001, PracticalSSunit);
+    myutstatus = ut_map_name_to_unit("practical_salinity_scale_", UT_UTF8, perunit);
+
+    if (myutstatus != UT_SUCCESS) {
+        snprintf(msg, CMOR_MAX_STRING,
+                "Udunits: Error mapping Practical Salinity Scale 78 unit");
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+    ut_free(PracticalSSunit);
+    ut_free(pss78unit);
+    ut_free(psuunit);
     ut_free(dimlessunit);
     ut_free(perunit);
 
