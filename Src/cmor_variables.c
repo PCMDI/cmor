@@ -1111,8 +1111,19 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
 /* -------------------------------------------------------------------- */
 /*      output missing value                                            */
 /* -------------------------------------------------------------------- */
+    if (refvar.type == 'd') {
+        cmor_vars[vrid].omissing = (double)cmor_tables[CMOR_TABLE].missing_value;
 
-    cmor_vars[vrid].omissing = (double)cmor_tables[CMOR_TABLE].missing_value;
+    } else if (refvar.type == 'f') {
+        cmor_vars[vrid].omissing = (double)cmor_tables[CMOR_TABLE].missing_value;
+
+    } else if (refvar.type == 'l') {
+        cmor_vars[vrid].omissing = (double)cmor_tables[CMOR_TABLE].int_missing_value;
+
+    } else if (refvar.type == 'i') {
+        cmor_vars[vrid].omissing = (double)cmor_tables[CMOR_TABLE].int_missing_value;
+    }
+
 
 /* -------------------------------------------------------------------- */
 /*      copying over values from ref var                                */
@@ -1754,6 +1765,9 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
 
         cmor_update_history(vrid, msg);
     }
+/* -------------------------------------------------------------------- */
+/*      Set Missing Value                                               */
+/* -------------------------------------------------------------------- */
 
     if (refvar.type == '\0') {
         cmor_vars[vrid].type = 'f';

@@ -241,6 +241,7 @@
 #define TABLE_HEADER_APRX_INTRVL_ERR  "approx_interval_error"
 #define TABLE_HEADER_APRX_INTRVL_WRN  "approx_interval_warning"
 #define TABLE_HEADER_MISSING_VALUE    "missing_value"
+#define TABLE_HEADER_INT_MISSING_VALUE    "int_missing_value"
 #define TABLE_HEADER_MAGIC_NUMBER     "magic_number"
 #define TABLE_HEADER_DATASPECSVERSION "data_specs_version"
 #define OUTPUT_TEMPLATE_RIPF          "run_variant"
@@ -517,6 +518,7 @@ typedef struct cmor_table_ {
     cmor_mappings_t mappings[CMOR_MAX_ELEMENTS];
     cmor_CV_def_t *CV;
     double missing_value;
+    long    int_missing_value;
     double interval;
     double interval_warning;
     double interval_error;

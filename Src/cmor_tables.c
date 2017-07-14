@@ -85,11 +85,12 @@ void cmor_init_table(cmor_table_t * table, int id)
     strcpy(table->realm, "REALM");
     table->date[0] = '\0';
     table->missing_value = 1.0e+20;
+    table->int_missing_value = 2147483647;
     table->interval = 0.;
     table->interval_warning = .1;
     table->interval_error = .2;
     table->URL[0] = '\0';
-    strcpy(table->product, "output");
+    strcpy(table->product, "model_output");
     table->path[0] = '\0';
 //    table->frequency[0] = '\0';
     table->nforcings = 0;
@@ -487,6 +488,8 @@ int cmor_set_dataset_att(cmor_table_t * table, char att[CMOR_MAX_STRING],
         sscanf(value, "%lf", &table->interval_warning);
     } else if (strcmp(att, TABLE_HEADER_MISSING_VALUE) == 0) {
         sscanf(value, "%lf", &table->missing_value);
+    } else if (strcmp(att, TABLE_HEADER_INT_MISSING_VALUE) == 0) {
+        sscanf(value, "%ld", &table->int_missing_value);
     } else if (strcmp(att, TABLE_HEADER_MAGIC_NUMBER) == 0) {
 
     } else {
