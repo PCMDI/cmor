@@ -5,6 +5,8 @@ import unittest
 # ==============================
 #  main thread
 # ==============================
+
+
 def run():
     unittest.main()
 
@@ -12,6 +14,8 @@ def run():
 ntimes = 1
 nlat = 45
 nlon = 90
+
+
 class TestCase(unittest.TestCase):
 
     def setUp(self, *args, **kwargs):
@@ -21,9 +25,8 @@ class TestCase(unittest.TestCase):
 
         error_flag = cmor.dataset_json("Test/common_user_input.json")
 
-
-    def prep_var(self,var, units):
-    # creates 1 degree grid
+    def prep_var(self, var, units):
+        # creates 1 degree grid
         dlat = 180 / nlat
         dlon = 360. / nlon
         alats = numpy.arange(-90 + dlat / 2., 90, dlat)
@@ -52,12 +55,11 @@ class TestCase(unittest.TestCase):
 
         ivar1 = cmor.variable(
             var,
-            axis_ids=[ itim, ilat, ilon],
+            axis_ids=[itim, ilat, ilon],
             units=units,
             missing_value=0.)
 
         return ivar1
-
 
     def testCMIP6(self):
         try:
@@ -75,14 +77,15 @@ class TestCase(unittest.TestCase):
                     print 'tvar', tval
                     print 'tbnd', tbnd
                     print 'writing time:', i, i / 4.
-                    data = numpy.random.random((ntimes, nlat, nlon)) * 30. + 273
+                    data = numpy.random.random(
+                        (ntimes, nlat, nlon)) * 30. + 273
                     data = data.astype("f")
                     cmor.write(ivar, data, time_vals=tval, time_bnds=tbnd)
-                    tval = [i / 4. + d+100]
-                    tbnd = [i / 4. + d+100 - 0.125, i / 4. + d+100 + 0.125]
+                    tval = [i / 4. + d + 100]
+                    tbnd = [i / 4. + d + 100 - 0.125, i / 4. + d + 100 + 0.125]
                     cmor.write(ivar2, data, time_vals=tval, time_bnds=tbnd)
-                    tval = [i / 4. + d+200]
-                    tbnd = [i / 4. + d+200 - 0.125, i / 4. + d+200 + 0.125]
+                    tval = [i / 4. + d + 200]
+                    tbnd = [i / 4. + d + 200 - 0.125, i / 4. + d + 200 + 0.125]
                     cmor.write(ivar3, data, time_vals=tval, time_bnds=tbnd)
                     print 'wrote var 1 time:', i
                 file = cmor.close(ivar, True)
@@ -91,8 +94,9 @@ class TestCase(unittest.TestCase):
                 print 'File:', file
                 print 'File:', file1
                 print 'File:', file2
-        except:
+        except BaseException:
             raise
+
     def tearDown(self):
         import shutil
         shutil.rmtree("./CMIP6")
@@ -100,4 +104,3 @@ class TestCase(unittest.TestCase):
 
 if __name__ == '__main__':
     run()
-
