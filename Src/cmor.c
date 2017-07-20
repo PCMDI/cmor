@@ -5277,7 +5277,7 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
 /************************************************************************/
 /*                    cmor_CreateFromTemplate()                         */
 /************************************************************************/
-int cmor_CreateFromTemplate(int nVarRefTblID, char *template,
+int cmor_CreateFromTemplate(int nVarRefTblID, char *templateSTH,
                             char *szJoin, char *separator)
 {
     char *szToken;
@@ -5292,7 +5292,7 @@ int cmor_CreateFromTemplate(int nVarRefTblID, char *template,
     cmor_add_traceback("cmor_CreateFromTemplate");
     cmor_is_setup();
 
-    strcpy(path_template, template);
+    strcpy(path_template, templateSTH);
 /* -------------------------------------------------------------------- */
 /*    Get rid of <> characters from template and add "information"      */
 /*    to path                                                           */

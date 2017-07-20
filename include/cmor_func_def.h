@@ -47,7 +47,7 @@ extern int cmor_get_table_attr( char *szToken, cmor_table_t * table, char *);
 
 extern int cmor_dataset_json(char *rcfile);
 
-extern int cmor_CreateFromTemplate(int vid, char *template, char *outpath,
+extern int cmor_CreateFromTemplate(int vid, char *templateSTH, char *outpath,
                                    char *sep);
 
 extern int cmor_addVersion(void);

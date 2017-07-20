@@ -277,7 +277,18 @@ class checkCMIP6(object):
         varmissing = self.infile[self.var[0]]._FillValue[0]
         varid = cmip6_cv.setup_variable(self.var[0], varunits, varmissing, startime, endtime,
                                         startimebnds, endtimebnds)
+        if(varid == -1):
+            print bcolors.FAIL
+            print "====================================================================================="
+            print " Could not find variable '%s' in table '%s' " % (self.var[0], self.cmip6_table)
+            print "====================================================================================="
+            print bcolors.ENDC
+            cmip6_cv.set_CV_Error()
+            return
+ 
         fn = os.path.basename(self.infile.id)
+        import pdb
+        pdb.set_trace()
         cmip6_cv.check_filename(
             self.table_id,
             varid,

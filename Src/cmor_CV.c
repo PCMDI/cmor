@@ -2162,7 +2162,7 @@ int cmor_CV_variable(int *var_id, char *name, char *units, float *missing,
     cmor_is_setup();
 
     cmor_add_traceback("cmor_CV_variable");
-
+    *var_id = vrid;
     if (CMOR_TABLE == -1) {
         cmor_handle_error("You did not define a table yet!", CMOR_CRITICAL);
     }
@@ -2196,6 +2196,8 @@ int cmor_CV_variable(int *var_id, char *name, char *units, float *missing,
         snprintf(msg, CMOR_MAX_STRING,
                  "Could not find a matching variable for name: '%s'", ctmp);
         cmor_handle_error(msg, CMOR_CRITICAL);
+        cmor_pop_traceback();
+        return (-1);
     }
 
     refvar = cmor_tables[CMOR_TABLE].vars[iref];
