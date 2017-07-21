@@ -132,7 +132,7 @@ extern void create_singleton_dimensions(int var_id, int ncid,
 /*      Control Vocabulary                                              */
 /* ==================================================================== */
 
-
+extern int cmor_build_outname(int var_id, char *outname );
 extern int cmor_CV_checkISOTime(char *szAttribute);
 extern void cmor_CV_set_att(cmor_CV_def_t *CV,
                                 char *key,

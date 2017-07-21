@@ -275,6 +275,8 @@ class checkCMIP6(object):
             endtime = 0
         varunits = self.infile[self.var[0]].units
         varmissing = self.infile[self.var[0]]._FillValue[0]
+        import pdb
+        pdb.set_trace()
         varid = cmip6_cv.setup_variable(self.var[0], varunits, varmissing, startime, endtime,
                                         startimebnds, endtimebnds)
         if(varid == -1):
@@ -287,8 +289,6 @@ class checkCMIP6(object):
             return
  
         fn = os.path.basename(self.infile.id)
-        import pdb
-        pdb.set_trace()
         cmip6_cv.check_filename(
             self.table_id,
             varid,
