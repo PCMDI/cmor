@@ -5928,6 +5928,8 @@ int cmor_close_variable(int var_id, char *file_name, int *preserve)
                 }
             }
         }
+        strncpytrim( outname, cmor_vars[var_id].base_path,
+                 CMOR_MAX_STRING );
 
         ierr = cmor_build_outname(var_id, outname);
         if(ierr != 0) {

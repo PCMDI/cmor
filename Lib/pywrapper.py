@@ -952,6 +952,15 @@ def get_cur_dataset_attribute(name):
         return None
 
 
+def set_furtherinfourl(varid):
+    """Sets further_url_info attribute for ES-DOC
+    Usage:
+      cmor.set_futherurlinfo(var_id)
+    Where:
+      var_id: is cmor variable id
+    """
+    return _cmor.set_furtherinfourl(varid)
+
 def set_variable_attribute(var_id, name, value):
     """Sets an attribute onto a cmor variable
     Usage:

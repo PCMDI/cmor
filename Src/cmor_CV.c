@@ -324,6 +324,7 @@ int cmor_CV_checkFurtherInfoURL(int nVarRefTblID)
     szFurtherInfoURL[0] = '\0';
     szFurtherInfoFileURL[0] = '\0';
     szFurtherInfoBaseURL[0] = '\0';
+    cmor_is_setup();
     cmor_add_traceback("_CV_checkFurtherInfoURL");
 
 /* -------------------------------------------------------------------- */
