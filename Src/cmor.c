@@ -2844,7 +2844,7 @@ int cmor_setGblAttr(int var_id)
         ierr += cmor_CV_setInstitution(cmor_tables[nVarRefTblID].CV);
     }
 
-    if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_FURTHERINFOURLTMPL) == 0) {
+    if ( cmor_current_dataset.furtherinfourl[0] != '\0') {
         ierr += cmor_CV_checkFurtherInfoURL(nVarRefTblID);
     }
 
