@@ -11,7 +11,7 @@ from pywrapper import (
     close, grid, set_grid_mapping, time_varying_grid_coordinate, dataset_json,
     set_cur_dataset_attribute, get_cur_dataset_attribute,
     has_cur_dataset_attribute, set_variable_attribute, get_variable_attribute,
-    has_variable_attribute, get_final_filename, set_deflate)
+    has_variable_attribute, get_final_filename, set_deflate, set_furtherinfourl)
 
 try:
     from check_CMOR_compliant import checkCMOR

@@ -892,6 +892,30 @@ static PyObject *PyCMOR_time_varying_grid_coordinate(PyObject * self,
 /************************************************************************/
 /*                            PyCMOR_grid()                             */
 /************************************************************************/
+static PyObject *PyCMOR_set_furtherinfourl(PyObject * self, PyObject * args) 
+{
+    int varid;
+    int ierr;
+
+    signal(signal_to_catch, signal_handler);
+
+    if (!PyArg_ParseTuple (args, "i", &varid)) {
+        return NULL;
+    }
+
+    ierr = cmor_CV_checkFurtherInfoURL(varid);
+
+    if (ierr != 0 || raise_exception) {
+        raise_exception = 0;
+        PyErr_Format(CMORError, exception_message, "set_futherurlinfo");
+        return NULL;
+    }
+
+    return (Py_BuildValue("i", ierr));
+}
+/************************************************************************/
+/*                            PyCMOR_grid()                             */
+/************************************************************************/
 
 static PyObject *PyCMOR_grid(PyObject * self, PyObject * args)
 {
@@ -1006,6 +1030,7 @@ static PyMethodDef MyExtractMethods[] = {
     {"has_variable_attribute", PyCMOR_has_variable_attribute,
      METH_VARARGS},
     {"get_original_shape", PyCMOR_get_original_shape, METH_VARARGS},
+    {"set_furtherinfourl", PyCMOR_set_furtherinfourl, METH_VARARGS},
     {"get_final_filename", PyCMOR_getFinalFilename, METH_VARARGS},
     {"set_deflate", PyCMOR_set_deflate, METH_VARARGS},
     {NULL, NULL}                /*sentinel */

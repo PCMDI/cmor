@@ -47,7 +47,7 @@ extern int cmor_get_table_attr( char *szToken, cmor_table_t * table, char *);
 
 extern int cmor_dataset_json(char *rcfile);
 
-extern int cmor_CreateFromTemplate(int vid, char *template, char *outpath,
+extern int cmor_CreateFromTemplate(int vid, char *templateSTH, char *outpath,
                                    char *sep);
 
 extern int cmor_addVersion(void);
@@ -132,7 +132,7 @@ extern void create_singleton_dimensions(int var_id, int ncid,
 /*      Control Vocabulary                                              */
 /* ==================================================================== */
 
-
+extern int cmor_build_outname(int var_id, char *outname );
 extern int cmor_CV_checkISOTime(char *szAttribute);
 extern void cmor_CV_set_att(cmor_CV_def_t *CV,
                                 char *key,

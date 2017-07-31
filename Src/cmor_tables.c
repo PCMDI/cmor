@@ -323,7 +323,9 @@ int cmor_set_dataset_att(cmor_table_t * table, char att[CMOR_MAX_STRING],
     cmor_is_setup();
 
     strncpy(value, val, CMOR_MAX_STRING);
-
+    if(value[0] == '#') {
+        return(0);
+    }
 /* -------------------------------------------------------------------- */
 /*      Read non-block metadata.                                        */
 /* -------------------------------------------------------------------- */
@@ -493,6 +495,7 @@ int cmor_set_dataset_att(cmor_table_t * table, char att[CMOR_MAX_STRING],
     } else if (strcmp(att, TABLE_HEADER_MAGIC_NUMBER) == 0) {
 
     } else {
+
         snprintf(value, CMOR_MAX_STRING,
                  "table: %s, This keyword: %s value (%s) "
                  "is not a valid table header entry.!\n "
