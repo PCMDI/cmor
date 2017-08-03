@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.13", 
+        "data_specs_version": "01.00.15", 
         "table_id": "Table Efx", 
         "realm": "land", 
         "cmor_version": "3.2", 
-        "table_date": "12 July 2017", 
+        "table_date": "03 August 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "0.00000", 
@@ -15,8 +15,8 @@
     "variable_entry": {
         "clayfrac": {
             "frequency": "fx", 
-            "modeling_realm": "atmos", 
-            "standard_name": "missing", 
+            "modeling_realm": "land", 
+            "standard_name": "volume_fraction_of_clay_in_soil", 
             "units": "1.0", 
             "cell_methods": "area: mean where land", 
             "cell_measures": "area: areacella", 
@@ -177,7 +177,7 @@
         }, 
         "sandfrac": {
             "frequency": "fx", 
-            "modeling_realm": "atmos", 
+            "modeling_realm": "land", 
             "standard_name": "missing", 
             "units": "1.0", 
             "cell_methods": "area: mean where land", 

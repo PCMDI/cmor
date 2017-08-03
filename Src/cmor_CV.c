@@ -185,6 +185,38 @@ void cmor_CV_printall()
         }
     }
 }
+/************************************************************************/
+/*               cmor_CV_set_dataset_attr_from_key()                    */
+/************************************************************************/
+cmor_CV_def_t *cmor_CV_set_dataset_attr_from_key(cmor_CV_def_t * CV,
+                                                    char *key)
+{
+    int i;
+    cmor_CV_def_t *searchCV;
+    int nbCVs = -1;
+    cmor_add_traceback("_CV_search_child_key");
+
+    nbCVs = CV->nbObjects;
+
+    // Look at this objects
+    if (strcmp(CV->key, key) == 0) {
+        cmor_pop_traceback();
+        return (CV);
+    }
+    // Look at each of object key
+    for (i = 0; i < nbCVs; i++) {
+        // Is there a branch on that object?
+        if (&CV->oValue[i] != NULL) {
+            searchCV = cmor_CV_set_dataset_attr_from_key(&CV->oValue[i], key);
+            if (searchCV != NULL) {
+                cmor_pop_traceback();
+                return (searchCV);
+            }
+        }
+    }
+    cmor_pop_traceback();
+    return (NULL);
+}
 
 /************************************************************************/
 /*                  cmor_CV_search_child_key()                          */
@@ -1398,15 +1430,16 @@ int cmor_CV_checkExperiment(cmor_CV_def_t * CV)
 
                     }
                 }
-            } else
+            } else {
                 //
                 // Check for string instead of list of string object!
                 //
-            if (CV_experiment_attr->szValue[0] != '\0') {
-                if (strncmp(CV_experiment_attr->szValue, szValue,
-                            CMOR_MAX_STRING) != 0) {
-                    strcpy(szExpValue, CV_experiment_attr->szValue);
-                    bWarning = TRUE;
+                if (CV_experiment_attr->szValue[0] != '\0') {
+                    if (strncmp(CV_experiment_attr->szValue, szValue,
+                    CMOR_MAX_STRING) != 0) {
+                        strcpy(szExpValue, CV_experiment_attr->szValue);
+                        bWarning = TRUE;
+                    }
                 }
             }
         }
