@@ -69,7 +69,7 @@ class TestCase(unittest.TestCase):
         sys.stdout = os.fdopen(self.newstdout, 'w', 0)
         sys.stderr = os.fdopen(self.newstderr, 'w', 0)
 
-        f = cdms2.open("CMIP6/CMIP6/ISMIP6/PCMDI/PCMDI-test-1-0/piControl-withism/r11i1p1f1/Omon/masso/gr/v20170823/masso_Omon_PCMDI-test-1-0_piControl-withism_r11i1p1f1_gr_201001-201005.nc")
+        f = cdms2.open(cmor.get_final_filename() , 'r')
         self.assertEqual(f.coder, "Denis Nadeau")
         self.assertEqual(f.hierarchical_attr_setting, "information")
         self.assertEqual(f.creator, "PCMDI")
