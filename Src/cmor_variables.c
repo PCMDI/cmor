@@ -1792,43 +1792,38 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
             cmor_update_history(vrid, msg);
         }
     }
-    if (refvar.type == 'd') {
+    if( cmor_vars[vrid].ref_var_id < 500  ){
+        if (refvar.type == 'd') {
 
-        cmor_set_variable_attribute_internal(vrid,
-                                             VARIABLE_ATT_MISSINGVALUES,
-                                             'd', &cmor_vars[vrid].omissing);
-        cmor_set_variable_attribute_internal(vrid,
-                                             VARIABLE_ATT_FILLVAL,
-                                             'd', &cmor_vars[vrid].omissing);
+            cmor_set_variable_attribute_internal(vrid,
+            VARIABLE_ATT_MISSINGVALUES, 'd', &cmor_vars[vrid].omissing);
+            cmor_set_variable_attribute_internal(vrid,
+            VARIABLE_ATT_FILLVAL, 'd', &cmor_vars[vrid].omissing);
 
-    } else if (refvar.type == 'f') {
+        } else if (refvar.type == 'f') {
 
-        afloat = (float)cmor_vars[vrid].omissing;
-        cmor_set_variable_attribute_internal(vrid,
-                                             VARIABLE_ATT_MISSINGVALUES,
-                                             'f', &afloat);
-        cmor_set_variable_attribute_internal(vrid,
-                                             VARIABLE_ATT_FILLVAL,
-                                             'f', &afloat);
-    } else if (refvar.type == 'l') {
+            afloat = (float) cmor_vars[vrid].omissing;
+            cmor_set_variable_attribute_internal(vrid,
+            VARIABLE_ATT_MISSINGVALUES, 'f', &afloat);
+            cmor_set_variable_attribute_internal(vrid,
+            VARIABLE_ATT_FILLVAL, 'f', &afloat);
+        } else if (refvar.type == 'l') {
 
-        along = (long)cmor_vars[vrid].omissing;
-        cmor_set_variable_attribute_internal(vrid,
-                                             VARIABLE_ATT_MISSINGVALUES,
-                                             'l', &along);
-        cmor_set_variable_attribute_internal(vrid,
-                                             VARIABLE_ATT_FILLVAL, 'l', &along);
+            along = (long) cmor_vars[vrid].omissing;
+            cmor_set_variable_attribute_internal(vrid,
+            VARIABLE_ATT_MISSINGVALUES, 'l', &along);
+            cmor_set_variable_attribute_internal(vrid,
+            VARIABLE_ATT_FILLVAL, 'l', &along);
 
-    } else if (refvar.type == 'i') {
+        } else if (refvar.type == 'i') {
 
-        aint = (int)cmor_vars[vrid].omissing;
-        cmor_set_variable_attribute_internal(vrid,
-                                             VARIABLE_ATT_MISSINGVALUES,
-                                             'i', &aint);
-        cmor_set_variable_attribute_internal(vrid,
-                                             VARIABLE_ATT_FILLVAL, 'i', &aint);
+            aint = (int) cmor_vars[vrid].omissing;
+            cmor_set_variable_attribute_internal(vrid,
+            VARIABLE_ATT_MISSINGVALUES, 'i', &aint);
+            cmor_set_variable_attribute_internal(vrid,
+            VARIABLE_ATT_FILLVAL, 'i', &aint);
+        }
     }
-
     cmor_vars[vrid].tolerance = 1.e-4;
     cmor_vars[vrid].self = vrid;
     if (tolerance != NULL)
