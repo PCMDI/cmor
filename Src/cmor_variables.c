@@ -1785,7 +1785,7 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
             cmor_vars[vrid].missing = (double)*(float *)missing;
         if (type == 'd')
             cmor_vars[vrid].missing = (double)*(double *)missing;
-        if (cmor_vars[vrid].missing != cmor_vars[vrid].omissing) {
+        if (fabs((cmor_vars[vrid].missing/cmor_vars[vrid].omissing)-1) > 0.001) {
             snprintf(msg, CMOR_MAX_STRING,
                      "replaced missing value flag (%g) with standard missing value (%g)",
                      cmor_vars[vrid].missing, cmor_vars[vrid].omissing);
