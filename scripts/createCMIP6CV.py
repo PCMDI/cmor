@@ -46,6 +46,19 @@ class readWCRP():
             del root[key]['release_year']
             del root[key]['label_extended']
             del root[key]['model_component']
+
+    def createExperimentID(self,myjson):
+        #
+        # Delete undesirable attribute for experiement_id
+        #
+        root = myjson['experiment_id']
+        for key in root.keys():
+            del root[key]['tier']
+            del root[key]['start_year']
+            del root[key]['end_year']
+            del root[key]['description']
+            del root[key]['min_number_yrs_per_sim']
+
     def readGit(self):
         Dico = OrderedDict()
         for file in filelist:
@@ -56,6 +69,8 @@ class readWCRP():
             myjson = json.loads(urlJson, object_pairs_hook=OrderedDict)
             if(file == 'CMIP6_source_id.json'):
                 self.createSource(myjson)
+            if(file == 'CMIP6_experiment_id.json'):
+                self.createExperimentID(myjson)
             Dico = OrderedDict(Dico.items() + myjson.items())
          
         finalDico = OrderedDict()

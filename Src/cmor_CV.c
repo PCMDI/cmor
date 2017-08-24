@@ -9,6 +9,7 @@
 #include "json_tokener.h"
 #include "arraylist.h"
 #include "libgen.h"
+#include "math.h"
 #ifndef REG_NOERROR
 #define REG_NOERROR 0
 #endif
@@ -1622,8 +1623,7 @@ int cmor_CV_checkFilename(cmor_CV_def_t * CV, int var_id,
         case 4:
             /* frequency is 6hr, 3hr, 1hr */
             /* round to the nearest minute */
-            start_minutes = round(
-                    (starttime.hour - (int) starttime.hour) * 60.);
+            start_minutes = round((starttime.hour - (int) starttime.hour) * 60.);
             end_minutes = round((endtime.hour - (int) endtime.hour) * 60.);
             snprintf(start_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i%.2i%.2i",
                     starttime.year, starttime.month, starttime.day,
@@ -1868,6 +1868,9 @@ int cmor_CV_setInstitution(cmor_CV_def_t * CV)
 int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
 {
     cmor_CV_def_t *attr_CV;
+    cmor_CV_def_t *key_CV;
+    cmor_CV_def_t *list_CV;
+    cmor_CV_def_t *CV_key;
     char szValue[CMOR_MAX_STRING];
     char msg[CMOR_MAX_STRING];
     char CV_Filename[CMOR_MAX_STRING];
@@ -1875,6 +1878,8 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
     char szOutput[CMOR_MAX_STRING * 2];
     char szTmp[CMOR_MAX_STRING];
     int i;
+    int j;
+    int nObjects;
     regex_t regex;
     int reti;
     int ierr;
@@ -1896,6 +1901,9 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
     }
 
     ierr = cmor_get_cur_dataset_attribute(szKey, szValue);
+/* -------------------------------------------------------------------- */
+/* If this is a list, search the attribute                              */
+/* -------------------------------------------------------------------- */
     for (i = 0; i < attr_CV->anElements; i++) {
         // Special case for source type any element may match
         strncpy(szTmp, attr_CV->aszValue[i], CMOR_MAX_STRING);
@@ -1939,6 +1947,26 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
         cmor_pop_traceback();
         return (-1);
     }
+/* -------------------------------------------------------------------- */
+/* If this is a dictionary, set all attributes                          */
+/* -------------------------------------------------------------------- */
+    if (attr_CV->nbObjects != -1) {
+        key_CV = cmor_CV_rootsearch(CV, szKey);
+        list_CV = cmor_CV_search_child_key(key_CV, szValue);
+        if( list_CV == NULL) {
+            cmor_pop_traceback();
+            return (0);
+        }
+        nObjects = list_CV->nbObjects;
+        for(j = 0; i < nObjects; i++) {
+            CV_key = &list_CV->oValue[i];
+            if( CV_key->szValue[0] != '\0') {
+            cmor_set_cur_dataset_attribute_internal(CV_key->key,
+                                                    CV_key->szValue, 1);
+            }
+        }
+    }
+
 /* -------------------------------------------------------------------- */
 /* We could not validate this attribute, exit.                          */
 /* -------------------------------------------------------------------- */
