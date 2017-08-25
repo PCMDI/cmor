@@ -2844,9 +2844,6 @@ int cmor_setGblAttr(int var_id)
         ierr += cmor_CV_setInstitution(cmor_tables[nVarRefTblID].CV);
     }
 
-    if ( cmor_current_dataset.furtherinfourl[0] != '\0') {
-        ierr += cmor_CV_checkFurtherInfoURL(nVarRefTblID);
-    }
 
     if (cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP6) == 0) {
         ierr += cmor_CV_checkSourceID(cmor_tables[nVarRefTblID].CV);
@@ -2856,7 +2853,18 @@ int cmor_setGblAttr(int var_id)
         ierr += cmor_CV_checkParentExpID(cmor_tables[nVarRefTblID].CV);
         ierr += cmor_CV_checkSubExpID(cmor_tables[nVarRefTblID].CV);
     }
+    //
+    // Set user defined attributes and explicit {} sets.
+    //
     ierr += cmor_CV_checkGblAttributes(cmor_tables[nVarRefTblID].CV);
+    //
+    // Copy block to ensure all attributes are set for obs4MIPs
+    // especially (source_label)
+    //
+    if ( cmor_current_dataset.furtherinfourl[0] != '\0') {
+        ierr += cmor_CV_checkFurtherInfoURL(nVarRefTblID);
+    }
+
     ierr += cmor_CV_checkISOTime(GLOBAL_ATT_CREATION_DATE);
     return (ierr);
 }
