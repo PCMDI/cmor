@@ -1792,9 +1792,8 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
             cmor_update_history(vrid, msg);
         }
     }
-    if( cmor_vars[vrid].ref_var_id < 500  ){
+    if( cmor_vars[vrid].ref_var_id < CMOR_MAX_ELEMENTS  ){
         if (refvar.type == 'd') {
-
             cmor_set_variable_attribute_internal(vrid,
             VARIABLE_ATT_MISSINGVALUES, 'd', &cmor_vars[vrid].omissing);
             cmor_set_variable_attribute_internal(vrid,
