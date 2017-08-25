@@ -1864,6 +1864,16 @@ int cmor_CV_setInstitution(cmor_CV_def_t * CV)
 /*  Search for attribute and verify that values is within a list        */
 /*                                                                      */
 /*    i.e. "mip_era": [ "CMIP6", "CMIP5" ]                              */
+/*                                                                      */
+/*    Set block of attributes such as:                                  */
+/*           key: {                                                     */
+/*               value: {                                               */
+/*                      key:value,                                      */
+/*                      key:value,                                      */
+/*                      key:value                                       */
+/*                      }                                               */
+/*                }                                                     */
+/*                                                                      */
 /************************************************************************/
 int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
 {
@@ -1949,20 +1959,21 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
     }
 /* -------------------------------------------------------------------- */
 /* If this is a dictionary, set all attributes                          */
+/*  Set block of attributes.                                            */
 /* -------------------------------------------------------------------- */
     if (attr_CV->nbObjects != -1) {
         key_CV = cmor_CV_rootsearch(CV, szKey);
         list_CV = cmor_CV_search_child_key(key_CV, szValue);
-        if( list_CV == NULL) {
+        if (list_CV == NULL) {
             cmor_pop_traceback();
             return (0);
         }
         nObjects = list_CV->nbObjects;
-        for(j = 0; i < nObjects; i++) {
+        for (j = 0; i < nObjects; i++) {
             CV_key = &list_CV->oValue[i];
-            if( CV_key->szValue[0] != '\0') {
-            cmor_set_cur_dataset_attribute_internal(CV_key->key,
-                                                    CV_key->szValue, 1);
+            if (CV_key->szValue[0] != '\0') {
+                cmor_set_cur_dataset_attribute_internal(CV_key->key,
+                        CV_key->szValue, 1);
             }
         }
     }
