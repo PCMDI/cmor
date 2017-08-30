@@ -730,7 +730,7 @@ def write(var_id, data, ntimes_passed=None, file_suffix="",
                         "Error: your data shape (%s) does not match the expected variable shape (%s)\nCheck your variable dimensions before caling cmor_write" %
                         (str(osh), str(ogoodshape)))
             j += 1
-        elif ntimes_passed != 1:
+        else:
             j += 1
 
     data = numpy.ascontiguousarray(numpy.ravel(data))
