@@ -46,6 +46,19 @@ class readWCRP():
             del root[key]['release_year']
             del root[key]['label_extended']
             del root[key]['model_component']
+
+    def createExperimentID(self,myjson):
+        #
+        # Delete undesirable attribute for experiement_id
+        #
+        root = myjson['experiment_id']
+        for key in root.keys():
+            del root[key]['tier']
+            del root[key]['start_year']
+            del root[key]['end_year']
+            del root[key]['description']
+            del root[key]['min_number_yrs_per_sim']
+
     def readGit(self):
         Dico = OrderedDict()
         for file in filelist:
@@ -56,6 +69,8 @@ class readWCRP():
             myjson = json.loads(urlJson, object_pairs_hook=OrderedDict)
             if(file == 'CMIP6_source_id.json'):
                 self.createSource(myjson)
+            if(file == 'CMIP6_experiment_id.json'):
+                self.createExperimentID(myjson)
             Dico = OrderedDict(Dico.items() + myjson.items())
          
         finalDico = OrderedDict()
@@ -79,7 +94,7 @@ def run():
     regexp["forcing_index"] = [ "^\\[\\{0,\\}[[:digit:]]\\{1,\\}\\]\\{0,\\}$" ]
     regexp["initialization_index"] = [ "^\\[\\{0,\\}[[:digit:]]\\{1,\\}\\]\\{0,\\}$" ]
     regexp["data_specs_version"] = [ "^[[:digit:]]\\{2,2\\}\\.[[:digit:]]\\{2,2\\}\\.[[:digit:]]\\{2,2\\}$" ]
-    regexp["license"] = [ "^CMIP6 model data produced by .* is licensed under a Creative Commons Attribution.*ShareAlike 4.0 International License (https://creativecommons.org/licenses)\\. Consult https://pcmdi.llnl.gov/CMIP6/TermsOfUse for terms of use governing CMIP6 output, including citation requirements and proper acknowledgment\\. Further information about this data, including some limitations, can be found via the further_info_url (recorded as a global attribute in this file) .*\\. The data producers and data providers make no warranty, either express or implied, including, but not limited to, warranties of merchantability and fitness for a particular purpose\\. All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law\\.$" ]
+    regexp["license"] = [ "^CMIP6 model data produced by .* is licensed under a Creative Commons Attribution.*ShareAlike 4.0 International License (https://creativecommons.org/licenses)\\. Consult https://pcmdi.llnl.gov/CMIP6/TermsOfUse for terms of use governing CMIP6 output, including citation requirements and proper acknowledgment\\. Further information about this data, including some limitations, can be found via the further_info_url (recorded as a global attribute in this file).*\\. The data producers and data providers make no warranty, either express or implied, including, but not limited to, warranties of merchantability and fitness for a particular purpose\\. All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law\\.$" ]
 
     CV['CV'] = OrderedDict(CV['CV'].items() + regexp.items())
     f.write(json.dumps(CV, indent=4, separators=(',', ':'), sort_keys=False) )

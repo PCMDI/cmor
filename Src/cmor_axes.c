@@ -474,7 +474,7 @@ int cmor_check_monotonic(double *values, int length, char *name, int isbounds,
     if (isbounds == 1) {
         for (i = 0; i < length / 2 - 2; i++) {
             if (((values[2 * i] - values[2 * i + 2])
-                 * (values[2 * i + 2] - values[2 * i + 4])) < 0.) {
+                 * (values[2 * i + 2] - values[2 * i + 4])) <= 0.) {
                 if (cmor_isLongitude(refaxis) == 1) {
                     treatlon = 1;
                 } else {
@@ -517,7 +517,7 @@ int cmor_check_monotonic(double *values, int length, char *name, int isbounds,
                 for (i = 0; i < length - 4; i++) {
                     tmp = (values2[i] - values2[i + 2])
                       * (values2[i + 2] - values2[i + 4]);
-                    if (tmp < 0)
+                    if (tmp <= 0)
                         break;
                 }
                 if (tmp < 0) {  /* ok we flip floppped */
@@ -610,7 +610,7 @@ int cmor_check_monotonic(double *values, int length, char *name, int isbounds,
 /* -------------------------------------------------------------------- */
             for (i = 0; i < length / 2 - 2; i++) {
                 if (((values[2 * i] - values[2 * i + 2])
-                     * (values[2 * i + 2] - values[2 * i + 4])) < 0.) {
+                     * (values[2 * i + 2] - values[2 * i + 4])) <= 0.) {
                     snprintf(msg, CMOR_MAX_STRING,
                              "axis %s (table: %s), has really non monotonic\n! "
                              "bounds values : %lf, %lf, %lf", name,
@@ -711,7 +711,7 @@ int cmor_check_monotonic(double *values, int length, char *name, int isbounds,
     } else {
         for (i = 0; i < length - 2; i++) {
             if (((values[i] - values[i + 1]) * (values[i + 1] - values[i + 2]))
-                < 0.) {
+                <= 0.) {
                 if (cmor_isLongitude(refaxis) == 1) {
                     treatlon = 1;
                     break;
@@ -751,7 +751,7 @@ int cmor_check_monotonic(double *values, int length, char *name, int isbounds,
                 for (i = 0; i < length - 2; i++) {
                     tmp = (values2[i] - values2[i + 1])
                       * (values2[i + 1] - values2[i + 2]);
-                    if (tmp < 0)
+                    if (tmp <= 0)
                         break;
                 }
 /* -------------------------------------------------------------------- */
@@ -848,7 +848,7 @@ int cmor_check_monotonic(double *values, int length, char *name, int isbounds,
 /* -------------------------------------------------------------------- */
             for (i = 0; i < length - 2; i++) {
                 if (((values[i] - values[i + 1])
-                     * (values[i + 1] - values[i + 2])) < 0.) {
+                     * (values[i + 1] - values[i + 2])) <= 0.) {
                     snprintf(msg, CMOR_MAX_STRING,
                              "axis %s (table: %s) has non monotonic values : %lf, %lf and  %lf",
                              name,

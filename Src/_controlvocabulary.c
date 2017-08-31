@@ -4,8 +4,8 @@
 #include "numpy/arrayobject.h"
 #include "cmor.h"
 
-extern int cmor_CV_variable(int *, char *, char *, float *,
-                            float, float, float, float);
+extern int cmor_CV_variable(int *, char *, char *, double *,
+                            double, double, double, double);
 
 /************************************************************************/
 /*                       PyCV_checkFilename                             */
@@ -555,15 +555,15 @@ static PyObject *PyCV_setup_variable(PyObject * self, PyObject * args)
 {
     char *name;
     char *units;
-    float missing;
-    float startime;
-    float endtime;
-    float startimebnds;
-    float endtimebnds;
+    double missing;
+    double startime;
+    double endtime;
+    double startimebnds;
+    double endtimebnds;
 
     int var_id;
 
-    if (!PyArg_ParseTuple(args, "ssfffff", &name, &units, &missing,
+    if (!PyArg_ParseTuple(args, "ssddddd", &name, &units, &missing,
                           &startime, &endtime, &startimebnds, &endtimebnds)) {
         return (Py_BuildValue("i", -1));
     }

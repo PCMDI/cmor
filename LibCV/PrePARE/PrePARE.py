@@ -277,6 +277,15 @@ class checkCMIP6(object):
         varmissing = self.infile[self.var[0]]._FillValue[0]
         varid = cmip6_cv.setup_variable(self.var[0], varunits, varmissing, startime, endtime,
                                         startimebnds, endtimebnds)
+        if(varid == -1):
+            print bcolors.FAIL
+            print "====================================================================================="
+            print " Could not find variable '%s' in table '%s' " % (self.var[0], self.cmip6_table)
+            print "====================================================================================="
+            print bcolors.ENDC
+            cmip6_cv.set_CV_Error()
+            return
+ 
         fn = os.path.basename(self.infile.id)
         cmip6_cv.check_filename(
             self.table_id,
@@ -337,6 +346,7 @@ class checkCMIP6(object):
                     file_value = file_value[:idx]
                     table_value = table_value[:idx]
 
+
                 file_value = str(file_value)
                 table_value = str(table_value)
                 if table_value != file_value:
@@ -350,6 +360,9 @@ class checkCMIP6(object):
             else:
                 # That attribute is not in the file
                 table_value = prepLIST[key]
+                if key == "cell_measures":
+                    if((table_value.find("OPT") != -1) or (table_value.find("MODEL") != -1)):
+                        continue
                 if isinstance(table_value, numpy.ndarray):
                     table_value = table_value[0]
                 if isinstance(table_value, float):
