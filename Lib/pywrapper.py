@@ -730,7 +730,7 @@ def write(var_id, data, ntimes_passed=None, file_suffix="",
                         "Error: your data shape (%s) does not match the expected variable shape (%s)\nCheck your variable dimensions before caling cmor_write" %
                         (str(osh), str(ogoodshape)))
             j += 1
-        elif ntimes_passed != 1:
+        else:
             j += 1
 
     data = numpy.ascontiguousarray(numpy.ravel(data))
@@ -951,6 +951,15 @@ def get_cur_dataset_attribute(name):
     else:
         return None
 
+
+def set_furtherinfourl(varid):
+    """Sets further_url_info attribute for ES-DOC
+    Usage:
+      cmor.set_futherurlinfo(var_id)
+    Where:
+      var_id: is cmor variable id
+    """
+    return _cmor.set_furtherinfourl(varid)
 
 def set_variable_attribute(var_id, name, value):
     """Sets an attribute onto a cmor variable

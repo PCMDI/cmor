@@ -1,36 +1,18 @@
 {
     "Header": {
-        "data_specs_version": "01.00.13", 
+        "data_specs_version": "01.00.15", 
         "table_id": "Table 6hrPlevPt", 
         "realm": "atmos", 
         "cmor_version": "3.2", 
-        "table_date": "12 July 2017", 
+        "table_date": "03 August 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
-        "approx_interval": "", 
+        "approx_interval": "0.250000", 
         "generic_levels": "", 
         "mip_era": "CMIP6", 
         "Conventions": "CF-1.7 CMIP-6.0"
     }, 
     "variable_entry": {
-        "albsrfc": {
-            "frequency": "6hr", 
-            "modeling_realm": "aerosol", 
-            "standard_name": "surface_albedo", 
-            "units": "1.0", 
-            "cell_methods": "area: mean time: point", 
-            "cell_measures": "area: areacella", 
-            "long_name": "surface albedo", 
-            "comment": "", 
-            "dimensions": "longitude latitude time1", 
-            "out_name": "albsrfc", 
-            "type": "float", 
-            "positive": "", 
-            "valid_min": "", 
-            "valid_max": "", 
-            "ok_min_mean_abs": "", 
-            "ok_max_mean_abs": ""
-        }, 
         "cldicemxrat27": {
             "frequency": "6hr", 
             "modeling_realm": "atmos", 

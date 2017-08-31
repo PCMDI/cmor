@@ -1,14 +1,14 @@
 {
     "Header": {
-        "data_specs_version": "01.00.13", 
+        "data_specs_version": "01.00.15", 
         "table_id": "Table E3hr", 
         "realm": "land", 
         "cmor_version": "3.2", 
-        "table_date": "12 July 2017", 
+        "table_date": "03 August 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "0.125000", 
-        "generic_levels": "alevel", 
+        "generic_levels": "alevel alevhalf", 
         "mip_era": "CMIP6", 
         "Conventions": "CF-1.7 CMIP-6.0"
     }, 
@@ -70,7 +70,7 @@
         "prcsh": {
             "frequency": "3hr", 
             "modeling_realm": "atmos", 
-            "standard_name": "hallow_convective_precipitation_flux", 
+            "standard_name": "shallow_convective_precipitation_flux", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
@@ -92,7 +92,7 @@
             "units": "kg m-2 s-1", 
             "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
-            "long_name": "Rainfall Flux where Ice Free Ocean over Sea", 
+            "long_name": "Rainfall Flux", 
             "comment": "", 
             "dimensions": "longitude latitude time", 
             "out_name": "prra", 
