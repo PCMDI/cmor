@@ -5660,7 +5660,7 @@ int cmor_build_outname(int var_id, char *outname ) {
             frequency_code = 1;
         } else if (strstr(frequency, "dec") != NULL) {
             frequency_code = 1;
-        } else if (strstr(frequency, "monClim") != NULL) {
+        } else if (strstr(frequency, "monC") != NULL) {
             frequency_code = 6;
         } else if (strstr(frequency, "mon") != NULL) {
             frequency_code = 2;
@@ -5726,7 +5726,7 @@ int cmor_build_outname(int var_id, char *outname ) {
 
             break;
         case 6:
-            // frequency is monClim
+            // frequency is monC
             // add/subtract 1 hour (this is overkill, but safe)
             // to prevent truncation errors from possibly leading you to
             // the wrong month

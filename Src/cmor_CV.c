@@ -1584,7 +1584,7 @@ int cmor_CV_checkFilename(cmor_CV_def_t * CV, int var_id,
             frequency_code = 1;
         } else if (strstr(frequency, "dec") != NULL) {
             frequency_code = 1;
-        } else if (strstr(frequency, "monClim") != NULL) {
+        } else if (strstr(frequency, "monC") != NULL) {
             frequency_code = 6;
         } else if (strstr(frequency, "mon") != NULL) {
             frequency_code = 2;
@@ -1649,7 +1649,7 @@ int cmor_CV_checkFilename(cmor_CV_def_t * CV, int var_id,
 
             break;
         case 6:
-            // frequency is monClim
+            // frequency is monC
             // add/subtract 1 hour (this is overkill, but safe)
             // to prevent truncation errors from possibly leading you to
             // the wrong month
