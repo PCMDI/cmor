@@ -1,0 +1,40 @@
+package:
+    name: cmor
+    version: @VERSION@
+
+source:
+    git_rev: @UVCDAT_BRANCH@
+    git_url: git://github.com/PCMDI/cmor.git
+
+build:
+  number: @BUILD_NUMBER@
+
+test:
+  requires:
+    - python
+    - gcc [osx]
+  imports:
+    - cmor
+
+requirements:
+  build:
+    - python
+    - ossuuid 1.6.2
+    - udunits2
+    - hdf5 1.8.17
+    - libnetcdf 4.4.1
+    - numpy x.x
+    - gcc [osx]
+  run:
+    - python
+    - ossuuid 1.6.2
+    - udunits2
+    - libnetcdf 4.4.1
+    - numpy x.x
+    - cdms2
+    - gcc [osx]
+    - hdf5 1.8.17
+
+about:
+    home:  http://gitub.com/PCMDI
+
