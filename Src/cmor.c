@@ -2664,9 +2664,14 @@ int cmor_setGblAttr(int var_id)
     if (did_history == 0) {
         snprintf(ctmp, CMOR_MAX_STRING,
                  "%s CMOR rewrote data to be consistent with CF standards"
-                 " and %s requirements.", msg,
-                 cmor_tables[nVarRefTblID].mip_era);
-
+                 , msg);
+        if (cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP6) == 0) {
+            char CMIP6msg[CMOR_MAX_STRING];
+            snprintf(CMIP6msg, CMOR_MAX_STRING, " and %s requirements",
+                    cmor_tables[nVarRefTblID].mip_era);
+            strcat(ctmp, CMIP6msg);
+        }
+        strcat(ctmp,".");
         if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_HISTORY) == 0) {
             cmor_get_cur_dataset_attribute(GLOBAL_ATT_HISTORY, msg);
             snprintf(ctmp2, CMOR_MAX_STRING, "%s ; %s", msg, ctmp);
@@ -5825,9 +5830,6 @@ int cmor_close_variable(int var_id, char *file_name, int *preserve)
     cdCalenType icalo;
     cdCompTime starttime, endtime;
     int i, j, n;
-    // struct stat buf;
-    // off_t sz;
-    // long maxsz = (long)pow(2, 32) - 1;
 
     cmor_add_traceback("cmor_close_variable");
     cmor_is_setup();

@@ -55,7 +55,7 @@ except BaseException:
 var3d_ids = cmor.variable(
     table_entry='co3',
     units='mol m-3',
-    axis_ids=numpy.array((ilon, ilat, itim)),
+    axis_ids=numpy.array([ilon, ilat, itim]),
     missing_value=numpy.array([1.0e28, ], dtype=numpy.float32)[0],
     original_name='cloud')
 

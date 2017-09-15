@@ -1,0 +1,33 @@
+package:
+    name: cmor
+    version: 3.2.7
+
+source:
+    git_rev: master
+    git_url: git://github.com/PCMDI/cmor.git
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - python
+    - ossuuid 1.6.2
+    - udunits2
+    - hdf5 1.8.18
+    - libnetcdf  4.4.*
+    - numpy x.x
+    - gcc [osx]
+  run:
+    - python
+    - ossuuid 1.6.2
+    - udunits2
+    - libnetcdf 4.4.*
+    - numpy x.x
+    - cdms2
+    - libgcc [osx]
+    - hdf5 1.8.18
+
+about:
+    home:  http://gitub.com/PCMDI
+
