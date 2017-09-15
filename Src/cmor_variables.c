@@ -1569,12 +1569,12 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
         }
         for (j = 0; j < refvar.ndims; j++) {
             if ((strcmp
-                 (cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].axes
-                  [cmor_axes[laxes_ids[i]].ref_axis_id].id,
+                 (cmor_tables[cmor_axes[laxes_ids[j]].ref_table_id].axes
+                  [cmor_axes[laxes_ids[j]].ref_axis_id].id,
                   cmor_tables[CMOR_TABLE].axes[refvar.dimensions[j]].id) == 0)
                 ||
-                ((cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].axes
-                  [cmor_axes[laxes_ids[i]].ref_axis_id].axis == 'Z')
+                ((cmor_tables[cmor_axes[laxes_ids[j]].ref_table_id].axes
+                  [cmor_axes[laxes_ids[j]].ref_axis_id].axis == 'Z')
                  && (refvar.dimensions[j] == -2))) {
 
                 k++;

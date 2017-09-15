@@ -1,5 +1,6 @@
 import numpy
 import os
+import warnings
 
 import cmor_const
 import _cmor
@@ -722,16 +723,20 @@ def write(var_id, data, ntimes_passed=None, file_suffix="",
         sh.remove(1)
     while goodshape.count(1) > 0:
         goodshape.remove(1)
+    while goodshape.count(0) > 0:
+        if( len(goodshape) == len(sh)):
+            index = goodshape.index(0)
+            del sh[index]
+            del goodshape[index]
+        else:  # assume time==1 was removed
+            goodshape.remove(0)
+
     for i in range(len(goodshape)):
-        if goodshape[i] != 0:
-            if sh[j] != goodshape[i]:
-                if goodshape[i] != 1:
-                    raise Exception(
-                        "Error: your data shape (%s) does not match the expected variable shape (%s)\nCheck your variable dimensions before caling cmor_write" %
-                        (str(osh), str(ogoodshape)))
-            j += 1
-        else:
-            j += 1
+        if sh[j] != goodshape[i]:
+            if goodshape[i] != 1:
+                msg = "Error: your data shape (%s) does not match the expected variable shape (%s)\nCheck your variable dimensions before caling cmor_write" % (str(osh), str(ogoodshape))
+                warnings.warn(msg)
+        j += 1
 
     data = numpy.ascontiguousarray(numpy.ravel(data))
 
