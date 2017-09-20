@@ -1,4 +1,4 @@
-name: cmor3.2.6
+name: cmor3.2.7
 channels:
 - conda-forge
 - pcmdi
@@ -64,6 +64,6 @@ dependencies:
 - libgfortran=3.0.0=1
 - mkl=2017.0.3=0
 - numpy=1.13.1=py27_0
-- pcmdi::cmor=3.2.6=np113py27_0
-prefix: /software/anaconda2/envs/cmor3.2.6
+- pcmdi::cmor=3.2.7=np113py27_0
+prefix: /software/anaconda2/envs/cmor3.2.7
 
