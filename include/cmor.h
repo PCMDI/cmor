@@ -183,7 +183,7 @@
 #define GLOBAL_ATT_FURTHERINFOURLTMPL GLOBAL_INTERNAL"further_info_url_tmpl"
 #define GLOBAL_ATT_GRID_LABEL         "grid_label"
 #define GLOBAL_ATT_GRID_RESOLUTION    "nominal_resolution"
-#define GLOBAL_ATT_TITLE_MSG          "%s model output prepared for %s"
+#define GLOBAL_ATT_TITLE_MSG          "%s output prepared for %s"
 #define GLOBAL_ATT_EXTERNAL_VAR       "external_variables"
 #define GLOBAL_ATT_MIP_ERA            "mip_era"
 #define GLOBAL_CV_FILENAME            GLOBAL_INTERNAL"control_vocabulary_file"
