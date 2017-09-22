@@ -19,6 +19,9 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <signal.h>
+#include <sys/sendfile.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 /* ==================================================================== */
 /*      this is defining NETCDF4 variable if we are                     */
@@ -104,6 +107,8 @@ int CMOR_CREATE_SUBDIRECTORIES = 1;
 
 char cmor_input_path[CMOR_MAX_STRING];
 char cmor_traceback_info[CMOR_MAX_STRING];
+
+int bAppendMode = FALSE;
 
 volatile sig_atomic_t stop = 0;
 
@@ -2423,11 +2428,66 @@ void cmor_checkMissing(int varid, int var_id, char type)
     }
     cmor_pop_traceback();
 }
+/************************************************************************/
+/*                           copyfile()                                 */
+/************************************************************************/
+int copyfile(const char *to, const char *from) {
+    int fd_to, fd_from;
+    char buf[4096];
+    ssize_t nread;
+    int saved_errno;
+
+    fd_from = open(from, O_RDONLY);
+    if (fd_from < 0)
+        return (-1);
+
+    fd_to = open(to, O_WRONLY | O_CREAT | O_EXCL, 0666);
+    if (fd_to < 0)
+        goto out_error;
+
+    while (nread = read(fd_from, buf, sizeof buf), nread > 0) {
+        char *out_ptr = buf;
+        ssize_t nwritten;
+
+        do {
+            nwritten = write(fd_to, out_ptr, nread);
+
+            if (nwritten >= 0) {
+                nread -= nwritten;
+                out_ptr += nwritten;
+            } else if (errno != EINTR) {
+                goto out_error;
+            }
+        } while (nread > 0);
+    }
+
+    if (nread == 0) {
+        if (close(fd_to) < 0) {
+            fd_to = -1;
+            goto out_error;
+        }
+        close(fd_from);
+
+        /* Success! */
+        unlink(from);
+
+        return (0);
+    }
+
+    out_error: saved_errno = errno;
+
+    close(fd_from);
+    if (fd_to >= 0)
+        close(fd_to);
+
+    errno = saved_errno;
+    return (-1);
+}
 
 /************************************************************************/
 /*                    cmor_validateFilename()                           */
 /************************************************************************/
-int cmor_validateFilename(char *outname, int var_id)
+int cmor_validateFilename(char *outname, char *file_suffix, int var_id)
 {
     int cmode;
     int ierr;
@@ -2480,7 +2540,7 @@ int cmor_validateFilename(char *outname, int var_id)
 /*      ok first let's check if the file does exists or not             */
 /* -------------------------------------------------------------------- */
         fperr = NULL;
-        fperr = fopen(outname, "r");
+        fperr = fopen(file_suffix, "r");
         if (fperr == NULL) {
 
 /* -------------------------------------------------------------------- */
@@ -2489,9 +2549,10 @@ int cmor_validateFilename(char *outname, int var_id)
             ierr = nc_create(outname, NC_CLOBBER | cmode, &ncid);
 
         } else {                /*ok it was there already */
-
+            bAppendMode = TRUE;
             ierr = fclose(fperr);
             fperr = NULL;
+            copyfile(outname, file_suffix);
             ierr = nc_open(outname, NC_WRITE, &ncid);
 
             if (ierr != NC_NOERR) {
@@ -3798,7 +3859,7 @@ int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af,
     int nelts;
     int ics, icd, icdl;
 
-    cmor_add_traceback("cmor_define_dimensions");
+    cmor_add_traceback("cmor_grids_def");
 /* -------------------------------------------------------------------- */
 /*      first of all checks for grid_mapping                            */
 /* -------------------------------------------------------------------- */
@@ -4180,7 +4241,7 @@ void create_singleton_dimensions(int var_id, int ncid, int *nc_singletons,
 /************************************************************************/
 /*                             cmor_write()                             */
 /************************************************************************/
-int cmor_write(int var_id, void *data, char type,
+int cmor_write(int var_id, void *data, char type, char *file_suffix,
                int ntimes_passed, double *time_vals, double *time_bounds,
                int *refvar)
 {
@@ -4369,7 +4430,8 @@ int cmor_write(int var_id, void *data, char type,
 /* -------------------------------------------------------------------- */
 /*      Decides NetCDF mode                                             */
 /* -------------------------------------------------------------------- */
-        ncid = cmor_validateFilename(outname, var_id);
+        ncid = cmor_validateFilename(outname, file_suffix, var_id);
+        if(!bAppendMode) {
 /* -------------------------------------------------------------------- */
 /*      we closed and reopened the same test, in case we                */
 /*      were appending, in which case all declaration have              */
@@ -4381,118 +4443,112 @@ int cmor_write(int var_id, void *data, char type,
 /*                                                                      */
 /*      define global attributes                                        */
 /* -------------------------------------------------------------------- */
-        if (cmor_current_dataset.initiated == 0) {
-            snprintf(msg, CMOR_MAX_STRING,
-                     "you need to initialize the dataset by calling "
-                     "cmor_dataset before calling cmor_write");
-            cmor_handle_error_var(msg, CMOR_NORMAL, var_id);
-            cmor_pop_traceback();
-            return (1);
-        }
+            if (cmor_current_dataset.initiated == 0) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "you need to initialize the dataset by calling "
+                                "cmor_dataset before calling cmor_write");
+                cmor_handle_error_var(msg, CMOR_NORMAL, var_id);
+                cmor_pop_traceback();
+                return (1);
+            }
 
-        cleanup_varid = var_id;
-        ncafid = ncid;
+            cleanup_varid = var_id;
+            ncafid = ncid;
 
 /* -------------------------------------------------------------------- */
 /*      make sure we are in def mode                                    */
 /* -------------------------------------------------------------------- */
-        ierr = nc_redef(ncafid);
-        if (ierr != NC_NOERR && ierr != NC_EINDEFINE) {
-            snprintf(msg, CMOR_MAX_STRING,
-                     "NetCDF Error (%i: %s) putting metadata file (%s) in\n! "
-                     "def mode, nc file id was: %i, you were writing\n! "
-                     "variable %s (table: %s)",
-                     ierr, nc_strerror(ierr),
-                     cmor_current_dataset.associated_file_name, ncafid,
-                     cmor_vars[var_id].id,
-                     cmor_tables[nVarRefTblID].szTable_id);
-            cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
-            cmor_pop_traceback();
-            return (1);
-        }
+            ierr = nc_redef(ncafid);
+            if (ierr != NC_NOERR && ierr != NC_EINDEFINE) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "NetCDF Error (%i: %s) putting metadata file (%s) in\n! "
+                                "def mode, nc file id was: %i, you were writing\n! "
+                                "variable %s (table: %s)", ierr,
+                        nc_strerror(ierr),
+                        cmor_current_dataset.associated_file_name, ncafid,
+                        cmor_vars[var_id].id,
+                        cmor_tables[nVarRefTblID].szTable_id);
+                cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
+                cmor_pop_traceback();
+                return (1);
+            }
 
-        ierr = cmor_writeGblAttr(var_id, ncid, ncafid);
-        if (ierr != 0) {
-            return (ierr);
-        }
+            ierr = cmor_writeGblAttr(var_id, ncid, ncafid);
+            if (ierr != 0) {
+                return (ierr);
+            }
 
 /* -------------------------------------------------------------------- */
 /*      store netcdf file id associated with this variable              */
 /* -------------------------------------------------------------------- */
-        cmor_vars[var_id].initialized = ncid;
+            cmor_vars[var_id].initialized = ncid;
+
 /* -------------------------------------------------------------------- */
 /*      define dimensions in NetCDF file                                */
 /* -------------------------------------------------------------------- */
-        cmor_define_dimensions(var_id, ncid, ncafid, time_bounds, nc_dim,
-                               nc_vars, nc_bnds_vars, nc_vars_af,
-                               nc_dim_chunking, &dim_bnds, zfactors,
-                               nc_zfactors, nc_dim_af, &nzfactors);
-
+            cmor_define_dimensions(var_id, ncid, ncafid, time_bounds, nc_dim,
+                    nc_vars, nc_bnds_vars, nc_vars_af, nc_dim_chunking,
+                    &dim_bnds, zfactors, nc_zfactors, nc_dim_af, &nzfactors);
 /* -------------------------------------------------------------------- */
 /*      Store the dimension id for reuse when writing                   */
 /*      over multiple call to cmor_write                                */
 /* -------------------------------------------------------------------- */
-        cmor_vars[var_id].time_nc_id = nc_vars[0];
+            cmor_vars[var_id].time_nc_id = nc_vars[0];
 
-        int nGridID;
-        nGridID = cmor_vars[var_id].grid_id;
+            int nGridID;
+            nGridID = cmor_vars[var_id].grid_id;
 /* -------------------------------------------------------------------- */
 /*      check if it is a grid thing                                     */
 /* -------------------------------------------------------------------- */
-        if (nGridID > -1) {
-            ierr = cmor_grids_def(var_id, nGridID, ncafid, nc_dim_af,
-                                  nc_associated_vars);
-            if (ierr)
-                return (ierr);
-        }
+            if (nGridID > -1) {
+                ierr = cmor_grids_def(var_id, nGridID, ncafid, nc_dim_af,
+                        nc_associated_vars);
+                if (ierr)
+                    return (ierr);
+            }
 
-        create_singleton_dimensions(var_id, ncid,
-                                    nc_singletons, nc_singletons_bnds,
-                                    &dim_bnds);
+            create_singleton_dimensions(var_id, ncid, nc_singletons,
+                    nc_singletons_bnds, &dim_bnds);
 
 /* -------------------------------------------------------------------- */
 /*      Creating variable to write                                      */
 /* -------------------------------------------------------------------- */
-        mtype = cmor_vars[var_id].type;
-        if (mtype == 'd')
-            ierr =
-              nc_def_var(ncid, cmor_vars[var_id].id, NC_DOUBLE,
-                         cmor_vars[var_id].ndims, &nc_dim[0],
-                         &nc_vars[cmor_vars[var_id].ndims]);
-        else if (mtype == 'f')
-            ierr =
-              nc_def_var(ncid, cmor_vars[var_id].id, NC_FLOAT,
-                         cmor_vars[var_id].ndims, &nc_dim[0],
-                         &nc_vars[cmor_vars[var_id].ndims]);
-        else if (mtype == 'l')
-            ierr =
-              nc_def_var(ncid, cmor_vars[var_id].id, NC_INT,
-                         cmor_vars[var_id].ndims, &nc_dim[0],
-                         &nc_vars[cmor_vars[var_id].ndims]);
-        else if (mtype == 'i')
-            ierr =
-              nc_def_var(ncid, cmor_vars[var_id].id, NC_INT,
-                         cmor_vars[var_id].ndims, &nc_dim[0],
-                         &nc_vars[cmor_vars[var_id].ndims]);
-        if (ierr != NC_NOERR) {
-            snprintf(msg, CMOR_MAX_STRING,
-                     "NetCDF Error (%i: %s) writing variable: %s (table: %s)",
-                     ierr, nc_strerror(ierr), cmor_vars[var_id].id,
-                     cmor_tables[nVarRefTblID].szTable_id);
-            cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
-        }
+            mtype = cmor_vars[var_id].type;
+            if (mtype == 'd')
+                ierr = nc_def_var(ncid, cmor_vars[var_id].id, NC_DOUBLE,
+                        cmor_vars[var_id].ndims, &nc_dim[0],
+                        &nc_vars[cmor_vars[var_id].ndims]);
+            else if (mtype == 'f')
+                ierr = nc_def_var(ncid, cmor_vars[var_id].id, NC_FLOAT,
+                        cmor_vars[var_id].ndims, &nc_dim[0],
+                        &nc_vars[cmor_vars[var_id].ndims]);
+            else if (mtype == 'l')
+                ierr = nc_def_var(ncid, cmor_vars[var_id].id, NC_INT,
+                        cmor_vars[var_id].ndims, &nc_dim[0],
+                        &nc_vars[cmor_vars[var_id].ndims]);
+            else if (mtype == 'i')
+                ierr = nc_def_var(ncid, cmor_vars[var_id].id, NC_INT,
+                        cmor_vars[var_id].ndims, &nc_dim[0],
+                        &nc_vars[cmor_vars[var_id].ndims]);
+            if (ierr != NC_NOERR) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "NetCDF Error (%i: %s) writing variable: %s (table: %s)",
+                        ierr, nc_strerror(ierr), cmor_vars[var_id].id,
+                        cmor_tables[nVarRefTblID].szTable_id);
+                cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
+            }
 
 /* -------------------------------------------------------------------- */
 /*      Store the var id for reuse when writing                         */
 /*      over multiple call to cmor_write and for cmor_close             */
 /* -------------------------------------------------------------------- */
-        cmor_vars[var_id].nc_var_id = nc_vars[cmor_vars[var_id].ndims];
+            cmor_vars[var_id].nc_var_id = nc_vars[cmor_vars[var_id].ndims];
 
-        cmor_create_var_attributes(var_id, ncid, ncafid, nc_vars, nc_bnds_vars,
-                                   nc_vars_af, nc_associated_vars,
-                                   nc_singletons, nc_singletons_bnds,
-                                   nc_zfactors, zfactors, nzfactors,
-                                   nc_dim_chunking, outname);
+            cmor_create_var_attributes(var_id, ncid, ncafid, nc_vars,
+                    nc_bnds_vars, nc_vars_af, nc_associated_vars, nc_singletons,
+                    nc_singletons_bnds, nc_zfactors, zfactors, nzfactors,
+                    nc_dim_chunking, outname);
+        }
 
     } else {
 /* --------------------------------------------------------------------- */

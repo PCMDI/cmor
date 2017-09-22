@@ -89,9 +89,9 @@ extern int cmor_define_zfactors_vars( int var_id, int ncid, int *nc_dim,
 				      int i, int dim_bnds );
 extern int cmor_create_output_path( int var_id, char *outpath );
 extern double cmor_convert_interval_to_seconds( double val, char *units );
-extern int cmor_validateFilename(char *outname, int var_id);
+extern int cmor_validateFilename(char *outname, char *suffix, int var_id);
 
-extern int cmor_write( int var_id, void *data, char type,
+extern int cmor_write( int var_id, void *data, char type, char *file_suffix,
 		       int ntimes_passed, double *time_vals,
 		       double *time_bounds, int *refvar );
 extern int cmor_close_variable( int var_id, char *file_name,
@@ -127,6 +127,7 @@ extern void create_singleton_dimensions(int var_id, int ncid,
 
 
 
+extern int copyfile(const char *source, const char *dest);
 
 /* ==================================================================== */
 /*      Control Vocabulary                                              */

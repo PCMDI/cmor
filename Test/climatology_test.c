@@ -158,7 +158,7 @@ int test_convert(void)
     for (i = 0; i < 12; i++) {
         fill_values(co2, NLON * NLAT, NPLEV, 300. + i, .01);
 
-        if (cmor_write(varid, co2, 'f', NULL, 1,
+        if (cmor_write(varid, co2, 'f', NULL, NULL, 1,
                        time + i, time_bnds + 2 * i, NULL) != 0) {
             fprintf(stderr, "failed to write var(t=%d).\n", i);
             return -1;

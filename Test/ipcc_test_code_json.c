@@ -356,27 +356,27 @@ int main()
 /*     ierr = cmor_write(myvars[2],&data3d,'d',id,1,&time,&bnds_time,NULL); */
 /*     read_2d_input_files(i, varin2d[3], &data2d,lat,lon); */
 /*     ierr = cmor_write(myvars[3],&data2d,'d',id,1,&time,&bnds_time,&myvars[2]); */
-    ierr = cmor_write(myvars[0],&data2d,'d',NULL,1,NULL,NULL,NULL);
+    ierr = cmor_write(myvars[0],&data2d,'d',NULL,NULL, 1,NULL,NULL,NULL);
 
     printf("3d\n");
     read_3d_input_files(i, varin3d[2], &data3d,lev,lat,lon);
-    ierr = cmor_write(myvars[1],&data3d,'d',NULL,1,NULL,NULL,NULL);
+    ierr = cmor_write(myvars[1],&data3d,'d',NULL,NULL, 1,NULL,NULL,NULL);
     printf("writing tas\n");
     read_2d_input_files(i, varin2d[1], &data2d,lat,lon);
-    ierr = cmor_write(myvars[5],&data2d,'d',NULL,1,NULL,NULL,NULL);
+    ierr = cmor_write(myvars[5],&data2d,'d',NULL,NULL, 1,NULL,NULL,NULL);
 
     printf("3d zfactor\n");
     read_3d_input_files(i, varin3d[0], &data3d,5,lat,lon);
-    ierr = cmor_write(myvars[2],&data3d,'d',NULL,1,NULL,NULL,NULL);
+    ierr = cmor_write(myvars[2],&data3d,'d',NULL,NULL, 1,NULL,NULL,NULL);
 
     printf("writing ps\n");
     read_2d_input_files(i, varin2d[3], &data2d,lat,lon);
-    ierr = cmor_write(myvars[3],&data2d,'d',NULL,1,NULL,NULL,&myvars[2]);
+    ierr = cmor_write(myvars[3],&data2d,'d',NULL,NULL, 1,NULL,NULL,&myvars[2]);
 
     /* rereading hfls to fake hfogo */
     printf("2d region\n");
     read_2d_input_files(i, "htov", &data2d,lat,lon);
-    ierr = cmor_write(myvars[4],&data2d,'d',NULL,1,NULL,NULL,NULL);
+    ierr = cmor_write(myvars[4],&data2d,'d',NULL,NULL, 1,NULL,NULL,NULL);
   }
   ierr = cmor_close_variable(myvars[0],NULL,NULL);
   ierr = cmor_close();

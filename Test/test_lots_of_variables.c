@@ -321,7 +321,7 @@ int main()
             /*     read_2d_input_files(i, varin2d[3], &data2d,lat,lon); */
             /*     ierr = cmor_write(myvars[3],&data2d,'d',id,1,&time,&bnds_time,&myvars[2]); */
             printf("ok writing time %i for variable %i\n", i, m);
-            ierr = cmor_write(myvars[m], &data2d, 'd', 1, NULL, NULL, NULL);
+            ierr = cmor_write(myvars[m], &data2d, 'd', NULL, 1, NULL, NULL, NULL);
         }
         ierr = cmor_close_variable(myvars[m], NULL, NULL);
     }

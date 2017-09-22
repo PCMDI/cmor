@@ -192,6 +192,7 @@ for i in range(ntimes):
         myvars[0],
         numpy.ravel(data2d),
         data2d.dtype.char,
+        "",
         1,
         None,
         None,
