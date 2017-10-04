@@ -95,8 +95,6 @@ def mywrite(data=None, time_vals=None, append_to=None, cell_bounds=None):
 ntime = 12
 data = numpy.random.random((ntime, 19, nlat, nlon)) + 280.
 
-import pdb
-pdb.set_trace()
 f1 = mywrite(data=data[:6], time_vals=numpy.arange(
     0, 6, 1), cell_bounds=numpy.arange(0, 7, 1))
 print 'First part: ', f1

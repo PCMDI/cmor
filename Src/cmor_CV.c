@@ -725,7 +725,7 @@ int CV_VerifyNBElement(cmor_CV_def_t * CV)
                  CV->key, CV_Filename);
         cmor_handle_error(msg, CMOR_NORMAL);
         cmor_pop_traceback();
-        return (1);
+        return (0);
     } else if (CV->anElements == -1) {
         snprintf(msg, CMOR_MAX_STRING,
                  "Your %s has more than 0 element\n! "
@@ -734,7 +734,7 @@ int CV_VerifyNBElement(cmor_CV_def_t * CV)
 
         cmor_handle_error(msg, CMOR_NORMAL);
         cmor_pop_traceback();
-        return (1);
+        return (0);
     }
     cmor_pop_traceback();
     return (0);
@@ -1519,7 +1519,7 @@ int cmor_CV_checkFilename(cmor_CV_def_t * CV, int var_id,
                     cmor_tables[cmor_vars[var_id].ref_table_id].szTable_id);
             cmor_handle_error_var(szInTimeCalendar, CMOR_CRITICAL, var_id);
             cmor_pop_traceback();
-            return (1);
+            return (-1);
         }
         //Compute timestamps
 
@@ -1680,7 +1680,7 @@ int cmor_CV_checkFilename(cmor_CV_def_t * CV, int var_id,
                     cmor_tables[cmor_vars[var_id].ref_table_id].szTable_id);
             cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
             cmor_pop_traceback();
-            return (1);
+            return (-1);
         }
 
         strncat(outname, "_", CMOR_MAX_STRING - strlen(outname));
