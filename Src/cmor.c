@@ -19,7 +19,6 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <signal.h>
-#include <sys/sendfile.h>
 #include <fcntl.h>
 #include <unistd.h>
 
