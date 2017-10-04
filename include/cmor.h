@@ -162,6 +162,7 @@
 #define GLOBAL_ATT_CONVENTIONS        "Conventions"
 #define GLOBAL_ATT_CREATION_DATE      "creation_date"
 #define GLOBAL_ATT_HISTORY            "history"
+#define GLOBAL_ATT_HISTORYTMPL         GLOBAL_INTERNAL"history_template"
 #define GLOBAL_ATT_TABLE_ID           "table_id"
 #define GLOBAL_ATT_TABLE_INFO         "table_info"
 #define GLOBAL_ATT_EXPERIMENT         "experiment"
@@ -258,6 +259,7 @@
 #define CMOR_DEFAULT_PATH_TEMPLATE    "<mip_era><activity_id><institution_id><source_id><experiment_id><member_id><table><variable_id><grid_label><version>"
 #define CMOR_DEFAULT_FILE_TEMPLATE    "<variable_id><table><source_id><experiment_id><member_id><grid_label>"
 #define CMOR_DEFAULT_FURTHERURL_TEMPLATE "http://furtherinfo.es-doc.org/<mip_era><institution_id><source_id><experiment_id><sub_experiment_id><variant_label>"
+#define CMOR_DEFAULT_HISTORY_TEMPLATE "%s ; CMOR rewrote data to be consistent with <mip_era>, <Conventions> and CF standards."
 //#define EXTERNAL_VARIABLE_REGEX       "([[:alpha:]]+):[[:blank:]]*([[:alpha:]]+)[[:blank:]]*([[:alpha:]]+:[[:blank:]]*([[:alpha:]]+))*"
 #define EXTERNAL_VARIABLE_REGEX       "[[:alpha:]]+:[[:blank:]]*([[:alpha:]]+)([[:blank:]]*[[:alpha:]]+:[[:blank:]]*([[:alpha:]]+))*"
 
@@ -562,7 +564,7 @@ typedef struct cmor_dataset_def_ {
     char file_template[CMOR_MAX_STRING]; /* <keys> for filename */
     char furtherinfourl[CMOR_MAX_STRING]; /* further URL INFO template */
     char finalfilename[CMOR_MAX_STRING]; /* Final output file */
-
+    char history_template[CMOR_MAX_STRING];
 } cmor_dataset_def;
 
 extern cmor_dataset_def cmor_current_dataset;

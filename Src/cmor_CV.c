@@ -1688,8 +1688,9 @@ int cmor_CV_checkFilename(cmor_CV_def_t * CV, int var_id,
         strncat(outname, "-", CMOR_MAX_STRING - strlen(outname));
         strncat(outname, end_string, CMOR_MAX_STRING - strlen(outname));
 
-        if (cmor_tables[cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_table_id].axes[cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_axis_id].climatology
-                == 1) {
+        if (cmor_tables[cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_table_id].
+                axes[cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_axis_id].
+                climatology == 1) {
             strncat(outname, "-clim", CMOR_MAX_STRING - strlen(outname));
         }
 

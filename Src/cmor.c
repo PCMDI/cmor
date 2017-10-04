@@ -1295,6 +1295,9 @@ int cmor_dataset_json(char *ressource)
     strncpytrim(cmor_current_dataset.furtherinfourl,
                 CMOR_DEFAULT_FURTHERURL_TEMPLATE, CMOR_MAX_STRING);
 
+    strncpytrim(cmor_current_dataset.history_template,
+                CMOR_DEFAULT_HISTORY_TEMPLATE, CMOR_MAX_STRING);
+
     json_obj = cmor_open_inpathFile(ressource);
     if (json_obj == NULL) {
         return (1);
@@ -1336,12 +1339,15 @@ int cmor_dataset_json(char *ressource)
             strncpytrim(cmor_current_dataset.file_template,
                         szVal, CMOR_MAX_STRING);
             continue;
+        } else if (strcmp(key, GLOBAL_ATT_HISTORYTMPL) == 0) {
+            strncpytrim(cmor_current_dataset.history_template,
+                        szVal, CMOR_MAX_STRING);
+            continue;
+
         } else if (strcmp(key, GLOBAL_ATT_FURTHERINFOURL) == 0) {
             strncpytrim(cmor_current_dataset.furtherinfourl,
                         szVal, CMOR_MAX_STRING);
-
         }
-
         cmor_set_cur_dataset_attribute_internal(key, szVal, 1);
     }
 
@@ -1505,6 +1511,10 @@ int cmor_set_cur_dataset_attribute_internal(char *name, char *value,
     } else if (strcmp(msg, GLOBAL_ATT_FURTHERINFOURLTMPL) == 0) {
         cmor_trim_string(value, msg);
         strncpytrim(cmor_current_dataset.furtherinfourl, msg, CMOR_MAX_STRING);
+    } else if (strcmp(msg, GLOBAL_ATT_HISTORYTMPL) == 0) {
+        cmor_trim_string(value, msg);
+        strncpytrim(cmor_current_dataset.history_template, msg, CMOR_MAX_STRING);
+
     } else {
         strncpy(cmor_current_dataset.attributes[n].names, msg, CMOR_MAX_STRING);
         cmor_trim_string(value, msg);
@@ -2678,11 +2688,14 @@ int cmor_setGblAttr(int var_id)
     struct tm *ptr;
     time_t lt;
     char msg[CMOR_MAX_STRING];
+    char timestamp[CMOR_MAX_STRING];
     char ctmp[CMOR_MAX_STRING];
     char ctmp2[CMOR_MAX_STRING];
     char words[CMOR_MAX_STRING];
     char trimword[CMOR_MAX_STRING];
     char *szToken;
+    char szHistory[CMOR_MAX_STRING];
+    char szTemplate[CMOR_MAX_STRING];
     int i;
     int n_matches = 10;
     regmatch_t m[n_matches];
@@ -2716,31 +2729,12 @@ int cmor_setGblAttr(int var_id)
 /* -------------------------------------------------------------------- */
     lt = time(NULL);
     ptr = gmtime(&lt);
-    snprintf(msg, CMOR_MAX_STRING, "%.4i-%.2i-%.2iT%.2i:%.2i:%.2iZ",
+    snprintf(timestamp, CMOR_MAX_STRING, "%.4i-%.2i-%.2iT%.2i:%.2i:%.2iZ",
              ptr->tm_year + 1900, ptr->tm_mon + 1, ptr->tm_mday, ptr->tm_hour,
              ptr->tm_min, ptr->tm_sec);
 
-    cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_CREATION_DATE, msg, 0);
+    cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_CREATION_DATE, timestamp, 0);
 
-    if (did_history == 0) {
-        snprintf(ctmp, CMOR_MAX_STRING,
-                 "%s CMOR rewrote data to be consistent with CF standards"
-                 , msg);
-        if (cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP6) == 0) {
-            char CMIP6msg[CMOR_MAX_STRING];
-            snprintf(CMIP6msg, CMOR_MAX_STRING, " and %s requirements",
-                    cmor_tables[nVarRefTblID].mip_era);
-            strcat(ctmp, CMIP6msg);
-        }
-        strcat(ctmp,".");
-        if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_HISTORY) == 0) {
-            cmor_get_cur_dataset_attribute(GLOBAL_ATT_HISTORY, msg);
-            snprintf(ctmp2, CMOR_MAX_STRING, "%s ; %s", msg, ctmp);
-            strncpy(ctmp, ctmp2, CMOR_MAX_STRING);
-        }
-        cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_HISTORY, ctmp, 0);
-        did_history = 1;
-    }
 /* -------------------------------------------------------------------- */
 /*    Set attribute Conventions for netCDF file metadata                */
 /* -------------------------------------------------------------------- */
@@ -2933,6 +2927,26 @@ int cmor_setGblAttr(int var_id)
     }
 
     ierr += cmor_CV_checkISOTime(GLOBAL_ATT_CREATION_DATE);
+    if (did_history == 0) {
+        szHistory[0] ='\0';
+/* -------------------------------------------------------------------- */
+/*    Create History metadata from template                             */
+/* -------------------------------------------------------------------- */
+        strcpy(szTemplate, cmor_current_dataset.history_template);
+        ierr = cmor_CreateFromTemplate(nVarRefTblID, szTemplate, szHistory, "");
+        snprintf(ctmp, CMOR_MAX_STRING,
+                 szHistory,
+                 timestamp);
+
+        if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_HISTORY) == 0) {
+            cmor_get_cur_dataset_attribute(GLOBAL_ATT_HISTORY, msg);
+            snprintf(ctmp2, CMOR_MAX_STRING, "%s;\n%s", ctmp, msg);
+            strncpy(ctmp, ctmp2, CMOR_MAX_STRING);
+        }
+        cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_HISTORY, ctmp, 0);
+        did_history = 1;
+    }
+
     return (ierr);
 }
 
@@ -4403,6 +4417,7 @@ int cmor_write(int var_id, void *data, char type, char *file_suffix,
 
             }
         }
+
 /* -------------------------------------------------------------------- */
 /*    Create/Save filename                                              */
 /* -------------------------------------------------------------------- */
@@ -5388,6 +5403,11 @@ int cmor_CreateFromTemplate(int nVarRefTblID, char *templateSTH,
 /*      or an internal attribute.  Otherwise we just skip it and the    */
 /*      user get a warning.                                             */
 /* -------------------------------------------------------------------- */
+        } else if (strcmp(szToken, GLOBAL_ATT_CONVENTIONS) == 0) {
+            cmor_get_cur_dataset_attribute(szToken, tmp);
+            strncat(szJoin, tmp, CMOR_MAX_STRING);
+            strcat(szJoin, separator);
+
         } else if (cmor_has_cur_dataset_attribute(szToken) == 0) {
             cmor_get_cur_dataset_attribute(szToken, tmp);
             szFirstItem = strstr(tmp, " ");
@@ -5425,7 +5445,6 @@ int cmor_CreateFromTemplate(int nVarRefTblID, char *templateSTH,
                     strncat(szJoin, tmp, CMOR_MAX_STRING);
                     strcat(szJoin, separator);
                 } else {
-
 /* -------------------------------------------------------------------- */
 /*      Skip "no-driver for filename if optional is set to 1            */
 /* -------------------------------------------------------------------- */
@@ -5433,7 +5452,6 @@ int cmor_CreateFromTemplate(int nVarRefTblID, char *templateSTH,
                         strncat(szJoin, tmp, CMOR_MAX_STRING);
                         strcat(szJoin, separator);
                     }
-
                 }
 /* -------------------------------------------------------------------- */
 /*      Just Copy the token without a separator                         */
@@ -5880,12 +5898,12 @@ int cmor_close_variable(int var_id, char *file_name, int *preserve)
     extern int cmor_nvars;
     char outname[CMOR_MAX_STRING];
     char msg[CMOR_MAX_STRING];
-    char msg2[CMOR_MAX_STRING];
+    // char msg2[CMOR_MAX_STRING];
     char ctmp[CMOR_MAX_STRING];
     char ctmp2[CMOR_MAX_STRING];
-    cdCalenType icalo;
-    cdCompTime starttime, endtime;
-    int i, j, n;
+    // cdCalenType icalo;
+    // cdCompTime starttime, endtime;
+    int i, j;
 
     cmor_add_traceback("cmor_close_variable");
     cmor_is_setup();
