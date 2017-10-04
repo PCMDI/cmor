@@ -153,12 +153,38 @@ static PyObject *PyCMOR_set_variable_attribute(PyObject * self, PyObject * args)
     signal(signal_to_catch, signal_handler);
     char *name;
     char *value;
+    char *type;
+    long lValue;
+    int nValue;
+    float fValue;
+    double dValue;
+    PyObject *oValue;
     int ierr, var_id;
-
-    if (!PyArg_ParseTuple(args, "iss", &var_id, &name, &value))
+    value = NULL;
+    if (!PyArg_ParseTuple(args, "issO", &var_id, &name, &type, &oValue))
         return NULL;
 
-    ierr = cmor_set_variable_attribute(var_id, name, 'c', (void *)value);
+    if(PyString_Check(oValue)) {
+        value = PyString_AsString(oValue);
+    } else if(PyLong_Check(oValue)) {
+        lValue = PyLong_AsLong(oValue);
+    } else if (PyFloat_Check(oValue)) {
+        dValue = PyFloat_AsDouble(oValue);
+    }
+
+    if (type[0] == 'f') {
+        fValue = (float) *(double *) value;
+        value = (char *) &fValue;
+    } else if (type[0] == 'd') {
+        value = (char *) &dValue;
+    } else if (type[0] == 'i') {
+        nValue = (int) lValue;
+        value = (char *) &nValue;
+    } else if (type[0] == 'l') {
+        value = (char *) &lValue;
+    }
+
+    ierr = cmor_set_variable_attribute(var_id, name, type[0], (void *)value);
 
     if (ierr != 0 || raise_exception) {
         raise_exception = 0;

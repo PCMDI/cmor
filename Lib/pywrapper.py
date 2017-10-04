@@ -966,7 +966,7 @@ def set_furtherinfourl(varid):
     """
     return _cmor.set_furtherinfourl(varid)
 
-def set_variable_attribute(var_id, name, value):
+def set_variable_attribute(var_id, name, atype, value):
     """Sets an attribute onto a cmor variable
     Usage:
       cmor.set_variable_attribute(var_id,name,value)
@@ -979,7 +979,7 @@ def set_variable_attribute(var_id, name, value):
         val = ""
     else:
         val = str(value)
-    return _cmor.set_variable_attribute(var_id, name, val)
+    return _cmor.set_variable_attribute(var_id, name, atype, val)
 
 
 def set_deflate(var_id, shuffle, deflate, deflate_level):
