@@ -86,7 +86,7 @@ def run():
 
     regexp["tracking_id"] = [ "hdl:21.14100/.*" ]  
     regexp["mip_era"] = [ "CMIP6" ]
-    regexp["further_info_url"] = [ "http://furtherinfo.es-doc.org/.*" ]
+    regexp["further_info_url"] = [ "https://furtherinfo.es-doc.org/.*" ]
     regexp["product"] = [ "model-output" ]
     regexp["Conventions"] = [ "^CF-1.7 CMIP-6.2\\( UGRID-1.0\\)\\{0,\\}$" ]
     regexp["realization_index"] = [ "^\\[\\{0,\\}[[:digit:]]\\{1,\\}\\]\\{0,\\}$" ]
