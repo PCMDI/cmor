@@ -23,7 +23,7 @@ import sys
 import os
 import json
 import numpy
-
+from pprint import pprint
 
 class bcolors:
     HEADER = '\033[95m'
@@ -57,7 +57,6 @@ class JSONAction(argparse.Action):
             raise argparse.ArgumentTypeError(
                 'JSONAction:{0} is file not a valid JSON file'.format(fn))
         setattr(namespace, self.dest, values)
-
 
 # =========================
 # CDMSAction()
@@ -233,7 +232,54 @@ class checkCMIP6(object):
                 self.dictGbl[attribute] = self.dictGbl[attribute][0]
                 cmip6_cv.set_cur_dataset_attribute(
                     attribute, self.dictGbl[attribute])
-
+    def CheckAxis(self):
+        '''
+           Check axis dimensions for the variable passed against the CMOR table
+        '''
+        varObj = self.infile[self.var[0]] 
+        self.axislist = varObj.getAxisList()   
+        dimsinfile = []
+        for axes in self.axislist:
+            dimsinfile.append(axes.id) 
+         
+        # get CMOR axis definition for the variable , convert axis entry to out_name value, compare it with axesdefn
+        jdata = json.loads(open(self.cmip6_table).read())
+        dims_in_table = (jdata["variable_entry"][self.var[0]]["dimensions"])
+        dimsout = [] 
+        ## check if number of dims match before getting into the details ##
+        if(len(dimsinfile) != len(dims_in_table.split(" "))):
+            print bcolors.FAIL
+            print "====================================================================================="
+            print("Length of variable dimensions based on CV specs DO NOT match", len(dims_in_table.split(" ")) ,"!=", len(dimsinfile))
+            print "====================================================================================="
+            print bcolors.ENDC
+        else:
+          dimsinfile.reverse()
+          for dims in dims_in_table.split(" "):
+            #out_name for latitude is lat, out_name for longitude is lon, out_name for time1/2/3 is always time
+            if(dims == "latitude"):
+               dims = "lat"
+            elif(dims == "longitude"):
+               dims = "lon"
+            elif(dims.startswith("time")):
+               dims = "time" 
+            else:
+                #find out_name from CMIP6_coordinate.json 
+                #e.g. height2m height, plev
+               self.coordsCV = "/".join(self.cmip6_table.split("/")[:-1])+"/"+'CMIP6_coordinate.json'
+               jdataCV = json.loads(open(self.coordsCV).read())
+               dims = (jdataCV["axis_entry"][dims]["out_name"])
+            dimsout.append(dims)
+        dimcheck  = ([i for i, j in zip(dimsinfile, dimsout) if i != j]) 
+        if(len(dimcheck) != 0):
+            print bcolors.FAIL
+            print "====================================================================================="
+            print("Dimensions do not match CMIP specifications", dimcheck )
+            print "====================================================================================="
+            print bcolors.ENDC
+        else:
+	   print("Dimension check:OK")
+ 
     def ControlVocab(self):
         '''
             Check CMIP6 global attributes against Control Vocabulary file.
@@ -381,7 +427,7 @@ class checkCMIP6(object):
         print "* This file is compliant with the CMIP6 specification and can be published in ESGF. *"
         print "*************************************************************************************"
         print bcolors.ENDC
-
+        print("success")
 
 #  =========================
 #   main()
@@ -418,6 +464,7 @@ def main():
 
     try:
         process = checkCMIP6(args)
+        process.CheckAxis()
         process.ControlVocab()
     except KeyboardInterrupt:
         print bcolors.FAIL
@@ -426,6 +473,7 @@ def main():
         print "! Check your file or use CMOR 3.x to achieve compliance for ESGF publication."
         print "!!!!!!!!!!!!!!!!!!!!!!!!!"
         print bcolors.ENDC
+        print("failure")
         sys.exit(-1)
 # process.checkActivities()
     return(0)
@@ -442,6 +490,8 @@ if(__name__ == '__main__'):
         print "! Check your file or use CMOR 3.x to achieve compliance for ESGF publication."
         print "!!!!!!!!!!!!!!!!!!!!!!!!!"
         print bcolors.ENDC
+        print("failure")
         sys.exit(-1)
     except BaseException:
+        print("failure")
         sys.exit(-1)
