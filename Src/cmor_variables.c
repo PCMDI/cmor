@@ -155,7 +155,7 @@ int cmor_set_variable_attribute_internal(int id, char *attribute_name,
 
     } else if (type == 'f') {
 
-        cmor_vars[id].attributes_values_num[index] = (float)*(float *)value;
+        cmor_vars[id].attributes_values_num[index] = (double)*(float *)value;
     } else if (type == 'i') {
 
         cmor_vars[id].attributes_values_num[index] = (double)*(int *)value;

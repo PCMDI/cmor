@@ -2267,7 +2267,7 @@ int cmor_CV_checkISOTime(char *szAttribute)
 /************************************************************************/
 /*                         cmor_CV_variable()                           */
 /************************************************************************/
-int cmor_CV_variable(int *var_id, char *name, char *units, double *missing,
+int cmor_CV_variable(int *var_id, char *name, char *units, float *missing,
                      double startime, double endtime,
                      double startimebnds, double endtimebnds)
 {

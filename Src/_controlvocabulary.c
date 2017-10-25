@@ -555,7 +555,7 @@ static PyObject *PyCV_setup_variable(PyObject * self, PyObject * args)
 {
     char *name;
     char *units;
-    double missing;
+    float missing;
     double startime;
     double endtime;
     double startimebnds;
@@ -563,7 +563,7 @@ static PyObject *PyCV_setup_variable(PyObject * self, PyObject * args)
 
     int var_id;
 
-    if (!PyArg_ParseTuple(args, "ssddddd", &name, &units, &missing,
+    if (!PyArg_ParseTuple(args, "ssfdddd", &name, &units, &missing,
                           &startime, &endtime, &startimebnds, &endtimebnds)) {
         return (Py_BuildValue("i", -1));
     }

@@ -338,8 +338,12 @@ class checkCMIP6(object):
                     file_value = file_value[0]
 
                 if isinstance(table_value, float):
-                    if(table_value / file_value < 1.1):
-                        table_value = file_value
+                    if(file_value == 0): 
+                        if(table_value != file_value):
+                            file_value = False
+                    else:
+                        if(1-(table_value / file_value) < 0.00001):
+                            table_value = file_value
 
                 if key == "cell_methods":
                     idx = file_value.find(" (interval:")
