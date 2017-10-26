@@ -247,13 +247,6 @@ class checkCMIP6(object):
         dimsout = [] 
         singleton = ""
         dimsinfile.reverse()
-        '''if(len(dimsinfile) != len(dims_in_table.split(" "))):
-            print bcolors.FAIL
-            print "====================================================================================="
-            print("Length of variable dimensions based on CV specs DO NOT match", len(dims_in_table.split(" ")) ,"!=", len(dimsinfile))
-            print "====================================================================================="
-            print bcolors.ENDC
-        else: '''
         for dims in dims_in_table.split(" "):
             #out_name for latitude is lat, out_name for longitude is lon, out_name for time1/2/3 is always time
             if(dims == "latitude"):
