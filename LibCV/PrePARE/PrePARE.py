@@ -23,7 +23,6 @@ import sys
 import os
 import json
 import numpy
-from pprint import pprint
 
 class bcolors:
     HEADER = '\033[95m'
