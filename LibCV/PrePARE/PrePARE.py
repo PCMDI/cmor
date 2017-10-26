@@ -246,30 +246,38 @@ class checkCMIP6(object):
         jdata = json.loads(open(self.cmip6_table).read())
         dims_in_table = (jdata["variable_entry"][self.var[0]]["dimensions"])
         dimsout = [] 
-        ## check if number of dims match before getting into the details ##
-        if(len(dimsinfile) != len(dims_in_table.split(" "))):
+        singleton = ""
+        dimsinfile.reverse()
+        '''if(len(dimsinfile) != len(dims_in_table.split(" "))):
             print bcolors.FAIL
             print "====================================================================================="
             print("Length of variable dimensions based on CV specs DO NOT match", len(dims_in_table.split(" ")) ,"!=", len(dimsinfile))
             print "====================================================================================="
             print bcolors.ENDC
-        else:
-          dimsinfile.reverse()
-          for dims in dims_in_table.split(" "):
+        else: '''
+        for dims in dims_in_table.split(" "):
             #out_name for latitude is lat, out_name for longitude is lon, out_name for time1/2/3 is always time
             if(dims == "latitude"):
                dims = "lat"
+               dimsout.append(dims)
             elif(dims == "longitude"):
                dims = "lon"
+               dimsout.append(dims)
             elif(dims.startswith("time")):
                dims = "time" 
+               dimsout.append(dims)
             else:
                 #find out_name from CMIP6_coordinate.json 
                 #e.g. height2m height, plev
                self.coordsCV = "/".join(self.cmip6_table.split("/")[:-1])+"/"+'CMIP6_coordinate.json'
                jdataCV = json.loads(open(self.coordsCV).read())
+               singleton = (jdataCV["axis_entry"][dims]["value"])
                dims = (jdataCV["axis_entry"][dims]["out_name"])
-            dimsout.append(dims)
+               if(singleton != ""):
+                  print("=====================================================================================")
+                  print("Warning: There might be a singleton dimension associated with this ",dims,". Please make sure it's present in the coordinates attribute")
+               else:
+                  dimsout.append(dims)
         dimcheck  = ([i for i, j in zip(dimsinfile, dimsout) if i != j]) 
         if(len(dimcheck) != 0):
             print bcolors.FAIL
