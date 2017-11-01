@@ -975,11 +975,7 @@ def set_variable_attribute(var_id, name, atype, value):
       name  : is the name of the attribute
       value : is the value for this attribute
     """
-    if value is None:
-        val = ""
-    else:
-        val = str(value)
-    return _cmor.set_variable_attribute(var_id, name, atype, val)
+    return _cmor.set_variable_attribute(var_id, name, atype, value)
 
 
 def set_deflate(var_id, shuffle, deflate, deflate_level):

@@ -173,7 +173,7 @@ static PyObject *PyCMOR_set_variable_attribute(PyObject * self, PyObject * args)
     }
 
     if (type[0] == 'f') {
-        fValue = (float) *(double *) value;
+        fValue = (float) dValue;
         value = (char *) &fValue;
     } else if (type[0] == 'd') {
         value = (char *) &dValue;
