@@ -88,7 +88,7 @@ class TestCase(unittest.TestCase):
 
     def tearDown(self):
         import shutil
-        shutil.rmtree("./CMIP6")
+#        shutil.rmtree("./CMIP6")
 
 
 if __name__ == '__main__':
