@@ -61,7 +61,7 @@
            "run_variant":            "forcing: black carbon aerosol only",
 
            "#source_id":              "Model Source",
-           "#source_id":               "PCMDI-test-1-0",
+           "source_id":               "PCMDI-test-1-0",
 
            "#source":                "source title, first part is source_id",
            "source":                 "PCMDI-test 1.0 (1989)",

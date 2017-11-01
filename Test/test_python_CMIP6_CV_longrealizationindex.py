@@ -82,15 +82,16 @@ class TestCase(unittest.TestCase):
             cmor.close()
 
         except BaseException:
-            os.dup2(self.newstdout, 1)
-            os.dup2(self.newstderr, 2)
-            sys.stdout = os.fdopen(self.newstdout, 'w', 0)
-            sys.stderr = os.fdopen(self.newstderr, 'w', 0)
-            testOK = self.getAssertTest()
-            # ------------------------------------------
-            # Check error after signal handler is back
-            # ------------------------------------------
-            self.assertIn("1209374928349823498274987234987", testOK)
+            pass
+        os.dup2(self.newstdout, 1)
+        os.dup2(self.newstderr, 2)
+        sys.stdout = os.fdopen(self.newstdout, 'w', 0)
+        sys.stderr = os.fdopen(self.newstderr, 'w', 0)
+        testOK = self.getAssertTest()
+        # ------------------------------------------
+        # Check error after signal handler is back
+        # ------------------------------------------
+        self.assertIn("1209374928349823498274987234987", testOK)
 
     def tearDown(self):
         import shutil

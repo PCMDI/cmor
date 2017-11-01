@@ -15,15 +15,11 @@
 import cmor
 import numpy
 import unittest
-import signal
 import sys
 import os
 import tempfile
 
 
-# ==============================
-#  main thread
-# ==============================
 def run():
     unittest.main()
 
@@ -48,7 +44,7 @@ class TestCase(unittest.TestCase):
         f = open(self.tmpfile[1], 'r')
         lines = f.readlines()
         for line in lines:
-            if line.find('Error') != -1:
+            if line.find('Error:') != -1:
                 testOK = line.strip()
                 break
         f.close()
@@ -60,15 +56,15 @@ class TestCase(unittest.TestCase):
             # -------------------------------------------
             # Try to call cmor with a bad institution_ID
             # -------------------------------------------
-            cmor.setup(
-                inpath='TestTables',
-                netcdf_file_action=cmor.CMOR_REPLACE)
+            global testOK
+            cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
             cmor.dataset_json("Test/common_user_input.json")
+            cmor.set_cur_dataset_attribute("source_id", "invalid")
 
             # ------------------------------------------
             # load Omon table and create masso variable
             # ------------------------------------------
-            cmor.load_table("CMIP6_Omonbad.json")
+            cmor.load_table("CMIP6_Omon.json")
             itime = cmor.axis(table_entry="time", units='months since 2010',
                               coord_vals=numpy.array([0, 1, 2, 3, 4.]),
                               cell_bounds=numpy.array([0, 1, 2, 3, 4, 5.]))
@@ -88,11 +84,11 @@ class TestCase(unittest.TestCase):
         sys.stdout = os.fdopen(self.newstdout, 'w', 0)
         sys.stderr = os.fdopen(self.newstderr, 'w', 0)
         testOK = self.getAssertTest()
-        self.assertIn("mip_era", testOK)
+        self.assertIn("invalid", testOK)
 
     def tearDown(self):
         import shutil
-        shutil.rmtree("./CMIP6")
+#        shutil.rmtree("./CMIP6")
 
 
 if __name__ == '__main__':

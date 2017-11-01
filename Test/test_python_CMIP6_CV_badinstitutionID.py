@@ -48,7 +48,6 @@ class TestCase(unittest.TestCase):
                 testOK = line.strip()
                 break
         f.close()
-        os.unlink(self.tmpfile[1])
         return testOK
 
     def testCMIP6(self):
@@ -78,15 +77,17 @@ class TestCase(unittest.TestCase):
             cmor.close()
 
         except BaseException:
-            os.dup2(self.newstdout, 1)
-            os.dup2(self.newstderr, 2)
-            sys.stdout = os.fdopen(self.newstdout, 'w', 0)
+            pass
+        os.dup2(self.newstdout, 1)
+        os.dup2(self.newstderr, 2)
+        sys.stdout = os.fdopen(self.newstdout, 'w', 0)
         testOK = self.getAssertTest()
         self.assertIn("ddPCMDI", testOK)
 
     def tearDown(self):
         import shutil
         shutil.rmtree("./CMIP6")
+        os.unlink(self.tmpfile[1])
 
 
 if __name__ == '__main__':

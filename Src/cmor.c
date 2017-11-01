@@ -2922,6 +2922,7 @@ int cmor_setGblAttr(int var_id)
     // especially (source_label)
     //
     if ( cmor_current_dataset.furtherinfourl[0] != '\0') {
+        ierr += cmor_CV_checkSourceID(cmor_tables[nVarRefTblID].CV);
         ierr += cmor_CV_checkFurtherInfoURL(nVarRefTblID);
     }
 
