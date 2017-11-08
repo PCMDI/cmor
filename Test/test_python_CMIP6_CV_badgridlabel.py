@@ -53,7 +53,7 @@ class TestCase(unittest.TestCase):
         f = open(self.tmpfile[1], 'r')
         lines = f.readlines()
         for line in lines:
-            if line.find('The current input') != -1:
+            if line.find('Error:') != -1:
                 testOK = line.strip()
                 break
         f.close()
@@ -89,16 +89,17 @@ class TestCase(unittest.TestCase):
                 cmor.write(ivar, data[i:i])
             cmor.close()
         except BaseException:
-            os.dup2(self.newstdout, 1)
-            os.dup2(self.newstderr, 2)
-            testOK = self.getAssertTest()
+            pass
+        os.dup2(self.newstdout, 1)
+        os.dup2(self.newstderr, 2)
+        testOK = self.getAssertTest()
 
-            sys.stdout = os.fdopen(self.newstdout, 'w', 0)
-            sys.stderr = os.fdopen(self.newstderr, 'w', 0)
-            # ------------------------------------------
-            # Check error after signal handler is back
-            # ------------------------------------------
-            self.assertIn("\"gs1n\"", testOK)
+        sys.stdout = os.fdopen(self.newstdout, 'w', 0)
+        sys.stderr = os.fdopen(self.newstderr, 'w', 0)
+        # ------------------------------------------
+        # Check error after signal handler is back
+        # ------------------------------------------
+        self.assertIn("\"gs1n\"", testOK)
 
     def tearDown(self):
         import shutil

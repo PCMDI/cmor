@@ -143,7 +143,7 @@ int cmor_set_variable_attribute_internal(int id, char *attribute_name,
     strncpy(cmor_vars[id].attributes[index], msg, CMOR_MAX_STRING);
 
     cmor_vars[id].attributes_type[index] = type;
-
+    cmor_vars[id].attributes_values_num[index] = (double)*(float *)value;
     if (type == 'c') {
 
         if (strlen(value) > 0) {
@@ -175,6 +175,16 @@ int cmor_set_variable_attribute_internal(int id, char *attribute_name,
         cmor_pop_traceback();
         return (1);
     }
+
+    if ((type != 'c') && (type != cmor_vars[id].type)) {
+        snprintf(msg, CMOR_MAX_STRING,
+                "Type '%c' for attribute '%s' of variable '%s' "
+                        "does not match type variable '%c'",
+                        type, attribute_name,
+                        cmor_vars[id].id, cmor_vars[id].type);
+        cmor_handle_error_var(msg, CMOR_WARNING, id);
+    }
+
     cmor_pop_traceback();
     return (0);
 }
@@ -202,13 +212,14 @@ int cmor_set_variable_attribute(int id, char *attribute_name, char type,
         (strcmp(attribute_name, VARIABLE_ATT_FLAGVALUES) == 0) ||
         (strcmp(attribute_name, VARIABLE_ATT_FLAGMEANING) == 0) ||
         (strcmp(attribute_name, VARIABLE_ATT_COMMENT) == 0) ||
-        (strcmp(attribute_name, VARIABLE_ATT_HISTORY) == 0) ||
         (strcmp(attribute_name, VARIABLE_ATT_ORIGINALNAME) == 0) ||
         (strcmp(attribute_name, VARIABLE_ATT_ORIGINALUNITS) == 0) ||
         (strcmp(attribute_name, VARIABLE_ATT_POSITIVE) == 0) ||
         (strcmp(attribute_name, VARIABLE_ATT_CELLMETHODS) == 0)) {
         snprintf(msg, CMOR_MAX_STRING,
-                 "variable attribute %s (vor variable %s, table %s) must be set via a call to cmor_variable or it is automatically set via the tables",
+                 "variable attribute %s (vor variable %s, table %s) must be "
+                 "set via a call to cmor_variable or it is automatically set "
+                 "via the tables",
                  attribute_name, cmor_vars[id].id,
                  cmor_tables[cmor_vars[id].ref_table_id].szTable_id);
         cmor_handle_error_var(msg, CMOR_NORMAL, id);
@@ -221,7 +232,10 @@ int cmor_set_variable_attribute(int id, char *attribute_name, char type,
 /* -------------------------------------------------------------------- */
     if (cmor_vars[id].initialized != -1) {
         snprintf(msg, CMOR_MAX_STRING,
-                 "attribute %s on variable %s (table %s) will probably not be set as the variable has already been created into the output NetCDF file, please place this call BEFORE any cal to cmor_write",
+                 "attribute %s on variable %s (table %s) will probably not be "
+                 "set as the variable has already been created into the output "
+                 "NetCDF file, please place this call BEFORE any cal to "
+                 "cmor_write",
                  attribute_name, cmor_vars[id].id,
                  cmor_tables[cmor_vars[id].ref_table_id].szTable_id);
         cmor_handle_error_var(msg, CMOR_NORMAL, id);
@@ -236,7 +250,6 @@ int cmor_set_variable_attribute(int id, char *attribute_name, char type,
 /************************************************************************/
 /*                    cmor_get_variable_attribute()                     */
 /************************************************************************/
-
 int cmor_get_variable_attribute(int id, char *attribute_name, void *value)
 {
     extern cmor_var_t cmor_vars[];

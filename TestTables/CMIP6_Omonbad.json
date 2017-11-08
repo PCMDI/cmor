@@ -12,7 +12,7 @@
         "approx_interval": "30.00000", 
         "generic_levels": "olevel", 
         "mip_era": "verybad", 
-        "Conventions": "CF-1.7 CMIP-6.0"
+        "Conventions": "CF-1.7 CMIP-6.2"
     }, 
     "axis_entry": {
         "alt16": {

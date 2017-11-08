@@ -690,15 +690,15 @@ int cmor_variable_cff_nomiss_(int *var_id, char *name, char *units,
 /*                       cmor_write_cff_double_()                       */
 /************************************************************************/
 
-int cmor_write_cff_double_(int *var_id, void *data,
+int cmor_write_cff_double_(int *var_id, void *data, char *suffix,
                            int *ntimes_passed, double *time_vals,
                            double *time_bounds, int *refvar)
 {
     if (*refvar < 0) {
-        return (cmor_write(*var_id, data, 'd', *ntimes_passed,
+        return (cmor_write(*var_id, data, 'd', suffix, *ntimes_passed,
                            time_vals, time_bounds, NULL));
     } else {
-        return (cmor_write(*var_id, data, 'd', *ntimes_passed,
+        return (cmor_write(*var_id, data, 'd', suffix, *ntimes_passed,
                            time_vals, time_bounds, refvar));
     }
 }
@@ -707,15 +707,15 @@ int cmor_write_cff_double_(int *var_id, void *data,
 /*                   cmor_write_cff_double_nobnds_()                    */
 /************************************************************************/
 
-int cmor_write_cff_double_nobnds_(int *var_id, void *data,
+int cmor_write_cff_double_nobnds_(int *var_id, void *data, char *suffix,
                                   int *ntimes_passed, double *time_vals,
                                   int *refvar)
 {
     if (*refvar < 0) {
-        return (cmor_write(*var_id, data, 'd', *ntimes_passed,
+        return (cmor_write(*var_id, data, 'd', suffix, *ntimes_passed,
                            time_vals, NULL, NULL));
     } else {
-        return (cmor_write(*var_id, data, 'd', *ntimes_passed,
+        return (cmor_write(*var_id, data, 'd', suffix, *ntimes_passed,
                            time_vals, NULL, refvar));
     }
 }
@@ -724,14 +724,14 @@ int cmor_write_cff_double_nobnds_(int *var_id, void *data,
 /*                   cmor_write_cff_double_notime_()                    */
 /************************************************************************/
 
-int cmor_write_cff_double_notime_(int *var_id, void *data,
+int cmor_write_cff_double_notime_(int *var_id, void *data, char *suffix,
                                   int *ntimes_passed, int *refvar)
 {
     if (*refvar < 0) {
-        return (cmor_write(*var_id, data, 'd', *ntimes_passed,
+        return (cmor_write(*var_id, data, 'd', suffix, *ntimes_passed,
                            NULL, NULL, NULL));
     } else {
-        return (cmor_write(*var_id, data, 'd', *ntimes_passed,
+        return (cmor_write(*var_id, data, 'd', suffix, *ntimes_passed,
                            NULL, NULL, refvar));
     }
 }
@@ -739,15 +739,15 @@ int cmor_write_cff_double_notime_(int *var_id, void *data,
 /************************************************************************/
 /*                        cmor_write_cff_real_()                        */
 /************************************************************************/
-int cmor_write_cff_real_(int *var_id, void *data,
+int cmor_write_cff_real_(int *var_id, void *data, char *suffix,
                          int *ntimes_passed, double *time_vals,
                          double *time_bounds, int *refvar)
 {
     if (*refvar < 0) {
-        return (cmor_write(*var_id, data, 'f', *ntimes_passed,
+        return (cmor_write(*var_id, data, 'f', suffix, *ntimes_passed,
                            time_vals, time_bounds, NULL));
     } else {
-        return (cmor_write(*var_id, data, 'f', *ntimes_passed,
+        return (cmor_write(*var_id, data, 'f', suffix, *ntimes_passed,
                            time_vals, time_bounds, refvar));
     }
 }
@@ -755,15 +755,15 @@ int cmor_write_cff_real_(int *var_id, void *data,
 /************************************************************************/
 /*                    cmor_write_cff_real_nobnds_()                     */
 /************************************************************************/
-int cmor_write_cff_real_nobnds_(int *var_id, void *data,
+int cmor_write_cff_real_nobnds_(int *var_id, void *data, char *suffix,
                                 int *ntimes_passed, double *time_vals,
                                 int *refvar)
 {
     if (*refvar < 0) {
-        return (cmor_write(*var_id, data, 'f', *ntimes_passed,
+        return (cmor_write(*var_id, data, 'f', suffix, *ntimes_passed,
                            time_vals, NULL, NULL));
     } else {
-        return (cmor_write(*var_id, data, 'f', *ntimes_passed,
+        return (cmor_write(*var_id, data, 'f', suffix, *ntimes_passed,
                            time_vals, NULL, refvar));
     }
 }
@@ -772,15 +772,15 @@ int cmor_write_cff_real_nobnds_(int *var_id, void *data,
 /*                    cmor_write_cff_real_notime_()                     */
 /************************************************************************/
 
-int cmor_write_cff_real_notime_(int *var_id, void *data,
+int cmor_write_cff_real_notime_(int *var_id, void *data, char *suffix,
                                 int *ntimes_passed, int *refvar)
 {
 
     if (*refvar < 0) {
-        return (cmor_write(*var_id, data, 'f', *ntimes_passed,
+        return (cmor_write(*var_id, data, 'f', suffix, *ntimes_passed,
                            NULL, NULL, NULL));
     } else {
-        return (cmor_write(*var_id, data, 'f', *ntimes_passed,
+        return (cmor_write(*var_id, data, 'f', suffix, *ntimes_passed,
                            NULL, NULL, refvar));
     }
 }
@@ -789,15 +789,15 @@ int cmor_write_cff_real_notime_(int *var_id, void *data,
 /*                        cmor_write_cff_int_()                         */
 /************************************************************************/
 
-int cmor_write_cff_int_(int *var_id, void *data,
+int cmor_write_cff_int_(int *var_id, void *data, char *suffix,
                         int *ntimes_passed, double *time_vals,
                         double *time_bounds, int *refvar)
 {
     if (*refvar < 0) {
-        return (cmor_write(*var_id, data, 'i', *ntimes_passed,
+        return (cmor_write(*var_id, data, 'i', suffix, *ntimes_passed,
                            time_vals, time_bounds, NULL));
     } else {
-        return (cmor_write(*var_id, data, 'i', *ntimes_passed,
+        return (cmor_write(*var_id, data, 'i', suffix, *ntimes_passed,
                            time_vals, time_bounds, refvar));
     }
 }
@@ -806,15 +806,15 @@ int cmor_write_cff_int_(int *var_id, void *data,
 /*                     cmor_write_cff_int_nobnds_()                     */
 /************************************************************************/
 
-int cmor_write_cff_int_nobnds_(int *var_id, void *data,
+int cmor_write_cff_int_nobnds_(int *var_id, void *data, char *suffix,
                                int *ntimes_passed, double *time_vals,
                                int *refvar)
 {
     if (*refvar < 0) {
-        return (cmor_write(*var_id, data, 'i', *ntimes_passed,
+        return (cmor_write(*var_id, data, 'i', suffix, *ntimes_passed,
                            time_vals, NULL, NULL));
     } else {
-        return (cmor_write(*var_id, data, 'i', *ntimes_passed,
+        return (cmor_write(*var_id, data, 'i', suffix, *ntimes_passed,
                            time_vals, NULL, refvar));
     }
 }
@@ -823,14 +823,14 @@ int cmor_write_cff_int_nobnds_(int *var_id, void *data,
 /*                     cmor_write_cff_int_notime_()                     */
 /************************************************************************/
 
-int cmor_write_cff_int_notime_(int *var_id, void *data,
+int cmor_write_cff_int_notime_(int *var_id, void *data, char *suffix,
                                int *ntimes_passed, int *refvar)
 {
     if (*refvar < 0) {
-        return (cmor_write(*var_id, data, 'i', *ntimes_passed,
+        return (cmor_write(*var_id, data, 'i', suffix, *ntimes_passed,
                            NULL, NULL, NULL));
     } else {
-        return (cmor_write(*var_id, data, 'i', *ntimes_passed,
+        return (cmor_write(*var_id, data, 'i', suffix, *ntimes_passed,
                            NULL, NULL, refvar));
     }
 }
@@ -839,15 +839,15 @@ int cmor_write_cff_int_notime_(int *var_id, void *data,
 /*                        cmor_write_cff_long_()                        */
 /************************************************************************/
 
-int cmor_write_cff_long_(int *var_id, void *data,
+int cmor_write_cff_long_(int *var_id, void *data, char *suffix,
                          int *ntimes_passed, double *time_vals,
                          double *time_bounds, int *refvar)
 {
     if (*refvar < 0) {
-        return (cmor_write(*var_id, data, 'l', *ntimes_passed,
+        return (cmor_write(*var_id, data, 'l', suffix, *ntimes_passed,
                            time_vals, time_bounds, NULL));
     } else {
-        return (cmor_write(*var_id, data, 'l', *ntimes_passed,
+        return (cmor_write(*var_id, data, 'l', suffix, *ntimes_passed,
                            time_vals, time_bounds, refvar));
     }
 }
@@ -855,15 +855,15 @@ int cmor_write_cff_long_(int *var_id, void *data,
 /************************************************************************/
 /*                    cmor_write_cff_long_nobnds_()                     */
 /************************************************************************/
-int cmor_write_cff_long_nobnds_(int *var_id, void *data,
+int cmor_write_cff_long_nobnds_(int *var_id, void *data, char *suffix,
                                 int *ntimes_passed, double *time_vals,
                                 int *refvar)
 {
     if (*refvar < 0) {
-        return (cmor_write(*var_id, data, 'l', *ntimes_passed,
+        return (cmor_write(*var_id, data, 'l', suffix, *ntimes_passed,
                            time_vals, NULL, NULL));
     } else {
-        return (cmor_write(*var_id, data, 'l', *ntimes_passed,
+        return (cmor_write(*var_id, data, 'l', suffix, *ntimes_passed,
                            time_vals, NULL, refvar));
     }
 }
@@ -872,14 +872,14 @@ int cmor_write_cff_long_nobnds_(int *var_id, void *data,
 /*                    cmor_write_cff_long_notime_()                     */
 /************************************************************************/
 
-int cmor_write_cff_long_notime_(int *var_id, void *data,
+int cmor_write_cff_long_notime_(int *var_id, void *data, char *suffix,
                                 int *ntimes_passed, int *refvar)
 {
     if (*refvar < 0) {
-        return (cmor_write(*var_id, data, 'l', *ntimes_passed,
+        return (cmor_write(*var_id, data, 'l', suffix, *ntimes_passed,
                            NULL, NULL, NULL));
     } else {
-        return (cmor_write(*var_id, data, 'l', *ntimes_passed,
+        return (cmor_write(*var_id, data, 'l', suffix, *ntimes_passed,
                            NULL, NULL, refvar));
     }
 }

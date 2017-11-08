@@ -153,12 +153,38 @@ static PyObject *PyCMOR_set_variable_attribute(PyObject * self, PyObject * args)
     signal(signal_to_catch, signal_handler);
     char *name;
     char *value;
+    char *type;
+    long lValue;
+    int nValue;
+    float fValue;
+    double dValue;
+    PyObject *oValue;
     int ierr, var_id;
-
-    if (!PyArg_ParseTuple(args, "iss", &var_id, &name, &value))
+    value = NULL;
+    if (!PyArg_ParseTuple(args, "issO", &var_id, &name, &type, &oValue))
         return NULL;
 
-    ierr = cmor_set_variable_attribute(var_id, name, 'c', (void *)value);
+    if(PyString_Check(oValue)) {
+        value = PyString_AsString(oValue);
+    } else if(PyLong_Check(oValue)) {
+        lValue = PyLong_AsLong(oValue);
+    } else if (PyFloat_Check(oValue)) {
+        dValue = PyFloat_AsDouble(oValue);
+    }
+
+    if (type[0] == 'f') {
+        fValue = (float) dValue;
+        value = (char *) &fValue;
+    } else if (type[0] == 'd') {
+        value = (char *) &dValue;
+    } else if (type[0] == 'i') {
+        nValue = (int) lValue;
+        value = (char *) &nValue;
+    } else if (type[0] == 'l') {
+        value = (char *) &lValue;
+    }
+
+    ierr = cmor_set_variable_attribute(var_id, name, type[0], (void *)value);
 
     if (ierr != 0 || raise_exception) {
         raise_exception = 0;
@@ -321,6 +347,11 @@ static PyObject *PyCMOR_getincvalues(PyObject * self, PyObject * args)
         return (Py_BuildValue("i", CMOR_APPEND_4));
     } else if (strcmp(att_name, "CMOR_REPLACE_4") == 0) {
         return (Py_BuildValue("i", CMOR_REPLACE_4));
+    } else if (strcmp(att_name, "GLOBAL_ATT_HISTORYTMPL") == 0) {
+        return (Py_BuildValue("s", GLOBAL_ATT_HISTORYTMPL));
+    } else if (strcmp(att_name, "CMOR_DEFAULT_HISTORY_TEMPLATE") == 0) {
+        return (Py_BuildValue("s",CMOR_DEFAULT_HISTORY_TEMPLATE ));
+
     } else {
         /* Return NULL Python Object */
         Py_INCREF(Py_None);
@@ -720,6 +751,7 @@ static PyObject *PyCMOR_write(PyObject * self, PyObject * args)
     PyObject *data_obj = NULL;
     PyArrayObject *data_array = NULL;
     void *data;
+    char *suffix;
     char *itype;
     char type;
     int ntimes;
@@ -735,7 +767,7 @@ static PyObject *PyCMOR_write(PyObject * self, PyObject * args)
     int iref;
 
     if (!PyArg_ParseTuple
-        (args, "iOsiOOO", &var_id, &data_obj, &itype, &ntimes,
+        (args, "iOssiOOO", &var_id, &data_obj, &itype, &suffix, &ntimes,
          &times_obj, &times_bnds_obj, &ref_obj))
         return NULL;
 
@@ -772,9 +804,8 @@ static PyObject *PyCMOR_write(PyObject * self, PyObject * args)
         ref = &iref;
     }
     type = itype[0];
-
     ierr = 0;
-    ierr = cmor_write(var_id, data, type, ntimes, times, times_bnds, ref);
+    ierr = cmor_write(var_id, data, type, suffix, ntimes, times, times_bnds, ref);
     Py_DECREF(data_array);
     if (times_array != NULL) {
         Py_DECREF(times_array);

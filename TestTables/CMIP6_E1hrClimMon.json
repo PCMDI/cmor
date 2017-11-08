@@ -1,20 +1,20 @@
 {
     "Header": {
-        "data_specs_version": "01.00.15", 
+        "data_specs_version": "01.00.16", 
         "table_id": "Table E1hrClimMon", 
         "realm": "atmos", 
         "cmor_version": "3.2", 
-        "table_date": "03 August 2017", 
+        "table_date": "08 November 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "0.017361", 
         "generic_levels": "", 
         "mip_era": "CMIP6", 
-        "Conventions": "CF-1.7 CMIP-6.0"
+        "Conventions": "CF-1.7 CMIP-6.2"
     }, 
     "variable_entry": {
         "rlut": {
-            "frequency": "1hrClimMon", 
+            "frequency": "1hrCM", 
             "modeling_realm": "atmos", 
             "standard_name": "toa_outgoing_longwave_flux", 
             "units": "W m-2", 
@@ -32,14 +32,14 @@
             "ok_max_mean_abs": ""
         }, 
         "rlutcs": {
-            "frequency": "1hrClimMon", 
+            "frequency": "1hrCM", 
             "modeling_realm": "atmos", 
             "standard_name": "toa_outgoing_longwave_flux_assuming_clear_sky", 
             "units": "W m-2", 
             "cell_methods": "area: mean time: mean within days time: mean over days", 
             "cell_measures": "area: areacella", 
             "long_name": "TOA Outgoing Clear-sky Longwave Radiation", 
-            "comment": "", 
+            "comment": "Upwelling clear-sky longwave radiation at top of atmosphere", 
             "dimensions": "longitude latitude time3", 
             "out_name": "rlutcs", 
             "type": "", 
@@ -50,7 +50,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsdt": {
-            "frequency": "1hrClimMon", 
+            "frequency": "1hrCM", 
             "modeling_realm": "atmos", 
             "standard_name": "toa_incoming_shortwave_flux", 
             "units": "W m-2", 
@@ -68,7 +68,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsut": {
-            "frequency": "1hrClimMon", 
+            "frequency": "1hrCM", 
             "modeling_realm": "atmos", 
             "standard_name": "toa_outgoing_shortwave_flux", 
             "units": "W m-2", 
@@ -86,7 +86,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsutcs": {
-            "frequency": "1hrClimMon", 
+            "frequency": "1hrCM", 
             "modeling_realm": "atmos", 
             "standard_name": "toa_outgoing_shortwave_flux_assuming_clear_sky", 
             "units": "W m-2", 

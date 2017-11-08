@@ -796,7 +796,7 @@ def write(var_id, data, ntimes_passed=None, file_suffix="",
         raise Exception(
             "Error data type must one of: 'f','d','i','l', please convert first")
 
-    return _cmor.write(var_id, data, type, ntimes_passed,
+    return _cmor.write(var_id, data, type, file_suffix, ntimes_passed,
                        time_vals, time_bnds, store_with)
 
 
@@ -966,7 +966,7 @@ def set_furtherinfourl(varid):
     """
     return _cmor.set_furtherinfourl(varid)
 
-def set_variable_attribute(var_id, name, value):
+def set_variable_attribute(var_id, name, atype, value):
     """Sets an attribute onto a cmor variable
     Usage:
       cmor.set_variable_attribute(var_id,name,value)
@@ -975,11 +975,7 @@ def set_variable_attribute(var_id, name, value):
       name  : is the name of the attribute
       value : is the value for this attribute
     """
-    if value is None:
-        val = ""
-    else:
-        val = str(value)
-    return _cmor.set_variable_attribute(var_id, name, val)
+    return _cmor.set_variable_attribute(var_id, name, atype, value)
 
 
 def set_deflate(var_id, shuffle, deflate, deflate_level):

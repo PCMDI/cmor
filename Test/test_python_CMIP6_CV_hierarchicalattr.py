@@ -42,9 +42,9 @@ class TestCase(unittest.TestCase):
         # Create tmpfile
         # --------------
         self.tmpfile = tempfile.mkstemp()
-#        os.dup2(self.tmpfile[0], 1)
-#        os.dup2(self.tmpfile[0], 2)
-#        os.close(self.tmpfile[0])
+        os.dup2(self.tmpfile[0], 1)
+        os.dup2(self.tmpfile[0], 2)
+        os.close(self.tmpfile[0])
 
 
     def testCMIP6(self):

@@ -15,22 +15,16 @@
 import cmor
 import numpy
 import unittest
-import signal
 import sys
 import os
 import tempfile
-
-
-# ==============================
-#  main thread
-# ==============================
-def run():
-    unittest.main()
+import cdms2
+import time
 
 
 class TestCase(unittest.TestCase):
 
-    def setUp(self, *args, **kwargs):
+    def setUp(self):
         # ------------------------------------------------------
         # Copy stdout and stderr file descriptor for cmor output
         # ------------------------------------------------------
@@ -44,56 +38,54 @@ class TestCase(unittest.TestCase):
         os.dup2(self.tmpfile[0], 2)
         os.close(self.tmpfile[0])
 
-    def getAssertTest(self):
-        f = open(self.tmpfile[1], 'r')
-        lines = f.readlines()
-        for line in lines:
-            if line.find('Error') != -1:
-                testOK = line.strip()
-                break
-        f.close()
-        os.unlink(self.tmpfile[1])
-        return testOK
-
-    def testCMIP6(self):
+    def testCMIP6_historytemplate(self):
+        # -------------------------------------------
+        # Try to call cmor with a bad institution_ID
+        # -------------------------------------------
         try:
-            # -------------------------------------------
-            # Try to call cmor with a bad institution_ID
-            # -------------------------------------------
-            cmor.setup(
-                inpath='TestTables',
-                netcdf_file_action=cmor.CMOR_REPLACE)
+            cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
             cmor.dataset_json("Test/common_user_input.json")
-
             # ------------------------------------------
             # load Omon table and create masso variable
             # ------------------------------------------
-            cmor.load_table("CMIP6_Omonbad.json")
+            cmor.load_table("CMIP6_Omon.json")
+
             itime = cmor.axis(table_entry="time", units='months since 2010',
                               coord_vals=numpy.array([0, 1, 2, 3, 4.]),
                               cell_bounds=numpy.array([0, 1, 2, 3, 4, 5.]))
+
             ivar = cmor.variable(
                 table_entry="masso",
                 axis_ids=[itime],
+                type=numpy.dtype('float32').char,
                 units='kg')
 
-            data = numpy.random.random(5)
-            for i in range(0, 5):
+            data = numpy.random.random(5).astype('float32')
+            # set fill_value
+            data[0]=23;
+            data[4]=23;
+
+            cmor.set_cur_dataset_attribute("_history_template", "%s; CMOR mip_era is: <mip_era>")
+            cmor.set_cur_dataset_attribute("history", "myMIP")
+            for i in range(0, 5): 
                 cmor.write(ivar, data[i:i])
             cmor.close()
         except BaseException:
-            pass
+            raise
+
         os.dup2(self.newstdout, 1)
         os.dup2(self.newstderr, 2)
-        sys.stdout = os.fdopen(self.newstdout, 'w', 0)
-        sys.stderr = os.fdopen(self.newstderr, 'w', 0)
-        testOK = self.getAssertTest()
-        self.assertIn("mip_era", testOK)
+        version =time.strftime("%Y%m%d")
+        f=cdms2.open("CMIP6/CMIP6/ISMIP6/PCMDI/PCMDI-test-1-0/piControl-withism/r11i1p1f1/Omon/masso/gr/v"+version+"/masso_Omon_PCMDI-test-1-0_piControl-withism_r11i1p1f1_gr_201001-201005.nc")
+        history=f.history
+        self.assertIn("CMOR mip_era is: CMIP6",history)
+        self.assertIn("myMIP",history)
 
     def tearDown(self):
         import shutil
-        shutil.rmtree("./CMIP6")
+#        shutil.rmtree("./CMIP6")
+
 
 
 if __name__ == '__main__':
-    run()
+    unittest.main()

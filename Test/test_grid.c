@@ -205,7 +205,7 @@ int main()
         read_2d_input_files(i, "LATENT", &data2d[0], lat, lon);
         //for(j=0;j<10;j++) printf("Test code: %i out of %i : %lf\n",j,9,data2d[j]);
         printf("var id: %i\n", myvars[0]);
-        ierr = cmor_write(myvars[0], &data2d, 'd', 1, NULL, NULL, NULL);
+        ierr = cmor_write(myvars[0], &data2d, 'd', NULL, 1, NULL, NULL, NULL);
     }
     printf("ok loop done\n");
     ierr = cmor_close();
