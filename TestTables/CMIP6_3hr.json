@@ -1,16 +1,16 @@
 {
     "Header": {
-        "data_specs_version": "01.00.15", 
+        "data_specs_version": "01.00.16", 
         "table_id": "Table 3hr", 
         "realm": "atmos", 
         "cmor_version": "3.2", 
-        "table_date": "03 August 2017", 
+        "table_date": "08 November 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "0.125000", 
         "generic_levels": "", 
         "mip_era": "CMIP6", 
-        "Conventions": "CF-1.7 CMIP-6.0"
+        "Conventions": "CF-1.7 CMIP-6.2"
     }, 
     "variable_entry": {
         "clt": {
@@ -68,7 +68,7 @@
             "ok_max_mean_abs": ""
         }, 
         "huss": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "specific_humidity", 
             "units": "1.0", 
@@ -104,7 +104,7 @@
             "ok_max_mean_abs": ""
         }, 
         "mrsos": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "land", 
             "standard_name": "moisture_content_of_soil_layer", 
             "units": "kg m-2", 
@@ -176,7 +176,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ps": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_air_pressure", 
             "units": "Pa", 
@@ -338,7 +338,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tas": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "air_temperature", 
             "units": "K", 
@@ -356,7 +356,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tos": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "ocean", 
             "standard_name": "sea_surface_temperature", 
             "units": "K", 
@@ -374,7 +374,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tslsi": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "land", 
             "standard_name": "surface_temperature", 
             "units": "K", 
@@ -392,7 +392,7 @@
             "ok_max_mean_abs": ""
         }, 
         "uas": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "eastward_wind", 
             "units": "m s-1", 
@@ -410,7 +410,7 @@
             "ok_max_mean_abs": ""
         }, 
         "vas": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "northward_wind", 
             "units": "m s-1", 

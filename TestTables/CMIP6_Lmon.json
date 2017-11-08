@@ -1,16 +1,16 @@
 {
     "Header": {
-        "data_specs_version": "01.00.15", 
+        "data_specs_version": "01.00.16", 
         "table_id": "Table Lmon", 
         "realm": "land", 
         "cmor_version": "3.2", 
-        "table_date": "03 August 2017", 
+        "table_date": "08 November 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "30.00000", 
         "generic_levels": "", 
         "mip_era": "CMIP6", 
-        "Conventions": "CF-1.7 CMIP-6.0"
+        "Conventions": "CF-1.7 CMIP-6.2"
     }, 
     "variable_entry": {
         "baresoilFrac": {
@@ -528,24 +528,6 @@
             "comment": "The mass per unit area (summed over all model layers) of frozen water.", 
             "dimensions": "longitude latitude time", 
             "out_name": "mrfso", 
-            "type": "real", 
-            "positive": "", 
-            "valid_min": "", 
-            "valid_max": "", 
-            "ok_min_mean_abs": "", 
-            "ok_max_mean_abs": ""
-        }, 
-        "mrlsl": {
-            "frequency": "mon", 
-            "modeling_realm": "land", 
-            "standard_name": "moisture_content_of_soil_layer", 
-            "units": "kg m-2", 
-            "cell_methods": "area: mean where land time: mean", 
-            "cell_measures": "area: areacella", 
-            "long_name": "Water Content of Soil Layer", 
-            "comment": "The mass of water in all phases, including ice, in soil layers.  Report as missing for grid cells with no land.", 
-            "dimensions": "longitude latitude sdepth time", 
-            "out_name": "mrlsl", 
             "type": "real", 
             "positive": "", 
             "valid_min": "", 

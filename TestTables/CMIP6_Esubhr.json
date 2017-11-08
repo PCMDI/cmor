@@ -1,20 +1,20 @@
 {
     "Header": {
-        "data_specs_version": "01.00.15", 
+        "data_specs_version": "01.00.16", 
         "table_id": "Table Esubhr", 
         "realm": "atmos", 
         "cmor_version": "3.2", 
-        "table_date": "03 August 2017", 
+        "table_date": "08 November 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "0.017361", 
         "generic_levels": "alevel alevhalf", 
         "mip_era": "CMIP6", 
-        "Conventions": "CF-1.7 CMIP-6.0"
+        "Conventions": "CF-1.7 CMIP-6.2"
     }, 
     "variable_entry": {
         "bldep": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "aerosol", 
             "standard_name": "atmosphere_boundary_layer_thickness", 
             "units": "m", 
@@ -32,7 +32,7 @@
             "ok_max_mean_abs": ""
         }, 
         "hfls": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_upward_latent_heat_flux", 
             "units": "W m-2", 
@@ -50,7 +50,7 @@
             "ok_max_mean_abs": ""
         }, 
         "hfss": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_upward_sensible_heat_flux", 
             "units": "W m-2", 
@@ -68,7 +68,7 @@
             "ok_max_mean_abs": ""
         }, 
         "hus": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "specific_humidity", 
             "units": "1.0", 
@@ -86,7 +86,7 @@
             "ok_max_mean_abs": ""
         }, 
         "huss": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "specific_humidity", 
             "units": "1.0", 
@@ -104,7 +104,7 @@
             "ok_max_mean_abs": ""
         }, 
         "mc": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "atmosphere_net_upward_convective_mass_flux", 
             "units": "kg m-2 s-1", 
@@ -122,7 +122,7 @@
             "ok_max_mean_abs": ""
         }, 
         "pr": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "precipitation_flux", 
             "units": "kg m-2 s-1", 
@@ -140,7 +140,7 @@
             "ok_max_mean_abs": ""
         }, 
         "prc": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "convective_precipitation_flux", 
             "units": "kg m-2 s-1", 
@@ -158,7 +158,7 @@
             "ok_max_mean_abs": ""
         }, 
         "prw": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "atmosphere_water_vapor_content", 
             "units": "kg m-2", 
@@ -176,7 +176,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ps": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_air_pressure", 
             "units": "Pa", 
@@ -194,7 +194,7 @@
             "ok_max_mean_abs": ""
         }, 
         "reffclic": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "effective_radius_of_convective_cloud_ice_particle", 
             "units": "m", 
@@ -212,7 +212,7 @@
             "ok_max_mean_abs": ""
         }, 
         "reffclis": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "effective_radius_of_stratiform_cloud_ice_particle", 
             "units": "m", 
@@ -230,7 +230,7 @@
             "ok_max_mean_abs": ""
         }, 
         "reffclwc": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "effective_radius_of_convective_cloud_liquid_water_particle", 
             "units": "m", 
@@ -248,7 +248,7 @@
             "ok_max_mean_abs": ""
         }, 
         "reffclws": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "effective_radius_of_stratiform_cloud_liquid_water_particle", 
             "units": "m", 
@@ -266,7 +266,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rlut": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "toa_outgoing_longwave_flux", 
             "units": "W m-2", 
@@ -284,7 +284,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsdt": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "toa_incoming_shortwave_flux", 
             "units": "W m-2", 
@@ -302,7 +302,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsut": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "toa_outgoing_shortwave_flux", 
             "units": "W m-2", 
@@ -320,7 +320,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ta": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "air_temperature", 
             "units": "K", 
@@ -338,7 +338,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tas": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "air_temperature", 
             "units": "K", 
@@ -356,7 +356,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tnhus": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "tendency_of_specific_humidity", 
             "units": "s-1", 
@@ -374,7 +374,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tnhuspbl": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "tendency_of_specific_humidity_due_to_boundary_layer_mixing", 
             "units": "s-1", 
@@ -392,7 +392,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tnhusscp": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "tendency_of_specific_humidity_due_to_stratiform_clouds_and_precipitation", 
             "units": "s-1", 
@@ -410,7 +410,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tnt": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "tendency_of_air_temperature", 
             "units": "K s-1", 
@@ -428,7 +428,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tntd": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "tendency_of_air_temperature_due_to_numerical_diffusion", 
             "units": "K s-1", 
@@ -446,7 +446,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tntpbl": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "tendency_of_air_temperature_due_to_boundary_layer_mixing", 
             "units": "K s-1", 
@@ -464,7 +464,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tntrl": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "aerosol", 
             "standard_name": "tendency_of_air_temperature_due_to_longwave_heating", 
             "units": "K s-1", 
@@ -482,7 +482,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tntrlcs": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "tendency_of_air_temperature_due_to_longwave_heating_assuming_clear_sky", 
             "units": "K s-1", 
@@ -500,7 +500,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tntrs": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "aerosol", 
             "standard_name": "tendency_of_air_temperature_due_to_shortwave_heating", 
             "units": "K s-1", 
@@ -518,7 +518,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tntrscs": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "tendency_of_air_temperature_due_to_shortwave_heating_assuming_clear_sky", 
             "units": "K s-1", 
@@ -536,7 +536,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tntscp": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "tendency_of_air_temperature_due_to_stratiform_clouds_and_precipitation", 
             "units": "K s-1", 
@@ -554,7 +554,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ua": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "eastward_wind", 
             "units": "m s-1", 
@@ -572,7 +572,7 @@
             "ok_max_mean_abs": ""
         }, 
         "va": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "northward_wind", 
             "units": "m s-1", 
@@ -590,7 +590,7 @@
             "ok_max_mean_abs": ""
         }, 
         "wap": {
-            "frequency": "subhr", 
+            "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "lagrangian_tendency_of_air_pressure", 
             "units": "Pa s-1", 

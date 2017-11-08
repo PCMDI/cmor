@@ -34,40 +34,42 @@
         ],
         "version_metadata":{
             "author":"Paul J. Durack <durack1@llnl.gov>",
-            "creation_date":"Thu Aug 10 07:48:40 2017 -0700",
+            "creation_date":"Wed Nov 8 10:22:13 2017 -0800",
             "institution_id":"PCMDI",
-            "latest_tag_point":"3.2.5 (20; ge4cdec0)",
-            "note":"Register source_id IPSL-CM6A-LR",
-            "previous_commit":"962b4f85454e1889d96073e87dfa6ee2d30c215e"
+            "latest_tag_point":"3.2.7 (93; g38a80ac)",
+            "note":"Correct model components for various LS3MIP/LUMIP experiments",
+            "previous_commit":"9849ad4dfe7a943e440e4a73a0821a8bf0a95bdd"
         },
-        "activity_id":[
-            "AerChemMIP",
-            "C4MIP",
-            "CFMIP",
-            "CMIP",
-            "CORDEX",
-            "DAMIP",
-            "DCPP",
-            "DynVarMIP",
-            "FAFMIP",
-            "GMMIP",
-            "GeoMIP",
-            "HighResMIP",
-            "ISMIP6",
-            "LS3MIP",
-            "LUMIP",
-            "OMIP",
-            "PMIP",
-            "RFMIP",
-            "SIMIP",
-            "ScenarioMIP",
-            "VIACSAB",
-            "VolMIP"
-        ],
+        "activity_id":{
+            "AerChemMIP":"Aerosols and Chemistry Model Intercomparison Project",
+            "C4MIP":"Coupled Climate Carbon Cycle Model Intercomparison Project",
+            "CFMIP":"Cloud Feedback Model Intercomparison Project",
+            "CMIP":"CMIP DECK: 1pctCO2, abrupt4xCO2, amip, esm-piControl, esm-historical, historical, and piControl experiments",
+            "CORDEX":"Coordinated Regional Climate Downscaling Experiment",
+            "DAMIP":"Detection and Attribution Model Intercomparison Project",
+            "DCPP":"Decadal Climate Prediction Project",
+            "DynVarMIP":"Dynamics and Variability Model Intercomparison Project",
+            "FAFMIP":"Flux-Anomaly-Forced Model Intercomparison Project",
+            "GMMIP":"Global Monsoons Model Intercomparison Project",
+            "GeoMIP":"Geoengineering Model Intercomparison Project",
+            "HighResMIP":"High-Resolution Model Intercomparison Project",
+            "ISMIP6":"Ice Sheet Model Intercomparison Project for CMIP6",
+            "LS3MIP":"Land Surface, Snow and Soil Moisture",
+            "LUMIP":"Land-Use Model Intercomparison Project",
+            "OMIP":"Ocean Model Intercomparison Project",
+            "PMIP":"Palaeoclimate Modelling Intercomparison Project",
+            "RFMIP":"Radiative Forcing Model Intercomparison Project",
+            "SIMIP":"Sea Ice Model Intercomparison Project",
+            "ScenarioMIP":"Scenario Model Intercomparison Project",
+            "VIACSAB":"Vulnerability, Impacts, Adaptation and Climate Services Advisory Board",
+            "VolMIP":"Volcanic Forcings Model Intercomparison Project"
+        },
         "institution_id":{
             "AWI":"Alfred Wegener Institute, Helmholtz Centre for Polar and Marine Research, Am Handelshafen 12, 27570 Bremerhaven, Germany",
+            "BCC":"Beijing Climate Center, Beijing 100081, China",
             "BNU":"Beijing Normal University, Beijing 100875, China",
             "CAMS":"Chinese Academy of Meteorological Sciences, Beijing 100081, China",
+            "CAS":"Chinese Academy of Sciences, Beijing 100029, China",
             "CCCR-IITM":"Centre for Climate Change Research, Indian Institute of Tropical Meteorology Pune, Maharashtra 411 008, India",
             "CCCma":"Canadian Centre for Climate Modelling and Analysis, Victoria, BC V8P 5C2, Canada",
             "CMCC":"Fondazione Centro Euro-Mediterraneo sui Cambiamenti Climatici, Lecce 73100, Italy",
@@ -76,6 +78,7 @@
             "CSIRO-BOM":"Commonwealth Scientific and Industrial Research Organisation and Bureau of Meteorology, Melbourne, Victoria 3208, Australia",
             "EC-Earth-Consortium":"KNMI, The Netherlands; SMHI, Sweden; DMI, Denmark; AEMET, Spain; Met Eireann, Ireland; CNR-ISAC, Italy; Instituto de Meteorologia, Portugal; FMI, Finland; BSC, Spain; Centro de Geofisica, University of Lisbon, Portugal; ENEA, Italy; Geomar, Germany; Geophysical Institute, University of Bergen, Norway; ICHEC, Ireland; ICTP, Italy; IMAU, The Netherlands; IRV, Sweden;  Lund University, Sweden; Meteorologiska Institutionen, Stockholms University, Sweden; Niels Bohr Institute, University of Copenhagen, Denmark; NTNU, Norway; SARA, The Netherlands; Unite ASTR, Belgium; Universiteit Utrecht, The Netherlands; Universiteit Wageningen, The Netherlands; University College Dublin, Ireland; Vrije Universiteit Amsterdam, the Netherlands; University of Helsinki, Finland; KIT, Karlsruhe, Germany; USC, University of Santiago de Compostela, Spain; Uppsala Universitet, Sweden; NLeSC, Netherlands eScience Center, The Netherlands",
             "FIO-RONM":"FIO (First Institute of Oceanography, State Oceanic Administration, Qingdao 266061, China), RONM (Laboratory for Regional Oceanography and Numerical Modeling, Qingdao National Laboratory for Marine Science and Technology, Qingdao 266237, China)",
+            "HAMMOZ-Consortium":"ETH Zurich, Switzerland; Max Planck Institut fur Meteorologie, Germany; Forschungszentrum Julich, Germany; University of Oxford, UK; Finnish Meteorological Institute, Finland; Leibniz Institute for Tropospheric Research, Germany; Center for Climate Systems Modeling (C2SM) at ETH Zurich, Switzerland",
             "INM":"Institute for Numerical Mathematics, Russian Academy of Science, Moscow 119991, Russia",
             "INPE":"National Institute for Space Research, Cachoeira Paulista, SP 12630-000, Brazil",
             "IPSL":"Institut Pierre Simon Laplace, Paris 75252, France",
@@ -89,6 +92,7 @@
             "NCC":"NorESM Climate modeling Consortium consisting of CICERO (Center for International Climate and Environmental Research, Oslo 0349), MET-Norway (Norwegian Meteorological Institute, Oslo 0313), NERSC (Nansen Environmental and Remote Sensing Center, Bergen 5006), NILU (Norwegian Institute for Air Research, Kjeller 2027), UiB (University of Bergen, Bergen 5007), UiO (University of Oslo, Oslo 0313) and UNI (Uni Research, Bergen 5008), Norway",
             "NERC":"Natural Environment Research Council, STFC-RAL, Harwell, Oxford, OX11 0QX, UK",
             "NIMS-KMA":"National Institute of Meteorological Sciences/Korea Meteorological Administration, Climate Research Division, Seoho-bukro 33, Seogwipo-si, Jejudo 63568, Republic of Korea",
+            "NIWA":"National Institute of Water and Atmospheric Research, Hataitai, Wellington 6021, New Zealand",
             "NOAA-GFDL":"National Oceanic and Atmospheric Administration, Geophysical Fluid Dynamics Laboratory, Princeton, NJ 08540, USA",
             "NUIST":"Nanjing University of Information Science and Technology, Nanjing, 210044, China",
             "PCMDI":"Program for Climate Model Diagnosis and Intercomparison, Lawrence Livermore National Laboratory, Livermore, CA 94550, USA",
@@ -163,6 +167,56 @@
                 ],
                 "source_id":"AWI-CM-1-0-MR",
                 "source":"AWI-CM 1.0 MR (2017): \naerosol: none\natmos: ECHAM6.3.02p4 (T127L95 native atmosphere T127 gaussian grid; 384 x 192 longitude/latitude; 95 levels; top level 80 km)\natmosChem: none\nland: JSBACH 3.10\nlandIce: none\nocean: FESOM 1.4 (unstructured grid in the horizontal with 830305 wet nodes; 46 levels; top grid cell 0-5 m)\nocnBgchem: none\nseaIce: FESOM 1.4"
+            },
+            "BCC-CSM2-HR":{
+                "activity_participation":[
+                    "CMIP",
+                    "HighResMIP"
+                ],
+                "cohort":[
+                    "Registered"
+                ],
+                "institution_id":[
+                    "BCC"
+                ],
+                "source_id":"BCC-CSM2-HR",
+                "source":"BCC-CSM 2 HR (2017): \naerosol: none\natmos: BCC_AGCM3_LR (T266; 800 x 400 longitude/latitude; 56 levels; top level 0.1 hPa)\natmosChem: none\nland: BCC_AVIM2\nlandIce: none\nocean: MOM4 (1/3 deg 30S-30N, 1/3-1 deg 30-60 N/S, and 1 deg in high latitudes; 360 x 232 longitude/latitude; 40 levels; top grid cell 0-10 m)\nocnBgchem: none\nseaIce: SIS2"
+            },
+            "BCC-CSM2-MR":{
+                "activity_participation":[
+                    "C4MIP",
+                    "CFMIP",
+                    "CMIP",
+                    "DAMIP",
+                    "DCPP",
+                    "GMMIP",
+                    "LS3MIP",
+                    "LUMIP",
+                    "RFMIP",
+                    "ScenarioMIP"
+                ],
+                "cohort":[
+                    "Registered"
+                ],
+                "institution_id":[
+                    "BCC"
+                ],
+                "source_id":"BCC-CSM2-MR",
+                "source":"BCC-CSM 2 MR (2017): \naerosol: none\natmos: BCC_AGCM3_MR (T106; 320 x 160 longitude/latitude; 46 levels; top level 1.46 hPa)\natmosChem: none\nland: BCC_AVIM2\nlandIce: none\nocean: MOM4 (1/3 deg 30S-30N, 1/3-1 deg 30-60 N/S, and 1 deg in high latitudes; 360 x 232 longitude/latitude; 40 levels; top grid cell 0-10 m)\nocnBgchem: none\nseaIce: SIS2"
+            },
+            "BCC-ESM1":{
+                "activity_participation":[
+                    "AerChemMIP",
+                    "CMIP"
+                ],
+                "cohort":[
+                    "Registered"
+                ],
+                "institution_id":[
+                    "BCC"
+                ],
+                "source_id":"BCC-ESM1",
+                "source":"BCC-ESM 1 (2017): \naerosol: none\natmos: BCC_AGCM3_LR (T42; 128 x 64 longitude/latitude; 26 levels; top level 2.19 hPa)\natmosChem: BCC-AGCM3-Chem\nland: BCC_AVIM2\nlandIce: none\nocean: MOM4 (1/3 deg 30S-30N, 1/3-1 deg 30-60 N/S, and 1 deg in high latitudes; 360 x 232 longitude/latitude; 40 levels; top grid cell 0-10 m)\nocnBgchem: none\nseaIce: SIS2"
             },
             "BESM-2-7":{
                 "activity_participation":[
@@ -590,8 +644,11 @@
             },
             "GFDL-CM4":{
                 "activity_participation":[
+                    "CFMIP",
                     "CMIP",
-                    "OMIP"
+                    "GMMIP",
+                    "OMIP",
+                    "RFMIP"
                 ],
                 "cohort":[
                     "Registered"
@@ -600,20 +657,31 @@
                     "NOAA-GFDL"
                 ],
                 "source_id":"GFDL-CM4",
-                "source":"GFDL-CM4 (2017): \naerosol: interactive\natmos: GFDL-AM4.1 (Cubed-sphere (c96) - 1 degree nominal horizontal resolution; 360 x 180 longitude/latitude; 33 levels; top level 1 hPa)\natmosChem: unnamed (fast chemistry, aerosol only)\nland: GFDL-LM4.0\nlandIce: GFDL-LM4.0\nocean: GFDL-MOM6 (tripolar - nominal 0.25 deg; 1440 x 720 longitude/latitude; 75 levels; top grid cell 0-2 m)\nocnBgchem: none\nseaIce: SIS2"
+                "source":"GFDL-CM4 (2017): \naerosol: interactive\natmos: GFDL-AM4.1 (Cubed-sphere (c96) - 1 degree nominal horizontal resolution; 360 x 180 longitude/latitude; 33 levels; top level 1 hPa)\natmosChem: unnamed (fast chemistry, aerosol only)\nland: GFDL-LM4.0\nlandIce: GFDL-LM4.0\nocean: GFDL-MOM6 (tripolar - nominal 0.25 deg; 1440 x 720 longitude/latitude; 75 levels; top grid cell 0-2 m)\nocnBgchem: GFDL BLING v2\nseaIce: SIS2"
+            },
+            "GFDL-ESM2M":{
+                "activity_participation":[
+                    "CMIP",
+                    "FAFMIP"
+                ],
+                "cohort":[
+                    "Registered"
+                ],
+                "institution_id":[
+                    "NOAA-GFDL"
+                ],
+                "source_id":"GFDL-ESM2M",
+                "source":"GFDL-ESM2M (2012): \naerosol: GFDL-AM2\natmos: GFDL-AM2 (Cubed-sphere (c48L24) - 2.5 degree lon x 2 degree lat; 144 x 90 longitude/latitude; 24 levels; top level ~3 hPa)\natmosChem: GFDL-AM2 (full atmospheric chemistry)\nland: GFDL-LM3.0\nlandIce: GFDL-LM3.0\nocean: GFDL-MOM4p1 (tripolar - nominal 1 deg; 360 x 200 longitude/latitude; 50 levels; top grid cell 0-10 m)\nocnBgchem: none\nseaIce: SIS (Tripolar360x200L50)"
             },
             "GFDL-ESM4":{
                 "activity_participation":[
                     "AerChemMIP",
                     "C4MIP",
-                    "CFMIP",
                     "CMIP",
                     "DAMIP",
                     "DynVarMIP",
-                    "GMMIP",
                     "LUMIP",
                     "OMIP",
-                    "RFMIP",
                     "ScenarioMIP"
                 ],
                 "cohort":[
@@ -708,6 +776,20 @@
                 "source_id":"HadGEM3-GC31-LM",
                 "source":"HadGEM3-GC31-LM (2016): \naerosol: UKCA-GLOMAP-mode\natmos: MetUM-HadGEM3-GA7.1 (N96; 192 x 144 longitude/latitude; 85 levels; top level 85 km)\natmosChem: none\nland: JULES-HadGEM3-GL7.1\nlandIce: none\nocean: NEMO-HadGEM3-GO6.0 (ORCA025 tripolar primarily 0.25 deg; 1440 x 720 longitude/latitude; 75 levels; top grid cell 0-1 m)\nocnBgchem: none\nseaIce: CICE-HadGEM3-GSI8 (ORCA025 tripolar primarily 0.25 deg; 1440 x 720 longitude/latitude)"
             },
+            "HadGEM3-GC31-MH":{
+                "activity_participation":[
+                    "CMIP",
+                    "HighResMIP"
+                ],
+                "cohort":[
+                    "Registered"
+                ],
+                "institution_id":[
+                    "MOHC"
+                ],
+                "source_id":"HadGEM3-GC31-MH",
+                "source":"HadGEM3-GC31-MH (2016): \naerosol: UKCA-GLOMAP-mode\natmos: MetUM-HadGEM3-GA7.1 (N216; 432 x 324 longitude/latitude; 85 levels; top level 85 km)\natmosChem: none\nland: JULES-HadGEM3-GL7.1\nlandIce: none\nocean: NEMO-HadGEM3-GO6.0 (ORCA12 tripolar primarily 1/12 deg; 4320 x 2160 longitude/latitude; 75 levels; top grid cell 0-1 m)\nocnBgchem: none\nseaIce: CICE-HadGEM3-GSI8 (ORCA12 tripolar primarily 1/12 deg; 4320 x 2160 longitude/latitude)"
+            },
             "HadGEM3-GC31-MM":{
                 "activity_participation":[
                     "DCPP",
@@ -723,6 +805,21 @@
                 ],
                 "source_id":"HadGEM3-GC31-MM",
                 "source":"HadGEM3-GC31-MM (2016): \naerosol: UKCA-GLOMAP-mode\natmos: MetUM-HadGEM3-GA7.1 (N216; 432 x 324 longitude/latitude; 85 levels; top level 85 km)\natmosChem: none\nland: JULES-HadGEM3-GL7.1\nlandIce: none\nocean: NEMO-HadGEM3-GO6.0 (ORCA025 tripolar primarily 0.25 deg; 1440 x 720 longitude/latitude; 75 levels; top grid cell 0-1 m)\nocnBgchem: none\nseaIce: CICE-HadGEM3-GSI8 (ORCA025 tripolar primarily 0.25 deg; 1440 x 720 longitude/latitude)"
+            },
+            "ICON-ESM-LR":{
+                "activity_participation":[
+                    "CMIP",
+                    "OMIP",
+                    "SIMIP"
+                ],
+                "cohort":[
+                    "Registered"
+                ],
+                "institution_id":[
+                    "MPI-M"
+                ],
+                "source_id":"ICON-ESM-LR",
+                "source":"ICON-ESM-LR (2017): \naerosol: none, prescribed MACv2-SP\natmos: ICON-AES (icosahedral/triangles; 160 km; 47 levels; top level 80 km)\natmosChem: none\nland: JSBACH4.20\nlandIce: none/prescribed\nocean: ICON-OES (icosahedral/triangles; 40 km; 40 levels; top grid cell 0-12 m)\nocnBgchem: HAMOCC\nseaIce: unnamed (thermodynamic (Semtner zero-layer) dynamic (Hibler 79) sea ice model)"
             },
             "IITM-ESM":{
                 "activity_participation":[
@@ -867,7 +964,7 @@
                 "source_id":"MIROC6",
                 "source":"MIROC6 (2017): \naerosol: SPRINTARS6.0\natmos: CCSR AGCM (T85; 256 x 128 longitude/latitude; 81 levels; top level 0.004 hPa)\natmosChem: none\nland: MATSIRO6.0\nlandIce: none\nocean: COCO4.9 (tripolar primarily 1deg; 360 x 256 longitude/latitude; 63 levels; top grid cell 0-2 m)\nocnBgchem: none\nseaIce: COCO4.9"
             },
-            "MPIESM-1-2-HR":{
+            "MPI-ESM-1-2-HR":{
                 "activity_participation":[
                     "CMIP",
                     "CORDEX",
@@ -886,10 +983,10 @@
                 "institution_id":[
                     "MPI-M"
                 ],
-                "source_id":"MPIESM-1-2-HR",
-                "source":"MPIESM1.2-HR (2017): \naerosol: none, prescribed MACv2-SP\natmos: ECHAM6.3 (spectral T127; 384 x 192 longitude/latitude; 95 levels; top level 0.01 hPa)\natmosChem: none\nland: JSBACH3.20\nlandIce: none/prescribed\nocean: MPIOM1.63 (tripolar TP04, approximately 0.4deg; 802 x 404 longitude/latitude; 40 levels; top grid cell 0-12 m)\nocnBgchem: HAMOCC\nseaIce: unnamed (thermodynamic (Semtner zero-layer) dynamic (Hibler 79) sea ice model)"
+                "source_id":"MPI-ESM-1-2-HR",
+                "source":"MPI-ESM1.2-HR (2017): \naerosol: none, prescribed MACv2-SP\natmos: ECHAM6.3 (spectral T127; 384 x 192 longitude/latitude; 95 levels; top level 0.01 hPa)\natmosChem: none\nland: JSBACH3.20\nlandIce: none/prescribed\nocean: MPIOM1.63 (tripolar TP04, approximately 0.4deg; 802 x 404 longitude/latitude; 40 levels; top grid cell 0-12 m)\nocnBgchem: HAMOCC\nseaIce: unnamed (thermodynamic (Semtner zero-layer) dynamic (Hibler 79) sea ice model)"
             },
-            "MPIESM-1-2-LR":{
+            "MPI-ESM-1-2-LR":{
                 "activity_participation":[
                     "C4MIP",
                     "CFMIP",
@@ -915,23 +1012,37 @@
                 "institution_id":[
                     "MPI-M"
                 ],
-                "source_id":"MPIESM-1-2-LR",
-                "source":"MPIESM1.2-LR (2017): \naerosol: none, prescribed MACv2-SP\natmos: ECHAM6.3 (spectral T63; 192 x 96 longitude/latitude; 47 levels; top level 0.01 hPa)\natmosChem: none\nland: JSBACH3.20\nlandIce: none/prescribed\nocean: MPIOM1.63 (bipolar GR1.5, approximately 1.5deg; 256 x 220 longitude/latitude; 40 levels; top grid cell 0-12 m)\nocnBgchem: HAMOCC\nseaIce: unnamed (thermodynamic (Semtner zero-layer) dynamic (Hibler 79) sea ice model)"
+                "source_id":"MPI-ESM-1-2-LR",
+                "source":"MPI-ESM1.2-LR (2017): \naerosol: none, prescribed MACv2-SP\natmos: ECHAM6.3 (spectral T63; 192 x 96 longitude/latitude; 47 levels; top level 0.01 hPa)\natmosChem: none\nland: JSBACH3.20\nlandIce: none/prescribed\nocean: MPIOM1.63 (bipolar GR1.5, approximately 1.5deg; 256 x 220 longitude/latitude; 40 levels; top grid cell 0-12 m)\nocnBgchem: HAMOCC\nseaIce: unnamed (thermodynamic (Semtner zero-layer) dynamic (Hibler 79) sea ice model)"
             },
-            "MPIESM-2-LR":{
+            "MPIESM-1-2-HAM":{
                 "activity_participation":[
-                    "CMIP",
-                    "OMIP",
-                    "SIMIP"
+                    "AerChemMIP",
+                    "CMIP"
                 ],
                 "cohort":[
                     "Registered"
                 ],
                 "institution_id":[
-                    "MPI-M"
+                    "HAMMOZ-Consortium"
                 ],
-                "source_id":"MPIESM-2-LR",
-                "source":"MPIESM2 (2017): \naerosol: none, prescribed MACv2-SP\natmos: ICON-AES (icosahedral/triangles; 160 km; 47 levels; top level 80 km)\natmosChem: none\nland: JSBACH4.20\nlandIce: none/prescribed\nocean: ICON-OES (icosahedral/triangles; 40 km; 40 levels; top grid cell 0-12 m)\nocnBgchem: HAMOCC\nseaIce: unnamed (thermodynamic (Semtner zero-layer) dynamic (Hibler 79) sea ice model)"
+                "source_id":"MPIESM-1-2-HAM",
+                "source":"MPIESM1.2-HAM (2017): \naerosol: HAM2.3\natmos: ECHAM6.3 (spectral T63; 192 x 96 longitude/latitude; 47 levels; top level 0.01 hPa)\natmosChem: sulfur chemistry (unnamed)\nland: JSBACH 3.20\nlandIce: none\nocean: MPIOM1.63 (bipolar GR1.5, approximately 1.5deg; 256 x 220 longitude/latitude; 40 levels; top grid cell 0-12 m)\nocnBgchem: HAMOCC6\nseaIce: unnamed (thermodynamic (Semtner zero-layer) dynamic (Hibler 79) sea ice model)"
+            },
+            "MRI-AGCM3-2":{
+                "activity_participation":[
+                    "CMIP",
+                    "DynVarMIP",
+                    "HighResMIP"
+                ],
+                "cohort":[
+                    "Registered"
+                ],
+                "institution_id":[
+                    "MRI"
+                ],
+                "source_id":"MRI-AGCM3-2",
+                "source":"MRI-AGCM3-2 (2017): \naerosol: Prescribed from MRI-ESM2.0\natmos: MRI-AGCM3.2S (TL959; 1920 x 960 longitude/latitude; 64 levels; top level 0.01 hPa)\natmosChem: none\nland: SIB0109\nlandIce: none\nocean: none\nocnBgchem: none\nseaIce: none"
             },
             "MRI-ESM2-0":{
                 "activity_participation":[
@@ -1165,7 +1276,8 @@
                 ],
                 "institution_id":[
                     "MOHC",
-                    "NERC"
+                    "NERC",
+                    "NIWA"
                 ],
                 "source_id":"UKESM1-0-LL",
                 "source":"UKESM1.0-LL (2017): \naerosol: UKCA-GLOMAP-mode\natmos: MetUM-HadGEM3-GA7.1 (N96; 192 x 144 longitude/latitude; 85 levels; top level 85 km)\natmosChem: UKCA-StratTrop\nland: JULES-HadGEM3-GL7.1\nlandIce: none\nocean: NEMO-HadGEM3-GO6.0 (ORCA1 tripolar primarily 1 deg with meridional refinement down to 1/3 degree in the tropics; 360 x 292 longitude/latitude; 75 levels; top grid cell 0-1 m)\nocnBgchem: MEDUSA2\nseaIce: CICE-HadGEM3-GSI8 (ORCA1 tripolar primarily 1 deg; 360 x 180 longitude/latitude)"
@@ -1200,78 +1312,83 @@
                 "source":"VRESM 1.0 (2016): \naerosol: Rotstayn-1.0\natmos: VCAM-1.0 (192 x 192 x 6 C192; 35 levels; top level 35km)\natmosChem: none\nland: CABLE v2.2.3\nlandIce: none\nocean: VCOM-1.0 (192 x 192 x 6 C192; 35 levels; top grid cell 0-10m)\nocnBgchem: PISCES v3.4socco\nseaIce: CSIR-ICE (visco-plastic)"
             }
         },
-        "source_type":[
-            "AER",
-            "AGCM",
-            "AOGCM",
-            "BGC",
-            "CHEM",
-            "ISM",
-            "LAND",
-            "OGCM",
-            "RAD",
-            "SLAB"
-        ],
+        "source_type":{
+            "AER":"aerosol treatment in an atmospheric model where concentrations are calculated based on emissions, transformation, and removal processes (rather than being prescribed or omitted entirely)",
+            "AGCM":"atmospheric general circulation model run with prescribed ocean surface conditions and usually a model of the land surface",
+            "AOGCM":"coupled atmosphere-ocean global climate model, additionally including explicit representation of at least the land and sea ice",
+            "BGC":"biogeochemistry model component that at the very least accounts for carbon reservoirs and fluxes in the atmosphere, terrestrial biosphere, and ocean",
+            "CHEM":"chemistry treatment in an atmospheric model that calculates atmospheric oxidant concentrations (including at least ozone), rather than prescribing them",
+            "ISM":"ice-sheet model that includes ice-flow",
+            "LAND":"land model run uncoupled from the atmosphere",
+            "OGCM":"ocean general circulation model run uncoupled from an AGCM but, usually including a sea-ice model",
+            "RAD":"radiation component of an atmospheric model run 'offline'",
+            "SLAB":"slab-ocean used with an AGCM in representing the atmosphere-ocean coupled system"
+        },
         "frequency":{
             "1hr":"sampled hourly",
-            "1hrClimMon":"monthly climatology of diurnal cycle computed from hourly samples",
+            "1hrCM":"monthly-mean diurnal cycle resolving each day into 1-hour means",
+            "1hrPt":"sampled hourly, at specified time point within an hour",
             "3hr":"sampled every 3 hours",
+            "3hrPt":"sampled 3 hourly, at specified time point within the time period",
             "6hr":"sampled every 6 hours",
+            "6hrPt":"sampled 6 hourly, at specified time point within the time period",
             "day":"daily mean samples",
             "dec":"decadal mean samples",
             "fx":"fixed (time invariant) field",
             "mon":"monthly mean samples",
-            "monClim":"monthly climatology computed from monthly mean samples",
-            "subhr":"sampled sub-hourly",
-            "yr":"annual mean samples"
+            "monC":"monthly climatology computed from monthly mean samples",
+            "monPt":"sampled monthly, at specified time point within the time period",
+            "subhrPt":"sampled sub-hourly, at specified time point within an hour",
+            "yr":"annual mean samples",
+            "yrPt":"sampled yearly, at specified time point within the time period"
         },
-        "grid_label":[
-            "gm",
-            "gn",
-            "gna",
-            "gng",
-            "gnz",
-            "gr",
-            "gr1",
-            "gr1a",
-            "gr1g",
-            "gr1z",
-            "gr2",
-            "gr2a",
-            "gr2g",
-            "gr2z",
-            "gr3",
-            "gr3a",
-            "gr3g",
-            "gr3z",
-            "gr4",
-            "gr4a",
-            "gr4g",
-            "gr4z",
-            "gr5",
-            "gr5a",
-            "gr5g",
-            "gr5z",
-            "gr6",
-            "gr6a",
-            "gr6g",
-            "gr6z",
-            "gr7",
-            "gr7a",
-            "gr7g",
-            "gr7z",
-            "gr8",
-            "gr8a",
-            "gr8g",
-            "gr8z",
-            "gr9",
-            "gr9a",
-            "gr9g",
-            "gr9z",
-            "gra",
-            "grg",
-            "grz"
-        ],
+        "grid_label":{
+            "gm":"global mean data",
+            "gn":"data reported on a model's native grid",
+            "gna":"data reported on a native grid in the region of Antarctica",
+            "gng":"data reported on a native grid in the region of Greenland",
+            "gnz":"zonal mean data reported on a model's native latitude grid",
+            "gr":"regridded data reported on the data provider's preferred target grid",
+            "gr1":"regridded data reported on a grid other than the native grid and other than the preferred target grid",
+            "gr1a":"regridded data reported in the region of Antarctica on a grid other than the native grid and other than the preferred target grid",
+            "gr1g":"regridded data reported in the region of Greenland on a grid other than the native grid and other than the preferred target grid",
+            "gr1z":"regridded zonal mean data reported on a grid other than the native latitude grid and other than the preferred latitude target grid",
+            "gr2":"regridded data reported on a grid other than the native grid and other than the preferred target grid",
+            "gr2a":"regridded data reported in the region of Antarctica on a grid other than the native grid and other than the preferred target grid",
+            "gr2g":"regridded data reported in the region of Greenland on a grid other than the native grid and other than the preferred target grid",
+            "gr2z":"regridded zonal mean data reported on a grid other than the native latitude grid and other than the preferred latitude target grid",
+            "gr3":"regridded data reported on a grid other than the native grid and other than the preferred target grid",
+            "gr3a":"regridded data reported in the region of Antarctica on a grid other than the native grid and other than the preferred target grid",
+            "gr3g":"regridded data reported in the region of Greenland on a grid other than the native grid and other than the preferred target grid",
+            "gr3z":"regridded zonal mean data reported on a grid other than the native latitude grid and other than the preferred latitude target grid",
+            "gr4":"regridded data reported on a grid other than the native grid and other than the preferred target grid",
+            "gr4a":"regridded data reported in the region of Antarctica on a grid other than the native grid and other than the preferred target grid",
+            "gr4g":"regridded data reported in the region of Greenland on a grid other than the native grid and other than the preferred target grid",
+            "gr4z":"regridded zonal mean data reported on a grid other than the native latitude grid and other than the preferred latitude target grid",
+            "gr5":"regridded data reported on a grid other than the native grid and other than the preferred target grid",
+            "gr5a":"regridded data reported in the region of Antarctica on a grid other than the native grid and other than the preferred target grid",
+            "gr5g":"regridded data reported in the region of Greenland on a grid other than the native grid and other than the preferred target grid",
+            "gr5z":"regridded zonal mean data reported on a grid other than the native latitude grid and other than the preferred latitude target grid",
+            "gr6":"regridded data reported on a grid other than the native grid and other than the preferred target grid",
+            "gr6a":"regridded data reported in the region of Antarctica on a grid other than the native grid and other than the preferred target grid",
+            "gr6g":"regridded data reported in the region of Greenland on a grid other than the native grid and other than the preferred target grid",
+            "gr6z":"regridded zonal mean data reported on a grid other than the native latitude grid and other than the preferred latitude target grid",
+            "gr7":"regridded data reported on a grid other than the native grid and other than the preferred target grid",
+            "gr7a":"regridded data reported in the region of Antarctica on a grid other than the native grid and other than the preferred target grid",
+            "gr7g":"regridded data reported in the region of Greenland on a grid other than the native grid and other than the preferred target grid",
+            "gr7z":"regridded zonal mean data reported on a grid other than the native latitude grid and other than the preferred latitude target grid",
+            "gr8":"regridded data reported on a grid other than the native grid and other than the preferred target grid",
+            "gr8a":"regridded data reported in the region of Antarctica on a grid other than the native grid and other than the preferred target grid",
+            "gr8g":"regridded data reported in the region of Greenland on a grid other than the native grid and other than the preferred target grid",
+            "gr8z":"regridded zonal mean data reported on a grid other than the native latitude grid and other than the preferred latitude target grid",
+            "gr9":"regridded data reported on a grid other than the native grid and other than the preferred target grid",
+            "gr9a":"regridded data reported in the region of Antarctica on a grid other than the native grid and other than the preferred target grid",
+            "gr9g":"regridded data reported in the region of Greenland on a grid other than the native grid and other than the preferred target grid",
+            "gr9z":"regridded zonal mean data reported on a grid other than the native latitude grid and other than the preferred latitude target grid",
+            "gra":"regridded data in the region of Antarctica reported on the data provider's preferred target grid",
+            "grg":"regridded data in the region of Greenland reported on the data provider's preferred target grid",
+            "grz":"regridded zonal mean data reported on the data provider's preferred latitude target grid"
+        },
         "nominal_resolution":[
             "0.5 km",
             "1 km",
@@ -1345,7 +1462,7 @@
             "fx"
         ],
         "license":[
-            "^CMIP6 model data produced by .* is licensed under a Creative Commons Attribution.*ShareAlike 4.0 International License (https://creativecommons.org/licenses[/]\\{0,1\\})\\. Consult https://pcmdi.llnl.gov/CMIP6/TermsOfUse for terms of use governing CMIP6 output, including citation requirements and proper acknowledgment\\. Further information about this data, including some limitations, can be found via the further_info_url (recorded as a global attribute in this file).*\\. The data producers and data providers make no warranty, either express or implied, including, but not limited to, warranties of merchantability and fitness for a particular purpose\\. All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law\\.$"
+            "^CMIP6 model data produced by .* is licensed under a Creative Commons Attribution.*ShareAlike 4.0 International License (https://creativecommons.org/licenses)\\. Consult https://pcmdi.llnl.gov/CMIP6/TermsOfUse for terms of use governing CMIP6 output, including citation requirements and proper acknowledgment\\. Further information about this data, including some limitations, can be found via the further_info_url (recorded as a global attribute in this file).*\\. The data producers and data providers make no warranty, either express or implied, including, but not limited to, warranties of merchantability and fitness for a particular purpose\\. All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law\\.$"
         ],
         "mip_era":[
             "CMIP6"
@@ -4187,7 +4304,9 @@
                 "activity_id":[
                     "RFMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"historical simulation with specified anthropogenic aerosols, no other forcings",
                 "experiment_id":"hist-spAer-aer",
                 "parent_activity_id":[
@@ -4207,7 +4326,9 @@
                 "activity_id":[
                     "RFMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"historical simulation with specified anthropogenic aerosols",
                 "experiment_id":"hist-spAer-all",
                 "parent_activity_id":[
@@ -4297,7 +4418,9 @@
                 "activity_id":[
                     "AerChemMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"historical SSTs and historical forcing, but with1950 halocarbon concentrations",
                 "experiment_id":"histSST-1950HC",
                 "parent_activity_id":[
@@ -4342,7 +4465,9 @@
                 "activity_id":[
                     "AerChemMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"historical SSTs and historical forcing, but with pre-industrial methane concentrations",
                 "experiment_id":"histSST-piCH4",
                 "parent_activity_id":[
@@ -4412,7 +4537,9 @@
                 "activity_id":[
                     "AerChemMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"historical SSTs and historical forcing, but with pre-industrial ozone precursor emissions",
                 "experiment_id":"histSST-piO3",
                 "parent_activity_id":[
@@ -4507,7 +4634,9 @@
                 "activity_id":[
                     "ISMIP6"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"offline ice sheet model forced by ISM's own AOGCM 1pctCO2to4x output",
                 "experiment_id":"ism-1pctCO2to4x-self",
                 "parent_activity_id":[
@@ -4527,7 +4656,9 @@
                 "activity_id":[
                     "ISMIP6"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"offline ice sheet model forced by ISMIP6-specified AOGCM 1pctCO2to4x output",
                 "experiment_id":"ism-1pctCO2to4x-std",
                 "parent_activity_id":[
@@ -4547,7 +4678,9 @@
                 "activity_id":[
                     "ISMIP6"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"offline ice sheet forced by ISMIP6-specified AGCM AMIP output",
                 "experiment_id":"ism-amip-std",
                 "parent_activity_id":[
@@ -4567,7 +4700,9 @@
                 "activity_id":[
                     "ISMIP6"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"offline ice sheet forced by initMIP synthetic atmospheric experiment",
                 "experiment_id":"ism-asmb-std",
                 "parent_activity_id":[
@@ -4587,7 +4722,9 @@
                 "activity_id":[
                     "ISMIP6"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"offline ice sheet forced by initMIP synthetic oceanic experiment",
                 "experiment_id":"ism-bsmb-std",
                 "parent_activity_id":[
@@ -4607,7 +4744,9 @@
                 "activity_id":[
                     "ISMIP6"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"offline ice sheet model initMIP control",
                 "experiment_id":"ism-ctrl-std",
                 "parent_activity_id":[
@@ -4627,7 +4766,9 @@
                 "activity_id":[
                     "ISMIP6"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"offline ice sheet forced by ISM's own AOGCM historical output",
                 "experiment_id":"ism-historical-self",
                 "parent_activity_id":[
@@ -4647,7 +4788,9 @@
                 "activity_id":[
                     "ISMIP6"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"offline ice sheet forced by ISMIP6-specified AOGCM historical output",
                 "experiment_id":"ism-historical-std",
                 "parent_activity_id":[
@@ -4667,7 +4810,9 @@
                 "activity_id":[
                     "ISMIP6"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"offline ice sheet forced by ISMIP6-specified AGCM last interglacial output",
                 "experiment_id":"ism-lig127k-std",
                 "parent_activity_id":[
@@ -4687,7 +4832,9 @@
                 "activity_id":[
                     "ISMIP6"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"offline ice sheet forced by ISMIP6-specified AOGCM pdControl output",
                 "experiment_id":"ism-pdControl-std",
                 "parent_activity_id":[
@@ -4707,7 +4854,9 @@
                 "activity_id":[
                     "ISMIP6"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"offline ice sheet forced by ISM's own AOGCM piControl output",
                 "experiment_id":"ism-piControl-self",
                 "parent_activity_id":[
@@ -4727,7 +4876,9 @@
                 "activity_id":[
                     "ISMIP6"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"offline ice sheet forced by ISM's own AOGCM ssp585 output",
                 "experiment_id":"ism-ssp585-self",
                 "parent_activity_id":[
@@ -4747,7 +4898,9 @@
                 "activity_id":[
                     "ISMIP6"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"offline ice sheet forced by ISMIP6-specified AOGCM ssp585 output",
                 "experiment_id":"ism-ssp585-std",
                 "parent_activity_id":[
@@ -4767,7 +4920,9 @@
                 "activity_id":[
                     "LUMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"historical land-only constant CO2",
                 "experiment_id":"land-cCO2",
                 "parent_activity_id":[
@@ -4777,7 +4932,8 @@
                     "no parent"
                 ],
                 "required_model_components":[
-                    "LAND"
+                    "LAND",
+                    "BGC"
                 ],
                 "sub_experiment_id":[
                     "none"
@@ -4787,7 +4943,9 @@
                 "activity_id":[
                     "LUMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"historical land-only constant climate",
                 "experiment_id":"land-cClim",
                 "parent_activity_id":[
@@ -4797,7 +4955,8 @@
                     "no parent"
                 ],
                 "required_model_components":[
-                    "LAND"
+                    "LAND",
+                    "BGC"
                 ],
                 "sub_experiment_id":[
                     "none"
@@ -4807,7 +4966,9 @@
                 "activity_id":[
                     "LUMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"historical land-only with cropland as natural grassland",
                 "experiment_id":"land-crop-grass",
                 "parent_activity_id":[
@@ -4817,7 +4978,8 @@
                     "no parent"
                 ],
                 "required_model_components":[
-                    "LAND"
+                    "LAND",
+                    "BGC"
                 ],
                 "sub_experiment_id":[
                     "none"
@@ -4827,7 +4989,9 @@
                 "activity_id":[
                     "LUMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"historical land-only with no fertilizer",
                 "experiment_id":"land-crop-noFert",
                 "parent_activity_id":[
@@ -4837,7 +5001,8 @@
                     "no parent"
                 ],
                 "required_model_components":[
-                    "LAND"
+                    "LAND",
+                    "BGC"
                 ],
                 "sub_experiment_id":[
                     "none"
@@ -4847,7 +5012,9 @@
                 "activity_id":[
                     "LUMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"historical land-only with no irrigation",
                 "experiment_id":"land-crop-noIrrig",
                 "parent_activity_id":[
@@ -4857,7 +5024,8 @@
                     "no parent"
                 ],
                 "required_model_components":[
-                    "LAND"
+                    "LAND",
+                    "BGC"
                 ],
                 "sub_experiment_id":[
                     "none"
@@ -4867,7 +5035,9 @@
                 "activity_id":[
                     "LUMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"historical land-only with managed crops but with irrigation and fertilization held constant",
                 "experiment_id":"land-crop-noIrrigFert",
                 "parent_activity_id":[
@@ -4877,7 +5047,8 @@
                     "no parent"
                 ],
                 "required_model_components":[
-                    "LAND"
+                    "LAND",
+                    "BGC"
                 ],
                 "sub_experiment_id":[
                     "none"
@@ -4887,7 +5058,9 @@
                 "activity_id":[
                     "LS3MIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    "BGC"
+                ],
                 "experiment":"future land-only",
                 "experiment_id":"land-future",
                 "parent_activity_id":[
@@ -4908,7 +5081,9 @@
                     "LS3MIP",
                     "LUMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    "BGC"
+                ],
                 "experiment":"historical land-only",
                 "experiment_id":"land-hist",
                 "parent_activity_id":[
@@ -4928,7 +5103,9 @@
                 "activity_id":[
                     "LUMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"historical land-only alternate land-use history",
                 "experiment_id":"land-hist-altLu1",
                 "parent_activity_id":[
@@ -4938,7 +5115,8 @@
                     "no parent"
                 ],
                 "required_model_components":[
-                    "LAND"
+                    "LAND",
+                    "BGC"
                 ],
                 "sub_experiment_id":[
                     "none"
@@ -4948,7 +5126,9 @@
                 "activity_id":[
                     "LUMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"historical land-only alternate land use history",
                 "experiment_id":"land-hist-altLu2",
                 "parent_activity_id":[
@@ -4958,7 +5138,8 @@
                     "no parent"
                 ],
                 "required_model_components":[
-                    "LAND"
+                    "LAND",
+                    "BGC"
                 ],
                 "sub_experiment_id":[
                     "none"
@@ -4968,7 +5149,9 @@
                 "activity_id":[
                     "LUMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"historical land-only alternate start year",
                 "experiment_id":"land-hist-altStartYear",
                 "parent_activity_id":[
@@ -4978,7 +5161,8 @@
                     "no parent"
                 ],
                 "required_model_components":[
-                    "LAND"
+                    "LAND",
+                    "BGC"
                 ],
                 "sub_experiment_id":[
                     "none"
@@ -4988,7 +5172,9 @@
                 "activity_id":[
                     "LS3MIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    "BGC"
+                ],
                 "experiment":"as land-hist with CRU-NCEP forcings",
                 "experiment_id":"land-hist-cruNcep",
                 "parent_activity_id":[
@@ -5008,7 +5194,9 @@
                 "activity_id":[
                     "LS3MIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    "BGC"
+                ],
                 "experiment":"as land-hist with Princeton forcings",
                 "experiment_id":"land-hist-princeton",
                 "parent_activity_id":[
@@ -5028,7 +5216,9 @@
                 "activity_id":[
                     "LS3MIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    "BGC"
+                ],
                 "experiment":"as land-hist with WFDEI forcings",
                 "experiment_id":"land-hist-wfdei",
                 "parent_activity_id":[
@@ -5048,7 +5238,9 @@
                 "activity_id":[
                     "LUMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"historical land-only with no human fire management",
                 "experiment_id":"land-noFire",
                 "parent_activity_id":[
@@ -5058,7 +5250,8 @@
                     "no parent"
                 ],
                 "required_model_components":[
-                    "LAND"
+                    "LAND",
+                    "BGC"
                 ],
                 "sub_experiment_id":[
                     "none"
@@ -5068,7 +5261,9 @@
                 "activity_id":[
                     "LUMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    "BGC"
+                ],
                 "experiment":"historical land-only with no land-use change",
                 "experiment_id":"land-noLu",
                 "parent_activity_id":[
@@ -5088,7 +5283,9 @@
                 "activity_id":[
                     "LUMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"historical land-only with constant pastureland",
                 "experiment_id":"land-noPasture",
                 "parent_activity_id":[
@@ -5098,7 +5295,8 @@
                     "no parent"
                 ],
                 "required_model_components":[
-                    "LAND"
+                    "LAND",
+                    "BGC"
                 ],
                 "sub_experiment_id":[
                     "none"
@@ -5108,7 +5306,9 @@
                 "activity_id":[
                     "LUMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"historical land-only with shifting cultivation turned off",
                 "experiment_id":"land-noShiftCultivate",
                 "parent_activity_id":[
@@ -5118,7 +5318,8 @@
                     "no parent"
                 ],
                 "required_model_components":[
-                    "LAND"
+                    "LAND",
+                    "BGC"
                 ],
                 "sub_experiment_id":[
                     "none"
@@ -5128,7 +5329,9 @@
                 "activity_id":[
                     "LUMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"historical land-only with no wood harvest",
                 "experiment_id":"land-noWoodHarv",
                 "parent_activity_id":[
@@ -5138,7 +5341,8 @@
                     "no parent"
                 ],
                 "required_model_components":[
-                    "LAND"
+                    "LAND",
+                    "BGC"
                 ],
                 "sub_experiment_id":[
                     "none"
@@ -5460,7 +5664,9 @@
                 "activity_id":[
                     "OMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"OMIP experiment forced by Large and Yeager (CORE-2, NCEP) atmospheric data set and initialized with observed physical and biogeochemical ocean data",
                 "experiment_id":"omip1",
                 "parent_activity_id":[
@@ -5480,7 +5686,9 @@
                 "activity_id":[
                     "OMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"OMIP experiment forced by Large and Yeager (CORE-2, NCEP) atmospheric data set and initialized from at least a 2000-year spin up of the coupled physical-biogeochemical model",
                 "experiment_id":"omip1-spunup",
                 "parent_activity_id":[
@@ -5500,7 +5708,9 @@
                 "activity_id":[
                     "OMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"OMIP experiment forced by JRA-55do atmospheric data set and initialized with observed physical and biogeochemical ocean data",
                 "experiment_id":"omip2",
                 "parent_activity_id":[
@@ -5520,7 +5730,9 @@
                 "activity_id":[
                     "OMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"OMIP experiment forced by JRA-55do atmospheric data set and initialized from at least a 2000-year spin up of the coupled physical-biogeochemical model",
                 "experiment_id":"omip2-spunup",
                 "parent_activity_id":[
@@ -5587,7 +5799,9 @@
                 "activity_id":[
                     "AerChemMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"pre-industrial climatological SSTs and forcing, but with doubled production of NOx due to lightning",
                 "experiment_id":"piClim-2xNOx",
                 "parent_activity_id":[
@@ -5609,7 +5823,9 @@
                 "activity_id":[
                     "AerChemMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"pre-industrial climatological SSTs and forcing, but with doubled emissions of biogenic VOCs",
                 "experiment_id":"piClim-2xVOC",
                 "parent_activity_id":[
@@ -5746,7 +5962,9 @@
                 "activity_id":[
                     "AerChemMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"pre-industrial climatological SSTs and forcing, but with 2014 methane concentrations (including chemistry)",
                 "experiment_id":"piClim-CH4",
                 "parent_activity_id":[
@@ -5768,7 +5986,9 @@
                 "activity_id":[
                     "AerChemMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"pre-industrial climatological SSTs and forcing, but with 2014 halocarbon concentrations (including chemistry)",
                 "experiment_id":"piClim-HC",
                 "parent_activity_id":[
@@ -5790,7 +6010,9 @@
                 "activity_id":[
                     "AerChemMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"pre-industrial climatological SSTs and forcing, but with 2014 N2O concentrations (including chemistry)",
                 "experiment_id":"piClim-N2O",
                 "parent_activity_id":[
@@ -5835,7 +6057,9 @@
                 "activity_id":[
                     "AerChemMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"pre-industrial climatological SSTs and forcing, but with 2014 NOx emissions",
                 "experiment_id":"piClim-NOx",
                 "parent_activity_id":[
@@ -5881,7 +6105,9 @@
                 "activity_id":[
                     "AerChemMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"pre-industrial climatological SSTs and forcing, but with 2014 ozone precursor emissions",
                 "experiment_id":"piClim-O3",
                 "parent_activity_id":[
@@ -5949,7 +6175,9 @@
                 "activity_id":[
                     "AerChemMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"pre-industrial climatological SSTs and forcing, but with 2014 VOC emissions",
                 "experiment_id":"piClim-VOC",
                 "parent_activity_id":[
@@ -6180,7 +6408,9 @@
                 "activity_id":[
                     "RFMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"effective radiative forcing at present day with specified anthropogenic aerosol optical properties, all forcings",
                 "experiment_id":"piClim-spAer-aer",
                 "parent_activity_id":[
@@ -6200,7 +6430,9 @@
                 "activity_id":[
                     "RFMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"effective radiative forcing at present day with specified anthropogenic aerosol optical properties, anthropogenic forcings",
                 "experiment_id":"piClim-spAer-anthro",
                 "parent_activity_id":[
@@ -6220,7 +6452,9 @@
                 "activity_id":[
                     "RFMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"transient effective radiative forcing with specified anthropogenic aerosol optical properties, aerosol forcing",
                 "experiment_id":"piClim-spAer-histaer",
                 "parent_activity_id":[
@@ -6240,7 +6474,9 @@
                 "activity_id":[
                     "RFMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"transient effective radiative forcing with specified anthropogenic aerosol optical properties, all forcings",
                 "experiment_id":"piClim-spAer-histall",
                 "parent_activity_id":[
@@ -6448,7 +6684,9 @@
                 "activity_id":[
                     "RFMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"offline assessment of radiative transfer parmeterizations in clear skies",
                 "experiment_id":"rad-irf",
                 "parent_activity_id":[
@@ -6823,7 +7061,9 @@
                 "activity_id":[
                     "AerChemMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"SSP3-7.0, prescribed SSTs, with low methane concentrations",
                 "experiment_id":"ssp370SST-lowCH4",
                 "parent_activity_id":[
@@ -6869,7 +7109,9 @@
                 "activity_id":[
                     "AerChemMIP"
                 ],
-                "additional_allowed_model_components":"",
+                "additional_allowed_model_components":[
+                    ""
+                ],
                 "experiment":"SSP3-7.0, prescribed SSTs, with low ozone precursor emissions",
                 "experiment_id":"ssp370SST-lowO3",
                 "parent_activity_id":[
@@ -7328,7 +7570,7 @@
             "hdl:21.14100/.*"
         ],
         "further_info_url":[
-            "http://furtherinfo.es-doc.org/.*"
+            "https://furtherinfo.es-doc.org/.*"
         ],
         "realization_index":[
             "^\\[\\{0,\\}[[:digit:]]\\{1,\\}\\]\\{0,\\}$"
@@ -7340,7 +7582,7 @@
             "^[[:digit:]]\\{2,2\\}\\.[[:digit:]]\\{2,2\\}\\.[[:digit:]]\\{2,2\\}$"
         ],
         "Conventions":[
-            "^CF-1.7 CMIP-6.0\\( UGRID-1.0\\)\\{0,\\}$"
+            "^CF-1.7 CMIP-6.2\\( UGRID-1.0\\)\\{0,\\}$"
         ],
         "forcing_index":[
             "^\\[\\{0,\\}[[:digit:]]\\{1,\\}\\]\\{0,\\}$"

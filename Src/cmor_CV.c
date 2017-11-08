@@ -2021,6 +2021,7 @@ int cmor_CV_checkGrids(cmor_CV_def_t * CV)
 
     cmor_CV_def_t *CV_grid_labels;
     cmor_CV_def_t *CV_grid_resolution;
+    cmor_CV_def_t *CV_grid_child;
     int i;
 
     cmor_add_traceback("_CV_checkGrids");
@@ -2028,13 +2029,6 @@ int cmor_CV_checkGrids(cmor_CV_def_t * CV)
     rc = cmor_has_cur_dataset_attribute(GLOBAL_ATT_GRID_LABEL);
     if (rc == 0) {
         cmor_get_cur_dataset_attribute(GLOBAL_ATT_GRID_LABEL, szGridLabel);
-    }
-/* -------------------------------------------------------------------- */
-/*  "gr followed by a digit is a valid grid (regrid)                    */
-/* -------------------------------------------------------------------- */
-    if ((strcmp(szGridLabel, CV_KEY_GRIDLABEL_GR) >= '0') &&
-        (strcmp(szGridLabel, CV_KEY_GRIDLABEL_GR) <= '9')) {
-        strcpy(szGridLabel, CV_KEY_GRIDLABEL_GR);
     }
 
     rc = cmor_has_cur_dataset_attribute(GLOBAL_ATT_GRID_RESOLUTION);
@@ -2076,6 +2070,17 @@ int cmor_CV_checkGrids(cmor_CV_def_t * CV)
             cmor_pop_traceback();
             return (-1);
 
+        }
+    } else {
+        CV_grid_child = cmor_CV_search_child_key(CV_grid_labels, szGridLabel);
+        if (CV_grid_child == NULL) {
+            snprintf(msg, CMOR_MAX_STRING,
+                    "Your attribute grid_label is set to \"%s\" which is invalid."
+                            "\n! \n! Check your Control Vocabulary file \"%s\".\n! ",
+                    szGridLabel, CV_Filename);
+            cmor_handle_error(msg, CMOR_NORMAL);
+            cmor_pop_traceback();
+            return (-1);
         }
     }
     CV_grid_resolution = cmor_CV_rootsearch(CV, CV_KEY_GRID_RESOLUTION);

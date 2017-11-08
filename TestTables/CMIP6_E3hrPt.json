@@ -1,20 +1,20 @@
 {
     "Header": {
-        "data_specs_version": "01.00.15", 
+        "data_specs_version": "01.00.16", 
         "table_id": "Table E3hrPt", 
         "realm": "atmos", 
         "cmor_version": "3.2", 
-        "table_date": "03 August 2017", 
+        "table_date": "08 November 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "0.125000", 
         "generic_levels": "alevel alevhalf", 
         "mip_era": "CMIP6", 
-        "Conventions": "CF-1.7 CMIP-6.0"
+        "Conventions": "CF-1.7 CMIP-6.2"
     }, 
     "variable_entry": {
         "aerasymbnd": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "band_aerosol_asymmetry_parameter", 
             "units": "1", 
@@ -32,7 +32,7 @@
             "ok_max_mean_abs": ""
         }, 
         "aeroptbnd": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "atmosphere_absorption_optical_thickness_due_to_ambient_aerosol_particles", 
             "units": "1", 
@@ -50,7 +50,7 @@
             "ok_max_mean_abs": ""
         }, 
         "aerssabnd": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "single_scattering_albedo_in_air_due_to_ambient_aerosol_particles", 
             "units": "1", 
@@ -68,7 +68,7 @@
             "ok_max_mean_abs": ""
         }, 
         "albdiffbnd": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "band_diffuse_albedo", 
             "units": "1.0", 
@@ -86,7 +86,7 @@
             "ok_max_mean_abs": ""
         }, 
         "albdirbnd": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "band_direct_albedo", 
             "units": "1.0", 
@@ -104,7 +104,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cfadDbze94": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "histogram_of_equivalent_reflectivity_factor_over_height_above_reference_ellipsoid", 
             "units": "1.0", 
@@ -122,7 +122,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cfadLidarsr532": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "histogram_of_backscattering_ratio_over_height_above_reference_ellipsoid", 
             "units": "1.0", 
@@ -140,7 +140,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ch4": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "mole_fraction_of_methane_in_air", 
             "units": "mol mol-1", 
@@ -158,7 +158,7 @@
             "ok_max_mean_abs": ""
         }, 
         "clcalipso": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "cloud_area_fraction_in_atmosphere_layer", 
             "units": "%", 
@@ -176,7 +176,7 @@
             "ok_max_mean_abs": ""
         }, 
         "clcalipso2": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "cloud_area_fraction_in_atmosphere_layer", 
             "units": "%", 
@@ -194,7 +194,7 @@
             "ok_max_mean_abs": ""
         }, 
         "clhcalipso": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "cloud_area_fraction_in_atmosphere_layer", 
             "units": "%", 
@@ -212,7 +212,7 @@
             "ok_max_mean_abs": ""
         }, 
         "clisccp": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "cloud_area_fraction_in_atmosphere_layer", 
             "units": "%", 
@@ -230,7 +230,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cllcalipso": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "cloud_area_fraction_in_atmosphere_layer", 
             "units": "%", 
@@ -248,7 +248,7 @@
             "ok_max_mean_abs": ""
         }, 
         "clmcalipso": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "cloud_area_fraction_in_atmosphere_layer", 
             "units": "%", 
@@ -266,7 +266,7 @@
             "ok_max_mean_abs": ""
         }, 
         "clmisr": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "cloud_area_fraction_in_atmosphere_layer", 
             "units": "%", 
@@ -284,7 +284,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cltcalipso": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "cloud_area_fraction", 
             "units": "%", 
@@ -302,7 +302,7 @@
             "ok_max_mean_abs": ""
         }, 
         "co2": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "mole_fraction_of_carbon_dioxide_in_air", 
             "units": "mol mol-1", 
@@ -320,7 +320,7 @@
             "ok_max_mean_abs": ""
         }, 
         "hus": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "specific_humidity", 
             "units": "1.0", 
@@ -338,7 +338,7 @@
             "ok_max_mean_abs": ""
         }, 
         "hus7h": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "specific_humidity", 
             "units": "1.0", 
@@ -356,7 +356,7 @@
             "ok_max_mean_abs": ""
         }, 
         "jpdftaureicemodis": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "cloud_area_fraction_in_atmosphere_layer", 
             "units": "%", 
@@ -374,7 +374,7 @@
             "ok_max_mean_abs": ""
         }, 
         "jpdftaureliqmodis": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "cloud_area_fraction_in_atmosphere_layer", 
             "units": "%", 
@@ -392,7 +392,7 @@
             "ok_max_mean_abs": ""
         }, 
         "n2o": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "mole_fraction_of_nitrous_oxide_in_air", 
             "units": "mol mol-1", 
@@ -410,7 +410,7 @@
             "ok_max_mean_abs": ""
         }, 
         "o3": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "mole_fraction_of_ozone_in_air", 
             "units": "mol mol-1", 
@@ -428,11 +428,11 @@
             "ok_max_mean_abs": ""
         }, 
         "parasolRefl": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "toa_bidirectional_reflectance", 
             "units": "1.0", 
-            "cell_methods": "area: mean (global) time: point", 
+            "cell_methods": "area: mean time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "PARASOL Reflectance", 
             "comment": "Simulated reflectance from PARASOL as seen at the top of the atmosphere for 5 solar zenith angles. Valid only over ocean and for one viewing direction (viewing zenith angle of 30 degrees and relative azimuth angle 320 degrees).", 
@@ -446,7 +446,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ps": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_air_pressure", 
             "units": "Pa", 
@@ -464,7 +464,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsdcs": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "downwelling_shortwave_flux_in_air_assuming_clear_sky", 
             "units": "W m-2", 
@@ -482,7 +482,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsdcsaf": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "downwelling_shortwave_flux_assuming_clean_clear_sky", 
             "units": "W m-2", 
@@ -500,7 +500,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsdcsafbnd": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "band_downwelling_shortwave_flux_assuming_clean_clear_sky", 
             "units": "W m-2", 
@@ -518,7 +518,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsdcsbnd": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "band_downwelling_shortwave_flux_assuming_clear_sky", 
             "units": "W m-2", 
@@ -536,7 +536,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsdscsaf": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_downwelling_shortwave_flux_in_air_assuming_clean_clear_sky", 
             "units": "W m-2", 
@@ -554,7 +554,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsdscsafbnd": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_downwelling_shortwave_flux_in_air_assuming_clean_clear_sky", 
             "units": "W m-2", 
@@ -572,7 +572,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsdscsbnd": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_downwelling_shortwave_flux_in_air_assuming_clear_sky", 
             "units": "W m-2", 
@@ -590,7 +590,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsucs": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "upwelling_shortwave_flux_in_air_assuming_clear_sky", 
             "units": "W m-2", 
@@ -608,7 +608,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsucsaf": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "upwelling_shortwave_flux_assuming_clean_clear_sky", 
             "units": "W m-2", 
@@ -626,7 +626,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsucsafbnd": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "band_upwelling_shortwave_flux_assuming_clean_clear_sky", 
             "units": "W m-2", 
@@ -644,7 +644,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsucsbnd": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "band_upwelling_shortwave_flux_assuming_clear_sky", 
             "units": "W m-2", 
@@ -662,7 +662,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsuscsaf": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_upwelling_shortwave_flux_in_air_assuming_clean_clear_sky", 
             "units": "W m-2", 
@@ -680,7 +680,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsuscsafbnd": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_upwelling_shortwave_flux_in_air_assuming_clean_clear_sky", 
             "units": "W m-2", 
@@ -698,7 +698,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsuscsbnd": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_upwelling_shortwave_flux_in_air_assuming_clear_sky", 
             "units": "W m-2", 
@@ -716,7 +716,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsutcsaf": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "aerosol", 
             "standard_name": "toa_outgoing_shortwave_flux_assuming_clear_sky", 
             "units": "W m-2", 
@@ -734,7 +734,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsutcsafbnd": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "band_toa_outgoing_shortwave_flux_assuming_clean_clear_sky", 
             "units": "W m-2", 
@@ -752,7 +752,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rsutcsbnd": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "toa_outgoing_shortwave_flux_assuming_clear_sky", 
             "units": "W m-2", 
@@ -770,7 +770,7 @@
             "ok_max_mean_abs": ""
         }, 
         "solbnd": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "band_solar_insolation", 
             "units": "W m-2", 
@@ -788,7 +788,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sza": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "solar_zenith_angle", 
             "units": "degree", 
@@ -806,7 +806,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ta7h": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "air_temperature", 
             "units": "K", 
@@ -824,7 +824,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ua7h": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "eastward_wind", 
             "units": "m s-1", 
@@ -860,7 +860,7 @@
             "ok_max_mean_abs": ""
         }, 
         "va7h": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "northward_wind", 
             "units": "m s-1", 
@@ -896,7 +896,7 @@
             "ok_max_mean_abs": ""
         }, 
         "wap7h": {
-            "frequency": "3hr", 
+            "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "lagrangian_tendency_of_air_pressure", 
             "units": "Pa s-1", 

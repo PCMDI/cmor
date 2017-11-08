@@ -1,27 +1,27 @@
 {
     "Header": {
-        "data_specs_version": "01.00.15", 
+        "data_specs_version": "01.00.16", 
         "table_id": "Table 6hrLev", 
         "realm": "atmos", 
         "cmor_version": "3.2", 
-        "table_date": "03 August 2017", 
+        "table_date": "08 November 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "0.250000", 
         "generic_levels": "alevel alevhalf", 
         "mip_era": "CMIP6", 
-        "Conventions": "CF-1.7 CMIP-6.0"
+        "Conventions": "CF-1.7 CMIP-6.2"
     }, 
     "variable_entry": {
         "bs550aer": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "aerosol", 
             "standard_name": "volume_lidar_backwards_scattering_coefficient_in_air_due_to_ambient_aerosol_particles", 
             "units": "m-1 sr-1", 
             "cell_methods": "area: mean time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Aerosol backscatter coefficient", 
-            "comment": "Aerosol  Backscatter @550nm @ 180 degrees, computed from extinction and lidar ratio", 
+            "comment": "Aerosol  Backscatter at 550nm and 180 degrees, computed from extinction and lidar ratio", 
             "dimensions": "longitude latitude alevel time1", 
             "out_name": "bs550aer", 
             "type": "float", 
@@ -32,14 +32,14 @@
             "ok_max_mean_abs": ""
         }, 
         "ec550aer": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "aerosol", 
             "standard_name": "volume_extinction_coefficient_in_air_due_to_ambient_aerosol_particles", 
             "units": "m-1", 
             "cell_methods": "area: mean time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Aerosol extinction coefficient", 
-            "comment": "Aerosol Extinction @550nm", 
+            "comment": "Aerosol Extinction at 550nm", 
             "dimensions": "longitude latitude alevel time1", 
             "out_name": "ec550aer", 
             "type": "float", 
@@ -50,7 +50,7 @@
             "ok_max_mean_abs": ""
         }, 
         "hus": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "specific_humidity", 
             "units": "1.0", 
@@ -86,7 +86,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ps": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_air_pressure", 
             "units": "Pa", 
@@ -104,7 +104,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ta": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "air_temperature", 
             "units": "K", 
@@ -122,7 +122,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ua": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "eastward_wind", 
             "units": "m s-1", 
@@ -140,7 +140,7 @@
             "ok_max_mean_abs": ""
         }, 
         "va": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "northward_wind", 
             "units": "m s-1", 

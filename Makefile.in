@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bintenv bash
 FC=@FC@
 CC=@CC@
 CFLAGS=@CFLAGS@
@@ -152,6 +152,9 @@ test_a_python:
 	@echo "${OK_COLOR}Testing ${TEST_NAME} ${NO_COLOR}"
 	${PYTHONEXEC} ${TEST_NAME} ${VERB}
 test_python: python
+	env TEST_NAME=Test/test_python_history.py make test_a_python
+	env TEST_NAME=Test/test_python_historydefault.py make test_a_python
+	env TEST_NAME=Test/test_python_test_write.py make test_a_python
 	env TEST_NAME=Test/test_python_missing_values.py make test_a_python
 	env TEST_NAME=Test/test_python_history.py make test_a_python
 	env TEST_NAME=Test/test_python_sos_psu_units.py make test_a_python

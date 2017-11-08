@@ -1,16 +1,16 @@
 {
     "Header": {
-        "data_specs_version": "01.00.15", 
+        "data_specs_version": "01.00.16", 
         "table_id": "Table Eyr", 
         "realm": "land", 
         "cmor_version": "3.2", 
-        "table_date": "03 August 2017", 
+        "table_date": "08 November 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "365", 
         "generic_levels": "alevel olevel", 
         "mip_era": "CMIP6", 
-        "Conventions": "CF-1.7 CMIP-6.0"
+        "Conventions": "CF-1.7 CMIP-6.2"
     }, 
     "variable_entry": {
         "baresoilFrac": {
@@ -32,7 +32,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cLitter": {
-            "frequency": "yr", 
+            "frequency": "yrPt", 
             "modeling_realm": "land", 
             "standard_name": "litter_carbon_content", 
             "units": "kg m-2", 
@@ -50,7 +50,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cLitterLut": {
-            "frequency": "yr", 
+            "frequency": "yrPt", 
             "modeling_realm": "land", 
             "standard_name": "litter_carbon_content", 
             "units": "kg m-2", 
@@ -68,7 +68,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cProduct": {
-            "frequency": "yr", 
+            "frequency": "yrPt", 
             "modeling_realm": "land", 
             "standard_name": "carbon_content_of_products_of_anthropogenic_land_use_change", 
             "units": "kg m-2", 
@@ -86,7 +86,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cProductLut": {
-            "frequency": "yr", 
+            "frequency": "yrPt", 
             "modeling_realm": "land", 
             "standard_name": "carbon_content_in_wood_and_agricultural_products", 
             "units": "kg m-2", 
@@ -104,7 +104,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cSoil": {
-            "frequency": "yr", 
+            "frequency": "yrPt", 
             "modeling_realm": "land", 
             "standard_name": "soil_carbon_content", 
             "units": "kg m-2", 
@@ -122,7 +122,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cSoilLut": {
-            "frequency": "yr", 
+            "frequency": "yrPt", 
             "modeling_realm": "land", 
             "standard_name": "soil_carbon_content", 
             "units": "kg m-2", 
@@ -140,7 +140,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cVeg": {
-            "frequency": "yr", 
+            "frequency": "yrPt", 
             "modeling_realm": "land", 
             "standard_name": "vegetation_carbon_content", 
             "units": "kg m-2", 
@@ -158,7 +158,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cVegLut": {
-            "frequency": "yr", 
+            "frequency": "yrPt", 
             "modeling_realm": "land", 
             "standard_name": "vegetation_carbon_content", 
             "units": "kg m-2", 
@@ -212,7 +212,7 @@
             "ok_max_mean_abs": ""
         }, 
         "fracLut": {
-            "frequency": "yr", 
+            "frequency": "yrPt", 
             "modeling_realm": "land", 
             "standard_name": "area_fraction", 
             "units": "%", 

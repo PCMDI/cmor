@@ -1,16 +1,16 @@
 {
     "Header": {
-        "data_specs_version": "01.00.15", 
+        "data_specs_version": "01.00.16", 
         "table_id": "Table Amon", 
         "realm": "atmos atmosChem", 
         "cmor_version": "3.2", 
-        "table_date": "03 August 2017", 
+        "table_date": "08 November 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "30.00000", 
         "generic_levels": "alevel alevhalf", 
         "mip_era": "CMIP6", 
-        "Conventions": "CF-1.7 CMIP-6.0"
+        "Conventions": "CF-1.7 CMIP-6.2"
     }, 
     "variable_entry": {
         "ccb": {
@@ -122,7 +122,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ch4Clim": {
-            "frequency": "monClim", 
+            "frequency": "monC", 
             "modeling_realm": "atmos atmosChem", 
             "standard_name": "mole_fraction_of_methane_in_air", 
             "units": "mol mol-1", 
@@ -158,7 +158,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ch4globalClim": {
-            "frequency": "monClim", 
+            "frequency": "monC", 
             "modeling_realm": "atmos atmosChem", 
             "standard_name": "mole_fraction_of_methane_in_air", 
             "units": "1e-09", 
@@ -320,7 +320,7 @@
             "ok_max_mean_abs": ""
         }, 
         "co2Clim": {
-            "frequency": "monClim", 
+            "frequency": "monC", 
             "modeling_realm": "atmos", 
             "standard_name": "mole_fraction_of_carbon_dioxide_in_air", 
             "units": "mol mol-1", 
@@ -356,7 +356,7 @@
             "ok_max_mean_abs": ""
         }, 
         "co2massClim": {
-            "frequency": "monClim", 
+            "frequency": "monC", 
             "modeling_realm": "atmos", 
             "standard_name": "atmosphere_mass_of_carbon_dioxide", 
             "units": "kg", 
@@ -608,7 +608,7 @@
             "ok_max_mean_abs": ""
         }, 
         "n2oClim": {
-            "frequency": "monClim", 
+            "frequency": "monC", 
             "modeling_realm": "atmos atmosChem", 
             "standard_name": "mole_fraction_of_nitrous_oxide_in_air", 
             "units": "mol mol-1", 
@@ -644,7 +644,7 @@
             "ok_max_mean_abs": ""
         }, 
         "n2oglobalClim": {
-            "frequency": "monClim", 
+            "frequency": "monC", 
             "modeling_realm": "atmos atmosChem", 
             "standard_name": "mole_fraction_of_nitrous_oxide_in_air", 
             "units": "1e-09", 
@@ -680,7 +680,7 @@
             "ok_max_mean_abs": ""
         }, 
         "o3Clim": {
-            "frequency": "monClim", 
+            "frequency": "monC", 
             "modeling_realm": "atmos atmosChem", 
             "standard_name": "mole_fraction_of_ozone_in_air", 
             "units": "mol mol-1", 
@@ -698,7 +698,7 @@
             "ok_max_mean_abs": ""
         }, 
         "pfull": {
-            "frequency": "monClim", 
+            "frequency": "monC", 
             "modeling_realm": "atmos", 
             "standard_name": "air_pressure", 
             "units": "Pa", 
@@ -716,7 +716,7 @@
             "ok_max_mean_abs": ""
         }, 
         "phalf": {
-            "frequency": "monClim", 
+            "frequency": "monC", 
             "modeling_realm": "atmos", 
             "standard_name": "air_pressure", 
             "units": "Pa", 
@@ -921,7 +921,7 @@
             "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "TOA Outgoing Clear-Sky Longwave Radiation", 
-            "comment": "", 
+            "comment": "Upwelling clear-sky longwave radiation at top of atmosphere", 
             "dimensions": "longitude latitude time", 
             "out_name": "rlutcs", 
             "type": "real", 

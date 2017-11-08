@@ -1,16 +1,16 @@
 {
     "Header": {
-        "data_specs_version": "01.00.15", 
+        "data_specs_version": "01.00.16", 
         "table_id": "Table Emon", 
         "realm": "atmos", 
         "cmor_version": "3.2", 
-        "table_date": "03 August 2017", 
+        "table_date": "08 November 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "30.00000", 
         "generic_levels": "alevel olevel", 
         "mip_era": "CMIP6", 
-        "Conventions": "CF-1.7 CMIP-6.0"
+        "Conventions": "CF-1.7 CMIP-6.2"
     }, 
     "variable_entry": {
         "H2p": {
@@ -1227,7 +1227,7 @@
             "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Aerosol extinction coefficient", 
-            "comment": "Aerosol Extinction @550nm", 
+            "comment": "Aerosol Extinction at 550nm", 
             "dimensions": "longitude latitude alevel time", 
             "out_name": "ec550aer", 
             "type": "float", 
@@ -1242,7 +1242,7 @@
             "modeling_realm": "land", 
             "standard_name": "water_potential_evaporation_flux", 
             "units": "kg m-2 s-1", 
-            "cell_methods": "area: time: mean", 
+            "cell_methods": "area: mean where land time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Potential Evapotranspiration", 
             "comment": "at surface; potential flux of water into the atmosphere due to conversion of both liquid and solid phases to vapor (from underlying surface and vegetation)", 
@@ -2284,8 +2284,8 @@
         "fg14co2": {
             "frequency": "mon", 
             "modeling_realm": "ocnBgChem", 
-            "standard_name": "air_sea_flux_of_14CO2", 
-            "units": "mol m-2 s-1", 
+            "standard_name": "surface_downward_mass_flux_of_carbon14_dioxide_abiotic_analogue_expressed_as_carbon", 
+            "units": "kg m-2 s-1", 
             "cell_methods": "area: mean where sea time: mean", 
             "cell_measures": "area: areacello", 
             "long_name": "Total air-sea flux of 14CO2", 
@@ -3012,24 +3012,6 @@
             "comment": "Balkanski - LSCE", 
             "dimensions": "longitude latitude alevel time", 
             "out_name": "md", 
-            "type": "", 
-            "positive": "", 
-            "valid_min": "", 
-            "valid_max": "", 
-            "ok_min_mean_abs": "", 
-            "ok_max_mean_abs": ""
-        }, 
-        "mmraerso4": {
-            "frequency": "mon", 
-            "modeling_realm": "atmos", 
-            "standard_name": "mass_fraction_of_sulfate_dry_aerosol_in_air", 
-            "units": "kg kg-1", 
-            "cell_methods": "area: time: mean", 
-            "cell_measures": "area: areacella", 
-            "long_name": "Aerosol Sulfate Mass Mixing Ratio", 
-            "comment": "", 
-            "dimensions": "longitude latitude time", 
-            "out_name": "mmraerso4", 
             "type": "", 
             "positive": "", 
             "valid_min": "", 

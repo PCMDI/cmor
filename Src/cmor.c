@@ -2909,7 +2909,7 @@ int cmor_setGblAttr(int var_id)
         ierr += cmor_CV_checkSourceID(cmor_tables[nVarRefTblID].CV);
         ierr += cmor_CV_checkExperiment(cmor_tables[nVarRefTblID].CV);
         ierr += cmor_CV_checkFurtherInfoURL(nVarRefTblID);
-        //ierr += cmor_CV_checkGrids(cmor_tables[nVarRefTblID].CV);
+        ierr += cmor_CV_checkGrids(cmor_tables[nVarRefTblID].CV);
         ierr += cmor_CV_checkParentExpID(cmor_tables[nVarRefTblID].CV);
         ierr += cmor_CV_checkSubExpID(cmor_tables[nVarRefTblID].CV);
     }

@@ -24,6 +24,20 @@ import time
 
 class TestCase(unittest.TestCase):
 
+    def setUp(self):
+        # ------------------------------------------------------
+        # Copy stdout and stderr file descriptor for cmor output
+        # ------------------------------------------------------
+        self.newstdout = os.dup(1)
+        self.newstderr = os.dup(2)
+        # --------------
+        # Create tmpfile
+        # --------------
+        self.tmpfile = tempfile.mkstemp()
+        os.dup2(self.tmpfile[0], 1)
+        os.dup2(self.tmpfile[0], 2)
+        os.close(self.tmpfile[0])
+
     def testCMIP6_historytemplate(self):
         # -------------------------------------------
         # Try to call cmor with a bad institution_ID
@@ -59,15 +73,17 @@ class TestCase(unittest.TestCase):
         except BaseException:
             raise
 
+        os.dup2(self.newstdout, 1)
+        os.dup2(self.newstderr, 2)
         version =time.strftime("%Y%m%d")
         f=cdms2.open("CMIP6/CMIP6/ISMIP6/PCMDI/PCMDI-test-1-0/piControl-withism/r11i1p1f1/Omon/masso/gr/v"+version+"/masso_Omon_PCMDI-test-1-0_piControl-withism_r11i1p1f1_gr_201001-201005.nc")
         history=f.history
-        self.assertIn("CF standards and CMIP6 requirements.",history)
+        self.assertIn("CMOR mip_era is: CMIP6",history)
         self.assertIn("myMIP",history)
 
     def tearDown(self):
         import shutil
-        shutil.rmtree("./CMIP6")
+#        shutil.rmtree("./CMIP6")
 
 
 

@@ -1,20 +1,20 @@
 {
     "Header": {
-        "data_specs_version": "01.00.15", 
+        "data_specs_version": "01.00.16", 
         "table_id": "Table 6hrPlevPt", 
         "realm": "atmos", 
         "cmor_version": "3.2", 
-        "table_date": "03 August 2017", 
+        "table_date": "08 November 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "0.250000", 
         "generic_levels": "", 
         "mip_era": "CMIP6", 
-        "Conventions": "CF-1.7 CMIP-6.0"
+        "Conventions": "CF-1.7 CMIP-6.2"
     }, 
     "variable_entry": {
         "cldicemxrat27": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "cloud_ice_mixing_ratio", 
             "units": "1.0", 
@@ -32,7 +32,7 @@
             "ok_max_mean_abs": ""
         }, 
         "cldwatmxrat27": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "cloud_liquid_water_mixing_ratio", 
             "units": "1.0", 
@@ -50,7 +50,7 @@
             "ok_max_mean_abs": ""
         }, 
         "dtauc": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "atmosphere_optical_thickness_due_to_convective_cloud", 
             "units": "1.0", 
@@ -68,7 +68,7 @@
             "ok_max_mean_abs": ""
         }, 
         "dtaus": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "atmosphere_optical_thickness_due_to_stratiform_cloud", 
             "units": "1.0", 
@@ -86,7 +86,7 @@
             "ok_max_mean_abs": ""
         }, 
         "grplmxrat27": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "mass_fraction_of_graupel_in_air", 
             "units": "1.0", 
@@ -104,7 +104,7 @@
             "ok_max_mean_abs": ""
         }, 
         "hus27": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "specific_humidity", 
             "units": "1.0", 
@@ -122,7 +122,7 @@
             "ok_max_mean_abs": ""
         }, 
         "hus7h": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "specific_humidity", 
             "units": "1.0", 
@@ -140,7 +140,7 @@
             "ok_max_mean_abs": ""
         }, 
         "huss": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "specific_humidity", 
             "units": "1.0", 
@@ -158,7 +158,7 @@
             "ok_max_mean_abs": ""
         }, 
         "lwsffluxaero": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "longwave__flux__due_to_volcanic_aerosols_at_the_surface", 
             "units": "W m-2", 
@@ -176,7 +176,7 @@
             "ok_max_mean_abs": ""
         }, 
         "lwtoafluxaerocs": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "longwave_flux_due_to_volcanic_aerosols_at_TOA_under_clear_sky", 
             "units": "W m-2", 
@@ -193,7 +193,7 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "mrlsl": {
+        "mrsol": {
             "frequency": "6hr", 
             "modeling_realm": "land", 
             "standard_name": "moisture_content_of_soil_layer", 
@@ -201,9 +201,9 @@
             "cell_methods": "area: mean where land time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Water Content of Soil Layer", 
-            "comment": "The mass of water in all phases, including ice, in soil layers.  Report as missing for grid cells with no land.", 
+            "comment": "in each soil layer, the mass of water in all phases, including ice.  Reported as 'missing' for grid cells occupied entirely by 'sea'", 
             "dimensions": "longitude latitude time1 sdepth1", 
-            "out_name": "mrlsl", 
+            "out_name": "mrsol", 
             "type": "real", 
             "positive": "", 
             "valid_min": "", 
@@ -230,7 +230,7 @@
             "ok_max_mean_abs": ""
         }, 
         "psl": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "air_pressure_at_sea_level", 
             "units": "Pa", 
@@ -248,7 +248,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rainmxrat27": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "mass_fraction_of_rain_in_air", 
             "units": "1.0", 
@@ -266,7 +266,7 @@
             "ok_max_mean_abs": ""
         }, 
         "rv850": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "atmosphere_relative_vorticity", 
             "units": "s-1", 
@@ -284,7 +284,7 @@
             "ok_max_mean_abs": ""
         }, 
         "sfcWind": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "wind_speed", 
             "units": "m s-1", 
@@ -302,7 +302,7 @@
             "ok_max_mean_abs": ""
         }, 
         "snowmxrat27": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "mass_fraction_of_snow_in_air", 
             "units": "1.0", 
@@ -320,7 +320,7 @@
             "ok_max_mean_abs": ""
         }, 
         "snw": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "landIce land", 
             "standard_name": "surface_snow_amount", 
             "units": "kg m-2", 
@@ -338,7 +338,7 @@
             "ok_max_mean_abs": ""
         }, 
         "swsffluxaero": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "shortwave__flux_due_to_volcanic_aerosols_at__the_surface", 
             "units": "W m-2", 
@@ -356,7 +356,7 @@
             "ok_max_mean_abs": ""
         }, 
         "swtoafluxaerocs": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "shortwave_flux_due_to_volcanic_aerosols_at_TOA_under_clear_sky", 
             "units": "W m-2", 
@@ -374,7 +374,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ta": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "air_temperature", 
             "units": "K", 
@@ -392,7 +392,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ta27": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "air_temperature", 
             "units": "K", 
@@ -410,7 +410,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ta7h": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "air_temperature", 
             "units": "K", 
@@ -428,7 +428,7 @@
             "ok_max_mean_abs": ""
         }, 
         "tas": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "air_temperature", 
             "units": "K", 
@@ -446,7 +446,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ts": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "surface_temperature", 
             "units": "K", 
@@ -482,7 +482,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ua": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "eastward_wind", 
             "units": "m s-1", 
@@ -500,7 +500,7 @@
             "ok_max_mean_abs": ""
         }, 
         "ua7h": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "eastward_wind", 
             "units": "m s-1", 
@@ -518,7 +518,7 @@
             "ok_max_mean_abs": ""
         }, 
         "uas": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "eastward_wind", 
             "units": "m s-1", 
@@ -536,7 +536,7 @@
             "ok_max_mean_abs": ""
         }, 
         "va": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "northward_wind", 
             "units": "m s-1", 
@@ -554,7 +554,7 @@
             "ok_max_mean_abs": ""
         }, 
         "va7h": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "northward_wind", 
             "units": "m s-1", 
@@ -572,7 +572,7 @@
             "ok_max_mean_abs": ""
         }, 
         "vas": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "northward_wind", 
             "units": "m s-1", 
@@ -590,7 +590,7 @@
             "ok_max_mean_abs": ""
         }, 
         "vortmean": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "atmosphere_relative_vorticity", 
             "units": "s-1", 
@@ -608,7 +608,7 @@
             "ok_max_mean_abs": ""
         }, 
         "wbptemp7h": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "wet_bulb_potential_temperature", 
             "units": "K", 
@@ -626,7 +626,7 @@
             "ok_max_mean_abs": ""
         }, 
         "zg27": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "geopotential_height", 
             "units": "m", 
@@ -644,7 +644,7 @@
             "ok_max_mean_abs": ""
         }, 
         "zg500": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "aerosol", 
             "standard_name": "geopotential_height", 
             "units": "m", 
@@ -662,7 +662,7 @@
             "ok_max_mean_abs": ""
         }, 
         "zg7h": {
-            "frequency": "6hr", 
+            "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "geopotential_height", 
             "units": "m", 
