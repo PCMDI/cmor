@@ -73,8 +73,13 @@ void cmor_CV_set_att(cmor_CV_def_t * CV, char *szKey, json_object * joValue)
         CV->type = CV_object;
 
     } else if (json_object_is_type(joValue, json_type_array)) {
+        int i;
         pArray = json_object_get_array(joValue);
         length = array_list_length(pArray);
+        CV->aszValue = (char **)  malloc(length * sizeof(char**));
+        for(i=0; i < length; i++) {
+            CV->aszValue[i] = (char *) malloc(sizeof(char) * CMOR_MAX_STRING);
+        }
         json_object *joItem;
         CV->anElements = length;
         for (k = 0; k < length; k++) {
@@ -95,7 +100,6 @@ void cmor_CV_set_att(cmor_CV_def_t * CV, char *szKey, json_object * joValue)
 /************************************************************************/
 void cmor_CV_init(cmor_CV_def_t * CV, int table_id)
 {
-    int i;
 
     cmor_is_setup();
     cmor_add_traceback("_init_CV_def");
@@ -107,9 +111,7 @@ void cmor_CV_init(cmor_CV_def_t * CV, int table_id)
     CV->szValue[0] = '\0';
     CV->dValue = -9999.9;
     CV->oValue = NULL;
-    for (i = 0; i < CMOR_MAX_JSON_ARRAY; i++) {
-        CV->aszValue[i][0] = '\0';
-    }
+    CV->aszValue = NULL;
     CV->anElements = -1;
 
     cmor_pop_traceback();
@@ -1480,13 +1482,12 @@ int cmor_CV_checkFilename(cmor_CV_def_t * CV, int var_id,
     char msg[CMOR_MAX_STRING];
     cdCompTime comptime;
     int i, j, n;
-    int ierr;
     int timeDim;
     cdCompTime starttime, endtime;
     int axis_id;
 
     outname[0] = '\0';
-    ierr = cmor_CreateFromTemplate(0, cmor_current_dataset.file_template,
+    cmor_CreateFromTemplate(0, cmor_current_dataset.file_template,
             outname, "_");
     cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
     timeDim = -1;
@@ -1889,7 +1890,6 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
     char szOutput[CMOR_MAX_STRING * 2];
     char szTmp[CMOR_MAX_STRING];
     int i;
-    int j;
     int nObjects;
     regex_t regex;
     int reti;
@@ -1970,7 +1970,7 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
             return (0);
         }
         nObjects = list_CV->nbObjects;
-        for (j = 0; i < nObjects; i++) {
+        for (i = 0; i < nObjects; i++) {
             CV_key = &list_CV->oValue[i];
             if (CV_key->szValue[0] != '\0') {
                 cmor_set_cur_dataset_attribute_internal(CV_key->key,
@@ -2324,6 +2324,23 @@ int cmor_CV_variable(int *var_id, char *name, char *units, float *missing,
     }
 
     refvar = cmor_tables[CMOR_TABLE].vars[iref];
+    for (i = 0; i < CMOR_MAX_VARIABLES; i++) {
+        if(cmor_vars[i].ref_table_id == CMOR_TABLE) {
+            if (refvar.out_name[0] == '\0') {
+                if(strncmp(cmor_vars[i].id, name, CMOR_MAX_STRING) == 0) {
+                    *var_id = i;
+                    return (0);
+                }
+            } else {
+                if(strncmp(cmor_vars[i].id, refvar.out_name, CMOR_MAX_STRING) == 0 ) {
+                    *var_id = i;
+                    return (0);
+                }
+            }
+        }
+    }
+
+
     for (i = 0; i < CMOR_MAX_VARIABLES; i++) {
         if (cmor_vars[i].self == -1) {
             vrid = i;

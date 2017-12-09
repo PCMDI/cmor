@@ -358,8 +358,7 @@ typedef struct cmor_CV_def_ {
     int     nValue;
     double  dValue;
     char    szValue[CMOR_MAX_STRING];
-
-    char    aszValue[CMOR_MAX_JSON_OBJECT][CMOR_MAX_STRING];
+    char    **aszValue;
     int     anElements;
     int     nbObjects;
     struct cmor_CV_def_ *oValue;

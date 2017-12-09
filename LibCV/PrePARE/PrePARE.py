@@ -147,43 +147,6 @@ class checkCMIP6(object):
         #  Initilaze arrays
         # -------------------------------------------------------------------
         self.cmip6_table = args.cmip6_table
-        self.infile = args.infile
-#        self.attributes = self.infile.listglobal()
-#        self.variables = self.infile.listvariable()
-        self.attributes = self.infile.__dict__.keys()
-        self.variables = self.infile.variables.keys()
-        if args.variable is not None:
-            self.var = [args.variable]
-        else:
-            # -------------------------------------------------------------------
-            # find variable that contains a "history" (should only be one)
-            # -------------------------------------------------------------------
-            self.var = [self.infile.variable_id]
-
-        if((self.var == []) or (len(self.var) > 1)):
-            print bcolors.FAIL
-            print "!!!!!!!!!!!!!!!!!!!!!!!!!"
-            print "! Error:  The input file does not have an history attribute and the CMIP6 variable could not be found"
-            print "!         Please use the --variable option to specify your CMIP6 variable"
-            print "! Check your file or use CMOR 3.x to achieve compliance for ESGF publication."
-            print "!!!!!!!!!!!!!!!!!!!!!!!!!"
-            print bcolors.ENDC
-
-            raise KeyboardInterrupt
-
-        try:
-#            self.keys = self.infile.listattribute(self.var[0])
-            self.keys = self.infile.variables[self.var[0]].__dict__.keys()
-        except BaseException:
-            print bcolors.FAIL
-            print "!!!!!!!!!!!!!!!!!!!!!!!!!"
-            print "! Error:  The variable " + self.var[0] + " could not be found"
-            print "! Check your file variables "
-            print "!!!!!!!!!!!!!!!!!!!!!!!!!"
-            print bcolors.ENDC
-
-            raise
-
         # -------------------------------------------------------------------
         # call setup() to clean all 'C' internal memory.
         # -------------------------------------------------------------------
@@ -217,8 +180,44 @@ class checkCMIP6(object):
 #        self.dictGbl = {key: self.infile.getglobal(
 #            key) for key in self.attributes}
 #        self.dictGbl = {key: self.infile.getglobal( key) for key in self.attributes}
-        self.dictGbl = {key: self.infile.__dict__[key] for key in self.attributes}
 
+        # -------------------------------------------------------------------
+        # Load CMIP6 table into memory
+        # -------------------------------------------------------------------
+        self.table_id = cmip6_cv.load_table(self.cmip6_table)
+
+    def setDoubleValue(self, attribute):
+        if(cmip6_cv.has_cur_dataset_attribute(attribute)):
+            if(isinstance(self.dictGbl[attribute], numpy.ndarray) and isinstance(self.dictGbl[attribute][0], numpy.float64)):
+                self.dictGbl[attribute] = self.dictGbl[attribute][0]
+                cmip6_cv.set_cur_dataset_attribute(
+                    attribute, self.dictGbl[attribute])
+
+    def ControlVocab(self,args):
+        '''
+            Check CMIP6 global attributes against Control Vocabulary file.
+
+                1. Validate required attribute if presents and some values.
+                2. Validate registered institution and institution_id
+                3. Validate registered source and source_id
+                4. Validate experiment, experiment_id and all attributes associated with this experiment.
+                       Make sure that all attributes associate with the experiment_id found in CMIP6_CV.json
+                       are set to the appropriate values.
+                5. Validate grid_label and grid_resolution
+                6. Validate creation time in ISO format (YYYY-MM-DDTHH:MM:SS)
+                7. Validate furtherinfourl from CV internal template
+                8. Validate variable attributes with CMOR JSON table.
+                9. Validate parent_* attribute
+               10. Validate sub_experiment_* atributes.
+               11. Validate that all *_index are integers.
+        '''
+#        self.attributes = self.infile.listglobal()
+#        self.variables = self.infile.listvariable()
+        self.variable = args.variable
+        self.infile = args.infile
+        self.dictGbl = {key: self.infile.__dict__[key] for key in self.infile.__dict__.keys()}
+        self.attributes = self.infile.__dict__.keys()
+        self.variables = self.infile.variables.keys()
         ierr = [
             cmip6_cv.set_cur_dataset_attribute(
                 key,
@@ -237,6 +236,38 @@ class checkCMIP6(object):
 
         self.setDoubleValue('branch_time_in_parent')
         self.setDoubleValue('branch_time_in_child')
+        if self.variable is not None:
+            self.var = [self.variable]
+        else:
+            # -------------------------------------------------------------------
+            # find variable that contains a "history" (should only be one)
+            # -------------------------------------------------------------------
+            self.var = [self.infile.variable_id]
+
+        if((self.var == []) or (len(self.var) > 1)):
+            print bcolors.FAIL
+            print "!!!!!!!!!!!!!!!!!!!!!!!!!"
+            print "! Error:  The input file does not have an history attribute and the CMIP6 variable could not be found"
+            print "!         Please use the --variable option to specify your CMIP6 variable"
+            print "! Check your file or use CMOR 3.x to achieve compliance for ESGF publication."
+            print "!!!!!!!!!!!!!!!!!!!!!!!!!"
+            print bcolors.ENDC
+
+            raise KeyboardInterrupt
+
+        try:
+#            self.keys = self.infile.listattribute(self.var[0])
+            self.keys = self.infile.variables[self.var[0]].__dict__.keys()
+        except BaseException:
+            print bcolors.FAIL
+            print "!!!!!!!!!!!!!!!!!!!!!!!!!"
+            print "! Error:  The variable " + self.var[0] + " could not be found"
+            print "! Check your file variables "
+            print "!!!!!!!!!!!!!!!!!!!!!!!!!"
+            print bcolors.ENDC
+
+            raise
+
         # -------------------------------------------------------------------
         # Create a dictionnary of attributes for var
         # -------------------------------------------------------------------
@@ -256,36 +287,6 @@ class checkCMIP6(object):
         except BaseException:
             self.calendar = "gregorian"
             self.timeunits = "days since ?"
-        # -------------------------------------------------------------------
-        # Load CMIP6 table into memory
-        # -------------------------------------------------------------------
-        self.table_id = cmip6_cv.load_table(self.cmip6_table)
-
-    def setDoubleValue(self, attribute):
-        if(cmip6_cv.has_cur_dataset_attribute(attribute)):
-            if(isinstance(self.dictGbl[attribute], numpy.ndarray) and isinstance(self.dictGbl[attribute][0], numpy.float64)):
-                self.dictGbl[attribute] = self.dictGbl[attribute][0]
-                cmip6_cv.set_cur_dataset_attribute(
-                    attribute, self.dictGbl[attribute])
-
-    def ControlVocab(self):
-        '''
-            Check CMIP6 global attributes against Control Vocabulary file.
-
-                1. Validate required attribute if presents and some values.
-                2. Validate registered institution and institution_id
-                3. Validate registered source and source_id
-                4. Validate experiment, experiment_id and all attributes associated with this experiment.
-                       Make sure that all attributes associate with the experiment_id found in CMIP6_CV.json
-                       are set to the appropriate values.
-                5. Validate grid_label and grid_resolution
-                6. Validate creation time in ISO format (YYYY-MM-DDTHH:MM:SS)
-                7. Validate furtherinfourl from CV internal template
-                8. Validate variable attributes with CMOR JSON table.
-                9. Validate parent_* attribute
-               10. Validate sub_experiment_* atributes.
-               11. Validate that all *_index are integers.
-        '''
         cmip6_cv.check_requiredattributes(self.table_id)
         cmip6_cv.check_institution(self.table_id)
         cmip6_cv.check_sourceID(self.table_id)
@@ -418,6 +419,7 @@ class checkCMIP6(object):
         if(cmip6_cv.get_CV_Error()):
             raise KeyboardInterrupt
 
+        pass
         print bcolors.OKGREEN
         print "*************************************************************************************"
         print "* This file is compliant with the CMIP6 specification and can be published in ESGF. *"
@@ -464,31 +466,35 @@ def main():
     except SystemExit:
         return 1
 
-    try:
-        if args.infile is not None:
-            args.filelist.append(args.infile)
+    if args.infile is not None:
+        args.filelist.append(args.infile)
 
-        if args.filelist is not None:
-            for file in args.filelist:
+    count=0
+    average=0.0
+    process = checkCMIP6(args)
+    if args.filelist is not None:
+        for file in args.filelist:
+            try:
                 print "processing: ", file
                 start = time.time()
                 args.infile = Cdunif.CdunifFile(file.rstrip(),"r")
-                process = checkCMIP6(args)
-                process.ControlVocab()
+                process.ControlVocab(args)
                 stop = time.time()
                 args.infile.close()
+                count = count +1
+                average = average + stop - start
                 print stop - start
+                print count
 
-
-    except KeyboardInterrupt:
-        print bcolors.FAIL
-        print "!!!!!!!!!!!!!!!!!!!!!!!!!"
-        print "! Error:  The input file is not CMIP6 compliant"
-        print "! Check your file or use CMOR 3.x to achieve compliance for ESGF publication."
-        print "!!!!!!!!!!!!!!!!!!!!!!!!!"
-        print bcolors.ENDC
-        sys.exit(-1)
-# process.checkActivities()
+            except KeyboardInterrupt:
+                print bcolors.FAIL
+                print "!!!!!!!!!!!!!!!!!!!!!!!!!"
+                print "! Error:  The input file is not CMIP6 compliant"
+                print "! Check your file or use CMOR 3.x to achieve compliance for ESGF publication."
+                print "!!!!!!!!!!!!!!!!!!!!!!!!!"
+                print bcolors.ENDC
+#        sys.exit(-1)
+    print average / count
     return(0)
 
 
