@@ -17,12 +17,14 @@ Created on Fri Feb 19 11:33:52 2016
 @author: Denis Nadeau LLNL
 '''
 import cmip6_cv
-import cdms2
+#import cdms2
+from cdms2 import Cdunif
 import argparse
 import sys
 import os
 import json
 import numpy
+import time
 
 
 class bcolors:
@@ -34,6 +36,25 @@ class bcolors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
+
+# =========================
+# FILEAction()
+# =========================
+
+
+class FILEAction(argparse.Action):
+    '''
+    Check if argparse is JSON file
+    '''
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        fn = values
+        if not os.path.isfile(fn):
+            raise argparse.ArgumentTypeError(
+                'FILEAction:{0} is file not found'.format(fn))
+        f = open(fn)
+        lines = f.readlines()
+        setattr(namespace, self.dest, lines)
 
 # =========================
 # JSONAction()
@@ -72,8 +93,9 @@ class CDMSAction(argparse.Action):
         if not os.path.isfile(fn):
             raise argparse.ArgumentTypeError(
                 'CDMSAction:{0} does not exist'.format(fn))
-        f = cdms2.open(fn)
-        setattr(namespace, self.dest, f)
+        f = Cdunif.CdunifFile(fn,"r")
+        f.close()
+        setattr(namespace, self.dest, fn)
 
 
 # =========================
@@ -126,8 +148,10 @@ class checkCMIP6(object):
         # -------------------------------------------------------------------
         self.cmip6_table = args.cmip6_table
         self.infile = args.infile
-        self.attributes = self.infile.listglobal()
-        self.variables = self.infile.listvariable()
+#        self.attributes = self.infile.listglobal()
+#        self.variables = self.infile.listvariable()
+        self.attributes = self.infile.__dict__.keys()
+        self.variables = self.infile.variables.keys()
         if args.variable is not None:
             self.var = [args.variable]
         else:
@@ -148,7 +172,8 @@ class checkCMIP6(object):
             raise KeyboardInterrupt
 
         try:
-            self.keys = self.infile.listattribute(self.var[0])
+#            self.keys = self.infile.listattribute(self.var[0])
+            self.keys = self.infile.variables[self.var[0]].__dict__.keys()
         except BaseException:
             print bcolors.FAIL
             print "!!!!!!!!!!!!!!!!!!!!!!!!!"
@@ -189,8 +214,11 @@ class checkCMIP6(object):
         # -------------------------------------------------------------------
         # Create alist of all Global Attributes and set "dataset"
         # -------------------------------------------------------------------
-        self.dictGbl = {key: self.infile.getglobal(
-            key) for key in self.attributes}
+#        self.dictGbl = {key: self.infile.getglobal(
+#            key) for key in self.attributes}
+#        self.dictGbl = {key: self.infile.getglobal( key) for key in self.attributes}
+        self.dictGbl = {key: self.infile.__dict__[key] for key in self.attributes}
+
         ierr = [
             cmip6_cv.set_cur_dataset_attribute(
                 key,
@@ -212,13 +240,19 @@ class checkCMIP6(object):
         # -------------------------------------------------------------------
         # Create a dictionnary of attributes for var
         # -------------------------------------------------------------------
+#        self.dictVars = dict((y, x) for y, x in
+#                             [(key, value) for key in self.keys
+#                              if self.infile.getattribute(self.var[0], key) is not None
+#                              for value in [self.infile.getattribute(self.var[0], key)]])
         self.dictVars = dict((y, x) for y, x in
                              [(key, value) for key in self.keys
-                              if self.infile.getattribute(self.var[0], key) is not None
-                              for value in [self.infile.getattribute(self.var[0], key)]])
+                              if self.infile.variables[self.var[0]].__dict__[key] is not None
+                              for value in [self.infile.variables[self.var[0]].__dict__[key]]])
         try:
-            self.calendar = self.infile.getAxis('time').calendar
-            self.timeunits = self.infile.getAxis('time').units
+            #self.calendar = self.infile.getAxis('time').calendar
+            #self.timeunits = self.infile.getAxis('time').units
+            self.calendar = self.infile.variables['time'].__dict__['calendar']
+            self.timeunits = self.infile.variables['time'].__dict__['units']
         except BaseException:
             self.calendar = "gregorian"
             self.timeunits = "days since ?"
@@ -262,19 +296,21 @@ class checkCMIP6(object):
         cmip6_cv.check_parentExpID(self.table_id)
         cmip6_cv.check_subExpID(self.table_id)
         try:
-            startimebnds = self.infile['time_bnds'][0][0]
-            endtimebnds = self.infile['time_bnds'][-1][1]
+#            startimebnds = self.infile['time_bnds'][0][0]
+#            endtimebnds = self.infile['time_bnds'][-1][1]
+            startimebnds = self.infile.variables['time_bnds'][0][0]
+            endtimebnds = self.infile.variables['time_bnds'][-1][1]
         except BaseException:
             startimebnds = 0
             endtimebnds = 0
         try:
-            startime = self.infile['time'][0]
-            endtime = self.infile['time'][-1]
+            startime = self.infile.variables['time'][0]
+            endtime = self.infile.variables['time'][-1]
         except BaseException:
             startime = 0
             endtime = 0
-        varunits = self.infile[self.var[0]].units
-        varmissing = self.infile[self.var[0]]._FillValue[0]
+        varunits = self.infile.variables[self.var[0]].__dict__['units']
+        varmissing = self.infile.variables[self.var[0]].__dict__['_FillValue'][0]
         varid = cmip6_cv.setup_variable(self.var[0], varunits, varmissing, startime, endtime,
                                         startimebnds, endtimebnds)
         if(varid == -1):
@@ -286,7 +322,8 @@ class checkCMIP6(object):
             cmip6_cv.set_CV_Error()
             return
  
-        fn = os.path.basename(self.infile.id)
+#        fn = os.path.basename(self.infile.id)
+        fn = os.path.basename(str(self.infile).split('\'')[1])
         cmip6_cv.check_filename(
             self.table_id,
             varid,
@@ -380,6 +417,7 @@ class checkCMIP6(object):
 
         if(cmip6_cv.get_CV_Error()):
             raise KeyboardInterrupt
+
         print bcolors.OKGREEN
         print "*************************************************************************************"
         print "* This file is compliant with the CMIP6 specification and can be published in ESGF. *"
@@ -402,7 +440,11 @@ def main():
                         help='CMIP6 CMOR table (JSON file) ex: Tables/CMIP6_Amon.json',
                         action=JSONAction)
 
-    parser.add_argument('infile',
+    parser.add_argument('--filelist',
+                        help='Input CMIP6 netCDF filelist to Validate ex: CMIP6.lst',
+                        action=FILEAction)
+    
+    parser.add_argument('--infile',
                         help='Input CMIP6 netCDF file to Validate ex: clisccp_cfMon_DcppC22_NICAM_gn_200001-200001.nc',
                         action=CDMSAction)
 
@@ -414,6 +456,8 @@ def main():
 
     try:
         args = parser.parse_args()
+        if args.filelist is None:
+            args.filelist=[]
     except argparse.ArgumentTypeError as errmsg:
         print >> sys.stderr, str(errmsg)
         return 1
@@ -421,8 +465,21 @@ def main():
         return 1
 
     try:
-        process = checkCMIP6(args)
-        process.ControlVocab()
+        if args.infile is not None:
+            args.filelist.append(args.infile)
+
+        if args.filelist is not None:
+            for file in args.filelist:
+                print "processing: ", file
+                start = time.time()
+                args.infile = Cdunif.CdunifFile(file.rstrip(),"r")
+                process = checkCMIP6(args)
+                process.ControlVocab()
+                stop = time.time()
+                args.infile.close()
+                print stop - start
+
+
     except KeyboardInterrupt:
         print bcolors.FAIL
         print "!!!!!!!!!!!!!!!!!!!!!!!!!"
