@@ -1993,7 +1993,8 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
     if (i == (attr_CV->anElements)) {
         for (i = 0; i < attr_CV->anElements; i++) {
             strcat(szValids, "\"");
-            strncat(szValids, attr_CV->aszValue[i], CMOR_MAX_STRING);
+            strncpy(szOutput, attr_CV->aszValue[i], CMOR_MAX_STRING);
+            strcat(szValids, szOutput);
             strcat(szValids, "\" ");
         }
 
