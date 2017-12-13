@@ -16,15 +16,15 @@ Created on Fri Feb 19 11:33:52 2016
 
 @author: Denis Nadeau LLNL
 '''
-import cmip6_cv
-#import cdms2
-from cdms2 import Cdunif
-import argparse
 import sys
+# Make sure cdms2.__init__py is not loaded when importing Cdunif
+sys.path.insert(0,sys.prefix+"/lib/python2.7/site-packages/cdms2")
+import Cdunif
+import argparse
 import os
 import json
 import numpy
-import time
+import cmip6_cv
 
 
 class bcolors:
@@ -54,6 +54,7 @@ class FILEAction(argparse.Action):
                 'FILEAction:{0} is file not found'.format(fn))
         f = open(fn)
         lines = f.readlines()
+        f.close()
         setattr(namespace, self.dest, lines)
 
 # =========================
@@ -73,6 +74,7 @@ class JSONAction(argparse.Action):
                 'JSONAction:{0} is file not found'.format(fn))
         f = open(fn)
         lines = f.readlines()
+        f.close()
         jsonobject = json.loads(" ".join(lines))
         if not jsonobject:
             raise argparse.ArgumentTypeError(
@@ -174,12 +176,6 @@ class checkCMIP6(object):
             cmip6_cv.CMOR_FORMULA_VAR_FILE,
             "CMIP6_formula_terms.json")
 
-        # -------------------------------------------------------------------
-        # Create alist of all Global Attributes and set "dataset"
-        # -------------------------------------------------------------------
-#        self.dictGbl = {key: self.infile.getglobal(
-#            key) for key in self.attributes}
-#        self.dictGbl = {key: self.infile.getglobal( key) for key in self.attributes}
 
         # -------------------------------------------------------------------
         # Load CMIP6 table into memory
@@ -211,10 +207,11 @@ class checkCMIP6(object):
                10. Validate sub_experiment_* atributes.
                11. Validate that all *_index are integers.
         '''
-#        self.attributes = self.infile.listglobal()
-#        self.variables = self.infile.listvariable()
         self.variable = args.variable
         self.infile = args.infile
+        # -------------------------------------
+        # Create alist of all Global Attributes
+        # -------------------------------------
         self.dictGbl = {key: self.infile.__dict__[key] for key in self.infile.__dict__.keys()}
         self.attributes = self.infile.__dict__.keys()
         self.variables = self.infile.variables.keys()
@@ -256,7 +253,6 @@ class checkCMIP6(object):
             raise KeyboardInterrupt
 
         try:
-#            self.keys = self.infile.listattribute(self.var[0])
             self.keys = self.infile.variables[self.var[0]].__dict__.keys()
         except BaseException:
             print bcolors.FAIL
@@ -271,19 +267,13 @@ class checkCMIP6(object):
         # -------------------------------------------------------------------
         # Create a dictionnary of attributes for var
         # -------------------------------------------------------------------
-#        self.dictVars = dict((y, x) for y, x in
-#                             [(key, value) for key in self.keys
-#                              if self.infile.getattribute(self.var[0], key) is not None
-#                              for value in [self.infile.getattribute(self.var[0], key)]])
         self.dictVars = dict((y, x) for y, x in
                              [(key, value) for key in self.keys
                               if self.infile.variables[self.var[0]].__dict__[key] is not None
                               for value in [self.infile.variables[self.var[0]].__dict__[key]]])
         try:
-            #self.calendar = self.infile.getAxis('time').calendar
-            #self.timeunits = self.infile.getAxis('time').units
-            self.calendar = self.infile.variables['time'].__dict__['calendar']
-            self.timeunits = self.infile.variables['time'].__dict__['units']
+            self.calendar = self.infile.variables['time'].calendar
+            self.timeunits = self.infile.variables['time'].units
         except BaseException:
             self.calendar = "gregorian"
             self.timeunits = "days since ?"
@@ -297,8 +287,6 @@ class checkCMIP6(object):
         cmip6_cv.check_parentExpID(self.table_id)
         cmip6_cv.check_subExpID(self.table_id)
         try:
-#            startimebnds = self.infile['time_bnds'][0][0]
-#            endtimebnds = self.infile['time_bnds'][-1][1]
             startimebnds = self.infile.variables['time_bnds'][0][0]
             endtimebnds = self.infile.variables['time_bnds'][-1][1]
         except BaseException:
@@ -310,8 +298,8 @@ class checkCMIP6(object):
         except BaseException:
             startime = 0
             endtime = 0
-        varunits = self.infile.variables[self.var[0]].__dict__['units']
-        varmissing = self.infile.variables[self.var[0]].__dict__['_FillValue'][0]
+        varunits = self.infile.variables[self.var[0]].units
+        varmissing = self.infile.variables[self.var[0]]._FillValue[0]
         varid = cmip6_cv.setup_variable(self.var[0], varunits, varmissing, startime, endtime,
                                         startimebnds, endtimebnds)
         if(varid == -1):
@@ -442,11 +430,7 @@ def main():
                         help='CMIP6 CMOR table (JSON file) ex: Tables/CMIP6_Amon.json',
                         action=JSONAction)
 
-    parser.add_argument('--filelist',
-                        help='Input CMIP6 netCDF filelist to Validate ex: CMIP6.lst',
-                        action=FILEAction)
-    
-    parser.add_argument('--infile',
+    parser.add_argument('infile', 
                         help='Input CMIP6 netCDF file to Validate ex: clisccp_cfMon_DcppC22_NICAM_gn_200001-200001.nc',
                         action=CDMSAction)
 
@@ -458,41 +442,28 @@ def main():
 
     try:
         args = parser.parse_args()
-        if args.filelist is None:
-            args.filelist=[]
     except argparse.ArgumentTypeError as errmsg:
         print >> sys.stderr, str(errmsg)
         return 1
     except SystemExit:
         return 1
 
-    if args.infile is not None:
-        args.filelist.append(args.infile)
-
     count=0
     average=0.0
     process = checkCMIP6(args)
-    if args.filelist is not None:
-        for file in args.filelist:
-            try:
-                print "processing: ", file
-                start = time.time()
-                args.infile = Cdunif.CdunifFile(file.rstrip(),"r")
-                process.ControlVocab(args)
-                stop = time.time()
-                args.infile.close()
-                count = count +1
-                average = average + stop - start
-                print stop - start
-                print count
+    try:
+        print "processing: ", args.infile
+        args.infile = Cdunif.CdunifFile(args.infile,"r")
+        process.ControlVocab(args)
+        args.infile.close()
 
-            except KeyboardInterrupt:
-                print bcolors.FAIL
-                print "!!!!!!!!!!!!!!!!!!!!!!!!!"
-                print "! Error:  The input file is not CMIP6 compliant"
-                print "! Check your file or use CMOR 3.x to achieve compliance for ESGF publication."
-                print "!!!!!!!!!!!!!!!!!!!!!!!!!"
-                print bcolors.ENDC
+    except KeyboardInterrupt:
+        print bcolors.FAIL
+        print "!!!!!!!!!!!!!!!!!!!!!!!!!"
+        print "! Error:  The input file is not CMIP6 compliant"
+        print "! Check your file or use CMOR 3.x to achieve compliance for ESGF publication."
+        print "!!!!!!!!!!!!!!!!!!!!!!!!!"
+        print bcolors.ENDC
 #        sys.exit(-1)
     print average / count
     return(0)

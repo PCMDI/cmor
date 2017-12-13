@@ -17,7 +17,6 @@ extern void cdCompAdd(cdCompTime comptime,
                       double value, cdCalenType calendar, cdCompTime * result);
 
 extern void cdCompAddMixed(cdCompTime ct, double value, cdCompTime * result);
-
 /************************************************************************/
 /*                        cmor_CV_set_att()                             */
 /************************************************************************/

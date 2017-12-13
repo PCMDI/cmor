@@ -24,17 +24,17 @@ try:
 except BaseException:
     has_cdtime = False
 
-try:
-    import cdms2
-    has_cdms2 = True
-except BaseException:
-    has_cdms2 = False
+#try:
+    #import cdms2
+    #has_cdms2 = True
+#except BaseException:
+    #has_cdms2 = False
 
-try:
-    import MV2
-    has_MV2 = True
-except BaseException:
-    has_MV2 = False
+#try:
+    #import MV2
+    #has_MV2 = True
+#except BaseException:
+    #has_MV2 = False
 
 try:
     import numpy.oldnumeric.ma.MaskedArray
