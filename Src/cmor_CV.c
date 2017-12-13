@@ -323,6 +323,18 @@ char *cmor_CV_get_value(cmor_CV_def_t * CV, char *key)
 void cmor_CV_free(cmor_CV_def_t * CV)
 {
     int k;
+    int i;
+    int length;
+/* -------------------------------------------------------------------- */
+/* Free allocated double string array                                   */
+/* -------------------------------------------------------------------- */
+    length = CV->anElements;
+    if(length != 0) {
+        for(i=0; i < length; i++) {
+            free(CV->aszValue[i]);
+        }
+        free(CV->aszValue);
+    }
 /* -------------------------------------------------------------------- */
 /* Recursively go down the tree and free branch                         */
 /* -------------------------------------------------------------------- */
@@ -330,12 +342,9 @@ void cmor_CV_free(cmor_CV_def_t * CV)
         for (k = 0; k < CV->nbObjects; k++) {
             cmor_CV_free(&CV->oValue[k]);
         }
-    }
-    if (CV->oValue != NULL) {
         free(CV->oValue);
         CV->oValue = NULL;
     }
-
 }
 
 /************************************************************************/
@@ -1886,8 +1895,8 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
     char szValue[CMOR_MAX_STRING];
     char msg[CMOR_MAX_STRING];
     char CV_Filename[CMOR_MAX_STRING];
-    char szValids[CMOR_MAX_STRING * 2];
-    char szOutput[CMOR_MAX_STRING * 2];
+    char szValids[CMOR_MAX_STRING];
+    char szOutput[CMOR_MAX_STRING];
     char szTmp[CMOR_MAX_STRING];
     int i;
     int nObjects;
@@ -1988,7 +1997,6 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
             strncat(szValids, attr_CV->aszValue[i], CMOR_MAX_STRING);
             strcat(szValids, "\" ");
         }
-        snprintf(szOutput, 132, "%s ...", szValids);
 
         snprintf(msg, CMOR_MAX_STRING,
                  "The attribute \"%s\" could not be validated. \n! "
@@ -1997,7 +2005,7 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
                  "Valid values must match the regular expression:"
                  "\n! \t[%s] \n! \n! "
                  "Check your Control Vocabulary file \"%s\".\n! ",
-                 szKey, szValue, szOutput, CV_Filename);
+                 szKey, szValue, szValids, CV_Filename);
 
         cmor_handle_error(msg, CMOR_NORMAL);
         cmor_pop_traceback();
