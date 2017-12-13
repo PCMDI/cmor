@@ -2,8 +2,8 @@
 #define CMOR_H
 
 #define CMOR_VERSION_MAJOR 3
-#define CMOR_VERSION_MINOR 2
-#define CMOR_VERSION_PATCH 8
+#define CMOR_VERSION_MINOR 3
+#define CMOR_VERSION_PATCH 0
 
 #define CMOR_CF_VERSION_MAJOR 1
 #define CMOR_CF_VERSION_MINOR 6
@@ -358,8 +358,7 @@ typedef struct cmor_CV_def_ {
     int     nValue;
     double  dValue;
     char    szValue[CMOR_MAX_STRING];
-
-    char    aszValue[CMOR_MAX_JSON_OBJECT][CMOR_MAX_STRING];
+    char    **aszValue;
     int     anElements;
     int     nbObjects;
     struct cmor_CV_def_ *oValue;

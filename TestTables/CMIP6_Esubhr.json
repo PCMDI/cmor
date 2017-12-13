@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.16", 
+        "data_specs_version": "01.00.18", 
         "table_id": "Table Esubhr", 
         "realm": "atmos", 
         "cmor_version": "3.2", 
-        "table_date": "08 November 2017", 
+        "table_date": "13 December 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "0.017361", 

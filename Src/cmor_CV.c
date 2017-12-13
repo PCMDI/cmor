@@ -17,7 +17,6 @@ extern void cdCompAdd(cdCompTime comptime,
                       double value, cdCalenType calendar, cdCompTime * result);
 
 extern void cdCompAddMixed(cdCompTime ct, double value, cdCompTime * result);
-
 /************************************************************************/
 /*                        cmor_CV_set_att()                             */
 /************************************************************************/
@@ -73,8 +72,13 @@ void cmor_CV_set_att(cmor_CV_def_t * CV, char *szKey, json_object * joValue)
         CV->type = CV_object;
 
     } else if (json_object_is_type(joValue, json_type_array)) {
+        int i;
         pArray = json_object_get_array(joValue);
         length = array_list_length(pArray);
+        CV->aszValue = (char **)  malloc(length * sizeof(char**));
+        for(i=0; i < length; i++) {
+            CV->aszValue[i] = (char *) malloc(sizeof(char) * CMOR_MAX_STRING);
+        }
         json_object *joItem;
         CV->anElements = length;
         for (k = 0; k < length; k++) {
@@ -95,7 +99,6 @@ void cmor_CV_set_att(cmor_CV_def_t * CV, char *szKey, json_object * joValue)
 /************************************************************************/
 void cmor_CV_init(cmor_CV_def_t * CV, int table_id)
 {
-    int i;
 
     cmor_is_setup();
     cmor_add_traceback("_init_CV_def");
@@ -107,9 +110,7 @@ void cmor_CV_init(cmor_CV_def_t * CV, int table_id)
     CV->szValue[0] = '\0';
     CV->dValue = -9999.9;
     CV->oValue = NULL;
-    for (i = 0; i < CMOR_MAX_JSON_ARRAY; i++) {
-        CV->aszValue[i][0] = '\0';
-    }
+    CV->aszValue = NULL;
     CV->anElements = -1;
 
     cmor_pop_traceback();
@@ -321,6 +322,18 @@ char *cmor_CV_get_value(cmor_CV_def_t * CV, char *key)
 void cmor_CV_free(cmor_CV_def_t * CV)
 {
     int k;
+    int i;
+    int length;
+/* -------------------------------------------------------------------- */
+/* Free allocated double string array                                   */
+/* -------------------------------------------------------------------- */
+    length = CV->anElements;
+    if(length != 0) {
+        for(i=0; i < length; i++) {
+            free(CV->aszValue[i]);
+        }
+        free(CV->aszValue);
+    }
 /* -------------------------------------------------------------------- */
 /* Recursively go down the tree and free branch                         */
 /* -------------------------------------------------------------------- */
@@ -328,12 +341,9 @@ void cmor_CV_free(cmor_CV_def_t * CV)
         for (k = 0; k < CV->nbObjects; k++) {
             cmor_CV_free(&CV->oValue[k]);
         }
-    }
-    if (CV->oValue != NULL) {
         free(CV->oValue);
         CV->oValue = NULL;
     }
-
 }
 
 /************************************************************************/
@@ -1480,13 +1490,12 @@ int cmor_CV_checkFilename(cmor_CV_def_t * CV, int var_id,
     char msg[CMOR_MAX_STRING];
     cdCompTime comptime;
     int i, j, n;
-    int ierr;
     int timeDim;
     cdCompTime starttime, endtime;
     int axis_id;
 
     outname[0] = '\0';
-    ierr = cmor_CreateFromTemplate(0, cmor_current_dataset.file_template,
+    cmor_CreateFromTemplate(0, cmor_current_dataset.file_template,
             outname, "_");
     cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
     timeDim = -1;
@@ -1885,11 +1894,10 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
     char szValue[CMOR_MAX_STRING];
     char msg[CMOR_MAX_STRING];
     char CV_Filename[CMOR_MAX_STRING];
-    char szValids[CMOR_MAX_STRING * 2];
-    char szOutput[CMOR_MAX_STRING * 2];
+    char szValids[CMOR_MAX_STRING];
+    char szOutput[CMOR_MAX_STRING];
     char szTmp[CMOR_MAX_STRING];
     int i;
-    int j;
     int nObjects;
     regex_t regex;
     int reti;
@@ -1970,7 +1978,7 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
             return (0);
         }
         nObjects = list_CV->nbObjects;
-        for (j = 0; i < nObjects; i++) {
+        for (i = 0; i < nObjects; i++) {
             CV_key = &list_CV->oValue[i];
             if (CV_key->szValue[0] != '\0') {
                 cmor_set_cur_dataset_attribute_internal(CV_key->key,
@@ -1985,10 +1993,10 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
     if (i == (attr_CV->anElements)) {
         for (i = 0; i < attr_CV->anElements; i++) {
             strcat(szValids, "\"");
-            strncat(szValids, attr_CV->aszValue[i], CMOR_MAX_STRING);
+            strncpy(szOutput, attr_CV->aszValue[i], CMOR_MAX_STRING);
+            strcat(szValids, szOutput);
             strcat(szValids, "\" ");
         }
-        snprintf(szOutput, 132, "%s ...", szValids);
 
         snprintf(msg, CMOR_MAX_STRING,
                  "The attribute \"%s\" could not be validated. \n! "
@@ -1997,7 +2005,7 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
                  "Valid values must match the regular expression:"
                  "\n! \t[%s] \n! \n! "
                  "Check your Control Vocabulary file \"%s\".\n! ",
-                 szKey, szValue, szOutput, CV_Filename);
+                 szKey, szValue, szValids, CV_Filename);
 
         cmor_handle_error(msg, CMOR_NORMAL);
         cmor_pop_traceback();
@@ -2324,6 +2332,23 @@ int cmor_CV_variable(int *var_id, char *name, char *units, float *missing,
     }
 
     refvar = cmor_tables[CMOR_TABLE].vars[iref];
+    for (i = 0; i < CMOR_MAX_VARIABLES; i++) {
+        if(cmor_vars[i].ref_table_id == CMOR_TABLE) {
+            if (refvar.out_name[0] == '\0') {
+                if(strncmp(cmor_vars[i].id, name, CMOR_MAX_STRING) == 0) {
+                    *var_id = i;
+                    return (0);
+                }
+            } else {
+                if(strncmp(cmor_vars[i].id, refvar.out_name, CMOR_MAX_STRING) == 0 ) {
+                    *var_id = i;
+                    return (0);
+                }
+            }
+        }
+    }
+
+
     for (i = 0; i < CMOR_MAX_VARIABLES; i++) {
         if (cmor_vars[i].self == -1) {
             vrid = i;

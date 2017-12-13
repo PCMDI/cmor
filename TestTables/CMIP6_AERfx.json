@@ -10,7 +10,7 @@
         "approx_interval": "", 
         "generic_levels": "", 
         "mip_era": "CMIP6", 
-        "Conventions": "CF-1.6 CMIP-6.0"
+        "Conventions": "CF-1.6 CMIP-6.2"
     }, 
     "variable_entry": {
         "areacella": {

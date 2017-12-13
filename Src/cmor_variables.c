@@ -2991,7 +2991,7 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
                 free(tmp_vals);
             } else {
 /* -------------------------------------------------------------------- */
-/*      checks wether you need bounds or not                            */
+/*      checks if you need bounds or not                                */
 /* -------------------------------------------------------------------- */
 
                 if (cmor_tables[cmor_axes[avar->axes_ids[0]].ref_table_id].axes

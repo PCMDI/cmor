@@ -6094,6 +6094,9 @@ int cmor_close_variable(int var_id, char *file_name, int *preserve)
                 cmor_vars[var_id].associated_ids[i] = -1;
                 cmor_vars[var_id].nc_var_id = -999;
             }
+            if (cmor_vars[var_id].values != NULL) {
+                free(cmor_vars[var_id].values);
+            }
             for (i = 0; i < cmor_vars[var_id].nattributes; i++) {
                 if (strcmp(cmor_vars[var_id].attributes[i], "cell_methods")
                     == 0) {
@@ -6145,6 +6148,8 @@ int cmor_close(void)
                      "but never initialized", cmor_vars[i].id, i,
                      cmor_tables[cmor_vars[i].ref_table_id].szTable_id);
             cmor_handle_error(msg, CMOR_WARNING);
+        } else if (cmor_vars[i].zaxis != -1) {
+            cmor_reset_variable(i);
         }
     }
     for (i = 0; i < CMOR_MAX_TABLES; i++) {
