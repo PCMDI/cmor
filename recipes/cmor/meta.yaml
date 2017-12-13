@@ -1,6 +1,6 @@
 package:
     name: cmor
-    version: 3.2.8
+    version: 3.3.0
 
 source:
     git_rev: master
@@ -21,7 +21,6 @@ requirements:
     - python 
     - ossuuid 1.6.2.*
     - udunits2
-    - hdf5 1.8.18|1.8.18.*
     - libnetcdf 4.4.*
     - numpy {{ NPY_VER }}
     - libgcc [osx]
@@ -29,7 +28,6 @@ requirements:
     - python
     - ossuuid 1.6.2.*
     - udunits2
-    - hdf5 1.8.18|1.8.18.*
     - libnetcdf 4.4.*
     - numpy {{ NPY_VER }}
     - cdms2

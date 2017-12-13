@@ -351,6 +351,8 @@ class checkCMIP6(object):
 
         prepLIST = cmip6_cv.list_variable_attributes(varid)
         for key in prepLIST:
+            if(key == "long_name"):
+                continue
             if(key == "comment"):
                 continue
             # Is this attritue in file?
