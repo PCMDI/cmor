@@ -1,4 +1,4 @@
-name: cmor3.3.0
+name: cmor-3.3.0
 channels:
 - pcmdi
 - conda-forge
@@ -7,8 +7,8 @@ dependencies:
 - asn1crypto=0.22.0=py27_0
 - ca-certificates=2017.11.5=0
 - cdat_info=2.12=py27_1
-- cdms2=2.12=np111py27_0
-- cdtime=2.12=np111py27_2
+- cdms2=2.12=np113py27_0
+- cdtime=2.12=np113py27_2
 - certifi=2017.11.5=py27_0
 - cffi=1.11.2=py27_0
 - chardet=3.0.4=py27_0
@@ -44,7 +44,6 @@ dependencies:
 - netcdf-fortran=4.4.4=5
 - openssl=1.0.2n=0
 - ossuuid=1.6.2=0
-- pip=9.0.1=py27_0
 - pycparser=2.18=py27_0
 - pyopenssl=17.4.0=py27_0
 - pysocks=1.6.7=py27_0
@@ -57,7 +56,6 @@ dependencies:
 - tk=8.5.19=2
 - udunits2=2.2.25=2
 - urllib3=1.22=py27_0
-- wheel=0.30.0=py_1
 - xz=5.2.3=0
 - zlib=1.2.11=0
 - intel-openmp=2018.0.0=hc7b2577_8
@@ -65,12 +63,8 @@ dependencies:
 - libgcc-ng=7.2.0=h7cc24e2_2
 - libgfortran=3.0.0=1
 - libstdcxx-ng=7.2.0=h7a57d05_2
-- mkl=2017.0.4=h4c4d0af_0
-- numpy=1.11.3=py27_0
-- cmor=3.3.0=py27h0d6fb09_0
-- pip:
-  - cdat-info==0.0.0
-  - mv2==3.0.0
-  - regrid2==3.0.0
-prefix: /export/nadeau1/anaconda2/envs/cmor3.3.0
+- mkl=2018.0.1=h19d6760_4
+- numpy=1.13.3=py27hbcc08e0_0
+- cmor=3.3.0=py27he7c6f3b_0
+prefix: /software/anaconda2/envs/cmor-3.3.0
 
