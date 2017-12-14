@@ -450,8 +450,6 @@ def main():
     except SystemExit:
         return 1
 
-    count=0
-    average=0.0
     process = checkCMIP6(args)
     try:
         print "processing: ", args.infile
@@ -467,7 +465,6 @@ def main():
         print "!!!!!!!!!!!!!!!!!!!!!!!!!"
         print bcolors.ENDC
 #        sys.exit(-1)
-    print average / count
     return(0)
 
 

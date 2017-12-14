@@ -21,15 +21,18 @@ requirements:
     - python 
     - ossuuid 1.6.2.*
     - udunits2
+    - hdf5 1.8.*
     - libnetcdf 4.4.*
-    - numpy {{ NPY_VER }}
+    - numpy {{ NPY_VER }}.*
     - libgcc [osx]
+
   run:
     - python
     - ossuuid 1.6.2.*
     - udunits2
+    - hdf5 1.8.*
     - libnetcdf 4.4.*
-    - numpy {{ NPY_VER }}
+    - numpy {{ NPY_VER }}.*
     - cdms2
     - libgcc [osx]
 
