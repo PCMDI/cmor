@@ -1,7 +1,7 @@
 # CMOR
 Climate Model Output Rewriter
 
-CMOR 3.2 documentation can be found here: http://cmor.llnl.gov
+CMOR 3.3 documentation can be found here: http://cmor.llnl.gov
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1115862.svg)](https://doi.org/10.5281/zenodo.1115862)
 [![stable version](https://img.shields.io/badge/stable%20version-3.3.0-brightgreen.svg)](https://github.com/PCMDI/cmor/releases/tag/cmor-3.3.0)
