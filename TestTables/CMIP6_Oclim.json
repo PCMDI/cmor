@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.18", 
+        "data_specs_version": "01.00.19", 
         "table_id": "Table Oclim", 
         "realm": "ocean", 
         "cmor_version": "3.2", 
-        "table_date": "13 December 2017", 
+        "table_date": "21 December 2017", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "30.00000", 
@@ -502,7 +502,7 @@
         "tnkebto": {
             "frequency": "monC", 
             "modeling_realm": "ocean", 
-            "standard_name": "tendency_of_ocean_eddy_kinetic_energy_content_due_to_bolus_transport", 
+            "standard_name": "tendency_of_ocean_eddy_kinetic_energy_content_due_to_parameterized_eddy_advection", 
             "units": "W m-2", 
             "cell_methods": "area: mean time: mean within years time: mean over years", 
             "cell_measures": "area: areacello volume: volcello", 
@@ -520,7 +520,7 @@
         "tnkebto2d": {
             "frequency": "monC", 
             "modeling_realm": "ocean", 
-            "standard_name": "tendency_of_ocean_eddy_kinetic_energy_content_due_to_bolus_transport", 
+            "standard_name": "tendency_of_ocean_eddy_kinetic_energy_content_due_to_parameterized_eddy_advection", 
             "units": "W m-2", 
             "cell_methods": "area: mean time: mean within years time: mean over years", 
             "cell_measures": "area: areacello", 

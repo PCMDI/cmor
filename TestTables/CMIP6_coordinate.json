@@ -799,28 +799,6 @@
             "z_factors": "", 
             "bounds_values": ""
         }, 
-        "misrBands": {
-            "standard_name": "wave_frequency", 
-            "units": "s-1", 
-            "axis": "", 
-            "long_name": "MISR Spectral Frequency Band", 
-            "climatology": "", 
-            "formula": "", 
-            "must_have_bounds": "yes", 
-            "out_name": "spectband", 
-            "positive": "", 
-            "requested": "", 
-            "requested_bounds": "", 
-            "stored_direction": "", 
-            "tolerance": "", 
-            "type": "double", 
-            "valid_max": "", 
-            "valid_min": "", 
-            "value": "", 
-            "z_bounds_factors": "", 
-            "z_factors": "", 
-            "bounds_values": ""
-        }, 
         "natural_log_pressure": {
             "standard_name": "atmosphere_ln_pressure_coordinate", 
             "units": "", 
