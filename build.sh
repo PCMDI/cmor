@@ -75,7 +75,7 @@ git clone https://github.com/PCMDI/cmor.git
 cd cmor
 git checkout cmor3
 
-./configure --prefix=$PREFIX --with-python --with-uuid --with-udunits --with-netcdf=$PREFIX/ 
+./configure --prefix=$PREFIX --with-python=$PREFIX --with-uuid=$PREFIX --with-udunits=$PREFIX --with-netcdf=$PREFIX
 make 
 
 #
