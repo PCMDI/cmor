@@ -73,7 +73,7 @@ make install
 cd ..
 git clone https://github.com/PCMDI/cmor.git
 cd cmor
-git checkout cmor3
+git checkout cmor-3.3.0  # or latest tag
 
 ./configure --prefix=$PREFIX --with-python=$PREFIX --with-uuid=$PREFIX --with-udunits=$PREFIX --with-netcdf=$PREFIX
 make 
