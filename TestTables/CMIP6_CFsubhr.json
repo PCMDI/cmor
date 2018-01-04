@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.18", 
+        "data_specs_version": "01.00.20", 
         "table_id": "Table CFsubhr", 
         "realm": "atmos", 
         "cmor_version": "3.2", 
-        "table_date": "13 December 2017", 
+        "table_date": "03 January 2018", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "0.017361", 
@@ -868,7 +868,7 @@
             "cell_measures": "", 
             "long_name": "Upwelling Clear-Sky Shortwave Radiation", 
             "comment": "Upwelling clear-sky shortwave radiation  (includes the fluxes at the surface and TOA)", 
-            "dimensions": "site time1", 
+            "dimensions": "alevhalf site time1", 
             "out_name": "rsucs", 
             "type": "real", 
             "positive": "up", 

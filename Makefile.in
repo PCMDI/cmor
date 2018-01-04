@@ -6,7 +6,8 @@ CPPFLAGS_USER=""
 USERFFLAGS=@USERFFLAGS@
 #MODULE_SUFFIX="mod"
 PREFIX=@prefix@
-PYTHONPATH=@prefix@/lib/python2.7/site-packages
+PYTHONPATH:=@prefix@/lib/python2.7/site-packages:${PYTHONPATH}
+DIR=$(shell echo ${PYTHONPATH} | cut -d: -f1)
 FCFLAGS=@FCFLAGS@
 PYTHONEXEC=@PYTHONEXEC@
 NO_COLOR2=\x1b[0m
@@ -146,8 +147,8 @@ ifeq ($(UNAME), Linux)
 endif
 python:
 	@echo "Building Python interface"
-	@if [ ! -d "${PYTHONPATH}" ]; then mkdir -p ${PYTHONPATH}; fi
-	@${PYTHONEXEC} setup.py install @CDATPREFIX@
+	#if [ ! -d "${DIR}" ]; then mkdir -p ${DIR}; fi
+	${PYTHONEXEC} setup.py install @CDATPREFIX@ 
 test_a_python:
 	@echo "${OK_COLOR}Testing ${TEST_NAME} ${NO_COLOR}"
 	${PYTHONEXEC} ${TEST_NAME} ${VERB}

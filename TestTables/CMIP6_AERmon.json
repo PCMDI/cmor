@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.18", 
+        "data_specs_version": "01.00.20", 
         "table_id": "Table AERmon", 
         "realm": "aerosol", 
         "cmor_version": "3.2", 
-        "table_date": "13 December 2017", 
+        "table_date": "03 January 2018", 
         "missing_value": "1e20", 
         "product": "model-output", 
         "approx_interval": "30.00000", 
@@ -2270,7 +2270,7 @@
             "units": "m", 
             "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
-            "long_name": "Tropopause Altitude", 
+            "long_name": "Tropopause Altitude above Geoid", 
             "comment": "2D monthly mean thermal tropopause calculated using WMO tropopause definition on 3d temperature", 
             "dimensions": "longitude latitude time", 
             "out_name": "ztp", 
