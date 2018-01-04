@@ -79,7 +79,8 @@ git checkout cmor3
 make 
 
 #
-#  My pyhton 2.7 is located in /usr/local/lib so I need sudo
+#  For installing egg without su, temporarily set PYTHONPATH to a directory where you want to 
+#  install it, such as e.g. "$HOME/.local/lib/python2.7/site-packages"
 #
 sudo make install
 sudo make python
