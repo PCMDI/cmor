@@ -1928,6 +1928,28 @@
             "z_factors": "", 
             "bounds_values": ""
         }, 
+        "soilpools": {
+            "standard_name": "", 
+            "units": "", 
+            "axis": "", 
+            "long_name": "Soil Pools", 
+            "climatology": "", 
+            "formula": "", 
+            "must_have_bounds": "no", 
+            "out_name": "soilpools", 
+            "positive": "", 
+            "requested": "", 
+            "requested_bounds": "", 
+            "stored_direction": "", 
+            "tolerance": "", 
+            "type": "character", 
+            "valid_max": "", 
+            "valid_min": "", 
+            "value": "", 
+            "z_bounds_factors": "", 
+            "z_factors": "", 
+            "bounds_values": ""
+        }, 
         "spectband": {
             "standard_name": "sensor_band_central_radiation_wavenumber", 
             "units": "m-1", 
