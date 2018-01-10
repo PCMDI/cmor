@@ -18,7 +18,7 @@ Created on Fri Feb 19 11:33:52 2016
 '''
 import sys
 # Make sure cdms2.__init__py is not loaded when importing Cdunif
-sys.path.insert(0,sys.prefix+"/lib/python2.7/site-packages/cdms2")
+sys.path.insert(0, sys.prefix + "/lib/python2.7/site-packages/cdms2")
 import Cdunif
 import argparse
 import os
@@ -95,7 +95,7 @@ class CDMSAction(argparse.Action):
         if not os.path.isfile(fn):
             raise argparse.ArgumentTypeError(
                 'CDMSAction:{0} does not exist'.format(fn))
-        f = Cdunif.CdunifFile(fn,"r")
+        f = Cdunif.CdunifFile(fn, "r")
         f.close()
         setattr(namespace, self.dest, fn)
 
@@ -176,7 +176,6 @@ class checkCMIP6(object):
             cmip6_cv.CMOR_FORMULA_VAR_FILE,
             "CMIP6_formula_terms.json")
 
-
         # -------------------------------------------------------------------
         # Load CMIP6 table into memory
         # -------------------------------------------------------------------
@@ -189,7 +188,7 @@ class checkCMIP6(object):
                 cmip6_cv.set_cur_dataset_attribute(
                     attribute, self.dictGbl[attribute])
 
-    def ControlVocab(self,args):
+    def ControlVocab(self, args):
         '''
             Check CMIP6 global attributes against Control Vocabulary file.
 
@@ -212,7 +211,8 @@ class checkCMIP6(object):
         # -------------------------------------
         # Create alist of all Global Attributes
         # -------------------------------------
-        self.dictGbl = {key: self.infile.__dict__[key] for key in self.infile.__dict__.keys()}
+        self.dictGbl = {key: self.infile.__dict__[
+            key] for key in self.infile.__dict__.keys()}
         self.attributes = self.infile.__dict__.keys()
         self.variables = self.infile.variables.keys()
         ierr = [
@@ -221,12 +221,12 @@ class checkCMIP6(object):
                 value) for key,
             value in self.dictGbl.iteritems()]
         member_id = ""
-        if("sub_experiment_id" in self.dictGbl.keys() ):
-                if(self.dictGbl["sub_experiment_id"] not in ["none"]):
-                    member_id = self.dictGbl["sub_experiment_id"] + \
-                        '-' + self.dictGbl["variant_label"]
-                else:
-                    member_id = self.dictGbl["variant_label"]
+        if("sub_experiment_id" in self.dictGbl.keys()):
+            if(self.dictGbl["sub_experiment_id"] not in ["none"]):
+                member_id = self.dictGbl["sub_experiment_id"] + \
+                    '-' + self.dictGbl["variant_label"]
+            else:
+                member_id = self.dictGbl["variant_label"]
 
         cmip6_cv.set_cur_dataset_attribute(
             cmip6_cv.GLOBAL_ATT_MEMBER_ID, member_id)
@@ -310,7 +310,7 @@ class checkCMIP6(object):
             print bcolors.ENDC
             cmip6_cv.set_CV_Error()
             return
- 
+
 #        fn = os.path.basename(self.infile.id)
         fn = os.path.basename(str(self.infile).split('\'')[1])
         cmip6_cv.check_filename(
@@ -366,18 +366,17 @@ class checkCMIP6(object):
                     file_value = file_value[0]
 
                 if isinstance(table_value, float):
-                    if(file_value == 0): 
+                    if(file_value == 0):
                         if(table_value != file_value):
                             file_value = False
                     else:
-                        if(1-(table_value / file_value) < 0.00001):
+                        if(1 - (table_value / file_value) < 0.00001):
                             table_value = file_value
 
                 if key == "cell_methods":
                     idx = file_value.find(" (interval:")
                     file_value = file_value[:idx]
                     table_value = table_value[:idx]
-
 
                 file_value = str(file_value)
                 table_value = str(table_value)
@@ -432,7 +431,7 @@ def main():
                         help='CMIP6 CMOR table (JSON file) ex: Tables/CMIP6_Amon.json',
                         action=JSONAction)
 
-    parser.add_argument('infile', 
+    parser.add_argument('infile',
                         help='Input CMIP6 netCDF file to Validate ex: clisccp_cfMon_DcppC22_NICAM_gn_200001-200001.nc',
                         action=CDMSAction)
 
@@ -450,12 +449,12 @@ def main():
     except SystemExit:
         return 1
 
-    count=0
-    average=0.0
+    count = 0
+    average = 0.0
     process = checkCMIP6(args)
     try:
         print "processing: ", args.infile
-        args.infile = Cdunif.CdunifFile(args.infile,"r")
+        args.infile = Cdunif.CdunifFile(args.infile, "r")
         process.ControlVocab(args)
         args.infile.close()
 
