@@ -75,11 +75,12 @@ git clone https://github.com/PCMDI/cmor.git
 cd cmor
 git checkout cmor3
 
-./configure --prefix=$PREFIX --with-python --with-uuid --with-udunits --with-netcdf=$PREFIX/ 
+./configure --prefix=$PREFIX --with-python=$PREFIX --with-uuid=$PREFIX --with-udunits=$PREFIX --with-netcdf=$PREFIX
 make 
 
 #
-#  My pyhton 2.7 is located in /usr/local/lib so I need sudo
+#  For installing egg without su, temporarily set PYTHONPATH to a directory where you want to 
+#  install it, such as e.g. "$HOME/.local/lib/python2.7/site-packages"
 #
 sudo make install
 sudo make python
