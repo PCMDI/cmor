@@ -417,7 +417,7 @@ class checkCMIP6(object):
                 if table_value != file_value:
                     print bcolors.FAIL
                     print "====================================================================================="
-                    print "You file contains \"" + key + "\":\"" + str(file_value) + "\" and"
+                    print "Your file contains \"" + key + "\":\"" + str(file_value) + "\" and"
                     print "CMIP6 tables requires \"" + key + "\":\"" + str(table_value) + "\"."
                     print "====================================================================================="
                     print bcolors.ENDC

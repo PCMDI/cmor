@@ -533,10 +533,10 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
                          'orog_fx_PCMDI-test-1-0_piControl-withism_'
                          'r11i1p1f1_gr.nc')
 
-    def tearDown(self):
-        if self.path:
-            if os.path.exists(self.path):
-                os.remove(self.path)
+#    def tearDown(self):
+#        if self.path:
+#            if os.path.exists(self.path):
+#                os.remove(self.path)
 
 
 if __name__ == '__main__':
