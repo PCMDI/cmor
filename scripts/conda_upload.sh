@@ -13,7 +13,7 @@ else
 fi
 
 mkdir ~/conda-bld
-conda install -q anaconda-client conda-build
+conda install -q anaconda-client=1.6.5 conda-build
 conda config --set anaconda_upload no
 binstar config --set verify_ssl False
 export CONDA_BLD_PATH=${HOME}/conda-bld
