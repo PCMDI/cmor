@@ -2456,16 +2456,27 @@ int cmor_CV_variable(int *var_id, char *name, char *units, float *missing,
         }
     }
 
-    if (refvar.type == '\0') {
-        cmor_vars[vrid].type = 'f';
+    if (refvar.type == 'i') {
+        int nMissing;
+        nMissing = (int) *missing;
+        cmor_vars[vrid].type = 'i';
+        cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_MISSINGVALUES,
+                                         'i', &nMissing);
+        cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_FILLVAL, 'i',
+                                             &nMissing);
     } else {
-        cmor_vars[vrid].type = refvar.type;
+        if (refvar.type == '\0') {
+            cmor_vars[vrid].type = 'f';
+        }
+        else {
+            cmor_vars[vrid].type = refvar.type;
+        }
+        cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_MISSINGVALUES,
+                                         'f', missing);
+        cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_FILLVAL, 'f',
+                                             missing);
     }
 
-    cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_MISSINGVALUES,
-                                         'f', missing);
-    cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_FILLVAL, 'f',
-                                         missing);
 
     cmor_vars[vrid].self = vrid;
     *var_id = vrid;

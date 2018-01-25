@@ -122,6 +122,102 @@ class readable_dir(argparse.Action):
 
 
 # =========================
+# DIRAction()
+# =========================
+class DIRECTORYAction(argparse.Action):
+    '''
+    Check if argparse is a directory.
+    '''
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        prospective = values
+        if not os.path.isdir(prospective):
+            if not os.path.isfile(prospective):
+                raise argparse.ArgumentTypeError(
+                    'No such file/directory: {}'.format(prospective))
+
+        if os.access(prospective, os.R_OK):
+            setattr(namespace, self.dest, prospective)
+        else:
+            raise argparse.ArgumentTypeError(
+                'Read access denied: {}'.format(prospective))
+
+
+# =========================
+# INPUTAction()
+# =========================
+class INPUTAction(argparse.Action):
+    '''
+    Checks if the supplied input exists.
+    '''
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        checked_values = [self.input_checker(x) for x in values]
+        setattr(namespace, self.dest, checked_values)
+
+    @staticmethod
+    def input_checker(path):
+        path = os.path.abspath(os.path.normpath(path))
+        if not os.path.exists(path):
+            msg = 'No such input: {}'.format(path)
+            raise argparse.ArgumentTypeError(msg)
+        return path
+
+
+# =========================
+# Collector()
+# =========================
+class Collector(object):
+    """
+    Base collector class to yield regular NetCDF files.
+
+    :param list sources: The list of sources to parse
+    :returns: The data collector
+    :rtype: *iter*
+    """
+
+    def __init__(self, sources, data=None):
+        self.sources = sources
+        self.data = data
+        assert isinstance(self.sources, list)
+
+    def __iter__(self):
+        for source in self.sources:
+            if os.path.isdir(source):
+                # If input is a directory: walk through it and yields netCDF
+                # files
+                for root, _, filenames in os.walk(source, followlinks=True):
+                    for filename in sorted(filenames):
+                        ffp = os.path.join(root, filename)
+                        if os.path.isfile(ffp) and re.search(
+                                re.compile('^.*\.nc$'), filename):
+                            yield (ffp, self.data)
+            else:
+                # It input is a file: yields the netCDF file itself
+                yield (source, self.data)
+
+
+# =========================
+# Spinner()
+# =========================
+class Spinner:
+    """
+    Spinner pending files checking.
+
+    """
+    STATES = ('/', '-', '\\', '|')
+    step = 0
+
+    def __init__(self):
+        self.next()
+
+    def next(self):
+        sys.stdout.write('\rChecking data... {}'.format(
+            Spinner.STATES[Spinner.step % 4]))
+        sys.stdout.flush()
+        Spinner.step += 1
+
+# =========================
 # checkCMIP6()
 # =========================
 class checkCMIP6(object):
@@ -394,11 +490,15 @@ class checkCMIP6(object):
                 # Verify that attribute value is equal to file attribute
                 table_value = prepLIST[key]
                 file_value = self.dictVars[key]
+                if isinstance(table_value, str) and isinstance(file_value, numpy.ndarray):
+                   if(numpy.array([int(value) for value in table_value.split()] == file_value).all()):
+                       file_value=True
+                       table_value=True
+
                 if isinstance(table_value, numpy.ndarray):
                     table_value = table_value[0]
                 if isinstance(file_value, numpy.ndarray):
                     file_value = file_value[0]
-
                 if isinstance(table_value, float):
                     if(file_value == 0):
                         if(table_value != file_value):
@@ -447,102 +547,6 @@ class checkCMIP6(object):
             print "* This file is compliant with the CMIP6 specification and can be published in ESGF  *"
             print "*************************************************************************************"
             print bcolors.ENDC
-
-# =========================
-# DIRAction()
-# =========================
-class DIRECTORYAction(argparse.Action):
-    '''
-    Check if argparse is a directory.
-    '''
-
-    def __call__(self, parser, namespace, values, option_string=None):
-        prospective = values
-        if not os.path.isdir(prospective):
-            if not os.path.isfile(prospective):
-                raise argparse.ArgumentTypeError(
-                    'No such file/directory: {}'.format(prospective))
-
-        if os.access(prospective, os.R_OK):
-            setattr(namespace, self.dest, prospective)
-        else:
-            raise argparse.ArgumentTypeError(
-                'Read access denied: {}'.format(prospective))
-
-
-# =========================
-# INPUTAction()
-# =========================
-class INPUTAction(argparse.Action):
-    '''
-    Checks if the supplied input exists.
-    '''
-
-    def __call__(self, parser, namespace, values, option_string=None):
-        checked_values = [self.input_checker(x) for x in values]
-        setattr(namespace, self.dest, checked_values)
-
-    @staticmethod
-    def input_checker(path):
-        path = os.path.abspath(os.path.normpath(path))
-        if not os.path.exists(path):
-            msg = 'No such input: {}'.format(path)
-            raise ArgumentTypeError(msg)
-        return path
-
-
-# =========================
-# Collector()
-# =========================
-class Collector(object):
-    """
-    Base collector class to yield regular NetCDF files.
-
-    :param list sources: The list of sources to parse
-    :returns: The data collector
-    :rtype: *iter*
-    """
-
-    def __init__(self, sources, data=None):
-        self.sources = sources
-        self.data = data
-        assert isinstance(self.sources, list)
-
-    def __iter__(self):
-        for source in self.sources:
-            if os.path.isdir(source):
-                # If input is a directory: walk through it and yields netCDF
-                # files
-                for root, _, filenames in os.walk(source, followlinks=True):
-                    for filename in sorted(filenames):
-                        ffp = os.path.join(root, filename)
-                        if os.path.isfile(ffp) and re.search(
-                                re.compile('^.*\.nc$'), filename):
-                            yield (ffp, self.data)
-            else:
-                # It input is a file: yields the netCDF file itself
-                yield (source, self.data)
-
-
-# =========================
-# Spinner()
-# =========================
-class Spinner:
-    """
-    Spinner pending files checking.
-
-    """
-    STATES = ('/', '-', '\\', '|')
-    step = 0
-
-    def __init__(self):
-        self.next()
-
-    def next(self):
-        sys.stdout.write('\rChecking data... {}'.format(
-            Spinner.STATES[Spinner.step % 4]))
-        sys.stdout.flush()
-        Spinner.step += 1
 
 
 def process(source):
