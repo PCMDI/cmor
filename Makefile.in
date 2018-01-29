@@ -1,7 +1,11 @@
 #!/usr/bintenv bash
+VPATH = @srcdir@
+
+srcdir = @srcdir@
 FC=@FC@
 CC=@CC@
 CFLAGS=@CFLAGS@
+CPPFLAGS=@CPPFLAGS@
 CPPFLAGS_USER=""
 USERFFLAGS=@USERFFLAGS@
 #MODULE_SUFFIX="mod"
@@ -53,58 +57,63 @@ DISTFILES=libcmor.a
 DEPEND= makedepend -c ${DEBUG} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}
 UNAME := $(shell uname)
 
+CCOMPILE=${CC} -c ${DEBUG} ${MACROS} ${CPPFLAGS} ${CFLAGS} ${USERCFLAGS} \
+		${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}
+
 all:    cmor
 	@echo
 depend:  $(LIBSOURCES)
 	${DEPEND}  $(LIBSOURCES)
 cmor.o: Src/cmor.c include/cmor.h include/cmor_func_def.h
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cmor.c
+	${CCOMPILE} $<
 cmor_variables.o: Src/cmor_variables.c include/cmor.h include/cmor_func_def.h
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cmor_variables.c
+	${CCOMPILE} $<
 cmor_axes.o: Src/cmor_axes.c include/cmor.h include/cmor_func_def.h
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cmor_axes.c
+	${CCOMPILE} $<
 cmor_tables.o: Src/cmor_tables.c include/cmor.h include/cmor_func_def.h
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cmor_tables.c
+	${CCOMPILE} $<
 cmor_grids.o: Src/cmor_grids.c include/cmor.h include/cmor_func_def.h
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cmor_grids.c
-cmor_CV.o: Src/cmor_CV.c include/cmor.h include/cmor_func_def.h 
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cmor_CV.c
-cmor_md5.o: Src/cmor_md5.c include/cmor.h include/cmor_func_def.h include/cmor_md5.h
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cmor_md5.c
-cmor_cfortran_interface.o: Src/cmor_cfortran_interface.c include/cmor.h include/cmor_func_def.h
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cmor_cfortran_interface.c
+	${CCOMPILE} $<
+cmor_CV.o: Src/cmor_CV.c include/cmor.h include/cmor_func_def.h
+	${CCOMPILE} $<
+cmor_md5.o: Src/cmor_md5.c include/cmor.h include/cmor_func_def.h \
+		include/cmor_md5.h
+	${CCOMPILE} $<
+cmor_cfortran_interface.o: Src/cmor_cfortran_interface.c include/cmor.h \
+		include/cmor_func_def.h
+	${CCOMPILE} $<
 cdTimeConv.o: Src/cdTime/cdTimeConv.c include/cmor.h include/cmor_func_def.h
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cdTime/cdTimeConv.c
+	${CCOMPILE} $<
 cdUtil.o: Src/cdTime/cdUtil.c include/cmor.h include/cmor_func_def.h
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cdTime/cdUtil.c
+	${CCOMPILE} $<
 timeConv.o: Src/cdTime/timeConv.c include/cmor.h include/cmor_func_def.h
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cdTime/timeConv.c
-timeArith.o:Src/cdTime/timeArith.c include/cmor.h include/cmor_func_def.h
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS} Src/cdTime/timeArith.c
-arraylist.o:Src/json-c/
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/arraylist.c
-debug.o:Src/json-c/
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/debug.c
-json_c_version.o:Src/json-c/
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/json_c_version.c
-json_object.o:Src/json-c/
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/json_object.c
-json_object_iterator.o:Src/json-c/
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/json_object_iterator.c
-json_tokener.o:Src/json-c/
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/json_tokener.c
-json_util.o:Src/json-c/
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/json_util.c
-libjson.o:Src/json-c/
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/libjson.c
-linkhash.o:Src/json-c/
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/linkhash.c
-printbuf.o:Src/json-c/
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/printbuf.c
-random_seed.o:Src/json-c/
-	${CC} -c ${DEBUG} ${MACROS} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}  Src/json-c/random_seed.c
+	${CCOMPILE} $<
+timeArith.o: Src/cdTime/timeArith.c include/cmor.h include/cmor_func_def.h
+	${CCOMPILE} $<
+arraylist.o: Src/json-c/arraylist.c
+	${CCOMPILE} $<
+debug.o: Src/json-c/debug.c
+	${CCOMPILE} $<
+json_c_version.o: Src/json-c/json_c_version.c
+	${CCOMPILE} $<
+json_object.o: Src/json-c/json_object.c
+	${CCOMPILE} $<
+json_object_iterator.o: Src/json-c/json_object_iterator.c
+	${CCOMPILE} $<
+json_tokener.o: Src/json-c/json_tokener.c
+	${CCOMPILE} $<
+json_util.o: Src/json-c/json_util.c
+	${CCOMPILE} $<
+libjson.o: Src/json-c/libjson.c
+	${CCOMPILE} $<
+linkhash.o: Src/json-c/linkhash.c
+	${CCOMPILE} $<
+printbuf.o: Src/json-c/printbuf.c
+	${CCOMPILE} $<
+random_seed.o: Src/json-c/random_seed.c
+	${CCOMPILE} $<
 cmor_fortran_interface.o: Src/cmor_fortran_interface.f90
-	${FC} -c ${FCFLAGS} ${USERFFLAGS} ${DEBUG} ${MACROS} Src/cmor_fortran_interface.f90
+	${FC} -c ${FCFLAGS} ${USERFFLAGS} ${DEBUG} ${MACROS} $<
 cmor:  $(LIBFILES) @MAKEDEPPYTHON@
 	@ar crv $(LIBNAME) $(LIBFILES) 
 	@ranlib $(LIBNAME)
@@ -121,10 +130,10 @@ install: cmor
 	mkdir -p ${PREFIX}/include/json-c
 	mkdir -p ${PREFIX}/include/cdTime/cdunifpp
 	cp -p $(LIBNAME) ${PREFIX}/lib
-	cp -pr include/*.h @MODFILES@ ${PREFIX}/include
-	cp -pr include/json-c/*.h ${PREFIX}/include/json-c
-	cp -pr include/cdTime/*.h ${PREFIX}/include/cdTime
-	cp -pr include/cdTime/cdunifpp/*.h ${PREFIX}/include/cdTime/cdunifpp
+	cp -pr $(srcdir)/include/*.h @MODFILES@ ${PREFIX}/include
+	cp -pr $(srcdir)/include/json-c/*.h ${PREFIX}/include/json-c
+	cp -pr $(srcdir)/include/cdTime/*.h ${PREFIX}/include/cdTime
+	cp -pr $(srcdir)/include/cdTime/cdunifpp/*.h ${PREFIX}/include/cdTime/cdunifpp
 uninstall: distclean 
 	rm ${PREFIX}/lib/$(LIBNAME)    
 	cd ${PREFIX} ; rm $(INCFILES)  

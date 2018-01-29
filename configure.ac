@@ -4,7 +4,7 @@ dnl Process this file with autoconf to produce a configure script.
 dnl AC_PREREQ(2.59)
 AC_INIT(cmor, 3.3.0, nadeau1@llnl.gov)
 
-GIT_TAG=`./get_git_version.sh`
+GIT_TAG=`cd $srcdir ; ./get_git_version.sh`
 
 AC_CANONICAL_TARGET
 echo "TARGET: "${target_os}
@@ -25,7 +25,7 @@ CMOR_VERSION=${PACKAGE_VERSION}" (commit: ${GIT_TAG})"
 AC_PREFIX_DEFAULT([/usr/local/cmor])
 AC_CONFIG_FILES([Makefile setup.py compile_line.txt include/cmor_locale.h])
 
-INCFILES="include/cmor.h include/cmor_func_def.h include/cmor_md5.h `ls include/cdTime/*.h include/cdTime/cdunifpp/*.h include/json-c/*.h | tr \"\n\" \" \" `"
+INCFILES="include/cmor.h include/cmor_func_def.h include/cmor_md5.h `cd $srcdir ; ls include/cdTime/*.h include/cdTime/cdunifpp/*.h include/json-c/*.h | tr \"\n\" \" \" `"
 AC_SUBST(RTAG)
 AC_SUBST(FTAG)
 
@@ -169,9 +169,8 @@ LDFLAGS=${LDFLAGS}" -lm "
 
 
 AC_ARG_WITH([uuid],[AS_HELP_STRING([--with-uuid],[enable support for uuid in none standard location])],[],[with_uuid="no"])
-with_uuidb="-"${with_uuid}
-if [ test ${with_uuidb} != "-yes" ] ; then
-  if [ test ${with_uuidb} != "-no" ] ; then
+if [ test x${with_uuid} != xyes ] ; then
+  if [ test x${with_uuid} != xno ] ; then
    UUIDFLAGS=" -I${with_uuid}/include"
    if [ test ${RTAG} != "none" ] ; then
      UUIDLDFLAGS=" -L${with_uuid}/lib  ${RTAG}${with_uuid}/lib -luuid"
@@ -190,9 +189,8 @@ AC_CHECK_LIB([uuid],[uuid_create],[],[AC_ERROR([Could not get a working uuid])],
 
 LIBS=""
 AC_ARG_WITH([udunits2],[AS_HELP_STRING([--with-udunits2],[enable support for udunits2 in none standard location])],[],[with_udunits2="no"])
-with_udunits2b="-"${with_udunits2}
-if [ test ${with_udunits2b} != "-yes" ] ; then
-  if [ test ${with_udunits2b} != "-no" ] ; then
+if [ test x${with_udunits2} != xyes ] ; then
+  if [ test x${with_udunits2} != xno ] ; then
    UDUNITS2FLAGS=" -I${with_udunits2}/include"
    if [ test ${RTAG} != "none" ] ; then
      UDUNITS2LDFLAGS=" -L${with_udunits2}/lib  ${RTAG}${with_udunits2}/lib -ludunits2 -lexpat"
@@ -212,9 +210,8 @@ LIBS=""
 
 
 AC_ARG_WITH([netcdf],[AS_HELP_STRING([--with-netcdf],[enable support for NetCDF in none standard location])],[],[with_netcdf="no"])
-with_netcdfb="-"${with_netcdf}
-if [ test ${with_netcdfb} != "-yes" ]; then
-  if [ test ${with_netcdfb} != "-no" ] ; then
+if [ test x${with_netcdf} != xyes ]; then
+  if [ test x${with_netcdf} != xno ] ; then
     AC_CHECK_FILE([${with_netcdf}/bin/nc-config],[HAS_NCCONFIG=yes],[HAS_NCCONFIG=no])
     if [ test ${HAS_NCCONFIG} == "yes" ] ; then 
       NCCFLAGS=`${with_netcdf}/bin/nc-config --cflags`
@@ -293,15 +290,15 @@ if [ test ${HAS_NC4} == "no" ] ; then
   fi
 fi
 LIBS=${OLIBS}
-CFLAGS=" -Iinclude/json-c -Iinclude -Iinclude/cdTime ${CFLAGS}"
+CPPFLAGS="-I${srcdir}/include/json-c -I${srcdir}/include -I${srcdir}/include/cdTime ${CPPFLAGS}"
 LDFLAGS=${SV_LDFLAGS}
 MAINDIR=`pwd`
 
 # Library sources
 #LIBSOURCES="Src/cmor.c Src/cmor_variables.c Src/cmor_axes.c Src/cmor_tables.c Src/cmor_grids.c Src/cdTime/cdTimeConv.c Src/cdTime/cdUtil.c Src/cdTime/timeConv.c Src/cdTime/timeArith.c Src/cmor_cfortran_interface.c Src/cmor_md5.c Src/json-c/arraylist.cSrc/json-c/json_c_version.c  Src/json-c/json_object_iterator.c Src/json-c/json_util.c Src/json-c/linkhash.c  Src/json-cmor/random_seed.c Src/json-c/debug.c Src/json-c/json_object.c Src/json-c/json_tokener.c Src/json-c/libjson.c Src/json-c/printbuf.c"
 #LIBSOURCES=`ls -x --width=10000 Src/*.c Src/cdTime/*.c Src/json-c/*.c`
-LIBSOURCES=`ls Src/*.c Src/cdTime/*.c Src/json-c/*.c | tr "\n" " " | sed  's#Src/_controlvocabulary.c##'`
-LIBSOURCESCV=`ls Src/*.c Src/cdTime/*.c Src/json-c/*.c | tr "\n" " " | sed  's#Src/_cmormodule.c##'`
+LIBSOURCES=`cd $srcdir ; ls Src/*.c Src/cdTime/*.c Src/json-c/*.c | tr "\n" " " | sed  's#Src/_controlvocabulary.c##'`
+LIBSOURCESCV=`cd $srcdir ; ls Src/*.c Src/cdTime/*.c Src/json-c/*.c | tr "\n" " " | sed  's#Src/_cmormodule.c##'`
 
 
 LIBFSOURCES="Src/cmor_fortran_interface.f90"
