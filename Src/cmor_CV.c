@@ -654,6 +654,15 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
             }
             // Check source with experiment_id label.
             rc = cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE, szSource);
+            if(CV_source_id->nbObjects == -1) {
+                snprintf(msg, CMOR_MAX_STRING,
+                         "You did not define a %s section in your source_id %s.\n! \n! \n! "
+                         "See Control Vocabulary JSON file. (%s)\n! ",
+                         CV_KEY_SOURCE_LABEL, szSource_ID, CV_Filename);
+                cmor_handle_error(msg, CMOR_WARNING);
+                return(1);
+                break;
+            }
             for (j = 0; j < CV_source_id->nbObjects; j++) {
                 if (strcmp(CV_source_id->oValue[j].key, CV_KEY_SOURCE_LABEL) ==
                     0) {
