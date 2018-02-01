@@ -1465,6 +1465,22 @@ int cmor_set_cur_dataset_attribute_internal(char *name, char *value,
         return (1);
     }
 
+
+//    // clear attribute
+    if ((strcmp(value,"") == 0) && (optional == 0)){
+        for (i = 0; i <= cmor_current_dataset.nattributes; i++) {
+            if (strcmp(name, cmor_current_dataset.attributes[i].names) == 0) {
+                n = i;
+                break;
+            }
+        }
+        if (i != cmor_current_dataset.nattributes - 1) {
+            strcpy(cmor_current_dataset.attributes[i].values, "");
+            cmor_pop_traceback();
+            return (0);
+        }
+    }
+
     if ((value == NULL) || (msg[0] == '\0')) {
         if (optional == 1) {
             cmor_pop_traceback();
@@ -1478,6 +1494,7 @@ int cmor_set_cur_dataset_attribute_internal(char *name, char *value,
             return (1);
         }
     }
+
 
     cmor_trim_string(name, msg);
     n = cmor_current_dataset.nattributes;
@@ -2830,6 +2847,13 @@ int cmor_setGblAttr(int var_id)
                                                 0);
     }
     cmor_generate_uuid();
+    ctmp[0]='\0';
+/* -------------------------------------------------------------------- */
+/*     Initialize externa_variables attribute                           */
+/* -------------------------------------------------------------------- */
+    cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_EXTERNAL_VAR,
+                                            "", 0);
+
 /* -------------------------------------------------------------------- */
 /*     Create external_variables                                        */
 /* -------------------------------------------------------------------- */
@@ -3199,7 +3223,8 @@ void cmor_write_all_attributes(int ncid, int ncafid, int var_id)
 /* -------------------------------------------------------------------- */
 /*      Skip attributes starting with "_"                               */
 /* -------------------------------------------------------------------- */
-            if (cmor_current_dataset.attributes[i].names[0] != '_') {
+            if ((cmor_current_dataset.attributes[i].names[0] != '_')
+                    && (cmor_current_dataset.attributes[i].values[0] != '\0')) {
                 ierr = nc_put_att_text(ncid, NC_GLOBAL,
                                        cmor_current_dataset.attributes[i].names,
                                        itmp2,
