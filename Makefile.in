@@ -153,6 +153,7 @@ test_a_python:
 	@echo "${OK_COLOR}Testing ${TEST_NAME} ${NO_COLOR}"
 	${PYTHONEXEC} ${TEST_NAME} ${VERB}
 test_python: python
+	env TEST_NAME=Test/test_python_climatology.py make test_a_python
 	env TEST_NAME=Test/test_python_history.py make test_a_python
 	env TEST_NAME=Test/test_python_historydefault.py make test_a_python
 	env TEST_NAME=Test/test_python_test_write.py make test_a_python

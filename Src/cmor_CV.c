@@ -1500,16 +1500,17 @@ int cmor_CV_checkFilename(cmor_CV_def_t * CV, int var_id,
     cdCompTime comptime;
     int i, j, n;
     int timeDim;
+    int refvarid;
     cdCompTime starttime, endtime;
     int axis_id;
-
+    refvarid = cmor_vars[var_id].ref_var_id;
     outname[0] = '\0';
     cmor_CreateFromTemplate(0, cmor_current_dataset.file_template,
             outname, "_");
     cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
     timeDim = -1;
-    for (i = 0; i < cmor_tables[0].vars[0].ndims; i++) {
-        int dim = cmor_tables[0].vars[0].dimensions[i];
+    for (i = 0; i < cmor_tables[0].vars[refvarid].ndims; i++) {
+        int dim = cmor_tables[0].vars[refvarid].dimensions[i];
         if (cmor_tables[0].axes[dim].axis == 'T') {
             timeDim = dim;
             break;

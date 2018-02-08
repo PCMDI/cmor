@@ -335,6 +335,12 @@ class checkCMIP6(object):
         #  Deduce variable
         # -------------------------------------------------------------------
         self.variable = self._get_variable_from_filename(filename)
+        climatology = False
+        if( filename.find('-clim') != -1 ):
+            climatology = True
+            if( self.cmip6_table.find('Amon') != -1):
+                self.variable = self.variable + 'Clim'
+
         # -------------------------------------------------------------------
         #  Open file in processing
         # -------------------------------------------------------------------
@@ -369,6 +375,10 @@ class checkCMIP6(object):
             # find variable that contains a "history" (should only be one)
             # -------------------------------------------------------------------
             self.var = [self.infile.variable_id]
+
+        climPos = self.var[0].find('Clim')
+        if climatology and climPos != -1: 
+            self.var = [self.var[0][:climPos]]
 
         if ((self.var == []) or (len(self.var) > 1)):
             print bcolors.FAIL
@@ -414,12 +424,15 @@ class checkCMIP6(object):
         cmip6_cv.check_parentExpID(self.table_id)
         cmip6_cv.check_subExpID(self.table_id)
 
-        try:
+        startimebnds = 0
+        endtimebnds = 0
+        if climatology:
+            startimebnds = self.infile.variables['climatology_bnds'][0][0]
+            endtimebnds = self.infile.variables['climatology_bnds'][-1][1]
+        else:
             startimebnds = self.infile.variables['time_bnds'][0][0]
             endtimebnds = self.infile.variables['time_bnds'][-1][1]
-        except BaseException:
-            startimebnds = 0
-            endtimebnds = 0
+         
         try:
             startime = self.infile.variables['time'][0]
             endtime = self.infile.variables['time'][-1]
@@ -428,7 +441,10 @@ class checkCMIP6(object):
             endtime = 0
         varunits = self.infile.variables[self.var[0]].units
         varmissing = self.infile.variables[self.var[0]]._FillValue[0]
-        varid = cmip6_cv.setup_variable(self.var[0], varunits, varmissing, startime, endtime,
+        # -------------------------------------------------
+        # Make sure with use self.variable for Climatology
+        # -------------------------------------------------
+        varid = cmip6_cv.setup_variable(self.variable, varunits, varmissing, startime, endtime,
                                         startimebnds, endtimebnds)
         if (varid == -1):
             print bcolors.FAIL
