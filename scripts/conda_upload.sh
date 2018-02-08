@@ -7,15 +7,23 @@ if [ `uname` == "Linux" ]; then
     echo "Linux OS"
     export PATH="$HOME/miniconda2/bin:$PATH"
     conda update -y -q conda
+    conda install -n root -q anaconda-client "conda-build<3.3"
 else
     echo "Mac OS"
     OS=osx-64
 fi
 
-mkdir ~/conda-bld
-conda install -q anaconda-client=1.6.5 conda-build
 conda config --set anaconda_upload no
-binstar config --set verify_ssl False
+mkdir ~/conda-bld
+mkdir -p ~/.continuum/anaconda-client/
+echo "ssl_verify: false" >> ~/.continuum/anaconda-client/config.yaml
+echo "verify_ssl: false" >> ~/.continuum/anaconda-client/config.yaml
+if [ `uname` == "Darwin" ]; then
+    # fix conda and anaconda-client conflict
+    conda install conda==4.2.16
+    conda install -n root -q anaconda-client conda-build
+fi
+
 export CONDA_BLD_PATH=${HOME}/conda-bld
 export VERSION=`date +%Y.%m.%d`
 export UVCDAT_ANONYMOUS_LOG=no
