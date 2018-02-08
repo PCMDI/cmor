@@ -3490,7 +3490,7 @@ void cmor_define_dimensions(int var_id, int ncid,
                    cname);
 
             if (ctmp[0] == '\0') {
-                strcpy(ctmp, "geo_region");
+                strcpy(ctmp, "sector");
             }
 
             if (cmor_has_variable_attribute(var_id, "coordinates") == 0) {
