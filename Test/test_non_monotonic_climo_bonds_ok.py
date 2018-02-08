@@ -9,25 +9,21 @@ times_bnds = [[11, 134], [2, 125], [5, 128]]
 def path_test():
     cmor.setup(inpath='TestTables', netcdf_file_action=cmor.CMOR_REPLACE)
 
-    cmor.dataset('historical', 'ukmo', 'HadCM3', '360_day', model_id='HadCM3', forcing='Nat',
-                 contact="J.T. Snow",
-                 institute_id="PCMDI",
-                 parent_experiment_id="N/A",
-                 parent_experiment_rip="N/A",
-                 branch_time=0)
+    cmor.dataset_json("Test/common_user_input.json")
+
 
     table = 'CMIP6_Amon.json'
     cmor.load_table(table)
     axes = [{'table_entry': 'time2',
              'units': 'months since 2000-01-01 00:00:00',
-             'coord_vals': times,
-             'cell_bounds': times_bnds,
+#             'coord_vals': times,
+#             'cell_bounds': times_bnds,
              },
-            {'table_entry': 'plevs',
+            {'table_entry': 'plev19',
              'units': 'Pa',
              'coord_vals': [100000., 92500., 85000., 70000., 60000., 50000.,
                             40000., 30000., 25000., 20000., 15000.,
-                            10000., 7000., 5000., 3000., 2000., 1000.]},
+                            10000., 7000., 5000., 3000., 2000., 1000., 500, 100]},
             {'table_entry': 'latitude',
              'units': 'degrees_north',
              'coord_vals': [0],
@@ -45,8 +41,10 @@ def path_test():
     varid = cmor.variable('co2Clim', '1.e-6', axis_ids)
     import numpy
     data = numpy.array([3, 4, 5])
-    data.resize((3, 17, 1, 1))
-    cmor.write(varid, data)
+    data.resize((3, 19, 1, 1))
+#    cmor.write(varid, data)
+    for i in range(len(data)):
+        cmor.write(varid, data[i], time_vals=times[i], time_bnds=times_bnds[i])
     path = cmor.close(varid, file_name=True)
 
     print path

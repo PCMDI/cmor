@@ -2950,7 +2950,7 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
 
                 if (cmor_tables[cmor_axes[avar->axes_ids[0]].ref_table_id].axes
                     [cmor_axes[avar->axes_ids[0]].ref_axis_id].climatology ==
-                    0) {
+                    1) {
 /* -------------------------------------------------------------------- */
 /*      all good in that case                                           */
 /* -------------------------------------------------------------------- */
