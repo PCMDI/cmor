@@ -466,7 +466,7 @@ class checkCMIP6(object):
         if not isinstance(self.dictGbl['branch_time_in_child'], numpy.float64):
             print bcolors.FAIL
             print "====================================================================================="
-            print "realization_index is not a double: ", type(self.dictGbl['branch_time_in_child'])
+            print "branch_time_in_child is not a double: ", type(self.dictGbl['branch_time_in_child'])
             print "====================================================================================="
             print bcolors.ENDC
             cmip6_cv.set_CV_Error()
@@ -474,7 +474,7 @@ class checkCMIP6(object):
         if not isinstance(self.dictGbl['branch_time_in_parent'], numpy.float64):
             print bcolors.FAIL
             print "====================================================================================="
-            print "initialization_index is not an double: ", type(self.dictGbl['branch_time_in_parent'])
+            print "branch_time_in_parent is not an double: ", type(self.dictGbl['branch_time_in_parent'])
             print "====================================================================================="
             print bcolors.ENDC
             cmip6_cv.set_CV_Error()
