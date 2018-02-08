@@ -38,5 +38,5 @@ echo "Building now"
 #conda build -c conda-forge -c uvcdat/label/nightly -c uvcdat --numpy=1.11 cmor
 #conda build -c conda-forge  -c uvcdat/label/nightly -c uvcdat --numpy=1.10 cmor
 conda build -c conda-forge  -c uvcdat/label/nightly -c uvcdat cmor
-anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l nightly $CONDA_BLD_PATH/$OS/$PKG_NAME-`date +%Y.%m.%d`.${cmorversion}-*_0.tar.bz2 --force
+anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l nightly $CONDA_BLD_PATH/$OS/$PKG_NAME-`date +%Y.%m.%d`.${cmorversion}*_0.tar.bz2 --force
 
