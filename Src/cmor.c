@@ -2761,7 +2761,7 @@ int cmor_setGblAttr(int var_id)
 /* -------------------------------------------------------------------- */
 /*    Set attribute data_specs_versions for netCDF file (CMIP6)         */
 /* -------------------------------------------------------------------- */
-    if (cmor_tables[nVarRefTblID].data_specs_version != '\0') {
+    if (cmor_tables[nVarRefTblID].data_specs_version[0] != '\0') {
         snprintf(msg, CMOR_MAX_STRING, "%s",
                  cmor_tables[nVarRefTblID].data_specs_version);
         cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_DATASPECSVERSION,

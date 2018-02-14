@@ -5,9 +5,17 @@ echo "Trying to upload conda"
 if [ `uname` == "Linux" ]; then
     OS=linux-64
     echo "Linux OS"
-    export PATH="$HOME/miniconda2/bin:$PATH"
-    conda update -y -q conda
-    conda install -n root -q anaconda-client "conda-build<3.3"
+    yum install -y wget git gcc
+    # wget --no-check https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh  -O miniconda3.sh 2> /dev/null
+    wget --no-check https://repo.continuum.io/miniconda/Miniconda2-4.3.30-Linux-x86_64.sh  -O miniconda2.sh 2> /dev/null
+    bash miniconda2.sh -b -p ${HOME}/miniconda
+    export SYSPATH=$PATH
+    export PATH=${HOME}/miniconda/bin:${SYSPATH}
+    echo $PATH
+    conda config --set always_yes yes --set changeps1 no
+    conda config --set anaconda_upload false --set ssl_verify false
+    conda install -n root gcc future
+    which python
 else
     echo "Mac OS"
     OS=osx-64
@@ -15,9 +23,9 @@ fi
 
 conda config --set anaconda_upload no
 mkdir ~/conda-bld
-mkdir -p ~/.continuum/anaconda-client/
-echo "ssl_verify: false" >> ~/.continuum/anaconda-client/config.yaml
-echo "verify_ssl: false" >> ~/.continuum/anaconda-client/config.yaml
+if [ `uname` == "Linux" ]; then
+    conda install -n root -q anaconda-client "conda-build<3.3"
+fi
 if [ `uname` == "Darwin" ]; then
     # fix conda and anaconda-client conflict
     conda install conda==4.2.16
@@ -38,5 +46,12 @@ echo "Building now"
 #conda build -c conda-forge -c uvcdat/label/nightly -c uvcdat --numpy=1.11 cmor
 #conda build -c conda-forge  -c uvcdat/label/nightly -c uvcdat --numpy=1.10 cmor
 conda build -c conda-forge  -c uvcdat/label/nightly -c uvcdat cmor
-anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l nightly $CONDA_BLD_PATH/$OS/$PKG_NAME-`date +%Y.%m.%d`.${cmorversion}-*_0.tar.bz2 --force
+mkdir -p ~/.continuum/anaconda-client/
+echo "ssl_verify: false" >> ~/.continuum/anaconda-client/config.yaml
+echo "verify_ssl: false" >> ~/.continuum/anaconda-client/config.yaml
+if [ `uname` == "Darwin" ]; then
+    # fix conda and anaconda-client conflict
+    conda install conda==4.2.16
+fi
+anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l nightly $CONDA_BLD_PATH/$OS/$PKG_NAME-`date +%Y.%m.%d`.${cmorversion}*_0.tar.bz2 --force
 
