@@ -514,6 +514,9 @@ class checkCMIP6(object):
             print bcolors.ENDC
             cmip6_cv.set_CV_Error()
 
+        # -----------------------------
+        # variable attribute comparison
+        # -----------------------------
         prepLIST = cmip6_cv.list_variable_attributes(varid)
         for key in prepLIST:
             if(key == "long_name"):
@@ -525,6 +528,15 @@ class checkCMIP6(object):
                 # Verify that attribute value is equal to file attribute
                 table_value = prepLIST[key]
                 file_value = self.dictVars[key]
+
+                # PrePARE accept units of 1 or 1.0 so adjust thet table_value
+                # -----------------------------------------------------------
+                if(key == "units"):
+                   if((table_value == "1") and (file_value == "1.0")):
+                       table_value = "1.0"
+                   if((table_value == "1.0") and (file_value == "1")):
+                       table_value = "1"
+
                 if isinstance(table_value, str) and isinstance(file_value, numpy.ndarray):
                    if(numpy.array([int(value) for value in table_value.split()] == file_value).all()):
                        file_value=True

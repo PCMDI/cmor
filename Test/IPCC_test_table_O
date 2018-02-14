@@ -251,7 +251,7 @@ long_name:        Ocean Basin
 !
 ! Additional axis information:
 !----------------------------------
-coords_attrib:     geo_region
+coords_attrib:    section
 type:             character
 requested:        atlantic_ocean indian_ocean pacific_ocean global_ocean
 !----------------------------------	
