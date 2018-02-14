@@ -424,14 +424,16 @@ class checkCMIP6(object):
         cmip6_cv.check_parentExpID(self.table_id)
         cmip6_cv.check_subExpID(self.table_id)
 
-        startimebnds = 0
-        endtimebnds = 0
-        if climatology:
-            startimebnds = self.infile.variables['climatology_bnds'][0][0]
-            endtimebnds = self.infile.variables['climatology_bnds'][-1][1]
-        else:
-            startimebnds = self.infile.variables['time_bnds'][0][0]
-            endtimebnds = self.infile.variables['time_bnds'][-1][1]
+        try:
+            if climatology:
+                startimebnds = self.infile.variables['climatology_bnds'][0][0]
+                endtimebnds = self.infile.variables['climatology_bnds'][-1][1]
+            else:
+                startimebnds = self.infile.variables['time_bnds'][0][0]
+                endtimebnds = self.infile.variables['time_bnds'][-1][1]
+        except BaseException:
+            startimebnds = 0
+            endtimebnds = 0
          
         try:
             startime = self.infile.variables['time'][0]
@@ -439,6 +441,7 @@ class checkCMIP6(object):
         except BaseException:
             startime = 0
             endtime = 0
+
         varunits = self.infile.variables[self.var[0]].units
         varmissing = self.infile.variables[self.var[0]]._FillValue[0]
         # -------------------------------------------------
