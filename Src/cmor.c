@@ -6064,7 +6064,7 @@ int cmor_close_variable(int var_id, char *file_name, int *preserve)
             fperr = fopen(outname, "r");
             if (fperr != NULL) {
                 sprintf(msg, "%s.copy", outname);
-                if (rename(cmor_vars[var_id].current_path, msg) == 0) {
+                if (rename(outname, msg) == 0) {
                     snprintf(msg, CMOR_MAX_STRING,
                              "Output file ( %s ) already exists,\n! "
                              "remove file or use CMOR_REPLACE or\n! "
@@ -6078,10 +6078,10 @@ int cmor_close_variable(int var_id, char *file_name, int *preserve)
                              "remove file or use CMOR_REPLACE or\n! "
                              "CMOR_APPEND for CMOR_NETCDF_MODE value in\n! "
                              "cmor_setup.", outname);
+                    cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
                 }
                 ierr = fclose(fperr);
                 fperr = NULL;
-                cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
             }
         }
         ierr = rename(cmor_vars[var_id].current_path, outname);
