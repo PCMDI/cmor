@@ -22,7 +22,7 @@ before_install:
   - conda install openssl=1.0.2d
   - conda install cdms2 -c uvcdat/label/nightly -c conda-forge -c uvcdat
   - conda install udunits2 -c uvcdat/label/nightly  -c conda-forge -c uvcdat
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then conda install gcc_linux-64; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then conda install gcc; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then conda install gcc; fi
 
 install:
