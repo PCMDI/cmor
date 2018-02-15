@@ -1,6 +1,6 @@
 package:
     name: cmor
-    version: @VERSION@
+    version: @VERSION@.npy{{ numpy }}
 
 source:
     git_rev: @UVCDAT_BRANCH@
@@ -12,29 +12,29 @@ build:
 test:
   requires:
     - python
-    - libgcc [osx]
+    - gcc [osx]
   imports:
     - cmor
 
 requirements:
   build:
-    - python
+    - python {{ python }}
     - ossuuid 1.6.2
     - udunits2
-    - hdf5 1.8.18
+    - hdf5 1.8.18|1.8.18.*
     - libnetcdf 4.4.*
-    - numpy x.x
-    - libgcc [osx]
+    - numpy {{ numpy }}.*
+    - gcc [osx]
   run:
-    - python
+    - python {{ python }}
     - ossuuid 1.6.2
     - udunits2
-    - hdf5 1.8.18
     - libnetcdf 4.4.*
-    - numpy x.x
+    - numpy {{ numpy }}.*
     - cdms2
-    - libgcc [osx]
+    - gcc [osx]
+    - hdf5 1.8.18|1.8.18.*
 
 about:
-    home:  http://github.com/PCMDI
+    home:  http://gitub.com/PCMDI
 

@@ -1,6 +1,6 @@
 package:
     name: cmor
-    version: 3.2.8
+    version: 3.3.1.npy{{ numpy }}
 
 source:
     git_rev: master
@@ -12,30 +12,30 @@ build:
 test:
   requires:
     - python
-    - libgcc [osx]
+    - gcc [osx]
   imports:
     - cmor
 
 requirements:
   build:
-    - python 
-    - ossuuid 1.6.2.*
+    - python {{ python }}
+    - ossuuid 1.6.2
     - udunits2
     - hdf5 1.8.18|1.8.18.*
     - libnetcdf 4.4.*
-    - numpy {{ NPY_VER }}
-    - libgcc [osx]
+    - numpy {{ numpy }}.*
+    - gcc [osx]
   run:
-    - python
-    - ossuuid 1.6.2.*
+    - python {{ python }}
+    - ossuuid 1.6.2
     - udunits2
-    - hdf5 1.8.18|1.8.18.*
     - libnetcdf 4.4.*
-    - numpy {{ NPY_VER }}
+    - numpy {{ numpy }}.*
     - cdms2
-    - libgcc [osx]
+    - gcc [osx]
+    - hdf5 1.8.18|1.8.18.*
 
 about:
-    home:  http://github.com/PCMDI
+    home:  http://gitub.com/PCMDI
 
 
