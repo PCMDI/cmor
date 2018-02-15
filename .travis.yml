@@ -9,8 +9,7 @@ services:
 sudo: false
 
 before_install:
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then wget https://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh
-    -O miniconda.sh; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then wget --no-check https://repo.continuum.io/miniconda/Miniconda2-4.3.21-Linux-x86_64.sh  -O miniconda.sh ; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then wget https://repo.continuum.io/miniconda/Miniconda2-latest-MacOSX-x86_64.sh
     -O miniconda.sh; fi
   - export PATH="$HOME/miniconda/bin:$PATH"
@@ -23,8 +22,10 @@ before_install:
   - conda install openssl=1.0.2d
   - conda install cdms2 -c uvcdat/label/nightly -c conda-forge -c uvcdat
   - conda install udunits2 -c uvcdat/label/nightly  -c conda-forge -c uvcdat
-  - conda install gcc
-
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then conda install gcc; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then conda install gcc; fi
+  - source deactivate root
+  - source activate root
 install:
   - git clone https://github.com/PCMDI/cmip6-cmor-tables
   - ln -s cmip6-cmor-tables/Tables Tables
@@ -50,4 +51,4 @@ env:
 
 after_success:
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then bash scripts/conda_upload.sh ${TRAVIS_BRANCH} ; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then docker run -v `pwd`:/travis_home -e CONDA_UPLOAD_TOKEN=${CONDA_UPLOAD_TOKEN} -a STDOUT -a STDERR cdat/conda:conda-forge-cdms2 /travis_home/scripts/conda_upload.sh ${TRAVIS_BRANCH} ; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then docker run -v `pwd`:/travis_home -e CONDA_UPLOAD_TOKEN=${CONDA_UPLOAD_TOKEN} -a STDOUT -a STDERR centos:6.8 /travis_home/scripts/conda_upload.sh ${TRAVIS_BRANCH} ; fi

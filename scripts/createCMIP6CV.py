@@ -63,7 +63,10 @@ class readWCRP():
         Dico = OrderedDict()
         for file in filelist:
             url = githubRepo + file 
-            response = requests.get(url, verify="./cspca.crt")
+            try:
+                response = requests.get(url, verify="/Users/nadeau1/miniconda/lib/python2.7/site-packages/certifi/cacert.pem")
+            except:
+                response = requests.get(url, verify="/software/anaconda2/envs/cmor3/lib/python2.7/site-packages/certifi/cacert.pem")
             print url
             urlJson = response.content.decode('utf-8')
             myjson = json.loads(urlJson, object_pairs_hook=OrderedDict)
@@ -94,7 +97,7 @@ def run():
     regexp["forcing_index"] = [ "^\\[\\{0,\\}[[:digit:]]\\{1,\\}\\]\\{0,\\}$" ]
     regexp["initialization_index"] = [ "^\\[\\{0,\\}[[:digit:]]\\{1,\\}\\]\\{0,\\}$" ]
     regexp["data_specs_version"] = [ "^[[:digit:]]\\{2,2\\}\\.[[:digit:]]\\{2,2\\}\\.[[:digit:]]\\{2,2\\}$" ]
-    regexp["license"] = [ "^CMIP6 model data produced by .* is licensed under a Creative Commons Attribution.*ShareAlike 4.0 International License .https://creativecommons.org/licenses/\\?.\\. *Consult https://pcmdi.llnl.gov/CMIP6/TermsOfUse for terms of use governing CMIP6 output, including citation requirements and proper acknowledgment\\. *Further information about this data, including some limitations, can be found via the further_info_url (recorded as a global attribute in this file).*\\. *The data producers and data providers make no warranty, either express or implied, including, but not limited to, warranties of merchantability and fitness for a particular purpose\\. *All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law\\.$" ]
+    regexp["license"] = [ "^CMIP6 model data produced by .* is licensed under a Creative Commons Attribution.*ShareAlike 4.0 International License .https://creativecommons.org/licenses.* *Consult https://pcmdi.llnl.gov/CMIP6/TermsOfUse for terms of use governing CMIP6 output, including citation requirements and proper acknowledgment\\. *Further information about this data, including some limitations, can be found via the further_info_url (recorded as a global attribute in this file).*\\. *The data producers and data providers make no warranty, either express or implied, including, but not limited to, warranties of merchantability and fitness for a particular purpose\\. *All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law\\.$" ]
 
 
     CV['CV'] = OrderedDict(CV['CV'].items() + regexp.items())

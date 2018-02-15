@@ -681,31 +681,6 @@
             "z_factors": "", 
             "bounds_values": ""
         }, 
-        "icesheet": {
-            "standard_name": "region", 
-            "units": "", 
-            "axis": "", 
-            "long_name": "Ice Sheet", 
-            "climatology": "", 
-            "formula": "", 
-            "must_have_bounds": "no", 
-            "out_name": "region", 
-            "positive": "", 
-            "requested": [
-                "antarctic", 
-                "greenland"
-            ], 
-            "requested_bounds": "", 
-            "stored_direction": "", 
-            "tolerance": "", 
-            "type": "character", 
-            "valid_max": "", 
-            "valid_min": "", 
-            "value": "", 
-            "z_bounds_factors": "", 
-            "z_factors": "", 
-            "bounds_values": ""
-        }, 
         "landUse": {
             "standard_name": "area_type", 
             "units": "", 
@@ -1698,7 +1673,7 @@
         }, 
         "scatratio": {
             "standard_name": "backscattering_ratio", 
-            "units": "1.0", 
+            "units": "1", 
             "axis": "", 
             "long_name": "lidar backscattering ratio", 
             "climatology": "", 
@@ -1820,14 +1795,10 @@
             "out_name": "line", 
             "positive": "", 
             "requested": [
-                "Fram", 
-                "Strait,", 
-                "Canadian", 
-                "Archipelego,", 
-                "Barents", 
-                "opening,", 
-                "Bering", 
-                "Strait"
+                "fram_strait,", 
+                "canadian_archipelego,", 
+                "barents_opening,", 
+                "bering_strait"
             ], 
             "requested_bounds": "", 
             "stored_direction": "", 
@@ -2046,7 +2017,7 @@
         }, 
         "tau": {
             "standard_name": "atmosphere_optical_thickness_due_to_cloud", 
-            "units": "1.0", 
+            "units": "1", 
             "axis": "", 
             "long_name": "cloud optical thickness", 
             "climatology": "", 

@@ -522,7 +522,7 @@ int cmor_set_table(int table)
         snprintf(msg, CMOR_MAX_STRING, "Invalid table number: %i", table);
         cmor_handle_error(msg, CMOR_CRITICAL);
     }
-    if (cmor_tables[table].szTable_id == '\0') {
+    if (cmor_tables[table].szTable_id[0] == '\0') {
         snprintf(msg, CMOR_MAX_STRING, "Invalid table: %i , not loaded yet!",
                  table);
         cmor_handle_error(msg, CMOR_CRITICAL);

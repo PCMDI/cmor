@@ -162,6 +162,7 @@ test_a_python:
 	@echo "${OK_COLOR}Testing ${TEST_NAME} ${NO_COLOR}"
 	${PYTHONEXEC} ${TEST_NAME} ${VERB}
 test_python: python
+	env TEST_NAME=Test/test_python_climatology.py make test_a_python
 	env TEST_NAME=Test/test_python_history.py make test_a_python
 	env TEST_NAME=Test/test_python_historydefault.py make test_a_python
 	env TEST_NAME=Test/test_python_test_write.py make test_a_python
@@ -284,6 +285,7 @@ test_fortran_old_cmor_tables: cmor
 	@env TEST_NAME="test_shrt_exp_nm_set_att_initi" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
 	@env TEST_NAME="test_sophie" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
 test_fortran: cmor
+	env TEST_NAME="test_cmor_fx_basin" INPUT_FILE="Test/noinput" make test_case
 	env TEST_NAME="test_any_from_asc" INPUT_FILE="Test/tas_3D_noreorder.input" make test_case
 	env TEST_NAME="test_any_from_asc" INPUT_FILE="Test/3D_txy.input" make test_case
 	env TEST_NAME="test_any_from_asc" INPUT_FILE="Test/3D_txy_split_lon.input" make test_case

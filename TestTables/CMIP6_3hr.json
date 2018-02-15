@@ -1,11 +1,12 @@
 {
     "Header": {
-        "data_specs_version": "01.00.20", 
+        "data_specs_version": "01.00.21", 
         "table_id": "Table 3hr", 
         "realm": "atmos", 
         "cmor_version": "3.2", 
-        "table_date": "03 January 2018", 
+        "table_date": "14 February 2018", 
         "missing_value": "1e20", 
+        "int_missing_value": "-999", 
         "product": "model-output", 
         "approx_interval": "0.125000", 
         "generic_levels": "", 
@@ -71,7 +72,7 @@
             "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "specific_humidity", 
-            "units": "1.0", 
+            "units": "1", 
             "cell_methods": "area: mean time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Near-Surface Specific Humidity", 

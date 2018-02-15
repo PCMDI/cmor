@@ -556,6 +556,7 @@ static PyObject *PyCV_setup_variable(PyObject * self, PyObject * args)
     char *name;
     char *units;
     float missing;
+    int imissing;
     double startime;
     double endtime;
     double startimebnds;

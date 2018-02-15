@@ -6,6 +6,9 @@ import cmor_const
 import _cmor
 from _cmor import CMORError
 
+global climatology 
+climatology = False
+
 try:
     import cdtime
     has_cdtime = True
@@ -297,6 +300,16 @@ def set_grid_mapping(grid_id, mapping_name, parameter_names,
     pvals = numpy.ascontiguousarray(pvals).astype('d')
     return _cmor.set_grid_mapping(grid_id, mapping_name, pnms, pvals, punit)
 
+def set_climatology(entry):
+    global climatology 
+    if( entry == True ):
+      climatology = True 
+    else:
+      climatology = False
+
+def get_climatology():
+    global climatology 
+    return climatology
 
 def axis(table_entry, units=None, length=None,
          coord_vals=None, cell_bounds=None, interval=None):
@@ -320,6 +333,9 @@ def axis(table_entry, units=None, length=None,
     if not isinstance(table_entry, str):
         raise Exception(
             "You need to pass a table_entry to match in the cmor table")
+
+    if(table_entry in ['time2', 'time3']):
+        set_climatology(True)
 
     if coord_vals is None:
         if cell_bounds is not None:
@@ -740,7 +756,7 @@ def write(var_id, data, ntimes_passed=None, file_suffix="",
 
     data = numpy.ascontiguousarray(numpy.ravel(data))
 
-    if time_bnds is not None:
+    if time_bnds is not None: 
         if numpy.ma.isMA(time_bnds):
             time_bnds = numpy.ascontiguousarray(time_bnds.filled())
         elif has_oldma and numpy.oldnumeric.ma.isMA(time_bnds):
@@ -762,7 +778,7 @@ def write(var_id, data, ntimes_passed=None, file_suffix="",
                 raise Exception(
                     "error time_bnds' 2nd dimension must be of length 2")
             bnds = []
-            if time_bnds.shape[0] > 1:
+            if time_bnds.shape[0] > 1 and get_climatology() is False:
                 _check_time_bounds_contiguous(time_bnds)
                 bnds = _flatten_time_bounds(time_bnds)
             else:

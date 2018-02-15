@@ -654,6 +654,15 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
             }
             // Check source with experiment_id label.
             rc = cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE, szSource);
+            if(CV_source_id->nbObjects == -1) {
+                snprintf(msg, CMOR_MAX_STRING,
+                         "You did not define a %s section in your source_id %s.\n! \n! \n! "
+                         "See Control Vocabulary JSON file. (%s)\n! ",
+                         CV_KEY_SOURCE_LABEL, szSource_ID, CV_Filename);
+                cmor_handle_error(msg, CMOR_WARNING);
+                return(1);
+                break;
+            }
             for (j = 0; j < CV_source_id->nbObjects; j++) {
                 if (strcmp(CV_source_id->oValue[j].key, CV_KEY_SOURCE_LABEL) ==
                     0) {
@@ -1491,16 +1500,17 @@ int cmor_CV_checkFilename(cmor_CV_def_t * CV, int var_id,
     cdCompTime comptime;
     int i, j, n;
     int timeDim;
+    int refvarid;
     cdCompTime starttime, endtime;
     int axis_id;
-
+    refvarid = cmor_vars[var_id].ref_var_id;
     outname[0] = '\0';
     cmor_CreateFromTemplate(0, cmor_current_dataset.file_template,
             outname, "_");
     cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
     timeDim = -1;
-    for (i = 0; i < cmor_tables[0].vars[0].ndims; i++) {
-        int dim = cmor_tables[0].vars[0].dimensions[i];
+    for (i = 0; i < cmor_tables[0].vars[refvarid].ndims; i++) {
+        int dim = cmor_tables[0].vars[refvarid].dimensions[i];
         if (cmor_tables[0].axes[dim].axis == 'T') {
             timeDim = dim;
             break;
@@ -2456,16 +2466,27 @@ int cmor_CV_variable(int *var_id, char *name, char *units, float *missing,
         }
     }
 
-    if (refvar.type == '\0') {
-        cmor_vars[vrid].type = 'f';
+    if (refvar.type == 'i') {
+        int nMissing;
+        nMissing = (int) *missing;
+        cmor_vars[vrid].type = 'i';
+        cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_MISSINGVALUES,
+                                         'i', &nMissing);
+        cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_FILLVAL, 'i',
+                                             &nMissing);
     } else {
-        cmor_vars[vrid].type = refvar.type;
+        if (refvar.type == '\0') {
+            cmor_vars[vrid].type = 'f';
+        }
+        else {
+            cmor_vars[vrid].type = refvar.type;
+        }
+        cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_MISSINGVALUES,
+                                         'f', missing);
+        cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_FILLVAL, 'f',
+                                             missing);
     }
 
-    cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_MISSINGVALUES,
-                                         'f', missing);
-    cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_FILLVAL, 'f',
-                                         missing);
 
     cmor_vars[vrid].self = vrid;
     *var_id = vrid;

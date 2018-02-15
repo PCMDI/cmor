@@ -100,6 +100,51 @@ class TestCase(unittest.TestCase):
         a = f.getglobal("external_variables")
         self.assertEqual("areacello volcello", a)
 
+    def testCMIP6_ExternaVariablesError(self):
+
+        cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
+        error_flag = cmor.dataset_json('Test/common_user_input.json')
+        table_id = cmor.load_table('CMIP6_6hrLev.json')
+        time = cmor.axis(table_entry='time1', units='days since 2000-01-01',
+                         coord_vals=numpy.array(range(1)),
+                         cell_bounds=numpy.array(range(2)))
+        latitude = cmor.axis(table_entry='latitude', units='degrees_north',
+                             coord_vals=numpy.array(range(5)),
+                             cell_bounds=numpy.array(range(6)))
+        longitude = cmor.axis(table_entry='longitude', units='degrees_east',
+                              coord_vals=numpy.array(range(5)),
+                              cell_bounds=numpy.array(range(6)))
+        plev3 = cmor.axis(table_entry='plev3', units='Pa',
+                          coord_vals=numpy.array([85000., 50000., 25000.]))
+        axis_ids = [longitude, latitude, plev3, time]
+        ua_var_id = cmor.variable(table_entry='ua', axis_ids=axis_ids,
+                                  units='m s-1')
+        ta_var_id = cmor.variable(table_entry='ta', axis_ids=axis_ids,
+                                  units='K')
+        data = numpy.random.random(75)
+        reshaped_data = data.reshape((5, 5, 3, 1))
+
+        # This doesn't:
+        cmor.write(ta_var_id, reshaped_data)
+        cmor.write(ua_var_id, reshaped_data)
+        fname_ta = cmor.close(ta_var_id, file_name=True)
+        fname_ua = cmor.close(ua_var_id, file_name=True)
+        cmor.close()
+        os.dup2(self.newstdout, 1)
+        os.dup2(self.newstderr, 2)
+        sys.stdout = os.fdopen(self.newstdout, 'w', 0)
+        sys.stderr = os.fdopen(self.newstderr, 'w', 0)
+
+        f = cdms2.open(fname_ta, "r")
+        a = f.getglobal("external_variables")
+        self.assertEqual("areacella", a)
+        f.close()
+        f = cdms2.open(fname_ua, "r")
+        a = f.getglobal("external_variables")
+        self.assertEqual(None, a)
+        f.close()
+
+
     def tearDown(self):
         import shutil
         shutil.rmtree("./CMIP6")

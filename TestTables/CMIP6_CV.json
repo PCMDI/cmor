@@ -34,11 +34,11 @@
         ],
         "version_metadata":{
             "author":"Paul J. Durack <durack1@llnl.gov>",
-            "creation_date":"Thu Dec 7 10:14:39 2017 -0800",
+            "creation_date":"Tue Feb 13 09:37:18 2018 -0800",
             "institution_id":"PCMDI",
-            "latest_tag_point":"3.2.8 (16; gb51e037)",
-            "note":"Revise THU source_id CIESM",
-            "previous_commit":"3c9ff0ab226f35d54adc146b6349fc2f7a3b542a"
+            "latest_tag_point":"3.3.0 (22; g8906e28)",
+            "note":"Revise institution_id NCAR",
+            "previous_commit":"e72f2dd44878feba9b327ee2f9bd6f919b7ceacc"
         },
         "activity_id":{
             "AerChemMIP":"Aerosols and Chemistry Model Intercomparison Project",
@@ -76,6 +76,7 @@
             "CNRM-CERFACS":"CNRM (Centre National de Recherches Meteorologiques, Toulouse 31057, France), CERFACS (Centre Europeen de Recherche et de Formation Avancee en Calcul Scientifique, Toulouse 31057, France)",
             "CSIR-CSIRO":"CSIR (Council for Scientific and Industrial Research - Natural Resources and the Environment, Pretoria, 0001, South Africa), CSIRO (Commonwealth Scientific and Industrial Research Organisation and Bureau of Meteorology, Melbourne, Victoria 3208, Australia)",
             "CSIRO-BOM":"Commonwealth Scientific and Industrial Research Organisation and Bureau of Meteorology, Melbourne, Victoria 3208, Australia",
+            "DWD":"Deutscher Wetterdienst, Offenbach am Main 63067, Germany",
             "EC-Earth-Consortium":"KNMI, The Netherlands; SMHI, Sweden; DMI, Denmark; AEMET, Spain; Met Eireann, Ireland; CNR-ISAC, Italy; Instituto de Meteorologia, Portugal; FMI, Finland; BSC, Spain; Centro de Geofisica, University of Lisbon, Portugal; ENEA, Italy; Geomar, Germany; Geophysical Institute, University of Bergen, Norway; ICHEC, Ireland; ICTP, Italy; IMAU, The Netherlands; IRV, Sweden;  Lund University, Sweden; Meteorologiska Institutionen, Stockholms University, Sweden; Niels Bohr Institute, University of Copenhagen, Denmark; NTNU, Norway; SARA, The Netherlands; Unite ASTR, Belgium; Universiteit Utrecht, The Netherlands; Universiteit Wageningen, The Netherlands; University College Dublin, Ireland; Vrije Universiteit Amsterdam, the Netherlands; University of Helsinki, Finland; KIT, Karlsruhe, Germany; USC, University of Santiago de Compostela, Spain; Uppsala Universitet, Sweden; NLeSC, Netherlands eScience Center, The Netherlands",
             "FIO-RONM":"FIO (First Institute of Oceanography, State Oceanic Administration, Qingdao 266061, China), RONM (Laboratory for Regional Oceanography and Numerical Modeling, Qingdao National Laboratory for Marine Science and Technology, Qingdao 266237, China)",
             "HAMMOZ-Consortium":"ETH Zurich, Switzerland; Max Planck Institut fur Meteorologie, Germany; Forschungszentrum Julich, Germany; University of Oxford, UK; Finnish Meteorological Institute, Finland; Leibniz Institute for Tropospheric Research, Germany; Center for Climate Systems Modeling (C2SM) at ETH Zurich, Switzerland",
@@ -88,7 +89,7 @@
             "MPI-M":"Max Planck Institute for Meteorology, Hamburg 20146, Germany",
             "MRI":"Meteorological Research Institute, Tsukuba, Ibaraki 305-0052, Japan",
             "NASA-GISS":"Goddard Institute for Space Studies, New York, NY 10025, USA",
-            "NCAR":"National Center for Atmospheric Research, Boulder, CO 80301, USA",
+            "NCAR":"National Center for Atmospheric Research, Climate and Global Dynamics Laboratory, 1850 Table Mesa Drive, Boulder, CO 80305, USA",
             "NCC":"NorESM Climate modeling Consortium consisting of CICERO (Center for International Climate and Environmental Research, Oslo 0349), MET-Norway (Norwegian Meteorological Institute, Oslo 0313), NERSC (Nansen Environmental and Remote Sensing Center, Bergen 5006), NILU (Norwegian Institute for Air Research, Kjeller 2027), UiB (University of Bergen, Bergen 5007), UiO (University of Oslo, Oslo 0313) and UNI (Uni Research, Bergen 5008), Norway",
             "NERC":"Natural Environment Research Council, STFC-RAL, Harwell, Oxford, OX11 0QX, UK",
             "NIMS-KMA":"National Institute of Meteorological Sciences/Korea Meteorological Administration, Climate Research Division, Seoho-bukro 33, Seogwipo-si, Jejudo 63568, Republic of Korea",
@@ -97,7 +98,8 @@
             "NUIST":"Nanjing University of Information Science and Technology, Nanjing, 210044, China",
             "PCMDI":"Program for Climate Model Diagnosis and Intercomparison, Lawrence Livermore National Laboratory, Livermore, CA 94550, USA",
             "SNU":"Seoul National University, Seoul 08826, Republic of Korea",
-            "THU":"Department of Earth System Science, Tsinghua University, Beijing 100084, China"
+            "THU":"Department of Earth System Science, Tsinghua University, Beijing 100084, China",
+            "UHH":"Universitat Hamburg, Hamburg 20148, Germany"
         },
         "source_id":{
             "ACCESS-1-0":{
@@ -761,26 +763,30 @@
             },
             "HadGEM3-GC31-HH":{
                 "activity_participation":[
+                    "CMIP",
                     "HighResMIP"
                 ],
                 "cohort":[
                     "Registered"
                 ],
                 "institution_id":[
-                    "MOHC"
+                    "MOHC",
+                    "NERC"
                 ],
                 "source_id":"HadGEM3-GC31-HH",
                 "source":"HadGEM3-GC31-HH (2016): \naerosol: UKCA-GLOMAP-mode\natmos: MetUM-HadGEM3-GA7.1 (N512; 1024 x 768 longitude/latitude; 85 levels; top level 85 km)\natmosChem: none\nland: JULES-HadGEM3-GL7.1\nlandIce: none\nocean: NEMO-HadGEM3-GO6.0 (ORCA12 tripolar primarily 1/12 deg; 4320 x 2160 longitude/latitude; 75 levels; top grid cell 0-1 m)\nocnBgchem: none\nseaIce: CICE-HadGEM3-GSI8 (ORCA12 tripolar primarily 1/12 deg; 4320 x 2160 longitude/latitude)"
             },
             "HadGEM3-GC31-HM":{
                 "activity_participation":[
+                    "CMIP",
                     "HighResMIP"
                 ],
                 "cohort":[
                     "Registered"
                 ],
                 "institution_id":[
-                    "MOHC"
+                    "MOHC",
+                    "NERC"
                 ],
                 "source_id":"HadGEM3-GC31-HM",
                 "source":"HadGEM3-GC31-HM (2016): \naerosol: UKCA-GLOMAP-mode\natmos: MetUM-HadGEM3-GA7.1 (N512; 1024 x 768 longitude/latitude; 85 levels; top level 85 km)\natmosChem: none\nland: JULES-HadGEM3-GL7.1\nlandIce: none\nocean: NEMO-HadGEM3-GO6.0 (ORCA025 tripolar primarily 0.25 deg; 1440 x 720 longitude/latitude; 75 levels; top grid cell 0-1 m)\nocnBgchem: none\nseaIce: CICE-HadGEM3-GSI8 (ORCA025 tripolar primarily 0.25 deg; 1440 x 720 longitude/latitude)"
@@ -791,6 +797,7 @@
                     "CMIP",
                     "DAMIP",
                     "FAFMIP",
+                    "HighResMIP",
                     "PMIP",
                     "RFMIP"
                 ],
@@ -805,6 +812,7 @@
             },
             "HadGEM3-GC31-LM":{
                 "activity_participation":[
+                    "CMIP",
                     "HighResMIP"
                 ],
                 "cohort":[
@@ -832,8 +840,10 @@
             },
             "HadGEM3-GC31-MM":{
                 "activity_participation":[
+                    "CMIP",
                     "DCPP",
                     "GMMIP",
+                    "HighResMIP",
                     "LS3MIP",
                     "OMIP"
                 ],
@@ -1021,7 +1031,8 @@
                     "Registered"
                 ],
                 "institution_id":[
-                    "MPI-M"
+                    "MPI-M",
+                    "DWD"
                 ],
                 "source_id":"MPI-ESM-1-2-HR",
                 "source":"MPI-ESM1.2-HR (2017): \naerosol: none, prescribed MACv2-SP\natmos: ECHAM6.3 (spectral T127; 384 x 192 longitude/latitude; 95 levels; top level 0.01 hPa)\natmosChem: none\nland: JSBACH3.20\nlandIce: none/prescribed\nocean: MPIOM1.63 (tripolar TP04, approximately 0.4deg; 802 x 404 longitude/latitude; 40 levels; top grid cell 0-12 m)\nocnBgchem: HAMOCC\nseaIce: unnamed (thermodynamic (Semtner zero-layer) dynamic (Hibler 79) sea ice model)"
@@ -1304,6 +1315,7 @@
                 "activity_participation":[
                     "AerChemMIP",
                     "C4MIP",
+                    "CMIP",
                     "GeoMIP",
                     "LUMIP",
                     "OMIP",
@@ -1326,6 +1338,7 @@
                 "activity_participation":[
                     "AerChemMIP",
                     "C4MIP",
+                    "CMIP",
                     "ScenarioMIP"
                 ],
                 "cohort":[
@@ -1502,7 +1515,7 @@
             "fx"
         ],
         "license":[
-            "^CMIP6 model data produced by .* is licensed under a Creative Commons Attribution.*ShareAlike 4.0 International License .https://creativecommons.org/licenses/*.\\. *Consult https://pcmdi.llnl.gov/CMIP6/TermsOfUse for terms of use governing CMIP6 output, including citation requirements and proper acknowledgment\\. *Further information about this data, including some limitations, can be found via the further_info_url (recorded as a global attribute in this file).*\\. *The data producers and data providers make no warranty, either express or implied, including, but not limited to, warranties of merchantability and fitness for a particular purpose\\. *All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law\\.$"
+            "^CMIP6 model data produced by .* is licensed under a Creative Commons Attribution.*ShareAlike 4.0 International License .https://creativecommons.org/licenses.* *Consult https://pcmdi.llnl.gov/CMIP6/TermsOfUse for terms of use governing CMIP6 output, including citation requirements and proper acknowledgment\\. *Further information about this data, including some limitations, can be found via the further_info_url (recorded as a global attribute in this file).*\\. *The data producers and data providers make no warranty, either express or implied, including, but not limited to, warranties of merchantability and fitness for a particular purpose\\. *All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law\\.$"
         ],
         "mip_era":[
             "CMIP6"
@@ -2158,7 +2171,8 @@
                 ],
                 "additional_allowed_model_components":[
                     "AER",
-                    "CHEM"
+                    "CHEM",
+                    "BGC"
                 ],
                 "experiment":"AMIP",
                 "experiment_id":"amip",
@@ -4436,7 +4450,8 @@
                     "AerChemMIP"
                 ],
                 "additional_allowed_model_components":[
-                    "CHEM"
+                    "CHEM",
+                    "BGC"
                 ],
                 "experiment":"historical prescribed SSTs and historical forcing",
                 "experiment_id":"histSST",
@@ -4459,7 +4474,7 @@
                     "AerChemMIP"
                 ],
                 "additional_allowed_model_components":[
-                    ""
+                    "BGC"
                 ],
                 "experiment":"historical SSTs and historical forcing, but with1950 halocarbon concentrations",
                 "experiment_id":"histSST-1950HC",
@@ -4483,7 +4498,8 @@
                     "AerChemMIP"
                 ],
                 "additional_allowed_model_components":[
-                    "CHEM"
+                    "CHEM",
+                    "BGC"
                 ],
                 "experiment":"historical SSTs and historical forcing, but with pre-industrial aerosol emissions",
                 "experiment_id":"histSST-piAer",
@@ -4506,7 +4522,7 @@
                     "AerChemMIP"
                 ],
                 "additional_allowed_model_components":[
-                    ""
+                    "BGC"
                 ],
                 "experiment":"historical SSTs and historical forcing, but with pre-industrial methane concentrations",
                 "experiment_id":"histSST-piCH4",
@@ -4578,7 +4594,7 @@
                     "AerChemMIP"
                 ],
                 "additional_allowed_model_components":[
-                    ""
+                    "BGC"
                 ],
                 "experiment":"historical SSTs and historical forcing, but with pre-industrial ozone precursor emissions",
                 "experiment_id":"histSST-piO3",
@@ -5817,7 +5833,8 @@
                     "AerChemMIP"
                 ],
                 "additional_allowed_model_components":[
-                    "CHEM"
+                    "CHEM",
+                    "BGC"
                 ],
                 "experiment":"pre-industrial climatological SSTs and forcing, but with doubled emissions of DMS",
                 "experiment_id":"piClim-2xDMS",
@@ -5840,7 +5857,7 @@
                     "AerChemMIP"
                 ],
                 "additional_allowed_model_components":[
-                    ""
+                    "BGC"
                 ],
                 "experiment":"pre-industrial climatological SSTs and forcing, but with doubled production of NOx due to lightning",
                 "experiment_id":"piClim-2xNOx",
@@ -5864,7 +5881,7 @@
                     "AerChemMIP"
                 ],
                 "additional_allowed_model_components":[
-                    ""
+                    "BGC"
                 ],
                 "experiment":"pre-industrial climatological SSTs and forcing, but with doubled emissions of biogenic VOCs",
                 "experiment_id":"piClim-2xVOC",
@@ -5888,7 +5905,8 @@
                     "AerChemMIP"
                 ],
                 "additional_allowed_model_components":[
-                    "CHEM"
+                    "CHEM",
+                    "BGC"
                 ],
                 "experiment":"pre-industrial climatological SSTs and forcing, but with doubled emissions of dust",
                 "experiment_id":"piClim-2xdust",
@@ -5911,7 +5929,8 @@
                     "AerChemMIP"
                 ],
                 "additional_allowed_model_components":[
-                    "CHEM"
+                    "CHEM",
+                    "BGC"
                 ],
                 "experiment":"pre-industrial climatological SSTs and forcing, but with doubled emissions from fires",
                 "experiment_id":"piClim-2xfire",
@@ -5934,7 +5953,8 @@
                     "AerChemMIP"
                 ],
                 "additional_allowed_model_components":[
-                    "CHEM"
+                    "CHEM",
+                    "BGC"
                 ],
                 "experiment":"pre-industrial climatological SSTs and forcing, but with doubled emissions of sea salt",
                 "experiment_id":"piClim-2xss",
@@ -5980,7 +6000,8 @@
                     "AerChemMIP"
                 ],
                 "additional_allowed_model_components":[
-                    "CHEM"
+                    "CHEM",
+                    "BGC"
                 ],
                 "experiment":"pre-industrial climatological SSTs and forcing, but with 2014 black carbon emissions",
                 "experiment_id":"piClim-BC",
@@ -6003,7 +6024,7 @@
                     "AerChemMIP"
                 ],
                 "additional_allowed_model_components":[
-                    ""
+                    "BGC"
                 ],
                 "experiment":"pre-industrial climatological SSTs and forcing, but with 2014 methane concentrations (including chemistry)",
                 "experiment_id":"piClim-CH4",
@@ -6027,7 +6048,7 @@
                     "AerChemMIP"
                 ],
                 "additional_allowed_model_components":[
-                    ""
+                    "BGC"
                 ],
                 "experiment":"pre-industrial climatological SSTs and forcing, but with 2014 halocarbon concentrations (including chemistry)",
                 "experiment_id":"piClim-HC",
@@ -6051,7 +6072,7 @@
                     "AerChemMIP"
                 ],
                 "additional_allowed_model_components":[
-                    ""
+                    "BGC"
                 ],
                 "experiment":"pre-industrial climatological SSTs and forcing, but with 2014 N2O concentrations (including chemistry)",
                 "experiment_id":"piClim-N2O",
@@ -6075,7 +6096,8 @@
                     "AerChemMIP"
                 ],
                 "additional_allowed_model_components":[
-                    "CHEM"
+                    "CHEM",
+                    "BGC"
                 ],
                 "experiment":"pre-industrial climatological SSTs and forcing, but with 2014 ammonia emissions",
                 "experiment_id":"piClim-NH3",
@@ -6098,7 +6120,7 @@
                     "AerChemMIP"
                 ],
                 "additional_allowed_model_components":[
-                    ""
+                    "BGC"
                 ],
                 "experiment":"pre-industrial climatological SSTs and forcing, but with 2014 NOx emissions",
                 "experiment_id":"piClim-NOx",
@@ -6146,7 +6168,7 @@
                     "AerChemMIP"
                 ],
                 "additional_allowed_model_components":[
-                    ""
+                    "BGC"
                 ],
                 "experiment":"pre-industrial climatological SSTs and forcing, but with 2014 ozone precursor emissions",
                 "experiment_id":"piClim-O3",
@@ -6170,7 +6192,8 @@
                     "AerChemMIP"
                 ],
                 "additional_allowed_model_components":[
-                    "CHEM"
+                    "CHEM",
+                    "BGC"
                 ],
                 "experiment":"pre-industrial climatological SSTs and forcing, but with 2014 organic carbon emissions",
                 "experiment_id":"piClim-OC",
@@ -6193,7 +6216,8 @@
                     "AerChemMIP"
                 ],
                 "additional_allowed_model_components":[
-                    "CHEM"
+                    "CHEM",
+                    "BGC"
                 ],
                 "experiment":"pre-industrial climatological SSTs and forcing, but with 2014 SO2 emissions",
                 "experiment_id":"piClim-SO2",
@@ -6216,7 +6240,7 @@
                     "AerChemMIP"
                 ],
                 "additional_allowed_model_components":[
-                    ""
+                    "BGC"
                 ],
                 "experiment":"pre-industrial climatological SSTs and forcing, but with 2014 VOC emissions",
                 "experiment_id":"piClim-VOC",
@@ -6242,7 +6266,8 @@
                 ],
                 "additional_allowed_model_components":[
                     "AER",
-                    "CHEM"
+                    "CHEM",
+                    "BGC"
                 ],
                 "experiment":"effective radiative forcing by present-day aerosols",
                 "experiment_id":"piClim-aer",
@@ -6289,7 +6314,8 @@
                 ],
                 "additional_allowed_model_components":[
                     "AER",
-                    "CHEM"
+                    "CHEM",
+                    "BGC"
                 ],
                 "experiment":"effective radiative forcing in present-day",
                 "experiment_id":"piClim-control",
@@ -7033,7 +7059,8 @@
                     "AerChemMIP"
                 ],
                 "additional_allowed_model_components":[
-                    "CHEM"
+                    "CHEM",
+                    "BGC"
                 ],
                 "experiment":"SSP3-7.0, with SSTs prescribed from ssp370",
                 "experiment_id":"ssp370SST",
@@ -7056,7 +7083,8 @@
                     "AerChemMIP"
                 ],
                 "additional_allowed_model_components":[
-                    "CHEM"
+                    "CHEM",
+                    "BGC"
                 ],
                 "experiment":"SSP3-7.0, prescribed SSTs, with low aerosol emissions",
                 "experiment_id":"ssp370SST-lowAer",
@@ -7079,7 +7107,8 @@
                     "AerChemMIP"
                 ],
                 "additional_allowed_model_components":[
-                    "CHEM"
+                    "CHEM",
+                    "BGC"
                 ],
                 "experiment":"SSP3-7.0, prescribed SSTs, with low black carbon emissions",
                 "experiment_id":"ssp370SST-lowBC",
@@ -7102,7 +7131,7 @@
                     "AerChemMIP"
                 ],
                 "additional_allowed_model_components":[
-                    ""
+                    "BGC"
                 ],
                 "experiment":"SSP3-7.0, prescribed SSTs, with low methane concentrations",
                 "experiment_id":"ssp370SST-lowCH4",
@@ -7150,7 +7179,7 @@
                     "AerChemMIP"
                 ],
                 "additional_allowed_model_components":[
-                    ""
+                    "BGC"
                 ],
                 "experiment":"SSP3-7.0, prescribed SSTs, with low ozone precursor emissions",
                 "experiment_id":"ssp370SST-lowO3",
@@ -7174,7 +7203,8 @@
                     "AerChemMIP"
                 ],
                 "additional_allowed_model_components":[
-                    "CHEM"
+                    "CHEM",
+                    "BGC"
                 ],
                 "experiment":"SSP3-7.0, prescribed SSTs, with SSP1-2.6 land use",
                 "experiment_id":"ssp370SST-ssp126Lu",
