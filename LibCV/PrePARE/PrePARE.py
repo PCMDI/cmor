@@ -42,84 +42,6 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-# =========================
-# FILEAction()
-# =========================
-class FILEAction(argparse.Action):
-    '''
-    Check if argparse is JSON file
-    '''
-
-    def __call__(self, parser, namespace, values, option_string=None):
-        fn = values
-        if not os.path.isfile(fn):
-            raise argparse.ArgumentTypeError(
-                'FILEAction:{0} is file not found'.format(fn))
-        f = open(fn)
-        lines = f.readlines()
-        f.close()
-        setattr(namespace, self.dest, lines)
-
-# =========================
-# JSONAction()
-# =========================
-class JSONAction(argparse.Action):
-    '''
-    Check if argparse is JSON file
-    '''
-
-    def __call__(self, parser, namespace, values, option_string=None):
-        fn = values
-        if not os.path.isfile(fn):
-            raise argparse.ArgumentTypeError(
-                'JSONAction:{0} is file not found'.format(fn))
-        f = open(fn)
-        lines = f.readlines()
-        f.close()
-        jsonobject = json.loads(" ".join(lines))
-        if not jsonobject:
-            raise argparse.ArgumentTypeError(
-                'JSONAction:{0} is file not a valid JSON file'.format(fn))
-        setattr(namespace, self.dest, values)
-
-
-# =========================
-# CDMSAction()
-# =========================
-class CDMSAction(argparse.Action):
-    '''
-    Check if argparse is CDMS file
-    '''
-
-    def __call__(self, parser, namespace, values, option_string=None):
-        fn = values
-        if not os.path.isfile(fn):
-            raise argparse.ArgumentTypeError(
-                'CDMSAction:{0} does not exist'.format(fn))
-        f = Cdunif.CdunifFile(fn, "r")
-        f.close()
-        setattr(namespace, self.dest, fn)
-
-
-# =========================
-# readable_dir()
-# =========================
-class readable_dir(argparse.Action):
-    '''
-    Check if argparse is a directory.
-    '''
-
-    def __call__(self, parser, namespace, values, option_string=None):
-        prospective_dir = values
-        if not os.path.isdir(prospective_dir):
-            raise argparse.ArgumentTypeError(
-                'readable_dir:{0} is not a valid path'.format(prospective_dir))
-        if os.access(prospective_dir, os.R_OK):
-            setattr(namespace, self.dest, prospective_dir)
-        else:
-            raise argparse.ArgumentTypeError(
-                'readable_dir:{0} is not a readable dir'.format(prospective_dir))
-
 
 # =========================
 # DIRAction()
@@ -669,22 +591,11 @@ def main():
                         help='Number of maximal threads to simultaneously process several files.'
                              'Default is one as sequential processing.')
 
-    parser.add_argument('cmip6_table',
-                        help='Specify the CMIP6 CMOR tables path (JSON file) or CMIP6 table file.'
-                             'Default is "./Tables".',
-                        action=DIRECTORYAction,
-                        default='./Tables')
-
     parser.add_argument('input',
                         help='Input CMIP6 netCDF data to validate (ex: clisccp_cfMon_DcppC22_NICAM_gn_200001-200001.nc.'
                              'If a directory is submitted all netCDF recusively found will be validate independently.',
                         nargs='+',
                         action=INPUTAction)
-
-#    parser.add_argument('outfile',
-#                        help='Output file (default stdout)',
-#                        type=argparse.FileType('w'),
-#                        default=sys.stdout)
 
     # Check command-line error
     try:
@@ -695,11 +606,8 @@ def main():
     except SystemExit:
         return 1
 
-    if hasattr(args,"table_path"):
-        cmip6_table=args.table_path
-
     # Collects netCDF files for process
-    sources = Collector(args.input, data=args.cmip6_table)
+    sources = Collector(args.input, data=args.table_path)
     if args.max_threads > 1:
         # Create pool of processes
         pool = Pool(int(args.max_threads))
