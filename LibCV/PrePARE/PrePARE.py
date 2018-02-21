@@ -214,9 +214,9 @@ class checkCMIP6(object):
                 'Invalid JSON CMOR table: {}'.format(path))
 
     def setDoubleValue(self, attribute):
-        if (cmip6_cv.has_cur_dataset_attribute(attribute)):
-            if (isinstance(self.dictGbl[attribute], numpy.ndarray) and isinstance(self.dictGbl[attribute][0],
-                                                                                  numpy.float64)):
+        if cmip6_cv.has_cur_dataset_attribute(attribute):
+            if isinstance(self.dictGbl[attribute], numpy.ndarray) and isinstance(self.dictGbl[attribute][0],
+                                                                                 numpy.float64):
                 self.dictGbl[attribute] = self.dictGbl[attribute][0]
                 cmip6_cv.set_cur_dataset_attribute(
                     attribute, self.dictGbl[attribute])
@@ -266,9 +266,9 @@ class checkCMIP6(object):
             # If variable can be deduced from the filename (Default)
             self.variable = variable
         climatology = False
-        if (filename.find('-clim') != -1):
+        if filename.find('-clim') != -1:
             climatology = True
-            if (self.cmip6_table.find('Amon') != -1):
+            if self.cmip6_table.find('Amon') != -1:
                 self.variable = self.variable + 'Clim'
 
         # -------------------------------------------------------------------
@@ -310,7 +310,7 @@ class checkCMIP6(object):
         if climatology and climPos != -1:
             self.var = [self.var[0][:climPos]]
 
-        if ((self.var == []) or (len(self.var) > 1)):
+        if (self.var == []) or (len(self.var) > 1):
             print bcolors.FAIL
             print "!!!!!!!!!!!!!!!!!!!!!!!!!"
             print "! Error:  The input file does not have an history attribute and the CMIP6 variable could not be found"
@@ -449,22 +449,22 @@ class checkCMIP6(object):
         # -----------------------------
         prepLIST = cmip6_cv.list_variable_attributes(varid)
         for key in prepLIST:
-            if (key == "long_name"):
+            if key == "long_name":
                 continue
-            if (key == "comment"):
+            if key == "comment":
                 continue
             # Is this attribute in file?
-            if (key in self.dictVars.keys()):
+            if key in self.dictVars.keys():
                 # Verify that attribute value is equal to file attribute
                 table_value = prepLIST[key]
                 file_value = self.dictVars[key]
 
                 # PrePARE accept units of 1 or 1.0 so adjust thet table_value
                 # -----------------------------------------------------------
-                if (key == "units"):
-                    if ((table_value == "1") and (file_value == "1.0")):
+                if key == "units":
+                    if (table_value == "1") and (file_value == "1.0"):
                         table_value = "1.0"
-                    if ((table_value == "1.0") and (file_value == "1")):
+                    if (table_value == "1.0") and (file_value == "1"):
                         table_value = "1"
 
                 if isinstance(table_value, str) and isinstance(file_value, numpy.ndarray):
@@ -503,7 +503,7 @@ class checkCMIP6(object):
                 # That attribute is not in the file
                 table_value = prepLIST[key]
                 if key == "cell_measures":
-                    if ((table_value.find("OPT") != -1) or (table_value.find("MODEL") != -1)):
+                    if (table_value.find("OPT") != -1) or (table_value.find("MODEL") != -1):
                         continue
                 if isinstance(table_value, numpy.ndarray):
                     table_value = table_value[0]
