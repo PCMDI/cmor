@@ -53,7 +53,7 @@ def cmor_define_and_write(values, axes):
                           )
 
     for time in [x * 1800. / 86400 for x in range(48)]:
-        cmor.write(varid, values,  time_vals=[time])
+        cmor.write(varid, values, time_vals=[time])
     return varid
 
 

@@ -424,14 +424,16 @@ class checkCMIP6(object):
         cmip6_cv.check_parentExpID(self.table_id)
         cmip6_cv.check_subExpID(self.table_id)
 
-        startimebnds = 0
-        endtimebnds = 0
-        if climatology:
-            startimebnds = self.infile.variables['climatology_bnds'][0][0]
-            endtimebnds = self.infile.variables['climatology_bnds'][-1][1]
-        else:
-            startimebnds = self.infile.variables['time_bnds'][0][0]
-            endtimebnds = self.infile.variables['time_bnds'][-1][1]
+        try:
+            if climatology:
+                startimebnds = self.infile.variables['climatology_bnds'][0][0]
+                endtimebnds = self.infile.variables['climatology_bnds'][-1][1]
+            else:
+                startimebnds = self.infile.variables['time_bnds'][0][0]
+                endtimebnds = self.infile.variables['time_bnds'][-1][1]
+        except BaseException:
+            startimebnds = 0
+            endtimebnds = 0
          
         try:
             startime = self.infile.variables['time'][0]
@@ -439,6 +441,7 @@ class checkCMIP6(object):
         except BaseException:
             startime = 0
             endtime = 0
+
         varunits = self.infile.variables[self.var[0]].units
         varmissing = self.infile.variables[self.var[0]]._FillValue[0]
         # -------------------------------------------------
@@ -463,23 +466,21 @@ class checkCMIP6(object):
             self.timeunits,
             fn)
 
-        if 'branch_time_in_child' in self.dictGbl.keys():
-            if not isinstance(self.dictGbl['branch_time_in_child'], numpy.float64):
-                print bcolors.FAIL
-                print "====================================================================================="
-                print "branch_time_in_child is not a double: ", type(self.dictGbl['branch_time_in_child'])
-                print "====================================================================================="
-                print bcolors.ENDC
-                cmip6_cv.set_CV_Error()
+        if not isinstance(self.dictGbl['branch_time_in_child'], numpy.float64):
+            print bcolors.FAIL
+            print "====================================================================================="
+            print "branch_time_in_child is not a double: ", type(self.dictGbl['branch_time_in_child'])
+            print "====================================================================================="
+            print bcolors.ENDC
+            cmip6_cv.set_CV_Error()
 
-        if 'branch_time_in_parent' in self.dictGbl.keys():
-            if not isinstance(self.dictGbl['branch_time_in_parent'], numpy.float64):
-                print bcolors.FAIL
-                print "====================================================================================="
-                print "branch_time_in_parent is not an double: ", type(self.dictGbl['branch_time_in_parent'])
-                print "====================================================================================="
-                print bcolors.ENDC
-                cmip6_cv.set_CV_Error()
+        if not isinstance(self.dictGbl['branch_time_in_parent'], numpy.float64):
+            print bcolors.FAIL
+            print "====================================================================================="
+            print "branch_time_in_parent is not an double: ", type(self.dictGbl['branch_time_in_parent'])
+            print "====================================================================================="
+            print bcolors.ENDC
+            cmip6_cv.set_CV_Error()
 
         if not isinstance(self.dictGbl['realization_index'], numpy.ndarray):
             print bcolors.FAIL
@@ -513,6 +514,9 @@ class checkCMIP6(object):
             print bcolors.ENDC
             cmip6_cv.set_CV_Error()
 
+        # -----------------------------
+        # variable attribute comparison
+        # -----------------------------
         prepLIST = cmip6_cv.list_variable_attributes(varid)
         for key in prepLIST:
             if(key == "long_name"):
@@ -524,6 +528,15 @@ class checkCMIP6(object):
                 # Verify that attribute value is equal to file attribute
                 table_value = prepLIST[key]
                 file_value = self.dictVars[key]
+
+                # PrePARE accept units of 1 or 1.0 so adjust thet table_value
+                # -----------------------------------------------------------
+                if(key == "units"):
+                   if((table_value == "1") and (file_value == "1.0")):
+                       table_value = "1.0"
+                   if((table_value == "1.0") and (file_value == "1")):
+                       table_value = "1"
+
                 if isinstance(table_value, str) and isinstance(file_value, numpy.ndarray):
                    if(numpy.array([int(value) for value in table_value.split()] == file_value).all()):
                        file_value=True
