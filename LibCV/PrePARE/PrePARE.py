@@ -463,21 +463,23 @@ class checkCMIP6(object):
             self.timeunits,
             fn)
 
-        if not isinstance(self.dictGbl['branch_time_in_child'], numpy.float64):
-            print bcolors.FAIL
-            print "====================================================================================="
-            print "branch_time_in_child is not a double: ", type(self.dictGbl['branch_time_in_child'])
-            print "====================================================================================="
-            print bcolors.ENDC
-            cmip6_cv.set_CV_Error()
+        if 'branch_time_in_child' in self.dictGbl.keys():
+            if not isinstance(self.dictGbl['branch_time_in_child'], numpy.float64):
+                print bcolors.FAIL
+                print "====================================================================================="
+                print "branch_time_in_child is not a double: ", type(self.dictGbl['branch_time_in_child'])
+                print "====================================================================================="
+                print bcolors.ENDC
+                cmip6_cv.set_CV_Error()
 
-        if not isinstance(self.dictGbl['branch_time_in_parent'], numpy.float64):
-            print bcolors.FAIL
-            print "====================================================================================="
-            print "branch_time_in_parent is not an double: ", type(self.dictGbl['branch_time_in_parent'])
-            print "====================================================================================="
-            print bcolors.ENDC
-            cmip6_cv.set_CV_Error()
+        if 'branch_time_in_parent' in self.dictGbl.keys():
+            if not isinstance(self.dictGbl['branch_time_in_parent'], numpy.float64):
+                print bcolors.FAIL
+                print "====================================================================================="
+                print "branch_time_in_parent is not an double: ", type(self.dictGbl['branch_time_in_parent'])
+                print "====================================================================================="
+                print bcolors.ENDC
+                cmip6_cv.set_CV_Error()
 
         if not isinstance(self.dictGbl['realization_index'], numpy.ndarray):
             print bcolors.FAIL
