@@ -26,8 +26,11 @@ sys.path.insert(0, sys.prefix + "/lib/python2.7/site-packages/cdms2")
 import Cdunif
 import argparse
 import os
+import itertools
+from argparse import ArgumentTypeError
 import json
 import numpy
+from uuid import uuid4 as uuid
 import cmip6_cv
 from multiprocessing import Pool
 
@@ -101,23 +104,57 @@ class Collector(object):
     def __init__(self, sources, data=None):
         self.sources = sources
         self.data = data
+        self.FileFilter = FilterCollection()
+        self.PathFilter = FilterCollection()
         assert isinstance(self.sources, list)
 
     def __iter__(self):
         for source in self.sources:
             if os.path.isdir(source):
-                # If input is a directory: walk through it and yields netCDF
-                # files
+                # If input is a directory: walk through it and yields netCDF files
                 for root, _, filenames in os.walk(source, followlinks=True):
-                    for filename in sorted(filenames):
-                        ffp = os.path.join(root, filename)
-                        if os.path.isfile(ffp) and re.search(
-                                re.compile('^.*\.nc$'), filename):
-                            yield (ffp, self.data)
+                    if self.PathFilter(root):
+                        for filename in sorted(filenames):
+                            ffp = os.path.join(root, filename)
+                            if os.path.isfile(ffp) and self.FileFilter(filename):
+                                yield (ffp, self.data)
             else:
                 # It input is a file: yields the netCDF file itself
-                yield (source, self.data)
+                root, filename = os.path.split(source)
+                if self.PathFilter(root) and self.FileFilter(filename):
+                    yield (source, self.data)
 
+
+class FilterCollection(object):
+    """
+    Regex dictionary with a call method to evaluate a string against several regular expressions.
+    The dictionary values are 2-tuples with the regular expression as a string and a boolean
+    indicating to match (i.e., include) or non-match (i.e., exclude) the corresponding expression.
+
+    """
+    FILTER_TYPES = (str, re._pattern_type)
+
+    def __init__(self):
+        self.filters = dict()
+
+    def add(self, name=None, regex='*', inclusive=True):
+        """Add new filter"""
+        if not name:
+            name = uuid()
+        assert isinstance(regex, self.FILTER_TYPES)
+        assert isinstance(inclusive, bool)
+        self.filters[name] = (regex, inclusive)
+
+    def __call__(self, string):
+        return all([self.match(regex, string, inclusive=inclusive) for regex, inclusive in self.filters.values()])
+
+    @staticmethod
+    def match(pattern, string, inclusive=True):
+        # Assert inclusive and exclusive flag are mutually exclusive
+        if inclusive:
+            return True if re.search(pattern, string) else False
+        else:
+            return True if not re.search(pattern, string) else False
 
 # =========================
 # Spinner()
@@ -489,6 +526,25 @@ class checkCMIP6(object):
                     file_value = file_value[:idx]
                     table_value = table_value[:idx]
 
+                if key == "cell_measures":
+                    pattern = re.compile('(?P<param>[\w.-]+): (?P<val1>[\w.-]+) OR (?P<val2>[\w.-]+)')
+                    values = re.findall(pattern, table_value)
+                    table_values = [""] # Empty string is allowed in case of useless attribute
+                    if values:
+                        tmp=dict()
+                        for param, val1, val2 in values:
+                            tmp[param] = [str('{}: {}'.format(param, val1)), str('{}: {}'.format(param, val2))]
+                        table_values.extend([' '.join(i) for i in list(itertools.product(*tmp.values()))])
+                        if str(file_value) not in table_values:
+                            print bcolors.FAIL
+                            print "====================================================================================="
+                            print "Your file contains \"" + key + "\":\"" + str(file_value) + "\" and"
+                            print "CMIP6 tables requires \"" + key + "\":\"" + str(table_value) + "\"."
+                            print "====================================================================================="
+                            print bcolors.ENDC
+                            cmip6_cv.set_CV_Error()
+
+
                 file_value = str(file_value)
                 table_value = str(table_value)
                 if table_value != file_value:
@@ -561,6 +617,23 @@ def sequential_process(source):
             checker.infile.close()
 
 
+def regex_validator(string):
+    """
+    Validates a Python regular expression syntax.
+
+    :param str string: The string to check
+    :returns: The Python regex
+    :rtype: *re.compile*
+    :raises Error: If invalid regular expression
+
+    """
+    try:
+        return re.compile(string)
+    except re.error:
+        msg = 'Bad regex syntax: {}'.format(string)
+        raise ArgumentTypeError(msg)
+
+
 #  =========================
 #   main()
 #  =========================
@@ -591,6 +664,33 @@ def main():
              'Default is one as sequential processing.')
 
     parser.add_argument(
+        '--ignore-dir',
+        metavar="PYTHON_REGEX",
+        type=str,
+        default='^.*/\.[\w]*$',
+        help='Filter directories NON-matching the regular expression.\n'
+             'Default ignores paths with folder name(s) starting with "."')
+
+    parser.add_argument(
+        '--include-file',
+        metavar='PYTHON_REGEX',
+        type=regex_validator,
+        action='append',
+        help='Filter files matching the regular expression.\n'
+             'Duplicate the flag to set several filters.\n'
+             'Default only include NetCDF files.')
+
+    parser.add_argument(
+        '--exclude-file',
+        metavar='PYTHON_REGEX',
+        type=regex_validator,
+        action='append',
+        help='Filter files NON-matching the regular expression.\n'
+             'Duplicate the flag to set several filters.\n'
+             'Default only exclude hidden files (with names not\n'
+             'starting with ".").')
+
+    parser.add_argument(
         'input',
         help='Input CMIP6 netCDF data to validate (ex: clisccp_cfMon_DcppC22_NICAM_gn_200001-200001.nc).\n'
              'If a directory is submitted all netCDF recursively found will be validate independently.',
@@ -608,6 +708,24 @@ def main():
 
     # Collects netCDF files for process
     sources = Collector(args.input, data=(args.table_path, args.variable))
+    # Set scan filters
+    file_filters = list()
+    if args.include_file:
+        file_filters.extend([(f, True) for f in args.include_file])
+    else:
+        # Default includes netCDF only
+        file_filters.append(('^.*\.nc$', True))
+    if args.exclude_file:
+        # Default exclude hidden files
+        file_filters.extend([(f, False) for f in args.exclude_file])
+    else:
+        file_filters.append(('^\..*$', False))
+    # Init collector file filter
+    for regex, inclusive in file_filters:
+        sources.FileFilter.add(regex=regex, inclusive=inclusive)
+    # Init collector dir filter
+    sources.PathFilter.add(regex=args.ignore_dir, inclusive=False)
+    # Separate sequential process and multiprocessing
     if args.max_threads > 1:
         # Create pool of processes
         pool = Pool(int(args.max_threads))
