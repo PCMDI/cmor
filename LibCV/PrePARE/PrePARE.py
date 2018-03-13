@@ -11,12 +11,14 @@
 #   python CMIP6Validtor ../Tables/CMIP6_Amon.json ../CMIP6/yourfile.nc
 #
 
-'''
+"""
 Created on Fri Feb 19 11:33:52 2016
 
 @author: Denis Nadeau LLNL
 @co-author: Guillaume Levavasseur (IPSL) Parallelization
-'''
+
+"""
+
 import re
 import sys
 from contextlib import contextmanager
@@ -176,7 +178,6 @@ class Spinner:
         sys.stdout.flush()
         Spinner.step += 1
 
-
 # =========================
 # checkCMIP6()
 # =========================
@@ -203,13 +204,17 @@ class checkCMIP6(object):
     # *************************
     def __init__(self, table_path):
         # -------------------------------------------------------------------
-        #  Initilaze table path
+        #  Reset CV error switch
+        # -------------------------------------------------------------------
+        self.cv_error = False
+        # -------------------------------------------------------------------
+        #  Initialize table path
         # -------------------------------------------------------------------
         self.cmip6_table_path = os.path.normpath(table_path)
         # -------------------------------------------------------------------
         # call setup() to clean all 'C' internal memory.
         # -------------------------------------------------------------------
-        cmip6_cv.setup(inpath="../Tables", exit_control=cmip6_cv.CMOR_NORMAL)
+        cmip6_cv.setup(inpath=". ./Tables", exit_control=cmip6_cv.CMOR_NORMAL)
         # -------------------------------------------------------------------
         # Set Control Vocabulary file to use (default from cmor.h)
         # -------------------------------------------------------------------
@@ -422,7 +427,7 @@ class checkCMIP6(object):
             print " Could not find variable '%s' in table '%s' " % (self.var[0], self.cmip6_table)
             print "====================================================================================="
             print bcolors.ENDC
-            cmip6_cv.set_CV_Error()
+            self.cv_error = True
             raise KeyboardInterrupt
 
         fn = os.path.basename(str(self.infile).split('\'')[1])
@@ -439,7 +444,7 @@ class checkCMIP6(object):
             print "branch_time_in_child is not a double: ", type(self.dictGbl['branch_time_in_child'])
             print "====================================================================================="
             print bcolors.ENDC
-            cmip6_cv.set_CV_Error()
+            CV_ERROR = True
 
         if not isinstance(self.dictGbl['branch_time_in_parent'], numpy.float64):
             print bcolors.FAIL
@@ -447,7 +452,7 @@ class checkCMIP6(object):
             print "branch_time_in_parent is not an double: ", type(self.dictGbl['branch_time_in_parent'])
             print "====================================================================================="
             print bcolors.ENDC
-            cmip6_cv.set_CV_Error()
+            self.cv_error = True
 
         if not isinstance(self.dictGbl['realization_index'], numpy.ndarray):
             print bcolors.FAIL
@@ -455,7 +460,7 @@ class checkCMIP6(object):
             print "realization_index is not an integer: ", type(self.dictGbl['realization_index'])
             print "====================================================================================="
             print bcolors.ENDC
-            cmip6_cv.set_CV_Error()
+            self.cv_error = True
 
         if not isinstance(self.dictGbl['initialization_index'], numpy.ndarray):
             print bcolors.FAIL
@@ -463,7 +468,7 @@ class checkCMIP6(object):
             print "initialization_index is not an integer: ", type(self.dictGbl['initialization_index'])
             print "====================================================================================="
             print bcolors.ENDC
-            cmip6_cv.set_CV_Error()
+            self.cv_error = True
 
         if not isinstance(self.dictGbl['physics_index'], numpy.ndarray):
             print bcolors.FAIL
@@ -471,7 +476,7 @@ class checkCMIP6(object):
             print "physics_index is not an integer: ", type(self.dictGbl['physics_index'])
             print "====================================================================================="
             print bcolors.ENDC
-            cmip6_cv.set_CV_Error()
+            self.cv_error = True
 
         if not isinstance(self.dictGbl['forcing_index'], numpy.ndarray):
             print bcolors.FAIL
@@ -479,7 +484,7 @@ class checkCMIP6(object):
             print "forcing_index is not an integer: ", type(self.dictGbl['forcing_index'])
             print "====================================================================================="
             print bcolors.ENDC
-            cmip6_cv.set_CV_Error()
+            self.cv_error = True
 
         # -----------------------------
         # variable attribute comparison
@@ -542,8 +547,7 @@ class checkCMIP6(object):
                             print "CMIP6 tables requires \"" + key + "\":\"" + str(table_value) + "\"."
                             print "====================================================================================="
                             print bcolors.ENDC
-                            cmip6_cv.set_CV_Error()
-
+                            self.cv_error = True
 
                 file_value = str(file_value)
                 table_value = str(table_value)
@@ -554,7 +558,7 @@ class checkCMIP6(object):
                     print "CMIP6 tables requires \"" + key + "\":\"" + str(table_value) + "\"."
                     print "====================================================================================="
                     print bcolors.ENDC
-                    cmip6_cv.set_CV_Error()
+                    self.cv_error = True
             else:
                 # That attribute is not in the file
                 table_value = prepLIST[key]
@@ -570,9 +574,9 @@ class checkCMIP6(object):
                 print "CMIP6 variable " + self.var[0] + " requires \"" + key + "\":\"" + str(table_value) + "\"."
                 print "====================================================================================="
                 print bcolors.ENDC
-                cmip6_cv.set_CV_Error()
+                self.cv_error = True
 
-        if (cmip6_cv.get_CV_Error()):
+        if self.cv_error:
             raise KeyboardInterrupt
         else:
             print bcolors.OKGREEN
