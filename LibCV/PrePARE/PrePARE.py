@@ -554,7 +554,7 @@ class checkCMIP6(object):
                         for param, val1, val2 in values:
                             tmp[param] = [str('{}: {}'.format(param, val1)), str('{}: {}'.format(param, val2))]
                         table_values.extend([' '.join(i) for i in list(itertools.product(*tmp.values()))])
-                        if str(file_value) not in table_values:
+                        if str(file_value) not in map(str, table_values):
                             print BCOLORS.FAIL
                             print "====================================================================================="
                             print "Your file contains \"" + key + "\":\"" + str(file_value) + "\" and"
@@ -562,10 +562,9 @@ class checkCMIP6(object):
                             print "====================================================================================="
                             print BCOLORS.ENDC
                             self.cv_error = True
+                        continue
 
-                file_value = str(file_value)
-                table_value = str(table_value)
-                if table_value != file_value:
+                if str(table_value) != str(file_value):
                     print BCOLORS.FAIL
                     print "====================================================================================="
                     print "Your file contains \"" + key + "\":\"" + str(file_value) + "\" and"
@@ -577,7 +576,7 @@ class checkCMIP6(object):
                 # That attribute is not in the file
                 table_value = cv_attrs[key]
                 if key == "cell_measures":
-                    if (table_value.find("OPT") != -1) or (table_value.find("MODEL") != -1):
+                    if table_value.find("OPT") != -1 or table_value.find("MODEL") != -1:
                         continue
                 if isinstance(table_value, numpy.ndarray):
                     table_value = table_value[0]
