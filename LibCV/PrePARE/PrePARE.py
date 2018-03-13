@@ -19,42 +19,56 @@ Created on Fri Feb 19 11:33:52 2016
 
 """
 
+import argparse
+import itertools
+import json
+import os
 import re
 import sys
+from argparse import ArgumentTypeError
 from contextlib import contextmanager
+from multiprocessing import Pool
+from uuid import uuid4 as uuid
+
+import numpy
 
 # Make sure cdms2.__init__py is not loaded when importing Cdunif
 sys.path.insert(0, sys.prefix + "/lib/python2.7/site-packages/cdms2")
 import Cdunif
-import argparse
-import os
-import itertools
-from argparse import ArgumentTypeError
-import json
-import numpy
-from uuid import uuid4 as uuid
 import cmip6_cv
-from multiprocessing import Pool
 
 
-class bcolors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKGREEN = '\033[1;32m'
-    WARNING = '\033[1;34;47m'
-    FAIL = '\033[1;31;47m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
+# =========================
+# BColors()
+# =========================
+class BColors:
+    """
+    Background colors for print statements
+    
+    """
+
+    def __init__(self):
+        self.HEADER = '\033[95m'
+        self.OKBLUE = '\033[94m'
+        self.OKGREEN = '\033[1;32m'
+        self.WARNING = '\033[1;34;47m'
+        self.FAIL = '\033[1;31;47m'
+        self.ENDC = '\033[0m'
+        self.BOLD = '\033[1m'
+        self.UNDERLINE = '\033[4m'
+
+
+BCOLORS = BColors()
 
 
 # =========================
 # DIRAction()
 # =========================
 class DIRECTORYAction(argparse.Action):
-    '''
+    """
     Check if argparse is a directory.
-    '''
+    
+    """
 
     def __call__(self, parser, namespace, values, option_string=None):
         prospective = values
@@ -74,9 +88,10 @@ class DIRECTORYAction(argparse.Action):
 # INPUTAction()
 # =========================
 class INPUTAction(argparse.Action):
-    '''
+    """
     Checks if the supplied input exists.
-    '''
+    
+    """
 
     def __call__(self, parser, namespace, values, option_string=None):
         checked_values = [self.input_checker(x) for x in values]
@@ -101,6 +116,7 @@ class Collector(object):
     :param list sources: The list of sources to parse
     :returns: The data collector
     :rtype: *iter*
+    
     """
 
     def __init__(self, sources, data=None):
@@ -158,6 +174,7 @@ class FilterCollection(object):
         else:
             return True if not re.search(pattern, string) else False
 
+
 # =========================
 # Spinner()
 # =========================
@@ -178,11 +195,12 @@ class Spinner:
         sys.stdout.flush()
         Spinner.step += 1
 
+
 # =========================
 # checkCMIP6()
 # =========================
 class checkCMIP6(object):
-    '''
+    """
     Validate if a file is CMIP6 compliant and ready for publication.
 
     Class need to read CMIP6 Table and Controled Vocabulary file.
@@ -197,11 +215,8 @@ class checkCMIP6(object):
     Output:
         outfile:      Log file, default is stdout.
 
-    '''
+    """
 
-    # *************************
-    #   __init__()
-    # *************************
     def __init__(self, table_path):
         # -------------------------------------------------------------------
         #  Reset CV error switch
@@ -212,9 +227,14 @@ class checkCMIP6(object):
         # -------------------------------------------------------------------
         self.cmip6_table_path = os.path.normpath(table_path)
         # -------------------------------------------------------------------
+        #  Initialize attributes dictionaries
+        # -------------------------------------------------------------------
+        self.dictGbl = dict()
+        self.dictVars = dict()
+        # -------------------------------------------------------------------
         # call setup() to clean all 'C' internal memory.
         # -------------------------------------------------------------------
-        cmip6_cv.setup(inpath=". ./Tables", exit_control=cmip6_cv.CMOR_NORMAL)
+        cmip6_cv.setup(inpath="../Tables", exit_control=cmip6_cv.CMOR_NORMAL)
         # -------------------------------------------------------------------
         # Set Control Vocabulary file to use (default from cmor.h)
         # -------------------------------------------------------------------
@@ -246,7 +266,7 @@ class checkCMIP6(object):
         return f.split('_')[1]
 
     @staticmethod
-    def _check_JSON_table(path):
+    def _check_json_table(path):
         f = open(path)
         lines = f.readlines()
         f.close()
@@ -255,242 +275,236 @@ class checkCMIP6(object):
             raise argparse.ArgumentTypeError(
                 'Invalid JSON CMOR table: {}'.format(path))
 
-    def setDoubleValue(self, attribute):
+    def set_double_value(self, attribute):
         if cmip6_cv.has_cur_dataset_attribute(attribute):
-            if isinstance(self.dictGbl[attribute], numpy.ndarray) and isinstance(self.dictGbl[attribute][0],
-                                                                                 numpy.float64):
+            if isinstance(self.dictGbl[attribute], numpy.ndarray) and \
+                    isinstance(self.dictGbl[attribute][0], numpy.float64):
                 self.dictGbl[attribute] = self.dictGbl[attribute][0]
-                cmip6_cv.set_cur_dataset_attribute(
-                    attribute, self.dictGbl[attribute])
+                cmip6_cv.set_cur_dataset_attribute(attribute, self.dictGbl[attribute])
 
     def ControlVocab(self, ncfile, variable=None):
-        '''
-            Check CMIP6 global attributes against Control Vocabulary file.
+        """
+        Check CMIP6 global attributes against Control Vocabulary file.
 
-                1. Validate required attribute if presents and some values.
-                2. Validate registered institution and institution_id
-                3. Validate registered source and source_id
-                4. Validate experiment, experiment_id and all attributes associated with this experiment.
-                       Make sure that all attributes associate with the experiment_id found in CMIP6_CV.json
-                       are set to the appropriate values.
-                5. Validate grid_label and grid_resolution
-                6. Validate creation time in ISO format (YYYY-MM-DDTHH:MM:SS)
-                7. Validate furtherinfourl from CV internal template
-                8. Validate variable attributes with CMOR JSON table.
-                9. Validate parent_* attribute
-               10. Validate sub_experiment_* atributes.
-               11. Validate that all *_index are integers.
-        '''
+            1. Validate required attribute if presents and some values.
+            2. Validate registered institution and institution_id
+            3. Validate registered source and source_id
+            4. Validate experiment, experiment_id and all attributes associated with this experiment.
+                   Make sure that all attributes associate with the experiment_id found in CMIP6_CV.json
+                   are set to the appropriate values.
+            5. Validate grid_label and grid_resolution
+            6. Validate creation time in ISO format (YYYY-MM-DDTHH:MM:SS)
+            7. Validate furtherinfourl from CV internal template
+            8. Validate variable attributes with CMOR JSON table.
+            9. Validate parent_* attribute
+           10. Validate sub_experiment_* attributes.
+           11. Validate that all *_index are integers.
+        
+        """
         filename = os.path.basename(ncfile)
         # -------------------------------------------------------------------
         #  Initialize arrays
         # -------------------------------------------------------------------
-        # If table_path is the full JSON path
-        if os.path.isfile(self.cmip6_table_path):
-            self.cmip6_table = self.cmip6_table_path
-        else:
-            # If table_path is the table directory
-            self.cmip6_table = '{}/CMIP6_{}.json'.format(
+        # If table_path is the table directory
+        # Deduce corresponding JSON from filename
+        if os.path.isdir(self.cmip6_table_path):
+            cmip6_table = '{}/CMIP6_{}.json'.format(
                 self.cmip6_table_path, self._get_table_from_filename(filename))
-
-        self._check_JSON_table(self.cmip6_table)
+        else:
+            cmip6_table = self.cmip6_table_path
+        # Check JSON file
+        self._check_json_table(cmip6_table)
         # -------------------------------------------------------------------
         # Load CMIP6 table into memory
         # -------------------------------------------------------------------
-        self.table_id = cmip6_cv.load_table(self.cmip6_table)
+        table_id = cmip6_cv.load_table(cmip6_table)
         # -------------------------------------------------------------------
         #  Deduce variable
         # -------------------------------------------------------------------
-        # If variable submitted on command line with --variable
+        # If variable can be deduced from the filename (Default)
         if not variable:
-            self.variable = self._get_variable_from_filename(filename)
+            variable = self._get_variable_from_filename(filename)
         else:
-            # If variable can be deduced from the filename (Default)
-            self.variable = variable
+            # If variable submitted on command line with --variable
+            variable = variable
+        # -------------------------------------------------------------------
+        #  Is a climatology?
+        # -------------------------------------------------------------------
         climatology = False
         if filename.find('-clim') != -1:
             climatology = True
-            if self.cmip6_table.find('Amon') != -1:
-                self.variable = self.variable + 'Clim'
-
+            if cmip6_table.find('Amon') != -1:
+                variable = '{}Clim'.format(variable)
         # -------------------------------------------------------------------
         #  Open file in processing
         # -------------------------------------------------------------------
-        self.infile = Cdunif.CdunifFile(ncfile, "r")
+        infile = Cdunif.CdunifFile(ncfile, "r")
         # --------------------------------------
         # Create a list of all Global Attributes
         # --------------------------------------
-        self.dictGbl = {key: self.infile.__dict__[
-            key] for key in self.infile.__dict__.keys()}
-        self.attributes = self.infile.__dict__.keys()
-        self.variables = self.infile.variables.keys()
-        ierr = [
-            cmip6_cv.set_cur_dataset_attribute(
-                key,
-                value) for key,
-                           value in self.dictGbl.iteritems()]
+        self.dictGbl = infile.__dict__
+        for key, value in self.dictGbl.iteritems():
+            cmip6_cv.set_cur_dataset_attribute(key, value)
+        # Set member_id attribute depending on sub_experiment_id and variant_label
         member_id = ""
         if "sub_experiment_id" in self.dictGbl.keys():
-            if self.dictGbl["sub_experiment_id"] not in ["none"]:
-                member_id = self.dictGbl["sub_experiment_id"] + \
-                            '-' + self.dictGbl["variant_label"]
+            if self.dictGbl["sub_experiment_id"] not in ['none']:
+                member_id = '{}-{}'.format(self.dictGbl['sub_experiment_id'],
+                                           self.dictGbl['variant_label'])
             else:
-                member_id = self.dictGbl["variant_label"]
-        cmip6_cv.set_cur_dataset_attribute(
-            cmip6_cv.GLOBAL_ATT_MEMBER_ID, member_id)
-        self.setDoubleValue('branch_time_in_parent')
-        self.setDoubleValue('branch_time_in_child')
-        if self.variable is not None:
-            self.var = [self.variable]
+                member_id = self.dictGbl['variant_label']
+        cmip6_cv.set_cur_dataset_attribute(cmip6_cv.GLOBAL_ATT_MEMBER_ID, member_id)
+        self.set_double_value('branch_time_in_parent')
+        self.set_double_value('branch_time_in_child')
+        if variable is not None:
+            var = [variable]
         else:
             # -------------------------------------------------------------------
             # find variable that contains a "history" (should only be one)
             # -------------------------------------------------------------------
-            self.var = [self.infile.variable_id]
+            var = [infile.variable_id]
 
-        climPos = self.var[0].find('Clim')
-        if climatology and climPos != -1:
-            self.var = [self.var[0][:climPos]]
+        clim_idx = var[0].find('Clim')
+        if climatology and clim_idx != -1:
+            var = [var[0][:clim_idx]]
 
-        if (self.var == []) or (len(self.var) > 1):
-            print bcolors.FAIL
-            print "!!!!!!!!!!!!!!!!!!!!!!!!!"
-            print "! Error:  The input file does not have an history attribute and the CMIP6 variable could not be found"
-            print "!         Please use the --variable option to specify your CMIP6 variable"
-            print "! Check your file or use CMOR 3.x to achieve compliance for ESGF publication."
-            print "!!!!!!!!!!!!!!!!!!!!!!!!!"
-            print bcolors.ENDC
+        if var == [] or len(var) > 1:
+            print BCOLORS.FAIL
+            print "====================================================================================="
+            print "The input file does not have an history attribute and the CMIP6 variable could not be found"
+            print "Please use the --variable option to specify your CMIP6 variable"
+            print "====================================================================================="
+            print BCOLORS.ENDC
             raise KeyboardInterrupt
 
         try:
-            self.keys = self.infile.variables[self.var[0]].__dict__.keys()
+            var_keys = infile.variables[var[0]].__dict__.keys()
         except BaseException:
-            print bcolors.FAIL
-            print "!!!!!!!!!!!!!!!!!!!!!!!!!"
-            print "! Error:  The variable " + self.var[0] + " could not be found"
-            print "! Check your file variables "
-            print "!!!!!!!!!!!!!!!!!!!!!!!!!"
-            print bcolors.ENDC
+            print BCOLORS.FAIL
+            print "====================================================================================="
+            print "The variable " + var[0] + " could not be found"
+            print "====================================================================================="
+            print BCOLORS.ENDC
             raise KeyboardInterrupt
 
         # -------------------------------------------------------------------
-        # Create a dictionnary of attributes for var
+        # Create a dictionary of attributes for var
         # -------------------------------------------------------------------
         self.dictVars = dict((y, x) for y, x in
-                             [(key, value) for key in self.keys
-                              if self.infile.variables[self.var[0]].__dict__[key] is not None
-                              for value in [self.infile.variables[self.var[0]].__dict__[key]]])
+                             [(key, value) for key in var_keys
+                              if infile.variables[var[0]].__dict__[key] is not None
+                              for value in [infile.variables[var[0]].__dict__[key]]])
         try:
-            self.calendar = self.infile.variables['time'].calendar
-            self.timeunits = self.infile.variables['time'].units
+            calendar = infile.variables['time'].calendar
+            timeunits = infile.variables['time'].units
         except BaseException:
-            self.calendar = "gregorian"
-            self.timeunits = "days since ?"
-        cmip6_cv.check_requiredattributes(self.table_id)
-        cmip6_cv.check_institution(self.table_id)
-        cmip6_cv.check_sourceID(self.table_id)
-        cmip6_cv.check_experiment(self.table_id)
-        cmip6_cv.check_grids(self.table_id)
+            calendar = "gregorian"
+            timeunits = "days since ?"
+        cmip6_cv.check_requiredattributes(table_id)
+        cmip6_cv.check_institution(table_id)
+        cmip6_cv.check_sourceID(table_id)
+        cmip6_cv.check_experiment(table_id)
+        cmip6_cv.check_grids(table_id)
         cmip6_cv.check_ISOTime()
-        cmip6_cv.check_furtherinfourl(self.table_id)
-        cmip6_cv.check_parentExpID(self.table_id)
-        cmip6_cv.check_subExpID(self.table_id)
+        cmip6_cv.check_furtherinfourl(table_id)
+        cmip6_cv.check_parentExpID(table_id)
+        cmip6_cv.check_subExpID(table_id)
 
         try:
             if climatology:
-                startimebnds = self.infile.variables['climatology_bnds'][0][0]
-                endtimebnds = self.infile.variables['climatology_bnds'][-1][1]
+                startimebnds = infile.variables['climatology_bnds'][0][0]
+                endtimebnds = infile.variables['climatology_bnds'][-1][1]
             else:
-                startimebnds = self.infile.variables['time_bnds'][0][0]
-                endtimebnds = self.infile.variables['time_bnds'][-1][1]
+                startimebnds = infile.variables['time_bnds'][0][0]
+                endtimebnds = infile.variables['time_bnds'][-1][1]
         except BaseException:
             startimebnds = 0
             endtimebnds = 0
 
         try:
-            startime = self.infile.variables['time'][0]
-            endtime = self.infile.variables['time'][-1]
+            startime = infile.variables['time'][0]
+            endtime = infile.variables['time'][-1]
         except BaseException:
             startime = 0
             endtime = 0
 
-        varunits = self.infile.variables[self.var[0]].units
-        varmissing = self.infile.variables[self.var[0]]._FillValue[0]
+        varunits = infile.variables[var[0]].units
+        varmissing = infile.variables[var[0]]._FillValue[0]
         # -------------------------------------------------
-        # Make sure with use self.variable for Climatology
+        # Make sure with use variable for Climatology
         # -------------------------------------------------
-        varid = cmip6_cv.setup_variable(self.variable, varunits, varmissing, startime, endtime,
+        varid = cmip6_cv.setup_variable(variable, varunits, varmissing, startime, endtime,
                                         startimebnds, endtimebnds)
-        if (varid == -1):
-            print bcolors.FAIL
+        if varid == -1:
+            print BCOLORS.FAIL
             print "====================================================================================="
-            print " Could not find variable '%s' in table '%s' " % (self.var[0], self.cmip6_table)
+            print "Could not find variable '%s' in table '%s' " % (var[0], cmip6_table)
             print "====================================================================================="
-            print bcolors.ENDC
+            print BCOLORS.ENDC
             self.cv_error = True
             raise KeyboardInterrupt
 
-        fn = os.path.basename(str(self.infile).split('\'')[1])
+        fn = os.path.basename(str(infile).split('\'')[1])
         cmip6_cv.check_filename(
-            self.table_id,
+            table_id,
             varid,
-            self.calendar,
-            self.timeunits,
+            calendar,
+            timeunits,
             fn)
 
         if not isinstance(self.dictGbl['branch_time_in_child'], numpy.float64):
-            print bcolors.FAIL
+            print BCOLORS.FAIL
             print "====================================================================================="
             print "branch_time_in_child is not a double: ", type(self.dictGbl['branch_time_in_child'])
             print "====================================================================================="
-            print bcolors.ENDC
-            CV_ERROR = True
+            print BCOLORS.ENDC
+            self.cv_error = True
 
         if not isinstance(self.dictGbl['branch_time_in_parent'], numpy.float64):
-            print bcolors.FAIL
+            print BCOLORS.FAIL
             print "====================================================================================="
             print "branch_time_in_parent is not an double: ", type(self.dictGbl['branch_time_in_parent'])
             print "====================================================================================="
-            print bcolors.ENDC
+            print BCOLORS.ENDC
             self.cv_error = True
 
         if not isinstance(self.dictGbl['realization_index'], numpy.ndarray):
-            print bcolors.FAIL
+            print BCOLORS.FAIL
             print "====================================================================================="
             print "realization_index is not an integer: ", type(self.dictGbl['realization_index'])
             print "====================================================================================="
-            print bcolors.ENDC
+            print BCOLORS.ENDC
             self.cv_error = True
 
         if not isinstance(self.dictGbl['initialization_index'], numpy.ndarray):
-            print bcolors.FAIL
+            print BCOLORS.FAIL
             print "====================================================================================="
             print "initialization_index is not an integer: ", type(self.dictGbl['initialization_index'])
             print "====================================================================================="
-            print bcolors.ENDC
+            print BCOLORS.ENDC
             self.cv_error = True
 
         if not isinstance(self.dictGbl['physics_index'], numpy.ndarray):
-            print bcolors.FAIL
+            print BCOLORS.FAIL
             print "====================================================================================="
             print "physics_index is not an integer: ", type(self.dictGbl['physics_index'])
             print "====================================================================================="
-            print bcolors.ENDC
+            print BCOLORS.ENDC
             self.cv_error = True
 
         if not isinstance(self.dictGbl['forcing_index'], numpy.ndarray):
-            print bcolors.FAIL
+            print BCOLORS.FAIL
             print "====================================================================================="
             print "forcing_index is not an integer: ", type(self.dictGbl['forcing_index'])
             print "====================================================================================="
-            print bcolors.ENDC
+            print BCOLORS.ENDC
             self.cv_error = True
 
         # -----------------------------
         # variable attribute comparison
         # -----------------------------
-        prepLIST = cmip6_cv.list_variable_attributes(varid)
-        for key in prepLIST:
+        cv_attrs = cmip6_cv.list_variable_attributes(varid)
+        for key in cv_attrs:
             if key == "long_name":
                 continue
             if key == "comment":
@@ -498,7 +512,7 @@ class checkCMIP6(object):
             # Is this attribute in file?
             if key in self.dictVars.keys():
                 # Verify that attribute value is equal to file attribute
-                table_value = prepLIST[key]
+                table_value = cv_attrs[key]
                 file_value = self.dictVars[key]
 
                 # PrePARE accept units of 1 or 1.0 so adjust thet table_value
@@ -510,7 +524,7 @@ class checkCMIP6(object):
                         table_value = "1"
 
                 if isinstance(table_value, str) and isinstance(file_value, numpy.ndarray):
-                    if (numpy.array([int(value) for value in table_value.split()] == file_value).all()):
+                    if numpy.array([int(value) for value in table_value.split()] == file_value).all():
                         file_value = True
                         table_value = True
 
@@ -519,11 +533,11 @@ class checkCMIP6(object):
                 if isinstance(file_value, numpy.ndarray):
                     file_value = file_value[0]
                 if isinstance(table_value, float):
-                    if (file_value == 0):
-                        if (table_value != file_value):
+                    if file_value == 0:
+                        if table_value != file_value:
                             file_value = False
                     else:
-                        if (1 - (table_value / file_value) < 0.00001):
+                        if 1 - (table_value / file_value) < 0.00001:
                             table_value = file_value
 
                 if key == "cell_methods":
@@ -534,34 +548,34 @@ class checkCMIP6(object):
                 if key == "cell_measures":
                     pattern = re.compile('(?P<param>[\w.-]+): (?P<val1>[\w.-]+) OR (?P<val2>[\w.-]+)')
                     values = re.findall(pattern, table_value)
-                    table_values = [""] # Empty string is allowed in case of useless attribute
+                    table_values = [""]  # Empty string is allowed in case of useless attribute
                     if values:
-                        tmp=dict()
+                        tmp = dict()
                         for param, val1, val2 in values:
                             tmp[param] = [str('{}: {}'.format(param, val1)), str('{}: {}'.format(param, val2))]
                         table_values.extend([' '.join(i) for i in list(itertools.product(*tmp.values()))])
                         if str(file_value) not in table_values:
-                            print bcolors.FAIL
+                            print BCOLORS.FAIL
                             print "====================================================================================="
                             print "Your file contains \"" + key + "\":\"" + str(file_value) + "\" and"
                             print "CMIP6 tables requires \"" + key + "\":\"" + str(table_value) + "\"."
                             print "====================================================================================="
-                            print bcolors.ENDC
+                            print BCOLORS.ENDC
                             self.cv_error = True
 
                 file_value = str(file_value)
                 table_value = str(table_value)
                 if table_value != file_value:
-                    print bcolors.FAIL
+                    print BCOLORS.FAIL
                     print "====================================================================================="
                     print "Your file contains \"" + key + "\":\"" + str(file_value) + "\" and"
                     print "CMIP6 tables requires \"" + key + "\":\"" + str(table_value) + "\"."
                     print "====================================================================================="
-                    print bcolors.ENDC
+                    print BCOLORS.ENDC
                     self.cv_error = True
             else:
                 # That attribute is not in the file
-                table_value = prepLIST[key]
+                table_value = cv_attrs[key]
                 if key == "cell_measures":
                     if (table_value.find("OPT") != -1) or (table_value.find("MODEL") != -1):
                         continue
@@ -569,21 +583,21 @@ class checkCMIP6(object):
                     table_value = table_value[0]
                 if isinstance(table_value, float):
                     table_value = "{0:.2g}".format(table_value)
-                print bcolors.FAIL
+                print BCOLORS.FAIL
                 print "====================================================================================="
-                print "CMIP6 variable " + self.var[0] + " requires \"" + key + "\":\"" + str(table_value) + "\"."
+                print "CMIP6 variable " + var[0] + " requires \"" + key + "\":\"" + str(table_value) + "\"."
                 print "====================================================================================="
-                print bcolors.ENDC
+                print BCOLORS.ENDC
                 self.cv_error = True
 
         if self.cv_error:
             raise KeyboardInterrupt
         else:
-            print bcolors.OKGREEN
+            print BCOLORS.OKGREEN
             print "*************************************************************************************"
             print "* This file is compliant with the CMIP6 specification and can be published in ESGF  *"
             print "*************************************************************************************"
-            print bcolors.ENDC
+            print BCOLORS.ENDC
 
 
 def process(source):
@@ -609,12 +623,12 @@ def sequential_process(source):
         else:
             checker.ControlVocab(ncfile)
     except KeyboardInterrupt:
-        print bcolors.FAIL
+        print BCOLORS.FAIL
         print "*************************************************************************************"
         print "* Error: The input file is not CMIP6 compliant                                      *"
         print "* Check your file or use CMOR 3.x to achieve compliance for ESGF publication        *"
         print "*************************************************************************************"
-        print bcolors.ENDC
+        print BCOLORS.ENDC
     finally:
         # Close opened file
         if hasattr(checker, "infile"):
@@ -641,8 +655,6 @@ def regex_validator(string):
 #  =========================
 #   main()
 #  =========================
-
-
 def main():
     parser = argparse.ArgumentParser(
         prog='PrePARE',
