@@ -454,21 +454,21 @@ class checkCMIP6(object):
 
         if 'branch_time_in_child' in self.dictGbl.keys():
             if not isinstance(self.dictGbl['branch_time_in_child'], numpy.float64):
-                print bcolors.FAIL
+                print BCOLORS.FAIL
                 print "====================================================================================="
                 print "branch_time_in_child is not a double: ", type(self.dictGbl['branch_time_in_child'])
                 print "====================================================================================="
-                print bcolors.ENDC
-                cmip6_cv.set_CV_Error()
+                print BCOLORS.ENDC
+                self.cv_error = True
 
         if 'branch_time_in_parent' in self.dictGbl.keys():
             if not isinstance(self.dictGbl['branch_time_in_parent'], numpy.float64):
-                print bcolors.FAIL
+                print BCOLORS.FAIL
                 print "====================================================================================="
                 print "branch_time_in_parent is not an double: ", type(self.dictGbl['branch_time_in_parent'])
                 print "====================================================================================="
-                print bcolors.ENDC
-                cmip6_cv.set_CV_Error()
+                print BCOLORS.ENDC
+                self.cv_error = True
 
         if not isinstance(self.dictGbl['realization_index'], numpy.ndarray):
             print BCOLORS.FAIL
@@ -592,7 +592,7 @@ class checkCMIP6(object):
                 print BCOLORS.ENDC
                 self.cv_error = True
 
-        if self.cv_error:
+        if self.cv_error or (cmip6_cv.get_CV_Error()):
             raise KeyboardInterrupt
         else:
             print BCOLORS.OKGREEN
@@ -607,9 +607,9 @@ def process(source):
     # process
     logfile = '/tmp/PrePARE-{}.log'.format(os.getpid())
     with RedirectedOutput(logfile):
-        sequential_process(source)
+        rc = sequential_process(source)
     # Close and return logfile
-    return logfile
+    return (logfile, rc)
 
 
 def sequential_process(source):
@@ -624,7 +624,9 @@ def sequential_process(source):
             checker.ControlVocab(ncfile, variable)
         else:
             checker.ControlVocab(ncfile)
+        rc = 0
     except KeyboardInterrupt:
+        rc = 1        
         print BCOLORS.FAIL
         print "*************************************************************************************"
         print "* Error: The input file is not CMIP6 compliant                                      *"
@@ -635,6 +637,7 @@ def sequential_process(source):
         # Close opened file
         if hasattr(checker, "infile"):
             checker.infile.close()
+        return(rc)
 
 
 def regex_validator(string):
@@ -743,6 +746,7 @@ def main():
         sources.FileFilter.add(regex=regex, inclusive=inclusive)
     # Init collector dir filter
     sources.PathFilter.add(regex=args.ignore_dir, inclusive=False)
+    returnCode = 0
     # Separate sequential process and multiprocessing
     if args.max_threads > 1:
         # Create pool of processes
@@ -756,17 +760,19 @@ def main():
         sys.stdout.write('\r\033[K')
         sys.stdout.flush()
         # Print results from logfiles and remove them
-        for logfile in set(logfiles):
+        for (logfile,rc) in set(logfiles):
             with open(logfile, 'r') as f:
                 print f.read()
             os.remove(logfile)
+            returnCode = returnCode + rc
         # Close pool of processes
         pool.close()
         pool.join()
     else:
         for source in sources:
-            sequential_process(source)
+            returnCode = sequential_process(source)
 
+    return returnCode
 
 @contextmanager
 def RedirectedOutput(to=os.devnull):
