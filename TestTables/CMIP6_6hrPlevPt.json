@@ -1,10 +1,18 @@
 {
     "Header": {
+<<<<<<< HEAD
         "data_specs_version": "01.00.21", 
         "table_id": "Table 6hrPlevPt", 
         "realm": "atmos", 
         "cmor_version": "3.2", 
         "table_date": "14 February 2018", 
+=======
+        "data_specs_version": "01.00.16", 
+        "table_id": "Table 6hrPlevPt", 
+        "realm": "atmos", 
+        "cmor_version": "3.2", 
+        "table_date": "08 November 2017", 
+>>>>>>> 9f080e3aeac9ebd013177f3d1ac87cb9804b65da
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 

@@ -1,6 +1,10 @@
 package:
     name: cmor
+<<<<<<< HEAD
     version: 3.3.1.npy{{ numpy }}
+=======
+    version: 3.2.8
+>>>>>>> 9f080e3aeac9ebd013177f3d1ac87cb9804b65da
 
 source:
     git_rev: master
@@ -23,14 +27,25 @@ requirements:
     - udunits2
     - hdf5 1.8.18|1.8.18.*
     - libnetcdf 4.4.*
+<<<<<<< HEAD
     - numpy {{ numpy }}.*
     - gcc [osx]
+=======
+    - numpy {{ NPY_VER }}
+    - libgcc [osx]
+>>>>>>> 9f080e3aeac9ebd013177f3d1ac87cb9804b65da
   run:
     - python {{ python }}
     - ossuuid 1.6.2
     - udunits2
+<<<<<<< HEAD
     - libnetcdf 4.4.*
     - numpy {{ numpy }}.*
+=======
+    - hdf5 1.8.18|1.8.18.*
+    - libnetcdf 4.4.*
+    - numpy {{ NPY_VER }}
+>>>>>>> 9f080e3aeac9ebd013177f3d1ac87cb9804b65da
     - cdms2
     - gcc [osx]
     - hdf5 1.8.18|1.8.18.*

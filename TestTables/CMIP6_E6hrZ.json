@@ -1,10 +1,18 @@
 {
     "Header": {
+<<<<<<< HEAD
         "data_specs_version": "01.00.21", 
         "table_id": "Table E6hrZ", 
         "realm": "atmos", 
         "cmor_version": "3.2", 
         "table_date": "14 February 2018", 
+=======
+        "data_specs_version": "01.00.16", 
+        "table_id": "Table E6hrZ", 
+        "realm": "atmos", 
+        "cmor_version": "3.2", 
+        "table_date": "08 November 2017", 
+>>>>>>> 9f080e3aeac9ebd013177f3d1ac87cb9804b65da
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -20,7 +28,7 @@
             "standard_name": "surface_air_pressure", 
             "units": "Pa", 
             "cell_methods": "longitude: mean time: mean", 
-            "cell_measures": "", 
+            "cell_measures": "area: areacella", 
             "long_name": "Surface Pressure", 
             "comment": "surface pressure (not mean sea-level pressure), 2-D field to calculate the 3-D pressure field from hybrid coordinates", 
             "dimensions": "latitude time", 
@@ -38,7 +46,7 @@
             "standard_name": "longwave_heating_rate_due_to_volcanic_aerosols", 
             "units": "K s-1", 
             "cell_methods": "longitude: mean time: point", 
-            "cell_measures": "", 
+            "cell_measures": "area: areacella", 
             "long_name": "Zonal mean longwave heating rate due to volcanic aerosols", 
             "comment": "longwave heating rate due to volcanic aerosols to be diagnosed through double radiation call, zonal average values required", 
             "dimensions": "latitude alevel time1", 
@@ -56,7 +64,7 @@
             "standard_name": "shortwave_heating_rate_due_to_volcanic_aerosols", 
             "units": "K s-1", 
             "cell_methods": "longitude: mean time: point", 
-            "cell_measures": "", 
+            "cell_measures": "area: areacella", 
             "long_name": "Zonal mean shortwave heating rate due to volcanic aerosols", 
             "comment": "shortwave heating rate due to volcanic aerosols to be diagnosed through double radiation call, zonal average values required", 
             "dimensions": "latitude alevel time1", 

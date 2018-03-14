@@ -1,10 +1,18 @@
 {
     "Header": {
+<<<<<<< HEAD
         "data_specs_version": "01.00.21", 
         "table_id": "Table Odec", 
         "realm": "ocean", 
         "cmor_version": "3.2", 
         "table_date": "14 February 2018", 
+=======
+        "data_specs_version": "01.00.16", 
+        "table_id": "Table Odec", 
+        "realm": "ocean", 
+        "cmor_version": "3.2", 
+        "table_date": "08 November 2017", 
+>>>>>>> 9f080e3aeac9ebd013177f3d1ac87cb9804b65da
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -56,7 +64,7 @@
             "standard_name": "northward_ocean_heat_transport", 
             "units": "W", 
             "cell_methods": "longitude: mean (basin) time: mean", 
-            "cell_measures": "", 
+            "cell_measures": "area: areacella", 
             "long_name": "Northward Ocean Heat Transport", 
             "comment": "Contains contributions from all physical processes affecting the northward heat transport, including resolved advection, parameterized advection, lateral diffusion, etc. Diagnosed here as a function of latitude and basin.   Use Celsius for temperature scale.", 
             "dimensions": "latitude basin time", 
@@ -104,17 +112,17 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "msftmz": {
+        "msftmyz": {
             "frequency": "dec", 
             "modeling_realm": "ocean", 
             "standard_name": "ocean_meridional_overturning_mass_streamfunction", 
             "units": "kg s-1", 
             "cell_methods": "longitude: mean (comment: basin mean[ along zig-zag grid path]) time: mean", 
-            "cell_measures": "", 
+            "cell_measures": "area: areacella", 
             "long_name": "Ocean Meridional Overturning Mass Streamfunction", 
             "comment": "Overturning mass streamfunction arising from all advective mass transport processes, resolved and parameterized.", 
             "dimensions": "latitude olevel basin time", 
-            "out_name": "msftmz", 
+            "out_name": "msftmyz", 
             "type": "real", 
             "positive": "", 
             "valid_min": "", 
@@ -324,7 +332,7 @@
             "frequency": "dec", 
             "modeling_realm": "ocean", 
             "standard_name": "sea_surface_temperature", 
-            "units": "degC", 
+            "units": "K", 
             "cell_methods": "area: mean where sea time: mean", 
             "cell_measures": "area: areacello", 
             "long_name": "Sea Surface Temperature", 

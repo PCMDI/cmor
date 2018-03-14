@@ -1,10 +1,18 @@
 {
     "Header": {
+<<<<<<< HEAD
         "data_specs_version": "01.00.21", 
+=======
+        "data_specs_version": "01.00.16", 
+>>>>>>> 9f080e3aeac9ebd013177f3d1ac87cb9804b65da
         "table_id": "Table IyrGre", 
-        "realm": "atmos", 
+        "realm": "landIce", 
         "cmor_version": "3.2", 
+<<<<<<< HEAD
         "table_date": "14 February 2018", 
+=======
+        "table_date": "08 November 2017", 
+>>>>>>> 9f080e3aeac9ebd013177f3d1ac87cb9804b65da
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -26,6 +34,24 @@
             "dimensions": "xgre ygre time", 
             "out_name": "acabf", 
             "type": "real", 
+            "positive": "", 
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
+        }, 
+        "areacelli": {
+            "frequency": "yr", 
+            "modeling_realm": "landIce", 
+            "standard_name": "cell_area", 
+            "units": "m2", 
+            "cell_methods": "area: time: mean", 
+            "cell_measures": "area: areacellg", 
+            "long_name": "Ice-Sheet Grid Cell Area", 
+            "comment": "Horizontal area of ice-sheet grid cells", 
+            "dimensions": "xgre ygre time", 
+            "out_name": "areacelli", 
+            "type": "", 
             "positive": "", 
             "valid_min": "", 
             "valid_max": "", 
@@ -266,6 +292,7 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
+<<<<<<< HEAD
         "modelCellAreai": {
             "frequency": "yr", 
             "modeling_realm": "landIce", 
@@ -284,6 +311,8 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
+=======
+>>>>>>> 9f080e3aeac9ebd013177f3d1ac87cb9804b65da
         "orog": {
             "frequency": "yr", 
             "modeling_realm": "land", 

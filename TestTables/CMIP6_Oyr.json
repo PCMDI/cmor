@@ -1,10 +1,18 @@
 {
     "Header": {
+<<<<<<< HEAD
         "data_specs_version": "01.00.21", 
         "table_id": "Table Oyr", 
         "realm": "ocnBgChem", 
         "cmor_version": "3.2", 
         "table_date": "14 February 2018", 
+=======
+        "data_specs_version": "01.00.16", 
+        "table_id": "Table Oyr", 
+        "realm": "ocnBgChem", 
+        "cmor_version": "3.2", 
+        "table_date": "08 November 2017", 
+>>>>>>> 9f080e3aeac9ebd013177f3d1ac87cb9804b65da
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -1691,7 +1699,7 @@
         "somint": {
             "frequency": "yr", 
             "modeling_realm": "ocean", 
-            "standard_name": "integral_wrt_depth_of_product_of_sea_water_density_and_salinity", 
+            "standard_name": "integral_wrt_depth_of_product_of_sea_water_density_and_prognostic_salinity", 
             "units": "1e-3 kg m-2", 
             "cell_methods": "area: mean where sea time: mean", 
             "cell_measures": "area: areacello", 
@@ -1727,7 +1735,7 @@
         "tnkebto": {
             "frequency": "yr", 
             "modeling_realm": "ocean", 
-            "standard_name": "tendency_of_ocean_eddy_kinetic_energy_content_due_to_parameterized_eddy_advection", 
+            "standard_name": "tendency_of_ocean_eddy_kinetic_energy_content_due_to_bolus_transport", 
             "units": "W m-2", 
             "cell_methods": "area: mean where sea time: mean", 
             "cell_measures": "area: areacello", 
@@ -1753,24 +1761,6 @@
             "comment": "Rate that work is done against vertical stratification, as measured by the vertical heat and salt diffusivity. Report here as depth integrated two-dimensional field.", 
             "dimensions": "longitude latitude time", 
             "out_name": "tnpeo", 
-            "type": "real", 
-            "positive": "", 
-            "valid_min": "", 
-            "valid_max": "", 
-            "ok_min_mean_abs": "", 
-            "ok_max_mean_abs": ""
-        }, 
-        "volcello": {
-            "frequency": "fx", 
-            "modeling_realm": "ocean", 
-            "standard_name": "ocean_volume", 
-            "units": "m3", 
-            "cell_methods": "area: mean where sea time: mean", 
-            "cell_measures": "area: areacello volume: volcello", 
-            "long_name": "Ocean Grid-Cell Volume", 
-            "comment": "grid-cell volume ca. 2000.", 
-            "dimensions": "longitude latitude olevel time", 
-            "out_name": "volcello", 
             "type": "real", 
             "positive": "", 
             "valid_min": "", 

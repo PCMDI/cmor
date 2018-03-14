@@ -4,9 +4,15 @@
         "cmor_version": "3.2", 
         "Conventions": "CF-1.7 CMIP-6.2", 
         "table_id": "Table grids", 
+<<<<<<< HEAD
         "data_specs_version": "01.00.21", 
         "missing_value": "1e20", 
         "table_date": "14 February 2018"
+=======
+        "data_specs_version": "01.00.16", 
+        "missing_value": "1e20", 
+        "table_date": "08 November 2017"
+>>>>>>> 9f080e3aeac9ebd013177f3d1ac87cb9804b65da
     }, 
     "mapping_entry": {
         "sample_user_mapping": {
@@ -118,7 +124,7 @@
             "dimensions": "longitude latitude", 
             "valid_min": "-90.0", 
             "long_name": "", 
-            "standard_name": "", 
+            "standard_name": "latitude", 
             "out_name": "latitude", 
             "units": "degrees_north", 
             "valid_max": "90.0"
@@ -127,7 +133,7 @@
             "dimensions": "vertices longitude latitude", 
             "valid_min": "-90.0", 
             "long_name": "", 
-            "standard_name": "", 
+            "standard_name": "vertices_latitude", 
             "out_name": "vertices_latitude", 
             "units": "degrees_north", 
             "valid_max": "90.0"
@@ -136,7 +142,7 @@
             "dimensions": "vertices longitude latitude", 
             "valid_min": "0.0", 
             "long_name": "", 
-            "standard_name": "", 
+            "standard_name": "vertices_longitude", 
             "out_name": "vertices_longitude", 
             "units": "degrees_east", 
             "valid_max": "360.0"
@@ -145,7 +151,7 @@
             "dimensions": "longitude latitude", 
             "valid_min": "0.0", 
             "long_name": "", 
-            "standard_name": "", 
+            "standard_name": "longitude", 
             "out_name": "longitude", 
             "units": "degrees_east", 
             "valid_max": "360.0"
