@@ -1,10 +1,26 @@
 {
     "Header": {
+<<<<<<< HEAD
+<<<<<<< HEAD
         "data_specs_version": "01.00.21", 
         "table_id": "Table E3hrPt", 
         "realm": "atmos", 
         "cmor_version": "3.2", 
         "table_date": "14 February 2018", 
+=======
+        "data_specs_version": "01.00.16", 
+        "table_id": "Table E3hrPt", 
+        "realm": "atmos", 
+        "cmor_version": "3.2", 
+        "table_date": "08 November 2017", 
+>>>>>>> 9f080e3aeac9ebd013177f3d1ac87cb9804b65da
+=======
+        "data_specs_version": "01.00.21", 
+        "table_id": "Table E3hrPt", 
+        "realm": "atmos", 
+        "cmor_version": "3.2", 
+        "table_date": "14 February 2018", 
+>>>>>>> upstream/PrePARE
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -432,8 +448,18 @@
             "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
             "standard_name": "toa_bidirectional_reflectance", 
+<<<<<<< HEAD
+<<<<<<< HEAD
             "units": "1", 
             "cell_methods": "area: mean where sea time: point", 
+=======
+            "units": "1.0", 
+            "cell_methods": "area: mean time: point", 
+>>>>>>> 9f080e3aeac9ebd013177f3d1ac87cb9804b65da
+=======
+            "units": "1", 
+            "cell_methods": "area: mean where sea time: point", 
+>>>>>>> upstream/PrePARE
             "cell_measures": "area: areacella", 
             "long_name": "PARASOL Reflectance", 
             "comment": "Simulated reflectance from PARASOL as seen at the top of the atmosphere for 5 solar zenith angles. Valid only over ocean and for one viewing direction (viewing zenith angle of 30 degrees and relative azimuth angle 320 degrees).", 
@@ -619,8 +645,18 @@
             "comment": "Calculated in the absence of aerosols and clouds (following Ghan). This requires a double-call in the radiation code with precisely the same meteorology.", 
             "dimensions": "longitude latitude alevel time1", 
             "out_name": "rsucsaf", 
+<<<<<<< HEAD
+<<<<<<< HEAD
             "type": "real", 
             "positive": "up", 
+=======
+            "type": "", 
+            "positive": "", 
+>>>>>>> 9f080e3aeac9ebd013177f3d1ac87cb9804b65da
+=======
+            "type": "real", 
+            "positive": "up", 
+>>>>>>> upstream/PrePARE
             "valid_min": "", 
             "valid_max": "", 
             "ok_min_mean_abs": "", 
@@ -637,8 +673,18 @@
             "comment": "Calculated in the absence of aerosols and clouds (following Ghan). This requires a double-call in the radiation code with precisely the same meteorology.", 
             "dimensions": "longitude latitude alevel spectband time1", 
             "out_name": "rsucsafbnd", 
+<<<<<<< HEAD
+<<<<<<< HEAD
             "type": "real", 
             "positive": "up", 
+=======
+            "type": "", 
+            "positive": "", 
+>>>>>>> 9f080e3aeac9ebd013177f3d1ac87cb9804b65da
+=======
+            "type": "real", 
+            "positive": "up", 
+>>>>>>> upstream/PrePARE
             "valid_min": "", 
             "valid_max": "", 
             "ok_min_mean_abs": "", 
@@ -655,8 +701,18 @@
             "comment": "Calculated with aerosols but without clouds. This is a standard clear-sky calculation", 
             "dimensions": "longitude latitude alevel spectband time1", 
             "out_name": "rsucsbnd", 
+<<<<<<< HEAD
+<<<<<<< HEAD
             "type": "real", 
             "positive": "up", 
+=======
+            "type": "", 
+            "positive": "", 
+>>>>>>> 9f080e3aeac9ebd013177f3d1ac87cb9804b65da
+=======
+            "type": "real", 
+            "positive": "up", 
+>>>>>>> upstream/PrePARE
             "valid_min": "", 
             "valid_max": "", 
             "ok_min_mean_abs": "", 

@@ -1,10 +1,26 @@
 {
     "Header": {
+<<<<<<< HEAD
+<<<<<<< HEAD
         "data_specs_version": "01.00.21", 
+=======
+        "data_specs_version": "01.00.16", 
+>>>>>>> 9f080e3aeac9ebd013177f3d1ac87cb9804b65da
+=======
+        "data_specs_version": "01.00.21", 
+>>>>>>> upstream/PrePARE
         "table_id": "Table IyrAnt", 
         "realm": "atmos", 
         "cmor_version": "3.2", 
+<<<<<<< HEAD
+<<<<<<< HEAD
         "table_date": "14 February 2018", 
+=======
+        "table_date": "08 November 2017", 
+>>>>>>> 9f080e3aeac9ebd013177f3d1ac87cb9804b65da
+=======
+        "table_date": "14 February 2018", 
+>>>>>>> upstream/PrePARE
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -266,6 +282,10 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> upstream/PrePARE
         "modelCellAreai": {
             "frequency": "yr", 
             "modeling_realm": "landIce", 
@@ -284,6 +304,11 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
+<<<<<<< HEAD
+=======
+>>>>>>> 9f080e3aeac9ebd013177f3d1ac87cb9804b65da
+=======
+>>>>>>> upstream/PrePARE
         "orog": {
             "frequency": "yr", 
             "modeling_realm": "land", 

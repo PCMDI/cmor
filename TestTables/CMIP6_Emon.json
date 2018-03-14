@@ -1,10 +1,26 @@
 {
     "Header": {
+<<<<<<< HEAD
+<<<<<<< HEAD
         "data_specs_version": "01.00.21", 
         "table_id": "Table Emon", 
         "realm": "atmos", 
         "cmor_version": "3.2", 
         "table_date": "14 February 2018", 
+=======
+        "data_specs_version": "01.00.16", 
+        "table_id": "Table Emon", 
+        "realm": "atmos", 
+        "cmor_version": "3.2", 
+        "table_date": "08 November 2017", 
+>>>>>>> 9f080e3aeac9ebd013177f3d1ac87cb9804b65da
+=======
+        "data_specs_version": "01.00.21", 
+        "table_id": "Table Emon", 
+        "realm": "atmos", 
+        "cmor_version": "3.2", 
+        "table_date": "14 February 2018", 
+>>>>>>> upstream/PrePARE
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -2958,8 +2974,18 @@
             "long_name": "clear sky lw-rf aerosols at toa", 
             "comment": "proposed name: toa_instantaneous_longwave_forcing_due_to_ambient_aerosol_assuming_clear_sky", 
             "dimensions": "longitude latitude time", 
+<<<<<<< HEAD
+<<<<<<< HEAD
             "out_name": "lwtoacsaer", 
             "type": "real", 
+=======
+            "out_name": "lwtoacs", 
+            "type": "", 
+>>>>>>> 9f080e3aeac9ebd013177f3d1ac87cb9804b65da
+=======
+            "out_name": "lwtoacsaer", 
+            "type": "real", 
+>>>>>>> upstream/PrePARE
             "positive": "", 
             "valid_min": "", 
             "valid_max": "", 
@@ -2976,8 +3002,18 @@
             "long_name": "Clear-sky TOA Longwave radiative flux due to Dust", 
             "comment": "Balkanski - LSCE", 
             "dimensions": "longitude latitude time", 
+<<<<<<< HEAD
+<<<<<<< HEAD
             "out_name": "lwtoacsdust", 
             "type": "real", 
+=======
+            "out_name": "lwtoacsaer", 
+            "type": "", 
+>>>>>>> 9f080e3aeac9ebd013177f3d1ac87cb9804b65da
+=======
+            "out_name": "lwtoacsdust", 
+            "type": "real", 
+>>>>>>> upstream/PrePARE
             "positive": "", 
             "valid_min": "", 
             "valid_max": "", 

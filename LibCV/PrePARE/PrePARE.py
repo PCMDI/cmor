@@ -44,7 +44,7 @@ import cmip6_cv
 class BColors:
     """
     Background colors for print statements
-    
+
     """
 
     def __init__(self):
@@ -67,7 +67,7 @@ BCOLORS = BColors()
 class DIRECTORYAction(argparse.Action):
     """
     Check if argparse is a directory.
-    
+
     """
 
     def __call__(self, parser, namespace, values, option_string=None):
@@ -90,7 +90,7 @@ class DIRECTORYAction(argparse.Action):
 class INPUTAction(argparse.Action):
     """
     Checks if the supplied input exists.
-    
+
     """
 
     def __call__(self, parser, namespace, values, option_string=None):
@@ -116,7 +116,7 @@ class Collector(object):
     :param list sources: The list of sources to parse
     :returns: The data collector
     :rtype: *iter*
-    
+
     """
 
     def __init__(self, sources, data=None):
@@ -299,7 +299,7 @@ class checkCMIP6(object):
             9. Validate parent_* attribute
            10. Validate sub_experiment_* attributes.
            11. Validate that all *_index are integers.
-        
+
         """
         filename = os.path.basename(ncfile)
         # -------------------------------------------------------------------

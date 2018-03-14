@@ -63,10 +63,20 @@ class readWCRP():
         Dico = OrderedDict()
         for file in filelist:
             url = githubRepo + file 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> upstream/PrePARE
             try:
                 response = requests.get(url, verify="/Users/nadeau1/miniconda/lib/python2.7/site-packages/certifi/cacert.pem")
             except:
                 response = requests.get(url, verify="/software/anaconda2/envs/cmor3/lib/python2.7/site-packages/certifi/cacert.pem")
+<<<<<<< HEAD
+=======
+            response = requests.get(url, verify="/Users/nadeau1/miniconda/lib/python2.7/site-packages/certifi/cacert.pem")
+>>>>>>> 9f080e3aeac9ebd013177f3d1ac87cb9804b65da
+=======
+>>>>>>> upstream/PrePARE
             print url
             urlJson = response.content.decode('utf-8')
             myjson = json.loads(urlJson, object_pairs_hook=OrderedDict)

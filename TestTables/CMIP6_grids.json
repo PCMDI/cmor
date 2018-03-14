@@ -4,9 +4,21 @@
         "cmor_version": "3.2", 
         "Conventions": "CF-1.7 CMIP-6.2", 
         "table_id": "Table grids", 
+<<<<<<< HEAD
+<<<<<<< HEAD
         "data_specs_version": "01.00.21", 
         "missing_value": "1e20", 
         "table_date": "14 February 2018"
+=======
+        "data_specs_version": "01.00.16", 
+        "missing_value": "1e20", 
+        "table_date": "08 November 2017"
+>>>>>>> 9f080e3aeac9ebd013177f3d1ac87cb9804b65da
+=======
+        "data_specs_version": "01.00.21", 
+        "missing_value": "1e20", 
+        "table_date": "14 February 2018"
+>>>>>>> upstream/PrePARE
     }, 
     "mapping_entry": {
         "sample_user_mapping": {
