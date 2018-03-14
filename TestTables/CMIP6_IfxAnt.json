@@ -1,6 +1,7 @@
 {
     "Header": {
 <<<<<<< HEAD
+<<<<<<< HEAD
         "data_specs_version": "01.00.21", 
         "table_id": "Table IfxAnt", 
         "realm": "landIce", 
@@ -13,6 +14,13 @@
         "cmor_version": "3.2", 
         "table_date": "08 November 2017", 
 >>>>>>> 9f080e3aeac9ebd013177f3d1ac87cb9804b65da
+=======
+        "data_specs_version": "01.00.21", 
+        "table_id": "Table IfxAnt", 
+        "realm": "landIce", 
+        "cmor_version": "3.2", 
+        "table_date": "14 February 2018", 
+>>>>>>> upstream/PrePARE
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -27,11 +35,11 @@
             "modeling_realm": "land", 
             "standard_name": "cell_area", 
             "units": "m2", 
-            "cell_methods": "area: mean", 
-            "cell_measures": "area: areacellg", 
-            "long_name": "Grid Cell Area for Interpolated Grids", 
+            "cell_methods": "area: sum", 
+            "cell_measures": "", 
+            "long_name": "Grid-Cell Area for Ice Sheet Variables", 
             "comment": "Area of the target grid (not the interpolated area of the source grid).", 
-            "dimensions": "xant yant", 
+            "dimensions": "longitude latitude", 
             "out_name": "areacellg", 
             "type": "real", 
             "positive": "", 

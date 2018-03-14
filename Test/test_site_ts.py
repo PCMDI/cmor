@@ -18,7 +18,7 @@ def setup_data():
              'coord_vals': [0]},
             {'table_entry': 'hybrid_height',
              'units': 'm',
-             'coord_vals': range(2),
+             'coord_vals': numpy.array(range(2), dtype=numpy.float64),
              'cell_bounds': [[x - 0.5, x + 0.5] for x in range(2)],
              },
             ]
@@ -38,11 +38,11 @@ def cmor_define_and_write(values, axes):
 
     igrid = cmor.grid([axis_ids[1]], [0.], [0.])
     cmor.zfactor(axis_ids[2], 'b', axis_ids=[axis_ids[2]],
-                 zfactor_values=range(2),
+                 zfactor_values=numpy.array(range(2), dtype=numpy.float64), 
                  zfactor_bounds=[[x - 0.5, x + 0.5] for x in range(2)])
 
     cmor.zfactor(axis_ids[2], 'orog', 'm', axis_ids=[igrid],
-                 zfactor_values=[0])
+                 zfactor_values=[0.] )
 
     ids_for_var = [axis_ids[0], igrid, axis_ids[2]]
     varid = cmor.variable('tnhus',

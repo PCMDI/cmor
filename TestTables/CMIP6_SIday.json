@@ -1,6 +1,7 @@
 {
     "Header": {
 <<<<<<< HEAD
+<<<<<<< HEAD
         "data_specs_version": "01.00.21", 
         "table_id": "Table SIday", 
         "realm": "seaIce", 
@@ -13,6 +14,13 @@
         "cmor_version": "3.2", 
         "table_date": "08 November 2017", 
 >>>>>>> 9f080e3aeac9ebd013177f3d1ac87cb9804b65da
+=======
+        "data_specs_version": "01.00.21", 
+        "table_id": "Table SIday", 
+        "realm": "seaIce", 
+        "cmor_version": "3.2", 
+        "table_date": "14 February 2018", 
+>>>>>>> upstream/PrePARE
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -29,7 +37,7 @@
             "units": "%", 
             "cell_methods": "area: mean where sea time: mean", 
             "cell_measures": "area: areacello", 
-            "long_name": "Sea Ice Area Fraction", 
+            "long_name": "Sea Ice Area Fraction (Ocean Grid)", 
             "comment": "Area fraction of grid cell covered by sea ice", 
             "dimensions": "longitude latitude time typesi", 
             "out_name": "siconc", 
@@ -40,17 +48,17 @@
             "ok_min_mean_abs": "", 
             "ok_max_mean_abs": ""
         }, 
-        "siconco": {
+        "siconca": {
             "frequency": "day", 
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_area_fraction", 
             "units": "%", 
             "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
-            "long_name": "Sea Ice Area Fraction", 
+            "long_name": "Sea Ice Area Fraction (Atmospheric Grid)", 
             "comment": "Area fraction of grid cell covered by sea ice", 
             "dimensions": "longitude latitude time typesi", 
-            "out_name": "siconco", 
+            "out_name": "siconca", 
             "type": "real", 
             "positive": "", 
             "valid_min": "", 
@@ -81,8 +89,8 @@
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_speed", 
             "units": "m s-1", 
-            "cell_methods": "area: time: mean where sea_ice (comment: mask=siconc)", 
-            "cell_measures": "area: areacella", 
+            "cell_methods": "area: time: mean where sea_ice (comment: mask=siconc or siconca)", 
+            "cell_measures": "area: areacello OR areacella", 
             "long_name": "Sea-ice speed", 
             "comment": "Speed of ice (i.e. mean absolute velocity) to account for back-and-forth movement of the ice", 
             "dimensions": "longitude latitude time", 
@@ -99,8 +107,8 @@
             "modeling_realm": "seaIce", 
             "standard_name": "sea_ice_surface_temperature", 
             "units": "K", 
-            "cell_methods": "area: time: mean where sea_ice (comment: mask=siconc)", 
-            "cell_measures": "area: areacella", 
+            "cell_methods": "area: time: mean where sea_ice (comment: mask=siconc or siconca)", 
+            "cell_measures": "area: areacello OR areacella", 
             "long_name": "Surface temperature of sea ice", 
             "comment": "Report surface temperature of snow where snow covers the sea ice.", 
             "dimensions": "longitude latitude time", 
@@ -117,8 +125,8 @@
             "modeling_realm": "seaIce ocean", 
             "standard_name": "sea_ice_thickness", 
             "units": "m", 
-            "cell_methods": "area: time: mean where sea_ice (comment: mask=siconc)", 
-            "cell_measures": "area: areacella", 
+            "cell_methods": "area: time: mean where sea_ice (comment: mask=siconc or siconca)", 
+            "cell_measures": "area: areacello OR areacella", 
             "long_name": "Sea Ice Thickness", 
             "comment": "Actual (floe) thickness of sea ice (NOT volume divided by grid area as was done in CMIP5)", 
             "dimensions": "longitude latitude time", 

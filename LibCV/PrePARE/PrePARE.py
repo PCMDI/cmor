@@ -696,6 +696,7 @@ class checkCMIP6(object):
         cmip6_cv.check_parentExpID(self.table_id)
         cmip6_cv.check_subExpID(self.table_id)
 
+<<<<<<< HEAD
         startimebnds = 0
         endtimebnds = 0
         if climatology:
@@ -704,6 +705,18 @@ class checkCMIP6(object):
         else:
             startimebnds = self.infile.variables['time_bnds'][0][0]
             endtimebnds = self.infile.variables['time_bnds'][-1][1]
+=======
+        try:
+            if climatology:
+                startimebnds = self.infile.variables['climatology_bnds'][0][0]
+                endtimebnds = self.infile.variables['climatology_bnds'][-1][1]
+            else:
+                startimebnds = self.infile.variables['time_bnds'][0][0]
+                endtimebnds = self.infile.variables['time_bnds'][-1][1]
+        except BaseException:
+            startimebnds = 0
+            endtimebnds = 0
+>>>>>>> upstream/PrePARE
          
 >>>>>>> 9f080e3aeac9ebd013177f3d1ac87cb9804b65da
         try:
@@ -757,6 +770,7 @@ class checkCMIP6(object):
             timeunits,
             fn)
 
+<<<<<<< HEAD
         if not isinstance(self.dictGbl['branch_time_in_child'], numpy.float64):
 <<<<<<< HEAD
             print BCOLORS.FAIL
@@ -789,6 +803,25 @@ class checkCMIP6(object):
             print bcolors.ENDC
             cmip6_cv.set_CV_Error()
 >>>>>>> 9f080e3aeac9ebd013177f3d1ac87cb9804b65da
+=======
+        if 'branch_time_in_child' in self.dictGbl.keys():
+            if not isinstance(self.dictGbl['branch_time_in_child'], numpy.float64):
+                print bcolors.FAIL
+                print "====================================================================================="
+                print "branch_time_in_child is not a double: ", type(self.dictGbl['branch_time_in_child'])
+                print "====================================================================================="
+                print bcolors.ENDC
+                cmip6_cv.set_CV_Error()
+
+        if 'branch_time_in_parent' in self.dictGbl.keys():
+            if not isinstance(self.dictGbl['branch_time_in_parent'], numpy.float64):
+                print bcolors.FAIL
+                print "====================================================================================="
+                print "branch_time_in_parent is not an double: ", type(self.dictGbl['branch_time_in_parent'])
+                print "====================================================================================="
+                print bcolors.ENDC
+                cmip6_cv.set_CV_Error()
+>>>>>>> upstream/PrePARE
 
         if not isinstance(self.dictGbl['realization_index'], numpy.ndarray):
             print BCOLORS.FAIL
@@ -852,6 +885,9 @@ class checkCMIP6(object):
                 table_value = cv_attrs[key]
                 file_value = self.dictVars[key]
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> upstream/PrePARE
 
                 # PrePARE accept units of 1 or 1.0 so adjust thet table_value
                 # -----------------------------------------------------------
@@ -861,11 +897,14 @@ class checkCMIP6(object):
                     if (table_value == "1.0") and (file_value == "1"):
                         table_value = "1"
 
+<<<<<<< HEAD
                 if isinstance(table_value, str) and isinstance(file_value, numpy.ndarray):
                     if numpy.array([int(value) for value in table_value.split()] == file_value).all():
                         file_value = True
                         table_value = True
 =======
+=======
+>>>>>>> upstream/PrePARE
                 if isinstance(table_value, str) and isinstance(file_value, numpy.ndarray):
                    if(numpy.array([int(value) for value in table_value.split()] == file_value).all()):
                        file_value=True
