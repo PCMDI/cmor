@@ -541,9 +541,10 @@ class checkCMIP6(object):
                             table_value = file_value
 
                 if key == "cell_methods":
-                    idx = file_value.find(" (interval:")
-                    file_value = file_value[:idx]
-                    table_value = table_value[:idx]
+                    idx = file_value.find(" (")
+                    if idx != -1:
+                        file_value = file_value[:idx]
+                        table_value = table_value[:idx]
 
                 if key == "cell_measures":
                     pattern = re.compile('(?P<param>[\w.-]+): (?P<val1>[\w.-]+) OR (?P<val2>[\w.-]+)')
