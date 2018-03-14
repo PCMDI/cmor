@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7031b454-8cba-48a4-9dba-c8218d23c016" name="Default" comment="" />
+    <list default="true" id="7031b454-8cba-48a4-9dba-c8218d23c016" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/LibCV/PrePARE/PrePARE.py" afterPath="$PROJECT_DIR$/LibCV/PrePARE/PrePARE.py" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,8 +16,8 @@
       <file leaf-file-name="PrePARE.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/LibCV/PrePARE/PrePARE.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="974">
-              <caret line="542" column="41" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="794" selection-end-column="0" />
+            <state relative-caret-position="1699">
+              <caret line="794" column="0" lean-forward="true" selection-start-line="794" selection-start-column="0" selection-end-line="794" selection-end-column="0" />
               <folding>
                 <element signature="e#469#484#0" expanded="true" />
               </folding>
@@ -37,7 +39,7 @@
         <entry file="file://$PROJECT_DIR$/LibCV/pywrapper.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1373">
-              <caret line="411" column="0" lean-forward="true" selection-start-line="411" selection-start-column="0" selection-end-line="411" selection-end-column="0" />
+              <caret line="411" column="0" lean-forward="false" selection-start-line="411" selection-start-column="0" selection-end-line="411" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -321,7 +323,7 @@
     <entry file="file://$PROJECT_DIR$/LibCV/pywrapper.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1373">
-          <caret line="411" column="0" lean-forward="true" selection-start-line="411" selection-start-column="0" selection-end-line="411" selection-end-column="0" />
+          <caret line="411" column="0" lean-forward="false" selection-start-line="411" selection-start-column="0" selection-end-line="411" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -336,8 +338,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/LibCV/PrePARE/PrePARE.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="974">
-          <caret line="542" column="41" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="794" selection-end-column="0" />
+        <state relative-caret-position="1699">
+          <caret line="794" column="0" lean-forward="true" selection-start-line="794" selection-start-column="0" selection-end-line="794" selection-end-column="0" />
           <folding>
             <element signature="e#469#484#0" expanded="true" />
           </folding>
