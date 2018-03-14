@@ -511,6 +511,9 @@ class checkCMIP6(object):
                 continue
             if key == "comment":
                 continue
+            if key == "cell_measures":
+                if cv_attrs[key].find("OPT") != -1 or cv_attrs[key].find("MODEL") != -1:
+                    continue
             # Is this attribute in file?
             if key in self.dictVars.keys():
                 # Verify that attribute value is equal to file attribute
@@ -578,9 +581,6 @@ class checkCMIP6(object):
             else:
                 # That attribute is not in the file
                 table_value = cv_attrs[key]
-                if key == "cell_measures":
-                    if table_value.find("OPT") != -1 or table_value.find("MODEL") != -1:
-                        continue
                 if isinstance(table_value, numpy.ndarray):
                     table_value = table_value[0]
                 if isinstance(table_value, float):
