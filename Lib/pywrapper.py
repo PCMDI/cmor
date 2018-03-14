@@ -616,7 +616,7 @@ def zfactor(zaxis_id, zfactor_name, units="", axis_ids=None,
         type = 'd'
 
     if not isinstance(type, str):
-        raise Exception("error tpye must a a string")
+        raise Exception("error type must a string")
     type = type.lower()
     if type == 's':
         type = 'c'
