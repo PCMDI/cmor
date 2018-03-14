@@ -44,7 +44,7 @@ import cmip6_cv
 class BColors:
     """
     Background colors for print statements
-    
+
     """
 
     def __init__(self):
@@ -67,7 +67,7 @@ BCOLORS = BColors()
 class DIRECTORYAction(argparse.Action):
     """
     Check if argparse is a directory.
-    
+
     """
 
     def __call__(self, parser, namespace, values, option_string=None):
@@ -90,7 +90,7 @@ class DIRECTORYAction(argparse.Action):
 class INPUTAction(argparse.Action):
     """
     Checks if the supplied input exists.
-    
+
     """
 
     def __call__(self, parser, namespace, values, option_string=None):
@@ -116,7 +116,7 @@ class Collector(object):
     :param list sources: The list of sources to parse
     :returns: The data collector
     :rtype: *iter*
-    
+
     """
 
     def __init__(self, sources, data=None):
@@ -299,7 +299,7 @@ class checkCMIP6(object):
             9. Validate parent_* attribute
            10. Validate sub_experiment_* attributes.
            11. Validate that all *_index are integers.
-        
+
         """
         filename = os.path.basename(ncfile)
         # -------------------------------------------------------------------
@@ -626,7 +626,7 @@ def sequential_process(source):
             checker.ControlVocab(ncfile)
         rc = 0
     except KeyboardInterrupt:
-        rc = 1        
+        rc = 1
         print BCOLORS.FAIL
         print "*************************************************************************************"
         print "* Error: The input file is not CMIP6 compliant                                      *"
@@ -760,7 +760,7 @@ def main():
         sys.stdout.write('\r\033[K')
         sys.stdout.flush()
         # Print results from logfiles and remove them
-        for (logfile,rc) in set(logfiles):
+        for (logfile, rc) in set(logfiles):
             with open(logfile, 'r') as f:
                 print f.read()
             os.remove(logfile)
@@ -773,6 +773,7 @@ def main():
             returnCode = sequential_process(source)
 
     return returnCode
+
 
 @contextmanager
 def RedirectedOutput(to=os.devnull):
