@@ -142,6 +142,19 @@ class Collector(object):
                 if self.PathFilter(root) and self.FileFilter(filename):
                     yield (source, self.data)
 
+    def __len__(self):
+        """
+        Returns collector length.
+
+        :returns: The number of items in the collector.
+        :rtype: *int*
+
+        """
+        s = 0
+        for _ in self.__iter__():
+            s += 1
+        return s
+
 
 class FilterCollection(object):
     """
@@ -445,12 +458,14 @@ class checkCMIP6(object):
             raise KeyboardInterrupt
 
         fn = os.path.basename(str(infile).split('\'')[1])
-        cmip6_cv.check_filename(
+        err = cmip6_cv.check_filename(
             table_id,
             varid,
             calendar,
             timeunits,
             fn)
+        if err != 0:
+            self.cv_error = True
 
         if 'branch_time_in_child' in self.dictGbl.keys():
             if not isinstance(self.dictGbl['branch_time_in_child'], numpy.float64):
@@ -592,7 +607,7 @@ class checkCMIP6(object):
                 print BCOLORS.ENDC
                 self.cv_error = True
 
-        if self.cv_error or (cmip6_cv.get_CV_Error()):
+        if self.cv_error:
             raise KeyboardInterrupt
         else:
             print BCOLORS.OKGREEN
@@ -609,7 +624,7 @@ def process(source):
     with RedirectedOutput(logfile):
         rc = sequential_process(source)
     # Close and return logfile
-    return (logfile, rc)
+    return logfile, rc
 
 
 def sequential_process(source):
@@ -624,20 +639,19 @@ def sequential_process(source):
             checker.ControlVocab(ncfile, variable)
         else:
             checker.ControlVocab(ncfile)
-        rc = 0
+        return 0
     except KeyboardInterrupt:
-        rc = 1
         print BCOLORS.FAIL
         print "*************************************************************************************"
         print "* Error: The input file is not CMIP6 compliant                                      *"
         print "* Check your file or use CMOR 3.x to achieve compliance for ESGF publication        *"
         print "*************************************************************************************"
         print BCOLORS.ENDC
+        return 1
     finally:
         # Close opened file
         if hasattr(checker, "infile"):
             checker.infile.close()
-        return(rc)
 
 
 def regex_validator(string):
@@ -746,7 +760,8 @@ def main():
         sources.FileFilter.add(regex=regex, inclusive=inclusive)
     # Init collector dir filter
     sources.PathFilter.add(regex=args.ignore_dir, inclusive=False)
-    returnCode = 0
+    nb_sources = len(sources)
+    errors = 0
     # Separate sequential process and multiprocessing
     if args.max_threads > 1:
         # Create pool of processes
@@ -754,26 +769,34 @@ def main():
         # Run processes
         logfiles = list()
         progress = Spinner()
-        for logfile in pool.imap(process, sources):
+        for logfile, rc in pool.imap(process, sources):
             progress.next()
             logfiles.append(logfile)
+            errors += rc
         sys.stdout.write('\r\033[K')
         sys.stdout.flush()
         # Print results from logfiles and remove them
-        for (logfile, rc) in set(logfiles):
+        for logfile in set(logfiles):
             with open(logfile, 'r') as f:
                 print f.read()
             os.remove(logfile)
-            returnCode = returnCode + rc
         # Close pool of processes
         pool.close()
         pool.join()
     else:
         for source in sources:
-            returnCode = sequential_process(source)
-
-    return returnCode
-
+            errors += sequential_process(source)
+    # Evaluate errors and exit with appropriate return code
+    if errors != 0:
+        if errors == nb_sources:
+            # All files has error(s). Error code = -1
+            sys.exit(-1)
+        else:
+            # Some files (at least one) has error(s). Error code = nb files with error(s)
+            sys.exit(errors)
+    else:
+        # No errors. Error code = 0
+        sys.exit(0)
 
 @contextmanager
 def RedirectedOutput(to=os.devnull):
@@ -800,4 +823,4 @@ def RedirectedOutput(to=os.devnull):
 
 
 if __name__ == '__main__':
-    sys.exit(main())
+    main()
