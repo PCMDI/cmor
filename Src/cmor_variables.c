@@ -2335,6 +2335,7 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
     extern ut_system *ut_read;
     int tmpindex = 0;
     int index;
+    int bb;
 
     cmor_add_traceback("cmor_write_var_to_file");
     cmor_is_setup();
@@ -2871,9 +2872,9 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
                                                           axes_ids[0]].iunits,
                                                 msg, msg2, msg2);
 
-                ierr = cmor_check_monotonic(&tmp_vals[0],
-                                            (ntimes_passed + tmpindex) * 2,
-                                            "time", 1, avar->axes_ids[0]);
+                        ierr = cmor_check_monotonic(&tmp_vals[0],
+                            (ntimes_passed + tmpindex) * 2,
+                            "time", 1, avar->axes_ids[0]);
 
                 ierr = cmor_check_values_inside_bounds(&time_vals[0],
                                                        &time_bounds[0],
@@ -2948,19 +2949,7 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
                     cmor_handle_error(msg, CMOR_CRITICAL);
                 }
 
-                if (cmor_tables[cmor_axes[avar->axes_ids[0]].ref_table_id].axes
-                    [cmor_axes[avar->axes_ids[0]].ref_axis_id].climatology ==
-                    1) {
-/* -------------------------------------------------------------------- */
-/*      all good in that case                                           */
-/* -------------------------------------------------------------------- */
 
-                } else {
-
-                    tmp_vals[ntimes_passed - 1] =
-                      tmp_vals[ntimes_passed * 2 - 1];
-
-                }
 /* -------------------------------------------------------------------- */
 /*      ok now we need to store first and last stuff                    */
 /* -------------------------------------------------------------------- */

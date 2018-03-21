@@ -43,8 +43,9 @@ def path_test():
     data = numpy.array([3, 4, 5])
     data.resize((3, 19, 1, 1))
 #    cmor.write(varid, data)
-    for i in range(len(data)):
-        cmor.write(varid, data[i], time_vals=times[i], time_bnds=times_bnds[i])
+#    for i in range(len(data)):
+#        cmor.write(varid, data[i], time_vals=times[i], time_bnds=times_bnds[i])
+    cmor.write(varid, data, time_vals=[12, 15, 18], time_bnds=[[10, 1234], [12, 1125], [15, 1128]])
     path = cmor.close(varid, file_name=True)
 
     print path
