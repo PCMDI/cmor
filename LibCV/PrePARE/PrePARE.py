@@ -314,6 +314,7 @@ class checkCMIP6(object):
            11. Validate that all *_index are integers.
 
         """
+        err = 0
         filename = os.path.basename(ncfile)
         # -------------------------------------------------------------------
         #  Initialize arrays
@@ -413,15 +414,15 @@ class checkCMIP6(object):
         except BaseException:
             calendar = "gregorian"
             timeunits = "days since ?"
-        cmip6_cv.check_requiredattributes(table_id)
-        cmip6_cv.check_institution(table_id)
-        cmip6_cv.check_sourceID(table_id)
-        cmip6_cv.check_experiment(table_id)
-        cmip6_cv.check_grids(table_id)
-        cmip6_cv.check_ISOTime()
-        cmip6_cv.check_furtherinfourl(table_id)
-        cmip6_cv.check_parentExpID(table_id)
-        cmip6_cv.check_subExpID(table_id)
+        err += cmip6_cv.check_requiredattributes(table_id)
+        err += cmip6_cv.check_institution(table_id)
+        err += cmip6_cv.check_sourceID(table_id)
+        err += cmip6_cv.check_experiment(table_id)
+        err += cmip6_cv.check_grids(table_id)
+        err += cmip6_cv.check_ISOTime()
+        err += cmip6_cv.check_furtherinfourl(table_id)
+        err += cmip6_cv.check_parentExpID(table_id)
+        err += cmip6_cv.check_subExpID(table_id)
 
         try:
             if climatology:
@@ -458,7 +459,7 @@ class checkCMIP6(object):
             raise KeyboardInterrupt
 
         fn = os.path.basename(str(infile).split('\'')[1])
-        err = cmip6_cv.check_filename(
+        err += cmip6_cv.check_filename(
             table_id,
             varid,
             calendar,
@@ -797,6 +798,7 @@ def main():
     else:
         # No errors. Error code = 0
         sys.exit(0)
+
 
 @contextmanager
 def RedirectedOutput(to=os.devnull):

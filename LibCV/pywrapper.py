@@ -318,7 +318,7 @@ def check_requiredattributes(table_id):
       Validate all required attributes against Control Vocabulary file.
 
       Usage:
-        cmip6_cv.check_gblattributes(table_id)
+        cmip6_cv.check_requiredattributes(table_id)
       Where:
         table_id is the table id returned by load_table()
       Return 0 on success
