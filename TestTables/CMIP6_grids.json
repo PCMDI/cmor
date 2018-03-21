@@ -1,12 +1,12 @@
 {
     "Header": {
         "product": "output", 
-        "cmor_version": "3.2", 
+        "cmor_version": "3.3", 
         "Conventions": "CF-1.7 CMIP-6.2", 
         "table_id": "Table grids", 
-        "data_specs_version": "01.00.21", 
+        "data_specs_version": "01.00.23", 
         "missing_value": "1e20", 
-        "table_date": "14 February 2018"
+        "table_date": "21 March 2018"
     }, 
     "mapping_entry": {
         "sample_user_mapping": {

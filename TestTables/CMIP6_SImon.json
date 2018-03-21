@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.21", 
+        "data_specs_version": "01.00.23", 
+        "cmor_version": "3.3", 
         "table_id": "Table SImon", 
         "realm": "seaIce", 
-        "cmor_version": "3.2", 
-        "table_date": "14 February 2018", 
+        "table_date": "21 March 2018", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -413,7 +413,7 @@
         "sidragbot": {
             "frequency": "mon", 
             "modeling_realm": "seaIce", 
-            "standard_name": "surface_drag_coefficient_for_momentum_in_water", 
+            "standard_name": "surface_drag_coefficient_for_momentum_in_sea_water", 
             "units": "1", 
             "cell_methods": "area: time: mean where sea_ice (comment: mask=siconc or siconca)", 
             "cell_measures": "area: areacello OR areacella", 
@@ -503,7 +503,7 @@
         "siflcondbot": {
             "frequency": "mon", 
             "modeling_realm": "seaIce", 
-            "standard_name": "conductive_heat_flux_at_sea_ice_bottom", 
+            "standard_name": "sea_ice_basal_net_downward_sensible_heat_flux", 
             "units": "W m-2", 
             "cell_methods": "area: time: mean where sea_ice (comment: mask=siconc or siconca)", 
             "cell_measures": "area: areacello OR areacella", 
@@ -539,7 +539,7 @@
         "siflfwbot": {
             "frequency": "mon", 
             "modeling_realm": "seaIce", 
-            "standard_name": "freshwater_flux_from_ice", 
+            "standard_name": "water_flux_into_sea_water_from_sea_ice", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: time: mean where sea_ice (comment: mask=siconc or siconca)", 
             "cell_measures": "area: areacello OR areacella", 
@@ -665,7 +665,7 @@
         "siflswdbot": {
             "frequency": "mon", 
             "modeling_realm": "seaIce", 
-            "standard_name": "bottom_downwelling_shortwave_flux_into_ocean", 
+            "standard_name": "downwelling_shortwave_flux_in_sea_water_at_sea_ice_base", 
             "units": "W m-2", 
             "cell_methods": "area: time: mean where sea_ice (comment: mask=siconc or siconca)", 
             "cell_measures": "area: areacello OR areacella", 
@@ -719,7 +719,7 @@
         "siforcecoriolx": {
             "frequency": "mon", 
             "modeling_realm": "seaIce", 
-            "standard_name": "coriolis_force_on_sea_ice_x", 
+            "standard_name": "sea_ice_specific_x_force_due_to_coriolis_term", 
             "units": "N m-2", 
             "cell_methods": "area: time: mean where sea_ice (comment: mask=siconc)", 
             "cell_measures": "--MODEL", 
@@ -737,7 +737,7 @@
         "siforcecorioly": {
             "frequency": "mon", 
             "modeling_realm": "seaIce", 
-            "standard_name": "coriolis_force_on_sea_ice_y", 
+            "standard_name": "sea_ice_specific_y_force_due_to_coriolis_term", 
             "units": "N m-2", 
             "cell_methods": "area: time: mean where sea_ice (comment: mask=siconc)", 
             "cell_measures": "--MODEL", 
@@ -755,7 +755,7 @@
         "siforceintstrx": {
             "frequency": "mon", 
             "modeling_realm": "seaIce", 
-            "standard_name": "internal_stress_in_sea_ice_x", 
+            "standard_name": "sea_ice_specific_x_force_due_to_internal_forces", 
             "units": "N m-2", 
             "cell_methods": "area: time: mean where sea_ice (comment: mask=siconc)", 
             "cell_measures": "--MODEL", 
@@ -773,7 +773,7 @@
         "siforceintstry": {
             "frequency": "mon", 
             "modeling_realm": "seaIce", 
-            "standard_name": "internal_stress_in_sea_ice_y", 
+            "standard_name": "sea_ice_specific_y_force_due_to_internal_forces", 
             "units": "N m-2", 
             "cell_methods": "area: time: mean where sea_ice (comment: mask=siconc)", 
             "cell_measures": "--MODEL", 
@@ -791,7 +791,7 @@
         "siforcetiltx": {
             "frequency": "mon", 
             "modeling_realm": "seaIce", 
-            "standard_name": "sea_surface_tilt_force_on_sea_ice_x", 
+            "standard_name": "sea_ice_specific_x_force_due_to_sea_surface_tilt", 
             "units": "N m-2", 
             "cell_methods": "area: time: mean where sea_ice (comment: mask=siconc)", 
             "cell_measures": "--MODEL", 
@@ -809,7 +809,7 @@
         "siforcetilty": {
             "frequency": "mon", 
             "modeling_realm": "seaIce", 
-            "standard_name": "sea_surface_tilt_force_on_sea_ice_y", 
+            "standard_name": "sea_ice_specific_y_force_due_to_sea_surface_tilt", 
             "units": "N m-2", 
             "cell_methods": "area: time: mean where sea_ice (comment: mask=siconc)", 
             "cell_measures": "--MODEL", 
@@ -971,7 +971,7 @@
         "simpmass": {
             "frequency": "mon", 
             "modeling_realm": "seaIce", 
-            "standard_name": "surface_liquid_water_amount", 
+            "standard_name": "sea_ice_melt_pond_thickness", 
             "units": "kg m-2", 
             "cell_methods": "area: time: mean where sea_ice_melt_pond (comment: mask=simpconc)", 
             "cell_measures": "area: areacello", 
@@ -989,7 +989,7 @@
         "simprefrozen": {
             "frequency": "mon", 
             "modeling_realm": "seaIce", 
-            "standard_name": "melt_pond_refrozen_ice", 
+            "standard_name": "thickness_of_ice_on_sea_ice_melt_pond", 
             "units": "m", 
             "cell_methods": "area: time: mean where sea_ice_melt_pond (comment: mask=simpconc)", 
             "cell_measures": "area: areacello", 
@@ -1079,7 +1079,7 @@
         "sisaltmass": {
             "frequency": "mon", 
             "modeling_realm": "seaIce", 
-            "standard_name": "sea_ice_salt_mass", 
+            "standard_name": "sea_ice_salt_content", 
             "units": "kg m-2", 
             "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
@@ -1313,7 +1313,7 @@
         "sitempbot": {
             "frequency": "mon", 
             "modeling_realm": "seaIce", 
-            "standard_name": "sea_ice_bottom_temperature", 
+            "standard_name": "sea_ice_basal_temperature", 
             "units": "K", 
             "cell_methods": "area: time: mean where sea_ice (comment: mask=siconc or siconca)", 
             "cell_measures": "area: areacello OR areacella", 
@@ -1583,7 +1583,7 @@
         "sndmasswindrif": {
             "frequency": "mon", 
             "modeling_realm": "seaIce", 
-            "standard_name": "tendency_of_snow_mass_due_to_drifting_snow", 
+            "standard_name": "tendency_of_surface_snow_amount_due_to_drifting", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
