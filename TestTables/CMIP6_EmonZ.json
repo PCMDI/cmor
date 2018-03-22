@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.21", 
+        "data_specs_version": "01.00.23", 
+        "cmor_version": "3.3", 
         "table_id": "Table EmonZ", 
         "realm": "atmos", 
-        "cmor_version": "3.2", 
-        "table_date": "14 February 2018", 
+        "table_date": "21 March 2018", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -89,7 +89,7 @@
         "oxloss": {
             "frequency": "mon", 
             "modeling_realm": "atmosChem", 
-            "standard_name": "tendency_of_mole_concentration_of_ozone_and_atomic_oxygen_and_1D_oxygen_atom_due_to_chemical_destruction", 
+            "standard_name": "tendency_of_atmosphere_mole_concentration_of_ox_due_to_chemical_destruction", 
             "units": "mol m-3 s-1", 
             "cell_methods": "longitude: mean time: mean", 
             "cell_measures": "", 
@@ -107,7 +107,7 @@
         "oxprod": {
             "frequency": "mon", 
             "modeling_realm": "atmosChem", 
-            "standard_name": "tendency_of_mole_concentration_of_ozone_and_atomic_oxygen_and_1D_oxygen_atom_due_to_chemical_production_and_photolysis", 
+            "standard_name": "tendency_of_atmosphere_mole_concentration_of_ox_due_to_chemical_and_photolytic_production", 
             "units": "mol m-3 s-1", 
             "cell_methods": "longitude: mean time: mean", 
             "cell_measures": "", 
@@ -305,7 +305,7 @@
         "tntscp": {
             "frequency": "mon", 
             "modeling_realm": "atmos", 
-            "standard_name": "tendency_of_air_temperature_due_to_stratiform_clouds_and_precipitation", 
+            "standard_name": "tendency_of_air_temperature_due_to_stratiform_cloud_and_precipitation", 
             "units": "K s-1", 
             "cell_methods": "longitude: mean time: mean", 
             "cell_measures": "", 
@@ -359,7 +359,7 @@
         "vmrox": {
             "frequency": "mon", 
             "modeling_realm": "atmosChem", 
-            "standard_name": "mole_fraction_of_ozone_and_atomic_oxygen_and_1D_oxygen_atom", 
+            "standard_name": "mole_fraction_of_ox_in_air", 
             "units": "mol mol-1", 
             "cell_methods": "longitude: mean time: mean", 
             "cell_measures": "", 
@@ -413,7 +413,7 @@
         "wtem": {
             "frequency": "mon", 
             "modeling_realm": "atmos", 
-            "standard_name": "unset", 
+            "standard_name": "upward_transformed_eulerian_mean_air_velocity", 
             "units": "m s-1", 
             "cell_methods": "longitude: mean time: mean", 
             "cell_measures": "", 

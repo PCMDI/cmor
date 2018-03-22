@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.21", 
+        "data_specs_version": "01.00.23", 
+        "cmor_version": "3.3", 
         "table_id": "Table SIday", 
         "realm": "seaIce", 
-        "cmor_version": "3.2", 
-        "table_date": "14 February 2018", 
+        "table_date": "21 March 2018", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 

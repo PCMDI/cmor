@@ -19,7 +19,7 @@
             "units": "Pa", 
             "dimensions": "", 
             "out_name": "p0", 
-            "type": ""
+            "type": "double"
         }, 
         "b": {
             "long_name": "vertical coordinate formula term: b(k)", 
@@ -61,14 +61,14 @@
             "units": "m", 
             "dimensions": "", 
             "out_name": "ztop", 
-            "type": ""
+            "type": "double"
         }, 
         "ptop": {
             "long_name": "pressure at top of model", 
             "units": "Pa", 
             "dimensions": "", 
             "out_name": "ptop", 
-            "type": ""
+            "type": "double"
         }, 
         "a_bnds": {
             "long_name": "vertical coordinate formula term: a(k+1/2)", 
