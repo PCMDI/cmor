@@ -8,7 +8,7 @@
            "activity_id":            "ISMIP6",
 
 
-           "#output":                "Output Path where files are written",
+           "#output":                "Root directory where files are written",
            "outpath":                "CMIP6",
 
            "#experiment_id":         "CMIP6 valid experiment_ids are found in CMIP6_CV.json",
@@ -17,7 +17,6 @@
            "sub_experiment":         "none",
 
            "source_type":            "AOGCM ISM AER",
-           "parent_mip_era":         "N/A",
            "mip_era":                "CMIP6",
            "calendar":               "360_day",
 
