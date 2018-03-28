@@ -424,7 +424,6 @@ class checkCMIP6(object):
         err += cmip6_cv.check_furtherinfourl(table_id)
         err += cmip6_cv.check_parentExpID(table_id)
         err += cmip6_cv.check_subExpID(table_id)
-           
 
         try:
             if climatology:
@@ -467,8 +466,10 @@ class checkCMIP6(object):
             calendar,
             timeunits,
             fn)
+        if err != 0:
+            self.cv_error = True
 
-        if (err != 0) or  (cmip6_cv.get_CV_Error() == 1):
+        if (err != 0) or (cmip6_cv.get_CV_Error() == 1):
             self.cv_error = True
 
         if 'branch_time_in_child' in self.dictGbl.keys():
