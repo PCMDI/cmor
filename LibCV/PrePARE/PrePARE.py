@@ -247,7 +247,7 @@ class checkCMIP6(object):
         # -------------------------------------------------------------------
         # call setup() to clean all 'C' internal memory.
         # -------------------------------------------------------------------
-        cmip6_cv.setup(inpath="../Tables", exit_control=cmip6_cv.CMOR_NORMAL)
+        cmip6_cv.setup(inpath="../Tables", exit_control=cmip6_cv.CMOR_EXIT_ON_WARNING)
         # -------------------------------------------------------------------
         # Set Control Vocabulary file to use (default from cmor.h)
         # -------------------------------------------------------------------
@@ -315,6 +315,7 @@ class checkCMIP6(object):
 
         """
         err = 0
+        cmip6_cv.reset_CV_Error()
         filename = os.path.basename(ncfile)
         # -------------------------------------------------------------------
         #  Initialize arrays
@@ -423,6 +424,7 @@ class checkCMIP6(object):
         err += cmip6_cv.check_furtherinfourl(table_id)
         err += cmip6_cv.check_parentExpID(table_id)
         err += cmip6_cv.check_subExpID(table_id)
+           
 
         try:
             if climatology:
@@ -465,7 +467,8 @@ class checkCMIP6(object):
             calendar,
             timeunits,
             fn)
-        if err != 0:
+
+        if (err != 0) or  (cmip6_cv.get_CV_Error() == 1):
             self.cv_error = True
 
         if 'branch_time_in_child' in self.dictGbl.keys():
@@ -485,6 +488,22 @@ class checkCMIP6(object):
                 print "====================================================================================="
                 print BCOLORS.ENDC
                 self.cv_error = True
+
+        if not isinstance(self.dictGbl['branch_time_in_child'], numpy.float64):
+            print bcolors.FAIL
+            print "====================================================================================="
+            print "realization_index is not a double: ", type(self.dictGbl['branch_time_in_child'])
+            print "====================================================================================="
+            print bcolors.ENDC
+            cmip6_cv.set_CV_Error()
+
+        if not isinstance(self.dictGbl['branch_time_in_parent'], numpy.float64):
+            print bcolors.FAIL
+            print "====================================================================================="
+            print "initialization_index is not an double: ", type(self.dictGbl['branch_time_in_parent'])
+            print "====================================================================================="
+            print bcolors.ENDC
+            cmip6_cv.set_CV_Error()
 
         if not isinstance(self.dictGbl['realization_index'], numpy.ndarray):
             print BCOLORS.FAIL

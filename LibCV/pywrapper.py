@@ -24,16 +24,16 @@ try:
 except BaseException:
     has_cdtime = False
 
-#try:
+# try:
     #import cdms2
     #has_cdms2 = True
-#except BaseException:
+# except BaseException:
     #has_cdms2 = False
 
-#try:
+# try:
     #import MV2
     #has_MV2 = True
-#except BaseException:
+# except BaseException:
     #has_MV2 = False
 
 try:
@@ -400,6 +400,14 @@ def setup_variable(name, units, missing, startime,
         startimebnds,
         endtimebnds)
     return(ierr)
+
+
+def reset_CV_Error():
+    '''
+    set CV_Error to 0
+    '''
+    _cmip6_cv.reset_CV_Error()
+    return
 
 
 def get_CV_Error():

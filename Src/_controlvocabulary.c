@@ -269,6 +269,15 @@ static PyObject *PyCMOR_set_variable_attribute(PyObject * self, PyObject * args)
     Py_INCREF(Py_None);
     return (Py_None);
 }
+/************************************************************************/
+/*                         PyCV_reset_Error()                           */
+/************************************************************************/
+static PyObject *PyCV_reset_Error(PyObject * self, PyObject * args)
+{
+    cmor_is_setup();
+    CV_ERROR = 0;
+    return (Py_None);
+}
 
 /************************************************************************/
 /*                         PyCV_set_Error()                             */
@@ -641,6 +650,7 @@ static PyMethodDef MyExtractMethods[] = {
     {"getCMOR_defaults_include", PyCMOR_getincvalues, METH_VARARGS},
     {"setup_variable", PyCV_setup_variable, METH_VARARGS},
     {"get_CV_Error", PyCV_get_Error, METH_VARARGS},
+    {"reset_CV_Error", PyCV_reset_Error},
     {"set_CV_Error", PyCV_set_Error, METH_VARARGS},
 
     {NULL, NULL}                /*sentinel */
