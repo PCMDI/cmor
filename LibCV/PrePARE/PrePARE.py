@@ -454,7 +454,7 @@ class checkCMIP6(object):
         except BaseException:
             calendar = "gregorian"
             timeunits = "days since ?"
-
+           
         # Get first and last time bounds
         try:
             if 'bounds' in infile.variables['time'].__dict__.keys():
