@@ -40,6 +40,8 @@ import cmip6_cv
 # =========================
 # BColors()
 # =========================
+
+
 class BColors:
     """
     Background colors for print statements
@@ -453,16 +455,6 @@ class checkCMIP6(object):
             calendar = "gregorian"
             timeunits = "days since ?"
 
-        err += cmip6_cv.check_requiredattributes(table_id)
-        err += cmip6_cv.check_institution(table_id)
-        err += cmip6_cv.check_sourceID(table_id)
-        err += cmip6_cv.check_experiment(table_id)
-        err += cmip6_cv.check_grids(table_id)
-        err += cmip6_cv.check_ISOTime()
-        err += cmip6_cv.check_furtherinfourl(table_id)
-        err += cmip6_cv.check_parentExpID(table_id)
-        err += cmip6_cv.check_subExpID(table_id)
-
         # Get first and last time bounds
         try:
             if 'bounds' in infile.variables['time'].__dict__.keys():
@@ -525,13 +517,13 @@ class checkCMIP6(object):
         # -------------------------------------------------------------------
         fn = os.path.basename(str(infile).split('\'')[1])
         err += cmip6_cv.check_filename(
-            table_id,
+            table,
             varid,
             calendar,
             timeunits,
             fn)
 
-        if (err != 0) or  (cmip6_cv.get_CV_Error() == 1):
+        if (err != 0) or (cmip6_cv.get_CV_Error() == 1):
             self.cv_error = True
 
         if 'branch_time_in_child' in self.dictGbl.keys():
