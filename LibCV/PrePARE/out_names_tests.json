@@ -1,0 +1,113 @@
+{
+  "6hrPlevPt_hus": {
+    "has_27_pressure_levels": "hus27",
+    "has_7_pressure_levels": "hus7h"
+  },
+  "6hrPlevPt_ta": {
+    "has_27_pressure_levels": "ta27",
+    "has_7_pressure_levels": "ta7h"
+  },
+  "6hrPlevPt_ua": {
+    "has_7_pressure_levels": "ua7h"
+  },
+  "6hrPlevPt_va": {
+    "has_7_pressure_levels": "va7h"
+  },
+  "6hrPlevPt_zg": {
+    "has_27_pressure_levels": "zg27",
+    "has_7_pressure_levels": "zg7h"
+  },
+  "Amon_ch4": {
+    "is_climatology": "ch4Clim"
+  },
+  "Amon_ch4global": {
+    "is_climatology": "ch4globalClim"
+  },
+  "Amon_co2": {
+    "is_climatology": "co2Clim"
+  },
+  "Amon_co2mass": {
+    "is_climatology": "co2massClim"
+  },
+  "Amon_n2o": {
+    "is_climatology": "n2oClim"
+  },
+  "Amon_n2oglobal": {
+    "is_climatology": "n2oglobalClim"
+  },
+  "Amon_o3": {
+    "is_climatology": "o3Clim"
+  },
+  "E1hr_ta": {
+    "has_27_pressure_levels": "ta27"
+  },
+  "E1hr_ua": {
+    "has_27_pressure_levels": "ua27"
+  },
+  "E1hr_va": {
+    "has_27_pressure_levels": "va27"
+  },
+  "E1hr_wap": {
+    "has_27_pressure_levels": "wap27"
+  },
+  "E3hrPt_hus": {
+    "has_7_pressure_levels": "hus7h"
+  },
+  "Eday_ts": {
+    "has_land_in_cell_methods": "tsland"
+  },
+  "Emon_hus": {
+    "has_27_pressure_levels": "hus27"
+  },
+  "Emon_ua": {
+    "has_27_pressure_levels": "ua27"
+  },
+  "Emon_va": {
+    "has_27_pressure_levels": "va27"
+  },
+  "Oclim_difmxybo": {
+    "has_3_dimensions": "difmxybo2d"
+  },
+  "Oclim_difmxylo": {
+    "has_3_dimensions": "difmxylo2d"
+  },
+  "Oclim_diftrbbo": {
+    "has_3_dimensions": "diftrbbo2d"
+  },
+  "Oclim_diftrblo": {
+    "has_3_dimensions": "diftrblo2d"
+  },
+  "Oclim_diftrebo": {
+    "has_3_dimensions": "diftrebo2d"
+  },
+  "Oclim_diftrelo": {
+    "has_3_dimensions": "diftrelo2d"
+  },
+  "Oclim_diftrxybo": {
+    "has_3_dimensions": "diftrxybo2d"
+  },
+  "Oclim_diftrxylo": {
+    "has_3_dimensions": "diftrxylo2d"
+  },
+  "Oclim_dispkexyfo": {
+    "has_3_dimensions": "dispkexyfo2d"
+  },
+  "Oclim_tnkebto": {
+    "has_3_dimensions": "tnkebto2d"
+  },
+  "Omon_ficeberg": {
+    "has_3_dimensions": "ficeberg2d"
+  },
+  "Omon_hfibthermds": {
+    "has_3_dimensions": "hfibthermds2d"
+  },
+  "Omon_hfrunoffds": {
+    "has_3_dimensions": "hfrunoffds2d"
+  },
+  "Omon_hfsifrazil": {
+    "has_3_dimensions": "hfsifrazil2d"
+  },
+  "Omon_hfsnthermds": {
+    "has_3_dimensions": "hfsnthermds2d"
+  }
+}
