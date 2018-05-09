@@ -45,6 +45,7 @@ aliases:
        make test
   - &run_prepare_tests
     name: run_prepare_tests
+    command: |
        export PATH=$WORKDIR/miniconda/bin:$PATH
        export UVCDAT_ANONYMOUS_LOG=False
        source activate py2
