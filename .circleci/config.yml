@@ -52,7 +52,7 @@ aliases:
 
 
 jobs:
-    macos_cmor:
+  macos_cmor:
     macos:
       xcode: "9.2.0"
     environment:
