@@ -28,8 +28,9 @@ aliases:
   - &setup_cmor
     name: setup_cmor
     command: |
+       echo "WE are in: "`pwd`
        export PATH=$WORKDIR/miniconda/bin:$PATH
-       export PREFIX="$WORKDIR/miniconda"
+       export PREFIX="${HOME}/$WORKDIR/miniconda"
        source activate py2
        git clone https://github.com/PCMDI/cmip6-cmor-tables
        ln -s cmip6-cmor-tables/Tables Tables
@@ -57,7 +58,7 @@ jobs:
     macos:
       xcode: "9.2.0"
     environment:
-      WORKDIR: ${HOME}/workspace/test_macos_cmor
+      WORKDIR: "workspace/test_macos_cmor"
     steps:
       - checkout
       - run: *setup_miniconda
@@ -70,7 +71,7 @@ jobs:
     machine:
       image: circleci/classic:latest
     environment:
-      WORKDIR: ${HOME}/workspace/test_linux_cmor
+      WORKDIR: "workspace/test_linux_cmor"
     steps:
       - checkout
       - run: *setup_miniconda
