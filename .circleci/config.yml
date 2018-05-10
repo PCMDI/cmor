@@ -29,7 +29,7 @@ aliases:
     name: setup_cmor
     command: |
        export PATH=$WORKDIR/miniconda/bin:$PATH
-       export PREFIX="$HOME/miniconda"
+       export PREFIX="$WORKDIR/miniconda"
        source activate py2
        git clone https://github.com/PCMDI/cmip6-cmor-tables
        ln -s cmip6-cmor-tables/Tables Tables
