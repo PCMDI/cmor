@@ -57,7 +57,7 @@ jobs:
     macos:
       xcode: "9.2.0"
     environment:
-      WORKDIR: "workspace/test_macos_cmor"
+      WORKDIR: "${HOME}/workspace/test_macos_cmor"
     steps:
       - checkout
       - run: *setup_miniconda
@@ -70,7 +70,7 @@ jobs:
     machine:
       image: circleci/classic:latest
     environment:
-      WORKDIR: "workspace/test_linux_cmor"
+      WORKDIR: "${HOME}/workspace/test_linux_cmor"
     steps:
       - checkout
       - run: *setup_miniconda
