@@ -20,8 +20,8 @@ before_install:
   - conda config --set always_yes yes --set changeps1 no
   - conda update -y -q conda
   - conda install openssl=1.0.2d
-  - conda install cdms2 -c uvcdat/label/nightly -c conda-forge -c uvcdat
-  - conda install udunits2 -c uvcdat/label/nightly  -c conda-forge -c uvcdat
+  - conda install cdms2 -c cdat/label/nightly -c conda-forge -c cdat
+  - conda install udunits2 -c cdat/label/nightly  -c conda-forge -c cdat
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then conda install gcc; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then conda install gcc; fi
   - source deactivate root
