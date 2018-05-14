@@ -4,7 +4,14 @@
     <bookmark url="file://$PROJECT_DIR$/../esgf-prepare/esgprep/esgprep/utils/collectors.py" description="for root, _, filenames in os.walk(source, followli..." line="155" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="56082a9e-6713-4958-a425-3b44e56c148b" name="Default" comment="" />
+    <list default="true" id="56082a9e-6713-4958-a425-3b44e56c148b" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/.circleci/config.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ci-support/checkout_merge_commit.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.travis.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.travis.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LibCV/PrePARE/PrePARE.py" beforeDir="false" afterPath="$PROJECT_DIR$/LibCV/PrePARE/PrePARE.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/cmor_locale.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/cmor_locale.h" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,12 +20,12 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="PrePARE.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/LibCV/PrePARE/PrePARE.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="25">
-              <caret line="708" column="35" lean-forward="true" selection-start-line="708" selection-start-column="35" selection-end-line="708" selection-end-column="35" />
+            <state relative-caret-position="136">
+              <caret line="574" column="11" lean-forward="true" selection-start-line="574" selection-start-column="11" selection-end-line="574" selection-end-column="11" />
               <folding>
                 <element signature="e#469#484#0" expanded="true" />
               </folding>
@@ -27,6 +34,13 @@
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -49,6 +63,8 @@
       <find>infile</find>
       <find>'</find>
       <find>self.infile</find>
+      <find>self.errors</find>
+      <find>err =</find>
     </findStrings>
     <replaceStrings>
       <replace>errors</replace>
@@ -77,20 +93,24 @@
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch_8.py" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch.json" />
         <option value="$PROJECT_DIR$/LibCV/PrePARE/out_names_tests.json" />
+        <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch_9.py" />
+        <option value="$APPLICATION_CONFIG_DIR$/scratches/PrePARE.bak.py" />
+        <option value="$PROJECT_DIR$/LibCV/PrePARE/PrePAREbak.py" />
         <option value="$PROJECT_DIR$/LibCV/PrePARE/PrePARE.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="22" />
-    <option name="width" value="1920" />
-    <option name="height" value="1058" />
+    <option name="width" value="1440" />
+    <option name="height" value="878" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -106,6 +126,12 @@
             <path>
               <item name="esgf-cmor" type="b2602c69:ProjectViewProjectNode" />
               <item name="esgf-cmor" type="462c0819:PsiDirectoryNode" />
+              <item name="LibCV" type="462c0819:PsiDirectoryNode" />
+              <item name="PrePARE" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="esgf-cmor" type="b2602c69:ProjectViewProjectNode" />
+              <item name="esgf-cmor" type="462c0819:PsiDirectoryNode" />
               <item name="recipes" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -117,11 +143,10 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.intellij.ide.scratch.LRUPopupBuilder$2/Languages" value="JSON&#10;Python&#10;Bash" />
+    <property name="com.intellij.ide.scratch.LRUPopupBuilder$2/Languages" value="Python&#10;JSON&#10;Bash" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunDashboard">
@@ -165,18 +190,20 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1920" height="1058" extended-state="6" />
+    <frame x="0" y="22" width="1440" height="878" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22523962" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="R Packages" order="3" />
-      <window_info anchor="right" id="R Graphics" order="4" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="bottom" id="Python Console" order="8" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.18104367" />
       <window_info anchor="bottom" id="Terminal" order="9" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.30686694" />
+      <window_info anchor="right" id="R Packages" order="3" />
+      <window_info anchor="right" id="R Graphics" order="4" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.18104367" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -185,7 +212,6 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -198,6 +224,16 @@
     <option name="LAST_COMMIT_MESSAGE" value="Refactoring + fix time_bnds call + add out_names tests + fix fill_value test" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/LibCV/PrePARE/PrePARE.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6120">
+          <caret line="419" column="36" lean-forward="true" selection-start-line="419" selection-start-column="36" selection-end-line="419" selection-end-column="36" />
+          <folding>
+            <element signature="e#469#484#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/LibCV/PrePARE/PrePARE.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3810">
@@ -408,10 +444,40 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/PrePARE.bak.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="704">
+          <caret line="809" column="10" selection-start-line="809" selection-start-column="10" selection-end-line="809" selection-end-column="10" />
+          <folding>
+            <element signature="e#469#484#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_9.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1">
+          <caret line="39" column="26" selection-end-line="809" selection-end-column="10" />
+          <folding>
+            <element signature="e#469#484#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LibCV/PrePARE/PrePAREbak.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1303">
+          <caret line="508" selection-start-line="508" selection-end-line="510" selection-end-column="77" />
+          <folding>
+            <element signature="e#469#484#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/LibCV/PrePARE/PrePARE.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25">
-          <caret line="708" column="35" lean-forward="true" selection-start-line="708" selection-start-column="35" selection-end-line="708" selection-end-column="35" />
+        <state relative-caret-position="136">
+          <caret line="574" column="11" lean-forward="true" selection-start-line="574" selection-start-column="11" selection-end-line="574" selection-end-column="11" />
           <folding>
             <element signature="e#469#484#0" expanded="true" />
           </folding>
