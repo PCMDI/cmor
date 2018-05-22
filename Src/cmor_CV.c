@@ -635,7 +635,7 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
     rc = cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE_ID, szSource_ID);
     if (rc != 0) {
         snprintf(msg, CMOR_MAX_STRING,
-                 "You \"%s\" is not defined, check your required attributes\n! "
+                 "Your \"%s\" is not defined, check your required attributes\n! "
                  "See Control Vocabulary JSON file.(%s)\n! ",
                  GLOBAL_ATT_SOURCE_ID, CV_Filename);
         cmor_handle_error(msg, CMOR_NORMAL);
@@ -647,6 +647,13 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
         CV_source_id = &CV_source_ids->oValue[i];
         if (strncmp(CV_source_id->key, szSource_ID, CMOR_MAX_STRING) == 0) {
             // Make sure that "source" exist.
+            if (CV_source_id->aszValue == NULL) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "Your source global attribute is empty!\n! ");
+                cmor_handle_error(msg, CMOR_NORMAL);
+                cmor_pop_traceback();
+                return (-1);
+            } 
             if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_SOURCE) != 0) {
                 cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_SOURCE,
                                                         CV_source_id->aszValue
