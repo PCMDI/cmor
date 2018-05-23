@@ -646,18 +646,9 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
     for (i = 0; i < CV_source_ids->nbObjects; i++) {
         CV_source_id = &CV_source_ids->oValue[i];
         if (strncmp(CV_source_id->key, szSource_ID, CMOR_MAX_STRING) == 0) {
-            // Make sure that "source" exist.
-            if (CV_source_id->aszValue == NULL) {
-                snprintf(msg, CMOR_MAX_STRING,
-                        "Your source global attribute is empty!\n! ");
-                cmor_handle_error(msg, CMOR_NORMAL);
-                cmor_pop_traceback();
-                return (-1);
-            } 
             if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_SOURCE) != 0) {
                 cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_SOURCE,
-                                                        CV_source_id->aszValue
-                                                        [0], 1);
+                                                        CV_source_id->szValue, 1);
             }
             // Check source with experiment_id label.
             rc = cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE, szSource);
