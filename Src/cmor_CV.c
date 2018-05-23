@@ -646,6 +646,7 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
     for (i = 0; i < CV_source_ids->nbObjects; i++) {
         CV_source_id = &CV_source_ids->oValue[i];
         if (strncmp(CV_source_id->key, szSource_ID, CMOR_MAX_STRING) == 0) {
+            // Make sure that "source" exist.
             if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_SOURCE) != 0) {
                 cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_SOURCE,
                                                         CV_source_id->szValue, 1);
