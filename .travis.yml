@@ -47,4 +47,4 @@ after_failure:
 
 after_success:
   - if [ $TRAVIS_BRANCH == "master" -a "$TRAVIS_OS_NAME" = "osx" ]; then bash scripts/conda_upload.sh ${TRAVIS_BRANCH} ; fi
-  - if [ $TRAVIS_BRANCH == "master" -a "$TRAVIS_OS_NAME" = "linux" ]; then docker run -v `pwd`:/travis_home -e CONDA_UPLOAD_TOKEN=${CONDA_UPLOAD_TOKEN} -a STDOUT -a STDERR centos:6.8 /travis_home/scripts/conda_upload.sh ${TRAVIS_BRANCH} ; fi
+  - if [ $TRAVIS_BRANCH == "fix_travis_upload" -a "$TRAVIS_OS_NAME" = "linux" ]; then docker run -v `pwd`:/travis_home -e CONDA_UPLOAD_TOKEN=${CONDA_UPLOAD_TOKEN} -a STDOUT -a STDERR centos:6.8 /travis_home/scripts/conda_upload.sh ${TRAVIS_BRANCH} ; fi
