@@ -596,6 +596,7 @@ void cmor_handle_error(char error_msg[CMOR_MAX_STRING], int level)
 
         snprintf(msg, CMOR_MAX_STRING, "! Error: %s", error_msg);
     }
+    // fprintf(stderr, "%s ERROR LEVEL %d\n", error_msg, level);
     if (CMOR_VERBOSITY != CMOR_QUIET || level != CMOR_WARNING) {
         for (i = 0; i < 25; i++) {
             fprintf(output_logfile, "!");
