@@ -4,9 +4,9 @@
         "cmor_version": "3.3", 
         "Conventions": "CF-1.7 CMIP-6.2", 
         "table_id": "Table grids", 
-        "data_specs_version": "01.00.23", 
+        "data_specs_version": "01.00.24", 
         "missing_value": "1e20", 
-        "table_date": "21 March 2018"
+        "table_date": "23 May 2018"
     }, 
     "mapping_entry": {
         "sample_user_mapping": {
@@ -16,14 +16,6 @@
         }
     }, 
     "axis_entry": {
-        "grid_latitude": {
-            "long_name": "latitude in rotated pole grid", 
-            "standard_name": "grid_latitude", 
-            "out_name": "rlat", 
-            "units": "degrees", 
-            "type": "", 
-            "axis": "Y"
-        }, 
         "y_deg": {
             "long_name": "y coordinate of projection", 
             "standard_name": "projection_y_coordinate", 
@@ -48,20 +40,20 @@
             "type": "", 
             "axis": "X"
         }, 
-        "k_index": {
-            "long_name": "cell index along third dimension", 
-            "standard_name": "", 
-            "out_name": "k", 
-            "units": "1", 
-            "type": "integer", 
-            "axis": ""
-        }, 
         "vertices": {
             "long_name": "", 
             "standard_name": "", 
             "out_name": "", 
             "units": "", 
             "type": "", 
+            "axis": ""
+        }, 
+        "k_index": {
+            "long_name": "cell index along third dimension", 
+            "standard_name": "", 
+            "out_name": "k", 
+            "units": "1", 
+            "type": "integer", 
             "axis": ""
         }, 
         "x_deg": {

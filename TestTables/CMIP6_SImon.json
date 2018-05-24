@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.23", 
+        "data_specs_version": "01.00.24", 
         "cmor_version": "3.3", 
         "table_id": "Table SImon", 
         "realm": "seaIce", 
-        "table_date": "21 March 2018", 
+        "table_date": "23 May 2018", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -269,7 +269,7 @@
         "sidmassgrowthwat": {
             "frequency": "mon", 
             "modeling_realm": "seaIce", 
-            "standard_name": "tendency_of_sea_ice_amount_due_to_freezing_in_open_water", 
+            "standard_name": "tendency_of_sea_ice_amount_due_to_frazil_ice_accumulation_in_leads", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
@@ -521,7 +521,7 @@
         "siflcondtop": {
             "frequency": "mon", 
             "modeling_realm": "seaIce", 
-            "standard_name": "conductive_heat_flux_at_sea_ice_surface", 
+            "standard_name": "surface_downward_sensible_heat_flux", 
             "units": "W m-2", 
             "cell_methods": "area: time: mean where sea_ice (comment: mask=siconc or siconca)", 
             "cell_measures": "area: areacello OR areacella", 
@@ -539,7 +539,7 @@
         "siflfwbot": {
             "frequency": "mon", 
             "modeling_realm": "seaIce", 
-            "standard_name": "water_flux_into_sea_water_from_sea_ice", 
+            "standard_name": "water_flux_into_sea_water_due_to_sea_ice_thermodynamics", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: time: mean where sea_ice (comment: mask=siconc or siconca)", 
             "cell_measures": "area: areacello OR areacella", 
@@ -845,7 +845,7 @@
         "siitdconc": {
             "frequency": "mon", 
             "modeling_realm": "seaIce", 
-            "standard_name": "sea_ice_area_fraction_over_categories", 
+            "standard_name": "sea_ice_area_fraction", 
             "units": "%", 
             "cell_methods": "area: time: mean where sea_ice (comment: mask=siconc)", 
             "cell_measures": "area: areacella", 
@@ -863,7 +863,7 @@
         "siitdsnconc": {
             "frequency": "mon", 
             "modeling_realm": "seaIce", 
-            "standard_name": "snow_area_fraction_over_categories", 
+            "standard_name": "surface_snow_area_fraction", 
             "units": "%", 
             "cell_methods": "area: time: mean where sea_ice (comment: mask=siitdconc)", 
             "cell_measures": "area: areacella", 
@@ -881,7 +881,7 @@
         "siitdsnthick": {
             "frequency": "mon", 
             "modeling_realm": "seaIce", 
-            "standard_name": "snow_thickness_over_categories", 
+            "standard_name": "surface_snow_thickness", 
             "units": "m", 
             "cell_methods": "area: time: mean where sea_ice (comment: mask=siitdconc)", 
             "cell_measures": "area: areacella", 
@@ -899,7 +899,7 @@
         "siitdthick": {
             "frequency": "mon", 
             "modeling_realm": "seaIce", 
-            "standard_name": "sea_ice_thickness_over_categories", 
+            "standard_name": "sea_ice_thickness", 
             "units": "m", 
             "cell_methods": "area: time: mean where sea_ice (comment: mask=siitdconc)", 
             "cell_measures": "area: areacella", 
@@ -1097,7 +1097,7 @@
         "sishevel": {
             "frequency": "monPt", 
             "modeling_realm": "seaIce", 
-            "standard_name": "maximum_shear_of_sea_ice_velocity", 
+            "standard_name": "sea_ice_second_invariant_of_horizontal_strain_tensor_expressed_as_effective_stress", 
             "units": "s-1", 
             "cell_methods": "area: mean where sea_ice (comment: mask=siconc) time: point", 
             "cell_measures": "area: areacello", 
@@ -1205,7 +1205,7 @@
         "sistremax": {
             "frequency": "monPt", 
             "modeling_realm": "seaIce", 
-            "standard_name": "maximum_shear_stress", 
+            "standard_name": "sea_ice_second_invariant_of_horizontal_stress_tensor_expressed_as_effective_stress", 
             "units": "N m-1", 
             "cell_methods": "area: mean where sea_ice (comment: mask=siconc) time: point", 
             "cell_measures": "area: areacello", 
@@ -1223,7 +1223,7 @@
         "sistresave": {
             "frequency": "monPt", 
             "modeling_realm": "seaIce", 
-            "standard_name": "average_normal_stress", 
+            "standard_name": "sea_ice_trace_of_horizontal_stress_tensor", 
             "units": "N m-1", 
             "cell_methods": "area: mean where sea_ice (comment: mask=siconc) time: point", 
             "cell_measures": "area: areacello", 
@@ -1565,7 +1565,7 @@
         "sndmasssubl": {
             "frequency": "mon", 
             "modeling_realm": "seaIce", 
-            "standard_name": "surface_snow_sublimation_flux", 
+            "standard_name": "surface_snow_and_ice_sublimation_flux", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
@@ -1601,7 +1601,7 @@
         "snmassacrossline": {
             "frequency": "mon", 
             "modeling_realm": "seaIce", 
-            "standard_name": "snow_mass_transport_across_line", 
+            "standard_name": "snow_transport_across_line_due_to_sea_ice_dynamics", 
             "units": "kg s-1", 
             "cell_methods": "time: mean", 
             "cell_measures": "", 

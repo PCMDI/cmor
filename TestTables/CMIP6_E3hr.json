@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.23", 
+        "data_specs_version": "01.00.24", 
         "cmor_version": "3.3", 
         "table_id": "Table E3hr", 
         "realm": "land", 
-        "table_date": "21 March 2018", 
+        "table_date": "23 May 2018", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -58,7 +58,7 @@
             "cell_methods": "area: mean where land time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Carbon Mass Flux out of Atmosphere due to Gross Primary Production on Land", 
-            "comment": "", 
+            "comment": "'Production of carbon' means the production of biomass expressed as the mass of carbon which it contains. Gross primary production is the rate of synthesis of biomass from inorganic precursors by autotrophs ('producers'), for example, photosynthesis in plants or phytoplankton. The producers also respire some of this biomass and the difference is 'net_primary_production'. 'Productivity' means production per unit area. The phrase 'expressed_as' is used in the construction A_expressed_as_B, where B is a chemical constituent of A. It means that the quantity indicated by the standard name is calculated solely with respect to the B contained in A, neglecting all other chemical constituents of A.", 
             "dimensions": "longitude latitude time", 
             "out_name": "gpp", 
             "type": "real", 
@@ -179,7 +179,7 @@
         "ra": {
             "frequency": "3hr", 
             "modeling_realm": "land", 
-            "standard_name": "plant_respiration_carbon_flux", 
+            "standard_name": "surface_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_plant_respiration", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: mean where land time: mean", 
             "cell_measures": "area: areacella", 
@@ -197,7 +197,7 @@
         "rh": {
             "frequency": "3hr", 
             "modeling_realm": "land", 
-            "standard_name": "heterotrophic_respiration_carbon_flux", 
+            "standard_name": "surface_upward_mass_flux_of_carbon_dioxide_expressed_as_carbon_due_to_heterotrophic_respiration", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: mean where land time: mean", 
             "cell_measures": "area: areacella", 

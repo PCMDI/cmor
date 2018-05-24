@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.23", 
+        "data_specs_version": "01.00.24", 
         "cmor_version": "3.3", 
         "table_id": "Table EdayZ", 
         "realm": "atmos", 
-        "table_date": "21 March 2018", 
+        "table_date": "23 May 2018", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -71,7 +71,7 @@
         "psitem": {
             "frequency": "day", 
             "modeling_realm": "atmos", 
-            "standard_name": "meridional_streamfunction_transformed_eulerian_mean", 
+            "standard_name": "atmosphere_transformed_eulerian_mean_meridional_overturning_mass_streamfunction", 
             "units": "kg s-1", 
             "cell_methods": "longitude: mean time: mean", 
             "cell_measures": "", 

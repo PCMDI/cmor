@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.23", 
+        "data_specs_version": "01.00.24", 
         "cmor_version": "3.3", 
         "table_id": "Table EmonZ", 
         "realm": "atmos", 
-        "table_date": "21 March 2018", 
+        "table_date": "23 May 2018", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -148,7 +148,7 @@
             "cell_methods": "longitude: mean (basin) time: mean", 
             "cell_measures": "", 
             "long_name": "Atlantic Northward Ocean Salt Transport", 
-            "comment": "", 
+            "comment": "'Northward' indicates a vector component which is positive when directed northward (negative southward). Ocean transport means transport by all processes, both sea water and sea ice.", 
             "dimensions": "latitude basin time", 
             "out_name": "sltnortha", 
             "type": "real", 
@@ -197,7 +197,7 @@
         "tntnogw": {
             "frequency": "mon", 
             "modeling_realm": "atmos", 
-            "standard_name": "temperature_tendency_due_to_dissipation_nonorographic_gravity_wave_drag", 
+            "standard_name": "tendency_of_air_temperature_due_to_dissipation_of_nonorographic_gravity_waves", 
             "units": "K s-1", 
             "cell_methods": "longitude: mean time: mean", 
             "cell_measures": "", 
@@ -215,7 +215,7 @@
         "tntogw": {
             "frequency": "mon", 
             "modeling_realm": "atmos", 
-            "standard_name": "temperature_tendency_due_to_dissipation_orographic_gravity_wave_drag", 
+            "standard_name": "tendency_of_air_temperature_due_to_dissipation_of_orographic_gravity_waves", 
             "units": "K s-1", 
             "cell_methods": "longitude: mean time: mean", 
             "cell_measures": "", 
@@ -310,7 +310,7 @@
             "cell_methods": "longitude: mean time: mean", 
             "cell_measures": "", 
             "long_name": "Tendency of Air Temperature Due to Stratiform Clouds and Precipitation", 
-            "comment": "", 
+            "comment": "The phrase 'tendency_of_X' means derivative of X with respect to time. Air temperature is the bulk temperature of the air, not the surface (skin) temperature. The specification of a physical process by the phrase 'due_to_' process means that the quantity named is a single term in a sum of terms which together compose the general quantity named by omitting the phrase. A variable with the standard name tendency_of_air_temperature_due_to_stratiform_cloud_and_precipitation should contain net latent heating effects of all processes which convert stratiform clouds and precipitation between water vapour, liquid or ice phases. In an atmosphere model, stratiform cloud is that produced by large-scale convergence (not the convection schemes).", 
             "dimensions": "latitude plev39 time", 
             "out_name": "tntscp", 
             "type": "real", 

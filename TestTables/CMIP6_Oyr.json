@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.23", 
+        "data_specs_version": "01.00.24", 
         "cmor_version": "3.3", 
         "table_id": "Table Oyr", 
         "realm": "ocnBgChem", 
-        "table_date": "21 March 2018", 
+        "table_date": "23 May 2018", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -742,7 +742,7 @@
             "cell_methods": "area: mean where sea time: mean", 
             "cell_measures": "area: areacello", 
             "long_name": "Surface Downward Flux of Abiotic 13CO2", 
-            "comment": "The surface called 'surface' means the lower boundary of the atmosphere. 'Downward' indicates a vector component which is positive when directed downward (negative upward). In accordance with common usage in geophysical disciplines, 'flux' implies per unit area, called 'flux density' in physics. In ocean biogeochemistry models, an 'abiotic analogue' is used to simulate the effect on a modelled variable when biological effects on ocean carbon concentration and alkalinity are ignored. The phrase 'expressed_as' is used in the construction A_expressed_as_B, where B is a chemical constituent of A. It means that the quantity indicated by the standard name is calculated solely with respect to the B contained in A, neglecting all other chemical constituents of A. Carbon13 is a stable isotope of carbon having six protons and seven neutrons.", 
+            "comment": "alias::surface_downward_mass_flux_of_carbon13_dioxide_abiotic_analogue_expressed_as_carbon13", 
             "dimensions": "longitude latitude time", 
             "out_name": "fg13co2", 
             "type": "real", 

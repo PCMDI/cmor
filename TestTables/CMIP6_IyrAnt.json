@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.23", 
+        "data_specs_version": "01.00.24", 
         "cmor_version": "3.3", 
         "table_id": "Table IyrAnt", 
         "realm": "atmos", 
-        "table_date": "21 March 2018", 
+        "table_date": "23 May 2018", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -377,7 +377,7 @@
         "strbasemag": {
             "frequency": "yr", 
             "modeling_realm": "landIce", 
-            "standard_name": "magnitude_of_land_ice_basal_drag", 
+            "standard_name": "land_ice_basal_drag", 
             "units": "Pa", 
             "cell_methods": "area: time: mean where ice_sheet", 
             "cell_measures": "area: areacellg", 

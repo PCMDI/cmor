@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.23", 
+        "data_specs_version": "01.00.24", 
         "cmor_version": "3.3", 
         "table_id": "Table Eyr", 
         "realm": "land", 
-        "table_date": "21 March 2018", 
+        "table_date": "23 May 2018", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -40,7 +40,7 @@
             "cell_methods": "area: mean where land time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "Carbon Mass in Litter Pool", 
-            "comment": "", 
+            "comment": "alias::litter_carbon_content", 
             "dimensions": "longitude latitude time1", 
             "out_name": "cLitter", 
             "type": "real", 
@@ -89,7 +89,7 @@
         "cProductLut": {
             "frequency": "yrPt", 
             "modeling_realm": "land", 
-            "standard_name": "carbon_content_of_products_of_anthropogenic_land_use_change", 
+            "standard_name": "carbon_content_of_forestry_and_agricultural_products", 
             "units": "kg m-2", 
             "cell_methods": "area: mean where landuse time: point", 
             "cell_measures": "area: areacella", 

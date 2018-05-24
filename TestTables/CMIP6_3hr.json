@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.23", 
+        "data_specs_version": "01.00.24", 
         "cmor_version": "3.3", 
         "table_id": "Table 3hr", 
         "realm": "atmos", 
-        "table_date": "21 March 2018", 
+        "table_date": "23 May 2018", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -292,7 +292,7 @@
             "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Surface Diffuse Downwelling Shortwave Radiation", 
-            "comment": "", 
+            "comment": "Downwelling radiation is radiation from above. It does not mean 'net downward'.  'Diffuse' radiation is radiation that has been scattered by particles in the atmosphere such as cloud droplets and aerosols. When thought of as being incident on a surface, a radiative flux is sometimes called 'irradiance'.  In addition, it is identical with the quantity measured by a cosine-collector light-meter and sometimes called 'vector irradiance'.  In accordance with common usage in geophysical disciplines, 'flux' implies per unit area, called 'flux density' in physics.  The surface called 'surface' means the lower boundary of the atmosphere.  'shortwave' means shortwave radiation.", 
             "dimensions": "longitude latitude time", 
             "out_name": "rsdsdiff", 
             "type": "real", 
