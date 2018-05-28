@@ -335,7 +335,6 @@ class checkCMIP6(object):
            11. Validate that all *_index are integers.
 
         """
-        cmip6_cv.reset_CV_Error()
         filename = os.path.basename(ncfile)
         # -------------------------------------------------------------------
         #  Initialize arrays
@@ -676,10 +675,10 @@ def main():
         default='./Tables')
 
     parser.add_argument(
-        '--max-threads',
+        '--max-processes',
         type=int,
         default=1,
-        help='Number of maximal threads to simultaneously process several files.\n'
+        help='Number of maximal processes to simultaneously treat several files.\n'
              'Default is one as sequential processing.')
 
     parser.add_argument(
@@ -747,9 +746,9 @@ def main():
     nb_sources = len(sources)
     errors = 0
     # Separate sequential process and multiprocessing
-    if args.max_threads > 1:
+    if args.max_processes > 1:
         # Create pool of processes
-        pool = Pool(int(args.max_threads))
+        pool = Pool(int(args.max_processes))
         # Run processes
         logfiles = list()
         progress = Spinner()
