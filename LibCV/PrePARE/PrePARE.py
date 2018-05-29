@@ -592,12 +592,7 @@ class checkCMIP6(object):
 
         if self.errors != 0:
             raise KeyboardInterrupt
-        else:
-            print BCOLORS.OKGREEN
-            print "*************************************************************************************"
-            print "* This file is compliant with the CMIP6 specification and can be published in ESGF  *"
-            print "*************************************************************************************"
-            print BCOLORS.ENDC
+
 
 
 def process(source):
@@ -614,22 +609,18 @@ def sequential_process(source):
     try:
         # Deserialize inputs
         ncfile, data = source
-        table_path, variable = data
-        print "Processing: {}\n".format(ncfile)
+        table_path, variable, errors_only = data
         # Process file
         checker = checkCMIP6(table_path)
         if variable:
             checker.ControlVocab(ncfile, variable)
         else:
             checker.ControlVocab(ncfile)
+        if not errors_only:
+            print BCOLORS.OKGREEN + "     :: SUCCESS :: {}".format(ncfile) + BCOLORS.ENDC
         return 0
     except KeyboardInterrupt:
-        print BCOLORS.FAIL
-        print "*************************************************************************************"
-        print "* Error: The input file is not CMIP6 compliant                                      *"
-        print "* Check your file or use CMOR 3.x to achieve compliance for ESGF publication        *"
-        print "*************************************************************************************"
-        print BCOLORS.ENDC
+        print BCOLORS.FAIL + "└──> :: FAIL    :: {}".format(ncfile) + BCOLORS.ENDC
         return 1
     finally:
         # Close opened file
@@ -654,6 +645,24 @@ def regex_validator(string):
         raise ArgumentTypeError(msg)
 
 
+def processes_validator(value):
+    """
+    Validates the max processes number.
+
+    :param str value: The max processes number submitted
+    :return:
+    """
+    pnum = int(value)
+    if pnum < 1 and pnum != -1:
+        msg = 'Invalid processes number. Should be a positive integer or "-1".'
+        raise ArgumentTypeError(msg)
+    if pnum == -1:
+        # Max processes = None corresponds to cpu.count() in Pool creation
+        return  None
+    else:
+        return pnum
+
+
 #  =========================
 #   main()
 #  =========================
@@ -676,11 +685,17 @@ def main():
 
     parser.add_argument(
         '--max-processes',
-        type=int,
+        metavar='1',
+        type=processes_validator,
         default=1,
         help='Number of maximal processes to simultaneously treat several files.\n'
-             'Default is one as sequential processing.')
-
+             'Set to one seems sequential processing (default). Set to "-1" seems\n'
+             'all available resources as returned by "multiprocessing.cpu_count()".')
+    parser.add_argument(
+        '--errors-only',
+        action='store_true',
+        default=False,
+        help='Shows error(s) only (i.e., file not compliant)')
     parser.add_argument(
         '--ignore-dir',
         metavar="PYTHON_REGEX",
@@ -723,9 +738,8 @@ def main():
         return 1
     except SystemExit:
         return 1
-
     # Collects netCDF files for process
-    sources = Collector(args.input, data=(args.table_path, args.variable))
+    sources = Collector(args.input, data=(args.table_path, args.variable, args.errors_only))
     # Set scan filters
     file_filters = list()
     if args.include_file:
@@ -746,7 +760,7 @@ def main():
     nb_sources = len(sources)
     errors = 0
     # Separate sequential process and multiprocessing
-    if args.max_processes > 1:
+    if args.max_processes != 1:
         # Create pool of processes
         pool = Pool(int(args.max_processes))
         # Run processes
@@ -760,8 +774,10 @@ def main():
         sys.stdout.flush()
         # Print results from logfiles and remove them
         for logfile in set(logfiles):
-            with open(logfile, 'r') as f:
-                print f.read()
+            if not os.stat(logfile).st_size == 0:
+                with open(logfile, 'r') as f:
+                    sys.stdout.write(f.read())
+                    sys.stdout.flush()
             os.remove(logfile)
         # Close pool of processes
         pool.close()
