@@ -2198,8 +2198,8 @@
             "valid_max": "1.0", 
             "valid_min": "0.0", 
             "value": "", 
-            "z_bounds_factors": "p0: p0 a: a_bnds b: b_bnds ps: ps", 
-            "z_factors": "p0: p0 a: a b: b ps: ps", 
+            "z_bounds_factors": "p0: p0 a: ahalf_bnds b: bhalf_bnds ps: ps", 
+            "z_factors": "p0: p0 a: ahalf b: bhalf ps: ps", 
             "bounds_values": "", 
             "generic_level_name": "alevhalf"
         }, 

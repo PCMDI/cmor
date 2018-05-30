@@ -2163,6 +2163,7 @@ void cmor_init_axis_def(cmor_axis_def_t * axis, int table_id)
     axis->index_only = 'n';
     axis->must_have_bounds = 0;
     axis->must_call_cmor_grid = 0;
+    axis->generic_level_name[0] = '\0';
 }
 
 /************************************************************************/
@@ -2243,6 +2244,10 @@ int cmor_set_axis_def_att(cmor_axis_def_t * axis, char att[CMOR_MAX_STRING],
     } else if (strcmp(att, AXIS_ATT_POSITIVE) == 0) {
 
         axis->positive = val[0];
+
+    } else if (strcmp(att, AXIS_ATT_GEN_LEVEL_NAME) == 0) {
+
+        strncpy(axis->generic_level_name, val, CMOR_MAX_STRING);
 
     } else if (strcmp(att, AXIS_ATT_AXIS) == 0) {
 

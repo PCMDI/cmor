@@ -394,7 +394,6 @@ int cmor_zfactor(int *zvar_id, int axis_id, char *name, char *units,
 {
 
     extern int cmor_nvars;
-    extern cmor_var_t cmor_formula[];
 
     int i, j, k;
     int n, gid;
@@ -1581,16 +1580,35 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
             continue;
         }
         for (j = 0; j < refvar.ndims; j++) {
-            if ((strcmp
+            if (strcmp
                  (cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].axes
                   [cmor_axes[laxes_ids[i]].ref_axis_id].id,
-                  cmor_tables[CMOR_TABLE].axes[refvar.dimensions[j]].id) == 0)
-                ||
-                ((cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].axes
+                  cmor_tables[CMOR_TABLE].axes[refvar.dimensions[j]].id) == 0) {
+                      k++;
+                  }
+                else if ((cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].axes
                   [cmor_axes[laxes_ids[i]].ref_axis_id].axis == 'Z')
-                 && (refvar.dimensions[j] == -2))) {
-
+                 && (refvar.dimensions[j] == -2)) {
                 k++;
+/* ok it is a olvel or similar (refvar == -2) */
+/* we need to ensure it is the correct one */
+                if (strcmp(refvar.generic_level_name,
+                cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].axes
+                [cmor_axes[laxes_ids[i]].ref_axis_id].generic_level_name) != 0) {
+                    snprintf(msg, CMOR_MAX_STRING,
+                     "You defined variable '%s' (table %s) with axis "
+                     "id '%s', the variable calls for a generic axis of type '%s' "
+                     "according to your table, the axis you are providing is of generic type '%s'",
+                     refvar.id,
+                     cmor_tables[cmor_vars[vrid].ref_table_id].szTable_id,
+                     cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].
+                     axes[cmor_axes[laxes_ids[i]].ref_axis_id].id,
+                     refvar.generic_level_name,
+                     cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].axes
+                     [cmor_axes[laxes_ids[i]].ref_axis_id].generic_level_name
+                     );
+                    cmor_handle_error_var(msg, CMOR_CRITICAL, vrid);
+                }
             }
         }
         if (k != i) {
@@ -1879,6 +1897,7 @@ void cmor_init_var_def(cmor_var_def_t * var, int table_id)
     var->shuffle = 0;
     var->deflate = 1;
     var->deflate_level = 1;
+    var->generic_level_name[0] = '\0';
 }
 
 /************************************************************************/
@@ -1965,6 +1984,8 @@ int cmor_set_var_def_att(cmor_var_def_t * var, char att[CMOR_MAX_STRING],
                 if (j == 0) {
 
                     var->dimensions[var->ndims] = -2;
+                    strncpy(var->generic_level_name, dim, CMOR_MAX_STRING);
+
                 } else {
                     if ((strcmp(dim, DIMENSION_LONGITUDE) != 0)
                         && strcmp(dim, DIMENSION_LATITUDE) != 0) {

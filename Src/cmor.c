@@ -1875,7 +1875,7 @@ int cmor_define_zfactors_vars(int var_id, int ncid, int *nc_dim,
 /* -------------------------------------------------------------------- */
         l = -1;
         for (k = 0; k < cmor_nvars + 1; k++) {
-            if (strcmp(ctmp, cmor_vars[k].id) == 0) {
+            if (strcmp(ctmp, cmor_tables[cmor_vars[k].ref_table_id].vars[cmor_vars[k].ref_var_id].id) == 0) {
 /* -------------------------------------------------------------------- */
 /*      ok that is not enough! We need to know if the dims match!       */
 /* -------------------------------------------------------------------- */
