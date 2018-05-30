@@ -282,8 +282,8 @@
             "valid_max": "1.0", 
             "valid_min": "0.0", 
             "value": "", 
-            "z_bounds_factors": "ap: ap_bnds b: b_bnds ps: ps", 
-            "z_factors": "ap: ap b: b ps: ps", 
+            "z_bounds_factors": "ap: ap_half_bnds b: b_half_bnds ps: ps", 
+            "z_factors": "ap: ap_half b: b_half ps: ps", 
             "bounds_values": "", 
             "generic_level_name": "alevhalf"
         }, 
@@ -741,8 +741,8 @@
             "valid_max": "", 
             "valid_min": "0.0", 
             "value": "", 
-            "z_bounds_factors": "a: lev_bnds b: b_bnds orog: orog", 
-            "z_factors": "a: lev b: b orog: orog", 
+            "z_bounds_factors": "a: lev_bnds b: b_half_bnds orog: orog", 
+            "z_factors": "a: lev b: b_half orog: orog", 
             "bounds_values": "", 
             "generic_level_name": "alevhalf"
         }, 
@@ -2060,8 +2060,8 @@
             "valid_max": "800000.0", 
             "valid_min": "-200.0", 
             "value": "", 
-            "z_bounds_factors": "a: a_bnds b1: b1_bnds b2: b2_bnds ztop: ztop zsurf1: zsurf1 zsurf2: zsurf2", 
-            "z_factors": "a: a b1: b1 b2: b2 ztop: ztop zsurf1: zsurf1 zsurf2: zsurf2", 
+            "z_bounds_factors": "a: a_half_bnds b1: b1_half_bnds b2: b2_half_bnds ztop: ztop zsurf1: zsurf1 zsurf2: zsurf2", 
+            "z_factors": "a: a_half b1: b1_half b2: b2_half ztop: ztop zsurf1: zsurf1 zsurf2: zsurf2", 
             "bounds_values": "", 
             "generic_level_name": "alevhalf"
         }, 
@@ -2198,8 +2198,8 @@
             "valid_max": "1.0", 
             "valid_min": "0.0", 
             "value": "", 
-            "z_bounds_factors": "p0: p0 a: ahalf_bnds b: bhalf_bnds ps: ps", 
-            "z_factors": "p0: p0 a: ahalf b: bhalf ps: ps", 
+            "z_bounds_factors": "p0: p0 a: a_half_bnds b: b_half_bnds ps: ps", 
+            "z_factors": "p0: p0 a: a_half b: b_half ps: ps", 
             "bounds_values": "", 
             "generic_level_name": "alevhalf"
         }, 

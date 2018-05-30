@@ -4,7 +4,7 @@
         "cmor_version": "3.3", 
         "table_id": "Table Eday", 
         "realm": "land", 
-        "table_date": "23 May 2018", 
+        "table_date": "30 May 2018", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 

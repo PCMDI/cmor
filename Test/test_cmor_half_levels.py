@@ -78,10 +78,8 @@ a_coeff_bnds = [0., .15, .25, .25, .16, 0.]
 b_coeff_bnds = [0., .05, .15, .35, .65, 1.]
 
 
-varin2d = []
-varin3d = ["MC"]
+varin3d = ["MC",]
 
-n2d = len(varin2d)
 n3d = len(varin3d)
 
 alats, bnds_lat, alons, bnds_lon, plevs = read_coords(lat, lon)
@@ -118,13 +116,7 @@ ilon = cmor.axis(
 
 print("ILON:", ilon)
 
-ipres = cmor.axis(
-    table_entry='plev19',
-    units='hPa',
-    length=plev,
-    coord_vals=plevs)
 
-print("IPRES:",ipres)
 itim = cmor.axis(
     table_entry="time",
     units="days since 1850",
@@ -134,55 +126,22 @@ print("ITIME:",itim)
 zlevs = numpy.array([.1, .3, .55, .7, .9])
 zlev_bnds = numpy.array([0., .2, .42, .62, .8, 1.])
 
-ilev = cmor.axis(table_entry='standard_hybrid_sigma',
-                 units='1',
-                 coord_vals=zlevs,
-                 cell_bounds=zlev_bnds)
-print("ILEVL:",ilev)
 ilev_half = cmor.axis(table_entry='standard_hybrid_sigma_half',
                  units='1',
                  coord_vals=zlevs)
 print("ILEVL half:",ilev_half)
 
-iz = cmor.axis(table_entry='height2m',
-               units='m',
-               coord_vals=[1.5])
-print("IZ:",iz)
-cmor.zfactor(zaxis_id=ilev, zfactor_name='p0', units='hPa', zfactor_values=p0)
-print "P0"
-cmor.zfactor(zaxis_id=ilev, zfactor_name='b', axis_ids=[ilev, ],
-             zfactor_values=b_coeff, zfactor_bounds=b_coeff_bnds)
-print "b"
-cmor.zfactor(zaxis_id=ilev, zfactor_name='a', axis_ids=[ilev, ],
-             zfactor_values=a_coeff, zfactor_bounds=b_coeff_bnds)
-print "a"
-cmor.zfactor(zaxis_id=ilev, zfactor_name='ps',
-             axis_ids=[ilon, ilat, itim], units='hPa')
-print "ps"
-
 cmor.zfactor(zaxis_id=ilev_half, zfactor_name='p0', units='hPa', zfactor_values=p0)
 print "p0 1/2"
-cmor.zfactor(zaxis_id=ilev_half, zfactor_name='bhalf', axis_ids=[ilev_half, ],
+cmor.zfactor(zaxis_id=ilev_half, zfactor_name='b_half', axis_ids=[ilev_half, ],
              zfactor_values=b_coeff)
 print "b 1/2"
-cmor.zfactor(zaxis_id=ilev_half, zfactor_name='ahalf', axis_ids=[ilev_half, ],
+cmor.zfactor(zaxis_id=ilev_half, zfactor_name='a_half', axis_ids=[ilev_half, ],
              zfactor_values=a_coeff)
 print "a 1/2"
-cmor.zfactor(zaxis_id=ilev_half, zfactor_name='ps',
+ps_var = cmor.zfactor(zaxis_id=ilev_half, zfactor_name='ps',
              axis_ids=[ilon, ilat, itim], units='hPa')
 print "ps 1/2"
-
-var2d_ids = []
-for m in varin2d:
-    print "2d VAR:",m
-    var2d_ids.append(
-        cmor.variable(table_entry=specs[m]["entry"],
-                      units=specs[m]["units"],
-                      axis_ids=[itim, ilat, ilon],
-                      missing_value=1.e28,
-                      positive=specs[m]["positive"],
-                      original_name=m)
-    )
 
 var3d_ids = []
 for m in varin3d:
@@ -205,3 +164,7 @@ for index in range(ntimes):
         cmor.write(var_id=var3d_ids[i], data=data, ntimes_passed=1,
                    time_vals=tim_array, time_bnds=bnds_tim)
         print("Passed write")
+        # PSURF
+        data = read_2d_input_files(index,"PSURF",(lat,lon))
+        cmor.write(var_id=ps_var, data=data, ntimes_passed=1, time_vals=tim_array, time_bnds=bnds_tim)
+cmor.close()
