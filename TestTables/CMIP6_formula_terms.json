@@ -182,13 +182,6 @@
             "out_name": "eta", 
             "type": "real"
         }, 
-        "ap_half": {
-            "long_name": "vertical coordinate formula term: ap(k)", 
-            "units": "Pa", 
-            "dimensions": "alevhalf", 
-            "out_name": "ap", 
-            "type": "double"
-        }, 
         "b_half_bnds": {
             "long_name": "vertical coordinate formula term: b(k+1/2)", 
             "units": "", 
@@ -196,10 +189,24 @@
             "out_name": "b_bnds", 
             "type": "double"
         }, 
-        "b1": {
+        "ap_half": {
+            "long_name": "vertical coordinate formula term: ap(k)", 
+            "units": "Pa", 
+            "dimensions": "alevhalf", 
+            "out_name": "ap", 
+            "type": "double"
+        }, 
+        "b2_half": {
+            "long_name": "vertical coordinate formula term: b2(k)", 
+            "units": "", 
+            "dimensions": "alevhalf", 
+            "out_name": "b2", 
+            "type": "double"
+        }, 
+        "b1_half": {
             "long_name": "vertical coordinate formula term: b1(k)", 
             "units": "", 
-            "dimensions": "alevel", 
+            "dimensions": "alevhalf", 
             "out_name": "b1", 
             "type": "double"
         }, 
@@ -210,18 +217,11 @@
             "out_name": "b2", 
             "type": "double"
         }, 
-        "b_half": {
-            "long_name": "vertical coordinate formula term: b(k)", 
+        "a_half": {
+            "long_name": "vertical coordinate formula term: a(k)", 
             "units": "", 
             "dimensions": "alevhalf", 
-            "out_name": "b", 
-            "type": "double"
-        }, 
-        "b1_half": {
-            "long_name": "vertical coordinate formula term: b1(k)", 
-            "units": "", 
-            "dimensions": "alevhalf", 
-            "out_name": "b1", 
+            "out_name": "a", 
             "type": "double"
         }, 
         "ap_half_bnds": {
@@ -231,18 +231,11 @@
             "out_name": "ap_bnds", 
             "type": "double"
         }, 
-        "a_half": {
-            "long_name": "vertical coordinate formula term: a(k)", 
+        "b_half": {
+            "long_name": "vertical coordinate formula term: b(k)", 
             "units": "", 
             "dimensions": "alevhalf", 
-            "out_name": "a", 
-            "type": "double"
-        }, 
-        "b2_half": {
-            "long_name": "vertical coordinate formula term: b2(k)", 
-            "units": "", 
-            "dimensions": "alevhalf", 
-            "out_name": "b2", 
+            "out_name": "b", 
             "type": "double"
         }, 
         "a_half_bnds": {
@@ -250,6 +243,13 @@
             "units": "", 
             "dimensions": "alevhalf", 
             "out_name": "a_bnds", 
+            "type": "double"
+        }, 
+        "b1": {
+            "long_name": "vertical coordinate formula term: b1(k)", 
+            "units": "", 
+            "dimensions": "alevel", 
+            "out_name": "b1", 
             "type": "double"
         }
     }

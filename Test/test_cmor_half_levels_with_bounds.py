@@ -128,16 +128,16 @@ zlev_bnds = numpy.array([0., .2, .42, .62, .8, 1.])
 
 ilev_half = cmor.axis(table_entry='standard_hybrid_sigma_half',
                  units='1',
-                 coord_vals=zlevs)
+                 coord_vals=zlevs, cell_bounds=zlev_bnds)
 print("ILEVL half:",ilev_half)
 
 cmor.zfactor(zaxis_id=ilev_half, zfactor_name='p0', units='hPa', zfactor_values=p0)
 print "p0 1/2"
 cmor.zfactor(zaxis_id=ilev_half, zfactor_name='b_half', axis_ids=[ilev_half, ],
-             zfactor_values=b_coeff)
+             zfactor_values=b_coeff, zfactor_bounds=b_coeff_bnds)
 print "b 1/2"
 cmor.zfactor(zaxis_id=ilev_half, zfactor_name='a_half', axis_ids=[ilev_half, ],
-             zfactor_values=a_coeff)
+             zfactor_values=a_coeff, zfactor_bounds=a_coeff_bnds)
 print "a 1/2"
 ps_var = cmor.zfactor(zaxis_id=ilev_half, zfactor_name='ps',
              axis_ids=[ilon, ilat, itim], units='hPa')
