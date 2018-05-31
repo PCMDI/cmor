@@ -231,6 +231,9 @@ test_python: python
 	env TEST_NAME=Test/test_site_ts.py make test_a_python
 	env TEST_NAME=Test/test_python_free_wrapping_issue.py make test_a_python
 	env TEST_NAME=Test/test_python_filename_time_range.py make test_a_python
+	env TEST_NAME=Test/test_cmor_half_levels.py make test_a_python
+	env TEST_NAME=Test/test_cmor_half_levels_with_bounds.py make test_a_python
+	env TEST_NAME=Test/test_cmor_half_levels_wrong_generic_level.py make test_a_python
 
 test_case:
 	@echo "${OK_COLOR}Testing: "${TEST_NAME}" with input file: ${INPUT_FILE}${NO_COLOR}"
