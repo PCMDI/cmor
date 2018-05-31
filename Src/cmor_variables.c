@@ -1592,9 +1592,13 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
                 k++;
 /* ok it is a olvel or similar (refvar == -2) */
 /* we need to ensure it is the correct one */
-                if (strcmp(refvar.generic_level_name,
+                if (
+                    (strcmp(refvar.generic_level_name,
                 cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].axes
-                [cmor_axes[laxes_ids[i]].ref_axis_id].generic_level_name) != 0) {
+                [cmor_axes[laxes_ids[i]].ref_axis_id].generic_level_name) != 0) && 
+                (cmor_tables[cmor_axes[laxes_ids[i]].ref_table_id].axes
+                     [cmor_axes[laxes_ids[i]].ref_axis_id].generic_level_name[0] != '\0')
+                 ) {
                     snprintf(msg, CMOR_MAX_STRING,
                      "You defined variable '%s' (table %s) with axis "
                      "id '%s', the variable calls for a generic axis of type '%s' "

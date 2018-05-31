@@ -38,13 +38,14 @@ class TestCase(unittest.TestCase):
         # --------------
         # Create tmpfile
         # --------------
-        self.tmpfile = tempfile.mkstemp()
-        os.dup2(self.tmpfile[0], 1)
-        os.dup2(self.tmpfile[0], 2)
-        os.close(self.tmpfile[0])
+        #self.tmpfile = tempfile.mkstemp()
+        #os.dup2(self.tmpfile[0], 1)
+        #os.dup2(self.tmpfile[0], 2)
+        #os.close(self.tmpfile[0])
 
-    def testCMIP6(self):
+    def tstCMIP6(self):
 
+        print "CMIP6"
         nlat = 10
         dlat = 180. / nlat
         nlon = 20
@@ -60,37 +61,48 @@ class TestCase(unittest.TestCase):
         # -------------------------------------------
         # Try to call cmor with a bad institution_ID
         # -------------------------------------------
+        print "RRRRRRRR"
         cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
+        print "CMIP6 ----"
         cmor.dataset_json("Test/common_user_input.json")
+        print "CMIP6 ----"
 
         # --------------------------------------------
         # load Omon table and create masscello variable
         # --------------------------------------------
         cmor.load_table("CMIP6_Omon.json")
+        print "CMIP6 ----"
         itime = cmor.axis(table_entry="time", units='months since 2010',
                           coord_vals=numpy.array([0, 1, 2, 3, 4.]),
                           cell_bounds=numpy.array([0, 1, 2, 3, 4, 5.]))
+        print "CMIP6 ----"
         ilat = cmor.axis(
             table_entry='latitude',
             coord_vals=lats,
             cell_bounds=blats,
             units='degrees_north')
+        print "CMIP6 ----"
         ilon = cmor.axis(
             table_entry='longitude',
             coord_vals=lons,
             cell_bounds=blons,
             units='degrees_east')
+        print "CMIP6 ----"
         ilev = cmor.axis(table_entry='depth_coord', length=5,
                          cell_bounds=numpy.arange(0, 12000, 2000), coord_vals=numpy.arange(0, 10000, 2000), units="m")
+        print "CMIP6 ----"
 
         ivar = cmor.variable(
             table_entry="masscello", axis_ids=[
                 itime, ilev, ilat, ilon, ], units='kg/m2')
+        print "CMIP6 ----"
 
         data = numpy.random.random((ntimes, nlev, nlat, nlon)) * 100.
 
         cmor.write(ivar, data)
+        print "CMIP6 ----"
         cmor.close()
+        print "CMIP6 ----"
         os.dup2(self.newstdout, 1)
         os.dup2(self.newstderr, 2)
         sys.stdout = os.fdopen(self.newstdout, 'w', 0)
@@ -99,9 +111,11 @@ class TestCase(unittest.TestCase):
         f = cdms2.open(cmor.get_final_filename(), "r")
         a = f.getglobal("external_variables")
         self.assertEqual("areacello volcello", a)
+        print "CMIP6"
 
     def testCMIP6_ExternaVariablesError(self):
 
+        print "CMIP6 External Error"
         cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
         error_flag = cmor.dataset_json('Test/common_user_input.json')
         table_id = cmor.load_table('CMIP6_6hrLev.json')
@@ -143,6 +157,7 @@ class TestCase(unittest.TestCase):
         a = f.getglobal("external_variables")
         self.assertEqual(None, a)
         f.close()
+        print "CMIP6 External Error"
 
 
     def tearDown(self):
