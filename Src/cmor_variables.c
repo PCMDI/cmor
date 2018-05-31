@@ -1973,6 +1973,7 @@ int cmor_set_var_def_att(cmor_var_def_t * var, char att[CMOR_MAX_STRING],
             if (n == -1) {
                 j = strcmp(DIMENSION_ZLEVEL, dim);
                 j *= strcmp(DIMENSION_ALEVEL, dim);
+                j *= strcmp(DIMENSION_ALEVEL_HALF, dim);
                 j *= strcmp(DIMENSION_OLEVEL, dim);
                 for (k = 0; k < CMOR_MAX_ELEMENTS; k++) {
                     if (cmor_tables[var->table_id].generic_levels[k][0] == '\0')

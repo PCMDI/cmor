@@ -116,7 +116,7 @@ ilon = cmor.axis(
 
 print("ILON:", ilon)
 
-
+cmor.load_table("Tables/CMIP6_Omon.json")
 itim = cmor.axis(
     table_entry="time",
     units="days since 1850",

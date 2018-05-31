@@ -251,6 +251,7 @@
 #define DIMENSION_LATITUDE            "latitude"
 #define DIMENSION_LONGITUDE           "longitude"
 #define DIMENSION_ALEVEL              "alevel"
+#define DIMENSION_ALEVEL_HALF         "alevhalf"
 #define DIMENSION_ZLEVEL              "zlevel"
 #define DIMENSION_OLEVEL              "olevel"
 
