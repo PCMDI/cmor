@@ -678,11 +678,11 @@ def main():
 
     parser.add_argument(
         '--table-path',
-        help='Specify the CMIP6 CMOR tables path (JSON file).\n'
-             'If not submitted read the CMIP6_CMOR_TABLES environment variable if exists.\n'
-             'If a directory is submitted table is deduced from filename (default is "./Tables").',
         action=DIRECTORYAction,
-        default = os.environ['CMIP6_CMOR_TABLES'] if 'CMIP6_CMOR_TABLES' in os.environ.keys() else './Tables')
+        default = os.environ['CMIP6_CMOR_TABLES'] if 'CMIP6_CMOR_TABLES' in os.environ.keys() else './Tables',
+        help = 'Specify the CMIP6 CMOR tables path (JSON file).\n'
+               'If not submitted read the CMIP6_CMOR_TABLES environment variable if exists.\n'
+               'If a directory is submitted table is deduced from filename (default is "./Tables").')
 
     parser.add_argument(
         '--max-processes',
@@ -728,10 +728,10 @@ def main():
 
     parser.add_argument(
         'input',
-        help='Input CMIP6 netCDF data to validate (ex: clisccp_cfMon_DcppC22_NICAM_gn_200001-200001.nc).\n'
-             'If a directory is submitted all netCDF recursively found will be validate independently.',
         nargs='+',
-        action=INPUTAction)
+        action=INPUTAction,
+        help='Input CMIP6 netCDF data to validate (ex: clisccp_cfMon_DcppC22_NICAM_gn_200001-200001.nc).\n'
+             'If a directory is submitted all netCDF recursively found will be validate independently.')
 
     # Check command-line error
     try:
