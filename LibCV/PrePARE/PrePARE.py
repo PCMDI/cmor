@@ -679,9 +679,10 @@ def main():
     parser.add_argument(
         '--table-path',
         help='Specify the CMIP6 CMOR tables path (JSON file).\n'
+             'If not submitted read the CMIP6_CMOR_TABLES environment variable if exists.\n'
              'If a directory is submitted table is deduced from filename (default is "./Tables").',
         action=DIRECTORYAction,
-        default='./Tables')
+        default = os.environ['CMIP6_CMOR_TABLES'] if 'CMIP6_CMOR_TABLES' in os.environ.keys() else './Tables')
 
     parser.add_argument(
         '--max-processes',
