@@ -692,11 +692,13 @@ def main():
         help='Number of maximal processes to simultaneously treat several files.\n'
              'Set to one seems sequential processing (default). Set to "-1" seems\n'
              'all available resources as returned by "multiprocessing.cpu_count()".')
+
     parser.add_argument(
         '--errors-only',
         action='store_true',
         default=False,
         help='Shows error(s) only (i.e., file not compliant)')
+
     parser.add_argument(
         '--ignore-dir',
         metavar="PYTHON_REGEX",
