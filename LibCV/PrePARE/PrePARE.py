@@ -118,9 +118,8 @@ class Collector(object):
 
     """
 
-    def __init__(self, sources, data=None):
+    def __init__(self, sources):
         self.sources = sources
-        self.data = data
         self.FileFilter = FilterCollection()
         self.PathFilter = FilterCollection()
         assert isinstance(self.sources, list)
@@ -134,12 +133,12 @@ class Collector(object):
                         for filename in sorted(filenames):
                             ffp = os.path.join(root, filename)
                             if os.path.isfile(ffp) and self.FileFilter(filename):
-                                yield (ffp, self.data)
+                                yield ffp
             else:
                 # It input is a file: yields the netCDF file itself
                 root, filename = os.path.split(source)
                 if self.PathFilter(root) and self.FileFilter(filename):
-                    yield (source, self.data)
+                    yield source
 
     def __len__(self):
         """
@@ -206,6 +205,25 @@ class Spinner:
             Spinner.STATES[Spinner.step % 4]))
         sys.stdout.flush()
         Spinner.step += 1
+
+
+# =========================
+# ProcessContext()
+# =========================
+class ProcessContext(object):
+    """
+    Encapsulates the processing context/information for child process.
+
+    :param dict args: Dictionary of argument to pass to child process
+    :returns: The processing context
+    :rtype: *ProcessContext*
+
+    """
+
+    def __init__(self, args):
+        assert isinstance(args, dict)
+        for key, value in args.items():
+            setattr(self, key, value)
 
 
 # =========================
@@ -607,25 +625,35 @@ def process(source):
 
 def sequential_process(source):
     try:
-        # Deserialize inputs
-        ncfile, data = source
-        table_path, variable, errors_only = data
         # Process file
-        checker = checkCMIP6(table_path)
-        if variable:
-            checker.ControlVocab(ncfile, variable)
+        checker = checkCMIP6(cctx.table_path)
+        if cctx.variable:
+            checker.ControlVocab(source, cctx.variable)
         else:
-            checker.ControlVocab(ncfile)
-        if not errors_only:
-            print BCOLORS.OKGREEN + "     :: SUCCESS :: {}".format(ncfile) + BCOLORS.ENDC
+            checker.ControlVocab(source)
+        if cctx.all:
+            print BCOLORS.OKGREEN + "     :: SUCCESS :: {}".format(source) + BCOLORS.ENDC
         return 0
     except KeyboardInterrupt:
-        print BCOLORS.FAIL + "└──> :: FAIL    :: {}".format(ncfile) + BCOLORS.ENDC
+        print BCOLORS.FAIL + "└──> :: FAIL    :: {}".format(source) + BCOLORS.ENDC
         return 1
     finally:
         # Close opened file
         if hasattr(checker, "infile"):
             checker.infile.close()
+
+
+def initializer(keys, values):
+    """
+    Initialize process context by setting particular variables as global variables.
+
+    :param list keys: Argument name list
+    :param list values: Argument value list
+
+    """
+    assert len(keys) == len(values)
+    global cctx
+    cctx = ProcessContext({key: values[i] for i, key in enumerate(keys)})
 
 
 def regex_validator(string):
@@ -688,16 +716,16 @@ def main():
         '--max-processes',
         metavar='1',
         type=processes_validator,
-        default=1,
+        default=4,
         help='Number of maximal processes to simultaneously treat several files.\n'
              'Set to one seems sequential processing (default). Set to "-1" seems\n'
              'all available resources as returned by "multiprocessing.cpu_count()".')
 
     parser.add_argument(
-        '--errors-only',
+        '--all',
         action='store_true',
         default=False,
-        help='Shows error(s) only (i.e., file not compliant)')
+        help='Show all results. Default only shows error(s) (i.e., file(s) not compliant)')
 
     parser.add_argument(
         '--ignore-dir',
@@ -742,7 +770,7 @@ def main():
     except SystemExit:
         return 1
     # Collects netCDF files for process
-    sources = Collector(args.input, data=(args.table_path, args.variable, args.errors_only))
+    sources = Collector(args.input)
     # Set scan filters
     file_filters = list()
     if args.include_file:
@@ -762,10 +790,15 @@ def main():
     sources.PathFilter.add(regex=args.ignore_dir, inclusive=False)
     nb_sources = len(sources)
     errors = 0
+    # Init process context
+    cctx = dict()
+    cctx['table_path'] = args.table_path
+    cctx['variable'] = args.variable
+    cctx['all'] = args.all
     # Separate sequential process and multiprocessing
     if args.max_processes != 1:
         # Create pool of processes
-        pool = Pool(int(args.max_processes))
+        pool = Pool(processes=args.max_processes, initializer=initializer, initargs=(cctx.keys(), cctx.values()))
         # Run processes
         logfiles = list()
         progress = Spinner()
@@ -786,6 +819,8 @@ def main():
         pool.close()
         pool.join()
     else:
+        print('Checking data, please wait...')
+        initializer(cctx.keys(), cctx.values())
         for source in sources:
             errors += sequential_process(source)
     # Evaluate errors and exit with appropriate return code
