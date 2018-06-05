@@ -714,7 +714,7 @@ def main():
 
     parser.add_argument(
         '--max-processes',
-        metavar='1',
+        metavar='4',
         type=processes_validator,
         default=4,
         help='Number of maximal processes to simultaneously treat several files.\n'
