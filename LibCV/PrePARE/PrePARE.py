@@ -468,24 +468,34 @@ class checkCMIP6(object):
             calendar = "gregorian"
             timeunits = "days since ?"
         # Get first and last time bounds
+
+        climatology = self.is_climatology(filename)
+        if climatology:
+            if cmip6_table.find('Amon') != -1:
+                variable = '{}Clim'.format(variable)
+
+        clim_idx = variable.find('Clim')
+        if climatology and clim_idx != -1:
+            var = [variable[:clim_idx]]
+
         try:
-            if 'bounds' in infile.variables['time'].__dict__.keys():
-                bndsvar = infile.variables['time'].__dict__['bounds']
-                startimebnds = infile.variables[bndsvar][0][0]
-                endtimebnds = infile.variables[bndsvar][-1][1]
+            if climatology:
+                startimebnds = infile.variables['climatology_bnds'][0][0]
+                endtimebnds = infile.variables['climatology_bnds'][-1][1]
             else:
                 startimebnds = infile.variables['time_bnds'][0][0]
                 endtimebnds = infile.variables['time_bnds'][-1][1]
         except BaseException:
             startimebnds = 0
             endtimebnds = 0
-        # Get first and last time steps
+
         try:
             startime = infile.variables['time'][0]
             endtime = infile.variables['time'][-1]
         except BaseException:
             startime = 0
             endtime = 0
+
         # -------------------------------------------------------------------
         #  Distinguish similar CMOR entries with the same out_name if exist
         # -------------------------------------------------------------------
