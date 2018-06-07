@@ -334,7 +334,7 @@ class checkCMIP6(object):
     def has_land_in_cell_methods(infile, variable, **kwargs):
         return True if 'land' in infile.variables[variable].cell_methods else False
 
-    def ControlVocab(self, ncfile, variable=None):
+    def ControlVocab(self, ncfile, variable=None, print_all=True):
         """
         Check CMIP6 global attributes against Control Vocabulary file.
 
@@ -607,9 +607,12 @@ class checkCMIP6(object):
                 print "====================================================================================="
                 print BCOLORS.ENDC
                 self.errors += 1
-
+        # Print final message
         if self.errors != 0:
+            print BCOLORS.FAIL + "└──> :: CV FAIL    :: {}".format(ncfile) + BCOLORS.ENDC
             raise KeyboardInterrupt
+        elif print_all:
+            print BCOLORS.OKGREEN + "     :: CV SUCCESS :: {}".format(ncfile) + BCOLORS.ENDC
 
 
 
@@ -624,18 +627,18 @@ def process(source):
 
 
 def sequential_process(source):
+    # Get context from global process env
+    assert 'cctx' in globals().keys()
+    cctx = globals()['cctx']
     try:
         # Process file
         checker = checkCMIP6(cctx.table_path)
         if cctx.variable:
-            checker.ControlVocab(source, cctx.variable)
+            checker.ControlVocab(source, variable=cctx.variable, print_all=cctx.all)
         else:
-            checker.ControlVocab(source)
-        if cctx.all:
-            print BCOLORS.OKGREEN + "     :: SUCCESS :: {}".format(source) + BCOLORS.ENDC
+            checker.ControlVocab(source, print_all=cctx.all)
         return 0
     except KeyboardInterrupt:
-        print BCOLORS.FAIL + "└──> :: FAIL    :: {}".format(source) + BCOLORS.ENDC
         return 1
     finally:
         # Close opened file
