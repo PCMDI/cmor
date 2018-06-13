@@ -29,7 +29,7 @@ aliases:
     command: |
        echo "WE are in: "`pwd`
        export PATH=$WORKDIR/miniconda/bin:$PATH
-       source activate py2
+       source activate py2 || true
        export PREFIX=$(python -c "import sys; print sys.prefix")
        git clone https://github.com/PCMDI/cmip6-cmor-tables
        ln -s cmip6-cmor-tables/Tables Tables
@@ -41,14 +41,14 @@ aliases:
     command: |
        export PATH=$WORKDIR/miniconda/bin:$PATH
        export UVCDAT_ANONYMOUS_LOG=False
-       source activate py2
+       source activate py2 || true
        make test
   - &run_prepare_tests
     name: run_prepare_tests
     command: |
        export PATH=$WORKDIR/miniconda/bin:$PATH
        export UVCDAT_ANONYMOUS_LOG=False
-       source activate py2
+       source activate py2 || true
        for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file; mystatus=$?; if [[ "$mystatus" != "0" ]]; then return ${mystatus}; fi; done
 
 
