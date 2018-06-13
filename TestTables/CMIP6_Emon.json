@@ -4,7 +4,7 @@
         "cmor_version": "3.3", 
         "table_id": "Table Emon", 
         "realm": "atmos", 
-        "table_date": "06 June 2018", 
+        "table_date": "13 June 2018", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -1186,7 +1186,7 @@
         }, 
         "dissi14c": {
             "frequency": "mon", 
-            "modeling_realm": "ocnBgChem", 
+            "modeling_realm": "ocnbgchem", 
             "standard_name": "mole_concentration_of_dissolved_inorganic_carbon14_in_sea_water", 
             "units": "mol m-3", 
             "cell_methods": "area: mean where sea time: mean", 
@@ -1240,7 +1240,7 @@
         }, 
         "exparag": {
             "frequency": "mon", 
-            "modeling_realm": "ocnBgChem", 
+            "modeling_realm": "ocnbgchem", 
             "standard_name": "sinking_mole_flux_of_aragonite_expressed_as_carbon_in_sea_water", 
             "units": "mol m-2 s-1", 
             "cell_methods": "area: mean where sea time: mean", 
@@ -1258,7 +1258,7 @@
         }, 
         "expcalc": {
             "frequency": "mon", 
-            "modeling_realm": "ocnBgChem", 
+            "modeling_realm": "ocnbgchem", 
             "standard_name": "sinking_mole_flux_of_calcite_expressed_as_carbon_in_sea_water", 
             "units": "mol m-2 s-1", 
             "cell_methods": "area: mean where sea time: mean", 
@@ -1276,7 +1276,7 @@
         }, 
         "expfe": {
             "frequency": "mon", 
-            "modeling_realm": "ocnBgChem", 
+            "modeling_realm": "ocnbgchem", 
             "standard_name": "sinking_mole_flux_of_particulate_iron_in_sea_water", 
             "units": "mol m-2 s-1", 
             "cell_methods": "area: mean where sea time: mean", 
@@ -1294,7 +1294,7 @@
         }, 
         "expn": {
             "frequency": "mon", 
-            "modeling_realm": "ocnBgChem", 
+            "modeling_realm": "ocnbgchem", 
             "standard_name": "sinking_mole_flux_of_particulate_organic_nitrogen_in_sea_water", 
             "units": "mol m-2 s-1", 
             "cell_methods": "area: mean where sea time: mean", 
@@ -1312,7 +1312,7 @@
         }, 
         "expp": {
             "frequency": "mon", 
-            "modeling_realm": "ocnBgChem", 
+            "modeling_realm": "ocnbgchem", 
             "standard_name": "sinking_mole_flux_of_particulate_organic_phosphorus_in_sea_water", 
             "units": "mol m-2 s-1", 
             "cell_methods": "area: mean where sea time: mean", 
@@ -1330,7 +1330,7 @@
         }, 
         "expsi": {
             "frequency": "mon", 
-            "modeling_realm": "ocnBgChem", 
+            "modeling_realm": "ocnbgchem", 
             "standard_name": "sinking_mole_flux_of_particulate_silicon_in_sea_water", 
             "units": "mol m-2 s-1", 
             "cell_methods": "area: mean where sea time: mean", 
@@ -2050,7 +2050,7 @@
         }, 
         "fddtalk": {
             "frequency": "mon", 
-            "modeling_realm": "ocnBgChem", 
+            "modeling_realm": "ocnbgchem", 
             "standard_name": "integral_wrt_depth_of_tendency_of_sea_water_alkalinity_expressed_as_mole_equivalent", 
             "units": "mol m-2 s-1", 
             "cell_methods": "area: mean where sea time: mean", 
@@ -2068,7 +2068,7 @@
         }, 
         "fg14co2": {
             "frequency": "mon", 
-            "modeling_realm": "ocnBgChem", 
+            "modeling_realm": "ocnbgchem", 
             "standard_name": "surface_downward_mass_flux_of_carbon14_dioxide_abiotic_analogue_expressed_as_carbon", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: mean where sea time: mean", 
@@ -2086,7 +2086,7 @@
         }, 
         "fg14co2abio": {
             "frequency": "mon", 
-            "modeling_realm": "ocnBgChem", 
+            "modeling_realm": "ocnbgchem", 
             "standard_name": "surface_downward_mass_flux_of_carbon14_dioxide_abiotic_analogue_expressed_as_carbon", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: mean where sea time: mean", 
@@ -2104,7 +2104,7 @@
         }, 
         "fgco2abio": {
             "frequency": "mon", 
-            "modeling_realm": "ocnBgChem", 
+            "modeling_realm": "ocnbgchem", 
             "standard_name": "surface_downward_mass_flux_of_carbon_dioxide_abiotic_analogue_expressed_as_carbon", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: mean where sea time: mean", 
@@ -2122,7 +2122,7 @@
         }, 
         "fgco2nat": {
             "frequency": "mon", 
-            "modeling_realm": "ocnBgChem", 
+            "modeling_realm": "ocnbgchem", 
             "standard_name": "surface_downward_mass_flux_of_carbon_dioxide_natural_analogue_expressed_as_carbon", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: mean where sea time: mean", 
@@ -3976,7 +3976,7 @@
         }, 
         "ppcalc": {
             "frequency": "mon", 
-            "modeling_realm": "ocnBgChem", 
+            "modeling_realm": "ocnbgchem", 
             "standard_name": "tendency_of_mole_concentration_of_particulate_organic_matter_expressed_as_carbon_in_sea_water_due_to_net_primary_production_by_calcareous_phytoplankton", 
             "units": "mol m-3 s-1", 
             "cell_methods": "area: mean where sea time: mean", 
@@ -3994,7 +3994,7 @@
         }, 
         "ppdiat": {
             "frequency": "mon", 
-            "modeling_realm": "ocnBgChem", 
+            "modeling_realm": "ocnbgchem", 
             "standard_name": "tendency_of_mole_concentration_of_particulate_organic_matter_expressed_as_carbon_in_sea_water_due_to_net_primary_production_by_diatoms", 
             "units": "mol m-3 s-1", 
             "cell_methods": "area: mean where sea time: mean", 
@@ -4012,7 +4012,7 @@
         }, 
         "ppdiaz": {
             "frequency": "mon", 
-            "modeling_realm": "ocnBgChem", 
+            "modeling_realm": "ocnbgchem", 
             "standard_name": "tendency_of_mole_concentration_of_particulate_organic_matter_expressed_as_carbon_in_sea_water_due_to_net_primary_production_by_diazotrophs", 
             "units": "mol m-3 s-1", 
             "cell_methods": "area: mean where sea time: mean", 
@@ -4030,7 +4030,7 @@
         }, 
         "ppmisc": {
             "frequency": "mon", 
-            "modeling_realm": "ocnBgChem", 
+            "modeling_realm": "ocnbgchem", 
             "standard_name": "tendency_of_mole_concentration_of_particulate_organic_matter_expressed_as_carbon_in_sea_water_due_to_net_primary_production_by_miscellaneous_phytoplankton", 
             "units": "mol m-3 s-1", 
             "cell_methods": "area: mean where sea time: mean", 
@@ -4048,7 +4048,7 @@
         }, 
         "pppico": {
             "frequency": "mon", 
-            "modeling_realm": "ocnBgChem", 
+            "modeling_realm": "ocnbgchem", 
             "standard_name": "tendency_of_mole_concentration_of_particulate_organic_matter_expressed_as_carbon_in_sea_water_due_to_net_primary_production_by_picophytoplankton", 
             "units": "mol m-3 s-1", 
             "cell_methods": "area: mean where sea time: mean", 

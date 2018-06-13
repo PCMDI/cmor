@@ -7,7 +7,7 @@ cmor.setup(inpath="Test",
            netcdf_file_action=cmor.CMOR_REPLACE)
 
 cmor.dataset_json("Test/metadata-template.json")
-cmor.set_cur_dataset_attribute("calendar","gregorian")
+cmor.set_cur_dataset_attribute("calendar", "gregorian")
 cmor.load_table("Tables/CMIP6_Amon.json")
 ilat = cmor.axis(
     table_entry='latitude',
@@ -29,7 +29,7 @@ itim = cmor.axis(
     length=ntimes)
 
 var2d_ids = []
-for m in ["TSURF",]:
+for m in ["TSURF", ]:
     var2d_ids.append(
         cmor.variable(table_entry=specs[m]["entry"],
                       units=specs[m]["units"],
@@ -41,8 +41,8 @@ for m in ["TSURF",]:
 
 for index in range(ntimes):
     tim_array, bnds_tim = read_time(index)
-    for i, varname in enumerate(["TSURF",]):
-        data = read_2d_input_files(index, varname,(lat,lon))
+    for i, varname in enumerate(["TSURF", ]):
+        data = read_2d_input_files(index, varname, (lat, lon))
         print data.shape, data
         print tim_array, bnds_tim
         cmor.write(var_id=var2d_ids[i], data=data, ntimes_passed=1,

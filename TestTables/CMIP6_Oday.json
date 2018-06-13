@@ -3,8 +3,8 @@
         "data_specs_version": "01.00.24", 
         "cmor_version": "3.3", 
         "table_id": "Table Oday", 
-        "realm": "ocnBgChem", 
-        "table_date": "06 June 2018", 
+        "realm": "ocnbgchem", 
+        "table_date": "13 June 2018", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -16,7 +16,7 @@
     "variable_entry": {
         "chlos": {
             "frequency": "day", 
-            "modeling_realm": "ocnBgChem", 
+            "modeling_realm": "ocnbgchem", 
             "standard_name": "mass_concentration_of_phytoplankton_expressed_as_chlorophyll_in_sea_water", 
             "units": "kg m-3", 
             "cell_methods": "area: mean where sea time: mean", 
@@ -52,7 +52,7 @@
         }, 
         "phycos": {
             "frequency": "day", 
-            "modeling_realm": "ocnBgChem", 
+            "modeling_realm": "ocnbgchem", 
             "standard_name": "mole_concentration_of_phytoplankton_expressed_as_carbon_in_sea_water", 
             "units": "mol m-3", 
             "cell_methods": "area: mean where sea time: mean", 
