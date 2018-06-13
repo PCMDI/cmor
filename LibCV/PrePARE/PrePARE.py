@@ -769,7 +769,7 @@ def main():
     except SystemExit:
         return 1
     # Get log
-    logname = 'XIOFileChecker-{}.log'.format(datetime.now().strftime("%Y%m%d-%H%M%S"))
+    logname = 'PrePARE-{}.log'.format(datetime.now().strftime("%Y%m%d-%H%M%S"))
     log = None
     if args.log:
         if not os.path.isdir(args.log):
