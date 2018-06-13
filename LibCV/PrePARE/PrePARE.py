@@ -37,6 +37,7 @@ sys.path.insert(0, sys.prefix + "/lib/python2.7/site-packages/cdms2")
 import Cdunif
 import cmip6_cv
 
+
 # =========================
 # BColors()
 # =========================
@@ -184,27 +185,6 @@ class FilterCollection(object):
             return True if re.search(pattern, string) else False
         else:
             return True if not re.search(pattern, string) else False
-
-
-# =========================
-# Spinner()
-# =========================
-class Spinner:
-    """
-    Spinner pending files checking.
-
-    """
-    STATES = ('/', '-', '\\', '|')
-    step = 0
-
-    def __init__(self):
-        self.next()
-
-    def next(self):
-        sys.stdout.write('\rChecking data... {}'.format(
-            Spinner.STATES[Spinner.step % 4]))
-        sys.stdout.flush()
-        Spinner.step += 1
 
 
 # =========================
@@ -615,7 +595,6 @@ class checkCMIP6(object):
             print BCOLORS.OKGREEN + "     :: CV SUCCESS :: {}".format(ncfile) + BCOLORS.ENDC
 
 
-
 def process(source):
     # Redirect all print statements to a logfile dedicated to the current
     # process
@@ -628,17 +607,24 @@ def process(source):
 
 def sequential_process(source):
     # Get context from global process env
-    assert 'cctx' in globals().keys()
-    cctx = globals()['cctx']
+    assert 'pctx' in globals().keys()
+    pctx = globals()['pctx']
     try:
         # Process file
-        checker = checkCMIP6(cctx.table_path)
-        if cctx.variable:
-            checker.ControlVocab(source, variable=cctx.variable, print_all=cctx.all)
+        checker = checkCMIP6(pctx.table_path)
+        if pctx.variable:
+            checker.ControlVocab(source, variable=pctx.variable, print_all=pctx.all)
         else:
-            checker.ControlVocab(source, print_all=cctx.all)
+            checker.ControlVocab(source, print_all=pctx.all)
         return 0
     except KeyboardInterrupt:
+        return 1
+    except Exception as e:
+        print e
+        msg = BCOLORS.WARNING
+        msg += "└──> :: SKIPPED    :: {}".format(source)
+        msg += BCOLORS.ENDC
+        print msg
         return 1
     finally:
         # Close opened file
@@ -655,8 +641,8 @@ def initializer(keys, values):
 
     """
     assert len(keys) == len(values)
-    global cctx
-    cctx = ProcessContext({key: values[i] for i, key in enumerate(keys)})
+    global pctx
+    pctx = ProcessContext({key: values[i] for i, key in enumerate(keys)})
 
 
 def regex_validator(string):
@@ -689,7 +675,7 @@ def processes_validator(value):
         raise ArgumentTypeError(msg)
     if pnum == -1:
         # Max processes = None corresponds to cpu.count() in Pool creation
-        return  None
+        return None
     else:
         return pnum
 
@@ -804,9 +790,14 @@ def main():
         pool = Pool(processes=args.max_processes, initializer=initializer, initargs=(cctx.keys(), cctx.values()))
         # Run processes
         logfiles = list()
-        progress = Spinner()
+        progress = 0
         for logfile, rc in pool.imap(process, sources):
-            progress.next()
+            progress += 1
+            percentage = int(progress * 100 / nb_sources)
+            msg = BCOLORS.OKGREEN + '\rCheck netCDF file(s): ' + BCOLORS.ENDC
+            msg += '{}% | {}/{} files'.format(percentage, progress, nb_sources)
+            sys.stdout.write(msg)
+            sys.stdout.flush()
             logfiles.append(logfile)
             errors += rc
         sys.stdout.write('\r\033[K')
@@ -826,6 +817,14 @@ def main():
         initializer(cctx.keys(), cctx.values())
         for source in sources:
             errors += sequential_process(source)
+    # Print results summary
+    msg = BCOLORS.HEADER + '\nNumber of files scanned: {}'.format(nb_sources) + BCOLORS.ENDC
+    if errors:
+        msg += BCOLORS.FAIL
+    else:
+        msg += BCOLORS.OKGREEN
+    msg += '\nNumber of file with error(s): {}'.format(errors) + BCOLORS.ENDC
+    print(msg)
     # Evaluate errors and exit with appropriate return code
     if errors != 0:
         if errors == nb_sources:
