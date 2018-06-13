@@ -22,19 +22,27 @@ aliases:
        conda config --set always_yes yes --set changeps1 no
        conda update -y -q conda
        conda config --set anaconda_upload no
-       conda create -q -n py2 -c cdat/label/nightly -c conda-forge ossuuid udunits2 hdf5 libnetcdf numpy openssl cdms2 "python<3" $CONDA_COMPILERS
+       conda create -q -n py2 -c cdat/label/nightly -c conda-forge ossuuid udunits2 hdf5 libnetcdf numpy openssl cdms2 python=2.7 $CONDA_COMPILERS
 
   - &setup_cmor
     name: setup_cmor
     command: |
        echo "WE are in: "`pwd`
        export PATH=$WORKDIR/miniconda/bin:$PATH
+       echo "OK PATH SET PROPERLY"
        source activate py2 || true
+       echo "OK ACTIVATED SUCCESSFULLY"
        export PREFIX=$(python -c "import sys; print sys.prefix")
+       echo "OK SET PREFIX"
        git clone https://github.com/PCMDI/cmip6-cmor-tables
+       echo "OK CLONED TABLES"
        ln -s cmip6-cmor-tables/Tables Tables
+       echo "ECHO LNed"
        ./configure --prefix=$PREFIX --with-python --with-uuid=$PREFIX --with-udunits2=$PREFIX --with-netcdf=$PREFIX  --enable-verbose-test
+       echo "CONFIGRED SUCC"
        make install
+       echo "MAKE PASSED"
+       exit 0
 
   - &run_cmor_tests
     name: run_cmor_tests
