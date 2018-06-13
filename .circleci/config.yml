@@ -29,19 +29,14 @@ aliases:
     command: |
        echo "WE are in: "`pwd`
        export PATH=$WORKDIR/miniconda/bin:$PATH
-       echo "OK PATH SET PROPERLY"
        set +e
        source activate py2
-       echo "OK ACTIVATED SUCCESSFULLY"
+       echo "ACTIVATE RETURN CODE $?"
        set -e
        export PREFIX=$(python -c "import sys; print sys.prefix")
-       echo "OK SET PREFIX"
        git clone https://github.com/PCMDI/cmip6-cmor-tables
-       echo "OK CLONED TABLES"
        ln -s cmip6-cmor-tables/Tables Tables
-       echo "ECHO LNed"
        ./configure --prefix=$PREFIX --with-python --with-uuid=$PREFIX --with-udunits2=$PREFIX --with-netcdf=$PREFIX  --enable-verbose-test
-       echo "CONFIGRED SUCC"
        make install
        echo "MAKE PASSED"
        exit 0
@@ -51,14 +46,18 @@ aliases:
     command: |
        export PATH=$WORKDIR/miniconda/bin:$PATH
        export UVCDAT_ANONYMOUS_LOG=False
-       source activate py2 || true
+       set +e
+       source activate py2
+       set -e
        make test
   - &run_prepare_tests
     name: run_prepare_tests
     command: |
        export PATH=$WORKDIR/miniconda/bin:$PATH
        export UVCDAT_ANONYMOUS_LOG=False
-       source activate py2 || true
+       set +e
+       source activate py2
+       set -e
        for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file; mystatus=$?; if [[ "$mystatus" != "0" ]]; then return ${mystatus}; fi; done
 
 
