@@ -29,6 +29,8 @@ before_install:
 install:
   - git clone https://github.com/PCMDI/cmip6-cmor-tables
   - ln -s cmip6-cmor-tables/Tables Tables
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then export LDSHARED_FLAGS="-shared -pthread"
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then export LDSHARED_FLAGS="-bundle -undefined dynamic_lookup"
   - "./configure --prefix=$PREFIX --with-python --with-uuid=$PREFIX --with-udunits2=$PREFIX
     --with-netcdf=$PREFIX  --enable-verbose-test"
   - make install
