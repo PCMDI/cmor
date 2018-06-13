@@ -845,6 +845,9 @@ def main():
     else:
         msg += BCOLORS.OKGREEN
     msg += '\nNumber of file with error(s): {}'.format(errors) + BCOLORS.ENDC
+    if log:
+        with open(log, 'a+') as r:
+            r.write(msg)
     print(msg)
     # Evaluate errors and exit with appropriate return code
     if errors != 0:
