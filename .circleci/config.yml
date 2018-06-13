@@ -30,8 +30,10 @@ aliases:
        echo "WE are in: "`pwd`
        export PATH=$WORKDIR/miniconda/bin:$PATH
        echo "OK PATH SET PROPERLY"
-       source activate py2 2> /dev/null
+       set +e
+       source activate py2
        echo "OK ACTIVATED SUCCESSFULLY"
+       set -e
        export PREFIX=$(python -c "import sys; print sys.prefix")
        echo "OK SET PREFIX"
        git clone https://github.com/PCMDI/cmip6-cmor-tables
