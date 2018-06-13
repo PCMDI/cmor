@@ -27,6 +27,7 @@ import re
 import sys
 from argparse import ArgumentTypeError
 from contextlib import contextmanager
+from datetime import datetime
 from multiprocessing import Pool
 from uuid import uuid4 as uuid
 
@@ -689,6 +690,15 @@ def main():
         description='Validate CMIP6 file for ESGF publication.')
 
     parser.add_argument(
+        '-l', '--log',
+        metavar='CWD',
+        type=str,
+        const='{}/logs'.format(os.getcwd()),
+        nargs='?',
+        help='Logfile directory. Default is the working directory.\n'
+             'If not, standard output is used. Only available in multiprocessing mode.')
+
+    parser.add_argument(
         '--variable',
         help='Specify geophysical variable name.\n'
              'If not variable is deduced from filename.')
@@ -758,6 +768,13 @@ def main():
         return 1
     except SystemExit:
         return 1
+    # Get log
+    logname = 'XIOFileChecker-{}.log'.format(datetime.now().strftime("%Y%m%d-%H%M%S"))
+    log = None
+    if args.log:
+        if not os.path.isdir(args.log):
+            os.makedirs(args.log)
+        log = os.path.join(args.log, logname)
     # Collects netCDF files for process
     sources = Collector(args.input)
     # Set scan filters
@@ -806,8 +823,12 @@ def main():
         for logfile in set(logfiles):
             if not os.stat(logfile).st_size == 0:
                 with open(logfile, 'r') as f:
-                    sys.stdout.write(f.read())
-                    sys.stdout.flush()
+                    if log:
+                        with open(log, 'a+') as r:
+                            r.write(f.read())
+                    else:
+                        sys.stdout.write(f.read())
+                        sys.stdout.flush()
             os.remove(logfile)
         # Close pool of processes
         pool.close()
