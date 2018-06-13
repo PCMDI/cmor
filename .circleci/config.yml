@@ -30,7 +30,7 @@ aliases:
        echo "WE are in: "`pwd`
        export PATH=$WORKDIR/miniconda/bin:$PATH
        echo "OK PATH SET PROPERLY"
-       source activate py2 || true
+       source activate py2 2> /dev/null
        echo "OK ACTIVATED SUCCESSFULLY"
        export PREFIX=$(python -c "import sys; print sys.prefix")
        echo "OK SET PREFIX"
