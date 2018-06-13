@@ -158,7 +158,7 @@ endif
 python:
 	@echo "Building Python interface"
 	#if [ ! -d "${DIR}" ]; then mkdir -p ${DIR}; fi
-	LDSHARED=${LD_SHARED} ${PYTHONEXEC} setup.py install @CDATPREFIX@ 
+	LDSHARED=${LDSHARED} ${PYTHONEXEC} setup.py install @CDATPREFIX@ 
 test_a_python:
 	@echo "${OK_COLOR}Testing ${TEST_NAME} ${NO_COLOR}"
 	${PYTHONEXEC} ${TEST_NAME} ${VERB}
