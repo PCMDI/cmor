@@ -22,8 +22,8 @@ before_install:
   - conda install openssl=1.0.2d
   - conda install cdms2 -c cdat/label/nightly -c conda-forge -c cdat
   - conda install udunits2 -c cdat/label/nightly  -c conda-forge -c cdat
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then conda install gcc; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then conda install gcc; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then conda install gcc_linux-64 gfortran_linux-64; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then conda install clang_osx-64 gfortran_osx-64"; fi
   - source deactivate root
   - source activate root
 install:
