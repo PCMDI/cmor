@@ -22,8 +22,7 @@ aliases:
        conda config --set always_yes yes --set changeps1 no
        conda update -y -q conda
        conda config --set anaconda_upload no
-       conda create -q -n py2 -c cdat/label/nightly -c conda-forge ossuuid udunits2 hdf5 libnetcdf numpy gcc openssl cdms2 "python<3" 
-       #conda create -q -n py3 -c conda-forge ossuuid udunits2 hdf5 libnetcdf numpy gcc "python>3"
+       conda create -q -n py2 -c cdat/label/nightly -c conda-forge ossuuid udunits2 hdf5 libnetcdf numpy openssl cdms2 "python<3" $CONDA_COMPILERS
 
   - &setup_cmor
     name: setup_cmor
@@ -59,6 +58,7 @@ jobs:
       xcode: "9.2.0"
     environment:
       WORKDIR: "workspace/test_macos_cmor"
+      CONDA_COMPILERS: "clang_osx-64 gfortran_osx-64"
     steps:
       - checkout
       - run: *setup_miniconda
@@ -72,6 +72,7 @@ jobs:
       image: circleci/classic:latest
     environment:
       WORKDIR: "workspace/test_linux_cmor"
+      CONDA_COMPILERS: "gcc_linux-64 gfortran_linux-64"
     steps:
       - checkout
       - run: *setup_miniconda
