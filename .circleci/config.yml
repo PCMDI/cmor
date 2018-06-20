@@ -59,6 +59,25 @@ aliases:
        source activate py2
        set -e
        for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file; mystatus=$?; if [[ "$mystatus" != "0" ]]; then return ${mystatus}; fi; done
+  - &conda_upload
+    name: conda_upload
+    command: |
+       if [[ $CIRCLE_BRANCH != 'master' ]]; then
+          exit 0
+       fi
+       export PATH=${HOME}/project/$WORKDIR/miniconda/bin:$PATH
+       conda install conda-build anaconda-client
+       conda config --set anaconda_upload no
+       export CONDA_BLD_PATH=`pwd`/conda_build
+       git clone git://github.com/cdat/conda-recipes
+       cd conda-recipes
+       export PKG_NAME=cmor
+       export USER=pcmdi
+       export VERSION=3.3.3
+       export LABEL=nightly
+       python ./prep_for_build.py -l $VERSION
+       conda build $PKG_NAME -c cdat/label/nightly -c conda-forge -c cdat --python=2.7
+       anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.`date +%Y*`0.tar.bz2 --force
 
 
 jobs:
@@ -69,6 +88,8 @@ jobs:
       WORKDIR: "workspace/test_macos_cmor"
       CONDA_COMPILERS: "clang_osx-64 gfortran_osx-64"
       LDSHARED_FLAGS: "-bundle -undefined dynamic_lookup"
+      UVCDAT_ANONYMOUS_LOG: "False"
+      OS: "osx-64"
     steps:
       - checkout
       - run: *setup_miniconda
@@ -76,6 +97,8 @@ jobs:
       - run: *setup_cmor
       - run: *run_cmor_tests
       - run: *run_prepare_tests
+      - run: *conda_upload
+
 
   linux_cmor:
     machine:
@@ -84,6 +107,8 @@ jobs:
       WORKDIR: "workspace/test_linux_cmor"
       CONDA_COMPILERS: "gcc_linux-64 gfortran_linux-64"
       LDSHARED_FLAGS: "-shared -pthread"
+      UVCDAT_ANONYMOUS_LOG: "False"
+      OS: "linux-64"
     steps:
       - checkout
       - run: *setup_miniconda
@@ -91,6 +116,7 @@ jobs:
       - run: *setup_cmor
       - run: *run_cmor_tests
       - run: *run_prepare_tests
+      - run: *conda_upload
 
 workflows:
   version: 2
