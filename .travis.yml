@@ -43,10 +43,6 @@ after_failure:
   - ls -lR
   - cat ~/build.sh
 
-env:
-  global:
-    secure: V5q+wzxrJ5Rmk1vVYXimIdHgWUwZSHINd5W+oi3mTmfbtVyrngau9XQVZyiPyg8S309vHAbys9uMaplp83to7OY1Cw3+w002oMWkCaLwlVMn4UWs+xU7lJGn/wwLwN1OikZnTtiXF8RqrtBZpYsbAxjdebqZ8uZx/zDJXHVvvZY=
-
 after_success:
   - if [ $TRAVIS_BRANCH == "master" -a "$TRAVIS_OS_NAME" = "osx" ]; then bash scripts/conda_upload.sh ${TRAVIS_BRANCH} ; fi
   - if [ $TRAVIS_BRANCH == "master" -a "$TRAVIS_OS_NAME" = "linux" ]; then docker run -v `pwd`:/travis_home -e CONDA_UPLOAD_TOKEN=${CONDA_UPLOAD_TOKEN} -a STDOUT -a STDERR centos:6.8 /travis_home/scripts/conda_upload.sh ${TRAVIS_BRANCH} ; fi
