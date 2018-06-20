@@ -88,6 +88,7 @@ jobs:
       WORKDIR: "workspace/test_macos_cmor"
       CONDA_COMPILERS: "clang_osx-64 gfortran_osx-64"
       LDSHARED_FLAGS: "-bundle -undefined dynamic_lookup"
+      UVCDAT_ANONYMOUS_LOG: "False"
     steps:
       - checkout
       - run: *setup_miniconda
@@ -105,6 +106,7 @@ jobs:
       WORKDIR: "workspace/test_linux_cmor"
       CONDA_COMPILERS: "gcc_linux-64 gfortran_linux-64"
       LDSHARED_FLAGS: "-shared -pthread"
+      UVCDAT_ANONYMOUS_LOG: "False"
     steps:
       - checkout
       - run: *setup_miniconda
