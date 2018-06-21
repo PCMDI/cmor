@@ -7148,7 +7148,12 @@ contains
     integer ierr
     ierr = cmor_set_deflate_cff(var_id, shuffle, deflate, deflate_level)
   end function cmor_set_deflate
-
+  subroutine signal_intercepted(signal_number)
+       implicit none
+       integer signal_number
+       print*, "WE RECEIVED FROM C SIGGNAL",signal_number
+       call exit(0)
+  end subroutine signal_intercepted
   function cmor_setup_ints(inpath,netcdf_file_action, set_verbosity,&
        exit_control, logfile, create_subdirectories) result(ierr)
     implicit none
@@ -7161,7 +7166,8 @@ contains
     integer , optional, intent(in) :: create_subdirectories
     character(1024) path
 
-
+    print*, "FORTRSN CASLL 1"
+    call signal(15,signal_intercepted)
     if (present(inpath)) then
        path = inpath
     else
@@ -7258,6 +7264,9 @@ contains
     integer , optional, intent(in) :: create_subdirectories
     character(1024) path
 
+    print*, "FORTRSN CASLL 2"
+    !call signal(11,signal_intercepted)
+    !call signal(15,signal_intercepted)
     if (present(inpath)) then
        path = trim(inpath)//char(0)
     else
