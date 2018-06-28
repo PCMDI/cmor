@@ -22,7 +22,7 @@ aliases:
        conda config --set always_yes yes --set changeps1 no
        conda update -y -q conda
        conda config --set anaconda_upload no
-       conda create -q -n py2 -c cdat/label/nightly -c conda-forge ossuuid udunits2 hdf5 libnetcdf numpy openssl cdms2 python=2.7 $CONDA_COMPILERS
+       conda create -q -n py2 -c cdat/label/nightly -c conda-forge -c cdat ossuuid udunits2 hdf5 libnetcdf numpy openssl cdms2 python=2.7 $CONDA_COMPILERS testsrunner
 
   - &setup_cmor
     name: setup_cmor
@@ -58,7 +58,7 @@ aliases:
        set +e
        source activate py2
        set -e
-       for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file; mystatus=$?; if [[ "$mystatus" != "0" ]]; then return ${mystatus}; fi; done
+       python run_tests.py -v2 -H -n1 Test/test_python_CMIP6_CV*.py
   - &conda_upload
     name: conda_upload
     command: |
