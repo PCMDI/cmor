@@ -452,11 +452,12 @@ class checkCMIP6(object):
         try:
             if 'bounds' in infile.variables['time'].__dict__.keys():
                 bndsvar = infile.variables['time'].__dict__['bounds']
-                startimebnds = infile.variables[bndsvar][0][0]
-                endtimebnds = infile.variables[bndsvar][-1][1]
+            elif 'climatology' in infile.variables['time'].__dict__.keys():
+                bndsvar = infile.variables['time'].__dict__['climatology']
             else:
-                startimebnds = infile.variables['time_bnds'][0][0]
-                endtimebnds = infile.variables['time_bnds'][-1][1]
+                bndsvar = 'time_bnds'
+            startimebnds = infile.variables[bndsvar][0][0]
+            endtimebnds = infile.variables[bndsvar][-1][1]
         except BaseException:
             startimebnds = 0
             endtimebnds = 0
