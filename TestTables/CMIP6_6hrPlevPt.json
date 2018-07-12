@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.24", 
+        "data_specs_version": "01.00.26", 
         "cmor_version": "3.3", 
         "table_id": "Table 6hrPlevPt", 
         "realm": "atmos", 
-        "table_date": "13 June 2018", 
+        "table_date": "12 July 2018", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -197,7 +197,7 @@
         "mrsol": {
             "frequency": "6hr", 
             "modeling_realm": "land", 
-            "standard_name": "moisture_content_of_soil_layer", 
+            "standard_name": "mass_content_of_water_in_soil_layer", 
             "units": "kg m-2", 
             "cell_methods": "area: mean where land time: point", 
             "cell_measures": "area: areacella", 
@@ -215,7 +215,7 @@
         "mrsos": {
             "frequency": "6hr", 
             "modeling_realm": "land", 
-            "standard_name": "moisture_content_of_soil_layer", 
+            "standard_name": "mass_content_of_water_in_soil_layer", 
             "units": "kg m-2", 
             "cell_methods": "area: mean where land time: point", 
             "cell_measures": "area: areacella", 
@@ -233,7 +233,7 @@
         "psl": {
             "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
-            "standard_name": "air_pressure_at_sea_level", 
+            "standard_name": "air_pressure_at_mean_sea_level", 
             "units": "Pa", 
             "cell_methods": "area: mean time: point", 
             "cell_measures": "area: areacella", 

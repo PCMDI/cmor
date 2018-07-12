@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.24", 
+        "data_specs_version": "01.00.26", 
         "cmor_version": "3.3", 
         "table_id": "Table E3hrPt", 
         "realm": "atmos", 
-        "table_date": "13 June 2018", 
+        "table_date": "12 July 2018", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -17,7 +17,7 @@
         "aerasymbnd": {
             "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
-            "standard_name": "volume_spectral_asymmetry_factor_in_air_due_to_ambient_aerosol_particles", 
+            "standard_name": "asymmetry_factor_of_ambient_aerosol_particles", 
             "units": "1", 
             "cell_methods": "area: mean time: point", 
             "cell_measures": "area: areacella", 
@@ -71,7 +71,7 @@
         "albdiffbnd": {
             "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
-            "standard_name": "surface_spectral_hemispherical_reflectance_of_diffuse_shortwave_radiation", 
+            "standard_name": "surface_diffuse_shortwave_hemispherical_reflectance", 
             "units": "1", 
             "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
@@ -89,7 +89,7 @@
         "albdirbnd": {
             "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
-            "standard_name": "surface_spectral_hemispherical_reflectance_of_direct_shortwave_radiation", 
+            "standard_name": "surface_direct_shortwave_hemispherical_reflectance", 
             "units": "1", 
             "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
@@ -364,7 +364,7 @@
             "cell_methods": "area: mean time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "MODIS Optical Thickness-Particle Size joint  distribution, ice", 
-            "comment": "'Layer' means any layer with upper and lower boundaries that have constant values in some vertical coordinate. There must be a vertical coordinate variable indicating the extent of the layer(s). If the layers are model layers, the vertical coordinate can be model_level_number, but it is recommended to specify a physical coordinate (in a scalar or auxiliary coordinate variable) as well. 'X_area_fraction' means the fraction of horizontal area occupied by X. 'X_area' means the horizontal area occupied by X within the grid cell. Cloud area fraction is also called 'cloud amount' and 'cloud cover'.", 
+            "comment": "Joint probability distribution function, giving probability of cloud as a function of optical thickness and particle size, as measured by MODIS. For cloud ice particles.", 
             "dimensions": "longitude latitude effectRadIc tau time1", 
             "out_name": "jpdftaureicemodis", 
             "type": "real", 
@@ -382,7 +382,7 @@
             "cell_methods": "area: mean time: point", 
             "cell_measures": "area: areacella", 
             "long_name": "MODIS Optical Thickness-Particle Size joint  distribution, liquid", 
-            "comment": "'Layer' means any layer with upper and lower boundaries that have constant values in some vertical coordinate. There must be a vertical coordinate variable indicating the extent of the layer(s). If the layers are model layers, the vertical coordinate can be model_level_number, but it is recommended to specify a physical coordinate (in a scalar or auxiliary coordinate variable) as well. 'X_area_fraction' means the fraction of horizontal area occupied by X. 'X_area' means the horizontal area occupied by X within the grid cell. Cloud area fraction is also called 'cloud amount' and 'cloud cover'.", 
+            "comment": "Joint probability distribution function, giving probability of cloud as a function of optical thickness and particle size, as measured by MODIS. For liquid cloud particles.", 
             "dimensions": "longitude latitude effectRadLi tau time1", 
             "out_name": "jpdftaureliqmodis", 
             "type": "real", 
@@ -485,7 +485,7 @@
         "rsdcsaf": {
             "frequency": "3hrPt", 
             "modeling_realm": "aerosol", 
-            "standard_name": "downwelling_shortwave_flux_in_air_assuming_clean_clear_sky", 
+            "standard_name": "downwelling_shortwave_flux_in_air_assuming_clear_sky_and_no_aerosol", 
             "units": "W m-2", 
             "cell_methods": "area: mean time: point", 
             "cell_measures": "area: areacella", 
@@ -503,7 +503,7 @@
         "rsdcsafbnd": {
             "frequency": "3hrPt", 
             "modeling_realm": "aerosol", 
-            "standard_name": "downwelling_shortwave_flux_in_air_assuming_clean_clear_sky", 
+            "standard_name": "downwelling_shortwave_flux_in_air_assuming_clear_sky_and_no_aerosol", 
             "units": "W m-2", 
             "cell_methods": "area: mean time: point", 
             "cell_measures": "area: areacella", 
@@ -539,7 +539,7 @@
         "rsdscsaf": {
             "frequency": "3hrPt", 
             "modeling_realm": "aerosol", 
-            "standard_name": "surface_downwelling_shortwave_flux_in_air_assuming_clean_clear_sky", 
+            "standard_name": "surface_downwelling_shortwave_flux_in_air_assuming_clear_sky_and_no_aerosol", 
             "units": "W m-2", 
             "cell_methods": "area: mean time: point", 
             "cell_measures": "area: areacella", 
@@ -557,7 +557,7 @@
         "rsdscsafbnd": {
             "frequency": "3hrPt", 
             "modeling_realm": "aerosol", 
-            "standard_name": "surface_downwelling_shortwave_flux_in_air_assuming_clean_clear_sky", 
+            "standard_name": "surface_downwelling_shortwave_flux_in_air_assuming_clear_sky_and_no_aerosol", 
             "units": "W m-2", 
             "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
@@ -611,7 +611,7 @@
         "rsucsaf": {
             "frequency": "3hrPt", 
             "modeling_realm": "aerosol", 
-            "standard_name": "upwelling_shortwave_flux_in_air_assuming_clean_clear_sky", 
+            "standard_name": "upwelling_shortwave_flux_in_air_assuming_clear_sky_and_no_aerosol", 
             "units": "W m-2", 
             "cell_methods": "area: mean time: point", 
             "cell_measures": "area: areacella", 
@@ -629,7 +629,7 @@
         "rsucsafbnd": {
             "frequency": "3hrPt", 
             "modeling_realm": "aerosol", 
-            "standard_name": "upwelling_shortwave_flux_in_air_assuming_clean_clear_sky", 
+            "standard_name": "upwelling_shortwave_flux_in_air_assuming_clear_sky_and_no_aerosol", 
             "units": "W m-2", 
             "cell_methods": "area: mean time: point", 
             "cell_measures": "area: areacella", 
@@ -665,7 +665,7 @@
         "rsuscsaf": {
             "frequency": "3hrPt", 
             "modeling_realm": "aerosol", 
-            "standard_name": "surface_upwelling_shortwave_flux_in_air_assuming_clean_clear_sky", 
+            "standard_name": "surface_upwelling_shortwave_flux_in_air_assuming_clear_sky_and_no_aerosol", 
             "units": "W m-2", 
             "cell_methods": "area: mean time: point", 
             "cell_measures": "area: areacella", 
@@ -683,7 +683,7 @@
         "rsuscsafbnd": {
             "frequency": "3hrPt", 
             "modeling_realm": "aerosol", 
-            "standard_name": "surface_upwelling_shortwave_flux_in_air_assuming_clean_clear_sky", 
+            "standard_name": "surface_upwelling_shortwave_flux_in_air_assuming_clear_sky_and_no_aerosol", 
             "units": "W m-2", 
             "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 
@@ -719,7 +719,7 @@
         "rsutcsaf": {
             "frequency": "3hrPt", 
             "modeling_realm": "aerosol", 
-            "standard_name": "toa_outgoing_shortwave_flux_assuming_clean_clear_sky", 
+            "standard_name": "toa_outgoing_shortwave_flux_assuming_clear_sky_and_no_aerosol", 
             "units": "W m-2", 
             "cell_methods": "area: mean time: point", 
             "cell_measures": "area: areacella", 
@@ -737,7 +737,7 @@
         "rsutcsafbnd": {
             "frequency": "3hrPt", 
             "modeling_realm": "atmos", 
-            "standard_name": "toa_outgoing_shortwave_flux_assuming_clean_clear_sky", 
+            "standard_name": "toa_outgoing_shortwave_flux_assuming_clear_sky_and_no_aerosol", 
             "units": "W m-2", 
             "cell_methods": "time: point", 
             "cell_measures": "area: areacella", 

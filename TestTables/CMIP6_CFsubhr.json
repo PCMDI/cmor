@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.24", 
+        "data_specs_version": "01.00.26", 
         "cmor_version": "3.3", 
         "table_id": "Table CFsubhr", 
         "realm": "atmos", 
-        "table_date": "13 June 2018", 
+        "table_date": "12 July 2018", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -107,7 +107,7 @@
         "clivi": {
             "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
-            "standard_name": "atmosphere_cloud_ice_content", 
+            "standard_name": "atmosphere_mass_content_of_cloud_ice", 
             "units": "kg m-2", 
             "cell_methods": "area: point time: point", 
             "cell_measures": "", 
@@ -161,7 +161,7 @@
         "clwvi": {
             "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
-            "standard_name": "atmosphere_cloud_condensed_water_content", 
+            "standard_name": "atmosphere_mass_content_of_cloud_condensed_water", 
             "units": "kg m-2", 
             "cell_methods": "area: point time: point", 
             "cell_measures": "", 
@@ -201,8 +201,8 @@
             "units": "kg m-2 s-1", 
             "cell_methods": "area: point time: point", 
             "cell_measures": "", 
-            "long_name": "Evaporation", 
-            "comment": "Evaporation at surface: flux of water into the atmosphere due to conversion of both liquid and solid phases to vapor (from underlying surface and vegetation)", 
+            "long_name": "Evaporation including Sublimation and Transpiration", 
+            "comment": "Evaporation at surface (also known as evapotranspiration): flux of water into the atmosphere due to conversion of both liquid and solid phases to vapor (from underlying surface and vegetation)", 
             "dimensions": "site time1", 
             "out_name": "evspsbl", 
             "type": "real", 
@@ -539,7 +539,7 @@
         "prw": {
             "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
-            "standard_name": "atmosphere_water_vapor_content", 
+            "standard_name": "atmosphere_mass_content_of_water_vapor", 
             "units": "kg m-2", 
             "cell_methods": "area: point time: point", 
             "cell_measures": "", 
@@ -575,7 +575,7 @@
         "psl": {
             "frequency": "subhrPt", 
             "modeling_realm": "atmos", 
-            "standard_name": "air_pressure_at_sea_level", 
+            "standard_name": "air_pressure_at_mean_sea_level", 
             "units": "Pa", 
             "cell_methods": "area: point time: point", 
             "cell_measures": "", 
@@ -971,7 +971,7 @@
         "sbl": {
             "frequency": "subhrPt", 
             "modeling_realm": "landIce", 
-            "standard_name": "surface_snow_and_ice_sublimation_flux", 
+            "standard_name": "tendency_of_surface_snow_and_ice_amount_due_to_sublimation", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: point time: point", 
             "cell_measures": "", 
