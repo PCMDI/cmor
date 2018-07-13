@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.24", 
+        "data_specs_version": "01.00.26", 
         "cmor_version": "3.3", 
         "table_id": "Table ImonGre", 
         "realm": "atmos", 
-        "table_date": "13 June 2018", 
+        "table_date": "12 July 2018", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -359,7 +359,7 @@
         "sbl": {
             "frequency": "mon", 
             "modeling_realm": "landIce", 
-            "standard_name": "surface_snow_and_ice_sublimation_flux", 
+            "standard_name": "tendency_of_surface_snow_and_ice_amount_due_to_sublimation", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: time: mean where ice_sheet", 
             "cell_measures": "area: areacellg", 

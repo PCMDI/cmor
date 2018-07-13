@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.24", 
+        "data_specs_version": "01.00.26", 
         "cmor_version": "3.3", 
         "table_id": "Table EmonZ", 
         "realm": "atmos", 
-        "table_date": "13 June 2018", 
+        "table_date": "12 July 2018", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -76,7 +76,7 @@
             "cell_methods": "longitude: mean time: mean", 
             "cell_measures": "", 
             "long_name": "photoloysis rate of O3", 
-            "comment": "sum of rates o3 -> o1d+o2 and o3 -> o+o2", 
+            "comment": "Sum of photolysis rates o3 -> o1d+o2 and o3 -> o+o2", 
             "dimensions": "latitude plev39 time", 
             "out_name": "jo3", 
             "type": "real", 
@@ -89,7 +89,7 @@
         "oxloss": {
             "frequency": "mon", 
             "modeling_realm": "atmosChem", 
-            "standard_name": "tendency_of_atmosphere_mole_concentration_of_ox_due_to_chemical_destruction", 
+            "standard_name": "tendency_of_mole_concentration_of_ox_in_air_due_to_chemical_destruction", 
             "units": "mol m-3 s-1", 
             "cell_methods": "longitude: mean time: mean", 
             "cell_measures": "", 
@@ -107,7 +107,7 @@
         "oxprod": {
             "frequency": "mon", 
             "modeling_realm": "atmosChem", 
-            "standard_name": "tendency_of_atmosphere_mole_concentration_of_ox_due_to_chemical_and_photolytic_production", 
+            "standard_name": "tendency_of_mole_concentration_of_ox_in_air_due_to_chemical_and_photolytic_production", 
             "units": "mol m-3 s-1", 
             "cell_methods": "longitude: mean time: mean", 
             "cell_measures": "", 

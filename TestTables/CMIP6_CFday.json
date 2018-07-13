@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.24", 
+        "data_specs_version": "01.00.26", 
         "cmor_version": "3.3", 
         "table_id": "Table CFday", 
         "realm": "atmos", 
-        "table_date": "13 June 2018", 
+        "table_date": "12 July 2018", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -161,7 +161,7 @@
         "clivi": {
             "frequency": "day", 
             "modeling_realm": "atmos", 
-            "standard_name": "atmosphere_cloud_ice_content", 
+            "standard_name": "atmosphere_mass_content_of_cloud_ice", 
             "units": "kg m-2", 
             "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
@@ -269,7 +269,7 @@
         "clwvi": {
             "frequency": "day", 
             "modeling_realm": "atmos", 
-            "standard_name": "atmosphere_cloud_condensed_water_content", 
+            "standard_name": "atmosphere_mass_content_of_cloud_condensed_water", 
             "units": "kg m-2", 
             "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
