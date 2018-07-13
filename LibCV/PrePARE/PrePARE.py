@@ -285,6 +285,7 @@ class checkCMIP6(object):
         if not jsonobject:
             raise argparse.ArgumentTypeError(
                 'Invalid JSON CMOR table: {}'.format(path))
+        return jsonobject
 
     def set_double_value(self, attribute):
         if cmip6_cv.has_cur_dataset_attribute(attribute):
@@ -346,8 +347,8 @@ class checkCMIP6(object):
         else:
             cmip6_table = self.cmip6_table_path
         table_id = os.path.basename(os.path.splitext(cmip6_table)[0]).split('_')[1]
-        # Check JSON file
-        self._check_json_table(cmip6_table)
+        # Check and get JSON table
+        cmor_table = self._check_json_table(cmip6_table)
         # -------------------------------------------------------------------
         # Load CMIP6 table into memory
         # -------------------------------------------------------------------
@@ -360,6 +361,42 @@ class checkCMIP6(object):
         variable_id = self._get_variable_from_filename(filename)
         if not variable:
             variable = variable_id
+        # -------------------------------------------------------------------
+        #  Distinguish similar CMOR entries with the same out_name if exist
+        # -------------------------------------------------------------------
+        # Apply test on variable only if a particular treatment if required
+        prepare_path = os.path.dirname(os.path.realpath(__file__))
+        out_names_tests = json.loads(open(os.path.join(prepare_path, 'out_names_tests.json')).read())
+        key = '{}_{}'.format(table_id, variable_id)
+        variable_cmor_entry = None
+        if key in out_names_tests.keys():
+            for test, cmor_entry in out_names_tests[key].iteritems():
+                if getattr(self, test)(**{'infile': infile,
+                                          'variable': variable,
+                                          'filename': filename}):
+                    # If test successfull, the CMOR entry to consider is given by the test
+                    variable_cmor_entry = cmor_entry
+                else:
+                    # If not, CMOR entry to consider is the variable from filename or from input command-line
+                    variable_cmor_entry = variable
+        else:
+            # By default, CMOR entry to consider is the variable from filename or from input command-line
+            variable_cmor_entry = variable
+        # -------------------------------------------------------------------
+        #  Get variable out name in netCDF record
+        #  -------------------------------------------------------------------
+        # Variable record name should follow CMOR table out names
+        if variable_cmor_entry not in cmor_table['variable_entry'].keys():
+            print BCOLORS.FAIL
+            print "====================================================================================="
+            print "The entry " + variable_cmor_entry + " could not be found in CMOR table"
+            print "====================================================================================="
+            print BCOLORS.ENDC
+            raise KeyboardInterrupt
+        variable_record_name = cmor_table['variable_entry'][variable_cmor_entry]['out_name']
+        # Variable id attribute should be the same as variable record name
+        # in any case to be CF- and CMIP6-compliant
+        variable_id = variable_record_name
         # -------------------------------------------------------------------
         #  Open file in processing
         # -------------------------------------------------------------------
@@ -385,11 +422,11 @@ class checkCMIP6(object):
         # Create a dictionary of attributes for the variable
         # -------------------------------------------------------------------
         try:
-            self.dictVar = infile.variables[variable].__dict__
+            self.dictVar = infile.variables[variable_record_name].__dict__
         except BaseException:
             print BCOLORS.FAIL
             print "====================================================================================="
-            print "The variable " + variable + " could not be found in file"
+            print "The variable " + variable_record_name + " could not be found in file"
             print "====================================================================================="
             print BCOLORS.ENDC
             raise KeyboardInterrupt
@@ -469,22 +506,9 @@ class checkCMIP6(object):
             startime = 0
             endtime = 0
         # -------------------------------------------------------------------
-        #  Distinguish similar CMOR entries with the same out_name if exist
-        # -------------------------------------------------------------------
-        # Apply test on variable only if a particular treatment if required
-        prepare_path = os.path.dirname(os.path.realpath(__file__))
-        out_names_tests = json.loads(open(os.path.join(prepare_path, 'out_names_tests.json')).read())
-        key = '{}_{}'.format(table_id, variable_id)
-        if key in out_names_tests.keys():
-            for test, cmor_entry in out_names_tests[key].iteritems():
-                if getattr(self, test)(**{'infile': infile,
-                                          'variable': variable,
-                                          'filename': filename}):
-                    variable = cmor_entry
-        # -------------------------------------------------------------------
         # Setup variable
         # -------------------------------------------------------------------
-        varid = cmip6_cv.setup_variable(variable,
+        varid = cmip6_cv.setup_variable(variable_cmor_entry,
                                         self.dictVar['units'],
                                         self.dictVar['_FillValue'][0],
                                         startime,
@@ -494,7 +518,7 @@ class checkCMIP6(object):
         if varid == -1:
             print BCOLORS.FAIL
             print "====================================================================================="
-            print "Could not find variable {} in table {} ".format(variable, cmip6_table)
+            print "Could not find variable {} in table {} ".format(variable_cmor_entry, cmip6_table)
             print "====================================================================================="
             print BCOLORS.ENDC
             raise KeyboardInterrupt
