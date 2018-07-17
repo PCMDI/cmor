@@ -369,6 +369,11 @@ class checkCMIP6(object):
         # Apply test on variable only if a particular treatment if required
         prepare_path = os.path.dirname(os.path.realpath(__file__))
         out_names_tests = json.loads(open(os.path.join(prepare_path, 'out_names_tests.json')).read())
+        # -------------------------------------------------------------------
+        #  Open file in processing
+        #  The file needs to be open before the calling the test.
+        # -------------------------------------------------------------------
+        infile = Cdunif.CdunifFile(ncfile, "r")
         key = '{}_{}'.format(table_id, variable_id)
         variable_cmor_entry = None
         if key in out_names_tests.keys():
@@ -399,10 +404,6 @@ class checkCMIP6(object):
         # Variable id attribute should be the same as variable record name
         # in any case to be CF- and CMIP6-compliant
         variable_id = variable_record_name
-        # -------------------------------------------------------------------
-        #  Open file in processing
-        # -------------------------------------------------------------------
-        infile = Cdunif.CdunifFile(ncfile, "r")
         # -------------------------------------------------------------------
         # Create a dictionary of all global attributes
         # -------------------------------------------------------------------
