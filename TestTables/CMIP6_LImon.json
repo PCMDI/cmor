@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.23", 
+        "data_specs_version": "01.00.24", 
         "cmor_version": "3.3", 
         "table_id": "Table LImon", 
         "realm": "landIce land", 
-        "table_date": "21 March 2018", 
+        "table_date": "13 June 2018", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 

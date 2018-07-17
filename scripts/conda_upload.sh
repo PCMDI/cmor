@@ -45,7 +45,7 @@ echo "Building now"
 #conda build -c conda-forge -c uvcdat/label/nightly -c uvcdat --numpy=1.12 cmor
 #conda build -c conda-forge -c uvcdat/label/nightly -c uvcdat --numpy=1.11 cmor
 #conda build -c conda-forge  -c uvcdat/label/nightly -c uvcdat --numpy=1.10 cmor
-conda build -c conda-forge  -c uvcdat/label/nightly -c uvcdat cmor
+conda build -c conda-forge  -c cdat/label/nightly -c cdat cmor
 mkdir -p ~/.continuum/anaconda-client/
 echo "ssl_verify: false" >> ~/.continuum/anaconda-client/config.yaml
 echo "verify_ssl: false" >> ~/.continuum/anaconda-client/config.yaml

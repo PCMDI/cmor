@@ -635,7 +635,7 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
     rc = cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE_ID, szSource_ID);
     if (rc != 0) {
         snprintf(msg, CMOR_MAX_STRING,
-                 "You \"%s\" is not defined, check your required attributes\n! "
+                 "Your \"%s\" is not defined, check your required attributes\n! "
                  "See Control Vocabulary JSON file.(%s)\n! ",
                  GLOBAL_ATT_SOURCE_ID, CV_Filename);
         cmor_handle_error(msg, CMOR_NORMAL);
@@ -649,8 +649,7 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
             // Make sure that "source" exist.
             if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_SOURCE) != 0) {
                 cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_SOURCE,
-                                                        CV_source_id->aszValue
-                                                        [0], 1);
+                                                        CV_source_id->szValue, 1);
             }
             // Check source with experiment_id label.
             rc = cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE, szSource);

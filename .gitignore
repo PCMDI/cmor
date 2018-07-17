@@ -4,6 +4,7 @@
 *.pyc
 *.gcno
 *.gcda
+*.dSYM
 .cproject
 .project
 .settings/
