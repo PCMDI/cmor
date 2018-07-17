@@ -27,6 +27,7 @@ import re
 import sys
 from argparse import ArgumentTypeError
 from contextlib import contextmanager
+from datetime import datetime
 from multiprocessing import Pool
 from uuid import uuid4 as uuid
 
@@ -36,6 +37,7 @@ import numpy
 sys.path.insert(0, sys.prefix + "/lib/python2.7/site-packages/cdms2")
 import Cdunif
 import cmip6_cv
+
 
 # =========================
 # BColors()
@@ -189,27 +191,6 @@ class FilterCollection(object):
 
 
 # =========================
-# Spinner()
-# =========================
-class Spinner:
-    """
-    Spinner pending files checking.
-
-    """
-    STATES = ('/', '-', '\\', '|')
-    step = 0
-
-    def __init__(self):
-        self.next()
-
-    def next(self):
-        sys.stdout.write('\rChecking data... {}'.format(
-            Spinner.STATES[Spinner.step % 4]))
-        sys.stdout.flush()
-        Spinner.step += 1
-
-
-# =========================
 # ProcessContext()
 # =========================
 class ProcessContext(object):
@@ -306,6 +287,7 @@ class checkCMIP6(object):
         if not jsonobject:
             raise argparse.ArgumentTypeError(
                 'Invalid JSON CMOR table: {}'.format(path))
+        return jsonobject
 
     def set_double_value(self, attribute):
         if cmip6_cv.has_cur_dataset_attribute(attribute):
@@ -336,7 +318,7 @@ class checkCMIP6(object):
     def has_land_in_cell_methods(infile, variable, **kwargs):
         return True if 'land' in infile.variables[variable].cell_methods else False
 
-    def ControlVocab(self, ncfile, variable=None):
+    def ControlVocab(self, ncfile, variable=None, print_all=True):
         """
         Check CMIP6 global attributes against Control Vocabulary file.
 
@@ -367,8 +349,8 @@ class checkCMIP6(object):
         else:
             cmip6_table = self.cmip6_table_path
         table_id = os.path.basename(os.path.splitext(cmip6_table)[0]).split('_')[1]
-        # Check JSON file
-        self._check_json_table(cmip6_table)
+        # Check and get JSON table
+        cmor_table = self._check_json_table(cmip6_table)
         # -------------------------------------------------------------------
         # Load CMIP6 table into memory
         # -------------------------------------------------------------------
@@ -381,6 +363,42 @@ class checkCMIP6(object):
         variable_id = self._get_variable_from_filename(filename)
         if not variable:
             variable = variable_id
+        # -------------------------------------------------------------------
+        #  Distinguish similar CMOR entries with the same out_name if exist
+        # -------------------------------------------------------------------
+        # Apply test on variable only if a particular treatment if required
+        prepare_path = os.path.dirname(os.path.realpath(__file__))
+        out_names_tests = json.loads(open(os.path.join(prepare_path, 'out_names_tests.json')).read())
+        key = '{}_{}'.format(table_id, variable_id)
+        variable_cmor_entry = None
+        if key in out_names_tests.keys():
+            for test, cmor_entry in out_names_tests[key].iteritems():
+                if getattr(self, test)(**{'infile': infile,
+                                          'variable': variable,
+                                          'filename': filename}):
+                    # If test successfull, the CMOR entry to consider is given by the test
+                    variable_cmor_entry = cmor_entry
+                else:
+                    # If not, CMOR entry to consider is the variable from filename or from input command-line
+                    variable_cmor_entry = variable
+        else:
+            # By default, CMOR entry to consider is the variable from filename or from input command-line
+            variable_cmor_entry = variable
+        # -------------------------------------------------------------------
+        #  Get variable out name in netCDF record
+        #  -------------------------------------------------------------------
+        # Variable record name should follow CMOR table out names
+        if variable_cmor_entry not in cmor_table['variable_entry'].keys():
+            print BCOLORS.FAIL
+            print "====================================================================================="
+            print "The entry " + variable_cmor_entry + " could not be found in CMOR table"
+            print "====================================================================================="
+            print BCOLORS.ENDC
+            raise KeyboardInterrupt
+        variable_record_name = cmor_table['variable_entry'][variable_cmor_entry]['out_name']
+        # Variable id attribute should be the same as variable record name
+        # in any case to be CF- and CMIP6-compliant
+        variable_id = variable_record_name
         # -------------------------------------------------------------------
         #  Open file in processing
         # -------------------------------------------------------------------
@@ -406,11 +424,11 @@ class checkCMIP6(object):
         # Create a dictionary of attributes for the variable
         # -------------------------------------------------------------------
         try:
-            self.dictVar = infile.variables[variable].__dict__
+            self.dictVar = infile.variables[variable_record_name].__dict__
         except BaseException:
             print BCOLORS.FAIL
             print "====================================================================================="
-            print "The variable " + variable + " could not be found in file"
+            print "The variable " + variable_record_name + " could not be found in file"
             print "====================================================================================="
             print BCOLORS.ENDC
             raise KeyboardInterrupt
@@ -481,12 +499,14 @@ class checkCMIP6(object):
             var = [variable[:clim_idx]]
 
         try:
-            if climatology:
-                startimebnds = infile.variables['climatology_bnds'][0][0]
-                endtimebnds = infile.variables['climatology_bnds'][-1][1]
+            if 'bounds' in infile.variables['time'].__dict__.keys():
+                bndsvar = infile.variables['time'].__dict__['bounds']
+            elif 'climatology' in infile.variables['time'].__dict__.keys():
+                bndsvar = infile.variables['time'].__dict__['climatology']
             else:
-                startimebnds = infile.variables['time_bnds'][0][0]
-                endtimebnds = infile.variables['time_bnds'][-1][1]
+                bndsvar = 'time_bnds'
+            startimebnds = infile.variables[bndsvar][0][0]
+            endtimebnds = infile.variables[bndsvar][-1][1]
         except BaseException:
             startimebnds = 0
             endtimebnds = 0
@@ -499,22 +519,9 @@ class checkCMIP6(object):
             endtime = 0
 
         # -------------------------------------------------------------------
-        #  Distinguish similar CMOR entries with the same out_name if exist
-        # -------------------------------------------------------------------
-        # Apply test on variable only if a particular treatment if required
-        prepare_path = os.path.dirname(os.path.realpath(__file__))
-        out_names_tests = json.loads(open(os.path.join(prepare_path, 'out_names_tests.json')).read())
-        key = '{}_{}'.format(table_id, variable_id)
-        if key in out_names_tests.keys():
-            for test, cmor_entry in out_names_tests[key].iteritems():
-                if getattr(self, test)(**{'infile': infile,
-                                          'variable': variable,
-                                          'filename': filename}):
-                    variable = cmor_entry
-        # -------------------------------------------------------------------
         # Setup variable
         # -------------------------------------------------------------------
-        varid = cmip6_cv.setup_variable(variable,
+        varid = cmip6_cv.setup_variable(variable_cmor_entry,
                                         self.dictVar['units'],
                                         self.dictVar['_FillValue'][0],
                                         startime,
@@ -524,7 +531,7 @@ class checkCMIP6(object):
         if varid == -1:
             print BCOLORS.FAIL
             print "====================================================================================="
-            print "Could not find variable {} in table {} ".format(variable, cmip6_table)
+            print "Could not find variable {} in table {} ".format(variable_cmor_entry, cmip6_table)
             print "====================================================================================="
             print BCOLORS.ENDC
             raise KeyboardInterrupt
@@ -619,10 +626,12 @@ class checkCMIP6(object):
                 print "====================================================================================="
                 print BCOLORS.ENDC
                 self.errors += 1
-
+        # Print final message
         if self.errors != 0:
+            print BCOLORS.FAIL + "└──> :: CV FAIL    :: {}".format(ncfile) + BCOLORS.ENDC
             raise KeyboardInterrupt
-
+        elif print_all:
+            print BCOLORS.OKGREEN + "     :: CV SUCCESS :: {}".format(ncfile) + BCOLORS.ENDC
 
 
 def process(source):
@@ -636,18 +645,25 @@ def process(source):
 
 
 def sequential_process(source):
+    # Get context from global process env
+    assert 'pctx' in globals().keys()
+    pctx = globals()['pctx']
     try:
         # Process file
-        checker = checkCMIP6(cctx.table_path)
-        if cctx.variable:
-            checker.ControlVocab(source, cctx.variable)
+        checker = checkCMIP6(pctx.table_path)
+        if pctx.variable:
+            checker.ControlVocab(source, variable=pctx.variable, print_all=pctx.all)
         else:
-            checker.ControlVocab(source)
-        if cctx.all:
-            print BCOLORS.OKGREEN + "     :: SUCCESS :: {}".format(source) + BCOLORS.ENDC
+            checker.ControlVocab(source, print_all=pctx.all)
         return 0
     except KeyboardInterrupt:
-        print BCOLORS.FAIL + "└──> :: FAIL    :: {}".format(source) + BCOLORS.ENDC
+        return 1
+    except Exception as e:
+        print e
+        msg = BCOLORS.WARNING
+        msg += "└──> :: SKIPPED    :: {}".format(source)
+        msg += BCOLORS.ENDC
+        print msg
         return 1
     finally:
         # Close opened file
@@ -664,8 +680,8 @@ def initializer(keys, values):
 
     """
     assert len(keys) == len(values)
-    global cctx
-    cctx = ProcessContext({key: values[i] for i, key in enumerate(keys)})
+    global pctx
+    pctx = ProcessContext({key: values[i] for i, key in enumerate(keys)})
 
 
 def regex_validator(string):
@@ -698,7 +714,7 @@ def processes_validator(value):
         raise ArgumentTypeError(msg)
     if pnum == -1:
         # Max processes = None corresponds to cpu.count() in Pool creation
-        return  None
+        return None
     else:
         return pnum
 
@@ -710,6 +726,15 @@ def main():
     parser = argparse.ArgumentParser(
         prog='PrePARE',
         description='Validate CMIP6 file for ESGF publication.')
+
+    parser.add_argument(
+        '-l', '--log',
+        metavar='CWD',
+        type=str,
+        const='{}/logs'.format(os.getcwd()),
+        nargs='?',
+        help='Logfile directory. Default is the working directory.\n'
+             'If not, standard output is used. Only available in multiprocessing mode.')
 
     parser.add_argument(
         '--variable',
@@ -781,6 +806,13 @@ def main():
         return 1
     except SystemExit:
         return 1
+    # Get log
+    logname = 'PrePARE-{}.log'.format(datetime.now().strftime("%Y%m%d-%H%M%S"))
+    log = None
+    if args.log:
+        if not os.path.isdir(args.log):
+            os.makedirs(args.log)
+        log = os.path.join(args.log, logname)
     # Collects netCDF files for process
     sources = Collector(args.input)
     # Set scan filters
@@ -813,9 +845,14 @@ def main():
         pool = Pool(processes=args.max_processes, initializer=initializer, initargs=(cctx.keys(), cctx.values()))
         # Run processes
         logfiles = list()
-        progress = Spinner()
+        progress = 0
         for logfile, rc in pool.imap(process, sources):
-            progress.next()
+            progress += 1
+            percentage = int(progress * 100 / nb_sources)
+            msg = BCOLORS.OKGREEN + '\rCheck netCDF file(s): ' + BCOLORS.ENDC
+            msg += '{}% | {}/{} files'.format(percentage, progress, nb_sources)
+            sys.stdout.write(msg)
+            sys.stdout.flush()
             logfiles.append(logfile)
             errors += rc
         sys.stdout.write('\r\033[K')
@@ -824,8 +861,12 @@ def main():
         for logfile in set(logfiles):
             if not os.stat(logfile).st_size == 0:
                 with open(logfile, 'r') as f:
-                    sys.stdout.write(f.read())
-                    sys.stdout.flush()
+                    if log:
+                        with open(log, 'a+') as r:
+                            r.write(f.read())
+                    else:
+                        sys.stdout.write(f.read())
+                        sys.stdout.flush()
             os.remove(logfile)
         # Close pool of processes
         pool.close()
@@ -835,6 +876,17 @@ def main():
         initializer(cctx.keys(), cctx.values())
         for source in sources:
             errors += sequential_process(source)
+    # Print results summary
+    msg = BCOLORS.HEADER + '\nNumber of files scanned: {}'.format(nb_sources) + BCOLORS.ENDC
+    if errors:
+        msg += BCOLORS.FAIL
+    else:
+        msg += BCOLORS.OKGREEN
+    msg += '\nNumber of file with error(s): {}'.format(errors) + BCOLORS.ENDC
+    if log:
+        with open(log, 'a+') as r:
+            r.write(msg)
+    print(msg)
     # Evaluate errors and exit with appropriate return code
     if errors != 0:
         if errors == nb_sources:
