@@ -34,7 +34,7 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
             # -------------------------------------------
             # Try to call cmor with a bad institution_ID
             # -------------------------------------------
-            cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.tmpfile[1])
+            cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.tmpfile)
             cmor.dataset_json("Test/common_user_input.json")
             cmor.set_cur_dataset_attribute("initialization_index",
                                            "1209374928349823498274987234987")
@@ -62,11 +62,6 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
         # Check error after signal handler is back
         # ------------------------------------------
         self.assertCV("1209374928349823498274987234987")
-
-    def tearDown(self):
-        import shutil
-        shutil.rmtree("./CMIP6")
-
 
 if __name__ == '__main__':
     run()

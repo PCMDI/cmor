@@ -29,7 +29,7 @@ class TestdirectoryMethods(base_CMIP6_CV.BaseCVsTest):
         # -------------------------------------------
         # Try to call cmor with a bad institution_ID
         # -------------------------------------------
-        cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.tmpfile[1])
+        cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.tmpfile)
         try:
             cmor.dataset_json("Test/baddirectory.json")
         except (KeyboardInterrupt, BaseException):

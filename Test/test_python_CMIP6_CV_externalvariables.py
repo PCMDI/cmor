@@ -19,7 +19,7 @@ import os
 import sys
 import tempfile
 import cdms2
-
+import base_CMIP6_CV
 
 # ==============================
 #  main thread
@@ -28,24 +28,9 @@ def run():
     unittest.main()
 
 
-class TestCase(unittest.TestCase):
-    def setUp(self, *args, **kwargs):
-        # ------------------------------------------------------
-        # Copy stdout and stderr file descriptor for cmor output
-        # ------------------------------------------------------
-        self.newstdout = os.dup(1)
-        self.newstderr = os.dup(2)
-        # --------------
-        # Create tmpfile
-        # --------------
-        #self.tmpfile = tempfile.mkstemp()
-        #os.dup2(self.tmpfile[0], 1)
-        #os.dup2(self.tmpfile[0], 2)
-        #os.close(self.tmpfile[0])
-
+class TestCase(base_CMIP6_CV.BaseCVsTest):
     def tstCMIP6(self):
 
-        print "CMIP6"
         nlat = 10
         dlat = 180. / nlat
         nlon = 20
@@ -61,62 +46,47 @@ class TestCase(unittest.TestCase):
         # -------------------------------------------
         # Try to call cmor with a bad institution_ID
         # -------------------------------------------
-        print "RRRRRRRR"
-        cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
-        print "CMIP6 ----"
+        cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.tmpfile)
         cmor.dataset_json("Test/common_user_input.json")
-        print "CMIP6 ----"
 
         # --------------------------------------------
         # load Omon table and create masscello variable
         # --------------------------------------------
         cmor.load_table("CMIP6_Omon.json")
-        print "CMIP6 ----"
         itime = cmor.axis(table_entry="time", units='months since 2010',
                           coord_vals=numpy.array([0, 1, 2, 3, 4.]),
                           cell_bounds=numpy.array([0, 1, 2, 3, 4, 5.]))
-        print "CMIP6 ----"
         ilat = cmor.axis(
             table_entry='latitude',
             coord_vals=lats,
             cell_bounds=blats,
             units='degrees_north')
-        print "CMIP6 ----"
         ilon = cmor.axis(
             table_entry='longitude',
             coord_vals=lons,
             cell_bounds=blons,
             units='degrees_east')
-        print "CMIP6 ----"
         ilev = cmor.axis(table_entry='depth_coord', length=5,
                          cell_bounds=numpy.arange(0, 12000, 2000), coord_vals=numpy.arange(0, 10000, 2000), units="m")
-        print "CMIP6 ----"
 
         ivar = cmor.variable(
             table_entry="masscello", axis_ids=[
                 itime, ilev, ilat, ilon, ], units='kg/m2')
-        print "CMIP6 ----"
 
         data = numpy.random.random((ntimes, nlev, nlat, nlon)) * 100.
 
         cmor.write(ivar, data)
-        print "CMIP6 ----"
+        self.delete_files += [cmor.close(ivar, True)]
         cmor.close()
-        print "CMIP6 ----"
-        os.dup2(self.newstdout, 1)
-        os.dup2(self.newstderr, 2)
-        sys.stdout = os.fdopen(self.newstdout, 'w', 0)
-        sys.stderr = os.fdopen(self.newstderr, 'w', 0)
 
         f = cdms2.open(cmor.get_final_filename(), "r")
         a = f.getglobal("external_variables")
         self.assertEqual("areacello volcello", a)
-        print "CMIP6"
 
     def testCMIP6_ExternaVariablesError(self):
 
         print "CMIP6 External Error"
-        cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
+        cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.tmpfile)
         error_flag = cmor.dataset_json('Test/common_user_input.json')
         table_id = cmor.load_table('CMIP6_6hrLev.json')
         time = cmor.axis(table_entry='time1', units='days since 2000-01-01',
@@ -143,11 +113,9 @@ class TestCase(unittest.TestCase):
         cmor.write(ua_var_id, reshaped_data)
         fname_ta = cmor.close(ta_var_id, file_name=True)
         fname_ua = cmor.close(ua_var_id, file_name=True)
+        self.delete_files += [cmor.close(ta_var_id, True)]
+        self.delete_files += [cmor.close(ua_var_id, True)]
         cmor.close()
-        os.dup2(self.newstdout, 1)
-        os.dup2(self.newstderr, 2)
-        sys.stdout = os.fdopen(self.newstdout, 'w', 0)
-        sys.stderr = os.fdopen(self.newstderr, 'w', 0)
 
         f = cdms2.open(fname_ta, "r")
         a = f.getglobal("external_variables")
@@ -157,12 +125,6 @@ class TestCase(unittest.TestCase):
         a = f.getglobal("external_variables")
         self.assertEqual(None, a)
         f.close()
-        print "CMIP6 External Error"
-
-
-    def tearDown(self):
-        import shutil
-        shutil.rmtree("./CMIP6")
 
 
 if __name__ == '__main__':
