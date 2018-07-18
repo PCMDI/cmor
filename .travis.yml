@@ -33,7 +33,7 @@ install:
 
 script:
   - make test
-  - for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file; mystatus=$?; if [[ "$mystatus" != "0" ]]; then return ${mystatus}; fi; done
+  - python run_tests.py -v2 -n1 -H Test/test_python_CMIP6_CV*.py
 
 after_failure:
   - ulimit -a
