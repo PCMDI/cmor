@@ -12,61 +12,29 @@
 #      https://github.com/PCMDI/cmor/blob/master/Test/<filename>.json
 #      to the 'Test/' directory.
 import cmor
-import unittest
+import base_CMIP6_CV
 import sys
 import os
 import tempfile
-
+import signal
+import unittest
 
 def run():
     unittest.main()
 
-
-class TestdirectoryMethods(unittest.TestCase):
-
-    def setUp(self, *args, **kwargs):
-        # ------------------------------------------------------
-        # Copy stdout and stderr file descriptor for cmor output
-        # ------------------------------------------------------
-        self.newstdout = os.dup(1)
-        self.newstderr = os.dup(2)
-        # --------------
-        # Create tmpfile
-        # --------------
-        self.tmpfile = tempfile.mkstemp()
-        os.dup2(self.tmpfile[0], 1)
-        os.dup2(self.tmpfile[0], 2)
-        os.close(self.tmpfile[0])
-
-    def getAssertTest(self):
-        f = open(self.tmpfile[1], 'r')
-        lines = f.readlines()
-        for line in lines:
-            if line.find('Error:') != -1:
-                testOK = line.strip()
-                break
-        f.close()
-        os.unlink(self.tmpfile[1])
-        return testOK
+class TestdirectoryMethods(base_CMIP6_CV.BaseCVsTest):
 
     def test_Directory(self):
 
         # -------------------------------------------
         # Try to call cmor with a bad institution_ID
         # -------------------------------------------
-        cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
+        cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.tmpfile[1])
         try:
             cmor.dataset_json("Test/baddirectory.json")
-
-        except BaseException:
+        except (KeyboardInterrupt, BaseException):
             pass
-        testOK = self.getAssertTest()
-        os.dup2(self.newstdout, 1)
-        os.dup2(self.newstderr, 2)
-        sys.stdout = os.fdopen(self.newstdout, 'w', 0)
-        sys.stderr = os.fdopen(self.newstderr, 'w', 0)
-        self.assertIn("unable to create this directory", testOK)
-
+        self.assertCV("unable to create this directory")
 
 if __name__ == '__main__':
     run()
