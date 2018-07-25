@@ -17,6 +17,12 @@
     "has_27_pressure_levels": "zg27",
     "has_7_pressure_levels": "zg7h"
   },
+  "Amon_pfull": {
+    "is_climatology": "pfullClim"
+  },
+  "Amon_phalf": {
+    "is_climatology": "phalfClim"
+  },
   "Amon_ch4": {
     "is_climatology": "ch4Clim"
   },

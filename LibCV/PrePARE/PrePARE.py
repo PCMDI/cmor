@@ -371,10 +371,10 @@ class checkCMIP6(object):
         variable_cmor_entry = None
         if key in out_names_tests.keys():
             for test, cmor_entry in out_names_tests[key].iteritems():
-                if getattr(self, test)(**{'infile': infile,
+                if getattr(self, test)(**{'infile': ncfile,
                                           'variable': variable,
                                           'filename': filename}):
-                    # If test successfull, the CMOR entry to consider is given by the test
+                    # If test successful, the CMOR entry to consider is given by the test
                     variable_cmor_entry = cmor_entry
                 else:
                     # If not, CMOR entry to consider is the variable from filename or from input command-line
@@ -644,13 +644,11 @@ def sequential_process(source):
             checker.ControlVocab(source, print_all=pctx.all)
         return 0
     except KeyboardInterrupt:
+        print BCOLORS.FAIL + "└──> :: CV FAIL    :: {}".format(source) + BCOLORS.ENDC
         return 1
     except Exception as e:
         print e
-        msg = BCOLORS.WARNING
-        msg += "└──> :: SKIPPED    :: {}".format(source)
-        msg += BCOLORS.ENDC
-        print msg
+        print BCOLORS.WARNING + "└──> :: SKIPPED    :: {}".format(source) + BCOLORS.ENDC
         return 1
     finally:
         # Close opened file
