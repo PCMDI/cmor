@@ -18,29 +18,18 @@ import unittest
 import sys
 import os
 import tempfile
+import base_CMIP6_CV
 
 
-class TestCase(unittest.TestCase):
+class TestCase(base_CMIP6_CV.BaseCVsTest):
 
     def testCMIP6(self):
 
-        # ------------------------------------------------------
-        # Copy stdout and stderr file descriptor for cmor output
-        # ------------------------------------------------------
-        newstdout = os.dup(1)
-        newstderr = os.dup(2)
-        # --------------
-        # Create tmpfile
-        # --------------
-        tmpfile = tempfile.mkstemp()
-        os.dup2(tmpfile[0], 1)
-        os.dup2(tmpfile[0], 2)
-        os.close(tmpfile[0])
         # -------------------------------------------
         # Try to call cmor with a bad institution_ID
         # -------------------------------------------
         try:
-            cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
+            cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.tmpfile)
             cmor.dataset_json("Test/common_user_input.json")
             cmor.set_cur_dataset_attribute("experiment_id", "ssp434")
             cmor.set_cur_dataset_attribute(
@@ -69,26 +58,11 @@ class TestCase(unittest.TestCase):
             data = numpy.random.random(5)
             for i in range(0, 5):
                 cmor.write(ivar, data[i:i])
+            self.delete_files += [cmor.close(ivar, True)]
             cmor.close()
         except BaseException:
             pass
-        os.dup2(newstdout, 1)
-        os.dup2(newstderr, 2)
-        sys.stdout = os.fdopen(newstdout, 'w', 0)
-        sys.stderr = os.fdopen(newstderr, 'w', 0)
-        f = open(tmpfile[1], 'r')
-        lines = f.readlines()
-        for line in lines:
-            if line.find('Error:') != -1:
-                self.assertIn('OLD', line.strip())
-                break
-        f.close()
-        os.unlink(tmpfile[1])
-
-    def tearDown(self):
-        import shutil
-        shutil.rmtree("./CMIP6")
-
+        self.assertCV('OLD')
 
 if __name__ == '__main__':
     unittest.main()

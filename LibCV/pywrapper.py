@@ -17,6 +17,7 @@ def sig_handler(signum, frame):
 
 
 signal.signal(signal.SIGTERM, sig_handler)
+signal.signal(signal.SIGINT, sig_handler)
 
 try:
     import cdtime
