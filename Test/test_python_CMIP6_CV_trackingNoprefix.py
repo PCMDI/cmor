@@ -60,6 +60,8 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
             f = cdms2.open(cmor.get_final_filename(), "r")
             a = f.getglobal("tracking_id").split('/')[0]
             self.assertNotIn("hdl:21.14100/", a)
+        except KeyboardInterrupt:
+            raise RuntimeError("Unexpected Error")
         except BaseException:
             raise
 

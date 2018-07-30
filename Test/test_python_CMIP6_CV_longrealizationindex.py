@@ -56,6 +56,8 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
                 cmor.write(ivar, data[i:i])
             cmor.close()
 
+        except KeyboardInterrupt:
+            raise RuntimeError("Unexpected Error")
         except (KeyboardInterrupt, BaseException):
             pass
         # ------------------------------------------
