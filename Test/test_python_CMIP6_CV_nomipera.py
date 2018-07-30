@@ -19,6 +19,7 @@ import signal
 import sys
 import os
 import tempfile
+import base_CMIP6_CV
 
 
 # ==============================
@@ -28,32 +29,7 @@ def run():
     unittest.main()
 
 
-class TestCase(unittest.TestCase):
-
-    def setUp(self, *args, **kwargs):
-        # ------------------------------------------------------
-        # Copy stdout and stderr file descriptor for cmor output
-        # ------------------------------------------------------
-        self.newstdout = os.dup(1)
-        self.newstderr = os.dup(2)
-        # --------------
-        # Create tmpfile
-        # --------------
-        self.tmpfile = tempfile.mkstemp()
-        os.dup2(self.tmpfile[0], 1)
-        os.dup2(self.tmpfile[0], 2)
-        os.close(self.tmpfile[0])
-
-    def getAssertTest(self):
-        f = open(self.tmpfile[1], 'r')
-        lines = f.readlines()
-        for line in lines:
-            if line.find('Error') != -1:
-                testOK = line.strip()
-                break
-        f.close()
-        os.unlink(self.tmpfile[1])
-        return testOK
+class TestCase(base_CMIP6_CV.BaseCVsTest):
 
     def testCMIP6(self):
         try:
@@ -62,6 +38,7 @@ class TestCase(unittest.TestCase):
             # -------------------------------------------
             cmor.setup(
                 inpath='TestTables',
+                logfile=self.tmpfile,
                 netcdf_file_action=cmor.CMOR_REPLACE)
             cmor.dataset_json("Test/common_user_input.json")
 
@@ -80,20 +57,11 @@ class TestCase(unittest.TestCase):
             data = numpy.random.random(5)
             for i in range(0, 5):
                 cmor.write(ivar, data[i:i])
+            self.delete_files += [cmor.close(ivar, True)]
             cmor.close()
         except BaseException:
             pass
-        os.dup2(self.newstdout, 1)
-        os.dup2(self.newstderr, 2)
-        sys.stdout = os.fdopen(self.newstdout, 'w', 0)
-        sys.stderr = os.fdopen(self.newstderr, 'w', 0)
-        testOK = self.getAssertTest()
-        self.assertIn("mip_era", testOK)
-
-    def tearDown(self):
-        import shutil
-        shutil.rmtree("./CMIP6")
-
+        self.assertCV("mip_era")
 
 if __name__ == '__main__':
     run()

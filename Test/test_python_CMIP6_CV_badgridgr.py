@@ -18,7 +18,7 @@ import unittest
 import sys
 import os
 import tempfile
-
+import base_CMIP6_CV
 
 # ==============================
 #  main thread
@@ -27,32 +27,7 @@ def run():
     unittest.main()
 
 
-class TestCase(unittest.TestCase):
-
-    def setUp(self, *args, **kwargs):
-        # ------------------------------------------------------
-        # Copy stdout and stderr file descriptor for cmor output
-        # ------------------------------------------------------
-        self.newstdout = os.dup(1)
-        self.newstderr = os.dup(2)
-        # --------------
-        # Create tmpfile
-        # --------------
-        self.tmpfile = tempfile.mkstemp()
-        os.dup2(self.tmpfile[0], 1)
-        os.dup2(self.tmpfile[0], 2)
-        os.close(self.tmpfile[0])
-
-    def getAssertTest(self):
-        f = open(self.tmpfile[1], 'r')
-        lines = f.readlines()
-        for line in lines:
-            if line.find('Error:') != -1:
-                testOK = line.strip()
-                break
-        f.close()
-        os.unlink(self.tmpfile[1])
-        return testOK
+class TestCase(base_CMIP6_CV.BaseCVsTest):
 
     def testCMIP6(self):
 
@@ -60,7 +35,7 @@ class TestCase(unittest.TestCase):
         # Try to call cmor with a bad institution_ID
         # -------------------------------------------
         try:
-            cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
+            cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.tmpfile)
             cmor.dataset_json("Test/common_user_input.json")
             cmor.set_cur_dataset_attribute("grid_label", "gr-0")
 
@@ -79,22 +54,14 @@ class TestCase(unittest.TestCase):
             data = numpy.random.random(5)
             for i in range(0, 5):
                 cmor.write(ivar, data[i:i])
+            self.delete_files += [cmor.close(ivar, True)]
             cmor.close()
         except BaseException:
             pass
-        os.dup2(self.newstdout, 1)
-        os.dup2(self.newstderr, 2)
-        sys.stdout = os.fdopen(self.newstdout, 'w', 0)
-        sys.stderr = os.fdopen(self.newstderr, 'w', 0)
-        testOK = self.getAssertTest()
         # ------------------------------------------
         # Check error after signal handler is back
         # ------------------------------------------
-        self.assertIn("\"gr-0\"", testOK)
-
-    def tearDown(self):
-        import shutil
-        shutil.rmtree("./CMIP6")
+        self.assertCV("\"gr-0\"")
 
 
 if __name__ == '__main__':

@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.23", 
+        "data_specs_version": "01.00.24", 
         "cmor_version": "3.3", 
         "table_id": "Table 6hrPlevPt", 
         "realm": "atmos", 
-        "table_date": "21 March 2018", 
+        "table_date": "13 June 2018", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -161,7 +161,7 @@
         "lwsffluxaero": {
             "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
-            "standard_name": "longwave__flux__due_to_volcanic_aerosols_at_the_surface", 
+            "standard_name": "surface_downwelling_longwave_flux_in_air_due_to_volcanic_ambient_aerosol_particles", 
             "units": "W m-2", 
             "cell_methods": "area: mean time: point", 
             "cell_measures": "area: areacella", 
@@ -179,7 +179,7 @@
         "lwtoafluxaerocs": {
             "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
-            "standard_name": "longwave_flux_due_to_volcanic_aerosols_at_TOA_under_clear_sky", 
+            "standard_name": "toa_outgoing_longwave_flux_due_to_volcanic_ambient_aerosol_particles_assuming_clear_sky", 
             "units": "W m-2", 
             "cell_methods": "area: mean time: point", 
             "cell_measures": "area: areacella", 
@@ -341,7 +341,7 @@
         "swsffluxaero": {
             "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
-            "standard_name": "shortwave__flux_due_to_volcanic_ambient_aerosol_particles_at_the_surface", 
+            "standard_name": "surface_downwelling_shortwave_flux_in_air_due_to_volcanic_ambient_aerosol_particles", 
             "units": "W m-2", 
             "cell_methods": "area: mean time: point", 
             "cell_measures": "area: areacella", 
@@ -359,7 +359,7 @@
         "swtoafluxaerocs": {
             "frequency": "6hrPt", 
             "modeling_realm": "atmos", 
-            "standard_name": "shortwave_flux_due_to_volcanic_aerosols_at_TOA_under_clear_sky", 
+            "standard_name": "toa_outgoing_shortwave_flux_due_to_volcanic_ambient_aerosol_particles_assuming_clear_sky", 
             "units": "W m-2", 
             "cell_methods": "area: mean time: point", 
             "cell_measures": "area: areacella", 

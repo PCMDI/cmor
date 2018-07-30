@@ -1,6 +1,12 @@
-import unittest
-import Test.all_tests
+import os
 import sys
-testSuite = Test.all_tests.create_test_suite()
-text_runner = unittest.TextTestRunner(verbosity=2).run(testSuite)
-#sys.exit(not text_runner.wasSuccessful())
+from testsrunner import TestRunnerBase
+
+
+test_suite_name = 'cmor'
+
+workdir = os.getcwd()
+
+runner = TestRunnerBase(test_suite_name)
+ret_code = runner.run(workdir)
+sys.exit(ret_code)

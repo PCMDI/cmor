@@ -19,6 +19,7 @@ import sys
 import os
 import tempfile
 import cdms2
+import base_CMIP6_CV
 
 
 # ==============================
@@ -28,28 +29,14 @@ def run():
     unittest.main()
 
 
-class TestCase(unittest.TestCase):
-
-    def setUp(self, *args, **kwargs):
-        # ------------------------------------------------------
-        # Copy stdout and stderr file descriptor for cmor output
-        # ------------------------------------------------------
-        self.newstdout = os.dup(1)
-        self.newstderr = os.dup(2)
-        # --------------
-        # Create tmpfile
-        # --------------
-        self.tmpfile = tempfile.mkstemp()
-        os.dup2(self.tmpfile[0], 1)
-        os.dup2(self.tmpfile[0], 2)
-        os.close(self.tmpfile[0])
+class TestCase(base_CMIP6_CV.BaseCVsTest):
 
     def testCMIP6(self):
         try:
             # -------------------------------------------
             # Try to call cmor with a bad institution_ID
             # -------------------------------------------
-            cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
+            cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.tmpfile)
             cmor.dataset_json("Test/common_user_input.json")
             cmor.set_cur_dataset_attribute("tracking_prefix", "hdl:21.14100")
 
@@ -68,22 +55,13 @@ class TestCase(unittest.TestCase):
             data = numpy.random.random(5)
             for i in range(0, 5):
                 a = cmor.write(ivar, data[i:i])
+            self.delete_files += [cmor.close(ivar, True)]
             cmor.close()
         except BaseException:
             raise
-        os.dup2(self.newstdout, 1)
-        os.dup2(self.newstderr, 2)
-        sys.stdout = os.fdopen(self.newstdout, 'w', 0)
-        sys.stderr = os.fdopen(self.newstderr, 'w', 0)
-
         f = cdms2.open(cmor.get_final_filename(), "r")
         a = f.getglobal("tracking_id").split('/')[0]
         self.assertIn("hdl:21.14100", a)
-
-    def tearDown(self):
-        import shutil
-        shutil.rmtree("./CMIP6")
-
 
 if __name__ == '__main__':
     run()

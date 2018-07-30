@@ -69,6 +69,7 @@
 #define AXIS_ATT_UNITS           "units"
 #define AXIS_ATT_STOREDDIRECTION "stored_direction"
 #define AXIS_ATT_POSITIVE        "positive"
+#define AXIS_ATT_GEN_LEVEL_NAME  "generic_level_name"
 #define AXIS_ATT_AXIS            "axis"
 #define AXIS_ATT_INDEXONLY       "index_only"
 #define AXIS_ATT_MUSTBOUNDS      "must_have_bounds"
@@ -250,6 +251,7 @@
 #define DIMENSION_LATITUDE            "latitude"
 #define DIMENSION_LONGITUDE           "longitude"
 #define DIMENSION_ALEVEL              "alevel"
+#define DIMENSION_ALEVEL_HALF         "alevhalf"
 #define DIMENSION_ZLEVEL              "zlevel"
 #define DIMENSION_OLEVEL              "olevel"
 
@@ -339,6 +341,7 @@ typedef struct cmor_axis_def_ {
     char index_only;
     int must_have_bounds;
     int must_call_cmor_grid;
+    char generic_level_name[CMOR_MAX_STRING];
 } cmor_axis_def_t;
 
 enum CV_type {
@@ -417,6 +420,7 @@ typedef struct cmor_variable_def_ {
     char realm[CMOR_MAX_STRING];
     char frequency[CMOR_MAX_STRING];
     char out_name[CMOR_MAX_STRING];
+    char generic_level_name[CMOR_MAX_STRING];
 } cmor_var_def_t;
 
 typedef struct cmor_var_ {
