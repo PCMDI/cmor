@@ -60,6 +60,8 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
                 cmor.write(ivar, data[i:i])
             self.delete_files += [cmor.close(ivar, True)]
             cmor.close()
+        except KeyboardInterrupt:
+            raise RuntimeError("Unexpected Error")
         except BaseException:
             pass
         self.assertCV('OLD')

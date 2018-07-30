@@ -53,6 +53,8 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
             for i in range(0, 5):
                 cmor.write(ivar, data[i:i])
             cmor.close()
+        except KeyboardInterrupt:
+            raise RuntimeError("Unexpected Error")
         except BaseException:
             pass
         self.assertCV("invalid")

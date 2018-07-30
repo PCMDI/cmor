@@ -37,7 +37,9 @@ class BaseCVsTest(unittest.TestCase):
         self.delete_files = []
 
     def tearDown(self):
-        if debug: print("unlinking:",self.tmpfile)
+        if debug: 
+            print("would be unlinking:",self.tmpfile)
+            return
         os.unlink(self.tmpfile)
         for filename in self.delete_files:
             self.remove_file_and_directories(filename)
@@ -50,7 +52,7 @@ class BaseCVsTest(unittest.TestCase):
             lines = f.readlines()
             for i, line in enumerate(lines):
                 scan = "".join(lines[i:i+number_of_lines_to_scan]).strip()
-                if debug: print("LINE:",scan)
+                if debug: print("LINE:", i, __file__, scan)
                 if line_trigger in line:
                     line_to_scan = scan
                     break
