@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.23", 
+        "data_specs_version": "01.00.24", 
         "cmor_version": "3.3", 
         "table_id": "Table 6hrLev", 
         "realm": "atmos", 
-        "table_date": "21 March 2018", 
+        "table_date": "13 June 2018", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -17,13 +17,13 @@
         "bs550aer": {
             "frequency": "6hr", 
             "modeling_realm": "aerosol", 
-            "standard_name": "volume_lidar_backwards_scattering_coefficient_in_air_due_to_ambient_aerosol_particles", 
+            "standard_name": "volume_scattering_function_in_air_due_to_ambient_aerosol_particles", 
             "units": "m-1 sr-1", 
             "cell_methods": "area: time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Aerosol backscatter coefficient", 
             "comment": "Aerosol  Backscatter at 550nm and 180 degrees, computed from extinction and lidar ratio", 
-            "dimensions": "longitude latitude time lambda550nm", 
+            "dimensions": "longitude latitude time lambda550nm scatter180", 
             "out_name": "bs550aer", 
             "type": "real", 
             "positive": "", 

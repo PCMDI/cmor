@@ -4,6 +4,7 @@ VPATH = @srcdir@
 srcdir = @srcdir@
 FC=@FC@
 CC=@CC@
+LDSHARED="@CC@ ${LDSHARED_FLAGS}"
 CFLAGS=@CFLAGS@
 CPPFLAGS=@CPPFLAGS@
 CPPFLAGS_USER=""
@@ -157,7 +158,7 @@ endif
 python:
 	@echo "Building Python interface"
 	#if [ ! -d "${DIR}" ]; then mkdir -p ${DIR}; fi
-	${PYTHONEXEC} setup.py install @CDATPREFIX@ 
+	LDSHARED=${LDSHARED} ${PYTHONEXEC} setup.py install @CDATPREFIX@ 
 test_a_python:
 	@echo "${OK_COLOR}Testing ${TEST_NAME} ${NO_COLOR}"
 	${PYTHONEXEC} ${TEST_NAME} ${VERB}
@@ -231,6 +232,10 @@ test_python: python
 	env TEST_NAME=Test/test_site_ts.py make test_a_python
 	env TEST_NAME=Test/test_python_free_wrapping_issue.py make test_a_python
 	env TEST_NAME=Test/test_python_filename_time_range.py make test_a_python
+	env TEST_NAME=Test/test_cmor_half_levels.py make test_a_python
+	env TEST_NAME=Test/test_cmor_half_levels_with_bounds.py make test_a_python
+	env TEST_NAME=Test/test_cmor_half_levels_wrong_generic_level.py make test_a_python
+	env TEST_NAME=Test/test_cmor_double_singleton.py make test_a_python
 
 test_case:
 	@echo "${OK_COLOR}Testing: "${TEST_NAME}" with input file: ${INPUT_FILE}${NO_COLOR}"

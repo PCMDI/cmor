@@ -22,35 +22,62 @@ aliases:
        conda config --set always_yes yes --set changeps1 no
        conda update -y -q conda
        conda config --set anaconda_upload no
-       conda create -q -n py2 -c cdat/label/nightly -c conda-forge ossuuid udunits2 hdf5 libnetcdf numpy gcc openssl cdms2 "python<3" 
-       #conda create -q -n py3 -c conda-forge ossuuid udunits2 hdf5 libnetcdf numpy gcc "python>3"
+       conda create -q -n py2 -c cdat/label/nightly -c conda-forge -c cdat ossuuid udunits2 hdf5 libnetcdf numpy openssl cdms2 python=2.7 $CONDA_COMPILERS testsrunner
 
   - &setup_cmor
     name: setup_cmor
     command: |
        echo "WE are in: "`pwd`
        export PATH=$WORKDIR/miniconda/bin:$PATH
+       set +e
        source activate py2
-       export PREFIX=$(python -c "import sys; print sys.prefix")
-       git clone https://github.com/PCMDI/cmip6-cmor-tables
-       ln -s cmip6-cmor-tables/Tables Tables
-       ./configure --prefix=$PREFIX --with-python --with-uuid=$PREFIX --with-udunits2=$PREFIX --with-netcdf=$PREFIX  --enable-verbose-test
+       echo "ACTIVATE RETURN CODE $?"
+       set -e
+       #git clone https://github.com/PCMDI/cmip6-cmor-tables
+       #ln -s cmip6-cmor-tables/Tables Tables
+       ./configure --prefix=$CONDA_PREFIX --with-python --with-uuid=$CONDA_PREFIX --with-udunits2=$CONDA_PREFIX --with-netcdf=$CONDA_PREFIX  --enable-verbose-test
        make install
+       echo "MAKE PASSED"
+       exit 0
 
   - &run_cmor_tests
     name: run_cmor_tests
     command: |
        export PATH=$WORKDIR/miniconda/bin:$PATH
        export UVCDAT_ANONYMOUS_LOG=False
+       set +e
        source activate py2
+       set -e
        make test
   - &run_prepare_tests
     name: run_prepare_tests
     command: |
        export PATH=$WORKDIR/miniconda/bin:$PATH
        export UVCDAT_ANONYMOUS_LOG=False
+       set +e
        source activate py2
+       set -e
        for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file; mystatus=$?; if [[ "$mystatus" != "0" ]]; then return ${mystatus}; fi; done
+       python run_tests.py -v2 -H -n1 Test/test_python_CMIP6_CV*.py
+  - &conda_upload
+    name: conda_upload
+    command: |
+       if [[ $CIRCLE_BRANCH != 'master' ]]; then
+          exit 0
+       fi
+       export PATH=${HOME}/project/$WORKDIR/miniconda/bin:$PATH
+       conda install conda-build anaconda-client
+       conda config --set anaconda_upload no
+       export CONDA_BLD_PATH=`pwd`/conda_build
+       git clone git://github.com/cdat/conda-recipes
+       cd conda-recipes
+       export PKG_NAME=cmor
+       export USER=pcmdi
+       export VERSION=3.3.3
+       export LABEL=nightly
+       python ./prep_for_build.py -l $VERSION
+       conda build $PKG_NAME -c cdat/label/nightly -c conda-forge -c cdat --python=2.7
+       anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.`date +%Y*`0.tar.bz2 --force
 
 
 jobs:
@@ -59,6 +86,10 @@ jobs:
       xcode: "9.2.0"
     environment:
       WORKDIR: "workspace/test_macos_cmor"
+      CONDA_COMPILERS: "clang_osx-64 gfortran_osx-64"
+      LDSHARED_FLAGS: "-bundle -undefined dynamic_lookup"
+      UVCDAT_ANONYMOUS_LOG: "False"
+      OS: "osx-64"
     steps:
       - checkout
       - run: *setup_miniconda
@@ -66,12 +97,18 @@ jobs:
       - run: *setup_cmor
       - run: *run_cmor_tests
       - run: *run_prepare_tests
+      - run: *conda_upload
+
 
   linux_cmor:
     machine:
       image: circleci/classic:latest
     environment:
       WORKDIR: "workspace/test_linux_cmor"
+      CONDA_COMPILERS: "gcc_linux-64 gfortran_linux-64"
+      LDSHARED_FLAGS: "-shared -pthread"
+      UVCDAT_ANONYMOUS_LOG: "False"
+      OS: "linux-64"
     steps:
       - checkout
       - run: *setup_miniconda
@@ -79,6 +116,7 @@ jobs:
       - run: *setup_cmor
       - run: *run_cmor_tests
       - run: *run_prepare_tests
+      - run: *conda_upload
 
 workflows:
   version: 2

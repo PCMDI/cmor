@@ -7148,7 +7148,6 @@ contains
     integer ierr
     ierr = cmor_set_deflate_cff(var_id, shuffle, deflate, deflate_level)
   end function cmor_set_deflate
-
   function cmor_setup_ints(inpath,netcdf_file_action, set_verbosity,&
        exit_control, logfile, create_subdirectories) result(ierr)
     implicit none
@@ -7160,7 +7159,6 @@ contains
     character(*) , optional, intent(in) :: logfile
     integer , optional, intent(in) :: create_subdirectories
     character(1024) path
-
 
     if (present(inpath)) then
        path = inpath
