@@ -26,6 +26,7 @@
 /*      this is defining NETCDF4 variable if we are                     */
 /*      using NETCDF3 not used anywhere else                            */
 /* ==================================================================== */
+
 #ifndef NC_NETCDF4
 #define NC_NETCDF4 0
 #define NC_CLASSIC_MODEL 0
