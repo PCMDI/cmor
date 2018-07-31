@@ -2960,7 +2960,7 @@ int cmor_setGblAttr(int var_id)
 /*    Create History metadata from template                             */
 /* -------------------------------------------------------------------- */
         strcpy(szTemplate, cmor_current_dataset.history_template);
-        ierr = cmor_CreateFromTemplate(nVarRefTblID, szTemplate, szHistory, "");
+        ierr += cmor_CreateFromTemplate(nVarRefTblID, szTemplate, szHistory, "");
         snprintf(ctmp, CMOR_MAX_STRING,
                  szHistory,
                  timestamp);
