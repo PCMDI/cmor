@@ -53,7 +53,7 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
             self.delete_files += [cmor.close(ivar, True)]
             cmor.close()
 
-            f = cdms2.open(cmor.get_final_filename() , 'r')
+            f = cdms2.open(cmor.get_final_filename(), 'r')
             self.assertEqual(f.coder, "Denis Nadeau")
             self.assertEqual(f.hierarchical_attr_setting, "information")
             self.assertEqual(f.creator, "PCMDI")
