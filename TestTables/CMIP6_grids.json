@@ -4,9 +4,9 @@
         "cmor_version": "3.3", 
         "Conventions": "CF-1.7 CMIP-6.2", 
         "table_id": "Table grids", 
-        "data_specs_version": "01.00.24", 
+        "data_specs_version": "01.00.27", 
         "missing_value": "1e20", 
-        "table_date": "13 June 2018"
+        "table_date": "30 July 2018"
     }, 
     "mapping_entry": {
         "sample_user_mapping": {
@@ -17,11 +17,11 @@
     }, 
     "axis_entry": {
         "grid_latitude": {
-            "long_name": "Grid Latitude", 
+            "long_name": "latitude in rotated pole grid", 
             "standard_name": "grid_latitude", 
             "out_name": "rlat", 
             "units": "degrees", 
-            "type": "double", 
+            "type": "", 
             "axis": "Y"
         }, 
         "y_deg": {
@@ -117,8 +117,8 @@
         "latitude": {
             "dimensions": "longitude latitude", 
             "valid_min": "-90.0", 
-            "long_name": "", 
-            "standard_name": "", 
+            "long_name": "latitude", 
+            "standard_name": "latitude", 
             "out_name": "latitude", 
             "units": "degrees_north", 
             "valid_max": "90.0"
@@ -144,8 +144,8 @@
         "longitude": {
             "dimensions": "longitude latitude", 
             "valid_min": "0.0", 
-            "long_name": "", 
-            "standard_name": "", 
+            "long_name": "longitude", 
+            "standard_name": "longitude", 
             "out_name": "longitude", 
             "units": "degrees_east", 
             "valid_max": "360.0"
