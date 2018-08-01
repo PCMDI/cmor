@@ -335,6 +335,13 @@ class checkCMIP6(object):
            11. Validate that all *_index are integers.
 
         """
+        # -------------------------------------------------------------------
+        #  Open file in processing
+        # -------------------------------------------------------------------
+        infile = Cdunif.CdunifFile(ncfile, "r")
+        # -------------------------------------------------------------------
+        #  Get filename
+        # -------------------------------------------------------------------
         filename = os.path.basename(ncfile)
         # -------------------------------------------------------------------
         #  Initialize arrays
@@ -368,20 +375,15 @@ class checkCMIP6(object):
         prepare_path = os.path.dirname(os.path.realpath(__file__))
         out_names_tests = json.loads(open(os.path.join(prepare_path, 'out_names_tests.json')).read())
         key = '{}_{}'.format(table_id, variable_id)
-        variable_cmor_entry = None
+        # By default, CMOR entry to consider is the variable from filename or from input command-line
+        variable_cmor_entry = variable
         if key in out_names_tests.keys():
             for test, cmor_entry in out_names_tests[key].iteritems():
-                if getattr(self, test)(**{'infile': ncfile,
+                if getattr(self, test)(**{'infile': infile,
                                           'variable': variable,
                                           'filename': filename}):
                     # If test successful, the CMOR entry to consider is given by the test
                     variable_cmor_entry = cmor_entry
-                else:
-                    # If not, CMOR entry to consider is the variable from filename or from input command-line
-                    variable_cmor_entry = variable
-        else:
-            # By default, CMOR entry to consider is the variable from filename or from input command-line
-            variable_cmor_entry = variable
         # -------------------------------------------------------------------
         #  Get variable out name in netCDF record
         #  -------------------------------------------------------------------
@@ -397,10 +399,6 @@ class checkCMIP6(object):
         # Variable id attribute should be the same as variable record name
         # in any case to be CF- and CMIP6-compliant
         variable_id = variable_record_name
-        # -------------------------------------------------------------------
-        #  Open file in processing
-        # -------------------------------------------------------------------
-        infile = Cdunif.CdunifFile(ncfile, "r")
         # -------------------------------------------------------------------
         # Create a dictionary of all global attributes
         # -------------------------------------------------------------------
@@ -438,7 +436,6 @@ class checkCMIP6(object):
         self.errors += cmip6_cv.check_grids(table)
         self.errors += cmip6_cv.check_ISOTime()
         self.errors += cmip6_cv.check_furtherinfourl(table)
-        self.errors += cmip6_cv.check_parentExpID(table)
         self.errors += cmip6_cv.check_subExpID(table)
         for attr in ['branch_time_in_child', 'branch_time_in_parent']:
             if attr in self.dictGbl.keys():
@@ -458,6 +455,7 @@ class checkCMIP6(object):
                 print "====================================================================================="
                 print BCOLORS.ENDC
                 self.errors += 1
+        self.errors += cmip6_cv.check_parentExpID(table)
         for attr in ['table_id', 'variable_id']:
             try:
                 if locals()[attr] != self.dictGbl[attr]:
@@ -614,7 +612,6 @@ class checkCMIP6(object):
                 self.errors += 1
         # Print final message
         if self.errors != 0:
-            print BCOLORS.FAIL + "└──> :: CV FAIL    :: {}".format(ncfile) + BCOLORS.ENDC
             raise KeyboardInterrupt
         elif print_all:
             print BCOLORS.OKGREEN + "     :: CV SUCCESS :: {}".format(ncfile) + BCOLORS.ENDC
