@@ -1268,7 +1268,7 @@
             "type": "double", 
             "valid_max": "", 
             "valid_min": "", 
-            "value": "m", 
+            "value": "84000", 
             "z_bounds_factors": "", 
             "z_factors": "", 
             "bounds_values": "100000.0 68000.0", 
