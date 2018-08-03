@@ -59,11 +59,8 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
                 cmor.write(ivar, data[i:i])
             self.delete_files += [cmor.close(ivar, True)]
             cmor.close()
-        except KeyboardInterrupt:
-            raise RuntimeError("Unexpected error")
         except BaseException:
             pass
-        print("Assert")
         self.assertCV("mip_era")
 
 if __name__ == '__main__':

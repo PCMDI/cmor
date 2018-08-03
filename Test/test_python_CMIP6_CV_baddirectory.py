@@ -32,8 +32,6 @@ class TestdirectoryMethods(base_CMIP6_CV.BaseCVsTest):
         cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.tmpfile)
         try:
             cmor.dataset_json("Test/baddirectory.json")
-        except KeyboardInterrupt:
-            raise RuntimeError("Unexpected Error")
         except BaseException:
             pass
         self.assertCV("unable to create this directory")
