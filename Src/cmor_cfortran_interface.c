@@ -377,7 +377,7 @@ void cmor_handle_error_cff_(char error_msg[CMOR_MAX_STRING], int *level)
 /*                       cmor_get_terminate_signal_cff_()                        */
 /************************************************************************/
 int cmor_get_terminate_signal_cff_() {
-    return cmor_get_terminate_signal(signal);
+    return cmor_get_terminate_signal();
 }
 
 /************************************************************************/
