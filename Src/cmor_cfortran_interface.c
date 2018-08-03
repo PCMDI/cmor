@@ -383,8 +383,8 @@ int cmor_get_terminate_signal_cff_() {
 /************************************************************************/
 /*                       cmor_set_terminate_signal_cff()                        */
 /************************************************************************/
-void cmor_set_terminate_signal_cff_(int signal) {
-    cmor_set_terminate_signal(signal);
+void cmor_set_terminate_signal_cff_(int *signal) {
+    cmor_set_terminate_signal(*signal);
 }
 
 /************************************************************************/
