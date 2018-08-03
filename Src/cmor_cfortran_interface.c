@@ -374,11 +374,28 @@ void cmor_handle_error_cff_(char error_msg[CMOR_MAX_STRING], int *level)
 }
 
 /************************************************************************/
+/*                       cmor_get_terminate_signal_cff_()                        */
+/************************************************************************/
+int cmor_get_terminate_signal_cff_() {
+    return cmor_get_terminate_signal(signal);
+}
+
+/************************************************************************/
+/*                       cmor_set_terminate_signal_cff()                        */
+/************************************************************************/
+void cmor_set_terminate_signal_cff_(int signal) {
+    cmor_set_terminate_signal(signal);
+}
+
+/************************************************************************/
 /*                       cmor_setup_cff_nolog_()                        */
 /************************************************************************/
 int cmor_setup_cff_nolog_(char *path, int *netcdf, int *verbosity,
                           int *mode, int *crsub)
 {
+    if (cmor_get_terminate_signal() == -999) {
+        cmor_set_terminate_signal_to_sigint();
+    };
     return (cmor_setup(path, netcdf, verbosity, mode, NULL, crsub));
 }
 
@@ -388,6 +405,9 @@ int cmor_setup_cff_nolog_(char *path, int *netcdf, int *verbosity,
 int cmor_setup_cff_(char *path, int *netcdf, int *verbosity, int *mode,
                     char *logfile, int *crsub)
 {
+    if (cmor_get_terminate_signal() == -999) {
+        cmor_set_terminate_signal_to_sigint();
+    };
     return (cmor_setup(path, netcdf, verbosity, mode, logfile, crsub));
 }
 

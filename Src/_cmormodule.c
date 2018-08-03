@@ -395,6 +395,29 @@ static PyObject *PyCMOR_dataset_json(PyObject * self, PyObject * args)
 }
 
 /************************************************************************/
+/*                         PyCMOR_get_terminate_signal()                          */
+/************************************************************************/
+
+static PyObject *PyCMOR_get_terminate_signal(PyObject * self, PyObject * args)
+{
+    return Py_BuildValue("i", cmor_get_terminate_signal());
+}
+/************************************************************************/
+/*                         PyCMOR_set_terminate_signal()                          */
+/************************************************************************/
+
+static PyObject *PyCMOR_set_terminate_signal(PyObject * self, PyObject * args)
+{
+    int signal;
+    if (!PyArg_ParseTuple(args, "i", &signal))
+        return NULL;
+    
+    cmor_set_terminate_signal(signal);
+
+    Py_INCREF(Py_None);
+    return (Py_None);
+}
+/************************************************************************/
 /*                         PyCMOR_load_table()                          */
 /************************************************************************/
 
@@ -1064,6 +1087,8 @@ static PyMethodDef MyExtractMethods[] = {
     {"set_furtherinfourl", PyCMOR_set_furtherinfourl, METH_VARARGS},
     {"get_final_filename", PyCMOR_getFinalFilename, METH_VARARGS},
     {"set_deflate", PyCMOR_set_deflate, METH_VARARGS},
+    {"set_terminate_signal", PyCMOR_set_terminate_signal, METH_VARARGS},
+    {"get_terminate_signal", PyCMOR_get_terminate_signal, METH_VARARGS},
     {NULL, NULL}                /*sentinel */
 };
 

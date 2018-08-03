@@ -74,6 +74,7 @@ const char CMOR_VALID_CALENDARS[CMOR_N_VALID_CALS][CMOR_MAX_STRING] =
 };
 
 int CMOR_HAS_BEEN_SETUP = 0;
+int CMOR_TERMINATE_SIGNAL = -999;  /* not set by default */
 int CV_ERROR = 0;
 ut_system *ut_read = NULL;
 FILE *output_logfile;
@@ -112,11 +113,26 @@ int bAppendMode = FALSE;
 volatile sig_atomic_t stop = 0;
 
 /**************************************************************************/
+/*                reset signal code
+/**************************************************************************/
+int cmor_get_terminate_signal() {
+    return CMOR_TERMINATE_SIGNAL;
+}
+void cmor_set_terminate_signal_to_sigint() {
+    CMOR_TERMINATE_SIGNAL = SIGINT;
+}
+void cmor_set_terminate_signal_to_sigterm() {
+    CMOR_TERMINATE_SIGNAL = SIGTERM;
+}
+void cmor_set_terminate_signal( int code) {
+    CMOR_TERMINATE_SIGNAL = code;
+}
+/**************************************************************************/
 /*                cmor_mkdir()                                            */
 /**************************************************************************/
 void terminate(int signal)
 {
-    if (signal == SIGTERM) {
+    if (signal == CMOR_TERMINATE_SIGNAL) {
         stop = 1;
     }
 }
@@ -624,7 +640,7 @@ void cmor_handle_error(char error_msg[CMOR_MAX_STRING], int level)
     if ((CMOR_MODE == CMOR_EXIT_ON_WARNING) || (level == CMOR_CRITICAL)) {
         fflush(stdout); 
         fflush(output_logfile); 
-        kill(getpid(), SIGINT);
+        kill(getpid(), SIGTERM);
     }
     fflush(output_logfile);
 }
@@ -756,11 +772,20 @@ int cmor_setup(char *path,
     struct tm *ptr;
     extern FILE *output_logfile;
     extern int did_history;
-
     struct sigaction action;
+
+
+    /*********************************************************/
+    /* set the default signal */
+    /*********************************************************/
+
+    if (CMOR_TERMINATE_SIGNAL == -999) {
+        CMOR_TERMINATE_SIGNAL = SIGTERM;
+    }
+
     memset(&action, 0, sizeof(struct sigaction));
     action.sa_handler = terminate;
-    sigaction(SIGTERM, &action, NULL);
+    sigaction(CMOR_TERMINATE_SIGNAL, &action, NULL);
 
     strcpy(cmor_traceback_info, "");
     cmor_add_traceback("cmor_setup");

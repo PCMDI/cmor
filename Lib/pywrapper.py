@@ -33,6 +33,16 @@ try:
 except BaseException:
     has_oldma = False
 
+def get_terminate_signal():
+    """ Return the integer code currently used by CMOR for system signal when issuing an error
+    -999 means not set yet, once cmor_setup is called -999 is turned to SIGTERM"""
+    return _cmor.get_terminate_signal()
+
+def set_terminate_signal(signal):
+    """Sets the signal code to be used by CMOR when issuing an error
+    int has to match whateve rint the C uses"""
+    _cmor.set_terminate_signal(signal)
+
 
 def time_varying_grid_coordinate(
         grid_id, table_entry, units, type='f', missing_value=None):
