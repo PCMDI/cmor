@@ -46,16 +46,11 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
             data = numpy.random.random(75)
             reshaped_data = data.reshape((5, 5, 3, 1))
             
-            # This works:
+            # This doesn't:
+            cmor.write(ta_var_id, reshaped_data)
             cmor.write(ua_var_id, reshaped_data)
 
-            # This doesn't:
-            #cmor.write(ta_var_id, reshaped_data)
-            #cmor.write(ua_var_id, reshaped_data)
-
             #cmor.close()
-        except KeyboardInterrupt:
-            raise RuntimeError("Unexpected error")
         except BaseException:
             pass
 

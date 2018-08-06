@@ -265,6 +265,7 @@
 //#define EXTERNAL_VARIABLE_REGEX       "([[:alpha:]]+):[[:blank:]]*([[:alpha:]]+)[[:blank:]]*([[:alpha:]]+:[[:blank:]]*([[:alpha:]]+))*"
 #define EXTERNAL_VARIABLE_REGEX       "[[:alpha:]]+:[[:blank:]]*([[:alpha:]]+)([[:blank:]]*[[:alpha:]]+:[[:blank:]]*([[:alpha:]]+))*"
 
+extern int CMOR_TERMINATE_SIGNAL;
 extern int USE_NETCDF_4;
 extern int CMOR_MODE;
 extern int CMOR_TABLE;
