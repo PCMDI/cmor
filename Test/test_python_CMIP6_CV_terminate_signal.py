@@ -11,30 +11,26 @@
 #   3. Download
 #      https://github.com/PCMDI/cmor/blob/master/Test/<filename>.json
 #      to the 'Test/' directory.
-import cmor
-import base_CMIP6_CV
-import sys
-import os
-import tempfile
-import signal
-import unittest
 
+import cmor
+import unittest
+import signal
+
+# ==============================
+#  main thread
+# ==============================
 def run():
     unittest.main()
 
-class TestdirectoryMethods(base_CMIP6_CV.BaseCVsTest):
 
-    def test_Directory(self):
+class TestCase(unittest.TestCase):
 
-        # -------------------------------------------
-        # Try to call cmor with a bad institution_ID
-        # -------------------------------------------
-        cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.tmpfile)
-        try:
-            cmor.dataset_json("Test/baddirectory.json")
-        except BaseException:
-            pass
-        self.assertCV("unable to create this directory")
+    def testTerminateSignal(self):
+        self.assertEqual(cmor.get_terminate_signal(), -999)
+        cmor.setup()
+        self.assertEqual(cmor.get_terminate_signal(), signal.SIGTERM)
+        cmor.set_terminate_signal(signal.SIGINT)
+        self.assertEqual(cmor.get_terminate_signal(), signal.SIGINT)
 
 if __name__ == '__main__':
     run()
