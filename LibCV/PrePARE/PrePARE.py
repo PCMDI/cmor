@@ -419,8 +419,6 @@ class checkCMIP6(object):
             else:
                 member_id = self.dictGbl['variant_label']
         cmip6_cv.set_cur_dataset_attribute(cmip6_cv.GLOBAL_ATT_MEMBER_ID, member_id)
-        self.set_double_value('branch_time_in_parent')
-        self.set_double_value('branch_time_in_child')
         # -------------------------------------------------------------------
         # Create a dictionary of attributes for the variable
         # -------------------------------------------------------------------
@@ -444,10 +442,10 @@ class checkCMIP6(object):
         self.errors += cmip6_cv.check_grids(table)
         self.errors += cmip6_cv.check_ISOTime()
         self.errors += cmip6_cv.check_furtherinfourl(table)
-        self.errors += cmip6_cv.check_parentExpID(table)
         self.errors += cmip6_cv.check_subExpID(table)
         for attr in ['branch_time_in_child', 'branch_time_in_parent']:
             if attr in self.dictGbl.keys():
+                self.set_double_value(attr)
                 if not isinstance(self.dictGbl[attr], numpy.float64):
                     print BCOLORS.FAIL
                     print "====================================================================================="
@@ -463,6 +461,7 @@ class checkCMIP6(object):
                 print "====================================================================================="
                 print BCOLORS.ENDC
                 self.errors += 1
+        self.errors += cmip6_cv.check_parentExpID(table)
         for attr in ['table_id', 'variable_id']:
             try:
                 if locals()[attr] != self.dictGbl[attr]:
