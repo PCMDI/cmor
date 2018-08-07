@@ -576,7 +576,7 @@ class checkCMIP6(object):
                 if isinstance(file_value, numpy.ndarray):
                     file_value = file_value[0]
                 if isinstance(table_value, float):
-                    if abs(table_value - file_value)) < 0.00001 * table_value:
+                    if abs(table_value - file_value) <= 0.00001 * abs(table_value):
                         table_value = file_value
                 if key == "cell_methods":
                     idx = file_value.find(" (")
