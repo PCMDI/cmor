@@ -55,7 +55,7 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
                 units='kg')
 
             data = numpy.random.random(5)
-            for i in range(0, 5):
+            for i in range(0, 2):
                 cmor.write(ivar, data[i:i])
             self.delete_files += [cmor.close(ivar, True)]
             cmor.close()
