@@ -9,5 +9,5 @@ git pull
 cp -v ${REPOS_PATH}/cmor/scripts/CMIP6_CV.json  .
 msg="cron: update CMIP6_CV -- "`date +%Y-%m-%dT%H:%M`
 echo $msg
-git commit -am '$msg'
+git commit -am "$msg"
 git push
