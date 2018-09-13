@@ -4363,6 +4363,19 @@ int cmor_write(int var_id, void *data, char type, char *file_suffix,
         return (-1);
     };
 
+/* -------------------------------------------------------------------- */
+/*    Make sure that time_vals and time_bounds are being passed         */
+/*    when CMOR is running in append mode.                              */
+/* -------------------------------------------------------------------- */
+    if (bAppendMode && (time_vals == NULL || time_bounds == NULL)) {
+
+        cmor_handle_error("time_vals and time_bounds must be passed through cmor_write "
+                          "when in append mode", 
+                          CMOR_CRITICAL);
+        cmor_pop_traceback();
+        return (-1);
+    };
+
     ierr += cmor_addVersion();
     ierr += cmor_addRIPF(ctmp);
 
