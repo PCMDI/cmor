@@ -83,7 +83,7 @@ void loopRoutine(char *times, char *returnvalue)
     double tmpf = 0.;
 
     int exit_mode = CMOR_EXIT_ON_MAJOR;
-    j = CMOR_APPEND;
+    j = ( times ) ? CMOR_APPEND : CMOR_REPLACE;
     printf("Test code: ok init cmor, %i\n", exit_mode);
     ierr = cmor_setup(NULL, &j, NULL, &exit_mode, NULL, NULL);
     printf("Test code: ok init cmor\n");
@@ -96,8 +96,12 @@ void loopRoutine(char *times, char *returnvalue)
     k = ( times ) ? 1 : 0 ;
     for (i = k*ntimes; i < k*ntimes+ntimes; i++)
         read_time(i, &Time[i-k*ntimes], &bnds_time[2 * (i-k*ntimes)]);
-    ierr =
-      cmor_axis(&axes_ids[0], "time", "months since 1980", 2, &Time[0], 'd',
+    
+    if(times)
+        ierr = cmor_axis(&axes_ids[0], "time", "months since 1980", NULL, NULL, 'd',
+                NULL, NULL, NULL);
+    else
+        ierr = cmor_axis(&axes_ids[0], "time", "months since 1980", ntimes, &Time[0], 'd',
                 &bnds_time[0], 2, NULL);
 
 
@@ -146,8 +150,13 @@ void loopRoutine(char *times, char *returnvalue)
         read_2d_input_files(i, "PSURF", &data2d[0], lat, lon);
         //for(j=0;j<10;j++) printf("Test code: %i out of %i : %lf\n",j,9,data2d[j]);
         printf("var id: %i\n", myvars[0]);
-        ierr = cmor_write(myvars[0], data3d, 'd', times, 1, NULL, NULL, NULL);
-        ierr = cmor_write(zfactor_id, data2d, 'd', times, 1, NULL, NULL, &myvars[0]);
+        if(times) {
+            ierr = cmor_write(myvars[0], data3d, 'd', times, 1, &Time[i], &bnds_time[i*2], NULL);
+            ierr = cmor_write(zfactor_id, data2d, 'd', times, 1, &Time[i], &bnds_time[i*2], &myvars[0]);
+        } else {
+            ierr = cmor_write(myvars[0], data3d, 'd', times, 1, NULL, NULL, NULL);
+            ierr = cmor_write(zfactor_id, data2d, 'd', times, 1, NULL, NULL, &myvars[0]);
+        }
     }
     printf("ok loop done\n");
     ierr = cmor_close_variable(myvars[0], returnvalue, NULL);
