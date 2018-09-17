@@ -98,6 +98,9 @@ def run():
 
 
     CV['CV'] = OrderedDict(CV['CV'].items() + regexp.items())
+    for exp in CV["CV"]["experiment_id"]:
+        CV["CV"]["experiment_id"][exp]["activity_id"] = [ " ".join(CV["CV"]["experiment_id"][exp]["activity_id"])]
+        print("AC ID:",CV["CV"]["experiment_id"][exp]["activity_id"])
     f.write(json.dumps(CV, indent=4, separators=(',', ':'), sort_keys=False) )
 
     f.close()
