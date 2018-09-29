@@ -45,8 +45,6 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
         except BaseException:
             raise
             
-        self.processLog()
-            
 
 if __name__ == '__main__':
     unittest.main()

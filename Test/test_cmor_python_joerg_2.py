@@ -75,6 +75,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
 
         fnm = cmor.close(varid, file_name=True)
         cmor.close()
+        self.processLog()
         return fnm
 
     def testJoerg2(self):

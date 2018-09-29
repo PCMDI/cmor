@@ -46,7 +46,6 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
 
         cmor.close(varid)
         cmor.close()
-            
         self.processLog()
             
 

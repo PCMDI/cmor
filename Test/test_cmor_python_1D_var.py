@@ -26,10 +26,10 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
             cmor.write(ivar, data)
 
             cmor.close()
+
+            self.processLog()
         except BaseException:
             raise
-
-        self.processLog()
 
 
 if __name__ == '__main__':

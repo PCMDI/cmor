@@ -43,10 +43,9 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
                 cmor.write(varid, values, time_vals=[15], time_bnds=[[0, 30]])
 
             cmor.close()
+            self.processLog()
         except BaseException:
             raise
-            
-        self.processLog()
             
 
 if __name__ == '__main__':
