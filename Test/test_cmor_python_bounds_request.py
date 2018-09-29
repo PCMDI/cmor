@@ -1,9 +1,11 @@
 import cmor
 import numpy
+import os
 import unittest
+import base_test_cmor_python
 
 
-class TestCase(unittest.TestCase):
+class TestCase(base_test_cmor_python.BaseCmorTest):
 
     def testBoundsRequest(self):
         try:
@@ -27,14 +29,14 @@ class TestCase(unittest.TestCase):
 
             print levs
 
-            cmor.setup(inpath="Tables",
+            cmor.setup(inpath=self.tabledir,
                     set_verbosity=cmor.CMOR_NORMAL,
                     netcdf_file_action=cmor.CMOR_REPLACE,
-                    logfile=None)
+                    logfile=self.logfile)
 
-            cmor.dataset_json("Test/common_user_inputNOBOUNDS.json")
+            cmor.dataset_json(os.path.join(self.testdir, "common_user_inputNOBOUNDS.json"))
 
-            cmor.load_table("TestTables/python_test_table_A")
+            cmor.load_table(os.path.join(self.curdir, "TestTables", "python_test_table_A"))
 
             nlat = 90
             dlat = 180 / nlat
@@ -77,6 +79,7 @@ class TestCase(unittest.TestCase):
 
             cmor.write(iv, data)
             cmor.close()
+            self.processLog()
         except BaseException:
             raise
             

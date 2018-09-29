@@ -1,16 +1,19 @@
 import cmor
 import numpy
+import os
 import unittest
+import base_test_cmor_python
 
 
-class TestCase(unittest.TestCase):
+class TestCase(base_test_cmor_python.BaseCmorTest):
 
     def testLonThro360(self):
         try:
-            cmor.setup(inpath='Tables',
+            cmor.setup(inpath=self.tabledir,
                     netcdf_file_action=cmor.CMOR_REPLACE_3,
-                    create_subdirectories=0)
-            cmor.dataset_json("Test/common_user_input.json")
+                    create_subdirectories=0, 
+                    logfile=self.logfile)
+            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
 
 
             axes = [{'table_entry': 'time',
@@ -51,6 +54,7 @@ class TestCase(unittest.TestCase):
             cmor.write(varid, values, time_vals=[15], time_bnds=[0, 30])
 
             cmor.close()
+            self.processLog()
         except BaseException:
             raise
 

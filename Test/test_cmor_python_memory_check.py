@@ -4,13 +4,14 @@ Note the memory size from repeated calls to cmor
 Memory stats are taken from http://code.activestate.com/recipes/286222/
 '''
 
-import os
 import cmor
 import sys
+import os
 import unittest
+import base_test_cmor_python
 
 
-class TestCase(unittest.TestCase):
+class TestCase(base_test_cmor_python.BaseCmorTest):
 
     def _VmB(self, VmKey):
         '''Private.
@@ -64,8 +65,8 @@ class TestCase(unittest.TestCase):
 
     def testMemoryCheck(self):
         try:
-            cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
-            cmor.dataset_json("Test/common_user_input.json")
+            cmor.setup(inpath=self.tabledir, netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.logfile)
+            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
 
             table = 'CMIP6_Amon.json'
             cmor.load_table(table)
@@ -126,6 +127,8 @@ class TestCase(unittest.TestCase):
                 print '---'
 
             cmor.close(varid)
+            cmor.close()
+            self.processLog()
         except BaseException:
             raise
             

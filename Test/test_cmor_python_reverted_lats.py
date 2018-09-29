@@ -1,9 +1,11 @@
 import cmor
 import numpy
+import os
 import unittest
+import base_test_cmor_python
 
 
-class TestCase(unittest.TestCase):
+class TestCase(base_test_cmor_python.BaseCmorTest):
 
     def testRevertedLats(self):
         try:
@@ -21,9 +23,9 @@ class TestCase(unittest.TestCase):
             lons = numpy.arange(0 + dlon / 2., 360., dlon)
             blons = numpy.arange(0, 360. + dlon, dlon)
 
-            cmor.setup(inpath='.', netcdf_file_action=cmor.CMOR_REPLACE)
-            cmor.dataset_json("Test/common_user_input.json")
-            table = 'Tables/CMIP6_Amon.json'
+            cmor.setup(inpath=self.curdir, netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.logfile)
+            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
+            table = os.path.join(self.tabledir,  'CMIP6_Amon.json')
             cmor.load_table(table)
 
             data = lats[:, numpy.newaxis] * lons[numpy.newaxis, :]
@@ -72,6 +74,7 @@ class TestCase(unittest.TestCase):
             fnm2 = cmor.close(ivar2, file_name=True)
 
             cmor.close()
+            self.processLog()
         except BaseException:
             raise
 

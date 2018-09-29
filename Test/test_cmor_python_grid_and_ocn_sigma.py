@@ -2,9 +2,10 @@ import cmor
 import numpy
 import os
 import unittest
+import base_test_cmor_python
 
 
-class TestCase(unittest.TestCase):
+class TestCase(base_test_cmor_python.BaseCmorTest):
 
     def read_time(self, it):
         time = [0]
@@ -59,11 +60,12 @@ class TestCase(unittest.TestCase):
             myvars = numpy.zeros(9, dtype='i')
 
             cmor.setup(
-                inpath="Tables",
+                inpath=self.tabledir,
                 set_verbosity=cmor.CMOR_NORMAL,
                 netcdf_file_action=cmor.CMOR_REPLACE,
-                exit_control=cmor.CMOR_EXIT_ON_MAJOR)
-            cmor.dataset_json("Test/common_user_input.json")
+                exit_control=cmor.CMOR_EXIT_ON_MAJOR, 
+                logfile=self.logfile)
+            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
 
             tables = []
             a = cmor.load_table("CMIP6_grids.json")
@@ -164,6 +166,7 @@ class TestCase(unittest.TestCase):
                         time_bnds=bnds_time[2 * i:2 * i + 2],
                         store_with=myvars[0])
             cmor.close()
+            self.processLog()
         except BaseException:
             raise
 

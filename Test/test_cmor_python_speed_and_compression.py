@@ -1,15 +1,16 @@
 import cmor
 import cdms2
 import numpy
-import unittest
-import sys
 import os
+import unittest
+import base_test_cmor_python
+import sys
 from time import localtime, strftime
 import cdtime
 import time
 import MV2
 
-class TestCase(unittest.TestCase):
+class TestCase(base_test_cmor_python.BaseCmorTest):
 
     def testSpeedAndCompression(self):
         try:
@@ -22,17 +23,18 @@ class TestCase(unittest.TestCase):
                 deflate = 1
                 
             cmor.setup(
-                inpath="Tables",
+                inpath=self.tabledir,
                 set_verbosity=cmor.CMOR_NORMAL,
                 netcdf_file_action=cmor.CMOR_REPLACE_4,
-                exit_control=cmor.CMOR_EXIT_ON_MAJOR)
-            cmor.dataset_json("Test/common_user_input.json")
+                exit_control=cmor.CMOR_EXIT_ON_MAJOR, 
+                logfile=self.logfile)
+            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
 
             cdms2.setNetcdfShuffleFlag(0)
             cdms2.setNetcdfDeflateFlag(0)
             cdms2.setNetcdfDeflateLevelFlag(0)
 
-            f = open("Test/speed_test_table_A")
+            f = open(os.path.join(self.testdir, "speed_test_table_A"))
             s = f.read()
             f.close()
             s = s.replace("${DEFLATE_LEVEL}", str(level))
@@ -48,7 +50,7 @@ class TestCase(unittest.TestCase):
 
 
             # read in data, just one slice
-            f = cdms2.open('data/tas_ccsr-95a.xml')
+            f = cdms2.open(os.path.join(self.curdir, 'data', 'tas_ccsr-95a.xml'))
 
 
             s = f("tas", time=slice(0, 1), squeeze=1)
@@ -94,7 +96,7 @@ class TestCase(unittest.TestCase):
             s2 = MV2.reshape(s2, sh)
             s2.setAxis(1, s.getLatitude())
             s2.setAxis(2, s.getLongitude())
-            f = cdms2.open("Test/crap.nc", "w")
+            f = cdms2.open(os.path.join(self.testdir, "crap.nc"), "w")
             for i in range(ntimes):
                 # print 'Time:',i
                 cmor.write(myvars[0], s.filled(), 1)
@@ -122,6 +124,7 @@ class TestCase(unittest.TestCase):
                 c0 = c
             f.close()
             cmor.close()
+            self.processLog()
 
             today = strftime("%Y%m%d", localtime())
             ltime = cdtime.reltime(ntimes - 1, 'month since 1980').tocomp()
@@ -131,7 +134,7 @@ class TestCase(unittest.TestCase):
                 (today, ltime.year, ltime.month))[6]
             print 'level:', level, "shuffle:", shuffle
             print 'total cmor:', totcmor, mincmor, totcmor / ntimes, maxcmor, lcmor
-            lcdms = os.stat("Test/crap.nc")[6]
+            lcdms = os.stat(os.path.join(self.testdir, "crap.nc"))[6]
             print 'total cdms:', totcdms, mincdms, totcdms / ntimes, maxcdms, lcdms
             print 'Size diff:', float(lcmor) / float(lcdms)
             print 'speed diff:', totcmor / totcdms
@@ -153,7 +156,6 @@ class TestCase(unittest.TestCase):
             f = open("summary.txt", "w")
             f.write(repr(dic))
             f.close()
-            cmor.close()
         except BaseException:
             raise
 

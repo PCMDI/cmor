@@ -1,14 +1,16 @@
 import cmor
+import os
 import unittest
+import base_test_cmor_python
 
 
-class TestCase(unittest.TestCase):
+class TestCase(base_test_cmor_python.BaseCmorTest):
 
     def test1DVar(self):
         try:
-            cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
+            cmor.setup(inpath=self.tabledir, netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.logfile)
 
-            cmor.dataset_json("Test/common_user_input.json")
+            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
 
             cmor.load_table("CMIP6_Omon.json")
             itim = cmor.axis(
@@ -26,6 +28,8 @@ class TestCase(unittest.TestCase):
             cmor.close()
         except BaseException:
             raise
+
+        self.processLog()
 
 
 if __name__ == '__main__':

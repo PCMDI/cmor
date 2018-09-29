@@ -29,20 +29,22 @@ variables:
 '''
 import cmor
 import numpy
+import os
 import unittest
+import base_test_cmor_python
 
 
-class TestCase(unittest.TestCase):
+class TestCase(base_test_cmor_python.BaseCmorTest):
 
     def testCFMIPSiteAxis(self):
         try:
             # Initialise CMOR dataset and table
-            MIP_TABLE_DIR = 'Tables'   # set according to your MIP table location
+            MIP_TABLE_DIR = self.tabledir   # set according to your MIP table location
             cmor.setup(inpath=MIP_TABLE_DIR, netcdf_file_action=cmor.CMOR_REPLACE_3,
-                    set_verbosity=cmor.CMOR_NORMAL, create_subdirectories=0)
+                    set_verbosity=cmor.CMOR_NORMAL, create_subdirectories=0, logfile=self.logfile)
 
             # Create CMOR dataset
-            cmor.dataset_json("Test/common_user_input.json")
+            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
 
             # Set dummy site lats and longs.
             site_lats = numpy.array([-90.0, 0.0, 90.0], dtype=numpy.float32)
@@ -97,6 +99,7 @@ class TestCase(unittest.TestCase):
 
             # Close CMOR.
             cmor.close()
+            self.processLog()
         except BaseException:
             raise
 

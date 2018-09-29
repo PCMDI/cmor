@@ -1,14 +1,17 @@
 import cmor
 import numpy
+import os
 import unittest
+import base_test_cmor_python
 
 
-class TestCase(unittest.TestCase):
+class TestCase(base_test_cmor_python.BaseCmorTest):
     
     def useMode(self, mode, i, suffix=''):
-        cmor.setup(inpath='Tables',
-                netcdf_file_action=mode)
-        cmor.dataset_json("Test/common_user_input.json")
+        cmor.setup(inpath=self.tabledir,
+                netcdf_file_action=mode, 
+                logfile=self.logfile)
+        cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
 
         table = 'CMIP6_Amon.json'
         cmor.load_table(table)

@@ -1,17 +1,19 @@
 import cmor
 import numpy
+import os
 import unittest
+import base_test_cmor_python
 
 
-class TestCase(unittest.TestCase):
+class TestCase(base_test_cmor_python.BaseCmorTest):
 
     def testRegion(self):
         try:
-            cmor.setup("Test", netcdf_file_action=cmor.CMOR_REPLACE)
+            cmor.setup(self.testdir, netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.logfile)
 
-            cmor.dataset_json("Test/common_user_input.json")
+            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
 
-            cmor.load_table("Tables/CMIP6_Omon.json")
+            cmor.load_table(os.path.join(self.tabledir, "CMIP6_Omon.json"))
 
             nlat = 90
             dlat = 180 / nlat
@@ -50,6 +52,7 @@ class TestCase(unittest.TestCase):
 
             cmor.write(var, data)
             cmor.close()
+            self.processLog()
         except BaseException:
             raise
 

@@ -1,9 +1,11 @@
 import cmor
 import numpy
+import os
 import unittest
+import base_test_cmor_python
 
 
-class TestCase(unittest.TestCase):
+class TestCase(base_test_cmor_python.BaseCmorTest):
 
     def define_axes(self, axes):
         axis_ids = list()
@@ -62,7 +64,7 @@ class TestCase(unittest.TestCase):
 
 
     def define_write_landcoverfrac(self):
-        cmor.load_table('Tables/CMIP6_Lmon.json')
+        cmor.load_table(os.path.join(self.tabledir, "CMIP6_Lmon.json"))
         axes = [{'table_entry': 'time',
                 'units': 'days since 2000-01-01 00:00:00',
                 },
@@ -90,15 +92,16 @@ class TestCase(unittest.TestCase):
 
     def testJamie8(self):
         try:
-            cmor.setup(inpath='Tables',
-                    netcdf_file_action=cmor.CMOR_REPLACE)
-            cmor.dataset_json("Test/common_user_input.json")
+            cmor.setup(inpath=self.tabledir,
+                    netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.logfile)
+            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
 
             self.define_write_clisccp()
 
             self.define_write_landcoverfrac()
 
             cmor.close()
+            self.processLog()
         except BaseException:
             raise
             

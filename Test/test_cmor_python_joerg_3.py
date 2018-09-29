@@ -1,9 +1,11 @@
 import cmor
 import numpy
+import os
 import unittest
+import base_test_cmor_python
 
 
-class TestCase(unittest.TestCase):
+class TestCase(base_test_cmor_python.BaseCmorTest):
 
     def prep_var(self, var, units, nlat, nlon):
         # creates 1 degree grid
@@ -13,7 +15,7 @@ class TestCase(unittest.TestCase):
         bnds_lat = numpy.arange(-90, 90 + dlat, dlat)
         alons = numpy.arange(0 + dlon / 2., 360., dlon) - 180.
         bnds_lon = numpy.arange(0, 360. + dlon, dlon) - 180.
-        cmor.load_table("Tables/CMIP6_6hrLev.json")
+        cmor.load_table(os.path.join(self.tabledir, "CMIP6_6hrLev.json"))
         # cmor.load_table("Test/IPCC_table_A1")
         ilat = cmor.axis(
             table_entry='latitude',
@@ -105,10 +107,11 @@ class TestCase(unittest.TestCase):
                 if d == 0:
                     mode = cmor.CMOR_REPLACE
                 error_flag = cmor.setup(
-                    inpath='Tables',
-                    netcdf_file_action=mode)
+                    inpath=self.tabledir,
+                    netcdf_file_action=mode, 
+                    logfile=self.logfile)
 
-                error_flag = cmor.dataset_json("Test/common_user_input.json")
+                error_flag = cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
                 ivar1, ips1 = self.prep_var("ta", "K", nlat, nlon)
                 ivar2, ips2 = self.prep_var("hus", "%", nlat, nlon)
                 for i in range(4):
@@ -148,8 +151,7 @@ class TestCase(unittest.TestCase):
                 print 'File1:', file1
                 print 'File2:', file2
                 cmor.close()
-            print cmor.close(ivar1, True)
-            cmor.close()
+                self.processLog()
         except BaseException:
             raise
 

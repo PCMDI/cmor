@@ -1,15 +1,17 @@
 import cmor
 import numpy
+import os
 import unittest
+import base_test_cmor_python
 
 
-class TestCase(unittest.TestCase):
+class TestCase(base_test_cmor_python.BaseCmorTest):
 
     def testJamie6(self):
         try:
-            cmor.setup(inpath='Test', netcdf_file_action=cmor.CMOR_REPLACE)
+            cmor.setup(inpath=self.testdir, netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.logfile)
 
-            cmor.dataset_json("Test/common_user_input.json")
+            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
 
 
             # creates 1 degree grid
@@ -19,7 +21,7 @@ class TestCase(unittest.TestCase):
             bnds_lat = numpy.arange(181) - 90
             alons = numpy.arange(360) + .5
             bnds_lon = numpy.arange(361)
-            cmor.load_table("Tables/CMIP6_Amon.json")
+            cmor.load_table(os.path.join(self.tabledir, "CMIP6_Amon.json"))
             ilat = cmor.axis(
                 table_entry='latitude',
                 units='degrees_north',
@@ -157,6 +159,7 @@ class TestCase(unittest.TestCase):
                     time_bnds=bnds_time)
 
             cmor.close()
+            self.processLog()
         except BaseException:
             raise
             

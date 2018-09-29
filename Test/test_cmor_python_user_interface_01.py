@@ -1,25 +1,21 @@
 import cmor._cmor
-import unittest
 import os
+import unittest
+import base_test_cmor_python
 
-class TestCase(unittest.TestCase):
+class TestCase(base_test_cmor_python.BaseCmorTest):
 
     def testUserInterface(self):
         try:
             from test_python_common import *  # common subroutines
-
-            pth = os.path.split(os.path.realpath(os.curdir))
-            if pth[-1] == 'Test':
-                ipth = opth = '.'
-            else:
-                ipth = opth = 'Tables'
-
+            
             cmor.setup(
-                inpath=ipth,
+                inpath=self.tabledir,
                 set_verbosity=cmor.CMOR_NORMAL,
                 netcdf_file_action=cmor.CMOR_REPLACE,
-                exit_control=cmor.CMOR_EXIT_ON_MAJOR)
-            cmor.dataset_json("Test/common_user_input.json")
+                exit_control=cmor.CMOR_EXIT_ON_MAJOR, 
+                logfile=self.logfile)
+            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
 
             myaxes = numpy.zeros(9, dtype='i')
             myaxes2 = numpy.zeros(9, dtype='i')
@@ -85,6 +81,7 @@ class TestCase(unittest.TestCase):
                         time_bnds=bnds_time[2 * i:2 * i + 2])
 
             cmor.close()
+            self.processLog()
         except BaseException:
             raise
             

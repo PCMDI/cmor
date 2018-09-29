@@ -3,35 +3,30 @@ from test_python_common import *  # common subroutines
 import cmor._cmor
 import os
 import unittest
+import base_test_cmor_python
 
 
-class TestCase(unittest.TestCase):
+class TestCase(base_test_cmor_python.BaseCmorTest):
 
     def testJoerg12(self):
         try:
-            pth = os.path.split(os.path.realpath(os.curdir))
-            if pth[-1] == 'Test':
-                ipth = opth = '.'
-            else:
-                ipth = opth = 'Test'
-
-
             myaxes = numpy.zeros(9, dtype='i')
             myaxes2 = numpy.zeros(9, dtype='i')
             myvars = numpy.zeros(9, dtype='i')
 
 
             cmor.setup(
-                inpath=ipth,
+                inpath=self.testdir,
                 set_verbosity=cmor.CMOR_NORMAL,
                 netcdf_file_action=cmor.CMOR_REPLACE,
-                exit_control=cmor.CMOR_EXIT_ON_MAJOR)
-            cmor.dataset_json("Test/common_user_input.json")
+                exit_control=cmor.CMOR_EXIT_ON_MAJOR, 
+                logfile=self.logfile)
+            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
 
             tables = []
-            a = cmor.load_table("Tables/CMIP6_grids.json")
+            a = cmor.load_table(os.path.join(self.tabledir, "CMIP6_grids.json"))
             tables.append(a)
-            tables.append(cmor.load_table("Tables/CMIP6_Lmon.json"))
+            tables.append(cmor.load_table(os.path.join(self.tabledir, "CMIP6_Lmon.json")))
             print 'Tables ids:', tables
 
             cmor.set_table(tables[0])
@@ -90,6 +85,7 @@ class TestCase(unittest.TestCase):
                 cmor.write(myvars[0], data2d, 1, time_vals=Time[i],
                         time_bnds=bnds_time[2 * i:2 * i + 2])
             cmor.close()
+            self.processLog()
         except BaseException:
             raise
 

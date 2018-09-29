@@ -1,15 +1,18 @@
 import cmor
 import numpy
+import os
 import unittest
+import base_test_cmor_python
 
 
-class TestCase(unittest.TestCase):
+class TestCase(base_test_cmor_python.BaseCmorTest):
 
     def testJoergTim2Clim02(self):
         try:
-            cmor.setup(inpath='Tables',
-                    netcdf_file_action=cmor.CMOR_REPLACE_3)
-            cmor.dataset_json("Test/common_user_input.json")
+            cmor.setup(inpath=self.tabledir,
+                    netcdf_file_action=cmor.CMOR_REPLACE_3, 
+                    logfile=self.logfile)
+            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
 
             table = 'CMIP6_Oclim.json'
             cmor.load_table(table)
@@ -50,6 +53,7 @@ class TestCase(unittest.TestCase):
                 cmor.write(varid, values)
 
             cmor.close()
+            self.processLog()
         except BaseException:
             raise
 
