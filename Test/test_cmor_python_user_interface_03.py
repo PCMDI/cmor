@@ -80,12 +80,12 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
                     df = data.filled(data.missing_value)
                     cmor.write(var_id, df)
                     fn = cmor.close(var_id, True)
+                    cmor.close()
+                    self.processLog()
                     f = cdms2.open(fn)
                     s = f(var)
                     self.assertTrue(numpy.allclose(s, data_ordered), "Error reordering: %s" % o)
                     f.close()
-            cmor.close()
-            self.processLog()
         except BaseException:
             raise
 

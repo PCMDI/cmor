@@ -17,8 +17,11 @@ class BaseCmorTest(unittest.TestCase):
 
         # switch to temporary directory
         test_id = self.id().split('.')
-        test_file = test_id[1]
-        test_case = test_id[3]
+        test_case = test_id[-1]
+        if 'test_cmor_python_' in test_id[1]:
+            test_file = test_id[1]
+        else:
+            test_file = test_case
         self.tempdir = tempfile.mkdtemp(prefix=test_file)
         os.chdir(self.tempdir)
         self.logfile = os.path.join(self.tempdir, '.'.join([test_case, 'log']))

@@ -6,7 +6,7 @@ import base_test_cmor_python
 
 class TestCase(base_test_cmor_python.BaseCmorTest):
 
-    def testJoerg2(self):
+    def testJoerg6(self):
         try:
             cmor.setup(inpath=self.tabledir, netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.logfile)
 
