@@ -58,8 +58,7 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
                 cmor.write(ivar, data[i:i])
             self.delete_files += [cmor.close(ivar, True)]
             cmor.close()
-
-        except (KeyboardInterrupt, BaseException):
+        except BaseException:
             pass
         # ------------------------------------------
         # Check error after signal handler is back

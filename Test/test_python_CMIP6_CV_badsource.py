@@ -51,7 +51,6 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
             cmor.close()
         except BaseException:
             raise
-
         self.assertCV('"bad_source" will be replaced with value', 'Your input attribute "source"', 2)
 
 

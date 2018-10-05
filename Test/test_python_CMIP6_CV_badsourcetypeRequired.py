@@ -56,7 +56,6 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
                 a = cmor.write(ivar, data[i:i])
             self.delete_files += [cmor.close(ivar, True)]
             cmor.close()
-
         except BaseException:
             pass
         # ------------------------------------------

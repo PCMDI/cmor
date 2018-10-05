@@ -90,21 +90,21 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
         error_flag = cmor.dataset_json('Test/common_user_input.json')
         table_id = cmor.load_table('CMIP6_6hrLev.json')
         time = cmor.axis(table_entry='time1', units='days since 2000-01-01',
-                         coord_vals=numpy.array(range(1)),
-                         cell_bounds=numpy.array(range(2)))
+                        coord_vals=numpy.array(range(1)),
+                        cell_bounds=numpy.array(range(2)))
         latitude = cmor.axis(table_entry='latitude', units='degrees_north',
-                             coord_vals=numpy.array(range(5)),
-                             cell_bounds=numpy.array(range(6)))
+                            coord_vals=numpy.array(range(5)),
+                            cell_bounds=numpy.array(range(6)))
         longitude = cmor.axis(table_entry='longitude', units='degrees_east',
-                              coord_vals=numpy.array(range(5)),
-                              cell_bounds=numpy.array(range(6)))
+                            coord_vals=numpy.array(range(5)),
+                            cell_bounds=numpy.array(range(6)))
         plev3 = cmor.axis(table_entry='plev3', units='Pa',
-                          coord_vals=numpy.array([85000., 50000., 25000.]))
+                        coord_vals=numpy.array([85000., 50000., 25000.]))
         axis_ids = [longitude, latitude, plev3, time]
         ua_var_id = cmor.variable(table_entry='ua', axis_ids=axis_ids,
-                                  units='m s-1')
+                                units='m s-1')
         ta_var_id = cmor.variable(table_entry='ta', axis_ids=axis_ids,
-                                  units='K')
+                                units='K')
         data = numpy.random.random(75)
         reshaped_data = data.reshape((5, 5, 3, 1))
 

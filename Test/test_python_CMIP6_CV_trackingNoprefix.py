@@ -32,36 +32,32 @@ def run():
 class TestCase(base_CMIP6_CV.BaseCVsTest):
 
     def testCMIP6(self):
+        # -------------------------------------------
+        # Try to call cmor with a bad institution_ID
+        # -------------------------------------------
+        cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.tmpfile)
+        cmor.dataset_json("Test/common_user_input.json")
 
-        try:
-            # -------------------------------------------
-            # Try to call cmor with a bad institution_ID
-            # -------------------------------------------
-            cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.tmpfile)
-            cmor.dataset_json("Test/common_user_input.json")
+        # ------------------------------------------
+        # load Omon table and create masso variable
+        # ------------------------------------------
+        cmor.load_table("CMIP6_Omon.json")
+        itime = cmor.axis(table_entry="time", units='months since 2010',
+                            coord_vals=numpy.array([0, 1, 2, 3, 4.]),
+                            cell_bounds=numpy.array([0, 1, 2, 3, 4, 5.]))
+        ivar = cmor.variable(
+            table_entry="masso",
+            axis_ids=[itime],
+            units='kg')
 
-            # ------------------------------------------
-            # load Omon table and create masso variable
-            # ------------------------------------------
-            cmor.load_table("CMIP6_Omon.json")
-            itime = cmor.axis(table_entry="time", units='months since 2010',
-                              coord_vals=numpy.array([0, 1, 2, 3, 4.]),
-                              cell_bounds=numpy.array([0, 1, 2, 3, 4, 5.]))
-            ivar = cmor.variable(
-                table_entry="masso",
-                axis_ids=[itime],
-                units='kg')
-
-            data = numpy.random.random(5)
-            for i in range(0, 5):
-                cmor.write(ivar, data[i:i])
-            self.delete_files += [cmor.close(ivar, True)]
-            filen = cmor.close()
-            f = cdms2.open(cmor.get_final_filename(), "r")
-            a = f.getglobal("tracking_id").split('/')[0]
-            self.assertNotIn("hdl:21.14100/", a)
-        except BaseException:
-            raise
+        data = numpy.random.random(5)
+        for i in range(0, 5):
+            cmor.write(ivar, data[i:i])
+        self.delete_files += [cmor.close(ivar, True)]
+        filen = cmor.close()
+        f = cdms2.open(cmor.get_final_filename(), "r")
+        a = f.getglobal("tracking_id").split('/')[0]
+        self.assertNotIn("hdl:21.14100/", a)
 
 
 if __name__ == '__main__':

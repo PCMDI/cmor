@@ -26,6 +26,7 @@
 /*      this is defining NETCDF4 variable if we are                     */
 /*      using NETCDF3 not used anywhere else                            */
 /* ==================================================================== */
+
 #ifndef NC_NETCDF4
 #define NC_NETCDF4 0
 #define NC_CLASSIC_MODEL 0
@@ -74,6 +75,7 @@ const char CMOR_VALID_CALENDARS[CMOR_N_VALID_CALS][CMOR_MAX_STRING] =
 };
 
 int CMOR_HAS_BEEN_SETUP = 0;
+int CMOR_TERMINATE_SIGNAL = -999;  /* not set by default */
 int CV_ERROR = 0;
 ut_system *ut_read = NULL;
 FILE *output_logfile;
@@ -112,11 +114,26 @@ int bAppendMode = FALSE;
 volatile sig_atomic_t stop = 0;
 
 /**************************************************************************/
+/*                reset signal code
+/**************************************************************************/
+int cmor_get_terminate_signal() {
+    return CMOR_TERMINATE_SIGNAL;
+}
+void cmor_set_terminate_signal_to_sigint() {
+    CMOR_TERMINATE_SIGNAL = SIGINT;
+}
+void cmor_set_terminate_signal_to_sigterm() {
+    CMOR_TERMINATE_SIGNAL = SIGTERM;
+}
+void cmor_set_terminate_signal( int code) {
+    CMOR_TERMINATE_SIGNAL = code;
+}
+/**************************************************************************/
 /*                cmor_mkdir()                                            */
 /**************************************************************************/
 void terminate(int signal)
 {
-    if (signal == SIGTERM) {
+    if (signal == CMOR_TERMINATE_SIGNAL) {
         stop = 1;
     }
 }
@@ -624,7 +641,7 @@ void cmor_handle_error(char error_msg[CMOR_MAX_STRING], int level)
     if ((CMOR_MODE == CMOR_EXIT_ON_WARNING) || (level == CMOR_CRITICAL)) {
         fflush(stdout); 
         fflush(output_logfile); 
-        kill(getpid(), SIGINT);
+        kill(getpid(), SIGTERM);
     }
     fflush(output_logfile);
 }
@@ -756,11 +773,20 @@ int cmor_setup(char *path,
     struct tm *ptr;
     extern FILE *output_logfile;
     extern int did_history;
-
     struct sigaction action;
+
+
+    /*********************************************************/
+    /* set the default signal */
+    /*********************************************************/
+
+    if (CMOR_TERMINATE_SIGNAL == -999) {
+        CMOR_TERMINATE_SIGNAL = SIGTERM;
+    }
+
     memset(&action, 0, sizeof(struct sigaction));
     action.sa_handler = terminate;
-    sigaction(SIGTERM, &action, NULL);
+    sigaction(CMOR_TERMINATE_SIGNAL, &action, NULL);
 
     strcpy(cmor_traceback_info, "");
     cmor_add_traceback("cmor_setup");
@@ -2960,7 +2986,7 @@ int cmor_setGblAttr(int var_id)
 /*    Create History metadata from template                             */
 /* -------------------------------------------------------------------- */
         strcpy(szTemplate, cmor_current_dataset.history_template);
-        ierr = cmor_CreateFromTemplate(nVarRefTblID, szTemplate, szHistory, "");
+        ierr += cmor_CreateFromTemplate(nVarRefTblID, szTemplate, szHistory, "");
         snprintf(ctmp, CMOR_MAX_STRING,
                  szHistory,
                  timestamp);
@@ -4337,6 +4363,19 @@ int cmor_write(int var_id, void *data, char type, char *file_suffix,
         return (-1);
     };
 
+/* -------------------------------------------------------------------- */
+/*    Make sure that time_vals and time_bounds are being passed         */
+/*    when CMOR is running in append mode.                              */
+/* -------------------------------------------------------------------- */
+    if (bAppendMode && (time_vals == NULL || time_bounds == NULL)) {
+
+        cmor_handle_error("time_vals and time_bounds must be passed through cmor_write "
+                          "when in append mode", 
+                          CMOR_CRITICAL);
+        cmor_pop_traceback();
+        return (-1);
+    };
+
     ierr += cmor_addVersion();
     ierr += cmor_addRIPF(ctmp);
 
@@ -4625,6 +4664,7 @@ int cmor_write(int var_id, void *data, char type, char *file_suffix,
 /* -------------------------------------------------------------------- */
         cmor_vars[var_id].time_nc_id = cmor_vars[refvarid].time_nc_id;
         cmor_vars[var_id].time_bnds_nc_id = cmor_vars[refvarid].time_bnds_nc_id;
+
     }
 
 /* -------------------------------------------------------------------- */
@@ -4658,6 +4698,22 @@ int cmor_write(int var_id, void *data, char type, char *file_suffix,
                 }
             }
         }
+    }
+    if(bAppendMode && refvar != NULL) {
+      size_t starts[2];
+      if ( cmor_vars[var_id].last_time == -999 ) {
+            starts[0] = cmor_vars[refvarid].ntimes_written - 2;
+            ierr = nc_get_var1_double(ncid, cmor_vars[var_id].time_nc_id,
+                                      &starts[0], &cmor_vars[var_id].last_time);
+      } 
+      if( cmor_vars[var_id].last_bound == 1.e20 ) {
+                starts[0] = cmor_vars[refvarid].ntimes_written - 2;
+                starts[1] = 1;
+                ierr = nc_get_var1_double(ncid,
+                                          cmor_vars[var_id].time_bnds_nc_id,
+                                          &starts[0],
+                                          &cmor_vars[var_id].last_bound);
+      }
     }
     cmor_write_var_to_file(ncid, &cmor_vars[var_id], data, type,
                            ntimes_passed, time_vals, time_bounds);

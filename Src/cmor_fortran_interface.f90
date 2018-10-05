@@ -1,4 +1,14 @@
 module cmor_users_functions
+  interface
+     function cmor_get_terminate_signal_cff() result (signal)
+       integer signal
+     end function
+  end interface 
+  interface
+     subroutine cmor_set_terminate_signal_cff(signal)
+       integer signal
+     end subroutine
+  end interface 
   interface 
      function cmor_set_cur_dset_attribute_cff(name, value, optional) result (ierr)
        character(*) name
@@ -6554,6 +6564,16 @@ contains
 !!$       ierr = -ierr
 !!$    end if
 !!$  end function cmor_zfactor_long_0dvalues
+
+  subroutine cmor_set_terminate_signal(signal)
+    integer signal
+    call cmor_set_terminate_signal_cff(signal)
+  end subroutine cmor_set_terminate_signal
+
+  function cmor_get_terminate_signal() result(signal)
+    integer signal
+    signal = cmor_get_terminate_signal_cff()
+  end function
 
   subroutine cmor_set_table(table_id)
     integer table_id
