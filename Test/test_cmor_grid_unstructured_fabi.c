@@ -27,6 +27,7 @@ int main()
 
     /*   dimension parameters: */
     /* --------------------------------- */
+    
 #define   ntimes  2             /* number of time samples to process */
 #define   ind  10                /* number of indices   */
 #define   lev  2                /* number of ocean depth levels */
