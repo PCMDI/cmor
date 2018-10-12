@@ -1,9 +1,11 @@
 import cmor
 import numpy
+import os
 import unittest
+import base_test_cmor_python
 
 
-class TestCase(unittest.TestCase):
+class TestCase(base_test_cmor_python.BaseCmorTest):
 
     def mywrite(self, lat=90, lon=180, data=None, time_vals=None, append_to=None, cell_bounds=None):
         breq = "100000. 80000. 80000. 68000. 68000. 56000. 56000. 44000. 44000. 31000. 31000. 18000. 18000.  0.".split()
@@ -26,7 +28,7 @@ class TestCase(unittest.TestCase):
 
         print levs
 
-        ipth = "Test"
+        ipth = self.testdir
         if append_to is None:
             mode = cmor.CMOR_REPLACE
         else:
@@ -35,11 +37,11 @@ class TestCase(unittest.TestCase):
         cmor.setup(inpath=ipth,
                 set_verbosity=cmor.CMOR_NORMAL,
                 netcdf_file_action=mode,
-                logfile=None)
+                logfile=self.logfile)
 
-        cmor.dataset_json("Test/common_user_input.json")
+        cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
 
-        cmor.load_table("Tables/CMIP6_Amon.json")
+        cmor.load_table(os.path.join(self.tabledir, "CMIP6_Amon.json"))
 
         dlat = 180 / lat
         dlon = 360. / lon
@@ -89,6 +91,7 @@ class TestCase(unittest.TestCase):
         file = cmor.close(iv, file_name=True)
         print 'Ok dumped to:', file
         cmor.close()
+        self.processLog()
         return file
 
     def testAppending(self):

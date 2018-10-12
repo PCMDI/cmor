@@ -1,9 +1,11 @@
 import cmor
 import numpy
+import os
 import unittest
+import base_test_cmor_python
 
 
-class TestCase(unittest.TestCase):
+class TestCase(base_test_cmor_python.BaseCmorTest):
 
     def prep_var(self, var, units, nlat, nlon):
 
@@ -14,7 +16,7 @@ class TestCase(unittest.TestCase):
         bnds_lat = numpy.arange(-90, 90 + dlat, dlat)
         alons = numpy.arange(0 + dlon / 2., 360., dlon) - 180.
         bnds_lon = numpy.arange(0, 360. + dlon, dlon) - 180.
-        cmor.load_table("Tables/CMIP6_Omon.json")
+        cmor.load_table(os.path.join(self.tabledir, "CMIP6_Omon.json"))
         # cmor.load_table("Test/IPCC_table_A1")
         ilat = cmor.axis(
             table_entry='latitude',
@@ -48,10 +50,11 @@ class TestCase(unittest.TestCase):
         nlon = 90
         try:
             error_flag = cmor.setup(
-                inpath='Tables',
-                netcdf_file_action=cmor.CMOR_REPLACE)
+                inpath=self.tabledir,
+                netcdf_file_action=cmor.CMOR_REPLACE, 
+                logfile=self.logfile)
 
-            error_flag = cmor.dataset_json("Test/common_user_input.json")
+            error_flag = cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
             for d in range(2):
                 mode = cmor.CMOR_APPEND
                 if d == 0:
@@ -83,6 +86,7 @@ class TestCase(unittest.TestCase):
                 print 'File:', file1
                 print 'File:', file2
             cmor.close()
+            self.processLog()
         except BaseException:
             raise
 

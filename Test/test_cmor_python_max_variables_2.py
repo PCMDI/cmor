@@ -7,18 +7,18 @@ import base_test_cmor_python
 
 class TestCase(base_test_cmor_python.BaseCmorTest):
 
-    def testJamie7(self):
+    def testMaxVariables2(self):
         try:
             cmor.setup(inpath=self.testdir, netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.logfile)
 
             cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
 
 
-            # creates 1 degree grid
+            # creates 10 degree grid
             nlat = 18
             nlon = 36
             alats = numpy.arange(180) - 89.5
-            bnds_lat = numpy.arange(181) - 90
+            bnds_lat = numpy.arange(181) - 90.
             alons = numpy.arange(360) + .5
             bnds_lon = numpy.arange(361)
             cmor.load_table(os.path.join(self.tabledir, "CMIP6_Amon.json"))
@@ -36,10 +36,10 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
                 coord_vals=alons,
                 cell_bounds=bnds_lon)
 
-            ntimes = 12
+            ntimes = 600
             plevs = numpy.array([100000., 92500, 85000, 70000, 60000, 50000, 40000, 30000, 25000,
                                 20000, 15000, 10000, 7000, 5000, 3000, 2000, 1000, 999, 998, 997, 996,
-                                995, 994, 500, 100])
+                                995, 994, 993, 992, 500, 100])
 
 
             itim = cmor.axis(
@@ -53,7 +53,6 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
                 units='Pa',
                 coord_vals=plevs,
                 cell_bounds=None)
-
 
             var3d_ids = cmor.variable(
                 table_entry='ta',
@@ -76,11 +75,22 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
                     time_vals=time,
                     time_bnds=bnds_time)
 
+                if (it == ntimes - 1):
+                    fnm = cmor.close(var3d_ids, True)
+                    print it, fnm
+                else:
+                    if (it % 50) == 0:
+                        fnm = cmor.close(var3d_ids, True, True)
+                        print it, fnm
+                    else:
+                        ierr = cmor.close(var3d_ids, False, True)
+
+
             cmor.close()
             self.processLog()
         except BaseException:
             raise
-            
+
 
 if __name__ == '__main__':
     unittest.main()

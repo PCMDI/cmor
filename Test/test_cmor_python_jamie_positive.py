@@ -7,11 +7,11 @@ import base_test_cmor_python
 
 class TestCase(base_test_cmor_python.BaseCmorTest):
 
-    def testJamie3(self):
+    def testJamiePositive(self):
         try:
-            missing = -99.
             cmor.setup(inpath=self.tabledir,
-                    netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.logfile)
+                    netcdf_file_action=cmor.CMOR_REPLACE_3, 
+                    logfile=self.logfile)
             cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
 
             table = 'CMIP6_Amon.json'
@@ -29,22 +29,29 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
                     'cell_bounds': [89, 91]},
                     ]
 
-            values = numpy.array([missing], numpy.float32)
-            myma = numpy.ma.masked_values(values, missing)
+            values = numpy.array([1.], numpy.float32) + 200
             axis_ids = list()
             for axis in axes:
                 axis_id = cmor.axis(**axis)
                 axis_ids.append(axis_id)
-            varid = cmor.variable('ts', 'K', axis_ids, missing_value=myma.fill_value)
 
-            cmor.write(varid, myma, time_vals=[15], time_bnds=[[0, 30]])
+            for var, units, positive in (('ts', 'K', ''),
+                                        ('rsut', 'W m-2', 'up'),
+                                        ('rlut', 'W m-2', 'down'),):
+                varid = cmor.variable(var,
+                                    units,
+                                    axis_ids,
+                                    history='variable history',
+                                    missing_value=-99,
+                                    positive=positive
+                                    )
+                cmor.write(varid, values, time_vals=[15], time_bnds=[[0, 30]])
 
-            cmor.close(varid)
             cmor.close()
             self.processLog()
         except BaseException:
             raise
-            
+
 
 if __name__ == '__main__':
     unittest.main()
