@@ -1,3 +1,4 @@
+#****** Conflict with 'orog' in formula terms *****
 import cmor
 import numpy
 import os
@@ -7,12 +8,11 @@ import base_test_cmor_python
 
 class TestCase(base_test_cmor_python.BaseCmorTest):
 
-    def testJamie6(self):
+    def testJamie11(self):
         try:
             cmor.setup(inpath=self.testdir, netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.logfile)
 
             cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
-
 
             # creates 1 degree grid
             nlat = 180
@@ -21,7 +21,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
             bnds_lat = numpy.arange(181) - 90
             alons = numpy.arange(360) + .5
             bnds_lon = numpy.arange(361)
-            cmor.load_table(os.path.join(self.tabledir, "CMIP6_Amon.json"))
+            cmor.load_table(os.path.join(self.curdir, "TestTables", "CMIP6_Emon.json"))
             ilat = cmor.axis(
                 table_entry='latitude',
                 units='degrees_north',
@@ -36,7 +36,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
                 coord_vals=alons,
                 cell_bounds=bnds_lon)
 
-            lev = 5
+            lev = 1
             ntimes = 12
             plevs = (numpy.arange(lev) + 1) * 1.E4
 
@@ -47,8 +47,8 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
                 length=ntimes,
                 interval='1 month')
 
-            zlevs = numpy.array((0.1, 0.3, 0.55, 0.7, 0.9))
-            zlev_bnds = numpy.array((0., .2, .42, .62, .8, 1.))
+            zlevs = numpy.array((0.1, ))
+            zlev_bnds = numpy.array((0., .2, ))
             table_entry = 'hybrid_height'
             if table_entry == 'hybrid_height':
                 ilev = cmor.axis(
@@ -63,12 +63,12 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
                 p0 = 0.5e4
             ##   p0 = 1.e5
             # a_coeff = (/ 0.1, 0.2, 0.3, 0.2, 0.1 /)
-                a_coeff = numpy.array((0.2, 0.4, 0.6, 0.8, 0.95))
-                b_coeff = numpy.array((0.0, 0.1, 0.2, 0.5, 0.8))
+                a_coeff = numpy.array((0.2, ))
+                b_coeff = numpy.array((0.0, ))
 
             # a_coeff_bnds=(/0.,.15, .25, .25, .15, 0./)
-                a_coeff_bnds = numpy.array((0., .3, .5, .7, .9, 1.))
-                b_coeff_bnds = numpy.array((0., .05, .15, .35, .65, 1.))
+                a_coeff_bnds = numpy.array((0., .3,))
+                b_coeff_bnds = numpy.array((0., .05,))
 
             # error_flag = cmor.zfactor(
             # zaxis_id=ilev,
@@ -136,20 +136,20 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
                     axis_ids=numpy.array((ilon, ilat, itim)),
                     units='Pa')
 
-
+            print "ILEV is:", ilev
             var3d_ids = cmor.variable(
-                table_entry='cl',
-                units='%',
+                table_entry='concdust',
+                units='kg m-3',
                 axis_ids=numpy.array((ilev, ilon, ilat, itim)),
                 missing_value=1.0e28,
-                original_name='cloud')
+                original_name='cocoa is good, but concoa is better')
 
 
             for it in range(ntimes):
 
                 time = numpy.array((it))
                 bnds_time = numpy.array((it, it + 1))
-                data3d = numpy.random.random((5, 360, 180)).astype('f') * 40.
+                data3d = numpy.random.random((lev, 360, 180)).astype('f') * 40.
 
                 cmor.write(
                     var_id=var3d_ids,
@@ -158,11 +158,12 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
                     time_vals=time,
                     time_bnds=bnds_time)
 
+
             cmor.close()
             self.processLog()
         except BaseException:
             raise
-            
+
 
 if __name__ == '__main__':
     unittest.main()

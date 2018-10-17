@@ -1,36 +1,31 @@
 from test_python_common import *  # common subroutines
 import cmor._cmor
-import unittest
 import os
+import unittest
+import base_test_cmor_python
 
 
-class TestCase(unittest.TestCase):
+class TestCase(base_test_cmor_python.BaseCmorTest):
 
     def testDirectCalls(self):
         try:
-            pth = os.path.split(os.path.realpath(os.curdir))
-            if pth[-1] == 'Test':
-                ipth = opth = '.'
-            else:
-                ipth = opth = 'Test'
-
             cmor._cmor.setup(
-                ipth,
+                self.testdir,
                 cmor.CMOR_REPLACE,
                 cmor.CMOR_NORMAL,
                 cmor.CMOR_EXIT_ON_MAJOR,
-                "",
+                self.logfile,
                 1)
-            cmor.dataset_json("Test/common_user_input.json")
+            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
 
             myaxes = numpy.zeros(9, dtype='i')
             myaxes2 = numpy.zeros(9, dtype='i')
             myvars = numpy.zeros(9, dtype='i')
 
             tables = []
-            a = cmor._cmor.load_table("Tables/CMIP6_Omon.json")
+            a = cmor._cmor.load_table(os.path.join(self.tabledir, "CMIP6_Omon.json"))
             tables.append(a)
-            tables.append(cmor._cmor.load_table("Tables/CMIP6_Amon.json"))
+            tables.append(cmor._cmor.load_table(os.path.join(self.tabledir, "CMIP6_Amon.json")))
             print 'Tables ids:', tables
 
 
@@ -205,6 +200,7 @@ class TestCase(unittest.TestCase):
                     None)
 
             cmor._cmor.close(None, 0, 0)
+            self.processLog()
         except BaseException:
             raise
 

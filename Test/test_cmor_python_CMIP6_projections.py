@@ -14,24 +14,25 @@
 
 import cmor
 import numpy
-import unittest
 import os
+import unittest
+import base_test_cmor_python
 import sys
 import tempfile
 
 
-class TestCase(unittest.TestCase):
+class TestCase(base_test_cmor_python.BaseCmorTest):
 
     def testCMIP6(self):
         try:
             # Set up CMOR with information from the CMOR config dictionary.
             #
 
-            cmor.setup("Tables", netcdf_file_action=cmor.CMOR_REPLACE_4)
+            cmor.setup(self.tabledir, netcdf_file_action=cmor.CMOR_REPLACE_4, logfile=self.logfile)
 
             # Create the output CMOR dataset using the output configuration.
             #
-            cmor.dataset_json("Test/common_user_input.json")
+            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
 
             # Create x and y coordinates and bounds.
             #
@@ -100,6 +101,7 @@ class TestCase(unittest.TestCase):
             self.assertEqual(ierr, 0)
 
             cmor.close()
+            self.processLog()
         except BaseException:
             raise
 

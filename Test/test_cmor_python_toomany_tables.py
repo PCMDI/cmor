@@ -14,13 +14,14 @@
 
 import cmor
 import numpy
-import unittest
-import sys
 import os
+import unittest
+import base_test_cmor_python
+import sys
 import tempfile
 
 
-class TestCase(unittest.TestCase):
+class TestCase(base_test_cmor_python.BaseCmorTest):
 
     def testCMIP6(self):
         # ------------------------------------------------------
@@ -40,8 +41,8 @@ class TestCase(unittest.TestCase):
         # Try to call cmor with a bad institution_ID
         # -------------------------------------------
         try:
-            cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
-            cmor.dataset_json("Test/common_user_input.json")
+            cmor.setup(inpath=self.tabledir, netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.logfile)
+            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
             cmor.set_cur_dataset_attribute("experiment_id", "ssp434")
             cmor.set_cur_dataset_attribute(
                 "parent_experiment_id", "historical")
@@ -84,6 +85,7 @@ class TestCase(unittest.TestCase):
             cmor.load_table("CMIP6_fx.json")
             cmor.load_table("CMIP6_grids.json")
             cmor.close()
+            self.processLog()
         except BaseException:
             raise
             

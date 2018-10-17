@@ -1,18 +1,20 @@
 import cmor
 import numpy
+import os
 import unittest
+import base_test_cmor_python
 
-class TestCase(unittest.TestCase):
+class TestCase(base_test_cmor_python.BaseCmorTest):
 
     def testNewTable(self):
         try:
-            ipth = "Tables"
+            ipth = self.tabledir
             cmor.setup(inpath=ipth,
                     set_verbosity=cmor.CMOR_NORMAL,
                     netcdf_file_action=cmor.CMOR_REPLACE,
-                    logfile=None)
+                    logfile=self.logfile)
 
-            cmor.dataset_json("Test/common_user_input.json")
+            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
 
             cmor.load_table("CMIP6_Amon.json")
 
@@ -51,6 +53,7 @@ class TestCase(unittest.TestCase):
 
             cmor.write(iv, data)
             cmor.close()
+            self.processLog()
         except BaseException:
             raise
             

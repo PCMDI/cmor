@@ -1,19 +1,21 @@
 import cmor._cmor
-import unittest
 import os
+import unittest
+import base_test_cmor_python
 
-class TestCase(unittest.TestCase):
+class TestCase(base_test_cmor_python.BaseCmorTest):
 
     def testUserInterface(self):
         try:
             from test_python_common import *  # common subroutines
 
             cmor.setup(
-                inpath="Tables",
+                inpath=self.tabledir,
                 set_verbosity=cmor.CMOR_NORMAL,
                 netcdf_file_action=cmor.CMOR_REPLACE,
-                exit_control=cmor.CMOR_EXIT_ON_MAJOR)
-            cmor.dataset_json("Test/common_user_input.json")
+                exit_control=cmor.CMOR_EXIT_ON_MAJOR, 
+                logfile=self.logfile)
+            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
 
             myaxes = numpy.zeros(9, dtype='i')
             myaxes2 = numpy.zeros(9, dtype='i')
@@ -147,6 +149,7 @@ class TestCase(unittest.TestCase):
                 print 'writing time: ', i, data2d.shape, data2d
                 cmor.write(myvars[0], data2d, 1)
             cmor.close()
+            self.processLog()
         except BaseException:
             raise
 

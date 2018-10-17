@@ -14,23 +14,24 @@
 
 import cmor
 import numpy
-import unittest
-import sys
 import os
+import unittest
+import base_test_cmor_python
+import sys
 import tempfile
 import cdms2
 import time
 
 
-class TestCase(unittest.TestCase):
+class TestCase(base_test_cmor_python.BaseCmorTest):
 
     def testCMIP6_defaultmissinginteger(self):
         # -------------------------------------------
         # Try to call cmor with a bad institution_ID
         # -------------------------------------------
         try:
-            cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
-            cmor.dataset_json("Test/common_user_input.json")
+            cmor.setup(inpath=self.tabledir, netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.logfile)
+            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
             # ------------------------------------------
             # load Omon table and create masso variable
             # ------------------------------------------
@@ -54,6 +55,7 @@ class TestCase(unittest.TestCase):
             for i in range(0, 5): 
                 cmor.write(ivar, data[i:i])
             cmor.close()
+            self.processLog()
         except BaseException:
             raise
 
@@ -67,8 +69,8 @@ class TestCase(unittest.TestCase):
         # Try to call cmor with a bad institution_ID
         # -------------------------------------------
         try:
-            cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
-            cmor.dataset_json("Test/common_user_input.json")
+            cmor.setup(inpath=self.tabledir, netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.logfile)
+            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
             # ------------------------------------------
             # load Omon table and create masso variable
             # ------------------------------------------
@@ -92,6 +94,7 @@ class TestCase(unittest.TestCase):
             for i in range(0, 5):
                 cmor.write(ivar, data[i:i])
             cmor.close()
+            self.processLog()
         except BaseException:
             raise
 

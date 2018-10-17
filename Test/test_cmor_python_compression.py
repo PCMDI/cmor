@@ -1,29 +1,26 @@
 import sys
 import os
 import unittest
+import base_test_cmor_python
 import cdms2
 import cmor
 import numpy
 
 
-class TestCase(unittest.TestCase):
+class TestCase(base_test_cmor_python.BaseCmorTest):
 
     def testCompression(self):
         try:
-            f = cdms2.open(os.path.join('data/clt.nc'))
+            f = cdms2.open(os.path.join(self.curdir, 'data', 'clt.nc'))
 
-            pth = os.path.split(os.path.realpath(os.curdir))
-            if pth[-1] == 'Test':
-                ipth = opth = '.'
-            else:
-                ipth = opth = 'Test'
-            cmor.setup(inpath=ipth,
+            cmor.setup(inpath=self.testdir,
                     set_verbosity=cmor.CMOR_NORMAL,
-                    netcdf_file_action=cmor.CMOR_REPLACE)
+                    netcdf_file_action=cmor.CMOR_REPLACE, 
+                    logfile=self.logfile)
 
-            cmor.dataset_json("Test/common_user_input.json")
+            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
 
-            cmor.load_table("Tables/CMIP6_Amon.json")
+            cmor.load_table(os.path.join(self.tabledir, "CMIP6_Amon.json"))
 
             s = f("clt", slice(14))
             Saxes = s.getAxisList()
@@ -65,6 +62,7 @@ class TestCase(unittest.TestCase):
             cmor.write(var_id2, s)
 
             cmor.close()
+            self.processLog()
         except BaseException:
             raise
             
