@@ -1,7 +1,22 @@
 {
+  "6hrPlevPt_cldicemxrat": {
+    "has_27_pressure_levels": "cldicemxrat27"
+  },
+  "6hrPlevPt_cldwatmxrat": {
+    "has_27_pressure_levels": "cldwatmxrat27"
+  },
+  "6hrPlevPt_grplmxrat": {
+    "has_27_pressure_levels": "grplmxrat27"
+  },
   "6hrPlevPt_hus": {
     "has_27_pressure_levels": "hus27",
     "has_7_pressure_levels": "hus7h"
+  },
+  "6hrPlevPt_rainmxrat": {
+    "has_27_pressure_levels": "rainmxrat27"
+  },
+  "6hrPlevPt_snowmxrat": {
+    "has_27_pressure_levels": "snowmxrat27"
   },
   "6hrPlevPt_ta": {
     "has_27_pressure_levels": "ta27",
@@ -12,6 +27,9 @@
   },
   "6hrPlevPt_va": {
     "has_7_pressure_levels": "va7h"
+  },
+  "6hrPlevPt_wbptemp": {
+    "has_7_pressure_levels": "wbptemp7h"
   },
   "6hrPlevPt_zg": {
     "has_27_pressure_levels": "zg27",
@@ -41,29 +59,83 @@
   "E1hr_ta": {
     "has_27_pressure_levels": "ta27"
   },
+  "E1hr_tntr": {
+    "has_27_pressure_levels": "tntr27"
+  },
   "E1hr_ua": {
     "has_27_pressure_levels": "ua27"
+  },
+  "E1hr_utendnogw": {
+    "has_27_pressure_levels": "utendnogw27"
   },
   "E1hr_va": {
     "has_27_pressure_levels": "va27"
   },
+  "E1hr_vtendnogw": {
+    "has_27_pressure_levels": "vtendnogw27"
+  },
   "E1hr_wap": {
     "has_27_pressure_levels": "wap27"
+  },
+  "E1hr_zg": {
+    "has_27_pressure_levels": "zg27"
   },
   "E3hrPt_hus": {
     "has_7_pressure_levels": "hus7h"
   },
+  "E3hrPt_ta": {
+    "has_7_pressure_levels": "ta7h"
+  },
+  "E3hrPt_ua": {
+    "has_7_pressure_levels": "ua7h"
+  },
+  "E3hrPt_va": {
+    "has_7_pressure_levels": "va7h"
+  },
+  "E3hrPt_wap": {
+    "has_7_pressure_levels": "wap7h"
+  },
   "Eday_ts": {
     "has_land_in_cell_methods": "tsland"
   },
+  "Emon_cldicemxrat": {
+    "has_27_pressure_levels": "cldicemxrat27"
+  },
+  "Emon_cldwatmxrat": {
+    "has_27_pressure_levels": "cldwatmxrat27"
+  },
   "Emon_hus": {
     "has_27_pressure_levels": "hus27"
+  },
+  "Emon_grplmxrat": {
+    "has_27_pressure_levels": "grplmxrat27"
+  },
+  "Emon_rainmxrat": {
+    "has_27_pressure_levels": "rainmxrat27"
+  },
+  "Emon_snowmxrat": {
+    "has_27_pressure_levels": "snowmxrat27"
+  },
+  "Emon_ta": {
+    "has_27_pressure_levels": "ta27"
+  },
+  "Emon_tntmp": {
+    "has_27_pressure_levels": "tntmp27"
+  },
+  "Emon_tntrl": {
+    "has_27_pressure_levels": "tntrl27"
+  },
+  "Emon_tntrs": {
+    "has_27_pressure_levels": "tntrs27"
   },
   "Emon_ua": {
     "has_27_pressure_levels": "ua27"
   },
   "Emon_va": {
     "has_27_pressure_levels": "va27"
+  },
+  "Emon_zg": {
+    "has_27_pressure_levels": "zg27"
   },
   "Oclim_difmxybo": {
     "has_3_dimensions": "difmxybo2d"
