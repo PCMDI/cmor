@@ -50,9 +50,9 @@
  
     "#note":                  " **** The following will be obtained from the CV and do not need to be defined here", 
  
-    "sub_experiment":         "",
+    "sub_experiment":         "none",
     "institution":            "",
-    "source":                 "",
+    "source":                 "PCMDI-test 1.0 (1989)",
  
     "#note":                  " **** The following are set correctly for CMIP6 and should not normally need editing",  
  

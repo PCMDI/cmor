@@ -304,7 +304,7 @@ REAL, DIMENSION(lev) :: b_coeff
 REAL :: p0
 REAL, DIMENSION(lev+1) :: a_coeff_bnds
 REAL, DIMENSION(lev+1) :: b_coeff_bnds
-INTEGER :: ilon, ilat, ipres, ilev, itim, iz
+INTEGER :: ilonA, ilonL, ilatA, ilatL, ipres, ilev, itimA, itimL, iz
 
 !  Other local variables:
 !  ---------------------
@@ -347,7 +347,10 @@ error_flag = cmor_dataset_json('CMOR_input_example.json')
 !  Define all axes that will be needed:
 ! =====================================================
 
-ilat = cmor_axis(                     &
+! note that hfls, tas, and ps from CMIP6_Amon and mrsos from CMIP6_Lmon
+! need latitude, longitude, and time axes using their respective tables.
+
+ilatA = cmor_axis(                    &
      table='Tables/CMIP6_Amon.json',  &
      table_entry='latitude',          &  
      units='degrees_north',           &  
@@ -355,14 +358,31 @@ ilat = cmor_axis(                     &
      coord_vals=alats,                & 
      cell_bounds=bnds_lat)        
     
+
+ilatL = cmor_axis(                    &
+     table='Tables/CMIP6_Lmon.json',  &
+     table_entry='latitude',          &  
+     units='degrees_north',           &  
+     length=lat,                      &
+     coord_vals=alats,                & 
+     cell_bounds=bnds_lat)     
+
 !  note that in this example, the users input fields are stored such
 !  that longitudes are in the range -180 to 180.  The longitude axis
 !  contains the longitude values (and bounds) ordered the same as the 
 !  user’s data.  CMOR will reorder these and also reorder the variable
 !  fields to be consistent with the CMIP6 output requirements in which
 !  longitudes are in the range 0 to 360.
-ilon = cmor_axis(  &
+ilonA = cmor_axis(  &
      table='Tables/CMIP6_Amon.json', &
+     table_entry='longitude',        &
+     length=lon,                     &
+     units='degrees_east',           &
+     coord_vals=alons,               &
+     cell_bounds=bnds_lon) 
+
+ilonL = cmor_axis(  &
+     table='Tables/CMIP6_Lmon.json', &
      table_entry='longitude',        &
      length=lon,                     &
      units='degrees_east',           &
@@ -380,7 +400,7 @@ ilon = cmor_axis(  &
 ipres = cmor_axis(  &
      table='Tables/CMIP6_Amon.json', &
      table_entry='plev19',           &
-     units='hPa',                     &
+     units='hPa',                    &
      length=plev,                    &
      coord_vals=plevs)
 
@@ -388,12 +408,17 @@ ipres = cmor_axis(  &
 !   values and bounds will be passed to cmor through function 
 !   cmor_write (later, below).
 
-itim = cmor_axis(  &
+itimA = cmor_axis(  &
      table='Tables/CMIP6_Amon.json', &
      table_entry='time',             &
      units='days since 1850-1-1',    &
      length=ntimes)
 
+itimL = cmor_axis(  &
+    table='Tables/CMIP6_Lmon.json', &
+    table_entry='time',             &
+    units='days since 1850-1-1',    &
+    length=ntimes)
  
 !  define model eta levels (although these must be provided, CMOR will
 !    replace them with a+b before writing the netCDF file; this is done
@@ -442,7 +467,7 @@ b_coeff_bnds=(/0.,.05, .15, .35, .65, 1./)
 error_flag = cmor_zfactor(                &
      zaxis_id=ilev,                       &
      zfactor_name='p0',                   &
-     units='hPa',                          &
+     units='hPa',                         &
      zfactor_values = p0)
 
 error_flag = cmor_zfactor(                &
@@ -462,7 +487,7 @@ error_flag = cmor_zfactor(                &
 zfactor_id = cmor_zfactor(                &
      zaxis_id=ilev,                       &
      zfactor_name='ps',                   &
-     axis_ids=(/ ilon, ilat, itim /),     &
+     axis_ids=(/ ilonA, ilatA, itimA /),  &
      units='hPa' )
 
 
@@ -473,14 +498,27 @@ zfactor_id = cmor_zfactor(                &
 
 DO m=1,n2d
 
-   var2d_ids(m) = cmor_variable(                     &
+  ! Use the Lmon axes for mrsos (m==3)
+  ! Otherwise, use Amon axes
+  IF (m==3) THEN
+    var2d_ids(m) = cmor_variable(                    &
       table='Tables/CMIP6_'//tables2d(m)//'.json',   &
       table_entry=entry2d(m),                        & 
       units=units2d(m),                              & 
-      axis_ids=(/ ilon, ilat, itim /),               &
+      axis_ids=(/ ilonL, ilatL, itimL /),            &
       missing_value=1.0e28,                          &
       positive=positive2d(m),                        &
       original_name=varin2d(m))   
+  ELSE
+    var2d_ids(m) = cmor_variable(                    &
+      table='Tables/CMIP6_'//tables2d(m)//'.json',   &
+      table_entry=entry2d(m),                        & 
+      units=units2d(m),                              & 
+      axis_ids=(/ ilonA, ilatA, itimA /),            &
+      missing_value=1.0e28,                          &
+      positive=positive2d(m),                        &
+      original_name=varin2d(m))   
+  END IF
 
 ENDDO
 
@@ -491,11 +529,11 @@ ENDDO
 !  Define the only field to be written by this code that is a function 
 !     of model level
 
-var3d_ids(1) = cmor_variable(                &
-     table='Tables/CMIP6_Amon.json',         &
-     table_entry=entry3d(1),                 &
-     units=units3d(1),                       &
-     axis_ids=(/ ilon, ilat, ilev, itim /),  &
+var3d_ids(1) = cmor_variable(                   &
+     table='Tables/CMIP6_Amon.json',            &
+     table_entry=entry3d(1),                    &
+     units=units3d(1),                          &
+     axis_ids=(/ ilonA, ilatA, ilev, itimA /),  &
      missing_value=1.0e28, &
      original_name=varin3d(1))
 
@@ -503,12 +541,12 @@ var3d_ids(1) = cmor_variable(                &
 !         (3-d variables)
 
 DO m=2,n3d
-   var3d_ids(m) = cmor_variable(                &
-        table='Tables/CMIP6_Amon.json',         &
-        table_entry=entry3d(m),                 &
-        units=units3d(m),                       &
-        axis_ids=(/ ilon, ilat, ipres, itim /), &
-        missing_value=1.0e28,                   &
+   var3d_ids(m) = cmor_variable(                   &
+        table='Tables/CMIP6_Amon.json',            &
+        table_entry=entry3d(m),                    &
+        units=units3d(m),                          &
+        axis_ids=(/ ilonA, ilatA, ipres, itimA /), &
+        missing_value=1.0e28,                      &
         original_name=varin3d(m))
 ENDDO
 
