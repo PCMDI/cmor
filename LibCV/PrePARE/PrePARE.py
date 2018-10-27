@@ -315,8 +315,17 @@ class checkCMIP6(object):
         return True if len(dim) == 1 and infile.dimensions[dim[0]] == 7 else False
 
     @staticmethod
+    def has_4_pressure_levels(infile, **kwargs):
+        dim = [d for d in infile.dimensions.keys() if 'plev' in d]
+        return True if len(dim) == 1 and infile.dimensions[dim[0]] == 4 else False
+
+    @staticmethod
     def has_land_in_cell_methods(infile, variable, **kwargs):
         return True if 'land' in infile.variables[variable].cell_methods else False
+
+    @staticmethod
+    def has_variable_name(filename, **kwargs):
+        return True
 
     def ControlVocab(self, ncfile, variable=None, print_all=True):
         """

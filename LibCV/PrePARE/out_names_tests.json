@@ -1,4 +1,10 @@
 {
+  "6hrPlev_hus": {
+    "has_4_pressure_levels": "hus4"
+  },
+  "6hrPlev_wap": {
+    "has_4_pressure_levels": "wap4"
+  },
   "6hrPlevPt_cldicemxrat": {
     "has_27_pressure_levels": "cldicemxrat27"
   },
@@ -55,6 +61,12 @@
   },
   "Amon_o3": {
     "is_climatology": "o3Clim"
+  },
+  "CFsubhr_lat": {
+    "has_variable_name": "latitude"
+  },
+  "CFsubhr_lon": {
+    "has_variable_name": "longitude"
   },
   "E1hr_ta": {
     "has_27_pressure_levels": "ta27"
@@ -116,6 +128,12 @@
   "Emon_snowmxrat": {
     "has_27_pressure_levels": "snowmxrat27"
   },
+  "Emon_sw17O": {
+    "has_variable_name": "sw18O"
+  },
+  "Emon_sw18O": {
+    "has_variable_name": "O18wv"
+  },
   "Emon_ta": {
     "has_27_pressure_levels": "ta27"
   },
@@ -166,6 +184,9 @@
   },
   "Oclim_tnkebto": {
     "has_3_dimensions": "tnkebto2d"
+  },
+  "Ofx_ugrido": {
+    "has_variable_name": "ugrid"
   },
   "Omon_ficeberg": {
     "has_3_dimensions": "ficeberg2d"
