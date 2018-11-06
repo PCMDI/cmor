@@ -332,8 +332,7 @@ CALL read_coords(alats, alons, plevs, bnds_lat, bnds_lon)
 ! Specify path where tables can be found and indicate that existing 
 !    netCDF files should not be overwritten.
 
-error_flag = cmor_setup(inpath='Test', netcdf_file_action='replace', &
-                 logfile='CMOR.log')
+error_flag = cmor_setup(inpath='Test', netcdf_file_action='replace')!,logfile='CMIP6_sample_CMOR_driver.log')
 
 ! Define dataset and populate with global attributes (which will be written
 !    to all files created by this code.  The input file contains
