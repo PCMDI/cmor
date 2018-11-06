@@ -4,8 +4,8 @@ Climate Model Output Rewriter
 CMOR 3.3 documentation can be found here: http://cmor.llnl.gov
 
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1205178.svg)](https://doi.org/10.5281/zenodo.1205178)
-[![stable version](https://img.shields.io/badge/stable%20version-3.3.2-brightgreen.svg)](https://github.com/PCMDI/cmor/releases/tag/cmor-3.3.2)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1294043.svg)](https://doi.org/10.5281/zenodo.1294043)
+[![stable version](https://img.shields.io/badge/stable%20version-3.3.3-brightgreen.svg)](https://github.com/PCMDI/cmor/releases/tag/3.3.3)
 ![platforms](https://img.shields.io/badge/platforms-linux%20|%20osx-lightgrey.svg)
 [![Anaconda-Server Badge](https://anaconda.org/pcmdi/cmor/badges/installer/conda.svg)](https://conda.anaconda.org/pcmdi)
 [![Anaconda-Server Badge](https://anaconda.org/pcmdi/cmor/badges/downloads.svg)](https://anaconda.org/pcmdi)
