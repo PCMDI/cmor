@@ -29,17 +29,19 @@ int main()
     /* --------------------------------- */
     
 #define   ntimes  2             /* number of time samples to process */
-#define   ind  10                /* number of indices   */
-#define   lev  2                /* number of ocean depth levels */
+#define   indi  10                /* number of i indices   */
+#define   indj  10                /* number of j indices   */
+#define   indk  10                /* number of k indices   */
 #define   nvert 12
-    double index[ind];
-    double lon_coords[ind];
-    double lat_coords[ind];
-    double lon_vertices[ind * nvert];
-    double lat_vertices[ind * nvert];
+    double i_index[indi];
+    double j_index[indj];
+    double k_index[indk];
+    double lon_coords[indi * indj * indk];
+    double lat_coords[indi * indj * indk];
+    double lon_vertices[indi * indj * indk * nvert];
+    double lat_vertices[indi * indj * indk * nvert];
 
-    double data2d[ind];
-    double data3d[lev * ind];
+    double data3d[indi * indj * indk];
 
     int myaxes[10];
     int mygrids[10];
@@ -59,21 +61,28 @@ int main()
     double tmpf = 0.;
 
     int exit_mode;
+
     /* first construct grid lon/lat */
-    for (j = 0; j < ind; j++) {
-            index[j] = j;
-            lon_coords[j] = lon0 + delta_lon * (j);
-            lat_coords[j] = lat0 + delta_lat * (j);
-            /* vertices lon */
-            for (vert = 0; vert < nvert; vert++)
-              {
-                lon_vertices[j * nvert + vert] =
-                  lon_coords[j];
-                /* vertices lat */
-                lat_vertices[j * nvert + vert] =
-                  lat_coords[j];
-              }
+    for (k = 0; k < indk; k++) {
+        k_index[k] = k;
+        for (j = 0; j < indj; j++) {
+            j_index[j] = j;
+            for (i = 0; i < indi; i++) {
+                i_index[i] = i;
+                    lon_coords[k*indi*indj + j*indi + i] = lon0 + delta_lon * i;
+                    lat_coords[k*indi*indj + j*indi + i] = lat0 + delta_lat * j;
+                    /* vertices lon */
+                    for (vert = 0; vert < nvert; vert++)
+                    {
+                        lon_vertices[(k*indi*indj + j*indi + i) * nvert + vert] =
+                        lon_coords[k*indi*indj + j*indi + i];
+                        /* vertices lat */
+                        lat_vertices[(k*indi*indj + j*indi + i) * nvert + vert] =
+                        lat_coords[k*indi*indj + j*indi + i];
+                    }
+            }
         }
+    }
 
     exit_mode = CMOR_EXIT_ON_MAJOR;
     j = CMOR_REPLACE;
@@ -91,13 +100,19 @@ int main()
     ierr = cmor_set_table(tables[0]);
 
     /* first define grid axes (x/y/rlon/rlat,etc... */
-    ierr = cmor_axis(&myaxes[0], (char *) "i_index", (char *) "1", ind, (void *) index, 'd', 0,
+    ierr = cmor_axis(&myaxes[0], (char *) "i_index", (char *) "1", indi, (void *) i_index, 'd', 0,
+                          0, NULL);
+    ierr = cmor_axis(&myaxes[1], (char *) "j_index", (char *) "1", indj, (void *) j_index, 'd', 0,
+                          0, NULL);
+    ierr = cmor_axis(&myaxes[2], (char *) "k_index", (char *) "1", indk, (void *) k_index, 'd', 0,
                           0, NULL);
     printf("Test code: ok got axes id: %i for 'index'\n", myaxes[0]);
+    printf("Test code: ok got axes id: %i for 'index'\n", myaxes[1]);
+    printf("Test code: ok got axes id: %i for 'index'\n", myaxes[2]);
 
     /*now defines the grid */
     printf("going to grid stuff \n");
-    ierr = cmor_grid(&mygrids[0], 1, myaxes, 'd', (void *) lat_coords, (void *) lon_coords, nvert,
+    ierr = cmor_grid(&mygrids[0], 3, myaxes, 'd', (void *) lat_coords, (void *) lon_coords, nvert,
                           (void *) lat_vertices, (void *) lon_vertices);
 
     for (i = 0; i < cmor_grids[0].ndims; i++) {
@@ -127,11 +142,11 @@ int main()
     for (i = 0; i < ntimes; i++) {
         printf("Test code: writing time: %i of %i\n", i + 1, ntimes);
 
-        printf("Test code: 2d\n");
-        read_2d_input_files(i, "LATENT", &data2d[0], ind, 1);
+        printf("Test code: 3d\n");
+        read_3d_input_files(i, "T", &data3d[0], indi, indj, indk);
         //for(j=0;j<10;j++) printf("Test code: %i out of %i : %lf\n",j,9,data2d[j]);
         printf("var id: %i\n", myvars[0]);
-        ierr = cmor_write(myvars[0], &data2d, 'd', NULL, 1, NULL, NULL, NULL);
+        ierr = cmor_write(myvars[0], &data3d, 'd', NULL, 1, NULL, NULL, NULL);
     }
     printf("ok loop done\n");
     ierr = cmor_close();
