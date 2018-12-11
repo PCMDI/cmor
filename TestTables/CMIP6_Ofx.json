@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.27", 
-        "cmor_version": "3.3", 
+        "data_specs_version": "01.00.28", 
+        "cmor_version": "3.4", 
         "table_id": "Table Ofx", 
         "realm": "ocean", 
-        "table_date": "30 July 2018", 
+        "table_date": "04 December 2018", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 

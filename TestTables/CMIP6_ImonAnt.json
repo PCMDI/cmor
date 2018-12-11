@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.27", 
-        "cmor_version": "3.3", 
+        "data_specs_version": "01.00.28", 
+        "cmor_version": "3.4", 
         "table_id": "Table ImonAnt", 
-        "realm": "atmos", 
-        "table_date": "30 July 2018", 
+        "realm": "landIce land", 
+        "table_date": "04 December 2018", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -34,7 +34,7 @@
         }, 
         "hfls": {
             "frequency": "mon", 
-            "modeling_realm": "atmos", 
+            "modeling_realm": "landIce land", 
             "standard_name": "surface_upward_latent_heat_flux", 
             "units": "W m-2", 
             "cell_methods": "area: time: mean where ice_sheet", 
@@ -52,7 +52,7 @@
         }, 
         "hfss": {
             "frequency": "mon", 
-            "modeling_realm": "atmos", 
+            "modeling_realm": "landIce land", 
             "standard_name": "surface_upward_sensible_heat_flux", 
             "units": "W m-2", 
             "cell_methods": "area: time: mean where ice_sheet", 
@@ -214,7 +214,7 @@
         }, 
         "mrroLi": {
             "frequency": "mon", 
-            "modeling_realm": "atmos", 
+            "modeling_realm": "landIce land", 
             "standard_name": "land_ice_runoff_flux", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: time: mean where ice_sheet", 
@@ -250,7 +250,7 @@
         }, 
         "prra": {
             "frequency": "mon", 
-            "modeling_realm": "atmos", 
+            "modeling_realm": "landIce land", 
             "standard_name": "rainfall_flux", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: time: mean where ice_sheet", 
@@ -268,7 +268,7 @@
         }, 
         "prsn": {
             "frequency": "mon", 
-            "modeling_realm": "atmos", 
+            "modeling_realm": "landIce land", 
             "standard_name": "snowfall_flux", 
             "units": "kg m-2 s-1", 
             "cell_methods": "area: time: mean where ice_sheet", 
@@ -286,7 +286,7 @@
         }, 
         "rlds": {
             "frequency": "mon", 
-            "modeling_realm": "atmos", 
+            "modeling_realm": "landIce land", 
             "standard_name": "surface_downwelling_longwave_flux_in_air", 
             "units": "W m-2", 
             "cell_methods": "area: time: mean where ice_sheet", 
@@ -304,7 +304,7 @@
         }, 
         "rlus": {
             "frequency": "mon", 
-            "modeling_realm": "atmos", 
+            "modeling_realm": "landIce land", 
             "standard_name": "surface_upwelling_longwave_flux_in_air", 
             "units": "W m-2", 
             "cell_methods": "area: time: mean where ice_sheet", 
@@ -322,7 +322,7 @@
         }, 
         "rsds": {
             "frequency": "mon", 
-            "modeling_realm": "atmos", 
+            "modeling_realm": "landIce land", 
             "standard_name": "surface_downwelling_shortwave_flux_in_air", 
             "units": "W m-2", 
             "cell_methods": "area: time: mean where ice_sheet", 
@@ -340,7 +340,7 @@
         }, 
         "rsus": {
             "frequency": "mon", 
-            "modeling_realm": "atmos", 
+            "modeling_realm": "landIce land", 
             "standard_name": "surface_upwelling_shortwave_flux_in_air", 
             "units": "W m-2", 
             "cell_methods": "area: time: mean where ice_sheet", 
@@ -448,7 +448,7 @@
         }, 
         "tas": {
             "frequency": "mon", 
-            "modeling_realm": "atmos", 
+            "modeling_realm": "landIce land", 
             "standard_name": "air_temperature", 
             "units": "K", 
             "cell_methods": "area: time: mean where ice_sheet", 
@@ -466,7 +466,7 @@
         }, 
         "ts": {
             "frequency": "mon", 
-            "modeling_realm": "atmos", 
+            "modeling_realm": "landIce land", 
             "standard_name": "surface_temperature", 
             "units": "K", 
             "cell_methods": "area: time: mean where ice_sheet", 

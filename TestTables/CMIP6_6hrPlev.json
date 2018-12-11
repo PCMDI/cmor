@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.27", 
-        "cmor_version": "3.3", 
+        "data_specs_version": "01.00.28", 
+        "cmor_version": "3.4", 
         "table_id": "Table 6hrPlev", 
         "realm": "atmos", 
-        "table_date": "30 July 2018", 
+        "table_date": "04 December 2018", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -178,7 +178,7 @@
         }, 
         "ua100m": {
             "frequency": "6hr", 
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "eastward_wind", 
             "units": "m s-1", 
             "cell_methods": "area: time: mean", 
@@ -214,7 +214,7 @@
         }, 
         "va100m": {
             "frequency": "6hr", 
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "northward_wind", 
             "units": "m s-1", 
             "cell_methods": "area: time: mean", 
@@ -268,7 +268,7 @@
         }, 
         "wsgmax100m": {
             "frequency": "6hr", 
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "wind_speed_of_gust", 
             "units": "m s-1", 
             "cell_methods": "area: mean time: maximum", 
@@ -286,7 +286,7 @@
         }, 
         "wsgmax10m": {
             "frequency": "6hr", 
-            "modeling_realm": "", 
+            "modeling_realm": "atmos", 
             "standard_name": "wind_speed_of_gust", 
             "units": "m s-1", 
             "cell_methods": "area: mean time: maximum", 
