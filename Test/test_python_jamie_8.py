@@ -31,7 +31,7 @@ def define_write_var(axis_ids, entry, unit, values):
 def cmor_ini():
     cmor.setup(inpath='Tables',
                netcdf_file_action=cmor.CMOR_REPLACE)
-    cmor.dataset_json("Test/common_user_input.json")
+    cmor.dataset_json("Test/CMOR_input_example.json")
 
 
 def define_write_clisccp():

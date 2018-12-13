@@ -47,7 +47,7 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
         # Try to call cmor with a bad institution_ID
         # -------------------------------------------
         cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.tmpfile)
-        cmor.dataset_json("Test/common_user_input.json")
+        cmor.dataset_json("Test/CMOR_input_example.json")
 
         # --------------------------------------------
         # load Omon table and create masscello variable
@@ -87,7 +87,7 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
 
         print "CMIP6 External Error"
         cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.tmpfile)
-        error_flag = cmor.dataset_json('Test/common_user_input.json')
+        error_flag = cmor.dataset_json('Test/CMOR_input_example.json')
         table_id = cmor.load_table('CMIP6_6hrLev.json')
         time = cmor.axis(table_entry='time1', units='days since 2000-01-01',
                         coord_vals=numpy.array(range(1)),

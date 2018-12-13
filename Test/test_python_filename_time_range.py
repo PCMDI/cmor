@@ -18,7 +18,7 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
         cmor.setup(inpath='Test',
                    netcdf_file_action=cmor.CMOR_REPLACE_4)
 
-        cmor.dataset_json("Test/common_user_input.json")
+        cmor.dataset_json("Test/CMOR_input_example.json")
 
         self.path = None
 
