@@ -58,7 +58,7 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
         f = cdms2.open(cmor.get_final_filename(), "r")
         a = f.getglobal("further_info_url")
         self.assertEqual(
-                "https://furtherinfo.es-doc.org/CMIP6.PCMDI.PCMDI-test-1-0.piControl-withism.none.r11i1p1f1",
+                "https://furtherinfo.es-doc.org/CMIP6.PCMDI.PCMDI-test-1-0.piControl-withism.none.r3i1p1f1",
             a)
 
 
