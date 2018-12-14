@@ -67,11 +67,11 @@ int main()
             /* vertices lon */
             for (vert = 0; vert < nvert; vert++)
               {
-                lon_vertices[j * ind + nvert] =
-                  lon_coords[j * ind];
+                lon_vertices[j * nvert + vert] =
+                    lon_coords[j];
                 /* vertices lat */
-                lat_vertices[j * ind + nvert] =
-                  lat_coords[j * ind];
+                lat_vertices[j * nvert + vert] =
+                    lat_coords[j];
               }
         }
 
