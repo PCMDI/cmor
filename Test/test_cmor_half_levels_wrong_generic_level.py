@@ -95,7 +95,7 @@ pth = os.getcwd()
 ierr = cmor.setup(inpath=os.path.join(pth, "Test"),
                   netcdf_file_action=cmor.CMOR_REPLACE) #, logfile="CMOR.log")
 print("ERR:", ierr)
-ierr = cmor.dataset_json(os.path.join(pth, "Test", "common_user_input.json"))
+ierr = cmor.dataset_json(os.path.join(pth, "Test", "CMOR_input_example.json"))
 print("ERR:", ierr)
 
 ierr = cmor.load_table(os.path.join(pth, 'Tables', 'CMIP6_Amon.json'))

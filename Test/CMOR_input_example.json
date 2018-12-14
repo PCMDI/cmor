@@ -1,9 +1,9 @@
 {
-    "source_type":            "AOGCM AER BGC",
+    "source_type":            "AOGCM ISM AER",
  
     "#note":                  "CMIP6 valid experiment_ids are found in CMIP6_CV.json",
-    "experiment_id":          "ssp245",
-    "activity_id":            "ScenarioMIP",
+    "experiment_id":          "piControl-withism",
+    "activity_id":            "ISMIP6",
     "sub_experiment_id":      "none",
  
     "realization_index":      "3",

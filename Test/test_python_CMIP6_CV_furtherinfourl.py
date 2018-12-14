@@ -35,7 +35,7 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
         # Try to call cmor with a bad institution_ID
         # -------------------------------------------
         cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.tmpfile)
-        cmor.dataset_json("Test/common_user_input.json")
+        cmor.dataset_json("Test/CMOR_input_example.json")
 
         # ------------------------------------------
         # load Omon table and create masso variable
@@ -58,7 +58,7 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
         f = cdms2.open(cmor.get_final_filename(), "r")
         a = f.getglobal("further_info_url")
         self.assertEqual(
-                "https://furtherinfo.es-doc.org/CMIP6.PCMDI.PCMDI-test-1-0.piControl-withism.none.r11i1p1f1",
+                "https://furtherinfo.es-doc.org/CMIP6.PCMDI.PCMDI-test-1-0.piControl-withism.none.r3i1p1f1",
             a)
 
 

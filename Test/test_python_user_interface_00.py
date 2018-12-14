@@ -19,8 +19,8 @@ cmor.setup(
     set_verbosity=cmor.CMOR_NORMAL,
     netcdf_file_action=cmor.CMOR_REPLACE,
     exit_control=cmor.CMOR_EXIT_ON_MAJOR)
-# cmor.dataset_json("Test/common_user_input.json")
-cmor.dataset_json("Test/common_user_input.json")
+# cmor.dataset_json("Test/CMOR_input_example.json")
+cmor.dataset_json("Test/CMOR_input_example.json")
 
 tables = []
 a = cmor.load_table(os.path.join("CMIP6_Omon.json"))

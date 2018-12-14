@@ -43,7 +43,7 @@ def setup_cmor():
                set_verbosity=cmor.CMOR_NORMAL, create_subdirectories=0)
 
     # Create CMOR dataset
-    cmor.dataset_json("Test/common_user_input.json")
+    cmor.dataset_json("Test/CMOR_input_example.json")
 
 
 #-------------------------------------------------------------------------

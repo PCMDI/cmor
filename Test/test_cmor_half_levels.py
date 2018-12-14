@@ -9,7 +9,7 @@ varin3d = ["MC", ]
 n3d = len(varin3d)
 
 pth = os.getcwd()
-common.init_cmor(pth, "common_user_input.json")
+common.init_cmor(pth, "CMOR_input_example.json")
 ierr = cmor.load_table(os.path.join(pth, 'Tables', 'CMIP6_Amon.json'))
 itim, ilat, ilon = common.read_cmor_time_lat_lon()
 
