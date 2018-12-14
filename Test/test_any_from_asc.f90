@@ -72,7 +72,7 @@ program main
     
   print*,'Test Code: CMOR DATASET'
   bt=0.
-  ierr = cmor_dataset_json("Test/common_user_input.json")
+  ierr = cmor_dataset_json("Test/CMOR_input_example.json")
   
   current=>mydims
   do i = 0,ndim-1

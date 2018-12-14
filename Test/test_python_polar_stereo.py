@@ -17,7 +17,7 @@ cmor.setup(
     inpath="Tables",
     set_verbosity=cmor.CMOR_NORMAL,
     netcdf_file_action=cmor.CMOR_REPLACE_4)
-cmor.dataset_json("Test/common_user_input.json")
+cmor.dataset_json("Test/CMOR_input_example.json")
 
 tables = []
 grid_table = cmor.load_table("CMIP6_grids.json")

@@ -96,7 +96,7 @@ PROGRAM test_cmor_grid
    !+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
    ! Define dataset as output from COSP, and other model details
    !+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-   error_flag = cmor_dataset_json("Test/common_user_input.json")
+   error_flag = cmor_dataset_json("Test/CMOR_input_example.json")
    
    print *, '---------------Define axis'
    !+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

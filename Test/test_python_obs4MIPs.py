@@ -4,7 +4,7 @@ import cmor
 def test():
     cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
 
-    cmor.dataset_json("Test/common_user_input.json")
+    cmor.dataset_json("Test/CMOR_input_example.json")
 
     table = 'CMIP6_Amon.json'
 

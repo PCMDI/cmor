@@ -157,7 +157,7 @@ program testing
   error_flag = cmor_setup(inpath='Test', netcdf_file_action=j,&
        exit_control=k)
   print*,'Test code: done'
-  error_flag = cmor_dataset_json("Test/common_user_input.json")
+  error_flag = cmor_dataset_json("Test/CMOR_input_example.json")
   print*, 'Test code: done 2 lalala'
   
   call read_coords(alats, alons, plevs, bnds_lat, bnds_lon, station, st_lons, st_lats)
