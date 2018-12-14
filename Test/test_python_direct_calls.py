@@ -18,8 +18,8 @@ cmor._cmor.setup(
     cmor.CMOR_EXIT_ON_MAJOR,
     "",
     1)
-cmor.dataset_json("Test/common_user_input.json")
-# cmor.dataset_json("Test/common_user_input.json")
+cmor.dataset_json("Test/CMOR_input_example.json")
+# cmor.dataset_json("Test/CMOR_input_example.json")
 
 tables = []
 a = cmor._cmor.load_table("Tables/CMIP6_Omon.json")
