@@ -263,7 +263,7 @@ int main()
     strcpy(c2, "Nat, TO");
 
     printf("yep: %s, %s\n", c1, c2);
-    ierr = cmor_dataset_json("Test/common_user_input.json");
+    ierr = cmor_dataset_json("Test/CMOR_input_example.json");
 
     printf("Test code: ok load cmor table(s)\n");
     ierr = cmor_load_table("Tables/CMIP6_Amon_json_hfls", &tables[0]);
