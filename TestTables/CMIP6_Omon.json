@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.27", 
+        "data_specs_version": "01.00.28", 
         "cmor_version": "3.3", 
         "table_id": "Table Omon", 
         "realm": "ocnBgchem", 
-        "table_date": "30 July 2018", 
+        "table_date": "06 November 2018", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -1673,7 +1673,7 @@
         "frfe": {
             "frequency": "mon", 
             "modeling_realm": "ocnBgchem", 
-            "standard_name": "tendency_of_ocean_mole_content_of_iron_due_to_sedimentation", 
+            "standard_name": "minus_tendency_of_ocean_mole_content_of_iron_due_to_sedimentation", 
             "units": "mol m-2 s-1", 
             "cell_methods": "area: mean where sea time: mean", 
             "cell_measures": "area: areacello", 
@@ -1691,7 +1691,7 @@
         "fric": {
             "frequency": "mon", 
             "modeling_realm": "ocnBgchem", 
-            "standard_name": "tendency_of_ocean_mole_content_of_inorganic_carbon_due_to_sedimentation", 
+            "standard_name": "minus_tendency_of_ocean_mole_content_of_inorganic_carbon_due_to_sedimentation", 
             "units": "mol m-2 s-1", 
             "cell_methods": "area: mean where sea time: mean", 
             "cell_measures": "area: areacello", 
@@ -1727,7 +1727,7 @@
         "frn": {
             "frequency": "mon", 
             "modeling_realm": "ocnBgchem", 
-            "standard_name": "tendency_of_ocean_mole_content_of_elemental_nitrogen_due_to_denitrification_and_sedimentation", 
+            "standard_name": "minus_tendency_of_ocean_mole_content_of_elemental_nitrogen_due_to_denitrification_and_sedimentation", 
             "units": "mol m-2 s-1", 
             "cell_methods": "area: mean where sea time: mean", 
             "cell_measures": "area: areacello", 
@@ -1745,7 +1745,7 @@
         "froc": {
             "frequency": "mon", 
             "modeling_realm": "ocnBgchem", 
-            "standard_name": "tendency_of_ocean_mole_content_of_organic_carbon_due_to_sedimentation", 
+            "standard_name": "minus_tendency_of_ocean_mole_content_of_organic_carbon_due_to_sedimentation", 
             "units": "mol m-2 s-1", 
             "cell_methods": "area: mean where sea time: mean", 
             "cell_measures": "area: areacello", 
@@ -5006,10 +5006,10 @@
             "standard_name": "depth_below_geoid", 
             "units": "m", 
             "cell_methods": "area: mean where sea time: mean", 
-            "cell_measures": "area: areacello volume: volcello", 
+            "cell_measures": "area: areacello", 
             "long_name": "Depth Below Geoid of Interfaces Between Ocean Layers", 
             "comment": "Depth below geoid", 
-            "dimensions": "longitude latitude olevel time", 
+            "dimensions": "longitude latitude olevhalf time", 
             "out_name": "zhalfo", 
             "type": "real", 
             "positive": "", 

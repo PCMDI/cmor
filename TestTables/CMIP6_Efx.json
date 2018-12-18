@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.27", 
+        "data_specs_version": "01.00.28", 
         "cmor_version": "3.3", 
         "table_id": "Table Efx", 
         "realm": "land", 
-        "table_date": "30 July 2018", 
+        "table_date": "06 November 2018", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -238,7 +238,7 @@
             "cell_methods": "area: mean where land", 
             "cell_measures": "area: areacella", 
             "long_name": "Silt Fraction", 
-            "comment": "'Volume fraction' is used in the construction volume_fraction_of_X_in_Y, where X is a material constituent of Y.", 
+            "comment": "Volume fraction of silt in soil", 
             "dimensions": "longitude latitude sdepth", 
             "out_name": "siltfrac", 
             "type": "real", 

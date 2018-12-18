@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.27", 
+        "data_specs_version": "01.00.28", 
         "cmor_version": "3.3", 
         "table_id": "Table CFmon", 
         "realm": "atmos", 
-        "table_date": "30 July 2018", 
+        "table_date": "06 November 2018", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
