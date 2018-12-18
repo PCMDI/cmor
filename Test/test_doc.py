@@ -5,7 +5,7 @@ cmor.setup(
 	netcdf_file_action=cmor.CMOR_REPLACE_4
 )
 
-cmor.dataset_json("common_user_input.json")    
+cmor.dataset_json("CMOR_input_example.json")    
   
 # Loading this test table overwrites the normal CF checks on valid variable values.
 # This is perfect for testing but shouldn't be done when writing real data.
