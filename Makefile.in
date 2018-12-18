@@ -150,6 +150,7 @@ test:  cmor test_C @TEST_FORTRAN@ @MAKETESTPYTHON@
 test_C: cmor 
 	rm -f ./ipcc_test_code ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/ipcc_test_code.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@  -o ipcc_test_code  @VERB@; ./ipcc_test_code @VERB@
 	rm -f test_grid ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_grid.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ -o test_grid @LDFLAGS@ @VERB@; ./test_grid @VERB@;
+	rm -f test_grid_unstructured ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_cmor_grid_unstructured_fabi.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ -o test_grid_unstructured @LDFLAGS@ @VERB@; ./test_grid_unstructured @VERB@;
 	rm -f test_cat_unique ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_unit_cat_unique.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@ -o test_unit_cat_unique @VERB@; ./test_unit_cat_unique @VERB@;
 	rm -f test_cmor_append_associated ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_cmor_append_associated.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@ -o test_cmor_append_associated @VERB@; ./test_cmor_append_associated @VERB@;
 ifeq ($(UNAME), Linux)
@@ -291,6 +292,7 @@ test_fortran_old_cmor_tables: cmor
 	@env TEST_NAME="test_shrt_exp_nm_set_att_initi" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
 	@env TEST_NAME="test_sophie" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
 test_fortran: cmor
+	env TEST_NAME="CMIP6_sample_CMOR_driver" INPUT_FILE="Test/noinput" make test_case
 	env TEST_NAME="test_cmor_fx_basin" INPUT_FILE="Test/noinput" make test_case
 	env TEST_NAME="test_any_from_asc" INPUT_FILE="Test/tas_3D_noreorder.input" make test_case
 	env TEST_NAME="test_any_from_asc" INPUT_FILE="Test/3D_txy.input" make test_case

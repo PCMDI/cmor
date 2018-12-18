@@ -10,7 +10,7 @@
 #      https://github.com/PCMDI/cmip6-cmor-tables/tree/master/Tables to
 #      the 'Tables/' directory.
 #
-#   3. Download common_user_input.json from
+#   3. Download CMOR_input_example.json from
 #      https://github.com/PCMDI/cmor/blob/master/Test/ to the 'Test/'
 #      directory.
 import numpy
@@ -25,7 +25,7 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
             inpath = 'Tables'  # 01.00.27b1
             cmor.setup(inpath=inpath, netcdf_file_action=cmor.CMOR_REPLACE,
                     logfile=self.tmpfile)
-            error_flag = cmor.dataset_json('Test/common_user_input.json')
+            error_flag = cmor.dataset_json('Test/CMOR_input_example.json')
             table_id = cmor.load_table('CMIP6_6hrLev_bad_specs.json')
             time = cmor.axis(table_entry='time1', units='days since 2000-01-01',
                             coord_vals=numpy.array(range(1)),

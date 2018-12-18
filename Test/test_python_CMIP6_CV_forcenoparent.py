@@ -30,7 +30,7 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
         # -------------------------------------------
         try:
             cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.tmpfile)
-            cmor.dataset_json("Test/common_user_input.json")
+            cmor.dataset_json("Test/CMOR_input_example.json")
 
             # ------------------------------------------
             # load Omon table and create masso variable

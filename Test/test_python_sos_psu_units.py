@@ -23,7 +23,7 @@ class TestCase(unittest.TestCase):
             inpath='Tables',
             netcdf_file_action=cmor.CMOR_REPLACE)
 
-        error_flag = cmor.dataset_json("Test/common_user_input.json")
+        error_flag = cmor.dataset_json("Test/CMOR_input_example.json")
 
     def prep_var(self, var, units):
         # creates 1 degree grid

@@ -20,7 +20,7 @@ cmor.setup(
     set_verbosity=cmor.CMOR_NORMAL,
     netcdf_file_action=cmor.CMOR_REPLACE,
     exit_control=cmor.CMOR_EXIT_ON_MAJOR)
-cmor.dataset_json("Test/common_user_input.json")
+cmor.dataset_json("Test/CMOR_input_example.json")
 
 # cmor.set_cur_dataset_attribute("parent_experiment_rip","r1i1p1")
 

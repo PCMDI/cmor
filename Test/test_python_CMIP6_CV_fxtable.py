@@ -43,7 +43,7 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
         dlon = 360. / nlon
 
         cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.tmpfile)
-        cmor.dataset_json("Test/common_user_input.json")
+        cmor.dataset_json("Test/CMOR_input_example.json")
         cmor.load_table("CMIP6_fx.json")
 
         lats = numpy.arange(90 - dlat / 2., -90, -dlat)

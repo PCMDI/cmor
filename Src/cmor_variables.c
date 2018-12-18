@@ -1781,6 +1781,13 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
 /*      OK WE ARE SAYING THAT THIS VARIABLE HAS %i DIMENSIONS           */
 /* -------------------------------------------------------------------- */
 
+    if ( strcmp(cmor_vars[vrid].id, "vertices_longitude") == 0 && k == 1 )
+      { k++;
+      cmor_vars[vrid].axes_ids[1] = axes_ids[1]; }
+    else if ( strcmp(cmor_vars[vrid].id, "vertices_latitude") == 0 && k == 1 )
+      { k++;
+      cmor_vars[vrid].axes_ids[1] = axes_ids[1]; }
+
     cmor_vars[vrid].ndims = k;
     cmor_vars[vrid].itype = type;
     k = 0;
