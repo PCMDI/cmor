@@ -21,7 +21,7 @@ cmor.setup(inpath=ipth,
            set_verbosity=cmor.CMOR_NORMAL,
            netcdf_file_action=cmor.CMOR_REPLACE)
 
-cmor.dataset_json("Test/common_user_input.json")
+cmor.dataset_json("Test/CMOR_input_example.json")
 
 cmor.load_table("Tables/CMIP6_Amon.json")
 

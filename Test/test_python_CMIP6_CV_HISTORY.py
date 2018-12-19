@@ -37,7 +37,7 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
         # Try to call cmor with a bad institution_ID
         # -------------------------------------------
         cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.tmpfile)
-        cmor.dataset_json("Test/common_user_input.json")
+        cmor.dataset_json("Test/CMOR_input_example.json")
         cmor.load_table("CMIP6_Omon.json")
 
         cmor.set_cur_dataset_attribute("history", "set for CMIP6 unittest")

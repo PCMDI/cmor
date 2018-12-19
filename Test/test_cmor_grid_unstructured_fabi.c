@@ -67,11 +67,11 @@ int main()
             /* vertices lon */
             for (vert = 0; vert < nvert; vert++)
               {
-                lon_vertices[j * ind + nvert] =
-                  lon_coords[j * ind];
+                lon_vertices[j * nvert + vert] =
+                    lon_coords[j];
                 /* vertices lat */
-                lat_vertices[j * ind + nvert] =
-                  lat_coords[j * ind];
+                lat_vertices[j * nvert + vert] =
+                    lat_coords[j];
               }
         }
 
@@ -81,7 +81,7 @@ int main()
     ierr = cmor_setup(NULL, &j, NULL, &exit_mode, NULL, NULL);
     printf("Test code: ok init cmor\n");
     int tmpmo[12];
-    ierr = cmor_dataset_json("Test/common_user_input.json");
+    ierr = cmor_dataset_json("Test/CMOR_input_example.json");
     printf("Test code: ok load cmor table(s)\n");
     ierr = cmor_load_table("Tables/CMIP6_Amon.json", &tables[1]);
     printf("Test code: ok load cmor table(s)\n");
