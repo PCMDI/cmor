@@ -15,7 +15,7 @@ class TestLoadTables(unittest.TestCase):
             if "formula_terms" in table:
                 continue
             cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
-            cmor.dataset_json("Test/common_user_input.json")
+            cmor.dataset_json("Test/CMOR_input_example.json")
             print("Loading table:", table)
             ierr = cmor.load_table(table)
             self.assertEqual(ierr, 0)
