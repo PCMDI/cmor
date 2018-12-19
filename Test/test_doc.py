@@ -1,7 +1,9 @@
 import cmor
 
 cmor.setup(
-	inpath='./cmip6-cmor-tables/Tables',  # this has to point to the CMIP6 CMOR tables path
+	# inpath has to point to the CMOR 
+	# tables path (CMIP6, input4MIPs or otherwise)
+	inpath='Tables',  
 	netcdf_file_action=cmor.CMOR_REPLACE_4
 )
 
