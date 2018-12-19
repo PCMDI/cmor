@@ -15,7 +15,7 @@ def save(opts, threeD=True):
                exit_control=cmor.CMOR_NORMAL,
                logfile=None, create_subdirectories=1)
 
-    cmor.dataset_json("Test/common_user_input.json")
+    cmor.dataset_json("Test/CMOR_input_example.json")
 
     # Load the CMIP tables into memory.
     tables = []
