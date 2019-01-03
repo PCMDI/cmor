@@ -1,12 +1,12 @@
 {
     "Header": {
         "product": "output", 
-        "cmor_version": "3.3", 
+        "cmor_version": "3.4", 
         "Conventions": "CF-1.7 CMIP-6.2", 
         "table_id": "Table grids", 
-        "data_specs_version": "01.00.28", 
+        "data_specs_version": "01.00.29", 
         "missing_value": "1e20", 
-        "table_date": "06 November 2018"
+        "table_date": "14 December 2018"
     }, 
     "mapping_entry": {
         "sample_user_mapping": {
@@ -21,7 +21,7 @@
             "standard_name": "grid_latitude", 
             "out_name": "rlat", 
             "units": "degrees", 
-            "type": "", 
+            "type": "double", 
             "axis": "Y"
         }, 
         "y_deg": {
@@ -29,7 +29,7 @@
             "standard_name": "projection_y_coordinate", 
             "out_name": "y", 
             "units": "degrees", 
-            "type": "", 
+            "type": "double", 
             "axis": "Y"
         }, 
         "l_index": {
@@ -45,7 +45,7 @@
             "standard_name": "grid_longitude", 
             "out_name": "rlon", 
             "units": "degrees", 
-            "type": "", 
+            "type": "double", 
             "axis": "X"
         }, 
         "k_index": {
@@ -69,7 +69,7 @@
             "standard_name": "projection_x_coordinate", 
             "out_name": "x", 
             "units": "degrees", 
-            "type": "", 
+            "type": "double", 
             "axis": "X"
         }, 
         "i_index": {
@@ -93,7 +93,7 @@
             "standard_name": "projection_y_coordinate", 
             "out_name": "", 
             "units": "m", 
-            "type": "", 
+            "type": "double", 
             "axis": "Y"
         }, 
         "x": {
@@ -101,7 +101,7 @@
             "standard_name": "projection_x_coordinate", 
             "out_name": "", 
             "units": "m", 
-            "type": "", 
+            "type": "double", 
             "axis": "X"
         }, 
         "m_index": {
