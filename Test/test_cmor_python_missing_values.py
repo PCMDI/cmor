@@ -31,7 +31,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
         # -------------------------------------------
         try:
             cmor.setup(inpath=self.tabledir, netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.logfile)
-            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
+            cmor.dataset_json(os.path.join(self.testdir, "CMOR_input_example.json"))
             # ------------------------------------------
             # load Omon table and create masso variable
             # ------------------------------------------
@@ -60,7 +60,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
             raise
 
         version =time.strftime("%Y%m%d")
-        f=cdms2.open("CMIP6/CMIP6/ISMIP6/PCMDI/PCMDI-test-1-0/piControl-withism/r11i1p1f1/Omon/massoint/gr/v"+version+"/massoint_Omon_PCMDI-test-1-0_piControl-withism_r11i1p1f1_gr_201001-201005.nc")
+        f=cdms2.open("CMIP6/CMIP6/ISMIP6/PCMDI/PCMDI-test-1-0/piControl-withism/r3i1p1f1/Omon/massoint/gn/v"+version+"/massoint_Omon_PCMDI-test-1-0_piControl-withism_r3i1p1f1_gn_201001-201005.nc")
         var=f['massoint']
         self.assertEqual(var.missing_value[0], -999)
 
@@ -70,7 +70,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
         # -------------------------------------------
         try:
             cmor.setup(inpath=self.tabledir, netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.logfile)
-            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
+            cmor.dataset_json(os.path.join(self.testdir, "CMOR_input_example.json"))
             # ------------------------------------------
             # load Omon table and create masso variable
             # ------------------------------------------
@@ -99,7 +99,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
             raise
 
         version =time.strftime("%Y%m%d")
-        f=cdms2.open("CMIP6/CMIP6/ISMIP6/PCMDI/PCMDI-test-1-0/piControl-withism/r11i1p1f1/Omon/massoint/gr/v"+version+"/massoint_Omon_PCMDI-test-1-0_piControl-withism_r11i1p1f1_gr_201001-201005.nc")
+        f=cdms2.open("CMIP6/CMIP6/ISMIP6/PCMDI/PCMDI-test-1-0/piControl-withism/r3i1p1f1/Omon/massoint/gn/v"+version+"/massoint_Omon_PCMDI-test-1-0_piControl-withism_r3i1p1f1_gn_201001-201005.nc")
         var=f['massoint']
         self.assertEqual(var.missing_value[0], -999)
         self.assertTrue(var[0].mask)

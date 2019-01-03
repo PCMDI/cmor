@@ -44,7 +44,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
                     set_verbosity=cmor.CMOR_NORMAL, create_subdirectories=0, logfile=self.logfile)
 
             # Create CMOR dataset
-            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
+            cmor.dataset_json(os.path.join(self.testdir, "CMOR_input_example.json"))
 
             # Set dummy site lats and longs.
             site_lats = numpy.array([-90.0, 0.0, 90.0], dtype=numpy.float32)

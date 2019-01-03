@@ -28,7 +28,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
                 netcdf_file_action=cmor.CMOR_REPLACE_4,
                 exit_control=cmor.CMOR_EXIT_ON_MAJOR,
                 logfile=self.logfile)
-            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
+            cmor.dataset_json(os.path.join(self.testdir, "CMOR_input_example.json"))
 
             cdms2.setNetcdfShuffleFlag(0)
             cdms2.setNetcdfDeflateFlag(0)
@@ -52,7 +52,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
                 netcdf_file_action=cmor.CMOR_REPLACE_4,
                 exit_control=cmor.CMOR_EXIT_ON_MAJOR, 
                 logfile=self.logfile)
-            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
+            cmor.dataset_json(os.path.join(self.testdir, "CMOR_input_example.json"))
 
             tables = []
             tables.append(cmor.load_table("mytable"))
@@ -126,7 +126,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
             ltime = cdtime.reltime(ntimes - 1, 'month since 1980').tocomp()
             #lcmor = os.stat("CMIP6/CMIP/CSIRO-BOM/NICAM/piControl/r1i1p1f1/Amon/tas/gn/v%s/tas_Amon_piControl_NICAM_r1i1p1f1_gn_197901-197912.nc"%(today))[6]
             lcmor = os.stat(
-                "CMIP6/CMIP6/ISMIP6/PCMDI/PCMDI-test-1-0/piControl-withism/r11i1p1f1/Amon/tas/gr/v%s/tas_Amon_PCMDI-test-1-0_piControl-withism_r11i1p1f1_gr_197901-197912.nc" % (today))[6]
+                "CMIP6/CMIP6/ISMIP6/PCMDI/PCMDI-test-1-0/piControl-withism/r3i1p1f1/Amon/tas/gn/v%s/tas_Amon_PCMDI-test-1-0_piControl-withism_r3i1p1f1_gn_197901-197912.nc" % (today))[6]
             print 'level:', level, "shuffle:", shuffle
             print 'total cmor:', totcmor, mincmor, totcmor / ntimes, maxcmor, lcmor
             lcdms = os.stat(os.path.join(self.testdir, "crap.nc"))[6]

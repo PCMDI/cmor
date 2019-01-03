@@ -15,7 +15,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
                 netcdf_file_action=cmor.CMOR_REPLACE,
                 exit_control=cmor.CMOR_EXIT_ON_MAJOR, 
                 logfile=self.logfile)
-            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
+            cmor.dataset_json(os.path.join(self.testdir, "CMOR_input_example.json"))
 
             myaxes = numpy.zeros(9, dtype='i')
             myaxes2 = numpy.zeros(9, dtype='i')

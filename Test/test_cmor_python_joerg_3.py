@@ -111,7 +111,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
                     netcdf_file_action=mode, 
                     logfile=self.logfile)
 
-                error_flag = cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
+                error_flag = cmor.dataset_json(os.path.join(self.testdir, "CMOR_input_example.json"))
                 ivar1, ips1 = self.prep_var("ta", "K", nlat, nlon)
                 ivar2, ips2 = self.prep_var("hus", "%", nlat, nlon)
                 for i in range(4):

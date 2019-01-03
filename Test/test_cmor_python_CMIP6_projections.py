@@ -32,7 +32,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
 
             # Create the output CMOR dataset using the output configuration.
             #
-            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
+            cmor.dataset_json(os.path.join(self.testdir, "CMOR_input_example.json"))
 
             # Create x and y coordinates and bounds.
             #

@@ -54,7 +54,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
                 netcdf_file_action=cmor.CMOR_REPLACE, 
                 logfile=self.logfile)
 
-            error_flag = cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
+            error_flag = cmor.dataset_json(os.path.join(self.testdir, "CMOR_input_example.json"))
             for d in range(2):
                 mode = cmor.CMOR_APPEND
                 if d == 0:

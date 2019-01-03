@@ -22,7 +22,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
                    netcdf_file_action=cmor.CMOR_REPLACE_4,
                    logfile=self.logfile)
 
-        cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
+        cmor.dataset_json(os.path.join(self.testdir, "CMOR_input_example.json"))
 
         self.path = None
 
@@ -56,7 +56,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
 
             self.assertEqual(os.path.basename(self.path),
                             'hfds_Odec_PCMDI-test-1-0_piControl-withism_'
-                            'r11i1p1f1_gr_2005-2015.nc')
+                            'r3i1p1f1_gn_2005-2015.nc')
             cmor.close()
             self.processLog()
         except BaseException:
@@ -91,7 +91,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
 
             self.assertEqual(os.path.basename(self.path),
                             'baresoilFrac_Eyr_PCMDI-test-1-0_piControl-withism_'
-                            'r11i1p1f1_gr_2000-2001.nc')
+                            'r3i1p1f1_gn_2000-2001.nc')
             cmor.close()
             self.processLog()
         except BaseException:
@@ -126,7 +126,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
 
             self.assertEqual(os.path.basename(self.path),
                             'ts_Amon_PCMDI-test-1-0_piControl-withism_'
-                            'r11i1p1f1_gr_200001-200002.nc')
+                            'r3i1p1f1_gn_200001-200002.nc')
             cmor.close()
             self.processLog()
         except BaseException:
@@ -161,7 +161,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
 
             self.assertEqual(os.path.basename(self.path),
                             'difmxybo_Oclim_PCMDI-test-1-0_piControl-withism_'
-                            'r11i1p1f1_gr_200001-200002-clim.nc')
+                            'r3i1p1f1_gn_200001-200002-clim.nc')
             cmor.close()
             self.processLog()
         except BaseException:
@@ -196,7 +196,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
 
             self.assertEqual(os.path.basename(self.path),
                             'ts_Eday_PCMDI-test-1-0_piControl-withism_'
-                            'r11i1p1f1_gr_20000101-20000102.nc')
+                            'r3i1p1f1_gn_20000101-20000102.nc')
             cmor.close()
             self.processLog()
         except BaseException:
@@ -231,7 +231,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
 
             self.assertEqual(os.path.basename(self.path),
                             'ps_6hrLev_PCMDI-test-1-0_piControl-withism_'
-                            'r11i1p1f1_gr_200001010300-200001010900.nc')
+                            'r3i1p1f1_gn_200001010300-200001010900.nc')
             cmor.close()
             self.processLog()
         except BaseException:
@@ -266,7 +266,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
 
             self.assertEqual(os.path.basename(self.path),
                             'ps_3hr_PCMDI-test-1-0_piControl-withism_'
-                            'r11i1p1f1_gr_200001010130-200001010430.nc')
+                            'r3i1p1f1_gn_200001010130-200001010430.nc')
             cmor.close()
             self.processLog()
         except BaseException:
@@ -279,8 +279,8 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
             axes = [
                 {'table_entry': 'time1',
                 'units': 'minutes since 2000-01-01 00:00:00',
-                'coord_vals': np.array([12.5, 37.5]),
-                'cell_bounds': [[0, 25], [25, 50]]},
+                'coord_vals': np.array([30, 90]),
+                'cell_bounds': [[0, 60], [60, 120]]},
                 {'table_entry': 'latitude',
                 'units': 'degrees_north',
                 'coord_vals': [0],
@@ -301,7 +301,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
 
             self.assertEqual(os.path.basename(self.path),
                             'psl_E1hr_PCMDI-test-1-0_piControl-withism_'
-                            'r11i1p1f1_gr_200001010013-200001010038.nc')
+                            'r3i1p1f1_gn_200001010030-200001010130.nc')
             cmor.close()
             self.processLog()
         except BaseException:
@@ -336,7 +336,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
 
             self.assertEqual(os.path.basename(self.path),
                             'rlut_E1hrClimMon_PCMDI-test-1-0_piControl-withism_'
-                            'r11i1p1f1_gr_200001010000-200001010050-clim.nc')
+                            'r3i1p1f1_gn_200001010000-200001010050-clim.nc')
             cmor.close()
             self.processLog()
         except BaseException:
@@ -371,7 +371,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
 
             self.assertEqual(os.path.basename(self.path),
                             'pr_Esubhr_PCMDI-test-1-0_piControl-withism_'
-                            'r11i1p1f1_gr_20000101001230-20000101003730.nc')
+                            'r3i1p1f1_gn_20000101001230-20000101003730.nc')
             cmor.close()
             self.processLog()
         except BaseException:
@@ -407,7 +407,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
 
             self.assertEqual(os.path.basename(self.path),
                             'ts_Eday_PCMDI-test-1-0_piControl-withism_'
-                            'r11i1p1f1_gr_19600102-19600103.nc')
+                            'r3i1p1f1_gn_19600102-19600103.nc')
             cmor.close()
             self.processLog()
         except BaseException:
@@ -442,7 +442,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
 
             self.assertEqual(os.path.basename(self.path),
                             'ps_6hrLev_PCMDI-test-1-0_piControl-withism_'
-                            'r11i1p1f1_gr_200001020000-200001020600.nc')
+                            'r3i1p1f1_gn_200001020000-200001020600.nc')
             cmor.close()
             self.processLog()
         except BaseException:
@@ -476,7 +476,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
 
             self.assertEqual(os.path.basename(self.path),
                             'psl_E1hr_PCMDI-test-1-0_piControl-withism_'
-                            'r11i1p1f1_gr_200001010013-200001010037.nc')
+                            'r3i1p1f1_gn_200001010013-200001010037.nc')
             cmor.close()
             self.processLog()
         except BaseException:
@@ -510,7 +510,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
 
             self.assertEqual(os.path.basename(self.path),
                             'pr_Esubhr_PCMDI-test-1-0_piControl-withism_'
-                            'r11i1p1f1_gr_20000101001230-20000101003731.nc')
+                            'r3i1p1f1_gn_20000101001230-20000101003731.nc')
             cmor.close()
             self.processLog()
         except BaseException:
@@ -545,7 +545,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
 
             self.assertEqual(os.path.basename(self.path),
                             'difmxybo_Oclim_PCMDI-test-1-0_piControl-withism_'
-                            'r11i1p1f1_gr_200001-200002-clim.nc')
+                            'r3i1p1f1_gn_200001-200002-clim.nc')
             cmor.close()
             self.processLog()
         except BaseException:
@@ -585,7 +585,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
 
             self.assertEqual(os.path.basename(self.path),
                             'difmxybo_Oclim_PCMDI-test-1-0_piControl-withism_'
-                            'r11i1p1f1_gr_200001-200002-clim.nc')
+                            'r3i1p1f1_gn_200001-200002-clim.nc')
             cmor.close()
             self.processLog()
         except BaseException:
@@ -616,7 +616,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
 
             self.assertEqual(os.path.basename(self.path),
                             'orog_fx_PCMDI-test-1-0_piControl-withism_'
-                            'r11i1p1f1_gr.nc')
+                            'r3i1p1f1_gn.nc')
             cmor.close()
             self.processLog()
         except BaseException:

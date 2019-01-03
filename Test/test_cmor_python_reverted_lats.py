@@ -24,7 +24,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
             blons = numpy.arange(0, 360. + dlon, dlon)
 
             cmor.setup(inpath=self.curdir, netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.logfile)
-            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
+            cmor.dataset_json(os.path.join(self.testdir, "CMOR_input_example.json"))
             table = os.path.join(self.tabledir,  'CMIP6_Amon.json')
             cmor.load_table(table)
 

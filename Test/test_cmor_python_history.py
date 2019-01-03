@@ -31,7 +31,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
         # -------------------------------------------
         try:
             cmor.setup(inpath=self.tabledir, netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.logfile)
-            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
+            cmor.dataset_json(os.path.join(self.testdir, "CMOR_input_example.json"))
             # ------------------------------------------
             # load Omon table and create masso variable
             # ------------------------------------------
@@ -62,7 +62,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
             raise
 
         version =time.strftime("%Y%m%d")
-        f=cdms2.open("CMIP6/CMIP6/ISMIP6/PCMDI/PCMDI-test-1-0/piControl-withism/r11i1p1f1/Omon/masso/gr/v"+version+"/masso_Omon_PCMDI-test-1-0_piControl-withism_r11i1p1f1_gr_201001-201005.nc")
+        f=cdms2.open("CMIP6/CMIP6/ISMIP6/PCMDI/PCMDI-test-1-0/piControl-withism/r3i1p1f1/Omon/masso/gn/v"+version+"/masso_Omon_PCMDI-test-1-0_piControl-withism_r3i1p1f1_gn_201001-201005.nc")
         history=f.history
         self.assertIn("CMOR mip_era is: CMIP6",history)
         self.assertIn("myMIP",history)

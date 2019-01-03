@@ -12,7 +12,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
             cmor.setup(inpath=self.tabledir,
                     netcdf_file_action=cmor.CMOR_REPLACE_3,
                     create_subdirectories=0, logfile=self.logfile)
-            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
+            cmor.dataset_json(os.path.join(self.testdir, "CMOR_input_example.json"))
 
             axes = [{'table_entry': 'time1',
                     'units': 'days since 2000-01-01 00:00:00',

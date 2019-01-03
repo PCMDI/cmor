@@ -20,7 +20,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
                     exit_control=cmor.CMOR_NORMAL,
                     logfile=self.logfile, create_subdirectories=1)
 
-            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
+            cmor.dataset_json(os.path.join(self.testdir, "CMOR_input_example.json"))
 
             # Load the CMIP tables into memory.
             tables = []

@@ -13,7 +13,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
                     netcdf_file_action=cmor.CMOR_REPLACE,
                     logfile=self.logfile)
 
-            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
+            cmor.dataset_json(os.path.join(self.testdir, "CMOR_input_example.json"))
             cmor.load_table(os.path.join(self.tabledir, 'CMIP6_6hrLev.json'))
             itim, ilat, ilon = common.read_cmor_time_lat_lon()
 

@@ -29,7 +29,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
             print len(alllevs)
 
             cmor.setup(inpath=self.tabledir, netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.logfile)
-            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
+            cmor.dataset_json(os.path.join(self.testdir, "CMOR_input_example.json"))
             table = 'CMIP6_Amon.json'
             cmor.load_table(table)
 

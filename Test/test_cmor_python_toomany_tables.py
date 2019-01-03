@@ -42,7 +42,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
         # -------------------------------------------
         try:
             cmor.setup(inpath=self.tabledir, netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.logfile)
-            cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
+            cmor.dataset_json(os.path.join(self.testdir, "CMOR_input_example.json"))
             cmor.set_cur_dataset_attribute("experiment_id", "ssp434")
             cmor.set_cur_dataset_attribute(
                 "parent_experiment_id", "historical")

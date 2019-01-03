@@ -58,7 +58,7 @@ class TestCase(base_test_cmor_python.BaseCmorTest):
                         netcdf_file_action=cmor.CMOR_REPLACE,
                         logfile=self.logfile)
             print("ERR:", ierr)
-            ierr = cmor.dataset_json(os.path.join(self.testdir, "common_user_input.json"))
+            ierr = cmor.dataset_json(os.path.join(self.testdir, "CMOR_input_example.json"))
             print("ERR:", ierr)
 
             ierr = cmor.load_table(os.path.join(self.tabledir, 'CMIP6_Amon.json'))
