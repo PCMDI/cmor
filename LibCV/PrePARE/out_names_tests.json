@@ -128,12 +128,6 @@
   "Emon_snowmxrat": {
     "has_27_pressure_levels": "snowmxrat27"
   },
-  "Emon_sw17O": {
-    "has_variable_name": "sw18O"
-  },
-  "Emon_sw18O": {
-    "has_variable_name": "O18wv"
-  },
   "Emon_ta": {
     "has_27_pressure_levels": "ta27"
   },
@@ -184,9 +178,6 @@
   },
   "Oclim_tnkebto": {
     "has_3_dimensions": "tnkebto2d"
-  },
-  "Ofx_ugrido": {
-    "has_variable_name": "ugrid"
   },
   "Omon_ficeberg": {
     "has_3_dimensions": "ficeberg2d"
