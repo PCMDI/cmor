@@ -60,7 +60,7 @@ class TestCase(unittest.TestCase):
 
         # Create the output CMOR dataset using the output configuration.
         #
-        cmor.dataset_json("Test/common_user_input.json")
+        cmor.dataset_json("Test/CMOR_input_example.json")
 
         # Load the grid table.
         #

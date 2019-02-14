@@ -54,7 +54,7 @@ program t_cmor_fx_basin
     stop
   endif
 
-  error_flag = cmor_dataset_json("Test/common_user_input.json")
+  error_flag = cmor_dataset_json("Test/CMOR_input_example.json")
 
   if (error_flag.ne.0) then
     write(6,*)"Error in cmor_dataset: ",error_flag

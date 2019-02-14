@@ -694,7 +694,7 @@ print*, '******************************'
 
 END PROGRAM CMIP6_sample_CMOR_driver
 
-! Need to CHECK “common_user_input.json” file:
+! Need to CHECK “CMOR_input_example.json” file:
 
 ! 4) parent_mip_era = “CMIP6” or “no parent”?  not “N/A”  why PrePARE missed this?
 ! 5) parent_experiment wrong  Why not caught by PrePARE?  not even in the CV

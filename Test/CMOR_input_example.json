@@ -1,9 +1,10 @@
 {
-    "source_type":            "AOGCM AER BGC",
+    "#note":           "explanation of what source_type is goes here",
+    "source_type":            "AOGCM ISM AER",
  
     "#note":                  "CMIP6 valid experiment_ids are found in CMIP6_CV.json",
-    "experiment_id":          "ssp245",
-    "activity_id":            "ScenarioMIP",
+    "experiment_id":          "piControl-withism",
+    "activity_id":            "ISMIP6",
     "sub_experiment_id":      "none",
  
     "realization_index":      "3",
@@ -67,7 +68,7 @@
     "tracking_prefix":        "hdl:21.14100",
     "_history_template":       "%s ;rewrote data to be consistent with <activity_id> for variable <variable_id> found in table <table_id>.",
  
-    "#output_path_template":   "Template for output path directory using tables keys or global attributes",
+    "#output_path_template":   "Template for output path directory using tables keys or global attributes, these should follow the relevant data reference syntax",
     "output_path_template":    "<mip_era><activity_id><institution_id><source_id><experiment_id><_member_id><table><variable_id><grid_label><version>",
     "output_file_template":    "<variable_id><table><source_id><experiment_id><_member_id><grid_label>",
  }

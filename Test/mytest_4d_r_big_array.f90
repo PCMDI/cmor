@@ -67,7 +67,7 @@ program main
        exit_control=1)
     
   print*,'Test Code: CMOR DATASET'
-  ierr = cmor_dataset_json("Test/common_user_input.json")
+  ierr = cmor_dataset_json("Test/CMOR_input_example.json")
   current=>mydims
   do i = 0,ndim-1
      print*,'Test Code: CMOR AXIS',i,'AAAAAAA*************************************************************************'
