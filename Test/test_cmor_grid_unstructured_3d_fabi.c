@@ -90,7 +90,7 @@ int main()
     ierr = cmor_setup(NULL, &j, NULL, &exit_mode, NULL, NULL);
     printf("Test code: ok init cmor\n");
     int tmpmo[12];
-    ierr = cmor_dataset_json("Test/common_user_input.json");
+    ierr = cmor_dataset_json("Test/CMOR_input_example.json");
     printf("Test code: ok load cmor table(s)\n");
     ierr = cmor_load_table("Tables/CMIP6_Amon.json", &tables[1]);
     printf("Test code: ok load cmor table(s)\n");
