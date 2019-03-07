@@ -15,8 +15,8 @@ ilat = cmor.axis(
     length=lat,
     coord_vals=alats,
     cell_bounds=bnds_lat)
-print("ILAT:", ilat)
-print(lon, alons, bnds_lon)
+print(("ILAT:", ilat))
+print((lon, alons, bnds_lon))
 ilon = cmor.axis(
     table_entry='longitude',
     coord_vals=alons,
@@ -43,8 +43,8 @@ for index in range(ntimes):
     tim_array, bnds_tim = read_time(index)
     for i, varname in enumerate(["TSURF", ]):
         data = read_2d_input_files(index, varname, (lat, lon))
-        print data.shape, data
-        print tim_array, bnds_tim
+        print(data.shape, data)
+        print(tim_array, bnds_tim)
         cmor.write(var_id=var2d_ids[i], data=data, ntimes_passed=1,
                    time_vals=tim_array, time_bnds=bnds_tim)
         print("Passed write")

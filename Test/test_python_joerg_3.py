@@ -115,17 +115,17 @@ for d in range(2):
     for i in range(4):
         tval = [i / 4. + d]
         tbnd = [i / 4. + d - 0.125, i / 4. + d + 0.125]
-        print 'tvar', tval
-        print 'tbnd', tbnd
-        print 'writing time:', i, i / 4.
+        print('tvar', tval)
+        print('tbnd', tbnd)
+        print('writing time:', i, i / 4.)
         data = numpy.random.random((ntimes, nlev, nlat, nlon)) * 30. + 273
         data = data.astype("f")
         cmor.write(ivar1, data, time_vals=tval, time_bnds=tbnd)
-        print 'wrote var 1 time:', i
+        print('wrote var 1 time:', i)
         data = numpy.random.random((ntimes, nlev, nlat, nlon))
         data = data.astype("f")
         cmor.write(ivar2, data, time_vals=tval, time_bnds=tbnd)
-        print 'wrote var 2 time:', i
+        print('wrote var 2 time:', i)
         data = numpy.random.random((ntimes, nlat, nlon)) * 8. + 96300.
         data = data.astype("f")
         cmor.write(
@@ -135,7 +135,7 @@ for d in range(2):
             ntimes_passed=1,
             time_vals=tval,
             time_bnds=tbnd)
-        print 'wrote ps in var 1 time:', i
+        print('wrote ps in var 1 time:', i)
         cmor.write(
             ips2,
             data,
@@ -143,11 +143,11 @@ for d in range(2):
             ntimes_passed=1,
             time_vals=tval,
             time_bnds=tbnd)
-        print 'wrote ps in var 2 time:', i
+        print('wrote ps in var 2 time:', i)
     file1 = cmor.close(ivar1, True)
     file2 = cmor.close(ivar2, True)
-    print 'File1:', file1
-    print 'File2:', file2
+    print('File1:', file1)
+    print('File2:', file2)
     cmor.close()
-print cmor.close(ivar1, True)
+print(cmor.close(ivar1, True))
 cmor.close()

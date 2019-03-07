@@ -19,7 +19,7 @@ blons = numpy.arange(0, 360. + dlon, dlon)
 levs = numpy.array([1000., 925, 900, 850, 800, 700, 600, 500, 400, 300,
                     250, 200, 150, 100, 75, 70, 50, 30, 20, 10, 7.5, 5, 2.5, 1, .5, .1])
 alllevs = numpy.arange(1000, 0, -dlev).tolist()
-print len(alllevs)
+print(len(alllevs))
 
 cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
 cmor.dataset_json("Test/CMOR_input_example.json")
@@ -45,20 +45,20 @@ axes = [itim, ilev, ilat, ilon]
 
 var = cmor.variable(table_entry='ta', units='K', axis_ids=axes)
 
-print "allocating mem for data"
+print("allocating mem for data")
 data = numpy.random.random((nlev, nlat, nlon)) * 30 + 273.15
-print "moving on to writing"
+print("moving on to writing")
 
 for i in range(ntimes):
-    print 'Writing time:', i
+    print('Writing time:', i)
     cmor.write(var, data, time_vals=numpy.array(
         [float(i), ]), time_bnds=numpy.array([i, i + 1.]))
 
-print "closing var"
-print cmor.close(var_id=var, file_name=True)
-print "closing cmor"
+print("closing var")
+print(cmor.close(var_id=var, file_name=True))
+print("closing cmor")
 cmor.close()
-print "done"
+print("done")
 
 
-print 'hello'
+print('hello')

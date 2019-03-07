@@ -37,23 +37,23 @@ def main():
         axis_id = cmor.axis(**axis)
         axis_ids.append(axis_id)
 
-    print 'cmor.axis calls complete'
+    print('cmor.axis calls complete')
 
     cmor.zfactor(axis_ids[3], 'b', '', axis_ids[3:4],
                  'd', [0., 0.5], [[0., 0.25], [0.25, 1.]])
     cmor.zfactor(axis_ids[3], 'orog', 'm', axis_ids[1:3], 'd', [[0.]])
-    print 'cmor.zfactor calls complete'
+    print('cmor.zfactor calls complete')
     varid = cmor.variable('ua',
                           'm s-1',
                           axis_ids,
                           missing_value=-99
                           )
 
-    print 'cmor.variable call complete'
+    print('cmor.variable call complete')
 
     cmor.write(varid, values, time_vals=[6.0], time_bnds=[3., 12.])
 
-    print 'cmor.write call complete'
+    print('cmor.write call complete')
 
     cmor.close()
 

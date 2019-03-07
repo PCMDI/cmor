@@ -31,7 +31,7 @@ def path_test():
     cmor.write(varid, [273])
     path = cmor.close(varid, file_name=True)
 
-    print "Saved file: ", path
+    print("Saved file: ", path)
 
 
 if __name__ == '__main__':

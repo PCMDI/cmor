@@ -26,15 +26,15 @@ def multi_call_test():
         axis_ids.append(axis_id)
     varid = cmor.variable('ts', 'K', axis_ids)
     cmor.write(varid, [275], time_vals=[15], time_bnds=[[0, 30]])
-    print 'First write worked as expected'
+    print('First write worked as expected')
     try:
         cmor.write(varid, [275], time_vals=[15], time_bnds=[[0], [30]])
         raise Exception("We shouldn't be getting in here")
     except BaseException:
-        print 'Second write that should have failed did fail, good!'
+        print('Second write that should have failed did fail, good!')
         pass
     cmor.close(varid)
-    print 'Success'
+    print('Success')
 
 
 if __name__ == '__main__':

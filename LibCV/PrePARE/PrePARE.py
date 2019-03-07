@@ -403,11 +403,11 @@ class checkCMIP6(object):
         #  -------------------------------------------------------------------
         # Variable record name should follow CMOR table out names
         if variable_cmor_entry not in cmor_table['variable_entry'].keys():
-            print BCOLORS.FAIL
-            print "====================================================================================="
-            print "The entry " + variable_cmor_entry + " could not be found in CMOR table"
-            print "====================================================================================="
-            print BCOLORS.ENDC
+            print(BCOLORS.FAIL)
+            print("=====================================================================================")
+            print("The entry " + variable_cmor_entry + " could not be found in CMOR table")
+            print("=====================================================================================")
+            print(BCOLORS.ENDC)
             raise KeyboardInterrupt
         variable_record_name = cmor_table['variable_entry'][variable_cmor_entry]['out_name']
         # Variable id attribute should be the same as variable record name
@@ -434,11 +434,11 @@ class checkCMIP6(object):
         try:
             self.dictVar = infile.variables[variable_record_name].__dict__
         except BaseException:
-            print BCOLORS.FAIL
-            print "====================================================================================="
-            print "The variable " + variable_record_name + " could not be found in file"
-            print "====================================================================================="
-            print BCOLORS.ENDC
+            print(BCOLORS.FAIL)
+            print("=====================================================================================")
+            print("The variable " + variable_record_name + " could not be found in file")
+            print("=====================================================================================")
+            print(BCOLORS.ENDC)
             raise KeyboardInterrupt
 
         # -------------------------------------------------------------------
@@ -456,36 +456,36 @@ class checkCMIP6(object):
             if attr in self.dictGbl.keys():
                 self.set_double_value(attr)
                 if not isinstance(self.dictGbl[attr], numpy.float64):
-                    print BCOLORS.FAIL
-                    print "====================================================================================="
-                    print "{} is not a double: ".format(attr), type(self.dictGbl[attr])
-                    print "====================================================================================="
-                    print BCOLORS.ENDC
+                    print(BCOLORS.FAIL)
+                    print("=====================================================================================")
+                    print("{} is not a double: ".format(attr), type(self.dictGbl[attr]))
+                    print("=====================================================================================")
+                    print(BCOLORS.ENDC)
                     self.errors += 1
         for attr in ['realization_index', 'initialization_index', 'physics_index', 'forcing_index']:
             if not isinstance(self.dictGbl[attr], numpy.ndarray):
-                print BCOLORS.FAIL
-                print "====================================================================================="
-                print "{} is not an integer: ".format(attr), type(self.dictGbl[attr])
-                print "====================================================================================="
-                print BCOLORS.ENDC
+                print(BCOLORS.FAIL)
+                print("=====================================================================================")
+                print("{} is not an integer: ".format(attr), type(self.dictGbl[attr]))
+                print("=====================================================================================")
+                print(BCOLORS.ENDC)
                 self.errors += 1
         self.errors += cmip6_cv.check_parentExpID(table)
         for attr in ['table_id', 'variable_id']:
             try:
                 if locals()[attr] != self.dictGbl[attr]:
-                    print BCOLORS.FAIL
-                    print "====================================================================================="
-                    print "{} attribute is not consistent: ".format(attr), self.dictGbl[attr]
-                    print "====================================================================================="
-                    print BCOLORS.ENDC
+                    print(BCOLORS.FAIL)
+                    print("=====================================================================================")
+                    print("{} attribute is not consistent: ".format(attr), self.dictGbl[attr])
+                    print("=====================================================================================")
+                    print(BCOLORS.ENDC)
                     self.errors += 1
             except KeyError:
-                print BCOLORS.FAIL
-                print "====================================================================================="
-                print "{} attribute is missing in global attributes".format(attr)
-                print "====================================================================================="
-                print BCOLORS.ENDC
+                print(BCOLORS.FAIL)
+                print("=====================================================================================")
+                print("{} attribute is missing in global attributes".format(attr))
+                print("=====================================================================================")
+                print(BCOLORS.ENDC)
                 self.errors += 1
         # -------------------------------------------------------------------
         # Get time axis properties
@@ -539,11 +539,11 @@ class checkCMIP6(object):
                                         startimebnds,
                                         endtimebnds)
         if varid == -1:
-            print BCOLORS.FAIL
-            print "====================================================================================="
-            print "Could not find variable {} in table {} ".format(variable_cmor_entry, cmip6_table)
-            print "====================================================================================="
-            print BCOLORS.ENDC
+            print(BCOLORS.FAIL)
+            print("=====================================================================================")
+            print("Could not find variable {} in table {} ".format(variable_cmor_entry, cmip6_table))
+            print("=====================================================================================")
+            print(BCOLORS.ENDC)
             raise KeyboardInterrupt
         # -------------------------------------------------------------------
         # Check filename
@@ -602,22 +602,22 @@ class checkCMIP6(object):
                             tmp[param] = [str('{}: {}'.format(param, val1)), str('{}: {}'.format(param, val2))]
                         table_values.extend([' '.join(i) for i in list(itertools.product(*tmp.values()))])
                         if str(file_value) not in map(str, table_values):
-                            print BCOLORS.FAIL
-                            print "====================================================================================="
-                            print "Your file contains \"" + key + "\":\"" + str(file_value) + "\" and"
-                            print "CMIP6 tables requires \"" + key + "\":\"" + str(table_value) + "\"."
-                            print "====================================================================================="
-                            print BCOLORS.ENDC
+                            print(BCOLORS.FAIL)
+                            print("=====================================================================================")
+                            print("Your file contains \"" + key + "\":\"" + str(file_value) + "\" and")
+                            print("CMIP6 tables requires \"" + key + "\":\"" + str(table_value) + "\".")
+                            print("=====================================================================================")
+                            print(BCOLORS.ENDC)
                             self.errors += 1
                         continue
 
                 if str(table_value) != str(file_value):
-                    print BCOLORS.FAIL
-                    print "====================================================================================="
-                    print "Your file contains \"" + key + "\":\"" + str(file_value) + "\" and"
-                    print "CMIP6 tables requires \"" + key + "\":\"" + str(table_value) + "\"."
-                    print "====================================================================================="
-                    print BCOLORS.ENDC
+                    print(BCOLORS.FAIL)
+                    print("=====================================================================================")
+                    print("Your file contains \"" + key + "\":\"" + str(file_value) + "\" and")
+                    print("CMIP6 tables requires \"" + key + "\":\"" + str(table_value) + "\".")
+                    print("=====================================================================================")
+                    print(BCOLORS.ENDC)
                     self.errors += 1
             else:
                 # That attribute is not in the file
@@ -626,18 +626,18 @@ class checkCMIP6(object):
                     table_value = table_value[0]
                 if isinstance(table_value, float):
                     table_value = "{0:.2g}".format(table_value)
-                print BCOLORS.FAIL
-                print "====================================================================================="
-                print "CMIP6 variable " + variable + " requires \"" + key + "\":\"" + str(table_value) + "\"."
-                print "====================================================================================="
-                print BCOLORS.ENDC
+                print(BCOLORS.FAIL)
+                print("=====================================================================================")
+                print("CMIP6 variable " + variable + " requires \"" + key + "\":\"" + str(table_value) + "\".")
+                print("=====================================================================================")
+                print(BCOLORS.ENDC)
                 self.errors += 1
         # Print final message
         if self.errors != 0:
-            print BCOLORS.FAIL + "└──> :: CV FAIL    :: {}".format(ncfile) + BCOLORS.ENDC
+            print(BCOLORS.FAIL + "└──> :: CV FAIL    :: {}".format(ncfile) + BCOLORS.ENDC)
             raise KeyboardInterrupt
         elif print_all:
-            print BCOLORS.OKGREEN + "     :: CV SUCCESS :: {}".format(ncfile) + BCOLORS.ENDC
+            print(BCOLORS.OKGREEN + "     :: CV SUCCESS :: {}".format(ncfile) + BCOLORS.ENDC)
 
 
 def process(source):
@@ -665,11 +665,11 @@ def sequential_process(source):
     except KeyboardInterrupt:
         return 1
     except Exception as e:
-        print e
+        print(e)
         msg = BCOLORS.WARNING
         msg += "└──> :: SKIPPED    :: {}".format(source)
         msg += BCOLORS.ENDC
-        print msg
+        print(msg)
         return 1
     finally:
         # Close opened file
@@ -808,7 +808,7 @@ def main():
     try:
         args = parser.parse_args()
     except argparse.ArgumentTypeError as errmsg:
-        print >> sys.stderr, str(errmsg)
+        print(str(errmsg), file=sys.stderr)
         return 1
     except SystemExit:
         return 1

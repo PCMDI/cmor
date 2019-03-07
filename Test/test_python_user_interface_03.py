@@ -3,11 +3,11 @@ import cmor
 from time import localtime, strftime
 today = strftime("%Y%m%d", localtime())
 
-print 'Done importing'
+print('Done importing')
 try:
     import cdms2
 except BaseException:
-    print "This test code needs cdms2 interface for i/0"
+    print("This test code needs cdms2 interface for i/0")
     import sys
     sys.exit()
 import os
@@ -55,7 +55,7 @@ def prep_var(data):
                 units=ax.units,
                 coord_vals=ax[:],
                 cell_bounds=ax.getBounds())
-            print i, 'units:', ax.units, ax[0]
+            print(i, 'units:', ax.units, ax[0])
         axes.append(id)
     var = cmor.variable(table_entry=data.id,
                         units=data.units,
@@ -81,13 +81,13 @@ def prep_cmor():
 
 
 for var in ['tas', ]:
-    print 'Testing var:', var
+    print('Testing var:', var)
     orders = ['tyx...', 'txy...', 'ytx...', 'yxt...', 'xyt...', 'xty...', ]
     for o in orders:
-        print '\tordering:', o
+        print('\tordering:', o)
         data, data_ordered = read_input(var, order=o)
         prep_cmor()
-        print data.shape
+        print(data.shape)
         var_id = prep_var(data)
         df = data.filled(data.missing_value)
         cmor.write(var_id, df)
@@ -100,8 +100,8 @@ for var in ['tas', ]:
         if not numpy.allclose(s, data_ordered):
             raise "Error reordering: %s" % o
         else:
-            print 'order: %s, passed' % o
+            print('order: %s, passed' % o)
         f.close()
-print 'Done'
+print('Done')
 # cmor.close()
-print 'Finito'
+print('Finito')

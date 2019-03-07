@@ -25,7 +25,7 @@ tables = []
 a = cmor._cmor.load_table("Tables/CMIP6_Omon.json")
 tables.append(a)
 tables.append(cmor._cmor.load_table("Tables/CMIP6_Amon.json"))
-print 'Tables ids:', tables
+print('Tables ids:', tables)
 
 
 axes = []
@@ -49,7 +49,7 @@ units = "degrees_east"
 myaxes[2] = cmor._cmor.axis(id, units, lon, alons, 'd', bnds_lon, 2, interval)
 id = "plev19"
 units = "Pa"
-print plevs.astype("d")
+print(plevs.astype("d"))
 myaxes[3] = cmor._cmor.axis(
     id,
     units,
@@ -100,7 +100,7 @@ myaxes2[1] = myaxes[3]
 myaxes2[2] = myaxes[1]
 myaxes2[3] = myaxes[2]
 
-print 'ok doing the vars thing'
+print('ok doing the vars thing')
 myvars[0] = cmor._cmor.variable(
     entry2d[0],
     units2d[0],
@@ -113,7 +113,7 @@ myvars[0] = cmor._cmor.variable(
     varin2d[0],
     "no history",
     "no future")
-print 'vars 2'
+print('vars 2')
 myvars[1] = cmor._cmor.variable(
     entry3d[2],
     units3d[2],
@@ -126,7 +126,7 @@ myvars[1] = cmor._cmor.variable(
     varin3d[2],
     "no history",
     "no future")
-print 'vars 2'
+print('vars 2')
 
 myaxes2[1] = myaxes[4]
 myvars[2] = cmor._cmor.variable(
@@ -142,26 +142,26 @@ myvars[2] = cmor._cmor.variable(
     "no history",
     "no future")
 
-print 'vars 2'
+print('vars 2')
 
-print 'zfact', type(numpy.array(myaxes2[1])), type(myaxes2)
+print('zfact', type(numpy.array(myaxes2[1])), type(myaxes2))
 
 myvars[3] = cmor._cmor.zfactor(
     int(myaxes2[1]), "p0", "Pa", 0, None, 'd', p0, None)
-print 'zfact', myaxes2[1]
+print('zfact', myaxes2[1])
 myvars[3] = cmor._cmor.zfactor(
     int(myaxes2[1]), "b", "", 1, myaxes2[1], 'd', b_coeff, b_coeff_bnds)
-print 'zfact', myaxes2[1]
+print('zfact', myaxes2[1])
 myvars[3] = cmor._cmor.zfactor(
     int(myaxes2[1]), "a", "", 1, myaxes2[1], 'd', a_coeff, a_coeff_bnds)
 #/*   printf("defining ap\n"); */
 #/*   for(i=0;i<5;i++) {a_coeff[i]*=1.e3;printf("sending acoef: %i, %lf\n",i,a_coeff[i]);} */
 #/*   for(i=0;i<6;i++) {a_coeff_bnds[i]*=1.e5;printf("sending acoef: %i, %lf\n",i,a_coeff_bnds[i]);} */
 #/*   ierr = cmor_zfactor(&myvars[3],myaxes2[1],"ap","hPa",1,&myaxes2[1],'d',&a_coeff,&a_coeff_bnds); */
-print 'zfact before last'
+print('zfact before last')
 myvars[3] = cmor._cmor.zfactor(
     int(myaxes2[1]), "ps", "hPa", 3, myaxes, 'd', None, None)
-print 'zfact last'
+print('zfact last')
 
 #  /* ok here we decalre a variable for region axis testing */
 cmor.set_table(tables[0])
@@ -187,7 +187,7 @@ cmor.set_table(tables[1])
 
 for i in range(ntimes):
     data2d = read_2d_input_files(i, varin2d[0], lat, lon)
-    print 'writing time', i, data2d.shape, data2d, numpy.average(data2d)
+    print('writing time', i, data2d.shape, data2d, numpy.average(data2d))
     cmor._cmor.write(
         myvars[0],
         numpy.ravel(data2d),

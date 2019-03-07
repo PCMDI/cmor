@@ -92,7 +92,7 @@ if table_entry == 'hybrid_height':
         units='m',
         zfactor_values=data2d)
 else:
-    print 'yep working case'
+    print('yep working case')
     ilev = cmor.axis(
         table_entry='standard_sigma',
         units='1',
@@ -128,7 +128,7 @@ else:
         axis_ids=numpy.array((ilon, ilat, itim)),
         units='Pa')
 
-print "ILEV is:", ilev
+print("ILEV is:", ilev)
 var3d_ids = cmor.variable(
     table_entry='concdust',
     units='kg m-3',

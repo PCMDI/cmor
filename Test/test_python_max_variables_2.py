@@ -69,11 +69,11 @@ for it in range(ntimes):
 
     if (it == ntimes - 1):
         fnm = cmor.close(var3d_ids, True)
-        print it, fnm
+        print(it, fnm)
     else:
         if (it % 50) == 0:
             fnm = cmor.close(var3d_ids, True, True)
-            print it, fnm
+            print(it, fnm)
         else:
             ierr = cmor.close(var3d_ids, False, True)
 

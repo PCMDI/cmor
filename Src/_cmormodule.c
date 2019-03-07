@@ -1,5 +1,12 @@
 #include <Python.h>
 #define NPY_NO_DEPRECATED_API  NPY_1_10_API_VERSION
+#if PY_MAJOR_VERSION >= 3
+#  define PyInt_AsLong(x) (PyLong_AsLong((x)))
+#  define PyInt_FromLong(x) (PyLong_FromLong((x)))
+#  define PyString_Check(x) (PyBytes_Check((x)))
+#  define PyString_AsString(x) (PyBytes_AsString((x)))
+#endif
+
 #include "numpy/arrayobject.h"
 #include "cmor.h"
 
@@ -164,8 +171,13 @@ static PyObject *PyCMOR_set_variable_attribute(PyObject * self, PyObject * args)
     if (!PyArg_ParseTuple(args, "issO", &var_id, &name, &type, &oValue))
         return NULL;
 
+#if PY_MAJOR_VERSION >= 3
+    if(PyBytes_Check(oValue)) {
+        value = PyBytes_AsString(oValue);
+#else
     if(PyString_Check(oValue)) {
         value = PyString_AsString(oValue);
+#endif
     } else if(PyLong_Check(oValue)) {
         lValue = PyLong_AsLong(oValue);
     } else if (PyFloat_Check(oValue)) {
@@ -738,10 +750,18 @@ static PyObject *PyCMOR_grid_mapping(PyObject * self, PyObject * args)
     n = PyList_Size(param_nm_obj);
     for (i = 0; i < n; i++) {
         tmp = PyList_GetItem(param_nm_obj, i);
+#if PY_MAJOR_VERSION >= 3
+        strcpy(nms[i], PyBytes_AsString(tmp));
+#else
         strcpy(nms[i], PyString_AsString(tmp));
+#endif
         //Py_DECREF(tmp); //Not needed get_item does not increase ref
         tmp = PyList_GetItem(param_un_obj, i);
+#if PY_MAJOR_VERSION >= 3
+        strcpy(units[i], PyBytes_AsString(tmp));
+#else
         strcpy(units[i], PyString_AsString(tmp));
+#endif
         //Py_DECREF(tmp); // Not need get_item does not incref
     }
 
@@ -1092,7 +1112,28 @@ static PyMethodDef MyExtractMethods[] = {
     {NULL, NULL}                /*sentinel */
 };
 
-PyMODINIT_FUNC init_cmor(void)
+#if PY_MAJOR_VERSION >= 3
+static struct PyModuleDef moduledef = {
+        PyModuleDef_HEAD_INIT,
+        "_cmor",
+        NULL,
+        -1,
+        MyExtractMethods
+};
+#endif
+
+#if PY_MAJOR_VERSION >= 3
+PyMODINIT_FUNC PyInit__cmor(void)
+{
+    PyObject *cmor_module;
+    cmor_module = PyModule_Create(&moduledef);
+    import_array();
+    CMORError = PyErr_NewException("_cmor.CMORError", NULL, NULL);
+    PyModule_AddObject(cmor_module, "CMORError", CMORError);
+    return cmor_module;
+}
+#else
+void init_cmor(void)
 {
     PyObject *cmor_module;
     cmor_module = Py_InitModule("_cmor", MyExtractMethods);
@@ -1100,3 +1141,4 @@ PyMODINIT_FUNC init_cmor(void)
     CMORError = PyErr_NewException("_cmor.CMORError", NULL, NULL);
     PyModule_AddObject(cmor_module, "CMORError", CMORError);
 }
+#endif

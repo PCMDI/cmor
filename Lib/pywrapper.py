@@ -91,7 +91,7 @@ def time_varying_grid_coordinate(
         missing_value = float(missing_value)
 
     return _cmor.time_varying_grid_coordinate(
-        grid_id, table_entry, units, type, missing_value)
+        grid_id, table_entry, units, str.encode(type), missing_value)
 
 
 def _to_numpy(vals, message):
@@ -223,7 +223,7 @@ def grid(axis_ids, latitude=None, longitude=None,
 ##             area = area.astype(type)
     n = len(axis_ids)
     axis_ids = axis_ids.astype('i')
-    return _cmor.grid(n, axis_ids, type, latitude, longitude,
+    return _cmor.grid(n, axis_ids, str.encode(type), latitude, longitude,
                       nvert, latitude_vertices, longitude_vertices)
 
 
@@ -451,7 +451,7 @@ def axis(table_entry, units=None, length=None,
         l = int(length)
 
     return _cmor.axis(table_entry, units, l, coord_vals,
-                      type, cell_bounds, cbnds, interval)
+                      str.encode(type), cell_bounds, cbnds, interval)
 
 
 def variable(table_entry, units, axis_ids, type='f', missing_value=None,
@@ -542,7 +542,7 @@ def variable(table_entry, units, axis_ids, type='f', missing_value=None,
         missing_value = float(missing_value)
 
     axis_ids = axis_ids.astype('i')
-    return _cmor.variable(table_entry, units, ndims, axis_ids, type,
+    return _cmor.variable(table_entry, units, ndims, axis_ids, str.encode(type),
                           missing_value, tolerance, positive, original_name, history, comment)
 
 
@@ -668,7 +668,7 @@ def zfactor(zaxis_id, zfactor_name, units="", axis_ids=None,
 # print
 # "sending",zaxis_id,zfactor_name,units,ndims,axis_ids,type,zfactor_values,zfactor_bounds
     return _cmor.zfactor(zaxis_id, zfactor_name, units,
-                         ndims, axis_ids, type, zfactor_values, zfactor_bounds)
+                         ndims, axis_ids, str.encode(type), zfactor_values, zfactor_bounds)
 
 
 def write(var_id, data, ntimes_passed=None, file_suffix="",

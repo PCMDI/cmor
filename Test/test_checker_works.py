@@ -1732,7 +1732,7 @@ cmor.checkCMOR(fo, file, "Tables/CMIP5_6hrLev")
 # os.remove(F)
 att = "cell_measures"
 try:
-    print 'Testing wrong var att %s' % att
+    print('Testing wrong var att %s' % att)
     F = "hus_6hrLev_pcmdi-10a_DcppC2_r1i1p1_2010010100-2010010218.nc"
     shutil.copy(file, F)
     os.popen("ncdump %s > crap.txt" % F).readlines()
@@ -1753,7 +1753,7 @@ try:
     raise Exception("missing var att %s test failed" % att)
 except cmor.check_CMOR_compliant.CMORError as err:
     if str(err).find('variable attribute cell_measures should be') > -1:
-        print 'Failed with CMOR error as expected:', err
+        print('Failed with CMOR error as expected:', err)
         pass
     else:
         raise Exception(

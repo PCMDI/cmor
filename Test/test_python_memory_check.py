@@ -125,7 +125,7 @@ def memory_check():
             cmor.write(varid, [275])
         mem, res, stk = memory_usage(sys.stdout, mem, res, stk)
         #mem,res,stk = memory_usage(sys.stdout,memi,resi,stki)
-        print '---'
+        print('---')
 
     cmor.close(varid)
 

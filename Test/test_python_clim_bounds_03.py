@@ -51,7 +51,7 @@ def main():
 
     axis_ids = list()
     for axis in axes:
-        print 'doing:', axis
+        print('doing:', axis)
         axis_id = cmor.axis(**axis)
         axis_ids.append(axis_id)
 
@@ -66,7 +66,7 @@ def main():
                               history='variable history',
                               missing_value=-99
                               )
-        print values.shape
+        print(values.shape)
 
         cmor.write(varid, values)  # , ntimes_passed=1)
 

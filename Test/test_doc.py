@@ -39,5 +39,5 @@ cmor.write(varid, [273])
 
 # finally we close the file and print where it was saved
 outfile = cmor.close(varid, file_name=True)
-print("File written to: {}".format(outfile))
+print(("File written to: {}".format(outfile)))
 cmor.close()

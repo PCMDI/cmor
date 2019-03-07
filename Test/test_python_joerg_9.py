@@ -77,7 +77,7 @@ var_ids = cmor.variable(
 
 fnm = ""
 for i in range(ntimes):
-    print 'writing time:', time_vals[i], bnds_time[i:i + 2]
+    print('writing time:', time_vals[i], bnds_time[i:i + 2])
     data = numpy.random.random((nlon, nlat))
     error_flag = cmor.write(
         var_id=var_ids,
@@ -88,6 +88,6 @@ for i in range(ntimes):
         time_bnds=bnds_time[i:i + 2])
 
     fnm = cmor.close(var_ids, file_name=True, preserve=True)
-    print 'dumped to:', fnm
+    print('dumped to:', fnm)
 
 cmor.close()

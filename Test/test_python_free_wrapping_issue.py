@@ -131,7 +131,7 @@ def save(opts, threeD=True):
                 len(lon)),
             np.float32) + 290.
     try:
-        print 'writing...'
+        print('writing...')
         cmor.write(variable_id, data_vals[:], ntimes_passed=np.shape(
             data_vals)[0])  # assuming time is the first dimension
     except Exception as e:
@@ -142,7 +142,7 @@ def save(opts, threeD=True):
     except BaseException:
         raise Exception("ERROR closing cmor file!")
 
-    print path
+    print(path)
 
 
 if __name__ == "__main__":

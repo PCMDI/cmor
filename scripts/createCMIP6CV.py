@@ -64,7 +64,7 @@ class readWCRP():
         for file in filelist:
             url = githubRepo + file 
             response = requests.get(url)
-            print url
+            print(url)
             urlJson = response.content.decode('utf-8')
             myjson = json.loads(urlJson, object_pairs_hook=OrderedDict)
             if(file == 'CMIP6_source_id.json'):
@@ -100,7 +100,7 @@ def run():
     CV['CV'] = OrderedDict(CV['CV'].items() + regexp.items())
     for exp in CV["CV"]["experiment_id"]:
         CV["CV"]["experiment_id"][exp]["activity_id"] = [ " ".join(CV["CV"]["experiment_id"][exp]["activity_id"])]
-        print("AC ID:",CV["CV"]["experiment_id"][exp]["activity_id"])
+        print(("AC ID:",CV["CV"]["experiment_id"][exp]["activity_id"]))
     f.write(json.dumps(CV, indent=4, separators=(',', ':'), sort_keys=False) )
 
     f.close()

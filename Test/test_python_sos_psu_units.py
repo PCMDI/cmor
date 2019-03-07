@@ -74,9 +74,9 @@ class TestCase(unittest.TestCase):
                 for i in range(4):
                     tval = [i / 4. + d]
                     tbnd = [i / 4. + d - 0.125, i / 4. + d + 0.125]
-                    print 'tvar', tval
-                    print 'tbnd', tbnd
-                    print 'writing time:', i, i / 4.
+                    print('tvar', tval)
+                    print('tbnd', tbnd)
+                    print('writing time:', i, i / 4.)
                     data = numpy.random.random(
                         (ntimes, nlat, nlon)) * 30. + 273
                     data = data.astype("f")
@@ -87,13 +87,13 @@ class TestCase(unittest.TestCase):
                     tval = [i / 4. + d + 200]
                     tbnd = [i / 4. + d + 200 - 0.125, i / 4. + d + 200 + 0.125]
                     cmor.write(ivar3, data, time_vals=tval, time_bnds=tbnd)
-                    print 'wrote var 1 time:', i
+                    print('wrote var 1 time:', i)
                 file = cmor.close(ivar, True)
                 file1 = cmor.close(ivar2, True)
                 file2 = cmor.close(ivar3, True)
-                print 'File:', file
-                print 'File:', file1
-                print 'File:', file2
+                print('File:', file)
+                print('File:', file1)
+                print('File:', file2)
         except BaseException:
             raise
 

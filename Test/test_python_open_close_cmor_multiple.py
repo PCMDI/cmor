@@ -99,9 +99,9 @@ for var in tvars:
 
     cmor.write(var, data)
     path = cmor.close(var, file_name=True)
-    print 'Saved in:', path
+    print('Saved in:', path)
 
 cmor.close()
 
 
-print 'hello'
+print('hello')

@@ -61,10 +61,10 @@ if __name__ == '__main__':
     table_id = cmor.load_table('CMIP6_CFsubhr.json')
     # , length=1, interval='30 minutes')
     taxis_id = cmor.axis('time1', units='days since 2000-01-01 00:00:00')
-    print 'ok: created time axis'
+    print('ok: created time axis')
 
     saxis_id = cmor.axis('site', units='1', coord_vals=[1, 2, 3])
-    print 'ok: created site axis', saxis_id
+    print('ok: created site axis', saxis_id)
 
     zaxis_id = cmor.axis(
         'hybrid_height',
@@ -73,36 +73,36 @@ if __name__ == '__main__':
         cell_bounds=[
             0.0,
             2.0])
-    print 'ok: created height axis', zaxis_id
+    print('ok: created height axis', zaxis_id)
 
     # Create zfactors for b and orog for hybrid height axis.
     # Where do these get used, if anywhere?
     bfact_id = cmor.zfactor(zaxis_id, 'b', '1', [zaxis_id], 'd', zfactor_values=[1.0],
                             zfactor_bounds=[0.0, 2.0])
-    print 'ok: created b zfactors'
+    print('ok: created b zfactors')
 
     # Create grid object to link site-dimensioned variables to (lat,long).
     # Need to make CMIP6_grids the current MIP table for this to work.
     table_id = cmor.load_table('CMIP6_grids.json')
     gaxis_id = cmor.grid([saxis_id], site_lats, site_lons)
-    print 'ok: created site grid'
+    print('ok: created site grid')
 
     # Create CMOR variable for cloud area fraction: MIP name = 'cl', STASH =
     # m01s02i261*100
     table_id = cmor.load_table('CMIP6_CFsubhr.json')
     var_id = cmor.variable('cl', '%', [taxis_id, gaxis_id, zaxis_id], type='f',
                            missing_value=-99.0, original_name='STASH m01s02i261*100')
-    print 'ok: created variable for "cl"'
+    print('ok: created variable for "cl"')
 
     ofact_id = cmor.zfactor(zaxis_id, 'orog', 'm', [gaxis_id], 'd',
                             zfactor_values=[123.0])
-    print 'ok: created orog zfactors'
+    print('ok: created orog zfactors')
     # Write some data to this variable. First convert raw data to numpy arrays.
     shape = (1, 3, 1)
     data = numpy.array([10, 20, 30], dtype=numpy.float32)
     data = data.reshape(shape)
     cmor.write(var_id, data, time_vals=[1.0])
-    print 'ok: wrote variable data'
+    print('ok: wrote variable data')
 
     # Close CMOR.
     cmor.close()

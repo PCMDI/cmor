@@ -41,7 +41,7 @@ def read_time(index, refyear=2015., monthdays=30., yeardays=360.):
 
 def read_3d_input_files(index, varname, shape):
 
-    print "3d shape",shape
+    print("3d shape",shape)
     field = numpy.zeros(shape, dtype=numpy.float32)
     factor, offset = specs[varname]["convert"]
     for i in range(field.shape[2]):  # lon
@@ -84,37 +84,37 @@ n3d = len(varin3d)
 
 alats, bnds_lat, alons, bnds_lon, plevs = read_coords(lat, lon)
 
-print alats[:2], alats[-2:]
-print bnds_lat[0], bnds_lat[-1]
-print alons[:2], alons[-2:]
-print bnds_lon[0], bnds_lon[-1]
-print plevs
+print(alats[:2], alats[-2:])
+print(bnds_lat[0], bnds_lat[-1])
+print(alons[:2], alons[-2:])
+print(bnds_lon[0], bnds_lon[-1])
+print(plevs)
 
 pth = os.path.expanduser("~/Karl")
 pth = os.getcwd()
 ierr = cmor.setup(inpath=os.path.join(pth, "Test"),
                   netcdf_file_action=cmor.CMOR_REPLACE) #, logfile="CMOR.log")
-print("ERR:", ierr)
+print(("ERR:", ierr))
 ierr = cmor.dataset_json(os.path.join(pth, "Test", "CMOR_input_example.json"))
-print("ERR:", ierr)
+print(("ERR:", ierr))
 
 ierr = cmor.load_table(os.path.join(pth, 'Tables', 'CMIP6_Amon.json'))
-print("ERR:", ierr)
+print(("ERR:", ierr))
 ilat = cmor.axis(
     table_entry='latitude',
     units='degrees_north',
     length=lat,
     coord_vals=alats,
     cell_bounds=bnds_lat)
-print("ILAT:", ilat)
-print(lon, alons, bnds_lon)
+print(("ILAT:", ilat))
+print((lon, alons, bnds_lon))
 ilon = cmor.axis(
     table_entry='longitude',
     coord_vals=alons,
     units='degrees_east',
     cell_bounds=bnds_lon)
 
-print("ILON:", ilon)
+print(("ILON:", ilon))
 
 
 itim = cmor.axis(
@@ -122,30 +122,30 @@ itim = cmor.axis(
     units="days since 1850",
     length=ntimes)
 
-print("ITIME:",itim)
+print(("ITIME:",itim))
 zlevs = numpy.array([.1, .3, .55, .7, .9])
 zlev_bnds = numpy.array([0., .2, .42, .62, .8, 1.])
 
 ilev_half = cmor.axis(table_entry='standard_hybrid_sigma_half',
                  units='1',
                  coord_vals=zlevs, cell_bounds=zlev_bnds)
-print("ILEVL half:",ilev_half)
+print(("ILEVL half:",ilev_half))
 
 cmor.zfactor(zaxis_id=ilev_half, zfactor_name='p0', units='hPa', zfactor_values=p0)
-print "p0 1/2"
+print("p0 1/2")
 cmor.zfactor(zaxis_id=ilev_half, zfactor_name='b_half', axis_ids=[ilev_half, ],
              zfactor_values=b_coeff, zfactor_bounds=b_coeff_bnds)
-print "b 1/2"
+print("b 1/2")
 cmor.zfactor(zaxis_id=ilev_half, zfactor_name='a_half', axis_ids=[ilev_half, ],
              zfactor_values=a_coeff, zfactor_bounds=a_coeff_bnds)
-print "a 1/2"
+print("a 1/2")
 ps_var = cmor.zfactor(zaxis_id=ilev_half, zfactor_name='ps',
              axis_ids=[ilon, ilat, itim], units='hPa')
-print "ps 1/2"
+print("ps 1/2")
 
 var3d_ids = []
 for m in varin3d:
-    print "3d VAR:",m
+    print("3d VAR:",m)
     var3d_ids.append(
         cmor.variable(table_entry=specs[m]["entry"],
                       units=specs[m]["units"],
@@ -154,13 +154,13 @@ for m in varin3d:
                       positive=specs[m]["positive"],
                       original_name=m)
     )
-print "Ok now writing",var3d_ids, ntimes
+print("Ok now writing",var3d_ids, ntimes)
 for index in range(ntimes):
     tim_array, bnds_tim = read_time(index)
     for i, varname in enumerate(varin3d):
         data = read_3d_input_files(index, varname,(lev,lat,lon))
-        print data.shape, data
-        print tim_array, bnds_tim
+        print(data.shape, data)
+        print(tim_array, bnds_tim)
         cmor.write(var_id=var3d_ids[i], data=data, ntimes_passed=1,
                    time_vals=tim_array, time_bnds=bnds_tim)
         print("Passed write")

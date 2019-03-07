@@ -53,8 +53,8 @@ expt_template = """
                                "parent_mip_era ":           "CMIP6"
                           },
 """
-print "{"
-print "    \"experiment_ids\": { "
+print("{")
+print("    \"experiment_ids\": { ")
 with open('../Tables/CMIP6_expt_list_062116.csv', 'rU') as csvfile:
     spamreader = csv.reader(csvfile, dialect=csv.excel)
     for row in spamreader:
@@ -90,4 +90,4 @@ with open('../Tables/CMIP6_expt_list_062116.csv', 'rU') as csvfile:
 #nexpt = expt + "\"Dummy\":{}\n     }"
 expt = expt + "\n    }\n}"
 expt = deleteComa(expt)
-print expt
+print(expt)
