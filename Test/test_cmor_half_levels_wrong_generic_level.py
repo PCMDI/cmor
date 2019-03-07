@@ -94,27 +94,27 @@ pth = os.path.expanduser("~/Karl")
 pth = os.getcwd()
 ierr = cmor.setup(inpath=os.path.join(pth, "Test"),
                   netcdf_file_action=cmor.CMOR_REPLACE) #, logfile="CMOR.log")
-print(("ERR:", ierr))
+print("ERR:", ierr)
 ierr = cmor.dataset_json(os.path.join(pth, "Test", "CMOR_input_example.json"))
-print(("ERR:", ierr))
+print("ERR:", ierr)
 
 ierr = cmor.load_table(os.path.join(pth, 'Tables', 'CMIP6_Amon.json'))
-print(("ERR:", ierr))
+print("ERR:", ierr)
 ilat = cmor.axis(
     table_entry='latitude',
     units='degrees_north',
     length=lat,
     coord_vals=alats,
     cell_bounds=bnds_lat)
-print(("ILAT:", ilat))
-print((lon, alons, bnds_lon))
+print("ILAT:", ilat)
+print(lon, alons, bnds_lon)
 ilon = cmor.axis(
     table_entry='longitude',
     coord_vals=alons,
     units='degrees_east',
     cell_bounds=bnds_lon)
 
-print(("ILON:", ilon))
+print("ILON:", ilon)
 
 cmor.load_table("Tables/CMIP6_Omon.json")
 itim = cmor.axis(
@@ -122,14 +122,14 @@ itim = cmor.axis(
     units="days since 1850",
     length=ntimes)
 
-print(("ITIME:",itim))
+print("ITIME:",itim)
 zlevs = numpy.array([.1, .3, .55, .7, .9])
 zlev_bnds = numpy.array([0., .2, .42, .62, .8, 1.])
 
 ilev_half = cmor.axis(table_entry='standard_hybrid_sigma',
                  units='1',
                  coord_vals=zlevs, cell_bounds=zlev_bnds)
-print(("ILEVL half:",ilev_half))
+print("ILEVL half:",ilev_half)
 
 cmor.zfactor(zaxis_id=ilev_half, zfactor_name='p0', units='hPa', zfactor_values=p0)
 print("p0 1/2")

@@ -15,8 +15,8 @@ ilat = cmor.axis(
     length=lat,
     coord_vals=alats,
     cell_bounds=bnds_lat)
-print(("ILAT:", ilat))
-print((lon, alons, bnds_lon))
+print("ILAT:", ilat)
+print(lon, alons, bnds_lon)
 ilon = cmor.axis(
     table_entry='longitude',
     coord_vals=alons,

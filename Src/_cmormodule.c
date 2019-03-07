@@ -1,11 +1,5 @@
 #include <Python.h>
 #define NPY_NO_DEPRECATED_API  NPY_1_10_API_VERSION
-#if PY_MAJOR_VERSION >= 3
-#  define PyInt_AsLong(x) (PyLong_AsLong((x)))
-#  define PyInt_FromLong(x) (PyLong_FromLong((x)))
-#  define PyString_Check(x) (PyBytes_Check((x)))
-#  define PyString_AsString(x) (PyBytes_AsString((x)))
-#endif
 
 #include "numpy/arrayobject.h"
 #include "cmor.h"
@@ -42,7 +36,11 @@ static PyObject *PyCMOR_get_original_shape(PyObject * self, PyObject * args)
     mylist = PyList_New(0);
     for (i = 0; i < CMOR_MAX_DIMENSIONS; i++) {
         if (shape_array[i] != -1) {
+#if PY_MAJOR_VERSION >= 3
+            PyList_Append(mylist, PyLong_FromLong(shape_array[i]));
+#else
             PyList_Append(mylist, PyInt_FromLong(shape_array[i]));
+#endif
         }
     }
     Py_INCREF(mylist);
@@ -679,7 +677,11 @@ static PyObject *PyCMOR_zfactor(PyObject * self, PyObject * args)
                                                              NPY_NOTYPE, 1, 0);
             axes_ids = (void *)PyArray_DATA(axes);
         } else {
+#if PY_MAJOR_VERSION >= 3
+            itmp = (int)PyLong_AsLong(axes_obj);
+#else
             itmp = (int)PyInt_AsLong(axes_obj);
+#endif
             axes_ids = &itmp;
         }
     }
@@ -843,7 +845,11 @@ static PyObject *PyCMOR_write(PyObject * self, PyObject * args)
     if (ref_obj == Py_None) {
         ref = NULL;
     } else {
+#if PY_MAJOR_VERSION >= 3
+        iref = (int)PyLong_AsLong(ref_obj);
+#else
         iref = (int)PyInt_AsLong(ref_obj);
+#endif
         ref = &iref;
     }
     type = itype[0];
@@ -892,7 +898,11 @@ static PyObject *PyCMOR_close(PyObject * self, PyObject * args)
             return (Py_BuildValue("i", ierr));
         }
     } else {
+#if PY_MAJOR_VERSION >= 3
+        varid = (int)PyLong_AsLong(var);
+#else
         varid = (int)PyInt_AsLong(var);
+#endif
 
         if (dopreserve == 1) {
             if (dofile == 1) {

@@ -16,7 +16,7 @@ itim, ilat, ilon = common.read_cmor_time_lat_lon()
 ilev_half = cmor.axis(table_entry='standard_hybrid_sigma_half',
                       units='1',
                       coord_vals=common.zlevs)
-print(("ILEVL half:", ilev_half))
+print("ILEVL half:", ilev_half)
 
 cmor.zfactor(zaxis_id=ilev_half, zfactor_name='p0',
              units='hPa', zfactor_values=common.p0)

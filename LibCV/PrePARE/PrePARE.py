@@ -19,6 +19,7 @@ Created on Fri Feb 19 11:33:52 2016
 
 """
 
+from __future__ import print_function
 import argparse
 import itertools
 import json

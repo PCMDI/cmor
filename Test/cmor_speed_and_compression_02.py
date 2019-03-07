@@ -167,7 +167,7 @@ import os
 ltime = cdtime.reltime(Tim[ntimes - 1], Tim.units).tocomp()
 ftime = cdtime.reltime(Tim[0], Tim.units).tocomp()
 print(ftime, ltime)
-print((var, var, ftime.year, ftime.month, ltime.year, ltime.month))
+print(var, var, ftime.year, ftime.month, ltime.year, ltime.month)
 lcmor = os.stat(
     "Test/IPCC_Fourth_Assessment/output/INSTITUTE_ID/pcmdi-09a/mon/REALM/%s/r1/%s_A1_pcmdi-09a_r1_%i%.2i-%i%.2i_speed-comp-02.nc" %
     (var, var, ftime.year, ftime.month, ltime.year, ltime.month))[6]

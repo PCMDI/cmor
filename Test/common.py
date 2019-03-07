@@ -95,15 +95,15 @@ def read_cmor_time_lat_lon():
         length=lat,
         coord_vals=alats,
         cell_bounds=bnds_lat)
-    print(("ILAT:", ilat))
-    print((lon, alons, bnds_lon))
+    print("ILAT:", ilat)
+    print(lon, alons, bnds_lon)
     ilon = cmor.axis(
         table_entry='longitude',
         coord_vals=alons,
         units='degrees_east',
         cell_bounds=bnds_lon)
 
-    print(("ILON:", ilon))
+    print("ILON:", ilon)
 
 
     itim = cmor.axis(
