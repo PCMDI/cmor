@@ -13,7 +13,7 @@ aliases:
       git clone -b validateNightly git@github.com:CDAT/cdat workspace/cdat
       ls workspace/cdat
       # following will install miniconda3 under $WORKDIR/miniconda/bin
-      python workspace/cdat/scripts/install_miniconda.py -w $WORKDIR -p 'py3'
+      python workspace/cdat/scripts/install_miniconda.py -w $WORKDIR -p 'py2.7'
       
   - &create_conda_env
     name: create_conda_env
@@ -22,7 +22,7 @@ aliases:
        conda config --set always_yes yes --set changeps1 no
        conda update -y -q conda
        conda config --set anaconda_upload no
-       conda create -q -n py2 -c cdat/label/nightly -c conda-forge -c cdat ossuuid udunits2 hdf5 libnetcdf numpy openssl cdms2 python=2.7 $CONDA_COMPILERS testsrunner
+       conda create -q -n py2 -c cdat/label/nightly -c conda-forge -c cdat ossuuid udunits2 hdf5 libnetcdf numpy openssl lazy-object-proxy cdms2 python=2.7 $CONDA_COMPILERS testsrunner
 
   - &setup_cmor
     name: setup_cmor
