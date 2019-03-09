@@ -34,9 +34,7 @@ from uuid import uuid4 as uuid
 
 import numpy
 
-# Make sure cdms2.__init__py is not loaded when importing Cdunif
-sys.path.insert(0, sys.prefix + "/lib/python2.7/site-packages/cdms2")
-import Cdunif
+from cdms2 import Cdunif
 import cmip6_cv
 
 
