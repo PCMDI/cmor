@@ -164,7 +164,10 @@ class FilterCollection(object):
     indicating to match (i.e., include) or non-match (i.e., exclude) the corresponding expression.
 
     """
-    FILTER_TYPES = (str, re._pattern_type)
+    if sys.version_info < (3, 0):
+        FILTER_TYPES = (str, re._pattern_type)
+    else:
+        FILTER_TYPES = (str, re.Pattern)
 
     def __init__(self):
         self.filters = dict()
