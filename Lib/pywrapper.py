@@ -2,9 +2,9 @@ import numpy
 import os
 import warnings
 
-import cmor_const
-import _cmor
-from _cmor import CMORError
+from cmor import cmor_const
+from cmor import _cmor
+from cmor._cmor import CMORError
 
 global climatology 
 climatology = False

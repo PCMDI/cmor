@@ -5,10 +5,10 @@ Created on Fri Feb 19 11:33:52 2016
 @author: Denis Nadeau LLNL, Charles Doutriaux LLNL
 '''
 
-import cmor_const
+from cmip6_cv import cmor_const
 import numpy
 import os
-import _cmip6_cv
+from cmip6_cv import _cmip6_cv
 import signal
 
 
