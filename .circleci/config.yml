@@ -85,7 +85,7 @@ jobs:
     macos:
       xcode: "9.2.0"
     environment:
-      PYTHON_VERSOIN: "2.7"
+      PYTHON_VERSION: "2.7"
       WORKDIR: "workspace/test_macos_cmor"
       CONDA_COMPILERS: "clang_osx-64 gfortran_osx-64"
       LDSHARED_FLAGS: "-bundle -undefined dynamic_lookup"
@@ -104,7 +104,7 @@ jobs:
     macos:
       xcode: "9.2.0"
     environment:
-      PYTHON_VERSOIN: "3.7"
+      PYTHON_VERSION: "3.7"
       WORKDIR: "workspace/test_macos_cmor"
       CONDA_COMPILERS: "clang_osx-64 gfortran_osx-64"
       LDSHARED_FLAGS: "-bundle -undefined dynamic_lookup"
@@ -123,7 +123,7 @@ jobs:
     machine:
       image: circleci/classic:latest
     environment:
-      PYTHON_VERSOIN: "2.7"
+      PYTHON_VERSION: "2.7"
       WORKDIR: "workspace/test_linux_cmor"
       CONDA_COMPILERS: "gcc_linux-64 gfortran_linux-64"
       LDSHARED_FLAGS: "-shared -pthread"
@@ -142,7 +142,7 @@ jobs:
     machine:
       image: circleci/classic:latest
     environment:
-      PYTHON_VERSOIN: "3.7"
+      PYTHON_VERSION: "3.7"
       WORKDIR: "workspace/test_linux_cmor"
       CONDA_COMPILERS: "gcc_linux-64 gfortran_linux-64"
       LDSHARED_FLAGS: "-shared -pthread"
