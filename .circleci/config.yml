@@ -13,7 +13,7 @@ aliases:
       git clone -b validateNightly git@github.com:CDAT/cdat workspace/cdat
       ls workspace/cdat
       # following will install miniconda3 under $WORKDIR/miniconda/bin
-      python workspace/cdat/scripts/install_miniconda.py -w $WORKDIR -p 'py$PYTHON_VERSION'
+      python workspace/cdat/scripts/install_miniconda.py -w $WORKDIR -p py$PYTHON_VERSION
       
   - &create_conda_env
     name: create_conda_env
