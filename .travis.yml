@@ -2,6 +2,7 @@ os:
   - linux
 python:
   - 2.7
+  - 3.7
 services:
   - docker
 
@@ -18,10 +19,10 @@ before_install:
   - conda update -y -q conda
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then export CONDA_COMPILERS="gcc_linux-64 gfortran_linux-64"; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then export CONDA_COMPILERS="clang_osx-64 gfortran_osx-64"; fi
-  - conda create -q -n py2 -c cdat/label/nightly -c conda-forge -c cdat ossuuid udunits2 hdf5 libnetcdf numpy openssl lazy-object-proxy cdms2 python=2.7 $CONDA_COMPILERS testsrunner
-  - source activate py2
+  - conda create -q -n py{$TRAVIS_PYTHON_VERSION} -c cdat/label/nightly -c conda-forge -c cdat ossuuid udunits2 hdf5 libnetcdf numpy openssl lazy-object-proxy cdms2 python={$TRAVIS_PYTHON_VERSION} $CONDA_COMPILERS testsrunner
+  - source activate py{$TRAVIS_PYTHON_VERSION}
 install:
-  - export PREFIX=$(python -c "import sys; print sys.prefix")
+  - export PREFIX=$(python -c "import sys; print(sys.prefix)")
   - git clone https://github.com/PCMDI/cmip6-cmor-tables
   - ln -s cmip6-cmor-tables/Tables Tables
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then export LDSHARED_FLAGS="-shared -pthread"; fi
@@ -32,6 +33,7 @@ install:
 
 script:
   - make test
+    export PYTHONPATH=Test/:$PYTHONPATH
   - python run_tests.py -v2 -n1 -H Test/test_python_CMIP6_CV*.py
 
 after_failure:
