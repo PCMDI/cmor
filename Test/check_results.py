@@ -1,3 +1,4 @@
+from __future__ import print_function
 from out_files import out
 from in_files import input_tables
 import sys
@@ -11,7 +12,7 @@ test = os.path.split(test)[1]
 if test[-4:].lower() == '.f90':
     test = test[:-4]
 
-print 'Checking results for:', test
+print('Checking results for:', test)
 
 outfiles = out.get(test, [])
 intables = input_tables.get(test, ['IPCC_test_table_A', ])
@@ -24,12 +25,12 @@ class CMORResultCheckError(Exception):
 
 nfiles = 0
 
-print 'files:', outfiles
+print('files:', outfiles)
 gotfiles = []
 missing = []
 for f in outfiles:
     if f is None:
-        print 'No checking'
+        print('No checking')
         sys.exit()
     tables = []
     for t in intables:
@@ -41,9 +42,9 @@ for f in outfiles:
     if os.path.exists(fnm):
         nfiles += 1
         gotfiles.append(fnm)
-        print 'Checking output file:', f
+        print('Checking output file:', f)
         cmor.checkCMOR(sys.stdout, fnm, tbl, other_tables=tables)
-        print '----------------------- Success ------------------------------'
+        print('----------------------- Success ------------------------------')
        # os.remove(fnm)
     else:
         missing.append(fnm)

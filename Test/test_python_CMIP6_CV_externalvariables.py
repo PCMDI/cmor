@@ -11,7 +11,7 @@
 #   3. Download
 #      https://github.com/PCMDI/cmor/blob/master/Test/<filename>.json
 #      to the 'Test/' directory.
-
+from __future__ import print_function
 import cmor
 import numpy
 import unittest
@@ -85,7 +85,7 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
 
     def testCMIP6_ExternaVariablesError(self):
 
-        print "CMIP6 External Error"
+        print("CMIP6 External Error")
         cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.tmpfile)
         error_flag = cmor.dataset_json('Test/CMOR_input_example.json')
         table_id = cmor.load_table('CMIP6_6hrLev.json')

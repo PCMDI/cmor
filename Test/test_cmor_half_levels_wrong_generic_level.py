@@ -1,3 +1,4 @@
+from __future__ import print_function
 import cdms2
 import cmor
 import numpy
@@ -41,7 +42,7 @@ def read_time(index, refyear=2015., monthdays=30., yeardays=360.):
 
 def read_3d_input_files(index, varname, shape):
 
-    print "3d shape",shape
+    print("3d shape",shape)
     field = numpy.zeros(shape, dtype=numpy.float32)
     factor, offset = specs[varname]["convert"]
     for i in range(field.shape[2]):  # lon
@@ -84,11 +85,11 @@ n3d = len(varin3d)
 
 alats, bnds_lat, alons, bnds_lon, plevs = read_coords(lat, lon)
 
-print alats[:2], alats[-2:]
-print bnds_lat[0], bnds_lat[-1]
-print alons[:2], alons[-2:]
-print bnds_lon[0], bnds_lon[-1]
-print plevs
+print(alats[:2], alats[-2:])
+print(bnds_lat[0], bnds_lat[-1])
+print(alons[:2], alons[-2:])
+print(bnds_lon[0], bnds_lon[-1])
+print(plevs)
 
 pth = os.path.expanduser("~/Karl")
 pth = os.getcwd()
@@ -132,7 +133,7 @@ ilev_half = cmor.axis(table_entry='standard_hybrid_sigma',
 print("ILEVL half:",ilev_half)
 
 cmor.zfactor(zaxis_id=ilev_half, zfactor_name='p0', units='hPa', zfactor_values=p0)
-print "p0 1/2"
+print("p0 1/2")
 failed = False
 try:
     cmor.zfactor(zaxis_id=ilev_half, zfactor_name='b_half', axis_ids=[ilev_half, ],

@@ -1,3 +1,4 @@
+from __future__ import print_function
 import cmor
 import numpy
 
@@ -53,7 +54,7 @@ ivar = cmor.variable(
 cmor.write(ivar, data, ntimes_passed=1, time_vals=[0.], time_bnds=[0., 1.])
 fnm = cmor.close(ivar, file_name=True)
 
-print '*******************************'
+print('*******************************')
 
 ivar2 = cmor.variable(
     table_entry='tasmin',

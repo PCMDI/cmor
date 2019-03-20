@@ -1,5 +1,6 @@
 #include <Python.h>
 #define NPY_NO_DEPRECATED_API  NPY_1_10_API_VERSION
+
 #include "numpy/arrayobject.h"
 #include "cmor.h"
 
@@ -35,7 +36,11 @@ static PyObject *PyCMOR_get_original_shape(PyObject * self, PyObject * args)
     mylist = PyList_New(0);
     for (i = 0; i < CMOR_MAX_DIMENSIONS; i++) {
         if (shape_array[i] != -1) {
+#if PY_MAJOR_VERSION >= 3
+            PyList_Append(mylist, PyLong_FromLong(shape_array[i]));
+#else
             PyList_Append(mylist, PyInt_FromLong(shape_array[i]));
+#endif
         }
     }
     Py_INCREF(mylist);
@@ -164,8 +169,13 @@ static PyObject *PyCMOR_set_variable_attribute(PyObject * self, PyObject * args)
     if (!PyArg_ParseTuple(args, "issO", &var_id, &name, &type, &oValue))
         return NULL;
 
+#if PY_MAJOR_VERSION >= 3
+    if(PyBytes_Check(oValue)) {
+        value = PyBytes_AsString(oValue);
+#else
     if(PyString_Check(oValue)) {
         value = PyString_AsString(oValue);
+#endif
     } else if(PyLong_Check(oValue)) {
         lValue = PyLong_AsLong(oValue);
     } else if (PyFloat_Check(oValue)) {
@@ -667,7 +677,11 @@ static PyObject *PyCMOR_zfactor(PyObject * self, PyObject * args)
                                                              NPY_NOTYPE, 1, 0);
             axes_ids = (void *)PyArray_DATA(axes);
         } else {
+#if PY_MAJOR_VERSION >= 3
+            itmp = (int)PyLong_AsLong(axes_obj);
+#else
             itmp = (int)PyInt_AsLong(axes_obj);
+#endif
             axes_ids = &itmp;
         }
     }
@@ -738,10 +752,18 @@ static PyObject *PyCMOR_grid_mapping(PyObject * self, PyObject * args)
     n = PyList_Size(param_nm_obj);
     for (i = 0; i < n; i++) {
         tmp = PyList_GetItem(param_nm_obj, i);
+#if PY_MAJOR_VERSION >= 3
+        strcpy(nms[i], PyBytes_AsString(tmp));
+#else
         strcpy(nms[i], PyString_AsString(tmp));
+#endif
         //Py_DECREF(tmp); //Not needed get_item does not increase ref
         tmp = PyList_GetItem(param_un_obj, i);
+#if PY_MAJOR_VERSION >= 3
+        strcpy(units[i], PyBytes_AsString(tmp));
+#else
         strcpy(units[i], PyString_AsString(tmp));
+#endif
         //Py_DECREF(tmp); // Not need get_item does not incref
     }
 
@@ -823,7 +845,11 @@ static PyObject *PyCMOR_write(PyObject * self, PyObject * args)
     if (ref_obj == Py_None) {
         ref = NULL;
     } else {
+#if PY_MAJOR_VERSION >= 3
+        iref = (int)PyLong_AsLong(ref_obj);
+#else
         iref = (int)PyInt_AsLong(ref_obj);
+#endif
         ref = &iref;
     }
     type = itype[0];
@@ -872,7 +898,11 @@ static PyObject *PyCMOR_close(PyObject * self, PyObject * args)
             return (Py_BuildValue("i", ierr));
         }
     } else {
+#if PY_MAJOR_VERSION >= 3
+        varid = (int)PyLong_AsLong(var);
+#else
         varid = (int)PyInt_AsLong(var);
+#endif
 
         if (dopreserve == 1) {
             if (dofile == 1) {
@@ -1092,7 +1122,28 @@ static PyMethodDef MyExtractMethods[] = {
     {NULL, NULL}                /*sentinel */
 };
 
-PyMODINIT_FUNC init_cmor(void)
+#if PY_MAJOR_VERSION >= 3
+static struct PyModuleDef moduledef = {
+        PyModuleDef_HEAD_INIT,
+        "_cmor",
+        NULL,
+        -1,
+        MyExtractMethods
+};
+#endif
+
+#if PY_MAJOR_VERSION >= 3
+PyMODINIT_FUNC PyInit__cmor(void)
+{
+    PyObject *cmor_module;
+    cmor_module = PyModule_Create(&moduledef);
+    import_array();
+    CMORError = PyErr_NewException("_cmor.CMORError", NULL, NULL);
+    PyModule_AddObject(cmor_module, "CMORError", CMORError);
+    return cmor_module;
+}
+#else
+void init_cmor(void)
 {
     PyObject *cmor_module;
     cmor_module = Py_InitModule("_cmor", MyExtractMethods);
@@ -1100,3 +1151,4 @@ PyMODINIT_FUNC init_cmor(void)
     CMORError = PyErr_NewException("_cmor.CMORError", NULL, NULL);
     PyModule_AddObject(cmor_module, "CMORError", CMORError);
 }
+#endif

@@ -1,3 +1,4 @@
+from __future__ import print_function
 from test_python_common import *  # common subroutines
 
 import cmor._cmor
@@ -26,7 +27,7 @@ tables = []
 a = cmor.load_table("Tables/CMIP6_grids.json")
 tables.append(a)
 tables.append(cmor.load_table("Tables/CMIP6_Omon.json"))
-print 'Tables ids:', tables
+print('Tables ids:', tables)
 
 cmor.set_table(tables[0])
 
@@ -46,7 +47,7 @@ grid_id = cmor.grid(axis_ids=myaxes[:2],
                     longitude=lon_coords,
                     latitude_vertices=lat_vertices,
                     longitude_vertices=lon_vertices)
-print 'got grid_id:', grid_id
+print('got grid_id:', grid_id)
 myaxes[2] = grid_id
 
 ## mapnm = 'lambert_conformal_conic'
@@ -67,7 +68,7 @@ myaxes[3] = cmor.axis(table_entry='time',
 
 pass_axes = [myaxes[3], myaxes[2]]
 
-print 'ok going to cmorvar'
+print('ok going to cmorvar')
 myvars[0] = cmor.variable(table_entry='eparag100',
                           units='mol m-2 s-1',
                           axis_ids=pass_axes,
@@ -78,8 +79,8 @@ myvars[0] = cmor.variable(table_entry='eparag100',
                           )
 for i in range(ntimes):
     data2d = read_2d_input_files(i, varin2d[0], lat, lon)
-    print 'writing time: ', i, data2d.shape, data2d
-    print Time[i], bnds_time[2 * i:2 * i + 2]
+    print('writing time: ', i, data2d.shape, data2d)
+    print(Time[i], bnds_time[2 * i:2 * i + 2])
     cmor.write(myvars[0], data2d, 1, time_vals=Time[i],
                time_bnds=bnds_time[2 * i:2 * i + 2])
 cmor.close()

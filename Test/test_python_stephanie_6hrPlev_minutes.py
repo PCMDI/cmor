@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from __future__ import print_function
 import cmor
 import numpy
 
@@ -37,7 +38,7 @@ def main():
 
     axis_ids = list()
     for axis in axes:
-        print 'doing:', axis
+        print('doing:', axis)
         axis_id = cmor.axis(**axis)
         axis_ids.append(axis_id)
 

@@ -5,7 +5,7 @@ Note the memory size from repeated calls to cmor
 
 Memory stats are taken from http://code.activestate.com/recipes/286222/
 '''
-
+from __future__ import print_function
 import os
 
 _proc_status = '/proc/%d/status' % os.getpid()
@@ -125,7 +125,7 @@ def memory_check():
             cmor.write(varid, [275])
         mem, res, stk = memory_usage(sys.stdout, mem, res, stk)
         #mem,res,stk = memory_usage(sys.stdout,memi,resi,stki)
-        print '---'
+        print('---')
 
     cmor.close(varid)
 

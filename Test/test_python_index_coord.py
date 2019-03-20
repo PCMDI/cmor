@@ -1,3 +1,4 @@
+from __future__ import print_function
 import cmor
 import numpy
 
@@ -63,4 +64,4 @@ iv = cmor.variable(
 cmor.write(iv, data)
 
 f1 = cmor.close(iv, file_name=True)
-print f1
+print(f1)

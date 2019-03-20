@@ -1,4 +1,4 @@
-import _cmor
+import cmor._cmor
 atts = """
 CMOR_MAX_STRING
 CMOR_MAX_ELEMENTS
@@ -38,4 +38,4 @@ CMOR_DEFAULT_HISTORY_TEMPLATE
 
 for att in atts.split():
     attnm = att
-    exec("%s = _cmor.getCMOR_defaults_include('%s')" % (att, att))
+    exec("%s = cmor._cmor.getCMOR_defaults_include('%s')" % (att, att))

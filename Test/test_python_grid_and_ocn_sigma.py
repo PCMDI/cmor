@@ -1,4 +1,4 @@
-
+from __future__ import print_function
 import cmor
 import numpy
 import os
@@ -46,7 +46,7 @@ def gen_irreg_grid(lon, lat):
             lat_vertices[j, i, 1] = lat_coords[j, i] - delta_lat
             lat_vertices[j, i, 2] = lat_coords[j, i]
             lat_vertices[j, i, 3] = lat_coords[j, i] + delta_lat
-    print lat_vertices.min(), '---------------------'
+    print(lat_vertices.min(), '---------------------')
     return x, y, lon_coords, lat_coords, lon_vertices, lat_vertices
 
 
@@ -66,13 +66,13 @@ tables = []
 a = cmor.load_table("CMIP6_grids.json")
 tables.append(a)
 tables.append(cmor.load_table("CMIP6_Omon.json"))
-print 'Tables ids:', tables
+print('Tables ids:', tables)
 
 cmor.set_table(tables[0])
 
 x, y, lon_coords, lat_coords, lon_vertices, lat_vertices = gen_irreg_grid(
     lon, lat)
-print lon_vertices.shape, lat_vertices.shape, x.shape, y.shape
+print(lon_vertices.shape, lat_vertices.shape, x.shape, y.shape)
 
 myaxes[1] = cmor.axis(table_entry='y',
                       units='m',
@@ -81,13 +81,13 @@ myaxes[0] = cmor.axis(table_entry='x',
                       units='m',
                       coord_vals=x)
 
-print 'lons:', lon_vertices.shape, lon_coords.shape
+print('lons:', lon_vertices.shape, lon_coords.shape)
 grid_id = cmor.grid(axis_ids=myaxes[:2],
                     latitude=lat_coords,
                     longitude=lon_coords,
                     latitude_vertices=lat_vertices,
                     longitude_vertices=lon_vertices)
-print 'got grid_id:', grid_id
+print('got grid_id:', grid_id)
 myaxes[2] = grid_id
 
 ## mapnm = 'lambert_conformal_conic'
@@ -108,16 +108,16 @@ myaxes[3] = cmor.axis(table_entry='time',
 # Now sets up the ocn sigma stuff
 levs = -numpy.arange(lev) / float(lev + 1.)
 blevs = -numpy.arange(lev + 1) / float(lev + 1.)
-print 'Defining zlevs'
+print('Defining zlevs')
 myaxes[4] = cmor.axis(
     table_entry='ocean_sigma',
     coord_vals=levs,
     cell_bounds=blevs,
     units='1')
 
-print 'definnig zfactor depth', myaxes[2]
+print('definnig zfactor depth', myaxes[2])
 depth = numpy.random.random((lon, lat)) * 5000.
-print 'Depth:', depth.shape, depth.dtype
+print('Depth:', depth.shape, depth.dtype)
 idpth = cmor.zfactor(zaxis_id=myaxes[4],
                      units='m',
                      zfactor_name='depth',
@@ -125,7 +125,7 @@ idpth = cmor.zfactor(zaxis_id=myaxes[4],
                                            ]),
                      zfactor_values=depth)
 
-print 'defining zfactor eta'
+print('defining zfactor eta')
 ieta = cmor.zfactor(
     zaxis_id=myaxes[4],
     units='m',
@@ -133,9 +133,9 @@ ieta = cmor.zfactor(
     axis_ids=[
         myaxes[2],
         myaxes[3]])
-print 'ieta:', ieta
+print('ieta:', ieta)
 pass_axes = [myaxes[4], myaxes[2], myaxes[3]]
-print 'defining variable'
+print('defining variable')
 myvars[0] = cmor.variable(table_entry='thetao',
                           units='K',
                           axis_ids=pass_axes,
@@ -150,10 +150,10 @@ for i in range(ntimes):
     eta = numpy.random.random((lon, lat, ntimes)) * 10000.
     # print 'writing time: ',i,data3d.shape,data3d
     # print Time[i],bnds_time[2*i:2*i+2]
-    print 'Writing time', i, 'for var', data3d.shape
+    print('Writing time', i, 'for var', data3d.shape)
     cmor.write(myvars[0], data3d, 1, time_vals=Time[i],
                time_bnds=bnds_time[2 * i:2 * i + 2])
-    print 'Writing time', i, 'for eta'
+    print('Writing time', i, 'for eta')
     cmor.write(ieta,
                eta,
                1,

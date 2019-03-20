@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+from __future__ import print_function
 import cmor
 import numpy
 
@@ -10,7 +10,7 @@ def define_axes(axes):
         axis_id = cmor.axis(**axis)
         axis_ids.append(axis_id)
 
-    print 'cmor.axis calls complete'
+    print('cmor.axis calls complete')
     return axis_ids
 
 
@@ -21,11 +21,11 @@ def define_write_var(axis_ids, entry, unit, values):
                           missing_value=-99
                           )
 
-    print 'cmor.variable call complete'
+    print('cmor.variable call complete')
 
     cmor.write(varid, values, time_vals=[15.0], time_bnds=[0., 30.0])
 
-    print 'cmor.write call complete'
+    print('cmor.write call complete')
 
 
 def cmor_ini():

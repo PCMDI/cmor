@@ -1,1 +1,1 @@
-from PrePARE import main
+from cmip6_cv.PrePARE.PrePARE import main

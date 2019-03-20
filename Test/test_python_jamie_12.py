@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+from __future__ import print_function
 import cmor
 import numpy
 
@@ -10,7 +10,7 @@ def define_axes(axes):
         axis_id = cmor.axis(**axis)
         axis_ids.append(axis_id)
 
-    print 'MY:cmor.axis calls complete'
+    print('MY:cmor.axis calls complete')
     return axis_ids
 
 

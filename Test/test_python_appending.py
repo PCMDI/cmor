@@ -1,3 +1,4 @@
+from __future__ import print_function
 import cmor
 import numpy
 
@@ -15,7 +16,7 @@ def mywrite(data=None, time_vals=None, append_to=None, cell_bounds=None):
     bnds_req = numpy.array(bnds_req)
     bnds_req.shape = (7, 2)
 
-    print bnds_req[-2], bnds_req.shape
+    print(bnds_req[-2], bnds_req.shape)
 
     levs = []
 
@@ -24,14 +25,14 @@ def mywrite(data=None, time_vals=None, append_to=None, cell_bounds=None):
 
     levs = numpy.array(levs)
 
-    print levs
+    print(levs)
 
     ipth = "Test"
     if append_to is None:
         mode = cmor.CMOR_REPLACE
     else:
         mode = cmor.CMOR_APPEND
-    print 'Mode in python:', mode
+    print('Mode in python:', mode)
     cmor.setup(inpath=ipth,
                set_verbosity=cmor.CMOR_NORMAL,
                netcdf_file_action=mode,
@@ -64,7 +65,7 @@ def mywrite(data=None, time_vals=None, append_to=None, cell_bounds=None):
         coord_vals=lons,
         units='degrees_east',
         cell_bounds=bnds_lon)
-    print 'so far', itim, ilat, ilon
+    print('so far', itim, ilat, ilon)
     ilev = cmor.axis(table_entry="plev19", coord_vals=plevs, units="Pa")
 
     iv = cmor.variable(
@@ -73,21 +74,21 @@ def mywrite(data=None, time_vals=None, append_to=None, cell_bounds=None):
 
     # cmor.write(iv,data)
     if append_to is None:
-        print 'time:', time_vals
-        print 'bnds:', cell_bounds
+        print('time:', time_vals)
+        print('bnds:', cell_bounds)
         # ,file_suffix="with-appending")
         cmor.write(iv, data, time_vals=time_vals, time_bnds=cell_bounds)
     else:
-        print 'Ok writing with a suffix', append_to
+        print('Ok writing with a suffix', append_to)
         cmor.write(
             iv,
             data,
             time_vals=time_vals,
             file_suffix=append_to,
             time_bnds=cell_bounds)
-        print 'and back'
+        print('and back')
     file = cmor.close(iv, file_name=True)
-    print 'Ok dumped to:', file
+    print('Ok dumped to:', file)
     cmor.close()
     return file
 
@@ -97,7 +98,7 @@ data = numpy.random.random((ntime, 19, nlat, nlon)) + 280.
 
 f1 = mywrite(data=data[:6], time_vals=numpy.arange(
     0, 6, 1), cell_bounds=numpy.arange(0, 7, 1))
-print 'First part: ', f1
+print('First part: ', f1)
 f2 = mywrite(data=data[6:], time_vals=numpy.arange(
     6, 12, 1), cell_bounds=numpy.arange(6, 13, 1), append_to=f1)
-print f2
+print(f2)
