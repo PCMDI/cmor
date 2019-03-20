@@ -11,7 +11,7 @@
 #   3. Download
 #      https://github.com/PCMDI/cmor/blob/master/Test/<filename>.json
 #      to the 'Test/' directory.
-
+from __future__ import print_function
 import cmor
 import numpy
 import unittest

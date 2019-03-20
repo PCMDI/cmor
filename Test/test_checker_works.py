@@ -1,7 +1,7 @@
 ####
 # This is trying to test all that cmor_checker catches all the possible failures
 ###
-
+from __future__ import print_function
 import sys
 import cmor
 import shutil

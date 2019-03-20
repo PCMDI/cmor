@@ -1,3 +1,4 @@
+from __future__ import print_function
 import numpy
 # do not push to master
 from numpy.distutils.core import setup, Extension

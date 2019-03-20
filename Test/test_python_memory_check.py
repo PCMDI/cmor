@@ -5,7 +5,7 @@ Note the memory size from repeated calls to cmor
 
 Memory stats are taken from http://code.activestate.com/recipes/286222/
 '''
-
+from __future__ import print_function
 import os
 
 _proc_status = '/proc/%d/status' % os.getpid()

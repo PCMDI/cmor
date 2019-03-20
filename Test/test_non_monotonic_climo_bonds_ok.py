@@ -1,3 +1,4 @@
+from __future__ import print_function
 import cmor
 
 # Hypothetical data are going from march 2000 thru feb 2010

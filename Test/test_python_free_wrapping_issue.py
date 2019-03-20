@@ -2,6 +2,7 @@
 # Peter Uhe 24 July 2014
 # Martin Dix 21 Nov 2014
 #
+from __future__ import print_function
 import numpy as np
 import datetime
 import cmor

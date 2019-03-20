@@ -35,7 +35,7 @@ Options:
  -v or --version: CF version to check against, use auto to auto-detect the file version.
 
 '''
-
+from __future__ import print_function
 from sys import *
 import cdms2 as cdms, re, string, types, numpy
 
