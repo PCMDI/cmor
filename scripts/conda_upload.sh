@@ -6,9 +6,14 @@ if [ `uname` == "Linux" ]; then
     OS=linux-64
     echo "Linux OS"
     yum install -y wget git gcc
-    # wget --no-check https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh  -O miniconda3.sh 2> /dev/null
-    wget --no-check https://repo.continuum.io/miniconda/Miniconda2-4.3.30-Linux-x86_64.sh  -O miniconda2.sh 2> /dev/null
-    bash miniconda2.sh -b -p ${HOME}/miniconda
+    if [ $CMOR_PYTHON_VERSION == '2.7' ]; then 
+        wget --no-check https://repo.continuum.io/miniconda/Miniconda2-4.3.30-Linux-x86_64.sh -O miniconda2.sh
+        bash miniconda2.sh -b -p ${HOME}/miniconda
+    fi
+    if [ $CMOR_PYTHON_VERSION == '3.6' || $CMOR_PYTHON_VERSION == '3.7' ]; then 
+        wget --no-check https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda3.sh
+        bash miniconda3.sh -b -p ${HOME}/miniconda
+    fi
     export SYSPATH=$PATH
     export PATH=${HOME}/miniconda/bin:${SYSPATH}
     echo $PATH
@@ -45,7 +50,7 @@ echo "Building now"
 #conda build -c conda-forge -c uvcdat/label/nightly -c uvcdat --numpy=1.12 cmor
 #conda build -c conda-forge -c uvcdat/label/nightly -c uvcdat --numpy=1.11 cmor
 #conda build -c conda-forge  -c uvcdat/label/nightly -c uvcdat --numpy=1.10 cmor
-conda build -c conda-forge  -c cdat/label/nightly -c cdat cmor
+conda build -c conda-forge  -c cdat/label/nightly -c cdat cmor --python=${CMOR_PYTHON_VERSION}
 mkdir -p ~/.continuum/anaconda-client/
 echo "ssl_verify: false" >> ~/.continuum/anaconda-client/config.yaml
 echo "verify_ssl: false" >> ~/.continuum/anaconda-client/config.yaml
