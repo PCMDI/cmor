@@ -254,6 +254,7 @@
 #define DIMENSION_ALEVEL_HALF         "alevhalf"
 #define DIMENSION_ZLEVEL              "zlevel"
 #define DIMENSION_OLEVEL              "olevel"
+#define DIMENSION_OLEVEL_HALF         "olevhalf"
 
 #define AREA                          "area"
 #define VOLUME                        "volume"
