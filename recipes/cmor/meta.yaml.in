@@ -19,7 +19,7 @@ test:
 requirements:
   build:
     - python {{ python }}
-    - ossuuid 1.6.2
+    - libuuid
     - udunits2
     - hdf5 1.8.18|1.8.18.*
     - libnetcdf 4.4.*
@@ -27,7 +27,7 @@ requirements:
     - gcc [osx]
   run:
     - python {{ python }}
-    - ossuuid 1.6.2
+    - libuuid
     - udunits2
     - libnetcdf 4.4.*
     - numpy {{ numpy }}.*
