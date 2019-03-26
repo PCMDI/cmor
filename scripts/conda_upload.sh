@@ -7,12 +7,16 @@ if [ `uname` == "Linux" ]; then
     echo "Linux OS"
     yum install -y wget git gcc
     if [ $CMOR_PYTHON_VERSION == '2.7' ]; then 
+        echo "Using Python $CMOR_PYTHON_VERSION"
         wget --no-check https://repo.continuum.io/miniconda/Miniconda2-4.3.30-Linux-x86_64.sh -O miniconda2.sh
         bash miniconda2.sh -b -p ${HOME}/miniconda
-    fi
-    if [ $CMOR_PYTHON_VERSION == '3.6' || $CMOR_PYTHON_VERSION == '3.7' ]; then 
+    elif [ $CMOR_PYTHON_VERSION == '3.6' ] || [ $CMOR_PYTHON_VERSION == '3.7' ]; then 
+        echo "Using Python $CMOR_PYTHON_VERSION"
         wget --no-check https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda3.sh
         bash miniconda3.sh -b -p ${HOME}/miniconda
+    else
+        echo "Python $CMOR_PYTHON_VERSION not supported. Exiting."
+        exit 1
     fi
     export SYSPATH=$PATH
     export PATH=${HOME}/miniconda/bin:${SYSPATH}
