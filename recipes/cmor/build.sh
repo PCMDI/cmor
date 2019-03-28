@@ -10,6 +10,11 @@ if [[ ${CONDA_LST}'y' == *'openmpi'* ]]; then
     export DYLD_FALLBACK_LIBRARY_PATH=${PREFIX}/lib
 fi
 
+if [[ `uname` == "Linux" ]]; then
+    export LDSHARED_FLAGS="-shared -pthread"
+else
+    export LDSHARED_FLAGS="-bundle -undefined dynamic_lookup"
+fi
 
 ./configure \
     --with-python=${PREFIX}   \
@@ -18,7 +23,7 @@ fi
     --with-netcdf=${PREFIX} \
     --with-libjson-c=${PREFIX} \
     --prefix=${PREFIX}
-make
+make 
 make install
 # Make sure CMOR UDNITS2 env is still present in the package
 ACTIVATE_DIR=$PREFIX/etc/conda/activate.d
