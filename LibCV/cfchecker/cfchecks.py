@@ -37,7 +37,7 @@ Options:
 '''
 from __future__ import print_function
 from sys import *
-import cdms2 as cdms, re, string, types, numpy
+import cdms2 as cdms, re, string, types, numpy, six
 
 from cdms2.axis import FileAxis
 from cdms2.auxcoord import FileAuxAxis1D
@@ -71,7 +71,7 @@ class CFVersion(object):
 
     def __init__(self, value=()):
         "Instantiate CFVersion with a string or with a tuple of ints"
-        if isinstance(value, str):
+        if isinstance(value, six.string_types):
             if value.startswith("CF-"):
                 value = value[3:]
             self.tuple = map(int, value.split("."))
