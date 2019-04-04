@@ -1533,7 +1533,7 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
                                   1, &pAxis->value, 'd', NULL, 0, "");
                     }
 
-                    laxes_ids[olndims] = k;
+                    laxes_ids[olndims + lndims] = k;
                     lndims += 1;
                 }
 
