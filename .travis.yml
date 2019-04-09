@@ -61,5 +61,5 @@ after_failure:
   - cat ~/build.sh
 
 after_success:
-  - if [[ $TRAVIS_BRANCH == "master" && $TRAVIS_OS_NAME == "osx" ]]; then bash scripts/conda_upload.sh ${TRAVIS_BRANCH} ; fi
-  - if [[ $TRAVIS_BRANCH == "master" && $TRAVIS_OS_NAME == "linux" ]]; then docker run -v `pwd`:/travis_home -e CONDA_UPLOAD_TOKEN=${CONDA_UPLOAD_TOKEN} -e CMOR_PYTHON_VERSION=${CMOR_PYTHON_VERSION} -a STDOUT -a STDERR centos:6.8 /travis_home/scripts/conda_upload.sh ${TRAVIS_BRANCH} ; fi
+  - if [[ $TRAVIS_BRANCH == "master" && $TRAVIS_OS_NAME == "osx" ]]; then CMOR_RECIPE_DIR=recipes bash scripts/conda_upload.sh ${TRAVIS_BRANCH} ; fi
+  - if [[ $TRAVIS_BRANCH == "master" && $TRAVIS_OS_NAME == "linux" ]]; then docker run -v `pwd`:/travis_home -e CONDA_UPLOAD_TOKEN=${CONDA_UPLOAD_TOKEN} -e CMOR_RECIPE_DIR=/travis_home/recipes -e CMOR_PYTHON_VERSION=${CMOR_PYTHON_VERSION} -a STDOUT -a STDERR centos:6.8 /travis_home/scripts/conda_upload.sh ${TRAVIS_BRANCH} ; fi
