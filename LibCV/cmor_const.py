@@ -1,4 +1,4 @@
-import _cmip6_cv
+import cmip6_cv._cmip6_cv
 atts = """
 CMOR_MAX_STRING
 CMOR_MAX_ELEMENTS
@@ -37,4 +37,4 @@ CMOR_FORMULA_VAR_FILE
 
 for att in atts.split():
     attnm = att
-    exec("%s = _cmip6_cv.getCMOR_defaults_include('%s')" % (att, att))
+    exec("%s = cmip6_cv._cmip6_cv.getCMOR_defaults_include('%s')" % (att, att))

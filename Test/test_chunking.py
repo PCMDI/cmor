@@ -1,3 +1,4 @@
+from __future__ import print_function
 import cmor
 import numpy
 import sys
@@ -11,7 +12,7 @@ try:
     cdms2.setNetcdfDeflateFlag(0)
     cdms2.setNetcdfDeflateLevelFlag(0)
 except BaseException:
-    print "This test code needs a recent cdms2 interface for i/0"
+    print("This test code needs a recent cdms2 interface for i/0")
     sys.exit()
 
 
@@ -24,7 +25,7 @@ cmor.dataset_json("Test/CMOR_input_example.json")
 
 tables = []
 tables.append(cmor.load_table("CMIP6_chunking.json"))
-print 'Tables ids:', tables
+print('Tables ids:', tables)
 
 
 # read in data, just one slice

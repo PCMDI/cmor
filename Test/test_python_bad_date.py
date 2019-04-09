@@ -1,3 +1,4 @@
+from __future__ import print_function
 import cmor
 import numpy
 
@@ -24,16 +25,16 @@ def setup_data():
     tbnds = list(tvals)
     tbnds.append(43200)
     tbnds = numpy.array(tbnds) - 3.
-    print "tvals:", tvals
-    print "tbnds:", tbnds
+    print("tvals:", tvals)
+    print("tbnds:", tbnds)
     import cdtime
     tunits = 'hours since 209-01-01 06:00:00'
     t1 = cdtime.reltime(tvals[0], tunits)
     t2 = cdtime.reltime(tvals[-1], tunits)
     t3 = cdtime.reltime(tbnds[-1], tunits)
-    print t1.tocomp(), t1.tocomp(cdtime.Calendar360)
-    print t2.tocomp(), t2.tocomp(cdtime.Calendar360)
-    print t3.tocomp(), t3.tocomp(cdtime.Calendar360)
+    print(t1.tocomp(), t1.tocomp(cdtime.Calendar360))
+    print(t2.tocomp(), t2.tocomp(cdtime.Calendar360))
+    print(t3.tocomp(), t3.tocomp(cdtime.Calendar360))
 
     axes = [{'table_entry': 'time1',
              'units': tunits,
@@ -87,7 +88,7 @@ def main():
     cmor_initialisation()
     values, axes = setup_data()
     vid = cmor_define_and_write(values, axes)
-    print cmor.close(var_id=vid, file_name=True)
+    print(cmor.close(var_id=vid, file_name=True))
 
 
 if __name__ == '__main__':

@@ -1,3 +1,4 @@
+from __future__ import print_function
 import cmor
 
 # Hypothetical data are going from march 2000 thru feb 2010
@@ -48,7 +49,7 @@ def path_test():
     cmor.write(varid, data, time_vals=[12, 15, 18], time_bnds=[[10, 1234], [12, 1125], [15, 1128]])
     path = cmor.close(varid, file_name=True)
 
-    print path
+    print(path)
 
 
 if __name__ == '__main__':

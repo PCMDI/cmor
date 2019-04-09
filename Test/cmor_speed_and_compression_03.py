@@ -1,3 +1,4 @@
+from __future__ import print_function
 import cmor
 import numpy
 import sys
@@ -12,7 +13,7 @@ try:
     cdms2.setNetcdfDeflateFlag(0)
     cdms2.setNetcdfDeflateLevelFlag(0)
 except BaseException:
-    print "This test code needs a recent cdms2 interface for i/0"
+    print("This test code needs a recent cdms2 interface for i/0")
     sys.exit()
 
 level = 3
@@ -26,7 +27,7 @@ cmor.dataset_json("Test/CMOR_input_example.json")
 
 tables = []
 tables.append(cmor.load_table("CMIP6_Amon.json"))
-print 'Tables ids:', tables
+print('Tables ids:', tables)
 
 
 # read in data, just one slice
@@ -73,10 +74,10 @@ mincdms = 1000
 c0 = st
 f = cdms2.open("Test/crap.nc", "w")
 # print 'Time:',i
-print s.filled().shape
+print(s.filled().shape)
 cmor.write(myvars[0], s.filled(), ntimes_passed=ntimes)
 c = time.time()
-print 'cmor write time:', c - c0
+print('cmor write time:', c - c0)
 totcmor += c - c0
 if maxcmor < c - c0:
     maxcmor = c - c0
@@ -85,7 +86,7 @@ if mincmor > c - c0:
 c0 = c
 f.write(s, id=varout)
 c = time.time()
-print 'cdms time:', c - c0
+print('cdms time:', c - c0)
 totcdms += c - c0
 if maxcdms < c - c0:
     maxcdms = c - c0
@@ -102,12 +103,12 @@ ltime = cdtime.reltime(ntimes - 1, 'month since 1980').tocomp()
 lcmor = os.stat(
     "CMIP6/CMIP6/ISMIP6/PCMDI/PCMDI-test-1-0/piControl-withism/r11i1p1f1/Amon/tas/gr/v%s/tas_Amon_PCMDI-test-1-0_piControl-withism_r11i1p1f1_gr_197901-197912.nc" %
     (today))[6]
-print 'level:', level, "shuffle:", shuffle
-print 'total cmor:', totcmor, mincmor, totcmor / ntimes, maxcmor, lcmor
+print('level:', level, "shuffle:", shuffle)
+print('total cmor:', totcmor, mincmor, totcmor / ntimes, maxcmor, lcmor)
 lcdms = os.stat("Test/crap.nc")[6]
-print 'total cdms:', totcdms, mincdms, totcdms / ntimes, maxcdms, lcdms
-print 'Size diff:', float(lcmor) / float(lcdms)
-print 'speed diff:', totcmor / totcdms
+print('total cdms:', totcdms, mincdms, totcdms / ntimes, maxcdms, lcdms)
+print('Size diff:', float(lcmor) / float(lcdms))
+print('speed diff:', totcmor / totcdms)
 
 if os.path.exists("summary.txt"):
     f = open("summary.txt")
@@ -122,7 +123,7 @@ dic[(level, shuffle)] = (float(lcmor) / float(lcdms), totcmor / totcdms)
 for i in range(10):
     a = dic.get((i, 0), "N/A")
     b = dic.get((i, 1), "N/A")
-    print 'Level: ', i, "no suffle:", a, "shuffle", b
+    print('Level: ', i, "no suffle:", a, "shuffle", b)
 f = open("summary.txt", "w")
 f.write(repr(dic))
 f.close()

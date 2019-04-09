@@ -13,7 +13,7 @@ aliases:
       git clone -b validateNightly git@github.com:CDAT/cdat workspace/cdat
       ls workspace/cdat
       # following will install miniconda3 under $WORKDIR/miniconda/bin
-      python workspace/cdat/scripts/install_miniconda.py -w $WORKDIR -p 'py2.7'
+      python workspace/cdat/scripts/install_miniconda.py -w $WORKDIR -p py$PYTHON_VERSION
       
   - &create_conda_env
     name: create_conda_env
@@ -22,7 +22,7 @@ aliases:
        conda config --set always_yes yes --set changeps1 no
        conda update -y -q conda
        conda config --set anaconda_upload no
-       conda create -q -n py2 -c cdat/label/nightly -c conda-forge -c cdat ossuuid udunits2 hdf5 libnetcdf numpy openssl lazy-object-proxy cdms2 python=2.7 $CONDA_COMPILERS testsrunner
+       conda create -q -n py$PYTHON_VERSION -c cdat/label/nightly -c conda-forge -c cdat ossuuid udunits2 hdf5 libnetcdf numpy openssl lazy-object-proxy cdms2 python=$PYTHON_VERSION $CONDA_COMPILERS testsrunner
 
   - &setup_cmor
     name: setup_cmor
@@ -30,7 +30,7 @@ aliases:
        echo "WE are in: "`pwd`
        export PATH=$WORKDIR/miniconda/bin:$PATH
        set +e
-       source activate py2
+       source activate py$PYTHON_VERSION
        echo "ACTIVATE RETURN CODE $?"
        set -e
        #git clone https://github.com/PCMDI/cmip6-cmor-tables
@@ -46,7 +46,7 @@ aliases:
        export PATH=$WORKDIR/miniconda/bin:$PATH
        export UVCDAT_ANONYMOUS_LOG=False
        set +e
-       source activate py2
+       source activate py$PYTHON_VERSION
        set -e
        make test
   - &run_prepare_tests
@@ -55,8 +55,9 @@ aliases:
        export PATH=$WORKDIR/miniconda/bin:$PATH
        export UVCDAT_ANONYMOUS_LOG=False
        set +e
-       source activate py2
+       source activate py$PYTHON_VERSION
        set -e
+       export PYTHONPATH=Test/:$PYTHONPATH
        for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file; mystatus=$?; if [[ "$mystatus" != "0" ]]; then return ${mystatus}; fi; done
        python run_tests.py -v2 -H -n1 Test/test_python_CMIP6_CV*.py
   - &conda_upload
@@ -69,22 +70,22 @@ aliases:
        conda install conda-build anaconda-client
        conda config --set anaconda_upload no
        export CONDA_BLD_PATH=`pwd`/conda_build
-       git clone git://github.com/cdat/conda-recipes
-       cd conda-recipes
+       cd recipes
        export PKG_NAME=cmor
        export USER=pcmdi
        export VERSION=3.4.0
        export LABEL=nightly
        python ./prep_for_build.py -l $VERSION
-       conda build $PKG_NAME -c cdat/label/nightly -c conda-forge -c cdat --python=2.7
+       conda build $PKG_NAME -c cdat/label/nightly -c conda-forge -c cdat --python=$PYTHON_VERSION
        anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.`date +%Y*`0.tar.bz2 --force
 
 
 jobs:
-  macos_cmor:
+  macos_cmor_py27:
     macos:
       xcode: "9.2.0"
     environment:
+      PYTHON_VERSION: "2.7"
       WORKDIR: "workspace/test_macos_cmor"
       CONDA_COMPILERS: "clang_osx-64 gfortran_osx-64"
       LDSHARED_FLAGS: "-bundle -undefined dynamic_lookup"
@@ -99,11 +100,87 @@ jobs:
       - run: *run_prepare_tests
       - run: *conda_upload
 
+  macos_cmor_py36:
+    macos:
+      xcode: "9.2.0"
+    environment:
+      PYTHON_VERSION: "3.6"
+      WORKDIR: "workspace/test_macos_cmor"
+      CONDA_COMPILERS: "clang_osx-64 gfortran_osx-64"
+      LDSHARED_FLAGS: "-bundle -undefined dynamic_lookup"
+      UVCDAT_ANONYMOUS_LOG: "False"
+      OS: "osx-64"
+    steps:
+      - checkout
+      - run: *setup_miniconda
+      - run: *create_conda_env
+      - run: *setup_cmor
+      - run: *run_cmor_tests
+      - run: *run_prepare_tests
+      - run: *conda_upload
 
-  linux_cmor:
+  macos_cmor_py37:
+    macos:
+      xcode: "9.2.0"
+    environment:
+      PYTHON_VERSION: "3.7"
+      WORKDIR: "workspace/test_macos_cmor"
+      CONDA_COMPILERS: "clang_osx-64 gfortran_osx-64"
+      LDSHARED_FLAGS: "-bundle -undefined dynamic_lookup"
+      UVCDAT_ANONYMOUS_LOG: "False"
+      OS: "osx-64"
+    steps:
+      - checkout
+      - run: *setup_miniconda
+      - run: *create_conda_env
+      - run: *setup_cmor
+      - run: *run_cmor_tests
+      - run: *run_prepare_tests
+      - run: *conda_upload
+
+  linux_cmor_py27:
     machine:
       image: circleci/classic:latest
     environment:
+      PYTHON_VERSION: "2.7"
+      WORKDIR: "workspace/test_linux_cmor"
+      CONDA_COMPILERS: "gcc_linux-64 gfortran_linux-64"
+      LDSHARED_FLAGS: "-shared -pthread"
+      UVCDAT_ANONYMOUS_LOG: "False"
+      OS: "linux-64"
+    steps:
+      - checkout
+      - run: *setup_miniconda
+      - run: *create_conda_env
+      - run: *setup_cmor
+      - run: *run_cmor_tests
+      - run: *run_prepare_tests
+      - run: *conda_upload
+
+  linux_cmor_py36:
+    machine:
+      image: circleci/classic:latest
+    environment:
+      PYTHON_VERSION: "3.6"
+      WORKDIR: "workspace/test_linux_cmor"
+      CONDA_COMPILERS: "gcc_linux-64 gfortran_linux-64"
+      LDSHARED_FLAGS: "-shared -pthread"
+      UVCDAT_ANONYMOUS_LOG: "False"
+      OS: "linux-64"
+    steps:
+      - checkout
+      - run: *setup_miniconda
+      - run: *create_conda_env
+      - run: *setup_cmor
+      - run: *run_cmor_tests
+      - run: *run_prepare_tests
+      - run: *conda_upload
+
+  linux_cmor_py37:
+    machine:
+      image: circleci/classic:latest
+    environment:
+      PYTHON_VERSION: "3.7"
       WORKDIR: "workspace/test_linux_cmor"
       CONDA_COMPILERS: "gcc_linux-64 gfortran_linux-64"
       LDSHARED_FLAGS: "-shared -pthread"
@@ -122,5 +199,9 @@ workflows:
   version: 2
   nightly:
     jobs:
-      - macos_cmor
-      - linux_cmor
+      - macos_cmor_py27
+      - macos_cmor_py36
+      - macos_cmor_py37
+      - linux_cmor_py27
+      - linux_cmor_py36
+      - linux_cmor_py37

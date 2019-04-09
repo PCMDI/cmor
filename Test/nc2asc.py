@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
 import cdms2
 import sys
 import genutil
@@ -23,20 +24,20 @@ else:
 f = cdms2.open(fnm)
 
 ntimes = 3
-print 'var:', var
+print('var:', var)
 # s=f(var,time=slice(0,3),latitude=(-20,20),order=order,squeeze=1)
 if order is not None:
     if order.find('z') > -1:
         s = f(var, time=slice(0, ntimes), order=order, squeeze=1,
               longitude=(-180, 180, 'con'), level=slice(5, 12))
-        print s.getLevel()[:]
+        print(s.getLevel()[:])
     else:
         s = f(var, time=slice(0, ntimes), order=order,
               squeeze=1, longitude=(-180, 180, 'con'))
 else:
     s = f(var, time=slice(0, ntimes), squeeze=1)
 # s=s[:,::4,::4]
-print 'Read in', s.shape
+print('Read in', s.shape)
 try:
     p = s.getLevel()
     p.id = 'pressure'
@@ -49,41 +50,41 @@ f.close()
 f = open(fout, 'w')
 
 ndim = s.rank()
-print 'Dumping'
-print >>f, s.id
-print >>f, s.units
-print >>f, ndim
+print('Dumping')
+print(s.id, file=f)
+print(s.units, file=f)
+print(ndim, file=f)
 
 for i in range(ndim):
     ax = s.getAxis(i)
-    print >>f, len(ax)
+    print(len(ax), file=f)
 
 for i in range(ndim):
     ax = s.getAxis(i)
     if ax.isLatitude():
-        print >>f, 'latitude'
+        print('latitude', file=f)
     elif ax.isLongitude():
-        print >>f, 'longitude'
+        print('longitude', file=f)
     else:
-        print >>f, ax.id
-    print >>f, ax.units
-    print ax.id
-    print ax.units
+        print(ax.id, file=f)
+    print(ax.units, file=f)
+    print(ax.id)
+    print(ax.units)
     for j in ax[:]:
-        print >>f, j,
-    print >>f
+        print(j, end=' ', file=f)
+    print(file=f)
     for j in ax.getBounds().flat[:]:
-        print >>f, j,
-    print >>f
+        print(j, end=' ', file=f)
+    print(file=f)
 f.flush()
 
 s = s.filled(120).astype(type)
 s = s.flat
 j = 0
 for i in s[:]:
-    print >>f, i,
+    print(i, end=' ', file=f)
     j += 1
-print >>f
-print j, s[-1]
+print(file=f)
+print(j, s[-1])
 
 f.close()

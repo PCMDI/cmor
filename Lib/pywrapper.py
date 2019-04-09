@@ -1,10 +1,11 @@
 import numpy
 import os
 import warnings
+import sys
 
-import cmor_const
-import _cmor
-from _cmor import CMORError
+from cmor import cmor_const
+from cmor import _cmor
+from cmor._cmor import CMORError
 
 global climatology 
 climatology = False
@@ -91,7 +92,7 @@ def time_varying_grid_coordinate(
         missing_value = float(missing_value)
 
     return _cmor.time_varying_grid_coordinate(
-        grid_id, table_entry, units, type, missing_value)
+        grid_id, table_entry, units, str.encode(type), missing_value)
 
 
 def _to_numpy(vals, message):
@@ -223,7 +224,7 @@ def grid(axis_ids, latitude=None, longitude=None,
 ##             area = area.astype(type)
     n = len(axis_ids)
     axis_ids = axis_ids.astype('i')
-    return _cmor.grid(n, axis_ids, type, latitude, longitude,
+    return _cmor.grid(n, axis_ids, str.encode(type), latitude, longitude,
                       nvert, latitude_vertices, longitude_vertices)
 
 
@@ -239,8 +240,12 @@ def set_grid_mapping(grid_id, mapping_name, parameter_names,
        parameter_values :: array/list of parameter values in the same order of parameter_names (ignored if parameter_names is ditcionary)
        parameter_units  :: array/list of parameter units  in the same order of parameter_names (ignored if parameter_names is ditcionary)
     """
-    if not isinstance(grid_id, (numpy.int32, int, long)):
-        raise Exception("grid_id must be an integer: %s" % type(grid_id))
+    if sys.version_info < (3, 0):
+        if not isinstance(grid_id, (numpy.int32, int, long)):
+            raise Exception("grid_id must be an integer: %s" % type(grid_id))
+    else:
+        if not isinstance(grid_id, (numpy.int32, int)):
+            raise Exception("grid_id must be an integer: %s" % type(grid_id))
     if not isinstance(mapping_name, str):
         raise Exception("mapping name must be a string")
 
@@ -248,11 +253,11 @@ def set_grid_mapping(grid_id, mapping_name, parameter_names,
         pnms = []
         pvals = []
         punit = []
-        for k in parameter_names.keys():
+        for k in list(parameter_names.keys()):
             pnms.append(k)
             val = parameter_names[k]
             if isinstance(val, dict):
-                ks = val.keys()
+                ks = list(val.keys())
                 if not 'value' in ks or not 'units' in ks:
                     raise Exception(
                         "error parameter_names key '%s' dictionary does not contain both 'units' and 'value' keys" %
@@ -451,7 +456,7 @@ def axis(table_entry, units=None, length=None,
         l = int(length)
 
     return _cmor.axis(table_entry, units, l, coord_vals,
-                      type, cell_bounds, cbnds, interval)
+                      str.encode(type), cell_bounds, cbnds, interval)
 
 
 def variable(table_entry, units, axis_ids, type='f', missing_value=None,
@@ -542,7 +547,7 @@ def variable(table_entry, units, axis_ids, type='f', missing_value=None,
         missing_value = float(missing_value)
 
     axis_ids = axis_ids.astype('i')
-    return _cmor.variable(table_entry, units, ndims, axis_ids, type,
+    return _cmor.variable(table_entry, units, ndims, axis_ids, str.encode(type),
                           missing_value, tolerance, positive, original_name, history, comment)
 
 
@@ -668,7 +673,7 @@ def zfactor(zaxis_id, zfactor_name, units="", axis_ids=None,
 # print
 # "sending",zaxis_id,zfactor_name,units,ndims,axis_ids,type,zfactor_values,zfactor_bounds
     return _cmor.zfactor(zaxis_id, zfactor_name, units,
-                         ndims, axis_ids, type, zfactor_values, zfactor_bounds)
+                         ndims, axis_ids, str.encode(type), zfactor_values, zfactor_bounds)
 
 
 def write(var_id, data, ntimes_passed=None, file_suffix="",

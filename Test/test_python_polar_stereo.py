@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+from __future__ import print_function
 import cmor
 import cdms2
 import numpy
@@ -28,7 +28,7 @@ te = 'orog'
 u = 'm'
 
 tables.append(cmor.load_table("%s" % t))
-print 'Tables ids:', tables
+print('Tables ids:', tables)
 
 cmor.set_table(tables[0])
 
@@ -51,7 +51,7 @@ grid_id = cmor.grid(axis_ids=myaxes[:2],
                     latitude=lat_coords,
                     longitude=lon_coords)
 
-print 'got grid_id:', grid_id
+print('got grid_id:', grid_id)
 myaxes[2] = grid_id
 
 mapnm = 'polar_stereographic'

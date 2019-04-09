@@ -1,9 +1,10 @@
+from __future__ import print_function
 import sys
 import os
 try:
     import cdms2
 except BaseException:
-    print 'This test requires cdms2 for I/O'
+    print('This test requires cdms2 for I/O')
     sys.exit()
 
 import cmor
@@ -40,7 +41,7 @@ for ax in Saxes[1:]:
 # Now creates a dummy HUGE axis for resizing s as really big
 factor = 100
 nt = s.shape[0] * factor
-print 'nt is:', nt
+print('nt is:', nt)
 t = numpy.arange(nt)
 
 tmp = cmor.axis(
@@ -50,7 +51,7 @@ tmp = cmor.axis(
     cell_bounds=numpy.arange(
         nt + 1))
 axes.insert(0, tmp)
-print axes
+print(axes)
 var_id1 = cmor.variable(s.id, s.units, axes)
 # the one with 2 at the end is compressed
 var_id2 = cmor.variable(s.id, s.units, axes)
@@ -59,7 +60,7 @@ sh[0] = nt
 s = numpy.resize(s, sh)
 # s=numpy.where(numpy.greater(s,100.),100,s)
 s = numpy.random.random(s.shape) * 10000.
-print s.shape
+print(s.shape)
 cmor.write(var_id1, s)
 cmor.close(var_id1)
 cmor.write(var_id2, s)

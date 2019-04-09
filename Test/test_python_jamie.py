@@ -1,3 +1,4 @@
+from __future__ import print_function
 import cmor
 
 
@@ -31,7 +32,7 @@ def path_test():
     cmor.write(varid, [275])
     path = cmor.close(varid, file_name=True)
 
-    print path
+    print(path)
 
 
 if __name__ == '__main__':

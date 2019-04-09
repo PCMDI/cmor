@@ -1,3 +1,4 @@
+from __future__ import print_function
 import cmor
 import numpy
 
@@ -52,7 +53,7 @@ def main():
     cmor_initialisation()
     values, axes = setup_data()
     cmor_define_and_write(values, axes)
-    print cmor.close(file_name=True)
+    print(cmor.close(file_name=True))
 
 
 if __name__ == '__main__':

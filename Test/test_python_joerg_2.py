@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from __future__ import print_function
 import cmor
 import numpy
 
@@ -65,7 +66,7 @@ def test_mode(mode, i, suffix=''):
                               history='variable history',
                               missing_value=-99
                               )
-        print "Sending time bounds:", [[i, i + 1]]
+        print("Sending time bounds:", [[i, i + 1]])
         cmor.write(varid, values, time_vals=[i], time_bnds=[[i, i + 1]])
 
     fnm = cmor.close(varid, file_name=True)
@@ -75,7 +76,7 @@ def test_mode(mode, i, suffix=''):
 
 fnm = ''
 for i in range(5):
-    print i, fnm
+    print(i, fnm)
     if i == 0:
         mode = cmor.CMOR_REPLACE
     else:

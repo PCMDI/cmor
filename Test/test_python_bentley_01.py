@@ -1,3 +1,4 @@
+from __future__ import print_function
 import cmor
 import numpy
 import cdtime
@@ -65,7 +66,7 @@ def cmor_define_and_write(values, axes):
     for time in [x * 1800. / 86400 for x in range(48)]:
         time += 1. / 3600. / 24.
         tr = cdtime.reltime(time, axes[0]["units"])
-        print "Writing: %.03f" % time, "|", tr.tocomp(cdtime.Calendar360), "|", tr.tocomp()
+        print("Writing: %.03f" % time, "|", tr.tocomp(cdtime.Calendar360), "|", tr.tocomp())
         cmor.write(varid, values, time_vals=[time])
     return varid
 
@@ -76,7 +77,7 @@ def main():
     values, axes = setup_data()
     varid = cmor_define_and_write(values, axes)
     fname = cmor.close(varid, file_name=True)
-    print "Done:", fname
+    print("Done:", fname)
 
 
 if __name__ == '__main__':

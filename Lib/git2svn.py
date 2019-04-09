@@ -1,3 +1,4 @@
+from __future__ import print_function
 import os
 import sys
 
@@ -18,15 +19,15 @@ for l in git:
 
 for f in modfiles + newfiles:
     cmd = "cp -pf %s %s/%s" % (f, svn, f)
-    print 'Cp:', cmd
+    print('Cp:', cmd)
     os.popen(cmd).readlines()
 
 for f in newfiles:
     cmd = "cd %s ; svn add %s" % (svn, f)
-    print 'svn add :', cmd
+    print('svn add :', cmd)
     os.popen(cmd).readlines()
 
 for f in delfiles:
     cmd = "cd %s ; svn delete --force %s" % (svn, f)
-    print 'svn del :', cmd
+    print('svn del :', cmd)
     os.popen(cmd).readlines()

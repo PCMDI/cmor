@@ -1,3 +1,4 @@
+from __future__ import print_function
 import cmor
 import numpy
 import sys
@@ -8,7 +9,7 @@ today = strftime("%Y%m%d", localtime())
 try:
     import cdms2
 except BaseException:
-    print "This test code needs cdms2 interface for i/0"
+    print("This test code needs cdms2 interface for i/0")
     sys.exit()
 
 cdms2.setNetcdfShuffleFlag(0)
@@ -62,7 +63,7 @@ cmor.dataset(
 
 tables = []
 tables.append(cmor.load_table("mytable"))
-print 'Tables ids:', tables
+print('Tables ids:', tables)
 
 
 # read in data, just one slice
@@ -86,7 +87,7 @@ except BaseException:
     except BaseException:
         missing_value = None
 
-print 'Missing:', type(missing_value), missing_value
+print('Missing:', type(missing_value), missing_value)
 #missing_value = -999.
 myaxes[0] = cmor.axis(table_entry='latitude',
                       units='degrees_north',
@@ -126,7 +127,7 @@ c0 = st
 f = cdms2.open("Test/crap.nc", "w")
 step = 10
 for i in range(0, ntimes, step):
-    print 'Time:', i
+    print('Time:', i)
     j1 = i
     j2 = i + step
     cmor.write(myvars[0], s[j1:j2].filled(), step, file_suffix="speed-comp-02")
@@ -166,17 +167,17 @@ import cdtime
 import os
 ltime = cdtime.reltime(Tim[ntimes - 1], Tim.units).tocomp()
 ftime = cdtime.reltime(Tim[0], Tim.units).tocomp()
-print ftime, ltime
-print (var, var, ftime.year, ftime.month, ltime.year, ltime.month)
+print(ftime, ltime)
+print(var, var, ftime.year, ftime.month, ltime.year, ltime.month)
 lcmor = os.stat(
     "Test/IPCC_Fourth_Assessment/output/INSTITUTE_ID/pcmdi-09a/mon/REALM/%s/r1/%s_A1_pcmdi-09a_r1_%i%.2i-%i%.2i_speed-comp-02.nc" %
     (var, var, ftime.year, ftime.month, ltime.year, ltime.month))[6]
-print 'level:', level, "shuffle:", shuffle
-print 'total cmor:', totcmor, mincmor, totcmor / ntimes, maxcmor, lcmor
+print('level:', level, "shuffle:", shuffle)
+print('total cmor:', totcmor, mincmor, totcmor / ntimes, maxcmor, lcmor)
 lcdms = os.stat("Test/crap.nc")[6]
-print 'total cdms:', totcdms, mincdms, totcdms / ntimes, maxcdms, lcdms
-print 'Size diff:', float(lcmor) / float(lcdms)
-print 'speed diff:', totcmor / totcdms
+print('total cdms:', totcdms, mincdms, totcdms / ntimes, maxcdms, lcdms)
+print('Size diff:', float(lcmor) / float(lcdms))
+print('speed diff:', totcmor / totcdms)
 
 if os.path.exists("summary.txt"):
     f = open("summary.txt")
@@ -191,7 +192,7 @@ dic[(level, shuffle)] = (float(lcmor) / float(lcdms), totcmor / totcdms)
 for i in range(10):
     a = dic.get((i, 0), "N/A")
     b = dic.get((i, 1), "N/A")
-    print 'Level: ', i, "no suffle:", a, "shuffle", b
+    print('Level: ', i, "no suffle:", a, "shuffle", b)
 f = open("summary.txt", "w")
 f.write(repr(dic))
 f.close()

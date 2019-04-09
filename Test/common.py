@@ -1,3 +1,4 @@
+from __future__ import print_function
 import numpy
 import cmor
 import os
@@ -41,7 +42,7 @@ def read_time(index, refyear=2015., monthdays=30., yeardays=360.):
 
 def read_3d_input_files(index, varname, shape):
 
-    print "3d shape", shape
+    print("3d shape", shape)
     field = numpy.zeros(shape, dtype=numpy.float32)
     factor, offset = specs[varname]["convert"]
     for i in range(field.shape[2]):  # lon

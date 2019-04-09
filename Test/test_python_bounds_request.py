@@ -1,3 +1,4 @@
+from __future__ import print_function
 import cmor
 import numpy
 
@@ -10,7 +11,7 @@ for b in breq:
 bnds_req = numpy.array(bnds_req)
 bnds_req.shape = (7, 2)
 
-print bnds_req[-2], bnds_req.shape
+print(bnds_req[-2], bnds_req.shape)
 
 levs = []
 
@@ -19,7 +20,7 @@ for b in bnds_req:
 
 levs = numpy.array(levs)
 
-print levs
+print(levs)
 
 cmor.setup(inpath="Tables",
            set_verbosity=cmor.CMOR_NORMAL,
@@ -57,8 +58,8 @@ ilon = cmor.axis(
     table_entry='longitude',
     coord_vals=lons,
     units='degrees_east')
-print 'so far', itim, ilat, ilon
-print bnds_req
+print('so far', itim, ilat, ilon)
+print(bnds_req)
 ilev = cmor.axis(
     table_entry="pressure2",
     coord_vals=levs,

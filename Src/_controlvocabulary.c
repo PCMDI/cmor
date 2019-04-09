@@ -656,8 +656,29 @@ static PyMethodDef MyExtractMethods[] = {
     {NULL, NULL}                /*sentinel */
 };
 
-PyMODINIT_FUNC init_cmip6_cv(void)
+#if PY_MAJOR_VERSION >= 3
+static struct PyModuleDef moduledef = {
+        PyModuleDef_HEAD_INIT,
+        "_cmip6_cv",
+        NULL,
+        -1,
+        MyExtractMethods
+};
+#endif
+
+
+#if PY_MAJOR_VERSION >= 3
+PyMODINIT_FUNC PyInit__cmip6_cv(void)
+{
+    PyObject *cmip6_cv_module;
+    cmip6_cv_module = PyModule_Create(&moduledef);
+    import_array();
+    return cmip6_cv_module;
+}
+#else
+void init_cmip6_cv(void)
 {
     (void)Py_InitModule("_cmip6_cv", MyExtractMethods);
     import_array();
 }
+#endif

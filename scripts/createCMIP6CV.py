@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
 import os
 import sys
 import json
@@ -64,7 +65,7 @@ class readWCRP():
         for file in filelist:
             url = githubRepo + file 
             response = requests.get(url)
-            print url
+            print(url)
             urlJson = response.content.decode('utf-8')
             myjson = json.loads(urlJson, object_pairs_hook=OrderedDict)
             if(file == 'CMIP6_source_id.json'):

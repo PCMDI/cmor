@@ -1,3 +1,4 @@
+from __future__ import print_function
 import cmor
 import numpy
 
@@ -92,7 +93,7 @@ if table_entry == 'hybrid_height':
         units='m',
         zfactor_values=data2d)
 else:
-    print 'yep working case'
+    print('yep working case')
     ilev = cmor.axis(
         table_entry='standard_sigma',
         units='1',

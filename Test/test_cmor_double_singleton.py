@@ -1,3 +1,4 @@
+from __future__ import print_function
 import common
 import cmor
 import os
@@ -25,8 +26,8 @@ varid = cmor.variable(table_entry=common.specs["BS"]["entry"],
 for index in range(2):
     tim_array, bnds_tim = common.read_time(index)
     data = common.read_2d_input_files(index, "BS", (common.lat, common.lon))
-    print data.shape, data
-    print tim_array, bnds_tim
+    print(data.shape, data)
+    print(tim_array, bnds_tim)
     cmor.write(var_id=varid, data=data, ntimes_passed=1,
                time_vals=tim_array, time_bnds=bnds_tim)
     print("Passed write")
