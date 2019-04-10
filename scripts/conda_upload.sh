@@ -44,16 +44,10 @@ fi
 export CONDA_BLD_PATH=${HOME}/conda-bld
 export VERSION=`date +%Y.%m.%d`
 export UVCDAT_ANONYMOUS_LOG=no
-echo "Cloning recipes"
-git clone git://github.com/UV-CDAT/conda-recipes
-cd conda-recipes
+cd ${CMOR_RECIPE_DIR}
 cmorversion=`echo $1 | cut -d- -f2`
 python ./prep_for_build.py -v `date +%Y.%m.%d`.${cmorversion} -b $1
 echo "Building now"
-#conda build -c conda-forge -c uvcdat/label/nightly -c uvcdat --numpy=1.13 cmor
-#conda build -c conda-forge -c uvcdat/label/nightly -c uvcdat --numpy=1.12 cmor
-#conda build -c conda-forge -c uvcdat/label/nightly -c uvcdat --numpy=1.11 cmor
-#conda build -c conda-forge  -c uvcdat/label/nightly -c uvcdat --numpy=1.10 cmor
 conda build -c conda-forge  -c cdat/label/nightly -c cdat cmor --python=${CMOR_PYTHON_VERSION}
 mkdir -p ~/.continuum/anaconda-client/
 echo "ssl_verify: false" >> ~/.continuum/anaconda-client/config.yaml
