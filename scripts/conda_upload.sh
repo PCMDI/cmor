@@ -44,7 +44,7 @@ fi
 export CONDA_BLD_PATH=${HOME}/conda-bld
 export VERSION=`date +%Y.%m.%d`
 export UVCDAT_ANONYMOUS_LOG=no
-cd recipes
+cd ${CMOR_RECIPE_DIR}
 cmorversion=`echo $1 | cut -d- -f2`
 python ./prep_for_build.py -v `date +%Y.%m.%d`.${cmorversion} -b $1
 echo "Building now"
