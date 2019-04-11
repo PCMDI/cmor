@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
-#include "uuid.h"
+#include <uuid/uuid.h>
 #include <unistd.h>
 #include <string.h>
 #include "json.h"
@@ -3089,10 +3089,8 @@ int cmor_attNameCmp(const void *v1, const void *v2)
 /************************************************************************/
 void cmor_generate_uuid()
 {
-    uuid_t *myuuid;
-    uuid_fmt_t fmt;
-    void *myuuid_str = NULL;
-    size_t uuidlen;
+    uuid_t myuuid;
+    char myuuid_str[37]; // 36 characters + '\0'
     char value[CMOR_MAX_STRING];
 
     cmor_add_traceback("cmor_generate_uuid");
@@ -3100,32 +3098,26 @@ void cmor_generate_uuid()
 /* -------------------------------------------------------------------- */
 /*      generates a new unique id                                       */
 /* -------------------------------------------------------------------- */
-    uuid_create(&myuuid);
-    uuid_make(myuuid, 4);
-
-    myuuid_str = NULL;
-    fmt = UUID_FMT_STR;
+    uuid_generate(myuuid);
 
 /* -------------------------------------------------------------------- */
 /*      Write tracking_id and tracking_prefix                           */
 /* -------------------------------------------------------------------- */
-    uuid_export(myuuid, fmt, &myuuid_str, &uuidlen);
+    uuid_unparse(myuuid, myuuid_str);
 
     if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_TRACKING_PREFIX) == 0) {
         cmor_get_cur_dataset_attribute(GLOBAL_ATT_TRACKING_PREFIX, value);
 
         strncpy(cmor_current_dataset.tracking_id, value, CMOR_MAX_STRING);
         strcat(cmor_current_dataset.tracking_id, "/");
-        strcat(cmor_current_dataset.tracking_id, (char *)myuuid_str);
+        strcat(cmor_current_dataset.tracking_id, myuuid_str);
     } else {
-        strncpy(cmor_current_dataset.tracking_id, (char *)myuuid_str,
+        strncpy(cmor_current_dataset.tracking_id, myuuid_str,
                 CMOR_MAX_STRING);
     }
     cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_TRACKING_ID,
                                             cmor_current_dataset.tracking_id,
                                             0);
-    free(myuuid_str);
-    uuid_destroy(myuuid);
     cmor_pop_traceback();
 
 }
