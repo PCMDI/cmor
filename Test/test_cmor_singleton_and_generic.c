@@ -64,7 +64,8 @@ int main()
     int zfactor_id;
     int tables[4];
     int axes_ids[CMOR_MAX_DIMENSIONS];
-    int i, j, k, ierr;
+    int i, j, k;
+    int ierr = 0;
 
     double Time[ntimes];
     double bnds_time[ntimes * 2];
