@@ -1985,6 +1985,7 @@ int cmor_set_var_def_att(cmor_var_def_t * var, char att[CMOR_MAX_STRING],
                 j *= strcmp(DIMENSION_ALEVEL, dim);
                 j *= strcmp(DIMENSION_ALEVEL_HALF, dim);
                 j *= strcmp(DIMENSION_OLEVEL, dim);
+                j *= strcmp(DIMENSION_OLEVEL_HALF, dim);
                 for (k = 0; k < CMOR_MAX_ELEMENTS; k++) {
                     if (cmor_tables[var->table_id].generic_levels[k][0] == '\0')
                         break;
