@@ -1471,7 +1471,8 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
 
         j = refvar.ndims - olndims + aint;
         for (i = 0; i < refvar.ndims; i++) {
-            if (cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].value
+            if (refvar.dimensions[i] >= 0
+                && cmor_tables[CMOR_TABLE].axes[refvar.dimensions[i]].value
                 != 1.e20) {
 /* -------------------------------------------------------------------- */
 /*      ok it could be a dummy but we need to check if the user         */
@@ -1716,14 +1717,12 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
     k = 0;
 
     for (i = 0; i < lndims; i++) {
+        char *name = refvar.dimensions[i] >= 0
+            ? cmor_tables[refvar.table_id].axes[refvar.dimensions[i]].id
+            : "";
 
-        if (((strcmp(cmor_tables[refvar.table_id].axes[refvar.dimensions[i]].id,
-                     "latitude") == 0)
-             ||
-             (strcmp
-              (cmor_tables[refvar.table_id].axes[refvar.dimensions[i]].id,
-               "longitude") == 0)) && (grid_id != 1000)) {
-
+        if ((strcmp(name, "latitude") == 0 || strcmp(name, "longitude") == 0)
+            && grid_id != 1000) {
 /* -------------------------------------------------------------------- */
 /*      ok we are  dealing with a "grid" type of data                   */
 /* -------------------------------------------------------------------- */
@@ -1755,7 +1754,7 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
 
                 if (refvar.dimensions[i] == -2) {
                     if (cmor_axes[laxes_ids[j]].axis == 'Z')
-                        cmor_vars[vrid].axes_ids[i] = laxes_ids[j];
+                        cmor_vars[vrid].axes_ids[k] = laxes_ids[j];
                 }
             }
             k++;
@@ -1986,6 +1985,7 @@ int cmor_set_var_def_att(cmor_var_def_t * var, char att[CMOR_MAX_STRING],
                 j *= strcmp(DIMENSION_ALEVEL, dim);
                 j *= strcmp(DIMENSION_ALEVEL_HALF, dim);
                 j *= strcmp(DIMENSION_OLEVEL, dim);
+                j *= strcmp(DIMENSION_OLEVEL_HALF, dim);
                 for (k = 0; k < CMOR_MAX_ELEMENTS; k++) {
                     if (cmor_tables[var->table_id].generic_levels[k][0] == '\0')
                         break;
