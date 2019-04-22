@@ -4,6 +4,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "cmor.h"
 
@@ -33,11 +34,23 @@ int test_bs550aer(const int *axes_ids, int num_axes, double basetime)
     float values[8], miss = 1.e20f;
     char positive = '\0';
     int i;
+    int scatangle_found = 0;
+    int wavelength_found = 0;
 
     if (cmor_variable(&var_id, "bs550aer", "m-1 sr-1",
                       num_axes, (int *)axes_ids, 'f', &miss,
                       NULL, &positive, NULL, NULL, NULL) != 0)
         fail("cmor_variable(bs550aer)");
+
+    // Find singleton dimensions for bs550aer
+    for(i = 0; i < cmor_vars[var_id].ndims; ++i){
+        if(strcmp(cmor_axes[cmor_vars[var_id].singleton_ids[i]].id, "scatangle") == 0)
+            scatangle_found++;
+        if(strcmp(cmor_axes[cmor_vars[var_id].singleton_ids[i]].id, "wavelength") == 0)
+            wavelength_found++;
+    }
+    if(scatangle_found != 1 || wavelength_found != 1)
+        fail("error in singleton dimensions");
 
     for (i = 0; i < 4; i++) {
         time_bnds[0] = basetime + (i * 6.0) / 24.; /* 6hr */
