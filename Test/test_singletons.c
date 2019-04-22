@@ -104,7 +104,7 @@ static void run_test()
 
     /*
      * No singleton dimensions are passed.
-     * CMOR do it automatically (in cmor_variable()).
+     * CMOR adds them automatically (in cmor_variable()).
      */
     axes_ids[0] = id_time;
     axes_ids[1] = id_lat;
