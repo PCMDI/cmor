@@ -21,7 +21,7 @@ requirements:
     - {{ compiler("fortran") }}
   host:
     - python {{ python }}
-    - ossuuid 1.6.2
+    - libuuid
     - udunits2
     - six
     - hdf5
@@ -31,7 +31,7 @@ requirements:
     - cdms2
   run:
     - python {{ python }}
-    - ossuuid 1.6.2
+    - libuuid
     - udunits2
     - six
     - {{ pin_compatible('numpy') }}
