@@ -23,6 +23,7 @@ requirements:
     - python {{ python }}
     - libuuid
     - udunits2
+    - six
     - hdf5
     - libnetcdf
     - numpy
@@ -32,6 +33,7 @@ requirements:
     - python {{ python }}
     - libuuid
     - udunits2
+    - six
     - {{ pin_compatible('numpy') }}
     - {{ pin_compatible('hdf5') }}
     - {{ pin_compatible('libnetcdf') }}
