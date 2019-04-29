@@ -35,7 +35,7 @@ aliases:
        set -e
        #git clone https://github.com/PCMDI/cmip6-cmor-tables
        #ln -s cmip6-cmor-tables/Tables Tables
-       ./configure --prefix=$CONDA_PREFIX --with-python --with-uuid=$CONDA_PREFIX --with-udunits2=$CONDA_PREFIX --with-netcdf=$CONDA_PREFIX  --enable-verbose-test
+       ./configure --prefix=$CONDA_PREFIX --with-python --with-uuid=$CONDA_PREFIX --with-json-c=$CONDA_PREFIX --with-udunits2=$CONDA_PREFIX --with-netcdf=$CONDA_PREFIX  --enable-verbose-test
        make install
        echo "MAKE PASSED"
        exit 0
