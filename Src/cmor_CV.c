@@ -5,9 +5,9 @@
 #include <time.h>
 #include <regex.h>
 #include "cmor.h"
-#include "json.h"
-#include "json_tokener.h"
-#include "arraylist.h"
+#include <json-c/json.h>
+#include <json-c/json_tokener.h>
+#include <json-c/arraylist.h>
 #include "libgen.h"
 #include "math.h"
 #ifndef REG_NOERROR

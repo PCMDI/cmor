@@ -7,8 +7,8 @@
 #include <udunits2.h>
 #include <stdlib.h>
 #include "cmor_locale.h"
-#include "json.h"
-#include "json_tokener.h"
+#include <json-c/json.h>
+#include <json-c/json_tokener.h>
 #include <sys/stat.h>
 
 /************************************************************************/

@@ -8,7 +8,7 @@
 #include <udunits2.h>
 #include "cdmsint.h"
 #include <stdio.h>
-#include "json.h"
+#include <json-c/json.h>
 
 extern void cmor_md5( FILE * inputfile, unsigned char checksum[16] );
 
