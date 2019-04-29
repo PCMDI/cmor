@@ -625,6 +625,8 @@ FC
 LIBFSOURCES
 LIBSOURCESCV
 LIBSOURCES
+JSONCLDFLAGS
+JSONCFLAGS
 UUIDLDFLAGS
 UUIDFLAGS
 UDUNITS2LDFLAGS
@@ -695,6 +697,7 @@ enable_debug
 enable_fortran
 with_cdat
 with_python
+with_json_c
 with_uuid
 with_udunits2
 with_netcdf
@@ -1335,6 +1338,7 @@ Optional Packages:
   --with-cdat             enable support for cdat put path root (w/o bin/cdat)
   --with-python           enable support for python put path root (w/o
                           bin/python)
+  --with-json-c           enable support for json-c in none standard location
   --with-uuid             enable support for uuid in none standard location
   --with-udunits2         enable support for udunits2 in none standard
                           location
@@ -2145,7 +2149,9 @@ CMOR_VERSION=${PACKAGE_VERSION}" (commit: ${GIT_TAG})"
 ac_config_files="$ac_config_files Makefile setup.py compile_line.txt include/cmor_locale.h"
 
 
-INCFILES="include/cmor.h include/cmor_func_def.h include/cmor_md5.h `cd $srcdir ; ls include/cdTime/*.h include/cdTime/cdunifpp/*.h include/json-c/*.h | tr \"\n\" \" \" `"
+INCFILES="include/cmor.h include/cmor_func_def.h include/cmor_md5.h `cd $srcdir ; ls include/cdTime/*.h include/cdTime/cdunifpp/*.h | tr \"\n\" \" \" `"
+
+
 
 
 
@@ -2230,7 +2236,7 @@ if test ${enable_debug} == "yes" ; then
   DEBUG="-g"
 fi
 
-LIBFILES="cmor.o cmor_axes.o cmor_CV.o cmor_variables.o cmor_tables.o cdTimeConv.o cdUtil.o timeConv.o timeArith.o cmor_grids.o cmor_md5.o arraylist.o  json_c_version.o  json_object_iterator.o json_util.o linkhash.o random_seed.o debug.o json_object.o json_tokener.o libjson.o printbuf.o"
+LIBFILES="cmor.o cmor_axes.o cmor_CV.o cmor_variables.o cmor_tables.o cdTimeConv.o cdUtil.o timeConv.o timeArith.o cmor_grids.o cmor_md5.o"
 LIBFFILES="cmor_cfortran_interface.o cmor_fortran_interface.o"
 
 # Check whether --enable-fortran was given.
@@ -4009,6 +4015,79 @@ LDFLAGS=${LDFLAGS}" -lm "
 
 
 
+# Check whether --with-json-c was given.
+if test "${with_json_c+set}" = set; then :
+  withval=$with_json_c;
+else
+  with_json_c="no"
+fi
+
+if  test x${with_json_c} != xyes  ; then
+  if  test x${with_json_c} != xno  ; then
+   JSONCFLAGS=" -I${with_json_c}/include"
+   if  test ${RTAG} != "none"  ; then
+     JSONCLDFLAGS=" -L${with_json_c}/lib  ${RTAG}${with_json_c}/lib -ljson-c"
+   else
+     JSONCLDFLAGS=" -L${with_json_c}/lib -ljson-c"
+   fi
+  else
+    JSONCLDFLAGS="-ljson-c"
+    JSONCFLAGS=""
+  fi
+else
+  JSONCLDFLAGS="-ljson-c"
+  JSONCFLAGS=""
+fi
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for json_object_get_userdata in -ljson-c" >&5
+$as_echo_n "checking for json_object_get_userdata in -ljson-c... " >&6; }
+if ${ac_cv_lib_json_c_json_object_get_userdata+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-ljson-c  ${JSONCFLAGS} ${JSONCLDFLAGS}   $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char json_object_get_userdata ();
+int
+main ()
+{
+return json_object_get_userdata ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_json_c_json_object_get_userdata=yes
+else
+  ac_cv_lib_json_c_json_object_get_userdata=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_json_c_json_object_get_userdata" >&5
+$as_echo "$ac_cv_lib_json_c_json_object_get_userdata" >&6; }
+if test "x$ac_cv_lib_json_c_json_object_get_userdata" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LIBJSON_C 1
+_ACEOF
+
+  LIBS="-ljson-c $LIBS"
+
+else
+  as_fn_error $? "Could not get a working json-c" "$LINENO" 5
+fi
+
+
+
 # Check whether --with-uuid was given.
 if test "${with_uuid+set}" = set; then :
   withval=$with_uuid;
@@ -4032,7 +4111,6 @@ else
   UUIDLDFLAGS="-luuid"
   UUIDFLAGS=""
 fi
-
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for uuid_generate in -luuid" >&5
 $as_echo_n "checking for uuid_generate in -luuid... " >&6; }
 if ${ac_cv_lib_uuid_uuid_generate+:} false; then :
@@ -4411,15 +4489,15 @@ $as_echo "\"yes\"" >&6; }
   fi
 fi
 LIBS=${OLIBS}
-CPPFLAGS="-I${srcdir}/include/json-c -I${srcdir}/include -I${srcdir}/include/cdTime ${CPPFLAGS}"
+CPPFLAGS=" -I${srcdir}/include -I${srcdir}/include/cdTime ${CPPFLAGS}"
 LDFLAGS=${SV_LDFLAGS}
 MAINDIR=`pwd`
 
 # Library sources
-#LIBSOURCES="Src/cmor.c Src/cmor_variables.c Src/cmor_axes.c Src/cmor_tables.c Src/cmor_grids.c Src/cdTime/cdTimeConv.c Src/cdTime/cdUtil.c Src/cdTime/timeConv.c Src/cdTime/timeArith.c Src/cmor_cfortran_interface.c Src/cmor_md5.c Src/json-c/arraylist.cSrc/json-c/json_c_version.c  Src/json-c/json_object_iterator.c Src/json-c/json_util.c Src/json-c/linkhash.c  Src/json-cmor/random_seed.c Src/json-c/debug.c Src/json-c/json_object.c Src/json-c/json_tokener.c Src/json-c/libjson.c Src/json-c/printbuf.c"
-#LIBSOURCES=`ls -x --width=10000 Src/*.c Src/cdTime/*.c Src/json-c/*.c`
-LIBSOURCES=`cd $srcdir ; ls Src/*.c Src/cdTime/*.c Src/json-c/*.c | tr "\n" " " | sed  's#Src/_controlvocabulary.c##'`
-LIBSOURCESCV=`cd $srcdir ; ls Src/*.c Src/cdTime/*.c Src/json-c/*.c | tr "\n" " " | sed  's#Src/_cmormodule.c##'`
+#LIBSOURCES="Src/cmor.c Src/cmor_variables.c Src/cmor_axes.c Src/cmor_tables.c Src/cmor_grids.c Src/cdTime/cdTimeConv.c Src/cdTime/cdUtil.c Src/cdTime/timeConv.c Src/cdTime/timeArith.c Src/cmor_cfortran_interface.c Src/cmor_md5.c"
+#LIBSOURCES=`ls -x --width=10000 Src/*.c Src/cdTime/*.c`
+LIBSOURCES=`cd $srcdir ; ls Src/*.c Src/cdTime/*.c | tr "\n" " " | sed  's#Src/_controlvocabulary.c##'`
+LIBSOURCESCV=`cd $srcdir ; ls Src/*.c Src/cdTime/*.c | tr "\n" " " | sed  's#Src/_cmormodule.c##'`
 
 
 LIBFSOURCES="Src/cmor_fortran_interface.f90"
@@ -5642,6 +5720,14 @@ $as_echo "$as_me:  CFLAGS  : ${SZLIBFLAGS}" >&6;}
   { $as_echo "$as_me:${as_lineno-$LINENO}:  LDFLAGS : ${SZLIBLDFLAGS}" >&5
 $as_echo "$as_me:  LDFLAGS : ${SZLIBLDFLAGS}" >&6;}
 fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: " >&5
+$as_echo "$as_me: " >&6;}
+{ $as_echo "$as_me:${as_lineno-$LINENO}: JSONC" >&5
+$as_echo "$as_me: JSONC" >&6;}
+{ $as_echo "$as_me:${as_lineno-$LINENO}:  CFLAGS  : ${JSONCFLAGS}" >&5
+$as_echo "$as_me:  CFLAGS  : ${JSONCFLAGS}" >&6;}
+{ $as_echo "$as_me:${as_lineno-$LINENO}:  LDFLAGS : ${JSONCLDFLAGS}" >&5
+$as_echo "$as_me:  LDFLAGS : ${JSONCLDFLAGS}" >&6;}
 { $as_echo "$as_me:${as_lineno-$LINENO}: " >&5
 $as_echo "$as_me: " >&6;}
 { $as_echo "$as_me:${as_lineno-$LINENO}: UUID" >&5

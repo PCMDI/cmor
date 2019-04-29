@@ -25,7 +25,7 @@ CMOR_VERSION=${PACKAGE_VERSION}" (commit: ${GIT_TAG})"
 AC_PREFIX_DEFAULT([/usr/local/cmor])
 AC_CONFIG_FILES([Makefile setup.py compile_line.txt include/cmor_locale.h])
 
-INCFILES="include/cmor.h include/cmor_func_def.h include/cmor_md5.h `cd $srcdir ; ls include/cdTime/*.h include/cdTime/cdunifpp/*.h include/json-c/*.h | tr \"\n\" \" \" `"
+INCFILES="include/cmor.h include/cmor_func_def.h include/cmor_md5.h `cd $srcdir ; ls include/cdTime/*.h include/cdTime/cdunifpp/*.h | tr \"\n\" \" \" `"
 AC_SUBST(RTAG)
 AC_SUBST(FTAG)
 
@@ -38,6 +38,8 @@ AC_SUBST(UDUNITS2FLAGS)
 AC_SUBST(UDUNITS2LDFLAGS)
 AC_SUBST(UUIDFLAGS)
 AC_SUBST(UUIDLDFLAGS)
+AC_SUBST(JSONCFLAGS)
+AC_SUBST(JSONCLDFLAGS)
 AC_SUBST(LIBSOURCES)
 AC_SUBST(LIBSOURCESCV)
 AC_SUBST(LIBFSOURCES)
@@ -94,7 +96,7 @@ if test ${enable_debug} == "yes" ; then
   DEBUG="-g"
 fi
 
-LIBFILES="cmor.o cmor_axes.o cmor_CV.o cmor_variables.o cmor_tables.o cdTimeConv.o cdUtil.o timeConv.o timeArith.o cmor_grids.o cmor_md5.o arraylist.o  json_c_version.o  json_object_iterator.o json_util.o linkhash.o random_seed.o debug.o json_object.o json_tokener.o libjson.o printbuf.o"
+LIBFILES="cmor.o cmor_axes.o cmor_CV.o cmor_variables.o cmor_tables.o cdTimeConv.o cdUtil.o timeConv.o timeArith.o cmor_grids.o cmor_md5.o"
 LIBFFILES="cmor_cfortran_interface.o cmor_fortran_interface.o"
 
 dnl ##########################################################
@@ -167,6 +169,25 @@ fi
 
 LDFLAGS=${LDFLAGS}" -lm "
 
+
+AC_ARG_WITH([json-c],[AS_HELP_STRING([--with-json-c],[enable support for json-c in none standard location])],[],[with_json_c="no"])
+if [ test x${with_json_c} != xyes ] ; then
+  if [ test x${with_json_c} != xno ] ; then
+   JSONCFLAGS=" -I${with_json_c}/include"
+   if [ test ${RTAG} != "none" ] ; then
+     JSONCLDFLAGS=" -L${with_json_c}/lib  ${RTAG}${with_json_c}/lib -ljson-c"
+   else
+     JSONCLDFLAGS=" -L${with_json_c}/lib -ljson-c"
+   fi
+  else
+    JSONCLDFLAGS="-ljson-c"
+    JSONCFLAGS=""
+  fi
+else
+  JSONCLDFLAGS="-ljson-c"
+  JSONCFLAGS=""
+fi
+AC_CHECK_LIB([json-c],[json_object_get_userdata],[],[AC_ERROR([Could not get a working json-c])],[ ${JSONCFLAGS} ${JSONCLDFLAGS}  ])
 
 AC_ARG_WITH([uuid],[AS_HELP_STRING([--with-uuid],[enable support for uuid in none standard location])],[],[with_uuid="no"])
 if [ test x${with_uuid} != xyes ] ; then
@@ -290,15 +311,15 @@ if [ test ${HAS_NC4} == "no" ] ; then
   fi
 fi
 LIBS=${OLIBS}
-CPPFLAGS="-I${srcdir}/include/json-c -I${srcdir}/include -I${srcdir}/include/cdTime ${CPPFLAGS}"
+CPPFLAGS=" -I${srcdir}/include -I${srcdir}/include/cdTime ${CPPFLAGS}"
 LDFLAGS=${SV_LDFLAGS}
 MAINDIR=`pwd`
 
 # Library sources
-#LIBSOURCES="Src/cmor.c Src/cmor_variables.c Src/cmor_axes.c Src/cmor_tables.c Src/cmor_grids.c Src/cdTime/cdTimeConv.c Src/cdTime/cdUtil.c Src/cdTime/timeConv.c Src/cdTime/timeArith.c Src/cmor_cfortran_interface.c Src/cmor_md5.c Src/json-c/arraylist.cSrc/json-c/json_c_version.c  Src/json-c/json_object_iterator.c Src/json-c/json_util.c Src/json-c/linkhash.c  Src/json-cmor/random_seed.c Src/json-c/debug.c Src/json-c/json_object.c Src/json-c/json_tokener.c Src/json-c/libjson.c Src/json-c/printbuf.c"
-#LIBSOURCES=`ls -x --width=10000 Src/*.c Src/cdTime/*.c Src/json-c/*.c`
-LIBSOURCES=`cd $srcdir ; ls Src/*.c Src/cdTime/*.c Src/json-c/*.c | tr "\n" " " | sed  's#Src/_controlvocabulary.c##'`
-LIBSOURCESCV=`cd $srcdir ; ls Src/*.c Src/cdTime/*.c Src/json-c/*.c | tr "\n" " " | sed  's#Src/_cmormodule.c##'`
+#LIBSOURCES="Src/cmor.c Src/cmor_variables.c Src/cmor_axes.c Src/cmor_tables.c Src/cmor_grids.c Src/cdTime/cdTimeConv.c Src/cdTime/cdUtil.c Src/cdTime/timeConv.c Src/cdTime/timeArith.c Src/cmor_cfortran_interface.c Src/cmor_md5.c"
+#LIBSOURCES=`ls -x --width=10000 Src/*.c Src/cdTime/*.c`
+LIBSOURCES=`cd $srcdir ; ls Src/*.c Src/cdTime/*.c | tr "\n" " " | sed  's#Src/_controlvocabulary.c##'`
+LIBSOURCESCV=`cd $srcdir ; ls Src/*.c Src/cdTime/*.c | tr "\n" " " | sed  's#Src/_cmormodule.c##'`
 
 
 LIBFSOURCES="Src/cmor_fortran_interface.f90"
@@ -334,6 +355,10 @@ if [test ${SZLIBFLAGS}!="nosz" ]; then
   AC_MSG_NOTICE([ CFLAGS  : ${SZLIBFLAGS}])
   AC_MSG_NOTICE([ LDFLAGS : ${SZLIBLDFLAGS}])
 fi
+AC_MSG_NOTICE([])
+AC_MSG_NOTICE([JSONC])
+AC_MSG_NOTICE([ CFLAGS  : ${JSONCFLAGS}])
+AC_MSG_NOTICE([ LDFLAGS : ${JSONCLDFLAGS}])
 AC_MSG_NOTICE([])
 AC_MSG_NOTICE([UUID])
 AC_MSG_NOTICE([ CFLAGS  : ${UUIDFLAGS}])

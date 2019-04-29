@@ -22,16 +22,19 @@ OK_COLOR=${@OK_COLOR@}
 USERCFLAGS=@USERCFLAGS@
 NCCFLAGS=@NCCFLAGS@
 ZFLAGS=@ZFLAGS@
+JSONCFLAGS=@JSONCFLAGS@
 UUIDFLAGS=@UUIDFLAGS@
 UDUNITS2FLAGS=@UDUNITS2FLAGS@
 NCLDFLAGS=@NCLDFLAGS@
 ZLDFLAGS=@ZLDFLAGS@
+JSONCLDFLAGS=@JSONCLDFLAGS@
 UUIDLDFLAGS=@UUIDLDFLAGS@
 UDUNITS2LDFLAGS=@UDUNITS2LDFLAGS@
 RTAG=@RTAG@
 FTAG=@FTAG@
 FNCLDFLAGS=@NCLDFLAGS@
 FZLDFLAGS=@ZLDFLAGS@
+FJSONCLDFLAGS=@JSONCLDFLAGS@
 FUUIDLDFLAGS=@UUIDLDFLAGS@
 FUDUNITS2LDFLAGS=@UDUNITS2LDFLAGS@
 DEBUG=@DEBUG@
@@ -55,11 +58,11 @@ INCFILES=@INCFILES@
 # Temporary Files
 TMPFILES=*~ $(LIBFILES) *.mod a.out *.stb Test/*.nc Test/IPCC_Fourth_Assessment *.LOG* *.dSYM Test/IPCC Test/CMIP5 CMIP5
 DISTFILES=libcmor.a
-DEPEND= makedepend -c ${DEBUG} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}
+DEPEND= makedepend -c ${DEBUG} ${CFLAGS} ${USERCFLAGS}  ${NCCFLAGS} ${UDUNITS2FLAGS} ${JSONCFLAGS} ${UUIDFLAGS} ${ZFLAGS}
 UNAME := $(shell uname)
 
 CCOMPILE=${CC} -c ${DEBUG} ${MACROS} ${CPPFLAGS} ${CFLAGS} ${USERCFLAGS} \
-		${NCCFLAGS} ${UDUNITS2FLAGS} ${UUIDFLAGS} ${ZFLAGS}
+		${NCCFLAGS} ${UDUNITS2FLAGS} ${JSONCFLAGS} ${UUIDFLAGS} ${ZFLAGS}
 
 all:    cmor
 	@echo
@@ -91,28 +94,6 @@ timeConv.o: Src/cdTime/timeConv.c include/cmor.h include/cmor_func_def.h
 	${CCOMPILE} $<
 timeArith.o: Src/cdTime/timeArith.c include/cmor.h include/cmor_func_def.h
 	${CCOMPILE} $<
-arraylist.o: Src/json-c/arraylist.c
-	${CCOMPILE} $<
-debug.o: Src/json-c/debug.c
-	${CCOMPILE} $<
-json_c_version.o: Src/json-c/json_c_version.c
-	${CCOMPILE} $<
-json_object.o: Src/json-c/json_object.c
-	${CCOMPILE} $<
-json_object_iterator.o: Src/json-c/json_object_iterator.c
-	${CCOMPILE} $<
-json_tokener.o: Src/json-c/json_tokener.c
-	${CCOMPILE} $<
-json_util.o: Src/json-c/json_util.c
-	${CCOMPILE} $<
-libjson.o: Src/json-c/libjson.c
-	${CCOMPILE} $<
-linkhash.o: Src/json-c/linkhash.c
-	${CCOMPILE} $<
-printbuf.o: Src/json-c/printbuf.c
-	${CCOMPILE} $<
-random_seed.o: Src/json-c/random_seed.c
-	${CCOMPILE} $<
 cmor_fortran_interface.o: Src/cmor_fortran_interface.f90
 	${FC} -c ${FCFLAGS} ${USERFFLAGS} ${DEBUG} ${MACROS} $<
 cmor:  $(LIBFILES) @MAKEDEPPYTHON@
@@ -128,11 +109,9 @@ install: cmor
 	mkdir -p ${PREFIX}/lib
 	mkdir -p ${PREFIX}/include
 	mkdir -p ${PREFIX}/include/cdTime
-	mkdir -p ${PREFIX}/include/json-c
 	mkdir -p ${PREFIX}/include/cdTime/cdunifpp
 	cp -p $(LIBNAME) ${PREFIX}/lib
 	cp -pr $(srcdir)/include/*.h @MODFILES@ ${PREFIX}/include
-	cp -pr $(srcdir)/include/json-c/*.h ${PREFIX}/include/json-c
 	cp -pr $(srcdir)/include/cdTime/*.h ${PREFIX}/include/cdTime
 	cp -pr $(srcdir)/include/cdTime/cdunifpp/*.h ${PREFIX}/include/cdTime/cdunifpp
 uninstall: distclean 
@@ -148,17 +127,17 @@ backup: clean
 test:  cmor test_C @TEST_FORTRAN@ @MAKETESTPYTHON@
 	@echo "All C and Fortran Test passed successfully"
 test_C: cmor 
-	rm -f ./ipcc_test_code ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/ipcc_test_code.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@  -o ipcc_test_code  @VERB@; ./ipcc_test_code @VERB@
-	rm -f ./test_singletons ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_singletons.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@  -o test_singletons  @VERB@; ./test_singletons @VERB@
-	rm -f test_grid ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_grid.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ -o test_grid @LDFLAGS@ @VERB@; ./test_grid @VERB@;
-	rm -f test_grid_unstructured ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_cmor_grid_unstructured_fabi.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ -o test_grid_unstructured @LDFLAGS@ @VERB@; ./test_grid_unstructured @VERB@;
-	rm -f test_grid_unstructured_3d ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_cmor_grid_unstructured_3d_fabi.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ -o test_grid_unstructured_3d @LDFLAGS@ @VERB@; ./test_grid_unstructured_3d @VERB@;
-	rm -f test_cat_unique ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_unit_cat_unique.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@ -o test_unit_cat_unique @VERB@; ./test_unit_cat_unique @VERB@;
-	rm -f test_cmor_append_associated ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_cmor_append_associated.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@ -o test_cmor_append_associated @VERB@; ./test_cmor_append_associated @VERB@;
-	rm -f test_cmor_singleton_and_generic ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_cmor_singleton_and_generic.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@ -o test_cmor_singleton_and_generic @VERB@; ./test_cmor_singleton_and_generic @VERB@;
-	rm -f test_cmor_depth_coord_half ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_cmor_depth_coord_half.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@ -o test_cmor_depth_coord_half @VERB@; ./test_cmor_depth_coord_half @VERB@;
+	rm -f ./ipcc_test_code ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/ipcc_test_code.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @JSONCLDFLAGS@ @JSONCFLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@  -o ipcc_test_code  @VERB@; ./ipcc_test_code @VERB@
+	rm -f ./test_singletons ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_singletons.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @JSONCLDFLAGS@ @JSONCFLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@  -o test_singletons  @VERB@; ./test_singletons @VERB@
+	rm -f test_grid ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_grid.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @JSONCLDFLAGS@ @JSONCFLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ -o test_grid @LDFLAGS@ @VERB@; ./test_grid @VERB@;
+	rm -f test_grid_unstructured ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_cmor_grid_unstructured_fabi.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @JSONCLDFLAGS@ @JSONCFLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ -o test_grid_unstructured @LDFLAGS@ @VERB@; ./test_grid_unstructured @VERB@;
+	rm -f test_grid_unstructured_3d ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_cmor_grid_unstructured_3d_fabi.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @JSONCLDFLAGS@ @JSONCFLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ -o test_grid_unstructured_3d @LDFLAGS@ @VERB@; ./test_grid_unstructured_3d @VERB@;
+	rm -f test_cat_unique ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_unit_cat_unique.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @JSONCLDFLAGS@ @JSONCFLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@ -o test_unit_cat_unique @VERB@; ./test_unit_cat_unique @VERB@;
+	rm -f test_cmor_append_associated ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_cmor_append_associated.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @JSONCLDFLAGS@ @JSONCFLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@ -o test_cmor_append_associated @VERB@; ./test_cmor_append_associated @VERB@;
+	rm -f test_cmor_singleton_and_generic ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_cmor_singleton_and_generic.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @JSONCLDFLAGS@ @JSONCFLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@ -o test_cmor_singleton_and_generic @VERB@; ./test_cmor_singleton_and_generic @VERB@;
+	rm -f test_cmor_depth_coord_half ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_cmor_depth_coord_half.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @JSONCLDFLAGS@ @JSONCFLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@ -o test_cmor_depth_coord_half @VERB@; ./test_cmor_depth_coord_half @VERB@;
 ifeq ($(UNAME), Linux)
-	rm -f test_lots_of_variables ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_lots_of_variables.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@ -o test_lots_of_variables @VERB@; ./test_lots_of_variables @VERB@;
+	rm -f test_lots_of_variables ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_lots_of_variables.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @JSONCLDFLAGS@ @JSONCFLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@ -o test_lots_of_variables @VERB@; ./test_lots_of_variables @VERB@;
 # do something Linux-y
 endif
 python:
@@ -245,7 +224,7 @@ test_python: python
 
 test_case:
 	@echo "${OK_COLOR}Testing: "${TEST_NAME}" with input file: ${INPUT_FILE}${NO_COLOR}"
-	@rm -f ./${TEST_NAME} 2>/dev/null ; ${FC} ${USERFFLAGS} ${FCFLAGS} ${DEBUG}  Test/${TEST_NAME}.f90 -L${PREFIX}/lib -L. -lcmor ${NCCFLAGS} ${FNCLDFLAGS} ${FUDUNITS2LDFLAGS} ${UDUNITS2FLAGS} ${FUUIDLDFLAGS} ${UUIDFLAGS} ${ZFLAGS} ${FZLDFLAGS} -o ${TEST_NAME} ;
+	@rm -f ./${TEST_NAME} 2>/dev/null ; ${FC} ${USERFFLAGS} ${FCFLAGS} ${DEBUG}  Test/${TEST_NAME}.f90 -L${PREFIX}/lib -L. -lcmor ${NCCFLAGS} ${FNCLDFLAGS} ${FUDUNITS2LDFLAGS} ${UDUNITS2FLAGS} ${FJSONCLDFLAGS} ${JSONCFLAGS} ${FUUIDLDFLAGS} ${UUIDFLAGS} ${ZFLAGS} ${FZLDFLAGS} -o ${TEST_NAME} ;
 	@./${TEST_NAME} ${VERB} < ${INPUT_FILE} ;
 	@ rm ./${TEST_NAME}
 ifeq (@MAKEDEPPYTHON@,python)
@@ -253,7 +232,7 @@ ifeq (@MAKEDEPPYTHON@,python)
 endif
 test_case_old_cmor_tables:
 	@echo "Testing: "${TEST_NAME}" with input file: "${INPUT_FILE}
-	@rm -f ./${TEST_NAME} 2>/dev/null ; ${FC} ${USERFFLAGS} ${FCFLAGS} ${DEBUG}  Test/old_cmor_tables/${TEST_NAME}.f90 -L${PREFIX}/lib -L. -lcmor ${NCCFLAGS} ${FNCLDFLAGS} ${FUDUNITS2LDFLAGS} ${UDUNITS2FLAGS} ${FUUIDLDFLAGS} ${UUIDFLAGS} ${ZFLAGS} ${FZLDFLAGS} -o ${TEST_NAME} ;
+	@rm -f ./${TEST_NAME} 2>/dev/null ; ${FC} ${USERFFLAGS} ${FCFLAGS} ${DEBUG}  Test/old_cmor_tables/${TEST_NAME}.f90 -L${PREFIX}/lib -L. -lcmor ${NCCFLAGS} ${FNCLDFLAGS} ${FUDUNITS2LDFLAGS} ${UDUNITS2FLAGS} ${FJSONCLDFLAGS} ${JSONCFLAGS} ${FUUIDLDFLAGS} ${UUIDFLAGS} ${ZFLAGS} ${FZLDFLAGS} -o ${TEST_NAME} ;
 	@./${TEST_NAME} ${VERB} < ${INPUT_FILE} ;
 	@ rm ./${TEST_NAME}
 ifeq (@MAKEDEPPYTHON@,python)

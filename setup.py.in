@@ -6,7 +6,7 @@ from numpy.distutils.core import setup, Extension
 import os,sys,string
 from setuptools import setup, Extension
 
-include_dirs = [numpy.lib.utils.get_include(),"include","include/cdTime","include/json-c"]
+include_dirs = [numpy.lib.utils.get_include(),"include","include/cdTime"]
 
 library_dirs = [ os.path.join("@prefix@","lib") ,'.']
 include_dirs.append(os.path.join("@prefix@","include"))
@@ -15,6 +15,7 @@ link_args = []
 
 for st in ["@NCLDFLAGS@", "@NCCFLAGS@",  
            "@UDUNITS2FLAGS@", "@UDUNITS2LDFLAGS@",
+           "@JSONCFLAGS@", "@JSONCLDFLAGS@",
            "@UUIDFLAGS@", "@UUIDLDFLAGS@"]:
    sp = st.strip().split()
    for s in sp:

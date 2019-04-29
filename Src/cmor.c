@@ -4,8 +4,8 @@
 #include <uuid/uuid.h>
 #include <unistd.h>
 #include <string.h>
-#include "json.h"
-#include "json_tokener.h"
+#include <json-c/json.h>
+#include <json-c/json_tokener.h>
 #include "cmor.h"
 #include "cmor_locale.h"
 #include <netcdf.h>
