@@ -422,7 +422,7 @@
             "stored_direction": "increasing", 
             "tolerance": "", 
             "type": "double", 
-            "valid_max": "2000", 
+            "valid_max": "2000.0", 
             "valid_min": "0.0", 
             "value": "1000.", 
             "z_bounds_factors": "", 
@@ -1005,7 +1005,7 @@
             "generic_level_name": "olevel"
         }, 
         "ocean_sigma_z": {
-            "standard_name": "ocean_sigma_z", 
+            "standard_name": "ocean_sigma_z_coordinate", 
             "units": "", 
             "axis": "Z", 
             "long_name": "ocean sigma over z coordinate", 
@@ -1034,7 +1034,7 @@
             "long_name": "depth", 
             "climatology": "", 
             "formula": "", 
-            "must_have_bounds": "no", 
+            "must_have_bounds": "yes", 
             "out_name": "depth", 
             "positive": "down", 
             "requested": "", 
