@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.29", 
+        "data_specs_version": "01.00.30", 
         "cmor_version": "3.4", 
         "table_id": "Table IfxGre", 
         "realm": "landIce", 
-        "table_date": "26 March 2019", 
+        "table_date": "30 April 2019", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
