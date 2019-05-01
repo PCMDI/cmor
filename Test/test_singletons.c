@@ -90,7 +90,7 @@ static void run_test()
     /*
      * Setup time, lat, and lon.
      */
-    if (cmor_axis(&id_time, "time", "days since 1970-01-01", UNLIMITED,
+    if (cmor_axis(&id_time, "time1", "days since 1970-01-01", UNLIMITED,
                   NULL, 'd', NULL, 0, NULL) != 0)
         fail("cmor_axis(time)");
 

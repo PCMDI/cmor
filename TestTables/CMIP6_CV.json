@@ -33,13 +33,13 @@
             "variant_label"
         ],
         "version_metadata":{
-            "CV_collection_modified":"Mon Mar 25 14:32:35 2019 -0700",
-            "CV_collection_version":"6.2.20.1",
+            "CV_collection_modified":"Thu Apr 25 09:50:49 2019 -0700",
+            "CV_collection_version":"6.2.22.1",
             "author":"Paul J. Durack <durack1@llnl.gov>",
-            "experiment_id_CV_modified":"Thu Mar 21 14:19:42 2019 -0700",
-            "experiment_id_CV_note":"Revise OMIP*-spunup experiment_id values",
+            "experiment_id_CV_modified":"Wed Apr 24 14:09:47 2019 -0700",
+            "experiment_id_CV_note":"Register 8 new C4MIP experiments",
             "institution_id":"PCMDI",
-            "previous_commit":"690451863bfd7a92a6fa13d879a9df6af32e0379",
+            "previous_commit":"f799f9679d3a944aa5ee0b20ab1195a99a774628",
             "specs_doc":"v6.2.7 (10th September 2018; https://goo.gl/v1drZl)"
         },
         "activity_id":{
@@ -80,7 +80,7 @@
             "CCCma":"Canadian Centre for Climate Modelling and Analysis, Environment and Climate Change Canada, Victoria, BC V8P 5C2, Canada",
             "CMCC":"Fondazione Centro Euro-Mediterraneo sui Cambiamenti Climatici, Lecce 73100, Italy",
             "CNRM-CERFACS":"CNRM (Centre National de Recherches Meteorologiques, Toulouse 31057, France), CERFACS (Centre Europeen de Recherche et de Formation Avancee en Calcul Scientifique, Toulouse 31057, France)",
-            "CSIR-CSIRO":"CSIR (Council for Scientific and Industrial Research - Natural Resources and the Environment, Pretoria, 0001, South Africa), CSIRO (Commonwealth Scientific and Industrial Research Organisation and Bureau of Meteorology, Melbourne, Victoria 3208, Australia)",
+            "CSIR-Wits-CSIRO":"CSIR (Council for Scientific and Industrial Research - Natural Resources and the Environment, Pretoria, 0001, South Africa), Wits (University of the Witwatersrand - Global Change Institute, Johannesburg 2050, South Africa), CSIRO (Commonwealth Scientific and Industrial Research Organisation, Aspendale, Victoria 3195, Australia)Mailing address: Wits, Global Change Institute, Johannesburg 2050, South Africa",
             "CSIRO":"Commonwealth Scientific and Industrial Research Organisation, Aspendale, Victoria 3195, Australia",
             "CSIRO-ARCCSS-BoM":"Commonwealth Scientific and Industrial Research Organisation, Australian Research Council Centre of Excellence for Climate System Science, and Bureau of Meteorology, Aspendale, Victoria 3195, Australia",
             "DKRZ":"Deutsches Klimarechenzentrum, Hamburg 20146, Germany",
@@ -100,6 +100,7 @@
             "MPI-M":"Max Planck Institute for Meteorology, Hamburg 20146, Germany",
             "MRI":"Meteorological Research Institute, Tsukuba, Ibaraki 305-0052, Japan",
             "NASA-GISS":"Goddard Institute for Space Studies, New York, NY 10025, USA",
+            "NASA-GSFC":"NASA Goddard Space Flight Center, Greenbelt, MD 20771, USA",
             "NCAR":"National Center for Atmospheric Research, Climate and Global Dynamics Laboratory, 1850 Table Mesa Drive, Boulder, CO 80305, USA",
             "NCC":"NorESM Climate modeling Consortium consisting of CICERO (Center for International Climate and Environmental Research, Oslo 0349), MET-Norway (Norwegian Meteorological Institute, Oslo 0313), NERSC (Nansen Environmental and Remote Sensing Center, Bergen 5006), NILU (Norwegian Institute for Air Research, Kjeller 2027), UiB (University of Bergen, Bergen 5007), UiO (University of Oslo, Oslo 0313) and UNI (Uni Research, Bergen 5008), Norway. Mailing address: NCC, c/o MET-Norway, Henrik Mohns plass 1, Oslo 0313, Norway",
             "NERC":"Natural Environment Research Council, STFC-RAL, Harwell, Oxford, OX11 0QX, UK",
@@ -2021,7 +2022,7 @@
                     "Registered"
                 ],
                 "institution_id":[
-                    "CSIR-CSIRO"
+                    "CSIR-Wits-CSIRO"
                 ],
                 "source_id":"VRESM-1-0",
                 "source":"VRESM 1.0 (2016): \naerosol: Rotstayn-1.0\natmos: VCAM-1.0 (C192; 192 x 192 x 6 longitude/latitude/cubeface; 35 levels; top level 35km)\natmosChem: none\nland: CABLE v2.2.3\nlandIce: none\nocean: VCOM-1.0 (C192; 384 x 384 x 6 longitude/latitude/cubeface; 35 levels; top grid cell 0-10 m)\nocnBgchem: PISCES v3.4socco\nseaIce: CSIR-ICE (visco-plastic)"
@@ -4289,6 +4290,180 @@
                 ],
                 "required_model_components":[
                     "AOGCM"
+                ],
+                "sub_experiment_id":[
+                    "none"
+                ]
+            },
+            "esm-1pct-brch-1000PgC":{
+                "activity_id":[
+                    "C4MIP CDRMIP"
+                ],
+                "additional_allowed_model_components":[
+                    "AER",
+                    "CHEM"
+                ],
+                "experiment":"zero emissions simulation branched from 1% run after 1000 PgC cumulative emission",
+                "experiment_id":"esm-1pct-brch-1000PgC",
+                "parent_activity_id":[
+                    "CMIP",
+                    "C4MIP"
+                ],
+                "parent_experiment_id":[
+                    "1pctCO2",
+                    "esm-1pctCO2"
+                ],
+                "required_model_components":[
+                    "AOGCM",
+                    "BGC"
+                ],
+                "sub_experiment_id":[
+                    "none"
+                ]
+            },
+            "esm-1pct-brch-2000PgC":{
+                "activity_id":[
+                    "C4MIP CDRMIP"
+                ],
+                "additional_allowed_model_components":[
+                    "AER",
+                    "CHEM"
+                ],
+                "experiment":"zero emissions simulation branched from 1% run after 2000 PgC cumulative emission",
+                "experiment_id":"esm-1pct-brch-2000PgC",
+                "parent_activity_id":[
+                    "CMIP",
+                    "C4MIP"
+                ],
+                "parent_experiment_id":[
+                    "1pctCO2",
+                    "esm-1pctCO2"
+                ],
+                "required_model_components":[
+                    "AOGCM",
+                    "BGC"
+                ],
+                "sub_experiment_id":[
+                    "none"
+                ]
+            },
+            "esm-1pct-brch-750PgC":{
+                "activity_id":[
+                    "C4MIP CDRMIP"
+                ],
+                "additional_allowed_model_components":[
+                    "AER",
+                    "CHEM"
+                ],
+                "experiment":"zero emissions simulation branched from 1% run after 750 PgC cumulative emission",
+                "experiment_id":"esm-1pct-brch-750PgC",
+                "parent_activity_id":[
+                    "CMIP",
+                    "C4MIP"
+                ],
+                "parent_experiment_id":[
+                    "1pctCO2",
+                    "esm-1pctCO2"
+                ],
+                "required_model_components":[
+                    "AOGCM",
+                    "BGC"
+                ],
+                "sub_experiment_id":[
+                    "none"
+                ]
+            },
+            "esm-1pctCO2":{
+                "activity_id":[
+                    "C4MIP CDRMIP"
+                ],
+                "additional_allowed_model_components":[
+                    "AER",
+                    "CHEM"
+                ],
+                "experiment":"emissions driven 1% run",
+                "experiment_id":"esm-1pctCO2",
+                "parent_activity_id":[
+                    "CMIP"
+                ],
+                "parent_experiment_id":[
+                    "esm-piControl"
+                ],
+                "required_model_components":[
+                    "AOGCM",
+                    "BGC"
+                ],
+                "sub_experiment_id":[
+                    "none"
+                ]
+            },
+            "esm-bell-1000PgC":{
+                "activity_id":[
+                    "C4MIP CDRMIP"
+                ],
+                "additional_allowed_model_components":[
+                    "AER",
+                    "CHEM"
+                ],
+                "experiment":"emissions driven 1000PgC bell-curve",
+                "experiment_id":"esm-bell-1000PgC",
+                "parent_activity_id":[
+                    "CMIP"
+                ],
+                "parent_experiment_id":[
+                    "esm-piControl"
+                ],
+                "required_model_components":[
+                    "AOGCM",
+                    "BGC"
+                ],
+                "sub_experiment_id":[
+                    "none"
+                ]
+            },
+            "esm-bell-2000PgC":{
+                "activity_id":[
+                    "C4MIP CDRMIP"
+                ],
+                "additional_allowed_model_components":[
+                    "AER",
+                    "CHEM"
+                ],
+                "experiment":"emissions driven 2000PgC bell-curve",
+                "experiment_id":"esm-bell-2000PgC",
+                "parent_activity_id":[
+                    "CMIP"
+                ],
+                "parent_experiment_id":[
+                    "esm-piControl"
+                ],
+                "required_model_components":[
+                    "AOGCM",
+                    "BGC"
+                ],
+                "sub_experiment_id":[
+                    "none"
+                ]
+            },
+            "esm-bell-750PgC":{
+                "activity_id":[
+                    "C4MIP CDRMIP"
+                ],
+                "additional_allowed_model_components":[
+                    "AER",
+                    "CHEM"
+                ],
+                "experiment":"emissions driven 750PgC bell-curve",
+                "experiment_id":"esm-bell-750PgC",
+                "parent_activity_id":[
+                    "CMIP"
+                ],
+                "parent_experiment_id":[
+                    "esm-piControl"
+                ],
+                "required_model_components":[
+                    "AOGCM",
+                    "BGC"
                 ],
                 "sub_experiment_id":[
                     "none"
@@ -7839,7 +8014,7 @@
                     "CHEM",
                     "BGC"
                 ],
-                "experiment":"effective radiative forcing in present-day",
+                "experiment":"Control simulation providing baseline for evaluating effective radiative forcing (ERF)",
                 "experiment_id":"piClim-control",
                 "parent_activity_id":[
                     "CMIP"
