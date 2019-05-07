@@ -2674,39 +2674,44 @@ int cmor_validateFilename(char *outname, char *file_suffix, int var_id)
             if (cmor_tables
                 [cmor_axes[cmor_vars[var_id].axes_ids[i]].ref_table_id].
                 axes[cmor_axes[cmor_vars[var_id].axes_ids[i]].ref_axis_id].
-                climatology == 1) {
+                must_have_bounds == 1) {
+                if (cmor_tables
+                    [cmor_axes[cmor_vars[var_id].axes_ids[i]].ref_table_id].
+                    axes[cmor_axes[cmor_vars[var_id].axes_ids[i]].ref_axis_id].
+                    climatology == 1) {
 
-                snprintf(msg, CMOR_MAX_STRING, "climatology");
-                strncpy(ctmp, "climatology_bnds", CMOR_MAX_STRING);
-            } else {
-                strncpy(ctmp, "time_bnds", CMOR_MAX_STRING);
-            }
+                    snprintf(msg, CMOR_MAX_STRING, "climatology");
+                    strncpy(ctmp, "climatology_bnds", CMOR_MAX_STRING);
+                } else {
+                    strncpy(ctmp, "time_bnds", CMOR_MAX_STRING);
+                }
 
-            ierr = nc_inq_varid(ncid, ctmp, &i);
-            if (ierr != NC_NOERR) {
-                snprintf(msg, CMOR_MAX_STRING,
+                ierr = nc_inq_varid(ncid, ctmp, &i);
+                if (ierr != NC_NOERR) {
+                    snprintf(msg, CMOR_MAX_STRING,
                          "NetCDF Error (%i: %s) looking for time bounds\n! "
                          "of variable '%s' in file: %s", ierr,
                          nc_strerror(ierr), cmor_vars[var_id].id, outname);
-                cmor_handle_error(msg, CMOR_WARNING);
-                ierr = NC_NOERR;
-            } else {
-                cmor_vars[var_id].time_bnds_nc_id = i;
+                    cmor_handle_error(msg, CMOR_WARNING);
+                    ierr = NC_NOERR;
+                } else {
+                    cmor_vars[var_id].time_bnds_nc_id = i;
 /* -------------------------------------------------------------------- */
 /*      Here I need to store first/last bounds for appending issues     */
 /* -------------------------------------------------------------------- */
 
-                starts[0] = cmor_vars[var_id].ntimes_written - 1;
-                starts[1] = 1;
-                ierr = nc_get_var1_double(ncid,
+                    starts[0] = cmor_vars[var_id].ntimes_written - 1;
+                    starts[1] = 1;
+                    ierr = nc_get_var1_double(ncid,
                                           cmor_vars[var_id].time_bnds_nc_id,
                                           &starts[0],
                                           &cmor_vars[var_id].last_bound);
-                starts[1] = 0;
-                ierr = nc_get_var1_double(ncid,
+                    starts[1] = 0;
+                    ierr = nc_get_var1_double(ncid,
                                           cmor_vars[var_id].time_bnds_nc_id,
                                           &starts[0],
                                           &cmor_vars[var_id].first_bound);
+                }
             }
             cmor_vars[var_id].initialized = ncid;
         }
