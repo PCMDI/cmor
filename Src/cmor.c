@@ -4361,16 +4361,22 @@ int cmor_write(int var_id, void *data, char type, char *file_suffix,
     };
 
 /* -------------------------------------------------------------------- */
-/*    Make sure that time_vals and time_bounds are being passed         */
+/*    Make sure that time_vals (and possibly time_bounds) are passed    */
 /*    when CMOR is running in append mode.                              */
 /* -------------------------------------------------------------------- */
-    if (bAppendMode && (time_vals == NULL || time_bounds == NULL)) {
+    if (bAppendMode) {
+        size_t refTableID = cmor_vars[var_id].ref_table_id;
+        size_t refAxisID = cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_axis_id;
+        if ( time_vals == NULL || 
+          ( cmor_tables[refTableID].axes[refAxisID].must_have_bounds == 1 && 
+            time_bounds == NULL ) ) {
 
-        cmor_handle_error("time_vals and time_bounds must be passed through cmor_write "
+            cmor_handle_error("time_vals and time_bounds must be passed through cmor_write "
                           "when in append mode", 
                           CMOR_CRITICAL);
-        cmor_pop_traceback();
-        return (-1);
+            cmor_pop_traceback();
+            return (-1);
+        };
     };
 
     ierr += cmor_addVersion();
