@@ -565,7 +565,7 @@ class checkCMIP6(object):
             if key == "comment":
                 continue
             if key == "cell_measures":
-                if cv_attrs[key] == "" or "OPT" in cv_attrs[key] or "MODEL" in cv_attrs[key] or "UGRID" in cv_attrs[key]:
+                if " OR " in cv_attrs[key] or "OPT" in cv_attrs[key] or "MODEL" in cv_attrs[key] or "UGRID" in cv_attrs[key]:
                     continue
             # Is this attribute in file?
             if key in list(self.dictVar.keys()):
@@ -595,19 +595,15 @@ class checkCMIP6(object):
                         file_value = file_value[:idx]
                         table_value = table_value[:idx]
                 if key == "cell_measures":
-                    pattern = re.compile('(?P<param>[\w.-]+): (?P<val1>[\w.-]+) OR (?P<val2>[\w.-]+)')
+                    # Check if area and volume values from the table's cell_measures are found in the file's external_variables
+                    pattern = re.compile('(?:area|volume): (\w+)')
                     values = re.findall(pattern, table_value)
-                    table_values = [""]  # Empty string is allowed in case of useless attribute
-                    if values:
-                        tmp = dict()
-                        for param, val1, val2 in values:
-                            tmp[param] = [str('{}: {}'.format(param, val1)), str('{}: {}'.format(param, val2))]
-                        table_values.extend([' '.join(i) for i in list(itertools.product(*list(tmp.values())))])
-                        if str(file_value) not in list(map(str, table_values)):
+                    for v in values:
+                        if v not in self.dictGbl['external_variables']:
                             print(BCOLORS.FAIL)
                             print("=====================================================================================")
-                            print("Your file contains \"" + key + "\":\"" + str(file_value) + "\" and")
-                            print("CMIP6 tables requires \"" + key + "\":\"" + str(table_value) + "\".")
+                            print("Your file contains external_variables = \"" + self.dictGbl['external_variables'] + "\", which")
+                            print("does not contain \"" + v + "\" from the CMIP6 table's value \"" + key + "\":\"" + str(table_value) + "\".")
                             print("=====================================================================================")
                             print(BCOLORS.ENDC)
                             self.errors += 1
