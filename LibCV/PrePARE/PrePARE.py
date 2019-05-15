@@ -599,11 +599,14 @@ class checkCMIP6(object):
                     pattern = re.compile('(?:area|volume): (\w+)')
                     values = re.findall(pattern, table_value)
                     for v in values:
-                        if v not in self.dictGbl['external_variables']:
+                        if not re.search(r"\b{}\b".format(v), self.dictGbl['external_variables']):
                             print(BCOLORS.FAIL)
                             print("=====================================================================================")
-                            print("Your file contains external_variables = \"" + self.dictGbl['external_variables'] + "\", which")
-                            print("does not contain \"" + v + "\" from the CMIP6 table's value \"" + key + "\":\"" + str(table_value) + "\".")
+                            print("Your file contains external_variables = \"" + self.dictGbl['external_variables'] + "\", and")
+                            if len(values) == 2:
+                                print("CMIP6 tables requires \"" + values[0] + "\" and \"" + values[1] + "\" in external_variables.")
+                            else:
+                                print("CMIP6 tables requires \"" + values[0] + "\" in external_variables.")
                             print("=====================================================================================")
                             print(BCOLORS.ENDC)
                             self.errors += 1
