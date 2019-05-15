@@ -565,7 +565,7 @@ class checkCMIP6(object):
             if key == "comment":
                 continue
             if key == "cell_measures":
-                if cv_attrs[key].find("OPT") != -1 or cv_attrs[key].find("MODEL") != -1:
+                if cv_attrs[key] == "" or "OPT" in cv_attrs[key] or "MODEL" in cv_attrs[key] or "UGRID" in cv_attrs[key]:
                     continue
             # Is this attribute in file?
             if key in list(self.dictVar.keys()):
