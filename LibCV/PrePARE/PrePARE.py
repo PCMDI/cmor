@@ -633,6 +633,15 @@ class checkCMIP6(object):
                 print("=====================================================================================")
                 print(BCOLORS.ENDC)
                 self.errors += 1
+        # Check if cell_measures is defined in the file but not in the table
+        if "cell_measures" in list(self.dictVar.keys()) and "cell_measures" not in cv_attrs:
+                print(BCOLORS.FAIL)
+                print("=====================================================================================")
+                print("Your file contains \"cell_measures\":\"" + str(self.dictVar["cell_measures"]) + "\" but")
+                print("CMIP6 tables do not define \"cell_measures\".")
+                print("=====================================================================================")
+                print(BCOLORS.ENDC)
+                self.errors += 1
         # Print final message
         if self.errors != 0:
             print(BCOLORS.FAIL + "└──> :: CV FAIL    :: {}".format(ncfile) + BCOLORS.ENDC)
