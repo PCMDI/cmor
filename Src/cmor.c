@@ -6093,6 +6093,31 @@ int cmor_close_variable(int var_id, char *file_name, int *preserve)
                 }
             }
         }
+
+/* -------------------------------------------------------------------- */
+/*    Check if the number of times written is less than the             */
+/*    length of the time axis.                                          */
+/* -------------------------------------------------------------------- */
+        for(i = 0; i < cmor_vars[var_id].ndims; ++i) {
+            if(cmor_axes[cmor_vars[var_id].axes_ids[i]].axis == 'T'
+                && cmor_axes[cmor_vars[var_id].axes_ids[i]].length > 0
+                && (cmor_vars[var_id].ntimes_written 
+                < cmor_axes[cmor_vars[var_id].axes_ids[i]].length)) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "while closing variable %i (%s, table %s)\n! "
+                        "we noticed you wrote %i time steps for the variable,\n! "
+                        "but its time axis %i (%s) has %i time steps",
+                        cmor_vars[var_id].self,
+                        cmor_vars[var_id].id,
+                        cmor_tables[cmor_vars[var_id].ref_table_id].szTable_id,
+                        cmor_vars[var_id].ntimes_written, i,
+                        cmor_axes[cmor_vars[var_id].axes_ids[i]].id,
+                        cmor_axes[cmor_vars[var_id].axes_ids[i]].length);
+
+                cmor_handle_error_var(msg, CMOR_WARNING, var_id);
+            }
+        }
+
         strncpytrim( outname, cmor_vars[var_id].base_path,
                  CMOR_MAX_STRING );
 
