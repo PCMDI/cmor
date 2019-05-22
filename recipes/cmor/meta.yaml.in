@@ -38,7 +38,7 @@ requirements:
     - json-c
     - {{ pin_compatible('numpy') }}
     - {{ pin_compatible('hdf5') }}
-    - {{ pin_compatible('libnetcdf') }}
+    - libnetcdf 4.6.2
     - cdms2
 
 about:
