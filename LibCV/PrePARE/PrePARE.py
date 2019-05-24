@@ -33,8 +33,8 @@ from multiprocessing import Pool
 from uuid import uuid4 as uuid
 
 import numpy
+import netCDF4
 
-from cdms2 import Cdunif
 import cmip6_cv
 
 
@@ -384,7 +384,7 @@ class checkCMIP6(object):
         #  Open file in processing
         #  The file needs to be open before the calling the test.
         # -------------------------------------------------------------------
-        infile = Cdunif.CdunifFile(ncfile, "r")
+        infile = netCDF4.Dataset(ncfile, "r")
         key = '{}_{}'.format(table_id, variable_id)
         variable_cmor_entry = None
         if key in list(out_names_tests.keys()):

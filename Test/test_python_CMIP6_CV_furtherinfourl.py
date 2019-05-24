@@ -18,7 +18,7 @@ import unittest
 import os
 import sys
 import tempfile
-import cdms2
+import netCDF4
 import base_CMIP6_CV
 
 
@@ -55,8 +55,9 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
         self.delete_files += [cmor.close(ivar, True)]
         cmor.close()
 
-        f = cdms2.open(cmor.get_final_filename(), "r")
-        a = f.getglobal("further_info_url")
+        f = netCDF4.Dataset(cmor.get_final_filename(), "r")
+        self.assertTrue("further_info_url" in f.__dict__)
+        a = f.__dict__["further_info_url"]
         self.assertEqual(
                 "https://furtherinfo.es-doc.org/CMIP6.PCMDI.PCMDI-test-1-0.piControl-withism.none.r3i1p1f1",
             a)

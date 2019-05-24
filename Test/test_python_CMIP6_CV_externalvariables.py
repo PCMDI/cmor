@@ -18,7 +18,7 @@ import unittest
 import os
 import sys
 import tempfile
-import cdms2
+import netCDF4
 import base_CMIP6_CV
 
 # ==============================
@@ -79,8 +79,9 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
         self.delete_files += [cmor.close(ivar, True)]
         cmor.close()
 
-        f = cdms2.open(cmor.get_final_filename(), "r")
-        a = f.getglobal("external_variables")
+        f = netCDF4.Dataset(cmor.get_final_filename(), "r")
+        self.assertTrue("external_variables" in f.__dict__)
+        a = f.__dict__["external_variables"]
         self.assertEqual("areacello volcello", a)
 
     def testCMIP6_ExternaVariablesError(self):
@@ -117,13 +118,13 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
         self.delete_files += [cmor.close(ua_var_id, True)]
         cmor.close()
 
-        f = cdms2.open(fname_ta, "r")
-        a = f.getglobal("external_variables")
+        f = netCDF4.Dataset(fname_ta, "r")
+        self.assertTrue("external_variables" in f.__dict__)
+        a = f.__dict__["external_variables"]
         self.assertEqual("areacella", a)
         f.close()
-        f = cdms2.open(fname_ua, "r")
-        a = f.getglobal("external_variables")
-        self.assertEqual(None, a)
+        f = netCDF4.Dataset(fname_ua, "r")
+        self.assertTrue("external_variables" not in f.__dict__)
         f.close()
 
 

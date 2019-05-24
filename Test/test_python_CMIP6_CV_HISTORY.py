@@ -15,7 +15,7 @@
 import cmor
 import numpy
 import unittest
-import cdms2
+import netCDF4
 import os
 import sys
 import tempfile
@@ -55,8 +55,9 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
         for i in range(0, 5):
             cmor.write(ivar, data[i:i])
         self.delete_files += [cmor.close(ivar, True)]
-        f = cdms2.open(cmor.get_final_filename(), "r")
-        a = f.getglobal("history")
+        f = netCDF4.Dataset(cmor.get_final_filename(), "r")
+        self.assertTrue("history" in f.__dict__)
+        a = f.__dict__["history"]
         self.assertIn("set for CMIP6 unittest", a)
 
 

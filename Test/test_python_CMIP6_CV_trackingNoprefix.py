@@ -18,7 +18,7 @@ import unittest
 import sys
 import os
 import tempfile
-import cdms2
+import netCDF4
 import base_CMIP6_CV
 
 
@@ -55,8 +55,9 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
             cmor.write(ivar, data[i:i])
         self.delete_files += [cmor.close(ivar, True)]
         filen = cmor.close()
-        f = cdms2.open(cmor.get_final_filename(), "r")
-        a = f.getglobal("tracking_id").split('/')[0]
+        f = netCDF4.Dataset(cmor.get_final_filename(), "r")
+        self.assertTrue("tracking_id" in f.__dict__)
+        a = f.__dict__["tracking_id"].split('/')[0]
         self.assertNotIn("hdl:21.14100/", a)
 
 

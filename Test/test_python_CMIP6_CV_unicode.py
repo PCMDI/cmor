@@ -18,7 +18,6 @@ import unittest
 import os
 import sys
 import tempfile
-import cdms2
 import base_CMIP6_CV
 
 
