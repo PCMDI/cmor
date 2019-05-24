@@ -457,7 +457,7 @@ class checkCMIP6(object):
         for attr in ['branch_time_in_child', 'branch_time_in_parent']:
             if attr in list(self.dictGbl.keys()):
                 self.set_double_value(attr)
-                if not isinstance(self.dictGbl[attr], numpy.float64):
+                if not numpy.issubdtype(self.dictGbl[attr], numpy.float64):
                     print(BCOLORS.FAIL)
                     print("=====================================================================================")
                     print("{} is not a double: ".format(attr), type(self.dictGbl[attr]))
@@ -465,7 +465,7 @@ class checkCMIP6(object):
                     print(BCOLORS.ENDC)
                     self.errors += 1
         for attr in ['realization_index', 'initialization_index', 'physics_index', 'forcing_index']:
-            if not isinstance(self.dictGbl[attr], numpy.ndarray):
+            if not numpy.issubdtype(self.dictGbl[attr], numpy.integer):
                 print(BCOLORS.FAIL)
                 print("=====================================================================================")
                 print("{} is not an integer: ".format(attr), type(self.dictGbl[attr]))
@@ -535,7 +535,7 @@ class checkCMIP6(object):
         # -------------------------------------------------------------------
         varid = cmip6_cv.setup_variable(variable_cmor_entry,
                                         self.dictVar['units'],
-                                        self.dictVar['_FillValue'][0],
+                                        self.dictVar['_FillValue'],
                                         startime,
                                         endtime,
                                         startimebnds,
