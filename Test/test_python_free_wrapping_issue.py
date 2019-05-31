@@ -41,7 +41,7 @@ def save(opts, threeD=True):
         model_date = model_date.replace(day=1)
         min_tvals.append(model_date.toordinal() - 1)
         # max_bound is first day of next month
-        tyr = model_date.year + model_date.month / 12
+        tyr = model_date.year + int(model_date.month / 12)
         tmon = model_date.month % 12 + 1
         model_date = model_date.replace(year=tyr, month=tmon)
         max_tvals.append(model_date.toordinal() - 1)
