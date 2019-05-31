@@ -71,9 +71,9 @@ def time_varying_grid_coordinate(
     if not isinstance(units, six.string_types):
         raise Exception("Error you must pass a string for the variable units")
     if not isinstance(type, six.string_types):
-        raise Exception("error tpye must a a string")
+        raise Exception("error type must be a string")
     type = type.lower()
-    if type == 's':
+    if type == 's' or type == 'u':
         type = 'c'
     if type not in ["c", "d", "f", "l", "i"]:
         raise Exception(
@@ -424,10 +424,10 @@ def axis(table_entry, units=None, length=None,
         l = len(coord_vals)
         type = coord_vals.dtype.char[0]
 
-        if not type in ['i', 'l', 'f', 'd', 'S']:
+        if not type in ['i', 'l', 'f', 'd', 'S', 'U']:
             raise Exception("error allowed data type are: i,l,f,d or S")
 
-        if type == 'S':
+        if type == 'S' or type == 'U':
             type = 'c'
             cbnds = 0
             for s in coord_vals:
@@ -507,9 +507,9 @@ def variable(table_entry, units, axis_ids, type='f', missing_value=None,
         raise Exception("error axis_ids list/array must be 1D")
 
     if not isinstance(type, six.string_types):
-        raise Exception("error tpye must a a string")
+        raise Exception("error type must be a string")
     type = type.lower()
-    if type == 's':
+    if type == 's' or type == 'u':
         type = 'c'
     if not type in ["c", "d", "f", "l", "i"]:
         raise Exception(
@@ -632,9 +632,9 @@ def zfactor(zaxis_id, zfactor_name, units="", axis_ids=None,
         type = 'd'
 
     if not isinstance(type, six.string_types):
-        raise Exception("error type must a string")
+        raise Exception("error type must be a string")
     type = type.lower()
-    if type == 's':
+    if type == 's' or type == 'u':
         type = 'c'
     if not type in ["c", "d", "f", "l", "i"]:
         raise Exception(
