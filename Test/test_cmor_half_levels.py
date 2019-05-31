@@ -1,9 +1,18 @@
 from __future__ import print_function
-import cdms2
 import cmor
 import numpy
 import os
+import sys
 import common
+
+try:
+    import cdms2
+    cdms2.setNetcdfShuffleFlag(0)
+    cdms2.setNetcdfDeflateFlag(0)
+    cdms2.setNetcdfDeflateLevelFlag(0)
+except BaseException:
+    print("This test code needs a recent cdms2 interface for i/0")
+    sys.exit()
 
 varin3d = ["MC", ]
 

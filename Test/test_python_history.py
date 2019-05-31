@@ -18,8 +18,16 @@ import unittest
 import sys
 import os
 import tempfile
-import cdms2
 import time
+
+try:
+    import cdms2
+    cdms2.setNetcdfShuffleFlag(0)
+    cdms2.setNetcdfDeflateFlag(0)
+    cdms2.setNetcdfDeflateLevelFlag(0)
+except BaseException:
+    print("This test code needs a recent cdms2 interface for i/0")
+    sys.exit()
 
 
 class TestCase(unittest.TestCase):
@@ -76,7 +84,7 @@ class TestCase(unittest.TestCase):
         os.dup2(self.newstdout, 1)
         os.dup2(self.newstderr, 2)
         version =time.strftime("%Y%m%d")
-        f=cdms2.open("CMIP6/CMIP6/ISMIP6/PCMDI/PCMDI-test-1-0/piControl-withism/r11i1p1f1/Omon/masso/gr/v"+version+"/masso_Omon_PCMDI-test-1-0_piControl-withism_r11i1p1f1_gr_201001-201005.nc")
+        f=cdms2.open("CMIP6/CMIP6/ISMIP6/PCMDI/PCMDI-test-1-0/piControl-withism/r3i1p1f1/Omon/masso/gn/v"+version+"/masso_Omon_PCMDI-test-1-0_piControl-withism_r3i1p1f1_gn_201001-201005.nc")
         history=f.history
         self.assertIn("CMOR mip_era is: CMIP6",history)
         self.assertIn("myMIP",history)

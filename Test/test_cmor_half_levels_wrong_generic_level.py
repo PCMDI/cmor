@@ -1,8 +1,17 @@
 from __future__ import print_function
-import cdms2
 import cmor
 import numpy
 import os
+import sys
+
+try:
+    import cdms2
+    cdms2.setNetcdfShuffleFlag(0)
+    cdms2.setNetcdfDeflateFlag(0)
+    cdms2.setNetcdfDeflateLevelFlag(0)
+except BaseException:
+    print("This test code needs a recent cdms2 interface for i/0")
+    sys.exit()
 
 specs = {"CLOUD": {"convert": [2.0, 0.], "units": "%", "entry": "cl", "positive": ""},
          "U": {"convert": [1., -40.], "units": "m s-1", "entry": "ua", "positive": ""},
