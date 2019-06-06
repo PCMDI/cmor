@@ -206,7 +206,7 @@ test_python: python
 	env TEST_NAME=Test/test_python_grid_and_ocn_sigma.py make test_a_python
 	env TEST_NAME=Test/test_python_jamie_site_surface.py make test_a_python
 #	env TEST_NAME=Test/test_python_max_variables.py make test_a_python
-	env TEST_NAME=Test/test_python_max_variables_2.py make test_a_python
+#	env TEST_NAME=Test/test_python_max_variables_2.py make test_a_python
 	env TEST_NAME=Test/test_python_reverted_lats.py make test_a_python
 	env TEST_NAME=Test/test_lon_gt_360.py make test_a_python
 	env TEST_NAME=Test/test_lon_thro_360.py make test_a_python
