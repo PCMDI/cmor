@@ -55,9 +55,9 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
             try:
                 cmor.write(varid, values, ntimes_passed=3)
             except Exception as inst:
-                self.assertEqual(repr(inst), "Exception('ntimes_passed must "
-                                             "be less than or equal to the "
-                                             "number of times in data')")
+                self.assertEqual(str(inst), "ntimes_passed must "
+                                            "be less than or equal to the "
+                                            "number of times in data")
             else:
                 raise Exception("cmor.write did not throw exception")
 
