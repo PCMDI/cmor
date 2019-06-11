@@ -770,6 +770,13 @@ def write(var_id, data, ntimes_passed=None, file_suffix="",
                 warnings.warn(msg)
         j += 1
 
+    
+    # Check if there is enough data for the number of times passed
+    if ntimes_passed < 0:
+        raise Exception("ntimes_passed must be a positive integer")
+    elif ntimes_passed > osh[0]:
+        raise Exception("ntimes_passed must be less than or equal to the number of times in data")
+
     data = numpy.ascontiguousarray(numpy.ravel(data))
 
     if time_bnds is not None: 
