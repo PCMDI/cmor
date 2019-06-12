@@ -774,8 +774,15 @@ def write(var_id, data, ntimes_passed=None, file_suffix="",
     # Check if there is enough data for the number of times passed
     if ntimes_passed < 0:
         raise Exception("ntimes_passed must be a positive integer")
-    elif ntimes_passed > osh[0]:
-        raise Exception("ntimes_passed must be less than or equal to the number of times in data")
+
+    expected_size = ntimes_passed
+    for d in goodshape:
+        expected_size *= d
+    passed_size = 1
+    for d in sh:
+        passed_size *= d
+    if expected_size > passed_size:
+        raise Exception("not enough data is being passed for the number of times passed")
 
     data = numpy.ascontiguousarray(numpy.ravel(data))
 
