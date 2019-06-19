@@ -4,10 +4,9 @@ import unittest
 import sys
 import os
 import tempfile
-import base_CMIP6_CV
 
 
-class TestCase(base_CMIP6_CV.BaseCVsTest):
+class TestCase(unittest.TestCase):
 
     # This test demonstrates an exception that gets thrown when
     # ntimes_passed is greater than the number of times passed in data

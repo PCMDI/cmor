@@ -783,7 +783,7 @@ def write(var_id, data, ntimes_passed=None, file_suffix="",
     for d in goodshape:
         expected_size *= d
     passed_size = 1
-    for d in sh:
+    for d in osh:
         passed_size *= d
     if expected_size > passed_size:
         raise Exception("not enough data is being passed for the number of times passed")

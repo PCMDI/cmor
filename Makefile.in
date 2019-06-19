@@ -219,6 +219,7 @@ test_python: python
 	env TEST_NAME=Test/test_cmor_half_levels_with_bounds.py make test_a_python
 	env TEST_NAME=Test/test_cmor_half_levels_wrong_generic_level.py make test_a_python
 	env TEST_NAME=Test/test_cmor_double_singleton.py make test_a_python
+	env TEST_NAME=Test/test_cmor_python_not_enough_data.py make test_a_python
 test_python_2gb:
 	env TEST_NAME=Test/test_python_2Gb_file.py make test_a_python
 	env TEST_NAME=Test/test_python_2Gb_slice.py make test_a_python
