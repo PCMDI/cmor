@@ -112,3 +112,27 @@ def read_cmor_time_lat_lon():
         units="days since 1850",
         length=ntimes)
     return itim, ilat, ilon
+
+def read_cmor_time1_lat_lon():
+    ilat = cmor.axis(
+        table_entry='latitude',
+        units='degrees_north',
+        length=lat,
+        coord_vals=alats,
+        cell_bounds=bnds_lat)
+    print("ILAT:", ilat)
+    print(lon, alons, bnds_lon)
+    ilon = cmor.axis(
+        table_entry='longitude',
+        coord_vals=alons,
+        units='degrees_east',
+        cell_bounds=bnds_lon)
+
+    print("ILON:", ilon)
+
+
+    itim = cmor.axis(
+        table_entry="time1",
+        units="days since 1850",
+        length=ntimes)
+    return itim, ilat, ilon

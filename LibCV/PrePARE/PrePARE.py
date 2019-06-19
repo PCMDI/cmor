@@ -33,8 +33,8 @@ from multiprocessing import Pool
 from uuid import uuid4 as uuid
 
 import numpy
+import netCDF4
 
-from cdms2 import Cdunif
 import cmip6_cv
 
 
@@ -384,7 +384,7 @@ class checkCMIP6(object):
         #  Open file in processing
         #  The file needs to be open before the calling the test.
         # -------------------------------------------------------------------
-        infile = Cdunif.CdunifFile(ncfile, "r")
+        infile = netCDF4.Dataset(ncfile, "r")
         key = '{}_{}'.format(table_id, variable_id)
         variable_cmor_entry = None
         if key in list(out_names_tests.keys()):
@@ -457,7 +457,7 @@ class checkCMIP6(object):
         for attr in ['branch_time_in_child', 'branch_time_in_parent']:
             if attr in list(self.dictGbl.keys()):
                 self.set_double_value(attr)
-                if not isinstance(self.dictGbl[attr], numpy.float64):
+                if not numpy.issubdtype(self.dictGbl[attr], numpy.float64):
                     print(BCOLORS.FAIL)
                     print("=====================================================================================")
                     print("{} is not a double: ".format(attr), type(self.dictGbl[attr]))
@@ -465,7 +465,7 @@ class checkCMIP6(object):
                     print(BCOLORS.ENDC)
                     self.errors += 1
         for attr in ['realization_index', 'initialization_index', 'physics_index', 'forcing_index']:
-            if not isinstance(self.dictGbl[attr], numpy.ndarray):
+            if not numpy.issubdtype(self.dictGbl[attr], numpy.integer):
                 print(BCOLORS.FAIL)
                 print("=====================================================================================")
                 print("{} is not an integer: ".format(attr), type(self.dictGbl[attr]))
@@ -535,7 +535,7 @@ class checkCMIP6(object):
         # -------------------------------------------------------------------
         varid = cmip6_cv.setup_variable(variable_cmor_entry,
                                         self.dictVar['units'],
-                                        self.dictVar['_FillValue'][0],
+                                        self.dictVar['_FillValue'],
                                         startime,
                                         endtime,
                                         startimebnds,
