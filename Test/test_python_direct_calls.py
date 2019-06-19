@@ -37,17 +37,17 @@ myaxes[0] = cmor._cmor.axis(
     units,
     ntimes,
     Time,
-    'd',
+    b'd',
     bnds_time,
     2,
     "1 month")
 id = 'latitude'
 units = "degrees_north"
 interval = ""
-myaxes[1] = cmor._cmor.axis(id, units, lat, alats, 'd', bnds_lat, 2, interval)
+myaxes[1] = cmor._cmor.axis(id, units, lat, alats, b'd', bnds_lat, 2, interval)
 id = "longitude"
 units = "degrees_east"
-myaxes[2] = cmor._cmor.axis(id, units, lon, alons, 'd', bnds_lon, 2, interval)
+myaxes[2] = cmor._cmor.axis(id, units, lon, alons, b'd', bnds_lon, 2, interval)
 id = "plev19"
 units = "Pa"
 print(plevs.astype("d"))
@@ -56,7 +56,7 @@ myaxes[3] = cmor._cmor.axis(
     units,
     lev2,
     plevs.astype("d"),
-    'd',
+    b'd',
     None,
     0,
     interval)
@@ -67,14 +67,14 @@ myaxes[4] = cmor._cmor.axis(
     "1",
     5,
     zlevs,
-    'd',
+    b'd',
     zlev_bnds,
     1,
     interval)
 
 
 cmor.set_table(tables[0])
-myaxes[5] = cmor._cmor.axis("basin", "", 4, regions, 'c', None, 21, interval)
+myaxes[5] = cmor._cmor.axis("basin", "", 4, regions, b'c', None, 21, interval)
 id = 'time'
 units = 'months since 1980'
 myaxes[7] = cmor._cmor.axis(
@@ -82,14 +82,14 @@ myaxes[7] = cmor._cmor.axis(
     units,
     ntimes,
     Time,
-    'd',
+    b'd',
     bnds_time,
     2,
     "1 month")
 id = "latitude"
 units = "degrees_north"
 interval = ""
-myaxes[8] = cmor._cmor.axis(id, units, lat, alats, 'd', bnds_lat, 2, interval)
+myaxes[8] = cmor._cmor.axis(id, units, lat, alats, b'd', bnds_lat, 2, interval)
 
 cmor._cmor.set_table(tables[1])
 
@@ -107,7 +107,7 @@ myvars[0] = cmor._cmor.variable(
     units2d[0],
     3,
     myaxes,
-    'd',
+    b'd',
     None,
     dtmp2,
     positive2d[0],
@@ -120,7 +120,7 @@ myvars[1] = cmor._cmor.variable(
     units3d[2],
     4,
     myaxes2,
-    'd',
+    b'd',
     None,
     dtmp2,
     "down",
@@ -135,7 +135,7 @@ myvars[2] = cmor._cmor.variable(
     units3d[0],
     4,
     myaxes2,
-    'd',
+    b'd',
     None,
     dtmp2,
     "down",
@@ -148,20 +148,20 @@ print('vars 2')
 print('zfact', type(numpy.array(myaxes2[1])), type(myaxes2))
 
 myvars[3] = cmor._cmor.zfactor(
-    int(myaxes2[1]), "p0", "Pa", 0, None, 'd', p0, None)
+    int(myaxes2[1]), "p0", "Pa", 0, None, b'd', p0, None)
 print('zfact', myaxes2[1])
 myvars[3] = cmor._cmor.zfactor(
-    int(myaxes2[1]), "b", "", 1, myaxes2[1], 'd', b_coeff, b_coeff_bnds)
+    int(myaxes2[1]), "b", "", 1, myaxes2[1], b'd', b_coeff, b_coeff_bnds)
 print('zfact', myaxes2[1])
 myvars[3] = cmor._cmor.zfactor(
-    int(myaxes2[1]), "a", "", 1, myaxes2[1], 'd', a_coeff, a_coeff_bnds)
+    int(myaxes2[1]), "a", "", 1, myaxes2[1], b'd', a_coeff, a_coeff_bnds)
 #/*   printf("defining ap\n"); */
 #/*   for(i=0;i<5;i++) {a_coeff[i]*=1.e3;printf("sending acoef: %i, %lf\n",i,a_coeff[i]);} */
 #/*   for(i=0;i<6;i++) {a_coeff_bnds[i]*=1.e5;printf("sending acoef: %i, %lf\n",i,a_coeff_bnds[i]);} */
 #/*   ierr = cmor_zfactor(&myvars[3],myaxes2[1],"ap","hPa",1,&myaxes2[1],'d',&a_coeff,&a_coeff_bnds); */
 print('zfact before last')
 myvars[3] = cmor._cmor.zfactor(
-    int(myaxes2[1]), "ps", "hPa", 3, myaxes, 'd', None, None)
+    int(myaxes2[1]), "ps", "hPa", 3, myaxes, b'd', None, None)
 print('zfact last')
 
 #  /* ok here we decalre a variable for region axis testing */
@@ -175,7 +175,7 @@ myvars[4] = cmor._cmor.variable(
     "W",
     3,
     myaxes2,
-    'd',
+    b'd',
     None,
     dtmp2,
     positive2d[0],
