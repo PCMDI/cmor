@@ -1,8 +1,8 @@
 from __future__ import print_function
-import cdms2
 import cmor
 import numpy
 import os
+import sys
 import common
 
 varin3d = ["MC", ]

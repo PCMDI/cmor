@@ -34,9 +34,9 @@ id = "time"
 units = "months since 1980"
 print('time bounds:', bnds_time)
 # ok we need to make the bounds 2D because the cmor module "undoes this"
-bnds_time = numpy.reshape(bnds_time, (bnds_time.shape[0] / 2, 2))
-bnds_lat = numpy.reshape(bnds_lat, (bnds_lat.shape[0] / 2, 2))
-bnds_lon = numpy.reshape(bnds_lon, (bnds_lon.shape[0] / 2, 2))
+bnds_time = numpy.reshape(bnds_time, (int(bnds_time.shape[0] / 2), 2))
+bnds_lat = numpy.reshape(bnds_lat, (int(bnds_lat.shape[0] / 2), 2))
+bnds_lon = numpy.reshape(bnds_lon, (int(bnds_lon.shape[0] / 2), 2))
 myaxes[0] = cmor.axis(
     id,
     coord_vals=Time,

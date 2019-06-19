@@ -51,7 +51,7 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
 
         self.assertEqual(os.path.basename(self.path),
                          'hfds_Odec_PCMDI-test-1-0_piControl-withism_'
-                         'r11i1p1f1_gr_2005-2015.nc')
+                         'r3i1p1f1_gn_2005-2015.nc')
 
     def test_yr(self):
         table = 'Tables/CMIP6_Eyr.json'
@@ -81,7 +81,7 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
 
         self.assertEqual(os.path.basename(self.path),
                          'baresoilFrac_Eyr_PCMDI-test-1-0_piControl-withism_'
-                         'r11i1p1f1_gr_2000-2001.nc')
+                         'r3i1p1f1_gn_2000-2001.nc')
 
     def test_mon(self):
         table = 'Tables/CMIP6_Amon.json'
@@ -111,7 +111,7 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
 
         self.assertEqual(os.path.basename(self.path),
                          'ts_Amon_PCMDI-test-1-0_piControl-withism_'
-                         'r11i1p1f1_gr_200001-200002.nc')
+                         'r3i1p1f1_gn_200001-200002.nc')
 
     def test_monclim(self):
         table = 'Tables/CMIP6_Oclim.json'
@@ -141,7 +141,7 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
 
         self.assertEqual(os.path.basename(self.path),
                          'difmxybo_Oclim_PCMDI-test-1-0_piControl-withism_'
-                         'r11i1p1f1_gr_200001-200002-clim.nc')
+                         'r3i1p1f1_gn_200001-200002-clim.nc')
 
     def test_day(self):
         table = 'Tables/CMIP6_Eday.json'
@@ -171,7 +171,7 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
 
         self.assertEqual(os.path.basename(self.path),
                          'ts_Eday_PCMDI-test-1-0_piControl-withism_'
-                         'r11i1p1f1_gr_20000101-20000102.nc')
+                         'r3i1p1f1_gn_20000101-20000102.nc')
 
     def test_6hr(self):
         table = 'Tables/CMIP6_6hrLev.json'
@@ -201,7 +201,7 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
 
         self.assertEqual(os.path.basename(self.path),
                          'ps_6hrLev_PCMDI-test-1-0_piControl-withism_'
-                         'r11i1p1f1_gr_200001010300-200001010900.nc')
+                         'r3i1p1f1_gn_200001010300-200001010900.nc')
 
     def test_3hr(self):
         table = 'Tables/CMIP6_3hr.json'
@@ -231,24 +231,24 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
 
         self.assertEqual(os.path.basename(self.path),
                          'ps_3hr_PCMDI-test-1-0_piControl-withism_'
-                         'r11i1p1f1_gr_200001010130-200001010430.nc')
+                         'r3i1p1f1_gn_200001010130-200001010430.nc')
 
     def test_1hr(self):
         table = 'Tables/CMIP6_E1hr.json'
         cmor.load_table(table)
         axes = [
             {'table_entry': 'time1',
-             'units': 'minutes since 2000-01-01 00:00:00',
-             'coord_vals': np.array([12.5, 37.5]),
-             'cell_bounds': [[0, 25], [25, 50]]},
+            'units': 'minutes since 2000-01-01 00:00:00',
+            'coord_vals': np.array([30, 90]),
+            'cell_bounds': [[0, 60], [60, 120]]},
             {'table_entry': 'latitude',
-             'units': 'degrees_north',
-             'coord_vals': [0],
-             'cell_bounds': [-1, 1]},
+            'units': 'degrees_north',
+            'coord_vals': [0],
+            'cell_bounds': [-1, 1]},
             {'table_entry': 'longitude',
-             'units': 'degrees_east',
-             'coord_vals': [90],
-             'cell_bounds': [89, 91]}
+            'units': 'degrees_east',
+            'coord_vals': [90],
+            'cell_bounds': [89, 91]}
         ]
 
         axis_ids = list()
@@ -261,7 +261,7 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
 
         self.assertEqual(os.path.basename(self.path),
                          'psl_E1hr_PCMDI-test-1-0_piControl-withism_'
-                         'r11i1p1f1_gr_200001010013-200001010038.nc')
+                         'r3i1p1f1_gn_200001010030-200001010130.nc')
 
     def test_1hrclimmon(self):
         table = 'Tables/CMIP6_E1hrClimMon.json'
@@ -291,7 +291,7 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
 
         self.assertEqual(os.path.basename(self.path),
                          'rlut_E1hrClimMon_PCMDI-test-1-0_piControl-withism_'
-                         'r11i1p1f1_gr_200001010000-200001010050-clim.nc')
+                         'r3i1p1f1_gn_200001010000-200001010050-clim.nc')
 
     def test_subhr(self):
         table = 'Tables/CMIP6_Esubhr.json'
@@ -321,7 +321,7 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
 
         self.assertEqual(os.path.basename(self.path),
                          'pr_Esubhr_PCMDI-test-1-0_piControl-withism_'
-                         'r11i1p1f1_gr_20000101001230-20000101003730.nc')
+                         'r3i1p1f1_gn_20000101001230-20000101003730.nc')
 
     def test_day_rounds(self):
         table = 'Tables/CMIP6_Eday.json'
@@ -352,7 +352,7 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
 
         self.assertEqual(os.path.basename(self.path),
                          'ts_Eday_PCMDI-test-1-0_piControl-withism_'
-                         'r11i1p1f1_gr_19600102-19600103.nc')
+                         'r3i1p1f1_gn_19600102-19600103.nc')
 
     def test_hour_rounds_midnight(self):
         table = 'Tables/CMIP6_6hrLev.json'
@@ -382,7 +382,7 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
 
         self.assertEqual(os.path.basename(self.path),
                          'ps_6hrLev_PCMDI-test-1-0_piControl-withism_'
-                         'r11i1p1f1_gr_200001020000-200001020600.nc')
+                         'r3i1p1f1_gn_200001020000-200001020600.nc')
 
     def test_hour_rounds_minutes(self):
         table = 'Tables/CMIP6_E1hr.json'
@@ -411,7 +411,7 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
 
         self.assertEqual(os.path.basename(self.path),
                          'psl_E1hr_PCMDI-test-1-0_piControl-withism_'
-                         'r11i1p1f1_gr_200001010013-200001010037.nc')
+                         'r3i1p1f1_gn_200001010013-200001010037.nc')
 
     def test_subhr_rounds_seconds(self):
         table = 'Tables/CMIP6_Esubhr.json'
@@ -440,7 +440,7 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
 
         self.assertEqual(os.path.basename(self.path),
                          'pr_Esubhr_PCMDI-test-1-0_piControl-withism_'
-                         'r11i1p1f1_gr_20000101001230-20000101003731.nc')
+                         'r3i1p1f1_gn_20000101001230-20000101003731.nc')
 
     def test_monclim_rounding_start_time(self):
         table = 'Tables/CMIP6_Oclim.json'
@@ -470,7 +470,7 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
 
         self.assertEqual(os.path.basename(self.path),
                          'difmxybo_Oclim_PCMDI-test-1-0_piControl-withism_'
-                         'r11i1p1f1_gr_200001-200002-clim.nc')
+                         'r3i1p1f1_gn_200001-200002-clim.nc')
 
     def test_monclim_rounding_end_time(self):
         """
@@ -505,7 +505,7 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
 
         self.assertEqual(os.path.basename(self.path),
                          'difmxybo_Oclim_PCMDI-test-1-0_piControl-withism_'
-                         'r11i1p1f1_gr_200001-200002-clim.nc')
+                         'r3i1p1f1_gn_200001-200002-clim.nc')
 
     def test_fx(self):
         table = 'Tables/CMIP6_fx.json'
@@ -531,7 +531,7 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
 
         self.assertEqual(os.path.basename(self.path),
                          'orog_fx_PCMDI-test-1-0_piControl-withism_'
-                         'r11i1p1f1_gr.nc')
+                         'r3i1p1f1_gn.nc')
 
 #    def tearDown(self):
 #        if self.path:
