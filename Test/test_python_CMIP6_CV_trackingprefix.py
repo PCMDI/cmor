@@ -18,7 +18,8 @@ import unittest
 import sys
 import os
 import tempfile
-import cdms2
+import pkgutil
+import netCDF4
 import base_CMIP6_CV
 
 
@@ -32,6 +33,36 @@ def run():
 class TestCase(base_CMIP6_CV.BaseCVsTest):
 
     def testCMIP6(self):
+        cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.tmpfile)
+        cmor.dataset_json("Test/CMOR_input_example.json")
+        cmor.set_cur_dataset_attribute("tracking_prefix", "hdl:21.14100")
+
+        # ------------------------------------------
+        # load Omon table and create masso variable
+        # ------------------------------------------
+        cmor.load_table("CMIP6_Omon.json")
+        itime = cmor.axis(table_entry="time", units='months since 2011',
+                            coord_vals=numpy.array([0, 1, 2, 3, 4.]),
+                            cell_bounds=numpy.array([0, 1, 2, 3, 4, 5.]))
+        ivar = cmor.variable(
+            table_entry="masso",
+            axis_ids=[itime],
+            units='kg')
+
+        data = numpy.random.random(5)
+        for i in range(0, 5):
+            a = cmor.write(ivar, data[i:i])
+        self.delete_files += [cmor.close(ivar, True)]
+        cmor.close()
+        f = netCDF4.Dataset(cmor.get_final_filename(), "r")
+        self.assertTrue("tracking_id" in f.__dict__)
+        a = f.__dict__["tracking_id"].split('/')[0]
+        self.assertIn("hdl:21.14100", a)
+
+    @unittest.skipIf(pkgutil.find_loader("cdms2") is None, "cdms2 not installed")
+    def testCMIP6_CDMS2(self):
+        import cdms2
+
         cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.tmpfile)
         cmor.dataset_json("Test/CMOR_input_example.json")
         cmor.set_cur_dataset_attribute("tracking_prefix", "hdl:21.14100")

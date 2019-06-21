@@ -87,8 +87,8 @@ class TestCase(unittest.TestCase):
             pass
         os.dup2(newstdout, 1)
         os.dup2(newstderr, 2)
-        sys.stdout = os.fdopen(newstdout, 'w', 0)
-        sys.stderr = os.fdopen(newstderr, 'w', 0)
+        sys.stdout = os.fdopen(newstdout, 'wb', 0)
+        sys.stderr = os.fdopen(newstderr, 'wb', 0)
         f = open(tmpfile[1], 'r')
         lines = f.readlines()
         for line in lines:
@@ -98,9 +98,9 @@ class TestCase(unittest.TestCase):
         f.close()
         os.unlink(tmpfile[1])
 
-    def tearDown(self):
-        import shutil
-        shutil.rmtree("./CMIP6")
+    # def tearDown(self):
+    #     import shutil
+    #     shutil.rmtree("./CMIP6")
 
 
 if __name__ == '__main__':

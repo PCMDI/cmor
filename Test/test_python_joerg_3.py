@@ -150,5 +150,3 @@ for d in range(2):
     print('File1:', file1)
     print('File2:', file2)
     cmor.close()
-print(cmor.close(ivar1, True))
-cmor.close()
