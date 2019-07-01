@@ -164,7 +164,7 @@ class FilterCollection(object):
     indicating to match (i.e., include) or non-match (i.e., exclude) the corresponding expression.
 
     """
-    if sys.version_info < (3, 0):
+    if sys.version_info < (3, 7):
         FILTER_TYPES = (str, re._pattern_type)
     else:
         FILTER_TYPES = (str, re.Pattern)
