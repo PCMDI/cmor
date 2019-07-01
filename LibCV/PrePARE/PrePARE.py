@@ -394,6 +394,7 @@ class checkCMIP6(object):
                                           'filename': filename}):
                     # If test successfull, the CMOR entry to consider is given by the test
                     variable_cmor_entry = cmor_entry
+                    break
                 else:
                     # If not, CMOR entry to consider is the variable from filename or from input command-line
                     variable_cmor_entry = variable
