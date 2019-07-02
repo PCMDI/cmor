@@ -18,8 +18,16 @@ import unittest
 import sys
 import os
 import tempfile
-import cdms2
 import time
+
+try:
+    import cdms2
+    cdms2.setNetcdfShuffleFlag(0)
+    cdms2.setNetcdfDeflateFlag(0)
+    cdms2.setNetcdfDeflateLevelFlag(0)
+except BaseException:
+    print("This test code needs a recent cdms2 interface for i/0")
+    sys.exit()
 
 
 class TestCase(unittest.TestCase):
@@ -58,7 +66,7 @@ class TestCase(unittest.TestCase):
             raise
 
         version =time.strftime("%Y%m%d")
-        f=cdms2.open("CMIP6/CMIP6/ISMIP6/PCMDI/PCMDI-test-1-0/piControl-withism/r11i1p1f1/Omon/massoint/gr/v"+version+"/massoint_Omon_PCMDI-test-1-0_piControl-withism_r11i1p1f1_gr_201001-201005.nc")
+        f=cdms2.open("CMIP6/CMIP6/ISMIP6/PCMDI/PCMDI-test-1-0/piControl-withism/r3i1p1f1/Omon/massoint/gn/v"+version+"/massoint_Omon_PCMDI-test-1-0_piControl-withism_r3i1p1f1_gn_201001-201005.nc")
         var=f['massoint']
         self.assertEqual(var.missing_value[0], -999)
 
@@ -97,7 +105,7 @@ class TestCase(unittest.TestCase):
 
 
         version =time.strftime("%Y%m%d")
-        f=cdms2.open("CMIP6/CMIP6/ISMIP6/PCMDI/PCMDI-test-1-0/piControl-withism/r11i1p1f1/Omon/massoint/gr/v"+version+"/massoint_Omon_PCMDI-test-1-0_piControl-withism_r11i1p1f1_gr_201001-201005.nc")
+        f=cdms2.open("CMIP6/CMIP6/ISMIP6/PCMDI/PCMDI-test-1-0/piControl-withism/r3i1p1f1/Omon/massoint/gn/v"+version+"/massoint_Omon_PCMDI-test-1-0_piControl-withism_r3i1p1f1_gn_201001-201005.nc")
         var=f['massoint']
         self.assertEqual(var.missing_value[0], -999)
         self.assertTrue(var[0].mask)

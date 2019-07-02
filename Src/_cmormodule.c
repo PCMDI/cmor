@@ -170,8 +170,8 @@ static PyObject *PyCMOR_set_variable_attribute(PyObject * self, PyObject * args)
         return NULL;
 
 #if PY_MAJOR_VERSION >= 3
-    if(PyBytes_Check(oValue)) {
-        value = PyBytes_AsString(oValue);
+    if(PyUnicode_Check(oValue)) {
+        value = PyUnicode_AsUTF8(oValue);
 #else
     if(PyString_Check(oValue)) {
         value = PyString_AsString(oValue);
@@ -753,14 +753,14 @@ static PyObject *PyCMOR_grid_mapping(PyObject * self, PyObject * args)
     for (i = 0; i < n; i++) {
         tmp = PyList_GetItem(param_nm_obj, i);
 #if PY_MAJOR_VERSION >= 3
-        strcpy(nms[i], PyBytes_AsString(tmp));
+        strcpy(nms[i], PyUnicode_AsUTF8(tmp));
 #else
         strcpy(nms[i], PyString_AsString(tmp));
 #endif
         //Py_DECREF(tmp); //Not needed get_item does not increase ref
         tmp = PyList_GetItem(param_un_obj, i);
 #if PY_MAJOR_VERSION >= 3
-        strcpy(units[i], PyBytes_AsString(tmp));
+        strcpy(units[i], PyUnicode_AsUTF8(tmp));
 #else
         strcpy(units[i], PyString_AsString(tmp));
 #endif
