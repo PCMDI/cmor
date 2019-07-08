@@ -1405,7 +1405,7 @@ int cmor_CV_checkExperiment(cmor_CV_def_t * CV)
     nObjects = CV_experiment->nbObjects;
     // Parse all experiment attributes
     for (i = 0; i < nObjects; i++) {
-        bWarning = FALSE;
+        bWarning = 0;
         CV_experiment_attr = &CV_experiment->oValue[i];
         rc = cmor_has_cur_dataset_attribute(CV_experiment_attr->key);
         strcpy(szExpValue, CV_experiment_attr->szValue);
@@ -1435,7 +1435,7 @@ int cmor_CV_checkExperiment(cmor_CV_def_t * CV)
                 if (j == CV_experiment_attr->anElements) {
                     if (CV_experiment_attr->anElements == 1) {
                         strcpy(szExpValue, CV_experiment_attr->aszValue[0]);
-                        bWarning = TRUE;
+                        bWarning = 1;
                     } else {
                         snprintf(msg, CMOR_MAX_STRING,
                                  "Your input attribute \"%s\" with value \n! \"%s\" "
@@ -1457,12 +1457,12 @@ int cmor_CV_checkExperiment(cmor_CV_def_t * CV)
                     if (strncmp(CV_experiment_attr->szValue, szValue,
                     CMOR_MAX_STRING) != 0) {
                         strcpy(szExpValue, CV_experiment_attr->szValue);
-                        bWarning = TRUE;
+                        bWarning = 1;
                     }
                 }
             }
         }
-        if (bWarning == TRUE) {
+        if (bWarning == 1) {
             snprintf(msg, CMOR_MAX_STRING,
                      "Your input attribute \"%s\" with value \n! \"%s\" "
                      "will be replaced with "
@@ -2153,7 +2153,7 @@ int cmor_CV_checkGblAttributes(cmor_CV_def_t * CV)
     int i;
     int rc;
     char msg[CMOR_MAX_STRING];
-    int bCriticalError = FALSE;
+    int bCriticalError = 0;
     int ierr = 0;
     cmor_add_traceback("_CV_checkGblAttributes");
     required_attrs = cmor_CV_rootsearch(CV, CV_KEY_REQUIRED_GBL_ATTRS);
@@ -2168,12 +2168,12 @@ int cmor_CV_checkGblAttributes(cmor_CV_def_t * CV)
                          "Please set attribute: \"%s\" in your input file.",
                          required_attrs->aszValue[i]);
                 cmor_handle_error(msg, CMOR_NORMAL);
-                bCriticalError = TRUE;
+                bCriticalError = 1;
                 ierr += -1;
             }
             rc = cmor_CV_ValidateAttribute(CV, required_attrs->aszValue[i]);
             if (rc != 0) {
-                bCriticalError = TRUE;
+                bCriticalError = 1;
                 ierr += -1;
             }
         }

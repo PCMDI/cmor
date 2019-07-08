@@ -109,7 +109,7 @@ int CMOR_CREATE_SUBDIRECTORIES = 1;
 char cmor_input_path[CMOR_MAX_STRING];
 char cmor_traceback_info[CMOR_MAX_STRING];
 
-int bAppendMode = FALSE;
+int bAppendMode = 0;
 
 volatile sig_atomic_t stop = 0;
 
@@ -2604,7 +2604,7 @@ int cmor_validateFilename(char *outname, char *file_suffix, int var_id)
             ierr = nc_create(outname, NC_CLOBBER | cmode, &ncid);
 
         } else {                /*ok it was there already */
-            bAppendMode = TRUE;
+            bAppendMode = 1;
             ierr = fclose(fperr);
             fperr = NULL;
             copyfile(outname, file_suffix);
