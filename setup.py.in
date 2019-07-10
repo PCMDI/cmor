@@ -47,6 +47,7 @@ for p in include_dirs:
       ld.append(p)
 include_dirs=ld
 
+# For OSX builds, reset the include and linker root path for clang
 if sys.platform == "darwin":
   os.environ["CFLAGS"]="-Wl,-syslibroot / -isysroot /"
 

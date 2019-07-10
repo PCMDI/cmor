@@ -13,6 +13,7 @@ fi
 if [[ `uname` == "Linux" ]]; then
     export LDSHARED_FLAGS="-shared -pthread"
 else
+    # For OSX builds, reset the include and linker root path for clang
     export CFLAGS="-Wl,-syslibroot / -isysroot / ${CFLAGS}"
     export LDSHARED_FLAGS="-bundle -undefined dynamic_lookup"
 fi
