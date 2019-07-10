@@ -47,6 +47,9 @@ for p in include_dirs:
       ld.append(p)
 include_dirs=ld
 
+if sys.platform == "darwin":
+  os.environ["CFLAGS"]="-Wl,-syslibroot / -isysroot /"
+
 print('Setting up python module with:')
 print('libraries:',libraries)
 print('libdir:',library_dirs)
