@@ -33,7 +33,7 @@ fi
 conda config --set anaconda_upload no
 mkdir ~/conda-bld
 if [ `uname` == "Linux" ]; then
-    conda install -n root -q anaconda-client "conda-build<3.3"
+    conda install -n root -q anaconda-client conda-build
 fi
 if [ `uname` == "Darwin" ]; then
     # fix conda and anaconda-client conflict
