@@ -8,7 +8,7 @@ if [ `uname` == "Linux" ]; then
     yum install -y wget git gcc
     if [ $CMOR_PYTHON_VERSION == '2.7' ]; then 
         echo "Using Python $CMOR_PYTHON_VERSION"
-        wget --no-check https://repo.continuum.io/miniconda/Miniconda2-4.3.30-Linux-x86_64.sh -O miniconda2.sh
+        wget --no-check https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda2.sh
         bash miniconda2.sh -b -p ${HOME}/miniconda
     elif [ $CMOR_PYTHON_VERSION == '3.6' ] || [ $CMOR_PYTHON_VERSION == '3.7' ]; then 
         echo "Using Python $CMOR_PYTHON_VERSION"
@@ -33,7 +33,7 @@ fi
 conda config --set anaconda_upload no
 mkdir ~/conda-bld
 if [ `uname` == "Linux" ]; then
-    conda install -n root -q anaconda-client "conda-build<3.3"
+    conda install -n root -q anaconda-client conda-build
 fi
 if [ `uname` == "Darwin" ]; then
     # fix conda and anaconda-client conflict

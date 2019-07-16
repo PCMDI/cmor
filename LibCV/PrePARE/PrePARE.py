@@ -164,7 +164,7 @@ class FilterCollection(object):
     indicating to match (i.e., include) or non-match (i.e., exclude) the corresponding expression.
 
     """
-    if sys.version_info < (3, 0):
+    if sys.version_info < (3, 7):
         FILTER_TYPES = (str, re._pattern_type)
     else:
         FILTER_TYPES = (str, re.Pattern)
@@ -309,17 +309,17 @@ class checkCMIP6(object):
     @staticmethod
     def has_27_pressure_levels(infile, **kwargs):
         dim = [d for d in list(infile.dimensions.keys()) if 'plev' in d]
-        return True if len(dim) == 1 and infile.dimensions[dim[0]] == 27 else False
+        return True if len(dim) == 1 and infile.dimensions[dim[0]].size == 27 else False
 
     @staticmethod
     def has_7_pressure_levels(infile, **kwargs):
         dim = [d for d in list(infile.dimensions.keys()) if 'plev' in d]
-        return True if len(dim) == 1 and infile.dimensions[dim[0]] == 7 else False
+        return True if len(dim) == 1 and infile.dimensions[dim[0]].size == 7 else False
 
     @staticmethod
     def has_4_pressure_levels(infile, **kwargs):
         dim = [d for d in list(infile.dimensions.keys()) if 'plev' in d]
-        return True if len(dim) == 1 and infile.dimensions[dim[0]] == 4 else False
+        return True if len(dim) == 1 and infile.dimensions[dim[0]].size == 4 else False
 
     @staticmethod
     def has_land_in_cell_methods(infile, variable, **kwargs):
@@ -394,6 +394,7 @@ class checkCMIP6(object):
                                           'filename': filename}):
                     # If test successfull, the CMOR entry to consider is given by the test
                     variable_cmor_entry = cmor_entry
+                    break
                 else:
                     # If not, CMOR entry to consider is the variable from filename or from input command-line
                     variable_cmor_entry = variable
