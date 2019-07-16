@@ -1648,6 +1648,7 @@ int cmor_outpath_exist(char *outpath)
     struct stat buf;
     char msg[CMOR_MAX_STRING];
     FILE *test_file = NULL;
+    int pid;
     int ierr;
 
     cmor_add_traceback("cmor_outpath_exist");
@@ -1679,8 +1680,9 @@ int cmor_outpath_exist(char *outpath)
 /*      ok if not root then test permissions                            */
 /* -------------------------------------------------------------------- */
         if (getuid() != 0) {
-            strcpy(msg, cmor_current_dataset.outpath);
-            strncat(msg, "/tmp.cmor.test", CMOR_MAX_STRING);
+            pid = getpid();
+            sprintf(msg,"%s/tmp%i.cmor.test", 
+                    cmor_current_dataset.outpath, pid);
             test_file = fopen(msg, "w");
             if (test_file == NULL) {
 
