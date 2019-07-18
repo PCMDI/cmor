@@ -4,7 +4,7 @@
 #include "numpy/arrayobject.h"
 #include "cmor.h"
 
-extern int cmor_CV_variable(int *, char *, char *, double *,
+extern int cmor_CV_variable(int *, char *, char *, float *, int *,
                             double, double, double, double);
 
 /************************************************************************/
@@ -570,7 +570,7 @@ static PyObject *PyCMOR_getincvalues(PyObject * self, PyObject * args)
 }
 
 /************************************************************************/
-/*                       PyCV_check_variable()                          */
+/*                       PyCV_setup_variable()                          */
 /************************************************************************/
 static PyObject *PyCV_setup_variable(PyObject * self, PyObject * args)
 {
@@ -585,13 +585,13 @@ static PyObject *PyCV_setup_variable(PyObject * self, PyObject * args)
 
     int var_id;
 
-    if (!PyArg_ParseTuple(args, "ssfdddd", &name, &units, &missing,
+    if (!PyArg_ParseTuple(args, "ssfidddd", &name, &units, &missing, &imissing,
                           &startime, &endtime, &startimebnds, &endtimebnds)) {
         return (Py_BuildValue("i", -1));
     }
 
-    cmor_CV_variable(&var_id, name, units, &missing, startime, endtime,
-                     startimebnds, endtimebnds);
+    cmor_CV_variable(&var_id, name, units, &missing, &imissing, 
+                     startime, endtime, startimebnds, endtimebnds);
 
     return (Py_BuildValue("i", var_id));
 

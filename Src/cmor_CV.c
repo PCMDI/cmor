@@ -2289,7 +2289,8 @@ int cmor_CV_checkISOTime(char *szAttribute)
 /************************************************************************/
 /*                         cmor_CV_variable()                           */
 /************************************************************************/
-int cmor_CV_variable(int *var_id, char *name, char *units, float *missing,
+int cmor_CV_variable(int *var_id, char *name, char *units, 
+                     float *missing, int *imissing,
                      double startime, double endtime,
                      double startimebnds, double endtimebnds)
 {
@@ -2466,13 +2467,11 @@ int cmor_CV_variable(int *var_id, char *name, char *units, float *missing,
     }
 
     if (refvar.type == 'i') {
-        int nMissing;
-        nMissing = (int) *missing;
         cmor_vars[vrid].type = 'i';
         cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_MISSINGVALUES,
-                                         'i', &nMissing);
+                                         'i', &imissing);
         cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_FILLVAL, 'i',
-                                             &nMissing);
+                                             &imissing);
     } else {
         if (refvar.type == '\0') {
             cmor_vars[vrid].type = 'f';

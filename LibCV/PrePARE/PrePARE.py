@@ -535,8 +535,9 @@ class checkCMIP6(object):
         # Setup variable
         # -------------------------------------------------------------------
         varid = cmip6_cv.setup_variable(variable_cmor_entry,
-                                        self.dictVar['units'],
-                                        self.dictVar['_FillValue'],
+                                        cmor_table['variable_entry'][variable_cmor_entry]['units'],
+                                        float(cmor_table['Header']['missing_value']),
+                                        int(cmor_table['Header']['int_missing_value']),
                                         startime,
                                         endtime,
                                         startimebnds,
