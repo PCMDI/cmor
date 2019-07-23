@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.30", 
+        "data_specs_version": "01.00.31", 
         "cmor_version": "3.4", 
         "table_id": "Table Eyr", 
         "realm": "land", 
-        "table_date": "30 April 2019", 
+        "table_date": "22 July 2019", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -328,7 +328,7 @@
             "cell_methods": "area: mean where land over all_area_types time: mean", 
             "cell_measures": "area: areacella", 
             "long_name": "Total Vegetated Percentage Cover", 
-            "comment": "Percentage of grid cell that is covered by vegetation.This SHOULD be the sum of tree, grass, crop and shrub fractions.", 
+            "comment": "Percentage of grid cell that is covered by vegetation.This SHOULD be the sum of tree, grass (natural and pasture), crop and shrub fractions.", 
             "dimensions": "longitude latitude time typeveg", 
             "out_name": "vegFrac", 
             "type": "real", 

@@ -1,10 +1,10 @@
 {
     "Header": {
-        "data_specs_version": "01.00.30", 
+        "data_specs_version": "01.00.31", 
         "cmor_version": "3.4", 
         "table_id": "Table EmonZ", 
         "realm": "atmos", 
-        "table_date": "30 April 2019", 
+        "table_date": "22 July 2019", 
         "missing_value": "1e20", 
         "int_missing_value": "-999", 
         "product": "model-output", 
@@ -400,7 +400,7 @@
             "cell_methods": "longitude: mean time: mean", 
             "cell_measures": "", 
             "long_name": "Transformed Eulerian Mean Upward Wind", 
-            "comment": "Transformed Eulerian Mean Diagnostics w*, meridional component of the residual meridional circulation (v*, w*) derived from 6 hr or higher frequency data fields (use instantaneous daily fields or 12 hr fields if the 6 hr data are not available). Scale height: 6950 m", 
+            "comment": "Transformed Eulerian Mean Diagnostics w*, upward component of the residual meridional circulation (v*, w*) derived from 6 hr or higher frequency data fields (use instantaneous daily fields or 12 hr fields if the 6 hr data are not available). Scale height: 6950 m", 
             "dimensions": "latitude plev39 time", 
             "out_name": "wtem", 
             "type": "real", 
