@@ -2469,9 +2469,9 @@ int cmor_CV_variable(int *var_id, char *name, char *units,
     if (refvar.type == 'i') {
         cmor_vars[vrid].type = 'i';
         cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_MISSINGVALUES,
-                                         'i', &imissing);
+                                         'i', imissing);
         cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_FILLVAL, 'i',
-                                             &imissing);
+                                             imissing);
     } else {
         if (refvar.type == '\0') {
             cmor_vars[vrid].type = 'f';
