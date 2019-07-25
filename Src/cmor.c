@@ -109,7 +109,7 @@ int CMOR_CREATE_SUBDIRECTORIES = 1;
 char cmor_input_path[CMOR_MAX_STRING];
 char cmor_traceback_info[CMOR_MAX_STRING];
 
-int bAppendMode = FALSE;
+int bAppendMode = 0;
 
 volatile sig_atomic_t stop = 0;
 
@@ -1648,6 +1648,7 @@ int cmor_outpath_exist(char *outpath)
     struct stat buf;
     char msg[CMOR_MAX_STRING];
     FILE *test_file = NULL;
+    int pid;
     int ierr;
 
     cmor_add_traceback("cmor_outpath_exist");
@@ -1679,8 +1680,9 @@ int cmor_outpath_exist(char *outpath)
 /*      ok if not root then test permissions                            */
 /* -------------------------------------------------------------------- */
         if (getuid() != 0) {
-            strcpy(msg, cmor_current_dataset.outpath);
-            strncat(msg, "/tmp.cmor.test", CMOR_MAX_STRING);
+            pid = getpid();
+            sprintf(msg,"%s/tmp%i.cmor.test", 
+                    cmor_current_dataset.outpath, pid);
             test_file = fopen(msg, "w");
             if (test_file == NULL) {
 
@@ -2604,7 +2606,7 @@ int cmor_validateFilename(char *outname, char *file_suffix, int var_id)
             ierr = nc_create(outname, NC_CLOBBER | cmode, &ncid);
 
         } else {                /*ok it was there already */
-            bAppendMode = TRUE;
+            bAppendMode = 1;
             ierr = fclose(fperr);
             fperr = NULL;
             copyfile(outname, file_suffix);
@@ -6104,6 +6106,31 @@ int cmor_close_variable(int var_id, char *file_name, int *preserve)
                 }
             }
         }
+
+/* -------------------------------------------------------------------- */
+/*    Check if the number of times written is less than the             */
+/*    length of the time axis.                                          */
+/* -------------------------------------------------------------------- */
+        for(i = 0; i < cmor_vars[var_id].ndims; ++i) {
+            if(cmor_axes[cmor_vars[var_id].axes_ids[i]].axis == 'T'
+                && cmor_axes[cmor_vars[var_id].axes_ids[i]].length > 0
+                && (cmor_vars[var_id].ntimes_written 
+                < cmor_axes[cmor_vars[var_id].axes_ids[i]].length)) {
+                snprintf(msg, CMOR_MAX_STRING,
+                        "while closing variable %i (%s, table %s)\n! "
+                        "we noticed you wrote %i time steps for the variable,\n! "
+                        "but its time axis %i (%s) has %i time steps",
+                        cmor_vars[var_id].self,
+                        cmor_vars[var_id].id,
+                        cmor_tables[cmor_vars[var_id].ref_table_id].szTable_id,
+                        cmor_vars[var_id].ntimes_written, i,
+                        cmor_axes[cmor_vars[var_id].axes_ids[i]].id,
+                        cmor_axes[cmor_vars[var_id].axes_ids[i]].length);
+
+                cmor_handle_error_var(msg, CMOR_WARNING, var_id);
+            }
+        }
+
         strncpytrim( outname, cmor_vars[var_id].base_path,
                  CMOR_MAX_STRING );
 

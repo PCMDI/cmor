@@ -27,9 +27,9 @@ requirements:
     - json-c
     - hdf5
     - libnetcdf
+    - netcdf4
     - numpy
     - setuptools
-    - cdms2
   run:
     - python {{ python }}
     - libuuid
@@ -39,7 +39,7 @@ requirements:
     - {{ pin_compatible('numpy') }}
     - {{ pin_compatible('hdf5') }}
     - {{ pin_compatible('libnetcdf') }}
-    - cdms2
+    - {{ pin_compatible('netcdf4') }}
 
 about:
     home:  http://gitub.com/PCMDI

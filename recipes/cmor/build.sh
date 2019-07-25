@@ -1,4 +1,4 @@
-export CFLAGS="-Wall -g -m64 -pipe -O2  -fPIC"
+export CFLAGS="-Wall -g -m64 -pipe -O2 -fPIC ${CFLAGS}"
 export CXXLAGS="${CFLAGS}"
 export CPPFLAGS="-I${PREFIX}/include"
 export LDFLAGS="-L${PREFIX}/lib"
@@ -13,6 +13,8 @@ fi
 if [[ `uname` == "Linux" ]]; then
     export LDSHARED_FLAGS="-shared -pthread"
 else
+    # For OSX builds, reset the include and linker root path for clang
+    export CFLAGS="-Wl,-syslibroot / -isysroot / ${CFLAGS}"
     export LDSHARED_FLAGS="-bundle -undefined dynamic_lookup"
 fi
 

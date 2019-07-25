@@ -71,22 +71,23 @@ def time_varying_grid_coordinate(
     if not isinstance(units, six.string_types):
         raise Exception("Error you must pass a string for the variable units")
     if not isinstance(type, six.string_types):
-        raise Exception("error tpye must a a string")
+        raise Exception("error type must be a string")
     type = type.lower()
-    if type == 's':
+    if type == 's' or type == 'u':
         type = 'c'
     if type not in ["c", "d", "f", "l", "i"]:
         raise Exception(
             'error unknown type: "%s", must be one of: "c","d","f","l","i"')
 
-    if not isinstance(grid_id, (int, numpy.int, numpy.int32)):
+    if not isinstance(grid_id, (int, numpy.int, numpy.int32, numpy.int64)):
         raise Exception("error grid_id must be an integer")
 
     grid_id = int(grid_id)
 
     if missing_value is not None:
-        if not isinstance(missing_value, (float, int, numpy.float,
-                                          numpy.float32, numpy.int, numpy.int32)):
+        if not isinstance(missing_value, (float, int, 
+                                          numpy.float, numpy.float32, numpy.float64, 
+                                          numpy.int, numpy.int32, numpy.int64)):
             raise Exception(
                 "error missing_value must be a number, you passed: %s" %
                 type(missing_value))
@@ -242,11 +243,12 @@ def set_grid_mapping(grid_id, mapping_name, parameter_names,
        parameter_units  :: array/list of parameter units  in the same order of parameter_names (ignored if parameter_names is ditcionary)
     """
     if sys.version_info < (3, 0):
-        if not isinstance(grid_id, (numpy.int32, int, long)):
+        if not isinstance(grid_id, (numpy.int32, numpy.int64, int, long)):
             raise Exception("grid_id must be an integer: %s" % type(grid_id))
     else:
-        if not isinstance(grid_id, (numpy.int32, int)):
+        if not isinstance(grid_id, (numpy.int32, numpy.int64, int)):
             raise Exception("grid_id must be an integer: %s" % type(grid_id))
+        grid_id = int(grid_id)
     if not isinstance(mapping_name, six.string_types):
         raise Exception("mapping name must be a string")
 
@@ -424,10 +426,10 @@ def axis(table_entry, units=None, length=None,
         l = len(coord_vals)
         type = coord_vals.dtype.char[0]
 
-        if not type in ['i', 'l', 'f', 'd', 'S']:
+        if not type in ['i', 'l', 'f', 'd', 'S', 'U']:
             raise Exception("error allowed data type are: i,l,f,d or S")
 
-        if type == 'S':
+        if type == 'S' or type == 'U':
             type = 'c'
             cbnds = 0
             for s in coord_vals:
@@ -507,9 +509,9 @@ def variable(table_entry, units, axis_ids, type='f', missing_value=None,
         raise Exception("error axis_ids list/array must be 1D")
 
     if not isinstance(type, six.string_types):
-        raise Exception("error tpye must a a string")
+        raise Exception("error type must be a string")
     type = type.lower()
-    if type == 's':
+    if type == 's' or type == 'u':
         type = 'c'
     if not type in ["c", "d", "f", "l", "i"]:
         raise Exception(
@@ -532,15 +534,17 @@ def variable(table_entry, units, axis_ids, type='f', missing_value=None,
     else:
         comment = str(comment)
 
-    if not isinstance(tolerance, (float, int, numpy.float,
-                                  numpy.float32, numpy.int, numpy.int32)):
+    if not isinstance(tolerance, (float, int, 
+                                  numpy.float, numpy.float32, numpy.float64, 
+                                  numpy.int, numpy.int32, numpy.int64)):
         raise Exception("error tolerance must be a number")
 
     tolerance = float(tolerance)
 
     if missing_value is not None:
-        if not isinstance(missing_value, (float, int, numpy.float,
-                                          numpy.float32, numpy.int, numpy.int32)):
+        if not isinstance(missing_value, (float, int,
+                                          numpy.float, numpy.float32, numpy.float64, 
+                                          numpy.int, numpy.int32, numpy.int64)):
             raise Exception(
                 "error missing_value must be a number, you passed: %s" %
                 repr(missing_value))
@@ -555,7 +559,7 @@ def variable(table_entry, units, axis_ids, type='f', missing_value=None,
 def zfactor(zaxis_id, zfactor_name, units="", axis_ids=None,
             type=None, zfactor_values=None, zfactor_bounds=None):
 
-    if not isinstance(zaxis_id, (int, numpy.int, numpy.int32)):
+    if not isinstance(zaxis_id, (int, numpy.int, numpy.int32, numpy.int64)):
         raise Exception("error zaxis_id must be a number")
     zaxis_id = int(zaxis_id)
 
@@ -578,7 +582,7 @@ def zfactor(zaxis_id, zfactor_name, units="", axis_ids=None,
         axis_ids = numpy.ascontiguousarray(axis_ids)
     elif axis_ids is None:
         pass
-    elif isinstance(axis_ids, (int, numpy.int, numpy.int32)):
+    elif isinstance(axis_ids, (int, numpy.int, numpy.int32, numpy.int64)):
         axis_ids = numpy.array([axis_ids, ])
     elif not isinstance(axis_ids, numpy.ndarray):
         raise Exception(
@@ -632,9 +636,9 @@ def zfactor(zaxis_id, zfactor_name, units="", axis_ids=None,
         type = 'd'
 
     if not isinstance(type, six.string_types):
-        raise Exception("error type must a string")
+        raise Exception("error type must be a string")
     type = type.lower()
-    if type == 's':
+    if type == 's' or type == 'u':
         type = 'c'
     if not type in ["c", "d", "f", "l", "i"]:
         raise Exception(
@@ -683,7 +687,7 @@ def write(var_id, data, ntimes_passed=None, file_suffix="",
     Usage:
     ierr = write(var_id,data,ntimes_passed=None,file_suffix="",time_vals=None,time_bnds=None,store_with=None
     """
-    if not isinstance(var_id, (int, numpy.int, numpy.int32)):
+    if not isinstance(var_id, (int, numpy.int, numpy.int32, numpy.int64)):
         raise Exception("error var_id must be an integer")
     var_id = int(var_id)
 
@@ -691,7 +695,7 @@ def write(var_id, data, ntimes_passed=None, file_suffix="",
         raise Exception("Error file_suffix must be a string")
 
     if store_with is not None:
-        if not isinstance(store_with, (int, numpy.int, numpy.int32)):
+        if not isinstance(store_with, (int, numpy.int, numpy.int32, numpy.int64)):
             raise Exception("error store_with must be an integer")
         store_with = int(store_with)
 
@@ -741,7 +745,7 @@ def write(var_id, data, ntimes_passed=None, file_suffix="",
             ntimes_passed = 0
         else:
             ntimes_passed = len(time_vals)
-    if not isinstance(ntimes_passed, (int, numpy.int, numpy.int32)):
+    if not isinstance(ntimes_passed, (int, numpy.int, numpy.int32, numpy.int64)):
         raise Exception("error ntimes_passed must be an integer")
     ntimes_passed = int(ntimes_passed)
 
@@ -769,6 +773,20 @@ def write(var_id, data, ntimes_passed=None, file_suffix="",
                 msg = "Error: your data shape (%s) does not match the expected variable shape (%s)\nCheck your variable dimensions before caling cmor_write" % (str(osh), str(ogoodshape))
                 warnings.warn(msg)
         j += 1
+
+    
+    # Check if there is enough data for the number of times passed
+    if ntimes_passed < 0:
+        raise Exception("ntimes_passed must be a positive integer")
+
+    expected_size = ntimes_passed
+    for d in goodshape:
+        expected_size *= d
+    passed_size = 1
+    for d in osh:
+        passed_size *= d
+    if expected_size > passed_size:
+        raise Exception("not enough data is being passed for the number of times passed")
 
     data = numpy.ascontiguousarray(numpy.ravel(data))
 

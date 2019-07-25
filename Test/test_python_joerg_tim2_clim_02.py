@@ -38,7 +38,7 @@ def main():
         axis_ids.append(axis_id)
 
     for var, units, value in (('difvso', 'm2 s-1', 274.),):
-        values = numpy.ones(map(lambda x: len(x["coord_vals"]), axes)) * value
+        values = numpy.ones([len(x["coord_vals"]) for x in axes]) * value
         values = values.astype("f")
         varid = cmor.variable(var,
                               units,

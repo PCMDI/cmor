@@ -124,8 +124,8 @@ backup: clean
 	@tar cfz $$TGZNAME Cmor; \
 	@touch $(TIMESTAMPDIR)/cmor_`$(TIMESTAMP)`_full.time; \
 	@echo "Full backup tar file created : $$TGZNAME")
-test:  cmor test_C @TEST_FORTRAN@ @MAKETESTPYTHON@
-	@echo "All C and Fortran Test passed successfully"
+test:  cmor test_C @TEST_FORTRAN@ test_python
+	@echo "All C, Fortran, and Python tests passed successfully"
 test_C: cmor 
 	rm -f ./ipcc_test_code ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/ipcc_test_code.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @JSONCLDFLAGS@ @JSONCFLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@  -o ipcc_test_code  @VERB@; ./ipcc_test_code @VERB@
 	rm -f ./test_singletons ; @CC@ @CFLAGS@ @USERCFLAGS@ @CPPFLAGS@  Test/test_singletons.c -L@prefix@/lib -I@prefix@/include  -L. -lcmor @NCCFLAGS@ @NCLDFLAGS@ @UDUNITS2LDFLAGS@ @UDUNITS2FLAGS@ @JSONCLDFLAGS@ @JSONCFLAGS@ @UUIDLDFLAGS@ @UUIDFLAGS@ @LDFLAGS@  -o test_singletons  @VERB@; ./test_singletons @VERB@
@@ -149,10 +149,10 @@ test_a_python:
 	@echo "${OK_COLOR}Testing ${TEST_NAME} ${NO_COLOR}"
 	${PYTHONEXEC} ${TEST_NAME} ${VERB}
 test_python: python
-	env TEST_NAME=Test/test_python_climatology.py make test_a_python
+	# [missing] env TEST_NAME=Test/test_python_climatology.py make test_a_python
 	env TEST_NAME=Test/test_python_history.py make test_a_python
-	env TEST_NAME=Test/test_python_historydefault.py make test_a_python
-	env TEST_NAME=Test/test_python_test_write.py make test_a_python
+	# [missing] env TEST_NAME=Test/test_python_historydefault.py make test_a_python
+	# [missing] env TEST_NAME=Test/test_python_test_write.py make test_a_python
 	env TEST_NAME=Test/test_python_missing_values.py make test_a_python
 	env TEST_NAME=Test/test_python_history.py make test_a_python
 	env TEST_NAME=Test/test_python_sos_psu_units.py make test_a_python
@@ -199,8 +199,6 @@ test_python: python
 	env TEST_NAME=Test/jamie_hybrid_height.py make test_a_python
 	env TEST_NAME=Test/jamie_positive.py make test_a_python
 	env TEST_NAME=Test/test_python_1D_var.py make test_a_python
-	env TEST_NAME=Test/test_python_2Gb_file.py make test_a_python
-	env TEST_NAME=Test/test_python_2Gb_slice.py make test_a_python
 #	env TEST_NAME=Test/test_python_3hr.py make test_a_python
 	env TEST_NAME=Test/test_python_YYYMMDDHH_exp_fmt.py make test_a_python
 #	@env TEST_NAME=Test/test_python_alastair_1.py make test_a_python
@@ -208,8 +206,8 @@ test_python: python
 #	env TEST_NAME=Test/test_python_fx.py make test_a_python
 	env TEST_NAME=Test/test_python_grid_and_ocn_sigma.py make test_a_python
 	env TEST_NAME=Test/test_python_jamie_site_surface.py make test_a_python
-	env TEST_NAME=Test/test_python_max_variables.py make test_a_python
-	env TEST_NAME=Test/test_python_max_variables_2.py make test_a_python
+#	env TEST_NAME=Test/test_python_max_variables.py make test_a_python
+#	env TEST_NAME=Test/test_python_max_variables_2.py make test_a_python
 	env TEST_NAME=Test/test_python_reverted_lats.py make test_a_python
 	env TEST_NAME=Test/test_lon_gt_360.py make test_a_python
 	env TEST_NAME=Test/test_lon_thro_360.py make test_a_python
@@ -222,6 +220,11 @@ test_python: python
 	env TEST_NAME=Test/test_cmor_half_levels_with_bounds.py make test_a_python
 	env TEST_NAME=Test/test_cmor_half_levels_wrong_generic_level.py make test_a_python
 	env TEST_NAME=Test/test_cmor_double_singleton.py make test_a_python
+	env TEST_NAME=Test/test_cmor_python_not_enough_data.py make test_a_python
+	env TEST_NAME=Test/test_cmor_python_not_enough_times_written.py make test_a_python
+test_python_2gb:
+	env TEST_NAME=Test/test_python_2Gb_file.py make test_a_python
+	env TEST_NAME=Test/test_python_2Gb_slice.py make test_a_python
 
 test_case:
 	@echo "${OK_COLOR}Testing: "${TEST_NAME}" with input file: ${INPUT_FILE}${NO_COLOR}"

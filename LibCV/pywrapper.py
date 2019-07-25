@@ -375,7 +375,7 @@ def check_ISOTime():
     return(ierr)
 
 
-def setup_variable(name, units, missing, startime,
+def setup_variable(name, units, missing, imissing, startime,
                    endtime, startimebnds, endtimebnds):
     '''
     Create variable  attributes from the table loaded by load_table.
@@ -385,7 +385,8 @@ def setup_variable(name, units, missing, startime,
     Where:
         name is the variable name to validate
         units are the variable units
-        missing is the missing value for this variable.
+        missing is the missing floating-point value for this variable.
+        imissing is the missing integer value for this variable.
         startime: time value for first part of timestap -- time[0]
         endtime: time value for last part of timestap -- time[-1]
         startimebnds: time bound value for first part of timestap -- time_bnds[0]
@@ -397,6 +398,7 @@ def setup_variable(name, units, missing, startime,
         name,
         units,
         missing,
+        imissing,
         startime,
         endtime,
         startimebnds,
