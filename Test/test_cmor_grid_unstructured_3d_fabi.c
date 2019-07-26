@@ -10,14 +10,9 @@ int it;
 double time[];
 double time_bnds[];
 {
-    time[0] = (it - 0.5) * 30.;
-    time_bnds[0] = (it - 1) * 30.;
-    time_bnds[1] = it * 30.;
-
     time[0] = it;
     time_bnds[0] = it;
     time_bnds[1] = it + 1;
-
 }
 
 #include "reader_2D_3D.h"
@@ -29,36 +24,34 @@ int main()
     /* --------------------------------- */
     
 #define   ntimes  2             /* number of time samples to process */
-#define   indi  10                /* number of i indices   */
-#define   indj  10                /* number of j indices   */
-#define   indk  10                /* number of k indices   */
-#define   nvert 12
+#define   indi  5                /* number of i indices   */
+#define   indj  4                /* number of j indices   */
+#define   indk  3                /* number of k indices   */
+#define   nvert 5
+#define   nb 2
+
     double i_index[indi];
     double j_index[indj];
     double k_index[indk];
-    double lon_coords[indi * indj * indk];
-    double lat_coords[indi * indj * indk];
-    double lon_vertices[indi * indj * indk * nvert];
-    double lat_vertices[indi * indj * indk * nvert];
+    double lon[indk][indj][indi];
+    double lat[indk][indj][indi];
+    double vertices_longitude[indk][indj][indi][nvert];
+    double vertices_latitude[indk][indj][indi][nvert];
 
-    double data3d[indi * indj * indk];
+    double field[ntimes][indk][indj][indi];
 
     int myaxes[10];
     int mygrids[10];
     int myvars[10];
     int tables[4];
     int axes_ids[CMOR_MAX_DIMENSIONS];
-    int i, j, vert, k, ierr;
+    int i, j, k, n, ierr;
 
     double Time[ntimes];
-    double bnds_time[ntimes * 2];
+    double bnds_time[ntimes][nb];
     double tolerance = 1.e-4;
-    double lon0 = 0.;
-    double lat0 = 0.;
-    double delta_lon = 36.;
-    double delta_lat = 18.;
     char id[CMOR_MAX_STRING];
-    double tmpf = 0.;
+    double missing = 1.e20;
 
     int exit_mode;
 
@@ -69,17 +62,35 @@ int main()
             j_index[j] = j;
             for (i = 0; i < indi; i++) {
                 i_index[i] = i;
-                    lon_coords[k*indi*indj + j*indi + i] = lon0 + delta_lon * i;
-                    lat_coords[k*indi*indj + j*indi + i] = lat0 + delta_lat * j;
-                    /* vertices lon */
-                    for (vert = 0; vert < nvert; vert++)
-                    {
-                        lon_vertices[(k*indi*indj + j*indi + i) * nvert + vert] =
-                        lon_coords[k*indi*indj + j*indi + i];
-                        /* vertices lat */
-                        lat_vertices[(k*indi*indj + j*indi + i) * nvert + vert] =
-                        lat_coords[k*indi*indj + j*indi + i];
-                    }
+                lat[k][j][i] = 82.5 - k*60 - j*15;
+                lon[k][j][i] = i*72 + j*6 + k*18 + 36.0;
+
+                vertices_latitude[k][j][i][0] = lat[k][j][i] - 7.5;
+                vertices_latitude[k][j][i][1] = lat[k][j][i];
+                vertices_latitude[k][j][i][2] = lat[k][j][i] + 7.5;
+                vertices_latitude[k][j][i][3] = lat[k][j][i];
+                vertices_latitude[k][j][i][4] = missing;
+
+                vertices_longitude[k][j][i][0] = lon[k][j][i];
+                vertices_longitude[k][j][i][1] = lon[k][j][i] + 36.0;
+                vertices_longitude[k][j][i][2] = lon[k][j][i];
+                vertices_longitude[k][j][i][3] = lon[k][j][i] - 36.0;
+                vertices_longitude[k][j][i][4] = missing;
+            }
+        }
+    }
+
+    vertices_latitude[0][0][0][4] =  81.0;
+    vertices_longitude[0][0][0][4] =  1.0;
+    vertices_latitude[indk-1][indj-1][indi-1][4] = -81.0;
+    vertices_longitude[indk-1][indj-1][indi-1][4] = 341.0;
+
+    for (n = 0; n < ntimes; n++) {
+        for (k = 0; k < indk; k++) {
+            for (j = 0; j < indj; j++) {
+                for (i = 0; i < indi; i++) {
+                    field[n][k][j][i] = i + 10*j + 100*k + 1000*n;
+                }
             }
         }
     }
@@ -112,8 +123,8 @@ int main()
 
     /*now defines the grid */
     printf("going to grid stuff \n");
-    ierr = cmor_grid(&mygrids[0], 3, myaxes, 'd', (void *) lat_coords, (void *) lon_coords, nvert,
-                          (void *) lat_vertices, (void *) lon_vertices);
+    ierr = cmor_grid(&mygrids[0], 3, myaxes, 'd', (void *) lat, (void *) lon, nvert,
+                          (void *) vertices_latitude, (void *) vertices_longitude);
 
     for (i = 0; i < cmor_grids[0].ndims; i++) {
         printf("Dim : %i the grid has the follwoing axes on itself: %i (%s)\n",
@@ -124,8 +135,9 @@ int main()
     /* ok sets back the vars table */
     cmor_set_table(tables[1]);
 
-    for (i = 0; i < ntimes; i++)
-        read_time(i, &Time[i], &bnds_time[2 * i]);
+    for (i = 0; i < ntimes; i++){
+        read_time(i, &Time[i], &bnds_time[i]);
+    }
     ierr =
       cmor_axis(&axes_ids[0], "time", "months since 1980", 2, &Time[0], 'd',
                 &bnds_time[0], 2, NULL);
@@ -141,12 +153,9 @@ int main()
 
     for (i = 0; i < ntimes; i++) {
         printf("Test code: writing time: %i of %i\n", i + 1, ntimes);
-
         printf("Test code: 3d\n");
-        read_3d_input_files(i, "T", &data3d[0], indi, indj, indk);
-        //for(j=0;j<10;j++) printf("Test code: %i out of %i : %lf\n",j,9,data2d[j]);
         printf("var id: %i\n", myvars[0]);
-        ierr = cmor_write(myvars[0], &data3d, 'd', NULL, 1, NULL, NULL, NULL);
+        ierr = cmor_write(myvars[0], &field[i], 'd', NULL, 1, NULL, NULL, NULL);
     }
     printf("ok loop done\n");
     ierr = cmor_close();
