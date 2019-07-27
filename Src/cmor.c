@@ -5821,9 +5821,7 @@ int cmor_build_outname(int var_id, char *outname ) {
         char end_string[CMOR_MAX_STRING];
         int start_seconds, end_seconds, start_minutes, end_minutes;
 
-        if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY) == 0) {
-            cmor_get_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY, frequency);
-        }
+        strncpy(frequency, cmor_vars[var_id].frequency, CMOR_MAX_STRING);
 
         if (strstr(frequency, "yr") != NULL) {
             frequency_code = 1;
