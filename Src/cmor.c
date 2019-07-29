@@ -2676,39 +2676,44 @@ int cmor_validateFilename(char *outname, char *file_suffix, int var_id)
             if (cmor_tables
                 [cmor_axes[cmor_vars[var_id].axes_ids[i]].ref_table_id].
                 axes[cmor_axes[cmor_vars[var_id].axes_ids[i]].ref_axis_id].
-                climatology == 1) {
+                must_have_bounds == 1) {
+                if (cmor_tables
+                    [cmor_axes[cmor_vars[var_id].axes_ids[i]].ref_table_id].
+                    axes[cmor_axes[cmor_vars[var_id].axes_ids[i]].ref_axis_id].
+                    climatology == 1) {
 
-                snprintf(msg, CMOR_MAX_STRING, "climatology");
-                strncpy(ctmp, "climatology_bnds", CMOR_MAX_STRING);
-            } else {
-                strncpy(ctmp, "time_bnds", CMOR_MAX_STRING);
-            }
+                    snprintf(msg, CMOR_MAX_STRING, "climatology");
+                    strncpy(ctmp, "climatology_bnds", CMOR_MAX_STRING);
+                } else {
+                    strncpy(ctmp, "time_bnds", CMOR_MAX_STRING);
+                }
 
-            ierr = nc_inq_varid(ncid, ctmp, &i);
-            if (ierr != NC_NOERR) {
-                snprintf(msg, CMOR_MAX_STRING,
+                ierr = nc_inq_varid(ncid, ctmp, &i);
+                if (ierr != NC_NOERR) {
+                    snprintf(msg, CMOR_MAX_STRING,
                          "NetCDF Error (%i: %s) looking for time bounds\n! "
                          "of variable '%s' in file: %s", ierr,
                          nc_strerror(ierr), cmor_vars[var_id].id, outname);
-                cmor_handle_error(msg, CMOR_WARNING);
-                ierr = NC_NOERR;
-            } else {
-                cmor_vars[var_id].time_bnds_nc_id = i;
+                    cmor_handle_error(msg, CMOR_WARNING);
+                    ierr = NC_NOERR;
+                } else {
+                    cmor_vars[var_id].time_bnds_nc_id = i;
 /* -------------------------------------------------------------------- */
 /*      Here I need to store first/last bounds for appending issues     */
 /* -------------------------------------------------------------------- */
 
-                starts[0] = cmor_vars[var_id].ntimes_written - 1;
-                starts[1] = 1;
-                ierr = nc_get_var1_double(ncid,
+                    starts[0] = cmor_vars[var_id].ntimes_written - 1;
+                    starts[1] = 1;
+                    ierr = nc_get_var1_double(ncid,
                                           cmor_vars[var_id].time_bnds_nc_id,
                                           &starts[0],
                                           &cmor_vars[var_id].last_bound);
-                starts[1] = 0;
-                ierr = nc_get_var1_double(ncid,
+                    starts[1] = 0;
+                    ierr = nc_get_var1_double(ncid,
                                           cmor_vars[var_id].time_bnds_nc_id,
                                           &starts[0],
                                           &cmor_vars[var_id].first_bound);
+                }
             }
             cmor_vars[var_id].initialized = ncid;
         }
@@ -4358,16 +4363,22 @@ int cmor_write(int var_id, void *data, char type, char *file_suffix,
     };
 
 /* -------------------------------------------------------------------- */
-/*    Make sure that time_vals and time_bounds are being passed         */
+/*    Make sure that time_vals (and possibly time_bounds) are passed    */
 /*    when CMOR is running in append mode.                              */
 /* -------------------------------------------------------------------- */
-    if (bAppendMode && (time_vals == NULL || time_bounds == NULL)) {
+    if (bAppendMode) {
+        size_t refTableID = cmor_vars[var_id].ref_table_id;
+        size_t refAxisID = cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_axis_id;
+        if ( time_vals == NULL || 
+          ( cmor_tables[refTableID].axes[refAxisID].must_have_bounds == 1 && 
+            time_bounds == NULL ) ) {
 
-        cmor_handle_error("time_vals and time_bounds must be passed through cmor_write "
+            cmor_handle_error("time_vals and time_bounds must be passed through cmor_write "
                           "when in append mode", 
                           CMOR_CRITICAL);
-        cmor_pop_traceback();
-        return (-1);
+            cmor_pop_traceback();
+            return (-1);
+        };
     };
 
     ierr += cmor_addVersion();
@@ -5810,9 +5821,7 @@ int cmor_build_outname(int var_id, char *outname ) {
         char end_string[CMOR_MAX_STRING];
         int start_seconds, end_seconds, start_minutes, end_minutes;
 
-        if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY) == 0) {
-            cmor_get_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY, frequency);
-        }
+        strncpy(frequency, cmor_vars[var_id].frequency, CMOR_MAX_STRING);
 
         if (strstr(frequency, "yr") != NULL) {
             frequency_code = 1;
