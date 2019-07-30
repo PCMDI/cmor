@@ -76,7 +76,7 @@ aliases:
        cd recipes
        export PKG_NAME=cmor
        export USER=pcmdi
-       export VERSION=3.4.0
+       export VERSION=3.5.0
        export LABEL=nightly
        python ./prep_for_build.py -l $VERSION
        conda build $PKG_NAME -c cdat/label/nightly -c conda-forge -c cdat --python=$PYTHON_VERSION
