@@ -1,0 +1,49 @@
+name: cmor-3.5.0
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - _libgcc_mutex=0.1=main
+  - bzip2=1.0.8=h516909a_0
+  - ca-certificates=2019.6.16=hecc5488_0
+  - certifi=2019.6.16=py37_1
+  - cftime=1.0.3.4=py37hd352d35_1001
+  - cmor=3.5.0=py37h494d226_0
+  - curl=7.65.3=hf8cf82a_0
+  - expat=2.2.5=he1b5a44_1003
+  - hdf4=4.2.13=h9a582f1_1002
+  - hdf5=1.10.5=nompi_h3c11f04_1100
+  - jpeg=9c=h14c3975_1001
+  - json-c=0.13.1=h14c3975_1001
+  - krb5=1.16.3=h05b26f9_1001
+  - libblas=3.8.0=10_openblas
+  - libcblas=3.8.0=10_openblas
+  - libcurl=7.65.3=hda55be3_0
+  - libedit=3.1.20170329=hf8c457e_1001
+  - libffi=3.2.1=he1b5a44_1006
+  - libgcc-ng=9.1.0=hdf63c60_0
+  - libgfortran-ng=7.3.0=hdf63c60_0
+  - liblapack=3.8.0=10_openblas
+  - libnetcdf=4.6.2=h056eaf5_1002
+  - libopenblas=0.3.6=h6e990d7_5
+  - libssh2=1.8.2=h22169c7_2
+  - libstdcxx-ng=9.1.0=hdf63c60_0
+  - libuuid=2.32.1=h14c3975_1000
+  - ncurses=6.1=hf484d3e_1002
+  - netcdf4=1.5.1.2=py37h73a1b54_1
+  - numpy=1.16.4=py37h95a1406_0
+  - openblas=0.3.6=h6e990d7_5
+  - openssl=1.1.1c=h516909a_0
+  - pip=19.2.1=py37_0
+  - python=3.7.3=h33d41f4_1
+  - readline=8.0=hf8c457e_0
+  - setuptools=41.0.1=py37_0
+  - six=1.12.0=py37_1000
+  - sqlite=3.29.0=hcee41ef_0
+  - tk=8.6.9=hed695b0_1002
+  - udunits2=2.2.27.6=h4e0c4b3_1001
+  - wheel=0.33.4=py37_0
+  - xz=5.2.4=h14c3975_1001
+  - zlib=1.2.11=h516909a_1005
+prefix: /home/mauzey1/anaconda3/envs/cmor-3.5.0
+
