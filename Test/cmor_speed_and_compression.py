@@ -37,9 +37,10 @@ f.close()
 s = s.replace("${DEFLATE_LEVEL}", str(level))
 s = s.replace("${DEFLATE}", str(deflate))
 s = s.replace("${SHUFFLE}", str(shuffle))
-f = tempfile.NamedTemporaryFile(mode='w', prefix='cmor_speed_and_compression', dir='.')
-f.write(s)
-mytable = os.path.basename(f.name)
+file_handle, file_path = tempfile.mkstemp(prefix='cmor_speed_and_compression', suffix='.json', dir='.')
+with open(file_path,'w') as f:
+    f.write(s)
+mytable = os.path.basename(file_path)
 
 cmor.setup(
     inpath="Tables",
@@ -51,7 +52,7 @@ cmor.dataset_json("Test/CMOR_input_example.json")
 tables = []
 tables.append(cmor.load_table(mytable))
 print('Tables ids:', tables)
-f.close()
+os.remove(file_path)
 
 
 # read in data, just one slice
@@ -147,20 +148,10 @@ print('total cdms:', totcdms, mincdms, totcdms / ntimes, maxcdms, lcdms)
 print('Size diff:', float(lcmor) / float(lcdms))
 print('speed diff:', totcmor / totcdms)
 
-if os.path.exists("summary.txt"):
-    f = open("summary.txt")
-    s = f.read()
-    f.close()
-    dic = eval(s)
-else:
-    dic = {}
-
+dic = {}
 dic[(level, shuffle)] = (float(lcmor) / float(lcdms), totcmor / totcdms)
 
 for i in range(10):
     a = dic.get((i, 0), "N/A")
     b = dic.get((i, 1), "N/A")
     print('Level: ', i, "no suffle:", a, "shuffle", b)
-f = open("summary.txt", "w")
-f.write(repr(dic))
-f.close()
