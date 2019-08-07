@@ -5,6 +5,7 @@
 *.gcno
 *.gcda
 *.dSYM
+*.mod
 .cproject
 .project
 .settings/
@@ -12,6 +13,8 @@ Test/CMIP5
 CMIP5
 Makefile
 build
+dist
+test_bin
 config.log
 compile_line.txt
 config.status
@@ -20,3 +23,4 @@ autom4te.cache
 setup.py
 include/cmor_locale.h
 recipes/cmor/meta.yaml
+CMOR.egg-info
