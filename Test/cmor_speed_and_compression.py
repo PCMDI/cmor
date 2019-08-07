@@ -1,6 +1,7 @@
 from __future__ import print_function
 import cmor
 import numpy
+import tempfile
 import sys
 import os
 from time import localtime, strftime
@@ -36,9 +37,9 @@ f.close()
 s = s.replace("${DEFLATE_LEVEL}", str(level))
 s = s.replace("${DEFLATE}", str(deflate))
 s = s.replace("${SHUFFLE}", str(shuffle))
-f = open("mytable", "w")
+f = tempfile.NamedTemporaryFile(mode='w', prefix='cmor_speed_and_compression', dir='.')
 f.write(s)
-f.close()
+mytable = os.path.basename(f.name)
 
 cmor.setup(
     inpath="Tables",
@@ -48,8 +49,9 @@ cmor.setup(
 cmor.dataset_json("Test/CMOR_input_example.json")
 
 tables = []
-tables.append(cmor.load_table("mytable"))
+tables.append(cmor.load_table(mytable))
 print('Tables ids:', tables)
+f.close()
 
 
 # read in data, just one slice
