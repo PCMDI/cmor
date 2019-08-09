@@ -89,7 +89,7 @@ PROGRAM test_cmor_grid
    !+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
    ! Specify path for tables and set up other CMOR options
    !+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-   error_flag = cmor_setup(inpath='Tables/', &
+   error_flag = cmor_setup(inpath='TestTables/', &
                            netcdf_file_action="replace",create_subdirectories=0)
 
    print *, '---------------Define dataset'
