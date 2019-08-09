@@ -1,0 +1,3 @@
+[submodule "cmip6-cmor-tables"]
+	path = cmip6-cmor-tables
+	url = git@github.com:PCMDI/cmip6-cmor-tables.git
