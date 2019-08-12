@@ -81,8 +81,8 @@ class TestCase(unittest.TestCase):
             cmor.load_table("CMIP6_Eyr.json")
             cmor.load_table("CMIP6_fx.json")
             cmor.load_table("CMIP6_grids.json")
-            cmor.load_table("CMIP6_LiMon.json")
-            cmor.load_table("CMIP6_OClim.json")
+            cmor.load_table("CMIP6_LImon.json")
+            cmor.load_table("CMIP6_Oclim.json")
         except BaseException:
             pass
         os.dup2(newstdout, 1)
