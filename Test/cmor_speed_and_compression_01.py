@@ -26,6 +26,11 @@ if len(sys.argv) > 2:
 else:
     shuffle = int(os.environ.get("SHUFFLE", 0))
 
+if len(sys.argv) > 3:
+    print_summary = int(sys.argv[3])
+else:
+    print_summary = 0
+
 if level == 0:
     deflate = 0
 else:
@@ -133,10 +138,22 @@ print('total cdms:', totcdms, mincdms, totcdms / ntimes, maxcdms, lcdms)
 print('Size diff:', float(lcmor) / float(lcdms))
 print('speed diff:', totcmor / totcdms)
 
-dic = {}
+if os.path.exists("summary.txt"):
+    f = open("summary.txt")
+    s = f.read()
+    f.close()
+    dic = eval(s)
+else:
+    dic = {}
+
 dic[(level, shuffle)] = (float(lcmor) / float(lcdms), totcmor / totcdms)
 
 for i in range(10):
     a = dic.get((i, 0), "N/A")
     b = dic.get((i, 1), "N/A")
     print('Level: ', i, "no suffle:", a, "shuffle", b)
+
+if print_summary != 0:
+    f = open("summary.txt", "w")
+    f.write(repr(dic))
+    f.close()
