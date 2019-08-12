@@ -177,7 +177,7 @@ PROGRAM mip_contribution
   !    files should not be overwritten, and instruct CMOR to error exit on 
   !    encountering errors of any severity.
   
-  error_flag = cmor_setup(inpath='Tables',   &
+  error_flag = cmor_setup(inpath='TestTables',   &
        netcdf_file_action='replace',                                       &
        set_verbosity=1,                                                    &
        exit_control=1)

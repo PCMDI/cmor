@@ -35,10 +35,10 @@ def run():
 class TestCase(base_CMIP6_CV.BaseCVsTest):
 
     def testCMIP6(self):
-        cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.tmpfile)
+        cmor.setup(inpath='TestTables', netcdf_file_action=cmor.CMOR_REPLACE)
         cmor.dataset_json("Test/common_user_input_hier.json")
 
-        cmor.load_table("CMIP6_Omon.json")
+        cmor.load_table("Tables/CMIP6_Omon.json")
         itime = cmor.axis(table_entry="time", units='months since 2010', coord_vals=numpy.array(
             [0, 1, 2, 3, 4.]), cell_bounds=numpy.array([0, 1, 2, 3, 4, 5.]))
         ivar = cmor.variable(
@@ -65,10 +65,10 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
     def testCMIP6_CDMS2(self):
         import cdms2
 
-        cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.tmpfile)
+        cmor.setup(inpath='TestTables', netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.tmpfile)
         cmor.dataset_json("Test/common_user_input_hier.json")
 
-        cmor.load_table("CMIP6_Omon.json")
+        cmor.load_table("Tables/CMIP6_Omon.json")
         itime = cmor.axis(table_entry="time", units='months since 2010', coord_vals=numpy.array(
             [0, 1, 2, 3, 4.]), cell_bounds=numpy.array([0, 1, 2, 3, 4, 5.]))
         ivar = cmor.variable(
