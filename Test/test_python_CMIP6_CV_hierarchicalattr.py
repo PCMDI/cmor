@@ -35,7 +35,7 @@ def run():
 class TestCase(base_CMIP6_CV.BaseCVsTest):
 
     def testCMIP6(self):
-        cmor.setup(inpath='TestTables', netcdf_file_action=cmor.CMOR_REPLACE)
+        cmor.setup(inpath='TestTables', netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.tmpfile)
         cmor.dataset_json("Test/common_user_input_hier.json")
 
         cmor.load_table("Tables/CMIP6_Omon.json")
