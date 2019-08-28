@@ -217,7 +217,6 @@ test_python: python
 	env TEST_NAME=Test/test_python_free_wrapping_issue.py make test_a_python
 	env TEST_NAME=Test/test_python_filename_time_range.py make test_a_python
 	env TEST_NAME=Test/test_cmor_half_levels.py make test_a_python
-	env TEST_NAME=Test/test_cmor_half_levels_with_bounds.py make test_a_python
 	env TEST_NAME=Test/test_cmor_half_levels_wrong_generic_level.py make test_a_python
 	env TEST_NAME=Test/test_cmor_double_singleton.py make test_a_python
 	env TEST_NAME=Test/test_cmor_python_not_enough_data.py make test_a_python
