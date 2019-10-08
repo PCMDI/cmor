@@ -3,7 +3,7 @@
         "data_specs_version": "01.00.31", 
         "table_id": "Table grids", 
         "cmor_version": "3.5", 
-        "table_date": "28 August 2019", 
+        "table_date": "07 October 2019", 
         "missing_value": "1e20", 
         "product": "output", 
         "Conventions": "CF-1.7 CMIP-6.2"
