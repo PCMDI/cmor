@@ -49,9 +49,19 @@ aliases:
        source activate py$PYTHON_VERSION
        set -e
        make test
+
+  - &run_cmor_tests_with_cdms2
+    name: run_cmor_tests_with_cdms2
+    command: |
+       export PATH=$WORKDIR/miniconda/bin:$PATH
+       export UVCDAT_ANONYMOUS_LOG=False
        # run tests again but with cdms2 installed
+       set +e
        conda install -q -n py$PYTHON_VERSION -c cdat/label/nightly -c conda-forge -c cdat cdms2
+       source activate py$PYTHON_VERSION
+       set -e
        make test
+
   - &run_prepare_tests
     name: run_prepare_tests
     command: |
@@ -100,6 +110,7 @@ jobs:
       - run: *create_conda_env
       - run: *setup_cmor
       - run: *run_cmor_tests
+      - run: *run_cmor_tests_with_cdms2
       - run: *run_prepare_tests
       - run: *conda_upload
 
@@ -119,6 +130,7 @@ jobs:
       - run: *create_conda_env
       - run: *setup_cmor
       - run: *run_cmor_tests
+      - run: *run_cmor_tests_with_cdms2
       - run: *run_prepare_tests
       - run: *conda_upload
 
@@ -138,6 +150,7 @@ jobs:
       - run: *create_conda_env
       - run: *setup_cmor
       - run: *run_cmor_tests
+      - run: *run_cmor_tests_with_cdms2
       - run: *run_prepare_tests
       - run: *conda_upload
 
@@ -157,6 +170,7 @@ jobs:
       - run: *create_conda_env
       - run: *setup_cmor
       - run: *run_cmor_tests
+      - run: *run_cmor_tests_with_cdms2
       - run: *run_prepare_tests
       - run: *conda_upload
 
@@ -176,6 +190,7 @@ jobs:
       - run: *create_conda_env
       - run: *setup_cmor
       - run: *run_cmor_tests
+      - run: *run_cmor_tests_with_cdms2
       - run: *run_prepare_tests
       - run: *conda_upload
 
@@ -195,6 +210,7 @@ jobs:
       - run: *create_conda_env
       - run: *setup_cmor
       - run: *run_cmor_tests
+      - run: *run_cmor_tests_with_cdms2
       - run: *run_prepare_tests
       - run: *conda_upload
 
