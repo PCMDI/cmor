@@ -218,9 +218,9 @@ workflows:
   version: 2
   nightly:
     jobs:
-      - macos_cmor_py27
+      # - macos_cmor_py27
       - macos_cmor_py36
-      - macos_cmor_py37
-      - linux_cmor_py27
-      - linux_cmor_py36
-      - linux_cmor_py37
+      # - macos_cmor_py37
+      # - linux_cmor_py27
+      # - linux_cmor_py36
+      # - linux_cmor_py37
