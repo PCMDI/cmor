@@ -96,7 +96,7 @@ aliases:
 jobs:
   macos_cmor_py27:
     macos:
-      xcode: "9.2.0"
+      xcode: "11.1.0"
     environment:
       PYTHON_VERSION: "2.7"
       WORKDIR: "workspace/test_macos_cmor"
@@ -116,7 +116,7 @@ jobs:
 
   macos_cmor_py36:
     macos:
-      xcode: "9.2.0"
+      xcode: "11.1.0"
     environment:
       PYTHON_VERSION: "3.6"
       WORKDIR: "workspace/test_macos_cmor"
@@ -136,7 +136,7 @@ jobs:
 
   macos_cmor_py37:
     macos:
-      xcode: "9.2.0"
+      xcode: "11.1.0"
     environment:
       PYTHON_VERSION: "3.7"
       WORKDIR: "workspace/test_macos_cmor"
