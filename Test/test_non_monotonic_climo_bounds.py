@@ -1,11 +1,33 @@
 from __future__ import print_function
 import cmor
 
-# Hypothetical data are going from march 2000 thru feb 2010
-times = [72, 75, 78]
+# Hypothetical data are going from April 2049 thru March 2050
+ntimes = 12
+times = [18015,
+        18045,
+        18075,
+        18105,
+        18135,
+        18165,
+        18195,
+        18225,
+        18255,
+        18285,
+        18315,
+        18345]
 # first full djf one year later than first full mam
-times_bnds = [[11, 134], [2, 125], [5, 128]]
-
+times_bnds = [(0, 36030),
+            (30, 36060),
+            (60, 36090),
+            (90, 36120),
+            (120, 36150),
+            (150, 36180),
+            (180, 36210),
+            (210, 36240),
+            (240, 36270),
+            (270, 36300),
+            (300, 36330),
+            (330, 36360)]
 
 def path_test():
     cmor.setup(inpath='TestTables', netcdf_file_action=cmor.CMOR_REPLACE)
@@ -16,7 +38,7 @@ def path_test():
     table = 'CMIP6_Amon.json'
     cmor.load_table(table)
     axes = [{'table_entry': 'time2',
-             'units': 'months since 2000-01-01 00:00:00',
+             'units': 'days since 2000-01-01 00:00:00',
 #             'coord_vals': times,
 #             'cell_bounds': times_bnds,
              },
@@ -31,8 +53,8 @@ def path_test():
              'cell_bounds': [-1, 1]},
             {'table_entry': 'longitude',
              'units': 'degrees_east',
-             'coord_vals': [90],
-             'cell_bounds': [89, 91]},
+             'coord_vals': [90, 88],
+             'cell_bounds': [ (91, 89), (89, 87)]},
             ]
 
     axis_ids = list()
@@ -41,12 +63,12 @@ def path_test():
         axis_ids.append(axis_id)
     varid = cmor.variable('co2Clim', '1.e-6', axis_ids)
     import numpy
-    data = numpy.array([3, 4, 5])
-    data.resize((3, 19, 1, 1))
+    data = numpy.arange(ntimes*19*2)
+    data.resize((ntimes, 19, 1, 2))
 #    cmor.write(varid, data)
 #    for i in range(len(data)):
 #        cmor.write(varid, data[i], time_vals=times[i], time_bnds=times_bnds[i])
-    cmor.write(varid, data, time_vals=[12, 15, 18], time_bnds=[[10, 1234], [12, 1125], [15, 1128]])
+    cmor.write(varid, data, time_vals=times, time_bnds=times_bnds)
     path = cmor.close(varid, file_name=True)
 
     print(path)

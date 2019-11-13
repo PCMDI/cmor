@@ -222,7 +222,7 @@ int cmor_set_grid_attribute(int gid, char *name, double *value, char *units)
         }
         if (j == -1) {
             snprintf(ctmp, CMOR_MAX_STRING,
-                     "grid mapping attribute: 'false easting' must be set in conjunction with a 'projection_x_coordinate' axis, I could not find such an axis on your grid, we will not set this attribute");
+                     "grid mapping attribute: 'false northing' must be set in conjunction with a 'projection_y_coordinate' axis, I could not find such an axis on your grid, we will not set this attribute");
             cmor_handle_error(ctmp, CMOR_NORMAL);
             cmor_pop_traceback();
             return (1);
