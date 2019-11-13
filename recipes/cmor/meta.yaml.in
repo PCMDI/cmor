@@ -26,7 +26,6 @@ requirements:
     - six
     - json-c
     - hdf5
-    - libnetcdf 4.6.2
     - netcdf4
     - numpy
     - setuptools
@@ -38,7 +37,6 @@ requirements:
     - json-c
     - {{ pin_compatible('numpy') }}
     - {{ pin_compatible('hdf5') }}
-    - {{ pin_compatible('libnetcdf') }}
     - {{ pin_compatible('netcdf4') }}
 
 about:
