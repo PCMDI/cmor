@@ -57,7 +57,7 @@ aliases:
        export UVCDAT_ANONYMOUS_LOG=False
        # run tests again but with cdms2 installed
        set +e
-       conda install -q -n py$PYTHON_VERSION -c cdat/label/nightly -c conda-forge -c cdat cdms2
+       conda install -q -n py$PYTHON_VERSION -c conda-forge cdms2
        source activate py$PYTHON_VERSION
        set -e
        make test
