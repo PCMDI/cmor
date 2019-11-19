@@ -26,6 +26,8 @@ requirements:
     - six
     - json-c
     - hdf5
+    - openblas
+    - libnetcdf
     - netcdf4
     - numpy
     - setuptools
@@ -35,8 +37,10 @@ requirements:
     - udunits2
     - six
     - json-c
+    - {{ pin_compatible('openblas') }}
     - {{ pin_compatible('numpy') }}
     - {{ pin_compatible('hdf5') }}
+    - {{ pin_compatible('libnetcdf') }}
     - {{ pin_compatible('netcdf4') }}
 
 about:
