@@ -37,7 +37,7 @@ requirements:
     - udunits2
     - six
     - json-c
-    - {{ pin_compatible('openblas') }}
+    - openblas 0.3.6
     - {{ pin_compatible('numpy') }}
     - {{ pin_compatible('hdf5') }}
     - {{ pin_compatible('libnetcdf') }}
