@@ -77,9 +77,9 @@ aliases:
   - &conda_upload
     name: conda_upload
     command: |
-      #  if [[ $CIRCLE_BRANCH != 'master' ]]; then
-      #     exit 0
-      #  fi
+       if [[ $CIRCLE_BRANCH != 'master' ]]; then
+          exit 0
+       fi
        export PATH=${HOME}/project/$WORKDIR/miniconda/bin:$PATH
        conda install conda-build anaconda-client
        conda config --set anaconda_upload no
@@ -88,10 +88,10 @@ aliases:
        export PKG_NAME=cmor
        export USER=pcmdi
        export VERSION=3.5.0
-       export LABEL=mauzey1
+       export LABEL=nightly
        python ./prep_for_build.py -l $VERSION
        conda build $PKG_NAME -c cdat/label/nightly -c conda-forge -c cdat --python=$PYTHON_VERSION
-       # anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.`date +%Y*`0.tar.bz2 --force
+       anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.`date +%Y*`0.tar.bz2 --force
 
 
 jobs:
