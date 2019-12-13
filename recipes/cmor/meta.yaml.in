@@ -29,7 +29,7 @@ requirements:
     - openblas
     - libnetcdf 4.6.2
     - netcdf4
-    - numpy >= 1.14.6
+    - numpy >=1.14.6
     - setuptools
   run:
     - python {{ python }}
@@ -37,7 +37,7 @@ requirements:
     - udunits2
     - six
     - json-c
-    - numpy >= 1.14.6
+    - numpy >=1.14.6
     - libnetcdf 4.6.2
     - {{ pin_compatible('openblas') }}
     - {{ pin_compatible('hdf5') }}
