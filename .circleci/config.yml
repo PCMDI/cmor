@@ -22,7 +22,7 @@ aliases:
        conda config --set always_yes yes --set changeps1 no
        conda update -y -q conda
        conda config --set anaconda_upload no
-       conda create -q -n py$PYTHON_VERSION -c cdat/label/nightly -c conda-forge -c cdat six libuuid json-c udunits2 hdf5 openblas=0.3.6 libnetcdf netcdf4 numpy openssl lazy-object-proxy python=$PYTHON_VERSION $CONDA_COMPILERS testsrunner
+       conda create -q -n py$PYTHON_VERSION -c cdat/label/nightly -c conda-forge -c cdat six libuuid json-c udunits2 hdf5 openblas libnetcdf netcdf4 numpy openssl lazy-object-proxy python=$PYTHON_VERSION $CONDA_COMPILERS testsrunner
 
   - &setup_cmor
     name: setup_cmor
@@ -57,7 +57,7 @@ aliases:
        export UVCDAT_ANONYMOUS_LOG=False
        # run tests again but with cdms2 installed
        set +e
-       conda install -q -n py$PYTHON_VERSION -c conda-forge cdms2
+       conda install -q -n py$PYTHON_VERSION -c cdat/label/nighlty -c conda-forge cdms2
        source activate py$PYTHON_VERSION
        set -e
        make test
@@ -77,9 +77,9 @@ aliases:
   - &conda_upload
     name: conda_upload
     command: |
-       if [[ $CIRCLE_BRANCH != 'master' ]]; then
-          exit 0
-       fi
+      #  if [[ $CIRCLE_BRANCH != 'master' ]]; then
+      #     exit 0
+      #  fi
        export PATH=${HOME}/project/$WORKDIR/miniconda/bin:$PATH
        conda install conda-build anaconda-client
        conda config --set anaconda_upload no
@@ -91,7 +91,7 @@ aliases:
        export LABEL=nightly
        python ./prep_for_build.py -l $VERSION
        conda build $PKG_NAME -c cdat/label/nightly -c conda-forge -c cdat --python=$PYTHON_VERSION
-       anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.`date +%Y*`0.tar.bz2 --force
+      #  anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.`date +%Y*`0.tar.bz2 --force
 
 
 jobs:
@@ -219,9 +219,9 @@ workflows:
   version: 2
   nightly:
     jobs:
-      - macos_cmor_py27
+      # - macos_cmor_py27
       - macos_cmor_py36
-      - macos_cmor_py37
-      - linux_cmor_py27
+      # - macos_cmor_py37
+      # - linux_cmor_py27
       - linux_cmor_py36
-      - linux_cmor_py37
+      # - linux_cmor_py37
