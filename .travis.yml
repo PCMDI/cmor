@@ -37,7 +37,7 @@ install:
 
 script:
   - make test
-  - conda install -q -n py${CMOR_PYTHON_VERSION} -c cdat/label/nighlty -c conda-forge cdms2
+  - conda install -q -n py${CMOR_PYTHON_VERSION} -c cdat/label/nightly -c conda-forge cdms2
   - make test
   - export PYTHONPATH=Test/:$PYTHONPATH
   - python run_tests.py -v2 -n1 -H Test/test_python_CMIP6_CV*.py

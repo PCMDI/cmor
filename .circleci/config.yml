@@ -57,7 +57,7 @@ aliases:
        export UVCDAT_ANONYMOUS_LOG=False
        # run tests again but with cdms2 installed
        set +e
-       conda install -q -n py$PYTHON_VERSION -c cdat/label/nighlty -c conda-forge cdms2
+       conda install -q -n py$PYTHON_VERSION -c cdat/label/nightly -c conda-forge cdms2
        source activate py$PYTHON_VERSION
        set -e
        make test
@@ -90,7 +90,7 @@ aliases:
        export VERSION=3.5.0
        export LABEL=nightly
        python ./prep_for_build.py -l $VERSION
-       conda build $PKG_NAME -c cdat/label/nightly -c conda-forge -c cdat --python=$PYTHON_VERSION
+       conda build $PKG_NAME -c cdat/label/nightly -c conda-forge -c cdat --python=$PYTHON_VERSION -b $CIRCLE_BRANCH
       #  anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.`date +%Y*`0.tar.bz2 --force
 
 
