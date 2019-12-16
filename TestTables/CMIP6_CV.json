@@ -33,13 +33,13 @@
             "variant_label"
         ],
         "version_metadata":{
-            "CV_collection_modified":"Mon Jul 29 14:43:08 2019 -0700",
-            "CV_collection_version":"6.2.35.3",
+            "CV_collection_modified":"Thu Oct  3 10:54:58 2019 -0700",
+            "CV_collection_version":"6.2.39.0",
             "author":"Paul J. Durack <durack1@llnl.gov>",
-            "experiment_id_CV_modified":"Mon Jul 22 11:09:12 2019 -0700",
-            "experiment_id_CV_note":"Revise experiment_id esm-hist-ext",
+            "experiment_id_CV_modified":"Fri Sep 13 08:39:20 2019 -0700",
+            "experiment_id_CV_note":"Register 3 new FAFMIP experiment_ids",
             "institution_id":"PCMDI",
-            "previous_commit":"a613682c14fa76d0e7e845139bd182123c913e17",
+            "previous_commit":"217b201e08c5fff8785f0535ee76eb5b3fd971f4",
             "specs_doc":"v6.2.7 (10th September 2018; https://goo.gl/v1drZl)"
         },
         "activity_id":{
@@ -88,7 +88,7 @@
             "E3SM-Project":"LLNL (Lawrence Livermore National Laboratory, Livermore, CA 94550, USA); ANL (Argonne National Laboratory, Argonne, IL 60439, USA); BNL (Brookhaven National Laboratory, Upton, NY 11973, USA); LANL (Los Alamos National Laboratory, Los Alamos, NM 87545, USA); LBNL (Lawrence Berkeley National Laboratory, Berkeley, CA 94720, USA); ORNL (Oak Ridge National Laboratory, Oak Ridge, TN 37831, USA); PNNL (Pacific Northwest National Laboratory, Richland, WA 99352, USA); SNL (Sandia National Laboratories, Albuquerque, NM 87185, USA). Mailing address: LLNL Climate Program, c/o David C. Bader, Principal Investigator, L-103, 7000 East Avenue, Livermore, CA 94550, USA",
             "EC-Earth-Consortium":"AEMET, Spain; BSC, Spain; CNR-ISAC, Italy; DMI, Denmark; ENEA, Italy; FMI, Finland; Geomar, Germany; ICHEC, Ireland; ICTP, Italy; IDL, Portugal; IMAU, The Netherlands; IPMA, Portugal; KIT, Karlsruhe, Germany; KNMI, The Netherlands; Lund University, Sweden; Met Eireann, Ireland; NLeSC, The Netherlands; NTNU, Norway; Oxford University, UK; surfSARA, The Netherlands; SMHI, Sweden; Stockholm University, Sweden; Unite ASTR, Belgium; University College Dublin, Ireland; University of Bergen, Norway; University of Copenhagen, Denmark; University of Helsinki, Finland; University of Santiago de Compostela, Spain; Uppsala University, Sweden; Utrecht University, The Netherlands; Vrije Universiteit Amsterdam, the Netherlands; Wageningen University, The Netherlands. Mailing address: EC-Earth consortium, Rossby Center, Swedish Meteorological and Hydrological Institute/SMHI, SE-601 76 Norrkoping, Sweden",
             "ECMWF":"European Centre for Medium-Range Weather Forecasts, Reading RG2 9AX, UK",
-            "FIO-QLNM":"FIO (First Institute of Oceanography, State Oceanic Administration, Qingdao 266061, China), QNLM (Qingdao National Laboratory for Marine Science and Technology, Qingdao 266237, China)",
+            "FIO-QLNM":"FIO (First Institute of Oceanography, Ministry of Natural Resources, Qingdao 266061, China), QNLM (Qingdao National Laboratory for Marine Science and Technology, Qingdao 266237, China)",
             "HAMMOZ-Consortium":"ETH Zurich, Switzerland; Max Planck Institut fur Meteorologie, Germany; Forschungszentrum Julich, Germany; University of Oxford, UK; Finnish Meteorological Institute, Finland; Leibniz Institute for Tropospheric Research, Germany; Center for Climate Systems Modeling (C2SM) at ETH Zurich, Switzerland",
             "INM":"Institute for Numerical Mathematics, Russian Academy of Science, Moscow 119991, Russia",
             "INPE":"National Institute for Space Research, Cachoeira Paulista, SP 12630-000, Brazil",
@@ -110,6 +110,7 @@
             "NUIST":"Nanjing University of Information Science and Technology, Nanjing, 210044, China",
             "PCMDI":"Program for Climate Model Diagnosis and Intercomparison, Lawrence Livermore National Laboratory, Livermore, CA 94550, USA",
             "RTE-RRTMGP-Consortium":"AER (Atmospheric and Environmental Research, Lexington, MA 02421, USA); UColorado (University of Colorado, Boulder, CO 80309, USA). Mailing address: AER c/o Eli Mlawer, 131 Hartwell Avenue, Lexington, MA 02421, USA",
+            "RUBISCO":"ORNL (Oak Ridge National Laboratory, Oak Ridge, TN 37831, USA); ANL (Argonne National Laboratory, Argonne, IL 60439, USA); BNL (Brookhaven National Laboratory, Upton, NY 11973, USA); LANL (Los Alamos National Laboratory, Los Alamos, NM 87545); LBNL (Lawrence Berkeley National Laboratory, Berkeley, CA 94720, USA); NAU (Northern Arizona University, Flagstaff, AZ 86011, USA); NCAR (National Center for Atmospheric Research, Boulder, CO 80305, USA); UCI (University of California Irvine, Irvine, CA 92697, USA); UM (University of Michigan, Ann Arbor, MI 48109, USA). Mailing address: ORNL Climate Change Science Institute, c/o Forrest M. Hoffman, Laboratory Research Manager, Building 4500N Room F106, 1 Bethel Valley Road, Oak Ridge, TN 37831-6301, USA",
             "SNU":"Seoul National University, Seoul 08826, Republic of Korea",
             "THU":"Department of Earth System Science, Tsinghua University, Beijing 100084, China",
             "UA":"Department of Geosciences, University of Arizona, Tucson, AZ 85721, USA",
@@ -383,6 +384,20 @@
                 "source_id":"CAS-ESM1-0",
                 "source":"CAS-ESM 1.0 (2015): \naerosol: IAP AACM\natmos: IAP AGCM4.1 (Finite difference dynamical core; 256 x 128 longitude/latitude; 30 levels; top level 2.2 hPa)\natmosChem: IAP AACM\nland: CoLM\nlandIce: none\nocean: LICOM2.0 (LICOM2.0, primarily 1deg; 362 x 196 longitude/latitude; 30 levels; top grid cell 0-10 m)\nocnBgchem: IAP OBGCM\nseaIce: CICE4"
             },
+            "CESM1-1-CAM5-CMIP5":{
+                "activity_participation":[
+                    "CMIP",
+                    "DCPP"
+                ],
+                "cohort":[
+                    "Registered"
+                ],
+                "institution_id":[
+                    "NCAR"
+                ],
+                "source_id":"CESM1-1-CAM5-CMIP5",
+                "source":"CESM1-1-CAM5-CMIP5 (2011): \naerosol: MAM3 (same grid as atmos)\natmos: CAM5.2 (0.9x1.25 finite volume grid; 288 x 192 longitude/latitude; 32 levels; top level 2.25 mb)\natmosChem: MAM3 (same grid as atmos)\nland: CLM4 (same grid as atmos)\nlandIce: none\nocean: POP2 (320x384 longitude/latitude; 60 levels; top grid cell 0-10 m)\nocnBgchem: BEC (same grid as ocean)\nseaIce: CICE4 (same grid as ocean)"
+            },
             "CESM2":{
                 "activity_participation":[
                     "AerChemMIP",
@@ -418,6 +433,19 @@
                 "source_id":"CESM2",
                 "source":"CESM2 (2018): \naerosol: MAM4 (same grid as atmos)\natmos: CAM6 (0.9x1.25 finite volume grid; 288 x 192 longitude/latitude; 32 levels; top level 2.25 mb)\natmosChem: MAM4 (same grid as atmos)\nland: CLM5 (same grid as atmos)\nlandIce: CISM2.1\nocean: POP2 (320x384 longitude/latitude; 60 levels; top grid cell 0-10 m)\nocnBgchem: MARBL (same grid as ocean)\nseaIce: CICE5.1 (same grid as ocean)"
             },
+            "CESM2-FV2":{
+                "activity_participation":[
+                    "CMIP"
+                ],
+                "cohort":[
+                    "Registered"
+                ],
+                "institution_id":[
+                    "NCAR"
+                ],
+                "source_id":"CESM2-FV2",
+                "source":"CESM2-FV2 (2019): \naerosol: MAM4 (same grid as atmos)\natmos: CAM6 (1.9x2.5 finite volume grid; 144 x 96 longitude/latitude; 32 levels; top level 2.25 mb)\natmosChem: MAM4 (same grid as atmos)\nland: CLM5 (same grid as atmos)\nlandIce: CISM2.1\nocean: POP2 (320x384 longitude/latitude; 60 levels; top grid cell 0-10 m)\nocnBgchem: MARBL (same grid as ocean)\nseaIce: CICE5.1 (same grid as ocean)"
+            },
             "CESM2-SE":{
                 "activity_participation":[
                     "CMIP",
@@ -447,6 +475,19 @@
                 ],
                 "source_id":"CESM2-WACCM",
                 "source":"CESM2-WACCM (2018): \naerosol: MAM4 (same grid as atmos)\natmos: WACCM6 (0.9x1.25 finite volume grid; 288 x 192 longitude/latitude; 70 levels; top level 4.5e-06 mb)\natmosChem: MAM4 (same grid as atmos)\nland: CLM5 (same grid as atmos)\nlandIce: CISM2.1\nocean: POP2 (320 x 384 longitude/latitude; 60 levels; top grid cell 0-10 m)\nocnBgchem: MARBL (same grid as ocean)\nseaIce: CICE5.1 (same grid as ocean)"
+            },
+            "CESM2-WACCM-FV2":{
+                "activity_participation":[
+                    "CMIP"
+                ],
+                "cohort":[
+                    "Registered"
+                ],
+                "institution_id":[
+                    "NCAR"
+                ],
+                "source_id":"CESM2-WACCM-FV2",
+                "source":"CESM2-WACCM-FV2 (2019): \naerosol: MAM4 (same grid as atmos)\natmos: WACCM6 (1.9x2.5 finite volume grid; 144 x 96 longitude/latitude; 70 levels; top level 4.5e-06 mb)\natmosChem: MAM4 (same grid as atmos)\nland: CLM5 (same grid as atmos)\nlandIce: CISM2.1\nocean: POP2 (320x384 longitude/latitude; 60 levels; top grid cell 0-10 m)\nocnBgchem: MARBL (same grid as ocean)\nseaIce: CICE5.1 (same grid as ocean)"
             },
             "CIESM":{
                 "activity_participation":[
@@ -713,6 +754,36 @@
                 "source_id":"E3SM-1-0",
                 "source":"E3SM 1.0 (2018): \naerosol: MAM4 with resuspension, marine organics, and secondary organics (same grid as atmos)\natmos: EAM (v1.0, cubed sphere spectral-element grid; 5400 elements with p=3; 1 deg average grid spacing; 90 x 90 x 6 longitude/latitude/cubeface; 72 levels; top level 0.1 hPa)\natmosChem: Troposphere specified oxidants for aerosols. Stratosphere linearized interactive ozone (LINOZ v2) (same grid as atmos)\nland: ELM (v1.0, cubed sphere spectral-element grid; 5400 elements with p=3; 1 deg average grid spacing; 90 x 90 x 6 longitude/latitude/cubeface; satellite phenology mode), MOSART (v1.0, 0.5 degree latitude/longitude grid)\nlandIce: none\nocean: MPAS-Ocean (v6.0, oEC60to30 unstructured SVTs mesh with 235160 cells and 714274 edges, variable resolution 60 km to 30 km; 60 levels; top grid cell 0-10 m)\nocnBgchem: none\nseaIce: MPAS-Seaice (v6.0, same grid as ocean)"
             },
+            "E3SM-1-1":{
+                "activity_participation":[
+                    "C4MIP",
+                    "CMIP",
+                    "LS3MIP"
+                ],
+                "cohort":[
+                    "Registered"
+                ],
+                "institution_id":[
+                    "E3SM-Project",
+                    "RUBISCO"
+                ],
+                "source_id":"E3SM-1-1",
+                "source":"E3SM 1.1 (2019): \naerosol: MAM4 with resuspension, marine organics, and secondary organics (same grid as atmos)\natmos: EAM (v1.1, cubed sphere spectral-element grid; 5400 elements with p=3; 1 deg average grid spacing; 90 x 90 x 6 longitude/latitude/cubeface; 72 levels; top level 0.1 hPa)\natmosChem: Troposphere specified oxidants for aerosols. Stratosphere linearized interactive ozone (LINOZ v2) (same grid as atmos)\nland: ELM (v1.1, same grid as atmos; active biogeochemistry using the Converging Trophic Cascade plant and soil carbon and nutrient mechanisms to represent carbon, nitrogen and phosphorus cycles), MOSART (v1.1, 0.5 degree latitude/longitude grid)\nlandIce: none\nocean: MPAS-Ocean (v6.0, oEC60to30 unstructured SVTs mesh with 235160 cells and 714274 edges, variable resolution 60 km to 30 km; 60 levels; top grid cell 0-10 m)\nocnBgchem: BEC (Biogeochemical Elemental Cycling model, NPZD-type with C/N/P/Fe/Si/O; same grid as ocean)\nseaIce: MPAS-Seaice (v6.0; same grid as ocean)"
+            },
+            "E3SM-1-1-ECA":{
+                "activity_participation":[
+                    "C4MIP",
+                    "CMIP"
+                ],
+                "cohort":[
+                    "Registered"
+                ],
+                "institution_id":[
+                    "E3SM-Project"
+                ],
+                "source_id":"E3SM-1-1-ECA",
+                "source":"E3SM 1.1 ECA (2019): \naerosol: MAM4 with resuspension, marine organics, and secondary organics (same grid as atmos)\natmos: EAM (v1.1, cubed sphere spectral-element grid; 5400 elements with p=3; 1 deg average grid spacing; 90 x 90 x 6 longitude/latitude/cubeface; 72 levels; top level 0.1 hPa)\natmosChem: Troposphere specified oxidants for aerosols. Stratosphere linearized interactive ozone (LINOZ v2) (same grid as atmos)\nland: ELM (v1.1, same as atmos; active biogeochemistry using the Equilibrium Chemistry Approximation to represent plant and soil carbon and nutrient mechanisms especially carbon, nitrogen and phosphorus limitation), MOSART (v1.1, 0.5 degree latitude/longitude grid)\nlandIce: none\nocean: MPAS-Ocean (v6.0, oEC60to30 unstructured SVTs mesh with 235160 cells and 714274 edges, variable resolution 60 km to 30 km; 60 levels; top grid cell 0-10 m)\nocnBgchem: BEC (Biogeochemical Elemental Cycling model, NPZD-type with C/N/P/Fe/Si/O; same grid as ocean)\nseaIce: MPAS-Seaice (v6.0; same grid as ocean)"
+            },
             "EC-Earth3":{
                 "activity_participation":[
                     "CMIP",
@@ -972,6 +1043,7 @@
                     "DCPP",
                     "GMMIP",
                     "OMIP",
+                    "PAMIP",
                     "SIMIP",
                     "ScenarioMIP"
                 ],
@@ -1005,7 +1077,7 @@
                     "CAS"
                 ],
                 "source_id":"FGOALS-g3",
-                "source":"FGOALS-g3 (2017): \naerosol: none\natmos: GAMIL2 (180 x 90 longitude/latitude; 26 levels; top level 2.19hPa)\natmosChem: none\nland: CLM4.0\nlandIce: none\nocean: LICOM3.0 (LICOM3.0, tripolar primarily 1deg; 360 x 218 longitude/latitude; 30 levels; top grid cell 0-10 m)\nocnBgchem: none\nseaIce: CICE4.0"
+                "source":"FGOALS-g3 (2017): \naerosol: none\natmos: GAMIL3 (180 x 80 longitude/latitude; 26 levels; top level 2.19hPa)\natmosChem: none\nland: CAS-LSM\nlandIce: none\nocean: LICOM3.0 (LICOM3.0, tripolar primarily 1deg; 360 x 218 longitude/latitude; 30 levels; top grid cell 0-10 m)\nocnBgchem: none\nseaIce: CICE4.0"
             },
             "FIO-ESM-2-0":{
                 "activity_participation":[
@@ -1042,6 +1114,7 @@
                 "activity_participation":[
                     "CFMIP",
                     "CMIP",
+                    "DAMIP",
                     "DynVarMIP",
                     "GMMIP",
                     "OMIP",
@@ -1184,7 +1257,21 @@
                     "NASA-GISS"
                 ],
                 "source_id":"GISS-E2-1-G",
-                "source":"GISS-E2.1G (2016): \naerosol: Varies with physics-version (p==1 none, p==3 OMA, p==4 TOMAS, p==5 MATRIX)\natmos: GISS-E2.1 (2.5x2 degree; 144 x 90 longitude/latitude; 40 levels; top level 0.1 hPa)\natmosChem: Varies with physics-version (p==1 Non-interactive, p>1 GPUCCINI)\nland: GISS LSM\nlandIce: none\nocean: GISS Ocean (1 degree; 360 x 180 latitude/longitude; 32 levels; top grid cell 0-10 m)\nocnBgchem: none\nseaIce: GISS SI"
+                "source":"GISS-E2.1G (2019): \naerosol: Varies with physics-version (p==1 none, p==3 OMA, p==4 TOMAS, p==5 MATRIX)\natmos: GISS-E2.1 (2.5x2 degree; 144 x 90 longitude/latitude; 40 levels; top level 0.1 hPa)\natmosChem: Varies with physics-version (p==1 Non-interactive, p>1 GPUCCINI)\nland: GISS LSM\nlandIce: none\nocean: GISS Ocean (GO1, 1 degree; 360 x 180 longitude/latitude; 40 levels; top grid cell 0-10 m)\nocnBgchem: none\nseaIce: GISS SI"
+            },
+            "GISS-E2-1-G-CC":{
+                "activity_participation":[
+                    "C4MIP",
+                    "CMIP"
+                ],
+                "cohort":[
+                    "Registered"
+                ],
+                "institution_id":[
+                    "NASA-GISS"
+                ],
+                "source_id":"GISS-E2-1-G-CC",
+                "source":"GISS-E2-1-G-CC (2019): \naerosol: varies with physics-version (p==1 none, p==3 OMA, p==4 TOMAS, p==5 MATRIX)\natmos: GISS-E2.1 (2 x 2.5 degrees; 144 x 90 longitude/latitude; 40 levels; top level 0.1 hPa)\natmosChem: varies with physics-version (p==1 Non-interactive, p>1 GPUCCINI)\nland: GISS LSM\nlandIce: Fixed\nocean: GISS Ocean (1 deg; 360 x 180 longitude/latitude; 40 levels; top grid cell 0-10m)\nocnBgchem: NOBM (NASA Ocean Biogeochemistry Model; same grid as ocean)\nseaIce: GISS SI (same grid as ocean)"
             },
             "GISS-E2-1-H":{
                 "activity_participation":[
@@ -1203,10 +1290,25 @@
                 "source_id":"GISS-E2-1-H",
                 "source":"GISS-E2.1H (2016): \naerosol: Varies with physics-version (p==1 none, p==3 OMA, p==4 TOMAS, p==5 MATRIX)\natmos: GISS-E2.1 (2.5x2 degree; 144 x 90 longitude/latitude; 40 levels; top level 0.1 hPa)\natmosChem: Varies with physics-version (p==1 Non-interactive, p>1 GPUCCINI)\nland: GISS LSM\nlandIce: none\nocean: HYCOM Ocean (~1 degree tripolar grid; 360 x 180 latitude/longitude; 26 levels; top grid cell 0-10 m)\nocnBgchem: none\nseaIce: GISS SI"
             },
-            "GISS-E2-1-MA-G":{
+            "GISS-E2-2-G":{
                 "activity_participation":[
+                    "AerChemMIP",
+                    "CFMIP",
                     "CMIP",
+                    "DAMIP",
+                    "DynVarMIP",
+                    "FAFMIP",
+                    "GMMIP",
+                    "ISMIP6",
+                    "LS3MIP",
+                    "LUMIP",
+                    "OMIP",
+                    "PAMIP",
+                    "PMIP",
                     "RFMIP",
+                    "SIMIP",
+                    "ScenarioMIP",
+                    "VIACSAB",
                     "VolMIP"
                 ],
                 "cohort":[
@@ -1215,8 +1317,8 @@
                 "institution_id":[
                     "NASA-GISS"
                 ],
-                "source_id":"GISS-E2-1-MA-G",
-                "source":"GISS-E2.1MA-G (2018): \naerosol: Varies with physics-version (p==1 none, p==3 OMA, p==4 TOMAS, p==5 MATRIX)\natmos: GISS-E2.1MA (2.5x2 degree; 144 x 90 longitude/latitude; 102 levels; top level 0.002 hPa)\natmosChem: Varies with physics-version (p==1 Non-interactive, p>1 GPUCCINI)\nland: GISS LSM\nlandIce: none\nocean: GISS Ocean (1 degree; 360 x 180 longitude/latitude; 32 levels; top grid cell 0-10 m)\nocnBgchem: none\nseaIce: GISS SI"
+                "source_id":"GISS-E2-2-G",
+                "source":"GISS-E2-2-G (2019): \naerosol: varies with physics-version (p==1 none, p==3 OMA, p==4 TOMAS, p==5 MATRIX)\natmos: GISS-E2.2 (High-top, 2 x 2.5 degrees; 144 x 90 longitude/latitude; 102 levels; top level 0.002 hPa)\natmosChem: varies with physics-version (p==1 Non-interactive, p>1 GPUCCINI)\nland: GISS LSM\nlandIce: Fixed\nocean: GISS Ocean (GO1, 1 degree; 360 x 180 longitude/latitude; 40 levels; top grid cell 0-10m)\nocnBgchem: none\nseaIce: GISS SI"
             },
             "GISS-E3-G":{
                 "activity_participation":[
@@ -1454,6 +1556,32 @@
                 "source_id":"IPSL-CM6A-LR",
                 "source":"IPSL-CM6A-LR (2017): \naerosol: none\natmos: LMDZ (NPv6, N96; 144 x 143 longitude/latitude; 79 levels; top level 40000 m)\natmosChem: none\nland: ORCHIDEE (v2.0, Water/Carbon/Energy mode)\nlandIce: none\nocean: NEMO-OPA (eORCA1.3, tripolar primarily 1deg; 362 x 332 longitude/latitude; 75 levels; top grid cell 0-2 m)\nocnBgchem: NEMO-PISCES\nseaIce: NEMO-LIM3"
             },
+            "IPSL-CM7A-ATM-HR":{
+                "activity_participation":[
+                    "HighResMIP"
+                ],
+                "cohort":[
+                    "Registered"
+                ],
+                "institution_id":[
+                    "IPSL"
+                ],
+                "source_id":"IPSL-CM7A-ATM-HR",
+                "source":"IPSL-CM7A-ATM-HR (2019): \naerosol: none\natmos: DYNAMICO-LMDZ (NPv6; 256000-point icosahedral-hexagonal; 79 levels; top level 40000 m)\natmosChem: none\nland: ORCHIDEE (v2.2, Water/Carbon/Energy mode)\nlandIce: none\nocean: none\nocnBgchem: none\nseaIce: none"
+            },
+            "IPSL-CM7A-ATM-LR":{
+                "activity_participation":[
+                    "HighResMIP"
+                ],
+                "cohort":[
+                    "Registered"
+                ],
+                "institution_id":[
+                    "IPSL"
+                ],
+                "source_id":"IPSL-CM7A-ATM-LR",
+                "source":"IPSL-CM7A-ATM-LR (2019): \naerosol: none\natmos: DYNAMICO-LMDZ (NPv6; 16000-point icosahedral-hexagonal; 79 levels; top level 40000 m)\natmosChem: none\nland: ORCHIDEE (v2.2, Water/Carbon/Energy mode)\nlandIce: none\nocean: none\nocnBgchem: none\nseaIce: none"
+            },
             "KACE-1-0-G":{
                 "activity_participation":[
                     "CMIP",
@@ -1473,7 +1601,8 @@
                     "C4MIP",
                     "CMIP",
                     "DynVarMIP",
-                    "PMIP"
+                    "PMIP",
+                    "ScenarioMIP"
                 ],
                 "cohort":[
                     "Registered"
@@ -1798,7 +1927,7 @@
                 "source_id":"NICAM16-9S",
                 "source":"NICAM16-9S (2017): \naerosol: Prescribed MACv2-SP\natmos: NICAM.16 (14km icosahedral grid; 2,621,442 grid cells (=10*4^9+2); 38 levels; top level 40 km)\natmosChem: none\nland: MATSIRO6 (w/o MOSAIC)\nlandIce: none\nocean: none\nocnBgchem: none\nseaIce: Fixed"
             },
-            "NorESM1-LM":{
+            "NorCPM1":{
                 "activity_participation":[
                     "CMIP",
                     "DCPP"
@@ -1809,8 +1938,22 @@
                 "institution_id":[
                     "NCC"
                 ],
-                "source_id":"NorESM1-LM",
-                "source":"NorESM1-LM (2019): \naerosol: OsloAero4.1 (same grid as atmos)\natmos: CAM-OSLO4.1 (2 degree resolution; 144 x 96 longitude/latitude; 26 levels; top level ~2 hPa)\natmosChem: OsloChemSimp4.1 (same grid as atmos)\nland: CLM4 (same grid as atmos)\nlandIce: none\nocean: MICOM1.1 (1 degree resolution; 320 x 384 longitude/latitude; 53 levels; top grid cell 0-2.5 m [native model uses hybrid density and generic upper-layer coordinate interpolated to z-level for contributed data])\nocnBgchem: HAMOCC5.1 (same grid as ocean)\nseaIce: CICE4 (same grid as ocean)"
+                "source_id":"NorCPM1",
+                "source":"NorCPM1 (2019): \naerosol: OsloAero4.1 (same grid as atmos)\natmos: CAM-OSLO4.1 (2 degree resolution; 144 x 96 longitude/latitude; 26 levels; top level ~2 hPa)\natmosChem: OsloChemSimp4.1 (same grid as atmos)\nland: CLM4 (same grid as atmos)\nlandIce: none\nocean: MICOM1.1 (1 degree resolution; 320 x 384 longitude/latitude; 53 levels; top grid cell 0-2.5 m [native model uses hybrid density and generic upper-layer coordinate interpolated to z-level for contributed data])\nocnBgchem: HAMOCC5.1 (same grid as ocean)\nseaIce: CICE4 (same grid as ocean)"
+            },
+            "NorESM1-F":{
+                "activity_participation":[
+                    "CMIP",
+                    "PMIP"
+                ],
+                "cohort":[
+                    "Registered"
+                ],
+                "institution_id":[
+                    "NCC"
+                ],
+                "source_id":"NorESM1-F",
+                "source":"NorESM1-F (2018): \naerosol: none\natmos: CAM4 (2 degree resolution; 144 x 96; 32 levels; top level 3 mb)\natmosChem: none\nland: CLM4\nlandIce: CISM\nocean: MICOM (1 degree resolution; 360 x 384; 70 levels; top grid cell minimum 0-2.5 m [native model uses hybrid density and generic upper-layer coordinate interpolated to z-level for contributed data])\nocnBgchem: HAMOCC5.1\nseaIce: CICE4"
             },
             "NorESM2-HH":{
                 "activity_participation":[
@@ -4960,6 +5103,30 @@
                     "none"
                 ]
             },
+            "faf-antwater-stress":{
+                "activity_id":[
+                    "FAFMIP"
+                ],
+                "additional_allowed_model_components":[
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "experiment":"control plus perturbative surface fluxes of momentum and freshwater into ocean, the latter around the coast of Antarctica only",
+                "experiment_id":"faf-antwater-stress",
+                "parent_activity_id":[
+                    "CMIP"
+                ],
+                "parent_experiment_id":[
+                    "piControl"
+                ],
+                "required_model_components":[
+                    "AOGCM"
+                ],
+                "sub_experiment_id":[
+                    "none"
+                ]
+            },
             "faf-heat":{
                 "activity_id":[
                     "FAFMIP"
@@ -4971,6 +5138,54 @@
                 ],
                 "experiment":"control plus perturbative surface flux of heat into ocean",
                 "experiment_id":"faf-heat",
+                "parent_activity_id":[
+                    "CMIP"
+                ],
+                "parent_experiment_id":[
+                    "piControl"
+                ],
+                "required_model_components":[
+                    "AOGCM"
+                ],
+                "sub_experiment_id":[
+                    "none"
+                ]
+            },
+            "faf-heat-NA0pct":{
+                "activity_id":[
+                    "FAFMIP"
+                ],
+                "additional_allowed_model_components":[
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "experiment":"control plus perturbative surface flux of heat into ocean",
+                "experiment_id":"faf-heat-NA0pct",
+                "parent_activity_id":[
+                    "CMIP"
+                ],
+                "parent_experiment_id":[
+                    "piControl"
+                ],
+                "required_model_components":[
+                    "AOGCM"
+                ],
+                "sub_experiment_id":[
+                    "none"
+                ]
+            },
+            "faf-heat-NA50pct":{
+                "activity_id":[
+                    "FAFMIP"
+                ],
+                "additional_allowed_model_components":[
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "experiment":"control plus perturbative surface flux of heat into ocean",
+                "experiment_id":"faf-heat-NA50pct",
                 "parent_activity_id":[
                     "CMIP"
                 ],
@@ -5620,7 +5835,8 @@
                     "RFMIP"
                 ],
                 "additional_allowed_model_components":[
-                    ""
+                    "CHEM",
+                    "BGC"
                 ],
                 "experiment":"historical simulation with specified anthropogenic aerosols, no other forcings",
                 "experiment_id":"hist-spAer-aer",
@@ -5642,7 +5858,8 @@
                     "RFMIP"
                 ],
                 "additional_allowed_model_components":[
-                    ""
+                    "CHEM",
+                    "BGC"
                 ],
                 "experiment":"historical simulation with specified anthropogenic aerosols",
                 "experiment_id":"hist-spAer-all",
@@ -9041,6 +9258,30 @@
                 ],
                 "experiment":"SSP3-7.0, prescribed SSTs, with SSP1-2.6 land use",
                 "experiment_id":"ssp370SST-ssp126Lu",
+                "parent_activity_id":[
+                    "CMIP"
+                ],
+                "parent_experiment_id":[
+                    "historical"
+                ],
+                "required_model_components":[
+                    "AGCM",
+                    "AER"
+                ],
+                "sub_experiment_id":[
+                    "none"
+                ]
+            },
+            "ssp370pdSST":{
+                "activity_id":[
+                    "AerChemMIP"
+                ],
+                "additional_allowed_model_components":[
+                    "CHEM",
+                    "BGC"
+                ],
+                "experiment":"SSP3-7.0, with SSTs prescribed as present day",
+                "experiment_id":"ssp370pdSST",
                 "parent_activity_id":[
                     "CMIP"
                 ],
