@@ -101,10 +101,13 @@ int main()
                 lon_bounds, 2, "");
 
 
-    char *landUse[] = {"primary_and_secondary_landpastures"
-                       "                  crops                     urban                     "};
+    char landUse[4][CMOR_MAX_STRING];
+    strncpy(landUse[0], "primary_and_secondary_land", CMOR_MAX_STRING);
+    strncpy(landUse[1], "pastures", CMOR_MAX_STRING);
+    strncpy(landUse[2], "crops", CMOR_MAX_STRING);
+    strncpy(landUse[3], "urban", CMOR_MAX_STRING);
     ierr |= cmor_axis(&axes_ids[3], "landUse", "", 4, landUse, 'c', 
-                NULL, strlen("primary_and_secondary_land"), "");
+                NULL, CMOR_MAX_STRING, "");
 
     ierr |= cmor_variable(&myvars[0], "nwdFracLut", "%", 4, axes_ids, 'd', NULL,
                 &tolerance, NULL, "nwdFracLut", "no history", "no future");
