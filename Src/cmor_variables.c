@@ -1481,24 +1481,18 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
 
                 l = -1;
                 for (k = 0; k < olndims; k++) {
-                    if (cmor_has_axis_attribute(laxes_ids[k],
-                                                VARIABLE_ATT_STANDARDNAME) ==
-                        0) {
-                        cmor_get_axis_attribute(laxes_ids[k],
-                                                VARIABLE_ATT_STANDARDNAME, 'c',
-                                                &msg);
-                    } else {
-                        strcpy(msg, "nope");
-                    }
+                    strncpytrim(msg, 
+                                cmor_tables[cmor_axes[laxes_ids[k]].ref_table_id]
+                                .axes[cmor_axes[laxes_ids[k]].ref_axis_id].id, 
+                                CMOR_MAX_STRING);
 
                     if (strcmp(msg,
                                cmor_tables[CMOR_TABLE].
-                               axes[refvar.dimensions[i]].standard_name)
+                               axes[refvar.dimensions[i]].id)
                         == 0) {
 /* -------------------------------------------------------------------- */
 /*       ok user did define this one on its own                         */
 /* -------------------------------------------------------------------- */
-
                         l = k;
                         break;
                     }
