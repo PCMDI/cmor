@@ -3352,8 +3352,11 @@ void cmor_define_dimensions(int var_id, int ncid,
     int nVarRefTblID = cmor_vars[var_id].ref_table_id;
     int ics, icd, icdl;
     int itmpmsg, itmp2, itmp3;
+    int maxStrLen;
 
     cmor_add_traceback("cmor_define_dimensions");
+
+    maxStrLen = 0;
     for (i = 0; i < cmor_vars[var_id].ndims; i++) {
 /* -------------------------------------------------------------------- */
 /*      did we flip that guy?                                           */
@@ -3408,6 +3411,35 @@ void cmor_define_dimensions(int var_id, int ncid,
                          cmor_vars[var_id].id,
                          cmor_tables[nVarRefTblID].szTable_id);
                 cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
+            }
+        }
+/* -------------------------------------------------------------------- */
+/*      find maximum string length for string dimensions                */
+/* -------------------------------------------------------------------- */
+        if (cmor_axes[nAxisID].cvalues != NULL) {
+            for (j = 0; j < cmor_axes[nAxisID].length; j++) {
+                strncpy(msg, cmor_axes[nAxisID].cvalues[j], CMOR_MAX_STRING);
+                k = strlen(msg);
+                if (k > maxStrLen) {
+                    maxStrLen = k;
+                }
+            }
+        }
+    }
+
+/* -------------------------------------------------------------------- */
+/*      find maximum string length for singleton dimension variables    */
+/* -------------------------------------------------------------------- */
+    for (i = 0; i < CMOR_MAX_DIMENSIONS; i++) {
+        j = cmor_vars[var_id].singleton_ids[i];
+        if (j != -1) {
+            if (cmor_tables[cmor_axes[j].ref_table_id].axes
+                [cmor_axes[j].ref_axis_id].type == 'c') {
+                k = strlen(cmor_tables[cmor_axes[j].ref_table_id].axes
+                            [cmor_axes[j].ref_axis_id].cvalue);
+                if (k > maxStrLen) {
+                    maxStrLen = k;
+                }
             }
         }
     }
@@ -3524,12 +3556,15 @@ void cmor_define_dimensions(int var_id, int ncid,
             if (cmor_has_variable_attribute(var_id, "coordinates") == 0) {
                 cmor_get_variable_attribute(var_id, "coordinates", msg);
                 l = 0;
-                for (j = 0; j < strlen(msg) - strlen(ctmp) + 1; j++) {
-                    if (strncmp(ctmp, &msg[j], strlen(ctmp)) == 0) {
-                        l = 1;
-                        break;
+                if(strlen(msg) >= strlen(ctmp)) {
+                    for (j = 0; j < strlen(msg) - strlen(ctmp) + 1; j++) {
+                        if (strncmp(ctmp, &msg[j], strlen(ctmp)) == 0) {
+                            l = 1;
+                            break;
+                        }
                     }
                 }
+
                 if (l == 0) {
                     strncat(msg, " ", CMOR_MAX_STRING - strlen(msg));
                     strncat(msg, ctmp, CMOR_MAX_STRING - strlen(msg));
@@ -3542,18 +3577,13 @@ void cmor_define_dimensions(int var_id, int ncid,
                                                  VARIABLE_ATT_COORDINATES,
                                                  'c', msg);
 
-            l = 0;
-            for (j = 0; j < pAxis->length; j++) {
-                strncpy(msg, pAxis->cvalues[j], CMOR_MAX_STRING);
-                k = strlen(msg);
-                if (k > l) {
-                    l = k;
-                }
-            }
 /* -------------------------------------------------------------------- */
 /*      ok so now i can create the dummy dim strlen                     */
 /* -------------------------------------------------------------------- */
-            ierr = nc_def_dim(ncid, "strlen", l, &tmp_dims[1]);
+            if(nc_inq_dimid(ncid, "strlen", &tmp_dims[1]) != NC_NOERR) {
+                ierr =
+                    nc_def_dim(ncid, "strlen", maxStrLen, &tmp_dims[1]);
+            }
             if (ierr != NC_NOERR) {
                 snprintf(msg, CMOR_MAX_STRING,
                          "NetCDF error (%i: %s) for dummy 'strlen'\n! "
@@ -3580,7 +3610,10 @@ void cmor_define_dimensions(int var_id, int ncid,
 
             if (ncid != ncafid) {
 
-                ierr = nc_def_dim(ncafid, "strlen", l, &tmp_dims[1]);
+                if(nc_inq_dimid(ncafid, "strlen", &tmp_dims[1]) != NC_NOERR) {
+                    ierr =
+                        nc_def_dim(ncafid, "strlen", maxStrLen, &tmp_dims[1]);
+                }
 
                 if (ierr != NC_NOERR) {
                     snprintf(msg, CMOR_MAX_STRING,
@@ -4223,9 +4256,28 @@ void create_singleton_dimensions(int var_id, int ncid, int *nc_singletons,
     int i, j, k;
     char msg[CMOR_MAX_STRING];
     int nVarRefTblID;
+    int maxStrLen;
 
     cmor_add_traceback("create_singleton_dimensions");
     nVarRefTblID = cmor_vars[var_id].ref_table_id;
+
+/* -------------------------------------------------------------------- */
+/*      find maximum string length for singleton dimension variables    */
+/* -------------------------------------------------------------------- */
+    maxStrLen = 0;
+    for (i = 0; i < CMOR_MAX_DIMENSIONS; i++) {
+        j = cmor_vars[var_id].singleton_ids[i];
+        if (j != -1) {
+            if (cmor_tables[cmor_axes[j].ref_table_id].axes
+                [cmor_axes[j].ref_axis_id].type == 'c') {
+                k = strlen(cmor_tables[cmor_axes[j].ref_table_id].axes
+                            [cmor_axes[j].ref_axis_id].cvalue);
+                if (k > maxStrLen) {
+                    maxStrLen = k;
+                }
+            }
+        }
+    }
 
 /* -------------------------------------------------------------------- */
 /*      Creates singleton dimension variables                           */
@@ -4235,10 +4287,10 @@ void create_singleton_dimensions(int var_id, int ncid, int *nc_singletons,
         if (j != -1) {
             if (cmor_tables[cmor_axes[j].ref_table_id].axes
                 [cmor_axes[j].ref_axis_id].type == 'c') {
-                ierr =
-                  nc_def_dim(ncid, "strlen",
-                             strlen(cmor_tables[cmor_axes[j].ref_table_id].axes
-                                    [cmor_axes[j].ref_axis_id].cvalue), &k);
+                if(nc_inq_dimid(ncid, "strlen", &k) != NC_NOERR) {
+                    ierr =
+                        nc_def_dim(ncid, "strlen", maxStrLen, &k);
+                }
                 ierr =
                   nc_def_var(ncid, cmor_axes[j].id, NC_CHAR, 1, &k,
                              &nc_singletons[i]);
