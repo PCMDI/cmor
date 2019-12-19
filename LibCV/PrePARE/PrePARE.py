@@ -598,10 +598,10 @@ class checkCMIP6(object):
                         table_value = table_value[:idx]
                 if key == "cell_measures":
                     # Check if area and volume values from the table's cell_measures are found in the file's external_variables
-                    if 'external_variables' in list(self.dictGbl.keys()):
-                        pattern = re.compile('(?:area|volume): (\w+)')
-                        values = re.findall(pattern, table_value)
-                        for v in values:
+                    pattern = re.compile('(?:area|volume): (\w+)')
+                    values = re.findall(pattern, table_value)
+                    for v in values:
+                        if 'external_variables' in list(self.dictGbl.keys()):
                             if not re.search(r"\b{}\b".format(v), self.dictGbl['external_variables']):
                                 print(BCOLORS.FAIL)
                                 print("=====================================================================================")
@@ -613,14 +613,14 @@ class checkCMIP6(object):
                                 print("=====================================================================================")
                                 print(BCOLORS.ENDC)
                                 self.errors += 1
-                            continue
-                    else:
-                        print(BCOLORS.FAIL)
-                        print("=====================================================================================")
-                        print("Your file is missing the attribute \"external_variables\" in global attributes.")
-                        print("=====================================================================================")
-                        print(BCOLORS.ENDC)
-                        self.errors += 1
+                        else:
+                            print(BCOLORS.FAIL)
+                            print("=====================================================================================")
+                            print("Your file is missing the attribute \"external_variables\" in global attributes.")
+                            print("=====================================================================================")
+                            print(BCOLORS.ENDC)
+                            self.errors += 1
+                        continue
 
                 if str(table_value) != str(file_value):
                     print(BCOLORS.FAIL)
