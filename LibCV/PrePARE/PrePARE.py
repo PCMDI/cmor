@@ -616,7 +616,11 @@ class checkCMIP6(object):
                         else:
                             print(BCOLORS.FAIL)
                             print("=====================================================================================")
-                            print("Your file is missing the attribute \"external_variables\" in global attributes.")
+                            if len(values) == 2:
+                                print("Your file contains \"" + values[0] + "\" and \"" + values[1] + "\" in cell_measures and")
+                            else:
+                                print("Your file contains \"" + values[0] + "\" in cell_measures and")
+                            print("CMIP6 tables require attribute \"external_variables\" in global attributes.")
                             print("=====================================================================================")
                             print(BCOLORS.ENDC)
                             self.errors += 1
