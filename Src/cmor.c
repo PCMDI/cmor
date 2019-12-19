@@ -3556,12 +3556,15 @@ void cmor_define_dimensions(int var_id, int ncid,
             if (cmor_has_variable_attribute(var_id, "coordinates") == 0) {
                 cmor_get_variable_attribute(var_id, "coordinates", msg);
                 l = 0;
-                for (j = 0; j < strlen(msg) - strlen(ctmp) + 1; j++) {
-                    if (strncmp(ctmp, &msg[j], strlen(ctmp)) == 0) {
-                        l = 1;
-                        break;
+                if(strlen(msg) >= strlen(ctmp)) {
+                    for (j = 0; j < strlen(msg) - strlen(ctmp) + 1; j++) {
+                        if (strncmp(ctmp, &msg[j], strlen(ctmp)) == 0) {
+                            l = 1;
+                            break;
+                        }
                     }
                 }
+
                 if (l == 0) {
                     strncat(msg, " ", CMOR_MAX_STRING - strlen(msg));
                     strncat(msg, ctmp, CMOR_MAX_STRING - strlen(msg));
