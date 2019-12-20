@@ -466,10 +466,18 @@ class checkCMIP6(object):
                     print(BCOLORS.ENDC)
                     self.errors += 1
         for attr in ['realization_index', 'initialization_index', 'physics_index', 'forcing_index']:
-            if not numpy.issubdtype(self.dictGbl[attr], numpy.integer):
+            try:
+                if not numpy.issubdtype(self.dictGbl[attr], numpy.integer):
+                    print(BCOLORS.FAIL)
+                    print("=====================================================================================")
+                    print("{} is not an integer: ".format(attr), type(self.dictGbl[attr]))
+                    print("=====================================================================================")
+                    print(BCOLORS.ENDC)
+                    self.errors += 1
+            except KeyError:
                 print(BCOLORS.FAIL)
                 print("=====================================================================================")
-                print("{} is not an integer: ".format(attr), type(self.dictGbl[attr]))
+                print("{} attribute is missing in global attributes".format(attr))
                 print("=====================================================================================")
                 print(BCOLORS.ENDC)
                 self.errors += 1
