@@ -466,10 +466,18 @@ class checkCMIP6(object):
                     print(BCOLORS.ENDC)
                     self.errors += 1
         for attr in ['realization_index', 'initialization_index', 'physics_index', 'forcing_index']:
-            if not numpy.issubdtype(self.dictGbl[attr], numpy.integer):
+            try:
+                if not numpy.issubdtype(self.dictGbl[attr], numpy.integer):
+                    print(BCOLORS.FAIL)
+                    print("=====================================================================================")
+                    print("{} is not an integer: ".format(attr), type(self.dictGbl[attr]))
+                    print("=====================================================================================")
+                    print(BCOLORS.ENDC)
+                    self.errors += 1
+            except KeyError:
                 print(BCOLORS.FAIL)
                 print("=====================================================================================")
-                print("{} is not an integer: ".format(attr), type(self.dictGbl[attr]))
+                print("{} attribute is missing in global attributes".format(attr))
                 print("=====================================================================================")
                 print(BCOLORS.ENDC)
                 self.errors += 1
@@ -601,14 +609,26 @@ class checkCMIP6(object):
                     pattern = re.compile('(?:area|volume): (\w+)')
                     values = re.findall(pattern, table_value)
                     for v in values:
-                        if not re.search(r"\b{}\b".format(v), self.dictGbl['external_variables']):
+                        if 'external_variables' in list(self.dictGbl.keys()):
+                            if not re.search(r"\b{}\b".format(v), self.dictGbl['external_variables']):
+                                print(BCOLORS.FAIL)
+                                print("=====================================================================================")
+                                print("Your file contains external_variables = \"" + self.dictGbl['external_variables'] + "\", and")
+                                if len(values) == 2:
+                                    print("CMIP6 tables requires \"" + values[0] + "\" and \"" + values[1] + "\" in external_variables.")
+                                else:
+                                    print("CMIP6 tables requires \"" + values[0] + "\" in external_variables.")
+                                print("=====================================================================================")
+                                print(BCOLORS.ENDC)
+                                self.errors += 1
+                        else:
                             print(BCOLORS.FAIL)
                             print("=====================================================================================")
-                            print("Your file contains external_variables = \"" + self.dictGbl['external_variables'] + "\", and")
                             if len(values) == 2:
-                                print("CMIP6 tables requires \"" + values[0] + "\" and \"" + values[1] + "\" in external_variables.")
+                                print("Your file contains \"" + values[0] + "\" and \"" + values[1] + "\" in cell_measures and")
                             else:
-                                print("CMIP6 tables requires \"" + values[0] + "\" in external_variables.")
+                                print("Your file contains \"" + values[0] + "\" in cell_measures and")
+                            print("CMIP6 tables require attribute \"external_variables\" in global attributes.")
                             print("=====================================================================================")
                             print(BCOLORS.ENDC)
                             self.errors += 1

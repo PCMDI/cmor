@@ -28,7 +28,7 @@ aliases:
        conda config --set always_yes yes --set changeps1 no
        conda update -y -q conda
        conda config --set anaconda_upload no
-       conda create -q -n py$PYTHON_VERSION -c cdat/label/nightly -c conda-forge -c cdat six libuuid json-c udunits2 hdf5 libnetcdf netcdf4 numpy openssl lazy-object-proxy python=$PYTHON_VERSION $CONDA_COMPILERS testsrunner
+       conda create -q -n py$PYTHON_VERSION -c cdat/label/nightly -c conda-forge -c cdat six libuuid json-c udunits2 hdf5 openblas libnetcdf==4.6.2 netcdf4 numpy openssl lazy-object-proxy python=$PYTHON_VERSION $CONDA_COMPILERS testsrunner
 
   - &setup_cmor
     name: setup_cmor
@@ -55,9 +55,19 @@ aliases:
        source activate py$PYTHON_VERSION
        set -e
        make test
+
+  - &run_cmor_tests_with_cdms2
+    name: run_cmor_tests_with_cdms2
+    command: |
+       export PATH=$WORKDIR/miniconda/bin:$PATH
+       export UVCDAT_ANONYMOUS_LOG=False
        # run tests again but with cdms2 installed
-       conda install -q -n py$PYTHON_VERSION -c cdat/label/nightly -c conda-forge -c cdat cdms2
+       set +e
+       conda install -q -n py$PYTHON_VERSION -c cdat/label/nightly -c conda-forge cdms2
+       source activate py$PYTHON_VERSION
+       set -e
        make test
+
   - &run_prepare_tests
     name: run_prepare_tests
     command: |
@@ -69,6 +79,7 @@ aliases:
        export PYTHONPATH=Test/:$PYTHONPATH
        for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file; mystatus=$?; if [[ "$mystatus" != "0" ]]; then return ${mystatus}; fi; done
        python run_tests.py -v2 -H -n1 Test/test_python_CMIP6_CV*.py
+       
   - &conda_upload
     name: conda_upload
     command: |
@@ -92,7 +103,7 @@ aliases:
 jobs:
   macos_cmor_py27:
     macos:
-      xcode: "9.2.0"
+      xcode: "11.1.0"
     environment:
       PYTHON_VERSION: "2.7"
       WORKDIR: "workspace/test_macos_cmor"
@@ -107,12 +118,13 @@ jobs:
       - run: *create_conda_env
       - run: *setup_cmor
       - run: *run_cmor_tests
+      - run: *run_cmor_tests_with_cdms2
       - run: *run_prepare_tests
       - run: *conda_upload
 
   macos_cmor_py36:
     macos:
-      xcode: "9.2.0"
+      xcode: "11.1.0"
     environment:
       PYTHON_VERSION: "3.6"
       WORKDIR: "workspace/test_macos_cmor"
@@ -127,12 +139,13 @@ jobs:
       - run: *create_conda_env
       - run: *setup_cmor
       - run: *run_cmor_tests
+      - run: *run_cmor_tests_with_cdms2
       - run: *run_prepare_tests
       - run: *conda_upload
 
   macos_cmor_py37:
     macos:
-      xcode: "9.2.0"
+      xcode: "11.1.0"
     environment:
       PYTHON_VERSION: "3.7"
       WORKDIR: "workspace/test_macos_cmor"
@@ -147,6 +160,7 @@ jobs:
       - run: *create_conda_env
       - run: *setup_cmor
       - run: *run_cmor_tests
+      - run: *run_cmor_tests_with_cdms2
       - run: *run_prepare_tests
       - run: *conda_upload
 
@@ -167,6 +181,7 @@ jobs:
       - run: *create_conda_env
       - run: *setup_cmor
       - run: *run_cmor_tests
+      - run: *run_cmor_tests_with_cdms2
       - run: *run_prepare_tests
       - run: *conda_upload
 
@@ -187,6 +202,7 @@ jobs:
       - run: *create_conda_env
       - run: *setup_cmor
       - run: *run_cmor_tests
+      - run: *run_cmor_tests_with_cdms2
       - run: *run_prepare_tests
       - run: *conda_upload
 
@@ -207,6 +223,7 @@ jobs:
       - run: *create_conda_env
       - run: *setup_cmor
       - run: *run_cmor_tests
+      - run: *run_cmor_tests_with_cdms2
       - run: *run_prepare_tests
       - run: *conda_upload
 
