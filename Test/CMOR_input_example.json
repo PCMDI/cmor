@@ -15,8 +15,8 @@
     "#note":                  "Text stored in attribute variant_info (recommended, not required description of run variant)",
     "run_variant":            "3rd realization",
  
-    "parent_experiment_id":   "historical",
-    "parent_activity_id":     "CMIP",
+    "parent_experiment_id":   "no parent",
+    "parent_activity_id":     "no parent",
     "parent_source_id":       "PCMDI-test-1-0",
     "parent_variant_label":   "r3i1p1f1",
  
