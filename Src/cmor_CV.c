@@ -1369,7 +1369,8 @@ int cmor_CV_checkExperiment(cmor_CV_def_t * CV)
     int nObjects;
     int i;
     int j;
-    int bWarning;
+    int bError;
+    int ierr;
 
     szExpValue[0] = '\0';
     cmor_add_traceback("_CV_checkExperiment");
@@ -1402,10 +1403,11 @@ int cmor_CV_checkExperiment(cmor_CV_def_t * CV)
         return (-1);
     }
 
+    ierr = 0;
     nObjects = CV_experiment->nbObjects;
     // Parse all experiment attributes
     for (i = 0; i < nObjects; i++) {
-        bWarning = 0;
+        bError = 0;
         CV_experiment_attr = &CV_experiment->oValue[i];
         rc = cmor_has_cur_dataset_attribute(CV_experiment_attr->key);
         strcpy(szExpValue, CV_experiment_attr->szValue);
@@ -1414,7 +1416,8 @@ int cmor_CV_checkExperiment(cmor_CV_def_t * CV)
             continue;
         }
         if (strcmp(CV_experiment_attr->key, CV_EXP_ATTR_REQSOURCETYPE) == 0) {
-            cmor_CV_checkSourceType(CV_experiment, szExperiment_ID);
+            if(cmor_CV_checkSourceType(CV_experiment, szExperiment_ID) != 0)
+                ierr = -1;
             continue;
         }
         // Warn user if experiment value from input file is different than
@@ -1435,7 +1438,7 @@ int cmor_CV_checkExperiment(cmor_CV_def_t * CV)
                 if (j == CV_experiment_attr->anElements) {
                     if (CV_experiment_attr->anElements == 1) {
                         strcpy(szExpValue, CV_experiment_attr->aszValue[0]);
-                        bWarning = 1;
+                        bError = 1;
                     } else {
                         snprintf(msg, CMOR_MAX_STRING,
                                  "Your input attribute \"%s\" with value \n! \"%s\" "
@@ -1457,21 +1460,22 @@ int cmor_CV_checkExperiment(cmor_CV_def_t * CV)
                     if (strncmp(CV_experiment_attr->szValue, szValue,
                     CMOR_MAX_STRING) != 0) {
                         strcpy(szExpValue, CV_experiment_attr->szValue);
-                        bWarning = 1;
+                        bError = 1;
                     }
                 }
             }
         }
-        if (bWarning == 1) {
+        if (bError == 1) {
             snprintf(msg, CMOR_MAX_STRING,
                      "Your input attribute \"%s\" with value \n! \"%s\" "
-                     "will be replaced with "
+                     "needs to be replaced with "
                      "value \"%s\"\n! "
                      "as defined for experiment_id \"%s\".\n! \n!  "
                      "See Control Vocabulary JSON file.(%s)\n! ",
                      CV_experiment_attr->key, szValue, szExpValue,
                      CV_experiment->key, CV_Filename);
-            cmor_handle_error(msg, CMOR_WARNING);
+            cmor_handle_error(msg, CMOR_NORMAL);
+            ierr = -1;
         }
         // Set/replace attribute.
         cmor_set_cur_dataset_attribute_internal(CV_experiment_attr->key,
@@ -1482,7 +1486,7 @@ int cmor_CV_checkExperiment(cmor_CV_def_t * CV)
     }
     cmor_pop_traceback();
 
-    return (0);
+    return (ierr);
 }
 
 /************************************************************************/
