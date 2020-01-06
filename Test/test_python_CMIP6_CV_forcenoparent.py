@@ -54,11 +54,11 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
         f = open(self.tmpfile, 'r')
         lines = f.readlines()
         count = 0
-        # We need 8 attributes to be replaced
+        # We need 6 attributes to be replaced
         for line in lines:
             if line.find('replaced') != -1:
                 count = count + 1
-        self.assertEqual(count, 8)
+        self.assertEqual(count, 6)
         f.close()
 
 

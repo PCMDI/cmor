@@ -4,7 +4,7 @@
 
            "tracking_prefix":        "hdl:21.14100",
            "#activity_id":           "Specify an activity PMIP, GeoMIP, (must start with CMIP6-)",
-           "activity_id":            "ISMIP6",
+           "activity_id":            "RFMIP",
 
            "#output":                "Output Path where files are written",
            "outpath":                "CMIP6",
@@ -70,9 +70,9 @@
            "branch_time":             "1",
 
 
-           "parent_activity_id": "no parent",
-           "parent_experiment_id": "no parent",
-           "parent_source_id":   "GFDL-CM2-1",
+           "parent_activity_id": "CMIP",
+           "parent_experiment_id": "piControl",
+           "parent_source_id":   "PCMDI-test-1-0",
            "parent_variant_label":  "r1i1p1f3",
 
            "branch_method":         "standard",
