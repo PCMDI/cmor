@@ -46,8 +46,8 @@
            "nominal_resolution":     "5 km",
 
 
-           "parent_activity_id":     "CMIP",
-           "parent_experiment_id":   "histALL",
+           "parent_activity_id":     "no parent",
+           "parent_experiment_id":   "no parent",
            "parent_source_id":       "GFDL-CM2-1",
            "parent_variant_label":   "r1i1p1f3",
 
