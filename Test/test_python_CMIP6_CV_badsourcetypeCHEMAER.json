@@ -4,7 +4,7 @@
 
            "tracking_prefix":        "hdl:21.14100",
            "#activity_id":           "Specify an activity PMIP, GeoMIP, (must start with CMIP6-)",
-           "activity_id":            "ISMIP6",
+           "activity_id":            "RFMIP",
 
            "#output":                "Output Path where files are written",
            "outpath":                "CMIP6",
@@ -46,7 +46,6 @@
            "comment":                "Equilibrium reached after 30-year spin-up ",
 
            "#references":            "",
-           "references":             "Model described by Koder and Tolkien ",
 
            "#institution_id":         "",
            "institution_id":          "NCC",
@@ -61,18 +60,16 @@
            "forcing":                "TO, SO, Nat",
 
            "#parent_experiment_rip": "",
-           "parent_variant_label":  "r1i3p2",
 
            "#parent_experiment_id":  "",
-           "parent_experiment_id":   "N/A",
 
            "#branch_time":            "",
            "branch_time":             "1",
 
 
            "parent_activity_id": "CMIP",
-           "parent_experiment_id": "histALL",
-           "parent_source_id":   "GFDL-CM2-1",
+           "parent_experiment_id": "piControl",
+           "parent_source_id":   "PCMDI-test-1-0",
            "parent_variant_label":  "r1i1p1f3",
 
            "branch_method":         "standard",
