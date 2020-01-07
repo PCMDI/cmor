@@ -46,7 +46,6 @@
            "comment":                "Equilibrium reached after 30-year spin-up ",
 
            "#references":            "",
-           "references":             "Model described by Koder and Tolkien ",
 
            "#institution_id":         "",
            "institution_id":          "NCC",
@@ -61,10 +60,8 @@
            "forcing":                "TO, SO, Nat",
 
            "#parent_experiment_rip": "",
-           "parent_variant_label":  "r1i3p2",
 
            "#parent_experiment_id":  "",
-           "parent_experiment_id":   "N/A",
 
            "#branch_time":            "",
            "branch_time":             "1",
