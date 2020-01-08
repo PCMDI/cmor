@@ -882,7 +882,8 @@ def setup(inpath='.', netcdf_file_action=cmor_const.CMOR_PRESERVE, set_verbosity
 
     set_verbosity:         CMOR_QUIET or CMOR_NORMAL
     exit_control:          CMOR_EXIT_ON_WARNING, CMOR_EXIT_ON_MAJOR, CMOR_NORMAL
-    create_subdirectories: 1 to create subdirectories structure, 0 to dump files directly where cmor_dataset tells to
+    create_subdirectories: 1 to create subdirectories structure, 0 to dump files to the directory specified by the "outpath" attribute 
+                           in the user input JSON file passed to cmor_dataset_json
 """
     if not isinstance(exit_control, int) or not exit_control in [
             cmor_const.CMOR_EXIT_ON_WARNING, cmor_const.CMOR_EXIT_ON_MAJOR, cmor_const.CMOR_NORMAL]:
