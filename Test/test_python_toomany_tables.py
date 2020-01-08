@@ -62,7 +62,6 @@ class TestCase(unittest.TestCase):
             cmor.load_table("CMIP6_6hrPlev.json")
             cmor.load_table("CMIP6_6hrPlevPt.json")
             cmor.load_table("CMIP6_AERday.json")
-            cmor.load_table("CMIP6_AERfx.json")
             cmor.load_table("CMIP6_AERhr.json")
             cmor.load_table("CMIP6_AERmon.json")
             cmor.load_table("CMIP6_AERmonZ.json")
@@ -70,7 +69,6 @@ class TestCase(unittest.TestCase):
             cmor.load_table("CMIP6_CFday.json")
             cmor.load_table("CMIP6_CFmon.json")
             cmor.load_table("CMIP6_CFsubhr.json")
-            cmor.load_table("CMIP6_CFsubhrOff.json")
             cmor.load_table("CMIP6_day.json")
             cmor.load_table("CMIP6_E1hrClimMon.json")
             cmor.load_table("CMIP6_E1hr.json")
@@ -83,6 +81,8 @@ class TestCase(unittest.TestCase):
             cmor.load_table("CMIP6_Eyr.json")
             cmor.load_table("CMIP6_fx.json")
             cmor.load_table("CMIP6_grids.json")
+            cmor.load_table("CMIP6_LImon.json")
+            cmor.load_table("CMIP6_Oclim.json")
         except BaseException:
             pass
         os.dup2(newstdout, 1)

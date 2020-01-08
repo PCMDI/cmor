@@ -30,7 +30,7 @@ times_bnds = [(0, 36030),
             (330, 36360)]
 
 def path_test():
-    cmor.setup(inpath='TestTables', netcdf_file_action=cmor.CMOR_REPLACE)
+    cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
 
     cmor.dataset_json("Test/CMOR_input_example.json")
 

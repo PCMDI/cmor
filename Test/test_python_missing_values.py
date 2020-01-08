@@ -37,8 +37,8 @@ class TestCase(unittest.TestCase):
         # Try to call cmor with a bad institution_ID
         # -------------------------------------------
         try:
-            cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
-            cmor.dataset_json("Test/CMOR_input_example.json")
+            cmor.setup(inpath='TestTables', netcdf_file_action=cmor.CMOR_REPLACE)
+            cmor.dataset_json("Test/CMOR_input_TestTables.json")
             # ------------------------------------------
             # load Omon table and create masso variable
             # ------------------------------------------
@@ -75,8 +75,8 @@ class TestCase(unittest.TestCase):
         # Try to call cmor with a bad institution_ID
         # -------------------------------------------
         try:
-            cmor.setup(inpath='Tables', netcdf_file_action=cmor.CMOR_REPLACE)
-            cmor.dataset_json("Test/CMOR_input_example.json")
+            cmor.setup(inpath='TestTables', netcdf_file_action=cmor.CMOR_REPLACE)
+            cmor.dataset_json("Test/CMOR_input_TestTables.json")
             # ------------------------------------------
             # load Omon table and create masso variable
             # ------------------------------------------

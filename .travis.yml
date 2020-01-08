@@ -27,7 +27,6 @@ before_install:
   - source activate py${CMOR_PYTHON_VERSION}
 install:
   - export PREFIX=$(python -c "import sys; print(sys.prefix)")
-  - git clone https://github.com/PCMDI/cmip6-cmor-tables
   - ln -s cmip6-cmor-tables/Tables Tables
   - if [[ $TRAVIS_OS_NAME == "linux" ]]; then export LDSHARED_FLAGS="-shared -pthread"; fi
   - if [[ $TRAVIS_OS_NAME == "osx" ]]; then export LDSHARED_FLAGS="-bundle -undefined dynamic_lookup"; fi

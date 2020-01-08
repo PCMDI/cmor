@@ -1,8 +1,8 @@
 {
-    "#note_source_type":      "explanation of what source_type is goes here",
+    "#note":           "explanation of what source_type is goes here",
     "source_type":            "AOGCM ISM AER",
  
-    "#note_experiment_id":    "CMIP6 valid experiment_ids are found in CMIP6_CV.json",
+    "#note":                  "CMIP6 valid experiment_ids are found in CMIP6_CV.json",
     "experiment_id":          "piControl-withism",
     "activity_id":            "ISMIP6",
     "sub_experiment_id":      "none",
@@ -12,11 +12,11 @@
     "physics_index":          "1",
     "forcing_index":          "1",
  
-    "#note_run_variant":      "Text stored in attribute variant_info (recommended, not required description of run variant)",
+    "#note":                  "Text stored in attribute variant_info (recommended, not required description of run variant)",
     "run_variant":            "3rd realization",
  
-    "parent_experiment_id":   "historical",
-    "parent_activity_id":     "CMIP",
+    "parent_experiment_id":   "no parent",
+    "parent_activity_id":     "no parent",
     "parent_source_id":       "PCMDI-test-1-0",
     "parent_variant_label":   "r3i1p1f1",
  
@@ -25,10 +25,10 @@
     "branch_time_in_child":   59400.0,
     "branch_time_in_parent":  59400.0,
  
-    "#note_institution_id":   "institution_id must be registered at https://github.com/WCRP-CMIP/CMIP6_CVs/issues/new ",
+    "#note":                  "institution_id must be registered at https://github.com/WCRP-CMIP/CMIP6_CVs/issues/new ",
     "institution_id":         "PCMDI",
  
-    "#note_source_id":        "source_id (model name) must be registered at https://github.com/WCRP-CMIP/CMIP6_CVs/issues/new ",
+    "#note":                  "source_id (model name) must be registered at https://github.com/WCRP-CMIP/CMIP6_CVs/issues/new ",
     "source_id":              "PCMDI-test-1-0",
  
     "calendar":               "360_day",
@@ -42,24 +42,24 @@
     "#output":                "Root directory for output (can be either a relative or full path)",
     "outpath":                "CMIP6",
  
-    "#note_optional":         " **** The following descriptors are optional and may be set to an empty string ",  
+    "#note":                  " **** The following descriptors are optional and may be set to an empty string ",  
  
     "contact ":               "Python Coder (coder@a.b.c.com)",
     "history":                "Output from archivcl_A1.nce/giccm_03_std_2xCO2_2256.",
     "comment":                "",
     "references":             "Model described by Koder and Tolkien (J. Geophys. Res., 2001, 576-591).  Also see http://www.GICC.su/giccm/doc/index.html.  The ssp245 simulation is described in Dorkey et al. '(Clim. Dyn., 2003, 323-357.)'",
  
-    "#note_CV":               " **** The following will be obtained from the CV and do not need to be defined here", 
+    "#note":                  " **** The following will be obtained from the CV and do not need to be defined here", 
  
     "sub_experiment":         "none",
     "institution":            "",
     "source":                 "PCMDI-test 1.0 (1989)",
  
-    "#note_CMIP6":            " **** The following are set correctly for CMIP6 and should not normally need editing",  
+    "#note":                  " **** The following are set correctly for CMIP6 and should not normally need editing",  
  
-    "_control_vocabulary_file": "CMIP6_CV.json",
-    "_AXIS_ENTRY_FILE":         "CMIP6_coordinate.json",
-    "_FORMULA_VAR_FILE":        "CMIP6_formula_terms.json",
+    "_control_vocabulary_file": "Tables/CMIP6_CV.json",
+    "_AXIS_ENTRY_FILE":         "Tables/CMIP6_coordinate.json",
+    "_FORMULA_VAR_FILE":        "Tables/CMIP6_formula_terms.json",
     "_cmip6_option":           "CMIP6",
  
     "mip_era":                "CMIP6",
@@ -70,5 +70,5 @@
  
     "#output_path_template":   "Template for output path directory using tables keys or global attributes, these should follow the relevant data reference syntax",
     "output_path_template":    "<mip_era><activity_id><institution_id><source_id><experiment_id><_member_id><table><variable_id><grid_label><version>",
-    "output_file_template":    "<variable_id><table><source_id><experiment_id><_member_id><grid_label>"
+    "output_file_template":    "<variable_id><table><source_id><experiment_id><_member_id><grid_label>",
  }

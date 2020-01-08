@@ -80,13 +80,13 @@ PROGRAM test_cmor_grid
    !+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
    ! Specify path for tables and set up other CMOR options
    !+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-   error_flag = cmor_setup(inpath='./',netcdf_file_action="replace",create_subdirectories=0)
+   error_flag = cmor_setup(inpath='TestTables/',netcdf_file_action="replace",create_subdirectories=0)
 
    print *, '---------------Define dataset'
    !+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
    ! Define dataset as output from COSP, and other model details
    !+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-   error_flag = cmor_dataset_json("Test/CMOR_input_example.json")
+   error_flag = cmor_dataset_json("Test/CMOR_input_TestTables.json")
    
    print *, '---------------Define axis'
    !+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

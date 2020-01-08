@@ -22,10 +22,10 @@ import base_CMIP6_CV
 class TestCase(base_CMIP6_CV.BaseCVsTest):
     def testCMIP6(self):
         try:
-            inpath = 'Tables'  # 01.00.27b1
+            inpath = 'TestTables'  # 01.00.27b1
             cmor.setup(inpath=inpath, netcdf_file_action=cmor.CMOR_REPLACE,
                     logfile=self.tmpfile)
-            error_flag = cmor.dataset_json('Test/CMOR_input_example.json')
+            error_flag = cmor.dataset_json('Test/CMOR_input_TestTables.json')
             table_id = cmor.load_table('CMIP6_6hrLev_bad_specs.json')
             time = cmor.axis(table_entry='time1', units='days since 2000-01-01',
                             coord_vals=numpy.array(range(1)),
