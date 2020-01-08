@@ -21,7 +21,7 @@ cmor.setup(
     set_verbosity=cmor.CMOR_NORMAL,
     netcdf_file_action=cmor.CMOR_REPLACE_4,
     exit_control=cmor.CMOR_EXIT_ON_MAJOR)
-cmor.dataset_json("Test/CMOR_input_example.json")
+cmor.dataset_json("Test/CMOR_input_TestTables.json")
 
 tables = []
 tables.append(cmor.load_table("CMIP6_chunking.json"))

@@ -38,7 +38,7 @@ class TestCase(unittest.TestCase):
         # -------------------------------------------
         try:
             cmor.setup(inpath='TestTables', netcdf_file_action=cmor.CMOR_REPLACE)
-            cmor.dataset_json("Test/CMOR_input_example.json")
+            cmor.dataset_json("Test/CMOR_input_TestTables.json")
             # ------------------------------------------
             # load Omon table and create masso variable
             # ------------------------------------------
@@ -76,7 +76,7 @@ class TestCase(unittest.TestCase):
         # -------------------------------------------
         try:
             cmor.setup(inpath='TestTables', netcdf_file_action=cmor.CMOR_REPLACE)
-            cmor.dataset_json("Test/CMOR_input_example.json")
+            cmor.dataset_json("Test/CMOR_input_TestTables.json")
             # ------------------------------------------
             # load Omon table and create masso variable
             # ------------------------------------------
