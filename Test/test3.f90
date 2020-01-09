@@ -214,27 +214,6 @@ PROGRAM mip_contribution
 
   print*, 'calling cmor_dataset'
   error_flag = cmor_dataset_json("Test/CMOR_input_example.json");
-
-!  error_flag = cmor_dataset(                                   &
-!       outpath='Test',         &
-!       experiment_id='abrupt 4XCO2',           &
-!       institution=                                            &
-!       'GICC (Generic International Climate Center, ' //       &
-!       ' Geneva, Switzerland)',                                &
-!       source='GICCM1  2002(giccm_0_brnchT_itea_2, T63L32)',    &
-!       calendar='360_day',                                      &
-!       realization=1,                                          &
-!       history='Output from archive/giccm_03_std_2xCO2_2256.', &
-!       comment='Equilibrium reached after 30-year spin-up ' // &
-!       'after which data were output starting with nominal '// &
-!       'date of January 2030',                                 &
-!       references='Model described by Koder and Tolkien ' //   &
-!       '(J. Geophys. Res., 2001, 576-591).  Also ' //          &
-!       'see http://www.GICC.su/giccm/doc/index.html '  //      &
-!       ' 2XCO2 simulation described in Dorkey et al. '//       &
-!       '(Clim. Dyn., 2003, 323-357.)' , &
-!       model_id="GICCM1",forcing='TO',contact="Barry Bonds",&
-!       parent_experiment_rip="N/A",parent_experiment_id="N/A",branch_time=bt,institute_id="PCMDI");
   
   print*, 'returned from cmor_dataset'
 
