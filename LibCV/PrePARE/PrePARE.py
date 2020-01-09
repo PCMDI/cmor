@@ -780,6 +780,14 @@ def main():
              'If not variable is deduced from filename.')
 
     parser.add_argument(
+        '-v', '--version',
+        action='version',
+        version='%(prog)s {}.{}.{}'.format(cmip6_cv.CMOR_VERSION_MAJOR,
+                                           cmip6_cv.CMOR_VERSION_MINOR,
+                                           cmip6_cv.CMOR_VERSION_PATCH),
+        help='Version of software.')
+
+    parser.add_argument(
         '--table-path',
         action=DIRECTORYAction,
         default=os.environ['CMIP6_CMOR_TABLES'] if 'CMIP6_CMOR_TABLES' in list(os.environ.keys()) else './Tables',
