@@ -236,50 +236,6 @@ test_case:
 ifeq (@MAKEDEPPYTHON@,python)
 	@env TEST_NAME="Test/check_results.py ${TEST_NAME}" make test_a_python
 endif
-test_case_old_cmor_tables:
-	@echo "Testing: "${TEST_NAME}" with input file: "${INPUT_FILE}
-	@rm -f ./${TEST_NAME} 2>/dev/null ; ${FC} ${USERFFLAGS} ${FCFLAGS} ${DEBUG}  Test/old_cmor_tables/${TEST_NAME}.f90 -L${PREFIX}/lib -L. -lcmor ${NCCFLAGS} ${FNCLDFLAGS} ${FUDUNITS2LDFLAGS} ${UDUNITS2FLAGS} ${FJSONCLDFLAGS} ${JSONCFLAGS} ${FUUIDLDFLAGS} ${UUIDFLAGS} ${ZFLAGS} ${FZLDFLAGS} -o ${TEST_NAME} ;
-	@./${TEST_NAME} ${VERB} < ${INPUT_FILE} ;
-	@ rm ./${TEST_NAME}
-ifeq (@MAKEDEPPYTHON@,python)
-	@env TEST_NAME="Test/check_results.py old_cmor_tables_${TEST_NAME}" make test_a_python
-endif
-test_fortran_old_cmor_tables: cmor
-	@env TEST_NAME="test_any_from_asc" INPUT_FILE="Test/tas_3D_noreorder.input" make test_case_old_cmor_tables
-	@env TEST_NAME="test_any_from_asc" INPUT_FILE="Test/3D_txy.input" make test_case_old_cmor_tables
-	@env TEST_NAME="test_any_from_asc" INPUT_FILE="Test/3D_txy_split_lon.input" make test_case_old_cmor_tables
-	@env TEST_NAME="test_any_from_asc" INPUT_FILE="Test/3D_xty_split_lon.input" make test_case_old_cmor_tables
-	@env TEST_NAME="test_any_from_asc_d" INPUT_FILE="Test/tas_3D_noreorder.input" make test_case_old_cmor_tables
-	@env TEST_NAME="test_any_from_asc_d" INPUT_FILE="Test/3D_txy.input" make test_case_old_cmor_tables
-	@env TEST_NAME="test_any_from_asc_d" INPUT_FILE="Test/3D_txy_split_lon.input" make test_case_old_cmor_tables
-	@env TEST_NAME="test_any_from_asc_d" INPUT_FILE="Test/3D_xty_split_lon.input" make test_case_old_cmor_tables
-	@env TEST_NAME="karls_test" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
-	@env TEST_NAME="test1" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
-	@env TEST_NAME="test2" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
-	@env TEST_NAME="test3" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
-	@env TEST_NAME="test4" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
-	@env TEST_NAME="main_prog" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
-	@env TEST_NAME="test_any_from_asc_i" INPUT_FILE="Test/tas_mytest_3d_i.input" make test_case_old_cmor_tables
-	@env TEST_NAME="mytest_4d_r" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
-	@env TEST_NAME="rewrite_harvardf_data" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
-	@env TEST_NAME="test_3h" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
-	@env TEST_NAME="test_dimensionless" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
-	@env TEST_NAME="test_fortran_example_00" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
-	@env TEST_NAME="test_fortran_example_01" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
-	@env TEST_NAME="test_station_data" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
-	@env TEST_NAME="test_region" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
-	@env TEST_NAME="test_sigma" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
-	@env TEST_NAME="test_singleton" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
-	@env TEST_NAME="test_singleton_5D_tas" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
-	@env TEST_NAME="mytest_4d_r_big_array" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
-	@env TEST_NAME="mytest_4d_d_big_array_2" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
-	@env TEST_NAME="mytest_4d_d_big_array_3" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
-	@env TEST_NAME="mytest_4d_d_big_array_4" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
-	@env TEST_NAME="mytest_4d_d_big_array_5" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
-	@env TEST_NAME="climatology_test_code" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
-	@env TEST_NAME="test_lots_of_variables" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
-	@env TEST_NAME="test_shrt_exp_nm_set_att_initi" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
-	@env TEST_NAME="test_sophie" INPUT_FILE="Test/noinput" make test_case_old_cmor_tables
 test_fortran: cmor
 	env TEST_NAME="CMIP6_sample_CMOR_driver" INPUT_FILE="Test/noinput" make test_case
 	env TEST_NAME="test_cmor_fx_basin" INPUT_FILE="Test/noinput" make test_case

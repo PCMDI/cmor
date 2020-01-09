@@ -232,10 +232,10 @@ PROGRAM mip_contribution
   
   ! Define dataset as output from the INM model 
 
-  print*, 'calling cmor_dataset'
+  print*, 'calling cmor_dataset_json'
   error_flag = cmor_dataset_json("Test/CMOR_input_example.json")
   
-  print*, 'returned from cmor_dataset'
+  print*, 'returned from cmor_dataset_json'
 
 
   print*, 'defining axes'

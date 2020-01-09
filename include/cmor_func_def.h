@@ -63,27 +63,6 @@ extern int cmor_create_filename(char *outname, int vid );
 extern int cmor_IsFixed(int var_id);
 extern int cmor_addRIPF(char *);
 extern int cmor_set_refvar( int var_id, int *refvar, int ntimes_passed );
-extern int cmor_dataset( char *outpath,
-			 char *experiment_id,
-			 char *institution,
-			 char *source,
-			 char *calendar,
-			 int realization,
-			 char *contact,
-			 char *history,
-			 char *comment,
-			 char *references,
-			 int leap_year,
-			 int leap_month,
-			 int month_lengths[12],
-			 char *model_id,
-			 char *forcing,
-			 int initialization_method,
-			 int physics_version,
-			 char *institute_id,
-			 char *parent_experiment_id,
-			 double *branch_time,
-			 char *parent_experiment_rip );
 extern int strncpytrim( char *out, char *in, int max );
 extern int cmor_convert_string_to_list( char *values, char type,
 					void **target, int *nelts );

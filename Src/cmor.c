@@ -4585,7 +4585,7 @@ int cmor_write(int var_id, void *data, char type, char *file_suffix,
             if (cmor_current_dataset.initiated == 0) {
                 snprintf(msg, CMOR_MAX_STRING,
                         "you need to initialize the dataset by calling "
-                                "cmor_dataset before calling cmor_write");
+                                "cmor_dataset_json before calling cmor_write");
                 cmor_handle_error_var(msg, CMOR_NORMAL, var_id);
                 cmor_pop_traceback();
                 return (1);
