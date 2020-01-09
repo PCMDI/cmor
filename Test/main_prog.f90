@@ -210,10 +210,10 @@ PROGRAM mip_contribution
   !   experiment conditions, and provide information to be included as 
   !   attributes in all CF-netCDF files written as part of this dataset.
 
-  print*, 'calling cmor_dataset'
+  print*, 'calling cmor_dataset_json'
   error_flag = cmor_dataset_json("Test/CMOR_input_example.json")
   
-  print*, 'returned from cmor_dataset'
+  print*, 'returned from cmor_dataset_json'
 
   !  Define axes for 3-d fields
 

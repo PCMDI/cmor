@@ -208,9 +208,9 @@ PROGRAM mip_contribution
   !   conditions, and provide information to be included as attributes in 
   !   all CF-netCDF files written as part of this dataset.
 
-  print*, 'calling cmor_dataset'
+  print*, 'calling cmor_dataset_json'
   error_flag = cmor_dataset_json("Test/CMOR_input_example.json")
-  print*, 'returned from cmor_dataset'
+  print*, 'returned from cmor_dataset_json'
 
   print*, 'calling cmor_set_cur_dataset_attribute'
   error_flag = cmor_set_cur_dataset_attribute("language","Fortran",0)
