@@ -23,7 +23,7 @@ before_install:
   - conda update -y -q conda
   - if [[ $TRAVIS_OS_NAME == "linux" ]]; then export CONDA_COMPILERS="gcc_linux-64 gfortran_linux-64"; fi
   - if [[ $TRAVIS_OS_NAME == "osx" ]]; then export CONDA_COMPILERS="clang_osx-64 gfortran_osx-64"; fi
-  - conda create -q -n py${CMOR_PYTHON_VERSION} -c cdat/label/nightly -c conda-forge -c cdat six libuuid json-c udunits2 hdf5 openblas libnetcdf==4.7.3 netcdf4 numpy openssl lazy-object-proxy python=${CMOR_PYTHON_VERSION} $CONDA_COMPILERS testsrunner
+  - conda create -q -n py${CMOR_PYTHON_VERSION} -c cdat/label/nightly -c conda-forge -c cdat six libuuid json-c udunits2 hdf5 openblas==0.3.6 libnetcdf==4.7.3 netcdf4 numpy openssl lazy-object-proxy python=${CMOR_PYTHON_VERSION} $CONDA_COMPILERS testsrunner
   - source activate py${CMOR_PYTHON_VERSION}
 install:
   - export PREFIX=$(python -c "import sys; print(sys.prefix)")

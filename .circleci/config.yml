@@ -28,7 +28,7 @@ aliases:
        conda config --set always_yes yes --set changeps1 no
        conda update -y -q conda
        conda config --set anaconda_upload no
-       conda create -q -n py$PYTHON_VERSION -c cdat/label/nightly -c conda-forge -c cdat six libuuid json-c udunits2 hdf5 openblas libnetcdf==4.7.3 netcdf4 numpy openssl lazy-object-proxy python=$PYTHON_VERSION $CONDA_COMPILERS testsrunner
+       conda create -q -n py$PYTHON_VERSION -c cdat/label/nightly -c conda-forge -c cdat six libuuid json-c udunits2 hdf5 openblas==0.3.6 libnetcdf==4.7.3 netcdf4 numpy openssl lazy-object-proxy python=$PYTHON_VERSION $CONDA_COMPILERS testsrunner
 
   - &setup_cmor
     name: setup_cmor
