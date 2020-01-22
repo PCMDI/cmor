@@ -63,7 +63,7 @@ aliases:
        export UVCDAT_ANONYMOUS_LOG=False
        # run tests again but with cdms2 installed
        set +e
-       conda install -q -n py$PYTHON_VERSION -c cdat/label/nightly -c conda-forge cdms2
+       conda install -q -n py$PYTHON_VERSION -c conda-forge cdms2
        source activate py$PYTHON_VERSION
        set -e
        make test
@@ -231,9 +231,9 @@ workflows:
   version: 2
   nightly:
     jobs:
-      - macos_cmor_py27
+      # - macos_cmor_py27
       - macos_cmor_py36
-      - macos_cmor_py37
-      - linux_cmor_py27
+      # - macos_cmor_py37
+      # - linux_cmor_py27
       - linux_cmor_py36
-      - linux_cmor_py37
+      # - linux_cmor_py37
