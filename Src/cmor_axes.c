@@ -1193,7 +1193,7 @@ int cmor_treat_axis_values(int axis_id, double *values, int length,
 
     if (refaxis->valid_min != 1.e20)
         for (i = 0; i < length; i++)
-            if (values[i] < refaxis->valid_min) {
+            if (values[i] < refaxis->valid_min - fabs(1e-6 * refaxis->valid_min)) {
                 if (cmor_isLongitude(refaxis) == 1) {
                     treatlon = 1;
                 } else {
@@ -1219,7 +1219,7 @@ int cmor_treat_axis_values(int axis_id, double *values, int length,
 /*      lets add 360. until it's all good                               */
 /* -------------------------------------------------------------------- */
             for (i = 0; i < length; i++)
-                while (values[i] < refaxis->valid_min) {
+                while (values[i] < refaxis->valid_min - fabs(1e-6 * refaxis->valid_min)) {
                     values[i] += 360.;
                     cmor_axes[axis_id].wrapping[i] += 1;
                 }
@@ -1237,7 +1237,7 @@ int cmor_treat_axis_values(int axis_id, double *values, int length,
     treatlon = 0;
     if (refaxis->valid_max != 1.e20)
         for (i = 0; i < length; i++)
-            if (values[i] > refaxis->valid_max) {
+            if (values[i] > refaxis->valid_max + fabs(1e-6 * refaxis->valid_max)) {
                 if (cmor_isLongitude(refaxis) == 1) {
                     treatlon = 1;
                 } else {
@@ -1259,7 +1259,7 @@ int cmor_treat_axis_values(int axis_id, double *values, int length,
 /*      ok lets add 360. until it's all good                            */
 /* -------------------------------------------------------------------- */
         for (i = 0; i < length; i++) {
-            while (values[i] > refaxis->valid_max) {
+            while (values[i] > refaxis->valid_max + fabs(1e-6 * refaxis->valid_max)) {
                 values[i] -= 360.;
                 cmor_axes[axis_id].wrapping[i] -= 1;
             }
