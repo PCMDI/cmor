@@ -10,6 +10,7 @@ def cmor_initialisation():
 
 
 def setup_data():
+    coord_vals = numpy.array(range(2), dtype=numpy.float64) + 0.5
     axes = [{'table_entry': 'time1',
              'units': 'days since 2000-01-01 00:00:00',
              },
@@ -18,8 +19,8 @@ def setup_data():
              'coord_vals': [0]},
             {'table_entry': 'hybrid_height',
              'units': 'm',
-             'coord_vals': numpy.array(range(2), dtype=numpy.float64),
-             'cell_bounds': [[x - 0.5, x + 0.5] for x in range(2)],
+             'coord_vals': coord_vals,
+             'cell_bounds': [[x - 0.5, x + 0.5] for x in coord_vals],
              },
             ]
 
@@ -63,6 +64,7 @@ def main():
     values, axes = setup_data()
     varid = cmor_define_and_write(values, axes)
     fname = cmor.close(varid, file_name=True)
+    cmor.close()
 
 
 if __name__ == '__main__':
