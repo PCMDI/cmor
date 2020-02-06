@@ -89,8 +89,8 @@ def save(opts, threeD=True):
 
     # 1 degree resolution latitude and longitude
     lat = np.linspace(-89.5, 89.5, 180)
-    lat_bounds = np.column_stack((np.linspace(-90., 89., 180.),
-                                  np.linspace(-89., 90., 180.)))
+    lat_bounds = np.column_stack((np.linspace(-90., 89., 180),
+                                  np.linspace(-89., 90., 180)))
     lat_axis_id = cmor.axis(table_entry='latitude',
                             units='degrees_north', length=len(lat),
                             coord_vals=lat[:], cell_bounds=lat_bounds[:],
@@ -98,8 +98,8 @@ def save(opts, threeD=True):
     axis_ids.append(lat_axis_id)
 
     lon = np.linspace(0.5, 359.5, 360)
-    lon_bounds = np.column_stack((np.linspace(0., 359., 360.),
-                                  np.linspace(1., 360., 360.)))
+    lon_bounds = np.column_stack((np.linspace(0., 359., 360),
+                                  np.linspace(1., 360., 360)))
     lon_axis_id = cmor.axis(table_entry='longitude',
                             units='degrees_north', length=len(lon),
                             coord_vals=lon[:], cell_bounds=lon_bounds[:],
