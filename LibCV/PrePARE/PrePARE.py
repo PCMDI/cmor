@@ -811,6 +811,12 @@ def main():
         help='Show all results. Default only shows error(s) (i.e., file(s) not compliant)')
 
     parser.add_argument(
+        '--hide-progress',
+        action='store_true',
+        default=False,
+        help='Do not show the percentage of progress / number of files checked while running PrePARE.')
+
+    parser.add_argument(
         '--ignore-dir',
         metavar="PYTHON_REGEX",
         type=str,
@@ -895,14 +901,16 @@ def main():
         for logfile, rc in pool.imap(process, sources):
             progress += 1
             percentage = int(progress * 100 / nb_sources)
-            msg = BCOLORS.OKGREEN + '\rCheck netCDF file(s): ' + BCOLORS.ENDC
-            msg += '{}% | {}/{} files'.format(percentage, progress, nb_sources)
-            sys.stdout.write(msg)
-            sys.stdout.flush()
+            if not args.hide_progress:
+                msg = BCOLORS.OKGREEN + '\rCheck netCDF file(s): ' + BCOLORS.ENDC
+                msg += '{}% | {}/{} files'.format(percentage, progress, nb_sources)
+                sys.stdout.write(msg)
+                sys.stdout.flush()
             logfiles.append(logfile)
             errors += rc
-        sys.stdout.write('\r\033[K')
-        sys.stdout.flush()
+        if not args.hide_progress:
+            sys.stdout.write('\r\033[K')
+            sys.stdout.flush()
         # Print results from logfiles and remove them
         for logfile in set(logfiles):
             if not os.stat(logfile).st_size == 0:
