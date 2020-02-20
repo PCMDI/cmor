@@ -154,7 +154,7 @@ def grid(axis_ids, latitude=None, longitude=None,
         nvert = 0
         if not type in ['d', 'f', 'i', 'l']:
             raise Exception(
-                "latitude array must be of type 'd','f','l' or 'i'")
+                "latitude array must be of type int32, int64, float32, or float64")
 
         longitude = _to_numpy(longitude, 'longitude')
 
@@ -427,7 +427,7 @@ def axis(table_entry, units=None, length=None,
         type = coord_vals.dtype.char[0]
 
         if not type in ['i', 'l', 'f', 'd', 'S', 'U']:
-            raise Exception("error allowed data type are: i,l,f,d or S")
+            raise Exception("error allowed data type are: int32, int64, float32, float64, bytestring, unicode")
 
         if type == 'S' or type == 'U':
             type = 'c'
@@ -737,7 +737,7 @@ def write(var_id, data, ntimes_passed=None, file_suffix="",
         type = time_vals.dtype.char
         if not type in ['f', 'd', 'i', 'l']:
             raise Exception(
-                "Error time_vals type must one of: 'f','d','i','l', please convert first")
+                "Error time_vals type must one of: int32, int64, float32, float64. Please convert first")
         time_vals = time_vals.astype("d")
 
     if ntimes_passed is None:
@@ -838,13 +838,13 @@ def write(var_id, data, ntimes_passed=None, file_suffix="",
         type = time_bnds.dtype.char
         if not type in ['f', 'd', 'i', 'l']:
             raise Exception(
-                "Error time_bnds type must one of: 'f','d','i','l', please convert first")
+                "Error time_bnds type must one of: int32, int64, float32, float64. Please convert first")
         time_bnds = time_bnds.astype("d")
 
     type = data.dtype.char
     if not type in ['f', 'd', 'i', 'l']:
         raise Exception(
-            "Error data type must one of: 'f','d','i','l', please convert first")
+            "Error data type must one of: int32, int64, float32, float64. Please convert first")
 
     return _cmor.write(var_id, data, type, file_suffix, ntimes_passed,
                        time_vals, time_bnds, store_with)
