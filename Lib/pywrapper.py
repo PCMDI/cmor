@@ -427,7 +427,7 @@ def axis(table_entry, units=None, length=None,
         type = coord_vals.dtype.char[0]
 
         if not type in ['i', 'l', 'f', 'd', 'S', 'U']:
-            raise Exception("error allowed data type are: int32, int64, float32, float64, bytestring, unicode")
+            raise Exception("error allowed data type are: int32, int64, float32, float64, string")
 
         if type == 'S' or type == 'U':
             type = 'c'
