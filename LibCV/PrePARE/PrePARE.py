@@ -447,14 +447,14 @@ class checkCMIP6(object):
         # -------------------------------------------------------------------
         # Check global attributes
         # -------------------------------------------------------------------
-        self.errors += cmip6_cv.check_requiredattributes(table)
-        self.errors += cmip6_cv.check_institution(table)
-        self.errors += cmip6_cv.check_sourceID(table)
-        self.errors += cmip6_cv.check_experiment(table)
-        self.errors += cmip6_cv.check_grids(table)
-        self.errors += cmip6_cv.check_ISOTime()
-        self.errors += cmip6_cv.check_furtherinfourl(table)
-        self.errors += cmip6_cv.check_subExpID(table)
+        self.errors |= cmip6_cv.check_requiredattributes(table)
+        self.errors |= cmip6_cv.check_institution(table)
+        self.errors |= cmip6_cv.check_sourceID(table)
+        self.errors |= cmip6_cv.check_experiment(table)
+        self.errors |= cmip6_cv.check_grids(table)
+        self.errors |= cmip6_cv.check_ISOTime()
+        self.errors |= cmip6_cv.check_furtherinfourl(table)
+        self.errors |= cmip6_cv.check_subExpID(table)
         for attr in ['branch_time_in_child', 'branch_time_in_parent']:
             if attr in list(self.dictGbl.keys()):
                 self.set_double_value(attr)
@@ -464,7 +464,7 @@ class checkCMIP6(object):
                     print("{} is not a double: ".format(attr), type(self.dictGbl[attr]))
                     print("=====================================================================================")
                     print(BCOLORS.ENDC)
-                    self.errors += 1
+                    self.errors |= 1
         for attr in ['realization_index', 'initialization_index', 'physics_index', 'forcing_index']:
             try:
                 if not numpy.issubdtype(self.dictGbl[attr], numpy.integer):
@@ -473,15 +473,15 @@ class checkCMIP6(object):
                     print("{} is not an integer: ".format(attr), type(self.dictGbl[attr]))
                     print("=====================================================================================")
                     print(BCOLORS.ENDC)
-                    self.errors += 1
+                    self.errors |= 1
             except KeyError:
                 print(BCOLORS.FAIL)
                 print("=====================================================================================")
                 print("{} attribute is missing in global attributes".format(attr))
                 print("=====================================================================================")
                 print(BCOLORS.ENDC)
-                self.errors += 1
-        self.errors += cmip6_cv.check_parentExpID(table)
+                self.errors |= 1
+        self.errors |= cmip6_cv.check_parentExpID(table)
         for attr in ['table_id', 'variable_id']:
             try:
                 if locals()[attr] != self.dictGbl[attr]:
@@ -490,14 +490,14 @@ class checkCMIP6(object):
                     print("{} attribute is not consistent: ".format(attr), self.dictGbl[attr])
                     print("=====================================================================================")
                     print(BCOLORS.ENDC)
-                    self.errors += 1
+                    self.errors |= 1
             except KeyError:
                 print(BCOLORS.FAIL)
                 print("=====================================================================================")
                 print("{} attribute is missing in global attributes".format(attr))
                 print("=====================================================================================")
                 print(BCOLORS.ENDC)
-                self.errors += 1
+                self.errors |= 1
         # -------------------------------------------------------------------
         # Get time axis properties
         # -------------------------------------------------------------------
@@ -560,7 +560,7 @@ class checkCMIP6(object):
         # -------------------------------------------------------------------
         # Check filename
         # -------------------------------------------------------------------
-        self.errors += cmip6_cv.check_filename(table,
+        self.errors |= cmip6_cv.check_filename(table,
                                                varid,
                                                calendar,
                                                timeunits,
@@ -620,7 +620,7 @@ class checkCMIP6(object):
                                     print("CMIP6 tables requires \"" + values[0] + "\" in external_variables.")
                                 print("=====================================================================================")
                                 print(BCOLORS.ENDC)
-                                self.errors += 1
+                                self.errors |= 1
                         else:
                             print(BCOLORS.FAIL)
                             print("=====================================================================================")
@@ -631,7 +631,7 @@ class checkCMIP6(object):
                             print("CMIP6 tables require attribute \"external_variables\" in global attributes.")
                             print("=====================================================================================")
                             print(BCOLORS.ENDC)
-                            self.errors += 1
+                            self.errors |= 1
                         continue
 
                 if str(table_value) != str(file_value):
@@ -641,7 +641,7 @@ class checkCMIP6(object):
                     print("CMIP6 tables requires \"" + key + "\":\"" + str(table_value) + "\".")
                     print("=====================================================================================")
                     print(BCOLORS.ENDC)
-                    self.errors += 1
+                    self.errors |= 1
             else:
                 # That attribute is not in the file
                 table_value = cv_attrs[key]
@@ -654,7 +654,7 @@ class checkCMIP6(object):
                 print("CMIP6 variable " + variable + " requires \"" + key + "\":\"" + str(table_value) + "\".")
                 print("=====================================================================================")
                 print(BCOLORS.ENDC)
-                self.errors += 1
+                self.errors |= 1
         # Check if cell_measures is defined in the file but not in the table
         if "cell_measures" in list(self.dictVar.keys()) and "cell_measures" not in cv_attrs:
                 print(BCOLORS.FAIL)
@@ -663,7 +663,7 @@ class checkCMIP6(object):
                 print("CMIP6 tables do not define \"cell_measures\".")
                 print("=====================================================================================")
                 print(BCOLORS.ENDC)
-                self.errors += 1
+                self.errors |= 1
         # Print final message
         if self.errors != 0:
             print(BCOLORS.FAIL + "└──> :: CV FAIL    :: {}".format(ncfile) + BCOLORS.ENDC)
