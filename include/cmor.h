@@ -188,7 +188,7 @@
 #define GLOBAL_ATT_TITLE_MSG          "%s output prepared for %s"
 #define GLOBAL_ATT_EXTERNAL_VAR       "external_variables"
 #define GLOBAL_ATT_MIP_ERA            "mip_era"
-#define GLOBAL_CV_FILENAME            GLOBAL_INTERNAL"control_vocabulary_file"
+#define GLOBAL_CV_FILENAME            GLOBAL_INTERNAL"controlled_vocabulary_file"
 #define GLOBAL_IS_CMIP6               GLOBAL_INTERNAL"cmip6_option"
 
 #define NO_PARENT                     "no parent"
