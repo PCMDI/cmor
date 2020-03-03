@@ -1,5 +1,5 @@
 {
-           "_control_vocabulary_file": "Tables/CMIP6_CV.json",
+           "_controlled_vocabulary_file": "Tables/CMIP6_CV.json",
            "_AXIS_ENTRY_FILE":         "CMIP6_coordinateTESTNOBOUNDS.json",
            "_FORMULA_VAR_FILE":        "Tables/CMIP6_formula_terms.json",
            "_cmip6_option":           "CMIP6",
