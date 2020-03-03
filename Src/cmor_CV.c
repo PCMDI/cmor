@@ -541,8 +541,6 @@ int cmor_CV_checkSourceType(cmor_CV_def_t * CV_exp, char *szExptID)
                      szReqSourceTypeCpy, szSourceType, CV_Filename);
             regfree(&regex);
             cmor_handle_error(msg, CMOR_NORMAL);
-            cmor_pop_traceback();
-            return (-1);
         } else {
             nbGoodType++;
         }
