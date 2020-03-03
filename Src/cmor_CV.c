@@ -2343,6 +2343,8 @@ int cmor_CV_variable(int *var_id, char *name, char *units,
 
     if (CMOR_TABLE == -1) {
         cmor_handle_error("You did not define a table yet!", CMOR_CRITICAL);
+        cmor_pop_traceback();
+        return (-1);
     }
 
 /* -------------------------------------------------------------------- */
