@@ -447,14 +447,22 @@ class checkCMIP6(object):
         # -------------------------------------------------------------------
         # Check global attributes
         # -------------------------------------------------------------------
-        self.errors += cmip6_cv.check_requiredattributes(table)
-        self.errors += cmip6_cv.check_institution(table)
-        self.errors += cmip6_cv.check_sourceID(table)
-        self.errors += cmip6_cv.check_experiment(table)
-        self.errors += cmip6_cv.check_grids(table)
-        self.errors += cmip6_cv.check_ISOTime()
-        self.errors += cmip6_cv.check_furtherinfourl(table)
-        self.errors += cmip6_cv.check_subExpID(table)
+        if cmip6_cv.check_requiredattributes(table) != 0:
+            self.errors += 1
+        if cmip6_cv.check_institution(table) != 0:
+            self.errors += 1
+        if cmip6_cv.check_sourceID(table) != 0:
+            self.errors += 1
+        if cmip6_cv.check_experiment(table) != 0:
+            self.errors += 1
+        if cmip6_cv.check_grids(table) != 0:
+            self.errors += 1
+        if cmip6_cv.check_ISOTime() != 0:
+            self.errors += 1
+        if cmip6_cv.check_furtherinfourl(table) != 0:
+            self.errors += 1
+        if cmip6_cv.check_subExpID(table) != 0:
+            self.errors += 1
         for attr in ['branch_time_in_child', 'branch_time_in_parent']:
             if attr in list(self.dictGbl.keys()):
                 self.set_double_value(attr)
@@ -481,7 +489,8 @@ class checkCMIP6(object):
                 print("=====================================================================================")
                 print(BCOLORS.ENDC)
                 self.errors += 1
-        self.errors += cmip6_cv.check_parentExpID(table)
+        if cmip6_cv.check_parentExpID(table) != 0:
+            self.errors += 1
         for attr in ['table_id', 'variable_id']:
             try:
                 if locals()[attr] != self.dictGbl[attr]:
@@ -560,11 +569,8 @@ class checkCMIP6(object):
         # -------------------------------------------------------------------
         # Check filename
         # -------------------------------------------------------------------
-        self.errors += cmip6_cv.check_filename(table,
-                                               varid,
-                                               calendar,
-                                               timeunits,
-                                               filename)
+        if cmip6_cv.check_filename(table, varid, calendar, timeunits, filename) != 0:
+            self.errors += 1
         # -------------------------------------------------------------------
         # Check variable attributes
         # -------------------------------------------------------------------
