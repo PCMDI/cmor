@@ -63,9 +63,12 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
                 cmor.write(ivar, data[i:i])
             self.delete_files += [cmor.close(ivar, True)]
             cmor.close()
-        except BaseException:
-            raise
-        self.assertCV('1980-01')
+        except BaseException as e:
+            if str(e) == "Problem with 'cmor.write'. Please check the logfile (if defined).":
+                self.assertCV('1980-01')
+                pass
+            else:
+                raise
 
 
 if __name__ == '__main__':
