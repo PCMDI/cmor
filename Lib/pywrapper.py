@@ -47,16 +47,16 @@ def set_terminate_signal(signal):
 
 
 def time_varying_grid_coordinate(
-        grid_id, table_entry, units, type='f', missing_value=None):
+        grid_id, table_entry, units, data_type='f', missing_value=None):
     """ Create a cmor variable for grid coordinates in case of time varying grids
     Usage:
     coord_grid_id = grid_time_varying_coordinate(
-    grid_id, table_entry,units,type='f',missing_value=None)
+    grid_id, table_entry,units,data_type='f',missing_value=None)
     Where:
     grid_id : The grid_id return by a call to cmor.grid
     table_entry: The name of the variable in the CMOR table
     units: variable units
-    type: type of the missing_value, which must be the same as the type of the array  that will be passed to cmor_write.
+    data_type: data type of the missing_value, which must be the same as the type of the array  that will be passed to cmor_write.
     The options are: 'd' (double), 'f' (float), 'l' (long) or 'i' (int).
     missing_value : scalar that is used to indicate missing data for this variable.
     It must be the same type as the data that will be passed to cmor_write.
@@ -70,14 +70,14 @@ def time_varying_grid_coordinate(
 
     if not isinstance(units, six.string_types):
         raise Exception("Error you must pass a string for the variable units")
-    if not isinstance(type, six.string_types):
-        raise Exception("error type must be a string")
-    type = type.lower()
-    if type == 's' or type == 'u':
-        type = 'c'
-    if type not in ["c", "d", "f", "l", "i"]:
+    if not isinstance(data_type, six.string_types):
+        raise Exception("error data_type must be a string")
+    data_type = data_type.lower()
+    if data_type == 's' or data_type == 'u':
+        data_type = 'c'
+    if data_type not in ["c", "d", "f", "l", "i"]:
         raise Exception(
-            'error unknown type: "%s", must be one of: "c","d","f","l","i"')
+            'error unknown data_type: "%s", must be one of: "c","d","f","l","i"')
 
     if not isinstance(grid_id, (int, numpy.int, numpy.int32, numpy.int64)):
         raise Exception("error grid_id must be an integer")
@@ -94,7 +94,7 @@ def time_varying_grid_coordinate(
         missing_value = float(missing_value)
 
     return _cmor.time_varying_grid_coordinate(
-        grid_id, table_entry, units, str.encode(type), missing_value)
+        grid_id, table_entry, units, str.encode(data_type), missing_value)
 
 
 def _to_numpy(vals, message):
@@ -150,11 +150,11 @@ def grid(axis_ids, latitude=None, longitude=None,
             raise Exception(
                 "latitude's rank does not match number of axes passed via axis_ids")
 
-        type = latitude.dtype.char
+        data_type = latitude.dtype.char
         nvert = 0
-        if not type in ['d', 'f', 'i', 'l']:
+        if not data_type in ['d', 'f', 'i', 'l']:
             raise Exception(
-                "latitude array must be of type int32, int64, float32, or float64")
+                "latitude array must be of data_type int32, int64, float32, or float64")
 
         longitude = _to_numpy(longitude, 'longitude')
 
@@ -162,13 +162,13 @@ def grid(axis_ids, latitude=None, longitude=None,
             raise Exception(
                 "longitude's rank does not match number of axes passed via axis_ids")
 
-    # print 'longitude type:',longitude.dtype.char
-        if longitude.dtype.char != type:
-            longitude = longitude.astype(type)
+    # print 'longitude data_type:',longitude.dtype.char
+        if longitude.dtype.char != data_type:
+            longitude = longitude.astype(data_type)
     elif longitude is not None:
         raise Exception("latitude and longitude must be BOTH an array or None")
     else:
-        type = 'f'
+        data_type = 'f'
         if nvertices is None:
             nvert = 0
         else:
@@ -180,9 +180,9 @@ def grid(axis_ids, latitude=None, longitude=None,
         if numpy.ndim(latitude_vertices) != len(axis_ids) + 1:
             raise Exception(
                 "latitude_vertices's rank does not match number of axes passed via axis_ids +1 (for vertices)")
-# print 'latitude_vert type:',latitude_vertices.dtype.char
-        if latitude_vertices.dtype.char != type:
-            latitude_vertices = latitude_vertices.astype(type)
+# print 'latitude_vert data_type:',latitude_vertices.dtype.char
+        if latitude_vertices.dtype.char != data_type:
+            latitude_vertices = latitude_vertices.astype(data_type)
         nvert = latitude_vertices.shape[-1]
         if nvertices is not None:
             if nvert != nvertices:
@@ -196,9 +196,9 @@ def grid(axis_ids, latitude=None, longitude=None,
         if numpy.ndim(longitude_vertices) != len(axis_ids) + 1:
             raise Exception(
                 "longitude_vertices's rank does not match number of axes passed via axis_ids +1 (for vertices)")
-# print 'longitude_vert type:',longitude_vertices.dtype.char
-        if longitude_vertices.dtype.char != type:
-            longitude_vertices = longitude_vertices.astype(type)
+# print 'longitude_vert data_type:',longitude_vertices.dtype.char
+        if longitude_vertices.dtype.char != data_type:
+            longitude_vertices = longitude_vertices.astype(data_type)
         nvert2 = longitude_vertices.shape[-1]
         if latitude_vertices is None:
             nvert = nvert2
@@ -222,11 +222,11 @@ def grid(axis_ids, latitude=None, longitude=None,
 ##                 raise Exception, "Error could not convert area to a numpy array"
 # if numpy.rank(area)!=len(axis_ids):
 ##                 raise Exception, "area's rank does not match number of axes passed via axis_ids"
-# if area.dtype.char!=type:
-##             area = area.astype(type)
+# if area.dtype.char!=data_type:
+##             area = area.astype(data_type)
     n = len(axis_ids)
     axis_ids = axis_ids.astype('i')
-    return _cmor.grid(n, axis_ids, str.encode(type), latitude, longitude,
+    return _cmor.grid(n, axis_ids, str.encode(data_type), latitude, longitude,
                       nvert, latitude_vertices, longitude_vertices)
 
 
@@ -424,13 +424,13 @@ def axis(table_entry, units=None, length=None,
 
     if coord_vals is not None:
         l = len(coord_vals)
-        type = coord_vals.dtype.char[0]
+        data_type = coord_vals.dtype.char[0]
 
-        if not type in ['i', 'l', 'f', 'd', 'S', 'U']:
-            raise Exception("error allowed data type are: int32, int64, float32, float64, string")
+        if not data_type in ['i', 'l', 'f', 'd', 'S', 'U']:
+            raise Exception("error allowed data data_type are: int32, int64, float32, float64, string")
 
-        if type == 'S' or type == 'U':
-            type = 'c'
+        if data_type == 'S' or data_type == 'U':
+            data_type = 'c'
             cbnds = 0
             for s in coord_vals:
                 # print 'testing:',s,len(s)
@@ -439,11 +439,11 @@ def axis(table_entry, units=None, length=None,
             # cbnds+=1
     else:
         l = 0
-        type = 'd'
+        data_type = 'd'
 
     if cell_bounds is not None:
-        if type != cell_bounds.dtype.char:
-            cell_bounds = cell_bounds.astype(type)
+        if data_type != cell_bounds.dtype.char:
+            cell_bounds = cell_bounds.astype(data_type)
 
     if units is None:
         if coord_vals is not None:
@@ -459,10 +459,10 @@ def axis(table_entry, units=None, length=None,
         l = int(length)
 
     return _cmor.axis(table_entry, units, l, coord_vals,
-                      str.encode(type), cell_bounds, cbnds, interval)
+                      str.encode(data_type), cell_bounds, cbnds, interval)
 
 
-def variable(table_entry, units, axis_ids, type='f', missing_value=None,
+def variable(table_entry, units, axis_ids, data_type='f', missing_value=None,
              tolerance=1.e-4, positive=None, original_name=None, history=None, comment=None):
 
     if not isinstance(table_entry, six.string_types):
@@ -508,14 +508,14 @@ def variable(table_entry, units, axis_ids, type='f', missing_value=None,
     if numpy.ndim(axis_ids) > 1:
         raise Exception("error axis_ids list/array must be 1D")
 
-    if not isinstance(type, six.string_types):
-        raise Exception("error type must be a string")
-    type = type.lower()
-    if type == 's' or type == 'u':
-        type = 'c'
-    if not type in ["c", "d", "f", "l", "i"]:
+    if not isinstance(data_type, six.string_types):
+        raise Exception("error data_type must be a string")
+    data_type = data_type.lower()
+    if data_type == 's' or data_type == 'u':
+        data_type = 'c'
+    if not data_type in ["c", "d", "f", "l", "i"]:
         raise Exception(
-            'error unknown type: "%s", must be one of: "c","d","f","l","i"')
+            'error unknown data_type: "%s", must be one of: "c","d","f","l","i"')
 
     ndims = len(axis_ids)
 
@@ -552,12 +552,12 @@ def variable(table_entry, units, axis_ids, type='f', missing_value=None,
         missing_value = float(missing_value)
 
     axis_ids = axis_ids.astype('i')
-    return _cmor.variable(table_entry, units, ndims, axis_ids, str.encode(type),
+    return _cmor.variable(table_entry, units, ndims, axis_ids, str.encode(data_type),
                           missing_value, tolerance, positive, original_name, history, comment)
 
 
 def zfactor(zaxis_id, zfactor_name, units="", axis_ids=None,
-            type=None, zfactor_values=None, zfactor_bounds=None):
+            data_type=None, zfactor_values=None, zfactor_bounds=None):
 
     if not isinstance(zaxis_id, (int, numpy.int, numpy.int32, numpy.int64)):
         raise Exception("error zaxis_id must be a number")
@@ -619,30 +619,30 @@ def zfactor(zaxis_id, zfactor_name, units="", axis_ids=None,
             raise Exception(
                 "Error could not convert zfactor_values to a numpy array")
 
-        if type is None:
+        if data_type is None:
             try:
-                type = zfactor_values.dtype.char
+                data_type = zfactor_values.dtype.char
             except BaseException:
                 if isinstance(zfactor_values,
                               (float, numpy.float, numpy.float32)):
-                    type = 'f'
+                    data_type = 'f'
                 elif isinstance(zfactor_values, (int, numpy.int, numpy.int32)):
-                    type = 'd'
+                    data_type = 'd'
                 else:
                     raise Exception(
-                        "Error unknown type for zfactor_values: %s" %
+                        "Error unknown data_type for zfactor_values: %s" %
                         repr(zfactor_values))
-    elif type is None:
-        type = 'd'
+    elif data_type is None:
+        data_type = 'd'
 
-    if not isinstance(type, six.string_types):
-        raise Exception("error type must be a string")
-    type = type.lower()
-    if type == 's' or type == 'u':
-        type = 'c'
-    if not type in ["c", "d", "f", "l", "i"]:
+    if not isinstance(data_type, six.string_types):
+        raise Exception("error data_type must be a string")
+    data_type = data_type.lower()
+    if data_type == 's' or data_type == 'u':
+        data_type = 'c'
+    if not data_type in ["c", "d", "f", "l", "i"]:
         raise Exception(
-            'error unknown type: "%s", must be one of: "c","d","f","l","i"')
+            'error unknown data_type: "%s", must be one of: "c","d","f","l","i"')
 
     if zfactor_bounds is not None:
         if numpy.ma.isMA(zfactor_bounds):
@@ -676,9 +676,9 @@ def zfactor(zaxis_id, zfactor_name, units="", axis_ids=None,
     axis_ids = axis_ids.astype('i')
 
 # print
-# "sending",zaxis_id,zfactor_name,units,ndims,axis_ids,type,zfactor_values,zfactor_bounds
+# "sending",zaxis_id,zfactor_name,units,ndims,axis_ids,data_type,zfactor_values,zfactor_bounds
     return _cmor.zfactor(zaxis_id, zfactor_name, units,
-                         ndims, axis_ids, str.encode(type), zfactor_values, zfactor_bounds)
+                         ndims, axis_ids, str.encode(data_type), zfactor_values, zfactor_bounds)
 
 
 def write(var_id, data, ntimes_passed=None, file_suffix="",
@@ -734,10 +734,10 @@ def write(var_id, data, ntimes_passed=None, file_suffix="",
                 "Error could not convert time_vals to a numpy array")
 
     if time_vals is not None:
-        type = time_vals.dtype.char
-        if not type in ['f', 'd', 'i', 'l']:
+        data_type = time_vals.dtype.char
+        if not data_type in ['f', 'd', 'i', 'l']:
             raise Exception(
-                "Error time_vals type must one of: int32, int64, float32, float64. Please convert first")
+                "Error time_vals data_type must one of: int32, int64, float32, float64. Please convert first")
         time_vals = time_vals.astype("d")
 
     if ntimes_passed is None:
@@ -835,18 +835,18 @@ def write(var_id, data, ntimes_passed=None, file_suffix="",
             time_bnds = numpy.array(bnds)
 
     if time_bnds is not None:
-        type = time_bnds.dtype.char
-        if not type in ['f', 'd', 'i', 'l']:
+        data_type = time_bnds.dtype.char
+        if not data_type in ['f', 'd', 'i', 'l']:
             raise Exception(
-                "Error time_bnds type must one of: int32, int64, float32, float64. Please convert first")
+                "Error time_bnds data_type must one of: int32, int64, float32, float64. Please convert first")
         time_bnds = time_bnds.astype("d")
 
-    type = data.dtype.char
-    if not type in ['f', 'd', 'i', 'l']:
+    data_type = data.dtype.char
+    if not data_type in ['f', 'd', 'i', 'l']:
         raise Exception(
-            "Error data type must one of: int32, int64, float32, float64. Please convert first")
+            "Error data data_type must one of: int32, int64, float32, float64. Please convert first")
 
-    return _cmor.write(var_id, data, type, file_suffix, ntimes_passed,
+    return _cmor.write(var_id, data, data_type, file_suffix, ntimes_passed,
                        time_vals, time_bnds, store_with)
 
 
