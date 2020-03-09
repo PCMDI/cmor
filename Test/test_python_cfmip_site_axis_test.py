@@ -91,7 +91,7 @@ if __name__ == '__main__':
     # Create CMOR variable for cloud area fraction: MIP name = 'cl', STASH =
     # m01s02i261*100
     table_id = cmor.load_table('CMIP6_CFsubhr.json')
-    var_id = cmor.variable('cl', '%', [taxis_id, gaxis_id, zaxis_id], type='f',
+    var_id = cmor.variable('cl', '%', [taxis_id, gaxis_id, zaxis_id], data_type='f',
                            missing_value=-99.0, original_name='STASH m01s02i261*100')
     print('ok: created variable for "cl"')
 
