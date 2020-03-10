@@ -127,7 +127,7 @@ myvars[3] = cmor.zfactor(zaxis_id=myaxes2[1],
                          zfactor_name="ps",
                          units="hPa",
                          axis_ids=myaxes[:3],
-                         type='d')
+                         data_type='d')
 print('zfact last')
 
 #  /* ok here we decalre a variable for region axis testing */

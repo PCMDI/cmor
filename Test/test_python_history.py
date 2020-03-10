@@ -65,7 +65,7 @@ class TestCase(unittest.TestCase):
             ivar = cmor.variable(
                 table_entry="masso",
                 axis_ids=[itime],
-                type=numpy.dtype('float32').char,
+                data_type=numpy.dtype('float32').char,
                 units='kg')
 
             data = numpy.random.random(5).astype('float32')
