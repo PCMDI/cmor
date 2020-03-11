@@ -187,7 +187,7 @@ else
   JSONCLDFLAGS="-ljson-c"
   JSONCFLAGS=""
 fi
-AC_CHECK_LIB([json-c],[json_object_get_userdata],[],[AC_ERROR([Could not get a working json-c])],[ ${JSONCFLAGS} ${JSONCLDFLAGS}  ])
+AC_CHECK_LIB([json-c],[json_object_new_object],[],[AC_ERROR([Could not get a working json-c])],[ ${JSONCFLAGS} ${JSONCLDFLAGS}  ])
 
 AC_ARG_WITH([uuid],[AS_HELP_STRING([--with-uuid],[enable support for uuid in none standard location])],[],[with_uuid="no"])
 if [ test x${with_uuid} != xyes ] ; then
