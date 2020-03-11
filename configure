@@ -4170,7 +4170,29 @@ fi
 
 if  test x${with_udunits2} != xyes  ; then
   if  test x${with_udunits2} != xno  ; then
-   UDUNITS2FLAGS=" -I${with_udunits2}/include"
+   as_ac_File=`$as_echo "ac_cv_file_${with_udunits2}/include/udunits2/udunits2.h" | $as_tr_sh`
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for ${with_udunits2}/include/udunits2/udunits2.h" >&5
+$as_echo_n "checking for ${with_udunits2}/include/udunits2/udunits2.h... " >&6; }
+if eval \${$as_ac_File+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  test "$cross_compiling" = yes &&
+  as_fn_error $? "cannot check for file existence when cross compiling" "$LINENO" 5
+if test -r "${with_udunits2}/include/udunits2/udunits2.h"; then
+  eval "$as_ac_File=yes"
+else
+  eval "$as_ac_File=no"
+fi
+fi
+eval ac_res=\$$as_ac_File
+	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
+$as_echo "$ac_res" >&6; }
+if eval test \"x\$"$as_ac_File"\" = x"yes"; then :
+  UDUNITS2FLAGS=" -I${with_udunits2}/include/udunits2"
+else
+  UDUNITS2FLAGS=" -I${with_udunits2}/include"
+fi
+
    if  test ${RTAG} != "none"  ; then
      UDUNITS2LDFLAGS=" -L${with_udunits2}/lib  ${RTAG}${with_udunits2}/lib -ludunits2 -lexpat"
    else
