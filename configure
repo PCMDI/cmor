@@ -4039,9 +4039,9 @@ else
   JSONCFLAGS=""
 fi
 
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for json_object_get_userdata in -ljson-c" >&5
-$as_echo_n "checking for json_object_get_userdata in -ljson-c... " >&6; }
-if ${ac_cv_lib_json_c_json_object_get_userdata+:} false; then :
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for json_object_new_object in -ljson-c" >&5
+$as_echo_n "checking for json_object_new_object in -ljson-c... " >&6; }
+if ${ac_cv_lib_json_c_json_object_new_object+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ac_check_lib_save_LIBS=$LIBS
@@ -4055,27 +4055,27 @@ cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 #ifdef __cplusplus
 extern "C"
 #endif
-char json_object_get_userdata ();
+char json_object_new_object ();
 int
 main ()
 {
-return json_object_get_userdata ();
+return json_object_new_object ();
   ;
   return 0;
 }
 _ACEOF
 if ac_fn_c_try_link "$LINENO"; then :
-  ac_cv_lib_json_c_json_object_get_userdata=yes
+  ac_cv_lib_json_c_json_object_new_object=yes
 else
-  ac_cv_lib_json_c_json_object_get_userdata=no
+  ac_cv_lib_json_c_json_object_new_object=no
 fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
 LIBS=$ac_check_lib_save_LIBS
 fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_json_c_json_object_get_userdata" >&5
-$as_echo "$ac_cv_lib_json_c_json_object_get_userdata" >&6; }
-if test "x$ac_cv_lib_json_c_json_object_get_userdata" = xyes; then :
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_json_c_json_object_new_object" >&5
+$as_echo "$ac_cv_lib_json_c_json_object_new_object" >&6; }
+if test "x$ac_cv_lib_json_c_json_object_new_object" = xyes; then :
   cat >>confdefs.h <<_ACEOF
 #define HAVE_LIBJSON_C 1
 _ACEOF
