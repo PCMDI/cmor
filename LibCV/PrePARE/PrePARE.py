@@ -922,14 +922,19 @@ def main():
                 sys.stdout.write('\r\033[K')
             sys.stdout.flush()
         # Print results from logfiles and remove them
+        # If --no-color-text is used, then remove the ANSI escape codes from the log output
+        remove_ansi = re.compile(r'\x1b\[[0-?]*[ -/]*[@-~]')
         for logfile in set(logfiles):
             if not os.stat(logfile).st_size == 0:
                 with open(logfile, 'r') as f:
+                    log_text = f.read()
+                    if args.no_text_color:
+                        log_text = remove_ansi.sub('', log_text)
                     if log:
                         with open(log, 'a+') as r:
-                            r.write(f.read())
+                            r.write(log_text)
                     else:
-                        sys.stdout.write(f.read())
+                        sys.stdout.write(log_text)
                         sys.stdout.flush()
             os.remove(logfile)
         # Close pool of processes
@@ -938,8 +943,24 @@ def main():
     else:
         print('Checking data, please wait...')
         initializer(list(cctx.keys()), list(cctx.values()))
+        # Print results from logfiles and remove them
+        # If --no-color-text is used, then remove the ANSI escape codes from the log output
+        remove_ansi = re.compile(r'\x1b\[[0-?]*[ -/]*[@-~]')
         for source in sources:
-            errors += sequential_process(source)
+            logfile, rc = process(source)
+            errors += rc
+            if not os.stat(logfile).st_size == 0:
+                with open(logfile, 'r') as f:
+                    log_text = f.read()
+                    if args.no_text_color:
+                        log_text = remove_ansi.sub('', log_text)
+                    if log:
+                        with open(log, 'a+') as r:
+                            r.write(log_text)
+                    else:
+                        sys.stdout.write(log_text)
+                        sys.stdout.flush()
+            os.remove(logfile)
     # Print results summary
     if args.no_text_color:
         msg = '\nNumber of files scanned: {}'.format(nb_sources)
