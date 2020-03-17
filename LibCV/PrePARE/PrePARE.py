@@ -922,7 +922,7 @@ def main():
                 sys.stdout.write('\r\033[K')
             sys.stdout.flush()
         # Print results from logfiles and remove them
-        # If --no-color-text is used, then remove the ANSI escape codes from the log output
+        # If --no-text-color is used, then remove the ANSI escape codes from the log output
         remove_ansi = re.compile(r'\x1b\[[0-?]*[ -/]*[@-~]')
         for logfile in set(logfiles):
             if not os.stat(logfile).st_size == 0:
@@ -944,7 +944,7 @@ def main():
         print('Checking data, please wait...')
         initializer(list(cctx.keys()), list(cctx.values()))
         # Print results from logfiles and remove them
-        # If --no-color-text is used, then remove the ANSI escape codes from the log output
+        # If --no-text-color is used, then remove the ANSI escape codes from the log output
         remove_ansi = re.compile(r'\x1b\[[0-?]*[ -/]*[@-~]')
         for source in sources:
             logfile, rc = process(source)
