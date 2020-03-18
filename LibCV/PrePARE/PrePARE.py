@@ -272,6 +272,37 @@ class checkCMIP6(object):
             cmip6_cv.CMOR_FORMULA_VAR_FILE,
             "CMIP6_formula_terms.json")
 
+    def prepare_print(self, msg, code, no_text_color=False, lines=False):
+        code_color = {
+            'HEADER': BCOLORS.HEADER,
+            'OKBLUE': BCOLORS.OKBLUE,
+            'OKGREEN': BCOLORS.OKGREEN,
+            'WARNING': BCOLORS.WARNING,
+            'FAIL': BCOLORS.FAIL,
+            'BOLD': BCOLORS.BOLD,
+            'UNDERLINE': BCOLORS.UNDERLINE,
+        }
+        line = '====================================================================================='
+        if lines:
+            if code in code_color and not no_text_color:
+                print(code_color[code])
+            else:
+                print('')
+            print(line)
+            print(msg)
+            print(line)
+            if code in code_color and not no_text_color:
+                print(BCOLORS.ENDC)
+            else:
+                print('')
+        else:
+            if no_text_color:
+                print(msg)
+            elif code in code_color:
+                print('{}{}{}'.format(code_color[code], msg, BCOLORS.ENDC))
+            else:
+                print(msg)
+
     @staticmethod
     def _get_variable_from_filename(f):
         return f.split('_')[0]
@@ -329,7 +360,7 @@ class checkCMIP6(object):
     def has_variable_name(filename, **kwargs):
         return True
 
-    def ControlVocab(self, ncfile, variable=None, print_all=True):
+    def ControlVocab(self, ncfile, variable=None, print_all=True, no_text_color=False):
         """
         Check CMIP6 global attributes against Control Vocabulary file.
 
@@ -406,11 +437,8 @@ class checkCMIP6(object):
         #  -------------------------------------------------------------------
         # Variable record name should follow CMOR table out names
         if variable_cmor_entry not in list(cmor_table['variable_entry'].keys()):
-            print(BCOLORS.FAIL)
-            print("=====================================================================================")
-            print("The entry " + variable_cmor_entry + " could not be found in CMOR table")
-            print("=====================================================================================")
-            print(BCOLORS.ENDC)
+            msg = "The entry " + variable_cmor_entry + " could not be found in CMOR table"
+            self.prepare_print(msg, 'FAIL', no_text_color, lines=True)
             raise KeyboardInterrupt
         variable_record_name = cmor_table['variable_entry'][variable_cmor_entry]['out_name']
         # Variable id attribute should be the same as variable record name
@@ -437,11 +465,8 @@ class checkCMIP6(object):
         try:
             self.dictVar = infile.variables[variable_record_name].__dict__
         except BaseException:
-            print(BCOLORS.FAIL)
-            print("=====================================================================================")
-            print("The variable " + variable_record_name + " could not be found in file")
-            print("=====================================================================================")
-            print(BCOLORS.ENDC)
+            msg = "The variable " + variable_record_name + " could not be found in file"
+            self.prepare_print(msg, 'FAIL', no_text_color, lines=True)
             raise KeyboardInterrupt
 
         # -------------------------------------------------------------------
@@ -467,45 +492,30 @@ class checkCMIP6(object):
             if attr in list(self.dictGbl.keys()):
                 self.set_double_value(attr)
                 if not numpy.issubdtype(self.dictGbl[attr], numpy.float64):
-                    print(BCOLORS.FAIL)
-                    print("=====================================================================================")
-                    print("{} is not a double: ".format(attr), type(self.dictGbl[attr]))
-                    print("=====================================================================================")
-                    print(BCOLORS.ENDC)
+                    msg = "{} is not a double: {}".format(attr, type(self.dictGbl[attr]))
+                    self.prepare_print(msg, 'FAIL', no_text_color, lines=True)
                     self.errors += 1
         for attr in ['realization_index', 'initialization_index', 'physics_index', 'forcing_index']:
             try:
                 if not numpy.issubdtype(self.dictGbl[attr], numpy.integer):
-                    print(BCOLORS.FAIL)
-                    print("=====================================================================================")
-                    print("{} is not an integer: ".format(attr), type(self.dictGbl[attr]))
-                    print("=====================================================================================")
-                    print(BCOLORS.ENDC)
+                    msg = "{} is not an integer: {}".format(attr, type(self.dictGbl[attr]))
+                    self.prepare_print(msg, 'FAIL', no_text_color, lines=True)
                     self.errors += 1
             except KeyError:
-                print(BCOLORS.FAIL)
-                print("=====================================================================================")
-                print("{} attribute is missing in global attributes".format(attr))
-                print("=====================================================================================")
-                print(BCOLORS.ENDC)
+                msg = "{} attribute is missing in global attributes".format(attr)
+                self.prepare_print(msg, 'FAIL', no_text_color, lines=True)
                 self.errors += 1
         if cmip6_cv.check_parentExpID(table) != 0:
             self.errors += 1
         for attr in ['table_id', 'variable_id']:
             try:
                 if locals()[attr] != self.dictGbl[attr]:
-                    print(BCOLORS.FAIL)
-                    print("=====================================================================================")
-                    print("{} attribute is not consistent: ".format(attr), self.dictGbl[attr])
-                    print("=====================================================================================")
-                    print(BCOLORS.ENDC)
+                    msg = "{} attribute is not consistent: {}".format(attr, self.dictGbl[attr])
+                    self.prepare_print(msg, 'FAIL', no_text_color, lines=True)
                     self.errors += 1
             except KeyError:
-                print(BCOLORS.FAIL)
-                print("=====================================================================================")
-                print("{} attribute is missing in global attributes".format(attr))
-                print("=====================================================================================")
-                print(BCOLORS.ENDC)
+                msg = "{} attribute is missing in global attributes".format(attr)
+                self.prepare_print(msg, 'FAIL', no_text_color, lines=True)
                 self.errors += 1
         # -------------------------------------------------------------------
         # Get time axis properties
@@ -560,11 +570,8 @@ class checkCMIP6(object):
                                         startimebnds,
                                         endtimebnds)
         if varid == -1:
-            print(BCOLORS.FAIL)
-            print("=====================================================================================")
-            print("Could not find variable {} in table {} ".format(variable_cmor_entry, cmip6_table))
-            print("=====================================================================================")
-            print(BCOLORS.ENDC)
+            msg = "Could not find variable {} in table {} ".format(variable_cmor_entry, cmip6_table)
+            self.prepare_print(msg, 'FAIL', no_text_color, lines=True)
             raise KeyboardInterrupt
         # -------------------------------------------------------------------
         # Check filename
@@ -617,36 +624,27 @@ class checkCMIP6(object):
                     for v in values:
                         if 'external_variables' in list(self.dictGbl.keys()):
                             if not re.search(r"\b{}\b".format(v), self.dictGbl['external_variables']):
-                                print(BCOLORS.FAIL)
-                                print("=====================================================================================")
-                                print("Your file contains external_variables = \"" + self.dictGbl['external_variables'] + "\", and")
+                                msg = "Your file contains external_variables = \"" + self.dictGbl['external_variables'] + "\", and"
                                 if len(values) == 2:
-                                    print("CMIP6 tables requires \"" + values[0] + "\" and \"" + values[1] + "\" in external_variables.")
+                                    msg += "\nCMIP6 tables requires \"" + values[0] + "\" and \"" + values[1] + "\" in external_variables."
                                 else:
-                                    print("CMIP6 tables requires \"" + values[0] + "\" in external_variables.")
-                                print("=====================================================================================")
-                                print(BCOLORS.ENDC)
+                                    msg += "\nCMIP6 tables requires \"" + values[0] + "\" in external_variables."
+                                self.prepare_print(msg, 'FAIL', no_text_color, lines=True)
                                 self.errors += 1
                         else:
-                            print(BCOLORS.FAIL)
-                            print("=====================================================================================")
                             if len(values) == 2:
-                                print("Your file contains \"" + values[0] + "\" and \"" + values[1] + "\" in cell_measures and")
+                                msg = "Your file contains \"" + values[0] + "\" and \"" + values[1] + "\" in cell_measures and"
                             else:
-                                print("Your file contains \"" + values[0] + "\" in cell_measures and")
-                            print("CMIP6 tables require attribute \"external_variables\" in global attributes.")
-                            print("=====================================================================================")
-                            print(BCOLORS.ENDC)
+                                msg = "Your file contains \"" + values[0] + "\" in cell_measures and"
+                            msg += "\nCMIP6 tables require attribute \"external_variables\" in global attributes."
+                            self.prepare_print(msg, 'FAIL', no_text_color, lines=True)
                             self.errors += 1
                         continue
 
                 if str(table_value) != str(file_value):
-                    print(BCOLORS.FAIL)
-                    print("=====================================================================================")
-                    print("Your file contains \"" + key + "\":\"" + str(file_value) + "\" and")
-                    print("CMIP6 tables requires \"" + key + "\":\"" + str(table_value) + "\".")
-                    print("=====================================================================================")
-                    print(BCOLORS.ENDC)
+                    msg =  "Your file contains \"" + key + "\":\"" + str(file_value) + "\" and"
+                    msg += "\nCMIP6 tables requires \"" + key + "\":\"" + str(table_value) + "\"."
+                    self.prepare_print(msg, 'FAIL', no_text_color, lines=True)
                     self.errors += 1
             else:
                 # That attribute is not in the file
@@ -655,27 +653,21 @@ class checkCMIP6(object):
                     table_value = table_value[0]
                 if isinstance(table_value, float):
                     table_value = "{0:.2g}".format(table_value)
-                print(BCOLORS.FAIL)
-                print("=====================================================================================")
-                print("CMIP6 variable " + variable + " requires \"" + key + "\":\"" + str(table_value) + "\".")
-                print("=====================================================================================")
-                print(BCOLORS.ENDC)
+                msg = "CMIP6 variable " + variable + " requires \"" + key + "\":\"" + str(table_value) + "\"."
+                self.prepare_print(msg, 'FAIL', no_text_color, lines=True)
                 self.errors += 1
         # Check if cell_measures is defined in the file but not in the table
         if "cell_measures" in list(self.dictVar.keys()) and "cell_measures" not in cv_attrs:
-                print(BCOLORS.FAIL)
-                print("=====================================================================================")
-                print("Your file contains \"cell_measures\":\"" + str(self.dictVar["cell_measures"]) + "\" but")
-                print("CMIP6 tables do not define \"cell_measures\".")
-                print("=====================================================================================")
-                print(BCOLORS.ENDC)
+                msg =  "Your file contains \"cell_measures\":\"" + str(self.dictVar["cell_measures"]) + "\" but"
+                msg += "\nCMIP6 tables do not define \"cell_measures\"."
+                self.prepare_print(msg, 'FAIL', no_text_color, lines=True)
                 self.errors += 1
         # Print final message
         if self.errors != 0:
-            print(BCOLORS.FAIL + "└──> :: CV FAIL    :: {}".format(ncfile) + BCOLORS.ENDC)
+            self.prepare_print("└──> :: CV FAIL    :: {}".format(ncfile), 'FAIL', no_text_color)
             raise KeyboardInterrupt
         elif print_all:
-            print(BCOLORS.OKGREEN + "     :: CV SUCCESS :: {}".format(ncfile) + BCOLORS.ENDC)
+            self.prepare_print("     :: CV SUCCESS :: {}".format(ncfile), 'OKGREEN', no_text_color)
 
 
 def process(source):
@@ -696,18 +688,19 @@ def sequential_process(source):
         # Process file
         checker = checkCMIP6(pctx.table_path)
         if pctx.variable:
-            checker.ControlVocab(source, variable=pctx.variable, print_all=pctx.all)
+            checker.ControlVocab(source, variable=pctx.variable, print_all=pctx.all, no_text_color=pctx.no_text_color)
         else:
-            checker.ControlVocab(source, print_all=pctx.all)
+            checker.ControlVocab(source, print_all=pctx.all, no_text_color=pctx.no_text_color)
         return 0
     except KeyboardInterrupt:
         return 1
     except Exception as e:
         print(e)
-        msg = BCOLORS.WARNING
-        msg += "└──> :: SKIPPED    :: {}".format(source)
-        msg += BCOLORS.ENDC
-        print(msg)
+        msg = "└──> :: SKIPPED    :: {}".format(source)
+        if pctx.no_text_color:
+            print(msg)
+        else:
+            print('{}{}{}'.format(BCOLORS.WARNING, msg, BCOLORS.ENDC))
         return 1
     finally:
         # Close opened file
@@ -817,6 +810,18 @@ def main():
         help='Show all results. Default only shows error(s) (i.e., file(s) not compliant)')
 
     parser.add_argument(
+        '--hide-progress',
+        action='store_true',
+        default=False,
+        help='Do not show the percentage of progress / number of files checked while running PrePARE.')
+
+    parser.add_argument(
+        '--no-text-color',
+        action='store_true',
+        default=False,
+        help='Remove text color from output.')
+
+    parser.add_argument(
         '--ignore-dir',
         metavar="PYTHON_REGEX",
         type=str,
@@ -888,6 +893,7 @@ def main():
     errors = 0
     # Init process context
     cctx = dict()
+    cctx['no_text_color'] = args.no_text_color
     cctx['table_path'] = args.table_path
     cctx['variable'] = args.variable
     cctx['all'] = args.all
@@ -901,23 +907,34 @@ def main():
         for logfile, rc in pool.imap(process, sources):
             progress += 1
             percentage = int(progress * 100 / nb_sources)
-            msg = BCOLORS.OKGREEN + '\rCheck netCDF file(s): ' + BCOLORS.ENDC
-            msg += '{}% | {}/{} files'.format(percentage, progress, nb_sources)
-            sys.stdout.write(msg)
-            sys.stdout.flush()
+            if not args.hide_progress:
+                if args.no_text_color:
+                    msg = '\rCheck netCDF file(s): '
+                else:
+                    msg = BCOLORS.OKGREEN + '\rCheck netCDF file(s): ' + BCOLORS.ENDC
+                msg += '{}% | {}/{} files'.format(percentage, progress, nb_sources)
+                sys.stdout.write(msg)
+                sys.stdout.flush()
             logfiles.append(logfile)
             errors += rc
-        sys.stdout.write('\r\033[K')
-        sys.stdout.flush()
+        if not args.hide_progress:
+            if not args.no_text_color:
+                sys.stdout.write('\r\033[K')
+            sys.stdout.flush()
         # Print results from logfiles and remove them
+        # If --no-text-color is used, then remove the ANSI escape codes from the log output
+        remove_ansi = re.compile(r'\x1b\[[0-?]*[ -/]*[@-~]')
         for logfile in set(logfiles):
             if not os.stat(logfile).st_size == 0:
                 with open(logfile, 'r') as f:
+                    log_text = f.read()
+                    if args.no_text_color:
+                        log_text = remove_ansi.sub('', log_text)
                     if log:
                         with open(log, 'a+') as r:
-                            r.write(f.read())
+                            r.write(log_text)
                     else:
-                        sys.stdout.write(f.read())
+                        sys.stdout.write(log_text)
                         sys.stdout.flush()
             os.remove(logfile)
         # Close pool of processes
@@ -926,15 +943,35 @@ def main():
     else:
         print('Checking data, please wait...')
         initializer(list(cctx.keys()), list(cctx.values()))
+        # Print results from logfiles and remove them
+        # If --no-text-color is used, then remove the ANSI escape codes from the log output
+        remove_ansi = re.compile(r'\x1b\[[0-?]*[ -/]*[@-~]')
         for source in sources:
-            errors += sequential_process(source)
+            logfile, rc = process(source)
+            errors += rc
+            if not os.stat(logfile).st_size == 0:
+                with open(logfile, 'r') as f:
+                    log_text = f.read()
+                    if args.no_text_color:
+                        log_text = remove_ansi.sub('', log_text)
+                    if log:
+                        with open(log, 'a+') as r:
+                            r.write(log_text)
+                    else:
+                        sys.stdout.write(log_text)
+                        sys.stdout.flush()
+            os.remove(logfile)
     # Print results summary
-    msg = BCOLORS.HEADER + '\nNumber of files scanned: {}'.format(nb_sources) + BCOLORS.ENDC
-    if errors:
-        msg += BCOLORS.FAIL
+    if args.no_text_color:
+        msg = '\nNumber of files scanned: {}'.format(nb_sources)
+        msg += '\nNumber of file with error(s): {}'.format(errors)
     else:
-        msg += BCOLORS.OKGREEN
-    msg += '\nNumber of file with error(s): {}'.format(errors) + BCOLORS.ENDC
+        msg = BCOLORS.HEADER + '\nNumber of files scanned: {}'.format(nb_sources) + BCOLORS.ENDC
+        if errors:
+            msg += BCOLORS.FAIL
+        else:
+            msg += BCOLORS.OKGREEN
+        msg += '\nNumber of file with error(s): {}'.format(errors) + BCOLORS.ENDC
     if log:
         with open(log, 'a+') as r:
             r.write(msg)
