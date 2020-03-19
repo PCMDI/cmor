@@ -439,6 +439,7 @@ class checkCMIP6(object):
         if variable_cmor_entry not in list(cmor_table['variable_entry'].keys()):
             msg = "The entry " + variable_cmor_entry + " could not be found in CMOR table"
             self.prepare_print(msg, 'FAIL', no_text_color, lines=True)
+            self.prepare_print("└──> :: CV FAIL    :: {}".format(ncfile), 'FAIL', no_text_color)
             raise KeyboardInterrupt
         variable_record_name = cmor_table['variable_entry'][variable_cmor_entry]['out_name']
         # Variable id attribute should be the same as variable record name
@@ -467,6 +468,7 @@ class checkCMIP6(object):
         except BaseException:
             msg = "The variable " + variable_record_name + " could not be found in file"
             self.prepare_print(msg, 'FAIL', no_text_color, lines=True)
+            self.prepare_print("└──> :: CV FAIL    :: {}".format(ncfile), 'FAIL', no_text_color)
             raise KeyboardInterrupt
 
         # -------------------------------------------------------------------
@@ -572,6 +574,7 @@ class checkCMIP6(object):
         if varid == -1:
             msg = "Could not find variable {} in table {} ".format(variable_cmor_entry, cmip6_table)
             self.prepare_print(msg, 'FAIL', no_text_color, lines=True)
+            self.prepare_print("└──> :: CV FAIL    :: {}".format(ncfile), 'FAIL', no_text_color)
             raise KeyboardInterrupt
         # -------------------------------------------------------------------
         # Check filename
