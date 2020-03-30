@@ -671,19 +671,10 @@ static PyObject *PyCMOR_zfactor(PyObject * self, PyObject * args)
     if (axes_obj == Py_None) {
         axes_ids = NULL;
     } else {
-        if (ndims > 1) {
-            axes =
-              (PyArrayObject *) PyArray_ContiguousFromObject(axes_obj,
-                                                             NPY_NOTYPE, 1, 0);
-            axes_ids = (void *)PyArray_DATA(axes);
-        } else {
-#if PY_MAJOR_VERSION >= 3
-            itmp = (int)PyLong_AsLong(axes_obj);
-#else
-            itmp = (int)PyInt_AsLong(axes_obj);
-#endif
-            axes_ids = &itmp;
-        }
+        axes =
+            (PyArrayObject *) PyArray_ContiguousFromObject(axes_obj,
+                                                            NPY_NOTYPE, 1, 0);
+        axes_ids = (void *)PyArray_DATA(axes);
     }
 
     if (values_obj == Py_None) {
