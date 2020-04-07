@@ -113,10 +113,10 @@ def save(opts, threeD=True):
     in_missing = float(1.e20)
     if threeD:
         variable_id = cmor.variable(table_entry='ts', units='K',
-                                    axis_ids=axis_ids, type='f', missing_value=in_missing)
+                                    axis_ids=axis_ids, data_type='f', missing_value=in_missing)
     else:
         variable_id = cmor.variable(table_entry='ta', units='K',
-                                    axis_ids=axis_ids, type='f', missing_value=in_missing)
+                                    axis_ids=axis_ids, data_type='f', missing_value=in_missing)
 
     #
     # Write the data

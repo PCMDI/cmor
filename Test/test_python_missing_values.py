@@ -51,7 +51,7 @@ class TestCase(unittest.TestCase):
             ivar = cmor.variable(
                 table_entry="massobad",
                 axis_ids=[itime],
-                type=numpy.dtype('int32').char,
+                data_type=numpy.dtype('int32').char,
                 units='kg')
 
             data = numpy.random.random(5).astype('int32')
@@ -89,7 +89,7 @@ class TestCase(unittest.TestCase):
             ivar = cmor.variable(
                 table_entry="massobad",
                 axis_ids=[itime],
-                type=numpy.dtype('int32').char,
+                data_type=numpy.dtype('int32').char,
                 units='kg', missing_value=23)
 
             data = numpy.random.random(5).astype('int32')
