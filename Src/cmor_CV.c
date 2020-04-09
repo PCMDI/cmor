@@ -1147,7 +1147,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
                 }
             }
             // branch method
-            if (cmor_has_cur_dataset_attribute(BRANCH_METHOD)) {
+            if (cmor_has_cur_dataset_attribute(BRANCH_METHOD) != 0) {
                 snprintf(msg, CMOR_MAX_STRING,
                          "Your input attribute \"%s\" is not defined \n! "
                          "properly for %s \n! "
@@ -1171,7 +1171,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
                 }
             }
             // branch_time_in_child
-            if (cmor_has_cur_dataset_attribute(BRANCH_TIME_IN_CHILD)) {
+            if (cmor_has_cur_dataset_attribute(BRANCH_TIME_IN_CHILD) != 0) {
                 snprintf(msg, CMOR_MAX_STRING,
                          "Your input attribute \"%s\" is not defined \n! "
                          "properly for %s \n! "
@@ -1195,9 +1195,8 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
                     return (-1);
                 }
             }
-            
             // branch_time_in_parent
-            if (cmor_has_cur_dataset_attribute(BRANCH_TIME_IN_PARENT)) {
+            if (cmor_has_cur_dataset_attribute(BRANCH_TIME_IN_PARENT) != 0) {
                 snprintf(msg, CMOR_MAX_STRING,
                          "Your input attribute \"%s\" is not defined \n! "
                          "properly for %s \n! "
@@ -1222,7 +1221,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
                 }
             }
             // parent_time_units
-            if (cmor_has_cur_dataset_attribute(PARENT_TIME_UNITS)) {
+            if (cmor_has_cur_dataset_attribute(PARENT_TIME_UNITS) != 0) {
                 snprintf(msg, CMOR_MAX_STRING,
                          "Your input attribute \"%s\" is not defined \n! "
                          "properly for %s \n! "
@@ -1266,7 +1265,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
                 regfree(&regex);
             }
             // parent_variant_label
-            if (cmor_has_cur_dataset_attribute(PARENT_VARIANT_LABEL)) {
+            if (cmor_has_cur_dataset_attribute(PARENT_VARIANT_LABEL) != 0) {
                 snprintf(msg, CMOR_MAX_STRING,
                          "Your input attribute \"%s\" is not defined \n! "
                          "properly for %s \n! "
