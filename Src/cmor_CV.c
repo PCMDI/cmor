@@ -1165,10 +1165,10 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
                              "Your input attribute %s is an empty string\n! "
                              "Please describe the spin-up procedure as defined \n! "
                              "in CMIP6 documentations.\n! ", BRANCH_METHOD);
+                    cmor_handle_error(msg, CMOR_NORMAL);
+                    cmor_pop_traceback();
+                    return (-1);
                 }
-                cmor_handle_error(msg, CMOR_NORMAL);
-                cmor_pop_traceback();
-                return (-1);
             }
             // branch_time_in_child
             if (cmor_has_cur_dataset_attribute(BRANCH_TIME_IN_CHILD)) {
