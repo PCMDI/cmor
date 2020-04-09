@@ -1251,9 +1251,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
                     cmor_pop_traceback();
                     return (-1);
                 }
-/* -------------------------------------------------------------------- */
-/*        Execute regular expression                                    */
-/* -------------------------------------------------------------------- */
+                // Execute regular expression
                 reti = regexec(&regex, szParentTimeUnits, 0, NULL, 0);
                 if (reti == REG_NOMATCH) {
                     snprintf(msg, CMOR_MAX_STRING,
@@ -1297,9 +1295,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
                     cmor_pop_traceback();
                     return (-1);
                 }
-/* -------------------------------------------------------------------- */
-/*        Execute regular expression                                    */
-/* -------------------------------------------------------------------- */
+                // Execute regular expression
                 reti = regexec(&regex, szParentVariantLabel, 0, NULL, 0);
                 if (reti == REG_NOMATCH) {
                     snprintf(msg, CMOR_MAX_STRING,
