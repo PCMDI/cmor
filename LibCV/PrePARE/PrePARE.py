@@ -616,10 +616,12 @@ class checkCMIP6(object):
                     if abs(table_value - file_value) <= 0.00001 * abs(table_value):
                         table_value = file_value
                 if key == "cell_methods":
-                    idx = file_value.find(" (")
-                    if idx != -1:
-                        file_value = file_value[:idx]
-                        table_value = table_value[:idx]
+                    # Remove text that is inside parentheses i.e. comments
+                    file_value = re.sub(r"\(.*\)", "", file_value)
+                    table_value = re.sub(r"\(.*\)", "", table_value)
+                    # Remove extra whitespace
+                    file_value = " ".join(file_value.split())
+                    table_value = " ".join(table_value.split())
                 if key == "cell_measures":
                     # Check if area and volume values from the table's cell_measures are found in the file's external_variables
                     pattern = re.compile('(?:area|volume): (\w+)')
