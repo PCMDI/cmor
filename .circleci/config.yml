@@ -109,7 +109,7 @@ jobs:
     environment:
       PYTHON_VERSION: "2.7"
       WORKDIR: "workspace/test_macos_cmor"
-      CONDA_COMPILERS: "clang_osx-64 gfortran_osx-64"
+      CONDA_COMPILERS: "clang_osx-64>=9 gfortran_osx-64>=7"
       LDSHARED_FLAGS: "-bundle -undefined dynamic_lookup"
       UVCDAT_ANONYMOUS_LOG: "False"
       OS: "osx-64"
@@ -130,7 +130,7 @@ jobs:
     environment:
       PYTHON_VERSION: "3.6"
       WORKDIR: "workspace/test_macos_cmor"
-      CONDA_COMPILERS: "clang_osx-64 gfortran_osx-64"
+      CONDA_COMPILERS: "clang_osx-64>=9 gfortran_osx-64>=7"
       LDSHARED_FLAGS: "-bundle -undefined dynamic_lookup"
       UVCDAT_ANONYMOUS_LOG: "False"
       OS: "osx-64"
@@ -151,7 +151,7 @@ jobs:
     environment:
       PYTHON_VERSION: "3.7"
       WORKDIR: "workspace/test_macos_cmor"
-      CONDA_COMPILERS: "clang_osx-64 gfortran_osx-64"
+      CONDA_COMPILERS: "clang_osx-64>=9 gfortran_osx-64>=7"
       LDSHARED_FLAGS: "-bundle -undefined dynamic_lookup"
       UVCDAT_ANONYMOUS_LOG: "False"
       OS: "osx-64"
@@ -172,7 +172,7 @@ jobs:
     environment:
       PYTHON_VERSION: "2.7"
       WORKDIR: "workspace/test_linux_cmor"
-      CONDA_COMPILERS: "gcc_linux-64 gfortran_linux-64"
+      CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7"
       LDSHARED_FLAGS: "-shared -pthread"
       UVCDAT_ANONYMOUS_LOG: "False"
       OS: "linux-64"
@@ -193,7 +193,7 @@ jobs:
     environment:
       PYTHON_VERSION: "3.6"
       WORKDIR: "workspace/test_linux_cmor"
-      CONDA_COMPILERS: "gcc_linux-64 gfortran_linux-64"
+      CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7"
       LDSHARED_FLAGS: "-shared -pthread"
       UVCDAT_ANONYMOUS_LOG: "False"
       OS: "linux-64"
@@ -214,7 +214,7 @@ jobs:
     environment:
       PYTHON_VERSION: "3.7"
       WORKDIR: "workspace/test_linux_cmor"
-      CONDA_COMPILERS: "gcc_linux-64 gfortran_linux-64"
+      CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7"
       LDSHARED_FLAGS: "-shared -pthread"
       UVCDAT_ANONYMOUS_LOG: "False"
       OS: "linux-64"
