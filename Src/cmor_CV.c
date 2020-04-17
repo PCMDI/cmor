@@ -777,8 +777,6 @@ int CV_CompareNoParent(char *szKey)
                      szValue, NO_PARENT);
             cmor_set_cur_dataset_attribute_internal(szKey, NO_PARENT, 1);
             cmor_handle_error(msg, CMOR_WARNING);
-            cmor_pop_traceback();
-            return (-1);
         }
     }
     cmor_pop_traceback();
