@@ -1044,7 +1044,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
     // Do we have a parent_experiment_id?
     if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_PARENT_EXPT_ID) != 0) {
         CV_parent_exp_id = cmor_CV_search_child_key(CV_experiment,
-                                                    PARENT_ACTIVITY_ID);
+                                                    PARENT_EXPERIMENT_ID);
         if (CV_IsStringInArray(CV_parent_exp_id, NO_PARENT)) {
             cmor_pop_traceback();
             return (0);
