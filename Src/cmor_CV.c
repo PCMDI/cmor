@@ -1100,9 +1100,6 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
                     cmor_handle_error(msg, CMOR_WARNING);
                 }
             }
-
-            cmor_pop_traceback();
-            return (0);
         } else {
             // real parent case
             // Parent Activity ID
