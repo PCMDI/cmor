@@ -166,6 +166,27 @@ jobs:
       - run: *run_prepare_tests
       - run: *conda_upload
 
+  macos_cmor_py38:
+    macos:
+      xcode: "11.1.0"
+    environment:
+      PYTHON_VERSION: "3.8"
+      WORKDIR: "workspace/test_macos_cmor"
+      CONDA_COMPILERS: "clang_osx-64>=9 gfortran_osx-64>=7"
+      LDSHARED_FLAGS: "-bundle -undefined dynamic_lookup"
+      UVCDAT_ANONYMOUS_LOG: "False"
+      OS: "osx-64"
+    steps:
+      - checkout
+      - run: *pull_submodules
+      - run: *setup_miniconda
+      - run: *create_conda_env
+      - run: *setup_cmor
+      - run: *run_cmor_tests
+      - run: *run_cmor_tests_with_cdms2
+      - run: *run_prepare_tests
+      - run: *conda_upload
+
   linux_cmor_py27:
     machine:
       image: circleci/classic:latest
@@ -229,6 +250,27 @@ jobs:
       - run: *run_prepare_tests
       - run: *conda_upload
 
+  linux_cmor_py38:
+    machine:
+      image: circleci/classic:latest
+    environment:
+      PYTHON_VERSION: "3.8"
+      WORKDIR: "workspace/test_linux_cmor"
+      CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7"
+      LDSHARED_FLAGS: "-shared -pthread"
+      UVCDAT_ANONYMOUS_LOG: "False"
+      OS: "linux-64"
+    steps:
+      - checkout
+      - run: *pull_submodules
+      - run: *setup_miniconda
+      - run: *create_conda_env
+      - run: *setup_cmor
+      - run: *run_cmor_tests
+      - run: *run_cmor_tests_with_cdms2
+      - run: *run_prepare_tests
+      - run: *conda_upload
+
 workflows:
   version: 2
   nightly:
@@ -236,6 +278,8 @@ workflows:
       - macos_cmor_py27
       - macos_cmor_py36
       - macos_cmor_py37
+      - macos_cmor_py38
       - linux_cmor_py27
       - linux_cmor_py36
       - linux_cmor_py37
+      - linux_cmor_py38
