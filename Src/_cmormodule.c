@@ -671,7 +671,7 @@ static PyObject *PyCMOR_zfactor(PyObject * self, PyObject * args)
     if (axes_obj == Py_None) {
         axes_ids = NULL;
     } else {
-        if (PyArray_Check(axes_obj)) {
+        if (!PyArray_CheckAnyScalar(axes_obj)) {
             axes =
               (PyArrayObject *) PyArray_ContiguousFromObject(axes_obj,
                                                              NPY_NOTYPE, 1, 0);
@@ -824,7 +824,7 @@ static PyObject *PyCMOR_write(PyObject * self, PyObject * args)
     if (times_obj == Py_None) {
         times = NULL;
     } else {
-        if (ntimes > 1) {
+        if (!PyArray_CheckAnyScalar(times_obj)) {
             times_array = (PyArrayObject *)
               PyArray_ContiguousFromObject(times_obj, NPY_NOTYPE, 1, 0);
             times = (void *)PyArray_DATA(times_array);
