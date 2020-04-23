@@ -113,17 +113,17 @@ print('vars 2')
 
 myvars[3] = cmor.zfactor(int(myaxes2[1]), "p0", "Pa", None, 'd', p0)
 print('zfact', myaxes2[1])
-myvars[3] = cmor.zfactor(int(myaxes2[1]), "b", "",
+myvars[4] = cmor.zfactor(int(myaxes2[1]), "b", "",
                          myaxes2[1], 'd', b_coeff, b_coeff_bnds)
 print('zfact', myaxes2[1])
-myvars[3] = cmor.zfactor(int(myaxes2[1]), "a", "",
+myvars[5] = cmor.zfactor(int(myaxes2[1]), "a", "",
                          myaxes2[1], 'd', a_coeff, a_coeff_bnds)
 #/*   printf("defining ap\n"); */
 #/*   for(i=0;i<5;i++) {a_coeff[i]*=1.e3;printf("sending acoef: %i, %lf\n",i,a_coeff[i]);} */
 #/*   for(i=0;i<6;i++) {a_coeff_bnds[i]*=1.e5;printf("sending acoef: %i, %lf\n",i,a_coeff_bnds[i]);} */
 #/*   ierr = cmor_zfactor(&myvars[3],myaxes2[1],"ap","hPa",1,&myaxes2[1],'d',&a_coeff,&a_coeff_bnds); */
 print('zfact before last')
-myvars[3] = cmor.zfactor(zaxis_id=myaxes2[1],
+myvars[6] = cmor.zfactor(zaxis_id=myaxes2[1],
                          zfactor_name="ps",
                          units="hPa",
                          axis_ids=myaxes[:3],
@@ -136,7 +136,7 @@ myaxes2[0] = myaxes[7]
 myaxes2[1] = myaxes[5]
 myaxes2[2] = myaxes[8]
 
-myvars[4] = cmor.variable("htovgyre",
+myvars[7] = cmor.variable("htovgyre",
                           "W",
                           myaxes2[:3],
                           'd',
