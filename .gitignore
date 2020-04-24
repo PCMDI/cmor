@@ -9,7 +9,7 @@
 .cproject
 .project
 .settings/
-.vscode
+.vscode/
 Test/CMIP5
 CMIP5
 Makefile

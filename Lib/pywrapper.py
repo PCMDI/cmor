@@ -593,15 +593,8 @@ def zfactor(zaxis_id, zfactor_name, units="", axis_ids=None,
 
     if axis_ids is None:
         ndims = 0
-        axis_ids = numpy.array(1)
     else:
         ndims = len(axis_ids)
-
-# if ndims>1 and zfactor_values is not None:
-##         raise Exception, "Error you can only pass zfactor_values for zfactor with rank <=1"
-# if ndims>1 and zfactor_bounds is not None:
-# raise Exception, "Error you can only pass zfactor_bounds for zfactor
-# with rank <=1"
 
     if zfactor_values is not None:
         if isinstance(zfactor_values, (float, int, numpy.float,
@@ -673,10 +666,10 @@ def zfactor(zaxis_id, zfactor_name, units="", axis_ids=None,
                         "error zfactor_bounds have gaps between them")
             bnds.append(zfactor_bounds[-1][1])
             zfactor_bounds = numpy.array(bnds)
-    axis_ids = axis_ids.astype('i')
+            
+    if axis_ids is not None:
+        axis_ids = axis_ids.astype('i')
 
-# print
-# "sending",zaxis_id,zfactor_name,units,ndims,axis_ids,data_type,zfactor_values,zfactor_bounds
     return _cmor.zfactor(zaxis_id, zfactor_name, units,
                          ndims, axis_ids, str.encode(data_type), zfactor_values, zfactor_bounds)
 
