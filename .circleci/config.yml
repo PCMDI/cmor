@@ -15,18 +15,17 @@ aliases:
   - &setup_miniconda
     name: setup_miniconda
     command: |
-      mkdir -p $WORKDIR
       if [[ $OS == 'osx-64' ]]; then
         curl -L https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -o miniconda.sh
       else
         curl -L https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o miniconda.sh
       fi
-      bash miniconda.sh -b -p $WORKDIR/miniconda
+      bash miniconda.sh -b -p $CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda
       
   - &create_conda_env
     name: create_conda_env
     command: |
-       export PATH=$WORKDIR/miniconda/bin:$PATH
+       export PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin:$PATH
        conda config --set always_yes yes --set changeps1 no
        conda update -y -q conda
        conda config --set anaconda_upload no
@@ -36,7 +35,7 @@ aliases:
     name: setup_cmor
     command: |
        echo "WE are in: "`pwd`
-       export PATH=$WORKDIR/miniconda/bin:$PATH
+       export PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin:$PATH
        set +e
        conda activate py$PYTHON_VERSION
        echo "ACTIVATE RETURN CODE $?"
@@ -51,7 +50,7 @@ aliases:
   - &run_cmor_tests
     name: run_cmor_tests
     command: |
-       export PATH=$WORKDIR/miniconda/bin:$PATH
+       export PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin:$PATH
        export UVCDAT_ANONYMOUS_LOG=False
        set +e
        conda activate py$PYTHON_VERSION
@@ -61,7 +60,7 @@ aliases:
   - &run_cmor_tests_with_cdms2
     name: run_cmor_tests_with_cdms2
     command: |
-       export PATH=$WORKDIR/miniconda/bin:$PATH
+       export PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin:$PATH
        export UVCDAT_ANONYMOUS_LOG=False
        # run tests again but with cdms2 installed
        set +e
@@ -73,7 +72,7 @@ aliases:
   - &run_prepare_tests
     name: run_prepare_tests
     command: |
-       export PATH=$WORKDIR/miniconda/bin:$PATH
+       export PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin:$PATH
        export UVCDAT_ANONYMOUS_LOG=False
        set +e
        conda activate py$PYTHON_VERSION
@@ -85,7 +84,7 @@ aliases:
   - &conda_build
     name: conda_build
     command: |
-       export PATH=${HOME}/project/$WORKDIR/miniconda/bin:$PATH
+       export PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin:$PATH
        conda install conda-build anaconda-client
        conda config --set anaconda_upload no
        export CONDA_BLD_PATH=`pwd`/conda_build
@@ -99,7 +98,7 @@ aliases:
        if [[ $CIRCLE_BRANCH != 'master' ]]; then
           exit 0
        fi
-       export PATH=${HOME}/project/$WORKDIR/miniconda/bin:$PATH
+       export PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin:$PATH
        conda config --set anaconda_upload no
        export CONDA_BLD_PATH=`pwd`/conda_build
        anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.`date +%Y*`0.tar.bz2 --force
@@ -111,7 +110,7 @@ jobs:
       xcode: "11.1.0"
     environment:
       OS: "osx-64"
-      WORKDIR: "workspace/macos_build"
+      WORKDIR: "macos_build"
     steps:
       - checkout
       - run: *pull_submodules
@@ -119,14 +118,14 @@ jobs:
       - persist_to_workspace:
           root: .
           paths: 
-            - workspace/macos_build
+            - macos_build
 
   linux_setup:
     machine:
       image: circleci/classic:latest
     environment:
       OS: "linux-64"
-      WORKDIR: "workspace/linux_build"
+      WORKDIR: "linux_build"
     steps:
       - checkout
       - run: *pull_submodules
@@ -134,7 +133,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - workspace/linux_build
+            - linux_build
 
   macos_cmor_py27:
     macos:
@@ -145,7 +144,7 @@ jobs:
       VERSION: "3.5.0"
       LABEL: "nightly"
       PYTHON_VERSION: "2.7"
-      WORKDIR: "workspace/macos_build"
+      WORKDIR: "macos_build"
       CONDA_COMPILERS: "clang_osx-64>=9 gfortran_osx-64>=7"
       LDSHARED_FLAGS: "-bundle -undefined dynamic_lookup"
       UVCDAT_ANONYMOUS_LOG: "False"
@@ -159,7 +158,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - workspace/macos_build/miniconda/conda_build/linux-64/cmor*tar.bz2
+              - macos_build/miniconda/conda_build/linux-64/cmor*tar.bz2
 
   macos_cmor_py36:
     macos:
@@ -170,7 +169,7 @@ jobs:
       VERSION: "3.5.0"
       LABEL: "nightly"
       PYTHON_VERSION: "3.6"
-      WORKDIR: "workspace/macos_build"
+      WORKDIR: "macos_build"
       CONDA_COMPILERS: "clang_osx-64>=9 gfortran_osx-64>=7"
       LDSHARED_FLAGS: "-bundle -undefined dynamic_lookup"
       UVCDAT_ANONYMOUS_LOG: "False"
@@ -184,7 +183,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - workspace/macos_build/miniconda/conda_build/linux-64/cmor*tar.bz2
+              - macos_build/miniconda/conda_build/linux-64/cmor*tar.bz2
 
   macos_cmor_py37:
     macos:
@@ -195,7 +194,7 @@ jobs:
       VERSION: "3.5.0"
       LABEL: "nightly"
       PYTHON_VERSION: "3.7"
-      WORKDIR: "workspace/macos_build"
+      WORKDIR: "macos_build"
       CONDA_COMPILERS: "clang_osx-64>=9 gfortran_osx-64>=7"
       LDSHARED_FLAGS: "-bundle -undefined dynamic_lookup"
       UVCDAT_ANONYMOUS_LOG: "False"
@@ -209,7 +208,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - workspace/macos_build/miniconda/conda_build/linux-64/cmor*tar.bz2
+              - macos_build/miniconda/conda_build/linux-64/cmor*tar.bz2
 
   macos_cmor_py38:
     macos:
@@ -220,7 +219,7 @@ jobs:
       VERSION: "3.5.0"
       LABEL: "nightly"
       PYTHON_VERSION: "3.8"
-      WORKDIR: "workspace/macos_build"
+      WORKDIR: "macos_build"
       CONDA_COMPILERS: "clang_osx-64>=9 gfortran_osx-64>=7"
       LDSHARED_FLAGS: "-bundle -undefined dynamic_lookup"
       UVCDAT_ANONYMOUS_LOG: "False"
@@ -234,7 +233,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - workspace/macos_build/miniconda/conda_build/linux-64/cmor*tar.bz2
+              - macos_build/miniconda/conda_build/linux-64/cmor*tar.bz2
 
   linux_cmor_py27:
     machine:
@@ -245,7 +244,7 @@ jobs:
       VERSION: "3.5.0"
       LABEL: "nightly"
       PYTHON_VERSION: "2.7"
-      WORKDIR: "workspace/linux_build"
+      WORKDIR: "linux_build"
       CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7"
       LDSHARED_FLAGS: "-shared -pthread"
       UVCDAT_ANONYMOUS_LOG: "False"
@@ -259,7 +258,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - workspace/linux_build/miniconda/conda_build/linux-64/cmor*tar.bz2
+              - linux_build/miniconda/conda_build/linux-64/cmor*tar.bz2
 
   linux_cmor_py36:
     machine:
@@ -270,7 +269,7 @@ jobs:
       VERSION: "3.5.0"
       LABEL: "nightly"
       PYTHON_VERSION: "3.6"
-      WORKDIR: "workspace/linux_build"
+      WORKDIR: "linux_build"
       CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7"
       LDSHARED_FLAGS: "-shared -pthread"
       UVCDAT_ANONYMOUS_LOG: "False"
@@ -284,7 +283,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - workspace/linux_build/miniconda/conda_build/linux-64/cmor*tar.bz2
+              - linux_build/miniconda/conda_build/linux-64/cmor*tar.bz2
 
   linux_cmor_py37:
     machine:
@@ -295,7 +294,7 @@ jobs:
       VERSION: "3.5.0"
       LABEL: "nightly"
       PYTHON_VERSION: "3.7"
-      WORKDIR: "workspace/linux_build"
+      WORKDIR: "linux_build"
       CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7"
       LDSHARED_FLAGS: "-shared -pthread"
       UVCDAT_ANONYMOUS_LOG: "False"
@@ -309,7 +308,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - workspace/linux_build/miniconda/conda_build/linux-64/cmor*tar.bz2
+              - linux_build/miniconda/conda_build/linux-64/cmor*tar.bz2
 
   linux_cmor_py38:
     machine:
@@ -320,7 +319,7 @@ jobs:
       VERSION: "3.5.0"
       LABEL: "nightly"
       PYTHON_VERSION: "3.8"
-      WORKDIR: "workspace/linux_build"
+      WORKDIR: "linux_build"
       CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7"
       LDSHARED_FLAGS: "-shared -pthread"
       UVCDAT_ANONYMOUS_LOG: "False"
@@ -334,13 +333,13 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - workspace/linux_build/miniconda/conda_build/linux-64/cmor*tar.bz2
+              - linux_build/miniconda/conda_build/linux-64/cmor*tar.bz2
 
   macos_upload:
     macos:
       xcode: "11.1.0"
     environment:
-      WORKDIR: "workspace/macos_build"
+      WORKDIR: "macos_build"
       PKG_NAME: "cmor"
       VERSION: "3.5.0"
       USER: "pcmdi"
@@ -355,7 +354,7 @@ jobs:
     machine:
       image: circleci/classic:latest
     environment:
-      WORKDIR: "workspace/linux_build"
+      WORKDIR: "linux_build"
       PKG_NAME: "cmor"
       VERSION: "3.5.0"
       USER: "pcmdi"
