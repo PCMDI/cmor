@@ -99,6 +99,10 @@ aliases:
           export CONDA_BLD_PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/conda_build
           echo $CONDA_BLD_PATH
           find ~ -name "*.tar.bz2" -print
+          echo $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.`date +%Y*`0.tar.bz2
+          ls $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.`date +%Y*`0.tar.bz2
+          # ls $CONDA_BLD_PATH
+          # ls $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.`date +%Y*`0.tar.bz2
           exit 0
        fi
       #  export PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin:$PATH
