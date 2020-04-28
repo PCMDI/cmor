@@ -113,7 +113,6 @@ jobs:
       WORKDIR: "macos_build"
     steps:
       - checkout
-      - run: *pull_submodules
       - run: *setup_miniconda
       - persist_to_workspace:
           root: .
@@ -128,7 +127,6 @@ jobs:
       WORKDIR: "linux_build"
     steps:
       - checkout
-      - run: *pull_submodules
       - run: *setup_miniconda
       - persist_to_workspace:
           root: .
@@ -150,6 +148,7 @@ jobs:
       UVCDAT_ANONYMOUS_LOG: "False"
     steps:
       - checkout
+      - run: *pull_submodules
       - attach_workspace:
           at: .
       - run: *create_conda_env
@@ -178,6 +177,7 @@ jobs:
       UVCDAT_ANONYMOUS_LOG: "False"
     steps:
       - checkout
+      - run: *pull_submodules
       - attach_workspace:
           at: .
       - run: *create_conda_env
@@ -206,6 +206,7 @@ jobs:
       UVCDAT_ANONYMOUS_LOG: "False"
     steps:
       - checkout
+      - run: *pull_submodules
       - attach_workspace:
           at: .
       - run: *create_conda_env
@@ -234,6 +235,7 @@ jobs:
       UVCDAT_ANONYMOUS_LOG: "False"
     steps:
       - checkout
+      - run: *pull_submodules
       - attach_workspace:
           at: .
       - run: *create_conda_env
@@ -262,6 +264,7 @@ jobs:
       UVCDAT_ANONYMOUS_LOG: "False"
     steps:
       - checkout
+      - run: *pull_submodules
       - attach_workspace:
           at: .
       - run: *create_conda_env
@@ -290,6 +293,7 @@ jobs:
       UVCDAT_ANONYMOUS_LOG: "False"
     steps:
       - checkout
+      - run: *pull_submodules
       - attach_workspace:
           at: .
       - run: *create_conda_env
@@ -318,6 +322,7 @@ jobs:
       UVCDAT_ANONYMOUS_LOG: "False"
     steps:
       - checkout
+      - run: *pull_submodules
       - attach_workspace:
           at: .
       - run: *create_conda_env
@@ -346,6 +351,7 @@ jobs:
       UVCDAT_ANONYMOUS_LOG: "False"
     steps:
       - checkout
+      - run: *pull_submodules
       - attach_workspace:
           at: .
       - run: *create_conda_env
