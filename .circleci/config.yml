@@ -149,6 +149,9 @@ jobs:
       LDSHARED_FLAGS: "-bundle -undefined dynamic_lookup"
       UVCDAT_ANONYMOUS_LOG: "False"
     steps:
+      - checkout
+      - attach_workspace:
+          at: .
       - run: *create_conda_env
       - run: *setup_cmor
       - run: *run_cmor_tests
@@ -174,6 +177,9 @@ jobs:
       LDSHARED_FLAGS: "-bundle -undefined dynamic_lookup"
       UVCDAT_ANONYMOUS_LOG: "False"
     steps:
+      - checkout
+      - attach_workspace:
+          at: .
       - run: *create_conda_env
       - run: *setup_cmor
       - run: *run_cmor_tests
@@ -199,6 +205,9 @@ jobs:
       LDSHARED_FLAGS: "-bundle -undefined dynamic_lookup"
       UVCDAT_ANONYMOUS_LOG: "False"
     steps:
+      - checkout
+      - attach_workspace:
+          at: .
       - run: *create_conda_env
       - run: *setup_cmor
       - run: *run_cmor_tests
@@ -224,6 +233,9 @@ jobs:
       LDSHARED_FLAGS: "-bundle -undefined dynamic_lookup"
       UVCDAT_ANONYMOUS_LOG: "False"
     steps:
+      - checkout
+      - attach_workspace:
+          at: .
       - run: *create_conda_env
       - run: *setup_cmor
       - run: *run_cmor_tests
@@ -249,6 +261,9 @@ jobs:
       LDSHARED_FLAGS: "-shared -pthread"
       UVCDAT_ANONYMOUS_LOG: "False"
     steps:
+      - checkout
+      - attach_workspace:
+          at: .
       - run: *create_conda_env
       - run: *setup_cmor
       - run: *run_cmor_tests
@@ -274,6 +289,9 @@ jobs:
       LDSHARED_FLAGS: "-shared -pthread"
       UVCDAT_ANONYMOUS_LOG: "False"
     steps:
+      - checkout
+      - attach_workspace:
+          at: .
       - run: *create_conda_env
       - run: *setup_cmor
       - run: *run_cmor_tests
@@ -299,6 +317,9 @@ jobs:
       LDSHARED_FLAGS: "-shared -pthread"
       UVCDAT_ANONYMOUS_LOG: "False"
     steps:
+      - checkout
+      - attach_workspace:
+          at: .
       - run: *create_conda_env
       - run: *setup_cmor
       - run: *run_cmor_tests
@@ -324,6 +345,9 @@ jobs:
       LDSHARED_FLAGS: "-shared -pthread"
       UVCDAT_ANONYMOUS_LOG: "False"
     steps:
+      - checkout
+      - attach_workspace:
+          at: .
       - run: *create_conda_env
       - run: *setup_cmor
       - run: *run_cmor_tests
