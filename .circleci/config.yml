@@ -87,7 +87,7 @@ aliases:
        export PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin:$PATH
        conda install conda-build anaconda-client
        conda config --set anaconda_upload no
-       export CONDA_BLD_PATH=`pwd`/conda_build
+       export CONDA_BLD_PATH=$CIRCLE_WORKING_DIRECTORY/conda_build
        cd recipes
        python ./prep_for_build.py -l $VERSION
        conda build $PKG_NAME -c cdat/label/nightly -c conda-forge -c cdat --python=$PYTHON_VERSION
@@ -100,7 +100,7 @@ aliases:
        fi
        export PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin:$PATH
        conda config --set anaconda_upload no
-       export CONDA_BLD_PATH=`pwd`/conda_build
+       export CONDA_BLD_PATH=$CIRCLE_WORKING_DIRECTORY/conda_build
        anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.`date +%Y*`0.tar.bz2 --force
 
 
@@ -160,7 +160,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - macos_build/miniconda/conda_build/linux-64/cmor*tar.bz2
+              - macos_build/conda_build/linux-64/cmor*tar.bz2
 
   macos_cmor_py36:
     macos:
@@ -189,7 +189,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - macos_build/miniconda/conda_build/linux-64/cmor*tar.bz2
+              - macos_build/conda_build/linux-64/cmor*tar.bz2
 
   macos_cmor_py37:
     macos:
@@ -218,7 +218,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - macos_build/miniconda/conda_build/linux-64/cmor*tar.bz2
+              - macos_build/conda_build/linux-64/cmor*tar.bz2
 
   macos_cmor_py38:
     macos:
@@ -247,7 +247,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - macos_build/miniconda/conda_build/linux-64/cmor*tar.bz2
+              - macos_build/conda_build/linux-64/cmor*tar.bz2
 
   linux_cmor_py27:
     machine:
@@ -276,7 +276,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - linux_build/miniconda/conda_build/linux-64/cmor*tar.bz2
+              - linux_build/conda_build/linux-64/cmor*tar.bz2
 
   linux_cmor_py36:
     machine:
@@ -305,7 +305,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - linux_build/miniconda/conda_build/linux-64/cmor*tar.bz2
+              - linux_build/conda_build/linux-64/cmor*tar.bz2
 
   linux_cmor_py37:
     machine:
@@ -334,7 +334,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - linux_build/miniconda/conda_build/linux-64/cmor*tar.bz2
+              - linux_build/conda_build/linux-64/cmor*tar.bz2
 
   linux_cmor_py38:
     machine:
@@ -363,7 +363,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - linux_build/miniconda/conda_build/linux-64/cmor*tar.bz2
+              - linux_build/conda_build/linux-64/cmor*tar.bz2
 
   macos_upload:
     macos:
