@@ -37,8 +37,7 @@ aliases:
        echo "WE are in: "`pwd`
        export PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin:$PATH
        set +e
-       conda init bash
-       conda activate py$PYTHON_VERSION
+       source activate py$PYTHON_VERSION
        echo "ACTIVATE RETURN CODE $?"
        set -e
        #git clone https://github.com/PCMDI/cmip6-cmor-tables
@@ -54,8 +53,7 @@ aliases:
        export PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin:$PATH
        export UVCDAT_ANONYMOUS_LOG=False
        set +e
-       conda init bash
-       conda activate py$PYTHON_VERSION
+       source activate py$PYTHON_VERSION
        set -e
        make test
 
@@ -67,8 +65,7 @@ aliases:
        # run tests again but with cdms2 installed
        set +e
        conda install -q -n py$PYTHON_VERSION -c conda-forge cdms2
-       conda init bash
-       conda activate py$PYTHON_VERSION
+       source activate py$PYTHON_VERSION
        set -e
        make test
 
@@ -78,8 +75,7 @@ aliases:
        export PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin:$PATH
        export UVCDAT_ANONYMOUS_LOG=False
        set +e
-       conda init bash
-       conda activate py$PYTHON_VERSION
+       source activate py$PYTHON_VERSION
        set -e
        export PYTHONPATH=Test/:$PYTHONPATH
        for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file; mystatus=$?; if [[ "$mystatus" != "0" ]]; then return ${mystatus}; fi; done
