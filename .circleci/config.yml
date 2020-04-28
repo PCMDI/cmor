@@ -26,7 +26,6 @@ aliases:
     name: create_conda_env
     command: |
        export PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin:$PATH
-       source $CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/etc/profile.d/conda.sh
        conda config --set always_yes yes --set changeps1 no
        conda update -y -q conda
        conda config --set anaconda_upload no
@@ -38,7 +37,7 @@ aliases:
        echo "WE are in: "`pwd`
        export PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin:$PATH
        set +e
-       source $CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/etc/profile.d/conda.sh
+       conda init bash
        conda activate py$PYTHON_VERSION
        echo "ACTIVATE RETURN CODE $?"
        set -e
@@ -55,7 +54,7 @@ aliases:
        export PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin:$PATH
        export UVCDAT_ANONYMOUS_LOG=False
        set +e
-       source $CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/etc/profile.d/conda.sh
+       conda init bash
        conda activate py$PYTHON_VERSION
        set -e
        make test
@@ -67,8 +66,8 @@ aliases:
        export UVCDAT_ANONYMOUS_LOG=False
        # run tests again but with cdms2 installed
        set +e
-       source $CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/etc/profile.d/conda.sh
        conda install -q -n py$PYTHON_VERSION -c conda-forge cdms2
+       conda init bash
        conda activate py$PYTHON_VERSION
        set -e
        make test
@@ -79,7 +78,7 @@ aliases:
        export PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin:$PATH
        export UVCDAT_ANONYMOUS_LOG=False
        set +e
-       source $CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/etc/profile.d/conda.sh
+       conda init bash
        conda activate py$PYTHON_VERSION
        set -e
        export PYTHONPATH=Test/:$PYTHONPATH
@@ -90,7 +89,6 @@ aliases:
     name: conda_build
     command: |
        export PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin:$PATH
-       source $CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/etc/profile.d/conda.sh
        conda install conda-build anaconda-client
        conda config --set anaconda_upload no
        export CONDA_BLD_PATH=`pwd`/conda_build
@@ -105,7 +103,6 @@ aliases:
           exit 0
        fi
        export PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin:$PATH
-       source $CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/etc/profile.d/conda.sh
        conda config --set anaconda_upload no
        export CONDA_BLD_PATH=`pwd`/conda_build
        anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.`date +%Y*`0.tar.bz2 --force
