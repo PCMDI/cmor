@@ -84,10 +84,10 @@ aliases:
   - &conda_build
     name: conda_build
     command: |
-       export PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin:$PATH
+       export PATH=`pwd`/$WORKDIR/miniconda/bin:$PATH
        conda install conda-build anaconda-client
        conda config --set anaconda_upload no
-       export CONDA_BLD_PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/conda_build
+       export CONDA_BLD_PATH=`pwd`/$WORKDIR/conda_build
        cd recipes
        python ./prep_for_build.py -l $VERSION
        conda build $PKG_NAME -c cdat/label/nightly -c conda-forge -c cdat --python=$PYTHON_VERSION
@@ -96,11 +96,11 @@ aliases:
     name: conda_upload
     command: |
        if [[ $CIRCLE_BRANCH != 'master' ]]; then
-          export CONDA_BLD_PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/conda_build
+          export CONDA_BLD_PATH=`pwd`/$WORKDIR/conda_build
           echo $CONDA_BLD_PATH
           find ~ -name "*.tar.bz2" -print
           echo $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.`date +%Y*`0.tar.bz2
-          ls $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.`date +%Y*`0.tar.bz2
+          ls $CONDA_BLD_PATH/$OS/
           # ls $CONDA_BLD_PATH
           # ls $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.`date +%Y*`0.tar.bz2
           exit 0
