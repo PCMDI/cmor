@@ -115,7 +115,6 @@ jobs:
       - checkout
       - run: *pull_submodules
       - run: *setup_miniconda
-      - run: *conda_rerender
       - persist_to_workspace:
           root: .
           paths: 
@@ -130,7 +129,6 @@ jobs:
       - checkout
       - run: *pull_submodules
       - run: *setup_miniconda
-      - run: *conda_rerender
       - persist_to_workspace:
           root: .
           paths:
