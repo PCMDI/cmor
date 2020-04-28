@@ -96,12 +96,16 @@ aliases:
     name: conda_upload
     command: |
        if [[ $CIRCLE_BRANCH != 'master' ]]; then
+          export CONDA_BLD_PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/conda_build
+          echo $CONDA_BLD_PATH
+          ls $CONDA_BLD_PATH
+          ls $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.`date +%Y*`0.tar.bz2
           exit 0
        fi
-       export PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin:$PATH
-       conda config --set anaconda_upload no
-       export CONDA_BLD_PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/conda_build
-       anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.`date +%Y*`0.tar.bz2 --force
+      #  export PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin:$PATH
+      #  conda config --set anaconda_upload no
+      #  export CONDA_BLD_PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/conda_build
+      #  anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.`date +%Y*`0.tar.bz2 --force
 
 
 jobs:
@@ -267,11 +271,11 @@ jobs:
       - run: *pull_submodules
       - attach_workspace:
           at: .
-      - run: *create_conda_env
-      - run: *setup_cmor
-      - run: *run_cmor_tests
-      - run: *run_cmor_tests_with_cdms2
-      - run: *run_prepare_tests
+      # - run: *create_conda_env
+      # - run: *setup_cmor
+      # - run: *run_cmor_tests
+      # - run: *run_cmor_tests_with_cdms2
+      # - run: *run_prepare_tests
       - run: *conda_build
       - persist_to_workspace:
           root: .
@@ -296,11 +300,11 @@ jobs:
       - run: *pull_submodules
       - attach_workspace:
           at: .
-      - run: *create_conda_env
-      - run: *setup_cmor
-      - run: *run_cmor_tests
-      - run: *run_cmor_tests_with_cdms2
-      - run: *run_prepare_tests
+      # - run: *create_conda_env
+      # - run: *setup_cmor
+      # - run: *run_cmor_tests
+      # - run: *run_cmor_tests_with_cdms2
+      # - run: *run_prepare_tests
       - run: *conda_build
       - persist_to_workspace:
           root: .
@@ -325,11 +329,11 @@ jobs:
       - run: *pull_submodules
       - attach_workspace:
           at: .
-      - run: *create_conda_env
-      - run: *setup_cmor
-      - run: *run_cmor_tests
-      - run: *run_cmor_tests_with_cdms2
-      - run: *run_prepare_tests
+      # - run: *create_conda_env
+      # - run: *setup_cmor
+      # - run: *run_cmor_tests
+      # - run: *run_cmor_tests_with_cdms2
+      # - run: *run_prepare_tests
       - run: *conda_build
       - persist_to_workspace:
           root: .
@@ -354,11 +358,11 @@ jobs:
       - run: *pull_submodules
       - attach_workspace:
           at: .
-      - run: *create_conda_env
-      - run: *setup_cmor
-      - run: *run_cmor_tests
-      - run: *run_cmor_tests_with_cdms2
-      - run: *run_prepare_tests
+      # - run: *create_conda_env
+      # - run: *setup_cmor
+      # - run: *run_cmor_tests
+      # - run: *run_cmor_tests_with_cdms2
+      # - run: *run_prepare_tests
       - run: *conda_build
       - persist_to_workspace:
           root: .
@@ -399,20 +403,20 @@ workflows:
   version: 2
   nightly:
     jobs:
-      - macos_setup
+      # - macos_setup
       - linux_setup
-      - macos_cmor_py27:
-          requires:
-            - macos_setup
-      - macos_cmor_py36:
-          requires:
-            - macos_setup
-      - macos_cmor_py37:
-          requires:
-            - macos_setup
-      - macos_cmor_py38:
-          requires:
-            - macos_setup
+      # - macos_cmor_py27:
+      #     requires:
+      #       - macos_setup
+      # - macos_cmor_py36:
+      #     requires:
+      #       - macos_setup
+      # - macos_cmor_py37:
+      #     requires:
+      #       - macos_setup
+      # - macos_cmor_py38:
+      #     requires:
+      #       - macos_setup
       - linux_cmor_py27:
           requires:
             - linux_setup
@@ -425,21 +429,21 @@ workflows:
       - linux_cmor_py38:
           requires:
             - linux_setup
-      - macos_upload:
-          requires:
-            - macos_cmor_py27
-            - macos_cmor_py36
-            - macos_cmor_py37
-            - macos_cmor_py38
-          filters:
-            branches:
-              only: master
+      # - macos_upload:
+      #     requires:
+      #       - macos_cmor_py27
+      #       - macos_cmor_py36
+      #       - macos_cmor_py37
+      #       - macos_cmor_py38
+      #     filters:
+      #       branches:
+      #         only: master
       - linux_upload:
           requires:
             - linux_cmor_py27
             - linux_cmor_py36
             - linux_cmor_py37
             - linux_cmor_py38
-          filters:
-            branches:
-              only: master
+          # filters:
+          #   branches:
+          #     only: master
