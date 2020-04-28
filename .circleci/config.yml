@@ -98,8 +98,7 @@ aliases:
        if [[ $CIRCLE_BRANCH != 'master' ]]; then
           export CONDA_BLD_PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/conda_build
           echo $CONDA_BLD_PATH
-          ls $CONDA_BLD_PATH
-          ls $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.`date +%Y*`0.tar.bz2
+          find ~ -name "*.tar.bz2" -print
           exit 0
        fi
       #  export PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin:$PATH
