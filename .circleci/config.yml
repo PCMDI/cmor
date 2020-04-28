@@ -160,7 +160,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - macos_build/conda_build/linux-64/cmor*tar.bz2
+              - macos_build/conda_build/osx-64/cmor*tar.bz2
 
   macos_cmor_py36:
     macos:
@@ -189,7 +189,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - macos_build/conda_build/linux-64/cmor*tar.bz2
+              - macos_build/conda_build/osx-64/cmor*tar.bz2
 
   macos_cmor_py37:
     macos:
@@ -218,7 +218,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - macos_build/conda_build/linux-64/cmor*tar.bz2
+              - macos_build/conda_build/osx-64/cmor*tar.bz2
 
   macos_cmor_py38:
     macos:
@@ -247,7 +247,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - macos_build/conda_build/linux-64/cmor*tar.bz2
+              - macos_build/conda_build/osx-64/cmor*tar.bz2
 
   linux_cmor_py27:
     machine:
