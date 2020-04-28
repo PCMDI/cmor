@@ -376,6 +376,7 @@ jobs:
     macos:
       xcode: "11.1.0"
     environment:
+      OS: "osx-64"
       WORKDIR: "macos_build"
       PKG_NAME: "cmor"
       VERSION: "3.5.0"
@@ -391,6 +392,7 @@ jobs:
     machine:
       image: circleci/classic:latest
     environment:
+      OS: "linux-64"
       WORKDIR: "linux_build"
       PKG_NAME: "cmor"
       VERSION: "3.5.0"
