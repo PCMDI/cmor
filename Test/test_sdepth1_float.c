@@ -29,9 +29,9 @@ int it;
 double time[];
 double time_bnds[];
 {
-    time[0] = it;
+    time[0] = it + 0.5;
     time_bnds[0] = it;
-    time_bnds[1] = it + 1;
+    time_bnds[1] = it + 1.0;
 }
 
 #include "reader_2D_3D.h"
@@ -76,7 +76,7 @@ int main()
     cmor_set_table(tables[0]);
 
     for (i = 0; i < ntimes; i++) {
-        read_time(i, &Time[i], &bnds_time[i]);
+        read_time(i, &Time[i], &bnds_time[2 * i]);
     }
 
     ierr = cmor_axis(&myaxes[0], "time", "months since 1980", 
