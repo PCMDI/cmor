@@ -1049,7 +1049,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
                     "Your input attribute \"%s\" defined as \"\" "
                     "will be replaced with \n! "
                     "\"%s\" as defined in your Control Vocabulary file.\n! ",
-                    PARENT_EXPERIMENT_ID, NO_PARENT, NO_PARENT);
+                    PARENT_EXPERIMENT_ID, NO_PARENT);
             cmor_handle_error(msg, CMOR_WARNING);
             cmor_set_cur_dataset_attribute_internal(PARENT_EXPERIMENT_ID,
                                                     NO_PARENT, 1);
