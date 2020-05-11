@@ -2,7 +2,7 @@ dnl
 dnl Process this file with autoconf to produce a configure script.
 
 dnl AC_PREREQ(2.59)
-AC_INIT(cmor, 3.5.0, doutriaux1@llnl.gov)
+AC_INIT(cmor, 3.6.0, mauzey1@llnl.gov)
 
 GIT_TAG=`cd $srcdir ; ./get_git_version.sh`
 
