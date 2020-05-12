@@ -1123,7 +1123,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
                 if (CV_IsStringInArray(CV_parent_activity_id, szValue) == 0) {
                     if (CV_parent_activity_id->anElements == 1) {
                         snprintf(msg, CMOR_MAX_STRING,
-                                 "Your input attribute parent_activity_id \"%s\" defined as \"%s\" "
+                                 "Your input attribute \"%s\" defined as \"%s\" "
                                  "will be replaced with \n! "
                                  "\"%s\" as defined in your Control Vocabulary file.\n! ",
                                  PARENT_ACTIVITY_ID, szValue,
