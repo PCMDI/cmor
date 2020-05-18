@@ -652,7 +652,7 @@ static PyMethodDef MyExtractMethods[] = {
     {"getCMOR_defaults_include", PyCMOR_getincvalues, METH_VARARGS},
     {"setup_variable", PyCV_setup_variable, METH_VARARGS},
     {"get_CV_Error", PyCV_get_Error, METH_VARARGS},
-    {"reset_CV_Error", PyCV_reset_Error},
+    {"reset_CV_Error", PyCV_reset_Error, METH_VARARGS},
     {"set_CV_Error", PyCV_set_Error, METH_VARARGS},
 
     {NULL, NULL}                /*sentinel */
