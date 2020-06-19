@@ -21,31 +21,20 @@ aliases:
         curl -L https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o miniconda.sh
       fi
       bash miniconda.sh -b -p $CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda
-      
-  - &create_conda_env
-    name: create_conda_env
+       
+  - &conda_build
+    name: conda_build
     command: |
-       export PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin:$PATH
+       export PATH=`pwd`/$WORKDIR/miniconda/bin:$PATH
        conda config --set always_yes yes --set changeps1 no
        conda update -y -q conda
        conda config --set anaconda_upload no
-       conda create -q -n py$PYTHON_VERSION -c cdat/label/nightly -c conda-forge -c cdat six libuuid json-c udunits2 hdf5 openblas==0.3.6 libnetcdf netcdf4 numpy openssl lazy-object-proxy python=$PYTHON_VERSION $CONDA_COMPILERS testsrunner
+       conda install conda-build anaconda-client
 
-  - &setup_cmor
-    name: setup_cmor
-    command: |
-       echo "WE are in: "`pwd`
-       export PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin:$PATH
-       set +e
-       source activate py$PYTHON_VERSION
-       echo "ACTIVATE RETURN CODE $?"
-       set -e
-       #git clone https://github.com/PCMDI/cmip6-cmor-tables
-       #ln -s cmip6-cmor-tables/Tables Tables
-       ./configure --prefix=$CONDA_PREFIX --with-python --with-uuid=$CONDA_PREFIX --with-json-c=$CONDA_PREFIX --with-udunits2=$CONDA_PREFIX --with-netcdf=$CONDA_PREFIX  --enable-verbose-test
-       make install
-       echo "MAKE PASSED"
-       exit 0
+       export CONDA_BLD_PATH=`pwd`/$WORKDIR/conda_build
+       cd recipes
+       python ./prep_for_build.py -l $VERSION
+       conda build $PKG_NAME -c cdat/label/nightly -c conda-forge -c cdat --python=$PYTHON_VERSION
 
   - &run_cmor_tests
     name: run_cmor_tests
@@ -53,7 +42,8 @@ aliases:
        export PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin:$PATH
        export UVCDAT_ANONYMOUS_LOG=False
        set +e
-       source activate py$PYTHON_VERSION
+       conda create -q -n py$PYTHON_VERSION --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME $PKGS $CONDA_COMPILERS
+       conda activate py$PYTHON_VERSION
        set -e
        make test
 
@@ -64,8 +54,8 @@ aliases:
        export UVCDAT_ANONYMOUS_LOG=False
        # run tests again but with cdms2 installed
        set +e
-       conda install -q -n py$PYTHON_VERSION -c conda-forge cdms2
-       source activate py$PYTHON_VERSION
+       conda create -q -n py$PYTHON_VERSION_cdms2 --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME $PKGS $CONDA_COMPILERS cdms2
+       conda activate py$PYTHON_VERSION_cdms2
        set -e
        make test
 
@@ -75,29 +65,11 @@ aliases:
        export PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin:$PATH
        export UVCDAT_ANONYMOUS_LOG=False
        set +e
-       source activate py$PYTHON_VERSION
+       conda activate py$PYTHON_VERSION_cdms2
        set -e
        export PYTHONPATH=Test/:$PYTHONPATH
        for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file; mystatus=$?; if [[ "$mystatus" != "0" ]]; then return ${mystatus}; fi; done
        python run_tests.py -v2 -H -n1 Test/test_python_CMIP6_CV*.py
-       
-  - &conda_build
-    name: conda_build
-    command: |
-       if [[ $CIRCLE_BRANCH != 'master' ]]; then
-          exit 0
-       fi
-       export PATH=`pwd`/$WORKDIR/miniconda/bin:$PATH
-       conda install conda-build anaconda-client
-       conda config --set anaconda_upload no
-       export CONDA_BLD_PATH=`pwd`/$WORKDIR/conda_build
-       cd recipes
-       export PKG_NAME=cmor
-       export USER=pcmdi
-       export VERSION=3.6.0
-       export LABEL=nightly
-       python ./prep_for_build.py -l $VERSION
-       conda build $PKG_NAME -c cdat/label/nightly -c conda-forge -c cdat --python=$PYTHON_VERSION
        
   - &conda_upload
     name: conda_upload
@@ -146,24 +118,22 @@ jobs:
     environment:
       OS: "osx-64"
       PKG_NAME: "cmor"
-      VERSION: "3.5.0"
+      VERSION: "3.6.0"
       LABEL: "nightly"
       PYTHON_VERSION: "2.7"
-      WORKDIR: "workspace/test_macos_cmor"
+      CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
+      PKGS: " lazy-object-proxy testsrunner"
       CONDA_COMPILERS: "clang_osx-64==9.0.1 gfortran_osx-64>=7"
-      LDSHARED_FLAGS: "-bundle -undefined dynamic_lookup"
-      UVCDAT_ANONYMOUS_LOG: "False"
+      WORKDIR: "workspace/test_macos_cmor"
     steps:
       - checkout
       - run: *pull_submodules
       - attach_workspace:
           at: .
-      - run: *create_conda_env
-      - run: *setup_cmor
+      - run: *conda_build
       - run: *run_cmor_tests
       - run: *run_cmor_tests_with_cdms2
       - run: *run_prepare_tests
-      - run: *conda_build
       - persist_to_workspace:
           root: .
           paths:
@@ -175,24 +145,22 @@ jobs:
     environment:
       OS: "osx-64"
       PKG_NAME: "cmor"
-      VERSION: "3.5.0"
+      VERSION: "3.6.0"
       LABEL: "nightly"
       PYTHON_VERSION: "3.6"
-      WORKDIR: "workspace/test_macos_cmor"
+      CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
+      PKGS: " lazy-object-proxy testsrunner"
       CONDA_COMPILERS: "clang_osx-64==9.0.1 gfortran_osx-64>=7"
-      LDSHARED_FLAGS: "-bundle -undefined dynamic_lookup"
-      UVCDAT_ANONYMOUS_LOG: "False"
+      WORKDIR: "workspace/test_macos_cmor"
     steps:
       - checkout
       - run: *pull_submodules
       - attach_workspace:
           at: .
-      - run: *create_conda_env
-      - run: *setup_cmor
+      - run: *conda_build
       - run: *run_cmor_tests
       - run: *run_cmor_tests_with_cdms2
       - run: *run_prepare_tests
-      - run: *conda_build
       - persist_to_workspace:
           root: .
           paths:
@@ -204,24 +172,22 @@ jobs:
     environment:
       OS: "osx-64"
       PKG_NAME: "cmor"
-      VERSION: "3.5.0"
+      VERSION: "3.6.0"
       LABEL: "nightly"
       PYTHON_VERSION: "3.7"
-      WORKDIR: "workspace/test_macos_cmor"
+      CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
+      PKGS: " lazy-object-proxy testsrunner"
       CONDA_COMPILERS: "clang_osx-64==9.0.1 gfortran_osx-64>=7"
-      LDSHARED_FLAGS: "-bundle -undefined dynamic_lookup"
-      UVCDAT_ANONYMOUS_LOG: "False"
+      WORKDIR: "workspace/test_macos_cmor"
     steps:
       - checkout
       - run: *pull_submodules
       - attach_workspace:
           at: .
-      - run: *create_conda_env
-      - run: *setup_cmor
+      - run: *conda_build
       - run: *run_cmor_tests
       - run: *run_cmor_tests_with_cdms2
       - run: *run_prepare_tests
-      - run: *conda_build
       - persist_to_workspace:
           root: .
           paths:
@@ -233,24 +199,22 @@ jobs:
     environment:
       OS: "osx-64"
       PKG_NAME: "cmor"
-      VERSION: "3.5.0"
+      VERSION: "3.6.0"
       LABEL: "nightly"
       PYTHON_VERSION: "3.8"
-      WORKDIR: "workspace/test_macos_cmor"
+      CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
+      PKGS: " lazy-object-proxy testsrunner"
       CONDA_COMPILERS: "clang_osx-64==9.0.1 gfortran_osx-64>=7"
-      LDSHARED_FLAGS: "-bundle -undefined dynamic_lookup"
-      UVCDAT_ANONYMOUS_LOG: "False"
+      WORKDIR: "workspace/test_macos_cmor"
     steps:
       - checkout
       - run: *pull_submodules
       - attach_workspace:
           at: .
-      - run: *create_conda_env
-      - run: *setup_cmor
+      - run: *conda_build
       - run: *run_cmor_tests
       - run: *run_cmor_tests_with_cdms2
       - run: *run_prepare_tests
-      - run: *conda_build
       - persist_to_workspace:
           root: .
           paths:
@@ -262,24 +226,22 @@ jobs:
     environment:
       OS: "linux-64"
       PKG_NAME: "cmor"
-      VERSION: "3.5.0"
+      VERSION: "3.6.0"
       LABEL: "nightly"
       PYTHON_VERSION: "2.7"
-      WORKDIR: "linux_build"
+      CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
+      PKGS: " lazy-object-proxy testsrunner"
       CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7"
-      LDSHARED_FLAGS: "-shared -pthread"
-      UVCDAT_ANONYMOUS_LOG: "False"
+      WORKDIR: "linux_build"
     steps:
       - checkout
       - run: *pull_submodules
       - attach_workspace:
           at: .
-      - run: *create_conda_env
-      - run: *setup_cmor
+      - run: *conda_build
       - run: *run_cmor_tests
       - run: *run_cmor_tests_with_cdms2
       - run: *run_prepare_tests
-      - run: *conda_build
       - persist_to_workspace:
           root: .
           paths:
@@ -291,24 +253,22 @@ jobs:
     environment:
       OS: "linux-64"
       PKG_NAME: "cmor"
-      VERSION: "3.5.0"
+      VERSION: "3.6.0"
       LABEL: "nightly"
       PYTHON_VERSION: "3.6"
-      WORKDIR: "linux_build"
+      CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
+      PKGS: " lazy-object-proxy testsrunner"
       CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7"
-      LDSHARED_FLAGS: "-shared -pthread"
-      UVCDAT_ANONYMOUS_LOG: "False"
+      WORKDIR: "linux_build"
     steps:
       - checkout
       - run: *pull_submodules
       - attach_workspace:
           at: .
-      - run: *create_conda_env
-      - run: *setup_cmor
+      - run: *conda_build
       - run: *run_cmor_tests
       - run: *run_cmor_tests_with_cdms2
       - run: *run_prepare_tests
-      - run: *conda_build
       - persist_to_workspace:
           root: .
           paths:
@@ -320,24 +280,22 @@ jobs:
     environment:
       OS: "linux-64"
       PKG_NAME: "cmor"
-      VERSION: "3.5.0"
+      VERSION: "3.6.0"
       LABEL: "nightly"
       PYTHON_VERSION: "3.7"
-      WORKDIR: "linux_build"
+      CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
+      PKGS: " lazy-object-proxy testsrunner"
       CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7"
-      LDSHARED_FLAGS: "-shared -pthread"
-      UVCDAT_ANONYMOUS_LOG: "False"
+      WORKDIR: "linux_build"
     steps:
       - checkout
       - run: *pull_submodules
       - attach_workspace:
           at: .
-      - run: *create_conda_env
-      - run: *setup_cmor
+      - run: *conda_build
       - run: *run_cmor_tests
       - run: *run_cmor_tests_with_cdms2
       - run: *run_prepare_tests
-      - run: *conda_build
       - persist_to_workspace:
           root: .
           paths:
@@ -349,24 +307,22 @@ jobs:
     environment:
       OS: "linux-64"
       PKG_NAME: "cmor"
-      VERSION: "3.5.0"
+      VERSION: "3.6.0"
       LABEL: "nightly"
       PYTHON_VERSION: "3.8"
-      WORKDIR: "linux_build"
+      CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
+      PKGS: " lazy-object-proxy testsrunner"
       CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7"
-      LDSHARED_FLAGS: "-shared -pthread"
-      UVCDAT_ANONYMOUS_LOG: "False"
+      WORKDIR: "linux_build"
     steps:
       - checkout
       - run: *pull_submodules
       - attach_workspace:
           at: .
-      - run: *create_conda_env
-      - run: *setup_cmor
+      - run: *conda_build
       - run: *run_cmor_tests
       - run: *run_cmor_tests_with_cdms2
       - run: *run_prepare_tests
-      - run: *conda_build
       - persist_to_workspace:
           root: .
           paths:
@@ -379,7 +335,7 @@ jobs:
       OS: "osx-64"
       WORKDIR: "macos_build"
       PKG_NAME: "cmor"
-      VERSION: "3.5.0"
+      VERSION: "3.6.0"
       USER: "pcmdi"
       LABEL: "nightly"
     steps:
@@ -395,7 +351,7 @@ jobs:
       OS: "linux-64"
       WORKDIR: "linux_build"
       PKG_NAME: "cmor"
-      VERSION: "3.5.0"
+      VERSION: "3.6.0"
       USER: "pcmdi"
       LABEL: "nightly"
     steps:
