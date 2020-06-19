@@ -92,6 +92,10 @@ aliases:
        conda config --set anaconda_upload no
        export CONDA_BLD_PATH=`pwd`/$WORKDIR/conda_build
        cd recipes
+       export PKG_NAME=cmor
+       export USER=pcmdi
+       export VERSION=3.6.0
+       export LABEL=nightly
        python ./prep_for_build.py -l $VERSION
        conda build $PKG_NAME -c cdat/label/nightly -c conda-forge -c cdat --python=$PYTHON_VERSION
        
@@ -145,8 +149,8 @@ jobs:
       VERSION: "3.5.0"
       LABEL: "nightly"
       PYTHON_VERSION: "2.7"
-      WORKDIR: "macos_build"
-      CONDA_COMPILERS: "clang_osx-64>=9 gfortran_osx-64>=7"
+      WORKDIR: "workspace/test_macos_cmor"
+      CONDA_COMPILERS: "clang_osx-64==9.0.1 gfortran_osx-64>=7"
       LDSHARED_FLAGS: "-bundle -undefined dynamic_lookup"
       UVCDAT_ANONYMOUS_LOG: "False"
     steps:
@@ -174,8 +178,8 @@ jobs:
       VERSION: "3.5.0"
       LABEL: "nightly"
       PYTHON_VERSION: "3.6"
-      WORKDIR: "macos_build"
-      CONDA_COMPILERS: "clang_osx-64>=9 gfortran_osx-64>=7"
+      WORKDIR: "workspace/test_macos_cmor"
+      CONDA_COMPILERS: "clang_osx-64==9.0.1 gfortran_osx-64>=7"
       LDSHARED_FLAGS: "-bundle -undefined dynamic_lookup"
       UVCDAT_ANONYMOUS_LOG: "False"
     steps:
@@ -203,8 +207,8 @@ jobs:
       VERSION: "3.5.0"
       LABEL: "nightly"
       PYTHON_VERSION: "3.7"
-      WORKDIR: "macos_build"
-      CONDA_COMPILERS: "clang_osx-64>=9 gfortran_osx-64>=7"
+      WORKDIR: "workspace/test_macos_cmor"
+      CONDA_COMPILERS: "clang_osx-64==9.0.1 gfortran_osx-64>=7"
       LDSHARED_FLAGS: "-bundle -undefined dynamic_lookup"
       UVCDAT_ANONYMOUS_LOG: "False"
     steps:
@@ -232,8 +236,8 @@ jobs:
       VERSION: "3.5.0"
       LABEL: "nightly"
       PYTHON_VERSION: "3.8"
-      WORKDIR: "macos_build"
-      CONDA_COMPILERS: "clang_osx-64>=9 gfortran_osx-64>=7"
+      WORKDIR: "workspace/test_macos_cmor"
+      CONDA_COMPILERS: "clang_osx-64==9.0.1 gfortran_osx-64>=7"
       LDSHARED_FLAGS: "-bundle -undefined dynamic_lookup"
       UVCDAT_ANONYMOUS_LOG: "False"
     steps:
