@@ -45,7 +45,7 @@ aliases:
        conda create -q -n py$PYTHON_VERSION --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME $PKGS $CONDA_COMPILERS
        conda activate py$PYTHON_VERSION
        set -e
-       make test
+       make test -o cmor -o python
 
   - &run_cmor_tests_with_cdms2
     name: run_cmor_tests_with_cdms2
@@ -57,7 +57,7 @@ aliases:
        conda create -q -n py$PYTHON_VERSION_cdms2 --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME $PKGS $CONDA_COMPILERS cdms2
        conda activate py$PYTHON_VERSION_cdms2
        set -e
-       make test
+       make test -o cmor -o python
 
   - &run_prepare_tests
     name: run_prepare_tests
