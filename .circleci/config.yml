@@ -26,9 +26,9 @@ aliases:
     name: conda_build
     command: |
        pwd
-       ls $CIRCLE_WORKING_DIRECTORY
-       ls $CIRCLE_WORKING_DIRECTORY/$WORKDIR
-       ls $CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin
+       ls `pwd`
+       ls `pwd`/$WORKDIR
+       ls `pwd`/$WORKDIR/miniconda/bin
        export PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin:$PATH
        conda config --set always_yes yes --set changeps1 no
        conda update -y -q conda
