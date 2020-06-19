@@ -25,6 +25,10 @@ aliases:
   - &conda_build
     name: conda_build
     command: |
+       pwd
+       ls $CIRCLE_WORKING_DIRECTORY
+       ls $CIRCLE_WORKING_DIRECTORY/$WORKDIR
+       ls $CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin
        export PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin:$PATH
        conda config --set always_yes yes --set changeps1 no
        conda update -y -q conda
@@ -365,7 +369,7 @@ workflows:
   nightly:
     jobs:
       - macos_setup
-      - linux_setup
+      # - linux_setup
       - macos_cmor_py27:
           requires:
             - macos_setup
@@ -378,18 +382,18 @@ workflows:
       - macos_cmor_py38:
           requires:
             - macos_setup
-      - linux_cmor_py27:
-          requires:
-            - linux_setup
-      - linux_cmor_py36:
-          requires:
-            - linux_setup
-      - linux_cmor_py37:
-          requires:
-            - linux_setup
-      - linux_cmor_py38:
-          requires:
-            - linux_setup
+      # - linux_cmor_py27:
+      #     requires:
+      #       - linux_setup
+      # - linux_cmor_py36:
+      #     requires:
+      #       - linux_setup
+      # - linux_cmor_py37:
+      #     requires:
+      #       - linux_setup
+      # - linux_cmor_py38:
+      #     requires:
+      #       - linux_setup
       - macos_upload:
           requires:
             - macos_cmor_py27
@@ -399,12 +403,12 @@ workflows:
           filters:
             branches:
               only: master
-      - linux_upload:
-          requires:
-            - linux_cmor_py27
-            - linux_cmor_py36
-            - linux_cmor_py37
-            - linux_cmor_py38
-          filters:
-            branches:
-              only: master
+      # - linux_upload:
+      #     requires:
+      #       - linux_cmor_py27
+      #       - linux_cmor_py36
+      #       - linux_cmor_py37
+      #       - linux_cmor_py38
+      #     filters:
+      #       branches:
+      #         only: master
