@@ -29,6 +29,9 @@ aliases:
        conda config --set always_yes yes --set changeps1 no
        conda update -y -q conda
        conda config --set anaconda_upload no
+       conda config --add channels conda-forge --force
+       conda config --add channels cdat/label/nightly --force
+       conda config --set channel_priority strict
        conda install conda-build anaconda-client
 
        export CONDA_BLD_PATH=`pwd`/$WORKDIR/conda_build
