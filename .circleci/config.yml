@@ -30,9 +30,6 @@ aliases:
        conda config --set always_yes yes --set changeps1 no
        conda update -y -q conda
        conda config --set anaconda_upload no
-       conda config --add channels conda-forge --force
-       conda config --add channels cdat/label/nightly --force
-       conda config --set channel_priority strict
        conda install conda-build anaconda-client
 
        export CONDA_BLD_PATH=`pwd`/$WORKDIR/conda_build
@@ -46,8 +43,9 @@ aliases:
        source `pwd`/$WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate base
        export UVCDAT_ANONYMOUS_LOG=False
+       export LOCAL_PKG = `pwd`/$WORKDIR/conda_build/$OS/$PKG_NAME-$VERSION.*.tar.bz2
        set +e
-       conda create -q -n py$PYTHON_VERSION --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME $PKGS $CONDA_COMPILERS
+       conda create -q -n py$PYTHON_VERSION --use-local $CHANNELS python=$PYTHON_VERSION $LOCAL_PKG $PKGS $CONDA_COMPILERS
        conda activate py$PYTHON_VERSION
        set -e
        ./configure --prefix=$CONDA_PREFIX --with-python --with-uuid=$CONDA_PREFIX --with-json-c=$CONDA_PREFIX --with-udunits2=$CONDA_PREFIX --with-netcdf=$CONDA_PREFIX  --enable-verbose-test
@@ -59,9 +57,10 @@ aliases:
        source `pwd`/$WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate base
        export UVCDAT_ANONYMOUS_LOG=False
+       export LOCAL_PKG = `pwd`/$WORKDIR/conda_build/$OS/$PKG_NAME-$VERSION.*.tar.bz2
        # run tests again but with cdms2 installed
        set +e
-       conda create -q -n py$PYTHON_VERSION_cdms2 --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME $PKGS $CONDA_COMPILERS cdms2
+       conda create -q -n py$PYTHON_VERSION_cdms2 --use-local $CHANNELS python=$PYTHON_VERSION $LOCAL_PKG $PKGS $CONDA_COMPILERS cdms2
        conda activate py$PYTHON_VERSION_cdms2
        set -e
        make test -o cmor -o python
