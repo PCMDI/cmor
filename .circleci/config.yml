@@ -32,7 +32,6 @@ aliases:
        conda config --set anaconda_upload no
        conda install conda-build anaconda-client
 
-       export CONDA_BLD_PATH=`pwd`/$WORKDIR/conda_build
        cd recipes
        python ./prep_for_build.py -l $VERSION
        conda build $PKG_NAME -c cdat/label/nightly -c conda-forge -c cdat --python=$PYTHON_VERSION
@@ -43,9 +42,8 @@ aliases:
        source `pwd`/$WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate base
        export UVCDAT_ANONYMOUS_LOG=False
-       export LOCAL_PKG=`pwd`/$WORKDIR/conda_build/$OS/$PKG_NAME-$VERSION.*.tar.bz2
        set +e
-       conda create -q -n py$PYTHON_VERSION --use-local $CHANNELS python=$PYTHON_VERSION $LOCAL_PKG $PKGS $CONDA_COMPILERS
+       conda create -q -n py$PYTHON_VERSION --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME $PKGS $CONDA_COMPILERS
        conda activate py$PYTHON_VERSION
        set -e
        ./configure --prefix=$CONDA_PREFIX --with-python --with-uuid=$CONDA_PREFIX --with-json-c=$CONDA_PREFIX --with-udunits2=$CONDA_PREFIX --with-netcdf=$CONDA_PREFIX  --enable-verbose-test
@@ -57,10 +55,9 @@ aliases:
        source `pwd`/$WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate base
        export UVCDAT_ANONYMOUS_LOG=False
-       export LOCAL_PKG=`pwd`/$WORKDIR/conda_build/$OS/$PKG_NAME-$VERSION.*.tar.bz2
        # run tests again but with cdms2 installed
        set +e
-       conda create -q -n py$PYTHON_VERSION_cdms2 --use-local $CHANNELS python=$PYTHON_VERSION $LOCAL_PKG $PKGS $CONDA_COMPILERS cdms2
+       conda create -q -n py$PYTHON_VERSION_cdms2 --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME $PKGS $CONDA_COMPILERS cdms2
        conda activate py$PYTHON_VERSION_cdms2
        set -e
        make test -o cmor -o python
@@ -87,7 +84,7 @@ aliases:
        source `pwd`/$WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate base
        conda config --set anaconda_upload no
-       export CONDA_BLD_PATH=$`pwd`/$WORKDIR/conda_build
+       export CONDA_BLD_PATH=$`pwd`/$WORKDIR/miniconda/conda-bld
        anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.*.tar.bz2 --force
 
 
@@ -145,7 +142,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - macos_build/conda_build/osx-64/cmor*tar.bz2
+              - macos_build
 
   macos_cmor_py36:
     macos:
@@ -172,7 +169,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - macos_build/conda_build/osx-64/cmor*tar.bz2
+              - macos_build
 
   macos_cmor_py37:
     macos:
@@ -199,7 +196,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - macos_build/conda_build/osx-64/cmor*tar.bz2
+              - macos_build
 
   macos_cmor_py38:
     macos:
@@ -226,7 +223,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - macos_build/conda_build/osx-64/cmor*tar.bz2
+              - macos_build
 
   linux_cmor_py27:
     machine:
@@ -280,7 +277,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - linux_build/conda_build/linux-64/cmor*tar.bz2
+              - linux_build
 
   linux_cmor_py37:
     machine:
@@ -307,7 +304,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - linux_build/conda_build/linux-64/cmor*tar.bz2
+              - linux_build
 
   linux_cmor_py38:
     machine:
@@ -334,7 +331,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - linux_build/conda_build/linux-64/cmor*tar.bz2
+              - linux_build
 
   macos_upload:
     macos:
