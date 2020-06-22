@@ -250,7 +250,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - linux_build/conda_build/linux-64/cmor*tar.bz2
+              - linux_build
 
   linux_cmor_py36:
     machine:
