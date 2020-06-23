@@ -45,12 +45,12 @@ aliases:
        source `pwd`/$WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate base
        export UVCDAT_ANONYMOUS_LOG=False
-      #  set +e
-      #  conda create -y -n py$PYTHON_VERSION --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME $PKGS $CONDA_COMPILERS
-      #  conda activate py$PYTHON_VERSION
-      #  set -e
-      #  ./configure --prefix=$CONDA_PREFIX --with-python --with-uuid=$CONDA_PREFIX --with-json-c=$CONDA_PREFIX --with-udunits2=$CONDA_PREFIX --with-netcdf=$CONDA_PREFIX  --enable-verbose-test
-      #  make test -o cmor -o python
+       set +e
+       conda create -y -n py$PYTHON_VERSION --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME $PKGS $CONDA_COMPILERS
+       conda activate py$PYTHON_VERSION
+       set -e
+       ./configure --prefix=$CONDA_PREFIX --with-python --with-uuid=$CONDA_PREFIX --with-json-c=$CONDA_PREFIX --with-udunits2=$CONDA_PREFIX --with-netcdf=$CONDA_PREFIX  --enable-verbose-test
+       make test -o cmor -o python
 
   - &run_cmor_tests_with_cdms2
     name: run_cmor_tests_with_cdms2
@@ -58,12 +58,12 @@ aliases:
        source `pwd`/$WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate base
        export UVCDAT_ANONYMOUS_LOG=False
-      #  # run tests again but with cdms2 installed
-      #  set +e
-      #  conda create -y -n py$PYTHON_VERSION_cdms2 --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME $PKGS $CONDA_COMPILERS cdms2
-      #  conda activate py$PYTHON_VERSION_cdms2
-      #  set -e
-      #  make test -o cmor -o python
+       # run tests again but with cdms2 installed
+       set +e
+       conda create -y -n py$PYTHON_VERSION_cdms2 --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME $PKGS $CONDA_COMPILERS cdms2
+       conda activate py$PYTHON_VERSION_cdms2
+       set -e
+       make test -o cmor -o python
 
   - &run_prepare_tests
     name: run_prepare_tests
@@ -71,27 +71,24 @@ aliases:
        source `pwd`/$WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate base
        export UVCDAT_ANONYMOUS_LOG=False
-      #  set +e
-      #  conda activate py$PYTHON_VERSION_cdms2
-      #  set -e
-      #  export PYTHONPATH=Test/:$PYTHONPATH
-      #  for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file; mystatus=$?; if [[ "$mystatus" != "0" ]]; then return ${mystatus}; fi; done
-      #  python run_tests.py -v2 -H -n1 Test/test_python_CMIP6_CV*.py
+       set +e
+       conda activate py$PYTHON_VERSION_cdms2
+       set -e
+       export PYTHONPATH=Test/:$PYTHONPATH
+       for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file; mystatus=$?; if [[ "$mystatus" != "0" ]]; then return ${mystatus}; fi; done
+       python run_tests.py -v2 -H -n1 Test/test_python_CMIP6_CV*.py
        
   - &conda_upload
     name: conda_upload
     command: |
-       export CONDA_BLD_PATH=`pwd`/$WORKDIR/miniconda/conda-bld/$OS/
-       ls $CONDA_BLD_PATH
-       ls $CONDA_BLD_PATH/$OS
-       ls $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.*.tar.bz2
-       if [[ $CIRCLE_BRANCH != 'master' ]]; then
-          exit 0
-       fi
        source `pwd`/$WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate base
        conda config --set anaconda_upload no
        export CONDA_BLD_PATH=`pwd`/$WORKDIR/miniconda/conda-bld
+       ls $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.*.tar.bz2
+       if [[ $CIRCLE_BRANCH != 'master' ]]; then
+          exit 0
+       fi
        anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.*.tar.bz2 --force
 
 
@@ -376,20 +373,20 @@ workflows:
   version: 2
   nightly:
     jobs:
-      # - macos_setup
+      - macos_setup
       - linux_setup
-      # - macos_cmor_py27:
-      #     requires:
-      #       - macos_setup
-      # - macos_cmor_py36:
-      #     requires:
-      #       - macos_setup
-      # - macos_cmor_py37:
-      #     requires:
-      #       - macos_setup
-      # - macos_cmor_py38:
-      #     requires:
-      #       - macos_setup
+      - macos_cmor_py27:
+          requires:
+            - macos_setup
+      - macos_cmor_py36:
+          requires:
+            - macos_setup
+      - macos_cmor_py37:
+          requires:
+            - macos_setup
+      - macos_cmor_py38:
+          requires:
+            - macos_setup
       - linux_cmor_py27:
           requires:
             - linux_setup
@@ -402,15 +399,15 @@ workflows:
       - linux_cmor_py38:
           requires:
             - linux_setup
-      # - macos_upload:
-      #     requires:
-      #       - macos_cmor_py27
-      #       - macos_cmor_py36
-      #       - macos_cmor_py37
-      #       - macos_cmor_py38
-      #     filters:
-      #       branches:
-      #         only: fix_upload
+      - macos_upload:
+          requires:
+            - macos_cmor_py27
+            - macos_cmor_py36
+            - macos_cmor_py37
+            - macos_cmor_py38
+          filters:
+            branches:
+              only: master
       - linux_upload:
           requires:
             - linux_cmor_py27
@@ -419,4 +416,4 @@ workflows:
             - linux_cmor_py38
           filters:
             branches:
-              only: fix_upload
+              only: master
