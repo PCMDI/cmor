@@ -21,7 +21,7 @@ aliases:
         curl -L https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o miniconda.sh
       fi
       bash miniconda.sh -b -p $CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda
-      
+
       source `pwd`/$WORKDIR/miniconda/etc/profile.d/conda.sh
       conda activate base
       conda config --set always_yes yes --set changeps1 no
@@ -46,7 +46,7 @@ aliases:
        conda activate base
        export UVCDAT_ANONYMOUS_LOG=False
        set +e
-       conda create -q -n py$PYTHON_VERSION --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME $PKGS $CONDA_COMPILERS
+       conda create -y -n py$PYTHON_VERSION --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME $PKGS $CONDA_COMPILERS
        conda activate py$PYTHON_VERSION
        set -e
        ./configure --prefix=$CONDA_PREFIX --with-python --with-uuid=$CONDA_PREFIX --with-json-c=$CONDA_PREFIX --with-udunits2=$CONDA_PREFIX --with-netcdf=$CONDA_PREFIX  --enable-verbose-test
@@ -60,7 +60,7 @@ aliases:
        export UVCDAT_ANONYMOUS_LOG=False
        # run tests again but with cdms2 installed
        set +e
-       conda create -q -n py$PYTHON_VERSION_cdms2 --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME $PKGS $CONDA_COMPILERS cdms2
+       conda create -y -n py$PYTHON_VERSION_cdms2 --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME $PKGS $CONDA_COMPILERS cdms2
        conda activate py$PYTHON_VERSION_cdms2
        set -e
        make test -o cmor -o python
