@@ -81,13 +81,14 @@ aliases:
   - &conda_upload
     name: conda_upload
     command: |
-       if [[ $CIRCLE_BRANCH != 'master' ]]; then
-          exit 0
-       fi
        source `pwd`/$WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate base
        conda config --set anaconda_upload no
-       export CONDA_BLD_PATH=$`pwd`/$WORKDIR/miniconda/conda-bld
+       export CONDA_BLD_PATH=`pwd`/$WORKDIR/miniconda/conda-bld
+       ls $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.*.tar.bz2
+       if [[ $CIRCLE_BRANCH != 'master' ]]; then
+          exit 0
+       fi
        anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.*.tar.bz2 --force
 
 
