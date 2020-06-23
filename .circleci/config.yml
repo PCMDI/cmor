@@ -81,6 +81,10 @@ aliases:
   - &conda_upload
     name: conda_upload
     command: |
+       export CONDA_BLD_PATH=$`pwd`/$WORKDIR/miniconda/conda-bld/$OS/
+       ls $CONDA_BLD_PATH
+       ls $CONDA_BLD_PATH/$OS
+       ls $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.*.tar.bz2
        if [[ $CIRCLE_BRANCH != 'master' ]]; then
           exit 0
        fi
@@ -400,13 +404,13 @@ workflows:
             - linux_setup
       - macos_upload:
           requires:
-            - macos_cmor_py27
-            - macos_cmor_py36
-            - macos_cmor_py37
+            # - macos_cmor_py27
+            # - macos_cmor_py36
+            # - macos_cmor_py37
             - macos_cmor_py38
           filters:
             branches:
-              only: master
+              only: fix_upload
       - linux_upload:
           requires:
             - linux_cmor_py27
@@ -415,4 +419,4 @@ workflows:
             - linux_cmor_py38
           filters:
             branches:
-              only: master
+              only: fix_upload
