@@ -240,7 +240,7 @@ jobs:
       PYTHON_VERSION: "2.7"
       CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
       PKGS: " lazy-object-proxy testsrunner"
-      CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7"
+      CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7.5"
       WORKDIR: "linux_build"
     steps:
       - checkout
@@ -267,7 +267,7 @@ jobs:
       PYTHON_VERSION: "3.6"
       CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
       PKGS: " lazy-object-proxy testsrunner"
-      CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7"
+      CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7.5"
       WORKDIR: "linux_build"
     steps:
       - checkout
@@ -294,7 +294,7 @@ jobs:
       PYTHON_VERSION: "3.7"
       CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
       PKGS: " lazy-object-proxy testsrunner"
-      CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7"
+      CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7.5"
       WORKDIR: "linux_build"
     steps:
       - checkout
@@ -321,7 +321,7 @@ jobs:
       PYTHON_VERSION: "3.8"
       CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
       PKGS: " lazy-object-proxy testsrunner"
-      CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7"
+      CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7.5"
       WORKDIR: "linux_build"
     steps:
       - checkout
