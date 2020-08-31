@@ -121,33 +121,6 @@ jobs:
           paths:
             - linux_build
 
-  macos_cmor_py27:
-    macos:
-      xcode: "11.1.0"
-    environment:
-      OS: "osx-64"
-      PKG_NAME: "cmor"
-      VERSION: "3.6.0"
-      LABEL: "nightly"
-      PYTHON_VERSION: "2.7"
-      CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
-      PKGS: " lazy-object-proxy testsrunner"
-      CONDA_COMPILERS: "clang_osx-64==9.0.1 gfortran_osx-64>=7"
-      WORKDIR: "macos_build"
-    steps:
-      - checkout
-      - run: *pull_submodules
-      - attach_workspace:
-          at: .
-      - run: *conda_build
-      - run: *run_cmor_tests
-      - run: *run_cmor_tests_with_cdms2
-      - run: *run_prepare_tests
-      - persist_to_workspace:
-          root: .
-          paths:
-              - macos_build/miniconda/conda-bld/osx-64/cmor*.tar.bz2
-
   macos_cmor_py36:
     macos:
       xcode: "11.1.0"
@@ -229,33 +202,6 @@ jobs:
           paths:
               - macos_build/miniconda/conda-bld/osx-64/cmor*.tar.bz2
 
-  linux_cmor_py27:
-    machine:
-      image: circleci/classic:latest
-    environment:
-      OS: "linux-64"
-      PKG_NAME: "cmor"
-      VERSION: "3.6.0"
-      LABEL: "nightly"
-      PYTHON_VERSION: "2.7"
-      CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
-      PKGS: " lazy-object-proxy testsrunner"
-      CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7"
-      WORKDIR: "linux_build"
-    steps:
-      - checkout
-      - run: *pull_submodules
-      - attach_workspace:
-          at: .
-      - run: *conda_build
-      - run: *run_cmor_tests
-      - run: *run_cmor_tests_with_cdms2
-      - run: *run_prepare_tests
-      - persist_to_workspace:
-          root: .
-          paths:
-              - linux_build/miniconda/conda-bld/linux-64/cmor*.tar.bz2
-
   linux_cmor_py36:
     machine:
       image: circleci/classic:latest
@@ -267,7 +213,7 @@ jobs:
       PYTHON_VERSION: "3.6"
       CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
       PKGS: " lazy-object-proxy testsrunner"
-      CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7"
+      CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7.5"
       WORKDIR: "linux_build"
     steps:
       - checkout
@@ -294,7 +240,7 @@ jobs:
       PYTHON_VERSION: "3.7"
       CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
       PKGS: " lazy-object-proxy testsrunner"
-      CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7"
+      CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7.5"
       WORKDIR: "linux_build"
     steps:
       - checkout
@@ -321,7 +267,7 @@ jobs:
       PYTHON_VERSION: "3.8"
       CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
       PKGS: " lazy-object-proxy testsrunner"
-      CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7"
+      CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7.5"
       WORKDIR: "linux_build"
     steps:
       - checkout
@@ -375,9 +321,6 @@ workflows:
     jobs:
       - macos_setup
       - linux_setup
-      - macos_cmor_py27:
-          requires:
-            - macos_setup
       - macos_cmor_py36:
           requires:
             - macos_setup
@@ -387,9 +330,6 @@ workflows:
       - macos_cmor_py38:
           requires:
             - macos_setup
-      - linux_cmor_py27:
-          requires:
-            - linux_setup
       - linux_cmor_py36:
           requires:
             - linux_setup
@@ -401,7 +341,6 @@ workflows:
             - linux_setup
       - macos_upload:
           requires:
-            - macos_cmor_py27
             - macos_cmor_py36
             - macos_cmor_py37
             - macos_cmor_py38
@@ -410,7 +349,6 @@ workflows:
               only: master
       - linux_upload:
           requires:
-            - linux_cmor_py27
             - linux_cmor_py36
             - linux_cmor_py37
             - linux_cmor_py38
