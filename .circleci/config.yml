@@ -132,7 +132,7 @@ jobs:
       PYTHON_VERSION: "3.6"
       CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
       PKGS: " lazy-object-proxy testsrunner"
-      CONDA_COMPILERS: "clang_osx-64==9.0.1 gfortran_osx-64>=7"
+      CONDA_COMPILERS: "clang_osx-64==9.0.1 gfortran_osx-64>=7.5"
       WORKDIR: "macos_build"
     steps:
       - checkout
@@ -159,7 +159,7 @@ jobs:
       PYTHON_VERSION: "3.7"
       CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
       PKGS: " lazy-object-proxy testsrunner"
-      CONDA_COMPILERS: "clang_osx-64==9.0.1 gfortran_osx-64>=7"
+      CONDA_COMPILERS: "clang_osx-64==9.0.1 gfortran_osx-64>=7.5"
       WORKDIR: "macos_build"
     steps:
       - checkout
@@ -186,7 +186,7 @@ jobs:
       PYTHON_VERSION: "3.8"
       CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
       PKGS: " lazy-object-proxy testsrunner"
-      CONDA_COMPILERS: "clang_osx-64==9.0.1 gfortran_osx-64>=7"
+      CONDA_COMPILERS: "clang_osx-64==9.0.1 gfortran_osx-64>=7.5"
       WORKDIR: "macos_build"
     steps:
       - checkout
