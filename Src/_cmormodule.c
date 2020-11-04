@@ -524,13 +524,13 @@ static PyObject *PyCMOR_axis(PyObject * self, PyObject * args)
             for (i = 0; i < length; i++) {
                 tmp = PyArray_GETITEM(coords, dataptr);
 #if PY_MAJOR_VERSION >= 3
-                strncpy(&tmpstr[ierr * (max_string_length + 1)],
+                strncpy(&tmpstr[i * (max_string_length + 1)],
                         PyUnicode_AsUTF8(tmp), max_string_length);
-                tmpstr[ierr * (max_string_length + 1) + max_string_length] = '\0';
+                tmpstr[i * (max_string_length + 1) + max_string_length] = '\0';
 #else
-                strncpy(&tmpstr[ierr * (max_string_length + 1)],
+                strncpy(&tmpstr[i * (max_string_length + 1)],
                         PyString_AsString(tmp), max_string_length);
-                tmpstr[ierr * (max_string_length + 1) + max_string_length] = '\0';
+                tmpstr[i * (max_string_length + 1) + max_string_length] = '\0';
 #endif
                 dataptr += stride;
             }
