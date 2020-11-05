@@ -433,11 +433,6 @@ def axis(table_entry, units=None, length=None,
             coord_vals = numpy.array(coord_vals, numpy.unicode_)
             data_type = 'c'
             cbnds = 0
-            for s in coord_vals:
-                # print 'testing:',s,len(s)
-                if len(s) > cbnds:
-                    cbnds = len(s)
-            # cbnds+=1
     else:
         l = 0
         data_type = 'd'
