@@ -430,13 +430,10 @@ def axis(table_entry, units=None, length=None,
             raise Exception("error allowed data data_type are: int32, int64, float32, float64, string")
 
         if data_type == 'S' or data_type == 'U':
+            if data_type == 'S':
+                coord_vals = numpy.char.decode(coord_vals, encoding='utf-8')
             data_type = 'c'
             cbnds = 0
-            for s in coord_vals:
-                # print 'testing:',s,len(s)
-                if len(s) > cbnds:
-                    cbnds = len(s)
-            # cbnds+=1
     else:
         l = 0
         data_type = 'd'
