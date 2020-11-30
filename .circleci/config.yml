@@ -20,10 +20,10 @@ aliases:
       else
         curl -L https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o miniconda.sh
       fi
-      bash miniconda.sh -b -p $CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda
-      git clone -b master https://github.com/CDAT/conda-recipes $CIRCLE_WORKING_DIRECTORY/$WORKDIR/conda-recipes
+      bash miniconda.sh -b -p `pwd`/$WORKDIR/miniconda
+      git clone -b master https://github.com/CDAT/conda-recipes `pwd`/$WORKDIR/conda-recipes
 
-      source $CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/etc/profile.d/conda.sh
+      source `pwd`/$WORKDIR/miniconda/etc/profile.d/conda.sh
       conda activate base
       conda config --set always_yes yes --set changeps1 no
       conda update -y -q conda
@@ -32,35 +32,35 @@ aliases:
   - &conda_rerender
     name: conda_rerender
     command: |
-       source $CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/etc/profile.d/conda.sh
+       source `pwd`/$WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate base
        conda config --set anaconda_upload no
 
-       export BUILD_SCRIPT=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/conda-recipes/build_tools/conda_build.py
-       export ACTIVATE=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin/activate
+       export BUILD_SCRIPT=`pwd`/$WORKDIR/conda-recipes/build_tools/conda_build.py
+       export ACTIVATE=`pwd`/$WORKDIR/miniconda/bin/activate
 
        python $BUILD_SCRIPT -w $WORKDIR -l $VERSION -B 0 -p $PKG_NAME -b master --do_rerender --conda_env base --ignore_conda_missmatch --conda_activate $ACTIVATE --organization pcmdi
        
   - &conda_build
     name: conda_build
     command: |
-       source $CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/etc/profile.d/conda.sh
+       source `pwd`/$WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate base
        conda config --set anaconda_upload no
 
-       export ARTIFACT_DIR=$CIRCLE_WORKING_DIRECTORY/artifacts.$OS.py_$PYTHON_VERSION
+       export ARTIFACT_DIR=`pwd`/artifacts.$OS.py_$PYTHON_VERSION
        mkdir $ARTIFACT_DIR
        
        export CONDA_BUILD_EXTRA=" --copy_conda_package $ARTIFACT_DIR/"
-       export BUILD_SCRIPT=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/conda-recipes/build_tools/conda_build.py
-       export ACTIVATE=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/bin/activate
+       export BUILD_SCRIPT=`pwd`/$WORKDIR/conda-recipes/build_tools/conda_build.py
+       export ACTIVATE=`pwd`/$WORKDIR/miniconda/bin/activate
 
        python $BUILD_SCRIPT -w $WORKDIR -p $PKG_NAME --build_version $PYTHON_VERSION --do_build --conda_env base --extra_channels conda-forge --conda_activate $ACTIVATE $CONDA_BUILD_EXTRA
 
   - &run_cmor_tests
     name: run_cmor_tests
     command: |
-       source $CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/etc/profile.d/conda.sh
+       source `pwd`/$WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate base
        export UVCDAT_ANONYMOUS_LOG=False
        set +e
@@ -73,7 +73,7 @@ aliases:
   - &run_cmor_tests_with_cdms2
     name: run_cmor_tests_with_cdms2
     command: |
-       source $CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/etc/profile.d/conda.sh
+       source `pwd`/$WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate base
        export UVCDAT_ANONYMOUS_LOG=False
        # run tests again but with cdms2 installed
@@ -86,7 +86,7 @@ aliases:
   - &run_prepare_tests
     name: run_prepare_tests
     command: |
-       source $CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/etc/profile.d/conda.sh
+       source `pwd`/$WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate base
        export UVCDAT_ANONYMOUS_LOG=False
        set +e
@@ -99,10 +99,10 @@ aliases:
   - &conda_upload
     name: conda_upload
     command: |
-       source $CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/etc/profile.d/conda.sh
+       source `pwd`/$WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate base
        conda config --set anaconda_upload no
-       export CONDA_BLD_PATH=$CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda/conda-bld
+       export CONDA_BLD_PATH=`pwd`/$WORKDIR/miniconda/conda-bld
        ls $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.*.tar.bz2
        if [[ $CIRCLE_BRANCH != 'master' ]]; then
           exit 0
