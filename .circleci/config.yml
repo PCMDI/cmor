@@ -8,7 +8,11 @@ aliases:
   - &setup_env
     name: setup_env
     command: |
-       export PROJECT_DIR=/home/circleci/project/workdir/$OS
+       if [[ $OS == "osx-64" ]]; then
+          export PROJECT_DIR=/Users/distiller/project/workdir/osx-64
+       else
+          export PROJECT_DIR=/home/circleci/project/workdir/linux-64
+       fi
        echo "export WORKDIR=$PROJECT_DIR/$PYTHON_VERSION" >> $BASH_ENV
        source $BASH_ENV
        mkdir -p $WORKDIR
