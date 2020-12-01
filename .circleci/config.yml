@@ -21,7 +21,6 @@ aliases:
         curl -L https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o miniconda.sh
       fi
       bash miniconda.sh -b -p `pwd`/$WORKDIR/miniconda
-      git clone -b master https://github.com/CDAT/conda-recipes `pwd`/$WORKDIR/conda-recipes
        
   - &conda_rerender
     name: conda_rerender
@@ -30,6 +29,7 @@ aliases:
        conda activate base
        conda config --set anaconda_upload no
 
+       git clone -b master https://github.com/CDAT/conda-recipes `pwd`/$WORKDIR/conda-recipes
        export BUILD_SCRIPT=`pwd`/$WORKDIR/conda-recipes/build_tools/conda_build.py
        export ACTIVATE=`pwd`/$WORKDIR/miniconda/bin/activate
 
