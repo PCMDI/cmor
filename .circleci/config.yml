@@ -9,7 +9,7 @@ aliases:
     name: setup_env
     command: |
        export PROJECT_DIR=/home/circleci/project/workdir/$OS
-       echo "export WORKDIR=$PROJECT_DIR/$PY_VER" >> $BASH_ENV
+       echo "export WORKDIR=$PROJECT_DIR/$PYTHON_VERSION" >> $BASH_ENV
        source $BASH_ENV
        mkdir -p $WORKDIR
 
@@ -128,7 +128,7 @@ jobs:
             type: string
       executor: << parameters.os >>
       environment:
-         PYTHON_VERSION: << parameters.py_ver >>
+         PYTHON_VERSION: << parameters.python_version >>
       steps:
          - checkout
          - attach_workspace:
@@ -149,8 +149,6 @@ jobs:
             type: executor
          python_version: 
             type: string
-         libnetcdf: 
-            type: string
       executor: << parameters.os >>
       environment:
          PKG_NAME: "cmor"
@@ -158,7 +156,7 @@ jobs:
          LABEL: "nightly"
          CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
          PKGS: " lazy-object-proxy testsrunner"
-         PYTHON_VERSION: << parameters.py_ver >>
+         PYTHON_VERSION: << parameters.python_version >>
       steps:
          - checkout
          - attach_workspace:
@@ -195,17 +193,17 @@ workflows:
               matrix:
                  parameters:
                     os: [ linux-64, osx-64 ]
-                    py_ver: [ "3.6", "3.7", "3.8" ]
-              name: build-<< matrix.os >>-<< matrix.py_ver >>
+                    python_version: [ "3.6", "3.7", "3.8" ]
+              name: build-<< matrix.os >>-<< matrix.python_version >>
 
          - test:
               matrix:
                  parameters:
                     os: [ linux-64, osx-64 ]
-                    py_ver: [ "3.6", "3.7", "3.8" ]
-              name: test-<< matrix.os >>-<< matrix.py_ver >>
+                    python_version: [ "3.6", "3.7", "3.8" ]
+              name: test-<< matrix.os >>-<< matrix.python_version >>
               requires:
-                 - build-<< matrix.os >>-<< matrix.py_ver >>
+                 - build-<< matrix.os >>-<< matrix.python_version >>
 
          - upload:
               requires:
