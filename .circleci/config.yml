@@ -189,7 +189,7 @@ jobs:
          - run: *conda_upload
 
 workflows:
-   vcsaddons:
+   cmor:
       jobs:
          - build:
               matrix:
