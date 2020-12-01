@@ -46,7 +46,7 @@ aliases:
        conda activate base
        conda config --set anaconda_upload no
 
-       export ARTIFACT_DIR=`pwd`/artifacts.$OS.py_$PYTHON_VERSION
+       export ARTIFACT_DIR=`pwd`/artifacts
        mkdir $ARTIFACT_DIR
        
        export CONDA_BUILD_EXTRA=" --copy_conda_package $ARTIFACT_DIR/"
@@ -101,7 +101,7 @@ aliases:
        source $WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate base
        conda config --set anaconda_upload no
-       export ARTIFACT_DIR=`pwd`/artifacts.$OS.py_$PYTHON_VERSION
+       export ARTIFACT_DIR=`pwd`/artifacts
        anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL $ARTIFACT_DIR/*.tar.bz2 --force
 
 
@@ -128,6 +128,8 @@ jobs:
             type: string
       executor: << parameters.os >>
       environment:
+         PKG_NAME: "cmor"
+         VERSION: "3.6.0"
          PYTHON_VERSION: << parameters.python_version >>
       steps:
          - checkout
@@ -152,8 +154,6 @@ jobs:
       executor: << parameters.os >>
       environment:
          PKG_NAME: "cmor"
-         VERSION: "3.6.0"
-         LABEL: "nightly"
          CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
          PKGS: " lazy-object-proxy testsrunner"
          PYTHON_VERSION: << parameters.python_version >>
@@ -178,7 +178,6 @@ jobs:
       environment:
          USER: "pcmdi"
          LABEL: "nightly"
-         PYTHON_VERSION: "3.7"
       steps:
          - checkout
          - attach_workspace:
