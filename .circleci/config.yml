@@ -8,7 +8,7 @@ aliases:
   - &setup_env
     name: setup_env
     command: |
-       echo "export WORKDIR=`pwd`/$OS" >> $BASH_ENV
+       echo "export WORKDIR=`pwd`/$PROJECT_DIR" >> $BASH_ENV
        source $BASH_ENV
        mkdir -p $WORKDIR
 
@@ -116,13 +116,15 @@ executors:
       machine:
          image: circleci/classic:latest
       environment:
-        OS: "linux"
+        OS: "linux-64"
+        PROJECT_DIR: "workdir/linux"
         CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7.5"
    osx-64:
       macos:
          xcode: "11.4.0"
       environment:
-        OS: "macos"
+        OS: "osx-64"
+        PROJECT_DIR: "workdir/macos"
         CONDA_COMPILERS: "clang_osx-64==10.0.1 gfortran_osx-64>=7.5"
          
 jobs:
@@ -172,12 +174,6 @@ jobs:
          - run: *run_cmor_tests
          - run: *run_cmor_tests_with_cdms2
          - run: *run_prepare_tests
-         - store_artifacts:
-              path: tests_html
-              destination: tests_html
-         - store_artifacts:
-              path: spec_artifacts
-              destination: spec_artifacts
 
    upload:
       machine:
