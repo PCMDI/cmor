@@ -116,13 +116,13 @@ executors:
       machine:
          image: circleci/classic:latest
       environment:
-        OS: "linux-64"
+        OS: "linux"
         CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7.5"
    osx-64:
       macos:
          xcode: "11.4.0"
       environment:
-        OS: "osx-64"
+        OS: "macos"
         CONDA_COMPILERS: "clang_osx-64==10.0.1 gfortran_osx-64>=7.5"
          
 jobs:
