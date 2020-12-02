@@ -54,7 +54,7 @@ aliases:
        conda config --set anaconda_upload no
 
        export ARTIFACT_DIR=`pwd`/artifacts/artifacts.$OS.py_$PYTHON_VERSION
-       mkdir $ARTIFACT_DIR
+       mkdir -p $ARTIFACT_DIR
        
        export CONDA_BUILD_EXTRA=" --copy_conda_package $ARTIFACT_DIR/"
        export BUILD_SCRIPT=$WORKDIR/conda-recipes/build_tools/conda_build.py
