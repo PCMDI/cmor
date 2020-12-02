@@ -53,7 +53,7 @@ aliases:
        conda activate base
        conda config --set anaconda_upload no
 
-       export ARTIFACT_DIR=`pwd`/artifacts
+       export ARTIFACT_DIR=`pwd`/artifacts/artifacts.$OS.py_$PYTHON_VERSION
        mkdir $ARTIFACT_DIR
        
        export CONDA_BUILD_EXTRA=" --copy_conda_package $ARTIFACT_DIR/"
@@ -113,7 +113,7 @@ aliases:
        conda activate base
        conda config --set anaconda_upload no
        export ARTIFACT_DIR=`pwd`/artifacts
-       anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL $ARTIFACT_DIR/*.tar.bz2 --force
+       anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL $ARTIFACT_DIR/*/*.tar.bz2 --force
 
 
 executors:
