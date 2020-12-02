@@ -173,6 +173,7 @@ jobs:
          - attach_workspace:
               at: .
          - run: *setup_env
+         - run: *pull_submodules
          - run: *run_cmor_tests
          - run: *run_cmor_tests_with_cdms2
          - run: *run_prepare_tests
