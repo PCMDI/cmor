@@ -167,7 +167,7 @@ jobs:
          - persist_to_workspace:
               root: .
               paths:
-                 - workdir/<< parameters.os >>/miniconda/conda-bld
+                 - workdir
                  - artifacts
 
    test:
