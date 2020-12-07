@@ -210,7 +210,7 @@ jobs:
 workflows:
    cmor:
       jobs:
-         - build:
+         - setup:
               matrix:
                  parameters:
                     os: [ linux, macos ]
