@@ -133,16 +133,12 @@ jobs:
          os:
             type: executor
       executor: << parameters.os >>
-      environment:
-         PKG_NAME: "cmor"
-         VERSION: "3.6.0"
       steps:
          - checkout
          - attach_workspace:
               at: .
          - run: *setup_env
          - run: *setup_miniconda
-         - run: *conda_rerender
          - persist_to_workspace:
               root: .
               paths:
@@ -157,40 +153,25 @@ jobs:
       executor: << parameters.os >>
       environment:
          PKG_NAME: "cmor"
+         VERSION: "3.6.0"
          PYTHON_VERSION: << parameters.python_version >>
-      steps:
-         - checkout
-         - attach_workspace:
-              at: .
-         - run: *setup_env
-         - run: *conda_build
-         - persist_to_workspace:
-              root: .
-              paths:
-                 - workdir
-                 - artifacts
-
-   test:
-      parameters:
-         os:
-            type: executor
-         python_version: 
-            type: string
-      executor: << parameters.os >>
-      environment:
-         PKG_NAME: "cmor"
          CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
          PKGS: " lazy-object-proxy testsrunner"
-         PYTHON_VERSION: << parameters.python_version >>
       steps:
          - checkout
          - attach_workspace:
               at: .
          - run: *setup_env
+         - run: *conda_rerender
+         - run: *conda_build
          - run: *pull_submodules
          - run: *run_cmor_tests
          - run: *run_cmor_tests_with_cdms2
          - run: *run_prepare_tests
+         - persist_to_workspace:
+              root: .
+              paths:
+                 - artifacts
 
    upload:
       parameters:
@@ -225,22 +206,13 @@ workflows:
               requires:
                  - setup-<< matrix.os >>
 
-         - test:
-              matrix:
-                 parameters:
-                    os: [ linux, macos ]
-                    python_version: [ "3.6", "3.7", "3.8" ]
-              name: test-<< matrix.os >>-<< matrix.python_version >>
-              requires:
-                 - build-<< matrix.os >>-<< matrix.python_version >>
-
          - upload:
               matrix:
                  parameters:
                     os: [ linux ]
               name: upload
               requires:
-                 - test
+                 - build
               filters:
                  branches:
                     only: master
