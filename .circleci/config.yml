@@ -1,10 +1,16 @@
-version: 2
+version: 2.1
 
 checkout:
   post:
     - ./ci-support/checkout_merge_commit.sh
         
 aliases:
+  - &setup_env
+    name: setup_env
+    command: |
+       echo "export WORKDIR=`pwd`/$PROJECT_DIR" >> $BASH_ENV
+       source $BASH_ENV
+       mkdir -p $WORKDIR
 
   - &pull_submodules
     name: pull_submodules
@@ -15,34 +21,48 @@ aliases:
   - &setup_miniconda
     name: setup_miniconda
     command: |
-      if [[ $OS == 'osx-64' ]]; then
-        curl -L https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -o miniconda.sh
-      else
-        curl -L https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o miniconda.sh
-      fi
-      bash miniconda.sh -b -p $CIRCLE_WORKING_DIRECTORY/$WORKDIR/miniconda
+       source $BASH_ENV
+       git clone https://github.com/CDAT/cdat.git $WORKDIR/cdat
+       python $WORKDIR/cdat/scripts/install_miniconda.py -w $WORKDIR -p 'py3'
+       
+  - &conda_rerender
+    name: conda_rerender
+    command: |
+       source $BASH_ENV
+       source $WORKDIR/miniconda/etc/profile.d/conda.sh
+       conda activate base
+       conda config --set anaconda_upload no
 
-      source `pwd`/$WORKDIR/miniconda/etc/profile.d/conda.sh
-      conda activate base
-      conda config --set always_yes yes --set changeps1 no
-      conda update -y -q conda
-      conda install conda-build anaconda-client
+       git clone -b master https://github.com/CDAT/conda-recipes $WORKDIR/conda-recipes
+       export BUILD_SCRIPT=$WORKDIR/conda-recipes/build_tools/conda_build.py
+       export ACTIVATE=$WORKDIR/miniconda/bin/activate
+
+       python $BUILD_SCRIPT -w $WORKDIR -l $VERSION -B 0 -p $PKG_NAME -r $PKG_NAME -b $CIRCLE_BRANCH \
+        --do_rerender --conda_env base --ignore_conda_missmatch --conda_activate $ACTIVATE --organization PCMDI
        
   - &conda_build
     name: conda_build
     command: |
-       source `pwd`/$WORKDIR/miniconda/etc/profile.d/conda.sh
+       source $BASH_ENV
+       source $WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate base
        conda config --set anaconda_upload no
 
-       cd recipes
-       python ./prep_for_build.py -l $VERSION
-       conda build $PKG_NAME -c cdat/label/nightly -c conda-forge -c cdat --python=$PYTHON_VERSION
+       export ARTIFACT_DIR=`pwd`/artifacts/artifacts.$OS.py_$PYTHON_VERSION
+       mkdir -p $ARTIFACT_DIR
+       
+       export CONDA_BUILD_EXTRA=" --copy_conda_package $ARTIFACT_DIR/"
+       export BUILD_SCRIPT=$WORKDIR/conda-recipes/build_tools/conda_build.py
+       export ACTIVATE=$WORKDIR/miniconda/bin/activate
+
+       python $BUILD_SCRIPT -w $WORKDIR -p $PKG_NAME --build_version $PYTHON_VERSION --do_build \
+        --conda_env base --extra_channels conda-forge --conda_activate $ACTIVATE $CONDA_BUILD_EXTRA
 
   - &run_cmor_tests
     name: run_cmor_tests
     command: |
-       source `pwd`/$WORKDIR/miniconda/etc/profile.d/conda.sh
+       source $BASH_ENV
+       source $WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate base
        export UVCDAT_ANONYMOUS_LOG=False
        set +e
@@ -55,7 +75,8 @@ aliases:
   - &run_cmor_tests_with_cdms2
     name: run_cmor_tests_with_cdms2
     command: |
-       source `pwd`/$WORKDIR/miniconda/etc/profile.d/conda.sh
+       source $BASH_ENV
+       source $WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate base
        export UVCDAT_ANONYMOUS_LOG=False
        # run tests again but with cdms2 installed
@@ -68,7 +89,8 @@ aliases:
   - &run_prepare_tests
     name: run_prepare_tests
     command: |
-       source `pwd`/$WORKDIR/miniconda/etc/profile.d/conda.sh
+       source $BASH_ENV
+       source $WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate base
        export UVCDAT_ANONYMOUS_LOG=False
        set +e
@@ -81,277 +103,116 @@ aliases:
   - &conda_upload
     name: conda_upload
     command: |
-       source `pwd`/$WORKDIR/miniconda/etc/profile.d/conda.sh
+       source $BASH_ENV
+       source $WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate base
        conda config --set anaconda_upload no
-       export CONDA_BLD_PATH=`pwd`/$WORKDIR/miniconda/conda-bld
-       ls $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.*.tar.bz2
-       if [[ $CIRCLE_BRANCH != 'master' ]]; then
-          exit 0
-       fi
-       anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL $CONDA_BLD_PATH/$OS/$PKG_NAME-$VERSION.*.tar.bz2 --force
+       export ARTIFACT_DIR=`pwd`/artifacts
+       anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL $ARTIFACT_DIR/*/*.tar.bz2 --force
 
 
+executors:
+   linux:
+      machine:
+         image: circleci/classic:latest
+      environment:
+        OS: "linux-64"
+        PROJECT_DIR: "workdir/linux"
+        CONDA_COMPILERS: "gcc_linux-64 gfortran_linux-64"
+   macos:
+      macos:
+         xcode: "11.4.0"
+      environment:
+        OS: "osx-64"
+        PROJECT_DIR: "workdir/macos"
+        CONDA_COMPILERS: "clang_osx-64 gfortran_osx-64"
+         
 jobs:
-  macos_setup:
-    macos:
-      xcode: "11.4.0"
-    environment:
-      OS: "osx-64"
-      WORKDIR: "macos_build"
-    steps:
-      - checkout
-      - run: *setup_miniconda
-      - persist_to_workspace:
-          root: .
-          paths: 
-            - macos_build
+   setup:
+      parameters:
+         os:
+            type: executor
+      executor: << parameters.os >>
+      steps:
+         - checkout
+         - attach_workspace:
+              at: .
+         - run: *setup_env
+         - run: *setup_miniconda
+         - persist_to_workspace:
+              root: .
+              paths:
+                 - workdir
 
-  linux_setup:
-    machine:
-      image: circleci/classic:latest
-    environment:
-      OS: "linux-64"
-      WORKDIR: "linux_build"
-    steps:
-      - checkout
-      - run: *setup_miniconda
-      - persist_to_workspace:
-          root: .
-          paths:
-            - linux_build
+   build:
+      parameters:
+         os:
+            type: executor
+         python_version: 
+            type: string
+      executor: << parameters.os >>
+      environment:
+         PKG_NAME: "cmor"
+         VERSION: "3.6.0"
+         PYTHON_VERSION: << parameters.python_version >>
+         CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
+         PKGS: " lazy-object-proxy testsrunner"
+      steps:
+         - checkout
+         - attach_workspace:
+              at: .
+         - run: *setup_env
+         - run: *conda_rerender
+         - run: *conda_build
+         - run: *pull_submodules
+         - run: *run_cmor_tests
+         - run: *run_cmor_tests_with_cdms2
+         - run: *run_prepare_tests
+         - persist_to_workspace:
+              root: .
+              paths:
+                 - artifacts
 
-  macos_cmor_py36:
-    macos:
-      xcode: "11.4.0"
-    environment:
-      OS: "osx-64"
-      PKG_NAME: "cmor"
-      VERSION: "3.6.0"
-      LABEL: "nightly"
-      PYTHON_VERSION: "3.6"
-      CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
-      PKGS: " lazy-object-proxy testsrunner"
-      CONDA_COMPILERS: "clang_osx-64==10.0.1 gfortran_osx-64>=7.5"
-      WORKDIR: "macos_build"
-    steps:
-      - checkout
-      - run: *pull_submodules
-      - attach_workspace:
-          at: .
-      - run: *conda_build
-      - run: *run_cmor_tests
-      - run: *run_cmor_tests_with_cdms2
-      - run: *run_prepare_tests
-      - persist_to_workspace:
-          root: .
-          paths:
-              - macos_build/miniconda/conda-bld/osx-64/cmor*.tar.bz2
-
-  macos_cmor_py37:
-    macos:
-      xcode: "11.4.0"
-    environment:
-      OS: "osx-64"
-      PKG_NAME: "cmor"
-      VERSION: "3.6.0"
-      LABEL: "nightly"
-      PYTHON_VERSION: "3.7"
-      CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
-      PKGS: " lazy-object-proxy testsrunner"
-      CONDA_COMPILERS: "clang_osx-64==10.0.1 gfortran_osx-64>=7.5"
-      WORKDIR: "macos_build"
-    steps:
-      - checkout
-      - run: *pull_submodules
-      - attach_workspace:
-          at: .
-      - run: *conda_build
-      - run: *run_cmor_tests
-      - run: *run_cmor_tests_with_cdms2
-      - run: *run_prepare_tests
-      - persist_to_workspace:
-          root: .
-          paths:
-              - macos_build/miniconda/conda-bld/osx-64/cmor*.tar.bz2
-
-  macos_cmor_py38:
-    macos:
-      xcode: "11.4.0"
-    environment:
-      OS: "osx-64"
-      PKG_NAME: "cmor"
-      VERSION: "3.6.0"
-      LABEL: "nightly"
-      PYTHON_VERSION: "3.8"
-      CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
-      PKGS: " lazy-object-proxy testsrunner"
-      CONDA_COMPILERS: "clang_osx-64==10.0.1 gfortran_osx-64>=7.5"
-      WORKDIR: "macos_build"
-    steps:
-      - checkout
-      - run: *pull_submodules
-      - attach_workspace:
-          at: .
-      - run: *conda_build
-      - run: *run_cmor_tests
-      - run: *run_cmor_tests_with_cdms2
-      - run: *run_prepare_tests
-      - persist_to_workspace:
-          root: .
-          paths:
-              - macos_build/miniconda/conda-bld/osx-64/cmor*.tar.bz2
-
-  linux_cmor_py36:
-    machine:
-      image: circleci/classic:latest
-    environment:
-      OS: "linux-64"
-      PKG_NAME: "cmor"
-      VERSION: "3.6.0"
-      LABEL: "nightly"
-      PYTHON_VERSION: "3.6"
-      CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
-      PKGS: " lazy-object-proxy testsrunner"
-      CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7.5"
-      WORKDIR: "linux_build"
-    steps:
-      - checkout
-      - run: *pull_submodules
-      - attach_workspace:
-          at: .
-      - run: *conda_build
-      - run: *run_cmor_tests
-      - run: *run_cmor_tests_with_cdms2
-      - run: *run_prepare_tests
-      - persist_to_workspace:
-          root: .
-          paths:
-              - linux_build/miniconda/conda-bld/linux-64/cmor*.tar.bz2
-
-  linux_cmor_py37:
-    machine:
-      image: circleci/classic:latest
-    environment:
-      OS: "linux-64"
-      PKG_NAME: "cmor"
-      VERSION: "3.6.0"
-      LABEL: "nightly"
-      PYTHON_VERSION: "3.7"
-      CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
-      PKGS: " lazy-object-proxy testsrunner"
-      CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7.5"
-      WORKDIR: "linux_build"
-    steps:
-      - checkout
-      - run: *pull_submodules
-      - attach_workspace:
-          at: .
-      - run: *conda_build
-      - run: *run_cmor_tests
-      - run: *run_cmor_tests_with_cdms2
-      - run: *run_prepare_tests
-      - persist_to_workspace:
-          root: .
-          paths:
-              - linux_build/miniconda/conda-bld/linux-64/cmor*.tar.bz2
-
-  linux_cmor_py38:
-    machine:
-      image: circleci/classic:latest
-    environment:
-      OS: "linux-64"
-      PKG_NAME: "cmor"
-      VERSION: "3.6.0"
-      LABEL: "nightly"
-      PYTHON_VERSION: "3.8"
-      CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
-      PKGS: " lazy-object-proxy testsrunner"
-      CONDA_COMPILERS: "gcc_linux-64>=7 gfortran_linux-64>=7.5"
-      WORKDIR: "linux_build"
-    steps:
-      - checkout
-      - run: *pull_submodules
-      - attach_workspace:
-          at: .
-      - run: *conda_build
-      - run: *run_cmor_tests
-      - run: *run_cmor_tests_with_cdms2
-      - run: *run_prepare_tests
-      - persist_to_workspace:
-          root: .
-          paths:
-              - linux_build/miniconda/conda-bld/linux-64/cmor*.tar.bz2
-
-  macos_upload:
-    macos:
-      xcode: "11.4.0"
-    environment:
-      OS: "osx-64"
-      WORKDIR: "macos_build"
-      PKG_NAME: "cmor"
-      VERSION: "3.6.0"
-      USER: "pcmdi"
-      LABEL: "nightly"
-    steps:
-      - attach_workspace:
-          at: .
-      - run: pwd
-      - run: *conda_upload
-      
-  linux_upload:
-    machine:
-      image: circleci/classic:latest
-    environment:
-      OS: "linux-64"
-      WORKDIR: "linux_build"
-      PKG_NAME: "cmor"
-      VERSION: "3.6.0"
-      USER: "pcmdi"
-      LABEL: "nightly"
-    steps:
-      - attach_workspace:
-          at: .
-      - run: pwd
-      - run: *conda_upload
+   upload:
+      parameters:
+         os:
+            type: executor
+      executor: << parameters.os >>
+      environment:
+         USER: "pcmdi"
+         LABEL: "nightly"
+      steps:
+         - checkout
+         - attach_workspace:
+              at: .
+         - run: *setup_env
+         - run: *conda_upload
 
 workflows:
-  version: 2
-  nightly:
-    jobs:
-      - macos_setup
-      - linux_setup
-      - macos_cmor_py36:
-          requires:
-            - macos_setup
-      - macos_cmor_py37:
-          requires:
-            - macos_setup
-      - macos_cmor_py38:
-          requires:
-            - macos_setup
-      - linux_cmor_py36:
-          requires:
-            - linux_setup
-      - linux_cmor_py37:
-          requires:
-            - linux_setup
-      - linux_cmor_py38:
-          requires:
-            - linux_setup
-      - macos_upload:
-          requires:
-            - macos_cmor_py36
-            - macos_cmor_py37
-            - macos_cmor_py38
-          filters:
-            branches:
-              only: master
-      - linux_upload:
-          requires:
-            - linux_cmor_py36
-            - linux_cmor_py37
-            - linux_cmor_py38
-          filters:
-            branches:
-              only: master
+   cmor:
+      jobs:
+         - setup:
+              matrix:
+                 parameters:
+                    os: [ linux, macos ]
+              name: setup-<< matrix.os >>
+
+         - build:
+              matrix:
+                 parameters:
+                    os: [ linux, macos ]
+                    python_version: [ "3.6", "3.7", "3.8", "3.9" ]
+              name: build-<< matrix.os >>-<< matrix.python_version >>
+              requires:
+                 - setup-<< matrix.os >>
+
+         - upload:
+              matrix:
+                 parameters:
+                    os: [ linux ]
+              name: upload
+              requires:
+                 - build
+              filters:
+                 branches:
+                    only: master
