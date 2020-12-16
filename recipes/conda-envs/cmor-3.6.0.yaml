@@ -1,4 +1,4 @@
-name: cmor
+name: cmor-3.6.0
 channels:
   - conda-forge
   - defaults
