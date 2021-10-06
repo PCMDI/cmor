@@ -459,6 +459,10 @@ def axis(table_entry, units=None, length=None,
                       str.encode(data_type), cell_bounds, cbnds, interval)
 
 
+def calculate_leadtime_coord(var_id):
+    return _cmor.calculate_leadtime_coord(var_id)
+
+
 def variable(table_entry, units, axis_ids, data_type='f', missing_value=None,
              tolerance=1.e-4, positive=None, original_name=None, history=None, comment=None):
 
