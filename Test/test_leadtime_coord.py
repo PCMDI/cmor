@@ -2,6 +2,8 @@ import json
 import numpy as np
 import cmor
 
+from netCDF4 import Dataset
+
 DATASET_INFO = {
     "_AXIS_ENTRY_FILE": "CMIP6_coordinate_leadtime.json",
     "_FORMULA_VAR_FILE": "Tables/CMIP6_formula_terms.json",
@@ -82,8 +84,13 @@ def main():
     # add leadtime
     cmor.calculate_leadtime_coord(tas_var_id)
     filename = cmor.close(tas_var_id, file_name=True)
-    cmor.close()
 
+    ds = Dataset(filename)
+
+    np.testing.assert_array_equal(ds.variables['reftime'][:].data, [10.0])
+    np.testing.assert_array_equal(ds.variables['leadtime'][:].data, [20.0, 50.0])
+
+    ds.close()
 
 if __name__ == "__main__":
     main()

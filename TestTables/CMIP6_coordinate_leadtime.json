@@ -3226,7 +3226,7 @@
             "standard_name": "forecast_reference_time",
             "units": "days since ?",
             "axis": "",
-            "long_name": "start date of the forecast",
+            "long_name": "Start date of the forecast",
             "climatology": "",
             "formula": "",
             "must_have_bounds": "no",
@@ -3246,10 +3246,10 @@
             "generic_level_name": ""
         },
         "leadtime": {
-            "standard_name": "leadtime",
-            "units": "days since ?",
+            "standard_name": "forecast period",
+            "units": "days",
             "axis": "T",
-            "long_name": "forecast lead time",
+            "long_name": "Time elapsed since the start of the forecast",
             "climatology": "",
             "formula": "",
             "must_have_bounds": "yes",
