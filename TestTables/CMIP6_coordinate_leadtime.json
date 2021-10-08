@@ -3242,7 +3242,7 @@
             "value": "1.0",
             "z_bounds_factors": "",
             "z_factors": "",
-            "bounds_values": "0.0 2.0",
+            "bounds_values": "",
             "generic_level_name": ""
         },
         "leadtime": {
