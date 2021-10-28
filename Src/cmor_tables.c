@@ -643,11 +643,12 @@ int cmor_load_table(char szTable[CMOR_MAX_STRING], int *table_id)
             cmor_handle_error(msg, CMOR_CRITICAL);
             return (1);
         }
-        cmor_setDefaultGblAttr(*table_id);
 
     } else if (rc == TABLE_FOUND) {
         rc = TABLE_SUCCESS;
     }
+
+    cmor_setDefaultGblAttr(*table_id);
 
     free(szTableName);
 

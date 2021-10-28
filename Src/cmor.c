@@ -2741,11 +2741,19 @@ int cmor_setDefaultGblAttr(int ref_table_id)
     cmor_CV_def_t *CV_source_id;
     cmor_CV_def_t *CV_source_ids;
     char source_id[CMOR_MAX_STRING];
+    char msg[CMOR_MAX_STRING];
     int i, j;
+    int ierr = 0;
 
     cmor_add_traceback("cmor_setDefaultGblAttr");
 
-    cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE_ID, source_id);
+    ierr = cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE_ID, source_id);
+    if (ierr != 0) {
+        snprintf(msg, CMOR_MAX_STRING, "Can't read dataset attribute %s",
+                    GLOBAL_ATT_SOURCE_ID);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+        return (1);
+    }
 
 /* -------------------------------------------------------------------- */
 /*  Set default values for registered CV values.                        */
@@ -2762,32 +2770,33 @@ int cmor_setDefaultGblAttr(int ref_table_id)
         CV_value = &CV_source_id->oValue[j];
         if (strncmp(CV_value->key, GLOBAL_ATT_CALENDAR, CMOR_MAX_STRING) == 0
             && cmor_has_cur_dataset_attribute(GLOBAL_ATT_CALENDAR) != 0) {
-            cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_CALENDAR, CV_value->szValue, 0);
+            ierr |= cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_CALENDAR, CV_value->szValue, 0);
         } else if (strncmp(CV_value->key, GLOBAL_ATT_CONTACT, CMOR_MAX_STRING) == 0
             && cmor_has_cur_dataset_attribute(GLOBAL_ATT_CONTACT) != 0) {
-            cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_CONTACT, CV_value->szValue, 0);
+            ierr |= cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_CONTACT, CV_value->szValue, 0);
         } else if (strncmp(CV_value->key, GLOBAL_ATT_DATASET_CATEGORY, CMOR_MAX_STRING) == 0
             && cmor_has_cur_dataset_attribute(GLOBAL_ATT_DATASET_CATEGORY) != 0) {
-            cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_DATASET_CATEGORY, CV_value->szValue, 0);
+            ierr |= cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_DATASET_CATEGORY, CV_value->szValue, 0);
         } else if (strncmp(CV_value->key, GLOBAL_ATT_FURTHERINFOURL, CMOR_MAX_STRING) == 0
             && cmor_has_cur_dataset_attribute(GLOBAL_ATT_FURTHERINFOURL) != 0) {
-            cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_FURTHERINFOURL, CV_value->szValue, 0);
+            ierr |= cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_FURTHERINFOURL, CV_value->szValue, 0);
             strncpytrim(cmor_current_dataset.furtherinfourl, CV_value->szValue, CMOR_MAX_STRING);
         } else if (strncmp(CV_value->key, GLOBAL_ATT_GRID_LABEL, CMOR_MAX_STRING) == 0
             && cmor_has_cur_dataset_attribute(GLOBAL_ATT_GRID_LABEL) != 0) {
-            cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_GRID_LABEL, CV_value->szValue, 0);
+            ierr |= cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_GRID_LABEL, CV_value->szValue, 0);
         } else if (strncmp(CV_value->key, GLOBAL_ATT_GRID_RESOLUTION, CMOR_MAX_STRING) == 0
             && cmor_has_cur_dataset_attribute(GLOBAL_ATT_GRID_RESOLUTION) != 0) {
-            cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_GRID_RESOLUTION, CV_value->szValue, 0);
+            ierr |= cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_GRID_RESOLUTION, CV_value->szValue, 0);
         } else if (strncmp(CV_value->key, GLOBAL_ATT_REGION, CMOR_MAX_STRING) == 0
             && cmor_has_cur_dataset_attribute(GLOBAL_ATT_REGION) != 0) {
-            cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_REGION, CV_value->aszValue[0], 0);
+            ierr |= cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_REGION, CV_value->aszValue[0], 0);
         } else if (strncmp(CV_value->key, GLOBAL_ATT_SOURCE, CMOR_MAX_STRING) == 0
             && cmor_has_cur_dataset_attribute(GLOBAL_ATT_SOURCE) != 0) {
-            cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_SOURCE, CV_value->szValue, 0);
+            ierr |= cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_SOURCE, CV_value->szValue, 0);
         }
     }
-
+    cmor_pop_traceback();
+    return ierr;
 
 }
 
