@@ -81,8 +81,6 @@ def main():
     reshaped_data = data.reshape((5, 5, 2, 1, 1))
     # write data
     cmor.write(tas_var_id, reshaped_data)
-    # add leadtime
-    cmor.calculate_leadtime_coord(tas_var_id)
     filename = cmor.close(tas_var_id, file_name=True)
 
     ds = Dataset(filename)

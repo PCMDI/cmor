@@ -4688,6 +4688,14 @@ int cmor_write(int var_id, void *data, char type, char *file_suffix,
                     nc_bnds_vars, nc_vars_af, nc_associated_vars, nc_singletons,
                     nc_singletons_bnds, nc_zfactors, zfactors, nzfactors,
                     nc_dim_chunking, outname);
+
+/* -------------------------------------------------------------------- */
+/*      Check if we need to add leadtime coordinate                     */
+/* -------------------------------------------------------------------- */
+            ierr = nc_inq_varid(ncid, AXIS_FORECAST_TIME, &msg);
+            if (ierr == NC_NOERR) {
+                calculate_leadtime_coord(var_id);
+            }
         }
 
     } else {

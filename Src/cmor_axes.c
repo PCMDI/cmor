@@ -891,7 +891,7 @@ int cmor_treat_axis_values(int axis_id, double *values, int length,
     axis = &cmor_axes[axis_id];
     refaxis = &cmor_tables[axis->ref_table_id].axes[axis->ref_axis_id];
 
-    if ((refaxis->axis == 'T') || strstr(units, "since")) {
+    if ((refaxis->axis == 'T' && strcmp(refaxis.forecast, AXIS_FORECAST_LEADTIME) != 0) || strstr(units, "since")) {
 
 /* -------------------------------------------------------------------- */
 /*      ok this part will try to convert time values to the right units */
@@ -1674,7 +1674,7 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
     cmor_axes[cmor_naxes].type = type;
     cmor_axes[cmor_naxes].store_in_netcdf = 1;
 
-    if ((refaxis.axis == 'T') || strstr(units, "since")) {
+    if ((refaxis.axis == 'T' && strcmp(refaxis.forecast, AXIS_FORECAST_LEADTIME) != 0) || strstr(units, "since")) {
         cmor_get_cur_dataset_attribute("calendar", ctmp);
         cmor_set_axis_attribute(cmor_naxes, "calendar", 'c', ctmp);
         cmor_convert_time_units(units, refaxis.units, &ctmp[0]);
@@ -2164,6 +2164,7 @@ void cmor_init_axis_def(cmor_axis_def_t * axis, int table_id)
     axis->must_have_bounds = 0;
     axis->must_call_cmor_grid = 0;
     axis->generic_level_name[0] = '\0';
+    axis->forecast[0] = '\0';
 }
 
 /************************************************************************/
@@ -2248,6 +2249,10 @@ int cmor_set_axis_def_att(cmor_axis_def_t * axis, char att[CMOR_MAX_STRING],
     } else if (strcmp(att, AXIS_ATT_GEN_LEVEL_NAME) == 0) {
 
         strncpy(axis->generic_level_name, val, CMOR_MAX_STRING);
+
+    } else if (strcmp(att, AXIS_ATT_FORECAST) == 0) {
+
+        strncpy(axis->forecast, val, CMOR_MAX_STRING);
 
     } else if (strcmp(att, AXIS_ATT_AXIS) == 0) {
 
