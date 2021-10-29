@@ -164,8 +164,8 @@
         "reftime1": {
             "standard_name": "forecast_reference_time",
             "units": "days since ?",
-            "axis": "",
-            "long_name": "Start date of the forecast",
+            "axis": "T",
+            "long_name": "start date of the forecast",
             "climatology": "",
             "formula": "",
             "must_have_bounds": "no",
@@ -182,16 +182,17 @@
             "z_bounds_factors": "",
             "z_factors": "",
             "bounds_values": "",
-            "generic_level_name": ""
+            "generic_level_name": "",
+            "forecast": "reftime"
         },
         "leadtime": {
-            "standard_name": "forecast period",
+            "standard_name": "forecast_period",
             "units": "days",
             "axis": "T",
             "long_name": "Time elapsed since the start of the forecast",
             "climatology": "",
             "formula": "",
-            "must_have_bounds": "yes",
+            "must_have_bounds": "no",
             "out_name": "leadtime",
             "positive": "",
             "requested": "",
@@ -205,7 +206,8 @@
             "z_bounds_factors": "",
             "z_factors": "",
             "bounds_values": "",
-            "generic_level_name": ""
+            "generic_level_name": "",
+            "forecast": "leadtime"
         }
     }
 }

@@ -891,7 +891,7 @@ int cmor_treat_axis_values(int axis_id, double *values, int length,
     axis = &cmor_axes[axis_id];
     refaxis = &cmor_tables[axis->ref_table_id].axes[axis->ref_axis_id];
 
-    if ((refaxis->axis == 'T' && strcmp(refaxis.forecast, AXIS_FORECAST_LEADTIME) != 0) || strstr(units, "since")) {
+    if ((refaxis->axis == 'T' && strcmp(refaxis->forecast, AXIS_FORECAST_LEADTIME) != 0) || strstr(units, "since")) {
 
 /* -------------------------------------------------------------------- */
 /*      ok this part will try to convert time values to the right units */

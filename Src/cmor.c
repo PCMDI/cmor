@@ -4689,13 +4689,7 @@ int cmor_write(int var_id, void *data, char type, char *file_suffix,
                     nc_singletons_bnds, nc_zfactors, zfactors, nzfactors,
                     nc_dim_chunking, outname);
 
-/* -------------------------------------------------------------------- */
-/*      Check if we need to add leadtime coordinate                     */
-/* -------------------------------------------------------------------- */
-            ierr = nc_inq_varid(ncid, AXIS_FORECAST_TIME, &msg);
-            if (ierr == NC_NOERR) {
-                calculate_leadtime_coord(var_id);
-            }
+
         }
 
     } else {
@@ -4783,6 +4777,13 @@ int cmor_write(int var_id, void *data, char type, char *file_suffix,
     }
     cmor_write_var_to_file(ncid, &cmor_vars[var_id], data, type,
                            ntimes_passed, time_vals, time_bounds);
+/* -------------------------------------------------------------------- */
+/*      Check if we need to add leadtime coordinate                     */
+/* -------------------------------------------------------------------- */
+    ierr = nc_inq_varid(ncid, AXIS_FORECAST_TIME, &msg);
+    if (ierr == NC_NOERR) {
+        calculate_leadtime_coord(var_id);
+    }
     cmor_pop_traceback();
     return (0);
 }
@@ -6569,27 +6570,21 @@ int set_txt_attribute(int ncid, int destid, char* name, char* val){
 /*                      calculate_leadtime_coord()                      */
 /************************************************************************/
 int calculate_leadtime_coord(int var_id) {
+    int i = 0;
     int ncid = 0;
     int retval = 0;
     int ierr = 0;
     int leadtime = 0;
-    int leadtime_bnds = 0;
     int time_dim = 0;
-    int bnds_dim = 0;
     int reftime = 0;
     int time = 0;
-    int time_bnds;
     char msg[CMOR_MAX_STRING];
     size_t timelen;
     double *time_vals;
-    double *time_bnds_vals;
     double *leadtime_vals;
-    double *leadtime_bnds_vals;
     double *reftime_val;
     static size_t start[] = {0};
     static size_t count[] = {0};
-    static size_t start_bnds[] = {0, 0};
-    static size_t count_bnds[] = {0, 0};
     extern cmor_dataset_def cmor_current_dataset;
     extern cmor_var_t cmor_vars[CMOR_MAX_VARIABLES];
 
@@ -6606,10 +6601,6 @@ int calculate_leadtime_coord(int var_id) {
         snprintf(msg, CMOR_MAX_STRING, "cannot determine length of the time dimension");
         cmor_handle_error(msg, CMOR_CRITICAL);
     }
-    if (ierr = nc_inq_dimid(ncid, "bnds", &bnds_dim)) {
-        snprintf(msg, CMOR_MAX_STRING, "'bnds' dimension not present in the file");
-        cmor_handle_error(msg, CMOR_CRITICAL);
-    }
     if (ierr = nc_inq_varid(ncid, "reftime", &reftime)) {
         snprintf(msg, CMOR_MAX_STRING, "'reftime' variable not present in the file");
         cmor_handle_error(msg, CMOR_CRITICAL);
@@ -6617,10 +6608,6 @@ int calculate_leadtime_coord(int var_id) {
     if (ierr = nc_inq_varid(ncid, "time", &time)) {
         snprintf(msg, CMOR_MAX_STRING, "'time' variable not present in the file");
         cmor_handle_error(msg, CMOR_CRITICAL);
-    }
-    if (ierr = nc_inq_varid(ncid, "time_bnds", &time_bnds)) {
-        snprintf(msg, CMOR_MAX_STRING, "'time_bnds' variable not present in the file");
-        cmor_handle_error(msg, CMOR_WARNING);
     }
     if (compare_txt_attributes(ncid, time, reftime, "units") || compare_txt_attributes(ncid, time, reftime, "calendar")) {
         cmor_pop_traceback();
@@ -6630,10 +6617,6 @@ int calculate_leadtime_coord(int var_id) {
     reftime_val = malloc(sizeof(double));
     time_vals = malloc(timelen * sizeof(double));
     leadtime_vals = malloc(timelen * sizeof(double));
-    if (time_bnds) {
-        time_bnds_vals = malloc(timelen * 2 * sizeof(double));
-        leadtime_bnds_vals = malloc(timelen * 2 * sizeof(double));
-    }
 
     /* get values for the calculation */
 
@@ -6650,82 +6633,45 @@ int calculate_leadtime_coord(int var_id) {
         snprintf(msg, CMOR_MAX_STRING, "cannot retrieve values of 'time' variable");
         cmor_handle_error(msg, CMOR_CRITICAL);
     }
-    if (time_bnds) {
-        count_bnds[0] = timelen;
-        count_bnds[1] = 2;
-        if (ierr = nc_get_vara_double(ncid, time_bnds, start_bnds, count_bnds, time_bnds_vals)) {
-            snprintf(msg, CMOR_MAX_STRING, "cannot retrieve values of 'time_bnds' variable");
-            cmor_handle_error(msg, CMOR_CRITICAL);
-        }
-    }
-
     /* calculate leadtime */
-    for (int i = 0; i < timelen; i++) {
+    for (i = 0; i < timelen; i++) {
         leadtime_vals[i] = time_vals[i] - reftime_val[0];
         if (leadtime_vals[i] < 0.0) {
             snprintf(msg, CMOR_MAX_STRING, "'leadtime' for timestep %i is negative", i);
             cmor_handle_error(msg, CMOR_CRITICAL);
         }
-        if (time_bnds) {
-            leadtime_bnds_vals[i*2] = time_bnds_vals[i*2] - reftime_val[0];
-            leadtime_bnds_vals[i*2+1] = time_bnds_vals[i*2+1] - reftime_val[0];
-            if (leadtime_bnds_vals[i*2] < 0.0 || leadtime_bnds_vals[i*2+1] < 0.0) {
-                snprintf(msg, CMOR_MAX_STRING, "'leadtime_bnds' for timestep %i is negative", i);
-                cmor_handle_error(msg, CMOR_CRITICAL);
-            }
-        }
     }
 
     /* activate define mode */
     nc_redef(ncid);
-
     /* add leadtime */
     if (ierr = nc_def_var(ncid, "leadtime", NC_DOUBLE, 1, &time_dim, &leadtime)) {
         snprintf(msg, CMOR_MAX_STRING, "cannot add 'leadtime' variable");
         cmor_handle_error(msg, CMOR_CRITICAL);
     }
 
-    if (time_bnds) {
-        const int time_bnds_dims[2] = {time_dim, bnds_dim};
-        if (ierr = nc_def_var(ncid, "leadtime_bnds", NC_DOUBLE, 2, time_bnds_dims, &leadtime_bnds)) {
-            snprintf(msg, CMOR_MAX_STRING, "cannot add 'leadtime_bnds' variable");
-            cmor_handle_error(msg, CMOR_CRITICAL);
-        }
-    }
-
-
     /* variable attributes */
     set_txt_attribute(ncid, leadtime, "axis", "T");
     set_txt_attribute(ncid, leadtime, "units", "days");
     set_txt_attribute(ncid, leadtime, "long_name", "Time elapsed since the start of the forecast");
     set_txt_attribute(ncid, leadtime, "standard_name", "forecast_period");
-    if (time_bnds) {
-        set_txt_attribute(ncid, leadtime, "bounds", "leadtime_bnds");
-    }
+
     /* update coordinates attribute */
     copy_txt_attribute(ncid, cmor_vars[var_id].nc_var_id, cmor_vars[var_id].nc_var_id, "coordinates", " leadtime");
 
     /* deactivate define mode */
-    nc_enddef(ncid);
-
+    ierr = nc_enddef(ncid);
+    if (ierr != NC_NOERR) {
+        snprintf(msg, CMOR_MAX_STRING, "NetCDF Error (%i: %s) leaving definition mode", ierr, nc_strerror(ierr));
+        cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
+    }
     if (ierr = nc_put_vara_double(ncid, leadtime, start, count, leadtime_vals)) {
         snprintf(msg, CMOR_MAX_STRING, "cannot save 'leadtime' coordinates");
         cmor_handle_error(msg, CMOR_CRITICAL);
     }
-    if (time_bnds) {
-        if (ierr = nc_put_vara_double(ncid, leadtime_bnds, start_bnds, count_bnds, leadtime_bnds_vals)) {
-            snprintf(msg, CMOR_MAX_STRING, "cannot save 'leadtime_bnds' coordinates");
-            cmor_handle_error(msg, CMOR_CRITICAL);
-        }
-    }
 
-    if (time_bnds) {
-        free(leadtime_bnds_vals);
-        free(time_bnds_vals);
-    }
     free(leadtime_vals);
     free(time_vals);
     free(reftime_val);
-    cmor_pop_traceback();
     return (0);
 }
