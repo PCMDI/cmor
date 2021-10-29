@@ -4780,8 +4780,7 @@ int cmor_write(int var_id, void *data, char type, char *file_suffix,
 /* -------------------------------------------------------------------- */
 /*      Check if we need to add leadtime coordinate                     */
 /* -------------------------------------------------------------------- */
-    ierr = nc_inq_varid(ncid, AXIS_FORECAST_TIME, &msg);
-    if (ierr == NC_NOERR) {
+    if (strstr(cmor_tables[cmor_vars[var_id].ref_table_id].vars[cmor_vars[var_id].ref_var_id].dimensions_str, AXIS_FORECAST_LEADTIME)) {
         calculate_leadtime_coord(var_id);
     }
     cmor_pop_traceback();

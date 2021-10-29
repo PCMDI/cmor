@@ -412,6 +412,7 @@ typedef struct cmor_variable_def_ {
     char comment[CMOR_MAX_STRING];
     int ndims;
     int dimensions[CMOR_MAX_DIMENSIONS];
+    char dimensions_str[CMOR_MAX_STRING];
     char type;
     float valid_min;
     float valid_max;

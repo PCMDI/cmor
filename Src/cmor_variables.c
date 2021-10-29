@@ -1943,7 +1943,7 @@ int cmor_set_var_def_att(cmor_var_def_t * var, char att[CMOR_MAX_STRING],
         strncpy(var->comment, val, CMOR_MAX_STRING);
 
     } else if (strcmp(att, VARIABLE_ATT_DIMENSIONS) == 0) {
-
+        strncpy(var->dimensions_str, val, CMOR_MAX_STRING);
         n0 = strlen(val);
         for (i = 0; i < n0; i++) {
 
