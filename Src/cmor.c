@@ -2743,7 +2743,6 @@ int cmor_setDefaultGblAttr(int ref_table_id)
     char source_id[CMOR_MAX_STRING];
     char cvValue[CMOR_MAX_STRING];
     char attValue[CMOR_MAX_STRING];
-    char szCV[CMOR_MAX_STRING];
     char msg[CMOR_MAX_STRING];
     int i, j;
     int ierr = 0;
@@ -2795,13 +2794,13 @@ int cmor_setDefaultGblAttr(int ref_table_id)
                 strncpytrim(cmor_current_dataset.furtherinfourl, cvValue, CMOR_MAX_STRING);
             }
         } else {
-            cmor_get_cur_dataset_attribute(GLOBAL_CV_FILENAME, szCV);
             cmor_get_cur_dataset_attribute(CV_value->key, attValue);
             if(strcmp(attValue, cvValue) !=0){
                 snprintf(msg, CMOR_MAX_STRING,
-                        "The value of the registered CV attribute \"%s\" as defined in \"%s\"\n "
-                        "to be the value \"%s\" has been set by the user input to the value \"%s\"\n! ",
-                        CV_value->key, szCV,  cvValue, attValue);
+                        "The registered CV attribute \"%s\" as defined as \"%s\" "
+                        "will be replaced with \n! "
+                        "\"%s\" as defined in your user input file\n! ",
+                        CV_value->key, cvValue, attValue);
                 cmor_handle_error(msg, CMOR_WARNING);
             }
         }
