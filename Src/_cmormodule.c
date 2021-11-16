@@ -452,6 +452,23 @@ static PyObject *PyCMOR_load_table(PyObject * self, PyObject * args)
 }
 
 /************************************************************************/
+/*                 PyCMOR_calculate_leadtime_coord()                    */
+/************************************************************************/
+
+static PyObject *PyCMOR_calculate_leadtime_coord(PyObject * self, PyObject * args)
+{
+    int ret_val;
+    int var_id;
+
+    if (!PyArg_ParseTuple(args, "i", &var_id)) {
+        PyErr_Format(CMORError, "Unable to find variable", "calculate_leadtime_coord");
+        return NULL;
+    }
+    ret_val = calculate_leadtime_coord(var_id);
+    return (Py_BuildValue("i", ret_val));
+}
+
+/************************************************************************/
 /*                            PyCMOR_axis()                             */
 /************************************************************************/
 
@@ -1129,6 +1146,7 @@ static PyMethodDef MyExtractMethods[] = {
     {"set_grid_mapping", PyCMOR_grid_mapping, METH_VARARGS},
     {"getCMOR_defaults_include", PyCMOR_getincvalues, METH_VARARGS},
     {"close", PyCMOR_close, METH_VARARGS},
+    {"calculate_leadtime_coord", PyCMOR_calculate_leadtime_coord, METH_VARARGS},
     {"set_cur_dataset_attribute", PyCMOR_set_cur_dataset_attribute,
      METH_VARARGS},
     {"get_cur_dataset_attribute", PyCMOR_get_cur_dataset_attribute,
