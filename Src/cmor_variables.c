@@ -1943,7 +1943,7 @@ int cmor_set_var_def_att(cmor_var_def_t * var, char att[CMOR_MAX_STRING],
         strncpy(var->comment, val, CMOR_MAX_STRING);
 
     } else if (strcmp(att, VARIABLE_ATT_DIMENSIONS) == 0) {
-
+        strncpy(var->dimensions_str, val, CMOR_MAX_STRING);
         n0 = strlen(val);
         for (i = 0; i < n0; i++) {
 
@@ -1973,6 +1973,12 @@ int cmor_set_var_def_att(cmor_var_def_t * var, char att[CMOR_MAX_STRING],
                     n = j;
                     break;
                 }
+            }
+            if (strcmp(AXIS_FORECAST_LEADTIME, cmor_tables[var->table_id].axes[n].forecast) == 0) {
+                /* this is a leadtime coordinate, we want to skip it at this point as it doesn't really count against
+                 dimensionality of the variable, and is not present in the input data. This coordinate will be
+                 inserted back as the final step of the variable creation */
+                continue;
             }
 
             if (n == -1) {

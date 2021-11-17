@@ -4648,6 +4648,7 @@ int cmor_write(int var_id, void *data, char type, char *file_suffix,
 /*      Decides NetCDF mode                                             */
 /* -------------------------------------------------------------------- */
         ncid = cmor_validateFilename(outname, file_suffix, var_id);
+        cmor_current_dataset.associated_file = ncid;
         if(!bAppendMode) {
 /* -------------------------------------------------------------------- */
 /*      we closed and reopened the same test, in case we                */
@@ -4765,6 +4766,8 @@ int cmor_write(int var_id, void *data, char type, char *file_suffix,
                     nc_bnds_vars, nc_vars_af, nc_associated_vars, nc_singletons,
                     nc_singletons_bnds, nc_zfactors, zfactors, nzfactors,
                     nc_dim_chunking, outname);
+
+
         }
 
     } else {
@@ -4852,6 +4855,12 @@ int cmor_write(int var_id, void *data, char type, char *file_suffix,
     }
     cmor_write_var_to_file(ncid, &cmor_vars[var_id], data, type,
                            ntimes_passed, time_vals, time_bounds);
+/* -------------------------------------------------------------------- */
+/*      Check if we need to add leadtime coordinate                     */
+/* -------------------------------------------------------------------- */
+    if (strstr(cmor_tables[cmor_vars[var_id].ref_table_id].vars[cmor_vars[var_id].ref_var_id].dimensions_str, AXIS_FORECAST_LEADTIME)) {
+        calculate_leadtime_coord(var_id);
+    }
     cmor_pop_traceback();
     return (0);
 }
@@ -6538,4 +6547,208 @@ void cmor_trim_string(char *in, char *out)
         out[i] = '\0';
         i--;
     }
+}
+
+/************************************************************************/
+/*                       compare_txt_attributes()                       */
+/************************************************************************/
+int compare_txt_attributes(int ncid, int srcid, int destid, char* name) {
+    size_t attlen;
+    char *srcattr;
+    char *destattr;
+    char msg[CMOR_MAX_STRING];
+    int ierr;
+    int ret;
+
+    if (ierr = nc_inq_attlen(ncid, srcid, name, &attlen)) {
+        snprintf(msg, CMOR_MAX_STRING, "cannot determine size of attribute %s", name);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    };
+    srcattr = malloc(attlen * sizeof(char));
+
+	if (ierr = nc_get_att_text(ncid, srcid, name, srcattr)) {
+	    snprintf(msg, CMOR_MAX_STRING, "cannot retrieve value of attribute %s", name);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+	};
+
+    if (ierr = nc_inq_attlen(ncid, destid, name, &attlen)) {
+        snprintf(msg, CMOR_MAX_STRING, "cannot determine size of attribute %s", name);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    };
+    destattr = malloc(attlen * sizeof(char));
+
+	if (ierr = nc_get_att_text(ncid, destid, name, destattr)) {
+	    snprintf(msg, CMOR_MAX_STRING, "cannot retrieve value of attribute %s", name);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+	};
+    ret = strcmp(srcattr, destattr);
+    free(destattr);
+    free(srcattr);
+    if (ret != 0) {
+        snprintf(msg, CMOR_MAX_STRING, "'%s' attribute does not match", name);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+    return ret;
+}
+
+/************************************************************************/
+/*                         copy_txt_attribute()                         */
+/************************************************************************/
+int copy_txt_attribute(int ncid, int srcid, int destid, char* name, char* suffix) {
+    size_t attlen;
+    char *srcattr;
+    char *destattr;
+    char msg[CMOR_MAX_STRING];
+    int ierr;
+
+    if (ierr = nc_inq_attlen(ncid, srcid, name, &attlen)) {
+        snprintf(msg, CMOR_MAX_STRING, "cannot determine size of attribute %s", name);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    };
+    srcattr = malloc(attlen * sizeof(char));
+
+	if (ierr = nc_get_att_text(ncid, srcid, name, srcattr)) {
+	    snprintf(msg, CMOR_MAX_STRING, "cannot retrieve value of attribute %s", name);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+	};
+	if (suffix == "") {
+	    destattr = srcattr;
+	} else {
+	    destattr = malloc(strlen(srcattr) + strlen(suffix) + 1);
+        strcpy(destattr, srcattr);
+        strcat(destattr, suffix);
+
+	}
+    if (ierr = nc_put_att_text(ncid, destid, name, strlen(destattr) + 1, destattr)) {
+        snprintf(msg, CMOR_MAX_STRING, "cannot copy attribute %s", name);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+    if (suffix != "") {
+        free(destattr);
+    }
+    free(srcattr);
+    return (0);
+}
+
+/************************************************************************/
+/*                          set_txt_attribute()                         */
+/************************************************************************/
+int set_txt_attribute(int ncid, int destid, char* name, char* val){
+    char msg[CMOR_MAX_STRING];
+    int ierr;
+    if (ierr = nc_put_att_text(ncid, destid, name, strlen(val) + 1, val)) {
+        snprintf(msg, CMOR_MAX_STRING, "cannot write '%s' to attribute %s", val, name);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+    return (0);
+}
+
+/************************************************************************/
+/*                      calculate_leadtime_coord()                      */
+/************************************************************************/
+int calculate_leadtime_coord(int var_id) {
+    int i = 0;
+    int ncid = 0;
+    int retval = 0;
+    int ierr = 0;
+    int leadtime = 0;
+    int time_dim = 0;
+    int reftime = 0;
+    int time = 0;
+    char msg[CMOR_MAX_STRING];
+    size_t timelen;
+    double *time_vals;
+    double *leadtime_vals;
+    double *reftime_val;
+    static size_t start[] = {0};
+    static size_t count[] = {0};
+    extern cmor_dataset_def cmor_current_dataset;
+    extern cmor_var_t cmor_vars[CMOR_MAX_VARIABLES];
+
+    cmor_add_traceback("cmor_calculate_leadtime_coord");
+    cmor_is_setup();
+    ncid = cmor_current_dataset.associated_file;
+
+    /* need both time and reftime for leadtime calculation */
+    if (ierr = nc_inq_dimid(ncid, "time", &time_dim)) {
+        snprintf(msg, CMOR_MAX_STRING, "'time' dimension not present in the file");
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+    if (ierr = nc_inq_dimlen(ncid, time_dim, &timelen)) {
+        snprintf(msg, CMOR_MAX_STRING, "cannot determine length of the time dimension");
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+    if (ierr = nc_inq_varid(ncid, "reftime", &reftime)) {
+        snprintf(msg, CMOR_MAX_STRING, "'reftime' variable not present in the file");
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+    if (ierr = nc_inq_varid(ncid, "time", &time)) {
+        snprintf(msg, CMOR_MAX_STRING, "'time' variable not present in the file");
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+    if (compare_txt_attributes(ncid, time, reftime, "units") || compare_txt_attributes(ncid, time, reftime, "calendar")) {
+        cmor_pop_traceback();
+        return(1);
+    }
+
+    reftime_val = malloc(sizeof(double));
+    time_vals = malloc(timelen * sizeof(double));
+    leadtime_vals = malloc(timelen * sizeof(double));
+
+    /* get values for the calculation */
+
+    /* reftime is scalar */
+    if (ierr = nc_get_var_double(ncid, reftime, reftime_val)) {
+        snprintf(msg, CMOR_MAX_STRING, "cannot retrieve value of 'reftime' variable");
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+
+    /* update length of the vector for time coord */
+    count[0] = timelen;
+
+    if (ierr = nc_get_vara_double(ncid, time, start, count, time_vals)) {
+        snprintf(msg, CMOR_MAX_STRING, "cannot retrieve values of 'time' variable");
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+    /* calculate leadtime */
+    for (i = 0; i < timelen; i++) {
+        leadtime_vals[i] = time_vals[i] - reftime_val[0];
+        if (leadtime_vals[i] < 0.0) {
+            snprintf(msg, CMOR_MAX_STRING, "'leadtime' for timestep %i is negative", i);
+            cmor_handle_error(msg, CMOR_CRITICAL);
+        }
+    }
+
+    /* activate define mode */
+    nc_redef(ncid);
+    /* add leadtime */
+    if (ierr = nc_def_var(ncid, "leadtime", NC_DOUBLE, 1, &time_dim, &leadtime)) {
+        snprintf(msg, CMOR_MAX_STRING, "cannot add 'leadtime' variable");
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+
+    /* variable attributes */
+    set_txt_attribute(ncid, leadtime, "axis", "T");
+    set_txt_attribute(ncid, leadtime, "units", "days");
+    set_txt_attribute(ncid, leadtime, "long_name", "Time elapsed since the start of the forecast");
+    set_txt_attribute(ncid, leadtime, "standard_name", "forecast_period");
+
+    /* update coordinates attribute */
+    copy_txt_attribute(ncid, cmor_vars[var_id].nc_var_id, cmor_vars[var_id].nc_var_id, "coordinates", " leadtime");
+
+    /* deactivate define mode */
+    ierr = nc_enddef(ncid);
+    if (ierr != NC_NOERR) {
+        snprintf(msg, CMOR_MAX_STRING, "NetCDF Error (%i: %s) leaving definition mode", ierr, nc_strerror(ierr));
+        cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
+    }
+    if (ierr = nc_put_vara_double(ncid, leadtime, start, count, leadtime_vals)) {
+        snprintf(msg, CMOR_MAX_STRING, "cannot save 'leadtime' coordinates");
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+
+    free(leadtime_vals);
+    free(time_vals);
+    free(reftime_val);
+    return (0);
 }
