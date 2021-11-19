@@ -2019,11 +2019,10 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
         snprintf(msg, CMOR_MAX_STRING,
                  "The attribute \"%s\" could not be validated. \n! "
                  "The current input value is "
-                 "\"%s\" which is not valid \n! "
-                 "Valid values must match the regular expression:"
-                 "\n! \t[%s] \n! \n! "
-                 "Check your Control Vocabulary file \"%s\".\n! ",
-                 szKey, szValue, szValids, CV_Filename);
+                 "\"%s\", which is not valid. \n! \n! "
+                 "Valid values must match those found in the \"%s\" "
+                 "section\n! of your Control Vocabulary file \"%s\".\n! ",
+                 szKey, szValue, szKey, CV_Filename);
 
         cmor_handle_error(msg, CMOR_NORMAL);
         cmor_pop_traceback();
