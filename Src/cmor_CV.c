@@ -2009,19 +2009,12 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
 /* We could not validate this attribute, exit.                          */
 /* -------------------------------------------------------------------- */
     if (i == (attr_CV->anElements)) {
-        for (i = 0; i < attr_CV->anElements; i++) {
-            strcat(szValids, "\"");
-            strncpy(szOutput, attr_CV->aszValue[i], CMOR_MAX_STRING);
-            strcat(szValids, szOutput);
-            strcat(szValids, "\" ");
-        }
-
         snprintf(msg, CMOR_MAX_STRING,
                  "The attribute \"%s\" could not be validated. \n! "
                  "The current input value is "
                  "\"%s\", which is not valid. \n! \n! "
                  "Valid values must match those found in the \"%s\" "
-                 "section\n! of your Control Vocabulary file \"%s\".\n! ",
+                 "section\n! of your Controlled Vocabulary (CV) file \"%s\".\n! ",
                  szKey, szValue, szKey, CV_Filename);
 
         cmor_handle_error(msg, CMOR_NORMAL);
