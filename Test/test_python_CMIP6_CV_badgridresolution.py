@@ -59,6 +59,9 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
         except BaseException:
             pass
         self.assertCV("\"335 km\"", "The current input")
+        start_line = "Error: The attribute \"nominal_resolution\" could not be validated."
+        find_line = "The current input value is \"335 km\", which is not valid."
+        self.assertCV(find_line, start_line, 2)
 
 
 if __name__ == '__main__':
