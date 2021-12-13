@@ -1129,7 +1129,6 @@ static PyMethodDef MyExtractMethods[] = {
     {"set_grid_mapping", PyCMOR_grid_mapping, METH_VARARGS},
     {"getCMOR_defaults_include", PyCMOR_getincvalues, METH_VARARGS},
     {"close", PyCMOR_close, METH_VARARGS},
-    {"calculate_leadtime_coord", PyCMOR_calculate_leadtime_coord, METH_VARARGS},
     {"set_cur_dataset_attribute", PyCMOR_set_cur_dataset_attribute,
      METH_VARARGS},
     {"get_cur_dataset_attribute", PyCMOR_get_cur_dataset_attribute,
