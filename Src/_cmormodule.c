@@ -452,23 +452,6 @@ static PyObject *PyCMOR_load_table(PyObject * self, PyObject * args)
 }
 
 /************************************************************************/
-/*                 PyCMOR_calculate_leadtime_coord()                    */
-/************************************************************************/
-
-static PyObject *PyCMOR_calculate_leadtime_coord(PyObject * self, PyObject * args)
-{
-    int ret_val;
-    int var_id;
-
-    if (!PyArg_ParseTuple(args, "i", &var_id)) {
-        PyErr_Format(CMORError, "Unable to find variable", "calculate_leadtime_coord");
-        return NULL;
-    }
-    ret_val = calculate_leadtime_coord(var_id);
-    return (Py_BuildValue("i", ret_val));
-}
-
-/************************************************************************/
 /*                            PyCMOR_axis()                             */
 /************************************************************************/
 
