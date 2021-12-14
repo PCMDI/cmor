@@ -1999,8 +1999,23 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
         for (i = 0; i < nObjects; i++) {
             CV_key = &list_CV->oValue[i];
             if (CV_key->szValue[0] != '\0') {
-                cmor_set_cur_dataset_attribute_internal(CV_key->key,
-                        CV_key->szValue, 1);
+                if(cmor_has_cur_dataset_attribute(CV_key->key) == 0){
+                    cmor_get_cur_dataset_attribute(CV_key->key, szTmp);
+                    if(szTmp[0] != '\0' && strcmp(CV_key->szValue, szTmp) != 0){
+                        snprintf(msg, CMOR_MAX_STRING,
+                                "The registered CV attribute \"%s\" as defined as \"%s\" "
+                                "will be replaced with \n! "
+                                "\"%s\" as defined in your user input file\n! ",
+                                CV_key->key, CV_key->szValue, szTmp);
+                        cmor_handle_error(msg, CMOR_WARNING);
+                    } else {
+                        cmor_set_cur_dataset_attribute_internal(CV_key->key,
+                                CV_key->szValue, 1);
+                    }
+                } else {
+                    cmor_set_cur_dataset_attribute_internal(CV_key->key,
+                            CV_key->szValue, 1);
+                }
             }
         }
     }
