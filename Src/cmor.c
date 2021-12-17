@@ -2741,8 +2741,6 @@ int cmor_setDefaultGblAttr(int ref_table_id)
     cmor_CV_def_t *CV_source_id;
     cmor_CV_def_t *CV_source_ids;
     char source_id[CMOR_MAX_STRING];
-    char cvValue[CMOR_MAX_STRING];
-    char attValue[CMOR_MAX_STRING];
     char msg[CMOR_MAX_STRING];
     int i, j;
     int ierr = 0;
@@ -2774,34 +2772,12 @@ int cmor_setDefaultGblAttr(int ref_table_id)
     for(j = 0; j < CV_source_id->nbObjects; j++){
         CV_value = &CV_source_id->oValue[j];
 
-        if(CV_value->anElements > 0){
-            // strcpy(cvValue,"[");
-            // for(i = 0; i < CV_value->anElements; ++i){
-            //     strcat(cvValue,CV_value->aszValue[i]);
-            //     if(i < CV_value->anElements - 1){
-            //         strcat(cvValue, ", ");
-            //     }
-            // }
-            // strcat(cvValue,"]");
-            strcpy(cvValue, CV_value->aszValue[0]);
-        } else if(CV_value->szValue[0] != '\0'){
-            strcpy(cvValue, CV_value->szValue);
-        }
-
-        if(cmor_has_cur_dataset_attribute(CV_value->key) != 0){
-            ierr |= cmor_set_cur_dataset_attribute_internal(CV_value->key, cvValue, 0);
-            if(strncmp(CV_value->key, GLOBAL_ATT_FURTHERINFOURL, CMOR_MAX_STRING) == 0){
-                strncpytrim(cmor_current_dataset.furtherinfourl, cvValue, CMOR_MAX_STRING);
-            }
-        } else {
-            cmor_get_cur_dataset_attribute(CV_value->key, attValue);
-            if(strcmp(attValue, cvValue) !=0){
-                snprintf(msg, CMOR_MAX_STRING,
-                        "The registered CV attribute \"%s\" as defined as \"%s\" "
-                        "will be replaced with \n! "
-                        "\"%s\" as defined in your user input file\n! ",
-                        CV_value->key, cvValue, attValue);
-                cmor_handle_error(msg, CMOR_WARNING);
+        if(CV_value->szValue[0] != '\0'){
+            if(cmor_has_cur_dataset_attribute(CV_value->key) != 0){
+                ierr |= cmor_set_cur_dataset_attribute_internal(CV_value->key, CV_value->szValue, 0);
+                if(strncmp(CV_value->key, GLOBAL_ATT_FURTHERINFOURL, CMOR_MAX_STRING) == 0){
+                    strncpytrim(cmor_current_dataset.furtherinfourl, CV_value->szValue, CMOR_MAX_STRING);
+                }
             }
         }
     }

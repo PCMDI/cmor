@@ -58,7 +58,7 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
         for line in lines:
             if line.find('replaced') != -1:
                 count = count + 1
-        self.assertEqual(count, 7)
+        self.assertEqual(count, 6)
         f.close()
 
 
