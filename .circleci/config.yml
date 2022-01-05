@@ -189,6 +189,21 @@ jobs:
          - run: *setup_env
          - run: *conda_upload
 
+   testing_upload:
+      parameters:
+         os:
+            type: executor
+      executor: << parameters.os >>
+      environment:
+         USER: "pcmdi"
+         LABEL: "testing"
+      steps:
+         - checkout
+         - attach_workspace:
+              at: .
+         - run: *setup_env
+         - run: *conda_upload
+
 workflows:
    cmor:
       jobs:
@@ -217,3 +232,14 @@ workflows:
               filters:
                  branches:
                     only: master
+
+         - testing_upload:
+              matrix:
+                 parameters:
+                    os: [ linux ]
+              name: testing_upload
+              requires:
+                 - build
+              filters:
+                 branches:
+                    only: testing
