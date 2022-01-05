@@ -493,13 +493,13 @@ class checkCMIP6(object):
         for attr in ['branch_time_in_child', 'branch_time_in_parent']:
             if attr in list(self.dictGbl.keys()):
                 self.set_double_value(attr)
-                if not numpy.issubdtype(self.dictGbl[attr], numpy.float64):
+                if not numpy.issubdtype(type(self.dictGbl[attr]), numpy.float64):
                     msg = "{} is not a double: {}".format(attr, type(self.dictGbl[attr]))
                     self.prepare_print(msg, 'FAIL', no_text_color, lines=True)
                     self.errors += 1
         for attr in ['realization_index', 'initialization_index', 'physics_index', 'forcing_index']:
             try:
-                if not numpy.issubdtype(self.dictGbl[attr], numpy.integer):
+                if not numpy.issubdtype(type(self.dictGbl[attr]), numpy.integer):
                     msg = "{} is not an integer: {}".format(attr, type(self.dictGbl[attr]))
                     self.prepare_print(msg, 'FAIL', no_text_color, lines=True)
                     self.errors += 1

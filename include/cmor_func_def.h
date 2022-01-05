@@ -108,8 +108,6 @@ extern int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af,
 extern void create_singleton_dimensions(int var_id, int ncid,
         int *nc_singletons, int *nc_singletons_bnds, int *dim_bnds);
 
-
-
 extern int copyfile(const char *source, const char *dest);
 
 /* ==================================================================== */

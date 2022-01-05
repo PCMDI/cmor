@@ -3,7 +3,7 @@
 
 #define CMOR_VERSION_MAJOR 3
 #define CMOR_VERSION_MINOR 6
-#define CMOR_VERSION_PATCH 0
+#define CMOR_VERSION_PATCH 1
 
 #define CMOR_CF_VERSION_MAJOR 1
 #define CMOR_CF_VERSION_MINOR 6
@@ -70,6 +70,7 @@
 #define AXIS_ATT_STOREDDIRECTION "stored_direction"
 #define AXIS_ATT_POSITIVE        "positive"
 #define AXIS_ATT_GEN_LEVEL_NAME  "generic_level_name"
+#define AXIS_ATT_FORECAST        "forecast"
 #define AXIS_ATT_AXIS            "axis"
 #define AXIS_ATT_INDEXONLY       "index_only"
 #define AXIS_ATT_MUSTBOUNDS      "must_have_bounds"
@@ -86,6 +87,7 @@
 #define AXIS_ATT_REQUESTEDBOUNDS "requested_bounds"
 #define AXIS_ATT_REQUESTED       "requested"
 #define AXIS_FORECAST_TIME       "reftime"
+#define AXIS_FORECAST_LEADTIME   "leadtime"
 
 #define TABLE_CONTROL_FILENAME    "CMIP6_CV.json"
 #define TABLE_FOUND               -1
@@ -344,6 +346,7 @@ typedef struct cmor_axis_def_ {
     int must_have_bounds;
     int must_call_cmor_grid;
     char generic_level_name[CMOR_MAX_STRING];
+    char forecast[CMOR_MAX_STRING];
 } cmor_axis_def_t;
 
 enum CV_type {
@@ -409,6 +412,7 @@ typedef struct cmor_variable_def_ {
     char comment[CMOR_MAX_STRING];
     int ndims;
     int dimensions[CMOR_MAX_DIMENSIONS];
+    char dimensions_str[CMOR_MAX_STRING];
     char type;
     float valid_min;
     float valid_max;

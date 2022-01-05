@@ -11,7 +11,7 @@ CPPFLAGS_USER=""
 USERFFLAGS=@USERFFLAGS@
 #MODULE_SUFFIX="mod"
 PREFIX=@prefix@
-PYTHONPATH:=@prefix@/lib/python2.7/site-packages:${PYTHONPATH}
+PYTHONPATH:=@prefix@/lib/python/site-packages:${PYTHONPATH}
 DIR=$(shell echo ${PYTHONPATH} | cut -d: -f1)
 FCFLAGS=@FCFLAGS@
 PYTHONEXEC=@PYTHONEXEC@
@@ -222,9 +222,9 @@ test_python: python
 	env TEST_NAME=Test/test_python_filename_time_range.py make test_a_python
 	env TEST_NAME=Test/test_cmor_half_levels.py make test_a_python
 	env TEST_NAME=Test/test_cmor_half_levels_wrong_generic_level.py make test_a_python
-	env TEST_NAME=Test/test_cmor_double_singleton.py make test_a_python
 	env TEST_NAME=Test/test_cmor_python_not_enough_data.py make test_a_python
 	env TEST_NAME=Test/test_cmor_python_not_enough_times_written.py make test_a_python
+	env TEST_NAME=Test/test_python_forecast_coordinates.py make test_a_python
 test_python_2gb:
 	env TEST_NAME=Test/test_python_2Gb_file.py make test_a_python
 	env TEST_NAME=Test/test_python_2Gb_slice.py make test_a_python

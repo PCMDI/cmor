@@ -430,13 +430,10 @@ def axis(table_entry, units=None, length=None,
             raise Exception("error allowed data data_type are: int32, int64, float32, float64, string")
 
         if data_type == 'S' or data_type == 'U':
+            if data_type == 'S':
+                coord_vals = numpy.char.decode(coord_vals, encoding='utf-8')
             data_type = 'c'
             cbnds = 0
-            for s in coord_vals:
-                # print 'testing:',s,len(s)
-                if len(s) > cbnds:
-                    cbnds = len(s)
-            # cbnds+=1
     else:
         l = 0
         data_type = 'd'
@@ -460,6 +457,10 @@ def axis(table_entry, units=None, length=None,
 
     return _cmor.axis(table_entry, units, l, coord_vals,
                       str.encode(data_type), cell_bounds, cbnds, interval)
+
+
+def calculate_leadtime_coord(var_id):
+    return _cmor.calculate_leadtime_coord(var_id)
 
 
 def variable(table_entry, units, axis_ids, data_type='f', missing_value=None,
