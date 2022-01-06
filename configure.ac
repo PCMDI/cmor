@@ -212,7 +212,9 @@ LIBS=""
 AC_ARG_WITH([udunits2],[AS_HELP_STRING([--with-udunits2],[enable support for udunits2 in none standard location])],[],[with_udunits2="no"])
 if [ test x${with_udunits2} != xyes ] ; then
   if [ test x${with_udunits2} != xno ] ; then
-   UDUNITS2FLAGS=" -I${with_udunits2}/include"
+   AC_CHECK_FILE(${with_udunits2}/include/udunits2/udunits2.h,
+    [UDUNITS2FLAGS=" -I${with_udunits2}/include/udunits2"],
+    [UDUNITS2FLAGS=" -I${with_udunits2}/include"])
    if [ test ${RTAG} != "none" ] ; then
      UDUNITS2LDFLAGS=" -L${with_udunits2}/lib  ${RTAG}${with_udunits2}/lib -ludunits2 -lexpat"
    else
