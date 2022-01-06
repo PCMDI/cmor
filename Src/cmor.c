@@ -2733,6 +2733,60 @@ int cmor_validateFilename(char *outname, char *file_suffix, int var_id)
 }
 
 /************************************************************************/
+/*                      cmor_setDefaultGblAttr()                               */
+/************************************************************************/
+int cmor_setDefaultGblAttr(int ref_table_id)
+{
+    cmor_CV_def_t *CV_value;
+    cmor_CV_def_t *CV_source_id;
+    cmor_CV_def_t *CV_source_ids;
+    char source_id[CMOR_MAX_STRING];
+    char msg[CMOR_MAX_STRING];
+    int i, j;
+    int ierr = 0;
+
+    cmor_add_traceback("cmor_setDefaultGblAttr");
+
+    ierr = cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE_ID, source_id);
+    if (ierr != 0) {
+        snprintf(msg, CMOR_MAX_STRING, "Can't read dataset attribute %s",
+                    GLOBAL_ATT_SOURCE_ID);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+        return (1);
+    }
+
+/* -------------------------------------------------------------------- */
+/*  Find source_id entry in CV table.                                   */
+/* -------------------------------------------------------------------- */
+    CV_source_ids = cmor_CV_rootsearch(cmor_tables[ref_table_id].CV, CV_KEY_SOURCE_IDS);
+    for(i = 0; i < CV_source_ids->nbObjects; i++){
+        CV_source_id = &CV_source_ids->oValue[i];
+        if (strncmp(CV_source_id->key, source_id, CMOR_MAX_STRING) == 0) {
+            break;
+        }
+    }
+    
+/* -------------------------------------------------------------------- */
+/*  Set default values for registered CV values.                        */
+/* -------------------------------------------------------------------- */
+    for(j = 0; j < CV_source_id->nbObjects; j++){
+        CV_value = &CV_source_id->oValue[j];
+
+        if(CV_value->szValue[0] != '\0'){
+            if(cmor_has_cur_dataset_attribute(CV_value->key) != 0){
+                ierr |= cmor_set_cur_dataset_attribute_internal(CV_value->key, CV_value->szValue, 0);
+                if(strncmp(CV_value->key, GLOBAL_ATT_FURTHERINFOURL, CMOR_MAX_STRING) == 0){
+                    strncpytrim(cmor_current_dataset.furtherinfourl, CV_value->szValue, CMOR_MAX_STRING);
+                }
+            }
+        }
+    }
+    cmor_pop_traceback();
+    return ierr;
+
+}
+
+/************************************************************************/
 /*                      cmor_setGblAttr()                               */
 /************************************************************************/
 int cmor_setGblAttr(int var_id)
