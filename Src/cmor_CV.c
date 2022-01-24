@@ -820,11 +820,21 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
     char szVariant[CMOR_MAX_STRING];
 
     char msg[CMOR_MAX_STRING];
+    int ierr = 0;
 
     cmor_add_traceback("_CV_checkSubExperiment");
     // Initialize variables
     cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
-    cmor_get_cur_dataset_attribute(GLOBAL_ATT_EXPERIMENTID, szExperiment_ID);
+    ierr = cmor_get_cur_dataset_attribute(GLOBAL_ATT_EXPERIMENTID, szExperiment_ID);
+    if (ierr != 0) {
+        snprintf(msg, CMOR_MAX_STRING,
+                 "Your \"%s\" is not defined, check your required attributes\n! "
+                 "See Control Vocabulary JSON file.(%s)\n! ",
+                 GLOBAL_ATT_EXPERIMENTID, CV_Filename);
+        cmor_handle_error(msg, CMOR_NORMAL);
+        cmor_pop_traceback();
+        return (-1);
+    }
     // Look for sub_experiment_id section
     CV_sub_experiment_id = cmor_CV_rootsearch(CV, CV_KEY_SUB_EXPERIMENT_ID);
     if (CV_sub_experiment_id == NULL) {
@@ -1016,7 +1026,16 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
     cmor_add_traceback("_CV_checkParentExpID");
 
     cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
-    cmor_get_cur_dataset_attribute(GLOBAL_ATT_EXPERIMENTID, szExperiment_ID);
+    ierr = cmor_get_cur_dataset_attribute(GLOBAL_ATT_EXPERIMENTID, szExperiment_ID);
+    if (ierr != 0) {
+        snprintf(msg, CMOR_MAX_STRING,
+                 "Your \"%s\" is not defined, check your required attributes\n! "
+                 "See Control Vocabulary JSON file.(%s)\n! ",
+                 GLOBAL_ATT_EXPERIMENTID, CV_Filename);
+        cmor_handle_error(msg, CMOR_NORMAL);
+        cmor_pop_traceback();
+        return (-1);
+    }
     // Look for experiment_id section
     CV_experiment_ids = cmor_CV_rootsearch(CV, CV_KEY_EXPERIMENT_ID);
     if (CV_experiment_ids == NULL) {
@@ -1378,7 +1397,16 @@ int cmor_CV_checkExperiment(cmor_CV_def_t * CV)
     szExpValue[0] = '\0';
     cmor_add_traceback("_CV_checkExperiment");
     cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
-    cmor_get_cur_dataset_attribute(GLOBAL_ATT_EXPERIMENTID, szExperiment_ID);
+    ierr = cmor_get_cur_dataset_attribute(GLOBAL_ATT_EXPERIMENTID, szExperiment_ID);
+    if (ierr != 0) {
+        snprintf(msg, CMOR_MAX_STRING,
+                 "Your \"%s\" is not defined, check your required attributes\n! "
+                 "See Control Vocabulary JSON file.(%s)\n! ",
+                 GLOBAL_ATT_EXPERIMENTID, CV_Filename);
+        cmor_handle_error(msg, CMOR_NORMAL);
+        cmor_pop_traceback();
+        return (-1);
+    }
 /* -------------------------------------------------------------------- */
 /*  Find experiment_ids dictionary in Control Vocabulary                */
 /* -------------------------------------------------------------------- */

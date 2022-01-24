@@ -931,7 +931,7 @@ def main():
         remove_ansi = re.compile(r'\x1b\[[0-?]*[ -/]*[@-~]')
         for logfile in set(logfiles):
             if not os.stat(logfile).st_size == 0:
-                with open(logfile, 'r') as f:
+                with open(logfile, 'r', encoding='utf8', errors='ignore') as f:
                     log_text = f.read()
                     if args.no_text_color:
                         log_text = remove_ansi.sub('', log_text)
@@ -955,7 +955,7 @@ def main():
             logfile, rc = process(source)
             errors += rc
             if not os.stat(logfile).st_size == 0:
-                with open(logfile, 'r') as f:
+                with open(logfile, 'r', encoding='utf8', errors='ignore') as f:
                     log_text = f.read()
                     if args.no_text_color:
                         log_text = remove_ansi.sub('', log_text)
