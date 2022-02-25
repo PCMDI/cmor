@@ -1123,7 +1123,7 @@ int cmor_setup(char *path,
 
     if (ut_get_status() != UT_SUCCESS) {
         snprintf(msg, CMOR_MAX_STRING,
-                 "Udunits: creating Practical Salinty Scale 78 unit");
+                 "Udunits: creating Practical Salinity Scale 78 unit");
         cmor_handle_error(msg, CMOR_CRITICAL);
     }
     if (perunit != NULL)
