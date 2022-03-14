@@ -1943,6 +1943,7 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
     char szValids[CMOR_MAX_STRING];
     char szOutput[CMOR_MAX_STRING];
     char szTmp[CMOR_MAX_STRING];
+    char tableValue[CMOR_MAX_STRING];
     int i;
     int nObjects;
     regex_t regex;
@@ -2030,12 +2031,22 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
                 if(cmor_has_cur_dataset_attribute(CV_key->key) == 0){
                     cmor_get_cur_dataset_attribute(CV_key->key, szTmp);
                     if(szTmp[0] != '\0' && strcmp(CV_key->szValue, szTmp) != 0){
-                        snprintf(msg, CMOR_MAX_STRING,
-                                "The registered CV attribute \"%s\" as defined as \"%s\" "
-                                "will be replaced with \n! "
-                                "\"%s\" as defined in your user input file\n! ",
-                                CV_key->key, CV_key->szValue, szTmp);
-                        cmor_handle_error(msg, CMOR_WARNING);
+                        reti = cmor_get_table_attr(CV_key->key, &cmor_tables[CMOR_TABLE], tableValue);
+                        if(reti == 0 && strcmp(tableValue, szTmp) == 0){
+                            snprintf(msg, CMOR_MAX_STRING,
+                                    "The registered CV attribute \"%s\" as defined as \"%s\" "
+                                    "will be replaced with \n! "
+                                    "\"%s\" as defined in the table %s\n! ",
+                                    CV_key->key, CV_key->szValue, szTmp, cmor_tables[CMOR_TABLE].szTable_id);
+                            cmor_handle_error(msg, CMOR_WARNING);
+                        } else {
+                            snprintf(msg, CMOR_MAX_STRING,
+                                    "The registered CV attribute \"%s\" as defined as \"%s\" "
+                                    "will be replaced with \n! "
+                                    "\"%s\" as defined in your user input file\n! ",
+                                    CV_key->key, CV_key->szValue, szTmp);
+                            cmor_handle_error(msg, CMOR_WARNING);
+                        }
                     } else {
                         cmor_set_cur_dataset_attribute_internal(CV_key->key,
                                 CV_key->szValue, 1);
