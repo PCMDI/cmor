@@ -704,7 +704,7 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
                  "input file could not be found in \n! "
                  "your Controlled Vocabulary file. (%s) \n! \n! "
                  "Please correct your input file or contact "
-                 "cmor@listserv.llnl.gov to register\n! "
+                 "pcmdi-cmip@llnl.gov to register\n! "
                  "a new source.   ", szSource_ID, CV_Filename);
 
         cmor_handle_error(msg, CMOR_NORMAL);
@@ -1857,7 +1857,7 @@ int cmor_CV_setInstitution(cmor_CV_def_t * CV)
                  "input file (%s) could not be found in \n! "
                  "your Controlled Vocabulary file. (%s) \n! \n! "
                  "Please correct your input file or contact "
-                 "\"cmor@listserv.llnl.gov\" to register\n! "
+                 "\"pcmdi-cmip@llnl.gov\" to register\n! "
                  "a new institution_id.  \n! \n! "
                  "See \"http://cmor.llnl.gov/mydoc_cmor3_CV/\" for further information about\n! "
                  "the \"institution_id\" and \"institution\" global attributes.  ",
