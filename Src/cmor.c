@@ -2747,6 +2747,15 @@ int cmor_setDefaultGblAttr(int ref_table_id)
 
     cmor_add_traceback("cmor_setDefaultGblAttr");
 
+/* -------------------------------------------------------------------- */
+/*  If this function was called without the dataset being initialized   */
+/*  by cmor_dataset_json, then exit.                                    */
+/* -------------------------------------------------------------------- */
+    if (cmor_current_dataset.initiated ==  0) {
+        cmor_pop_traceback();
+        return (0);
+    }
+
     ierr = cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE_ID, source_id);
     if (ierr != 0) {
         snprintf(msg, CMOR_MAX_STRING, "Can't read dataset attribute %s",
@@ -2772,8 +2781,8 @@ int cmor_setDefaultGblAttr(int ref_table_id)
     for(j = 0; j < CV_source_id->nbObjects; j++){
         CV_value = &CV_source_id->oValue[j];
 
-        if(CV_value->szValue[0] != '\0'){
-            if(cmor_has_cur_dataset_attribute(CV_value->key) != 0){
+        if(cmor_has_cur_dataset_attribute(CV_value->key) != 0){
+            if(CV_value->szValue[0] != '\0'){
                 ierr |= cmor_set_cur_dataset_attribute_internal(CV_value->key, CV_value->szValue, 0);
                 if(strncmp(CV_value->key, GLOBAL_ATT_FURTHERINFOURL, CMOR_MAX_STRING) == 0){
                     strncpytrim(cmor_current_dataset.furtherinfourl, CV_value->szValue, CMOR_MAX_STRING);
