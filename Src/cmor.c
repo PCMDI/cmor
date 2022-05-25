@@ -2740,9 +2740,11 @@ int cmor_setDefaultGblAttr(int ref_table_id)
     cmor_CV_def_t *CV_value;
     cmor_CV_def_t *CV_source_id;
     cmor_CV_def_t *CV_source_ids;
+    cmor_CV_def_t *required_attrs;
     char source_id[CMOR_MAX_STRING];
     char msg[CMOR_MAX_STRING];
-    int i, j;
+    int i, j, k;
+    int isRequired;
     int ierr = 0;
 
     cmor_add_traceback("cmor_setDefaultGblAttr");
@@ -2778,8 +2780,16 @@ int cmor_setDefaultGblAttr(int ref_table_id)
 /* -------------------------------------------------------------------- */
 /*  Set default values for registered CV values.                        */
 /* -------------------------------------------------------------------- */
+    required_attrs = cmor_CV_rootsearch(cmor_tables[ref_table_id].CV, CV_KEY_REQUIRED_GBL_ATTRS);
     for(j = 0; j < CV_source_id->nbObjects; j++){
         CV_value = &CV_source_id->oValue[j];
+
+        // Check if the attribute is required
+        isRequired = 0;
+        for (k = 0; k < required_attrs->anElements; k++) {
+            if(strcmp(CV_value->key, required_attrs->aszValue[k]) == 0)
+                isRequired = 1;
+        }
 
         if(cmor_has_cur_dataset_attribute(CV_value->key) != 0){
             if(CV_value->szValue[0] != '\0'){
@@ -2787,6 +2797,8 @@ int cmor_setDefaultGblAttr(int ref_table_id)
                 if(strncmp(CV_value->key, GLOBAL_ATT_FURTHERINFOURL, CMOR_MAX_STRING) == 0){
                     strncpytrim(cmor_current_dataset.furtherinfourl, CV_value->szValue, CMOR_MAX_STRING);
                 }
+            } else if(CV_value->anElements == 1 && isRequired == 1){
+                ierr |= cmor_set_cur_dataset_attribute_internal(CV_value->key, CV_value->aszValue[0], 0);
             }
         }
     }
