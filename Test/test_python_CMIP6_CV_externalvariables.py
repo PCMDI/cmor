@@ -173,8 +173,7 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
         cmor.write(ua_var_id, reshaped_data)
         fname_ta = cmor.close(ta_var_id, file_name=True)
         fname_ua = cmor.close(ua_var_id, file_name=True)
-        self.delete_files += [cmor.close(ta_var_id, True)]
-        self.delete_files += [cmor.close(ua_var_id, True)]
+        self.delete_files += [fname_ta, fname_ua]
         cmor.close()
 
         f = netCDF4.Dataset(fname_ta, "r")
@@ -218,8 +217,7 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
         cmor.write(ua_var_id, reshaped_data)
         fname_ta = cmor.close(ta_var_id, file_name=True)
         fname_ua = cmor.close(ua_var_id, file_name=True)
-        self.delete_files += [cmor.close(ta_var_id, True)]
-        self.delete_files += [cmor.close(ua_var_id, True)]
+        self.delete_files += [fname_ta, fname_ua]
         cmor.close()
 
         f = cdms2.open(fname_ta, "r")
