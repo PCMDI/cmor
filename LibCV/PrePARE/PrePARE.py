@@ -617,8 +617,8 @@ class checkCMIP6(object):
                         table_value = file_value
                 if key == "cell_methods":
                     # Remove text that is inside parentheses i.e. comments
-                    file_value = re.sub(r"\(.*\)", "", file_value)
-                    table_value = re.sub(r"\(.*\)", "", table_value)
+                    file_value = re.sub(r"\(.*?\)", "", file_value)
+                    table_value = re.sub(r"\(.*?\)", "", table_value)
                     # Remove extra whitespace
                     file_value = " ".join(file_value.split())
                     table_value = " ".join(table_value.split())

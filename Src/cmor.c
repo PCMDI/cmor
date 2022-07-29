@@ -2733,6 +2733,81 @@ int cmor_validateFilename(char *outname, char *file_suffix, int var_id)
 }
 
 /************************************************************************/
+/*                      cmor_setDefaultGblAttr()                               */
+/************************************************************************/
+int cmor_setDefaultGblAttr(int ref_table_id)
+{
+    cmor_CV_def_t *CV_value;
+    cmor_CV_def_t *CV_source_id;
+    cmor_CV_def_t *CV_source_ids;
+    cmor_CV_def_t *required_attrs;
+    char source_id[CMOR_MAX_STRING];
+    char msg[CMOR_MAX_STRING];
+    int i, j, k;
+    int isRequired;
+    int ierr = 0;
+
+    cmor_add_traceback("cmor_setDefaultGblAttr");
+
+/* -------------------------------------------------------------------- */
+/*  If this function was called without the dataset being initialized   */
+/*  by cmor_dataset_json, then exit.                                    */
+/* -------------------------------------------------------------------- */
+    if (cmor_current_dataset.initiated ==  0) {
+        cmor_pop_traceback();
+        return (0);
+    }
+
+    ierr = cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE_ID, source_id);
+    if (ierr != 0) {
+        snprintf(msg, CMOR_MAX_STRING, "Can't read dataset attribute %s",
+                    GLOBAL_ATT_SOURCE_ID);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+        return (1);
+    }
+
+/* -------------------------------------------------------------------- */
+/*  Find source_id entry in CV table.                                   */
+/* -------------------------------------------------------------------- */
+    CV_source_ids = cmor_CV_rootsearch(cmor_tables[ref_table_id].CV, CV_KEY_SOURCE_IDS);
+    for(i = 0; i < CV_source_ids->nbObjects; i++){
+        CV_source_id = &CV_source_ids->oValue[i];
+        if (strncmp(CV_source_id->key, source_id, CMOR_MAX_STRING) == 0) {
+            break;
+        }
+    }
+    
+/* -------------------------------------------------------------------- */
+/*  Set default values for registered CV values.                        */
+/* -------------------------------------------------------------------- */
+    required_attrs = cmor_CV_rootsearch(cmor_tables[ref_table_id].CV, CV_KEY_REQUIRED_GBL_ATTRS);
+    for(j = 0; j < CV_source_id->nbObjects; j++){
+        CV_value = &CV_source_id->oValue[j];
+
+        // Check if the attribute is required
+        isRequired = 0;
+        for (k = 0; k < required_attrs->anElements; k++) {
+            if(strcmp(CV_value->key, required_attrs->aszValue[k]) == 0)
+                isRequired = 1;
+        }
+
+        if(cmor_has_cur_dataset_attribute(CV_value->key) != 0){
+            if(CV_value->szValue[0] != '\0'){
+                ierr |= cmor_set_cur_dataset_attribute_internal(CV_value->key, CV_value->szValue, 0);
+                if(strncmp(CV_value->key, GLOBAL_ATT_FURTHERINFOURL, CMOR_MAX_STRING) == 0){
+                    strncpytrim(cmor_current_dataset.furtherinfourl, CV_value->szValue, CMOR_MAX_STRING);
+                }
+            } else if(CV_value->anElements == 1 && isRequired == 1){
+                ierr |= cmor_set_cur_dataset_attribute_internal(CV_value->key, CV_value->aszValue[0], 0);
+            }
+        }
+    }
+    cmor_pop_traceback();
+    return ierr;
+
+}
+
+/************************************************************************/
 /*                      cmor_setGblAttr()                               */
 /************************************************************************/
 int cmor_setGblAttr(int var_id)
