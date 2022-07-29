@@ -603,6 +603,7 @@ int cmor_load_table(char szTable[CMOR_MAX_STRING], int *table_id)
     rc = cmor_search_table(szTable, table_id);
 
     if (rc == TABLE_FOUND) {
+        cmor_setDefaultGblAttr(*table_id);
         return (TABLE_SUCCESS);
     }
 
@@ -646,6 +647,8 @@ int cmor_load_table(char szTable[CMOR_MAX_STRING], int *table_id)
     } else if (rc == TABLE_FOUND) {
         rc = TABLE_SUCCESS;
     }
+
+    cmor_setDefaultGblAttr(*table_id);
 
     free(szTableName);
 

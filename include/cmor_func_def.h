@@ -81,6 +81,7 @@ extern int cmor_close_variable( int var_id, char *file_name,
 				int *preserve );
 extern int cmor_close( void );
 
+extern int cmor_setDefaultGblAttr( int );
 extern int cmor_writeGblAttr(int var_id, int ncid, int ncafid);
 extern int cmor_setGblAttr( int );
 
