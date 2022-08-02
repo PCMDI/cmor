@@ -610,6 +610,7 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
     int nLen;
     char msg[CMOR_MAX_STRING];
     char CV_Filename[CMOR_MAX_STRING];
+    char CMOR_Filename[CMOR_MAX_STRING];
     int rc;
     int i;
     int j = 0;
@@ -617,6 +618,13 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
     cmor_is_setup();
     cmor_add_traceback("_CV_checkSourceID");
     cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
+    rc = cmor_has_cur_dataset_attribute(CMOR_INPUTFILENAME);
+    if (rc == 0) {
+        cmor_get_cur_dataset_attribute(CMOR_INPUTFILENAME, CMOR_Filename);
+    } else {
+        CMOR_Filename[0] = '\0';
+    }
+    
 /* -------------------------------------------------------------------- */
 /*  Find experiment_ids dictionary in Control Vocabulary                */
 /* -------------------------------------------------------------------- */
@@ -700,12 +708,17 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
     if (i == CV_source_ids->nbObjects) {
 
         snprintf(msg, CMOR_MAX_STRING,
-                 "The source_id, \"%s\",  which you specified in your \n! "
-                 "input file could not be found in \n! "
+                 "The source_id, \"%s\", found in your \n! "
+                 "input file (%s) could not be found in \n! "
                  "your Controlled Vocabulary file. (%s) \n! \n! "
-                 "Please correct your input file or contact "
-                 "cmor@listserv.llnl.gov to register\n! "
-                 "a new source.   ", szSource_ID, CV_Filename);
+                 "Please correct your input file by using a valid source_id listed in your MIP tables' CV file.\n! "
+                 "To add a new source_id to the %s file, open a new issue in the\n! "
+                 "table's Github repository. Managed project CMOR and MIP tables are listed at\n! "
+                 "https://wcrp-cmip.github.io/WGCM_Infrastructure_Panel/cmor_and_mip_tables.html. \n! "
+                 "Contact \"pcmdi-cmip@llnl.gov\" for additional guidance.  \n! \n! "
+                 "See \"http://cmor.llnl.gov/mydoc_cmor3_CV/\" for further information about\n! "
+                 "the \"source_id\" and \"source\" global attributes.  ", 
+                 szSource_ID, CMOR_Filename, CV_Filename, CV_Filename);
 
         cmor_handle_error(msg, CMOR_NORMAL);
         cmor_pop_traceback();
@@ -1853,15 +1866,17 @@ int cmor_CV_setInstitution(cmor_CV_def_t * CV)
 
     if (CV_institution == NULL) {
         snprintf(msg, CMOR_MAX_STRING,
-                 "The institution_id, \"%s\",  found in your \n! "
+                 "The institution_id, \"%s\", found in your \n! "
                  "input file (%s) could not be found in \n! "
                  "your Controlled Vocabulary file. (%s) \n! \n! "
-                 "Please correct your input file or contact "
-                 "\"cmor@listserv.llnl.gov\" to register\n! "
-                 "a new institution_id.  \n! \n! "
+                 "Please correct your input file by using a valid institution_id listed in your MIP tables' CV file.\n! "
+                 "To add a new institution_id to the %s file, open a new issue in the\n! "
+                 "table's Github repository. Managed project CMOR and MIP tables are listed at\n! "
+                 "https://wcrp-cmip.github.io/WGCM_Infrastructure_Panel/cmor_and_mip_tables.html. \n! "
+                 "Contact \"pcmdi-cmip@llnl.gov\" for additional guidance.  \n! \n! "
                  "See \"http://cmor.llnl.gov/mydoc_cmor3_CV/\" for further information about\n! "
                  "the \"institution_id\" and \"institution\" global attributes.  ",
-                 szInstitution_ID, CMOR_Filename, CV_Filename);
+                 szInstitution_ID, CMOR_Filename, CV_Filename, CV_Filename);
         cmor_handle_error(msg, CMOR_NORMAL);
         cmor_pop_traceback();
         return (-1);
