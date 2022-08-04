@@ -1,0 +1,62 @@
+{
+    "description": "<p>Climate Model Output Rewriter</p>",
+    "access_right": "open",
+    "license": "BSD-3-Clause",
+    "title": "PCMDI/CMOR: CMOR v3.7.0",
+    "version": "v3.7.0",
+    "upload_type": "software",
+    "publication_date": "2022-08-02",
+    "creators": [
+        {
+            "name": "Mauzey, Chris",
+            "affiliation": "Lawrence Livermore National Laboratory"
+        },
+        {
+            "name": "Durack, Paul",
+            "affiliation": "Lawrence Livermore National Laboratory"
+        },
+        {
+            "name": "Taylor, Karl E.",
+            "affiliation": "Lawrence Livermore National Laboratory"
+        },
+        {
+            "name": "Florek, Piotr",
+            "affiliation": "Met Office Hadley Centre"
+        },
+        {
+            "name": "Doutriaux, Charles",
+            "affiliation": "Lawrence Livermore National Laboratory"
+        },
+        {
+            "name": "Nadeau, Denis",
+            "affiliation": "Lawrence Livermore National Laboratory (formerly)"
+        },
+        {
+            "name": "Hogan, Emma"
+        },
+        {
+            "name": "Kettleborough, Jamie"
+        },
+        {
+            "name": "Weigel, Tobias"
+        },
+        {
+            "name": "kjoti"
+        },
+        {
+            "name": "jmrgonza"
+        },
+        {
+            "name": "Nicholls, Zeb"
+        },
+        {
+            "name": "Betts, Edward"
+        },
+        {
+            "name": "Seddon, Jon"
+        },
+        {
+            "name": "Wachsmann, Fabian"
+        }
+    ]
+}
