@@ -122,7 +122,7 @@ executors:
         CONDA_COMPILERS: "gcc_linux-64 gfortran_linux-64"
    macos:
       macos:
-         xcode: "11.4.0"
+         xcode: "13.2.0"
       environment:
         OS: "osx-64"
         PROJECT_DIR: "workdir/macos"
