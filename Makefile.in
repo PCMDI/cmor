@@ -146,8 +146,7 @@ ifeq ($(UNAME), Linux)
 endif
 python:
 	@echo "Building Python interface"
-	#if [ ! -d "${DIR}" ]; then mkdir -p ${DIR}; fi
-	LDSHARED=${LDSHARED} ${PYTHONEXEC} setup.py install @CDATPREFIX@ 
+	LDSHARED=${LDSHARED} ${PYTHONEXEC} -m pip install $(srcdir)
 test_a_python:
 	@echo "${OK_COLOR}Testing ${TEST_NAME} ${NO_COLOR}"
 	${PYTHONEXEC} ${TEST_NAME} ${VERB}
