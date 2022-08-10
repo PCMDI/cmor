@@ -146,7 +146,7 @@ ifeq ($(UNAME), Linux)
 endif
 python:
 	@echo "Building Python interface"
-	LDSHARED=${LDSHARED} ${PYTHONEXEC} -m pip install $(srcdir)
+	LDSHARED=${LDSHARED} ${PYTHONEXEC} -m pip install --no-deps $(srcdir)
 test_a_python:
 	@echo "${OK_COLOR}Testing ${TEST_NAME} ${NO_COLOR}"
 	${PYTHONEXEC} ${TEST_NAME} ${VERB}
