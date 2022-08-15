@@ -1,9 +1,6 @@
 from __future__ import print_function
 import numpy
-# do not push to master
-from numpy.distutils.core import setup, Extension
-#from numpy.distutils.ccompiler import CCompiler
-import os,sys,string
+import os
 from setuptools import setup, Extension
 
 include_dirs = [numpy.lib.utils.get_include(),"include","include/cdTime"]
