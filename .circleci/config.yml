@@ -66,8 +66,8 @@ aliases:
        conda activate base
        export UVCDAT_ANONYMOUS_LOG=False
        set +e
-       conda create -y -n py$PYTHON_VERSION --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME=$VERSION $PKGS $CONDA_COMPILERS
-       conda activate py$PYTHON_VERSION
+       conda create -y -n py$PYTHON_VERSION_test --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME=$VERSION $PKGS $CONDA_COMPILERS
+       conda activate py$PYTHON_VERSION_test
        set -e
        ./configure --prefix=$CONDA_PREFIX --with-python --with-uuid=$CONDA_PREFIX --with-json-c=$CONDA_PREFIX --with-udunits2=$CONDA_PREFIX --with-netcdf=$CONDA_PREFIX  --enable-verbose-test
        make test -o cmor -o python
