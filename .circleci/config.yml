@@ -126,7 +126,7 @@ executors:
       environment:
         OS: "osx-64"
         PROJECT_DIR: "workdir/macos"
-        CONDA_COMPILERS: "clang_osx-64 gfortran_osx-64"
+        CONDA_COMPILERS: "clang_osx-64=14 gfortran_osx-64"
          
 jobs:
    setup:
