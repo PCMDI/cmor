@@ -81,8 +81,10 @@ aliases:
        export UVCDAT_ANONYMOUS_LOG=False
        # run tests again but with cdms2 installed
        set +e
-       conda create -y -n py$PYTHON_VERSION_cdms2 --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME=$VERSION $PKGS $CONDA_COMPILERS cdms2
+       conda create -y -n py$PYTHON_VERSION_cdms2 --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME=$VERSION $PKGS $CONDA_COMPILERS
        conda activate py$PYTHON_VERSION_cdms2
+       conda install -n py$PYTHON_VERSION_cdms2 -c conda-forge cdms2
+       ./configure --prefix=$CONDA_PREFIX --with-python --with-uuid=$CONDA_PREFIX --with-json-c=$CONDA_PREFIX --with-udunits2=$CONDA_PREFIX --with-netcdf=$CONDA_PREFIX  --enable-verbose-test
        set -e
        make test -o cmor -o python
 
