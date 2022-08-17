@@ -126,25 +126,9 @@ executors:
       environment:
         OS: "osx-64"
         PROJECT_DIR: "workdir/macos"
-        CONDA_COMPILERS: "clang_osx-64=14 gfortran_osx-64"
+        CONDA_COMPILERS: "clang_osx-64 gfortran_osx-64"
          
 jobs:
-   setup:
-      parameters:
-         os:
-            type: executor
-      executor: << parameters.os >>
-      steps:
-         - checkout
-         - attach_workspace:
-              at: .
-         - run: *setup_env
-         - run: *setup_miniconda
-         - persist_to_workspace:
-              root: .
-              paths:
-                 - workdir
-
    build:
       parameters:
          os:
@@ -163,6 +147,7 @@ jobs:
          - attach_workspace:
               at: .
          - run: *setup_env
+         - run: *setup_miniconda
          - run: *conda_rerender
          - run: *conda_build
          - run: *pull_submodules
@@ -207,20 +192,12 @@ jobs:
 workflows:
    cmor:
       jobs:
-         - setup:
-              matrix:
-                 parameters:
-                    os: [ linux, macos ]
-              name: setup-<< matrix.os >>
-
          - build:
               matrix:
                  parameters:
                     os: [ linux, macos ]
                     python_version: [ "3.7", "3.8", "3.9", "3.10" ]
               name: build-<< matrix.os >>-<< matrix.python_version >>
-              requires:
-                 - setup-<< matrix.os >>
 
          - upload:
               matrix:
