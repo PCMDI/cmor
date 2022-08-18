@@ -173,6 +173,7 @@ jobs:
          - attach_workspace:
               at: .
          - run: *setup_env
+         - run: *setup_miniconda
          - run: *conda_upload
 
    testing_upload:
@@ -188,6 +189,7 @@ jobs:
          - attach_workspace:
               at: .
          - run: *setup_env
+         - run: *setup_miniconda
          - run: *conda_upload
 
 workflows:
