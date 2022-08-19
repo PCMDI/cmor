@@ -9,19 +9,23 @@
     "creators": [
         {
             "name": "Mauzey, Chris",
-            "affiliation": "Lawrence Livermore National Laboratory"
+            "affiliation": "Lawrence Livermore National Laboratory",
+            "orcid": "0000-0003-1156-6774"
         },
         {
             "name": "Durack, Paul",
-            "affiliation": "Lawrence Livermore National Laboratory"
+            "affiliation": "Lawrence Livermore National Laboratory",
+            "orcid": "0000-0003-2835-1438"
         },
         {
             "name": "Taylor, Karl E.",
-            "affiliation": "Lawrence Livermore National Laboratory"
+            "affiliation": "Lawrence Livermore National Laboratory",
+            "orcid": "0000-0002-6491-2135"
         },
         {
             "name": "Florek, Piotr",
-            "affiliation": "Met Office Hadley Centre"
+            "affiliation": "Met Office Hadley Centre",
+            "orcid": "0000-0002-1849-7620"
         },
         {
             "name": "Doutriaux, Charles",
@@ -29,10 +33,12 @@
         },
         {
             "name": "Nadeau, Denis",
-            "affiliation": "Lawrence Livermore National Laboratory (formerly)"
+            "affiliation": "Lawrence Livermore National Laboratory (formerly)",
+            "orcid": "0000-0002-9622-3289"
         },
         {
-            "name": "Hogan, Emma"
+            "name": "Hogan, Emma",
+            "orcid": "0000-0002-1514-5224"
         },
         {
             "name": "Kettleborough, Jamie"
@@ -53,10 +59,12 @@
             "name": "Betts, Edward"
         },
         {
-            "name": "Seddon, Jon"
+            "name": "Seddon, Jon",
+            "orcid": "0000-0003-1302-1049"
         },
         {
-            "name": "Wachsmann, Fabian"
+            "name": "Wachsmann, Fabian",
+            "orcid": "0000-0003-4389-6911"
         }
     ]
 }
