@@ -78,7 +78,7 @@ void cmor_init_table(cmor_table_t * table, int id)
     table->naxes = -1;
     table->nexps = -1;
     table->nmappings = -1;
-    table->cf_version = 1.6;
+    table->cf_version = 1.7;
     table->cmor_version = 3.0;
     table->mip_era[0] = '\0';
     table->szTable_id[0] = '\0';

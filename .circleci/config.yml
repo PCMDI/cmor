@@ -66,8 +66,8 @@ aliases:
        conda activate base
        export UVCDAT_ANONYMOUS_LOG=False
        set +e
-       conda create -y -n py$PYTHON_VERSION --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME=$VERSION $PKGS $CONDA_COMPILERS
-       conda activate py$PYTHON_VERSION
+       conda create -y -n test_py$PYTHON_VERSION --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME=$VERSION $PKGS $CONDA_COMPILERS
+       conda activate test_py$PYTHON_VERSION
        set -e
        ./configure --prefix=$CONDA_PREFIX --with-python --with-uuid=$CONDA_PREFIX --with-json-c=$CONDA_PREFIX --with-udunits2=$CONDA_PREFIX --with-netcdf=$CONDA_PREFIX  --enable-verbose-test
        make test -o cmor -o python
@@ -81,8 +81,9 @@ aliases:
        export UVCDAT_ANONYMOUS_LOG=False
        # run tests again but with cdms2 installed
        set +e
-       conda create -y -n py$PYTHON_VERSION_cdms2 --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME=$VERSION $PKGS $CONDA_COMPILERS cdms2
-       conda activate py$PYTHON_VERSION_cdms2
+       conda create -y -n cdms2_py$PYTHON_VERSION --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME=$VERSION $PKGS $CONDA_COMPILERS cdms2
+       conda activate cdms2_py$PYTHON_VERSION
+       ./configure --prefix=$CONDA_PREFIX --with-python --with-uuid=$CONDA_PREFIX --with-json-c=$CONDA_PREFIX --with-udunits2=$CONDA_PREFIX --with-netcdf=$CONDA_PREFIX  --enable-verbose-test
        set -e
        make test -o cmor -o python
 
@@ -94,7 +95,7 @@ aliases:
        conda activate base
        export UVCDAT_ANONYMOUS_LOG=False
        set +e
-       conda activate py$PYTHON_VERSION_cdms2
+       conda activate cdms2_py$PYTHON_VERSION
        set -e
        export PYTHONPATH=Test/:$PYTHONPATH
        for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file; mystatus=$?; if [[ "$mystatus" != "0" ]]; then return ${mystatus}; fi; done
@@ -122,29 +123,13 @@ executors:
         CONDA_COMPILERS: "gcc_linux-64 gfortran_linux-64"
    macos:
       macos:
-         xcode: "11.4.0"
+         xcode: "13.2.1"
       environment:
         OS: "osx-64"
         PROJECT_DIR: "workdir/macos"
         CONDA_COMPILERS: "clang_osx-64 gfortran_osx-64"
          
 jobs:
-   setup:
-      parameters:
-         os:
-            type: executor
-      executor: << parameters.os >>
-      steps:
-         - checkout
-         - attach_workspace:
-              at: .
-         - run: *setup_env
-         - run: *setup_miniconda
-         - persist_to_workspace:
-              root: .
-              paths:
-                 - workdir
-
    build:
       parameters:
          os:
@@ -154,15 +139,16 @@ jobs:
       executor: << parameters.os >>
       environment:
          PKG_NAME: "cmor"
-         VERSION: "3.6.1"
+         VERSION: "3.7.0"
          PYTHON_VERSION: << parameters.python_version >>
-         CHANNELS: "-c cdat/label/nightly -c conda-forge -c cdat"
+         CHANNELS: "-c conda-forge -c cdat/label/nightly -c cdat"
          PKGS: " lazy-object-proxy testsrunner"
       steps:
          - checkout
          - attach_workspace:
               at: .
          - run: *setup_env
+         - run: *setup_miniconda
          - run: *conda_rerender
          - run: *conda_build
          - run: *pull_submodules
@@ -187,6 +173,7 @@ jobs:
          - attach_workspace:
               at: .
          - run: *setup_env
+         - run: *setup_miniconda
          - run: *conda_upload
 
    testing_upload:
@@ -202,25 +189,18 @@ jobs:
          - attach_workspace:
               at: .
          - run: *setup_env
+         - run: *setup_miniconda
          - run: *conda_upload
 
 workflows:
    cmor:
       jobs:
-         - setup:
-              matrix:
-                 parameters:
-                    os: [ linux, macos ]
-              name: setup-<< matrix.os >>
-
          - build:
               matrix:
                  parameters:
                     os: [ linux, macos ]
                     python_version: [ "3.7", "3.8", "3.9", "3.10" ]
               name: build-<< matrix.os >>-<< matrix.python_version >>
-              requires:
-                 - setup-<< matrix.os >>
 
          - upload:
               matrix:
