@@ -33,12 +33,10 @@
         },
         {
             "name": "Nadeau, Denis",
-            "affiliation": "Lawrence Livermore National Laboratory (formerly)",
-            "orcid": "0000-0002-9622-3289"
+            "affiliation": "Lawrence Livermore National Laboratory (formerly)"
         },
         {
-            "name": "Hogan, Emma",
-            "orcid": "0000-0002-1514-5224"
+            "name": "Hogan, Emma"
         },
         {
             "name": "Kettleborough, Jamie"
@@ -53,18 +51,17 @@
             "name": "jmrgonza"
         },
         {
-            "name": "Nicholls, Zeb"
+            "name": "Nicholls, Zeb",
+            "orcid": "0000-0002-4767-2723"
         },
         {
             "name": "Betts, Edward"
         },
         {
-            "name": "Seddon, Jon",
-            "orcid": "0000-0003-1302-1049"
+            "name": "Seddon, Jon"
         },
         {
-            "name": "Wachsmann, Fabian",
-            "orcid": "0000-0003-4389-6911"
+            "name": "Wachsmann, Fabian"
         }
     ]
 }
