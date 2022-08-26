@@ -17,16 +17,12 @@ static PyObject *PyCV_checkFilename(PyObject * self, PyObject * args)
     char *szInTimeCalendar;
     char *szInTimeUnits;
     char *infile;
-    int nTimeCalLen;
-    int nTimeUnitsLen;
-    int ninfile;
     int ierr;
 
     cmor_is_setup();
 
-    if (!PyArg_ParseTuple(args, "iis#s#s#", &ntable, &varid,
-                          &szInTimeCalendar, &nTimeCalLen,
-                          &szInTimeUnits, &nTimeUnitsLen, &infile, &ninfile)) {
+    if (!PyArg_ParseTuple(args, "iisss", &ntable, &varid,
+                          &szInTimeCalendar, &szInTimeUnits, &infile)) {
         return (Py_BuildValue("i", -1));
     }
 
