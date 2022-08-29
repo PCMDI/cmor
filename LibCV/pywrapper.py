@@ -270,18 +270,21 @@ def check_sourceID(table_id):
     return(ierr)
 
 
-def check_filename(table_id, var_name, calendar, timeunits, infile):
+def check_filename(table_id, var_id, calendar, timeunits, infile):
     '''
       Validate filename with timestamp for current variable and file
 
       Usage:
-        cmip6_cv.check_filename(table_id, var_id)
+        cmip6_cv.check_filename(table_id, var_id, calendar, timeunits, infile)
       Where:
         table_id is the table id returned by load_table()
-        var_name is the variable name
+        var_id is the variable id returned by setup_variable()
+        calendar is the calendar type used by the file (ex. 360_day)
+        timeunits is the time unit type used by the file (ex. days since 1850-01-01)
+        infile is the name of the file
       Return 0 on success
     '''
-    ierr = _cmip6_cv.check_filename(table_id, var_name,
+    ierr = _cmip6_cv.check_filename(table_id, var_id,
                                     calendar, timeunits, infile)
     return(ierr)
 
