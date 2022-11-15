@@ -157,32 +157,44 @@ jobs:
          PYTHON_VERSION: << parameters.python_version >>
          CHANNELS: "-c conda-forge -c cdat/label/nightly -c cdat"
          PKGS: " lazy-object-proxy testsrunner"
-      steps:
-         - checkout
-         - attach_workspace:
-              at: .
-         - run: *setup_env
-         - run: *setup_miniconda
-         - run: *conda_rerender
-         - run: *conda_build
-         - run: *pull_submodules
-         - run: *run_cmor_tests
-         when:
-            condition:
-               not:
-                  equal: [ "3.11", << parameters.python_version >>]
-            steps:
-               - run: *run_cmor_tests_with_cdms2
-               - run: *run_prepare_tests_with_cdms2
-         when:
-            condition:
+      when:
+         condition:
+            not:
                equal: [ "3.11", << parameters.python_version >>]
-            steps:
-               - run: *run_prepare_tests
-         - persist_to_workspace:
-              root: .
-              paths:
-                 - artifacts
+         steps:
+            - checkout
+            - attach_workspace:
+               at: .
+            - run: *setup_env
+            - run: *setup_miniconda
+            - run: *conda_rerender
+            - run: *conda_build
+            - run: *pull_submodules
+            - run: *run_cmor_tests
+            - run: *run_cmor_tests_with_cdms2
+            - run: *run_prepare_tests_with_cdms2
+            - persist_to_workspace:
+               root: .
+               paths:
+                  - artifacts
+      when:
+         condition:
+            equal: [ "3.11", << parameters.python_version >>]
+         steps:
+            - checkout
+            - attach_workspace:
+               at: .
+            - run: *setup_env
+            - run: *setup_miniconda
+            - run: *conda_rerender
+            - run: *conda_build
+            - run: *pull_submodules
+            - run: *run_cmor_tests
+            - run: *run_prepare_tests
+            - persist_to_workspace:
+               root: .
+               paths:
+                  - artifacts
 
    upload:
       parameters:
