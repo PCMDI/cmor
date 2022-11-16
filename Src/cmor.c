@@ -6719,9 +6719,11 @@ int calculate_leadtime_coord(int var_id) {
     /* activate define mode */
     nc_redef(ncid);
     /* add leadtime */
-    if (ierr = nc_def_var(ncid, "leadtime", NC_DOUBLE, 1, &time_dim, &leadtime)) {
-        snprintf(msg, CMOR_MAX_STRING, "cannot add 'leadtime' variable");
-        cmor_handle_error(msg, CMOR_CRITICAL);
+    if (ierr = nc_inq_varid(ncid, "leadtime", &leadtime)) {
+        if (ierr = nc_def_var(ncid, "leadtime", NC_DOUBLE, 1, &time_dim, &leadtime)) {
+            snprintf(msg, CMOR_MAX_STRING, "cannot add 'leadtime' variable");
+            cmor_handle_error(msg, CMOR_CRITICAL);
+        }
     }
 
     /* variable attributes */
