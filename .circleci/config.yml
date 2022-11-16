@@ -95,6 +95,20 @@ aliases:
        conda activate base
        export UVCDAT_ANONYMOUS_LOG=False
        set +e
+       conda activate test_py$PYTHON_VERSION
+       set -e
+       export PYTHONPATH=Test/:$PYTHONPATH
+       for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file; mystatus=$?; if [[ "$mystatus" != "0" ]]; then return ${mystatus}; fi; done
+       python run_tests.py -v2 -H -n1 Test/test_python_CMIP6_CV*.py
+
+  - &run_prepare_tests_with_cdms2
+    name: run_prepare_tests_with_cdms2
+    command: |
+       source $BASH_ENV
+       source $WORKDIR/miniconda/etc/profile.d/conda.sh
+       conda activate base
+       export UVCDAT_ANONYMOUS_LOG=False
+       set +e
        conda activate cdms2_py$PYTHON_VERSION
        set -e
        export PYTHONPATH=Test/:$PYTHONPATH
@@ -144,21 +158,44 @@ jobs:
          CHANNELS: "-c conda-forge -c cdat/label/nightly -c cdat"
          PKGS: " lazy-object-proxy testsrunner"
       steps:
-         - checkout
-         - attach_workspace:
-              at: .
-         - run: *setup_env
-         - run: *setup_miniconda
-         - run: *conda_rerender
-         - run: *conda_build
-         - run: *pull_submodules
-         - run: *run_cmor_tests
-         - run: *run_cmor_tests_with_cdms2
-         - run: *run_prepare_tests
-         - persist_to_workspace:
-              root: .
-              paths:
-                 - artifacts
+         - when:
+            condition:
+               not:
+                  equal: [ "3.11", << parameters.python_version >>]
+            steps:
+               - checkout
+               - attach_workspace:
+                  at: .
+               - run: *setup_env
+               - run: *setup_miniconda
+               - run: *conda_rerender
+               - run: *conda_build
+               - run: *pull_submodules
+               - run: *run_cmor_tests
+               - run: *run_cmor_tests_with_cdms2
+               - run: *run_prepare_tests_with_cdms2
+               - persist_to_workspace:
+                  root: .
+                  paths:
+                     - artifacts
+         - when:
+            condition:
+               equal: [ "3.11", << parameters.python_version >>]
+            steps:
+               - checkout
+               - attach_workspace:
+                  at: .
+               - run: *setup_env
+               - run: *setup_miniconda
+               - run: *conda_rerender
+               - run: *conda_build
+               - run: *pull_submodules
+               - run: *run_cmor_tests
+               - run: *run_prepare_tests
+               - persist_to_workspace:
+                  root: .
+                  paths:
+                     - artifacts
 
    upload:
       parameters:
@@ -199,7 +236,7 @@ workflows:
               matrix:
                  parameters:
                     os: [ linux, macos ]
-                    python_version: [ "3.7", "3.8", "3.9", "3.10" ]
+                    python_version: [ "3.8", "3.9", "3.10", "3.11" ]
               name: build-<< matrix.os >>-<< matrix.python_version >>
 
          - upload:
