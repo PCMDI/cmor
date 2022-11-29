@@ -153,7 +153,7 @@ jobs:
       executor: << parameters.os >>
       environment:
          PKG_NAME: "cmor"
-         VERSION: "3.7.0"
+         VERSION: "3.7.1"
          PYTHON_VERSION: << parameters.python_version >>
          CHANNELS: "-c conda-forge -c cdat/label/nightly -c cdat"
          PKGS: " lazy-object-proxy testsrunner"
