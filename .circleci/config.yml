@@ -98,7 +98,7 @@ aliases:
        conda activate test_py$PYTHON_VERSION
        set -e
        export PYTHONPATH=Test/python/:$PYTHONPATH
-       for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file; mystatus=$?; if [[ "$mystatus" != "0" ]]; then return ${mystatus}; fi; done
+       for file in `ls -1 Test/python/test_python_CMIP6_CV*.py`; do echo $file; python $file; mystatus=$?; if [[ "$mystatus" != "0" ]]; then return ${mystatus}; fi; done
        python run_tests.py -v2 -H -n1 Test/python/test_python_CMIP6_CV*.py
 
   - &run_prepare_tests_with_cdms2
@@ -112,7 +112,7 @@ aliases:
        conda activate cdms2_py$PYTHON_VERSION
        set -e
        export PYTHONPATH=Test/python/:$PYTHONPATH
-       for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file; mystatus=$?; if [[ "$mystatus" != "0" ]]; then return ${mystatus}; fi; done
+       for file in `ls -1 Test/python/test_python_CMIP6_CV*.py`; do echo $file; python $file; mystatus=$?; if [[ "$mystatus" != "0" ]]; then return ${mystatus}; fi; done
        python run_tests.py -v2 -H -n1 Test/python/test_python_CMIP6_CV*.py
        
   - &conda_upload
