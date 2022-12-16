@@ -25,7 +25,7 @@ program main
   integer myvar
 
   print*, 'hi enter test file case'
-  filein='Test/tas.asc'
+  filein='Test/asc_tables/tas.asc'
   read(5,'(A)') filein
   open(unit=23,file=filein,form='formatted') 
   call allocate_dims(23,mydims,ndim)

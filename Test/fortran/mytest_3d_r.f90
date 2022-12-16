@@ -26,7 +26,7 @@ program main
   real mymiss
 
   print*, 'hi'
-  filein='Test/tas_3d_r.asc'
+  filein='Test/asc_tables/tas_3d_r.asc'
   open(unit=23,file=filein,form='formatted') 
   call allocate_dims(23,mydims,ndim,dimlength)
   allocate(myaxis(ndim))

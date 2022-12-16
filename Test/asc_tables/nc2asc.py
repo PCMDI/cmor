@@ -19,7 +19,7 @@ if len(sys.argv) > 2:
 else:
     fnm = '/ipcc/20c3m/atm/mo/%s/ncar_ccsm3_0/run1/%s_A1.20C3M_1.CCSM.atmm.1870-01_cat_1879-12.nc' % (
         var, var)
-    fout = 'Test/%s.asc' % (var)
+    fout = 'Test/asc_tables/%s.asc' % (var)
 
 f = cdms2.open(fnm)
 

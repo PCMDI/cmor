@@ -28,7 +28,7 @@ program main
   double precision bt
   bt=0.
   print*, 'Test Code: hi'
-  filein='Test/ta_4D_r.asc'
+  filein='Test/asc_tables/ta_4D_r.asc'
   open(unit=23,file=filein,form='formatted') 
   call allocate_dims(23,mydims,ndim,dimlength)
   allocate(myaxis(ndim))
