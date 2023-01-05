@@ -1,5 +1,5 @@
 from __future__ import print_function
-from test_python_common import *  # common subroutines
+from test_cmor_python_common import *  # common subroutines
 import cmor._cmor
 import os
 pth = os.path.split(os.path.realpath(os.curdir))

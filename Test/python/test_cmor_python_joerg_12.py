@@ -1,5 +1,5 @@
 from __future__ import print_function
-from test_python_common import *  # common subroutines
+from test_cmor_python_common import *  # common subroutines
 
 import cmor._cmor
 import os
@@ -8,7 +8,7 @@ pth = os.path.split(os.path.realpath(os.curdir))
 if pth[-1] == 'Test':
     ipth = opth = '.'
 else:
-    ipth = opth = 'Tables'
+    ipth = opth = 'Test'
 
 
 myaxes = numpy.zeros(9, dtype='i')
@@ -24,9 +24,9 @@ cmor.setup(
 cmor.dataset_json("Test/CMOR_input_example.json")
 
 tables = []
-a = cmor.load_table("CMIP6_grids.json")
+a = cmor.load_table("Tables/CMIP6_grids.json")
 tables.append(a)
-tables.append(cmor.load_table("CMIP6_Amon.json"))
+tables.append(cmor.load_table("Tables/CMIP6_Lmon.json"))
 print('Tables ids:', tables)
 
 cmor.set_table(tables[0])
@@ -50,34 +50,37 @@ grid_id = cmor.grid(axis_ids=myaxes[:2],
 print('got grid_id:', grid_id)
 myaxes[2] = grid_id
 
-mapnm = 'lambert_conformal_conic'
-params = ["standard_parallel1",
-          "longitude_of_central_meridian", "latitude_of_projection_origin",
-          "false_easting", "false_northing", "standard_parallel2"]
-punits = ["", "", "", "", "", ""]
-pvalues = [-20., 175., 13., 8., 0., 20.]
-cmor.set_grid_mapping(grid_id=myaxes[2],
-                      mapping_name=mapnm,
-                      parameter_names=params,
-                      parameter_values=pvalues,
-                      parameter_units=punits)
+## mapnm = 'lambert_conformal_conic'
+# params = [ "standard_parallel1",
+# "longitude_of_central_meridian","latitude_of_projection_origin",
+# "false_easting","false_northing","standard_parallel2" ]
+## punits = ["","","","","","" ]
+## pvalues = [-20.,175.,13.,8.,0.,20. ]
+# cmor.set_grid_mapping(grid_id=myaxes[2],
+##                       mapping_name = mapnm,
+##                       parameter_names = params,
+##                       parameter_values = pvalues,
+# parameter_units = punits)
 
 cmor.set_table(tables[1])
 myaxes[3] = cmor.axis(table_entry='time',
                       units='months since 1980')
+myaxes[4] = cmor.axis(table_entry='vegtype',
+                      units='',
+                      coord_vals="""grass marijuana opium""".split())
 
-pass_axes = [myaxes[3], myaxes[2]]
-myvars[0] = cmor.variable(table_entry='hfls',
-                          units='W m-2',
+pass_axes = [myaxes[2], myaxes[3], myaxes[4]]
+
+print('ok going to cmorvar')
+myvars[0] = cmor.variable(table_entry='landCoverFrac',
+                          units='%',
                           axis_ids=pass_axes,
-                          positive='down',
-                          original_name='HFLS',
                           history='no history',
                           comment='no future'
                           )
 for i in range(ntimes):
-    data2d = read_2d_input_files(i, varin2d[0], lat, lon)
-    print('writing time: ', i, Time[i], data2d.shape, data2d)
+    data2d = numpy.random.random((3, 4, 3))
+    print('writing time: ', i, data2d.shape, data2d)
     print(Time[i], bnds_time[2 * i:2 * i + 2])
     cmor.write(myvars[0], data2d, 1, time_vals=Time[i],
                time_bnds=bnds_time[2 * i:2 * i + 2])

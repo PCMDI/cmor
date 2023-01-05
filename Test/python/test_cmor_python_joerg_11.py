@@ -1,14 +1,10 @@
 from __future__ import print_function
-from test_python_common import *  # common subroutines
+from test_cmor_python_common import *  # common subroutines
 
 import cmor._cmor
 import os
 
 pth = os.path.split(os.path.realpath(os.curdir))
-if pth[-1] == 'Test':
-    ipth = opth = '.'
-else:
-    ipth = opth = 'Test'
 
 
 myaxes = numpy.zeros(9, dtype='i')
@@ -65,20 +61,21 @@ myaxes[2] = grid_id
 cmor.set_table(tables[1])
 myaxes[3] = cmor.axis(table_entry='time',
                       units='months since 1980')
+myaxes[4] = cmor.axis(table_entry='oline',
+                      units='',
+                      coord_vals="""barents_opening bering_strait canadian_archipelago denmark_strait drake_passage english_channel pacific_equatorial_undercurrent faroe_scotland_channel florida_bahamas_strait fram_strait iceland_faroe_channel indonesian_thoughflow mozambique_channel taiwan_luzon_straits windward_passage""".split())
 
-pass_axes = [myaxes[3], myaxes[2]]
+pass_axes = [myaxes[3], myaxes[4]]
 
 print('ok going to cmorvar')
-myvars[0] = cmor.variable(table_entry='eparag100',
-                          units='mol m-2 s-1',
+myvars[0] = cmor.variable(table_entry='mfo',
+                          units='kg s-1',
                           axis_ids=pass_axes,
-                          positive='down',
-                          original_name='HFLS',
                           history='no history',
                           comment='no future'
                           )
 for i in range(ntimes):
-    data2d = read_2d_input_files(i, varin2d[0], lat, lon)
+    data2d = numpy.random.random((1, 15))
     print('writing time: ', i, data2d.shape, data2d)
     print(Time[i], bnds_time[2 * i:2 * i + 2])
     cmor.write(myvars[0], data2d, 1, time_vals=Time[i],

@@ -12,10 +12,10 @@ class TestForecastTime(unittest.TestCase):
         self.path = None
 
     def test_ReferenceTime(self):
-        from test_python_common import Time, bnds_time, read_2d_input_files
-        from test_python_common import alats, alons, bnds_lat, bnds_lon
-        from test_python_common import entry2d, units2d, positive2d
-        from test_python_common import varin2d, ntimes, lat, lon
+        from test_cmor_python_common import Time, bnds_time, read_2d_input_files
+        from test_cmor_python_common import alats, alons, bnds_lat, bnds_lon
+        from test_cmor_python_common import entry2d, units2d, positive2d
+        from test_cmor_python_common import varin2d, ntimes, lat, lon
         dtmp2 = 1.e-4
 
         myaxes = numpy.zeros(9, dtype='i')
