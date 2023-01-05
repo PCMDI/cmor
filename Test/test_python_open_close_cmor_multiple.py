@@ -55,7 +55,7 @@ for var in tvars:
         units='degrees_east')
     itim = cmor.axis(
         table_entry='time', coord_vals=numpy.arange(
-            ntimes, dtype=numpy.float), cell_bounds=numpy.arange(
+            ntimes, dtype=float), cell_bounds=numpy.arange(
             ntimes + 1, dtype=float), units='months since 2000')
     ilev = cmor.axis(table_entry='plev19',
                      coord_vals=numpy.array([1000.,

@@ -37,7 +37,7 @@ ilon = cmor.axis(
     coord_vals=lons,
     cell_bounds=blons,
     units='degrees_east')
-# ,coord_vals=numpy.arange(ntimes,dtype=numpy.float),cell_bounds=numpy.arange(ntimes+1,dtype=float),units='months since 2000')
+# ,coord_vals=numpy.arange(ntimes,dtype=float),cell_bounds=numpy.arange(ntimes+1,dtype=float),units='months since 2000')
 itim = cmor.axis(table_entry='time', units='months since 2010')
 ilev = cmor.axis(table_entry='plev19', coord_vals=levs, units='hPa')
 
