@@ -79,15 +79,14 @@ def time_varying_grid_coordinate(
         raise Exception(
             'error unknown data_type: "%s", must be one of: "c","d","f","l","i"')
 
-    if not isinstance(grid_id, (int, numpy.int, numpy.int32, numpy.int64)):
+    if not isinstance(grid_id, (int, numpy.int32, numpy.int64)):
         raise Exception("error grid_id must be an integer")
 
     grid_id = int(grid_id)
 
     if missing_value is not None:
-        if not isinstance(missing_value, (float, int, 
-                                          numpy.float, numpy.float32, numpy.float64, 
-                                          numpy.int, numpy.int32, numpy.int64)):
+        if not isinstance(missing_value, (float, int, numpy.float32, numpy.float64, 
+                                          numpy.int32, numpy.int64)):
             raise Exception(
                 "error missing_value must be a number, you passed: %s" %
                 type(missing_value))
@@ -535,17 +534,15 @@ def variable(table_entry, units, axis_ids, data_type='f', missing_value=None,
     else:
         comment = str(comment)
 
-    if not isinstance(tolerance, (float, int, 
-                                  numpy.float, numpy.float32, numpy.float64, 
-                                  numpy.int, numpy.int32, numpy.int64)):
+    if not isinstance(tolerance, (float, int, numpy.float32, numpy.float64, 
+                                  numpy.int32, numpy.int64)):
         raise Exception("error tolerance must be a number")
 
     tolerance = float(tolerance)
 
     if missing_value is not None:
-        if not isinstance(missing_value, (float, int,
-                                          numpy.float, numpy.float32, numpy.float64, 
-                                          numpy.int, numpy.int32, numpy.int64)):
+        if not isinstance(missing_value, (float, int, numpy.float32, numpy.float64, 
+                                          numpy.int32, numpy.int64)):
             raise Exception(
                 "error missing_value must be a number, you passed: %s" %
                 repr(missing_value))
@@ -560,7 +557,7 @@ def variable(table_entry, units, axis_ids, data_type='f', missing_value=None,
 def zfactor(zaxis_id, zfactor_name, units="", axis_ids=None,
             data_type=None, zfactor_values=None, zfactor_bounds=None):
 
-    if not isinstance(zaxis_id, (int, numpy.int, numpy.int32, numpy.int64)):
+    if not isinstance(zaxis_id, (int, numpy.int32, numpy.int64)):
         raise Exception("error zaxis_id must be a number")
     zaxis_id = int(zaxis_id)
 
@@ -583,7 +580,7 @@ def zfactor(zaxis_id, zfactor_name, units="", axis_ids=None,
         axis_ids = numpy.ascontiguousarray(axis_ids)
     elif axis_ids is None:
         pass
-    elif isinstance(axis_ids, (int, numpy.int, numpy.int32, numpy.int64)):
+    elif isinstance(axis_ids, (int, numpy.int32, numpy.int64)):
         axis_ids = numpy.array([axis_ids, ])
     elif not isinstance(axis_ids, numpy.ndarray):
         raise Exception(
@@ -598,8 +595,7 @@ def zfactor(zaxis_id, zfactor_name, units="", axis_ids=None,
         ndims = len(axis_ids)
 
     if zfactor_values is not None:
-        if isinstance(zfactor_values, (float, int, numpy.float,
-                                       numpy.float32, numpy.int, numpy.int32)):
+        if isinstance(zfactor_values, (float, int, numpy.float32, numpy.int32)):
             zfactor_values = numpy.array((zfactor_values,))
         elif numpy.ma.isMA(zfactor_values):
             zfactor_values = numpy.ascontiguousarray(zfactor_values.filled())
@@ -617,10 +613,9 @@ def zfactor(zaxis_id, zfactor_name, units="", axis_ids=None,
             try:
                 data_type = zfactor_values.dtype.char
             except BaseException:
-                if isinstance(zfactor_values,
-                              (float, numpy.float, numpy.float32)):
+                if isinstance(zfactor_values, (float, numpy.float32)):
                     data_type = 'f'
-                elif isinstance(zfactor_values, (int, numpy.int, numpy.int32)):
+                elif isinstance(zfactor_values, (int, numpy.int32)):
                     data_type = 'd'
                 else:
                     raise Exception(
@@ -681,7 +676,7 @@ def write(var_id, data, ntimes_passed=None, file_suffix="",
     Usage:
     ierr = write(var_id,data,ntimes_passed=None,file_suffix="",time_vals=None,time_bnds=None,store_with=None
     """
-    if not isinstance(var_id, (int, numpy.int, numpy.int32, numpy.int64)):
+    if not isinstance(var_id, (int, numpy.int32, numpy.int64)):
         raise Exception("error var_id must be an integer")
     var_id = int(var_id)
 
@@ -689,7 +684,7 @@ def write(var_id, data, ntimes_passed=None, file_suffix="",
         raise Exception("Error file_suffix must be a string")
 
     if store_with is not None:
-        if not isinstance(store_with, (int, numpy.int, numpy.int32, numpy.int64)):
+        if not isinstance(store_with, (int, numpy.int32, numpy.int64)):
             raise Exception("error store_with must be an integer")
         store_with = int(store_with)
 
@@ -739,7 +734,7 @@ def write(var_id, data, ntimes_passed=None, file_suffix="",
             ntimes_passed = 0
         else:
             ntimes_passed = len(time_vals)
-    if not isinstance(ntimes_passed, (int, numpy.int, numpy.int32, numpy.int64)):
+    if not isinstance(ntimes_passed, (int, numpy.int32, numpy.int64)):
         raise Exception("error ntimes_passed must be an integer")
     ntimes_passed = int(ntimes_passed)
 
