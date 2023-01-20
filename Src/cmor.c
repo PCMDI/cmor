@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
 #include <sys/stat.h>
 #include <uuid/uuid.h>
 #include <unistd.h>
@@ -392,7 +393,6 @@ void cmor_is_setup(void)
 
     extern int CMOR_HAS_BEEN_SETUP;
     char msg[CMOR_MAX_STRING];
-    extern void cmor_handle_error(char error_msg[CMOR_MAX_STRING], int level);
 
     stop = 0;
     cmor_add_traceback("cmor_is_setup");
@@ -473,7 +473,6 @@ int cmor_prep_units(char *uunits,
     extern ut_system *ut_read;
     char local_unit[CMOR_MAX_STRING];
     char msg[CMOR_MAX_STRING];
-    extern void cmor_handle_error(char error_msg[CMOR_MAX_STRING], int level);
 
     cmor_add_traceback("cmor_prep_units");
     cmor_is_setup();
@@ -553,9 +552,9 @@ int cmor_have_NetCDF41min(void)
 }
 
 /************************************************************************/
-/*                         cmor_handle_error()                          */
+/*                         cmor_handle_error_internal()                          */
 /************************************************************************/
-void cmor_handle_error(char error_msg[CMOR_MAX_STRING], int level)
+void cmor_handle_error_internal(char *error_msg, int level, va_list args)
 {
     int i;
     char msg[CMOR_MAX_STRING];
@@ -588,8 +587,6 @@ void cmor_handle_error(char error_msg[CMOR_MAX_STRING], int level)
 #ifdef COLOREDOUTPUT
             fprintf(output_logfile, "%c[%d;%d;%dm", 0X1B, 1, 34, 47);
 #endif
-
-            snprintf(msg, CMOR_MAX_STRING, "! Warning: %s", error_msg);
         }
     } else {
         cmor_nerrors++;
@@ -610,8 +607,6 @@ void cmor_handle_error(char error_msg[CMOR_MAX_STRING], int level)
 #ifdef COLOREDOUTPUT
         fprintf(output_logfile, "%c[%d;%d;%dm", 0X1B, 1, 31, 47);
 #endif
-
-        snprintf(msg, CMOR_MAX_STRING, "! Error: %s", error_msg);
     }
     // fprintf(stderr, "%s ERROR LEVEL %d\n", error_msg, level);
     if (CMOR_VERBOSITY != CMOR_QUIET || level != CMOR_WARNING) {
@@ -620,7 +615,14 @@ void cmor_handle_error(char error_msg[CMOR_MAX_STRING], int level)
         }
         fprintf(output_logfile, "\n");
         fprintf(output_logfile, "!\n");
-        fprintf(output_logfile, "%s\n", msg);
+        
+        if (level == CMOR_WARNING)
+            fprintf(output_logfile, "! Warning: ");
+        else
+            fprintf(output_logfile, "! Error: ");
+        vfprintf(output_logfile, error_msg, args);
+        fprintf(output_logfile, "\n");
+
         fprintf(output_logfile, "!\n");
 
         for (i = 0; i < 25; i++)
@@ -646,11 +648,21 @@ void cmor_handle_error(char error_msg[CMOR_MAX_STRING], int level)
     fflush(output_logfile);
 }
 
-void cmor_handle_error_var(char error_msg[CMOR_MAX_STRING], int level,
-                           int var_id)
+void cmor_handle_error(char *error_msg, int level, ...)
 {
+    va_list args;
+    va_start (args, level);
+    cmor_handle_error_internal(error_msg, level, args);
+    va_end (args);
+}
+
+void cmor_handle_error_var(char *error_msg, int level, int var_id, ...)
+{
+    va_list args;
+    va_start (args, var_id);
     cmor_vars[var_id].error = 1;
-    cmor_handle_error(error_msg, level);
+    cmor_handle_error_internal(error_msg, level, args);
+    va_end (args);
 }
 
 /************************************************************************/
