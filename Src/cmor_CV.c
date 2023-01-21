@@ -357,7 +357,6 @@ int cmor_CV_checkFurtherInfoURL(int nVarRefTblID)
     char szFurtherInfoBaseURL[CMOR_MAX_STRING];
     char szFurtherInfoFileURL[CMOR_MAX_STRING];
     char szValue[CMOR_MAX_STRING];
-    char msg[CMOR_MAX_STRING];
     char CV_Filename[CMOR_MAX_STRING];
 
     char *baseURL;
@@ -446,7 +445,6 @@ int cmor_CV_checkSourceType(cmor_CV_def_t * CV_exp, char *szExptID)
     char szReqSourceTypeCpy[CMOR_MAX_STRING];
 
     char szSourceType[CMOR_MAX_STRING];
-    char msg[CMOR_MAX_STRING];
     char CV_Filename[CMOR_MAX_STRING];
     int i, j;
     char *szTokenRequired;
@@ -603,7 +601,6 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
     char *pos;
 
     int nLen;
-    char msg[CMOR_MAX_STRING];
     char CV_Filename[CMOR_MAX_STRING];
     char CMOR_Filename[CMOR_MAX_STRING];
     int rc;
@@ -728,7 +725,6 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
 /************************************************************************/
 int CV_VerifyNBElement(cmor_CV_def_t * CV)
 {
-    char msg[CMOR_MAX_STRING];
     char CV_Filename[CMOR_MAX_STRING];
     cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
     cmor_add_traceback("_CV_VerifyNBElement");
@@ -763,7 +759,6 @@ int CV_VerifyNBElement(cmor_CV_def_t * CV)
 /************************************************************************/
 int CV_CompareNoParent(char *szKey)
 {
-    char msg[CMOR_MAX_STRING];
     char szValue[CMOR_MAX_STRING];
     cmor_add_traceback("_CV_CompareNoParent");
 
@@ -818,7 +813,6 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
     char szValue[CMOR_MAX_STRING];
     char szVariant[CMOR_MAX_STRING];
 
-    char msg[CMOR_MAX_STRING];
     int ierr = 0;
 
     cmor_add_traceback("_CV_checkSubExperiment");
@@ -1005,7 +999,6 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
     regex_t regex;
 
     char CV_Filename[CMOR_MAX_STRING];
-    char msg[CMOR_MAX_STRING];
     int rc;
     int ierr = 0;
 
@@ -1343,7 +1336,6 @@ int cmor_CV_checkExperiment(cmor_CV_def_t * CV)
     cmor_CV_def_t *CV_experiment_attr;
 
     char szExperiment_ID[CMOR_MAX_STRING];
-    char msg[CMOR_MAX_STRING];
     char szValue[CMOR_MAX_STRING];
     char szExpValue[CMOR_MAX_STRING];
     char CV_Filename[CMOR_MAX_STRING];
@@ -1489,7 +1481,6 @@ int cmor_CV_checkFilename(cmor_CV_def_t * CV, int var_id,
     char outname[CMOR_MAX_STRING];
     char CV_Filename[CMOR_MAX_STRING];
     char szTmp[CMOR_MAX_STRING];
-    char msg[CMOR_MAX_STRING];
     cdCompTime comptime;
     int i, j, n;
     int timeDim;
@@ -1771,7 +1762,6 @@ int cmor_CV_setInstitution(cmor_CV_def_t * CV)
     char szInstitution_ID[CMOR_MAX_STRING];
     char szInstitution[CMOR_MAX_STRING];
 
-    char msg[CMOR_MAX_STRING];
     char CMOR_Filename[CMOR_MAX_STRING];
     char CV_Filename[CMOR_MAX_STRING];
     int rc;
@@ -1893,7 +1883,6 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
     cmor_CV_def_t *CV_key;
     cmor_CV_def_t *required_attrs;
     char szValue[CMOR_MAX_STRING];
-    char msg[CMOR_MAX_STRING];
     char CV_Filename[CMOR_MAX_STRING];
     char szValids[CMOR_MAX_STRING];
     char szOutput[CMOR_MAX_STRING];
@@ -2084,7 +2073,6 @@ int cmor_CV_checkGrids(cmor_CV_def_t * CV)
     int rc;
     char szGridLabel[CMOR_MAX_STRING];
     char szGridResolution[CMOR_MAX_STRING];
-    char msg[CMOR_MAX_STRING];
     char CV_Filename[CMOR_MAX_STRING];
     char szCompare[CMOR_MAX_STRING];
 
@@ -2199,7 +2187,6 @@ int cmor_CV_checkGblAttributes(cmor_CV_def_t * CV)
     cmor_CV_def_t *required_attrs;
     int i;
     int rc;
-    char msg[CMOR_MAX_STRING];
     int bCriticalError = 0;
     int ierr = 0;
     cmor_add_traceback("_CV_checkGblAttributes");
@@ -2304,7 +2291,6 @@ int cmor_CV_checkISOTime(char *szAttribute)
     int rc;
     char *szReturn;
     char szDate[CMOR_MAX_STRING];
-    char msg[CMOR_MAX_STRING];
 
     rc = cmor_has_cur_dataset_attribute(szAttribute);
     if (rc == 0) {
@@ -2343,7 +2329,6 @@ int cmor_CV_variable(int *var_id, char *name, char *units,
     int vrid = -1;
     int i;
     int iref;
-    char msg[CMOR_MAX_STRING];
     char ctmp[CMOR_MAX_STRING];
     cmor_var_def_t refvar;
 
