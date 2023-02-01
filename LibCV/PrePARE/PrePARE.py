@@ -232,7 +232,7 @@ class checkCMIP6(object):
 
     """
 
-    def __init__(self, table_path):
+    def __init__(self, table_path, cv_filename, axis_entry_filename, formula_var_filename):
         # -------------------------------------------------------------------
         #  Reset CV error switch
         # -------------------------------------------------------------------
@@ -249,13 +249,17 @@ class checkCMIP6(object):
         # -------------------------------------------------------------------
         # call setup() to clean all 'C' internal memory.
         # -------------------------------------------------------------------
-        cmip6_cv.setup(inpath="../Tables", exit_control=cmip6_cv.CMOR_EXIT_ON_WARNING)
+        if not os.path.isdir(self.cmip6_table_path):
+            table_dir = os.path.dirname(self.cmip6_table_path)
+        else:
+            table_dir = self.cmip6_table_path
+        cmip6_cv.setup(inpath=table_dir, exit_control=cmip6_cv.CMOR_EXIT_ON_WARNING)
         # -------------------------------------------------------------------
         # Set Control Vocabulary file to use (default from cmor.h)
         # -------------------------------------------------------------------
         cmip6_cv.set_cur_dataset_attribute(
             cmip6_cv.GLOBAL_CV_FILENAME,
-            cmip6_cv.TABLE_CONTROL_FILENAME)
+            cv_filename)
         cmip6_cv.set_cur_dataset_attribute(
             cmip6_cv.FILE_PATH_TEMPLATE,
             cmip6_cv.CMOR_DEFAULT_PATH_TEMPLATE)
@@ -267,10 +271,10 @@ class checkCMIP6(object):
             cmip6_cv.CMOR_DEFAULT_FURTHERURL_TEMPLATE)
         cmip6_cv.set_cur_dataset_attribute(
             cmip6_cv.CMOR_AXIS_ENTRY_FILE,
-            "CMIP6_coordinate.json")
+            axis_entry_filename)
         cmip6_cv.set_cur_dataset_attribute(
             cmip6_cv.CMOR_FORMULA_VAR_FILE,
-            "CMIP6_formula_terms.json")
+            formula_var_filename)
 
     def prepare_print(self, msg, code, no_text_color=False, lines=False):
         code_color = {
@@ -360,7 +364,7 @@ class checkCMIP6(object):
     def has_variable_name(filename, **kwargs):
         return True
 
-    def ControlVocab(self, ncfile, variable=None, print_all=True, no_text_color=False):
+    def ControlVocab(self, ncfile, variable=None, disable_cmip6_checks=False, print_all=True, no_text_color=False):
         """
         Check CMIP6 global attributes against Control Vocabulary file.
 
@@ -480,16 +484,22 @@ class checkCMIP6(object):
             self.errors += 1
         if cmip6_cv.check_sourceID(table) != 0:
             self.errors += 1
-        if cmip6_cv.check_experiment(table) != 0:
-            self.errors += 1
-        if cmip6_cv.check_grids(table) != 0:
-            self.errors += 1
         if cmip6_cv.check_ISOTime() != 0:
             self.errors += 1
         if cmip6_cv.check_furtherinfourl(table) != 0:
             self.errors += 1
-        if cmip6_cv.check_subExpID(table) != 0:
-            self.errors += 1
+
+        # CMIP6-related attributes
+        if not disable_cmip6_checks:
+            if cmip6_cv.check_experiment(table) != 0:
+                self.errors += 1
+            if cmip6_cv.check_grids(table) != 0:
+                self.errors += 1
+            if cmip6_cv.check_subExpID(table) != 0:
+                self.errors += 1
+            if cmip6_cv.check_parentExpID(table) != 0:
+                self.errors += 1
+
         for attr in ['branch_time_in_child', 'branch_time_in_parent']:
             if attr in list(self.dictGbl.keys()):
                 self.set_double_value(attr)
@@ -507,8 +517,6 @@ class checkCMIP6(object):
                 msg = "{} attribute is missing in global attributes".format(attr)
                 self.prepare_print(msg, 'FAIL', no_text_color, lines=True)
                 self.errors += 1
-        if cmip6_cv.check_parentExpID(table) != 0:
-            self.errors += 1
         for attr in ['table_id', 'variable_id']:
             try:
                 if locals()[attr] != self.dictGbl[attr]:
@@ -691,11 +699,11 @@ def sequential_process(source):
     pctx = globals()['pctx']
     try:
         # Process file
-        checker = checkCMIP6(pctx.table_path)
+        checker = checkCMIP6(pctx.table_path, pctx.cv_filename, pctx.axis_entry_filename, pctx.formula_var_filename)
         if pctx.variable:
-            checker.ControlVocab(source, variable=pctx.variable, print_all=pctx.all, no_text_color=pctx.no_text_color)
+            checker.ControlVocab(source, variable=pctx.variable, disable_cmip6_checks=pctx.disable_cmip6_checks, print_all=pctx.all, no_text_color=pctx.no_text_color)
         else:
-            checker.ControlVocab(source, print_all=pctx.all, no_text_color=pctx.no_text_color)
+            checker.ControlVocab(source, disable_cmip6_checks=pctx.disable_cmip6_checks, print_all=pctx.all, no_text_color=pctx.no_text_color)
         return 0
     except KeyboardInterrupt:
         return 1
@@ -800,6 +808,31 @@ def main():
              'If a directory is submitted table is deduced from filename (default is "./Tables").')
 
     parser.add_argument(
+        '--cv-filename',
+        default=cmip6_cv.TABLE_CONTROL_FILENAME,
+        help='Specify the name of the controlled vocabulary (CV) file (JSON file).\n'
+             'The file must exist in the same directory as the table path. (default is "{}").'.format(cmip6_cv.TABLE_CONTROL_FILENAME))
+
+    parser.add_argument(
+        '--axis-entry-filename',
+        default="CMIP6_coordinate.json",
+        help='Specify the name of the axis entry file (JSON file).\n'
+             'The file must exist in the same directory as the table path. (default is "{}").'.format("CMIP6_coordinate.json"))
+
+    parser.add_argument(
+        '--formula-var-filename',
+        default="CMIP6_formula_terms.json",
+        help='Specify the name of the formula terms file (JSON file).\n'
+             'The file must exist in the same directory as the table path. (default is "{}").'.format("CMIP6_formula_terms.json"))
+
+    parser.add_argument(
+        '--disable-cmip6-checks',
+        action='store_true',
+        default=False,
+        help='Skip CMIP6 global attribute checks.\n'
+             'Skips checks for experiment id, grids, parent experiment id, subexperiment id.')
+
+    parser.add_argument(
         '--max-processes',
         metavar='4',
         type=processes_validator,
@@ -900,6 +933,10 @@ def main():
     cctx = dict()
     cctx['no_text_color'] = args.no_text_color
     cctx['table_path'] = args.table_path
+    cctx['cv_filename'] = args.cv_filename
+    cctx['axis_entry_filename'] = args.axis_entry_filename
+    cctx['formula_var_filename'] = args.formula_var_filename
+    cctx['disable_cmip6_checks'] = args.disable_cmip6_checks
     cctx['variable'] = args.variable
     cctx['all'] = args.all
     # Separate sequential process and multiprocessing
