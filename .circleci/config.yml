@@ -156,7 +156,7 @@ jobs:
          VERSION: "3.7.1"
          PYTHON_VERSION: << parameters.python_version >>
          CHANNELS: "-c conda-forge -c cdat/label/nightly -c cdat"
-         PKGS: " lazy-object-proxy testsrunner"
+         PKGS: " lazy-object-proxy"
       steps:
          - when:
             condition:
