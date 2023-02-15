@@ -26,7 +26,7 @@ def run():
 class TestCase(unittest.TestCase):
 
     def testTerminateSignal(self):
-        self.assertEqual(cmor.get_terminate_signal(), -999)
+        self.assertEqual(cmor.get_terminate_signal(), signal.SIGTERM)
         cmor.setup()
         self.assertEqual(cmor.get_terminate_signal(), signal.SIGTERM)
         cmor.set_terminate_signal(signal.SIGINT)
