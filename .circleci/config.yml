@@ -66,25 +66,10 @@ aliases:
        conda activate base
        export UVCDAT_ANONYMOUS_LOG=False
        set +e
-       conda create -y -n test_py$PYTHON_VERSION --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME=$VERSION $PKGS $CONDA_COMPILERS
+       conda create -y -n test_py$PYTHON_VERSION --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME=$VERSION $CONDA_COMPILERS
        conda activate test_py$PYTHON_VERSION
        set -e
        ./configure --prefix=$CONDA_PREFIX --with-python --with-uuid=$CONDA_PREFIX --with-json-c=$CONDA_PREFIX --with-udunits2=$CONDA_PREFIX --with-netcdf=$CONDA_PREFIX  --enable-verbose-test
-       make test -o cmor -o python
-
-  - &run_cmor_tests_with_cdms2
-    name: run_cmor_tests_with_cdms2
-    command: |
-       source $BASH_ENV
-       source $WORKDIR/miniconda/etc/profile.d/conda.sh
-       conda activate base
-       export UVCDAT_ANONYMOUS_LOG=False
-       # run tests again but with cdms2 installed
-       set +e
-       conda create -y -n cdms2_py$PYTHON_VERSION --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME=$VERSION $PKGS $CONDA_COMPILERS cdms2 numpy=1.23 libnetcdf=4.8.1
-       conda activate cdms2_py$PYTHON_VERSION
-       ./configure --prefix=$CONDA_PREFIX --with-python --with-uuid=$CONDA_PREFIX --with-json-c=$CONDA_PREFIX --with-udunits2=$CONDA_PREFIX --with-netcdf=$CONDA_PREFIX  --enable-verbose-test
-       set -e
        make test -o cmor -o python
 
   - &run_prepare_tests
@@ -100,19 +85,6 @@ aliases:
        export PYTHONPATH=Test/:$PYTHONPATH
        for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file; mystatus=$?; if [[ "$mystatus" != "0" ]]; then return ${mystatus}; fi; done
 
-  - &run_prepare_tests_with_cdms2
-    name: run_prepare_tests_with_cdms2
-    command: |
-       source $BASH_ENV
-       source $WORKDIR/miniconda/etc/profile.d/conda.sh
-       conda activate base
-       export UVCDAT_ANONYMOUS_LOG=False
-       set +e
-       conda activate cdms2_py$PYTHON_VERSION
-       set -e
-       export PYTHONPATH=Test/:$PYTHONPATH
-       for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file; mystatus=$?; if [[ "$mystatus" != "0" ]]; then return ${mystatus}; fi; done
-       
   - &conda_upload
     name: conda_upload
     command: |
@@ -153,47 +125,22 @@ jobs:
          PKG_NAME: "cmor"
          VERSION: "3.7.1"
          PYTHON_VERSION: << parameters.python_version >>
-         CHANNELS: "-c conda-forge -c cdat/label/nightly -c cdat"
-         PKGS: " lazy-object-proxy"
+         CHANNELS: "-c conda-forge"
       steps:
-         - when:
-            condition:
-               not:
-                  equal: [ "3.11", << parameters.python_version >>]
-            steps:
-               - checkout
-               - attach_workspace:
-                  at: .
-               - run: *setup_env
-               - run: *setup_miniconda
-               - run: *conda_rerender
-               - run: *conda_build
-               - run: *pull_submodules
-               - run: *run_cmor_tests
-               - run: *run_cmor_tests_with_cdms2
-               - run: *run_prepare_tests_with_cdms2
-               - persist_to_workspace:
-                  root: .
-                  paths:
-                     - artifacts
-         - when:
-            condition:
-               equal: [ "3.11", << parameters.python_version >>]
-            steps:
-               - checkout
-               - attach_workspace:
-                  at: .
-               - run: *setup_env
-               - run: *setup_miniconda
-               - run: *conda_rerender
-               - run: *conda_build
-               - run: *pull_submodules
-               - run: *run_cmor_tests
-               - run: *run_prepare_tests
-               - persist_to_workspace:
-                  root: .
-                  paths:
-                     - artifacts
+         - checkout
+         - attach_workspace:
+            at: .
+         - run: *setup_env
+         - run: *setup_miniconda
+         - run: *conda_rerender
+         - run: *conda_build
+         - run: *pull_submodules
+         - run: *run_cmor_tests
+         - run: *run_prepare_tests
+         - persist_to_workspace:
+            root: .
+            paths:
+               - artifacts
 
    upload:
       parameters:
