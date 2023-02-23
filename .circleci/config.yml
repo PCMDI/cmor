@@ -21,13 +21,9 @@ aliases:
   - &setup_miniconda
     name: setup_miniconda
     command: |
-      mkdir -p $WORKDIR
-      if [[ $OS == 'osx-64' ]]; then
-        curl -L https://repo.continuum.io/miniconda/Miniconda3-4.7.12.1-MacOSX-x86_64.sh -o miniconda.sh
-      else
-        curl -L https://repo.continuum.io/miniconda/Miniconda3-4.7.12.1-Linux-x86_64.sh -o miniconda.sh
-      fi
-      bash miniconda.sh -b -p $WORKDIR/miniconda
+       source $BASH_ENV
+       git clone https://github.com/CDAT/cdat.git $WORKDIR/cdat
+       python $WORKDIR/cdat/scripts/install_miniconda.py -w $WORKDIR -p 'py3'
        
   - &conda_rerender
     name: conda_rerender
