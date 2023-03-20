@@ -1,8 +1,8 @@
 dnl
 dnl Process this file with autoconf to produce a configure script.
 
-dnl AC_PREREQ(2.59)
-AC_INIT(cmor, 3.7.1, mauzey1@llnl.gov)
+dnl AC_PREREQ([2.71])
+AC_INIT([cmor],[3.7.1],[mauzey1@llnl.gov])
 
 GIT_TAG=`cd $srcdir ; ./get_git_version.sh`
 
@@ -187,7 +187,7 @@ else
   JSONCLDFLAGS="-ljson-c"
   JSONCFLAGS=""
 fi
-AC_CHECK_LIB([json-c],[json_object_new_object],[],[AC_ERROR([Could not get a working json-c])],[ ${JSONCFLAGS} ${JSONCLDFLAGS}  ])
+AC_CHECK_LIB([json-c],[json_object_new_object],[],[AC_MSG_ERROR(Could not get a working json-c)],[ ${JSONCFLAGS} ${JSONCLDFLAGS}  ])
 
 AC_ARG_WITH([uuid],[AS_HELP_STRING([--with-uuid],[enable support for uuid in none standard location])],[],[with_uuid="no"])
 if [ test x${with_uuid} != xyes ] ; then
@@ -206,7 +206,7 @@ else
   UUIDLDFLAGS="-luuid"
   UUIDFLAGS=""
 fi
-AC_CHECK_LIB([uuid],[uuid_generate],[],[AC_ERROR([Could not get a working uuid])],[ ${UUIDFLAGS} ${UUIDLDFLAGS}  ])
+AC_CHECK_LIB([uuid],[uuid_generate],[],[AC_MSG_ERROR(Could not get a working uuid)],[ ${UUIDFLAGS} ${UUIDLDFLAGS}  ])
 
 LIBS=""
 AC_ARG_WITH([udunits2],[AS_HELP_STRING([--with-udunits2],[enable support for udunits2 in none standard location])],[],[with_udunits2="no"])
@@ -228,7 +228,7 @@ else
   UDUNITS2FLAGS="-ludunits2"
   UDUNITS2LDFLAGS=""
 fi
-AC_CHECK_LIB([udunits2],[ut_parse],[],[AC_ERROR([Could not get a working udunits2])],[ ${UDUNITS2FLAGS} ${UDUNITS2LDFLAGS} -lm  ])
+AC_CHECK_LIB([udunits2],[ut_parse],[],[AC_MSG_ERROR(Could not get a working udunits2)],[ ${UDUNITS2FLAGS} ${UDUNITS2LDFLAGS} -lm  ])
 LIBS=""
 
 
@@ -305,7 +305,7 @@ if [ test ${HAS_NC4} == "no" ] ; then
         ]])],[BUILD_NC3="no"],[BUILD_NC3="yes"])
     if [test ${BUILD_NC3} == "yes" ] ; then
        AC_MSG_RESULT(["no"])
-       AC_ERROR([Could not get a working NetCDF])
+       AC_MSG_ERROR(Could not get a working NetCDF)
     else
        AC_MSG_RESULT(["yes"])
     fi
