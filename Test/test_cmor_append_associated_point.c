@@ -98,7 +98,7 @@ void loopRoutine(char *times, char *returnvalue)
         read_time(i, &Time[i-k*ntimes], &bnds_time[2 * (i-k*ntimes)]);
     
     if(times)
-        ierr = cmor_axis(&axes_ids[0], "time1", "months since 1980", NULL, NULL, 'd',
+        ierr = cmor_axis(&axes_ids[0], "time1", "months since 1980", 0, NULL, 'd',
                 NULL, 0, NULL);
     else
         ierr = cmor_axis(&axes_ids[0], "time1", "months since 1980", ntimes, &Time[0], 'd',

@@ -111,7 +111,7 @@ int main()
     double lambda550[1] = {550.};
 
     ierr |= cmor_axis(&axes_ids[4], "lambda550nm", "nm", 1, lambda550, 'd', 
-                NULL, NULL, "");
+                NULL, 0, "");
 
     double p0[1] = {101325.0};
     double a_val[4] = {0, 0, 36.0317993164062, 171.845031738281};
