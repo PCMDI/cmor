@@ -262,6 +262,7 @@ test_cmip6_cv: python
 	env TEST_NAME=Test/test_python_CMIP6_CV_externalvariables.py make test_a_python
 	env TEST_NAME=Test/test_python_CMIP6_CV_badinstitutionID.py make test_a_python
 	env TEST_NAME=Test/test_python_CMIP6_CV_badgridlabel.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_badfurtherinfourl.py make test_a_python
 test_python_2gb: python
 	env TEST_NAME=Test/test_python_2Gb_file.py make test_a_python
 	env TEST_NAME=Test/test_python_2Gb_slice.py make test_a_python
