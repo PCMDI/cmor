@@ -228,6 +228,7 @@ test_cmip6_cv: python
 	env TEST_NAME=Test/test_python_CMIP6_CV_sub_experimentnotset.py make test_a_python
 	env TEST_NAME=Test/test_python_CMIP6_CV_sub_experimentbad.py make test_a_python
 	env TEST_NAME=Test/test_python_CMIP6_CV_furtherinfourl.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_badfurtherinfourl.py make test_a_python
 	env TEST_NAME=Test/test_python_CMIP6_CV_fxtable.py make test_a_python
 	env TEST_NAME=Test/test_python_CMIP6_CV_unicode.py make test_a_python
 	env TEST_NAME=Test/test_python_CMIP6_CV_forcemultipleparent.py make test_a_python

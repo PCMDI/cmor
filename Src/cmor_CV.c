@@ -380,6 +380,16 @@ int cmor_CV_checkFurtherInfoURL(int nVarRefTblID)
 /*    If this is a string with no token we have nothing to do.          */
 /* -------------------------------------------------------------------- */
     szToken = strtok(szFurtherInfoURLTemplate, "<>");
+    if (szToken == NULL) {
+        snprintf(msg, CMOR_MAX_STRING,
+                    "The further info URL value of \"%s\" is invalid. \n! ",
+                    szFurtherInfoURLTemplate);
+
+        cmor_handle_error(msg, CMOR_NORMAL);
+        cmor_pop_traceback();
+        return (-1);
+    }
+
     if (strcmp(szToken, cmor_current_dataset.furtherinfourl) == 0) {
         return (0);
     }
