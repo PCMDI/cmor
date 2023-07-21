@@ -1,7 +1,7 @@
 # CMOR
 Climate Model Output Rewriter
 
-CMOR 3.7 documentation can be found here: http://cmor.llnl.gov
+CMOR 3.7 documentation can be found at: http://cmor.llnl.gov
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7768347.svg)](https://doi.org/10.5281/zenodo.7768347)
 [![stable version](https://img.shields.io/github/v/release/pcmdi/cmor.svg)](https://github.com/PCMDI/cmor/releases/latest)
@@ -15,16 +15,22 @@ CMOR 3.7 documentation can be found here: http://cmor.llnl.gov
 
 ## Acknowledgement
 
-Content in this repository is developed by climate and computer scientists from the Program for Climate Model Diagnosis and Intercomparison ([PCMDI][PCMDI]) at Lawrence Livermore National Laboratory ([LLNL][LLNL]). This work is sponsored by the Regional and Global Model Analysis ([RGMA][RGMA]) program, of the Earth and Environmental Systems Sciences Division ([EESSD][EESSD]) in the Office of Biological and Environmental Research ([BER][BER]) within the [Department of Energy][DOE]'s [Office of Science][OS]. The work is performed under the auspices of the U.S. Department of Energy by Lawrence Livermore National Laboratory under Contract DE-AC52-07NA27344.
+The repository content is developed by climate and computer scientists from the Program for Climate Model Diagnosis and Intercomparison ([PCMDI][PCMDI]) at Lawrence Livermore National Laboratory ([LLNL][LLNL]), with contributions from colleagues around the world. This work is sponsored by the Regional and Global Model Analysis ([RGMA][RGMA]) program, of the Earth and Environmental Systems Sciences Division ([EESSD][EESSD]) in the Office of Biological and Environmental Research ([BER][BER]) within the [Department of Energy][DOE]'s [Office of Science][OS]. The work is performed under the auspices of the U.S. Department of Energy by Lawrence Livermore National Laboratory under Contract DE-AC52-07NA27344.
 
 <p>
-    <img src="https://github.com/PCMDI/assets/blob/main/DOE/480px-DOE_Seal_Color.png?raw=true"
+    <img src="https://pcmdi.github.io/assets/CMIP/100px-CMIP_Logo_RGB_Positive-square-96dpi.png"
+         width="65"
+         style="margin-right: 30px"
+         title="Couple Model Intercomparison Project International Project Office"
+         alt="Couple Model Intercomparison Project International Project Office"
+    >&nbsp;
+    <img src="https://pcmdi.github.io/assets/DOE/480px-DOE_Seal_Color.png"
          width="65"
          style="margin-right: 30px"
          title="United States Department of Energy"
          alt="United States Department of Energy"
     >&nbsp;
-    <img src="https://github.com/PCMDI/assets/blob/main/LLNL/212px-LLNLiconPMS286-WHITEBACKGROUND.png?raw=true"
+    <img src="https://pcmdi.github.io/assets/LLNL/212px-LLNLiconPMS286-WHITEBACKGROUND.png"
          width="65"
          title="Lawrence Livermore National Laboratory"
          alt="Lawrence Livermore National Laboratory"
