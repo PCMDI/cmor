@@ -216,9 +216,9 @@ if [ test x${with_udunits2} != xyes ] ; then
     [UDUNITS2FLAGS=" -I${with_udunits2}/include/udunits2"],
     [UDUNITS2FLAGS=" -I${with_udunits2}/include"])
    if [ test ${RTAG} != "none" ] ; then
-     UDUNITS2LDFLAGS=" -L${with_udunits2}/lib  ${RTAG}${with_udunits2}/lib -ludunits2 -lexpat"
+     UDUNITS2LDFLAGS=" -L${with_udunits2}/lib  ${RTAG}${with_udunits2}/lib -ludunits2"
    else
-     UDUNITS2LDFLAGS=" -L${with_udunits2}/lib -ludunits2 -lexpat"
+     UDUNITS2LDFLAGS=" -L${with_udunits2}/lib -ludunits2"
    fi
   else
     UDUNITS2FLAGS="-ludunits2"
