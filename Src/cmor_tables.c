@@ -228,7 +228,6 @@ int cmor_set_variable_entry(cmor_table_t * table,
                     strcat(szValue, " ");
                     strcat(szValue, json_object_get_string(jsonItem));
                 }
-                printf("attr = %s, szValue = %s\n", attr, szValue);
             }
         } else {
             strcpy(szValue, json_object_get_string(value));
