@@ -9,6 +9,7 @@
 #include "cmor_locale.h"
 #include <json-c/json.h>
 #include <json-c/json_tokener.h>
+#include <json-c/arraylist.h>
 #include <sys/stat.h>
 
 /************************************************************************/
@@ -171,6 +172,9 @@ int cmor_set_variable_entry(cmor_table_t * table,
     char msg[CMOR_MAX_STRING];
     int nVarId;
     char *szTableId;
+    array_list *jsonArray;
+    json_object *jsonItem;
+    size_t k, arrayLen;
     cmor_var_def_t *variable;
     cmor_table_t *cmor_table;
     cmor_table = &cmor_tables[cmor_ntables];
@@ -208,7 +212,28 @@ int cmor_set_variable_entry(cmor_table_t * table,
         if (attr[0] == '#')
             continue;
 
-        strcpy(szValue, json_object_get_string(value));
+/* -------------------------------------------------------------------- */
+/*  Attribute values that are arrays will have their array elements     */
+/*  combined into space-separated lists.                                */
+/* -------------------------------------------------------------------- */
+        if(json_object_is_type(value, json_type_array)) {
+            jsonArray = json_object_get_array(value);
+            arrayLen = array_list_length(jsonArray);
+            strcpy(szValue, json_object_get_string(value));
+            for (k = 0; k < arrayLen; k++) {
+                jsonItem = (json_object *) array_list_get_idx(jsonArray, k);
+                if (k == 0) {
+                    strcpy(szValue, json_object_get_string(jsonItem));
+                } else {
+                    strcat(szValue, " ");
+                    strcat(szValue, json_object_get_string(jsonItem));
+                }
+                printf("attr = %s, szValue = %s\n", attr, szValue);
+            }
+        } else {
+            strcpy(szValue, json_object_get_string(value));
+        }
+
         cmor_set_var_def_att(variable, attr, szValue);
     }
     cmor_pop_traceback();
