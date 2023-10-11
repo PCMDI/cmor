@@ -184,7 +184,7 @@ workflows:
                  - build
               filters:
                  branches:
-                    only: master
+                    only: main
 
          - testing_upload:
               matrix:
