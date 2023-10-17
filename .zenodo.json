@@ -2,10 +2,10 @@
     "description": "<p>Climate Model Output Rewriter</p>",
     "access_right": "open",
     "license": "BSD-3-Clause",
-    "title": "PCMDI/CMOR: CMOR v3.7.2",
-    "version": "v3.7.2",
+    "title": "PCMDI/CMOR: CMOR v3.7.3",
+    "version": "v3.7.3",
     "upload_type": "software",
-    "publication_date": "2023-03-23",
+    "publication_date": "2023-10-12",
     "creators": [
         {
             "name": "Mauzey, Chris",
