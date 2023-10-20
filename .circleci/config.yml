@@ -42,7 +42,7 @@ aliases:
        export ACTIVATE=$WORKDIR/miniconda/bin/activate
 
        python $BUILD_SCRIPT -w $WORKDIR -l $VERSION -B 0 -p $PKG_NAME -r $PKG_NAME -b $CIRCLE_BRANCH \
-        --do_rerender --conda_env base --ignore_conda_missmatch --conda_activate $ACTIVATE --organization PCMDI
+        --do_rerender --conda_env build_env --ignore_conda_missmatch --conda_activate $ACTIVATE --organization PCMDI
        
   - &conda_build
     name: conda_build
@@ -60,7 +60,7 @@ aliases:
        export ACTIVATE=$WORKDIR/miniconda/bin/activate
 
        python $BUILD_SCRIPT -w $WORKDIR -p $PKG_NAME --build_version $PYTHON_VERSION --do_build \
-        --conda_env base --extra_channels conda-forge --conda_activate $ACTIVATE $CONDA_BUILD_EXTRA
+        --conda_env build_env --extra_channels conda-forge --conda_activate $ACTIVATE $CONDA_BUILD_EXTRA
 
   - &run_cmor_tests
     name: run_cmor_tests
