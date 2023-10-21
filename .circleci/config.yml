@@ -99,6 +99,7 @@ executors:
    macos:
       macos:
          xcode: "13.4.1"
+      resource_class: macos.x86.medium.gen2
       environment:
         OS: "osx-64"
         PROJECT_DIR: "workdir/macos"
@@ -114,7 +115,7 @@ jobs:
       executor: << parameters.os >>
       environment:
          PKG_NAME: "cmor"
-         VERSION: "3.7.2"
+         VERSION: "3.7.3"
          PYTHON_VERSION: << parameters.python_version >>
          CHANNELS: "-c conda-forge"
       steps:
@@ -171,7 +172,7 @@ workflows:
               matrix:
                  parameters:
                     os: [ linux, macos ]
-                    python_version: [ "3.8", "3.9", "3.10", "3.11" ]
+                    python_version: [ "3.8", "3.9", "3.10", "3.11", "3.12" ]
               name: build-<< matrix.os >>-<< matrix.python_version >>
 
          - upload:
@@ -183,7 +184,7 @@ workflows:
                  - build
               filters:
                  branches:
-                    only: master
+                    only: main
 
          - testing_upload:
               matrix:
