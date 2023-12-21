@@ -796,6 +796,18 @@ int cmor_load_table_internal(char szTable[CMOR_MAX_STRING], int *table_id)
         return (TABLE_ERROR);
     }
 
+/* -------------------------------------------------------------------- */
+/*     check for null values in JSON                                    */
+/* -------------------------------------------------------------------- */
+    if(cmor_validate_json(json_obj) != 0) {
+        snprintf(msg, CMOR_MAX_STRING,
+                 "There are invalid null values in table: %s", 
+                 szTable);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+        cmor_pop_traceback();
+        return (TABLE_ERROR);
+    }
+
     json_object_object_foreach(json_obj, key, value) {
 
         if (key[0] == '#') {
@@ -1008,4 +1020,38 @@ int cmor_load_table_internal(char szTable[CMOR_MAX_STRING], int *table_id)
     free(buffer);
     json_object_put(json_obj);
     return (TABLE_SUCCESS);
+}
+
+
+/************************************************************************/
+/*                      cmor_validate_json()                            */
+/************************************************************************/
+int cmor_validate_json(json_object *json)
+{
+    json_object *value;
+    array_list *array;
+    size_t length, k;
+
+    if (json_object_is_type(json, json_type_null)) {
+        // null is invalid
+        return 1;
+    } else if (json_object_is_type(json, json_type_object)) {
+        // validate values within JSON object
+        json_object_object_foreach(json, key, value) {
+            if (cmor_validate_json(value) == 1)
+                return 1;
+        }
+    } else if (json_object_is_type(json, json_type_array)) {
+        // validate values within JSON list
+        array = json_object_get_array(json);
+        length = array_list_length(array);
+        for (k = 0; k < length; k++) {
+            value = (json_object *) array_list_get_idx(array, k);
+            if (cmor_validate_json(value) == 1)
+                return 1;
+        }
+    }
+
+    return 0;
+
 }
