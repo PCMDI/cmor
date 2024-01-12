@@ -219,7 +219,6 @@ int cmor_set_variable_entry(cmor_table_t * table,
         if(json_object_is_type(value, json_type_array)) {
             jsonArray = json_object_get_array(value);
             arrayLen = array_list_length(jsonArray);
-            strcpy(szValue, json_object_get_string(value));
             for (k = 0; k < arrayLen; k++) {
                 jsonItem = (json_object *) array_list_get_idx(jsonArray, k);
                 if (k == 0) {
