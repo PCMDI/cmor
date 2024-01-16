@@ -2939,16 +2939,10 @@ int cmor_setGblAttr(int var_id)
 /*      first check if the variable itself has a realm                  */
 /* -------------------------------------------------------------------- */
     if (cmor_tables[nVarRefTblID].vars[ref_var_id].realm[0] != '\0') {
-        szToken = strtok(cmor_tables[nVarRefTblID].vars[ref_var_id].realm, " ");
-        if (szToken != NULL) {
-            cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_REALM,
-                                                    szToken, 0);
-        } else {
-            cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_REALM,
-                                                    cmor_tables
-                                                    [nVarRefTblID].vars
-                                                    [ref_var_id].realm, 0);
-        }
+        cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_REALM,
+                                                cmor_tables
+                                                [nVarRefTblID].vars
+                                                [ref_var_id].realm, 0);
     } else {
 /* -------------------------------------------------------------------- */
 /*      ok it didn't so we're using the value from the table            */
