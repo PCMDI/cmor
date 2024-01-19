@@ -1,0 +1,945 @@
+{
+    "CV": {
+        "activity_id": {
+            "CMIP": "CMIP DECK: 1pctCO2, abrupt4xCO2, amip, esm-piControl, esm-historical, historical, and piControl experiments",
+            "LESFMIP": "The Large Ensemble Single Forcing Model Intercomparison Project"
+        },
+        "Conventions": [
+            "^CF-1.7 CMIP-6.[0-2,5]\\( UGRID-1.0\\)\\{0,\\}$"
+        ],
+        "DRS": {
+            "directory_path_example": "CMIP6Plus/CMIP/MOHC/HadGEM3-GC31-MM/historical/r1i1p1f3/Amon/tas/gn/v20191207/",
+            "directory_path_sub_experiment_example": "CMIP6Plus/DCPP/MOHC/HadGEM3-GC31-MM/dcppA-hindcast/s1960-r1i1p1f2/Amon/tas/gn/v20200417/",
+            "directory_path_template": "<mip_era>/<activity_id>/<institution_id>/<source_id>/<experiment_id>/<member_id>/<table_id>/<variable_id>/<grid_label>/<version>",
+            "filename_example": "tas_Amon_HadGEM3-GC31-MM_historical_r1i1p1f3_gn_185001-186912.nc",
+            "filename_sub_experiment_example": "tas_Amon_HadGEM3-GC31-MM_dcppA-hindcast_s1960-r1i1p1f2_gn_196011-196012.nc",
+            "filename_template": "<variable_id>_<table_id>_<source_id>_<experiment_id >_<member_id>_<grid_label>[_<time_range>].nc"
+        },
+        "experiment_id": {
+            "1pctCO2": {
+                "activity_id": [
+                    "CMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "DECK: 1pctCO2",
+                "end": "",
+                "experiment": "1 percent per year increase in CO2",
+                "experiment_id": "1pctCO2",
+                "min_number_yrs_per_sim": 150,
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "piControl"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "start": "",
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 1
+            },
+            "abrupt-4xCO2": {
+                "activity_id": [
+                    "CMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "DECK: abrupt-4xCO2",
+                "end": "",
+                "experiment": "abrupt quadrupling of CO2",
+                "experiment_id": "abrupt-4xCO2",
+                "min_number_yrs_per_sim": 150,
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "piControl"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "start": "",
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 1
+            },
+            "amip": {
+                "activity_id": [
+                    "CMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "DECK: AMIP",
+                "end": 2022,
+                "experiment": "AMIP",
+                "experiment_id": "amip",
+                "min_number_yrs_per_sim": 43,
+                "parent_activity_id": [
+                    "no parent"
+                ],
+                "parent_experiment_id": [
+                    "no parent"
+                ],
+                "required_model_components": [
+                    "AGCM"
+                ],
+                "start": 1979,
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 1
+            },
+            "esm-hist": {
+                "activity_id": [
+                    "CMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM"
+                ],
+                "description": "CMIP6 historical (CO2 emission-driven)",
+                "end": "2014",
+                "experiment": "all-forcing simulation of the recent past with atmospheric CO2 concentration calculated (CO2 emission-driven)",
+                "experiment_id": "esm-hist",
+                "min_number_yrs_per_sim": 165,
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "esm-piControl"
+                ],
+                "required_model_components": [
+                    "AOGCM",
+                    "BGC"
+                ],
+                "start": "1850",
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 1
+            },
+            "esm-piControl": {
+                "activity_id": [
+                    "CMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM"
+                ],
+                "description": "DECK: control (emission-driven)",
+                "end": "",
+                "experiment": "pre-industrial control simulation with preindustrial CO2 emissions defined (CO2 emission-driven)",
+                "experiment_id": "esm-piControl",
+                "min_number_yrs_per_sim": 500,
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "esm-piControl-spinup"
+                ],
+                "required_model_components": [
+                    "AOGCM",
+                    "BGC"
+                ],
+                "start": "",
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 1
+            },
+            "esm-piControl-spinup": {
+                "activity_id": [
+                    "CMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM"
+                ],
+                "description": "DECK: spin-up portion of the control (emission-driven)",
+                "end": "",
+                "experiment": "pre-industrial control simulation with CO2 concentration calculated (spin-up)",
+                "experiment_id": "esm-piControl-spinup",
+                "min_number_yrs_per_sim": 100,
+                "parent_activity_id": [
+                    "no parent"
+                ],
+                "parent_experiment_id": [
+                    "no parent"
+                ],
+                "required_model_components": [
+                    "AOGCM",
+                    "BGC"
+                ],
+                "start": "",
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 2
+            },
+            "fut-Aer": {
+                "activity_id": [
+                    "LESFMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "As hist-aer but with updated forcings",
+                "end": 2024,
+                "experiment": "future anthropogenic aerosols-only run",
+                "experiment_id": "fut-Aer",
+                "min_number_yrs_per_sim": "none",
+                "parent_activity_id": [
+                    "LESFMIP"
+                ],
+                "parent_experiment_id": [
+                    "hist-Aer"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "start": 2015,
+                "sub_experiment_id": [
+                    "f2023"
+                ],
+                "tier": 2
+            },
+            "fut-GHG": {
+                "activity_id": [
+                    "LESFMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "As hist-GHG but with updated forcings",
+                "end": 2024,
+                "experiment": "future well-mixed GHG-only run",
+                "experiment_id": "fut-GHG",
+                "min_number_yrs_per_sim": "none",
+                "parent_activity_id": [
+                    "LESFMIP"
+                ],
+                "parent_experiment_id": [
+                    "hist-GHG"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "start": 2015,
+                "sub_experiment_id": [
+                    "f2023"
+                ],
+                "tier": 2
+            },
+            "fut-lu": {
+                "activity_id": [
+                    "LESFMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "As hist-lu but with updated forcings",
+                "end": 2024,
+                "experiment": "Single forcing projections",
+                "experiment_id": "fut-lu",
+                "min_number_yrs_per_sim": "none",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "piControl"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "start": 2015,
+                "sub_experiment_id": [
+                    "f2023"
+                ],
+                "tier": 2
+            },
+            "fut-sol": {
+                "activity_id": [
+                    "LESFMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "As hist-sol but with updated forcings",
+                "end": 2024,
+                "experiment": "future solar-only run",
+                "experiment_id": "fut-sol",
+                "min_number_yrs_per_sim": "none",
+                "parent_activity_id": [
+                    "LESFMIP"
+                ],
+                "parent_experiment_id": [
+                    "hist-sol"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "start": 2015,
+                "sub_experiment_id": [
+                    "f2023"
+                ],
+                "tier": 2
+            },
+            "fut-totalO3": {
+                "activity_id": [
+                    "LESFMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "As hist-totalO3 but with updated forcings",
+                "end": 2024,
+                "experiment": "future total ozone-only run",
+                "experiment_id": "fut-totalO3",
+                "min_number_yrs_per_sim": "none",
+                "parent_activity_id": [
+                    "LESFMIP"
+                ],
+                "parent_experiment_id": [
+                    "hist-totalO3"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "start": 2015,
+                "sub_experiment_id": [
+                    "f2023"
+                ],
+                "tier": 2
+            },
+            "fut-volc": {
+                "activity_id": [
+                    "LESFMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "As hist-volc but with updated forcings",
+                "end": 2024,
+                "experiment": "future volcanic-only run",
+                "experiment_id": "fut-volc",
+                "min_number_yrs_per_sim": "none",
+                "parent_activity_id": [
+                    "LESFMIP"
+                ],
+                "parent_experiment_id": [
+                    "hist-volc"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "start": 2015,
+                "sub_experiment_id": [
+                    "f2023"
+                ],
+                "tier": 2
+            },
+            "hist-GHG": {
+                "activity_id": [
+                    "LESFMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "Well-mixed greenhouse-gas-only historical simulations",
+                "end": 2020,
+                "experiment": "historical well-mixed GHG-only run",
+                "experiment_id": "hist-GHG",
+                "min_number_yrs_per_sim": "none",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "piControl"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "start": 1850,
+                "sub_experiment_id": [
+                    "f2023"
+                ],
+                "tier": 1
+            },
+            "hist-aer": {
+                "activity_id": [
+                    "LESFMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "Anthropogenic-aerosol-only historical simulations",
+                "end": 2020,
+                "experiment": "historical anthropogenic aerosols-only run",
+                "experiment_id": "hist-aer",
+                "min_number_yrs_per_sim": "none",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "piControl"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "start": 1850,
+                "sub_experiment_id": [
+                    "f2023"
+                ],
+                "tier": 1
+            },
+            "hist-lu": {
+                "activity_id": [
+                    "LESFMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "Historical simulations with only land use changes",
+                "end": 2020,
+                "experiment": "Single forcing historical simulations",
+                "experiment_id": "hist-lu",
+                "min_number_yrs_per_sim": "none",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "piControl"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "start": 1850,
+                "sub_experiment_id": [
+                    "f2023"
+                ],
+                "tier": 1
+            },
+            "hist-nat": {
+                "activity_id": [
+                    "LESFMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "Natural forcings (solar + volcanic)",
+                "end": 2020,
+                "experiment": "historical natural-only run",
+                "experiment_id": "hist-nat",
+                "min_number_yrs_per_sim": "none",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "piControl"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "start": 1850,
+                "sub_experiment_id": [
+                    "f2023"
+                ],
+                "tier": 3
+            },
+            "hist-sol": {
+                "activity_id": [
+                    "LESFMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "Solar-only historical simulations",
+                "end": 2020,
+                "experiment": "historical solar-only run",
+                "experiment_id": "hist-sol",
+                "min_number_yrs_per_sim": "none",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "piControl"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "start": 1850,
+                "sub_experiment_id": [
+                    "f2023"
+                ],
+                "tier": 1
+            },
+            "hist-totalO3": {
+                "activity_id": [
+                    "LESFMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "Ozone-only historical simulations",
+                "end": 2020,
+                "experiment": "historical total ozone-only run",
+                "experiment_id": "hist-totalO3",
+                "min_number_yrs_per_sim": "none",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "piControl"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "start": 1850,
+                "sub_experiment_id": [
+                    "f2023"
+                ],
+                "tier": 1
+            },
+            "hist-volc": {
+                "activity_id": [
+                    "LESFMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "Volcanic-only historical simulations",
+                "end": 2020,
+                "experiment": "historical volcanic-only run",
+                "experiment_id": "hist-volc",
+                "min_number_yrs_per_sim": "none",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "piControl"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "start": 1850,
+                "sub_experiment_id": [
+                    "f2023"
+                ],
+                "tier": 1
+            },
+            "historical": {
+                "activity_id": [
+                    "CMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "CMIP6 historical",
+                "end": "2014",
+                "experiment": "all-forcing simulation of the recent past (CO2 concentration-driven)",
+                "experiment_id": "historical",
+                "min_number_yrs_per_sim": 165,
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "piControl"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "start": "1850",
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 1
+            },
+            "piControl": {
+                "activity_id": [
+                    "CMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "DECK: control",
+                "end": "",
+                "experiment": "pre-industrial control (CO2 concentration-driven)",
+                "experiment_id": "piControl",
+                "min_number_yrs_per_sim": 500,
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "piControl-spinup"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "start": "",
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 1
+            },
+            "piControl-spinup": {
+                "activity_id": [
+                    "CMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "DECK: spin-up portion of the control",
+                "end": "",
+                "experiment": "pre-industrial control (spin-up)",
+                "experiment_id": "piControl-spinup",
+                "min_number_yrs_per_sim": 100,
+                "parent_activity_id": [
+                    "no parent"
+                ],
+                "parent_experiment_id": [
+                    "no parent"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "start": "",
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 2
+            }
+        },
+        "forcing_index": [
+            "^\\[\\{0,\\}[[:digit:]]\\{1,\\}\\]\\{0,\\}$"
+        ],
+        "frequency": {
+            "1hr": "sampled hourly",
+            "1hrCM": "monthly-mean diurnal cycle resolving each day into 1-hour means",
+            "1hrPt": "sampled hourly, at specified time point within an hour",
+            "3hr": "3 hourly mean samples",
+            "3hrPt": "sampled 3 hourly, at specified time point within the time period",
+            "6hr": "6 hourly mean samples",
+            "6hrPt": "sampled 6 hourly, at specified time point within the time period",
+            "day": "daily mean samples",
+            "dec": "decadal mean samples",
+            "fx": "fixed (time invariant) field",
+            "mon": "monthly mean samples",
+            "monC": "monthly climatology computed from monthly mean samples",
+            "monPt": "sampled monthly, at specified time point within the time period",
+            "subhrPt": "sampled sub-hourly, at specified time point within an hour",
+            "yr": "annual mean samples",
+            "yrPt": "sampled yearly, at specified time point within the time period"
+        },
+        "grid_label": {
+            "gm": "global mean data",
+            "gn": "data reported on a model's native grid",
+            "gna": "data reported on a native grid in the region of Antarctica",
+            "gng": "data reported on a native grid in the region of Greenland",
+            "gnz": "zonal mean data reported on a model's native latitude grid",
+            "gr": "regridded data reported on the data provider's preferred target grid",
+            "gr1": "regridded data reported on a grid other than the native grid and other than the preferred target grid",
+            "gr1a": "regridded data reported in the region of Antarctica on a grid other than the native grid and other than the preferred target grid",
+            "gr1g": "regridded data reported in the region of Greenland on a grid other than the native grid and other than the preferred target grid",
+            "gr1z": "regridded zonal mean data reported on a grid other than the native latitude grid and other than the preferred latitude target grid",
+            "gr2": "regridded data reported on a grid other than the native grid and other than the preferred target grid",
+            "gr2a": "regridded data reported in the region of Antarctica on a grid other than the native grid and other than the preferred target grid",
+            "gr2g": "regridded data reported in the region of Greenland on a grid other than the native grid and other than the preferred target grid",
+            "gr2z": "regridded zonal mean data reported on a grid other than the native latitude grid and other than the preferred latitude target grid",
+            "gr3": "regridded data reported on a grid other than the native grid and other than the preferred target grid",
+            "gr3a": "regridded data reported in the region of Antarctica on a grid other than the native grid and other than the preferred target grid",
+            "gr3g": "regridded data reported in the region of Greenland on a grid other than the native grid and other than the preferred target grid",
+            "gr3z": "regridded zonal mean data reported on a grid other than the native latitude grid and other than the preferred latitude target grid",
+            "gr4": "regridded data reported on a grid other than the native grid and other than the preferred target grid",
+            "gr4a": "regridded data reported in the region of Antarctica on a grid other than the native grid and other than the preferred target grid",
+            "gr4g": "regridded data reported in the region of Greenland on a grid other than the native grid and other than the preferred target grid",
+            "gr4z": "regridded zonal mean data reported on a grid other than the native latitude grid and other than the preferred latitude target grid",
+            "gr5": "regridded data reported on a grid other than the native grid and other than the preferred target grid",
+            "gr5a": "regridded data reported in the region of Antarctica on a grid other than the native grid and other than the preferred target grid",
+            "gr5g": "regridded data reported in the region of Greenland on a grid other than the native grid and other than the preferred target grid",
+            "gr5z": "regridded zonal mean data reported on a grid other than the native latitude grid and other than the preferred latitude target grid",
+            "gr6": "regridded data reported on a grid other than the native grid and other than the preferred target grid",
+            "gr6a": "regridded data reported in the region of Antarctica on a grid other than the native grid and other than the preferred target grid",
+            "gr6g": "regridded data reported in the region of Greenland on a grid other than the native grid and other than the preferred target grid",
+            "gr6z": "regridded zonal mean data reported on a grid other than the native latitude grid and other than the preferred latitude target grid",
+            "gr7": "regridded data reported on a grid other than the native grid and other than the preferred target grid",
+            "gr7a": "regridded data reported in the region of Antarctica on a grid other than the native grid and other than the preferred target grid",
+            "gr7g": "regridded data reported in the region of Greenland on a grid other than the native grid and other than the preferred target grid",
+            "gr7z": "regridded zonal mean data reported on a grid other than the native latitude grid and other than the preferred latitude target grid",
+            "gr8": "regridded data reported on a grid other than the native grid and other than the preferred target grid",
+            "gr8a": "regridded data reported in the region of Antarctica on a grid other than the native grid and other than the preferred target grid",
+            "gr8g": "regridded data reported in the region of Greenland on a grid other than the native grid and other than the preferred target grid",
+            "gr8z": "regridded zonal mean data reported on a grid other than the native latitude grid and other than the preferred latitude target grid",
+            "gr9": "regridded data reported on a grid other than the native grid and other than the preferred target grid",
+            "gr9a": "regridded data reported in the region of Antarctica on a grid other than the native grid and other than the preferred target grid",
+            "gr9g": "regridded data reported in the region of Greenland on a grid other than the native grid and other than the preferred target grid",
+            "gr9z": "regridded zonal mean data reported on a grid other than the native latitude grid and other than the preferred latitude target grid",
+            "gra": "regridded data in the region of Antarctica reported on the data provider's preferred target grid",
+            "grg": "regridded data in the region of Greenland reported on the data provider's preferred target grid",
+            "grz": "regridded zonal mean data reported on the data provider's preferred latitude target grid"
+        },
+        "initialization_index": [
+            "^\\[\\{0,\\}[[:digit:]]\\{1,\\}\\]\\{0,\\}$"
+        ],
+        "institution_id": {
+            "MOHC": " - Met Office Hadley Centre",
+            "NERC": "02b5d8509 - Natural Environment Research Council"
+        },
+        "license": [
+            "^CMIP6Plus model data produced by .* is licensed under a Creative Commons .* License (https://creativecommons\\.org/.*)\\. *Consult https://pcmdi\\.llnl\\.gov/CMIP6Plus/TermsOfUse for terms of use governing CMIP6Plus output, including citation requirements and proper acknowledgment\\. *The data producers and data providers make no warranty, either express or implied, including, but not limited to, warranties of merchantability and fitness for a particular purpose\\. *All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law\\.$"
+        ],
+        "mip_era": "CMIP6Plus",
+        "nominal_resolution": [
+            "0.5 km",
+            "1 km",
+            "10 km",
+            "100 km",
+            "1000 km",
+            "10000 km",
+            "1x1 degree",
+            "2.5 km",
+            "25 km",
+            "250 km",
+            "2500 km",
+            "5 km",
+            "50 km",
+            "500 km",
+            "5000 km"
+        ],
+        "physics_index": [
+            "^\\[\\{0,\\}[[:digit:]]\\{1,\\}\\]\\{0,\\}$"
+        ],
+        "realization_index": [
+            "^\\[\\{0,\\}[[:digit:]]\\{1,\\}\\]\\{0,\\}$"
+        ],
+        "realm": {
+            "aerosol": "Aerosol",
+            "atmos": "Atmosphere",
+            "atmosChem": "Atmospheric Chemistry",
+            "land": "Land Surface",
+            "landIce": "Land Ice",
+            "ocean": "Ocean",
+            "ocnBgchem": "Ocean Biogeochemistry",
+            "seaIce": "Sea Ice"
+        },
+        "required_global_attributes": [
+            "Conventions",
+            "activity_id",
+            "creation_date",
+            "data_specs_version",
+            "experiment",
+            "experiment_id",
+            "forcing_index",
+            "frequency",
+            "grid",
+            "grid_label",
+            "initialization_index",
+            "institution",
+            "institution_id",
+            "license",
+            "mip_era",
+            "nominal_resolution",
+            "physics_index",
+            "product",
+            "realization_index",
+            "realm",
+            "source",
+            "source_id",
+            "source_type",
+            "sub_experiment",
+            "sub_experiment_id",
+            "table_id",
+            "tracking_id",
+            "variable_id",
+            "variant_label"
+        ],
+        "source_id": {
+            "HadGEM3-GC31-LL": {
+                "activity_participation": [
+                    "CMIP",
+                    "LESFMIP"
+                ],
+                "cohort": [
+                    "Published"
+                ],
+                "institution_id": [
+                    "MOHC",
+                    "NERC"
+                ],
+                "license_info": {
+                    "exceptions_contact": "@metoffice.gov.uk <- cmip6.hadgem3",
+                    "history": "2017-09-21: initially published under CC BY-SA 4.0; 2021-11-15: relaxed to CC BY 4.0",
+                    "id": "CC BY 4.0",
+                    "license": "Creative Commons Attribution 4.0 International License (CC BY 4.0; https://creativecommons.org/licenses/by/4.0/)",
+                    "source_specific_info": "https://ukesm.ac.uk/licensing-of-met-office-nerc-and-niwa-cmip6-data/",
+                    "url": "https://creativecommons.org/licenses/by/4.0/"
+                },
+                "source_id": "HadGEM3-GC31-LL",
+                "source": "HadGEM3-GC31-LL (2016: \naerosol: UKCA-GLOMAP-mode\natmos: MetUM-HadGEM3-GA7.1 (N96; 192 x 144 longitude/latitude; 85 levels; top level 85 km)\natmosChem: none\nland: JULES-HadGEM3-GL7.1\nlandIce: none\nocean: NEMO-HadGEM3-GO6.0 (eORCA1 tripolar primarily 1 deg with meridional refinement down to 1/3 degree in the tropics; 360 x 330 longitude/latitude; 75 levels; top grid cell 0-1 m)\nocnBgchem: none\nseaIce: CICE-HadGEM3-GSI8 (eORCA1 tripolar primarily 1 deg; 360 x 330 longitude/latitude))"
+            }
+        },
+        "source_type": [
+            "LAND",
+            "AER",
+            "AOGCM",
+            "OGCM",
+            "RAD",
+            "ISM",
+            "AGCM",
+            "BGC",
+            "SLAB",
+            "CHEM"
+        ],
+        "sub_experiment_id": {
+            "f2023": "Forcings 2023",
+            "none": "none"
+        },
+        "table_id": [
+            ".scripts",
+            "ACmon",
+            "ACmonZ",
+            "AE1hr",
+            "AE3hrPt",
+            "AE3hrPtLev",
+            "AE6hr",
+            "AE6hrPt",
+            "AE6hrPtLev",
+            "AEday",
+            "AEmon",
+            "AEmonLev",
+            "AEmonZ",
+            "AEsubhrPt",
+            "AEsubhrPtSite",
+            "AP1hr",
+            "AP1hrPt",
+            "AP3hr",
+            "AP3hrPt",
+            "AP3hrPtLev",
+            "AP6hr",
+            "AP6hrPt",
+            "AP6hrPtLev",
+            "AP6hrPtZ",
+            "APday",
+            "APdayLev",
+            "APdayZ",
+            "APfx",
+            "APmon",
+            "APmonClim",
+            "APmonClimLev",
+            "APmonDiurnal",
+            "APmonLev",
+            "APmonZ",
+            "APsubhrPt",
+            "APsubhrPtLev",
+            "APsubhrPtSite",
+            "GIAfx",
+            "GIAmon",
+            "GIAyr",
+            "GIGfx",
+            "GIGmon",
+            "GIGyr",
+            "LI3hrPt",
+            "LI6hrPt",
+            "LIday",
+            "LIfx",
+            "LImon",
+            "LIsubhrPtSite",
+            "LP3hr",
+            "LP3hrPt",
+            "LP6hrPt",
+            "LPday",
+            "LPfx",
+            "LPmon",
+            "LPyr",
+            "LPyrPt",
+            "OBday",
+            "OBmon",
+            "OBmonLev",
+            "OByr",
+            "OByrLev",
+            "OP3hrPt",
+            "OPday",
+            "OPdec",
+            "OPdecLev",
+            "OPdecZ",
+            "OPfx",
+            "OPmon",
+            "OPmonClim",
+            "OPmonClimLev",
+            "OPmonLev",
+            "OPmonZ",
+            "OPyr",
+            "OPyrLev",
+            "SIday",
+            "SImon",
+            "SImonPt"
+        ],
+        "tracking_id": [
+            "hdl:21.14100/.*"
+        ],
+        "variant_label": [
+            "r[[:digit:]]\\{1,\\}i[[:digit:]]\\{1,\\}p[[:digit:]]\\{1,\\}f[[:digit:]]\\{1,\\}$"
+        ],
+        "version_metadata": {
+            "file_updated": "Fri Dec 08 2023 16:40 UTC",
+            "checksum": "md5: e2ca260420aad72f1ed697bef0265fe3",
+            "CVs": {
+                "updated": "2023-12-08T16:40:28Z",
+                "tag": "v6.5.0.0",
+                "commit": "c58fc1567673b28958a092af947c0d5324b26390"
+            },
+            "MIP tables": {
+                "updated": "2023-11-30T15:33:29Z",
+                "tag": "v6.5.0.0",
+                "commit": "49d4cfb8bca2f0bbed3608f278e7261f02e28c16",
+                "url": "https://www.github.com/repos/PCMDI/mip-cmor-tables"
+            },
+            "autogenerated": "True"
+        }
+    }
+}
