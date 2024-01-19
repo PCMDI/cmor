@@ -1,10 +1,13 @@
 import cmor
+import numpy
 import unittest
 
 
-class TestGrid(unittest.TestCase):
+class TestCMIP6Plus(unittest.TestCase):
 
-    def test_pass_only_axis_ids(self):
+    def test_multiple_modeling_realms(self):
+        ntimes_passed = 12
+
         self.assertEqual(
             cmor.setup(inpath='mip-cmor-tables/Tables',
                        netcdf_file_action=cmor.CMOR_REPLACE),
@@ -13,17 +16,40 @@ class TestGrid(unittest.TestCase):
                          0)
 
         self.assertEqual(cmor.load_table("MIP_OPmon.json"), 0)
-        itim = cmor.axis(
-            table_entry='time',
-            units='months since 2010-1-1',
-            coord_vals=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-            cell_bounds=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
 
-        ivar = cmor.variable('thetaoga', units='deg_C', axis_ids=[itim, ])
+        axes = [
+                {
+                    'table_entry': 'time',
+                    'units': 'months since 2010-1-1',
+                    'coord_vals': numpy.arange(0, ntimes_passed, 1),
+                    'cell_bounds': numpy.arange(0, ntimes_passed+1, 1)
+                },
+                {
+                    'table_entry': 'latitude',
+                    'units': 'degrees_north',
+                    'coord_vals': [0],
+                    'cell_bounds': [-1, 1]
+                },
+                {
+                    'table_entry': 'longitude',
+                    'units': 'degrees_east',
+                    'coord_vals': [90],
+                    'cell_bounds': [89, 91]
+                }
+            ]
 
-        data = [280., ] * 12  # 12 months worth of data
+        axis_ids = [cmor.axis(**axis) for axis in axes]
 
-        self.assertEqual(cmor.write(ivar, data), 0)
+        ivar = cmor.variable('hfsifrazil2d', units='W m-2', axis_ids=axis_ids)
+
+        data = [280., ] * ntimes_passed
+
+        self.assertEqual(
+            cmor.write(ivar, data, ntimes_passed=ntimes_passed),
+            0)
+
+        realms = cmor.get_cur_dataset_attribute('realm')
+        self.assertEqual(realms, "ocean seaIce")
 
         self.assertEqual(cmor.close(), 0)
 
