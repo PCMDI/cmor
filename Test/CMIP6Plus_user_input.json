@@ -33,7 +33,6 @@
     "_controlled_vocabulary_file": "TestTables/CMIP6Plus_CV.json",
     "_AXIS_ENTRY_FILE": "mip-cmor-tables/Auxillary_files/MIP_coordinate.json",
     "_FORMULA_VAR_FILE": "mip-cmor-tables/Auxillary_files/MIP_formula_terms.json",
-    "further_info_url": "https://furtherinfo.es-doc.org/",
     "mo_runid": "u-be509",
     "branch_time_in_parent": 59400.0,
     "branch_time_in_child": 59400.0
