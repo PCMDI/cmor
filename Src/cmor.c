@@ -2794,10 +2794,10 @@ int cmor_setDefaultGblAttr(int ref_table_id)
 
         if(cmor_has_cur_dataset_attribute(CV_value->key) != 0){
             if(CV_value->szValue[0] != '\0'){
-                if(strncmp(CV_value->key, GLOBAL_ATT_FURTHERINFOURL, CMOR_MAX_STRING) == 0){
+                ierr |= cmor_set_cur_dataset_attribute_internal(CV_value->key, CV_value->szValue, 0);
+                if(strncmp(CV_value->key, GLOBAL_ATT_FURTHERINFOURL, CMOR_MAX_STRING) == 0
+                     && cmor_current_dataset.furtherinfourl[0] == '\0'){
                     ierr |= cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_FURTHERINFOURLTMPL, CV_value->szValue, 0);
-                } else {
-                    ierr |= cmor_set_cur_dataset_attribute_internal(CV_value->key, CV_value->szValue, 0);
                 }
             } else if(CV_value->anElements == 1 && isRequired == 1){
                 ierr |= cmor_set_cur_dataset_attribute_internal(CV_value->key, CV_value->aszValue[0], 0);
