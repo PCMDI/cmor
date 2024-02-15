@@ -59,8 +59,7 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
         # ------------------------------------------
         # Check error after signal handler is back
         # ------------------------------------------
-        self.assertCV("The further info URL value of \"\" is invalid.")
-
+        self.assertCV("Error: The attribute \"further_info_url\" could not be validated.")
 
 if __name__ == '__main__':
     run()
