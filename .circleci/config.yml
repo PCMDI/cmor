@@ -23,9 +23,9 @@ aliases:
     command: |
        source $BASH_ENV
        if [[ $OS == 'osx-64' ]]; then
-       curl -L https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -o miniconda.sh
+          curl -L https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -o miniconda.sh
        else
-       curl -L https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o miniconda.sh
+          curl -L https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o miniconda.sh
        fi
        bash miniconda.sh -b -p $WORKDIR/miniconda
        
@@ -37,12 +37,27 @@ aliases:
        conda activate base
        conda config --set anaconda_upload no
 
-       git clone -b master https://github.com/CDAT/conda-recipes $WORKDIR/conda-recipes
-       export BUILD_SCRIPT=$WORKDIR/conda-recipes/build_tools/conda_build.py
-       export ACTIVATE=$WORKDIR/miniconda/bin/activate
+       git clone -b main https://github.com/conda-forge/cmor-feedstock $WORKDIR/cmor-feedstock
+       export SRC_META_YAML=$WORKDIR/cmor-feedstock/recipe/meta.yaml.SRC
+       export DST_META_YAML=$WORKDIR/cmor-feedstock/recipe/meta.yaml
+       mv $DST_META_YAML $SRC_META_YAML
 
-       python $BUILD_SCRIPT -w $WORKDIR -l $VERSION -B 0 -p $PKG_NAME -r $PKG_NAME -b $CIRCLE_BRANCH \
-        --do_rerender --conda_env base --ignore_conda_missmatch --conda_activate $ACTIVATE --organization PCMDI
+       export GIT_REV=$(git rev-parse --short HEAD)
+
+       python rebuild_meta_yaml.py \
+        --package_name $PKG_NAME \
+        --version $VERSION \
+        --organization PCMDI \
+        --repo_name $PKG_NAME \
+        --branch $CIRCLE_BRANCH \
+        --git_rev $GIT_REV \
+        --build 0 \
+        --src_meta_yaml $SRC_META_YAML \
+        --dst_meta_yaml $DST_META_YAML
+
+       conda install -c conda-forge conda-smithy
+       cd $WORKDIR/cmor-feedstock
+       conda smithy rerender
        
   - &conda_build
     name: conda_build
@@ -54,13 +69,18 @@ aliases:
 
        export ARTIFACT_DIR=`pwd`/artifacts/artifacts.$OS.py_$PYTHON_VERSION
        mkdir -p $ARTIFACT_DIR
-       
-       export CONDA_BUILD_EXTRA=" --copy_conda_package $ARTIFACT_DIR/"
-       export BUILD_SCRIPT=$WORKDIR/conda-recipes/build_tools/conda_build.py
-       export ACTIVATE=$WORKDIR/miniconda/bin/activate
 
-       python $BUILD_SCRIPT -w $WORKDIR -p $PKG_NAME --build_version $PYTHON_VERSION --do_build \
-        --conda_env base --extra_channels conda-forge --conda_activate $ACTIVATE $CONDA_BUILD_EXTRA
+       if [[ $OS == 'osx-64' ]]; then
+          export OS_NAME="osx_64"
+       else
+          export OS_NAME="linux_64"
+       fi
+
+       for i in ${WORKDIR}'/cmor-feedstock/.ci_support/'${OS_NAME}'_*python'${PYTHON_VERSION}'*.yaml'; do
+          conda build -c conda-forge -m $i $WORKDIR/cmor-feedstock/recipe/
+          OUTPUT=$(conda build --output -m $i $WORKDIR/cmor-feedstock/recipe/)
+          cp $OUTPUT $ARTIFACT_DIR
+       done
 
   - &run_cmor_tests
     name: run_cmor_tests
@@ -68,7 +88,6 @@ aliases:
        source $BASH_ENV
        source $WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate base
-       export UVCDAT_ANONYMOUS_LOG=False
        set +e
        conda create -y -n test_py$PYTHON_VERSION --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME=$VERSION $CONDA_COMPILERS
        conda activate test_py$PYTHON_VERSION
