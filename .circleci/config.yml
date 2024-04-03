@@ -78,7 +78,7 @@ aliases:
 
        for i in ${WORKDIR}'/cmor-feedstock/.ci_support/'${OS_NAME}'_*python'${PYTHON_VERSION}'*.yaml'; do
           conda build -c conda-forge -m $i $WORKDIR/cmor-feedstock/recipe/
-          OUTPUT=$(conda build --output -m $i $WORKDIR/cmor-feedstock/recipe/)
+          OUTPUT=$(conda build -c conda-forge --output -m $i $WORKDIR/cmor-feedstock/recipe/)
           cp $OUTPUT $ARTIFACT_DIR
        done
 
