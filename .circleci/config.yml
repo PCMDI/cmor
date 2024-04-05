@@ -55,7 +55,8 @@ aliases:
         --src_meta_yaml $SRC_META_YAML \
         --dst_meta_yaml $DST_META_YAML
 
-       conda install -c conda-forge conda-smithy
+       conda create -y -n smithy_env -c conda-forge conda-smithy
+       conda activate smithy_env
        cd $WORKDIR/cmor-feedstock
        conda smithy rerender
        
@@ -66,8 +67,9 @@ aliases:
        source $WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate base
        conda config --set anaconda_upload no
+       conda activate smithy_env
 
-       export ARTIFACT_DIR=`pwd`/artifacts/artifacts.$OS.py_$PYTHON_VERSION
+       export ARTIFACT_DIR=`pwd`/artifacts/$OS
        mkdir -p $ARTIFACT_DIR
 
        if [[ $OS == 'osx-64' ]]; then
@@ -89,7 +91,10 @@ aliases:
        source $WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate base
        set +e
-       conda create -y -n test_py$PYTHON_VERSION --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME=$VERSION $CONDA_COMPILERS
+       export CMOR_CHANNEL=$WORKDIR/artifacts/
+       conda index $CMOR_CHANNEL
+       conda search -c file://$CMOR_CHANNEL --override-channels
+       conda create -y -n test_py$PYTHON_VERSION -c file://$CMOR_CHANNEL $CHANNELS python=$PYTHON_VERSION $PKG_NAME=$VERSION $CONDA_COMPILERS
        conda activate test_py$PYTHON_VERSION
        set -e
        ./configure --prefix=$CONDA_PREFIX --with-python --with-uuid=$CONDA_PREFIX --with-json-c=$CONDA_PREFIX --with-udunits2=$CONDA_PREFIX --with-netcdf=$CONDA_PREFIX  --enable-verbose-test
