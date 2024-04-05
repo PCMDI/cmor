@@ -69,6 +69,9 @@ aliases:
        conda config --set anaconda_upload no
        conda activate smithy_env
 
+       export BUILD_DIR=`pwd`/cmor_conda_pkgs
+       mkdir -p $BUILD_DIR
+
        export ARTIFACT_DIR=`pwd`/artifacts/$OS
        mkdir -p $ARTIFACT_DIR
 
@@ -79,9 +82,8 @@ aliases:
        fi
 
        for i in ${WORKDIR}'/cmor-feedstock/.ci_support/'${OS_NAME}'_*python'${PYTHON_VERSION}'*.yaml'; do
-          conda build -c conda-forge -m $i $WORKDIR/cmor-feedstock/recipe/
-          OUTPUT=$(conda build -c conda-forge --output -m $i $WORKDIR/cmor-feedstock/recipe/)
-          cp $OUTPUT $ARTIFACT_DIR
+          conda build -c conda-forge --output-folder $BUILD_DIR -m $i $WORKDIR/cmor-feedstock/recipe/
+          cp $BUILD_DIR/$OS/$PKG_NAME-$VERSION*.tar.bz2 $ARTIFACT_DIR
        done
 
   - &run_cmor_tests
@@ -89,9 +91,8 @@ aliases:
     command: |
        source $BASH_ENV
        source $WORKDIR/miniconda/etc/profile.d/conda.sh
-       conda activate smithy_env
-       export CMOR_CHANNEL=`pwd`/artifacts/
-       conda index $CMOR_CHANNEL
+       conda activate base
+       export CMOR_CHANNEL=`pwd`/cmor_conda_pkgs/
        conda search -c file://$CMOR_CHANNEL --override-channels
        set +e
        conda create -y -n test_py$PYTHON_VERSION -c file://$CMOR_CHANNEL $CHANNELS python=$PYTHON_VERSION $PKG_NAME=$VERSION $CONDA_COMPILERS
