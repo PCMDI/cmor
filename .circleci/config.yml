@@ -91,7 +91,7 @@ aliases:
        source $WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate base
        set +e
-       export CMOR_CHANNEL=$WORKDIR/artifacts/
+       export CMOR_CHANNEL=`pwd`/artifacts/
        conda index $CMOR_CHANNEL
        conda search -c file://$CMOR_CHANNEL --override-channels
        conda create -y -n test_py$PYTHON_VERSION -c file://$CMOR_CHANNEL $CHANNELS python=$PYTHON_VERSION $PKG_NAME=$VERSION $CONDA_COMPILERS
