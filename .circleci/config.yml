@@ -116,7 +116,7 @@ aliases:
 executors:
    linux:
       machine:
-         image: ubuntu-2004:202201-02
+         image: ubuntu-2204:2024.01.2
       environment:
         OS: "linux-64"
         PROJECT_DIR: "workdir/linux"
