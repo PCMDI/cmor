@@ -3588,7 +3588,7 @@ void cmor_define_dimensions(int var_id, int ncid,
                 && (CMOR_NETCDF_MODE != CMOR_APPEND_3)) {
                 if (strcmp(pAxis->id, "time") == 0) {
                     ierr = nc_def_var_chunking(ncid, nc_vars[i], NC_CHUNKED,
-                                               &nc_dim_chunking[0]);
+                                               NULL);
                 } else {
                     ierr = nc_def_var_chunking(ncid, nc_vars[i], NC_CONTIGUOUS,
                                                &nc_dim_chunking[0]);
@@ -5196,7 +5196,7 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
                                 1)))) {
             ierr =
               nc_def_var_chunking(ncid, cmor_vars[var_id].nc_var_id, NC_CHUNKED,
-                                  &nc_dim_chunking[0]);
+                                 NULL);
             if (ierr != NC_NOERR) {
                 snprintf(msg, CMOR_MAX_STRING,
                          "NetCDFTestTables/CMIP6_chunking.json: Error (%i: %s) defining chunking\n! "
