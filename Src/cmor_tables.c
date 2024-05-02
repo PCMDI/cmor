@@ -83,7 +83,7 @@ void cmor_init_table(cmor_table_t * table, int id)
     table->cmor_version = 3.0;
     table->mip_era[0] = '\0';
     table->szTable_id[0] = '\0';
-    strcpy(table->realm, "REALM");
+    table->realm[0] = '\0';
     table->date[0] = '\0';
     table->missing_value = 1.0e+20;
     table->int_missing_value = 2147483647;
