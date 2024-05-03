@@ -1321,7 +1321,7 @@ int cmor_dataset_json(char *ressource)
                 CMOR_DEFAULT_FILE_TEMPLATE, CMOR_MAX_STRING);
 
     strncpytrim(cmor_current_dataset.furtherinfourl,
-                CMOR_DEFAULT_FURTHERURL_TEMPLATE, CMOR_MAX_STRING);
+                "", CMOR_MAX_STRING);
 
     strncpytrim(cmor_current_dataset.history_template,
                 CMOR_DEFAULT_HISTORY_TEMPLATE, CMOR_MAX_STRING);
@@ -1375,6 +1375,7 @@ int cmor_dataset_json(char *ressource)
         } else if (strcmp(key, GLOBAL_ATT_FURTHERINFOURL) == 0) {
             strncpytrim(cmor_current_dataset.furtherinfourl,
                         szVal, CMOR_MAX_STRING);
+            continue;
         }
         cmor_set_cur_dataset_attribute_internal(key, szVal, 1);
     }
@@ -2794,14 +2795,27 @@ int cmor_setDefaultGblAttr(int ref_table_id)
         if(cmor_has_cur_dataset_attribute(CV_value->key) != 0){
             if(CV_value->szValue[0] != '\0'){
                 ierr |= cmor_set_cur_dataset_attribute_internal(CV_value->key, CV_value->szValue, 0);
-                if(strncmp(CV_value->key, GLOBAL_ATT_FURTHERINFOURL, CMOR_MAX_STRING) == 0){
-                    strncpytrim(cmor_current_dataset.furtherinfourl, CV_value->szValue, CMOR_MAX_STRING);
+                if(strncmp(CV_value->key, GLOBAL_ATT_FURTHERINFOURL, CMOR_MAX_STRING) == 0
+                     && cmor_current_dataset.furtherinfourl[0] == '\0'){
+                    ierr |= cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_FURTHERINFOURLTMPL, CV_value->szValue, 0);
                 }
             } else if(CV_value->anElements == 1 && isRequired == 1){
                 ierr |= cmor_set_cur_dataset_attribute_internal(CV_value->key, CV_value->aszValue[0], 0);
             }
         }
     }
+
+/* -------------------------------------------------------------------- */
+/*  Set further_info_url template if required and not already set.      */
+/* -------------------------------------------------------------------- */
+    for (k = 0; k < required_attrs->anElements; k++) {
+        if(strcmp(required_attrs->aszValue[k], GLOBAL_ATT_FURTHERINFOURL) == 0
+            && cmor_current_dataset.furtherinfourl[0] == '\0')
+        {
+            ierr |= cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_FURTHERINFOURLTMPL, CMOR_DEFAULT_FURTHERURL_TEMPLATE, 0);
+        }
+    }
+
     cmor_pop_traceback();
     return ierr;
 
@@ -2939,16 +2953,10 @@ int cmor_setGblAttr(int var_id)
 /*      first check if the variable itself has a realm                  */
 /* -------------------------------------------------------------------- */
     if (cmor_tables[nVarRefTblID].vars[ref_var_id].realm[0] != '\0') {
-        szToken = strtok(cmor_tables[nVarRefTblID].vars[ref_var_id].realm, " ");
-        if (szToken != NULL) {
-            cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_REALM,
-                                                    szToken, 0);
-        } else {
-            cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_REALM,
-                                                    cmor_tables
-                                                    [nVarRefTblID].vars
-                                                    [ref_var_id].realm, 0);
-        }
+        cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_REALM,
+                                                cmor_tables
+                                                [nVarRefTblID].vars
+                                                [ref_var_id].realm, 0);
     } else {
 /* -------------------------------------------------------------------- */
 /*      ok it didn't so we're using the value from the table            */
@@ -3039,11 +3047,11 @@ int cmor_setGblAttr(int var_id)
         ierr += cmor_CV_setInstitution(cmor_tables[nVarRefTblID].CV);
     }
 
+    ierr += cmor_CV_checkFurtherInfoURL(nVarRefTblID);
 
     if (cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP6) == 0) {
         ierr += cmor_CV_checkSourceID(cmor_tables[nVarRefTblID].CV);
         ierr += cmor_CV_checkExperiment(cmor_tables[nVarRefTblID].CV);
-        ierr += cmor_CV_checkFurtherInfoURL(nVarRefTblID);
         ierr += cmor_CV_checkGrids(cmor_tables[nVarRefTblID].CV);
         ierr += cmor_CV_checkParentExpID(cmor_tables[nVarRefTblID].CV);
         ierr += cmor_CV_checkSubExpID(cmor_tables[nVarRefTblID].CV);
@@ -3058,7 +3066,6 @@ int cmor_setGblAttr(int var_id)
     //
     if ( cmor_current_dataset.furtherinfourl[0] != '\0') {
         ierr += cmor_CV_checkSourceID(cmor_tables[nVarRefTblID].CV);
-        ierr += cmor_CV_checkFurtherInfoURL(nVarRefTblID);
     }
 
     ierr += cmor_CV_checkISOTime(GLOBAL_ATT_CREATION_DATE);
@@ -3581,7 +3588,7 @@ void cmor_define_dimensions(int var_id, int ncid,
                 && (CMOR_NETCDF_MODE != CMOR_APPEND_3)) {
                 if (strcmp(pAxis->id, "time") == 0) {
                     ierr = nc_def_var_chunking(ncid, nc_vars[i], NC_CHUNKED,
-                                               &nc_dim_chunking[0]);
+                                               NULL);
                 } else {
                     ierr = nc_def_var_chunking(ncid, nc_vars[i], NC_CONTIGUOUS,
                                                &nc_dim_chunking[0]);
@@ -5189,7 +5196,7 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
                                 1)))) {
             ierr =
               nc_def_var_chunking(ncid, cmor_vars[var_id].nc_var_id, NC_CHUNKED,
-                                  &nc_dim_chunking[0]);
+                                 NULL);
             if (ierr != NC_NOERR) {
                 snprintf(msg, CMOR_MAX_STRING,
                          "NetCDFTestTables/CMIP6_chunking.json: Error (%i: %s) defining chunking\n! "

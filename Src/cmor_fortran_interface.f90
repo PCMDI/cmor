@@ -806,7 +806,7 @@ module cmor_users_functions
   integer, parameter:: CMOR_EXIT_ON_MAJOR = 0
   integer, parameter:: CMOR_EXIT_ON_WARNING = 2
 
-  real,    parameter:: CMOR_VERSION = 3.7
+  real,    parameter:: CMOR_VERSION = 3.8
   real,    parameter:: CMOR_CF_VERSION = 1.7
 
   integer, parameter:: CMOR_WARNING = 20

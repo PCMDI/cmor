@@ -64,7 +64,7 @@
  
     "mip_era":                "CMIP6",
     "parent_mip_era":         "CMIP6",
-    "further_info_url":       "",
+    "further_info_url":       "bad_url",
  
     "tracking_prefix":        "hdl:21.14100",
     "_history_template":       "%s ;rewrote data to be consistent with <activity_id> for variable <variable_id> found in table <table_id>.",
