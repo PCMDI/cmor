@@ -1148,6 +1148,9 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
     cmor_vars[vrid].shuffle = refvar.shuffle;
     cmor_vars[vrid].deflate = refvar.deflate;
     cmor_vars[vrid].deflate_level = refvar.deflate_level;
+    cmor_vars[vrid].zstandard_level = refvar.zstandard_level;
+    cmor_vars[vrid].quantize_mode = refvar.quantize_mode;
+    cmor_vars[vrid].quantize_nsd = refvar.quantize_nsd;
     strcpy(cmor_vars[vrid].chunking_dimensions, refvar.chunking_dimensions);
 
     if (refvar.out_name[0] == '\0') {
@@ -1902,6 +1905,9 @@ void cmor_init_var_def(cmor_var_def_t * var, int table_id)
     var->shuffle = 0;
     var->deflate = 1;
     var->deflate_level = 1;
+    var->zstandard_level = 1;
+    var->quantize_mode = 0;
+    var->quantize_nsd = 1;
     var->generic_level_name[0] = '\0';
 }
 
@@ -2134,6 +2140,18 @@ int cmor_set_var_def_att(cmor_var_def_t * var, char att[CMOR_MAX_STRING],
 
         var->deflate_level = atoi(val);
 
+    } else if (strcmp(att, VARIABLE_ATT_ZSTANDARDLEVEL) == 0) {
+
+        var->zstandard_level = atoi(val);
+
+    } else if (strcmp(att, VARIABLE_ATT_QUANTIZEMODE) == 0) {
+
+        var->quantize_mode = atoi(val);
+
+    } else if (strcmp(att, VARIABLE_ATT_QUANTIZENSD) == 0) {
+
+        var->quantize_nsd = atoi(val);
+
     } else if (strcmp(att, VARIABLE_ATT_MODELINGREALM) == 0) {
 
         strncpy(var->realm, val, CMOR_MAX_STRING);
@@ -2275,6 +2293,57 @@ int cmor_set_deflate(int var_id, int shuffle, int deflate, int deflate_level)
     cmor_vars[var_id].shuffle = shuffle;
     cmor_vars[var_id].deflate = deflate;
     cmor_vars[var_id].deflate_level = deflate_level;
+    cmor_pop_traceback();
+    return (0);
+}
+
+/************************************************************************/
+/*                       cmor_set_zstandard()                           */
+/************************************************************************/
+int cmor_set_zstandard(int var_id, int zstandard_level)
+{
+    char msg[CMOR_MAX_STRING];
+
+    cmor_add_traceback("cmor_set_zstandard");
+    cmor_is_setup();
+
+    if (cmor_vars[var_id].self != var_id) {
+        snprintf(msg, CMOR_MAX_STRING,
+                 "You attempted to set the zstandard level of "
+                 "variable id(%d) which was not initialized", var_id);
+        cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
+        cmor_pop_traceback();
+
+        return (-1);
+    }
+
+    cmor_vars[var_id].zstandard_level = zstandard_level;
+    cmor_pop_traceback();
+    return (0);
+}
+
+/************************************************************************/
+/*                       cmor_set_quantize()                            */
+/************************************************************************/
+int cmor_set_quantize(int var_id, int quantize_mode, int quantize_nsd)
+{
+    char msg[CMOR_MAX_STRING];
+
+    cmor_add_traceback("cmor_set_quantize");
+    cmor_is_setup();
+
+    if (cmor_vars[var_id].self != var_id) {
+        snprintf(msg, CMOR_MAX_STRING,
+                 "You attempted to set the quantize mode of "
+                 "variable id(%d) which was not initialized", var_id);
+        cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
+        cmor_pop_traceback();
+
+        return (-1);
+    }
+
+    cmor_vars[var_id].quantize_mode = quantize_mode;
+    cmor_vars[var_id].quantize_nsd = quantize_nsd;
     cmor_pop_traceback();
     return (0);
 }

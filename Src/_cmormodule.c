@@ -151,6 +151,52 @@ static PyObject *PyCMOR_set_deflate(PyObject * self, PyObject * args)
 }
 
 /************************************************************************/
+/*                   PyCMOR_set_zstandard()                    */
+/************************************************************************/
+static PyObject *PyCMOR_set_zstandard(PyObject * self, PyObject * args)
+{
+    signal(signal_to_catch, signal_handler);
+    int ierr, var_id, zstandard_level;
+
+    if (!PyArg_ParseTuple
+        (args, "iiii", &var_id, &zstandard_level))
+        return NULL;
+
+    ierr = cmor_set_zstandard(var_id, zstandard_level);
+
+    if (ierr != 0 || raise_exception) {
+        raise_exception = 0;
+        PyErr_Format(CMORError, exception_message, "set_zstandard");
+        return NULL;
+    }
+
+    return (Py_BuildValue("i", ierr));
+}
+
+/************************************************************************/
+/*                   PyCMOR_set_quantize()                    */
+/************************************************************************/
+static PyObject *PyCMOR_set_quantize(PyObject * self, PyObject * args)
+{
+    signal(signal_to_catch, signal_handler);
+    int ierr, var_id, quantize_mode, quantize_nsd;
+
+    if (!PyArg_ParseTuple
+        (args, "iiii", &var_id, &quantize_mode, &quantize_nsd))
+        return NULL;
+
+    ierr = cmor_set_quantize(var_id, quantize_mode, quantize_nsd);
+
+    if (ierr != 0 || raise_exception) {
+        raise_exception = 0;
+        PyErr_Format(CMORError, exception_message, "set_quantize");
+        return NULL;
+    }
+
+    return (Py_BuildValue("i", ierr));
+}
+
+/************************************************************************/
 /*                   PyCMOR_set_variable_attribute()                    */
 /************************************************************************/
 static PyObject *PyCMOR_set_variable_attribute(PyObject * self, PyObject * args)
@@ -1145,6 +1191,8 @@ static PyMethodDef MyExtractMethods[] = {
     {"set_furtherinfourl", PyCMOR_set_furtherinfourl, METH_VARARGS},
     {"get_final_filename", PyCMOR_getFinalFilename, METH_VARARGS},
     {"set_deflate", PyCMOR_set_deflate, METH_VARARGS},
+    {"set_zstandard", PyCMOR_set_zstandard, METH_VARARGS},
+    {"set_quantize", PyCMOR_set_quantize, METH_VARARGS},
     {"set_terminate_signal", PyCMOR_set_terminate_signal, METH_VARARGS},
     {"get_terminate_signal", PyCMOR_get_terminate_signal, METH_VARARGS},
     {NULL, NULL}                /*sentinel */
