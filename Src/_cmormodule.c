@@ -159,7 +159,7 @@ static PyObject *PyCMOR_set_zstandard(PyObject * self, PyObject * args)
     int ierr, var_id, zstandard_level;
 
     if (!PyArg_ParseTuple
-        (args, "iiii", &var_id, &zstandard_level))
+        (args, "ii", &var_id, &zstandard_level))
         return NULL;
 
     ierr = cmor_set_zstandard(var_id, zstandard_level);
@@ -182,7 +182,7 @@ static PyObject *PyCMOR_set_quantize(PyObject * self, PyObject * args)
     int ierr, var_id, quantize_mode, quantize_nsd;
 
     if (!PyArg_ParseTuple
-        (args, "iiii", &var_id, &quantize_mode, &quantize_nsd))
+        (args, "iii", &var_id, &quantize_mode, &quantize_nsd))
         return NULL;
 
     ierr = cmor_set_quantize(var_id, quantize_mode, quantize_nsd);
