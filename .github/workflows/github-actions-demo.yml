@@ -11,15 +11,50 @@ jobs:
         python_version: [3.11]
     runs-on: ${{ matrix.os }}
     env:
+      PACKAGE_NAME: cmor
+      PACKAGE_VERSION: 3.8.0
+      PYTHON_VERSION: ${{ matrix.python_version }}
+      BRANCH_NAME: ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
       OS: osx_arm64
       MINICONDA_INSTALLER_URL: https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh
       PROJECT_DIR: workdir/macos
+      CONDA_CHANNELS: conda-forge
       C_COMPILER: clang_osx-64
       FORTRAN_COMPILER: gfortran_osx-64
     steps:
+      - name: Setup project directory
+        run: mkdir -p $PROJECT_DIR
+
       - name: Setup Miniconda
         run: |
           curl -L $MINICONDA_INSTALLER_URL -o miniconda.sh
-          bash miniconda.sh -b -p miniconda
-          source miniconda/etc/profile.d/conda.sh
-          python -V
+          bash miniconda.sh -b -p $PROJECT_DIR/miniconda
+          source $PROJECT_DIR/miniconda/etc/profile.d/conda.sh
+          conda activate base
+          conda config --set anaconda_upload no
+
+      - name: Conda Rerender
+        run: |
+          git clone -b main https://github.com/conda-forge/cmor-feedstock $WORKDIR/cmor-feedstock
+          export SRC_META_YAML=`pwd`/$PROJECT_DIR/cmor-feedstock/recipe/meta.yaml.SRC
+          export DST_META_YAML=`pwd`/$PROJECT_DIR/cmor-feedstock/recipe/meta.yaml
+          mv $DST_META_YAML $SRC_META_YAML
+
+          export GIT_REV=$(git rev-parse --short HEAD)
+
+          python rebuild_meta_yaml.py \
+            --package_name $PACKAGE_NAME \
+            --version $PACKAGE_VERSION \
+            --organization PCMDI \
+            --repo_name $PACKAGE_NAME \
+            --branch $BRANCH_NAME \
+            --git_rev $GIT_REV \
+            --build 0 \
+            --src_meta_yaml $SRC_META_YAML \
+            --dst_meta_yaml $DST_META_YAML
+
+          conda create -y -n smithy_env -c conda-forge conda-smithy
+          conda activate smithy_env
+          cd $PROJECT_DIR/cmor-feedstock
+          conda smithy rerender
+
