@@ -18,7 +18,8 @@ jobs:
       FORTRAN_COMPILER: gfortran_osx-64
     steps:
       - name: Setup Miniconda
-        - run: curl -L $MINICONDA_INSTALLER_URL -o miniconda.sh
-        - run: bash miniconda.sh -b -p miniconda
-        - run: source miniconda/etc/profile.d/conda.sh
-        - run: python -V
+        run: |
+          curl -L $MINICONDA_INSTALLER_URL -o miniconda.sh
+          bash miniconda.sh -b -p miniconda
+          source miniconda/etc/profile.d/conda.sh
+          python -V
