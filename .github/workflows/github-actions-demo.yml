@@ -1,18 +1,24 @@
-name: GitHub Actions Experiment 3
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+name: CMOR Nightly Build
+run-name: CMOR Nightly Build
 on: [push]
+
 jobs:
-  Explore-GitHub-Actions:
-    runs-on: macos-14
+  nightly:
+    name: Deploy nightly
+    strategy:
+      matrix:
+        os: [macos-14]
+        python_version: [3.11]
+    runs-on: ${{ matrix.os }}
+    env:
+      OS: : osx_arm64
+      MINICONDA_INSTALLER_URL: https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh
+      PROJECT_DIR: workdir/macos
+      C_COMPILER: clang_osx-64
+      FORTRAN_COMPILER: gfortran_osx-64
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+      - name: Setup Miniconda
+        run: curl -L $MINICONDA_INSTALLER_URL -o miniconda.sh
+        run: bash miniconda.sh -b -p miniconda
+        run: source miniconda/etc/profile.d/conda.sh
+        run: python -V
