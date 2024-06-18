@@ -40,6 +40,8 @@ jobs:
           export DST_META_YAML=`pwd`/$PROJECT_DIR/cmor-feedstock/recipe/meta.yaml
           mv $DST_META_YAML $SRC_META_YAML
 
+          echo `pwd`
+          ls -lh
           export GIT_REV=$(git rev-parse --short HEAD)
 
           python rebuild_meta_yaml.py \
