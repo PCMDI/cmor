@@ -64,7 +64,7 @@ jobs:
           conda activate smithy_env
           cd $PROJECT_DIR/cmor-feedstock
           conda smithy rerender
-          ls -lh ${WORKDIR}/cmor-feedstock/.ci_support/
+          ls -lh .ci_support/
 
       - name: Conda Build
         run: |
