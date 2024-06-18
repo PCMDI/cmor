@@ -38,6 +38,10 @@ jobs:
 
       - name: Conda Rerender
         run: |
+          source $PROJECT_DIR/miniconda/etc/profile.d/conda.sh
+          conda activate base
+          conda config --set anaconda_upload no
+
           git clone -b main https://github.com/conda-forge/cmor-feedstock $PROJECT_DIR/cmor-feedstock
           export SRC_META_YAML=`pwd`/$PROJECT_DIR/cmor-feedstock/recipe/meta.yaml.SRC
           export DST_META_YAML=`pwd`/$PROJECT_DIR/cmor-feedstock/recipe/meta.yaml
