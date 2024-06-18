@@ -24,7 +24,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        run: ls -lh
 
       - name: Setup project directory
         run: mkdir -p $PROJECT_DIR
