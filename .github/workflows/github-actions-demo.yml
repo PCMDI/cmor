@@ -22,6 +22,10 @@ jobs:
       C_COMPILER: clang_osx-64
       FORTRAN_COMPILER: gfortran_osx-64
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        run: ls -lh
+
       - name: Setup project directory
         run: mkdir -p $PROJECT_DIR
 
@@ -40,8 +44,6 @@ jobs:
           export DST_META_YAML=`pwd`/$PROJECT_DIR/cmor-feedstock/recipe/meta.yaml
           mv $DST_META_YAML $SRC_META_YAML
 
-          echo `pwd`
-          ls -lh
           export GIT_REV=$(git rev-parse --short HEAD)
 
           python rebuild_meta_yaml.py \
