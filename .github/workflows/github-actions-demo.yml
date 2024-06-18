@@ -64,4 +64,22 @@ jobs:
           conda activate smithy_env
           cd $PROJECT_DIR/cmor-feedstock
           conda smithy rerender
+          ls -lh ${WORKDIR}'/cmor-feedstock/.ci_support/
+
+      - name: Conda Build
+        run: |
+          source $PROJECT_DIR/miniconda/etc/profile.d/conda.sh
+          conda activate base
+          conda config --set anaconda_upload no
+
+          export BUILD_DIR=`pwd`/cmor_conda_pkgs
+          mkdir -p $BUILD_DIR
+
+          export ARTIFACT_DIR=`pwd`/artifacts/$OS
+          mkdir -p $ARTIFACT_DIR
+
+          for i in ${WORKDIR}'/cmor-feedstock/.ci_support/'${OS_NAME}'_*python'${PYTHON_VERSION}'*.yaml'; do
+            conda build -c conda-forge --output-folder $BUILD_DIR -m $i $WORKDIR/cmor-feedstock/recipe/
+            cp $BUILD_DIR/$OS/$PKG_NAME-$VERSION*.tar.bz2 $ARTIFACT_DIR
+          done
 
