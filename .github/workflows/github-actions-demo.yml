@@ -43,8 +43,7 @@ jobs:
           conda activate base
           conda config --set anaconda_upload no
 
-          git clone -b main https://github.com/mauzey1/cmor-feedstock $PROJECT_DIR/cmor-feedstock
-          git checkout osx_arm64
+          git clone -b osx_arm64 https://github.com/mauzey1/cmor-feedstock $PROJECT_DIR/cmor-feedstock
           export SRC_META_YAML=`pwd`/$PROJECT_DIR/cmor-feedstock/recipe/meta.yaml.SRC
           export DST_META_YAML=`pwd`/$PROJECT_DIR/cmor-feedstock/recipe/meta.yaml
           mv $DST_META_YAML $SRC_META_YAML
