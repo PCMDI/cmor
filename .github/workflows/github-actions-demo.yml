@@ -14,7 +14,6 @@ jobs:
       PACKAGE_NAME: cmor
       PACKAGE_VERSION: 3.8.0
       PYTHON_VERSION: ${{ matrix.python_version }}
-      BRANCH_NAME: ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
       OS: osx-arm64
       OS_NAME: osx_arm64
       MINICONDA_INSTALLER_URL: https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh
@@ -49,13 +48,16 @@ jobs:
           mv $DST_META_YAML $SRC_META_YAML
 
           export GIT_REV=$(git rev-parse --short HEAD)
+          echo "GIT_REV=$GIT_REV"
+          export GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          echo "GIT_BRANCH=$GIT_BRANCH"
 
           python rebuild_meta_yaml.py \
             --package_name $PACKAGE_NAME \
             --version $PACKAGE_VERSION \
             --organization PCMDI \
             --repo_name $PACKAGE_NAME \
-            --branch $BRANCH_NAME \
+            --branch $GIT_BRANCH \
             --git_rev $GIT_REV \
             --build 0 \
             --src_meta_yaml $SRC_META_YAML \
