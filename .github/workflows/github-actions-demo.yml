@@ -25,6 +25,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Pull Submodules
+        run: |
+          git submodule init
+          git submodule update
+
       - name: Setup project directory
         run: mkdir -p $PROJECT_DIR
 
