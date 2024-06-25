@@ -1,4 +1,5 @@
 #include <Python.h>
+#include <signal.h>
 #define NPY_NO_DEPRECATED_API  NPY_1_10_API_VERSION
 
 #include "numpy/arrayobject.h"
