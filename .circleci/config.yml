@@ -37,7 +37,7 @@ aliases:
        conda activate base
        conda config --set anaconda_upload no
 
-       git clone -b osx_arm64_build https://github.com/conda-forge/cmor-feedstock $WORKDIR/cmor-feedstock
+       git clone -b osx_arm64_build https://github.com/mauzey1/cmor-feedstock $WORKDIR/cmor-feedstock
        export SRC_META_YAML=$WORKDIR/cmor-feedstock/recipe/meta.yaml.SRC
        export DST_META_YAML=$WORKDIR/cmor-feedstock/recipe/meta.yaml
        mv $DST_META_YAML $SRC_META_YAML
