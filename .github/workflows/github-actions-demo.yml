@@ -13,25 +13,23 @@ jobs:
     name: Deploy nightly
     strategy:
       matrix:
-        os:
-          - 'macos-14'
-            env:
-              OS: osx-arm64
-              OS_NAME: osx_arm64
-              MINICONDA_INSTALLER_URL: https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh
-              C_COMPILER: clang_osx-arm64 
-              FORTRAN_COMPILER: gfortran_osx-arm64
-              PROJECT_DIR: workdir/macos_arm64
-          - 'macos-13'
-            env:
-              OS: osx-x64
-              OS_NAME: osx_x64
-              MINICONDA_INSTALLER_URL: https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
-              C_COMPILER: clang_osx-x64 
-              FORTRAN_COMPILER: gfortran_osx-x64
-              PROJECT_DIR: workdir/macos_x64
+        runner:
+          - RUNNER_OS: 'macos-14'
+            OS: osx-arm64
+            OS_NAME: osx_arm64
+            MINICONDA_INSTALLER_URL: https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh
+            C_COMPILER: clang_osx-arm64 
+            FORTRAN_COMPILER: gfortran_osx-arm64
+            PROJECT_DIR: workdir/macos_arm64
+          - RUNNER_OS: 'macos-13'
+            OS: osx-x64
+            OS_NAME: osx_x64
+            MINICONDA_INSTALLER_URL: https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
+            C_COMPILER: clang_osx-x64 
+            FORTRAN_COMPILER: gfortran_osx-x64
+            PROJECT_DIR: workdir/macos_x64
         python_version: ['3.10']
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.runner.RUNNER_OS }}
     env:
       PACKAGE_NAME: cmor
       PACKAGE_VERSION: 3.8.0
@@ -39,6 +37,12 @@ jobs:
       CONDA_FORGE_CHANNEL: conda-forge
       CONDA_USER: pcmdi
       CONDA_LABEL: testing
+      OS: ${{ matrix.runner.OS }}
+      OS_NAME: ${{ matrix.runner.OS_NAME }}
+      MINICONDA_INSTALLER_URL: ${{ matrix.runner.MINICONDA_INSTALLER_URL }}
+      C_COMPILER: ${{ matrix.runner.C_COMPILER }} 
+      FORTRAN_COMPILER: ${{ matrix.runner.FORTRAN_COMPILER }} 
+      PROJECT_DIR: ${{ matrix.runner.PROJECT_DIR }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
