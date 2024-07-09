@@ -1,6 +1,12 @@
 name: CMOR Nightly Build
 run-name: CMOR Nightly Build
-on: [push]
+on:
+  push:
+    branches:
+      - "github_action_exp"
+  pull_request:
+    branches:
+      - "main"
 
 jobs:
   nightly:
@@ -21,6 +27,8 @@ jobs:
       CONDA_FORGE_CHANNEL: conda-forge
       C_COMPILER: clang_osx-arm64 
       FORTRAN_COMPILER: gfortran_osx-arm64
+      CONDA_USER: pcmdi
+      CONDA_LABEL: testing
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -107,4 +115,16 @@ jobs:
 
           ./configure --prefix=$CONDA_PREFIX --with-python --with-uuid=$CONDA_PREFIX --with-json-c=$CONDA_PREFIX --with-udunits2=$CONDA_PREFIX --with-netcdf=$CONDA_PREFIX  --enable-verbose-test
           make test -o cmor -o python
+
+      - name: Conda Upload
+        env:
+          CONDA_UPLOAD_TOKEN: $${{ secrets.CONDA_UPLOAD_TOKEN }}
+        if: ${{ github.ref == 'refs/heads/github_action_exp' }}
+        run: |
+          source $PROJECT_DIR/miniconda/etc/profile.d/conda.sh
+          conda activate base
+          conda config --set anaconda_upload no
+          conda install -n base anaconda-client
+          export ARTIFACT_DIR=`pwd`/artifacts
+          anaconda -t $CONDA_UPLOAD_TOKEN upload -u $CONDA_USER -l $CONDA_LABEL $ARTIFACT_DIR/*/*.tar.bz2 --force
 
