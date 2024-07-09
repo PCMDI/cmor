@@ -23,7 +23,7 @@ jobs:
             PROJECT_DIR: workdir/macos_arm64
           - RUNNER_OS: 'macos-13'
             OS: osx-x64
-            OS_NAME: osx_x64
+            OS_NAME: osx_64
             MINICONDA_INSTALLER_URL: https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
             C_COMPILER: clang_osx-x64 
             FORTRAN_COMPILER: gfortran_osx-x64
