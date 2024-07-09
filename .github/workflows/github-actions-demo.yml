@@ -118,7 +118,7 @@ jobs:
 
       - name: Conda Upload
         env:
-          CONDA_UPLOAD_TOKEN: $${{ secrets.CONDA_UPLOAD_TOKEN }}
+          CONDA_UPLOAD_TOKEN: ${{ secrets.CONDA_UPLOAD_TOKEN }}
         if: ${{ github.ref == 'refs/heads/github_action_exp' }}
         run: |
           source $PROJECT_DIR/miniconda/etc/profile.d/conda.sh
