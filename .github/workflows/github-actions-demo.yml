@@ -3,7 +3,7 @@ run-name: CMOR Nightly Build
 on:
   push:
     branches:
-      - "main"
+      - "github_action_exp"
   pull_request:
     branches:
       - "main"
@@ -13,22 +13,32 @@ jobs:
     name: Deploy nightly
     strategy:
       matrix:
-        os: ['macos-14']
+        os:
+          - 'macos-14'
+            env:
+              OS: osx-arm64
+              OS_NAME: osx_arm64
+              MINICONDA_INSTALLER_URL: https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh
+              C_COMPILER: clang_osx-arm64 
+              FORTRAN_COMPILER: gfortran_osx-arm64
+              PROJECT_DIR: workdir/macos_arm64
+          - 'macos-13'
+            env:
+              OS: osx-x64
+              OS_NAME: osx_x64
+              MINICONDA_INSTALLER_URL: https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
+              C_COMPILER: clang_osx-x64 
+              FORTRAN_COMPILER: gfortran_osx-x64
+              PROJECT_DIR: workdir/macos_x64
         python_version: ['3.10']
     runs-on: ${{ matrix.os }}
     env:
       PACKAGE_NAME: cmor
       PACKAGE_VERSION: 3.8.0
       PYTHON_VERSION: ${{ matrix.python_version }}
-      OS: osx-arm64
-      OS_NAME: osx_arm64
-      MINICONDA_INSTALLER_URL: https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh
-      PROJECT_DIR: workdir/macos
       CONDA_FORGE_CHANNEL: conda-forge
-      C_COMPILER: clang_osx-arm64 
-      FORTRAN_COMPILER: gfortran_osx-arm64
       CONDA_USER: pcmdi
-      CONDA_LABEL: nightly
+      CONDA_LABEL: testing
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -119,7 +129,7 @@ jobs:
       - name: Conda Upload
         env:
           CONDA_UPLOAD_TOKEN: ${{ secrets.CONDA_UPLOAD_TOKEN }}
-        if: ${{ github.ref == 'refs/heads/main' }}
+        if: ${{ github.ref == 'refs/heads/github_action_exp' }}
         run: |
           source $PROJECT_DIR/miniconda/etc/profile.d/conda.sh
           conda activate base
