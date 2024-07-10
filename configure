@@ -4879,31 +4879,12 @@ fi
 
 if  test x${with_udunits2} != xyes  ; then
   if  test x${with_udunits2} != xno  ; then
-   as_ac_File=`printf "%s\n" "ac_cv_file_${with_udunits2}/include/udunits2/udunits2.h" | $as_tr_sh`
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for ${with_udunits2}/include/udunits2/udunits2.h" >&5
-printf %s "checking for ${with_udunits2}/include/udunits2/udunits2.h... " >&6; }
-if eval test \${$as_ac_File+y}
-then :
-  printf %s "(cached) " >&6
-else $as_nop
-  test "$cross_compiling" = yes &&
-  as_fn_error $? "cannot check for file existence when cross compiling" "$LINENO" 5
-if test -r "${with_udunits2}/include/udunits2/udunits2.h"; then
-  eval "$as_ac_File=yes"
-else
-  eval "$as_ac_File=no"
-fi
-fi
-eval ac_res=\$$as_ac_File
-	       { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
-printf "%s\n" "$ac_res" >&6; }
-if eval test \"x\$"$as_ac_File"\" = x"yes"
+   if test -f "${with_udunits2}/include/udunits2/udunits2.h"
 then :
   UDUNITS2FLAGS=" -I${with_udunits2}/include/udunits2"
 else $as_nop
   UDUNITS2FLAGS=" -I${with_udunits2}/include"
 fi
-
    if  test ${RTAG} != "none"  ; then
      UDUNITS2LDFLAGS=" -L${with_udunits2}/lib  ${RTAG}${with_udunits2}/lib -ludunits2"
    else
@@ -4976,31 +4957,12 @@ fi
 
 if  test x${with_netcdf} != xyes ; then
   if  test x${with_netcdf} != xno  ; then
-    as_ac_File=`printf "%s\n" "ac_cv_file_${with_netcdf}/bin/nc-config" | $as_tr_sh`
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for ${with_netcdf}/bin/nc-config" >&5
-printf %s "checking for ${with_netcdf}/bin/nc-config... " >&6; }
-if eval test \${$as_ac_File+y}
-then :
-  printf %s "(cached) " >&6
-else $as_nop
-  test "$cross_compiling" = yes &&
-  as_fn_error $? "cannot check for file existence when cross compiling" "$LINENO" 5
-if test -r "${with_netcdf}/bin/nc-config"; then
-  eval "$as_ac_File=yes"
-else
-  eval "$as_ac_File=no"
-fi
-fi
-eval ac_res=\$$as_ac_File
-	       { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
-printf "%s\n" "$ac_res" >&6; }
-if eval test \"x\$"$as_ac_File"\" = x"yes"
+    if test -f "${with_netcdf}/bin/nc-config"
 then :
   HAS_NCCONFIG=yes
 else $as_nop
   HAS_NCCONFIG=no
 fi
-
     if  test ${HAS_NCCONFIG} == "yes"  ; then
       NCCFLAGS=`${with_netcdf}/bin/nc-config --cflags`
       NCLDFLAGS=`${with_netcdf}/bin/nc-config --libs`

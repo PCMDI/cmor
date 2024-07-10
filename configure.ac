@@ -212,7 +212,7 @@ LIBS=""
 AC_ARG_WITH([udunits2],[AS_HELP_STRING([--with-udunits2],[enable support for udunits2 in none standard location])],[],[with_udunits2="no"])
 if [ test x${with_udunits2} != xyes ] ; then
   if [ test x${with_udunits2} != xno ] ; then
-   AC_CHECK_FILE(${with_udunits2}/include/udunits2/udunits2.h,
+   AS_IF([test -f "${with_udunits2}/include/udunits2/udunits2.h"],
     [UDUNITS2FLAGS=" -I${with_udunits2}/include/udunits2"],
     [UDUNITS2FLAGS=" -I${with_udunits2}/include"])
    if [ test ${RTAG} != "none" ] ; then
@@ -235,7 +235,7 @@ LIBS=""
 AC_ARG_WITH([netcdf],[AS_HELP_STRING([--with-netcdf],[enable support for NetCDF in none standard location])],[],[with_netcdf="no"])
 if [ test x${with_netcdf} != xyes ]; then
   if [ test x${with_netcdf} != xno ] ; then
-    AC_CHECK_FILE([${with_netcdf}/bin/nc-config],[HAS_NCCONFIG=yes],[HAS_NCCONFIG=no])
+    AS_IF([test -f "${with_netcdf}/bin/nc-config"],[HAS_NCCONFIG=yes],[HAS_NCCONFIG=no])
     if [ test ${HAS_NCCONFIG} == "yes" ] ; then 
       NCCFLAGS=`${with_netcdf}/bin/nc-config --cflags`
       NCLDFLAGS=`${with_netcdf}/bin/nc-config --libs`
