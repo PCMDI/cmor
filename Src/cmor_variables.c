@@ -1905,7 +1905,7 @@ void cmor_init_var_def(cmor_var_def_t * var, int table_id)
     var->shuffle = 0;
     var->deflate = 1;
     var->deflate_level = 1;
-    var->zstandard_level = 1;
+    var->zstandard_level = 3;
     var->quantize_mode = 0;
     var->quantize_nsd = 1;
     var->generic_level_name[0] = '\0';

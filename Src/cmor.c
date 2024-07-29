@@ -731,7 +731,7 @@ void cmor_reset_variable(int var_id)
     cmor_vars[var_id].shuffle = 0;
     cmor_vars[var_id].deflate = 1;
     cmor_vars[var_id].deflate_level = 1;
-    cmor_vars[var_id].zstandard_level = 1;
+    cmor_vars[var_id].zstandard_level = 3;
     cmor_vars[var_id].quantize_mode = 0;
     cmor_vars[var_id].quantize_nsd = 1;
     cmor_vars[var_id].nomissing = 1;
@@ -5184,8 +5184,14 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
         icqm = pVar->quantize_mode;
         icqn = pVar->quantize_nsd;
         ierr = nc_def_var_quantize(ncid, pVar->nc_var_id, icqm, icqn);
-        ierr |= nc_def_var_deflate(ncid, pVar->nc_var_id, ics, icd, icdl);
-        ierr |= nc_def_var_zstandard(ncid, pVar->nc_var_id, icz);
+
+        // Only use zstandard compression if deflate is disabled
+        if (icd != 0) {
+            ierr |= nc_def_var_deflate(ncid, pVar->nc_var_id, ics, icd, icdl);
+        } else {
+            ierr |= nc_def_var_deflate(ncid, pVar->nc_var_id, ics, 0, 0);
+            ierr |= nc_def_var_zstandard(ncid, pVar->nc_var_id, icz);
+        }
 
         if (ierr != NC_NOERR) {
             snprintf(msg, CMOR_MAX_STRING,
