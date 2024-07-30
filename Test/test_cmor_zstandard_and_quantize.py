@@ -13,7 +13,9 @@ def run():
 
 class TestCase(unittest.TestCase):
 
-    def gen_file(self, seed, ntimes, zstd_level, deflate, deflate_level, shuffle, out_dir):
+    def gen_file(self, seed, ntimes, zstd_level,
+                 deflate, deflate_level, shuffle,
+                 quantize_mode, quantize_nsd, out_dir):
 
         numpy.random.seed(seed)
 
@@ -66,6 +68,8 @@ class TestCase(unittest.TestCase):
             missing_value=numpy.array([1.0e28, ], dtype=numpy.float32)[0],
             original_name='cloud')
 
+        cmor.set_quantize(var3d_ids, quantize_mode, quantize_nsd)
+
         use_deflate = 1 if deflate > 0 else 0
         use_shuffle = 1 if shuffle else 0
         cmor.set_deflate(var3d_ids, use_shuffle, use_deflate,
@@ -93,7 +97,7 @@ class TestCase(unittest.TestCase):
             dst_file = f'zstd_level_{str(zstd_level)}'
         if shuffle:
             dst_file += '_shuffle'
-        dst_file += '.nc'
+        dst_file += f'qmode_{str(quantize_mode)}_nsd_{str(quantize_nsd)}.nc'
 
         dst_path = os.path.join(out_dir, dst_file)
 
@@ -107,8 +111,8 @@ class TestCase(unittest.TestCase):
         ntimes = 100
 
         with tempfile.TemporaryDirectory() as tmp_dir:
-            no_compression = self.gen_file(seed, ntimes, 0, True, 0, False, tmp_dir)
-            zstd_shuffle = self.gen_file(seed, ntimes, 3, False, 0, True, tmp_dir)
+            no_compression = self.gen_file(seed, ntimes, 0, True, 0, False, 0, 0, tmp_dir)
+            zstd_shuffle = self.gen_file(seed, ntimes, 3, False, 0, True, 0, 0, tmp_dir)
 
             no_comp_size = os.path.getsize(no_compression)
             zstd_shuffle_size = os.path.getsize(zstd_shuffle)
@@ -122,6 +126,28 @@ class TestCase(unittest.TestCase):
             no_comp_ta = no_comp_nc.variables['ta'][:]
             zstd_shuffle_ta = zstd_shuffle_nc.variables['ta'][:]
             self.assertIsNone(numpy.testing.assert_array_equal(no_comp_ta, zstd_shuffle_ta))
+
+    def testQuantize(self):
+
+        seed = 123
+        ntimes = 100
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            default = self.gen_file(seed, ntimes, 0, True, 1, False, 0, 0, tmp_dir)
+            quantized = self.gen_file(seed, ntimes,  0, True, 1, False, 1, 4, tmp_dir)
+
+            default_size = os.path.getsize(default)
+            quantized_size = os.path.getsize(quantized)
+            print(f'File size without quantization: {default_size} bytes')
+            print(f'File size with quantization: {quantized_size} bytes')
+            self.assertTrue(quantized_size < default_size)
+
+            default_nc = Dataset(default, "r", format="NETCDF4")
+            quantized_nc = Dataset(quantized, "r", format="NETCDF4")
+
+            default_ta = default_nc.variables['ta'][:]
+            quantized_ta = quantized_nc.variables['ta'][:]
+            self.assertIsNone(numpy.testing.assert_allclose(default_ta, quantized_ta, rtol=1e-4))
 
 
 if __name__ == '__main__':
