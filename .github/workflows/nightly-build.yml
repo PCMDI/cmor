@@ -28,7 +28,7 @@ jobs:
             C_COMPILER: clang_osx-64 
             FORTRAN_COMPILER: gfortran_osx-64
             PROJECT_DIR: workdir/macos_64
-        python_version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+        python_version: ['3.10']
     runs-on: ${{ matrix.runner.RUNNER_OS }}
     env:
       PACKAGE_NAME: cmor
