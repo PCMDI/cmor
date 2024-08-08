@@ -93,6 +93,23 @@ int cmor_set_deflate_cff_(int *var_id, int *shuffle,
 }
 
 /************************************************************************/
+/*                       cmor_set_zstandard_cff_()                        */
+/************************************************************************/
+int cmor_set_zstandard_cff_(int *var_id, int *zstandard_level)
+{
+    return (cmor_set_zstandard(*var_id, *zstandard_level));
+}
+
+/************************************************************************/
+/*                       cmor_set_quantize_cff_()                        */
+/************************************************************************/
+int cmor_set_quantize_cff_(int *var_id, int *quantize_mode,
+                          int *quantize_level)
+{
+    return (cmor_set_quantize(*var_id, *quantize_mode, *quantize_level));
+}
+
+/************************************************************************/
 /*                  cmor_get_variable_attribute_cff_()                  */
 /************************************************************************/
 int cmor_get_variable_attribute_cff_(int *varid, char *name, char *value)
