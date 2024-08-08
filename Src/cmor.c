@@ -1887,7 +1887,7 @@ int cmor_define_zfactors_vars(int var_id, int ncid, int *nc_dim,
     int ierr = 0, l, m, k, n, j, m2, found, nelts, *int_list = NULL;
     int dim_holder[CMOR_MAX_VARIABLES];
     int lnzfactors;
-    int ics, icd, icdl, ia;
+    int ics, icd, icdl, icz, icqm, icqn, ia;
     cmor_add_traceback("cmor_define_zfactors_vars");
     cmor_is_setup();
     lnzfactors = *nzfactors;
@@ -2084,8 +2084,24 @@ int cmor_define_zfactors_vars(int var_id, int ncid, int *nc_dim,
                         icd = cmor_tables[nTableID].vars[nTableID].deflate;
                         icdl =
                           cmor_tables[nTableID].vars[nTableID].deflate_level;
-                        ierr = nc_def_var_deflate(ncid, nc_zfactors[lnzfactors],
-                                                  ics, icd, icdl);
+                        icz =
+                          cmor_tables[nTableID].vars[nTableID].zstandard_level;
+                        icqm =
+                          cmor_tables[nTableID].vars[nTableID].quantize_mode;
+                        icqn =
+                          cmor_tables[nTableID].vars[nTableID].quantize_nsd;
+
+                        ierr = nc_def_var_quantize(ncid, nc_zfactors[lnzfactors],
+                                                icqm, icqn);
+                        if (icd != 0) {
+                            ierr |= nc_def_var_deflate(ncid, nc_zfactors[lnzfactors],
+                                                    ics, icd, icdl);
+                        } else {
+                            ierr |= nc_def_var_deflate(ncid, nc_zfactors[lnzfactors],
+                                                    ics, 0, 0);
+                            ierr |= nc_def_var_zstandard(ncid, nc_zfactors[lnzfactors],
+                                                    icz);
+                        }
 
                         if (ierr != NC_NOERR) {
                             snprintf(msg, CMOR_MAX_STRING,
@@ -3450,7 +3466,7 @@ void cmor_define_dimensions(int var_id, int ncid,
     int tmp_dims[2];
     int dims_bnds_ids[2];
     int nVarRefTblID = cmor_vars[var_id].ref_table_id;
-    int ics, icd, icdl;
+    int ics, icd, icdl, icz, icqm, icqn;
     int itmpmsg, itmp2, itmp3;
     int maxStrLen;
 
@@ -3802,9 +3818,21 @@ void cmor_define_dimensions(int var_id, int ncid,
                 ics = pVar->shuffle;
                 icd = pVar->deflate;
                 icdl = pVar->deflate_level;
+                icz = pVar->zstandard_level;
+                icqm = pVar->quantize_mode;
+                icqn = pVar->quantize_nsd;
 
-                ierr = nc_def_var_deflate(ncafid, nc_bnds_vars[i], ics, icd,
-                                          icdl);
+                ierr = nc_def_var_quantize(ncafid, nc_bnds_vars[i], icqm,
+                                        icqn);
+                if (icd != 0) {
+                    ierr |= nc_def_var_deflate(ncafid, nc_bnds_vars[i],
+                                            ics, icd, icdl);
+                } else {
+                    ierr |= nc_def_var_deflate(ncafid, nc_bnds_vars[i],
+                                            ics, 0, 0);
+                    ierr |= nc_def_var_zstandard(ncafid, nc_bnds_vars[i],
+                                            icz);
+                }
                 if (ierr != NC_NOERR) {
                     snprintf(msg, CMOR_MAX_STRING,
                              "NCError (%i: %s) defining compression\n! "
@@ -4057,7 +4085,7 @@ int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af,
     int *int_list = NULL;
     char mtype;
     int nelts;
-    int ics, icd, icdl;
+    int ics, icd, icdl, icz, icqm, icqn;
 
     cmor_add_traceback("cmor_grids_def");
 /* -------------------------------------------------------------------- */
@@ -4324,8 +4352,29 @@ int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af,
                       cmor_tables[cmor_vars[j].ref_table_id].vars[cmor_vars[j].
                                                                   ref_var_id].
                       deflate_level;
-                    ierr = nc_def_var_deflate(ncafid, nc_associated_vars[i],
-                                               ics, icd, icdl);
+                    icz =
+                      cmor_tables[cmor_vars[j].ref_table_id].vars[cmor_vars[j].
+                                                                  ref_var_id].
+                      zstandard_level;
+                    icqm =
+                      cmor_tables[cmor_vars[j].ref_table_id].vars[cmor_vars[j].
+                                                                  ref_var_id].
+                      quantize_mode;
+                    icqn =
+                      cmor_tables[cmor_vars[j].ref_table_id].vars[cmor_vars[j].
+                                                                  ref_var_id].
+                      quantize_nsd;
+                    ierr = nc_def_var_quantize(ncafid, nc_associated_vars[i],
+                                            icqm, icqn);
+                    if (icd != 0) {
+                        ierr |= nc_def_var_deflate(ncafid, nc_associated_vars[i],
+                                                ics, icd, icdl);
+                    } else {
+                        ierr |= nc_def_var_deflate(ncafid, nc_associated_vars[i],
+                                                ics, 0, 0);
+                        ierr |= nc_def_var_zstandard(ncafid, nc_associated_vars[i],
+                                                icz);
+                    }
                     if (ierr != NC_NOERR) {
                         snprintf(msg, CMOR_MAX_STRING,
                                  "NetCDF Error (%i: %s) defining\n! "
