@@ -36,17 +36,21 @@ int nc_def_var_deflate(int i, int j, int k, int l, int m)
     return (0);
 };
 
+int nc_def_var_chunking(int i, int j, int k, size_t * l)
+{
+    return (0);
+};
+#endif
+
+#ifndef H5Z_FILTER_ZSTD
 int nc_def_var_zstandard(int i, int j, int k)
 {
     return (0);
 };
+#endif
 
+#ifndef NC_QUANTIZE_BITGROOM
 int nc_def_var_quantize(int i, int j, int k, int l)
-{
-    return (0);
-};
-
-int nc_def_var_chunking(int i, int j, int k, size_t * l)
 {
     return (0);
 };
