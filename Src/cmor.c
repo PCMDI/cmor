@@ -9,7 +9,6 @@
 #include "cmor.h"
 #include "cmor_locale.h"
 #include <netcdf.h>
-#include <netcdf_filter.h>
 #include <udunits2.h>
 #include <time.h>
 #include <errno.h>
@@ -5097,7 +5096,7 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
     int nVarRefTblID = cmor_vars[var_id].ref_table_id;
     int nelts;
     int *int_list = NULL;
-    int ics, icd, icdl, icz, icqm, icqn;
+    int ics, icd, icdl;
     int bChunk;
     cmor_add_traceback("cmor_create_var_attributes");
 /* -------------------------------------------------------------------- */
@@ -5171,18 +5170,7 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
         ics = pVar->shuffle;
         icd = pVar->deflate;
         icdl = pVar->deflate_level;
-        icz = pVar->zstandard_level;
-        icqm = pVar->quantize_mode;
-        icqn = pVar->quantize_nsd;
-        ierr = nc_def_var_quantize(ncid, pVar->nc_var_id, icqm, icqn);
-
-        // Only use zstandard compression if deflate is disabled
-        if (icd != 0) {
-            ierr |= nc_def_var_deflate(ncid, pVar->nc_var_id, ics, icd, icdl);
-        } else {
-            ierr |= nc_def_var_deflate(ncid, pVar->nc_var_id, ics, 0, 0);
-            ierr |= nc_def_var_zstandard(ncid, pVar->nc_var_id, icz);
-        }
+        ierr = nc_def_var_deflate(ncid, pVar->nc_var_id, ics, icd, icdl);
 
         if (ierr != NC_NOERR) {
             snprintf(msg, CMOR_MAX_STRING,
