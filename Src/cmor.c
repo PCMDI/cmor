@@ -720,9 +720,6 @@ void cmor_reset_variable(int var_id)
     cmor_vars[var_id].shuffle = 0;
     cmor_vars[var_id].deflate = 1;
     cmor_vars[var_id].deflate_level = 1;
-    cmor_vars[var_id].zstandard_level = 3;
-    cmor_vars[var_id].quantize_mode = 0;
-    cmor_vars[var_id].quantize_nsd = 1;
     cmor_vars[var_id].nomissing = 1;
     cmor_vars[var_id].iunits[0] = '\0';
     cmor_vars[var_id].ounits[0] = '\0';

@@ -1148,9 +1148,6 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
     cmor_vars[vrid].shuffle = refvar.shuffle;
     cmor_vars[vrid].deflate = refvar.deflate;
     cmor_vars[vrid].deflate_level = refvar.deflate_level;
-    cmor_vars[vrid].zstandard_level = refvar.zstandard_level;
-    cmor_vars[vrid].quantize_mode = refvar.quantize_mode;
-    cmor_vars[vrid].quantize_nsd = refvar.quantize_nsd;
     strcpy(cmor_vars[vrid].chunking_dimensions, refvar.chunking_dimensions);
 
     if (refvar.out_name[0] == '\0') {

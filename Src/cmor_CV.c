@@ -2539,9 +2539,6 @@ int cmor_CV_variable(int *var_id, char *name, char *units,
     cmor_vars[vrid].shuffle = refvar.shuffle;
     cmor_vars[vrid].deflate = refvar.deflate;
     cmor_vars[vrid].deflate_level = refvar.deflate_level;
-    cmor_vars[vrid].zstandard_level = refvar.zstandard_level;
-    cmor_vars[vrid].quantize_mode = refvar.quantize_mode;
-    cmor_vars[vrid].quantize_nsd = refvar.quantize_nsd;
     cmor_vars[vrid].first_bound = startimebnds;
     cmor_vars[vrid].last_bound = endtimebnds;
     cmor_vars[vrid].first_time = startime;
