@@ -1902,9 +1902,6 @@ void cmor_init_var_def(cmor_var_def_t * var, int table_id)
     var->shuffle = 0;
     var->deflate = 1;
     var->deflate_level = 1;
-    var->zstandard_level = 3;
-    var->quantize_mode = 0;
-    var->quantize_nsd = 1;
     var->generic_level_name[0] = '\0';
 }
 
@@ -2136,18 +2133,6 @@ int cmor_set_var_def_att(cmor_var_def_t * var, char att[CMOR_MAX_STRING],
     } else if (strcmp(att, VARIABLE_ATT_DEFLATELEVEL) == 0) {
 
         var->deflate_level = atoi(val);
-
-    } else if (strcmp(att, VARIABLE_ATT_ZSTANDARDLEVEL) == 0) {
-
-        var->zstandard_level = atoi(val);
-
-    } else if (strcmp(att, VARIABLE_ATT_QUANTIZEMODE) == 0) {
-
-        var->quantize_mode = atoi(val);
-
-    } else if (strcmp(att, VARIABLE_ATT_QUANTIZENSD) == 0) {
-
-        var->quantize_nsd = atoi(val);
 
     } else if (strcmp(att, VARIABLE_ATT_MODELINGREALM) == 0) {
 
