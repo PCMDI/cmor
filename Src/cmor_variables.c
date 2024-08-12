@@ -2299,7 +2299,6 @@ int cmor_set_zstandard(int var_id, int zstandard_level)
         return (-1);
     }
 
-    cmor_vars[var_id].zstandard_level = zstandard_level;
     cmor_pop_traceback();
     return (0);
 }
@@ -2324,8 +2323,6 @@ int cmor_set_quantize(int var_id, int quantize_mode, int quantize_nsd)
         return (-1);
     }
 
-    cmor_vars[var_id].quantize_mode = quantize_mode;
-    cmor_vars[var_id].quantize_nsd = quantize_nsd;
     cmor_pop_traceback();
     return (0);
 }

@@ -134,9 +134,6 @@
 #define VARIABLE_ATT_SHUFFLE          "shuffle"
 #define VARIABLE_ATT_DEFLATE          "deflate"
 #define VARIABLE_ATT_DEFLATELEVEL     "deflate_level"
-#define VARIABLE_ATT_ZSTANDARDLEVEL   "zstandard_level"
-#define VARIABLE_ATT_QUANTIZEMODE     "quantize_mode"
-#define VARIABLE_ATT_QUANTIZENSD      "quantize_nsd"
 #define VARIABLE_ATT_MODELINGREALM    "modeling_realm"
 #define VARIALBE_ATT_FREQUENCY        "frequency"
 #define VARIABLE_ATT_FLAGVALUES       "flag_values"
@@ -425,9 +422,6 @@ typedef struct cmor_variable_def_ {
     int shuffle;
     int deflate;
     int deflate_level;
-    int zstandard_level;
-    int quantize_mode;
-    int quantize_nsd;
     char required[CMOR_MAX_STRING];
     char realm[CMOR_MAX_STRING];
     char frequency[CMOR_MAX_STRING];
@@ -479,9 +473,6 @@ typedef struct cmor_var_ {
     int shuffle;
     int deflate;
     int deflate_level;
-    int zstandard_level;
-    int quantize_mode;
-    int quantize_nsd;
     int nomissing;
     char iunits[CMOR_MAX_STRING];
     char ounits[CMOR_MAX_STRING];
