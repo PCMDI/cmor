@@ -422,9 +422,6 @@ typedef struct cmor_variable_def_ {
     int shuffle;
     int deflate;
     int deflate_level;
-    int zstandard_level;
-    int quantize_mode;
-    int quantize_nsd;
     char required[CMOR_MAX_STRING];
     char realm[CMOR_MAX_STRING];
     char frequency[CMOR_MAX_STRING];
