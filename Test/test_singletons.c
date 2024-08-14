@@ -33,7 +33,7 @@ int test_bs550aer(const int *axes_ids, int num_axes, int zfactor_id, double base
     int var_id;
     float values[8], miss = 1.e20f;
     char positive = '\0';
-    int i;
+    int i, singleton_id;
     int scatangle_found = 0;
     int wavelength_found = 0;
 
@@ -44,9 +44,15 @@ int test_bs550aer(const int *axes_ids, int num_axes, int zfactor_id, double base
 
     // Find singleton dimension for bs550aer
     for(i = 0; i < cmor_vars[var_id].ndims; ++i){
-        if(strcmp(cmor_axes[cmor_vars[var_id].singleton_ids[i]].id, "wavelength") == 0)
-            wavelength_found++;
+        singleton_id = cmor_vars[var_id].singleton_ids[i];
+        if(singleton_id != -1) {
+            printf("cmor_axes[%d].id = %s\n", singleton_id, cmor_axes[singleton_id].id);
+            if(strcmp(cmor_axes[singleton_id].id, "wavelength") == 0)
+                wavelength_found++;
+        }
     }
+    printf("wavelength_found = %d\n", wavelength_found);
+
     if(wavelength_found != 1)
         fail("error in singleton dimension");
 
