@@ -475,7 +475,6 @@ typedef struct cmor_var_ {
     int deflate_level;
     int zstandard_level;
     int quantize_mode;
-    int quantize_nsd;
     int nomissing;
     char iunits[CMOR_MAX_STRING];
     char ounits[CMOR_MAX_STRING];
