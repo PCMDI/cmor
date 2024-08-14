@@ -44,6 +44,7 @@ int test_bs550aer(const int *axes_ids, int num_axes, int zfactor_id, double base
 
     // Find singleton dimension for bs550aer
     for(i = 0; i < cmor_vars[var_id].ndims; ++i){
+        printf("cmor_axes[%d].id = %s\n", i, cmor_axes[i].id);
         singleton_id = cmor_vars[var_id].singleton_ids[i];
         if(singleton_id != -1) {
             printf("cmor_axes[%d].id = %s\n", singleton_id, cmor_axes[singleton_id].id);
