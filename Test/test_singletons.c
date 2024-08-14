@@ -45,8 +45,10 @@ int test_bs550aer(const int *axes_ids, int num_axes, int zfactor_id, double base
     // Find singleton dimension for bs550aer
     for(i = 0; i < cmor_vars[var_id].ndims; ++i){
         singleton_id = cmor_vars[var_id].singleton_ids[i];
-        if(singleton_id != -1 && strcmp(cmor_axes[singleton_id].id, "wavelength") == 0)
-            wavelength_found++;
+        if(singleton_id != -1) {
+            if(strcmp(cmor_axes[singleton_id].id, "wavelength") == 0)
+                wavelength_found++;
+        }
     }
     if(wavelength_found != 1)
         fail("error in singleton dimension");
