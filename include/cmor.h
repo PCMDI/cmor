@@ -451,6 +451,9 @@ typedef struct cmor_var_ {
     int time_nc_id;
     int time_bnds_nc_id;
     char id[CMOR_MAX_STRING];
+    int zstandard_level;
+    int quantize_mode;
+    int quantize_nsd;
     int ndims;
     int singleton_ids[CMOR_MAX_DIMENSIONS];
     int axes_ids[CMOR_MAX_DIMENSIONS];
@@ -473,7 +476,6 @@ typedef struct cmor_var_ {
     int shuffle;
     int deflate;
     int deflate_level;
-    int quantize_mode;
     int nomissing;
     char iunits[CMOR_MAX_STRING];
     char ounits[CMOR_MAX_STRING];
