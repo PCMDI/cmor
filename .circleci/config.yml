@@ -22,8 +22,8 @@ aliases:
     name: setup_miniconda
     command: |
        source $BASH_ENV
-       if [[ $OS == 'osx-64' ]]; then
-          curl -L https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -o miniconda.sh
+       if [[ $OS == 'osx-arm64' ]]; then
+          curl -L https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-arm64.sh -o miniconda.sh
        else
           curl -L https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o miniconda.sh
        fi
@@ -75,8 +75,8 @@ aliases:
        export ARTIFACT_DIR=`pwd`/artifacts/$OS
        mkdir -p $ARTIFACT_DIR
 
-       if [[ $OS == 'osx-64' ]]; then
-          export OS_NAME="osx_64"
+       if [[ $OS == 'osx-arm64' ]]; then
+          export OS_NAME="osx_arm64"
        else
           export OS_NAME="linux_64"
        fi
@@ -123,12 +123,12 @@ executors:
         CONDA_COMPILERS: "gcc_linux-64 gfortran_linux-64"
    macos:
       macos:
-         xcode: "13.4.1"
-      resource_class: macos.x86.medium.gen2
+         xcode: "15.4.0"
+      resource_class: macos.m1.medium.gen1
       environment:
-        OS: "osx-64"
+        OS: "osx-arm64"
         PROJECT_DIR: "workdir/macos"
-        CONDA_COMPILERS: "clang_osx-64 gfortran_osx-64"
+        CONDA_COMPILERS: "clang_osx-arm64 gfortran_osx-arm64"
          
 jobs:
    build:
@@ -196,7 +196,7 @@ workflows:
          - build:
               matrix:
                  parameters:
-                    os: [ linux ]
+                    os: [ linux, macos ]
                     python_version: [ "3.10" ]
               name: build-<< matrix.os >>-<< matrix.python_version >>
 
