@@ -2,66 +2,87 @@
     "description": "<p>Climate Model Output Rewriter</p>",
     "access_right": "open",
     "license": "BSD-3-Clause",
-    "title": "PCMDI/CMOR: CMOR v3.8.0",
-    "version": "v3.8.0",
+    "title": "PCMDI/CMOR: CMOR v3.9.0",
+    "version": "v3.9.0",
     "upload_type": "software",
-    "publication_date": "2024-04-08",
+    "publication_date": "2024-08-xx",
     "creators": [
         {
             "name": "Mauzey, Chris",
-            "affiliation": "Lawrence Livermore National Laboratory",
+            "affiliation": "Program for Climate Model Diagnosis and Intercomparison (PCMDI)",
             "orcid": "0000-0003-1156-6774"
         },
         {
-            "name": "Durack, Paul",
-            "affiliation": "Lawrence Livermore National Laboratory",
-            "orcid": "0000-0003-2835-1438"
-        },
-        {
-            "name": "Taylor, Karl E.",
-            "affiliation": "Lawrence Livermore National Laboratory",
-            "orcid": "0000-0002-6491-2135"
-        },
-        {
-            "name": "Florek, Piotr",
-            "affiliation": "Met Office Hadley Centre",
-            "orcid": "0000-0002-1849-7620"
-        },
-        {
             "name": "Doutriaux, Charles",
-            "affiliation": "Lawrence Livermore National Laboratory"
+            "affiliation": "Program for Climate Model Diagnosis and Intercomparison (PCMDI)",
+	    "orcid": "0009-0002-6932-3169"
         },
         {
             "name": "Nadeau, Denis",
-            "affiliation": "Lawrence Livermore National Laboratory (formerly)"
+            "affiliation": "Program for Climate Model Diagnosis and Intercomparison (PCMDI, formerly)",
+	    "orcid": "0000-0002-9622-3289"
         },
         {
-            "name": "Hogan, Emma"
+            "name": "Taylor, Karl E.",
+            "affiliation": "Program for Climate Model Diagnosis and Intercomparison (PCMDI)",
+            "orcid": "0000-0002-6491-2135"
+        },
+	{
+            "name": "Durack, Paul J.",
+            "affiliation": "Program for Climate Model Diagnosis and Intercomparison (PCMDI)",
+            "orcid": "0000-0003-2835-1438"
         },
         {
-            "name": "Kettleborough, Jamie"
+            "name": "Betts, Edward",
+	    "affiliation": "Met Office Hadley Centre (MetOffice)"
         },
         {
-            "name": "Weigel, Tobias"
+            "name": "Cofino, Antonio S.",
+	    "affiliation": "Universidad de Cantabria (UniCan)",
+	    "orcid": "0000-0001-7719-979X"
+        },
+	{
+            "name": "Florek, Piotr",
+            "affiliation": "Met Office Hadley Centre (MetOffice)",
+            "orcid": "0000-0002-1849-7620"
         },
         {
-            "name": "kjoti"
+            "name": "Hogan, Emma",
+	    "affiliation": "Met Office Hadley Centre (MetOffice)",
+	    "orcid": "0009-0007-5610-4158"
+	},
+	{
+            "name": "Kettleborough, James",
+	    "affiliation": "Met Office Hadley Centre (MetOffice)",
+	    "orcid": "0000-0002-4698-6712"
         },
         {
-            "name": "jmrgonza"
-        },
-        {
-            "name": "Nicholls, Zeb",
+            "name": "Nicholls, Zebedee",
+	    "affiliation": "Climate Resource",
             "orcid": "0000-0002-4767-2723"
         },
         {
-            "name": "Betts, Edward"
+            "name": "Ogochi, Koji",
+	    "affiliation": "Japan Agency for Marine Earth Science and Technology (JAMSTEC)"
         },
         {
-            "name": "Seddon, Jon"
-        },
+            "name": "Seddon, Jon",
+	    "affiliation": "Met Office Hadley Centre (MetOffice)",
+	    "orcid": "0000-0003-1302-1049"
+	},
         {
-            "name": "Wachsmann, Fabian"
+            "name": "Wachsmann, Fabian",
+	    "affiliation": "German Climate Computing Centre (DKRZ)",
+	    "orcid": "0000-0003-4389-6911"
+	},
+	{
+            "name": "Weigel, Tobias",
+	    "affiliation": "German Climate Computing Centre (DKRZ)",
+	    "orcid": "0000-0002-4040-0215"
+	},
+        {
+            "name": "jmrgonza",
+	    "affiliation": "A European community Earth System Model (EC-Earth)"
         }
     ]
 }
