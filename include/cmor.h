@@ -436,6 +436,17 @@ typedef struct cmor_variable_def_ {
 } cmor_var_def_t;
 
 typedef struct cmor_var_ {
+    double last_time_written;
+    double last_time_bounds_written[2];
+    double attributes_values_num[CMOR_MAX_ATTRIBUTES];
+    double missing;
+    double omissing;
+    double tolerance;
+    double *values;
+    double first_time;
+    double last_time;
+    double first_bound;
+    double last_bound;
     int self;
     int grid_id;
     int sign;
@@ -449,33 +460,16 @@ typedef struct cmor_var_ {
     int nc_zfactors[CMOR_MAX_VARIABLES];
     int nzfactor;
     int ntimes_written;
-    double last_time_written;
-    double last_time_bounds_written[2];
     int ntimes_written_coords[10];
     int associated_ids[10];
     int ntimes_written_associated[10];
     int time_nc_id;
     int time_bnds_nc_id;
-    char id[CMOR_MAX_STRING];
     int ndims;
     int singleton_ids[CMOR_MAX_DIMENSIONS];
     int axes_ids[CMOR_MAX_DIMENSIONS];
     int original_order[CMOR_MAX_DIMENSIONS];
-    char attributes_values_char[CMOR_MAX_ATTRIBUTES][CMOR_MAX_STRING];
-    double attributes_values_num[CMOR_MAX_ATTRIBUTES];
-    char attributes_type[CMOR_MAX_ATTRIBUTES];	/*stores attributes type */
-    char attributes[CMOR_MAX_ATTRIBUTES][CMOR_MAX_STRING];	/*stores attributes names */
     int nattributes;		/* number of  attributes */
-    char type;
-    char itype;
-    double missing;
-    double omissing;
-    double tolerance;
-    float valid_min;
-    float valid_max;
-    float ok_min_mean_abs;
-    float ok_max_mean_abs;
-    char chunking_dimensions[CMOR_MAX_STRING];
     int shuffle;
     int deflate;
     int deflate_level;
@@ -483,20 +477,26 @@ typedef struct cmor_var_ {
     int quantize_mode;
     int quantize_nsd;
     int nomissing;
-    char iunits[CMOR_MAX_STRING];
-    char ounits[CMOR_MAX_STRING];
     int isbounds;
     int needsinit;		/* need to be init or associated to file */
     int zaxis;			/* for z vars, associated axis stored here */
-    double *values;
-    double first_time;
-    double last_time;
-    double first_bound;
-    double last_bound;
+    int suffix_has_date;
+    float valid_min;
+    float valid_max;
+    float ok_min_mean_abs;
+    float ok_max_mean_abs;
+    char id[CMOR_MAX_STRING];
+    char attributes_values_char[CMOR_MAX_ATTRIBUTES][CMOR_MAX_STRING];
+    char attributes_type[CMOR_MAX_ATTRIBUTES];	/*stores attributes type */
+    char attributes[CMOR_MAX_ATTRIBUTES][CMOR_MAX_STRING];	/*stores attributes names */
+    char type;
+    char itype;
+    char chunking_dimensions[CMOR_MAX_STRING];
+    char iunits[CMOR_MAX_STRING];
+    char ounits[CMOR_MAX_STRING];
     char base_path[CMOR_MAX_STRING];
     char current_path[CMOR_MAX_STRING];
     char suffix[CMOR_MAX_STRING];
-    int suffix_has_date;
     char frequency[CMOR_MAX_STRING];
 } cmor_var_t;
 
