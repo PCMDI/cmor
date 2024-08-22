@@ -1118,6 +1118,8 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
     strcpy(cmor_vars[vrid].base_path, "");
     strcpy(cmor_vars[vrid].current_path, "");
     strcpy(cmor_vars[vrid].frequency, refvar.frequency);
+    printf("refvar.frequency = %s\n", refvar.frequency);
+    printf("strlen(refvar.frequency) = %u\n", strlen(refvar.frequency));
     cmor_vars[vrid].suffix_has_date = 0;
 
 /* -------------------------------------------------------------------- */
@@ -1152,6 +1154,8 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
     cmor_vars[vrid].quantize_mode = refvar.quantize_mode;
     cmor_vars[vrid].quantize_nsd = refvar.quantize_nsd;
     strcpy(cmor_vars[vrid].chunking_dimensions, refvar.chunking_dimensions);
+    printf("refvar.chunking_dimensions = %s\n", refvar.chunking_dimensions);
+    printf("strlen(refvar.chunking_dimensions) = %u\n", strlen(refvar.chunking_dimensions));
 
     if (refvar.out_name[0] == '\0') {
         strncpy(cmor_vars[vrid].id, name, CMOR_MAX_STRING);
@@ -1682,6 +1686,9 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
                      cmor_axes[laxes_ids[i]].id);
             cmor_update_history(vrid, msg);
             cmor_vars[vrid].singleton_ids[i - k] = laxes_ids[i];
+            printf("singleton dim: cmor_vars[%d].singleton_ids[%d] = laxes_ids[%d]\n", vrid, i - k, i);
+            printf("singleton dim: laxes_ids[%d] = %d\n", i, laxes_ids[i]);
+            printf("singleton dim: cmor_axes[%d].id = %s\n", laxes_ids[i], cmor_axes[laxes_ids[i]].id);
             if (cmor_has_variable_attribute(vrid, "coordinates") == 0) {
                 cmor_get_variable_attribute(vrid, "coordinates", &msg[0]);
             } else {
