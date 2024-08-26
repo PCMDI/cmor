@@ -1,12 +1,6 @@
 name: CMOR Nightly Build
 run-name: CMOR Nightly Build
-on:
-  push:
-    branches:
-      - "main"
-  pull_request:
-    branches:
-      - "main"
+on: push
 
 jobs:
   nightly:
@@ -21,14 +15,7 @@ jobs:
             C_COMPILER: clang_osx-arm64 
             FORTRAN_COMPILER: gfortran_osx-arm64
             PROJECT_DIR: workdir/macos_arm64
-          - RUNNER_OS: 'macos-13'
-            OS: osx-64
-            OS_NAME: osx_64
-            MINICONDA_INSTALLER_URL: https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
-            C_COMPILER: clang_osx-64 
-            FORTRAN_COMPILER: gfortran_osx-64
-            PROJECT_DIR: workdir/macos_64
-        python_version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+        python_version: ['3.10']
     runs-on: ${{ matrix.runner.RUNNER_OS }}
     env:
       PACKAGE_NAME: cmor
