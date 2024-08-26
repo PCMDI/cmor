@@ -1,6 +1,12 @@
 name: CMOR Nightly Build
 run-name: CMOR Nightly Build
-on: push
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - "main"
 
 jobs:
   nightly:
