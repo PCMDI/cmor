@@ -74,9 +74,9 @@ jobs:
           export DST_META_YAML=`pwd`/$PROJECT_DIR/cmor-feedstock/recipe/meta.yaml
           mv $DST_META_YAML $SRC_META_YAML
 
-          export GIT_REV=$(git rev-parse --short HEAD)
+          export GIT_REV=$(git rev-parse --short "$GITHUB_SHA")
           echo "GIT_REV=$GIT_REV"
-          export GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          export GIT_BRANCH=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
           echo "GIT_BRANCH=$GIT_BRANCH"
 
           python rebuild_meta_yaml.py \

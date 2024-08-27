@@ -85,6 +85,25 @@ module cmor_users_functions
      end function cmor_set_deflate_cff
   end interface
 
+  interface
+     function cmor_set_zstandard_cff(var_id, zstandard_level )result (ierr)
+
+       integer, intent(in) :: var_id
+       integer, intent(in) :: zstandard_level
+       integer :: ierr
+     end function cmor_set_zstandard_cff
+  end interface
+
+  interface
+     function cmor_set_quantize_cff(var_id, quantize_mode, quantize_nsd )result (ierr)
+
+       integer, intent(in) :: var_id
+       integer, intent(in) :: quantize_mode
+       integer, intent(in) :: quantize_nsd
+       integer :: ierr
+     end function cmor_set_quantize_cff
+  end interface
+
   interface 
      function cmor_setup_cff_nolog(path,ncmode,verbosity,mode,crsub) result (j)
        integer ncmode,verbosity,mode, j, crsub
@@ -7168,6 +7187,24 @@ contains
     integer ierr
     ierr = cmor_set_deflate_cff(var_id, shuffle, deflate, deflate_level)
   end function cmor_set_deflate
+
+  function cmor_set_zstandard(var_id, zstandard_level) result (ierr)
+    implicit none
+    integer, intent (in) :: var_id
+    integer, intent (in) :: zstandard_level
+    integer ierr
+    ierr = cmor_set_zstandard_cff(var_id, zstandard_level)
+  end function cmor_set_zstandard
+
+  function cmor_set_quantize(var_id, quantize_mode, quantize_nsd) result (ierr)
+    implicit none
+    integer, intent (in) :: var_id
+    integer, intent (in) :: quantize_mode
+    integer, intent (in) :: quantize_nsd
+    integer ierr
+    ierr = cmor_set_quantize_cff(var_id, quantize_mode, quantize_nsd)
+  end function cmor_set_quantize
+
   function cmor_setup_ints(inpath,netcdf_file_action, set_verbosity,&
        exit_control, logfile, create_subdirectories) result(ierr)
     implicit none
