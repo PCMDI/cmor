@@ -74,7 +74,7 @@ jobs:
           export DST_META_YAML=`pwd`/$PROJECT_DIR/cmor-feedstock/recipe/meta.yaml
           mv $DST_META_YAML $SRC_META_YAML
 
-          export GIT_REF=${{ GITHUB_REF }}
+          export GIT_REF=${GITHUB_REF}
           echo "GIT_REF=$GIT_REF"
           export GIT_REV=$(git rev-parse --short $GIT_REF)
           echo "GIT_REV=$GIT_REV"
