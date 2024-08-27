@@ -69,7 +69,9 @@ jobs:
 
           export GIT_BRANCH=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
           echo "GIT_BRANCH=$GIT_BRANCH"
-          export GIT_REV=$(git rev-parse --short refs/heads/$GIT_BRANCH)
+          export GIT_REF=refs/heads/$GIT_BRANCH
+          echo "GIT_REF=$GIT_REF"
+          export GIT_REV=$(git rev-parse --short $GIT_REF)
           echo "GIT_REV=$GIT_REV"
 
           python rebuild_meta_yaml.py \
