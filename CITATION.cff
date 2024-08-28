@@ -67,5 +67,5 @@ authors:
 title: "The Climate Model Output Rewriter (CMOR)"
 version: 3.9.0
 doi: 10.5281/zenodo.592733 
-date-released: 2024-08-xx
+date-released: 2024-08-28
 url: "https://github.com/PCMDI/cmor"
