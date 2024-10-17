@@ -1,8 +1,8 @@
 dnl
 dnl Process this file with autoconf to produce a configure script.
 
-dnl AC_PREREQ(2.59)
-AC_INIT(cmor, 3.7.1, mauzey1@llnl.gov)
+dnl AC_PREREQ([2.71])
+AC_INIT([cmor],[3.9.0],[mauzey1@llnl.gov])
 
 GIT_TAG=`cd $srcdir ; ./get_git_version.sh`
 
@@ -187,7 +187,7 @@ else
   JSONCLDFLAGS="-ljson-c"
   JSONCFLAGS=""
 fi
-AC_CHECK_LIB([json-c],[json_object_new_object],[],[AC_ERROR([Could not get a working json-c])],[ ${JSONCFLAGS} ${JSONCLDFLAGS}  ])
+AC_CHECK_LIB([json-c],[json_object_new_object],[],[AC_MSG_ERROR(Could not get a working json-c)],[ ${JSONCFLAGS} ${JSONCLDFLAGS}  ])
 
 AC_ARG_WITH([uuid],[AS_HELP_STRING([--with-uuid],[enable support for uuid in none standard location])],[],[with_uuid="no"])
 if [ test x${with_uuid} != xyes ] ; then
@@ -206,19 +206,19 @@ else
   UUIDLDFLAGS="-luuid"
   UUIDFLAGS=""
 fi
-AC_CHECK_LIB([uuid],[uuid_generate],[],[AC_ERROR([Could not get a working uuid])],[ ${UUIDFLAGS} ${UUIDLDFLAGS}  ])
+AC_CHECK_LIB([uuid],[uuid_generate],[],[AC_MSG_ERROR(Could not get a working uuid)],[ ${UUIDFLAGS} ${UUIDLDFLAGS}  ])
 
 LIBS=""
 AC_ARG_WITH([udunits2],[AS_HELP_STRING([--with-udunits2],[enable support for udunits2 in none standard location])],[],[with_udunits2="no"])
 if [ test x${with_udunits2} != xyes ] ; then
   if [ test x${with_udunits2} != xno ] ; then
-   AC_CHECK_FILE(${with_udunits2}/include/udunits2/udunits2.h,
+   AS_IF([test -f "${with_udunits2}/include/udunits2/udunits2.h"],
     [UDUNITS2FLAGS=" -I${with_udunits2}/include/udunits2"],
     [UDUNITS2FLAGS=" -I${with_udunits2}/include"])
    if [ test ${RTAG} != "none" ] ; then
-     UDUNITS2LDFLAGS=" -L${with_udunits2}/lib  ${RTAG}${with_udunits2}/lib -ludunits2 -lexpat"
+     UDUNITS2LDFLAGS=" -L${with_udunits2}/lib  ${RTAG}${with_udunits2}/lib -ludunits2"
    else
-     UDUNITS2LDFLAGS=" -L${with_udunits2}/lib -ludunits2 -lexpat"
+     UDUNITS2LDFLAGS=" -L${with_udunits2}/lib -ludunits2"
    fi
   else
     UDUNITS2FLAGS="-ludunits2"
@@ -228,14 +228,14 @@ else
   UDUNITS2FLAGS="-ludunits2"
   UDUNITS2LDFLAGS=""
 fi
-AC_CHECK_LIB([udunits2],[ut_parse],[],[AC_ERROR([Could not get a working udunits2])],[ ${UDUNITS2FLAGS} ${UDUNITS2LDFLAGS} -lm  ])
+AC_CHECK_LIB([udunits2],[ut_parse],[],[AC_MSG_ERROR(Could not get a working udunits2)],[ ${UDUNITS2FLAGS} ${UDUNITS2LDFLAGS} -lm  ])
 LIBS=""
 
 
 AC_ARG_WITH([netcdf],[AS_HELP_STRING([--with-netcdf],[enable support for NetCDF in none standard location])],[],[with_netcdf="no"])
 if [ test x${with_netcdf} != xyes ]; then
   if [ test x${with_netcdf} != xno ] ; then
-    AC_CHECK_FILE([${with_netcdf}/bin/nc-config],[HAS_NCCONFIG=yes],[HAS_NCCONFIG=no])
+    AS_IF([test -f "${with_netcdf}/bin/nc-config"],[HAS_NCCONFIG=yes],[HAS_NCCONFIG=no])
     if [ test ${HAS_NCCONFIG} == "yes" ] ; then 
       NCCFLAGS=`${with_netcdf}/bin/nc-config --cflags`
       NCLDFLAGS=`${with_netcdf}/bin/nc-config --libs`
@@ -305,7 +305,7 @@ if [ test ${HAS_NC4} == "no" ] ; then
         ]])],[BUILD_NC3="no"],[BUILD_NC3="yes"])
     if [test ${BUILD_NC3} == "yes" ] ; then
        AC_MSG_RESULT(["no"])
-       AC_ERROR([Could not get a working NetCDF])
+       AC_MSG_ERROR(Could not get a working NetCDF)
     else
        AC_MSG_RESULT(["yes"])
     fi

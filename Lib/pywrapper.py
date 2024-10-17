@@ -458,10 +458,6 @@ def axis(table_entry, units=None, length=None,
                       str.encode(data_type), cell_bounds, cbnds, interval)
 
 
-def calculate_leadtime_coord(var_id):
-    return _cmor.calculate_leadtime_coord(var_id)
-
-
 def variable(table_entry, units, axis_ids, data_type='f', missing_value=None,
              tolerance=1.e-4, positive=None, original_name=None, history=None, comment=None):
 
@@ -1034,6 +1030,41 @@ def set_deflate(var_id, shuffle, deflate, deflate_level):
     """
 
     return _cmor.set_deflate(var_id, shuffle, deflate, deflate_level)
+
+
+def set_zstandard(var_id, zstandar_level):
+    """Sets Zstandard compression on a cmor variable
+    Usage:
+      cmor.set_zstandard(var_id, szstandar_level)
+    Where:
+      var_id: is cmor variable id
+      zstandar_level: Compression level. Must be set from -131072 to 22
+
+    """
+
+    return _cmor.set_zstandard(var_id, zstandar_level)
+
+
+def set_quantize(var_id, quantize_mode, quantize_nsd):
+    """Sets quantization on a cmor variable
+    Usage:
+      cmor.set_quantize(var_id, quantize_mode, quantize_nsd)
+    Where:
+      var_id: is cmor variable id
+      quantize_mode: Quantization mode.  Can be set to the following.
+                     0: No quantization mode
+                     1: BitGroom
+                     2: Granular BitRound
+                     3: BitRound
+      quantize_nsd: Number of significant digits.  If quantize_mode is set to
+                    1 or 2, then the value can be set from 1 to 7 for floats
+                    and 1 to 23 for doubles. If quantize_mode is set to 3, then
+                    the value can be set from 1 to 15 for floats and 1 to 52
+                    for doubles.  The value is ignore if quantize_mode is 0.
+
+    """
+
+    return _cmor.set_quantize(var_id, quantize_mode, quantize_nsd)
 
 
 def has_variable_attribute(var_id, name):

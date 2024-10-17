@@ -22,8 +22,12 @@ aliases:
     name: setup_miniconda
     command: |
        source $BASH_ENV
-       git clone https://github.com/CDAT/cdat.git $WORKDIR/cdat
-       python $WORKDIR/cdat/scripts/install_miniconda.py -w $WORKDIR -p 'py3'
+       if [[ $OS == 'osx-64' ]]; then
+          curl -L https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -o miniconda.sh
+       else
+          curl -L https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o miniconda.sh
+       fi
+       bash miniconda.sh -b -p $WORKDIR/miniconda
        
   - &conda_rerender
     name: conda_rerender
@@ -33,12 +37,28 @@ aliases:
        conda activate base
        conda config --set anaconda_upload no
 
-       git clone -b master https://github.com/CDAT/conda-recipes $WORKDIR/conda-recipes
-       export BUILD_SCRIPT=$WORKDIR/conda-recipes/build_tools/conda_build.py
-       export ACTIVATE=$WORKDIR/miniconda/bin/activate
+       git clone -b main https://github.com/conda-forge/cmor-feedstock $WORKDIR/cmor-feedstock
+       export SRC_META_YAML=$WORKDIR/cmor-feedstock/recipe/meta.yaml.SRC
+       export DST_META_YAML=$WORKDIR/cmor-feedstock/recipe/meta.yaml
+       mv $DST_META_YAML $SRC_META_YAML
 
-       python $BUILD_SCRIPT -w $WORKDIR -l $VERSION -B 0 -p $PKG_NAME -r $PKG_NAME -b $CIRCLE_BRANCH \
-        --do_rerender --conda_env base --ignore_conda_missmatch --conda_activate $ACTIVATE --organization PCMDI
+       export GIT_REV=$(git rev-parse --short HEAD)
+
+       python rebuild_meta_yaml.py \
+        --package_name $PKG_NAME \
+        --version $VERSION \
+        --organization PCMDI \
+        --repo_name $PKG_NAME \
+        --branch $CIRCLE_BRANCH \
+        --git_rev $GIT_REV \
+        --build 0 \
+        --src_meta_yaml $SRC_META_YAML \
+        --dst_meta_yaml $DST_META_YAML
+
+       conda create -y -n smithy_env -c conda-forge conda-smithy
+       conda activate smithy_env
+       cd $WORKDIR/cmor-feedstock
+       conda smithy rerender
        
   - &conda_build
     name: conda_build
@@ -47,16 +67,24 @@ aliases:
        source $WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate base
        conda config --set anaconda_upload no
+       conda activate smithy_env
 
-       export ARTIFACT_DIR=`pwd`/artifacts/artifacts.$OS.py_$PYTHON_VERSION
+       export BUILD_DIR=`pwd`/cmor_conda_pkgs
+       mkdir -p $BUILD_DIR
+
+       export ARTIFACT_DIR=`pwd`/artifacts/$OS
        mkdir -p $ARTIFACT_DIR
-       
-       export CONDA_BUILD_EXTRA=" --copy_conda_package $ARTIFACT_DIR/"
-       export BUILD_SCRIPT=$WORKDIR/conda-recipes/build_tools/conda_build.py
-       export ACTIVATE=$WORKDIR/miniconda/bin/activate
 
-       python $BUILD_SCRIPT -w $WORKDIR -p $PKG_NAME --build_version $PYTHON_VERSION --do_build \
-        --conda_env base --extra_channels conda-forge --conda_activate $ACTIVATE $CONDA_BUILD_EXTRA
+       if [[ $OS == 'osx-64' ]]; then
+          export OS_NAME="osx_64"
+       else
+          export OS_NAME="linux_64"
+       fi
+
+       for i in ${WORKDIR}'/cmor-feedstock/.ci_support/'${OS_NAME}'_*python'${PYTHON_VERSION}'*.yaml'; do
+          conda build -c conda-forge --output-folder $BUILD_DIR -m $i $WORKDIR/cmor-feedstock/recipe/
+          cp $BUILD_DIR/$OS/$PKG_NAME-$VERSION*.tar.bz2 $ARTIFACT_DIR
+       done
 
   - &run_cmor_tests
     name: run_cmor_tests
@@ -64,57 +92,15 @@ aliases:
        source $BASH_ENV
        source $WORKDIR/miniconda/etc/profile.d/conda.sh
        conda activate base
-       export UVCDAT_ANONYMOUS_LOG=False
+       export CMOR_CHANNEL=`pwd`/cmor_conda_pkgs/
+       conda search -c file://$CMOR_CHANNEL --override-channels
        set +e
-       conda create -y -n test_py$PYTHON_VERSION --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME=$VERSION $PKGS $CONDA_COMPILERS
+       conda create -y -n test_py$PYTHON_VERSION -c file://$CMOR_CHANNEL $CHANNELS python=$PYTHON_VERSION $PKG_NAME=$VERSION $CONDA_COMPILERS
        conda activate test_py$PYTHON_VERSION
        set -e
        ./configure --prefix=$CONDA_PREFIX --with-python --with-uuid=$CONDA_PREFIX --with-json-c=$CONDA_PREFIX --with-udunits2=$CONDA_PREFIX --with-netcdf=$CONDA_PREFIX  --enable-verbose-test
        make test -o cmor -o python
 
-  - &run_cmor_tests_with_cdms2
-    name: run_cmor_tests_with_cdms2
-    command: |
-       source $BASH_ENV
-       source $WORKDIR/miniconda/etc/profile.d/conda.sh
-       conda activate base
-       export UVCDAT_ANONYMOUS_LOG=False
-       # run tests again but with cdms2 installed
-       set +e
-       conda create -y -n cdms2_py$PYTHON_VERSION --use-local $CHANNELS python=$PYTHON_VERSION $PKG_NAME=$VERSION $PKGS $CONDA_COMPILERS cdms2 numpy=1.23
-       conda activate cdms2_py$PYTHON_VERSION
-       ./configure --prefix=$CONDA_PREFIX --with-python --with-uuid=$CONDA_PREFIX --with-json-c=$CONDA_PREFIX --with-udunits2=$CONDA_PREFIX --with-netcdf=$CONDA_PREFIX  --enable-verbose-test
-       set -e
-       make test -o cmor -o python
-
-  - &run_prepare_tests
-    name: run_prepare_tests
-    command: |
-       source $BASH_ENV
-       source $WORKDIR/miniconda/etc/profile.d/conda.sh
-       conda activate base
-       export UVCDAT_ANONYMOUS_LOG=False
-       set +e
-       conda activate test_py$PYTHON_VERSION
-       set -e
-       export PYTHONPATH=Test/:$PYTHONPATH
-       for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file; mystatus=$?; if [[ "$mystatus" != "0" ]]; then return ${mystatus}; fi; done
-       python run_tests.py -v2 -H -n1 Test/test_python_CMIP6_CV*.py
-
-  - &run_prepare_tests_with_cdms2
-    name: run_prepare_tests_with_cdms2
-    command: |
-       source $BASH_ENV
-       source $WORKDIR/miniconda/etc/profile.d/conda.sh
-       conda activate base
-       export UVCDAT_ANONYMOUS_LOG=False
-       set +e
-       conda activate cdms2_py$PYTHON_VERSION
-       set -e
-       export PYTHONPATH=Test/:$PYTHONPATH
-       for file in `ls -1 Test/test_python_CMIP6_CV*.py`; do echo $file; python $file; mystatus=$?; if [[ "$mystatus" != "0" ]]; then return ${mystatus}; fi; done
-       python run_tests.py -v2 -H -n1 Test/test_python_CMIP6_CV*.py
-       
   - &conda_upload
     name: conda_upload
     command: |
@@ -130,14 +116,15 @@ aliases:
 executors:
    linux:
       machine:
-         image: ubuntu-2004:202201-02
+         image: ubuntu-2204:2024.01.2
       environment:
         OS: "linux-64"
         PROJECT_DIR: "workdir/linux"
         CONDA_COMPILERS: "gcc_linux-64 gfortran_linux-64"
    macos:
       macos:
-         xcode: "13.2.1"
+         xcode: "13.4.1"
+      resource_class: macos.x86.medium.gen2
       environment:
         OS: "osx-64"
         PROJECT_DIR: "workdir/macos"
@@ -153,49 +140,23 @@ jobs:
       executor: << parameters.os >>
       environment:
          PKG_NAME: "cmor"
-         VERSION: "3.7.1"
+         VERSION: "3.9.0"
          PYTHON_VERSION: << parameters.python_version >>
-         CHANNELS: "-c conda-forge -c cdat/label/nightly -c cdat"
-         PKGS: " lazy-object-proxy testsrunner"
+         CHANNELS: "-c conda-forge"
       steps:
-         - when:
-            condition:
-               not:
-                  equal: [ "3.11", << parameters.python_version >>]
-            steps:
-               - checkout
-               - attach_workspace:
-                  at: .
-               - run: *setup_env
-               - run: *setup_miniconda
-               - run: *conda_rerender
-               - run: *conda_build
-               - run: *pull_submodules
-               - run: *run_cmor_tests
-               - run: *run_cmor_tests_with_cdms2
-               - run: *run_prepare_tests_with_cdms2
-               - persist_to_workspace:
-                  root: .
-                  paths:
-                     - artifacts
-         - when:
-            condition:
-               equal: [ "3.11", << parameters.python_version >>]
-            steps:
-               - checkout
-               - attach_workspace:
-                  at: .
-               - run: *setup_env
-               - run: *setup_miniconda
-               - run: *conda_rerender
-               - run: *conda_build
-               - run: *pull_submodules
-               - run: *run_cmor_tests
-               - run: *run_prepare_tests
-               - persist_to_workspace:
-                  root: .
-                  paths:
-                     - artifacts
+         - checkout
+         - attach_workspace:
+            at: .
+         - run: *setup_env
+         - run: *setup_miniconda
+         - run: *conda_rerender
+         - run: *conda_build
+         - run: *pull_submodules
+         - run: *run_cmor_tests
+         - persist_to_workspace:
+            root: .
+            paths:
+               - artifacts
 
    upload:
       parameters:
@@ -235,8 +196,8 @@ workflows:
          - build:
               matrix:
                  parameters:
-                    os: [ linux, macos ]
-                    python_version: [ "3.8", "3.9", "3.10", "3.11" ]
+                    os: [ linux ]
+                    python_version: [ "3.9", "3.10", "3.11", "3.12" ]
               name: build-<< matrix.os >>-<< matrix.python_version >>
 
          - upload:
@@ -248,7 +209,7 @@ workflows:
                  - build
               filters:
                  branches:
-                    only: master
+                    only: main
 
          - testing_upload:
               matrix:

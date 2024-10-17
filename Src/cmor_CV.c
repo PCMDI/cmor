@@ -370,6 +370,13 @@ int cmor_CV_checkFurtherInfoURL(int nVarRefTblID)
     cmor_add_traceback("_CV_checkFurtherInfoURL");
 
 /* -------------------------------------------------------------------- */
+/* If the template is an emtpy string, then skip this check.            */
+/* -------------------------------------------------------------------- */
+    if (cmor_current_dataset.furtherinfourl[0] == '\0') {
+        return (0);
+    }
+
+/* -------------------------------------------------------------------- */
 /* Retrieve default Further URL info                                    */
 /* -------------------------------------------------------------------- */
     strncpy(szFurtherInfoURLTemplate, cmor_current_dataset.furtherinfourl,
@@ -379,9 +386,22 @@ int cmor_CV_checkFurtherInfoURL(int nVarRefTblID)
 /*    If this is a string with no token we have nothing to do.          */
 /* -------------------------------------------------------------------- */
     szToken = strtok(szFurtherInfoURLTemplate, "<>");
+    if (szToken == NULL) {
+        snprintf(msg, CMOR_MAX_STRING,
+                    "The further info URL value of \"%s\" is invalid. \n! ",
+                    szFurtherInfoURLTemplate);
+
+        cmor_handle_error(msg, CMOR_NORMAL);
+        cmor_pop_traceback();
+        return (-1);
+    }
+
     if (strcmp(szToken, cmor_current_dataset.furtherinfourl) == 0) {
+        cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_FURTHERINFOURL,
+                                                cmor_current_dataset.furtherinfourl, 0);
         return (0);
     }
+
     strncpy(szFurtherInfoURLTemplate, cmor_current_dataset.furtherinfourl,
             CMOR_MAX_STRING);
 /* -------------------------------------------------------------------- */
@@ -2428,6 +2448,9 @@ int cmor_CV_variable(int *var_id, char *name, char *units,
     cmor_vars[vrid].shuffle = refvar.shuffle;
     cmor_vars[vrid].deflate = refvar.deflate;
     cmor_vars[vrid].deflate_level = refvar.deflate_level;
+    cmor_vars[vrid].zstandard_level = refvar.zstandard_level;
+    cmor_vars[vrid].quantize_mode = refvar.quantize_mode;
+    cmor_vars[vrid].quantize_nsd = refvar.quantize_nsd;
     cmor_vars[vrid].first_bound = startimebnds;
     cmor_vars[vrid].last_bound = endtimebnds;
     cmor_vars[vrid].first_time = startime;

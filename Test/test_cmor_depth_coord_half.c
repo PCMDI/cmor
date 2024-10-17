@@ -49,7 +49,7 @@ int main()
     ierr |= cmor_variable(&myvars[0], "zhalfo", "m", 4, axes_ids, 'd', NULL,
             NULL, "", "zhalfo", "no history", "no future");
 
-    ierr |= cmor_write(myvars[0], zhalfo_data, 'd', NULL, NULL, NULL, NULL, NULL);
+    ierr |= cmor_write(myvars[0], zhalfo_data, 'd', NULL, 0, NULL, NULL, NULL);
 
     ierr |= cmor_close_variable(myvars[0], returnvalue, NULL);
 

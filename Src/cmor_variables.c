@@ -1148,6 +1148,9 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
     cmor_vars[vrid].shuffle = refvar.shuffle;
     cmor_vars[vrid].deflate = refvar.deflate;
     cmor_vars[vrid].deflate_level = refvar.deflate_level;
+    cmor_vars[vrid].zstandard_level = refvar.zstandard_level;
+    cmor_vars[vrid].quantize_mode = refvar.quantize_mode;
+    cmor_vars[vrid].quantize_nsd = refvar.quantize_nsd;
     strcpy(cmor_vars[vrid].chunking_dimensions, refvar.chunking_dimensions);
 
     if (refvar.out_name[0] == '\0') {
@@ -1902,6 +1905,9 @@ void cmor_init_var_def(cmor_var_def_t * var, int table_id)
     var->shuffle = 0;
     var->deflate = 1;
     var->deflate_level = 1;
+    var->zstandard_level = 3;
+    var->quantize_mode = 0;
+    var->quantize_nsd = 1;
     var->generic_level_name[0] = '\0';
 }
 
@@ -2134,6 +2140,18 @@ int cmor_set_var_def_att(cmor_var_def_t * var, char att[CMOR_MAX_STRING],
 
         var->deflate_level = atoi(val);
 
+    } else if (strcmp(att, VARIABLE_ATT_ZSTANDARDLEVEL) == 0) {
+
+        var->zstandard_level = atoi(val);
+
+    } else if (strcmp(att, VARIABLE_ATT_QUANTIZEMODE) == 0) {
+
+        var->quantize_mode = atoi(val);
+
+    } else if (strcmp(att, VARIABLE_ATT_QUANTIZENSD) == 0) {
+
+        var->quantize_nsd = atoi(val);
+
     } else if (strcmp(att, VARIABLE_ATT_MODELINGREALM) == 0) {
 
         strncpy(var->realm, val, CMOR_MAX_STRING);
@@ -2280,6 +2298,57 @@ int cmor_set_deflate(int var_id, int shuffle, int deflate, int deflate_level)
 }
 
 /************************************************************************/
+/*                       cmor_set_zstandard()                           */
+/************************************************************************/
+int cmor_set_zstandard(int var_id, int zstandard_level)
+{
+    char msg[CMOR_MAX_STRING];
+
+    cmor_add_traceback("cmor_set_zstandard");
+    cmor_is_setup();
+
+    if (cmor_vars[var_id].self != var_id) {
+        snprintf(msg, CMOR_MAX_STRING,
+                 "You attempted to set the zstandard level of "
+                 "variable id(%d) which was not initialized", var_id);
+        cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
+        cmor_pop_traceback();
+
+        return (-1);
+    }
+
+    cmor_vars[var_id].zstandard_level = zstandard_level;
+    cmor_pop_traceback();
+    return (0);
+}
+
+/************************************************************************/
+/*                       cmor_set_quantize()                            */
+/************************************************************************/
+int cmor_set_quantize(int var_id, int quantize_mode, int quantize_nsd)
+{
+    char msg[CMOR_MAX_STRING];
+
+    cmor_add_traceback("cmor_set_quantize");
+    cmor_is_setup();
+
+    if (cmor_vars[var_id].self != var_id) {
+        snprintf(msg, CMOR_MAX_STRING,
+                 "You attempted to set the quantize mode of "
+                 "variable id(%d) which was not initialized", var_id);
+        cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
+        cmor_pop_traceback();
+
+        return (-1);
+    }
+
+    cmor_vars[var_id].quantize_mode = quantize_mode;
+    cmor_vars[var_id].quantize_nsd = quantize_nsd;
+    cmor_pop_traceback();
+    return (0);
+}
+
+/************************************************************************/
 /*                   cmor_get_variable_time_length()                    */
 /************************************************************************/
 int cmor_get_variable_time_length(int *var_id, int *length)
@@ -2344,32 +2413,32 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
 
     size_t counts[CMOR_MAX_DIMENSIONS];
     size_t counts2[CMOR_MAX_DIMENSIONS];
-    int counter[CMOR_MAX_DIMENSIONS];
-    int counter_orig[CMOR_MAX_DIMENSIONS];
-    int counter_orig2[CMOR_MAX_DIMENSIONS];
-    int counter2[CMOR_MAX_DIMENSIONS];
+    size_t counter[CMOR_MAX_DIMENSIONS];
+    size_t counter_orig[CMOR_MAX_DIMENSIONS];
+    size_t counter_orig2[CMOR_MAX_DIMENSIONS];
+    size_t counter2[CMOR_MAX_DIMENSIONS];
     size_t starts[CMOR_MAX_DIMENSIONS];
-    int nelements, loc, add, nelts;
+    size_t nelements, loc, add, nelts;
     double *data_tmp = NULL, tmp = 0., tmp2, amean;
     int *idata_tmp = NULL;
     long *ldata_tmp = NULL;
     float *fdata_tmp = NULL;
     char mtype;
-    int i, j, ierr = 0, dounits = 1;
+    size_t i, j;
+    int ierr = 0, dounits = 1;
     char msg[CMOR_MAX_STRING];
     char msg2[CMOR_MAX_STRING];
     double *tmp_vals;
     ut_unit *user_units = NULL, *cmor_units = NULL;
     cv_converter *ut_cmor_converter = NULL;
     char local_unit[CMOR_MAX_STRING];
-    int n_lower_min = 0, n_greater_max = 0;
+    size_t n_lower_min = 0, n_greater_max = 0;
     double emax, emin, first_time;
     char msg_min[CMOR_MAX_STRING];
     char msg_max[CMOR_MAX_STRING];
     extern ut_system *ut_read;
-    int tmpindex = 0;
-    int index;
-    int bb;
+    size_t tmpindex = 0;
+    size_t index;
 
     cmor_add_traceback("cmor_write_var_to_file");
     cmor_is_setup();
@@ -2423,21 +2492,20 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
     counter[avar->ndims] = 1;   /* dummy */
     counter_orig[avar->ndims] = 1;      /*dummy */
 
-    for (i = avar->ndims - 1; i >= 0; i--) {
+    for (i = avar->ndims; i > 0; i--) {
 /* -------------------------------------------------------------------- */
 /*      we need to do this for the order in which we will write and     */
 /*      the order the user defined its variable                         */
 /* -------------------------------------------------------------------- */
-
-        if (cmor_axes[avar->axes_ids[i]].axis != 'T')
-            counter[i] = cmor_axes[avar->axes_ids[i]].length * counter[i + 1];
+        if (cmor_axes[avar->axes_ids[i - 1]].axis != 'T')
+            counter[i - 1] = cmor_axes[avar->axes_ids[i - 1]].length * counter[i];
         else
-            counter[i] = counts[0] * counter[i + 1];
-        if (cmor_axes[avar->original_order[i]].axis != 'T')
-            counter_orig[i] = cmor_axes[avar->original_order[i]].length
-              * counter_orig[i + 1];
+            counter[i - 1] = counts[0] * counter[i];
+        if (cmor_axes[avar->original_order[i - 1]].axis != 'T')
+            counter_orig[i - 1] = cmor_axes[avar->original_order[i - 1]].length
+              * counter_orig[i];
         else
-            counter_orig[i] = counts[0] * counter_orig[i + 1];
+            counter_orig[i - 1] = counts[0] * counter_orig[i];
     }
 /* -------------------------------------------------------------------- */
 /*       Now we need to map, i.e going ahead by 2 elements of final     */
@@ -2462,7 +2530,7 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
         idata_tmp = malloc(sizeof(int) * nelements);
         if (idata_tmp == NULL) {
             snprintf(msg, CMOR_MAX_STRING,
-                     "cannot allocate memory for %i int tmp elts var '%s' "
+                     "cannot allocate memory for %lu int tmp elts var '%s' "
                      "(table: %s)",
                      nelements, avar->id,
                      cmor_tables[avar->ref_table_id].szTable_id);
@@ -2474,7 +2542,7 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
         ldata_tmp = malloc(sizeof(long) * nelements);
         if (ldata_tmp == NULL) {
             snprintf(msg, CMOR_MAX_STRING,
-                     "cannot allocate memory for %i long tmp elts var '%s' "
+                     "cannot allocate memory for %lu long tmp elts var '%s' "
                      "(table: %s)",
                      nelements, avar->id,
                      cmor_tables[avar->ref_table_id].szTable_id);
@@ -2486,7 +2554,7 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
         data_tmp = malloc(sizeof(double) * nelements);
         if (data_tmp == NULL) {
             snprintf(msg, CMOR_MAX_STRING,
-                     "cannot allocate memory for %i double tmp elts var '%s' "
+                     "cannot allocate memory for %lu double tmp elts var '%s' "
                      "(table: %s)",
                      nelements, avar->id,
                      cmor_tables[avar->ref_table_id].szTable_id);
@@ -2498,7 +2566,7 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
         fdata_tmp = malloc(sizeof(float) * nelements);
         if (fdata_tmp == NULL) {
             snprintf(msg, CMOR_MAX_STRING,
-                     "cannot allocate memory for %i float tmp elts var '%s' "
+                     "cannot allocate memory for %lu float tmp elts var '%s' "
                      "(table: %s)",
                      nelements, avar->id,
                      cmor_tables[avar->ref_table_id].szTable_id);
@@ -2575,7 +2643,7 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
 /*      puts the result in counter2                                     */
 /* -------------------------------------------------------------------- */
         for (j = 0; j < avar->ndims; j++) {
-            counter2[j] = (int)loc / (int)counter[j + 1];
+            counter2[j] = (size_t)loc / (size_t)counter[j + 1];
 
 /* -------------------------------------------------------------------- */
 /*      this is the reverse part doing it this way to avoid if test     */
@@ -2595,14 +2663,14 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
                 add = counter2[j] * pAxis->revert + (pAxis->length - 1) *
                   (1 - pAxis->revert) / 2;
 
-                loc = loc + (int)fmod(add + pAxis->offset, pAxis->length)
+                loc = loc + (size_t)fmod(add + pAxis->offset, pAxis->length)
                   * counter_orig2[j];
 
             } else {
 
                 add = counter2[j] * pAxis->revert + (counts[0] - 1) *
                   (1 - pAxis->revert) / 2;
-                loc = loc + (int)fmod(add + pAxis->offset, counts[0])
+                loc = loc + (size_t)fmod(add + pAxis->offset, counts[0])
                   * counter_orig2[j];
             }
 
@@ -2677,12 +2745,12 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
                         cmor_axis_t *pAxis;
                         pAxis = &cmor_axes[avar->axes_ids[j]];
                         if (pAxis->values != NULL) {
-                            snprintf(msg2, CMOR_MAX_STRING, " %s: %i/%.5g",
+                            snprintf(msg2, CMOR_MAX_STRING, " %s: %lu/%.5g",
                                      pAxis->id, counter2[j],
                                      pAxis->values[counter2[j]]);
 
                         } else {
-                            snprintf(msg2, CMOR_MAX_STRING, " %s: %i/%.5g",
+                            snprintf(msg2, CMOR_MAX_STRING, " %s: %lu/%.5g",
                                      pAxis->id, counter2[j],
                                      time_vals[counter2[j]]);
                         }
@@ -2711,11 +2779,11 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
                         pAxis = &cmor_axes[avar->axes_ids[j]];
 
                         if (pAxis->values != NULL) {
-                            snprintf(msg2, CMOR_MAX_STRING, " %s: %i/%.5g",
+                            snprintf(msg2, CMOR_MAX_STRING, " %s: %lu/%.5g",
                                      pAxis->id, counter2[j],
                                      pAxis->values[counter2[j]]);
                         } else {
-                            snprintf(msg2, CMOR_MAX_STRING, " %s: %i/%.5g",
+                            snprintf(msg2, CMOR_MAX_STRING, " %s: %lu/%.5g",
                                      pAxis->id, counter2[j],
                                      time_vals[counter2[j]]);
                         }

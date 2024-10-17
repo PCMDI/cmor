@@ -124,7 +124,7 @@ backup: clean
 	@tar cfz $$TGZNAME Cmor; \
 	@touch $(TIMESTAMPDIR)/cmor_`$(TIMESTAMP)`_full.time; \
 	@echo "Full backup tar file created : $$TGZNAME")
-test:  cmor test_C @TEST_FORTRAN@ test_python
+test:  cmor test_C @TEST_FORTRAN@ test_python test_cmip6_cv
 	@echo "All C, Fortran, and Python tests passed successfully"
 test_C: cmor 
 	mkdir -p test_bin
@@ -224,7 +224,48 @@ test_python: python
 	env TEST_NAME=Test/test_cmor_python_not_enough_data.py make test_a_python
 	env TEST_NAME=Test/test_cmor_python_not_enough_times_written.py make test_a_python
 	env TEST_NAME=Test/test_python_forecast_coordinates.py make test_a_python
-test_python_2gb:
+	env TEST_NAME=Test/test_cmor_CMIP6Plus.py make test_a_python
+	env TEST_NAME=Test/test_cmor_zstandard_and_quantize.py make test_a_python
+test_cmip6_cv: python
+	env TEST_NAME=Test/test_python_CMIP6_CV_sub_experimentnotset.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_sub_experimentbad.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_furtherinfourl.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_badfurtherinfourl.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_fxtable.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_unicode.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_forcemultipleparent.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_badsource.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_parentvariantlabel.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_nomipera.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_badgridgr.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_badinstitution.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_badsourcetype.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_badsourceid.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_badgridresolution.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_terminate_signal.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_trackingprefix.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_parentmipera.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_bad_data_specs.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_longrealizationindex.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_sub_experimentIDbad.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_badsourcetypeCHEMAER.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_parentsourceid.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_hierarchicalattr.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_badsourcetypeRequired.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_forcenoparent.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_load_tables.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_sub_experiment_id.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_badvariant.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_baddirectory.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_trackingNoprefix.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_HISTORY.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_parenttimeunits.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_invalidsourceid.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_forceparent.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_externalvariables.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_badinstitutionID.py make test_a_python
+	env TEST_NAME=Test/test_python_CMIP6_CV_badgridlabel.py make test_a_python
+test_python_2gb: python
 	env TEST_NAME=Test/test_python_2Gb_file.py make test_a_python
 	env TEST_NAME=Test/test_python_2Gb_slice.py make test_a_python
 

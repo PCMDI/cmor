@@ -10,6 +10,7 @@
 #include "cmor.h"
 #include "cmor_locale.h"
 #include <netcdf.h>
+#include <netcdf_filter.h>
 #include <udunits2.h>
 #include <time.h>
 #include <errno.h>
@@ -37,6 +38,20 @@ int nc_def_var_deflate(int i, int j, int k, int l, int m)
 };
 
 int nc_def_var_chunking(int i, int j, int k, size_t * l)
+{
+    return (0);
+};
+#endif
+
+#ifndef H5Z_FILTER_ZSTD
+int nc_def_var_zstandard(int i, int j, int k)
+{
+    return (0);
+};
+#endif
+
+#ifndef NC_QUANTIZE_BITGROOM
+int nc_def_var_quantize(int i, int j, int k, int l)
 {
     return (0);
 };
@@ -732,6 +747,9 @@ void cmor_reset_variable(int var_id)
     cmor_vars[var_id].shuffle = 0;
     cmor_vars[var_id].deflate = 1;
     cmor_vars[var_id].deflate_level = 1;
+    cmor_vars[var_id].zstandard_level = 3;
+    cmor_vars[var_id].quantize_mode = 0;
+    cmor_vars[var_id].quantize_nsd = 1;
     cmor_vars[var_id].nomissing = 1;
     cmor_vars[var_id].iunits[0] = '\0';
     cmor_vars[var_id].ounits[0] = '\0';
@@ -1333,7 +1351,7 @@ int cmor_dataset_json(char *ressource)
                 CMOR_DEFAULT_FILE_TEMPLATE, CMOR_MAX_STRING);
 
     strncpytrim(cmor_current_dataset.furtherinfourl,
-                CMOR_DEFAULT_FURTHERURL_TEMPLATE, CMOR_MAX_STRING);
+                "", CMOR_MAX_STRING);
 
     strncpytrim(cmor_current_dataset.history_template,
                 CMOR_DEFAULT_HISTORY_TEMPLATE, CMOR_MAX_STRING);
@@ -1387,6 +1405,7 @@ int cmor_dataset_json(char *ressource)
         } else if (strcmp(key, GLOBAL_ATT_FURTHERINFOURL) == 0) {
             strncpytrim(cmor_current_dataset.furtherinfourl,
                         szVal, CMOR_MAX_STRING);
+            continue;
         }
         cmor_set_cur_dataset_attribute_internal(key, szVal, 1);
     }
@@ -1880,7 +1899,7 @@ int cmor_define_zfactors_vars(int var_id, int ncid, int *nc_dim,
     int ierr = 0, l, m, k, n, j, m2, found, nelts, *int_list = NULL;
     int dim_holder[CMOR_MAX_VARIABLES];
     int lnzfactors;
-    int ics, icd, icdl, ia;
+    int ics, icd, icdl, icz, icqm, icqn, ia;
     cmor_add_traceback("cmor_define_zfactors_vars");
     cmor_is_setup();
     lnzfactors = *nzfactors;
@@ -2077,8 +2096,24 @@ int cmor_define_zfactors_vars(int var_id, int ncid, int *nc_dim,
                         icd = cmor_tables[nTableID].vars[nTableID].deflate;
                         icdl =
                           cmor_tables[nTableID].vars[nTableID].deflate_level;
-                        ierr = nc_def_var_deflate(ncid, nc_zfactors[lnzfactors],
-                                                  ics, icd, icdl);
+                        icz =
+                          cmor_tables[nTableID].vars[nTableID].zstandard_level;
+                        icqm =
+                          cmor_tables[nTableID].vars[nTableID].quantize_mode;
+                        icqn =
+                          cmor_tables[nTableID].vars[nTableID].quantize_nsd;
+
+                        ierr = nc_def_var_quantize(ncid, nc_zfactors[lnzfactors],
+                                                icqm, icqn);
+                        if (icd != 0) {
+                            ierr |= nc_def_var_deflate(ncid, nc_zfactors[lnzfactors],
+                                                    ics, icd, icdl);
+                        } else {
+                            ierr |= nc_def_var_deflate(ncid, nc_zfactors[lnzfactors],
+                                                    ics, 0, 0);
+                            ierr |= nc_def_var_zstandard(ncid, nc_zfactors[lnzfactors],
+                                                    icz);
+                        }
 
                         if (ierr != NC_NOERR) {
                             snprintf(msg, CMOR_MAX_STRING,
@@ -2806,14 +2841,27 @@ int cmor_setDefaultGblAttr(int ref_table_id)
         if(cmor_has_cur_dataset_attribute(CV_value->key) != 0){
             if(CV_value->szValue[0] != '\0'){
                 ierr |= cmor_set_cur_dataset_attribute_internal(CV_value->key, CV_value->szValue, 0);
-                if(strncmp(CV_value->key, GLOBAL_ATT_FURTHERINFOURL, CMOR_MAX_STRING) == 0){
-                    strncpytrim(cmor_current_dataset.furtherinfourl, CV_value->szValue, CMOR_MAX_STRING);
+                if(strncmp(CV_value->key, GLOBAL_ATT_FURTHERINFOURL, CMOR_MAX_STRING) == 0
+                     && cmor_current_dataset.furtherinfourl[0] == '\0'){
+                    ierr |= cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_FURTHERINFOURLTMPL, CV_value->szValue, 0);
                 }
             } else if(CV_value->anElements == 1 && isRequired == 1){
                 ierr |= cmor_set_cur_dataset_attribute_internal(CV_value->key, CV_value->aszValue[0], 0);
             }
         }
     }
+
+/* -------------------------------------------------------------------- */
+/*  Set further_info_url template if required and not already set.      */
+/* -------------------------------------------------------------------- */
+    for (k = 0; k < required_attrs->anElements; k++) {
+        if(strcmp(required_attrs->aszValue[k], GLOBAL_ATT_FURTHERINFOURL) == 0
+            && cmor_current_dataset.furtherinfourl[0] == '\0')
+        {
+            ierr |= cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_FURTHERINFOURLTMPL, CMOR_DEFAULT_FURTHERURL_TEMPLATE, 0);
+        }
+    }
+
     cmor_pop_traceback();
     return ierr;
 
@@ -2951,16 +2999,10 @@ int cmor_setGblAttr(int var_id)
 /*      first check if the variable itself has a realm                  */
 /* -------------------------------------------------------------------- */
     if (cmor_tables[nVarRefTblID].vars[ref_var_id].realm[0] != '\0') {
-        szToken = strtok(cmor_tables[nVarRefTblID].vars[ref_var_id].realm, " ");
-        if (szToken != NULL) {
-            cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_REALM,
-                                                    szToken, 0);
-        } else {
-            cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_REALM,
-                                                    cmor_tables
-                                                    [nVarRefTblID].vars
-                                                    [ref_var_id].realm, 0);
-        }
+        cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_REALM,
+                                                cmor_tables
+                                                [nVarRefTblID].vars
+                                                [ref_var_id].realm, 0);
     } else {
 /* -------------------------------------------------------------------- */
 /*      ok it didn't so we're using the value from the table            */
@@ -3051,11 +3093,11 @@ int cmor_setGblAttr(int var_id)
         ierr += cmor_CV_setInstitution(cmor_tables[nVarRefTblID].CV);
     }
 
+    ierr += cmor_CV_checkFurtherInfoURL(nVarRefTblID);
 
     if (cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP6) == 0) {
         ierr += cmor_CV_checkSourceID(cmor_tables[nVarRefTblID].CV);
         ierr += cmor_CV_checkExperiment(cmor_tables[nVarRefTblID].CV);
-        ierr += cmor_CV_checkFurtherInfoURL(nVarRefTblID);
         ierr += cmor_CV_checkGrids(cmor_tables[nVarRefTblID].CV);
         ierr += cmor_CV_checkParentExpID(cmor_tables[nVarRefTblID].CV);
         ierr += cmor_CV_checkSubExpID(cmor_tables[nVarRefTblID].CV);
@@ -3070,7 +3112,6 @@ int cmor_setGblAttr(int var_id)
     //
     if ( cmor_current_dataset.furtherinfourl[0] != '\0') {
         ierr += cmor_CV_checkSourceID(cmor_tables[nVarRefTblID].CV);
-        ierr += cmor_CV_checkFurtherInfoURL(nVarRefTblID);
     }
 
     ierr += cmor_CV_checkISOTime(GLOBAL_ATT_CREATION_DATE);
@@ -3437,7 +3478,7 @@ void cmor_define_dimensions(int var_id, int ncid,
     int tmp_dims[2];
     int dims_bnds_ids[2];
     int nVarRefTblID = cmor_vars[var_id].ref_table_id;
-    int ics, icd, icdl;
+    int ics, icd, icdl, icz, icqm, icqn;
     int itmpmsg, itmp2, itmp3;
     int maxStrLen;
 
@@ -3593,7 +3634,7 @@ void cmor_define_dimensions(int var_id, int ncid,
                 && (CMOR_NETCDF_MODE != CMOR_APPEND_3)) {
                 if (strcmp(pAxis->id, "time") == 0) {
                     ierr = nc_def_var_chunking(ncid, nc_vars[i], NC_CHUNKED,
-                                               &nc_dim_chunking[0]);
+                                               NULL);
                 } else {
                     ierr = nc_def_var_chunking(ncid, nc_vars[i], NC_CONTIGUOUS,
                                                &nc_dim_chunking[0]);
@@ -3789,9 +3830,21 @@ void cmor_define_dimensions(int var_id, int ncid,
                 ics = pVar->shuffle;
                 icd = pVar->deflate;
                 icdl = pVar->deflate_level;
+                icz = pVar->zstandard_level;
+                icqm = pVar->quantize_mode;
+                icqn = pVar->quantize_nsd;
 
-                ierr = nc_def_var_deflate(ncafid, nc_bnds_vars[i], ics, icd,
-                                          icdl);
+                ierr = nc_def_var_quantize(ncafid, nc_bnds_vars[i], icqm,
+                                        icqn);
+                if (icd != 0) {
+                    ierr |= nc_def_var_deflate(ncafid, nc_bnds_vars[i],
+                                            ics, icd, icdl);
+                } else {
+                    ierr |= nc_def_var_deflate(ncafid, nc_bnds_vars[i],
+                                            ics, 0, 0);
+                    ierr |= nc_def_var_zstandard(ncafid, nc_bnds_vars[i],
+                                            icz);
+                }
                 if (ierr != NC_NOERR) {
                     snprintf(msg, CMOR_MAX_STRING,
                              "NCError (%i: %s) defining compression\n! "
@@ -4044,7 +4097,7 @@ int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af,
     int *int_list = NULL;
     char mtype;
     int nelts;
-    int ics, icd, icdl;
+    int ics, icd, icdl, icz, icqm, icqn;
 
     cmor_add_traceback("cmor_grids_def");
 /* -------------------------------------------------------------------- */
@@ -4311,9 +4364,29 @@ int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af,
                       cmor_tables[cmor_vars[j].ref_table_id].vars[cmor_vars[j].
                                                                   ref_var_id].
                       deflate_level;
-
-                    ierr = nc_def_var_deflate(ncafid, nc_associated_vars[i],
-                                              ics, icd, icdl);
+                    icz =
+                      cmor_tables[cmor_vars[j].ref_table_id].vars[cmor_vars[j].
+                                                                  ref_var_id].
+                      zstandard_level;
+                    icqm =
+                      cmor_tables[cmor_vars[j].ref_table_id].vars[cmor_vars[j].
+                                                                  ref_var_id].
+                      quantize_mode;
+                    icqn =
+                      cmor_tables[cmor_vars[j].ref_table_id].vars[cmor_vars[j].
+                                                                  ref_var_id].
+                      quantize_nsd;
+                    ierr = nc_def_var_quantize(ncafid, nc_associated_vars[i],
+                                            icqm, icqn);
+                    if (icd != 0) {
+                        ierr |= nc_def_var_deflate(ncafid, nc_associated_vars[i],
+                                                ics, icd, icdl);
+                    } else {
+                        ierr |= nc_def_var_deflate(ncafid, nc_associated_vars[i],
+                                                ics, 0, 0);
+                        ierr |= nc_def_var_zstandard(ncafid, nc_associated_vars[i],
+                                                icz);
+                    }
                     if (ierr != NC_NOERR) {
                         snprintf(msg, CMOR_MAX_STRING,
                                  "NetCDF Error (%i: %s) defining\n! "
@@ -4442,6 +4515,212 @@ void create_singleton_dimensions(int var_id, int ncid, int *nc_singletons,
     }
     cmor_pop_traceback();
 
+}
+
+/************************************************************************/
+/*                       compare_txt_attributes()                       */
+/************************************************************************/
+int compare_txt_attributes(int ncid, int srcid, int destid, char* name) {
+    size_t attlen;
+    char *srcattr;
+    char *destattr;
+    char msg[CMOR_MAX_STRING];
+    int ierr;
+    int ret;
+
+    if (ierr = nc_inq_attlen(ncid, srcid, name, &attlen)) {
+        snprintf(msg, CMOR_MAX_STRING, "cannot determine size of attribute %s", name);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    };
+    srcattr = malloc(attlen * sizeof(char));
+
+	if (ierr = nc_get_att_text(ncid, srcid, name, srcattr)) {
+	    snprintf(msg, CMOR_MAX_STRING, "cannot retrieve value of attribute %s", name);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+	};
+
+    if (ierr = nc_inq_attlen(ncid, destid, name, &attlen)) {
+        snprintf(msg, CMOR_MAX_STRING, "cannot determine size of attribute %s", name);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    };
+    destattr = malloc(attlen * sizeof(char));
+
+	if (ierr = nc_get_att_text(ncid, destid, name, destattr)) {
+	    snprintf(msg, CMOR_MAX_STRING, "cannot retrieve value of attribute %s", name);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+	};
+    ret = strcmp(srcattr, destattr);
+    free(destattr);
+    free(srcattr);
+    if (ret != 0) {
+        snprintf(msg, CMOR_MAX_STRING, "'%s' attribute does not match", name);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+    return ret;
+}
+
+/************************************************************************/
+/*                         copy_txt_attribute()                         */
+/************************************************************************/
+int copy_txt_attribute(int ncid, int srcid, int destid, char* name, char* suffix) {
+    size_t attlen;
+    char *srcattr;
+    char *destattr;
+    char msg[CMOR_MAX_STRING];
+    int ierr;
+
+    if (ierr = nc_inq_attlen(ncid, srcid, name, &attlen)) {
+        snprintf(msg, CMOR_MAX_STRING, "cannot determine size of attribute %s", name);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    };
+    srcattr = malloc(attlen * sizeof(char));
+
+	if (ierr = nc_get_att_text(ncid, srcid, name, srcattr)) {
+	    snprintf(msg, CMOR_MAX_STRING, "cannot retrieve value of attribute %s", name);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+	};
+	if (suffix == "") {
+	    destattr = srcattr;
+	} else {
+	    destattr = malloc(strlen(srcattr) + strlen(suffix) + 1);
+        strcpy(destattr, srcattr);
+        strcat(destattr, suffix);
+
+	}
+    if (ierr = nc_put_att_text(ncid, destid, name, strlen(destattr) + 1, destattr)) {
+        snprintf(msg, CMOR_MAX_STRING, "cannot copy attribute %s", name);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+    if (suffix != "") {
+        free(destattr);
+    }
+    free(srcattr);
+    return (0);
+}
+
+/************************************************************************/
+/*                          set_txt_attribute()                         */
+/************************************************************************/
+int set_txt_attribute(int ncid, int destid, char* name, char* val){
+    char msg[CMOR_MAX_STRING];
+    int ierr;
+    if (ierr = nc_put_att_text(ncid, destid, name, strlen(val) + 1, val)) {
+        snprintf(msg, CMOR_MAX_STRING, "cannot write '%s' to attribute %s", val, name);
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+    return (0);
+}
+
+/************************************************************************/
+/*                      calculate_leadtime_coord()                      */
+/************************************************************************/
+int calculate_leadtime_coord(int var_id) {
+    int i = 0;
+    int ncid = 0;
+    int retval = 0;
+    int ierr = 0;
+    int leadtime = 0;
+    int time_dim = 0;
+    int reftime = 0;
+    int time = 0;
+    char msg[CMOR_MAX_STRING];
+    size_t timelen;
+    double *time_vals;
+    double *leadtime_vals;
+    double *reftime_val;
+    static size_t start[] = {0};
+    static size_t count[] = {0};
+    extern cmor_dataset_def cmor_current_dataset;
+    extern cmor_var_t cmor_vars[CMOR_MAX_VARIABLES];
+
+    cmor_add_traceback("cmor_calculate_leadtime_coord");
+    cmor_is_setup();
+    ncid = cmor_current_dataset.associated_file;
+
+    /* need both time and reftime for leadtime calculation */
+    if (ierr = nc_inq_dimid(ncid, "time", &time_dim)) {
+        snprintf(msg, CMOR_MAX_STRING, "'time' dimension not present in the file");
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+    if (ierr = nc_inq_dimlen(ncid, time_dim, &timelen)) {
+        snprintf(msg, CMOR_MAX_STRING, "cannot determine length of the time dimension");
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+    if (ierr = nc_inq_varid(ncid, "reftime", &reftime)) {
+        snprintf(msg, CMOR_MAX_STRING, "'reftime' variable not present in the file");
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+    if (ierr = nc_inq_varid(ncid, "time", &time)) {
+        snprintf(msg, CMOR_MAX_STRING, "'time' variable not present in the file");
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+    if (compare_txt_attributes(ncid, time, reftime, "units") || compare_txt_attributes(ncid, time, reftime, "calendar")) {
+        cmor_pop_traceback();
+        return(1);
+    }
+
+    reftime_val = malloc(sizeof(double));
+    time_vals = malloc(timelen * sizeof(double));
+    leadtime_vals = malloc(timelen * sizeof(double));
+
+    /* get values for the calculation */
+
+    /* reftime is scalar */
+    if (ierr = nc_get_var_double(ncid, reftime, reftime_val)) {
+        snprintf(msg, CMOR_MAX_STRING, "cannot retrieve value of 'reftime' variable");
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+
+    /* update length of the vector for time coord */
+    count[0] = timelen;
+
+    if (ierr = nc_get_vara_double(ncid, time, start, count, time_vals)) {
+        snprintf(msg, CMOR_MAX_STRING, "cannot retrieve values of 'time' variable");
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+    /* calculate leadtime */
+    for (i = 0; i < timelen; i++) {
+        leadtime_vals[i] = time_vals[i] - reftime_val[0];
+        if (leadtime_vals[i] < 0.0) {
+            snprintf(msg, CMOR_MAX_STRING, "'leadtime' for timestep %i is negative", i);
+            cmor_handle_error(msg, CMOR_CRITICAL);
+        }
+    }
+
+    /* activate define mode */
+    nc_redef(ncid);
+    /* add leadtime */
+    if (ierr = nc_inq_varid(ncid, "leadtime", &leadtime)) {
+        if (ierr = nc_def_var(ncid, "leadtime", NC_DOUBLE, 1, &time_dim, &leadtime)) {
+            snprintf(msg, CMOR_MAX_STRING, "cannot add 'leadtime' variable");
+            cmor_handle_error(msg, CMOR_CRITICAL);
+        }
+    }
+
+    /* variable attributes */
+    set_txt_attribute(ncid, leadtime, "axis", "T");
+    set_txt_attribute(ncid, leadtime, "units", "days");
+    set_txt_attribute(ncid, leadtime, "long_name", "Time elapsed since the start of the forecast");
+    set_txt_attribute(ncid, leadtime, "standard_name", "forecast_period");
+
+    /* update coordinates attribute */
+    copy_txt_attribute(ncid, cmor_vars[var_id].nc_var_id, cmor_vars[var_id].nc_var_id, "coordinates", " leadtime");
+
+    /* deactivate define mode */
+    ierr = nc_enddef(ncid);
+    if (ierr != NC_NOERR) {
+        snprintf(msg, CMOR_MAX_STRING, "NetCDF Error (%i: %s) leaving definition mode", ierr, nc_strerror(ierr));
+        cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
+    }
+    if (ierr = nc_put_vara_double(ncid, leadtime, start, count, leadtime_vals)) {
+        snprintf(msg, CMOR_MAX_STRING, "cannot save 'leadtime' coordinates");
+        cmor_handle_error(msg, CMOR_CRITICAL);
+    }
+
+    free(leadtime_vals);
+    free(time_vals);
+    free(reftime_val);
+    return (0);
 }
 
 /************************************************************************/
@@ -4892,7 +5171,7 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
     int nVarRefTblID = cmor_vars[var_id].ref_table_id;
     int nelts;
     int *int_list = NULL;
-    int ics, icd, icdl;
+    int ics, icd, icdl, icz, icqm, icqn;
     int bChunk;
     cmor_add_traceback("cmor_create_var_attributes");
 /* -------------------------------------------------------------------- */
@@ -4966,7 +5245,18 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
         ics = pVar->shuffle;
         icd = pVar->deflate;
         icdl = pVar->deflate_level;
-        ierr = nc_def_var_deflate(ncid, pVar->nc_var_id, ics, icd, icdl);
+        icz = pVar->zstandard_level;
+        icqm = pVar->quantize_mode;
+        icqn = pVar->quantize_nsd;
+        ierr = nc_def_var_quantize(ncid, pVar->nc_var_id, icqm, icqn);
+
+        // Only use zstandard compression if deflate is disabled
+        if (icd != 0) {
+            ierr |= nc_def_var_deflate(ncid, pVar->nc_var_id, ics, icd, icdl);
+        } else {
+            ierr |= nc_def_var_deflate(ncid, pVar->nc_var_id, ics, 0, 0);
+            ierr |= nc_def_var_zstandard(ncid, pVar->nc_var_id, icz);
+        }
 
         if (ierr != NC_NOERR) {
             snprintf(msg, CMOR_MAX_STRING,
@@ -4995,7 +5285,7 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
                                 1)))) {
             ierr =
               nc_def_var_chunking(ncid, cmor_vars[var_id].nc_var_id, NC_CHUNKED,
-                                  &nc_dim_chunking[0]);
+                                 NULL);
             if (ierr != NC_NOERR) {
                 snprintf(msg, CMOR_MAX_STRING,
                          "NetCDFTestTables/CMIP6_chunking.json: Error (%i: %s) defining chunking\n! "
@@ -6556,210 +6846,4 @@ void cmor_trim_string(char *in, char *out)
         out[i] = '\0';
         i--;
     }
-}
-
-/************************************************************************/
-/*                       compare_txt_attributes()                       */
-/************************************************************************/
-int compare_txt_attributes(int ncid, int srcid, int destid, char* name) {
-    size_t attlen;
-    char *srcattr;
-    char *destattr;
-    char msg[CMOR_MAX_STRING];
-    int ierr;
-    int ret;
-
-    if (ierr = nc_inq_attlen(ncid, srcid, name, &attlen)) {
-        snprintf(msg, CMOR_MAX_STRING, "cannot determine size of attribute %s", name);
-        cmor_handle_error(msg, CMOR_CRITICAL);
-    };
-    srcattr = malloc(attlen * sizeof(char));
-
-	if (ierr = nc_get_att_text(ncid, srcid, name, srcattr)) {
-	    snprintf(msg, CMOR_MAX_STRING, "cannot retrieve value of attribute %s", name);
-        cmor_handle_error(msg, CMOR_CRITICAL);
-	};
-
-    if (ierr = nc_inq_attlen(ncid, destid, name, &attlen)) {
-        snprintf(msg, CMOR_MAX_STRING, "cannot determine size of attribute %s", name);
-        cmor_handle_error(msg, CMOR_CRITICAL);
-    };
-    destattr = malloc(attlen * sizeof(char));
-
-	if (ierr = nc_get_att_text(ncid, destid, name, destattr)) {
-	    snprintf(msg, CMOR_MAX_STRING, "cannot retrieve value of attribute %s", name);
-        cmor_handle_error(msg, CMOR_CRITICAL);
-	};
-    ret = strcmp(srcattr, destattr);
-    free(destattr);
-    free(srcattr);
-    if (ret != 0) {
-        snprintf(msg, CMOR_MAX_STRING, "'%s' attribute does not match", name);
-        cmor_handle_error(msg, CMOR_CRITICAL);
-    }
-    return ret;
-}
-
-/************************************************************************/
-/*                         copy_txt_attribute()                         */
-/************************************************************************/
-int copy_txt_attribute(int ncid, int srcid, int destid, char* name, char* suffix) {
-    size_t attlen;
-    char *srcattr;
-    char *destattr;
-    char msg[CMOR_MAX_STRING];
-    int ierr;
-
-    if (ierr = nc_inq_attlen(ncid, srcid, name, &attlen)) {
-        snprintf(msg, CMOR_MAX_STRING, "cannot determine size of attribute %s", name);
-        cmor_handle_error(msg, CMOR_CRITICAL);
-    };
-    srcattr = malloc(attlen * sizeof(char));
-
-	if (ierr = nc_get_att_text(ncid, srcid, name, srcattr)) {
-	    snprintf(msg, CMOR_MAX_STRING, "cannot retrieve value of attribute %s", name);
-        cmor_handle_error(msg, CMOR_CRITICAL);
-	};
-	if (suffix == "") {
-	    destattr = srcattr;
-	} else {
-	    destattr = malloc(strlen(srcattr) + strlen(suffix) + 1);
-        strcpy(destattr, srcattr);
-        strcat(destattr, suffix);
-
-	}
-    if (ierr = nc_put_att_text(ncid, destid, name, strlen(destattr) + 1, destattr)) {
-        snprintf(msg, CMOR_MAX_STRING, "cannot copy attribute %s", name);
-        cmor_handle_error(msg, CMOR_CRITICAL);
-    }
-    if (suffix != "") {
-        free(destattr);
-    }
-    free(srcattr);
-    return (0);
-}
-
-/************************************************************************/
-/*                          set_txt_attribute()                         */
-/************************************************************************/
-int set_txt_attribute(int ncid, int destid, char* name, char* val){
-    char msg[CMOR_MAX_STRING];
-    int ierr;
-    if (ierr = nc_put_att_text(ncid, destid, name, strlen(val) + 1, val)) {
-        snprintf(msg, CMOR_MAX_STRING, "cannot write '%s' to attribute %s", val, name);
-        cmor_handle_error(msg, CMOR_CRITICAL);
-    }
-    return (0);
-}
-
-/************************************************************************/
-/*                      calculate_leadtime_coord()                      */
-/************************************************************************/
-int calculate_leadtime_coord(int var_id) {
-    int i = 0;
-    int ncid = 0;
-    int retval = 0;
-    int ierr = 0;
-    int leadtime = 0;
-    int time_dim = 0;
-    int reftime = 0;
-    int time = 0;
-    char msg[CMOR_MAX_STRING];
-    size_t timelen;
-    double *time_vals;
-    double *leadtime_vals;
-    double *reftime_val;
-    static size_t start[] = {0};
-    static size_t count[] = {0};
-    extern cmor_dataset_def cmor_current_dataset;
-    extern cmor_var_t cmor_vars[CMOR_MAX_VARIABLES];
-
-    cmor_add_traceback("cmor_calculate_leadtime_coord");
-    cmor_is_setup();
-    ncid = cmor_current_dataset.associated_file;
-
-    /* need both time and reftime for leadtime calculation */
-    if (ierr = nc_inq_dimid(ncid, "time", &time_dim)) {
-        snprintf(msg, CMOR_MAX_STRING, "'time' dimension not present in the file");
-        cmor_handle_error(msg, CMOR_CRITICAL);
-    }
-    if (ierr = nc_inq_dimlen(ncid, time_dim, &timelen)) {
-        snprintf(msg, CMOR_MAX_STRING, "cannot determine length of the time dimension");
-        cmor_handle_error(msg, CMOR_CRITICAL);
-    }
-    if (ierr = nc_inq_varid(ncid, "reftime", &reftime)) {
-        snprintf(msg, CMOR_MAX_STRING, "'reftime' variable not present in the file");
-        cmor_handle_error(msg, CMOR_CRITICAL);
-    }
-    if (ierr = nc_inq_varid(ncid, "time", &time)) {
-        snprintf(msg, CMOR_MAX_STRING, "'time' variable not present in the file");
-        cmor_handle_error(msg, CMOR_CRITICAL);
-    }
-    if (compare_txt_attributes(ncid, time, reftime, "units") || compare_txt_attributes(ncid, time, reftime, "calendar")) {
-        cmor_pop_traceback();
-        return(1);
-    }
-
-    reftime_val = malloc(sizeof(double));
-    time_vals = malloc(timelen * sizeof(double));
-    leadtime_vals = malloc(timelen * sizeof(double));
-
-    /* get values for the calculation */
-
-    /* reftime is scalar */
-    if (ierr = nc_get_var_double(ncid, reftime, reftime_val)) {
-        snprintf(msg, CMOR_MAX_STRING, "cannot retrieve value of 'reftime' variable");
-        cmor_handle_error(msg, CMOR_CRITICAL);
-    }
-
-    /* update length of the vector for time coord */
-    count[0] = timelen;
-
-    if (ierr = nc_get_vara_double(ncid, time, start, count, time_vals)) {
-        snprintf(msg, CMOR_MAX_STRING, "cannot retrieve values of 'time' variable");
-        cmor_handle_error(msg, CMOR_CRITICAL);
-    }
-    /* calculate leadtime */
-    for (i = 0; i < timelen; i++) {
-        leadtime_vals[i] = time_vals[i] - reftime_val[0];
-        if (leadtime_vals[i] < 0.0) {
-            snprintf(msg, CMOR_MAX_STRING, "'leadtime' for timestep %i is negative", i);
-            cmor_handle_error(msg, CMOR_CRITICAL);
-        }
-    }
-
-    /* activate define mode */
-    nc_redef(ncid);
-    /* add leadtime */
-    if (ierr = nc_inq_varid(ncid, "leadtime", &leadtime)) {
-        if (ierr = nc_def_var(ncid, "leadtime", NC_DOUBLE, 1, &time_dim, &leadtime)) {
-            snprintf(msg, CMOR_MAX_STRING, "cannot add 'leadtime' variable");
-            cmor_handle_error(msg, CMOR_CRITICAL);
-        }
-    }
-
-    /* variable attributes */
-    set_txt_attribute(ncid, leadtime, "axis", "T");
-    set_txt_attribute(ncid, leadtime, "units", "days");
-    set_txt_attribute(ncid, leadtime, "long_name", "Time elapsed since the start of the forecast");
-    set_txt_attribute(ncid, leadtime, "standard_name", "forecast_period");
-
-    /* update coordinates attribute */
-    copy_txt_attribute(ncid, cmor_vars[var_id].nc_var_id, cmor_vars[var_id].nc_var_id, "coordinates", " leadtime");
-
-    /* deactivate define mode */
-    ierr = nc_enddef(ncid);
-    if (ierr != NC_NOERR) {
-        snprintf(msg, CMOR_MAX_STRING, "NetCDF Error (%i: %s) leaving definition mode", ierr, nc_strerror(ierr));
-        cmor_handle_error_var(msg, CMOR_CRITICAL, var_id);
-    }
-    if (ierr = nc_put_vara_double(ncid, leadtime, start, count, leadtime_vals)) {
-        snprintf(msg, CMOR_MAX_STRING, "cannot save 'leadtime' coordinates");
-        cmor_handle_error(msg, CMOR_CRITICAL);
-    }
-
-    free(leadtime_vals);
-    free(time_vals);
-    free(reftime_val);
-    return (0);
 }

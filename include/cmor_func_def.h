@@ -222,6 +222,9 @@ extern int cmor_variable( int *var_id, char *name, char *units, int ndims,
 			  char *comment );
 extern int cmor_set_deflate( int var_id, int shuffle,
                              int deflate, int deflate_level );
+extern int cmor_set_zstandard( int var_id, int zstandard_level );
+extern int cmor_set_quantize( int var_id, int quantize_mode, 
+                              int quantize_nsd );
 extern int cmor_set_chunking( int var_id, int nTableID,
 							    size_t nc_dim_chunking[]);
 
@@ -292,6 +295,7 @@ extern int cmor_load_table_internal( char table[CMOR_MAX_STRING],
                                      int *table_id );
 extern int cmor_search_table( char szTable[CMOR_MAX_STRING],
 								int *table_id);
+extern int cmor_validate_json(json_object *json);
 
 extern json_object *cmor_open_inpathFile( char *szFilename);
 

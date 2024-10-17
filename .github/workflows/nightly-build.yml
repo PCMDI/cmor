@@ -1,0 +1,144 @@
+name: CMOR Nightly Build
+run-name: CMOR Nightly Build
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - "main"
+
+jobs:
+  nightly:
+    name: Deploy nightly
+    strategy:
+      matrix:
+        runner:
+          - RUNNER_OS: 'macos-14'
+            OS: osx-arm64
+            OS_NAME: osx_arm64
+            MINICONDA_INSTALLER_URL: https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh
+            C_COMPILER: clang_osx-arm64 
+            FORTRAN_COMPILER: gfortran_osx-arm64
+            PROJECT_DIR: workdir/macos_arm64
+          - RUNNER_OS: 'macos-13'
+            OS: osx-64
+            OS_NAME: osx_64
+            MINICONDA_INSTALLER_URL: https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
+            C_COMPILER: clang_osx-64 
+            FORTRAN_COMPILER: gfortran_osx-64
+            PROJECT_DIR: workdir/macos_64
+        python_version: ['3.9', '3.10', '3.11', '3.12']
+    runs-on: ${{ matrix.runner.RUNNER_OS }}
+    env:
+      PACKAGE_NAME: cmor
+      PACKAGE_VERSION: 3.9.0
+      PYTHON_VERSION: ${{ matrix.python_version }}
+      CONDA_FORGE_CHANNEL: conda-forge
+      CONDA_USER: pcmdi
+      CONDA_LABEL: nightly
+      OS: ${{ matrix.runner.OS }}
+      OS_NAME: ${{ matrix.runner.OS_NAME }}
+      MINICONDA_INSTALLER_URL: ${{ matrix.runner.MINICONDA_INSTALLER_URL }}
+      C_COMPILER: ${{ matrix.runner.C_COMPILER }} 
+      FORTRAN_COMPILER: ${{ matrix.runner.FORTRAN_COMPILER }} 
+      PROJECT_DIR: ${{ matrix.runner.PROJECT_DIR }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Pull Submodules
+        run: |
+          git submodule init
+          git submodule update
+
+      - name: Setup project directory
+        run: mkdir -p $PROJECT_DIR
+
+      - name: Setup Miniconda
+        run: |
+          curl -L $MINICONDA_INSTALLER_URL -o miniconda.sh
+          bash miniconda.sh -b -p $PROJECT_DIR/miniconda
+          source $PROJECT_DIR/miniconda/etc/profile.d/conda.sh
+          conda activate base
+          conda config --set anaconda_upload no
+
+      - name: Conda Rerender
+        run: |
+          source $PROJECT_DIR/miniconda/etc/profile.d/conda.sh
+          conda activate base
+          conda config --set anaconda_upload no
+
+          git clone -b main https://github.com/conda-forge/cmor-feedstock $PROJECT_DIR/cmor-feedstock
+          export SRC_META_YAML=`pwd`/$PROJECT_DIR/cmor-feedstock/recipe/meta.yaml.SRC
+          export DST_META_YAML=`pwd`/$PROJECT_DIR/cmor-feedstock/recipe/meta.yaml
+          mv $DST_META_YAML $SRC_META_YAML
+
+          export GIT_REV=$(git rev-parse --short "$GITHUB_SHA")
+          echo "GIT_REV=$GIT_REV"
+          export GIT_BRANCH=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
+          echo "GIT_BRANCH=$GIT_BRANCH"
+
+          python rebuild_meta_yaml.py \
+            --package_name $PACKAGE_NAME \
+            --version $PACKAGE_VERSION \
+            --organization PCMDI \
+            --repo_name $PACKAGE_NAME \
+            --branch $GIT_BRANCH \
+            --git_rev $GIT_REV \
+            --build 0 \
+            --src_meta_yaml $SRC_META_YAML \
+            --dst_meta_yaml $DST_META_YAML
+
+          conda create -y -n smithy_env -c conda-forge conda-smithy
+          conda activate smithy_env
+          cd $PROJECT_DIR/cmor-feedstock
+          conda smithy rerender
+          ls -lh .ci_support/
+
+      - name: Conda Build
+        run: |
+          source $PROJECT_DIR/miniconda/etc/profile.d/conda.sh
+          conda activate base
+          conda config --set anaconda_upload no
+          conda activate smithy_env
+
+          export BUILD_DIR=`pwd`/cmor_conda_pkgs
+          mkdir -p $BUILD_DIR
+
+          export ARTIFACT_DIR=`pwd`/artifacts/$OS
+          mkdir -p $ARTIFACT_DIR
+
+          for i in ${PROJECT_DIR}'/cmor-feedstock/.ci_support/'${OS_NAME}'_*python'${PYTHON_VERSION}'*.yaml'; do
+            conda build -c conda-forge --output-folder $BUILD_DIR -m $i $PROJECT_DIR/cmor-feedstock/recipe/
+            ls -lh $BUILD_DIR
+            cp $BUILD_DIR/$OS/$PACKAGE_NAME-$PACKAGE_VERSION*.tar.bz2 $ARTIFACT_DIR
+          done
+
+      - name: Run Tests
+        run: |
+          source $PROJECT_DIR/miniconda/etc/profile.d/conda.sh
+          conda activate base
+          conda config --set anaconda_upload no
+
+          export CMOR_CHANNEL=file://`pwd`/cmor_conda_pkgs/
+          conda search -c $CMOR_CHANNEL --override-channels
+
+          conda create -y -n test_py$PYTHON_VERSION -c $CMOR_CHANNEL -c $CONDA_FORGE_CHANNEL python=$PYTHON_VERSION $PACKAGE_NAME=$PACKAGE_VERSION $C_COMPILER $FORTRAN_COMPILER
+          conda activate test_py$PYTHON_VERSION
+
+          ./configure --prefix=$CONDA_PREFIX --with-python --with-uuid=$CONDA_PREFIX --with-json-c=$CONDA_PREFIX --with-udunits2=$CONDA_PREFIX --with-netcdf=$CONDA_PREFIX  --enable-verbose-test
+          make test -o cmor -o python
+
+      - name: Conda Upload
+        env:
+          CONDA_UPLOAD_TOKEN: ${{ secrets.CONDA_UPLOAD_TOKEN }}
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: |
+          source $PROJECT_DIR/miniconda/etc/profile.d/conda.sh
+          conda activate base
+          conda config --set anaconda_upload no
+          conda install -n base anaconda-client
+          export ARTIFACT_DIR=`pwd`/artifacts
+          anaconda -t $CONDA_UPLOAD_TOKEN upload -u $CONDA_USER -l $CONDA_LABEL $ARTIFACT_DIR/*/*.tar.bz2 --force
+

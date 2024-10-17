@@ -3,7 +3,7 @@ import numpy
 import os
 from setuptools import setup, Extension
 
-include_dirs = [numpy.lib.utils.get_include(),"include","include/cdTime"]
+include_dirs = [numpy.get_include(),"include","include/cdTime"]
 
 library_dirs = [ os.path.join("@prefix@","lib") ,'.']
 include_dirs.append(os.path.join("@prefix@","include"))
@@ -52,7 +52,7 @@ print('src:',srcfiles)
 print('macros:',macros)
 
 setup (name = "CMOR",
-       version='3.7.1',
+       version='3.9.0',
        author='Chris Mauzey, AIMS',
        description = "Python Interface to CMOR output library",
        url = "http://cmor.llnl.gov/",
