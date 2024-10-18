@@ -569,16 +569,14 @@ int cmor_have_NetCDF41min(void)
 /************************************************************************/
 /*                         cmor_handle_error_internal()                          */
 /************************************************************************/
-void cmor_handle_error_internal(char *error_msg, int level, va_list args)
+void cmor_handle_error_internal(char *error_msg, int level)
 {
     int i;
-    char msg[CMOR_MAX_STRING];
     extern FILE *output_logfile;
 
     if (output_logfile == NULL)
         output_logfile = stderr;
 
-    msg[0] = '\0';
     if (CMOR_VERBOSITY != CMOR_QUIET) {
         fprintf(output_logfile, "\n");
     }
@@ -632,11 +630,9 @@ void cmor_handle_error_internal(char *error_msg, int level, va_list args)
         fprintf(output_logfile, "!\n");
         
         if (level == CMOR_WARNING)
-            fprintf(output_logfile, "! Warning: ");
+            fprintf(output_logfile, "! Warning: %s\n", error_msg);
         else
-            fprintf(output_logfile, "! Error: ");
-        vfprintf(output_logfile, error_msg, args);
-        fprintf(output_logfile, "\n");
+            fprintf(output_logfile, "! Error: %s\n", error_msg);
 
         fprintf(output_logfile, "!\n");
 
@@ -663,21 +659,66 @@ void cmor_handle_error_internal(char *error_msg, int level, va_list args)
     fflush(output_logfile);
 }
 
-void cmor_handle_error(char *error_msg, int level, ...)
+void cmor_handle_error(char *error_msg, int level)
 {
-    va_list args;
-    va_start (args, level);
-    cmor_handle_error_internal(error_msg, level, args);
-    va_end (args);
+    cmor_handle_error_internal(error_msg, level);
 }
 
-void cmor_handle_error_var(char *error_msg, int level, int var_id, ...)
+void cmor_handle_error_variadic(char *error_msg, int level, ...)
 {
     va_list args;
-    va_start (args, var_id);
-    cmor_vars[var_id].error = 1;
-    cmor_handle_error_internal(error_msg, level, args);
+    size_t size;
+    char *msg;
+
+    if (output_logfile == NULL)
+        output_logfile = stderr;
+
+    va_start (args, level);
+    size = vsnprintf(NULL, 0, error_msg, args);
     va_end (args);
+
+    size++;
+    msg = (char *)malloc(size*sizeof(char));
+
+    va_start (args, level);
+    vsnprintf(msg, size, error_msg, args);
+    va_end (args);
+
+    cmor_handle_error_internal(msg, level);
+
+    free(msg);
+}
+
+void cmor_handle_error_var(char *error_msg, int level, int var_id)
+{
+    cmor_vars[var_id].error = 1;
+    cmor_handle_error_internal(error_msg, level);
+}
+
+void cmor_handle_error_var_variadic(char *error_msg, int level, int var_id, ...)
+{
+    va_list args;
+    size_t size;
+    char *msg;
+
+    if (output_logfile == NULL)
+        output_logfile = stderr;
+
+    va_start (args, var_id);
+    size = vsnprintf(NULL, 0, error_msg, args);
+    va_end (args);
+
+    size++;
+    msg = (char *)malloc(size*sizeof(char));
+
+    va_start (args, var_id);
+    vsnprintf(msg, size, error_msg, args);
+    va_end (args);
+
+    cmor_vars[var_id].error = 1;
+    cmor_handle_error_internal(msg, level);
+
+    free(msg);
 }
 
 /************************************************************************/

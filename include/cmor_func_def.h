@@ -27,9 +27,11 @@ extern int cmor_have_NetCDF4( void );
 extern int cmor_have_NetCDF41min( void );
 extern int cmor_have_NetCDF3( void );
 extern int cmor_have_NetCDF363( void );
-extern void cmor_handle_error_internal( char *error_msg, int level, va_list args);
-extern void cmor_handle_error( char *error_msg, int level, ... );
-extern void cmor_handle_error_var( char *error_msg, int level, int var_id, ... );
+extern void cmor_handle_error_internal( char *error_msg, int level );
+extern void cmor_handle_error( char *error_msg, int level );
+extern void cmor_handle_error_variadic( char *error_msg, int level, ... );
+extern void cmor_handle_error_var( char *error_msg, int level, int var_id );
+extern void cmor_handle_error_var_variadic( char *error_msg, int level, int var_id, ... );
 extern int cmor_setup( char *path, int *netcdf, int *verbosity, int *mode,
 		       char *logfile, int *cmor_create_subdirectories);
 

@@ -387,7 +387,7 @@ int cmor_CV_checkFurtherInfoURL(int nVarRefTblID)
 /* -------------------------------------------------------------------- */
     szToken = strtok(szFurtherInfoURLTemplate, "<>");
     if (szToken == NULL) {
-        cmor_handle_error(
+        cmor_handle_error_variadic(
             "The further info URL value of \"%s\" is invalid. \n! ",
             CMOR_NORMAL,
             szFurtherInfoURLTemplate);
@@ -424,7 +424,7 @@ int cmor_CV_checkFurtherInfoURL(int nVarRefTblID)
         cmor_get_cur_dataset_attribute(GLOBAL_ATT_FURTHERINFOURL, szValue);
         if (strncmp(szFurtherInfoURL, szValue, CMOR_MAX_STRING) != 0) {
             cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
-            cmor_handle_error(
+            cmor_handle_error_variadic(
                      "The further info in attribute does not match "
                      "the one found in your Control Vocabulary(CV) File. \n! "
                      "We found \"%s\" and \n! "
@@ -533,7 +533,7 @@ int cmor_CV_checkSourceType(cmor_CV_def_t * CV_exp, char *szExptID)
     while (szTokenRequired != NULL) {
         reti = regcomp(&regex, szTokenRequired, REG_EXTENDED);
         if (reti) {
-            cmor_handle_error(
+            cmor_handle_error_variadic(
                      "You regular expression \"%s\" is invalid. \n! "
                      "Please refer to the CMIP6 documentations.\n! ",
                      CMOR_NORMAL, szTokenRequired);
@@ -546,7 +546,7 @@ int cmor_CV_checkSourceType(cmor_CV_def_t * CV_exp, char *szExptID)
         /* -------------------------------------------------------------------- */
         reti = regexec(&regex, szSourceType, 0, NULL, 0);
         if (reti == REG_NOMATCH) {
-            cmor_handle_error(
+            cmor_handle_error_variadic(
                      "The following source type(s) \"%s\" are required and\n! "
                      "some source type(s) could not be found in your "
                      "input file. \n! "
@@ -590,7 +590,7 @@ int cmor_CV_checkSourceType(cmor_CV_def_t * CV_exp, char *szExptID)
     }
 
     if (nbGoodType != nbSourceType) {
-        cmor_handle_error(
+        cmor_handle_error_variadic(
                  "You source_type attribute contains invalid source types\n! "
                  "Your source type is set to \"%s\".  The required source types\n! "
                  "are \"%s\" and possible additional source types are \"%s\" \n! "
@@ -642,7 +642,7 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
     CV_source_ids = cmor_CV_rootsearch(CV, CV_KEY_SOURCE_IDS);
 
     if (CV_source_ids == NULL) {
-        cmor_handle_error(
+        cmor_handle_error_variadic(
                  "Your \"source_ids\" key could not be found in\n! "
                  "your Control Vocabulary file.(%s)\n! ", CMOR_NORMAL, CV_Filename);
 
@@ -652,7 +652,7 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
     // retrieve source_id
     rc = cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE_ID, szSource_ID);
     if (rc != 0) {
-        cmor_handle_error(
+        cmor_handle_error_variadic(
                  "Your \"%s\" is not defined, check your required attributes\n! "
                  "See Control Vocabulary JSON file.(%s)\n! ",
                  CMOR_NORMAL, GLOBAL_ATT_SOURCE_ID, CV_Filename);
@@ -671,7 +671,7 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
             // Check source with experiment_id label.
             rc = cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE, szSource);
             if(CV_source_id->nbObjects < 1) {
-                cmor_handle_error(
+                cmor_handle_error_variadic(
                          "You did not define a %s section in your source_id %s.\n! \n! \n! "
                          "See Control Vocabulary JSON file. (%s)\n! ",
                          CMOR_CRITICAL, CV_KEY_SOURCE_LABEL, szSource_ID, CV_Filename);
@@ -684,7 +684,7 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
                 }
             }
             if (j == CV_source_id->nbObjects) {
-                cmor_handle_error(
+                cmor_handle_error_variadic(
                          "Could not find %s string in source_id section.\n! \n! \n! "
                          "See Control Vocabulary JSON file. (%s)\n! ",
                          CMOR_CRITICAL, CV_KEY_SOURCE_LABEL, CV_Filename);
@@ -699,7 +699,7 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
             }
             szSubstring[nLen] = '\0';
             if (strncmp(szSubstring, szSource, nLen) != 0) {
-                cmor_handle_error(
+                cmor_handle_error_variadic(
                          "Your input attribute \"%s\" with value \n! \"%s\" "
                          "will be replaced with "
                          "value \n! \"%s\".\n! \n! \n!  "
@@ -713,7 +713,7 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
     // We could not found the Source ID in the CV file
     if (i == CV_source_ids->nbObjects) {
 
-        cmor_handle_error(
+        cmor_handle_error_variadic(
                  "The source_id, \"%s\", found in your \n! "
                  "input file (%s) could not be found in \n! "
                  "your Controlled Vocabulary file. (%s) \n! \n! "
@@ -753,7 +753,7 @@ int CV_VerifyNBElement(cmor_CV_def_t * CV)
 //    printf("**** CV->szValue: %s\n", CV->szValue);
 
     if (CV->anElements > 1) {
-        cmor_handle_error(
+        cmor_handle_error_variadic(
                  "Your %s has more than 1 element\n! "
                  "only the first one will be used\n! "
                  "Check your Control Vocabulary file \"%s\".\n! ",
@@ -761,7 +761,7 @@ int CV_VerifyNBElement(cmor_CV_def_t * CV)
         cmor_pop_traceback();
         return (-1);
     } else if (CV->anElements == -1) {
-        cmor_handle_error(
+        cmor_handle_error_variadic(
                  "Your %s has more than 0 element\n! "
                  "Check your Control Vocabulary file \"%s\".\n! ",
                  CMOR_NORMAL, CV->key, CV_Filename);
@@ -784,7 +784,7 @@ int CV_CompareNoParent(char *szKey)
     if (cmor_has_cur_dataset_attribute(szKey) == 0) {
         cmor_get_cur_dataset_attribute(szKey, szValue);
         if (strcmp(szValue, NO_PARENT) != 0) {
-            cmor_handle_error(
+            cmor_handle_error_variadic(
                      "Your input attribute %s with value \"%s\" \n! "
                      "will be replaced with value \"%s\".\n! ", 
                      CMOR_WARNING, szKey, szValue, NO_PARENT);
@@ -839,7 +839,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
     cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
     ierr = cmor_get_cur_dataset_attribute(GLOBAL_ATT_EXPERIMENTID, szExperiment_ID);
     if (ierr != 0) {
-        cmor_handle_error(
+        cmor_handle_error_variadic(
                  "Your \"%s\" is not defined, check your required attributes\n! "
                  "See Control Vocabulary JSON file.(%s)\n! ",
                  CMOR_NORMAL, GLOBAL_ATT_EXPERIMENTID, CV_Filename);
@@ -849,7 +849,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
     // Look for sub_experiment_id section
     CV_sub_experiment_id = cmor_CV_rootsearch(CV, CV_KEY_SUB_EXPERIMENT_ID);
     if (CV_sub_experiment_id == NULL) {
-        cmor_handle_error(
+        cmor_handle_error_variadic(
                  "Your \"sub_experiment_id\" key could not be found in\n! "
                  "your Control Vocabulary file.(%s)\n! ", CMOR_NORMAL, CV_Filename);
         cmor_pop_traceback();
@@ -858,7 +858,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
     // Look for experiment_id section
     CV_experiment_id = cmor_CV_rootsearch(CV, CV_KEY_EXPERIMENT_ID);
     if (CV_experiment_id == NULL) {
-        cmor_handle_error(
+        cmor_handle_error_variadic(
                  "Your \"experiment_id\" key could not be found in\n! "
                  "your Control Vocabulary file.(%s)\n! ", CMOR_NORMAL, CV_Filename);
         cmor_pop_traceback();
@@ -867,7 +867,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
     // Get specified experiment
     CV_experiment = cmor_CV_search_child_key(CV_experiment_id, szExperiment_ID);
     if (CV_experiment == NULL) {
-        cmor_handle_error(
+        cmor_handle_error_variadic(
                  "Your experiment_id \"%s\" defined in your input file\n! "
                  "could not be found in your Control Vocabulary file.(%s)\n! ",
                  CMOR_NORMAL, szExperiment_ID, CV_Filename);
@@ -878,7 +878,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
     CV_experiment_sub_exp_id = cmor_CV_search_child_key(CV_experiment,
                                                         GLOBAL_ATT_SUB_EXPT_ID);
     if (CV_experiment_sub_exp_id == NULL) {
-        cmor_handle_error(
+        cmor_handle_error_variadic(
                  "Your \"%s\" defined in your input file\n! "
                  "could not be found in your Control Vocabulary file.(%s)\n! ",
                  CMOR_NORMAL, GLOBAL_ATT_SUB_EXPT_ID, CV_Filename);
@@ -889,7 +889,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
     if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_SUB_EXPT_ID) != 0) {
         // sub_experiment_id not found and set to "none"
         if (CV_IsStringInArray(CV_experiment_sub_exp_id, NONE)) {
-            cmor_handle_error(
+            cmor_handle_error_variadic(
                      "Your input attribute \"%s\" was not defined and \n! "
                      "will be set to \"%s\"\n! "
                      "as defined in your Control Vocabulary file \"%s\".\n! ",
@@ -898,7 +898,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
                                                     NONE, 1);
         } else {
             // can't be "none".
-            cmor_handle_error(
+            cmor_handle_error_variadic(
                      "Your input attribute \"%s\" is not defined properly \n! "
                      "for your experiment \"%s\" \n! \n! "
                      "See Control Vocabulary JSON file.(%s)\n! ",
@@ -915,7 +915,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
         if (!CV_IsStringInArray(CV_experiment_sub_exp_id, szSubExptID)) {
             // only 1 element in list set it!
             if (CV_experiment_sub_exp_id->anElements == 1) {
-                cmor_handle_error(
+                cmor_handle_error_variadic(
                          "Your input attribute \"%s\" defined as \"%s\" "
                          "will be replaced with \n! "
                          "\"%s\" as defined in your Control Vocabulary file.\n! ",
@@ -927,7 +927,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
 
             } else {
                 // too many options.
-                cmor_handle_error(
+                cmor_handle_error_variadic(
                          "Your input attribute \"%s\" is not defined properly \n! "
                          "for your experiment \"%s\"\n! "
                          "There is more than 1 option for this sub_experiment.\n! "
@@ -940,7 +940,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
     }
     // sub_experiment has not been defined!
     if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_SUB_EXPT) != 0) {
-        cmor_handle_error(
+        cmor_handle_error_variadic(
                  "Your input attribute \"%s\" was not defined and \n! "
                  "will be set to \"%s\" \n! "
                  "as defined in your Control Vocabulary file \"%s\".\n! ",
@@ -951,7 +951,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
         CV_sub_experiment_id_key =
           cmor_CV_search_child_key(CV_sub_experiment_id, szSubExptID);
         if (CV_sub_experiment_id_key == NULL) {
-            cmor_handle_error(
+            cmor_handle_error_variadic(
                      "Your \"sub_experiment\" text describing  \n! "
                      "sub_experiment_id \"%s\" could not be found in \n! "
                      "your Control Vocabulary file.(%s)\n! ", 
@@ -961,7 +961,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
         }
 
         if (strcmp(szValue, CV_sub_experiment_id_key->szValue) != 0) {
-            cmor_handle_error(
+            cmor_handle_error_variadic(
                      "Your input attribute \"%s\" defined as \"%s\" "
                      "will be replaced with \n! "
                      "\"%s\" as defined in your Control Vocabulary file.\n! ",
@@ -1027,7 +1027,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
     cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
     ierr = cmor_get_cur_dataset_attribute(GLOBAL_ATT_EXPERIMENTID, szExperiment_ID);
     if (ierr != 0) {
-        cmor_handle_error(
+        cmor_handle_error_variadic(
                  "Your \"%s\" is not defined, check your required attributes\n! "
                  "See Control Vocabulary JSON file.(%s)\n! ",
                  CMOR_NORMAL, GLOBAL_ATT_EXPERIMENTID, CV_Filename);
@@ -1037,7 +1037,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
     // Look for experiment_id section
     CV_experiment_ids = cmor_CV_rootsearch(CV, CV_KEY_EXPERIMENT_ID);
     if (CV_experiment_ids == NULL) {
-        cmor_handle_error(
+        cmor_handle_error_variadic(
                  "Your \"experiment_id\" key could not be found in\n! "
                  "your Control Vocabulary file.(%s)\n! ", CMOR_NORMAL, CV_Filename);
 
@@ -1048,7 +1048,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
     CV_experiment = cmor_CV_search_child_key(CV_experiment_ids,
                                              szExperiment_ID);
     if (CV_experiment == NULL) {
-        cmor_handle_error(
+        cmor_handle_error_variadic(
                  "Your experiment_id \"%s\" defined in your input file\n! "
                  "could not be found in your Control Vocabulary file.(%s)\n! ",
                  CMOR_NORMAL, szExperiment_ID, CV_Filename);
@@ -1060,7 +1060,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
         CV_parent_exp_id = cmor_CV_search_child_key(CV_experiment,
                                                     PARENT_EXPERIMENT_ID);
         if (CV_IsStringInArray(CV_parent_exp_id, NO_PARENT)) {
-            cmor_handle_error(
+            cmor_handle_error_variadic(
                     "Your input attribute \"%s\" defined as \"\" "
                     "will be replaced with \n! "
                     "\"%s\" as defined in your Control Vocabulary file.\n! ",
@@ -1068,7 +1068,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
             cmor_set_cur_dataset_attribute_internal(PARENT_EXPERIMENT_ID,
                                                     NO_PARENT, 1);
         } else {
-            cmor_handle_error(
+            cmor_handle_error_variadic(
                      "Your input attribute \"%s\" is not defined properly \n! "
                      "for your experiment \"%s\"\n!\n! "
                      "See Control Vocabulary JSON file.(%s)\n! ",
@@ -1096,7 +1096,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
                                                szBranchTimeInChild);
                 rc = sscanf(szBranchTimeInChild, "%lf", &dBranchTimeInChild);
                 if ((rc == 0) || (rc == EOF)) {
-                    cmor_handle_error(
+                    cmor_handle_error_variadic(
                              "Your input attribute branch_time_in_child \"%s\" "
                              "is not a double floating point \n! ",
                              CMOR_WARNING, szBranchTimeInChild);
@@ -1107,7 +1107,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
             if (cmor_has_cur_dataset_attribute(BRANCH_TIME_IN_PARENT) == 0) {
                 cmor_get_cur_dataset_attribute(BRANCH_TIME_IN_PARENT, szValue);
                 if (strcmp(szValue, "0.0") != 0) {
-                    cmor_handle_error(
+                    cmor_handle_error_variadic(
                              "Your input attribute %s %s \n! "
                              "has been replaced with 0.0 \n! ",
                              CMOR_WARNING, BRANCH_TIME_IN_PARENT, szValue);
@@ -1120,7 +1120,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
             // real parent case
             // Parent Activity ID
             if (cmor_has_cur_dataset_attribute(PARENT_ACTIVITY_ID) != 0) {
-                cmor_handle_error(
+                cmor_handle_error_variadic(
                          "Your input attribute \"%s\" is not defined properly \n! "
                          "for your experiment \"%s\"\n!\n! "
                          "See Control Vocabulary JSON file.(%s)\n! ",
@@ -1132,7 +1132,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
                                                                  PARENT_ACTIVITY_ID);
                 if (CV_IsStringInArray(CV_parent_activity_id, szValue) == 0) {
                     if (CV_parent_activity_id->anElements == 1) {
-                        cmor_handle_error(
+                        cmor_handle_error_variadic(
                                  "Your input attribute \"%s\" defined as \"%s\" "
                                  "will be replaced with \n! "
                                  "\"%s\" as defined in your Control Vocabulary file.\n! ",
@@ -1143,7 +1143,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
                            CV_parent_activity_id->aszValue[0], 1);
 
                     } else {
-                        cmor_handle_error(
+                        cmor_handle_error_variadic(
                                  "Your input attribute \"%s\" is not defined properly \n! "
                                  "for your experiment \"%s\"\n! "
                                  "There is more than 1 option for this experiment.\n! "
@@ -1155,7 +1155,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
             }
             // branch method
             if (cmor_has_cur_dataset_attribute(BRANCH_METHOD) != 0) {
-                cmor_handle_error(
+                cmor_handle_error_variadic(
                          "Your input attribute \"%s\" is not defined \n! "
                          "properly for %s \n! "
                          "Please describe the spin-up procedure as defined \n! "
@@ -1166,7 +1166,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
             } else {
                 cmor_get_cur_dataset_attribute(BRANCH_METHOD, szBranchMethod);
                 if (strlen(szBranchMethod) == 0) {
-                    cmor_handle_error(
+                    cmor_handle_error_variadic(
                              "Your input attribute %s is an empty string\n! "
                              "Please describe the spin-up procedure as defined \n! "
                              "in CMIP6 documentations.\n! ", CMOR_NORMAL, BRANCH_METHOD);
@@ -1175,7 +1175,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
             }
             // branch_time_in_child
             if (cmor_has_cur_dataset_attribute(BRANCH_TIME_IN_CHILD) != 0) {
-                cmor_handle_error(
+                cmor_handle_error_variadic(
                          "Your input attribute \"%s\" is not defined \n! "
                          "properly for %s \n! "
                          "Please refer to the CMIP6 documentations.\n! ",
@@ -1186,7 +1186,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
                                                szBranchTimeInChild);
                 rc = sscanf(szBranchTimeInChild, "%lf", &dBranchTimeInChild);
                 if ((rc == 0) || (rc == EOF)) {
-                    cmor_handle_error(
+                    cmor_handle_error_variadic(
                              "Your input attribute branch_time_in_child \"%s\" "
                              "is not a double floating point \n! ",
                              CMOR_NORMAL, szBranchTimeInChild);
@@ -1195,7 +1195,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
             }
             // branch_time_in_parent
             if (cmor_has_cur_dataset_attribute(BRANCH_TIME_IN_PARENT) != 0) {
-                cmor_handle_error(
+                cmor_handle_error_variadic(
                          "Your input attribute \"%s\" is not defined \n! "
                          "properly for %s \n! "
                          "Please refer to the CMIP6 documentations.\n! ",
@@ -1206,7 +1206,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
                                                szBranchTimeInParent);
                 rc = sscanf(szBranchTimeInParent, "%lf", &dBranchTimeInParent);
                 if ((rc == 0) || (rc == EOF)) {
-                    cmor_handle_error(
+                    cmor_handle_error_variadic(
                              "Your input attribute branch_time_in_parent \"%s\" "
                              "is not a double floating point \n! ",
                              CMOR_NORMAL, szBranchTimeInParent);
@@ -1215,7 +1215,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
             }
             // parent_time_units
             if (cmor_has_cur_dataset_attribute(PARENT_TIME_UNITS) != 0) {
-                cmor_handle_error(
+                cmor_handle_error_variadic(
                          "Your input attribute \"%s\" is not defined \n! "
                          "properly for %s \n! "
                          "Please refer to the CMIP6 documentations.\n! ",
@@ -1231,7 +1231,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
 
                 reti = regcomp(&regex, template, 0);
                 if (reti) {
-                    cmor_handle_error(
+                    cmor_handle_error_variadic(
                              "You regular expression \"%s\" is invalid. \n! "
                              "Please refer to the CMIP6 documentations.\n! ",
                              CMOR_NORMAL, template);
@@ -1241,7 +1241,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
                     // Execute regular expression
                     reti = regexec(&regex, szParentTimeUnits, 0, NULL, 0);
                     if (reti == REG_NOMATCH) {
-                        cmor_handle_error(
+                        cmor_handle_error_variadic(
                                 "Your  \"%s\" set to \"%s\" is invalid. \n! "
                                 "Please refer to the CMIP6 documentations.\n! ",
                                 CMOR_NORMAL, PARENT_TIME_UNITS, szParentTimeUnits);
@@ -1252,7 +1252,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
             }
             // parent_variant_label
             if (cmor_has_cur_dataset_attribute(PARENT_VARIANT_LABEL) != 0) {
-                cmor_handle_error(
+                cmor_handle_error_variadic(
                          "Your input attribute \"%s\" is not defined \n! "
                          "properly for %s \n! "
                          "Please refer to the CMIP6 documentations.\n! ",
@@ -1268,7 +1268,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
 
                 reti = regcomp(&regex, template, 0);
                 if (reti) {
-                    cmor_handle_error(
+                    cmor_handle_error_variadic(
                              "You regular expression \"%s\" is invalid. \n! "
                              "Please refer to the CMIP6 documentations.\n! ",
                              CMOR_NORMAL, template);
@@ -1277,7 +1277,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
                     // Execute regular expression
                     reti = regexec(&regex, szParentVariantLabel, 0, NULL, 0);
                     if (reti == REG_NOMATCH) {
-                        cmor_handle_error(
+                        cmor_handle_error_variadic(
                                 "You  \"%s\" set to \"%s\" is invalid. \n! "
                                 "Please refer to the CMIP6 documentations.\n! ",
                                 CMOR_NORMAL, PARENT_VARIANT_LABEL, szParentVariantLabel);
@@ -1288,7 +1288,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
             }
             // parent_source_id
             if (cmor_has_cur_dataset_attribute(PARENT_SOURCE_ID) != 0) {
-                cmor_handle_error(
+                cmor_handle_error_variadic(
                          "Your input attribute \"%s\" is not defined \n! "
                          "properly for %s \n! "
                          "Please refer to the CMIP6 documentations.\n! ",
@@ -1299,7 +1299,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
                                                szParentSourceId);
                 CV_source_id = cmor_CV_rootsearch(CV, CV_KEY_SOURCE_IDS);
                 if (CV_source_id == NULL) {
-                    cmor_handle_error(
+                    cmor_handle_error_variadic(
                              "Your \"source_id\" key could not be found in\n! "
                              "your Control Vocabulary file.(%s)\n! ",
                              CMOR_NORMAL, CV_Filename);
@@ -1311,7 +1311,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
                     CV_source = cmor_CV_search_child_key(CV_source_id,
                                                         szParentSourceId);
                     if (CV_source == NULL) {
-                        cmor_handle_error(
+                        cmor_handle_error_variadic(
                                 "Your parent_source_id \"%s\" defined in your input file\n! "
                                 "could not be found in your Control Vocabulary file.(%s)\n! ",
                                 CMOR_NORMAL, szParentSourceId, CV_Filename);
@@ -1321,7 +1321,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
             }
             // parent_mip_era
             if (cmor_has_cur_dataset_attribute(PARENT_MIP_ERA) != 0) {
-                cmor_handle_error(
+                cmor_handle_error_variadic(
                          "Your input attribute \"%s\" is not defined \n! "
                          "properly for %s \n! "
                          "Please refer to the CMIP6 documentations.\n! ",
@@ -1330,7 +1330,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
             } else {
                 cmor_get_cur_dataset_attribute(PARENT_MIP_ERA, szValue);
                 if (strcmp(CMIP6, szValue) != 0) {
-                    cmor_handle_error(
+                    cmor_handle_error_variadic(
                              "Your input attribute \"%s\" defined as \"%s\" "
                              "will be replaced with \n! "
                              "\"%s\" as defined in your Control Vocabulary file.\n! ",
@@ -1370,7 +1370,7 @@ int cmor_CV_checkExperiment(cmor_CV_def_t * CV)
     cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
     ierr = cmor_get_cur_dataset_attribute(GLOBAL_ATT_EXPERIMENTID, szExperiment_ID);
     if (ierr != 0) {
-        cmor_handle_error(
+        cmor_handle_error_variadic(
                  "Your \"%s\" is not defined, check your required attributes\n! "
                  "See Control Vocabulary JSON file.(%s)\n! ",
                  CMOR_NORMAL, GLOBAL_ATT_EXPERIMENTID, CV_Filename);
@@ -1382,7 +1382,7 @@ int cmor_CV_checkExperiment(cmor_CV_def_t * CV)
 /* -------------------------------------------------------------------- */
     CV_experiment_ids = cmor_CV_rootsearch(CV, CV_KEY_EXPERIMENT_ID);
     if (CV_experiment_ids == NULL) {
-        cmor_handle_error(
+        cmor_handle_error_variadic(
                  "Your \"experiment_ids\" key could not be found in\n! "
                  "your Control Vocabulary file.(%s)\n! ", CMOR_NORMAL, CV_Filename);
 
@@ -1393,7 +1393,7 @@ int cmor_CV_checkExperiment(cmor_CV_def_t * CV)
                                              szExperiment_ID);
 
     if (CV_experiment == NULL) {
-        cmor_handle_error(
+        cmor_handle_error_variadic(
                  "Your experiment_id \"%s\" defined in your input file\n! "
                  "could not be found in your Control Vocabulary file.(%s)\n! ",
                  CMOR_NORMAL, szExperiment_ID, CV_Filename);
@@ -1439,7 +1439,7 @@ int cmor_CV_checkExperiment(cmor_CV_def_t * CV)
                         strcpy(szExpValue, CV_experiment_attr->aszValue[0]);
                         bError = 1;
                     } else {
-                        cmor_handle_error(
+                        cmor_handle_error_variadic(
                                  "Your input attribute \"%s\" with value \n! \"%s\" "
                                  "is not set properly and \n! "
                                  "has multiple possible candidates \n! "
@@ -1467,7 +1467,7 @@ int cmor_CV_checkExperiment(cmor_CV_def_t * CV)
             }
         }
         if (bError == 1) {
-            cmor_handle_error(
+            cmor_handle_error_variadic(
                      "Your input attribute \"%s\" with value \n! \"%s\" "
                      "needs to be replaced with "
                      "value \"%s\"\n! "
@@ -1534,7 +1534,7 @@ int cmor_CV_checkFilename(cmor_CV_def_t * CV, int var_id,
         // retrieve calendar
 
         if (cmor_calendar_c2i(szInTimeCalendar, &icalo) != 0) {
-            cmor_handle_error_var(
+            cmor_handle_error_var_variadic(
                     "Cannot convert times for calendar: %s,\n! "
                     "closing variable %s (table: %s)", 
                     CMOR_CRITICAL, var_id, szInTimeCalendar, cmor_vars[var_id].id,
@@ -1695,7 +1695,7 @@ int cmor_CV_checkFilename(cmor_CV_def_t * CV, int var_id,
             /* don't need to do anything, time string will ignored in next step */
             break;
         default:
-            cmor_handle_error_var(
+            cmor_handle_error_var_variadic(
                     "Cannot find frequency %s. Closing variable %s (table: %s)",
                     CMOR_CRITICAL, var_id, frequency, cmor_vars[var_id].id,
                     cmor_tables[cmor_vars[var_id].ref_table_id].szTable_id);
@@ -1750,7 +1750,7 @@ int cmor_CV_checkFilename(cmor_CV_def_t * CV, int var_id,
     }
     strncat(outname, ".nc", CMOR_MAX_STRING - strlen(outname));
     if (strcmp(infile, outname) != 0) {
-        cmor_handle_error_var(
+        cmor_handle_error_var_variadic(
                 "Your filename \n! "
                 "\"%s\" \n! "
                 "does not match the CMIP6 requirement.\n! \n! "
@@ -1804,7 +1804,7 @@ int cmor_CV_setInstitution(cmor_CV_def_t * CV)
 /* -------------------------------------------------------------------- */
     CV_institution_ids = cmor_CV_rootsearch(CV, CV_KEY_INSTITUTION_ID);
     if (CV_institution_ids == NULL) {
-        cmor_handle_error(
+        cmor_handle_error_variadic(
                  "Your \"%s\" key could not be found in\n! "
                  "your Control Vocabulary file.(%s)\n! ",
                  CMOR_NORMAL, CV_KEY_INSTITUTION_ID, CV_Filename);
@@ -1816,7 +1816,7 @@ int cmor_CV_setInstitution(cmor_CV_def_t * CV)
                                               szInstitution_ID);
 
     if (CV_institution == NULL) {
-        cmor_handle_error(
+        cmor_handle_error_variadic(
                  "The institution_id, \"%s\", found in your \n! "
                  "input file (%s) could not be found in \n! "
                  "your Controlled Vocabulary file. (%s) \n! \n! "
@@ -1849,7 +1849,7 @@ int cmor_CV_setInstitution(cmor_CV_def_t * CV)
 /*  Check if an institution has been defined! If not we exit.           */
 /* -------------------------------------------------------------------- */
         if (CV_institution->szValue[0] == '\0') {
-            cmor_handle_error(
+            cmor_handle_error_variadic(
                      "There is no institution associated to institution_id \"%s\"\n! "
                      "in your Control Vocabulary file.\n! "
                      "Check your \"%s\" dictionary!!\n! ", 
@@ -1862,7 +1862,7 @@ int cmor_CV_setInstitution(cmor_CV_def_t * CV)
 /* -------------------------------------------------------------------- */
         if (strncmp(szInstitution, CV_institution->szValue, CMOR_MAX_STRING) !=
             0) {
-            cmor_handle_error(
+            cmor_handle_error_variadic(
                      "Your input attribute institution \"%s\" will be replaced with \n! "
                      "\"%s\" as defined in your Control Vocabulary file.\n! ",
                      CMOR_WARNING, szInstitution, CV_institution->szValue);
@@ -1950,7 +1950,7 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
         strncpy(attr_CV->aszValue[i], szTmp, CMOR_MAX_STRING);
         reti = regcomp(&regex, attr_CV->aszValue[i], 0);
         if (reti) {
-            cmor_handle_error(
+            cmor_handle_error_variadic(
                      "You regular expression \"%s\" is invalid. \n! "
                      "Check your Control Vocabulary file \"%s\".\n! ",
                      CMOR_NORMAL, attr_CV->aszValue[i], CV_Filename);
@@ -2005,13 +2005,13 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
                     if(szTmp[0] != '\0' && strcmp(CV_key->szValue, szTmp) != 0){
                         reti = cmor_get_table_attr(CV_key->key, &cmor_tables[CMOR_TABLE], tableValue);
                         if(reti == 0 && strcmp(tableValue, szTmp) == 0){
-                            cmor_handle_error(
+                            cmor_handle_error_variadic(
                                     "The registered CV attribute \"%s\" as defined as \"%s\" "
                                     "will be replaced with \n! "
                                     "\"%s\" as defined in the table %s\n! ",
                                     CMOR_WARNING, CV_key->key, CV_key->szValue, szTmp, cmor_tables[CMOR_TABLE].szTable_id);
                         } else {
-                            cmor_handle_error(
+                            cmor_handle_error_variadic(
                                     "The registered CV attribute \"%s\" as defined as \"%s\" "
                                     "will be replaced with \n! "
                                     "\"%s\" as defined in your user input file\n! ",
@@ -2031,13 +2031,13 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
                     if(szTmp[0] != '\0' && strcmp(CV_key->aszValue[0], szTmp) != 0){
                         reti = cmor_get_table_attr(CV_key->key, &cmor_tables[CMOR_TABLE], tableValue);
                         if(reti == 0 && strcmp(tableValue, szTmp) == 0){
-                            cmor_handle_error(
+                            cmor_handle_error_variadic(
                                     "The registered CV attribute \"%s\" as defined as \"%s\" "
                                     "will be replaced with \n! "
                                     "\"%s\" as defined in the table %s\n! ",
                                     CMOR_WARNING, CV_key->key, CV_key->aszValue[0], szTmp, cmor_tables[CMOR_TABLE].szTable_id);
                         } else {
-                            cmor_handle_error(
+                            cmor_handle_error_variadic(
                                     "The registered CV attribute \"%s\" as defined as \"%s\" "
                                     "will be replaced with \n! "
                                     "\"%s\" as defined in your user input file\n! ",
@@ -2053,7 +2053,7 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
                 }
             } else if (CV_key->anElements > 1 && isRequired == 1) {
                 if(cmor_has_cur_dataset_attribute(CV_key->key) != 0) {
-                    cmor_handle_error(
+                    cmor_handle_error_variadic(
                             "The registered CV attribute \"%s\" has multiple values \n! "
                             "defined in \"%s\"\n! "
                             "Please select one from the entry %s.%s.%s.",
@@ -2069,7 +2069,7 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
 /* We could not validate this attribute, exit.                          */
 /* -------------------------------------------------------------------- */
     if (i == (attr_CV->anElements)) {
-        cmor_handle_error(
+        cmor_handle_error_variadic(
                  "The attribute \"%s\" could not be validated. \n! "
                  "The current input value is "
                  "\"%s\", which is not valid. \n! \n! "
@@ -2115,7 +2115,7 @@ int cmor_CV_checkGrids(cmor_CV_def_t * CV)
 
     CV_grid_labels = cmor_CV_rootsearch(CV, CV_KEY_GRID_LABELS);
     if (CV_grid_labels == NULL) {
-        cmor_handle_error(
+        cmor_handle_error_variadic(
                  "Your \"grid_labels\" key could not be found in\n! "
                  "your Control Vocabulary file.(%s)\n! ", CMOR_NORMAL, CV_Filename);
 
@@ -2137,7 +2137,7 @@ int cmor_CV_checkGrids(cmor_CV_def_t * CV)
             }
         }
         if (i == CV_grid_labels->anElements) {
-            cmor_handle_error(
+            cmor_handle_error_variadic(
                      "Your attribute grid_label is set to \"%s\" which is invalid."
                      "\n! \n! Check your Control Vocabulary file \"%s\".\n! ",
                      CMOR_NORMAL, szGridLabel, CV_Filename);
@@ -2148,7 +2148,7 @@ int cmor_CV_checkGrids(cmor_CV_def_t * CV)
     } else {
         CV_grid_child = cmor_CV_search_child_key(CV_grid_labels, szGridLabel);
         if (CV_grid_child == NULL) {
-            cmor_handle_error(
+            cmor_handle_error_variadic(
                     "Your attribute grid_label is set to \"%s\" which is invalid."
                             "\n! \n! Check your Control Vocabulary file \"%s\".\n! ",
                     CMOR_NORMAL, szGridLabel, CV_Filename);
@@ -2158,7 +2158,7 @@ int cmor_CV_checkGrids(cmor_CV_def_t * CV)
     }
     CV_grid_resolution = cmor_CV_rootsearch(CV, CV_KEY_GRID_RESOLUTION);
     if (CV_grid_resolution == NULL) {
-        cmor_handle_error(
+        cmor_handle_error_variadic(
                  "Your attribute grid_label is set to \"%s\" which is invalid."
                  "\n! \n! Check your Control Vocabulary file \"%s\".\n! ",
                  CMOR_NORMAL, szGridLabel, CV_Filename);
@@ -2184,7 +2184,7 @@ int cmor_CV_checkGrids(cmor_CV_def_t * CV)
             }
         }
         if (i == CV_grid_resolution->anElements) {
-            cmor_handle_error(
+            cmor_handle_error_variadic(
                      "Your attribute grid_resolution is set to \"%s\" which is invalid."
                      "\n! \n! Check your Control Vocabulary file \"%s\".\n! ",
                      CMOR_NORMAL, szGridResolution, CV_Filename);
@@ -2214,7 +2214,7 @@ int cmor_CV_checkGblAttributes(cmor_CV_def_t * CV)
         for (i = 0; i < required_attrs->anElements; i++) {
             rc = cmor_has_cur_dataset_attribute(required_attrs->aszValue[i]);
             if (rc != 0) {
-                cmor_handle_error(
+                cmor_handle_error_variadic(
                          "Your Control Vocabulary file specifies one or more\n! "
                          "required attributes.  The following\n! "
                          "attribute was not properly set.\n! \n! "
@@ -2231,7 +2231,7 @@ int cmor_CV_checkGblAttributes(cmor_CV_def_t * CV)
         }
     }
     if (bCriticalError) {
-        cmor_handle_error("Please fix required attributes mentioned in\n! "
+        cmor_handle_error_variadic("Please fix required attributes mentioned in\n! "
                           "the warnings/error above and rerun. (aborting!)\n! ",
                           CMOR_NORMAL);
     }
@@ -2324,7 +2324,7 @@ int cmor_CV_checkISOTime(char *szAttribute)
     memset(&tm, 0, sizeof(struct tm));
     szReturn = strptime(szDate, "%FT%H:%M:%SZ", &tm);
     if (szReturn == NULL) {
-        cmor_handle_error(
+        cmor_handle_error_variadic(
                  "Your global attribute "
                  "\"%s\" set to \"%s\" is not a valid date.\n! "
                  "ISO 8601 date format \"YYYY-MM-DDTHH:MM:SSZ\" is required."
@@ -2356,7 +2356,7 @@ int cmor_CV_variable(int *var_id, char *name, char *units,
     cmor_add_traceback("cmor_CV_variable");
 
     if (CMOR_TABLE == -1) {
-        cmor_handle_error("You did not define a table yet!", CMOR_CRITICAL);
+        cmor_handle_error_variadic("You did not define a table yet!", CMOR_CRITICAL);
         cmor_pop_traceback();
         return (-1);
     }
@@ -2387,7 +2387,7 @@ int cmor_CV_variable(int *var_id, char *name, char *units,
     }
 
     if (iref == -1) {
-        cmor_handle_error(
+        cmor_handle_error_variadic(
                  "Could not find a matching variable for name: '%s'", CMOR_CRITICAL, ctmp);
         cmor_pop_traceback();
         return (-1);
