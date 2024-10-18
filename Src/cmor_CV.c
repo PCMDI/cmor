@@ -387,11 +387,10 @@ int cmor_CV_checkFurtherInfoURL(int nVarRefTblID)
 /* -------------------------------------------------------------------- */
     szToken = strtok(szFurtherInfoURLTemplate, "<>");
     if (szToken == NULL) {
-        snprintf(msg, CMOR_MAX_STRING,
-                    "The further info URL value of \"%s\" is invalid. \n! ",
-                    szFurtherInfoURLTemplate);
-
-        cmor_handle_error(msg, CMOR_NORMAL);
+        cmor_handle_error(
+            "The further info URL value of \"%s\" is invalid. \n! ",
+            CMOR_NORMAL,
+            szFurtherInfoURLTemplate);
         cmor_pop_traceback();
         return (-1);
     }
