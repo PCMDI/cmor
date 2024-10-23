@@ -999,7 +999,7 @@ int cmor_load_table_internal(char szTable[CMOR_MAX_STRING], int *table_id)
             cmor_handle_error_variadic(
                 "unknown section: %s, for table: %s",
                 CMOR_WARNING,
-                cmor_tables[cmor_ntables].szTable_id);
+                key, cmor_tables[cmor_ntables].szTable_id);
         }
 
 /* -------------------------------------------------------------------- */
