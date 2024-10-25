@@ -60,7 +60,6 @@ int cmor_has_required_variable_attributes(int var_id)
 {
     extern cmor_var_t cmor_vars[];
     char astr[CMOR_MAX_STRING];
-    char msg[CMOR_MAX_STRING];
     int i, j;
     cmor_var_def_t var;
     cmor_table_t *pTable;
@@ -195,8 +194,6 @@ int cmor_set_variable_attribute_internal(int id, char *attribute_name,
 int cmor_set_variable_attribute(int id, char *attribute_name, char type,
                                 void *value)
 {
-    char msg[CMOR_MAX_STRING];
-
     cmor_add_traceback("cmor_set_variable_attribute");
 
 /* -------------------------------------------------------------------- */
@@ -254,7 +251,6 @@ int cmor_get_variable_attribute(int id, char *attribute_name, void *value)
 {
     extern cmor_var_t cmor_vars[];
     int i, index;
-    char msg[CMOR_MAX_STRING];
     char type;
 
     cmor_add_traceback("cmor_get_variable_attribute");
@@ -357,7 +353,6 @@ int cmor_get_variable_attribute_type(int id, char *attribute_name, char *type)
 
     extern cmor_var_t cmor_vars[];
     int i, index;
-    char msg[CMOR_MAX_STRING];
 
     cmor_add_traceback("cmor_get_variable_attribute_type");
     cmor_is_setup();
@@ -1919,7 +1914,6 @@ int cmor_set_var_def_att(cmor_var_def_t * var, char att[CMOR_MAX_STRING],
 {
     int i, n, j, n0, k;
     char dim[CMOR_MAX_STRING];
-    char msg[CMOR_MAX_STRING];
 
     cmor_add_traceback("cmor_set_var_def_att");
     cmor_is_setup();
@@ -2274,8 +2268,6 @@ int cmor_set_chunking(int var_id, int nTableID, size_t nc_dim_chunking[])
 /************************************************************************/
 int cmor_set_deflate(int var_id, int shuffle, int deflate, int deflate_level)
 {
-    char msg[CMOR_MAX_STRING];
-
     cmor_add_traceback("cmor_get_original_shape");
     cmor_is_setup();
 
@@ -2302,8 +2294,6 @@ int cmor_set_deflate(int var_id, int shuffle, int deflate, int deflate_level)
 /************************************************************************/
 int cmor_set_zstandard(int var_id, int zstandard_level)
 {
-    char msg[CMOR_MAX_STRING];
-
     cmor_add_traceback("cmor_set_zstandard");
     cmor_is_setup();
 
@@ -2328,8 +2318,6 @@ int cmor_set_zstandard(int var_id, int zstandard_level)
 /************************************************************************/
 int cmor_set_quantize(int var_id, int quantize_mode, int quantize_nsd)
 {
-    char msg[CMOR_MAX_STRING];
-
     cmor_add_traceback("cmor_set_quantize");
     cmor_is_setup();
 
@@ -2377,7 +2365,6 @@ int cmor_get_original_shape(int *var_id, int *shape_array, int *rank,
 {
     int i;
     cmor_var_t avar;
-    char msg[CMOR_MAX_STRING];
 
     cmor_add_traceback("cmor_get_original_shape");
     avar = cmor_vars[*var_id];
