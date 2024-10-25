@@ -130,7 +130,7 @@ int bAppendMode = 0;
 volatile sig_atomic_t stop = 0;
 
 /**************************************************************************/
-/*                reset signal code
+/*                reset signal code                                       */
 /**************************************************************************/
 int cmor_get_terminate_signal() {
     return CMOR_TERMINATE_SIGNAL;
