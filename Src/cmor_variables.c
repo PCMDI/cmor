@@ -2743,7 +2743,7 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
                                      pAxis->id, counter2[j],
                                      time_vals[counter2[j]]);
                         }
-                        strncat(msg_min, msg2, CMOR_MAX_STRING - strlen(msg));
+                        strncat(msg_min, msg2, strlen(msg2));
                     }
                 }
             }
@@ -2777,7 +2777,7 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
                                      time_vals[counter2[j]]);
                         }
 
-                        strncat(msg_max, msg2, CMOR_MAX_STRING - strlen(msg));
+                        strncat(msg_max, msg2, strlen(msg2));
                     }
                 }
             }
