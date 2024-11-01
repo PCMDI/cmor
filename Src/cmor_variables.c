@@ -2406,6 +2406,8 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
     size_t counter_orig[CMOR_MAX_DIMENSIONS];
     size_t counter_orig2[CMOR_MAX_DIMENSIONS];
     size_t counter2[CMOR_MAX_DIMENSIONS];
+    size_t max_counter[CMOR_MAX_DIMENSIONS];
+    size_t min_counter[CMOR_MAX_DIMENSIONS];
     size_t starts[CMOR_MAX_DIMENSIONS];
     size_t nelements, loc, add, nelts;
     double *data_tmp = NULL, tmp = 0., tmp2, amean;
@@ -2423,11 +2425,12 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
     char local_unit[CMOR_MAX_STRING];
     size_t n_lower_min = 0, n_greater_max = 0;
     double emax, emin, first_time;
-    char msg_min[CMOR_MAX_STRING];
-    char msg_max[CMOR_MAX_STRING];
     extern ut_system *ut_read;
     size_t tmpindex = 0;
     size_t index;
+    char *msg_min;
+    char *msg_max;
+    size_t msg_len;
 
     cmor_add_traceback("cmor_write_var_to_file");
     cmor_is_setup();
@@ -2721,63 +2724,18 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
                 n_lower_min += 1;
                 if ((n_lower_min == 1) || (tmp < emin)) {       /*minimum val */
                     emin = tmp;
-                    snprintf(msg_min, CMOR_MAX_STRING,
-                             "Invalid value(s) detected for variable '%s' "
-                             "(table: %s): %%i values were lower than minimum "
-                             "valid value (%.4g). Minimum encountered bad "
-                             "value (%.5g) was at (axis: index/value):",
-                             avar->id,
-                             cmor_tables[avar->ref_table_id].szTable_id,
-                             avar->valid_min, tmp);
-
                     for (j = 0; j < avar->ndims; j++) {
-                        cmor_axis_t *pAxis;
-                        pAxis = &cmor_axes[avar->axes_ids[j]];
-                        if (pAxis->values != NULL) {
-                            snprintf(msg2, CMOR_MAX_STRING, " %s: %lu/%.5g",
-                                     pAxis->id, counter2[j],
-                                     pAxis->values[counter2[j]]);
-
-                        } else {
-                            snprintf(msg2, CMOR_MAX_STRING, " %s: %lu/%.5g",
-                                     pAxis->id, counter2[j],
-                                     time_vals[counter2[j]]);
-                        }
-                        strncat(msg_min, msg2, strlen(msg2));
+                        min_counter[j] = counter2[j];
                     }
                 }
             }
             if ((avar->valid_max != (float)1.e20) && (tmp > avar->valid_max)) {
 
                 n_greater_max += 1;
-
                 if ((n_greater_max == 1) || (tmp > emax)) {
-
                     emax = tmp;
-                    snprintf(msg_max, CMOR_MAX_STRING,
-                             "Invalid value(s) detected for variable '%s' "
-                             "(table: %s): %%i values were greater than "
-                             "maximum valid value (%.4g).Maximum encountered "
-                             "bad value (%.5g) was at (axis: index/value):",
-                             avar->id,
-                             cmor_tables[avar->ref_table_id].szTable_id,
-                             avar->valid_max, tmp);
-
                     for (j = 0; j < avar->ndims; j++) {
-                        cmor_axis_t *pAxis;
-                        pAxis = &cmor_axes[avar->axes_ids[j]];
-
-                        if (pAxis->values != NULL) {
-                            snprintf(msg2, CMOR_MAX_STRING, " %s: %lu/%.5g",
-                                     pAxis->id, counter2[j],
-                                     pAxis->values[counter2[j]]);
-                        } else {
-                            snprintf(msg2, CMOR_MAX_STRING, " %s: %lu/%.5g",
-                                     pAxis->id, counter2[j],
-                                     time_vals[counter2[j]]);
-                        }
-
-                        strncat(msg_max, msg2, strlen(msg2));
+                        max_counter[j] = counter2[j];
                     }
                 }
             }
@@ -2794,13 +2752,93 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
 
     }
     if (n_lower_min != 0) {
+        msg_len = 0;
+        for (j = 0; j < avar->ndims; j++) {
+            cmor_axis_t *pAxis;
+            pAxis = &cmor_axes[avar->axes_ids[j]];
+            double val = 0.f;
+            if (pAxis->values != NULL) {
+                val = pAxis->values[min_counter[j]];
+            } else {
+                val = time_vals[min_counter[j]];
+            }
+            msg_len += snprintf(NULL, 0, " %s: %lu/%.5g",
+                                pAxis->id, min_counter[j], val);
+        }
+        msg_len += 1;
 
-        cmor_handle_error_variadic(msg_min, CMOR_WARNING, n_lower_min);
+        msg_min = (char *)malloc(msg_len * sizeof(char));
+        
+        msg_len = 0;
+        for (j = 0; j < avar->ndims; j++) {
+            cmor_axis_t *pAxis;
+            pAxis = &cmor_axes[avar->axes_ids[j]];
+            double val = 0.f;
+            if (pAxis->values != NULL) {
+                val = pAxis->values[min_counter[j]];
+            } else {
+                val = time_vals[min_counter[j]];
+            }
+            msg_len += sprintf(&msg_min[msg_len], " %s: %lu/%.5g",
+                    pAxis->id, min_counter[j], val);
+        }
+    
+        cmor_handle_error_variadic(
+            "Invalid value(s) detected for variable '%s' "
+            "(table: %s): %zu values were lower than minimum "
+            "valid value (%.4g). Minimum encountered bad "
+            "value (%.5g) was at (axis: index/value):%s",
+            CMOR_WARNING,
+            avar->id,
+            cmor_tables[avar->ref_table_id].szTable_id,
+            n_lower_min, avar->valid_max, emin, msg_min);
+
+        free(msg_min);
 
     }
     if (n_greater_max != 0) {
+        msg_len = 0;
+        for (j = 0; j < avar->ndims; j++) {
+            cmor_axis_t *pAxis;
+            pAxis = &cmor_axes[avar->axes_ids[j]];
+            double val = 0.f;
+            if (pAxis->values != NULL) {
+                val = pAxis->values[max_counter[j]];
+            } else {
+                val = time_vals[max_counter[j]];
+            }
+            msg_len += snprintf(NULL, 0, " %s: %lu/%.5g",
+                                pAxis->id, max_counter[j], val);
+        }
+        msg_len += 1;
 
-        cmor_handle_error_variadic(msg_max, CMOR_WARNING, n_greater_max);
+        msg_max = (char *)malloc(msg_len * sizeof(char));
+
+        msg_len = 0;
+        for (j = 0; j < avar->ndims; j++) {
+            cmor_axis_t *pAxis;
+            pAxis = &cmor_axes[avar->axes_ids[j]];
+            double val = 0.f;
+            if (pAxis->values != NULL) {
+                val = pAxis->values[max_counter[j]];
+            } else {
+                val = time_vals[max_counter[j]];
+            }
+            msg_len += sprintf(&msg_max[msg_len], " %s: %lu/%.5g",
+                    pAxis->id, max_counter[j], val);
+        }
+    
+        cmor_handle_error_variadic(
+            "Invalid value(s) detected for variable '%s' "
+            "(table: %s): %zu values were greater than "
+            "maximum valid value (%.4g).Maximum encountered "
+            "bad value (%.5g) was at (axis: index/value):%s",
+            CMOR_WARNING,
+            avar->id,
+            cmor_tables[avar->ref_table_id].szTable_id,
+            n_greater_max, avar->valid_max, emax, msg_max);
+
+        free(msg_max);
 
     }
     if (avar->ok_min_mean_abs != (float)1.e20) {
