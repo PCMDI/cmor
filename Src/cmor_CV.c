@@ -2469,11 +2469,11 @@ int cmor_CV_variable(int *var_id, char *name, char *units,
                                          VARIABLE_ATT_LONGNAME, 'c',
                                          refvar.long_name);
 
-    if ((refvar.flag_values != NULL) && (refvar.flag_values[0] != '\0')) {
+    if (refvar.flag_values[0] != '\0') {
         cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_FLAGVALUES, 'c',
                                              refvar.flag_values);
     }
-    if ((refvar.flag_meanings != NULL) && (refvar.flag_meanings[0] != '\0')) {
+    if (refvar.flag_meanings[0] != '\0') {
 
         cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_FLAGMEANINGS,
                                              'c', refvar.flag_meanings);
