@@ -4567,27 +4567,26 @@ int compare_txt_attributes(int ncid, int srcid, int destid, char* name) {
     size_t attlen;
     char *srcattr;
     char *destattr;
-    int ierr;
     int ret;
 
-    if (ierr = nc_inq_attlen(ncid, srcid, name, &attlen)) {
+    if (nc_inq_attlen(ncid, srcid, name, &attlen)) {
         cmor_handle_error_variadic(
             "cannot determine size of attribute %s", CMOR_CRITICAL, name);
     };
     srcattr = malloc(attlen * sizeof(char));
 
-	if (ierr = nc_get_att_text(ncid, srcid, name, srcattr)) {
+	if (nc_get_att_text(ncid, srcid, name, srcattr)) {
 	    cmor_handle_error_variadic(
             "cannot retrieve value of attribute %s", CMOR_CRITICAL, name);
 	};
 
-    if (ierr = nc_inq_attlen(ncid, destid, name, &attlen)) {
+    if (nc_inq_attlen(ncid, destid, name, &attlen)) {
         cmor_handle_error_variadic(
             "cannot determine size of attribute %s", CMOR_CRITICAL, name);
     };
     destattr = malloc(attlen * sizeof(char));
 
-	if (ierr = nc_get_att_text(ncid, destid, name, destattr)) {
+	if (nc_get_att_text(ncid, destid, name, destattr)) {
 	    cmor_handle_error_variadic(
             "cannot retrieve value of attribute %s", CMOR_CRITICAL, name);
 	};
@@ -4610,13 +4609,13 @@ int copy_txt_attribute(int ncid, int srcid, int destid, char* name, char* suffix
     char *destattr;
     int ierr;
 
-    if (ierr = nc_inq_attlen(ncid, srcid, name, &attlen)) {
+    if (nc_inq_attlen(ncid, srcid, name, &attlen)) {
         cmor_handle_error_variadic(
             "cannot determine size of attribute %s", CMOR_CRITICAL, name);
     };
     srcattr = malloc(attlen * sizeof(char));
 
-	if (ierr = nc_get_att_text(ncid, srcid, name, srcattr)) {
+	if (nc_get_att_text(ncid, srcid, name, srcattr)) {
 	    cmor_handle_error_variadic(
             "cannot retrieve value of attribute %s", CMOR_CRITICAL, name);
 	};
@@ -4628,7 +4627,7 @@ int copy_txt_attribute(int ncid, int srcid, int destid, char* name, char* suffix
         strcat(destattr, suffix);
 
 	}
-    if (ierr = nc_put_att_text(ncid, destid, name, strlen(destattr) + 1, destattr)) {
+    if (nc_put_att_text(ncid, destid, name, strlen(destattr) + 1, destattr)) {
         cmor_handle_error_variadic(
             "cannot copy attribute %s", CMOR_CRITICAL, name);
     }
@@ -4643,8 +4642,7 @@ int copy_txt_attribute(int ncid, int srcid, int destid, char* name, char* suffix
 /*                          set_txt_attribute()                         */
 /************************************************************************/
 int set_txt_attribute(int ncid, int destid, char* name, char* val){
-    int ierr;
-    if (ierr = nc_put_att_text(ncid, destid, name, strlen(val) + 1, val)) {
+    if (nc_put_att_text(ncid, destid, name, strlen(val) + 1, val)) {
         cmor_handle_error_variadic(
             "cannot write '%s' to attribute %s", CMOR_CRITICAL, val, name);
     }
@@ -4677,19 +4675,19 @@ int calculate_leadtime_coord(int var_id) {
     ncid = cmor_current_dataset.associated_file;
 
     /* need both time and reftime for leadtime calculation */
-    if (ierr = nc_inq_dimid(ncid, "time", &time_dim)) {
+    if (nc_inq_dimid(ncid, "time", &time_dim)) {
         cmor_handle_error_variadic(
             "'time' dimension not present in the file", CMOR_CRITICAL);
     }
-    if (ierr = nc_inq_dimlen(ncid, time_dim, &timelen)) {
+    if (nc_inq_dimlen(ncid, time_dim, &timelen)) {
         cmor_handle_error_variadic(
             "cannot determine length of the time dimension", CMOR_CRITICAL);
     }
-    if (ierr = nc_inq_varid(ncid, "reftime", &reftime)) {
+    if (nc_inq_varid(ncid, "reftime", &reftime)) {
         cmor_handle_error_variadic(
             "'reftime' variable not present in the file", CMOR_CRITICAL);
     }
-    if (ierr = nc_inq_varid(ncid, "time", &time)) {
+    if (nc_inq_varid(ncid, "time", &time)) {
         cmor_handle_error_variadic(
             "'time' variable not present in the file", CMOR_CRITICAL);
     }
@@ -4705,7 +4703,7 @@ int calculate_leadtime_coord(int var_id) {
     /* get values for the calculation */
 
     /* reftime is scalar */
-    if (ierr = nc_get_var_double(ncid, reftime, reftime_val)) {
+    if (nc_get_var_double(ncid, reftime, reftime_val)) {
         cmor_handle_error_variadic(
             "cannot retrieve value of 'reftime' variable", CMOR_CRITICAL);
     }
@@ -4713,7 +4711,7 @@ int calculate_leadtime_coord(int var_id) {
     /* update length of the vector for time coord */
     count[0] = timelen;
 
-    if (ierr = nc_get_vara_double(ncid, time, start, count, time_vals)) {
+    if (nc_get_vara_double(ncid, time, start, count, time_vals)) {
         cmor_handle_error_variadic(
             "cannot retrieve values of 'time' variable", CMOR_CRITICAL);
     }
@@ -4729,8 +4727,8 @@ int calculate_leadtime_coord(int var_id) {
     /* activate define mode */
     nc_redef(ncid);
     /* add leadtime */
-    if (ierr = nc_inq_varid(ncid, "leadtime", &leadtime)) {
-        if (ierr = nc_def_var(ncid, "leadtime", NC_DOUBLE, 1, &time_dim, &leadtime)) {
+    if (nc_inq_varid(ncid, "leadtime", &leadtime)) {
+        if (nc_def_var(ncid, "leadtime", NC_DOUBLE, 1, &time_dim, &leadtime)) {
             cmor_handle_error_variadic(
                 "cannot add 'leadtime' variable", CMOR_CRITICAL);
         }
@@ -4753,7 +4751,7 @@ int calculate_leadtime_coord(int var_id) {
             CMOR_CRITICAL, var_id,
             ierr, nc_strerror(ierr));
     }
-    if (ierr = nc_put_vara_double(ncid, leadtime, start, count, leadtime_vals)) {
+    if (nc_put_vara_double(ncid, leadtime, start, count, leadtime_vals)) {
         cmor_handle_error_variadic(
             "cannot save 'leadtime' coordinates", CMOR_CRITICAL);
     }
