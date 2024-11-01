@@ -233,8 +233,8 @@ extern int cmor_set_chunking( int var_id, int nTableID,
 							    size_t nc_dim_chunking[]);
 
 extern int cmor_set_var_def_att( cmor_var_def_t * var,
-				 char att[CMOR_MAX_STRING],
-				 char val[CMOR_MAX_STRING] );
+				 char *att,
+				 char *val);
 extern int cmor_get_variable_time_length( int *var_id, int *length );
 extern int cmor_get_original_shape( int *var_id, int *shape_array,
 				    int *rank, int blank_time );

@@ -1909,7 +1909,7 @@ void cmor_init_var_def(cmor_var_def_t * var, int table_id)
 /*                        cmor_set_var_def_att()                        */
 /************************************************************************/
 
-int cmor_set_var_def_att(cmor_var_def_t * var, char* att, char* val)
+int cmor_set_var_def_att(cmor_var_def_t * var, char *att, char *val)
 {
     int i, n, j, n0, k;
     char dim[CMOR_MAX_STRING];
