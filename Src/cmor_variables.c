@@ -1909,8 +1909,7 @@ void cmor_init_var_def(cmor_var_def_t * var, int table_id)
 /*                        cmor_set_var_def_att()                        */
 /************************************************************************/
 
-int cmor_set_var_def_att(cmor_var_def_t * var, char att[CMOR_MAX_STRING],
-                         char val[CMOR_MAX_STRING])
+int cmor_set_var_def_att(cmor_var_def_t * var, char* att, char* val)
 {
     int i, n, j, n0, k;
     char dim[CMOR_MAX_STRING];
@@ -2801,7 +2800,7 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
         for (j = 0; j < avar->ndims; j++) {
             cmor_axis_t *pAxis;
             pAxis = &cmor_axes[avar->axes_ids[j]];
-            double val = 0.f;
+            double val = 0.;
             if (pAxis->values != NULL) {
                 val = pAxis->values[max_counter[j]];
             } else {
@@ -2818,7 +2817,7 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
         for (j = 0; j < avar->ndims; j++) {
             cmor_axis_t *pAxis;
             pAxis = &cmor_axes[avar->axes_ids[j]];
-            double val = 0.f;
+            double val = 0.;
             if (pAxis->values != NULL) {
                 val = pAxis->values[max_counter[j]];
             } else {
