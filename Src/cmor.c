@@ -4619,7 +4619,7 @@ int copy_txt_attribute(int ncid, int srcid, int destid, char* name, char* suffix
 	    cmor_handle_error_variadic(
             "cannot retrieve value of attribute %s", CMOR_CRITICAL, name);
 	};
-	if (suffix == "") {
+	if (strcmp(suffix, "") == 0) {
 	    destattr = srcattr;
 	} else {
 	    destattr = malloc(strlen(srcattr) + strlen(suffix) + 1);
@@ -4631,7 +4631,7 @@ int copy_txt_attribute(int ncid, int srcid, int destid, char* name, char* suffix
         cmor_handle_error_variadic(
             "cannot copy attribute %s", CMOR_CRITICAL, name);
     }
-    if (suffix != "") {
+    if (strcmp(suffix, "") != 0) {
         free(destattr);
     }
     free(srcattr);
