@@ -160,9 +160,8 @@ extern int cmor_CV_ValidateAttribute(cmor_CV_def_t *CV, char *szValue);
 /* ==================================================================== */
 
 extern void cmor_init_axis_def( cmor_axis_def_t * axis, int table_id );
-extern int cmor_set_axis_def_att( cmor_axis_def_t * axis,
-				  char att[CMOR_MAX_STRING],
-				  char val[CMOR_MAX_STRING] );
+extern int cmor_set_axis_def_att( cmor_axis_def_t * axis, char *att,
+                                    char *val );
 extern void cmor_trim_string( char *in, char *out );
 extern int cmor_calendar_c2i( char *calendar, cdCalenType * ical );
 extern int cmor_convert_time_units( char *inunits, char *outunits,
@@ -232,9 +231,8 @@ extern int cmor_set_quantize( int var_id, int quantize_mode,
 extern int cmor_set_chunking( int var_id, int nTableID,
 							    size_t nc_dim_chunking[]);
 
-extern int cmor_set_var_def_att( cmor_var_def_t * var,
-				 char *att,
-				 char *val);
+extern int cmor_set_var_def_att( cmor_var_def_t * var, char *att,
+                                    char *val);
 extern int cmor_get_variable_time_length( int *var_id, int *length );
 extern int cmor_get_original_shape( int *var_id, int *shape_array,
 				    int *rank, int blank_time );

@@ -2177,8 +2177,7 @@ void cmor_init_axis_def(cmor_axis_def_t * axis, int table_id)
 /*                      cmor_set_axis_def_att()                         */
 /************************************************************************/
 
-int cmor_set_axis_def_att(cmor_axis_def_t * axis, char att[CMOR_MAX_STRING],
-                          char val[CMOR_MAX_STRING])
+int cmor_set_axis_def_att(cmor_axis_def_t * axis, char *att, char *val)
 {
     int i, n, j;
     char dim[CMOR_MAX_STRING];
