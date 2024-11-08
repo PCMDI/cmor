@@ -6007,7 +6007,8 @@ int cmor_CreateFromTemplate(int nVarRefTblID, char *templateSTH,
         } else {
             char szInternalAtt[CMOR_MAX_STRING];
             strcpy(szInternalAtt, GLOBAL_INTERNAL);
-            strncat(szInternalAtt, szToken, strlen(szToken));
+            strncat(szInternalAtt, szToken,
+                CMOR_MAX_STRING - strlen(szInternalAtt));
             if (cmor_has_cur_dataset_attribute(szInternalAtt) == 0) {
                 cmor_get_cur_dataset_attribute(szInternalAtt, tmp);
                 if (!optional) {

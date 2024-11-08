@@ -418,7 +418,7 @@ int cmor_CV_checkFurtherInfoURL(int nVarRefTblID)
     strncpy(szFurtherInfoURL, szFurtherInfoBaseURL, CMOR_MAX_STRING);
     strcat(szFurtherInfoURL, "/");
     strncat(szFurtherInfoURL, szFurtherInfoFileURL,
-            strlen(szFurtherInfoFileURL));
+            CMOR_MAX_STRING - strlen(szFurtherInfoURL));
 
     if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_FURTHERINFOURL) == 0) {
         cmor_get_cur_dataset_attribute(GLOBAL_ATT_FURTHERINFOURL, szValue);
