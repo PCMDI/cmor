@@ -518,14 +518,13 @@ int cmor_set_grid_mapping(int gid, char *name, int nparam,
                           attributes_values[CMOR_MAX_GRID_ATTRIBUTES],
                           char *units, int lnunits)
 {
-    int grid_id, nattributes, ndims;
+    int grid_id, nattributes, ndims, msg_len;
     int i, j, k, l;
-    char *achar, *bchar;
+    char *achar, *bchar, *axes_msg;
     char lattributes_names[CMOR_MAX_GRID_ATTRIBUTES][CMOR_MAX_STRING];
     char lunits[CMOR_MAX_GRID_ATTRIBUTES][CMOR_MAX_STRING];
     char grid_attributes[CMOR_MAX_GRID_ATTRIBUTES][CMOR_MAX_STRING];
     char msg[CMOR_MAX_STRING];
-    char msg2[CMOR_MAX_STRING];
     char grid_dimensions[CMOR_MAX_DIMENSIONS][CMOR_MAX_STRING];
 
     cmor_add_traceback("cmor_set_grid_mapping");
@@ -599,14 +598,22 @@ int cmor_set_grid_mapping(int gid, char *name, int nparam,
     }
 
     if (k != ndims) {
-        snprintf(msg, CMOR_MAX_STRING,
-                 "setting grid mapping to '%s' we could not find all "
-                 "the required axes, required axes are:", name);
+        msg_len = 0;
         for (i = 0; i < ndims; i++) {
-            snprintf(msg2, CMOR_MAX_STRING, " %s", grid_dimensions[i]);
-            strncat(msg, msg2, CMOR_MAX_STRING - strlen(msg));
+            msg_len += snprintf(NULL, 0, " %s", grid_dimensions[i]);
         }
-        cmor_handle_error(msg, CMOR_CRITICAL);
+        msg_len += 1;
+        axes_msg = (char *)malloc(msg_len * sizeof(char));
+        msg_len = 0;
+        for (i = 0; i < ndims; i++) {
+            msg_len += sprintf(&axes_msg[msg_len], " %s", grid_dimensions[i]);
+        }
+        cmor_handle_error_variadic(
+            "setting grid mapping to '%s' we could not find all "
+            "the required axes, required axes are:%s",
+            CMOR_CRITICAL,
+            name, axes_msg);
+        free(axes_msg);
         cmor_pop_traceback();
         return (-1);
 
