@@ -260,8 +260,8 @@ void cmor_cat_unique_string(char *dest, char *src)
 /**************************************************************************/
 int cmor_check_forcing_validity(int table_id, char *value)
 {
-    int i, j, n, found = 0;
-    char msg[CMOR_MAX_STRING];
+    int i, j, n, msg_len, found = 0;
+    char *msg;
     char astr[CMOR_MAX_STRING];
     char **bstr;
 
@@ -297,17 +297,34 @@ int cmor_check_forcing_validity(int table_id, char *value)
             }
         }
         if (found == 0) {
-            sprintf(msg, "forcing attribute elt %i (%s) is not valid for\n! "
-                    "table %s, valid values are:", i, bstr[i],
-                    cmor_tables[table_id].szTable_id);
+            msg_len = 0;
             for (j = 0; j < cmor_tables[table_id].nforcings; j++) {
-                strncat(msg, " ", CMOR_MAX_STRING - strlen(msg));
-                strncat(msg, cmor_tables[table_id].forcings[j],
-                        CMOR_MAX_STRING - strlen(msg));
-                strncat(msg, ",", CMOR_MAX_STRING - strlen(msg));
+                if(j == 0) {
+                    msg_len += snprintf(NULL, 0, " %s",
+                    cmor_tables[table_id].forcings[j]);
+                } else {
+                    msg_len += snprintf(NULL, 0, ", %s",
+                    cmor_tables[table_id].forcings[j]);
+                } 
             }
-            msg[strlen(msg) - 1] = '\0';
-            cmor_handle_error(msg, CMOR_NORMAL);
+            msg_len += 1;
+            msg = (char *)malloc(msg_len * sizeof(char));
+            msg_len = 0;
+            for (j = 0; j < cmor_tables[table_id].nforcings; j++) {
+                if(j == 0) {
+                    msg_len += sprintf(&msg[msg_len], "%s",
+                    cmor_tables[table_id].forcings[j]);
+                } else {
+                    msg_len += sprintf(&msg[msg_len], ", %s",
+                    cmor_tables[table_id].forcings[j]);
+                } 
+            }
+            cmor_handle_error_variadic(
+                "forcing attribute elt %i (%s) is not valid for\n! "
+                "table %s, valid values are: %s",
+                CMOR_NORMAL,
+                i, bstr[i], cmor_tables[table_id].szTable_id, msg);
+            free(msg);
             cmor_pop_traceback();
             return (-1);
         }
