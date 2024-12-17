@@ -5,10 +5,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-void read_time(it, time, time_bnds)
-int it;
-double time[];
-double time_bnds[];
+void read_time(int it, double *time, double *time_bnds)
 {
     time[0] = (it - 0.5) * 30.;
     time_bnds[0] = (it - 1) * 30.;

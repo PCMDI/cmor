@@ -4,10 +4,9 @@
 #include "cmor.h"
 #include <stdlib.h>
 
-void read_coords(alats, alons, bnds_lat, bnds_lon, lon, lat)
-double *alats, *alons;
-double *bnds_lat, *bnds_lon;
-int lon, lat;
+void read_coords(double *alats, double *alons,
+                 double *bnds_lat, double *bnds_lon,
+                 int lon, int lat)
 {
     int i;
 
@@ -24,10 +23,7 @@ int lon, lat;
     };
 }
 
-void read_time(it, time, time_bnds)
-int it;
-double time[];
-double time_bnds[];
+void read_time(int it, double *time, double *time_bnds)
 {
     time[0] = it + 0.5;
     time_bnds[0] = it;
@@ -97,7 +93,7 @@ int main()
                     "no future");
 
     for (i = 0; i < ntimes; i++) {
-        read_2d_input_files(i, "SOIL_WET", &data2d, lat, lon);
+        read_2d_input_files(i, "SOIL_WET", &data2d[0], lat, lon);
         ierr = cmor_write(myvars[0], &data2d, 'd', NULL, 1, NULL, NULL, NULL);
         if (ierr)
             return (1);

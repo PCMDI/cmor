@@ -1,7 +1,5 @@
-void read_3d_input_files(it, varname, field,n0,n1,n2)
-     int it,n0,n1,n2;
-     char *varname;
-     double field[];
+
+void read_3d_input_files(int it, char *varname, double *field, int n0, int n1, int n2)
 {
   int i,j,k;
   float factor,offset,max,min;
@@ -34,10 +32,7 @@ void read_3d_input_files(it, varname, field,n0,n1,n2)
   }
 }
 
-void read_2d_input_files(it, varname, field, n0, n1)
-  int it,n0,n1;
-  char *varname;
-  double field[];
+void read_2d_input_files(int it, char *varname, double *field, int n0, int n1)
 {    
   int i, j,k;
   double factor, offset,min,max;

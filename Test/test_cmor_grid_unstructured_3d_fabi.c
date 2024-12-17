@@ -5,10 +5,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-void read_time(it, time, time_bnds)
-int it;
-double time[];
-double time_bnds[];
+void read_time(int it, double *time, double *time_bnds)
 {
     time[0] = it;
     time_bnds[0] = it;
@@ -136,7 +133,7 @@ int main()
     cmor_set_table(tables[1]);
 
     for (i = 0; i < ntimes; i++){
-        read_time(i, &Time[i], &bnds_time[i]);
+        read_time(i, &Time[i], &bnds_time[i][0]);
     }
     ierr =
       cmor_axis(&axes_ids[0], "time", "months since 1980", 2, &Time[0], 'd',

@@ -5,10 +5,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-void read_time(it, time, time_bnds)
-int it;
-double time[];
-double time_bnds[];
+void read_time(int it, double *time, double *time_bnds)
 {
     time[0] = (it - 0.5) * 30.;
     time_bnds[0] = (it - 1) * 30.;
@@ -22,11 +19,9 @@ double time_bnds[];
 
 #include "reader_2D_3D.h"
 
-void read_coords(alats, alons, plevs, bnds_lat, bnds_lon, lon, lat, lev)
-double *alats, *alons;
-int *plevs;
-double *bnds_lat, *bnds_lon;
-int lon, lat, lev;
+void read_coords(double *alats, double *alons, int *plevs,
+                 double *bnds_lat, double *bnds_lon,
+                 int lon, int lat, int lev)
 {
     int i;
 
@@ -57,7 +52,7 @@ int lon, lat, lev;
 
 void loopRoutine(char *times, char *returnvalue)
 {
-    double iplevs[lev];
+    int iplevs[lev];
     double lon_coords[lon];
     double lat_coords[lat];
     double lon_vertices[lon * nvert];
