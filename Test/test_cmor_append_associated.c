@@ -141,8 +141,8 @@ void loopRoutine(char *times, char *returnvalue)
         printf("Test code: writing time: %i of %i\n", i + 1, ntimes);
 
         printf("Test code: 3d\n");
-        read_3d_input_files(i, "CLOUD", &data3d[0], lat, lon, lev);
-        read_2d_input_files(i, "PSURF", &data2d[0], lat, lon);
+        read_3d_input_files(i, "CLOUD", data3d, lat, lon, lev);
+        read_2d_input_files(i, "PSURF", data2d, lat, lon);
         //for(j=0;j<10;j++) printf("Test code: %i out of %i : %lf\n",j,9,data2d[j]);
         printf("var id: %i\n", myvars[0]);
         if(times) {

@@ -108,7 +108,7 @@ int main()
                 &tolerance, NULL, "nwdFracLut", "no history", "no future");
 
     for (i = 0; i < ntimes; i++) {
-        read_3d_input_files(i, "CLOUD", &data3d[0], lat, lon, lev);
+        read_3d_input_files(i, "CLOUD", data3d, lat, lon, lev);
 
         ierr |= cmor_write(myvars[0], data3d, 'd', NULL, 1, NULL, NULL, NULL);
     }

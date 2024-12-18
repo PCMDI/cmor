@@ -93,8 +93,8 @@ int main()
                     "no future");
 
     for (i = 0; i < ntimes; i++) {
-        read_2d_input_files(i, "SOIL_WET", &data2d[0], lat, lon);
-        ierr = cmor_write(myvars[0], &data2d, 'd', NULL, 1, NULL, NULL, NULL);
+        read_2d_input_files(i, "SOIL_WET", data2d, lat, lon);
+        ierr = cmor_write(myvars[0], data2d, 'd', NULL, 1, NULL, NULL, NULL);
         if (ierr)
             return (1);
 

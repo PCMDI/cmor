@@ -130,8 +130,8 @@ int main()
                 &tolerance, "down", "ec550aer", "no history", "no future");
 
     for (i = 0; i < ntimes; i++) {
-        read_3d_input_files(i, "CLOUD", &data3d[0], lat, lon, lev);
-        read_2d_input_files(i, "PSURF", &data2d[0], lat, lon);
+        read_3d_input_files(i, "CLOUD", data3d, lat, lon, lev);
+        read_2d_input_files(i, "PSURF", data2d, lat, lon);
 
         ierr |= cmor_write(myvars[0], data3d, 'd', NULL, 1, NULL, NULL, NULL);
         ierr |= cmor_write(zfactor_id, data2d, 'd', NULL, 1, NULL, NULL, &myvars[0]);
