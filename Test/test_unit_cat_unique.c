@@ -12,6 +12,7 @@ int test_cmor_stringinstring(void)
     printf("running cmor_stringinstring tests\n");
     if (cmor_stringinstring("Inverted axis: rlat.", "Inverted axis: rlat")) {
         /* should match */
+        return 0;
     } else {
         printf("failed stringinstring test with period after string\n");
         return 1;

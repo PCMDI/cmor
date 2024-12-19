@@ -5,10 +5,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-void read_time(it, time, time_bnds)
-int it;
-double time[];
-double time_bnds[];
+void read_time(int it, double *time, double *time_bnds)
 {
     time[0] = (it - 0.5) * 0.25;
     time_bnds[0] = (it - 1) * 0.25;
@@ -17,11 +14,9 @@ double time_bnds[];
 
 #include "reader_2D_3D.h"
 
-void read_coords(alats, alons, plevs, bnds_lat, bnds_lon, lon, lat, lev)
-double *alats, *alons;
-int *plevs;
-double *bnds_lat, *bnds_lon;
-int lon, lat, lev;
+void read_coords(double *alats, double *alons, int *plevs,
+                 double *bnds_lat, double *bnds_lon,
+                 int lon, int lat, int lev)
 {
     int i;
 
@@ -51,7 +46,7 @@ int main()
 #define lat  4                /* number of latitude grid cells */
 #define lev  4                /* number of standard pressure levels */
 
-    double iplevs[lev];
+    int iplevs[lev];
     double lon_coords[lon];
     double lat_coords[lat];
     double lon_bounds[lon * 2];
@@ -135,8 +130,8 @@ int main()
                 &tolerance, "down", "ec550aer", "no history", "no future");
 
     for (i = 0; i < ntimes; i++) {
-        read_3d_input_files(i, "CLOUD", &data3d[0], lat, lon, lev);
-        read_2d_input_files(i, "PSURF", &data2d[0], lat, lon);
+        read_3d_input_files(i, "CLOUD", data3d, lat, lon, lev);
+        read_2d_input_files(i, "PSURF", data2d, lat, lon);
 
         ierr |= cmor_write(myvars[0], data3d, 'd', NULL, 1, NULL, NULL, NULL);
         ierr |= cmor_write(zfactor_id, data2d, 'd', NULL, 1, NULL, NULL, &myvars[0]);

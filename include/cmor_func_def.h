@@ -8,6 +8,7 @@
 #include <udunits2.h>
 #include "cdmsint.h"
 #include <stdio.h>
+#include <stdarg.h>
 #include <json-c/json.h>
 
 extern void cmor_md5( FILE * inputfile, unsigned char checksum[16] );
@@ -26,10 +27,13 @@ extern int cmor_have_NetCDF4( void );
 extern int cmor_have_NetCDF41min( void );
 extern int cmor_have_NetCDF3( void );
 extern int cmor_have_NetCDF363( void );
-extern void cmor_handle_error( char error_msg[CMOR_MAX_STRING],
-			       int level );
-extern void cmor_handle_error_var( char error_msg[CMOR_MAX_STRING], int level,
-                                   int var_id );
+extern void cmor_handle_error_internal( char *error_msg, int level );
+extern void cmor_handle_error( char *error_msg, int level );
+extern void cmor_handle_error_variadic( char *error_msg, int level, ... )
+    __attribute__ ((__format__(printf, 1, 3)));
+extern void cmor_handle_error_var( char *error_msg, int level, int var_id );
+extern void cmor_handle_error_var_variadic( char *error_msg, int level, int var_id, ... )
+    __attribute__ ((__format__(printf, 1, 4)));
 extern int cmor_setup( char *path, int *netcdf, int *verbosity, int *mode,
 		       char *logfile, int *cmor_create_subdirectories);
 
@@ -156,9 +160,8 @@ extern int cmor_CV_ValidateAttribute(cmor_CV_def_t *CV, char *szValue);
 /* ==================================================================== */
 
 extern void cmor_init_axis_def( cmor_axis_def_t * axis, int table_id );
-extern int cmor_set_axis_def_att( cmor_axis_def_t * axis,
-				  char att[CMOR_MAX_STRING],
-				  char val[CMOR_MAX_STRING] );
+extern int cmor_set_axis_def_att( cmor_axis_def_t * axis, char *att,
+                                    char *val );
 extern void cmor_trim_string( char *in, char *out );
 extern int cmor_calendar_c2i( char *calendar, cdCalenType * ical );
 extern int cmor_convert_time_units( char *inunits, char *outunits,
@@ -228,9 +231,8 @@ extern int cmor_set_quantize( int var_id, int quantize_mode,
 extern int cmor_set_chunking( int var_id, int nTableID,
 							    size_t nc_dim_chunking[]);
 
-extern int cmor_set_var_def_att( cmor_var_def_t * var,
-				 char att[CMOR_MAX_STRING],
-				 char val[CMOR_MAX_STRING] );
+extern int cmor_set_var_def_att( cmor_var_def_t * var, char *att,
+                                    char *val);
 extern int cmor_get_variable_time_length( int *var_id, int *length );
 extern int cmor_get_original_shape( int *var_id, int *shape_array,
 				    int *rank, int blank_time );

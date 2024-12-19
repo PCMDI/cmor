@@ -5,10 +5,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-void read_time(it, time, time_bnds)
-int it;
-double time[];
-double time_bnds[];
+void read_time(int it, double *time, double *time_bnds)
 {
     time[0] = (it - 0.5) * 30.;
     time_bnds[0] = (it - 1) * 30.;
@@ -22,11 +19,9 @@ double time_bnds[];
 
 #include "reader_2D_3D.h"
 
-void read_coords(alats, alons, plevs, bnds_lat, bnds_lon, lon, lat, lev)
-double *alats, *alons;
-int *plevs;
-double *bnds_lat, *bnds_lon;
-int lon, lat, lev;
+void read_coords(double *alats, double *alons, int *plevs,
+                 double *bnds_lat, double *bnds_lon,
+                 int lon, int lat, int lev)
 {
     int i;
 
@@ -57,7 +52,7 @@ int lon, lat, lev;
 
 void loopRoutine(char *times, char *returnvalue)
 {
-    double iplevs[lev];
+    int iplevs[lev];
     double lon_coords[lon];
     double lat_coords[lat];
     double lon_vertices[lon * nvert];
@@ -146,8 +141,8 @@ void loopRoutine(char *times, char *returnvalue)
         printf("Test code: writing time: %i of %i\n", i + 1, ntimes);
 
         printf("Test code: 3d\n");
-        read_3d_input_files(i, "CLOUD", &data3d[0], lat, lon, lev);
-        read_2d_input_files(i, "PSURF", &data2d[0], lat, lon);
+        read_3d_input_files(i, "CLOUD", data3d, lat, lon, lev);
+        read_2d_input_files(i, "PSURF", data2d, lat, lon);
         //for(j=0;j<10;j++) printf("Test code: %i out of %i : %lf\n",j,9,data2d[j]);
         printf("var id: %i\n", myvars[0]);
         if(times) {

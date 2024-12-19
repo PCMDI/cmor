@@ -157,7 +157,7 @@ CdDivDelTime(double begEtm, double endEtm, CdDeltaTime delTime, CdTimeType timeT
 			range = (ehtime.month - bhtime.month);
 			if(range < 0) range += 12;
 		}
-		*nDel = abs(range)/delMonths;
+		*nDel = labs(range)/delMonths;
 		break;
 	  case CdWeek: case CdDay: case CdHour: case CdMinute: case CdSecond:
 		delHours *= (double)delTime.count;
