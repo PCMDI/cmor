@@ -58,6 +58,7 @@ def main():
         exit_control=cmor.CMOR_EXIT_ON_MAJOR)
     cmor.dataset_json('Test/CMOR_input_example.json')
 
+    # First, load the grids table to set up x and y axes and the lat-long grid
     grid_table_id = cmor.load_table('CMIP6_grids.json')
     cmor.set_table(grid_table_id)
 
@@ -74,6 +75,7 @@ def main():
                         latitude_vertices=grid.lat_bnds,
                         longitude_vertices=grid.lon_bnds)
 
+    # Now, load the Omon table to set up the time axis and variable
     omon_table_id = cmor.load_table('CMIP6_Omon.json')
     cmor.set_table(omon_table_id)
 
