@@ -21,8 +21,8 @@ def gen_irreg_grid(nlon, nlat):
     lat0 = -17.5
     delta_lon = .1
     delta_lat = .1
-    y = numpy.arange(nlat) + 1.
-    x = numpy.arange(nlon) + 1.
+    y = numpy.arange(nlat, dtype=float)
+    x = numpy.arange(nlon, dtype=float)
     x_bnds = [[_x - 0.5, _x + 0.5] for _x in x]
     y_bnds = [[_y - 0.5, _y + 0.5] for _y in y]
     lon = numpy.zeros((nlat, nlon))
