@@ -83,7 +83,7 @@ aliases:
 
        for i in ${WORKDIR}'/cmor-feedstock/.ci_support/'${OS_NAME}'_*python'${PYTHON_VERSION}'*.yaml'; do
           mamba run conda build -c conda-forge --output-folder $BUILD_DIR -m $i $WORKDIR/cmor-feedstock/recipe/
-          cp $BUILD_DIR/$OS/$PKG_NAME-$VERSION*.tar.bz2 $ARTIFACT_DIR
+          cp $BUILD_DIR/$OS/$PKG_NAME-$VERSION*.conda $ARTIFACT_DIR
        done
 
   - &run_cmor_tests
@@ -111,7 +111,7 @@ aliases:
        mamba activate base
        mamba install -n base -c conda-forge anaconda-client
        export ARTIFACT_DIR=`pwd`/artifacts
-       anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL $ARTIFACT_DIR/*/*.tar.bz2 --force
+       anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL $ARTIFACT_DIR/*/*.conda --force
 
 
 executors:

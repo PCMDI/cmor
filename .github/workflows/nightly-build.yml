@@ -112,7 +112,7 @@ jobs:
           for i in ${PROJECT_DIR}'/cmor-feedstock/.ci_support/'${OS_NAME}'_*python'${PYTHON_VERSION}'*.yaml'; do
             mamba run conda build -c conda-forge --output-folder $BUILD_DIR -m $i $PROJECT_DIR/cmor-feedstock/recipe/
             ls -lh $BUILD_DIR
-            cp $BUILD_DIR/$OS/$PACKAGE_NAME-$PACKAGE_VERSION*.tar.bz2 $ARTIFACT_DIR
+            cp $BUILD_DIR/$OS/$PACKAGE_NAME-$PACKAGE_VERSION*.conda $ARTIFACT_DIR
           done
 
       - name: Run Tests
@@ -140,5 +140,5 @@ jobs:
           mamba activate base
           mamba install -n base -c conda-forge anaconda-client
           export ARTIFACT_DIR=`pwd`/artifacts
-          anaconda -t $CONDA_UPLOAD_TOKEN upload -u $CONDA_USER -l $CONDA_LABEL $ARTIFACT_DIR/*/*.tar.bz2 --force
+          anaconda -t $CONDA_UPLOAD_TOKEN upload -u $CONDA_USER -l $CONDA_LABEL $ARTIFACT_DIR/*/*.conda --force
 
