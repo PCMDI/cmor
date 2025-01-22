@@ -55,7 +55,7 @@ jobs:
       - name: Setup project directory
         run: mkdir -p $PROJECT_DIR
 
-      - name: Setup Miniconda
+      - name: Setup Miniforge
         run: |
           curl -L $MINIFORGE_INSTALLER_URL -o miniforge3.sh
           bash miniforge3.sh -b -p $PROJECT_DIR/miniforge3
