@@ -59,12 +59,14 @@ jobs:
         run: |
           curl -L $MINIFORGE_INSTALLER_URL -o miniforge3.sh
           bash miniforge3.sh -b -p $PROJECT_DIR/miniforge3
+          source $PROJECT_DIR/miniforge3/etc/profile.d/conda.sh
           source $PROJECT_DIR/miniforge3/etc/profile.d/mamba.sh
           mamba activate base
           mamba config --set anaconda_upload no
 
       - name: Conda Rerender
         run: |
+          source $PROJECT_DIR/miniforge3/etc/profile.d/conda.sh
           source $PROJECT_DIR/miniforge3/etc/profile.d/mamba.sh
           mamba activate base
           mamba config --set anaconda_upload no
@@ -98,6 +100,7 @@ jobs:
 
       - name: Conda Build
         run: |
+          source $PROJECT_DIR/miniforge3/etc/profile.d/conda.sh
           source $PROJECT_DIR/miniforge3/etc/profile.d/mamba.sh
           mamba activate base
           mamba config --set anaconda_upload no
@@ -117,6 +120,7 @@ jobs:
 
       - name: Run Tests
         run: |
+          source $PROJECT_DIR/miniforge3/etc/profile.d/conda.sh
           source $PROJECT_DIR/miniforge3/etc/profile.d/mamba.sh
           mamba activate base
           mamba config --set anaconda_upload no
@@ -135,6 +139,7 @@ jobs:
           CONDA_UPLOAD_TOKEN: ${{ secrets.CONDA_UPLOAD_TOKEN }}
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
+          source $PROJECT_DIR/miniforge3/etc/profile.d/conda.sh
           source $PROJECT_DIR/miniforge3/etc/profile.d/mamba.sh
           mamba activate base
           mamba config --set anaconda_upload no
