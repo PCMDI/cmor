@@ -58,7 +58,7 @@ aliases:
        mamba create -y -n smithy_env -c conda-forge conda-smithy
        mamba activate smithy_env
        cd $WORKDIR/cmor-feedstock
-       mamba smithy rerender
+       mamba run conda smithy rerender
        
   - &conda_build
     name: conda_build
@@ -82,7 +82,7 @@ aliases:
        fi
 
        for i in ${WORKDIR}'/cmor-feedstock/.ci_support/'${OS_NAME}'_*python'${PYTHON_VERSION}'*.yaml'; do
-          mamba build -c conda-forge --output-folder $BUILD_DIR -m $i $WORKDIR/cmor-feedstock/recipe/
+          mamba run conda build -c conda-forge --output-folder $BUILD_DIR -m $i $WORKDIR/cmor-feedstock/recipe/
           cp $BUILD_DIR/$OS/$PKG_NAME-$VERSION*.tar.bz2 $ARTIFACT_DIR
        done
 

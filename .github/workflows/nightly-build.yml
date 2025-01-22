@@ -93,7 +93,7 @@ jobs:
           mamba create -y -n smithy_env -c conda-forge conda-smithy
           mamba activate smithy_env
           cd $PROJECT_DIR/cmor-feedstock
-          mamba smithy rerender
+          mamba run conda smithy rerender
           ls -lh .ci_support/
 
       - name: Conda Build
@@ -110,7 +110,7 @@ jobs:
           mkdir -p $ARTIFACT_DIR
 
           for i in ${PROJECT_DIR}'/cmor-feedstock/.ci_support/'${OS_NAME}'_*python'${PYTHON_VERSION}'*.yaml'; do
-            mamba build -c conda-forge --output-folder $BUILD_DIR -m $i $PROJECT_DIR/cmor-feedstock/recipe/
+            mamba run conda build -c conda-forge --output-folder $BUILD_DIR -m $i $PROJECT_DIR/cmor-feedstock/recipe/
             ls -lh $BUILD_DIR
             cp $BUILD_DIR/$OS/$PACKAGE_NAME-$PACKAGE_VERSION*.tar.bz2 $ARTIFACT_DIR
           done
