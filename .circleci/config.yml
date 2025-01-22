@@ -33,7 +33,7 @@ aliases:
     name: conda_rerender
     command: |
        source $BASH_ENV
-       source $WORKDIR/miniforge3/etc/profile.d/conda.sh
+       source $WORKDIR/miniforge3/etc/profile.d/mamba.sh
        mamba activate base
        mamba config --set anaconda_upload no
 
@@ -64,7 +64,7 @@ aliases:
     name: conda_build
     command: |
        source $BASH_ENV
-       source $WORKDIR/miniforge3/etc/profile.d/conda.sh
+       source $WORKDIR/miniforge3/etc/profile.d/mamba.sh
        mamba activate base
        mamba config --set anaconda_upload no
        mamba activate smithy_env
@@ -90,7 +90,7 @@ aliases:
     name: run_cmor_tests
     command: |
        source $BASH_ENV
-       source $WORKDIR/miniforge3/etc/profile.d/conda.sh
+       source $WORKDIR/miniforge3/etc/profile.d/mamba.sh
        mamba activate base
        export CMOR_CHANNEL=`pwd`/cmor_conda_pkgs/
        mamba search -c file://$CMOR_CHANNEL --override-channels
@@ -105,7 +105,7 @@ aliases:
     name: conda_upload
     command: |
        source $BASH_ENV
-       source $WORKDIR/miniforge3/etc/profile.d/conda.sh
+       source $WORKDIR/miniforge3/etc/profile.d/mamba.sh
        mamba activate base
        mamba config --set anaconda_upload no
        mamba install -n base -c conda-forge anaconda-client
