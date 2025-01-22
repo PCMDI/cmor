@@ -62,14 +62,12 @@ jobs:
           source $PROJECT_DIR/miniforge3/etc/profile.d/conda.sh
           source $PROJECT_DIR/miniforge3/etc/profile.d/mamba.sh
           mamba activate base
-          mamba config --set anaconda_upload no
 
       - name: Conda Rerender
         run: |
           source $PROJECT_DIR/miniforge3/etc/profile.d/conda.sh
           source $PROJECT_DIR/miniforge3/etc/profile.d/mamba.sh
           mamba activate base
-          mamba config --set anaconda_upload no
 
           git clone -b main https://github.com/conda-forge/cmor-feedstock $PROJECT_DIR/cmor-feedstock
           export SRC_META_YAML=`pwd`/$PROJECT_DIR/cmor-feedstock/recipe/meta.yaml.SRC
@@ -103,7 +101,6 @@ jobs:
           source $PROJECT_DIR/miniforge3/etc/profile.d/conda.sh
           source $PROJECT_DIR/miniforge3/etc/profile.d/mamba.sh
           mamba activate base
-          mamba config --set anaconda_upload no
           mamba activate smithy_env
 
           export BUILD_DIR=`pwd`/cmor_conda_pkgs
@@ -123,7 +120,6 @@ jobs:
           source $PROJECT_DIR/miniforge3/etc/profile.d/conda.sh
           source $PROJECT_DIR/miniforge3/etc/profile.d/mamba.sh
           mamba activate base
-          mamba config --set anaconda_upload no
 
           export CMOR_CHANNEL=file://`pwd`/cmor_conda_pkgs/
           mamba search -c $CMOR_CHANNEL --override-channels
@@ -142,7 +138,6 @@ jobs:
           source $PROJECT_DIR/miniforge3/etc/profile.d/conda.sh
           source $PROJECT_DIR/miniforge3/etc/profile.d/mamba.sh
           mamba activate base
-          mamba config --set anaconda_upload no
           mamba install -n base -c conda-forge anaconda-client
           export ARTIFACT_DIR=`pwd`/artifacts
           anaconda -t $CONDA_UPLOAD_TOKEN upload -u $CONDA_USER -l $CONDA_LABEL $ARTIFACT_DIR/*/*.tar.bz2 --force

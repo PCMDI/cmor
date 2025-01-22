@@ -23,9 +23,9 @@ aliases:
     command: |
        source $BASH_ENV
        if [[ $OS == 'osx-64' ]]; then
-          wget -O miniforge3.sh "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
+          curl -L https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh -o miniforge3.sh
        else
-          curl -fsSLo miniforge3.sh "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-$(uname -m).sh"
+          curl -L https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh -o miniforge3.sh
        fi
        bash miniforge3.sh -b -p $WORKDIR/miniforge3
        
@@ -36,7 +36,6 @@ aliases:
        source $WORKDIR/miniforge3/etc/profile.d/conda.sh
        source $WORKDIR/miniforge3/etc/profile.d/mamba.sh
        mamba activate base
-       mamba config --set anaconda_upload no
 
        git clone -b main https://github.com/conda-forge/cmor-feedstock $WORKDIR/cmor-feedstock
        export SRC_META_YAML=$WORKDIR/cmor-feedstock/recipe/meta.yaml.SRC
@@ -68,7 +67,6 @@ aliases:
        source $WORKDIR/miniforge3/etc/profile.d/conda.sh
        source $WORKDIR/miniforge3/etc/profile.d/mamba.sh
        mamba activate base
-       mamba config --set anaconda_upload no
        mamba activate smithy_env
 
        export BUILD_DIR=`pwd`/cmor_conda_pkgs
@@ -111,7 +109,6 @@ aliases:
        source $WORKDIR/miniforge3/etc/profile.d/conda.sh
        source $WORKDIR/miniforge3/etc/profile.d/mamba.sh
        mamba activate base
-       mamba config --set anaconda_upload no
        mamba install -n base -c conda-forge anaconda-client
        export ARTIFACT_DIR=`pwd`/artifacts
        anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL $ARTIFACT_DIR/*/*.tar.bz2 --force
