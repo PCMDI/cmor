@@ -18,24 +18,24 @@ aliases:
       git submodule init
       git submodule update
 
-  - &setup_miniconda
-    name: setup_miniconda
+  - &setup_miniforge3
+    name: setup_miniforge3
     command: |
        source $BASH_ENV
        if [[ $OS == 'osx-64' ]]; then
-          curl -L https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -o miniconda.sh
+          curl -L https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh -o miniforge3.sh
        else
-          curl -L https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o miniconda.sh
+          curl -L https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh -o miniforge3.sh
        fi
-       bash miniconda.sh -b -p $WORKDIR/miniconda
+       bash miniforge3.sh -b -p $WORKDIR/miniforge3
        
   - &conda_rerender
     name: conda_rerender
     command: |
        source $BASH_ENV
-       source $WORKDIR/miniconda/etc/profile.d/conda.sh
-       conda activate base
-       conda config --set anaconda_upload no
+       source $WORKDIR/miniforge3/etc/profile.d/conda.sh
+       source $WORKDIR/miniforge3/etc/profile.d/mamba.sh
+       mamba activate base
 
        git clone -b main https://github.com/conda-forge/cmor-feedstock $WORKDIR/cmor-feedstock
        export SRC_META_YAML=$WORKDIR/cmor-feedstock/recipe/meta.yaml.SRC
@@ -55,19 +55,19 @@ aliases:
         --src_meta_yaml $SRC_META_YAML \
         --dst_meta_yaml $DST_META_YAML
 
-       conda create -y -n smithy_env -c conda-forge conda-smithy
-       conda activate smithy_env
+       mamba create -y -n smithy_env -c conda-forge conda-smithy
+       mamba activate smithy_env
        cd $WORKDIR/cmor-feedstock
-       conda smithy rerender
+       mamba run conda smithy rerender
        
   - &conda_build
     name: conda_build
     command: |
        source $BASH_ENV
-       source $WORKDIR/miniconda/etc/profile.d/conda.sh
-       conda activate base
-       conda config --set anaconda_upload no
-       conda activate smithy_env
+       source $WORKDIR/miniforge3/etc/profile.d/conda.sh
+       source $WORKDIR/miniforge3/etc/profile.d/mamba.sh
+       mamba activate base
+       mamba activate smithy_env
 
        export BUILD_DIR=`pwd`/cmor_conda_pkgs
        mkdir -p $BUILD_DIR
@@ -82,21 +82,22 @@ aliases:
        fi
 
        for i in ${WORKDIR}'/cmor-feedstock/.ci_support/'${OS_NAME}'_*python'${PYTHON_VERSION}'*.yaml'; do
-          conda build -c conda-forge --output-folder $BUILD_DIR -m $i $WORKDIR/cmor-feedstock/recipe/
-          cp $BUILD_DIR/$OS/$PKG_NAME-$VERSION*.tar.bz2 $ARTIFACT_DIR
+          mamba run conda build -c conda-forge --output-folder $BUILD_DIR -m $i $WORKDIR/cmor-feedstock/recipe/
+          cp $BUILD_DIR/$OS/$PKG_NAME-$VERSION*.conda $ARTIFACT_DIR
        done
 
   - &run_cmor_tests
     name: run_cmor_tests
     command: |
        source $BASH_ENV
-       source $WORKDIR/miniconda/etc/profile.d/conda.sh
-       conda activate base
+       source $WORKDIR/miniforge3/etc/profile.d/conda.sh
+       source $WORKDIR/miniforge3/etc/profile.d/mamba.sh
+       mamba activate base
        export CMOR_CHANNEL=`pwd`/cmor_conda_pkgs/
-       conda search -c file://$CMOR_CHANNEL --override-channels
+       mamba search -c file://$CMOR_CHANNEL --override-channels
        set +e
-       conda create -y -n test_py$PYTHON_VERSION -c file://$CMOR_CHANNEL $CHANNELS python=$PYTHON_VERSION $PKG_NAME=$VERSION $CONDA_COMPILERS
-       conda activate test_py$PYTHON_VERSION
+       mamba create -y -n test_py$PYTHON_VERSION -c file://$CMOR_CHANNEL $CHANNELS python=$PYTHON_VERSION $PKG_NAME=$VERSION $CONDA_COMPILERS
+       mamba activate test_py$PYTHON_VERSION
        set -e
        ./configure --prefix=$CONDA_PREFIX --with-python --with-uuid=$CONDA_PREFIX --with-json-c=$CONDA_PREFIX --with-udunits2=$CONDA_PREFIX --with-netcdf=$CONDA_PREFIX  --enable-verbose-test
        make test -o cmor -o python
@@ -105,12 +106,12 @@ aliases:
     name: conda_upload
     command: |
        source $BASH_ENV
-       source $WORKDIR/miniconda/etc/profile.d/conda.sh
-       conda activate base
-       conda config --set anaconda_upload no
-       conda install -n base anaconda-client
+       source $WORKDIR/miniforge3/etc/profile.d/conda.sh
+       source $WORKDIR/miniforge3/etc/profile.d/mamba.sh
+       mamba activate base
+       mamba install -n base -c conda-forge anaconda-client
        export ARTIFACT_DIR=`pwd`/artifacts
-       anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL $ARTIFACT_DIR/*/*.tar.bz2 --force
+       anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL $ARTIFACT_DIR/*/*.conda --force
 
 
 executors:
@@ -148,7 +149,7 @@ jobs:
          - attach_workspace:
             at: .
          - run: *setup_env
-         - run: *setup_miniconda
+         - run: *setup_miniforge3
          - run: *conda_rerender
          - run: *conda_build
          - run: *pull_submodules
@@ -171,7 +172,7 @@ jobs:
          - attach_workspace:
               at: .
          - run: *setup_env
-         - run: *setup_miniconda
+         - run: *setup_miniforge3
          - run: *conda_upload
 
    testing_upload:
@@ -187,7 +188,7 @@ jobs:
          - attach_workspace:
               at: .
          - run: *setup_env
-         - run: *setup_miniconda
+         - run: *setup_miniforge3
          - run: *conda_upload
 
 workflows:
