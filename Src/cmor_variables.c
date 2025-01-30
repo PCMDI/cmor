@@ -214,7 +214,7 @@ int cmor_set_variable_attribute(int id, char *attribute_name, char type,
         (strcmp(attribute_name, VARIABLE_ATT_POSITIVE) == 0) ||
         (strcmp(attribute_name, VARIABLE_ATT_CELLMETHODS) == 0)) {
         cmor_handle_error_var_variadic(
-            "variable attribute %s (vor variable %s, table %s) must be "
+            "variable attribute %s (for variable %s, table %s) must be "
             "set via a call to cmor_variable or it is automatically set "
             "via the tables",
             CMOR_NORMAL, id,
@@ -231,7 +231,7 @@ int cmor_set_variable_attribute(int id, char *attribute_name, char type,
         cmor_handle_error_var_variadic(
             "attribute %s on variable %s (table %s) will probably not be "
             "set as the variable has already been created into the output "
-            "NetCDF file, please place this call BEFORE any cal to "
+            "NetCDF file, please place this call BEFORE any call to "
             "cmor_write",
             CMOR_NORMAL, id,
             attribute_name, cmor_vars[id].id,
@@ -1535,7 +1535,7 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
 
         if ((j != 0) && (j != -1)) {
             cmor_handle_error_var_variadic(
-                "You are defining variable '%s' (table %s)  with %i "
+                "You are defining variable '%s' (table %s) with %i "
                 "dimensions, when it should have %i",
                 CMOR_CRITICAL, vrid,
                 name,
