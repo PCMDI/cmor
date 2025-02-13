@@ -135,8 +135,6 @@
 #define VARIABLE_ATT_DEFLATE          "deflate"
 #define VARIABLE_ATT_DEFLATELEVEL     "deflate_level"
 #define VARIABLE_ATT_ZSTANDARDLEVEL   "zstandard_level"
-#define VARIABLE_ATT_QUANTIZEMODE     "quantize_mode"
-#define VARIABLE_ATT_QUANTIZENSD      "quantize_nsd"
 #define VARIABLE_ATT_MODELINGREALM    "modeling_realm"
 #define VARIALBE_ATT_FREQUENCY        "frequency"
 #define VARIABLE_ATT_FLAGVALUES       "flag_values"
@@ -271,6 +269,11 @@
 //#define EXTERNAL_VARIABLE_REGEX       "([[:alpha:]]+):[[:blank:]]*([[:alpha:]]+)[[:blank:]]*([[:alpha:]]+:[[:blank:]]*([[:alpha:]]+))*"
 #define EXTERNAL_VARIABLE_REGEX       "[[:alpha:]]+:[[:blank:]]*([[:alpha:]]+)([[:blank:]]*[[:alpha:]]+:[[:blank:]]*([[:alpha:]]+))*"
 
+#define QUANTIZATION_ATTR            "quantization"
+#define QUANTIZATION_INFO            "quantization_info"
+#define QUANTIZATION_ALGORITHM       "algorithm"
+#define QUANTIZATION_IMPLEMENTATION  "implementation"
+
 extern int CMOR_TERMINATE_SIGNAL;
 extern int USE_NETCDF_4;
 extern int CMOR_MODE;
@@ -401,6 +404,12 @@ typedef struct cmor_axis_ {
 } cmor_axis_t;
 extern cmor_axis_t cmor_axes[CMOR_MAX_AXES];
 
+typedef struct cmor_quantization_info_ {
+    int nc_var_id;
+    char algorithm[CMOR_MAX_STRING];
+    char implementation[CMOR_MAX_STRING];
+} cmor_quantization_info_t;
+
 typedef struct cmor_variable_def_ {
     int table_id;
     char id[CMOR_MAX_STRING];
@@ -426,8 +435,6 @@ typedef struct cmor_variable_def_ {
     int deflate;
     int deflate_level;
     int zstandard_level;
-    int quantize_mode;
-    int quantize_nsd;
     char required[CMOR_MAX_STRING];
     char realm[CMOR_MAX_STRING];
     char frequency[CMOR_MAX_STRING];
@@ -482,6 +489,7 @@ typedef struct cmor_var_ {
     int zstandard_level;
     int quantize_mode;
     int quantize_nsd;
+    cmor_quantization_info_t quantize_info;
     int nomissing;
     char iunits[CMOR_MAX_STRING];
     char ounits[CMOR_MAX_STRING];

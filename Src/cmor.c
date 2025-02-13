@@ -802,8 +802,11 @@ void cmor_reset_variable(int var_id)
     cmor_vars[var_id].deflate = 1;
     cmor_vars[var_id].deflate_level = 1;
     cmor_vars[var_id].zstandard_level = 3;
-    cmor_vars[var_id].quantize_mode = 0;
+    cmor_vars[var_id].quantize_mode = NC_NOQUANTIZE;
     cmor_vars[var_id].quantize_nsd = 1;
+    cmor_vars[var_id].quantize_info.nc_var_id = -1;
+    cmor_vars[var_id].quantize_info.algorithm[0] = '\0';
+    cmor_vars[var_id].quantize_info.implementation[0] = '\0';
     cmor_vars[var_id].nomissing = 1;
     cmor_vars[var_id].iunits[0] = '\0';
     cmor_vars[var_id].ounits[0] = '\0';
@@ -5283,7 +5286,22 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
         icz = pVar->zstandard_level;
         icqm = pVar->quantize_mode;
         icqn = pVar->quantize_nsd;
-        ierr = nc_def_var_quantize(ncid, pVar->nc_var_id, icqm, icqn);
+
+        // Set up quantization_info
+        if (icqm != NC_NOQUANTIZE) {
+            ierr |= nc_def_var_quantize(ncid, pVar->nc_var_id, icqm, icqn);
+            ierr |= nc_def_var(ncid, QUANTIZATION_INFO, NC_CHAR,
+                            0, 0, &(pVar->quantize_info.nc_var_id));
+            ierr |= nc_put_att_text(ncid, pVar->quantize_info.nc_var_id,
+                QUANTIZATION_ALGORITHM, strlen(pVar->quantize_info.algorithm),
+                pVar->quantize_info.algorithm);
+            ierr |= nc_put_att_text(ncid, pVar->quantize_info.nc_var_id,
+                QUANTIZATION_IMPLEMENTATION, strlen(pVar->quantize_info.implementation),
+                pVar->quantize_info.implementation);
+            ierr |= nc_put_att_text(ncid, pVar->nc_var_id,
+                QUANTIZATION_ATTR, strlen(QUANTIZATION_INFO),
+                QUANTIZATION_INFO);
+        }
 
         // Only use zstandard compression if deflate is disabled
         if (icd != 0) {
