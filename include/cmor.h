@@ -270,6 +270,8 @@
 #define EXTERNAL_VARIABLE_REGEX       "[[:alpha:]]+:[[:blank:]]*([[:alpha:]]+)([[:blank:]]*[[:alpha:]]+:[[:blank:]]*([[:alpha:]]+))*"
 
 #define QUANTIZATION_ATTR            "quantization"
+#define QUANTIZATION_NSB             "quantization_nsb"
+#define QUANTIZATION_NSD             "quantization_nsd"
 #define QUANTIZATION_INFO            "quantization_info"
 #define QUANTIZATION_ALGORITHM       "algorithm"
 #define QUANTIZATION_IMPLEMENTATION  "implementation"
