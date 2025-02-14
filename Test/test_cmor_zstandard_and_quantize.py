@@ -167,18 +167,73 @@ class TestCase(unittest.TestCase):
             self.assertTrue('quantization_nsd' in quantized_attributes)
             self.assertTrue('quantization_nsb' not in quantized_attributes)
 
-            quantize_attr = quantized_ta.getncattr('quantization')
-            quantize_nsd = quantized_ta.getncattr('quantization_nsd')
+            quantized_attr = quantized_ta.getncattr('quantization')
+            quantized_nsd = quantized_ta.getncattr('quantization_nsd')
 
-            self.assertEqual(quantize_attr, 'quantization_info')
-            self.assertEqual(quantize_nsd, 4)
+            self.assertEqual(quantized_attr, 'quantization_info')
+            self.assertEqual(quantized_nsd, 4)
 
-            quantize_info = quantized_nc.variables['quantization_info']
-            quantize_alg = quantize_info.getncattr('algorithm')
-            quantize_impl = quantize_info.getncattr('implementation')
+            quantized_info = quantized_nc.variables['quantization_info']
+            quantized_alg = quantized_info.getncattr('algorithm')
+            quantized_impl = quantized_info.getncattr('implementation')
 
-            self.assertEqual(quantize_alg, 'bitgroom')
-            self.assertTrue('libnetcdf version ' in quantize_impl)
+            self.assertEqual(quantized_alg, 'bitgroom')
+            self.assertTrue('libnetcdf version ' in quantized_impl)
+
+    def testQuantizationModes(self):
+
+        seed = 123
+        ntimes = 100
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            granular = self.gen_file(seed, ntimes, 0, True, 1, False, 2, 3, tmp_dir)
+            bitround = self.gen_file(seed, ntimes,  0, True, 1, False, 3, 6, tmp_dir)
+
+            granular_nc = Dataset(granular, "r", format="NETCDF4")
+            bitround_nc = Dataset(bitround, "r", format="NETCDF4")
+
+            granular_ta = granular_nc.variables['ta']
+            bitround_ta = bitround_nc.variables['ta']
+
+            granular_attributes = granular_ta.ncattrs()
+
+            self.assertTrue('quantization_info' in granular_nc.variables)
+            self.assertTrue('quantization' in granular_attributes)
+            self.assertTrue('quantization_nsd' in granular_attributes)
+            self.assertTrue('quantization_nsb' not in granular_attributes)
+
+            granular_attr = granular_ta.getncattr('quantization')
+            granular_nsd = granular_ta.getncattr('quantization_nsd')
+
+            self.assertEqual(granular_attr, 'quantization_info')
+            self.assertEqual(granular_nsd, 3)
+
+            granular_info = granular_nc.variables['quantization_info']
+            granular_alg = granular_info.getncattr('algorithm')
+            granular_impl = granular_info.getncattr('implementation')
+
+            self.assertEqual(granular_alg, 'granular_bitround')
+            self.assertTrue('libnetcdf version ' in granular_impl)
+
+            bitround_attributes = bitround_ta.ncattrs()
+
+            self.assertTrue('quantization_info' in bitround_nc.variables)
+            self.assertTrue('quantization' in bitround_attributes)
+            self.assertTrue('quantization_nsd' not in bitround_attributes)
+            self.assertTrue('quantization_nsb' in bitround_attributes)
+
+            bitround_attr = bitround_ta.getncattr('quantization')
+            bitround_nsd = bitround_ta.getncattr('quantization_nsb')
+
+            self.assertEqual(bitround_attr, 'quantization_info')
+            self.assertEqual(bitround_nsd, 6)
+
+            bitround_info = bitround_nc.variables['quantization_info']
+            bitround_alg = bitround_info.getncattr('algorithm')
+            bitround_impl = bitround_info.getncattr('implementation')
+
+            self.assertEqual(bitround_alg, 'bitround')
+            self.assertTrue('libnetcdf version ' in bitround_impl)
 
 
 if __name__ == '__main__':
