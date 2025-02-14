@@ -145,9 +145,40 @@ class TestCase(unittest.TestCase):
             default_nc = Dataset(default, "r", format="NETCDF4")
             quantized_nc = Dataset(quantized, "r", format="NETCDF4")
 
-            default_ta = default_nc.variables['ta'][:]
-            quantized_ta = quantized_nc.variables['ta'][:]
-            self.assertIsNone(numpy.testing.assert_allclose(default_ta, quantized_ta, rtol=1e-4))
+            default_ta = default_nc.variables['ta']
+            quantized_ta = quantized_nc.variables['ta']
+            self.assertIsNone(
+                numpy.testing.assert_allclose(default_ta[:],
+                                              quantized_ta[:],
+                                              rtol=1e-4)
+            )
+
+            default_attributes = default_ta.ncattrs()
+
+            self.assertTrue('quantization_info' not in default_nc.variables)
+            self.assertTrue('quantization' not in default_attributes)
+            self.assertTrue('quantization_nsd' not in default_attributes)
+            self.assertTrue('quantization_nsb' not in default_attributes)
+
+            quantized_attributes = quantized_ta.ncattrs()
+
+            self.assertTrue('quantization_info' in quantized_nc.variables)
+            self.assertTrue('quantization' in quantized_attributes)
+            self.assertTrue('quantization_nsd' in quantized_attributes)
+            self.assertTrue('quantization_nsb' not in quantized_attributes)
+
+            quantize_attr = quantized_ta.getncattr('quantization')
+            quantize_nsd = quantized_ta.getncattr('quantization_nsd')
+
+            self.assertEqual(quantize_attr, 'quantization_info')
+            self.assertEqual(quantize_nsd, 4)
+
+            quantize_info = quantized_nc.variables['quantization_info']
+            quantize_alg = quantize_info.getncattr('algorithm')
+            quantize_impl = quantize_info.getncattr('implementation')
+
+            self.assertEqual(quantize_alg, 'bitgroom')
+            self.assertTrue('libnetcdf version ' in quantize_impl)
 
 
 if __name__ == '__main__':
