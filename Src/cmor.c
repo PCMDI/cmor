@@ -5299,15 +5299,15 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
                 QUANTIZATION_IMPLEMENTATION, strlen(pVar->quantize_info.implementation),
                 pVar->quantize_info.implementation);
             ierr |= nc_put_att_text(ncid, pVar->nc_var_id,
-                QUANTIZATION_ATTR, strlen(QUANTIZATION_INFO),
+                VARIALBE_ATT_QUANTIZATION, strlen(QUANTIZATION_INFO),
                 QUANTIZATION_INFO);
             if (icqm == NC_QUANTIZE_BITGROOM
                 || icqm == NC_QUANTIZE_GRANULARBR) {
                 ierr |= nc_put_att_int(ncid, pVar->nc_var_id,
-                    QUANTIZATION_NSD, NC_INT, 1, &icqn);
+                    VARIALBE_ATT_QUANTIZATION_NSD, NC_INT, 1, &icqn);
             } else if (icqm == NC_QUANTIZE_BITROUND) {
                 ierr |= nc_put_att_int(ncid, pVar->nc_var_id,
-                    QUANTIZATION_NSB, NC_INT, 1, &icqn);
+                    VARIALBE_ATT_QUANTIZATION_NSB, NC_INT, 1, &icqn);
             }
         }
 

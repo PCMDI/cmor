@@ -125,6 +125,9 @@
 #define VARIABLE_ATT_EXTCELLMEASURES  "ext_cell_measures"
 #define VARIABLE_ATT_CELLMEASURES     "cell_measures"
 #define VARIALBE_ATT_GRIDMAPPING      "grid_mapping"
+#define VARIALBE_ATT_QUANTIZATION     "quantization"
+#define VARIALBE_ATT_QUANTIZATION_NSB "quantization_nsb"
+#define VARIALBE_ATT_QUANTIZATION_NSD "quantization_nsd"
 
 #define VARIABLE_ATT_VALIDMIN         "valid_min"
 #define VARIABLE_ATT_VALIDMAX         "valid_max"
@@ -269,12 +272,13 @@
 //#define EXTERNAL_VARIABLE_REGEX       "([[:alpha:]]+):[[:blank:]]*([[:alpha:]]+)[[:blank:]]*([[:alpha:]]+:[[:blank:]]*([[:alpha:]]+))*"
 #define EXTERNAL_VARIABLE_REGEX       "[[:alpha:]]+:[[:blank:]]*([[:alpha:]]+)([[:blank:]]*[[:alpha:]]+:[[:blank:]]*([[:alpha:]]+))*"
 
-#define QUANTIZATION_ATTR            "quantization"
-#define QUANTIZATION_NSB             "quantization_nsb"
-#define QUANTIZATION_NSD             "quantization_nsd"
-#define QUANTIZATION_INFO            "quantization_info"
-#define QUANTIZATION_ALGORITHM       "algorithm"
-#define QUANTIZATION_IMPLEMENTATION  "implementation"
+#define QUANTIZATION_INFO              "quantization_info"
+#define QUANTIZATION_ALGORITHM         "algorithm"
+#define QUANTIZATION_IMPLEMENTATION    "implementation"
+#define QUANTIZATION_NOQUANTIZATION    "no_quantization"
+#define QUANTIZATION_BITGROOM          "bitgroom"
+#define QUANTIZATION_BITROUND          "bitround"
+#define QUANTIZATION_GRANULARBITROUND  "granular_bitround"
 
 extern int CMOR_TERMINATE_SIGNAL;
 extern int USE_NETCDF_4;

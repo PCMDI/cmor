@@ -2323,13 +2323,13 @@ int cmor_set_quantize(int var_id, int quantize_mode, int quantize_nsd)
     }
 
     if (quantize_mode == NC_NOQUANTIZE) {
-        strcpy(cmor_vars[var_id].quantize_info.algorithm, "no_quantization");
+        strcpy(cmor_vars[var_id].quantize_info.algorithm, QUANTIZATION_NOQUANTIZATION);
     } else if (quantize_mode == NC_QUANTIZE_BITGROOM) {
-        strcpy(cmor_vars[var_id].quantize_info.algorithm, "bitgroom");
+        strcpy(cmor_vars[var_id].quantize_info.algorithm, QUANTIZATION_BITGROOM);
     } else if (quantize_mode == NC_QUANTIZE_BITROUND) {
-        strcpy(cmor_vars[var_id].quantize_info.algorithm, "bitround");
+        strcpy(cmor_vars[var_id].quantize_info.algorithm, QUANTIZATION_BITROUND);
     } else if (quantize_mode == NC_QUANTIZE_GRANULARBR) {
-        strcpy(cmor_vars[var_id].quantize_info.algorithm, "granular_bitround");
+        strcpy(cmor_vars[var_id].quantize_info.algorithm, QUANTIZATION_GRANULARBITROUND);
     } else {
         cmor_handle_error_variadic(
             "Unsupported quantization mode %d",
