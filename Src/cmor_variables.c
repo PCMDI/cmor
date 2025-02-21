@@ -2322,26 +2322,6 @@ int cmor_set_quantize(int var_id, int quantize_mode, int quantize_nsd)
         return (-1);
     }
 
-    if (quantize_mode == NC_NOQUANTIZE) {
-        strcpy(cmor_vars[var_id].quantize_info.algorithm, QUANTIZATION_NOQUANTIZATION);
-    } else if (quantize_mode == NC_QUANTIZE_BITGROOM) {
-        strcpy(cmor_vars[var_id].quantize_info.algorithm, QUANTIZATION_BITGROOM);
-    } else if (quantize_mode == NC_QUANTIZE_BITROUND) {
-        strcpy(cmor_vars[var_id].quantize_info.algorithm, QUANTIZATION_BITROUND);
-    } else if (quantize_mode == NC_QUANTIZE_GRANULARBR) {
-        strcpy(cmor_vars[var_id].quantize_info.algorithm, QUANTIZATION_GRANULARBITROUND);
-    } else {
-        cmor_handle_error_variadic(
-            "Unsupported quantization mode %d",
-            CMOR_CRITICAL, quantize_mode);
-        cmor_pop_traceback();
-
-        return (-1);
-    }
-
-    sprintf(cmor_vars[var_id].quantize_info.implementation,
-            "libnetcdf version %s", nc_inq_libvers());
-
     cmor_vars[var_id].quantize_mode = quantize_mode;
     cmor_vars[var_id].quantize_nsd = quantize_nsd;
     cmor_pop_traceback();

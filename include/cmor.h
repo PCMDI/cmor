@@ -410,12 +410,6 @@ typedef struct cmor_axis_ {
 } cmor_axis_t;
 extern cmor_axis_t cmor_axes[CMOR_MAX_AXES];
 
-typedef struct cmor_quantization_info_ {
-    int nc_var_id;
-    char algorithm[CMOR_MAX_STRING];
-    char implementation[CMOR_MAX_STRING];
-} cmor_quantization_info_t;
-
 typedef struct cmor_variable_def_ {
     int table_id;
     char id[CMOR_MAX_STRING];
@@ -495,7 +489,6 @@ typedef struct cmor_var_ {
     int zstandard_level;
     int quantize_mode;
     int quantize_nsd;
-    cmor_quantization_info_t quantize_info;
     int nomissing;
     char iunits[CMOR_MAX_STRING];
     char ounits[CMOR_MAX_STRING];
