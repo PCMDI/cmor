@@ -5395,6 +5395,18 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
             ierr |= nc_put_att_text(ncid, quantize_info_ncid,
                 QUANTIZATION_IMPLEMENTATION, strlen(msg), msg);
             ierr |= nc_def_var_quantize(ncid, pVar->nc_var_id, icqm, icqn);
+
+            if (ierr != NC_NOERR) {
+                cmor_handle_error_var_variadic(
+                    "NetCDF Error (%i: %s) defining quantization\n! "
+                    "parameters for variable '%s' (table: %s)",
+                    CMOR_CRITICAL, var_id,
+                    ierr, nc_strerror(ierr), pVar->id,
+                    cmor_tables[nVarRefTblID].szTable_id);
+                cmor_pop_traceback();
+                return;
+    
+            }
         }
 
         // Only use zstandard compression if deflate is disabled
