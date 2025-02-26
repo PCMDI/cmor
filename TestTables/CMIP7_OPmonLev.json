@@ -1,0 +1,47 @@
+{
+    "Header":{
+        "Conventions":"CF-1.11 CMIP-7.0.0.0",
+        "checksum":"61b34e5e0d6dd30f5107587442eb36be",
+        "cmor_version":"3.10",
+        "generic_levels":"olevel olevhalf",
+        "int_missing_value":"-999",
+        "missing_value":"1e20",
+        "ok_max_mean_abs":"",
+        "ok_min_mean_abs":"",
+        "positive":"",
+        "product":"model-output",
+        "realm":"ocean",
+        "table_date":"2025-02-25",
+        "table_id":"atmos",
+        "type":"real",
+        "valid_max":"",
+        "valid_min":""
+    },
+    "variable_entry":{
+        "thetao":{
+            "cell_measures":"area: areacello volume: volcello",
+            "cell_methods":"area: mean where sea time: mean",
+            "comment":"Diagnostic should be contributed even for models using conservative temperature as prognostic field",
+            "dimensions":[
+                "longitude",
+                "latitude",
+                "olevel",
+                "time"
+            ],
+            "frequency":"mon",
+            "long_name":"Sea Water Potential Temperature",
+            "modeling_realm":[
+                "ocean"
+            ],
+            "ok_max_mean_abs":"",
+            "ok_min_mean_abs":"",
+            "out_name":"thetao",
+            "positive":"",
+            "standard_name":"sea_water_potential_temperature",
+            "type":"real",
+            "units":"degC",
+            "valid_max":"",
+            "valid_min":""
+        }
+    }
+}

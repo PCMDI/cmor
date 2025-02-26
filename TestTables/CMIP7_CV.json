@@ -1,0 +1,70 @@
+{
+    "CV":{
+        "approx_interval":{
+            "1hr":0.041666666666666664,
+            "3hr":0.125,
+            "6hr":0.25,
+            "day":1.0,
+            "dec":3650.0,
+            "mon":30.0,
+            "subhr":0.010416666666666666,
+            "yr":365.0
+        },
+        "data_specs_version":"CMIP-7.0.0.0",
+        "frequency":{
+            "1hr":"sampled hourly",
+            "1hrCM":"monthly-mean diurnal cycle resolving each day into 1-hour means",
+            "3hr":"3 hourly mean samples",
+            "6hr":"6 hourly mean samples",
+            "day":"daily mean samples",
+            "dec":"decadal mean samples",
+            "fx":"fixed (time invariant) field",
+            "mon":"monthly mean samples",
+            "monC":"monthly climatology computed from monthly mean samples",
+            "yr":"annual mean samples"
+        },
+        "grid_label":{
+            "gm":"global mean data",
+            "gn":"data reported on a model's native grid",
+            "gna":"data reported on a native grid in the region of Antarctica",
+            "gng":"data reported on a native grid in the region of Greenland",
+            "gnz":"zonal mean data reported on a model's native latitude grid",
+            "gr":"regridded data reported on the data provider's preferred target grid",
+            "gra":"regridded data in the region of Antarctica reported on the data provider's preferred target grid",
+            "grg":"regridded data in the region of Greenland reported on the data provider's preferred target grid",
+            "grz":"regridded zonal mean data reported on the data provider's preferred latitude target grid"
+        },
+        "license":[
+            "^CMIP7 model data produced by .* is licensed under a Creative Commons .* License (https://creativecommons\\.org/.*)\\. *Consult https://pcmdi\\.llnl\\.gov/CMIP7/TermsOfUse for terms of use governing CMIP7 output, including citation requirements and proper acknowledgment\\. *Further information about this data, including some limitations, can be found via the further_info_url (recorded as a global attribute in this file).*\\. *The data producers and data providers make no warranty, either express or implied, including, but not limited to, warranties of merchantability and fitness for a particular purpose\\. *All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law\\.$"
+        ],
+        "mip_era":"CMIP7",
+        "product":[
+            "model-output"
+        ],
+        "realm":{
+            "aerosol":"Aerosol",
+            "atmos":"Atmosphere",
+            "atmosChem":"Atmospheric Chemistry",
+            "land":"Land Surface",
+            "landIce":"Land Ice",
+            "ocean":"Ocean",
+            "ocnBgchem":"Ocean Biogeochemistry",
+            "seaIce":"Sea Ice"
+        },
+        "source_type":{
+            "AER":"aerosol treatment in an atmospheric model where concentrations are calculated based on emissions, transformation, and removal processes (rather than being prescribed or omitted entirely)",
+            "AGCM":"atmospheric general circulation model run with prescribed ocean surface conditions and usually a model of the land surface",
+            "AOGCM":"coupled atmosphere-ocean global climate model, additionally including explicit representation of at least the land and sea ice",
+            "BGC":"biogeochemistry model component that at the very least accounts for carbon reservoirs and fluxes in the atmosphere, terrestrial biosphere, and ocean",
+            "CHEM":"chemistry treatment in an atmospheric model that calculates atmospheric oxidant concentrations (including at least ozone), rather than prescribing them",
+            "ISM":"ice-sheet model that includes ice-flow",
+            "LAND":"land model run uncoupled from the atmosphere",
+            "OGCM":"ocean general circulation model run uncoupled from an AGCM but, usually including a sea-ice model",
+            "RAD":"radiation component of an atmospheric model run 'offline'",
+            "SLAB":"slab-ocean used with an AGCM in representing the atmosphere-ocean coupled system"
+        },
+        "tracking_id":[
+            "hdl:21.14100/.*"
+        ]
+    }
+}

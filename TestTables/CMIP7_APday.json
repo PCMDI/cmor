@@ -1,0 +1,71 @@
+{
+    "Header":{
+        "Conventions":"CF-1.11 CMIP-7.0.0.0",
+        "checksum":"2256e1691dea97aedc111ebba90b81dc",
+        "cmor_version":"3.10",
+        "generic_levels":"alevel alevhalf",
+        "int_missing_value":"-999",
+        "missing_value":"1e20",
+        "ok_max_mean_abs":"",
+        "ok_min_mean_abs":"",
+        "positive":"",
+        "product":"model-output",
+        "realm":"atmos",
+        "table_date":"2025-02-25",
+        "table_id":"atmos",
+        "type":"real",
+        "valid_max":"",
+        "valid_min":""
+    },
+    "variable_entry":{
+        "pr":{
+            "cell_measures":"area: areacella",
+            "cell_methods":"area: time: mean",
+            "comment":"includes both liquid and solid phases",
+            "dimensions":[
+                "longitude",
+                "latitude",
+                "time"
+            ],
+            "frequency":"day",
+            "long_name":"Precipitation",
+            "modeling_realm":[
+                "atmos"
+            ],
+            "ok_max_mean_abs":"",
+            "ok_min_mean_abs":"",
+            "out_name":"pr",
+            "positive":"",
+            "standard_name":"precipitation_flux",
+            "type":"real",
+            "units":"kg m-2 s-1",
+            "valid_max":"",
+            "valid_min":""
+        },
+        "tas":{
+            "cell_measures":"area: areacella",
+            "cell_methods":"area: time: mean",
+            "comment":"near-surface (usually, 2 meter) air temperature",
+            "dimensions":[
+                "longitude",
+                "latitude",
+                "time",
+                "height2m"
+            ],
+            "frequency":"day",
+            "long_name":"Near-Surface Air Temperature",
+            "modeling_realm":[
+                "atmos"
+            ],
+            "ok_max_mean_abs":"",
+            "ok_min_mean_abs":"",
+            "out_name":"tas",
+            "positive":"",
+            "standard_name":"air_temperature",
+            "type":"real",
+            "units":"K",
+            "valid_max":"",
+            "valid_min":""
+        }
+    }
+}
