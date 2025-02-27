@@ -1,7 +1,7 @@
 {
     "Header":{
         "Conventions":"CF-1.11 CMIP-7.0.0.0",
-        "checksum":"db4b1e36de301ace2874e9851f0b0a2c",
+        "checksum":"ac59c99c3bac2e7bceb39080e7ff2aaa",
         "cmor_version":"3.10",
         "generic_levels":"",
         "int_missing_value":"-999",
@@ -11,14 +11,14 @@
         "positive":"",
         "product":"model-output",
         "realm":"ocean",
-        "table_date":"2025-02-25",
+        "table_date":"2025-02-27",
         "table_id":"atmos",
         "type":"real",
         "valid_max":"",
         "valid_min":""
     },
     "variable_entry":{
-        "tos":{
+        "thetao-tavg-l-hxy-u":{
             "cell_measures":"area: areacello",
             "cell_methods":"area: mean where sea time: mean",
             "comment":"Temperature of upper boundary of the liquid ocean, including temperatures below sea-ice and floating ice shelves",
@@ -39,8 +39,8 @@
             "standard_name":"sea_surface_temperature",
             "type":"real",
             "units":"degC",
-            "valid_max":"",
-            "valid_min":""
+            "valid_max":400.0,
+            "valid_min":300.0
         }
     }
 }

@@ -1,7 +1,7 @@
 {
     "Header":{
         "Conventions":"CF-1.11 CMIP-7.0.0.0",
-        "checksum":"61b34e5e0d6dd30f5107587442eb36be",
+        "checksum":"419637ea29581e6e130e8ac7322fe9fd",
         "cmor_version":"3.10",
         "generic_levels":"olevel olevhalf",
         "int_missing_value":"-999",
@@ -11,7 +11,7 @@
         "positive":"",
         "product":"model-output",
         "realm":"ocean",
-        "table_date":"2025-02-25",
+        "table_date":"2025-02-27",
         "table_id":"atmos",
         "type":"real",
         "valid_max":"",
