@@ -125,6 +125,9 @@
 #define VARIABLE_ATT_EXTCELLMEASURES  "ext_cell_measures"
 #define VARIABLE_ATT_CELLMEASURES     "cell_measures"
 #define VARIALBE_ATT_GRIDMAPPING      "grid_mapping"
+#define VARIALBE_ATT_QUANTIZATION     "quantization"
+#define VARIALBE_ATT_QUANTIZATION_NSB "quantization_nsb"
+#define VARIALBE_ATT_QUANTIZATION_NSD "quantization_nsd"
 
 #define VARIABLE_ATT_VALIDMIN         "valid_min"
 #define VARIABLE_ATT_VALIDMAX         "valid_max"
@@ -135,8 +138,6 @@
 #define VARIABLE_ATT_DEFLATE          "deflate"
 #define VARIABLE_ATT_DEFLATELEVEL     "deflate_level"
 #define VARIABLE_ATT_ZSTANDARDLEVEL   "zstandard_level"
-#define VARIABLE_ATT_QUANTIZEMODE     "quantize_mode"
-#define VARIABLE_ATT_QUANTIZENSD      "quantize_nsd"
 #define VARIABLE_ATT_MODELINGREALM    "modeling_realm"
 #define VARIALBE_ATT_FREQUENCY        "frequency"
 #define VARIABLE_ATT_FLAGVALUES       "flag_values"
@@ -270,6 +271,14 @@
 #define CMOR_DEFAULT_HISTORY_TEMPLATE "%s ; CMOR rewrote data to be consistent with <mip_era>, <Conventions> and CF standards."
 //#define EXTERNAL_VARIABLE_REGEX       "([[:alpha:]]+):[[:blank:]]*([[:alpha:]]+)[[:blank:]]*([[:alpha:]]+:[[:blank:]]*([[:alpha:]]+))*"
 #define EXTERNAL_VARIABLE_REGEX       "[[:alpha:]]+:[[:blank:]]*([[:alpha:]]+)([[:blank:]]*[[:alpha:]]+:[[:blank:]]*([[:alpha:]]+))*"
+
+#define QUANTIZATION_INFO              "quantization_info"
+#define QUANTIZATION_ALGORITHM         "algorithm"
+#define QUANTIZATION_IMPLEMENTATION    "implementation"
+#define QUANTIZATION_NOQUANTIZATION    "no_quantization"
+#define QUANTIZATION_BITGROOM          "bitgroom"
+#define QUANTIZATION_BITROUND          "bitround"
+#define QUANTIZATION_GRANULARBITROUND  "granular_bitround"
 
 extern int CMOR_TERMINATE_SIGNAL;
 extern int USE_NETCDF_4;
@@ -426,8 +435,6 @@ typedef struct cmor_variable_def_ {
     int deflate;
     int deflate_level;
     int zstandard_level;
-    int quantize_mode;
-    int quantize_nsd;
     char required[CMOR_MAX_STRING];
     char realm[CMOR_MAX_STRING];
     char frequency[CMOR_MAX_STRING];

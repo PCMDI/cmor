@@ -1142,9 +1142,10 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
     cmor_vars[vrid].deflate = refvar.deflate;
     cmor_vars[vrid].deflate_level = refvar.deflate_level;
     cmor_vars[vrid].zstandard_level = refvar.zstandard_level;
-    cmor_vars[vrid].quantize_mode = refvar.quantize_mode;
-    cmor_vars[vrid].quantize_nsd = refvar.quantize_nsd;
     strcpy(cmor_vars[vrid].chunking_dimensions, refvar.chunking_dimensions);
+
+    cmor_vars[vrid].quantize_mode = NC_NOQUANTIZE;
+    cmor_vars[vrid].quantize_nsd = 1;
 
     if (refvar.out_name[0] == '\0') {
         strncpy(cmor_vars[vrid].id, name, CMOR_MAX_STRING);
@@ -1900,8 +1901,6 @@ void cmor_init_var_def(cmor_var_def_t * var, int table_id)
     var->deflate = 1;
     var->deflate_level = 1;
     var->zstandard_level = 3;
-    var->quantize_mode = 0;
-    var->quantize_nsd = 1;
     var->generic_level_name[0] = '\0';
 }
 
@@ -2135,14 +2134,6 @@ int cmor_set_var_def_att(cmor_var_def_t * var, char *att, char *val)
     } else if (strcmp(att, VARIABLE_ATT_ZSTANDARDLEVEL) == 0) {
 
         var->zstandard_level = atoi(val);
-
-    } else if (strcmp(att, VARIABLE_ATT_QUANTIZEMODE) == 0) {
-
-        var->quantize_mode = atoi(val);
-
-    } else if (strcmp(att, VARIABLE_ATT_QUANTIZENSD) == 0) {
-
-        var->quantize_nsd = atoi(val);
 
     } else if (strcmp(att, VARIABLE_ATT_MODELINGREALM) == 0) {
 
