@@ -1,27 +1,75 @@
 {
     "CV":{
-        "approx_interval":{
-            "1hr":0.041666666666666664,
-            "3hr":0.125,
-            "6hr":0.25,
-            "day":1.0,
-            "dec":3650.0,
-            "mon":30.0,
-            "subhr":0.010416666666666666,
-            "yr":365.0
-        },
         "data_specs_version":"CMIP-7.0.0.0",
+        "experiment_id":{
+            "1pctCO2":{
+                "activity_id":[
+                    "CMIP"
+                ],
+                "additional_allowed_model_components":[
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description":"DECK: 1pctCO2",
+                "end_year":"",
+                "experiment":"1 percent per year increase in CO2",
+                "experiment_id":"1pctCO2",
+                "min_number_yrs_per_sim":"150",
+                "parent_activity_id":[
+                    "CMIP"
+                ],
+                "parent_experiment_id":[
+                    "piControl"
+                ],
+                "required_model_components":[
+                    "AOGCM"
+                ],
+                "start_year":"",
+                "sub_experiment_id":[
+                    "none"
+                ],
+                "tier":"1"
+            }
+        },
         "frequency":{
-            "1hr":"sampled hourly",
-            "1hrCM":"monthly-mean diurnal cycle resolving each day into 1-hour means",
-            "3hr":"3 hourly mean samples",
-            "6hr":"6 hourly mean samples",
-            "day":"daily mean samples",
-            "dec":"decadal mean samples",
+            "1hr":{
+                "approx_interval":0.041666666666666664,
+                "description":"sampled hourly"
+            },
+            "1hrCM":{
+                "approx_interval":0.041666666666666664,
+                "description":"monthly-mean diurnal cycle resolving each day into 1-hour means"
+            },
+            "3hr":{
+                "approx_interval":0.125,
+                "description":"3 hourly mean samples"
+            },
+            "6hr":{
+                "approx_interval":0.25,
+                "description":"6 hourly mean samples"
+            },
+            "day":{
+                "approx_interval":1.0,
+                "description":"daily mean samples"
+            },
+            "dec":{
+                "approx_interval":3650.0,
+                "description":"decadal mean samples"
+            },
             "fx":"fixed (time invariant) field",
-            "mon":"monthly mean samples",
-            "monC":"monthly climatology computed from monthly mean samples",
-            "yr":"annual mean samples"
+            "mon":{
+                "approx_interval":30.0,
+                "description":"monthly mean samples"
+            },
+            "monC":{
+                "approx_interval":30.0,
+                "description":"monthly climatology computed from monthly mean samples"
+            },
+            "yr":{
+                "approx_interval":365.0,
+                "description":"annual mean samples"
+            }
         },
         "grid_label":{
             "gm":"global mean data",
@@ -33,6 +81,9 @@
             "gra":"regridded data in the region of Antarctica reported on the data provider's preferred target grid",
             "grg":"regridded data in the region of Greenland reported on the data provider's preferred target grid",
             "grz":"regridded zonal mean data reported on the data provider's preferred latitude target grid"
+        },
+        "institution_id":{
+            "PCMDI":"Program for Climate Model Diagnosis and Intercomparison, Lawrence Livermore National Laboratory, Livermore, CA 94550, USA"
         },
         "license":[
             "^CMIP7 model data produced by .* is licensed under a Creative Commons .* License (https://creativecommons\\.org/.*)\\. *Consult https://pcmdi\\.llnl\\.gov/CMIP7/TermsOfUse for terms of use governing CMIP7 output, including citation requirements and proper acknowledgment\\. *Further information about this data, including some limitations, can be found via the further_info_url (recorded as a global attribute in this file).*\\. *The data producers and data providers make no warranty, either express or implied, including, but not limited to, warranties of merchantability and fitness for a particular purpose\\. *All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law\\.$"
@@ -51,6 +102,87 @@
             "ocnBgchem":"Ocean Biogeochemistry",
             "seaIce":"Sea Ice"
         },
+        "required_global_attributes":[
+            "Conventions",
+            "activity_id",
+            "creation_date",
+            "data_specs_version",
+            "experiment",
+            "experiment_id",
+            "forcing_index",
+            "frequency",
+            "grid",
+            "grid_label",
+            "initialization_index",
+            "institution",
+            "institution_id",
+            "license",
+            "mip_era",
+            "nominal_resolution",
+            "physics_index",
+            "realization_index",
+            "realm",
+            "source",
+            "source_id",
+            "source_type",
+            "sub_experiment",
+            "sub_experiment_id",
+            "table_id",
+            "tracking_id",
+            "variable_id",
+            "variant_label"
+        ],
+        "source_id":{
+            "PCMDI-test-1-0":{
+                "activity_participation":[
+                    "CMIP"
+                ],
+                "cohort":[
+                    "Registered"
+                ],
+                "institution_id":[
+                    "PCMDI"
+                ],
+                "label":"PCMDI-test 1.0",
+                "label_extended":"PCMDI-test 1.0 (This entry is free text for users to contribute verbose information)",
+                "model_component":{
+                    "aerosol":{
+                        "description":"none",
+                        "native_nominal_resolution":"none"
+                    },
+                    "atmos":{
+                        "description":"Earth1.0-gettingHotter (360 x 180 longitude/latitude; 50 levels; top level 0.1 mb)",
+                        "native_nominal_resolution":"1x1 degree"
+                    },
+                    "atmosChem":{
+                        "description":"none",
+                        "native_nominal_resolution":"none"
+                    },
+                    "land":{
+                        "description":"Earth1.0",
+                        "native_nominal_resolution":"1x1 degree"
+                    },
+                    "landIce":{
+                        "description":"none",
+                        "native_nominal_resolution":"none"
+                    },
+                    "ocean":{
+                        "description":"BlueMarble1.0-warming (360 x 180 longitude/latitude; 50 levels; top grid cell 0-10 m)",
+                        "native_nominal_resolution":"1x1 degree"
+                    },
+                    "ocnBgchem":{
+                        "description":"none",
+                        "native_nominal_resolution":"none"
+                    },
+                    "seaIce":{
+                        "description":"Declining1.0-warming (360 x 180 longitude/latitude)",
+                        "native_nominal_resolution":"1x1 degree"
+                    }
+                },
+                "release_year":"1989",
+                "source_id":"PCMDI-test-1-0"
+            }
+        },
         "source_type":{
             "AER":"aerosol treatment in an atmospheric model where concentrations are calculated based on emissions, transformation, and removal processes (rather than being prescribed or omitted entirely)",
             "AGCM":"atmospheric general circulation model run with prescribed ocean surface conditions and usually a model of the land surface",
@@ -62,6 +194,10 @@
             "OGCM":"ocean general circulation model run uncoupled from an AGCM but, usually including a sea-ice model",
             "RAD":"radiation component of an atmospheric model run 'offline'",
             "SLAB":"slab-ocean used with an AGCM in representing the atmosphere-ocean coupled system"
+        },
+        "sub_experiment_id":{
+            "s1910":"initialized near end of year 1910",
+            "s1920":"initialized near end of year 1920"
         },
         "tracking_id":[
             "hdl:21.14100/.*"

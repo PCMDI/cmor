@@ -1,7 +1,7 @@
 {
     "Header":{
         "Conventions":"CF-1.11 CMIP-7.0.0.0",
-        "checksum":"7e0bb65b80e01d06d814b55eee4d8de0",
+        "checksum":"cbf986c9a5c27564339d9b3c5541b27a",
         "cmor_version":"3.10",
         "generic_levels":"alevel alevhalf",
         "int_missing_value":"-999",
@@ -11,14 +11,14 @@
         "positive":"",
         "product":"model-output",
         "realm":"atmos",
-        "table_date":"2025-02-27",
-        "table_id":"atmos",
+        "table_date":"2025-03-03",
+        "table_id":"atmos2d",
         "type":"real",
         "valid_max":"",
         "valid_min":""
     },
     "variable_entry":{
-        "pr":{
+        "pr-tavg-d0m-hxy-u":{
             "cell_measures":"area: areacella",
             "cell_methods":"area: time: mean",
             "comment":"includes both liquid and solid phases",
@@ -39,10 +39,10 @@
             "standard_name":"precipitation_flux",
             "type":"real",
             "units":"kg m-2 s-1",
-            "valid_max":"",
-            "valid_min":""
+            "valid_max":5.0,
+            "valid_min":0.0
         },
-        "tas":{
+        "tas-tavg-h2m-hxy-u":{
             "cell_measures":"area: areacella",
             "cell_methods":"area: time: mean",
             "comment":"near-surface (usually, 2 meter) air temperature",
@@ -64,8 +64,8 @@
             "standard_name":"air_temperature",
             "type":"real",
             "units":"K",
-            "valid_max":"",
-            "valid_min":""
+            "valid_max":350.0,
+            "valid_min":250.0
         }
     }
 }

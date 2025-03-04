@@ -1,9 +1,9 @@
 {
     "Header":{
         "Conventions":"CF-1.11 CMIP-7.0.0.0",
-        "checksum":"419637ea29581e6e130e8ac7322fe9fd",
+        "checksum":"bf79b97a24337ffe49beba54c043db43",
         "cmor_version":"3.10",
-        "generic_levels":"olevel olevhalf",
+        "generic_levels":"",
         "int_missing_value":"-999",
         "missing_value":"1e20",
         "ok_max_mean_abs":"",
@@ -11,37 +11,36 @@
         "positive":"",
         "product":"model-output",
         "realm":"ocean",
-        "table_date":"2025-02-27",
-        "table_id":"atmos",
+        "table_date":"2025-03-03",
+        "table_id":"ocean2d",
         "type":"real",
         "valid_max":"",
         "valid_min":""
     },
     "variable_entry":{
-        "thetao":{
-            "cell_measures":"area: areacello volume: volcello",
+        "tos-tavg-d0m-hxy-u":{
+            "cell_measures":"area: areacello",
             "cell_methods":"area: mean where sea time: mean",
-            "comment":"Diagnostic should be contributed even for models using conservative temperature as prognostic field",
+            "comment":"Temperature of upper boundary of the liquid ocean, including temperatures below sea-ice and floating ice shelves",
             "dimensions":[
                 "longitude",
                 "latitude",
-                "olevel",
                 "time"
             ],
             "frequency":"mon",
-            "long_name":"Sea Water Potential Temperature",
+            "long_name":"Sea Surface Temperature",
             "modeling_realm":[
                 "ocean"
             ],
             "ok_max_mean_abs":"",
             "ok_min_mean_abs":"",
-            "out_name":"thetao",
+            "out_name":"tos",
             "positive":"",
-            "standard_name":"sea_water_potential_temperature",
+            "standard_name":"sea_surface_temperature",
             "type":"real",
             "units":"degC",
-            "valid_max":"",
-            "valid_min":""
+            "valid_max":400.0,
+            "valid_min":300.0
         }
     }
 }

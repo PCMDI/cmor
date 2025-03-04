@@ -1,9 +1,9 @@
 {
     "Header":{
         "Conventions":"CF-1.11 CMIP-7.0.0.0",
-        "checksum":"ac59c99c3bac2e7bceb39080e7ff2aaa",
+        "checksum":"2f65249415a206b19ad964ecc2ef0203",
         "cmor_version":"3.10",
-        "generic_levels":"",
+        "generic_levels":"olevel olevhalf",
         "int_missing_value":"-999",
         "missing_value":"1e20",
         "ok_max_mean_abs":"",
@@ -11,36 +11,37 @@
         "positive":"",
         "product":"model-output",
         "realm":"ocean",
-        "table_date":"2025-02-27",
-        "table_id":"atmos",
+        "table_date":"2025-03-03",
+        "table_id":"oceanLev",
         "type":"real",
         "valid_max":"",
         "valid_min":""
     },
     "variable_entry":{
         "thetao-tavg-l-hxy-u":{
-            "cell_measures":"area: areacello",
+            "cell_measures":"area: areacello volume: volcello",
             "cell_methods":"area: mean where sea time: mean",
-            "comment":"Temperature of upper boundary of the liquid ocean, including temperatures below sea-ice and floating ice shelves",
+            "comment":"Diagnostic should be contributed even for models using conservative temperature as prognostic field",
             "dimensions":[
                 "longitude",
                 "latitude",
+                "olevel",
                 "time"
             ],
             "frequency":"mon",
-            "long_name":"Sea Surface Temperature",
+            "long_name":"Sea Water Potential Temperature",
             "modeling_realm":[
                 "ocean"
             ],
             "ok_max_mean_abs":"",
             "ok_min_mean_abs":"",
-            "out_name":"tos",
+            "out_name":"thetao",
             "positive":"",
-            "standard_name":"sea_surface_temperature",
+            "standard_name":"sea_water_potential_temperature",
             "type":"real",
             "units":"degC",
-            "valid_max":400.0,
-            "valid_min":300.0
+            "valid_max":5.0,
+            "valid_min":0.0
         }
     }
 }
