@@ -19,6 +19,7 @@
     },
     "variable_entry":{
         "pr_tavg-u-hxy-u":{
+            "brand_description":"precipitation flux: time means reported on a 2-d horizontal grid",
             "cell_measures":"area: areacella",
             "cell_methods":"area: time: mean",
             "comment":"includes both liquid and solid phases",
@@ -27,7 +28,6 @@
                 "latitude",
                 "time"
             ],
-            "long_name":"Precipitation",
             "modeling_realm":[
                 "atmos"
             ],
@@ -39,9 +39,11 @@
             "type":"real",
             "units":"kg m-2 s-1",
             "valid_max":5.0,
-            "valid_min":0.0
+            "valid_min":0.0,
+            "variable_title":"Precipitation"
         },
         "tas_tavg-h2m-hxy-u":{
+            "brand_description":"air temperature: time means at a nominal height of 2 m reported on a 2-d horizontal grid",
             "cell_measures":"area: areacella",
             "cell_methods":"area: time: mean",
             "comment":"near-surface (usually, 2 meter) air temperature",
@@ -51,7 +53,6 @@
                 "time",
                 "height2m"
             ],
-            "long_name":"Near-Surface Air Temperature",
             "modeling_realm":[
                 "atmos"
             ],
@@ -63,7 +64,8 @@
             "type":"real",
             "units":"K",
             "valid_max":350.0,
-            "valid_min":250.0
+            "valid_min":250.0,
+            "variable_title":"Near-Surface Air Temperature"
         }
     }
 }

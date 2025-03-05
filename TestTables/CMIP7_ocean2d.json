@@ -19,6 +19,7 @@
     },
     "variable_entry":{
         "tos_tavg-u-hxy-sea":{
+            "brand_description":"sea surface temperature: time means reported on a 2-d horizontal grid where sea",
             "cell_measures":"area: areacello",
             "cell_methods":"area: mean where sea time: mean",
             "comment":"Temperature of upper boundary of the liquid ocean, including temperatures below sea-ice and floating ice shelves",
@@ -27,7 +28,6 @@
                 "latitude",
                 "time"
             ],
-            "long_name":"Sea Surface Temperature",
             "modeling_realm":[
                 "ocean"
             ],
@@ -39,7 +39,8 @@
             "type":"real",
             "units":"degC",
             "valid_max":400.0,
-            "valid_min":300.0
+            "valid_min":300.0,
+            "variable_title":"Sea Surface Temperature"
         }
     }
 }

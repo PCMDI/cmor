@@ -19,6 +19,7 @@
     },
     "variable_entry":{
         "thetao_tavg-l-hxy-sea":{
+            "brand_description":"sea water potential temperature: time means provided on multiple model levels and reported on a 2-d horizontal grid where sea",
             "cell_measures":"area: areacello volume: volcello",
             "cell_methods":"area: mean where sea time: mean",
             "comment":"Diagnostic should be contributed even for models using conservative temperature as prognostic field",
@@ -28,7 +29,6 @@
                 "olevel",
                 "time"
             ],
-            "long_name":"Sea Water Potential Temperature",
             "modeling_realm":[
                 "ocean"
             ],
@@ -40,7 +40,8 @@
             "type":"real",
             "units":"degC",
             "valid_max":5.0,
-            "valid_min":0.0
+            "valid_min":0.0,
+            "variable_title":"Sea Water Potential Temperature"
         }
     }
 }
