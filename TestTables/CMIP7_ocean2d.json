@@ -27,7 +27,6 @@
                 "latitude",
                 "time"
             ],
-            "frequency":"mon",
             "long_name":"Sea Surface Temperature",
             "modeling_realm":[
                 "ocean"

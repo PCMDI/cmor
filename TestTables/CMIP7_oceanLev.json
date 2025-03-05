@@ -28,7 +28,6 @@
                 "olevel",
                 "time"
             ],
-            "frequency":"mon",
             "long_name":"Sea Water Potential Temperature",
             "modeling_realm":[
                 "ocean"

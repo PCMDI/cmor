@@ -27,7 +27,6 @@
                 "latitude",
                 "time"
             ],
-            "frequency":"day",
             "long_name":"Precipitation",
             "modeling_realm":[
                 "atmos"
@@ -52,7 +51,6 @@
                 "time",
                 "height2m"
             ],
-            "frequency":"day",
             "long_name":"Near-Surface Air Temperature",
             "modeling_realm":[
                 "atmos"
