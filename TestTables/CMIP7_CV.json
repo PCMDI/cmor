@@ -195,10 +195,6 @@
             "RAD":"radiation component of an atmospheric model run 'offline'",
             "SLAB":"slab-ocean used with an AGCM in representing the atmosphere-ocean coupled system"
         },
-        "sub_experiment_id":{
-            "s1910":"initialized near end of year 1910",
-            "s1920":"initialized near end of year 1920"
-        },
         "tracking_id":[
             "hdl:21.14100/.*"
         ]
