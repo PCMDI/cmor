@@ -1,5 +1,32 @@
 {
     "CV":{
+        "area_label":[
+            "air",
+            "ccl",
+            "cl",
+            "crp",
+            "fis",
+            "gis",
+            "ifs",
+            "is",
+            "li",
+            "lnd",
+            "lus",
+            "ng",
+            "pst",
+            "scl",
+            "sea",
+            "shb",
+            "si",
+            "simp",
+            "sir",
+            "sn",
+            "tree",
+            "u",
+            "ufs",
+            "veg",
+            "wl"
+        ],
         "data_specs_version":"CMIP-7.0.0.0",
         "experiment_id":{
             "1pctCO2":{
@@ -82,6 +109,14 @@
             "grg":"regridded data in the region of Greenland reported on the data provider's preferred target grid",
             "grz":"regridded zonal mean data reported on the data provider's preferred latitude target grid"
         },
+        "horizontal_label":[
+            "hm",
+            "ht1",
+            "hxy",
+            "hxys",
+            "hy",
+            "hys"
+        ],
         "institution_id":{
             "PCMDI":"Program for Climate Model Diagnosis and Intercomparison, Lawrence Livermore National Laboratory, Livermore, CA 94550, USA"
         },
@@ -105,6 +140,12 @@
         "required_global_attributes":[
             "Conventions",
             "activity_id",
+            "archive_id",
+            "area_label",
+            "branch_method",
+            "branch_time_in_child",
+            "branch_time_in_parent",
+            "branding_suffix",
             "creation_date",
             "data_specs_version",
             "experiment",
@@ -113,24 +154,35 @@
             "frequency",
             "grid",
             "grid_label",
+            "horizontal_label",
+            "host_collection",
             "initialization_index",
             "institution",
             "institution_id",
             "license",
             "mip_era",
             "nominal_resolution",
+            "parent_activity_id",
+            "parent_experiment_id",
+            "parent_mip_era",
+            "parent_source_id",
+            "parent_time_units",
+            "parent_variant_label",
             "physics_index",
             "realization_index",
             "realm",
+            "region",
             "source",
             "source_id",
             "source_type",
             "sub_experiment",
             "sub_experiment_id",
             "table_id",
+            "temporal_label",
             "tracking_id",
             "variable_id",
-            "variant_label"
+            "variant_label",
+            "vertical_label"
         ],
         "source_id":{
             "PCMDI-test-1-0":{
@@ -195,8 +247,51 @@
             "RAD":"radiation component of an atmospheric model run 'offline'",
             "SLAB":"slab-ocean used with an AGCM in representing the atmosphere-ocean coupled system"
         },
+        "temporal_label":[
+            "tavg",
+            "tclm",
+            "tclmdc",
+            "ti1",
+            "tpt",
+            "tstat",
+            "tsum"
+        ],
         "tracking_id":[
             "hdl:21.14100/.*"
+        ],
+        "vertical_label":[
+            "1000hPa",
+            "100hPa",
+            "10hPa",
+            "220hPa",
+            "500hPa",
+            "560hPa",
+            "700hPa",
+            "840hPa",
+            "850hPa",
+            "d0m",
+            "d100m",
+            "d10cm",
+            "d1m",
+            "d2000m",
+            "d300m",
+            "d700m",
+            "h100m",
+            "h10m",
+            "h16",
+            "h2m",
+            "h40",
+            "l",
+            "p19",
+            "p27",
+            "p3",
+            "p39",
+            "p4",
+            "p7c",
+            "p7h",
+            "p8",
+            "rho",
+            "u"
         ]
     }
 }
