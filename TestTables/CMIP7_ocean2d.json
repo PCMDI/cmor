@@ -18,7 +18,7 @@
         "valid_min":""
     },
     "variable_entry":{
-        "tos-tavg-d0m-hxy-u":{
+        "tos_tavg-u-hxy-sea":{
             "cell_measures":"area: areacello",
             "cell_methods":"area: mean where sea time: mean",
             "comment":"Temperature of upper boundary of the liquid ocean, including temperatures below sea-ice and floating ice shelves",

@@ -18,7 +18,7 @@
         "valid_min":""
     },
     "variable_entry":{
-        "thetao-tavg-l-hxy-u":{
+        "thetao_tavg-l-hxy-sea":{
             "cell_measures":"area: areacello volume: volcello",
             "cell_methods":"area: mean where sea time: mean",
             "comment":"Diagnostic should be contributed even for models using conservative temperature as prognostic field",

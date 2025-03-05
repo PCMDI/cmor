@@ -18,7 +18,7 @@
         "valid_min":""
     },
     "variable_entry":{
-        "pr-tavg-d0m-hxy-u":{
+        "pr_tavg-u-hxy-u":{
             "cell_measures":"area: areacella",
             "cell_methods":"area: time: mean",
             "comment":"includes both liquid and solid phases",
@@ -42,7 +42,7 @@
             "valid_max":5.0,
             "valid_min":0.0
         },
-        "tas-tavg-h2m-hxy-u":{
+        "tas_tavg-h2m-hxy-u":{
             "cell_measures":"area: areacella",
             "cell_methods":"area: time: mean",
             "comment":"near-surface (usually, 2 meter) air temperature",
