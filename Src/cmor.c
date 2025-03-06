@@ -802,7 +802,7 @@ void cmor_reset_variable(int var_id)
     cmor_vars[var_id].deflate = 1;
     cmor_vars[var_id].deflate_level = 1;
     cmor_vars[var_id].zstandard_level = 3;
-    cmor_vars[var_id].quantize_mode = 0;
+    cmor_vars[var_id].quantize_mode = NC_NOQUANTIZE;
     cmor_vars[var_id].quantize_nsd = 1;
     cmor_vars[var_id].nomissing = 1;
     cmor_vars[var_id].iunits[0] = '\0';
@@ -1940,7 +1940,7 @@ int cmor_define_zfactors_vars(int var_id, int ncid, int *nc_dim,
     int ierr = 0, l, m, k, n, j, m2, found, nelts, *int_list = NULL;
     int dim_holder[CMOR_MAX_VARIABLES];
     int lnzfactors;
-    int ics, icd, icdl, icz, icqm, icqn, ia;
+    int ics, icd, icdl, icz, ia;
     cmor_add_traceback("cmor_define_zfactors_vars");
     cmor_is_setup();
     lnzfactors = *nzfactors;
@@ -2142,13 +2142,7 @@ int cmor_define_zfactors_vars(int var_id, int ncid, int *nc_dim,
                           cmor_tables[nTableID].vars[nTableID].deflate_level;
                         icz =
                           cmor_tables[nTableID].vars[nTableID].zstandard_level;
-                        icqm =
-                          cmor_tables[nTableID].vars[nTableID].quantize_mode;
-                        icqn =
-                          cmor_tables[nTableID].vars[nTableID].quantize_nsd;
 
-                        ierr = nc_def_var_quantize(ncid, nc_zfactors[lnzfactors],
-                                                icqm, icqn);
                         if (icd != 0) {
                             ierr |= nc_def_var_deflate(ncid, nc_zfactors[lnzfactors],
                                                     ics, icd, icdl);
@@ -3528,7 +3522,7 @@ void cmor_define_dimensions(int var_id, int ncid,
     int tmp_dims[2];
     int dims_bnds_ids[2];
     int nVarRefTblID = cmor_vars[var_id].ref_table_id;
-    int ics, icd, icdl, icz, icqm, icqn;
+    int ics, icd, icdl, icz;
     int itmpmsg, itmp2, itmp3;
     int maxStrLen;
 
@@ -3884,11 +3878,7 @@ void cmor_define_dimensions(int var_id, int ncid,
                 icd = pVar->deflate;
                 icdl = pVar->deflate_level;
                 icz = pVar->zstandard_level;
-                icqm = pVar->quantize_mode;
-                icqn = pVar->quantize_nsd;
 
-                ierr = nc_def_var_quantize(ncafid, nc_bnds_vars[i], icqm,
-                                        icqn);
                 if (icd != 0) {
                     ierr |= nc_def_var_deflate(ncafid, nc_bnds_vars[i],
                                             ics, icd, icdl);
@@ -4153,7 +4143,7 @@ int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af,
     int *int_list = NULL;
     char mtype;
     int nelts;
-    int ics, icd, icdl, icz, icqm, icqn;
+    int ics, icd, icdl, icz;
 
     cmor_add_traceback("cmor_grids_def");
 /* -------------------------------------------------------------------- */
@@ -4428,16 +4418,7 @@ int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af,
                       cmor_tables[cmor_vars[j].ref_table_id].vars[cmor_vars[j].
                                                                   ref_var_id].
                       zstandard_level;
-                    icqm =
-                      cmor_tables[cmor_vars[j].ref_table_id].vars[cmor_vars[j].
-                                                                  ref_var_id].
-                      quantize_mode;
-                    icqn =
-                      cmor_tables[cmor_vars[j].ref_table_id].vars[cmor_vars[j].
-                                                                  ref_var_id].
-                      quantize_nsd;
-                    ierr = nc_def_var_quantize(ncafid, nc_associated_vars[i],
-                                            icqm, icqn);
+
                     if (icd != 0) {
                         ierr |= nc_def_var_deflate(ncafid, nc_associated_vars[i],
                                                 ics, icd, icdl);
@@ -5227,6 +5208,7 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
     int *int_list = NULL;
     int ics, icd, icdl, icz, icqm, icqn;
     int bChunk;
+    int quantize_info_ncid;
     cmor_add_traceback("cmor_create_var_attributes");
 /* -------------------------------------------------------------------- */
 /*      Creates attributes related to that variable                     */
@@ -5302,7 +5284,130 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
         icz = pVar->zstandard_level;
         icqm = pVar->quantize_mode;
         icqn = pVar->quantize_nsd;
-        ierr = nc_def_var_quantize(ncid, pVar->nc_var_id, icqm, icqn);
+
+        // Set up quantization_info
+        if (icqm != NC_NOQUANTIZE) {
+            if (pVar->type != 'f' && pVar->type != 'd') {
+                cmor_handle_error_var_variadic(
+                    "Quantization can only be used for floating-point values.\n"
+                    "Variable '%s' (table: %s) has type '%c'.",
+                    CMOR_CRITICAL, var_id,
+                    pVar->id, cmor_tables[nVarRefTblID].szTable_id, pVar->type);
+                cmor_pop_traceback();
+                return;
+            }
+
+            ierr = nc_def_var(ncid, QUANTIZATION_INFO, NC_CHAR,
+                0, 0, &quantize_info_ncid);
+            ierr |= nc_put_att_text(ncid, pVar->nc_var_id,
+                VARIALBE_ATT_QUANTIZATION, strlen(QUANTIZATION_INFO),
+                QUANTIZATION_INFO);
+            if (icqm == NC_QUANTIZE_BITGROOM) {
+                if (pVar->type != 'f' && (icqn < 1 || icqn > 7)) {
+                    cmor_handle_error_var_variadic(
+                        "Quantization NSD for algorithm %s "
+                        "must be 1 <= NSD <= 7 for float.\n"
+                        "Variable '%s' (table: %s) has type '%c'.",
+                        CMOR_CRITICAL, var_id,
+                        QUANTIZATION_BITGROOM,
+                        pVar->id, cmor_tables[nVarRefTblID].szTable_id, pVar->type);
+                    cmor_pop_traceback();
+                    return;
+                } else if (pVar->type != 'd' && (icqn < 1 || icqn > 15)) {
+                    cmor_handle_error_var_variadic(
+                        "Quantization NSD for algorithm %s "
+                        "must be 1 <= NSD <= 15 for double.\n"
+                        "Variable '%s' (table: %s) has type '%c'.",
+                        CMOR_CRITICAL, var_id,
+                        QUANTIZATION_BITGROOM,
+                        pVar->id, cmor_tables[nVarRefTblID].szTable_id, pVar->type);
+                    cmor_pop_traceback();
+                    return;
+                }
+                ierr |= nc_put_att_text(ncid, quantize_info_ncid,
+                    QUANTIZATION_ALGORITHM, strlen(QUANTIZATION_BITGROOM),
+                    QUANTIZATION_BITGROOM);
+                ierr |= nc_put_att_int(ncid, pVar->nc_var_id,
+                    VARIALBE_ATT_QUANTIZATION_NSD, NC_INT, 1, &icqn);
+            } else if (icqm == NC_QUANTIZE_BITROUND) {
+                if (pVar->type != 'f' && (icqn < 1 || icqn > 23)) {
+                    cmor_handle_error_var_variadic(
+                        "Quantization NSB for algorithm %s "
+                        "must be 1 <= NSB <= 23 for float.\n"
+                        "Variable '%s' (table: %s) has type '%c'.",
+                        CMOR_CRITICAL, var_id,
+                        QUANTIZATION_BITROUND,
+                        pVar->id, cmor_tables[nVarRefTblID].szTable_id, pVar->type);
+                    cmor_pop_traceback();
+                    return;
+                } else if (pVar->type != 'd' && (icqn < 1 || icqn > 52)) {
+                    cmor_handle_error_var_variadic(
+                        "Quantization NSB for algorithm %s "
+                        "must be 1 <= NSB <= 52 for double.\n"
+                        "Variable '%s' (table: %s) has type '%c'.",
+                        CMOR_CRITICAL, var_id,
+                        QUANTIZATION_BITROUND,
+                        pVar->id, cmor_tables[nVarRefTblID].szTable_id, pVar->type);
+                    cmor_pop_traceback();
+                    return;
+                }
+                ierr |= nc_put_att_text(ncid, quantize_info_ncid,
+                    QUANTIZATION_ALGORITHM, strlen(QUANTIZATION_BITROUND),
+                    QUANTIZATION_BITROUND);
+                ierr |= nc_put_att_int(ncid, pVar->nc_var_id,
+                    VARIALBE_ATT_QUANTIZATION_NSB, NC_INT, 1, &icqn);
+            } else if (icqm == NC_QUANTIZE_GRANULARBR) {
+                if (pVar->type != 'f' && (icqn < 1 || icqn > 7)) {
+                    cmor_handle_error_var_variadic(
+                        "Quantization NSD for algorithm %s "
+                        "must be 1 <= NSD <= 7 for float.\n"
+                        "Variable '%s' (table: %s) has type '%c'.",
+                        CMOR_CRITICAL, var_id,
+                        QUANTIZATION_GRANULARBITROUND,
+                        pVar->id, cmor_tables[nVarRefTblID].szTable_id, pVar->type);
+                    cmor_pop_traceback();
+                    return;
+                } else if (pVar->type != 'd' && (icqn < 1 || icqn > 15)) {
+                    cmor_handle_error_var_variadic(
+                        "Quantization NSD for algorithm %s "
+                        "must be 1 <= NSD <= 15 for double.\n"
+                        "Variable '%s' (table: %s) has type '%c'.",
+                        CMOR_CRITICAL, var_id,
+                        QUANTIZATION_GRANULARBITROUND,
+                        pVar->id, cmor_tables[nVarRefTblID].szTable_id, pVar->type);
+                    cmor_pop_traceback();
+                    return;
+                }
+                ierr |= nc_put_att_text(ncid, quantize_info_ncid,
+                    QUANTIZATION_ALGORITHM, strlen(QUANTIZATION_GRANULARBITROUND),
+                    QUANTIZATION_GRANULARBITROUND);
+                ierr |= nc_put_att_int(ncid, pVar->nc_var_id,
+                    VARIALBE_ATT_QUANTIZATION_NSD, NC_INT, 1, &icqn);
+            } else {
+                cmor_handle_error_variadic(
+                    "Unsupported quantization mode %d",
+                    CMOR_CRITICAL, icqm);
+                cmor_pop_traceback();
+                return;
+            }
+
+            sprintf(msg, "libnetcdf version %s", nc_inq_libvers());
+            ierr |= nc_put_att_text(ncid, quantize_info_ncid,
+                QUANTIZATION_IMPLEMENTATION, strlen(msg), msg);
+            ierr |= nc_def_var_quantize(ncid, pVar->nc_var_id, icqm, icqn);
+
+            if (ierr != NC_NOERR) {
+                cmor_handle_error_var_variadic(
+                    "NetCDF Error (%i: %s) defining quantization\n! "
+                    "parameters for variable '%s' (table: %s)",
+                    CMOR_CRITICAL, var_id,
+                    ierr, nc_strerror(ierr), pVar->id,
+                    cmor_tables[nVarRefTblID].szTable_id);
+                cmor_pop_traceback();
+                return;
+    
+            }
+        }
 
         // Only use zstandard compression if deflate is disabled
         if (icd != 0) {
