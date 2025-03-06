@@ -28,18 +28,13 @@
                 "latitude",
                 "time"
             ],
-            "modeling_realm":[
-                "ocean"
-            ],
-            "ok_max_mean_abs":"",
-            "ok_min_mean_abs":"",
+            "ok_max_mean_abs":50.0,
+            "ok_min_mean_abs":-3.0,
             "out_name":"tos",
-            "positive":"",
             "standard_name":"sea_surface_temperature",
-            "type":"real",
             "units":"degC",
-            "valid_max":400.0,
-            "valid_min":300.0,
+            "valid_max":100.0,
+            "valid_min":-50.0,
             "variable_title":"Sea Surface Temperature"
         }
     }

@@ -28,18 +28,13 @@
                 "latitude",
                 "time"
             ],
-            "modeling_realm":[
-                "atmos"
-            ],
-            "ok_max_mean_abs":"",
-            "ok_min_mean_abs":"",
             "out_name":"pr",
-            "positive":"",
+            "realm":[
+                "atmos",
+                "ocean"
+            ],
             "standard_name":"precipitation_flux",
-            "type":"real",
             "units":"kg m-2 s-1",
-            "valid_max":5.0,
-            "valid_min":0.0,
             "variable_title":"Precipitation"
         },
         "tas_tavg-h2m-hxy-u":{
@@ -53,18 +48,13 @@
                 "time",
                 "height2m"
             ],
-            "modeling_realm":[
-                "atmos"
-            ],
-            "ok_max_mean_abs":"",
-            "ok_min_mean_abs":"",
+            "ok_max_mean_abs":330.0,
+            "ok_min_mean_abs":-30.0,
             "out_name":"tas",
-            "positive":"",
             "standard_name":"air_temperature",
-            "type":"real",
             "units":"K",
             "valid_max":350.0,
-            "valid_min":250.0,
+            "valid_min":240.0,
             "variable_title":"Near-Surface Air Temperature"
         }
     }
