@@ -5,6 +5,7 @@
 #include <time.h>
 #include <regex.h>
 #include "cmor.h"
+#include <netcdf.h>
 #include <json-c/json.h>
 #include <json-c/json_tokener.h>
 #include <json-c/arraylist.h>
@@ -2449,12 +2450,13 @@ int cmor_CV_variable(int *var_id, char *name, char *units,
     cmor_vars[vrid].deflate = refvar.deflate;
     cmor_vars[vrid].deflate_level = refvar.deflate_level;
     cmor_vars[vrid].zstandard_level = refvar.zstandard_level;
-    cmor_vars[vrid].quantize_mode = refvar.quantize_mode;
-    cmor_vars[vrid].quantize_nsd = refvar.quantize_nsd;
     cmor_vars[vrid].first_bound = startimebnds;
     cmor_vars[vrid].last_bound = endtimebnds;
     cmor_vars[vrid].first_time = startime;
     cmor_vars[vrid].last_time = endtime;
+
+    cmor_vars[vrid].quantize_mode = NC_NOQUANTIZE;
+    cmor_vars[vrid].quantize_nsd = 1;
 
     if (refvar.out_name[0] == '\0') {
         strncpy(cmor_vars[vrid].id, name, CMOR_MAX_STRING);
