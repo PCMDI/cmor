@@ -22,7 +22,7 @@
             "sir":"sea ice ridge",
             "sn":"snow",
             "tree":"trees",
-            "u":"unmasked (no \"where\" directive included in cell_methods",
+            "u":"unmasked (no \"where\" directive included in cell_methods)",
             "ufs":"unfrozen soil",
             "veg":"vegetation",
             "wl":"wetland"
