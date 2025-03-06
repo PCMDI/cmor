@@ -111,7 +111,7 @@
         },
         "horizontal_label":[
             "hm",
-            "ht1",
+            "ht",
             "hxy",
             "hxys",
             "hy",
@@ -251,7 +251,7 @@
             "tavg",
             "tclm",
             "tclmdc",
-            "ti1",
+            "ti",
             "tpt",
             "tstat",
             "tsum"
