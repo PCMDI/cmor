@@ -3067,6 +3067,34 @@ int cmor_setGblAttr(int var_id)
                                             "", 0);
 
 /* -------------------------------------------------------------------- */
+/*     Set branded variable attributes                                  */
+/* -------------------------------------------------------------------- */
+    if (cmor_vars[var_id].branding_suffix[0] != '\0') {
+        cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_BRANDINGSUFFIX,
+                                                cmor_vars[var_id].branding_suffix,
+                                                0);
+    }
+    if (cmor_vars[var_id].temporal_label[0] != '\0') {
+        cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_TEMPORALLABEL,
+                                                cmor_vars[var_id].temporal_label,
+                                                0);
+    }
+    if (cmor_vars[var_id].vertical_label[0] != '\0') {
+        cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_VERTICALLABEL,
+                                                cmor_vars[var_id].vertical_label,
+                                                0);
+    }
+    if (cmor_vars[var_id].horizontal_label[0] != '\0') {
+        cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_HORIZONTALLABEL,
+                                                cmor_vars[var_id].horizontal_label,
+                                                0);
+    }
+    if (cmor_vars[var_id].area_label[0] != '\0') {
+        cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_AREALABEL,
+                                                cmor_vars[var_id].area_label,
+                                                0);
+    }
+/* -------------------------------------------------------------------- */
 /*     Create external_variables                                        */
 /* -------------------------------------------------------------------- */
     if (cmor_has_variable_attribute(var_id, VARIABLE_ATT_CELLMEASURES) == 0) {

@@ -2113,10 +2113,12 @@ int cmor_CV_checkGrids(cmor_CV_def_t * CV)
                                        szGridResolution);
     }
 
+    cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
+
     CV_grid_labels = cmor_CV_rootsearch(CV, CV_KEY_GRID_LABELS);
     if (CV_grid_labels == NULL) {
         cmor_handle_error_variadic(
-                 "Your \"grid_labels\" key could not be found in\n! "
+                 "Your \"grid_label\" key could not be found in\n! "
                  "your Control Vocabulary file.(%s)\n! ", CMOR_NORMAL, CV_Filename);
 
         cmor_pop_traceback();
@@ -2159,9 +2161,8 @@ int cmor_CV_checkGrids(cmor_CV_def_t * CV)
     CV_grid_resolution = cmor_CV_rootsearch(CV, CV_KEY_GRID_RESOLUTION);
     if (CV_grid_resolution == NULL) {
         cmor_handle_error_variadic(
-                 "Your attribute grid_label is set to \"%s\" which is invalid."
-                 "\n! \n! Check your Control Vocabulary file \"%s\".\n! ",
-                 CMOR_NORMAL, szGridLabel, CV_Filename);
+                 "Your \"nominal_resolution\" key could not be found in\n! "
+                 "your Control Vocabulary file.(%s)\n! ", CMOR_NORMAL, CV_Filename);
         cmor_pop_traceback();
         return (-1);
 
