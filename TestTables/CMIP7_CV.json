@@ -175,8 +175,6 @@
             "source",
             "source_id",
             "source_type",
-            "sub_experiment",
-            "sub_experiment_id",
             "table_id",
             "temporal_label",
             "tracking_id",
