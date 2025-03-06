@@ -1,31 +1,106 @@
 {
     "CV":{
         "area_label":[
-            "air",
-            "ccl",
-            "cl",
-            "crp",
-            "fis",
-            "gis",
-            "ifs",
-            "is",
-            "li",
-            "lnd",
-            "lus",
-            "ng",
-            "pst",
-            "scl",
-            "sea",
-            "shb",
-            "si",
-            "simp",
-            "sir",
-            "sn",
-            "tree",
-            "u",
-            "ufs",
-            "veg",
-            "wl"
+            [
+                "air",
+                "air"
+            ],
+            [
+                "ccl",
+                "convective cloud"
+            ],
+            [
+                "cl",
+                "cloud"
+            ],
+            [
+                "crp",
+                "crops"
+            ],
+            [
+                "fis",
+                "floating ice shelf"
+            ],
+            [
+                "gis",
+                "grounded ice sheet"
+            ],
+            [
+                "ifs",
+                "ice free sea"
+            ],
+            [
+                "is",
+                "ice sheet"
+            ],
+            [
+                "li",
+                "land ice"
+            ],
+            [
+                "lnd",
+                "land"
+            ],
+            [
+                "lus",
+                "sector (auxiliary coordinate for land-use area types"
+            ],
+            [
+                "ng",
+                "natural grasses"
+            ],
+            [
+                "pst",
+                "pasture"
+            ],
+            [
+                "scl",
+                "stratiform cloud"
+            ],
+            [
+                "sea",
+                "sea"
+            ],
+            [
+                "shb",
+                "shrubs"
+            ],
+            [
+                "si",
+                "sea ice"
+            ],
+            [
+                "simp",
+                "sea ice melt pond"
+            ],
+            [
+                "sir",
+                "sea ice ridge"
+            ],
+            [
+                "sn",
+                "snow"
+            ],
+            [
+                "tree",
+                "trees"
+            ],
+            [
+                "u",
+                "unmasked (no \"where\" directive included in cell_methods"
+            ],
+            [
+                "ufs",
+                "unfrozen soil"
+            ],
+            [
+                "veg",
+                "vegetation"
+            ],
+            [
+                "wl",
+                "wetland"
+            ]
         ],
         "data_specs_version":"CMIP-7.0.0.0",
         "experiment_id":{
@@ -110,12 +185,30 @@
             "grz":"regridded zonal mean data reported on the data provider's preferred latitude target grid"
         },
         "horizontal_label":[
-            "hm",
-            "ht",
-            "hxy",
-            "hxys",
-            "hy",
-            "hys"
+            [
+                "hm",
+                "horizontal mean"
+            ],
+            [
+                "ht",
+                "labeled areas"
+            ],
+            [
+                "hxy",
+                "gridded"
+            ],
+            [
+                "hxys",
+                "site values"
+            ],
+            [
+                "hy",
+                "zonal mean"
+            ],
+            [
+                "hys",
+                "basin mean"
+            ]
         ],
         "institution_id":{
             "PCMDI":"Program for Climate Model Diagnosis and Intercomparison, Lawrence Livermore National Laboratory, Livermore, CA 94550, USA"
@@ -246,50 +339,167 @@
             "SLAB":"slab-ocean used with an AGCM in representing the atmosphere-ocean coupled system"
         },
         "temporal_label":[
-            "tavg",
-            "tclm",
-            "tclmdc",
-            "ti",
-            "tpt",
-            "tstat",
-            "tsum"
+            [
+                "tavg",
+                "mean"
+            ],
+            [
+                "tclm",
+                "climatology"
+            ],
+            [
+                "tclmdc",
+                "diurnal cycle climatology"
+            ],
+            [
+                "ti",
+                "time independent"
+            ],
+            [
+                "tpt",
+                "point"
+            ],
+            [
+                "tstat",
+                "statistic"
+            ],
+            [
+                "tsum",
+                "sum"
+            ]
         ],
         "tracking_id":[
             "hdl:21.14100/.*"
         ],
         "vertical_label":[
-            "1000hPa",
-            "100hPa",
-            "10hPa",
-            "220hPa",
-            "500hPa",
-            "560hPa",
-            "700hPa",
-            "840hPa",
-            "850hPa",
-            "d0m",
-            "d100m",
-            "d10cm",
-            "d1m",
-            "d2000m",
-            "d300m",
-            "d700m",
-            "h100m",
-            "h10m",
-            "h16",
-            "h2m",
-            "h40",
-            "l",
-            "p19",
-            "p27",
-            "p3",
-            "p39",
-            "p4",
-            "p7c",
-            "p7h",
-            "p8",
-            "rho",
-            "u"
+            [
+                "1000hPa",
+                "1000 hPa"
+            ],
+            [
+                "100hPa",
+                "100 hPa"
+            ],
+            [
+                "10hPa",
+                "10 hPa"
+            ],
+            [
+                "220hPa",
+                "220 hPa"
+            ],
+            [
+                "500hPa",
+                "500 hPa"
+            ],
+            [
+                "560hPa",
+                "560 hPa"
+            ],
+            [
+                "700hPa",
+                "700 hPa"
+            ],
+            [
+                "840hPa",
+                "840 hPa"
+            ],
+            [
+                "850hPa",
+                "850 hPa"
+            ],
+            [
+                "d0m",
+                "surface"
+            ],
+            [
+                "d100m",
+                "100m depth"
+            ],
+            [
+                "d10cm",
+                "1cm depth"
+            ],
+            [
+                "d1m",
+                "1m depth"
+            ],
+            [
+                "d2000m",
+                "2000m depth"
+            ],
+            [
+                "d300m",
+                "300m depth"
+            ],
+            [
+                "d700m",
+                "700m depth"
+            ],
+            [
+                "h100m",
+                "100m height"
+            ],
+            [
+                "h10m",
+                "10m height"
+            ],
+            [
+                "h16",
+                "16 height levels"
+            ],
+            [
+                "h2m",
+                "2m height"
+            ],
+            [
+                "h40",
+                "40 height levels"
+            ],
+            [
+                "l",
+                "model level"
+            ],
+            [
+                "p19",
+                "19 pressure levels"
+            ],
+            [
+                "p27",
+                "27 pressure levels"
+            ],
+            [
+                "p3",
+                "3 pressure levels"
+            ],
+            [
+                "p39",
+                "39 pressure levels"
+            ],
+            [
+                "p4",
+                "4 pressure levels"
+            ],
+            [
+                "p7c",
+                "7 pressure levels"
+            ],
+            [
+                "p7h",
+                "7 pressure levels"
+            ],
+            [
+                "p8",
+                "8 pressure levels"
+            ],
+            [
+                "rho",
+                "density surface"
+            ],
+            [
+                "u",
+                "unspecified (no vertical dimension)"
+            ]
         ]
     }
 }
