@@ -219,27 +219,21 @@ int cmor_set_variable_entry(cmor_table_t * table,
         strncpy(variable->out_name, 
             &variable_entry[pmatch[1].rm_so], 
             pmatch[1].rm_eo - pmatch[1].rm_so);
-            printf("%s\n",variable->out_name);
         strncpy(variable->temporal_label, 
             &variable_entry[pmatch[2].rm_so], 
             pmatch[2].rm_eo - pmatch[2].rm_so);
-            printf("%s\n",variable->temporal_label);
         strncpy(variable->vertical_label, 
             &variable_entry[pmatch[3].rm_so], 
             pmatch[3].rm_eo - pmatch[3].rm_so);
-            printf("%s\n",variable->vertical_label);
         strncpy(variable->horizontal_label, 
             &variable_entry[pmatch[4].rm_so], 
             pmatch[4].rm_eo - pmatch[4].rm_so);
-            printf("%s\n",variable->horizontal_label);
         strncpy(variable->area_label, 
             &variable_entry[pmatch[5].rm_so], 
             pmatch[5].rm_eo - pmatch[5].rm_so);
-            printf("%s\n",variable->area_label);
         strncpy(variable->branding_suffix, 
             &variable_entry[pmatch[2].rm_so], 
             pmatch[5].rm_eo - pmatch[2].rm_so);
-            printf("%s\n",variable->branding_suffix);
     }
 
     json_object_object_foreach(json, attr, value) {
