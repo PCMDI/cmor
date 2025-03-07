@@ -1,0 +1,54 @@
+{
+    "Header": {
+        "data_specs_version": "01.00.33", 
+        "cmor_version": "3.5", 
+        "table_id": "Table Omon", 
+        "realm": "ocnBgchem", 
+        "table_date": "18 November 2020", 
+        "missing_value": "1e20", 
+        "int_missing_value": "-999", 
+        "product": "model-output", 
+        "approx_interval": "30.00000", 
+        "generic_levels": "olevel olevhalf", 
+        "mip_era": "CMIP6", 
+        "Conventions": "CF-1.7 CMIP-6.2"
+    }, 
+    "variable_entry": { 
+        "thetaoga": {
+            "frequency": "mon", 
+            "modeling_realm": "ocean", 
+            "standard_name": "sea_water_potential_temperature", 
+            "units": "degC", 
+            "cell_methods": "area: mean where sea time: mean", 
+            "cell_measures": "", 
+            "long_name": "Global Average Sea Water Potential Temperature", 
+            "comment": "Diagnostic should be contributed even for models using conservative temperature as prognostic field", 
+            "dimensions": "time", 
+            "out_name": "thetaoga", 
+            "type": "real", 
+            "positive": "", 
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
+        },
+        "thetaoga_w1-x2-y3-z4": {
+            "frequency": "mon", 
+            "modeling_realm": "ocean", 
+            "standard_name": "sea_water_potential_temperature", 
+            "units": "degC", 
+            "cell_methods": "area: mean where sea time: mean", 
+            "cell_measures": "", 
+            "long_name": "Global Average Sea Water Potential Temperature", 
+            "comment": "Diagnostic should be contributed even for models using conservative temperature as prognostic field", 
+            "dimensions": "time", 
+            "out_name": "thetaoga", 
+            "type": "real", 
+            "positive": "", 
+            "valid_min": "", 
+            "valid_max": "", 
+            "ok_min_mean_abs": "", 
+            "ok_max_mean_abs": ""
+        }
+    }
+}
