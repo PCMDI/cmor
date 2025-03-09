@@ -143,6 +143,11 @@
 #define VARIABLE_ATT_FLAGVALUES       "flag_values"
 #define VARIABLE_ATT_FLAGMEANINGS     "flag_meanings"
 #define VARIABLE_ATT_OUTNAME          "out_name"
+#define VARIABLE_ATT_BRANDINGSUFFIX   "branding_suffix"
+#define VARIABLE_ATT_TEMPORALLABEL    "temporal_label"
+#define VARIABLE_ATT_VERTICALLABEL    "vertical_label"
+#define VARIABLE_ATT_HORIZONTALLABEL  "horizontal_label"
+#define VARIABLE_ATT_AREALABEL        "area_label"
 #define COMMENT_VARIABLE_ZFACTOR      "use formula table"
 #define GLOBAL_SEPARATORS             "><"
 #define GLOBAL_OPENOPTIONAL           "["
@@ -161,6 +166,11 @@
 #define GLOBAL_ATT_ACTIVITY_ID        "activity_id"
 #define GLOBAL_ATT_VAL_NODRIVER       "no-driver"
 #define GLOBAL_ATT_VARIABLE_ID        "variable_id"
+#define GLOBAL_ATT_BRANDINGSUFFIX     "branding_suffix"
+#define GLOBAL_ATT_TEMPORALLABEL      "temporal_label"
+#define GLOBAL_ATT_VERTICALLABEL      "vertical_label"
+#define GLOBAL_ATT_HORIZONTALLABEL    "horizontal_label"
+#define GLOBAL_ATT_AREALABEL          "area_label"
 #define GLOBAL_ATT_SOURCE_ID          "source_id"
 #define GLOBAL_ATT_SOURCE             "source"
 #define GLOBAL_ATT_SUB_EXPT_ID        "sub_experiment_id"
@@ -440,6 +450,11 @@ typedef struct cmor_variable_def_ {
     char frequency[CMOR_MAX_STRING];
     char out_name[CMOR_MAX_STRING];
     char generic_level_name[CMOR_MAX_STRING];
+    char branding_suffix[CMOR_MAX_STRING];
+    char temporal_label[CMOR_MAX_STRING];
+    char vertical_label[CMOR_MAX_STRING];
+    char horizontal_label[CMOR_MAX_STRING];
+    char area_label[CMOR_MAX_STRING];
 } cmor_var_def_t;
 
 typedef struct cmor_var_ {
@@ -505,6 +520,11 @@ typedef struct cmor_var_ {
     char suffix[CMOR_MAX_STRING];
     int suffix_has_date;
     char frequency[CMOR_MAX_STRING];
+    char branding_suffix[CMOR_MAX_STRING];
+    char temporal_label[CMOR_MAX_STRING];
+    char vertical_label[CMOR_MAX_STRING];
+    char horizontal_label[CMOR_MAX_STRING];
+    char area_label[CMOR_MAX_STRING];
 } cmor_var_t;
 
 extern cmor_var_t cmor_vars[CMOR_MAX_VARIABLES];

@@ -6,6 +6,7 @@
 #include <netcdf.h>
 #include <udunits2.h>
 #include <stdlib.h>
+#include <regex.h>
 #include "cmor_locale.h"
 #include <json-c/json.h>
 #include <json-c/json_tokener.h>
@@ -170,13 +171,18 @@ int cmor_set_variable_entry(cmor_table_t * table,
     extern int cmor_ntables;
     char szValue[CMOR_MAX_STRING];
     int nVarId;
-    char *szTableId;
+    int reti;
+    char *szTableId;   
     array_list *jsonArray;
     json_object *jsonItem;
     size_t k, arrayLen;
     cmor_var_def_t *variable;
     cmor_table_t *cmor_table;
     cmor_table = &cmor_tables[cmor_ntables];
+    regex_t regex;
+    size_t nmatch = 6;                                                      
+    regmatch_t pmatch[nmatch]; 
+    char *branded_var_regex = "^([[:alnum:]]+)_([[:alnum:]]+)-([[:alnum:]]+)-([[:alnum:]]+)-([[:alnum:]]+)$";
 
     szTableId = cmor_table->szTable_id;
 
@@ -202,6 +208,33 @@ int cmor_set_variable_entry(cmor_table_t * table,
 
     cmor_init_var_def(variable, cmor_ntables);
     cmor_set_var_def_att(variable, "id", variable_entry);
+
+/* -------------------------------------------------------------------- */
+/*  Check if varialbe_entry is a branded variable by splitting it into  */
+/*  its components.                                                     */
+/* -------------------------------------------------------------------- */
+    reti = regcomp(&regex, branded_var_regex, REG_EXTENDED);
+    reti |= regexec(&regex, variable_entry, nmatch, pmatch, 0);
+    if(reti == 0) {
+        strncpy(variable->out_name, 
+            &variable_entry[pmatch[1].rm_so], 
+            pmatch[1].rm_eo - pmatch[1].rm_so);
+        strncpy(variable->temporal_label, 
+            &variable_entry[pmatch[2].rm_so], 
+            pmatch[2].rm_eo - pmatch[2].rm_so);
+        strncpy(variable->vertical_label, 
+            &variable_entry[pmatch[3].rm_so], 
+            pmatch[3].rm_eo - pmatch[3].rm_so);
+        strncpy(variable->horizontal_label, 
+            &variable_entry[pmatch[4].rm_so], 
+            pmatch[4].rm_eo - pmatch[4].rm_so);
+        strncpy(variable->area_label, 
+            &variable_entry[pmatch[5].rm_so], 
+            pmatch[5].rm_eo - pmatch[5].rm_so);
+        strncpy(variable->branding_suffix, 
+            &variable_entry[pmatch[2].rm_so], 
+            pmatch[5].rm_eo - pmatch[2].rm_so);
+    }
 
     json_object_object_foreach(json, attr, value) {
 /* -------------------------------------------------------------------- */
