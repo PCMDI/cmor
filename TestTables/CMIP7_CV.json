@@ -145,10 +145,6 @@
                 "approx_interval":30.0,
                 "description":"monthly mean samples"
             },
-            "monC":{
-                "approx_interval":30.0,
-                "description":"monthly climatology computed from monthly mean samples"
-            },
             "yr":{
                 "approx_interval":365.0,
                 "description":"annual mean samples"
@@ -173,6 +169,7 @@
         ],
         "mip_era":"CMIP7",
         "nominal_resolution":[
+            "0.25 km",
             "0.5 km",
             "1 km",
             "10 km",
@@ -203,11 +200,11 @@
             "seaIce":"Sea Ice"
         },
         "region":{
-            "antarctica":"located around the South Pole, separated from other land masses by the Southern Ocean, and almost entirely south of 60 degrees South latitude",
-            "global":"the complete Earth surface, 90 degrees North to 90 degrees South latitude, and all longitudes",
-            "greenland":"located in the Northern Atlantic Ocean, separated from other land masses by the Labrador Sea and Straits, and almost entirely north of 60 degrees North latitude",
-            "northern_hemisphere":"the complete Earth surface from the equator to the North Pole, 0 to 90 degrees North latitude",
-            "southern_hemisphere":"the complete Earth surface from the equator to the South Pole, 0 to 90 degrees South latitude"
+            "ant":"located around the South Pole, separated from other land masses by the Southern Ocean, and almost entirely south of 60 degrees South latitude",
+            "glb":"the complete Earth surface, 90 degrees North to 90 degrees South latitude, and all longitudes",
+            "gre":"located in the Northern Atlantic Ocean, separated from other land masses by the Labrador Sea and Straits, and almost entirely north of 60 degrees North latitude",
+            "nhem":"the complete Earth surface from the equator to the North Pole, 0 to 90 degrees North latitude",
+            "shem":"the complete Earth surface from the equator to the South Pole, 0 to 90 degrees South latitude"
         },
         "required_global_attributes":[
             "Conventions",
