@@ -80,6 +80,9 @@
                 "u":"unspecified (no vertical dimension)"
             }
         },
+        "data_archive_id":{
+            "WCRP":"a collection of datasets from the AMIP and CMIP project phases, along with project supporting datasets from the input4MIPs (forcing datasets used to drive CMIP simulations) and obs4MIPs (observational datasets used to evaluate CMIP simulations, and numerous other supporting activities"
+        },
         "data_specs_version":"CMIP-7.0.0.0",
         "experiment_id":{
             "1pctCO2":{
@@ -169,6 +172,23 @@
             "^CMIP7 model data produced by .* is licensed under a Creative Commons .* License (https://creativecommons\\.org/.*)\\. *Consult https://pcmdi\\.llnl\\.gov/CMIP7/TermsOfUse for terms of use governing CMIP7 output, including citation requirements and proper acknowledgment\\. *Further information about this data, including some limitations, can be found via the further_info_url (recorded as a global attribute in this file).*\\. *The data producers and data providers make no warranty, either express or implied, including, but not limited to, warranties of merchantability and fitness for a particular purpose\\. *All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law\\.$"
         ],
         "mip_era":"CMIP7",
+        "nominal_resolution":[
+            "0.5 km",
+            "1 km",
+            "10 km",
+            "100 km",
+            "1000 km",
+            "10000 km",
+            "1x1 degree",
+            "2.5 km",
+            "25 km",
+            "250 km",
+            "2500 km",
+            "5 km",
+            "50 km",
+            "500 km",
+            "5000 km"
+        ],
         "product":[
             "model-output"
         ],
@@ -181,6 +201,13 @@
             "ocean":"Ocean",
             "ocnBgchem":"Ocean Biogeochemistry",
             "seaIce":"Sea Ice"
+        },
+        "region":{
+            "antarctica":"located around the South Pole, separated from other land masses by the Southern Ocean, and almost entirely south of 60 degrees South latitude",
+            "global":"the complete Earth surface, 90 degrees North to 90 degrees South latitude, and all longitudes",
+            "greenland":"located in the Northern Atlantic Ocean, separated from other land masses by the Labrador Sea and Straits, and almost entirely north of 60 degrees North latitude",
+            "northern_hemisphere":"the complete Earth surface from the equator to the North Pole, 0 to 90 degrees North latitude",
+            "southern_hemisphere":"the complete Earth surface from the equator to the South Pole, 0 to 90 degrees South latitude"
         },
         "required_global_attributes":[
             "Conventions",
