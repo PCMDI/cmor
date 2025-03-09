@@ -126,11 +126,11 @@
             },
             "3hr":{
                 "approx_interval":0.125,
-                "description":"3 hourly mean samples"
+                "description":"3 hourly samples"
             },
             "6hr":{
                 "approx_interval":0.25,
-                "description":"6 hourly mean samples"
+                "description":"6 hourly samples"
             },
             "day":{
                 "approx_interval":1.0,
