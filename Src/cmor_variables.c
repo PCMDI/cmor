@@ -1153,6 +1153,12 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
         strncpy(cmor_vars[vrid].id, refvar.out_name, CMOR_MAX_STRING);
     }
 
+    strncpy(cmor_vars[vrid].branding_suffix, refvar.branding_suffix, CMOR_MAX_STRING);
+    strncpy(cmor_vars[vrid].temporal_label, refvar.temporal_label, CMOR_MAX_STRING);
+    strncpy(cmor_vars[vrid].vertical_label, refvar.vertical_label, CMOR_MAX_STRING);
+    strncpy(cmor_vars[vrid].horizontal_label, refvar.horizontal_label, CMOR_MAX_STRING);
+    strncpy(cmor_vars[vrid].area_label, refvar.area_label, CMOR_MAX_STRING);
+
     cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_STANDARDNAME, 'c',
                                          refvar.standard_name);
 
@@ -1902,6 +1908,11 @@ void cmor_init_var_def(cmor_var_def_t * var, int table_id)
     var->deflate_level = 1;
     var->zstandard_level = 3;
     var->generic_level_name[0] = '\0';
+    var->branding_suffix[0] = '\0';
+    var->temporal_label[0] = '\0';
+    var->vertical_label[0] = '\0';
+    var->horizontal_label[0] = '\0';
+    var->area_label[0] = '\0';
 }
 
 /************************************************************************/
@@ -2154,6 +2165,26 @@ int cmor_set_var_def_att(cmor_var_def_t * var, char *att, char *val)
     } else if (strcmp(att, VARIABLE_ATT_OUTNAME) == 0) {
 
         strncpy(var->out_name, val, CMOR_MAX_STRING);
+
+    } else if (strcmp(att, VARIABLE_ATT_BRANDINGSUFFIX) == 0) {
+
+        strncpy(var->branding_suffix, val, CMOR_MAX_STRING);
+
+    } else if (strcmp(att, VARIABLE_ATT_TEMPORALLABEL) == 0) {
+
+        strncpy(var->temporal_label, val, CMOR_MAX_STRING);
+
+    } else if (strcmp(att, VARIABLE_ATT_VERTICALLABEL) == 0) {
+
+        strncpy(var->vertical_label, val, CMOR_MAX_STRING);
+
+    } else if (strcmp(att, VARIABLE_ATT_HORIZONTALLABEL) == 0) {
+
+        strncpy(var->horizontal_label, val, CMOR_MAX_STRING);
+
+    } else if (strcmp(att, VARIABLE_ATT_AREALABEL) == 0) {
+
+        strncpy(var->area_label, val, CMOR_MAX_STRING);
 
     } else {
         cmor_handle_error_variadic(
