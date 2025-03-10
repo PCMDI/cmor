@@ -4891,12 +4891,12 @@ fi
      UDUNITS2LDFLAGS=" -L${with_udunits2}/lib -ludunits2"
    fi
   else
-    UDUNITS2FLAGS="-ludunits2"
-    UDUNITS2LDFLAGS=""
+    UDUNITS2LDFLAGS="-ludunits2"
+    UDUNITS2FLAGS=""
   fi
 else
-  UDUNITS2FLAGS="-ludunits2"
-  UDUNITS2LDFLAGS=""
+  UDUNITS2LDFLAGS="-ludunits2"
+  UDUNITS2FLAGS=""
 fi
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for ut_parse in -ludunits2" >&5
 printf %s "checking for ut_parse in -ludunits2... " >&6; }
@@ -4975,8 +4975,8 @@ fi
      fi
     fi
   else
-    NCCFLAGS="-lnetcdf"
-    NCLDFLAGS=""
+    NCLDFLAGS="-lnetcdf"
+    NCCFLAGS=""
   fi
 else
   # Extract the first word of "nc-config", so it can be a program name with args.
@@ -5029,8 +5029,8 @@ fi
    NCCFLAGS=`${NCCONFIG} --cflags`
    NCLDFLAGS=`${NCCONFIG} --libs`
   else
-   NCCFLAGS="-lnetcdf"
-   NCLDFLAGS=""
+   NCLDFLAGS="-lnetcdf"
+   NCCFLAGS=""
   fi
 fi
 LIBS=""
