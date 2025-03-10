@@ -82,7 +82,7 @@ jobs:
           python rebuild_meta_yaml.py \
             --package_name $PACKAGE_NAME \
             --version $PACKAGE_VERSION \
-            --organization PCMDI \
+            --organization $GITHUB_REPOSITORY_OWNER \
             --repo_name $PACKAGE_NAME \
             --branch $GIT_BRANCH \
             --git_rev $GIT_REV \

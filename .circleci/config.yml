@@ -47,7 +47,7 @@ aliases:
        python rebuild_meta_yaml.py \
         --package_name $PKG_NAME \
         --version $VERSION \
-        --organization PCMDI \
+        --organization $CIRCLE_PROJECT_USERNAME \
         --repo_name $PKG_NAME \
         --branch $CIRCLE_BRANCH \
         --git_rev $GIT_REV \
