@@ -1,0 +1,61 @@
+{
+    "Header":{
+        "Conventions":"CF-1.11 CMIP-7.0.0.0",
+        "checksum":"b9dab11b03ca4d3bd46329321eefd569",
+        "cmor_version":"3.10",
+        "generic_levels":"alevel alevhalf",
+        "int_missing_value":"-999",
+        "missing_value":"1e20",
+        "ok_max_mean_abs":"",
+        "ok_min_mean_abs":"",
+        "positive":"",
+        "product":"model-output",
+        "realm":"atmos",
+        "table_date":"2025-03-09",
+        "table_id":"atmos2d",
+        "type":"real",
+        "valid_max":"",
+        "valid_min":""
+    },
+    "variable_entry":{
+        "pr_tavg-u-hxy-u":{
+            "brand_description":"precipitation flux: time means reported on a 2-d horizontal grid",
+            "cell_measures":"area: areacella",
+            "cell_methods":"area: time: mean",
+            "comment":"includes both liquid and solid phases",
+            "dimensions":[
+                "longitude",
+                "latitude",
+                "time"
+            ],
+            "out_name":"pr",
+            "realm":[
+                "atmos",
+                "ocean"
+            ],
+            "standard_name":"precipitation_flux",
+            "units":"kg m-2 s-1",
+            "variable_title":"Precipitation"
+        },
+        "tas_tavg-h2m-hxy-u":{
+            "brand_description":"air temperature: time means at a nominal height of 2 m reported on a 2-d horizontal grid",
+            "cell_measures":"area: areacella",
+            "cell_methods":"area: time: mean",
+            "comment":"near-surface (usually, 2 meter) air temperature",
+            "dimensions":[
+                "longitude",
+                "latitude",
+                "time",
+                "height2m"
+            ],
+            "ok_max_mean_abs":330.0,
+            "ok_min_mean_abs":-30.0,
+            "out_name":"tas",
+            "standard_name":"air_temperature",
+            "units":"K",
+            "valid_max":350.0,
+            "valid_min":240.0,
+            "variable_title":"Near-Surface Air Temperature"
+        }
+    }
+}

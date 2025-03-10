@@ -1,0 +1,45 @@
+{
+    "Header":{
+        "Conventions":"CF-1.11 CMIP-7.0.0.0",
+        "checksum":"773fc4e03a0ea47bdc0119167be9d89e",
+        "cmor_version":"3.10",
+        "generic_levels":"olevel olevhalf",
+        "int_missing_value":"-999",
+        "missing_value":"1e20",
+        "ok_max_mean_abs":"",
+        "ok_min_mean_abs":"",
+        "positive":"",
+        "product":"model-output",
+        "realm":"ocean",
+        "table_date":"2025-03-09",
+        "table_id":"oceanLev",
+        "type":"real",
+        "valid_max":"",
+        "valid_min":""
+    },
+    "variable_entry":{
+        "thetao_tavg-l-hxy-sea":{
+            "brand_description":"sea water potential temperature: time means provided on multiple model levels and reported on a 2-d horizontal grid where sea",
+            "cell_measures":"area: areacello volume: volcello",
+            "cell_methods":"area: mean where sea time: mean",
+            "comment":"Diagnostic should be contributed even for models using conservative temperature as prognostic field",
+            "dimensions":[
+                "longitude",
+                "latitude",
+                "olevel",
+                "time"
+            ],
+            "modeling_realm":[
+                "ocean"
+            ],
+            "ok_max_mean_abs":50.0,
+            "ok_min_mean_abs":-3.0,
+            "out_name":"thetao",
+            "standard_name":"sea_water_potential_temperature",
+            "units":"degC",
+            "valid_max":100.0,
+            "valid_min":-50.0,
+            "variable_title":"Sea Water Potential Temperature"
+        }
+    }
+}

@@ -1,0 +1,321 @@
+{
+    "CV":{
+        "branding_labels":{
+            "area_label":{
+                "air":"air",
+                "ccl":"convective cloud",
+                "cl":"cloud",
+                "crp":"crops",
+                "fis":"floating ice shelf",
+                "gis":"grounded ice sheet",
+                "ifs":"ice free sea",
+                "is":"ice sheet",
+                "li":"land ice",
+                "lnd":"land",
+                "lus":"sector (auxiliary coordinate for land-use area types",
+                "ng":"natural grasses",
+                "pst":"pasture",
+                "scl":"stratiform cloud",
+                "sea":"sea",
+                "shb":"shrubs",
+                "si":"sea ice",
+                "simp":"sea ice melt pond",
+                "sir":"sea ice ridge",
+                "sn":"snow",
+                "tree":"trees",
+                "u":"unmasked (no \"where\" directive included in cell_methods)",
+                "ufs":"unfrozen soil",
+                "veg":"vegetation",
+                "wl":"wetland"
+            },
+            "horizontal_label":{
+                "hm":"horizontal mean",
+                "ht":"labeled areas",
+                "hxy":"gridded",
+                "hxys":"site values",
+                "hy":"zonal mean",
+                "hys":"basin mean"
+            },
+            "temporal_label":{
+                "tavg":"mean",
+                "tclm":"climatology",
+                "tclmdc":"diurnal cycle climatology",
+                "ti":"time independent",
+                "tpt":"point",
+                "tstat":"statistic",
+                "tsum":"sum"
+            },
+            "vertical_label":{
+                "1000hPa":"1000 hPa",
+                "100hPa":"100 hPa",
+                "10hPa":"10 hPa",
+                "220hPa":"220 hPa",
+                "500hPa":"500 hPa",
+                "560hPa":"560 hPa",
+                "700hPa":"700 hPa",
+                "840hPa":"840 hPa",
+                "850hPa":"850 hPa",
+                "d0m":"surface",
+                "d100m":"100m depth",
+                "d10cm":"1cm depth",
+                "d1m":"1m depth",
+                "d2000m":"2000m depth",
+                "d300m":"300m depth",
+                "d700m":"700m depth",
+                "h100m":"100m height",
+                "h10m":"10m height",
+                "h16":"16 height levels",
+                "h2m":"2m height",
+                "h40":"40 height levels",
+                "l":"model level",
+                "p19":"19 pressure levels",
+                "p27":"27 pressure levels",
+                "p3":"3 pressure levels",
+                "p39":"39 pressure levels",
+                "p4":"4 pressure levels",
+                "p7c":"7 pressure levels",
+                "p7h":"7 pressure levels",
+                "p8":"8 pressure levels",
+                "rho":"density surface",
+                "u":"unspecified (no vertical dimension)"
+            }
+        },
+        "data_archive_id":{
+            "WCRP":"a collection of datasets from the AMIP and CMIP project phases, along with project supporting datasets from the input4MIPs (forcing datasets used to drive CMIP simulations) and obs4MIPs (observational datasets used to evaluate CMIP simulations, and numerous other supporting activities"
+        },
+        "data_specs_version":"CMIP-7.0.0.0",
+        "experiment_id":{
+            "1pctCO2":{
+                "activity_id":[
+                    "CMIP"
+                ],
+                "additional_allowed_model_components":[
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description":"DECK: 1pctCO2",
+                "end_year":"",
+                "experiment":"1 percent per year increase in CO2",
+                "experiment_id":"1pctCO2",
+                "min_number_yrs_per_sim":"150",
+                "parent_activity_id":[
+                    "CMIP"
+                ],
+                "parent_experiment_id":[
+                    "piControl"
+                ],
+                "required_model_components":[
+                    "AOGCM"
+                ],
+                "start_year":"",
+                "sub_experiment_id":[
+                    "none"
+                ],
+                "tier":"1"
+            }
+        },
+        "frequency":{
+            "1hr":{
+                "approx_interval":0.041666666666666664,
+                "description":"sampled hourly"
+            },
+            "1hrCM":{
+                "approx_interval":0.041666666666666664,
+                "description":"monthly-mean diurnal cycle resolving each day into 1-hour means"
+            },
+            "3hr":{
+                "approx_interval":0.125,
+                "description":"3 hourly samples"
+            },
+            "6hr":{
+                "approx_interval":0.25,
+                "description":"6 hourly samples"
+            },
+            "day":{
+                "approx_interval":1.0,
+                "description":"daily mean samples"
+            },
+            "dec":{
+                "approx_interval":3650.0,
+                "description":"decadal mean samples"
+            },
+            "fx":"fixed (time invariant) field",
+            "mon":{
+                "approx_interval":30.0,
+                "description":"monthly mean samples"
+            },
+            "yr":{
+                "approx_interval":365.0,
+                "description":"annual mean samples"
+            }
+        },
+        "grid_label":{
+            "gm":"global mean data",
+            "gn":"data reported on a model's native grid",
+            "gna":"data reported on a native grid in the region of Antarctica",
+            "gng":"data reported on a native grid in the region of Greenland",
+            "gnz":"zonal mean data reported on a model's native latitude grid",
+            "gr":"regridded data reported on the data provider's preferred target grid",
+            "gra":"regridded data in the region of Antarctica reported on the data provider's preferred target grid",
+            "grg":"regridded data in the region of Greenland reported on the data provider's preferred target grid",
+            "grz":"regridded zonal mean data reported on the data provider's preferred latitude target grid"
+        },
+        "institution_id":{
+            "PCMDI":"Program for Climate Model Diagnosis and Intercomparison, Lawrence Livermore National Laboratory, Livermore, CA 94550, USA"
+        },
+        "license":[
+            "^CMIP7 model data produced by .* is licensed under a Creative Commons .* License (https://creativecommons\\.org/.*)\\. *Consult https://pcmdi\\.llnl\\.gov/CMIP7/TermsOfUse for terms of use governing CMIP7 output, including citation requirements and proper acknowledgment\\. *Further information about this data, including some limitations, can be found via the further_info_url (recorded as a global attribute in this file).*\\. *The data producers and data providers make no warranty, either express or implied, including, but not limited to, warranties of merchantability and fitness for a particular purpose\\. *All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law\\.$"
+        ],
+        "mip_era":"CMIP7",
+        "nominal_resolution":[
+            "0.25 km",
+            "0.5 km",
+            "1 km",
+            "10 km",
+            "100 km",
+            "1000 km",
+            "10000 km",
+            "1x1 degree",
+            "2.5 km",
+            "25 km",
+            "250 km",
+            "2500 km",
+            "5 km",
+            "50 km",
+            "500 km",
+            "5000 km"
+        ],
+        "product":[
+            "model-output"
+        ],
+        "realm":{
+            "aerosol":"Aerosol",
+            "atmos":"Atmosphere",
+            "atmosChem":"Atmospheric Chemistry",
+            "land":"Land Surface",
+            "landIce":"Land Ice",
+            "ocean":"Ocean",
+            "ocnBgchem":"Ocean Biogeochemistry",
+            "seaIce":"Sea Ice"
+        },
+        "region":{
+            "ant":"located around the South Pole, separated from other land masses by the Southern Ocean, and almost entirely south of 60 degrees South latitude",
+            "glb":"the complete Earth surface, 90 degrees North to 90 degrees South latitude, and all longitudes",
+            "gre":"located in the Northern Atlantic Ocean, separated from other land masses by the Labrador Sea and Straits, and almost entirely north of 60 degrees North latitude",
+            "nhem":"the complete Earth surface from the equator to the North Pole, 0 to 90 degrees North latitude",
+            "shem":"the complete Earth surface from the equator to the South Pole, 0 to 90 degrees South latitude"
+        },
+        "required_global_attributes":[
+            "Conventions",
+            "activity_id",
+            "archive_id",
+            "area_label",
+            "branch_method",
+            "branch_time_in_child",
+            "branch_time_in_parent",
+            "branding_suffix",
+            "creation_date",
+            "data_specs_version",
+            "experiment",
+            "experiment_id",
+            "forcing_index",
+            "frequency",
+            "grid",
+            "grid_label",
+            "horizontal_label",
+            "host_collection",
+            "initialization_index",
+            "institution",
+            "institution_id",
+            "license",
+            "mip_era",
+            "nominal_resolution",
+            "parent_activity_id",
+            "parent_experiment_id",
+            "parent_mip_era",
+            "parent_source_id",
+            "parent_time_units",
+            "parent_variant_label",
+            "physics_index",
+            "realization_index",
+            "realm",
+            "region",
+            "source",
+            "source_id",
+            "source_type",
+            "table_id",
+            "temporal_label",
+            "tracking_id",
+            "variable_id",
+            "variant_label",
+            "vertical_label"
+        ],
+        "source_id":{
+            "PCMDI-test-1-0":{
+                "activity_participation":[
+                    "CMIP"
+                ],
+                "cohort":[
+                    "Registered"
+                ],
+                "institution_id":[
+                    "PCMDI"
+                ],
+                "label":"PCMDI-test 1.0",
+                "label_extended":"PCMDI-test 1.0 (This entry is free text for users to contribute verbose information)",
+                "model_component":{
+                    "aerosol":{
+                        "description":"none",
+                        "native_nominal_resolution":"none"
+                    },
+                    "atmos":{
+                        "description":"Earth1.0-gettingHotter (360 x 180 longitude/latitude; 50 levels; top level 0.1 mb)",
+                        "native_nominal_resolution":"1x1 degree"
+                    },
+                    "atmosChem":{
+                        "description":"none",
+                        "native_nominal_resolution":"none"
+                    },
+                    "land":{
+                        "description":"Earth1.0",
+                        "native_nominal_resolution":"1x1 degree"
+                    },
+                    "landIce":{
+                        "description":"none",
+                        "native_nominal_resolution":"none"
+                    },
+                    "ocean":{
+                        "description":"BlueMarble1.0-warming (360 x 180 longitude/latitude; 50 levels; top grid cell 0-10 m)",
+                        "native_nominal_resolution":"1x1 degree"
+                    },
+                    "ocnBgchem":{
+                        "description":"none",
+                        "native_nominal_resolution":"none"
+                    },
+                    "seaIce":{
+                        "description":"Declining1.0-warming (360 x 180 longitude/latitude)",
+                        "native_nominal_resolution":"1x1 degree"
+                    }
+                },
+                "release_year":"1989",
+                "source_id":"PCMDI-test-1-0"
+            }
+        },
+        "source_type":{
+            "AER":"aerosol treatment in an atmospheric model where concentrations are calculated based on emissions, transformation, and removal processes (rather than being prescribed or omitted entirely)",
+            "AGCM":"atmospheric general circulation model run with prescribed ocean surface conditions and usually a model of the land surface",
+            "AOGCM":"coupled atmosphere-ocean global climate model, additionally including explicit representation of at least the land and sea ice",
+            "BGC":"biogeochemistry model component that at the very least accounts for carbon reservoirs and fluxes in the atmosphere, terrestrial biosphere, and ocean",
+            "CHEM":"chemistry treatment in an atmospheric model that calculates atmospheric oxidant concentrations (including at least ozone), rather than prescribing them",
+            "ISM":"ice-sheet model that includes ice-flow",
+            "LAND":"land model run uncoupled from the atmosphere",
+            "OGCM":"ocean general circulation model run uncoupled from an AGCM but, usually including a sea-ice model",
+            "RAD":"radiation component of an atmospheric model run 'offline'",
+            "SLAB":"slab-ocean used with an AGCM in representing the atmosphere-ocean coupled system"
+        },
+        "tracking_id":[
+            "hdl:21.14100/.*"
+        ]
+    }
+}

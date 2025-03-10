@@ -1,0 +1,41 @@
+{
+    "Header":{
+        "Conventions":"CF-1.11 CMIP-7.0.0.0",
+        "checksum":"8f0a03d98a85aed3624887353b5af6c5",
+        "cmor_version":"3.10",
+        "generic_levels":"",
+        "int_missing_value":"-999",
+        "missing_value":"1e20",
+        "ok_max_mean_abs":"",
+        "ok_min_mean_abs":"",
+        "positive":"",
+        "product":"model-output",
+        "realm":"ocean",
+        "table_date":"2025-03-09",
+        "table_id":"ocean2d",
+        "type":"real",
+        "valid_max":"",
+        "valid_min":""
+    },
+    "variable_entry":{
+        "tos_tavg-u-hxy-sea":{
+            "brand_description":"sea surface temperature: time means reported on a 2-d horizontal grid where sea",
+            "cell_measures":"area: areacello",
+            "cell_methods":"area: mean where sea time: mean",
+            "comment":"Temperature of upper boundary of the liquid ocean, including temperatures below sea-ice and floating ice shelves",
+            "dimensions":[
+                "longitude",
+                "latitude",
+                "time"
+            ],
+            "ok_max_mean_abs":50.0,
+            "ok_min_mean_abs":-3.0,
+            "out_name":"tos",
+            "standard_name":"sea_surface_temperature",
+            "units":"degC",
+            "valid_max":100.0,
+            "valid_min":-50.0,
+            "variable_title":"Sea Surface Temperature"
+        }
+    }
+}
