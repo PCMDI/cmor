@@ -1,7 +1,8 @@
 {
     "CFgridMapping":{
-        "_cf_attributes":{
-            "URL":"2025-03-13T04:05:22Z",
+        "_CF_attributes":{
+            "URL":"http://cfconventions.org/Data/cf-conventions/cf-conventions-1.12/cf-conventions.html#appendix-grid-mappings",
+            "timestamp":"2025-03-13T04:10:31Z",
             "version":1.12
         },
         "_generic_attributes":[
