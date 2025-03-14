@@ -1516,25 +1516,14 @@ int cmor_check_interval(int axis_id, char *interval, double *values,
                     interv, interval, i + 1, diff2, diff, ctmp2,
                     tmp * 100.);
             } else {
-                if (isbounds == 1) {
-                    cmor_handle_error_variadic(
-                        "approximate time axis interval is defined as "
-                        "%f seconds (%s), for value %i we got a difference "
-                        "(based on bounds) of %f seconds (%f %s), which is "
-                        "%f %% , seems too big, check your values",
-                        CMOR_CRITICAL,
-                        interv, interval, i + 1, diff2, diff, ctmp2,
-                        tmp * 100.);
-                } else {
-                    cmor_handle_error_variadic(
-                        "approximate time axis interval is defined as %f "
-                        "seconds (%s), for value %i we got a difference of "
-                        "%f seconds (%f %s), which is %f %% , seems too big, "
-                        "check your values",
-                        CMOR_CRITICAL,
-                        interv, interval, i + 1, diff2, diff, ctmp2,
-                        tmp * 100.);
-                }
+                cmor_handle_error_variadic(
+                    "approximate time axis interval is defined as %f "
+                    "seconds (%s), for value %i we got a difference of "
+                    "%f seconds (%f %s), which is %f %% , seems too big, "
+                    "check your values",
+                    CMOR_CRITICAL,
+                    interv, interval, i + 1, diff2, diff, ctmp2,
+                    tmp * 100.);
             }
 
         } else if (tmp >
