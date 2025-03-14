@@ -236,6 +236,7 @@
 #define CV_KEY_GRIDLABEL_GR           "gr"
 #define CV_KEY_SOURCE_LABEL           "source"
 #define CV_KEY_SUB_EXPERIMENT_ID      "sub_experiment_id"
+#define CV_KEY_BRANDING_TEMPLATE      "branding_suffix"
 
 #define CV_EXP_ATTR_ADDSOURCETYPE     "additional_allowed_model_components"
 #define CV_EXP_ATTR_REQSOURCETYPE     "required_model_components"

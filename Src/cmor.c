@@ -3175,6 +3175,10 @@ int cmor_setGblAttr(int var_id)
     // Set user defined attributes and explicit {} sets.
     //
     ierr += cmor_CV_checkGblAttributes(cmor_tables[nVarRefTblID].CV);
+
+    // Check branding suffix
+    ierr += cmor_CV_check_branding_suffix(cmor_tables[nVarRefTblID].CV);
+
     //
     // Copy block to ensure all attributes are set for obs4MIPs
     // especially (source_label)

@@ -2086,6 +2086,67 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
 }
 
 /************************************************************************/
+/*                  cmor_CV_check_branding_suffix()                     */
+/************************************************************************/
+int cmor_CV_check_branding_suffix(cmor_CV_def_t *CV)
+{
+    cmor_CV_def_t *required_attrs;
+    cmor_CV_def_t *branding_template;
+    char *attr_name;
+    char attr_value[CMOR_MAX_STRING];
+    char branding_suffix[CMOR_MAX_STRING];
+    int i;
+
+    cmor_add_traceback("_CV_check_branding_suffix");
+
+    // Do nothing if required_global_attributes is not in the CV
+    // or if branding_suffix is not a required attribute
+    required_attrs = cmor_CV_rootsearch(CV, CV_KEY_REQUIRED_GBL_ATTRS);
+    if (required_attrs == NULL) {
+        cmor_pop_traceback();
+        return (0);
+    }
+
+    for (i = 0; i < required_attrs->anElements; i++) {
+        attr_name = required_attrs->aszValue[i];
+        if (strcmp(attr_name, GLOBAL_ATT_BRANDINGSUFFIX) == 0)
+            break;
+    }
+    if (i == required_attrs->anElements) {
+        cmor_pop_traceback();
+        return (0);
+    }
+
+    // Check if the template for the branding suffix is in the CV file
+    branding_template = cmor_CV_rootsearch(CV, CV_KEY_BRANDING_TEMPLATE);
+    if (branding_template == NULL) {
+        cmor_handle_error_variadic(
+            "The branding suffix template \"%s\" "
+            "was not found in your CV file. "
+            "It is required for building the \"%s\" attribute.",
+            CMOR_NORMAL, CV_KEY_BRANDING_TEMPLATE, GLOBAL_ATT_BRANDINGSUFFIX);
+        cmor_pop_traceback();
+        return (-1);
+    }
+
+    // Compare value made from the template with the global attribute value
+    cmor_get_cur_dataset_attribute(GLOBAL_ATT_BRANDINGSUFFIX, attr_value);
+    cmor_CreateFromTemplate(0, branding_template->szValue, branding_suffix, "");
+    if (strcmp(branding_suffix, attr_value) != 0) {
+        cmor_handle_error_variadic(
+            "Your branding label attribute \"%s\" "
+            "has the value \"%s\", which is not valid. "
+            "The value must be \"%s\"",
+            CMOR_NORMAL, attr_name, attr_value, branding_suffix);
+        cmor_pop_traceback();
+        return (-1);
+    }
+
+    cmor_pop_traceback();
+    return (0);
+}
+
+/************************************************************************/
 /*                        cmor_CV_checkGrids()                          */
 /************************************************************************/
 int cmor_CV_checkGrids(cmor_CV_def_t * CV)
