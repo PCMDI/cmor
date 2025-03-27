@@ -48,6 +48,10 @@
 #define CMOR_APPEND CMOR_APPEND_4
 #define CMOR_REPLACE CMOR_REPLACE_4
 
+#define CMOR_APPROX_INTERVAL_DEFAULT          0.
+#define CMOR_APPROX_INTERVAL_WARNING_DEFAULT  .1
+#define CMOR_APPROX_INTERVAL_ERROR_DEFAULT    .2
+
 #define CMOR_INPUTFILENAME       GLOBAL_INTERNAL"dataset_json"
 #define CV_INPUTFILENAME         GLOBAL_INTERNAL"CV"
 #define CV_CHECK_ERROR           GLOBAL_INTERNAL"CV_ERROR"
@@ -192,6 +196,7 @@
 #define GLOBAL_ATT_MEMBER_ID          GLOBAL_INTERNAL"member_id"
 #define GLOBAL_ATT_DATASPECSVERSION   "data_specs_version"
 #define GLOBAL_ATT_FREQUENCY          "frequency"
+#define GLOBAL_ATT_CV_FREQUENCY       "cv_frequency"
 #define GLOBAL_ATT_LICENSE            "license"
 #define GLOBAL_ATT_TRACKING_PREFIX    "tracking_prefix"
 #define GLOBAL_ATT_CALENDAR           "calendar"
@@ -228,6 +233,7 @@
 #define JSON_KEY_CV_ENTRY             "CV"
 
 #define CV_KEY_REQUIRED_GBL_ATTRS     "required_global_attributes"
+#define CV_KEY_FREQUENCY              "frequency"
 #define CV_KEY_INSTITUTION_ID         "institution_id"
 #define CV_KEY_EXPERIMENT_ID          "experiment_id"
 #define CV_KEY_SOURCE_IDS             "source_id"
@@ -237,6 +243,11 @@
 #define CV_KEY_SOURCE_LABEL           "source"
 #define CV_KEY_SUB_EXPERIMENT_ID      "sub_experiment_id"
 #define CV_KEY_BRANDING_TEMPLATE      "branding_suffix"
+#define CV_KEY_APRX_INTRVL            "approx_interval"
+#define CV_KEY_APRX_INTRVL_ERR        "approx_interval_error"
+#define CV_KEY_APRX_INTRVL_WRN        "approx_interval_warning"
+#define CV_KEY_DATASPECSVERSION       "data_specs_version"
+#define CV_KEY_MIP_ERA                "mip_era"
 
 #define CV_EXP_ATTR_ADDSOURCETYPE     "additional_allowed_model_components"
 #define CV_EXP_ATTR_REQSOURCETYPE     "required_model_components"
@@ -418,6 +429,10 @@ typedef struct cmor_axis_ {
     int hybrid_in;
     int hybrid_out;
     int store_in_netcdf;
+    char cv_frequency[CMOR_MAX_STRING];
+    double approx_interval;
+    double approx_interval_warning;
+    double approx_interval_error;
 } cmor_axis_t;
 extern cmor_axis_t cmor_axes[CMOR_MAX_AXES];
 
@@ -595,6 +610,7 @@ typedef struct cmor_dataset_def_ {
 
     char activity_id[CMOR_MAX_STRING];
     char tracking_prefix[CMOR_MAX_STRING];
+    char cv_frequency[CMOR_MAX_STRING];
     int nattributes;
     attributes_def attributes[CMOR_MAX_ATTRIBUTES];
   //  int realization;

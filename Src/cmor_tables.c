@@ -88,9 +88,9 @@ void cmor_init_table(cmor_table_t * table, int id)
     table->date[0] = '\0';
     table->missing_value = 1.0e+20;
     table->int_missing_value = 2147483647;
-    table->interval = 0.;
-    table->interval_warning = .1;
-    table->interval_error = .2;
+    table->interval = CMOR_APPROX_INTERVAL_DEFAULT;
+    table->interval_warning = CMOR_APPROX_INTERVAL_WARNING_DEFAULT;
+    table->interval_error = CMOR_APPROX_INTERVAL_ERROR_DEFAULT;
     table->URL[0] = '\0';
     strcpy(table->product, "model_output");
     table->path[0] = '\0';
