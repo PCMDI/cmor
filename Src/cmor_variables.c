@@ -1939,7 +1939,7 @@ void cmor_init_var_def(cmor_var_def_t * var, int table_id)
     var->units[0] = '\0';
     var->cell_methods[0] = '\0';
     var->cell_measures[0] = '\0';
-    var->positive = '\0';
+    var->positive = cmor_tables[table_id].positive;
     var->long_name[0] = '\0';
     var->comment[0] = '\0';
     var->realm[0] = '\0';
@@ -1951,11 +1951,11 @@ void cmor_init_var_def(cmor_var_def_t * var, int table_id)
     var->chunking_dimensions[0] = '\0';
     for (n = 0; n < CMOR_MAX_DIMENSIONS; n++)
         var->dimensions[n] = -1;
-    var->type = 'f';
-    var->valid_min = 1.e20;     /* means no check */
-    var->valid_max = 1.e20;
-    var->ok_min_mean_abs = 1.e20;
-    var->ok_max_mean_abs = 1.e20;
+    var->type = cmor_tables[table_id].type;
+    var->valid_min = cmor_tables[table_id].valid_min;     /* means no check */
+    var->valid_max = cmor_tables[table_id].valid_max;
+    var->ok_min_mean_abs = cmor_tables[table_id].ok_min_mean_abs;
+    var->ok_max_mean_abs = cmor_tables[table_id].ok_max_mean_abs;
     var->shuffle = 0;
     var->deflate = 1;
     var->deflate_level = 1;

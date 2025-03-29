@@ -274,6 +274,12 @@
 #define TABLE_HEADER_INT_MISSING_VALUE    "int_missing_value"
 #define TABLE_HEADER_MAGIC_NUMBER     "magic_number"
 #define TABLE_HEADER_DATASPECSVERSION "data_specs_version"
+#define TABLE_HEADER_VALIDMIN         "valid_min"
+#define TABLE_HEADER_VALIDMAX         "valid_max"
+#define TABLE_HEADER_MINMEANABS       "ok_min_mean_abs"
+#define TABLE_HEADER_MAXMEANABS       "ok_max_mean_abs"
+#define TABLE_HEADER_POSITIVE         "positive"
+#define TABLE_HEADER_TYPE             "type"
 #define OUTPUT_TEMPLATE_RIPF          "run_variant"
 
 #define DIMENSION_LATITUDE            "latitude"
@@ -580,6 +586,12 @@ typedef struct cmor_table_ {
     cmor_var_def_t formula[CMOR_MAX_FORMULA];
     cmor_mappings_t mappings[CMOR_MAX_ELEMENTS];
     cmor_CV_def_t *CV;
+    char positive;
+    char type;
+    float valid_min;
+    float valid_max;
+    float ok_min_mean_abs;
+    float ok_max_mean_abs;
     double missing_value;
     long    int_missing_value;
     double interval;
