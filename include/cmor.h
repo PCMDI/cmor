@@ -211,6 +211,7 @@
 #define GLOBAL_ATT_MIP_ERA            "mip_era"
 #define GLOBAL_CV_FILENAME            GLOBAL_INTERNAL"controlled_vocabulary_file"
 #define GLOBAL_IS_CMIP6               GLOBAL_INTERNAL"cmip6_option"
+#define GLOBAL_IS_CMIP7               GLOBAL_INTERNAL"cmip7_option"
 
 #define NO_PARENT                     "no parent"
 #define NONE                          "none"
