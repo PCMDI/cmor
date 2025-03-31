@@ -1908,6 +1908,7 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
     char szOutput[CMOR_MAX_STRING];
     char szTmp[CMOR_MAX_STRING];
     char tableValue[CMOR_MAX_STRING];
+    char *valueToken;
     int i, j;
     int nObjects;
     regex_t regex;
@@ -1983,10 +1984,40 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
 /* -------------------------------------------------------------------- */
     if (attr_CV->nbObjects != -1) {
         key_CV = cmor_CV_rootsearch(CV, szKey);
-        list_CV = cmor_CV_search_child_key(key_CV, szValue);
-        if (list_CV == NULL) {
+        // Realm and source type are attributes that can have multiple values
+        // in a string separated by spaces.
+        if (strcmp(szKey, GLOBAL_ATT_REALM) == 0
+            || strcmp(szKey, GLOBAL_ATT_SOURCE_TYPE) == 0) {
+            valueToken = strtok(szValue, " ");
+            while (valueToken != NULL) {
+                list_CV = cmor_CV_search_child_key(key_CV, valueToken);
+                if (list_CV == NULL) {
+                    cmor_handle_error_variadic(
+                        "The registered CV attribute \"%s\" as defined as \"%s\" "
+                        "contains values not found in the CV.",
+                        CMOR_NORMAL, szKey, szValue);
+                    cmor_pop_traceback();
+                    return (-1);
+                }
+                valueToken = strtok(NULL, " ");
+            }
             cmor_pop_traceback();
             return (0);
+        } else {
+            list_CV = cmor_CV_search_child_key(key_CV, szValue);
+            if (list_CV == NULL) {
+                cmor_handle_error_variadic(
+                    "The registered CV attribute \"%s\" as defined as \"%s\" "
+                    "does not match any value in the CV.",
+                    CMOR_NORMAL, szKey, szValue);
+                cmor_pop_traceback();
+                return (-1);
+            } else if (strcmp(szKey, GLOBAL_ATT_FREQUENCY) == 0) {
+                // The contents of the frequency object are not used
+                // as global attributes.
+                cmor_pop_traceback();
+                return (0);
+            }
         }
         nObjects = list_CV->nbObjects;
         required_attrs = cmor_CV_rootsearch(CV, CV_KEY_REQUIRED_GBL_ATTRS);
