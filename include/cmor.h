@@ -152,6 +152,7 @@
 #define VARIABLE_ATT_VERTICALLABEL    "vertical_label"
 #define VARIABLE_ATT_HORIZONTALLABEL  "horizontal_label"
 #define VARIABLE_ATT_AREALABEL        "area_label"
+#define VARIABLE_ATT_VARTITLE         "variable_title"
 #define COMMENT_VARIABLE_ZFACTOR      "use formula table"
 #define GLOBAL_SEPARATORS             "><"
 #define GLOBAL_OPENOPTIONAL           "["
@@ -446,6 +447,7 @@ extern cmor_axis_t cmor_axes[CMOR_MAX_AXES];
 typedef struct cmor_variable_def_ {
     int table_id;
     char id[CMOR_MAX_STRING];
+    char variable_title[CMOR_MAX_STRING];
     char standard_name[CMOR_MAX_STRING];
     char units[CMOR_MAX_STRING];
     char cell_methods[CMOR_MAX_STRING];
