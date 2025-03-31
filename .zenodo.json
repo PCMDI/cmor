@@ -15,74 +15,75 @@
         {
             "name": "Doutriaux, Charles",
             "affiliation": "Program for Climate Model Diagnosis and Intercomparison (PCMDI, formerly)",
-	    "orcid": "0009-0002-6932-3169"
+            "orcid": "0009-0002-6932-3169"
         },
         {
             "name": "Nadeau, Denis",
             "affiliation": "Program for Climate Model Diagnosis and Intercomparison (PCMDI, formerly)",
-	    "orcid": "0000-0002-9622-3289"
+            "orcid": "0000-0002-9622-3289"
         },
         {
             "name": "Taylor, Karl E.",
             "affiliation": "Program for Climate Model Diagnosis and Intercomparison (PCMDI)",
             "orcid": "0000-0002-6491-2135"
         },
-	{
+        {
             "name": "Durack, Paul J.",
             "affiliation": "Program for Climate Model Diagnosis and Intercomparison (PCMDI)",
             "orcid": "0000-0003-2835-1438"
         },
         {
             "name": "Betts, Edward",
-	    "affiliation": "Met Office Hadley Centre (MetOffice)"
+            "affiliation": "Met Office Hadley Centre (MetOffice)"
         },
         {
             "name": "Cofino, Antonio S.",
-	    "affiliation": "Universidad de Cantabria (UniCan)",
-	    "orcid": "0000-0001-7719-979X"
+            "affiliation": "Universidad de Cantabria (UniCan)",
+            "orcid": "0000-0001-7719-979X"
         },
-	{
+        {
             "name": "Florek, Piotr",
             "affiliation": "Met Office Hadley Centre (MetOffice)",
             "orcid": "0000-0002-1849-7620"
         },
         {
             "name": "Hogan, Emma",
-	    "affiliation": "Met Office Hadley Centre (MetOffice)",
-	    "orcid": "0009-0007-5610-4158"
-	},
-	{
+            "affiliation": "Met Office Hadley Centre (MetOffice)",
+            "orcid": "0009-0007-5610-4158"
+        },
+        {
             "name": "Kettleborough, James",
-	    "affiliation": "Met Office Hadley Centre (MetOffice)",
-	    "orcid": "0000-0002-4698-6712"
+            "affiliation": "Met Office Hadley Centre (MetOffice)",
+            "orcid": "0000-0002-4698-6712"
         },
         {
             "name": "Nicholls, Zebedee",
-	    "affiliation": "Climate Resource",
+            "affiliation": "Climate Resource",
             "orcid": "0000-0002-4767-2723"
         },
         {
             "name": "Ogochi, Koji",
-	    "affiliation": "Japan Agency for Marine Earth Science and Technology (JAMSTEC)"
+            "affiliation": "Japan Agency for Marine Earth Science and Technology (JAMSTEC)"
         },
         {
             "name": "Seddon, Jon",
-	    "affiliation": "Met Office Hadley Centre (MetOffice)",
-	    "orcid": "0000-0003-1302-1049"
-	},
+            "affiliation": "Met Office Hadley Centre (MetOffice)",
+            "orcid": "0000-0003-1302-1049"
+        },
         {
             "name": "Wachsmann, Fabian",
-	    "affiliation": "German Climate Computing Centre (DKRZ)",
-	    "orcid": "0000-0003-4389-6911"
-	},
-	{
-            "name": "Weigel, Tobias",
-	    "affiliation": "German Climate Computing Centre (DKRZ)",
-	    "orcid": "0000-0002-4040-0215"
-	},
+            "affiliation": "German Climate Computing Centre (DKRZ)",
+            "orcid": "0000-0003-4389-6911"
+        },
         {
-            "name": "jmrgonza",
-	    "affiliation": "A European community Earth System Model (EC-Earth)"
+            "name": "Weigel, Tobias",
+            "affiliation": "German Climate Computing Centre (DKRZ)",
+            "orcid": "0000-0002-4040-0215"
+        },
+        {
+            "name": "Rodriguez Gonzalez, Jose M.",
+            "affiliation": "Spanish State Meteorological Agency",
+            "orcid": "0000-0002-9082-1480"
         }
     ]
 }
