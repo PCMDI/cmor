@@ -1179,7 +1179,10 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
     cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_LONGNAME, 'c',
                                          refvar.long_name);
 
-    cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_VARTITLE, 'c',
+    cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_BRANDDESCRIPTION, 'c',
+                                        refvar.brand_description);
+
+    cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_VARIABLE_TITLE, 'c',
                                          refvar.variable_title);
 
     if (refvar.flag_values[0] != '\0') {
@@ -1941,6 +1944,7 @@ void cmor_init_var_def(cmor_var_def_t * var, int table_id)
     var->table_id = table_id;
     var->standard_name[0] = '\0';
     var->variable_title[0] = '\0';
+    var->brand_description[0] = '\0';
     var->units[0] = '\0';
     var->cell_methods[0] = '\0';
     var->cell_measures[0] = '\0';
@@ -2244,9 +2248,13 @@ int cmor_set_var_def_att(cmor_var_def_t * var, char *att, char *val)
 
         strncpy(var->area_label, val, CMOR_MAX_STRING);
 
-    } else if (strcmp(att, VARIABLE_ATT_VARTITLE) == 0) {
+    } else if (strcmp(att, VARIABLE_ATT_VARIABLE_TITLE) == 0) {
 
         strncpy(var->variable_title, val, CMOR_MAX_STRING);
+
+    } else if (strcmp(att, VARIABLE_ATT_BRANDDESCRIPTION) == 0) {
+
+        strncpy(var->brand_description, val, CMOR_MAX_STRING);
 
     } else {
         cmor_handle_error_variadic(
