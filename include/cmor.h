@@ -281,6 +281,7 @@
 #define TABLE_HEADER_MINMEANABS       "ok_min_mean_abs"
 #define TABLE_HEADER_MAXMEANABS       "ok_max_mean_abs"
 #define TABLE_HEADER_POSITIVE         "positive"
+#define TABLE_HEADER_CHECKSUM         "checksum"
 #define TABLE_HEADER_TYPE             "type"
 #define OUTPUT_TEMPLATE_RIPF          "run_variant"
 
@@ -579,6 +580,7 @@ typedef struct cmor_table_ {
     float cf_version;
     float cmor_version;
     char mip_era[CMOR_MAX_STRING];
+    char checksum[CMOR_MAX_STRING];
     char Conventions[CMOR_MAX_STRING];
     char data_specs_version[CMOR_MAX_STRING];
     char szTable_id[CMOR_MAX_STRING];

@@ -431,6 +431,9 @@ int cmor_set_dataset_att(cmor_table_t * table, char att[CMOR_MAX_STRING],
     } else if (strcmp(att, TABLE_HEADER_CONVENTIONS) == 0) {
         strncpy(table->Conventions, val, CMOR_MAX_STRING);
 
+    } else if (strcmp(att, TABLE_HEADER_CHECKSUM) == 0) {
+        strncpy(table->checksum, val, CMOR_MAX_STRING);
+
     } else if (strcmp(att, TABLE_HEADER_DATASPECSVERSION) == 0) {
         strncpy(table->data_specs_version, val, CMOR_MAX_STRING);
 
