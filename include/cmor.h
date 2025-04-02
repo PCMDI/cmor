@@ -296,6 +296,7 @@
 #define AREA                          "area"
 #define VOLUME                        "volume"
 #define CMIP6                         "CMIP6"
+#define CMIP7                         "CMIP7"
 #define CMOR_DEFAULT_PATH_TEMPLATE    "<mip_era><activity_id><institution_id><source_id><experiment_id><member_id><table><variable_id><grid_label><version>"
 #define CMOR_DEFAULT_FILE_TEMPLATE    "<variable_id><table><source_id><experiment_id><member_id><grid_label>"
 #define CMOR_DEFAULT_FURTHERURL_TEMPLATE "https://furtherinfo.es-doc.org/<mip_era><institution_id><source_id><experiment_id><sub_experiment_id><variant_label>"

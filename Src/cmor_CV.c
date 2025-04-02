@@ -1016,6 +1016,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
     char szParentSourceId[CMOR_MAX_STRING];
     char szParentTimeUnits[CMOR_MAX_STRING];
     char szParentVariantLabel[CMOR_MAX_STRING];
+    char *parent_mip_era;
     regex_t regex;
 
     char CV_Filename[CMOR_MAX_STRING];
@@ -1330,12 +1331,17 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
                 ierr = -1;
             } else {
                 cmor_get_cur_dataset_attribute(PARENT_MIP_ERA, szValue);
-                if (strcmp(CMIP6, szValue) != 0) {
+                if (cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP7) == 0) {
+                    parent_mip_era = CMIP7;
+                } else {
+                    parent_mip_era = CMIP6;
+                }
+                if (strcmp(parent_mip_era, szValue) != 0) {
                     cmor_handle_error_variadic(
                              "Your input attribute \"%s\" defined as \"%s\" "
                              "will be replaced with \n! "
                              "\"%s\" as defined in your Control Vocabulary file.\n! ",
-                             CMOR_WARNING, PARENT_MIP_ERA, szValue, CMIP6);
+                             CMOR_WARNING, PARENT_MIP_ERA, szValue, parent_mip_era);
                     cmor_set_cur_dataset_attribute_internal(PARENT_MIP_ERA,
                                                             szValue, 1);
                 }
