@@ -1033,6 +1033,7 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
     int i, iref, j, k, l;
     char msg[CMOR_MAX_STRING];
     char ctmp[CMOR_MAX_STRING];
+    char freq[CMOR_MAX_STRING];
     cmor_var_def_t refvar;
     cmor_CV_def_t *frequencies_cv, *freq_cv, 
     *interv_cv, *interv_warn_cv, *interv_err_cv;
@@ -1044,6 +1045,8 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
     long along;
     int did_grid_reorder = 0;
     int vrid = -1;
+    int cv_freq_found;
+    double approx_interval, approx_interval_error, approx_interval_warning;
 
     cmor_add_traceback("cmor_variable");
     cmor_is_setup();
@@ -1113,16 +1116,12 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
     strcpy(cmor_vars[vrid].base_path, "");
     strcpy(cmor_vars[vrid].current_path, "");
 
-    // If the frequency was selected by the user (either in the user
-    // input JSON or using the `cmor_set_cur_dataset_attribute` function to
-    // set the `cv_frequency` attribute) then get the frequency from the
-    // current dataset's `cv_frequency` attribute. Otherwise, get the
-    // frequency from the variable definition from the current table.
-    if (strcmp(cmor_current_dataset.cv_frequency, "") != 0) {
-        strncpy(cmor_vars[vrid].frequency, cmor_current_dataset.cv_frequency,
-            CMOR_MAX_STRING);
-    } else if (refvar.frequency[0] != '\0') {
+    // Get the frequency from the variable definition from the current table
+    // if it exist. Otherwise, get the frequency from the current dataset.
+    if (refvar.frequency[0] != '\0') {
         strncpy(cmor_vars[vrid].frequency, refvar.frequency, CMOR_MAX_STRING);
+    } else if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY) == 0) {
+        cmor_get_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY, cmor_vars[vrid].frequency);
     }
 
     cmor_vars[vrid].suffix_has_date = 0;
@@ -1678,41 +1677,53 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
             return (1);
         }
         if (cmor_axes[laxes_ids[i]].type == 'T') {
-            if (strcmp(cmor_axes[laxes_ids[i]].cv_frequency, "") != 0) {
-                if (strcmp(cmor_axes[laxes_ids[i]].cv_frequency, cmor_vars[vrid].frequency) != 0) {
-                    cmor_handle_error_var_variadic(
-                        "The variable definition frequency is \"%s\" but the time axis has the "
-                        "user-defined frequency \"%s\"",
-                        CMOR_CRITICAL, vrid,
-                        cmor_vars[vrid].frequency, cmor_axes[laxes_ids[i]].cv_frequency
-                    );
-                } else {
-                    frequencies_cv = cmor_CV_rootsearch(cmor_tables[cmor_axes[cmor_naxes].
-                        ref_table_id].CV, CV_KEY_FREQUENCY);
-                    if(frequencies_cv != NULL) {
-                        freq_cv = cmor_CV_search_child_key(frequencies_cv, cmor_vars[vrid].frequency);
-                        if(freq_cv != NULL) {
-                            interv_cv = cmor_CV_search_child_key(freq_cv, CV_KEY_APRX_INTRVL);
-                            interv_err_cv = cmor_CV_search_child_key(freq_cv, CV_KEY_APRX_INTRVL_ERR);
-                            interv_warn_cv = cmor_CV_search_child_key(freq_cv, CV_KEY_APRX_INTRVL_WRN);
-                            if((interv_cv != NULL && interv_cv->dValue != cmor_axes[laxes_ids[i]].approx_interval)
-                            || (interv_err_cv != NULL && interv_err_cv->dValue != cmor_axes[laxes_ids[i]].approx_interval_error)
-                            || (interv_warn_cv != NULL && interv_warn_cv->dValue != cmor_axes[laxes_ids[i]].approx_interval_warning)){
-                                cmor_handle_error_var_variadic(
-                                    "The interval values used for the time axis differ "
-                                    "from those defined in the CV for frequency \"%s\"",
-                                    CMOR_CRITICAL, vrid, cmor_vars[vrid].frequency
-                                );
-                            }
-                        }
+            // Get approximate interval values from the CV if they are defined.
+            // Otherwise, get them from the current table.
+            cv_freq_found = 0;
+            cmor_get_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY, freq);
+            frequencies_cv = cmor_CV_rootsearch(cmor_tables[cmor_axes[cmor_naxes].
+                ref_table_id].CV, CV_KEY_FREQUENCY);
+            if(frequencies_cv != NULL) {
+                freq_cv = cmor_CV_search_child_key(frequencies_cv, freq);
+                if(freq_cv != NULL && freq_cv->nbObjects > 0) {
+                    cv_freq_found = 1;
+                    interv_cv = cmor_CV_search_child_key(freq_cv, CV_KEY_APRX_INTRVL);
+                    if(interv_cv != NULL) {
+                        approx_interval = interv_cv->dValue;
+                    } else {
+                        approx_interval = CMOR_APPROX_INTERVAL_DEFAULT;
+                    }
+                    interv_err_cv = cmor_CV_search_child_key(freq_cv, CV_KEY_APRX_INTRVL_ERR);
+                    if(interv_err_cv != NULL) {
+                        approx_interval_error = interv_err_cv->dValue;
+                    } else {
+                        approx_interval_error = CMOR_APPROX_INTERVAL_ERROR_DEFAULT;
+                    }
+                    interv_warn_cv = cmor_CV_search_child_key(freq_cv, CV_KEY_APRX_INTRVL_WRN);
+                    if(interv_warn_cv != NULL) {
+                        approx_interval_warning = interv_warn_cv->dValue;
+                    } else {
+                        approx_interval_warning = CMOR_APPROX_INTERVAL_WARNING_DEFAULT;
                     }
                 }
-            } else if (strcmp(cmor_current_dataset.cv_frequency, "") != 0) {
+            }
+            if (cv_freq_found == 0) {
+                approx_interval = cmor_tables[cmor_vars[vrid].ref_table_id].interval;
+                approx_interval_error = cmor_tables[cmor_vars[vrid].ref_table_id].interval_error;
+                approx_interval_warning = cmor_tables[cmor_vars[vrid].ref_table_id].interval_warning;
+            }
+
+            if((approx_interval != cmor_axes[laxes_ids[i]].approx_interval)
+            || (approx_interval_error != cmor_axes[laxes_ids[i]].approx_interval_error)
+            || (approx_interval_warning != cmor_axes[laxes_ids[i]].approx_interval_warning)){
                 cmor_handle_error_var_variadic(
-                    "The current user-defined frequency is \"%s\" but the time axis does not "
-                    "use this frequency",
+                    "The interval values used for the time axis differ "
+                    "from those defined for the frequency \"%s\" "
+                    "used for by variable '%s' (table %s)\n! ",
                     CMOR_CRITICAL, vrid,
-                    cmor_current_dataset.cv_frequency
+                    cmor_vars[vrid].frequency,
+                    cmor_vars[vrid].id,
+                    cmor_tables[cmor_vars[vrid].ref_table_id].szTable_id
                 );
             }
         }

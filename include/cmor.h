@@ -198,7 +198,6 @@
 #define GLOBAL_ATT_MEMBER_ID          GLOBAL_INTERNAL"member_id"
 #define GLOBAL_ATT_DATASPECSVERSION   "data_specs_version"
 #define GLOBAL_ATT_FREQUENCY          "frequency"
-#define GLOBAL_ATT_CV_FREQUENCY       "cv_frequency"
 #define GLOBAL_ATT_LICENSE            "license"
 #define GLOBAL_ATT_TRACKING_PREFIX    "tracking_prefix"
 #define GLOBAL_ATT_CALENDAR           "calendar"
@@ -439,7 +438,6 @@ typedef struct cmor_axis_ {
     int hybrid_in;
     int hybrid_out;
     int store_in_netcdf;
-    char cv_frequency[CMOR_MAX_STRING];
     double approx_interval;
     double approx_interval_warning;
     double approx_interval_error;
@@ -628,7 +626,6 @@ typedef struct cmor_dataset_def_ {
 
     char activity_id[CMOR_MAX_STRING];
     char tracking_prefix[CMOR_MAX_STRING];
-    char cv_frequency[CMOR_MAX_STRING];
     int nattributes;
     attributes_def attributes[CMOR_MAX_ATTRIBUTES];
   //  int realization;

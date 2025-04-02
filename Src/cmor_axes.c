@@ -1329,7 +1329,8 @@ int cmor_check_interval(int axis_id, char *interval, double *values,
     char ctmp[CMOR_MAX_STRING];
     char ctmp2[CMOR_MAX_STRING];
     char msg[CMOR_MAX_STRING];
-    int i, j, n, nval;
+    char freq[CMOR_MAX_STRING];
+    int i, j, n, nval, cv_freq_found;
     double interv, diff, diff2, tmp, interval_warning, interval_error;
     extern ut_system *ut_read;
     ut_unit *user_units = NULL, *cmor_units = NULL;
@@ -1485,20 +1486,20 @@ int cmor_check_interval(int axis_id, char *interval, double *values,
             cmor_tables[cmor_axes[axis_id].ref_table_id].szTable_id);
     }
 
-    // Get the interval error and warning values from the CV if the user selected
-    // the frequency. Otherwise, use the interval error and warning values from
+    // Get the interval error and warning values from the CV if the current dataset
+    // has a frequency. Otherwise, use the interval error and warning values from
     // the variable entry table.
-    if(strcmp(cmor_current_dataset.cv_frequency, "") != 0) {
+    cv_freq_found = 0;
+    if(cmor_has_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY) == 0) {
         interval_error = CMOR_APPROX_INTERVAL_ERROR_DEFAULT;
         interval_warning = CMOR_APPROX_INTERVAL_WARNING_DEFAULT;
-        strncpy(cmor_axes[cmor_naxes].cv_frequency,
-            cmor_current_dataset.cv_frequency, CMOR_MAX_STRING);
+        cmor_get_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY, freq);
         frequencies_cv = cmor_CV_rootsearch(cmor_tables[cmor_axes[cmor_naxes].
             ref_table_id].CV, CV_KEY_FREQUENCY);
         if(frequencies_cv != NULL) {
-            freq_cv = cmor_CV_search_child_key(frequencies_cv,
-                cmor_current_dataset.cv_frequency);
-            if(freq_cv != NULL) {
+            freq_cv = cmor_CV_search_child_key(frequencies_cv, freq);
+            if(freq_cv != NULL && freq_cv->nbObjects > 0) {
+                cv_freq_found = 1;
                 interv_error_cv = cmor_CV_search_child_key(freq_cv, CV_KEY_APRX_INTRVL_ERR);
                 if(interv_error_cv != NULL) {
                     interval_error = interv_error_cv->dValue;
@@ -1509,7 +1510,9 @@ int cmor_check_interval(int axis_id, char *interval, double *values,
                 }
             }
         }
-    } else {
+    }
+
+    if (cv_freq_found == 0) {
         interval_error = cmor_tables[cmor_axes[axis_id].ref_table_id].interval_error;
         interval_warning = cmor_tables[cmor_axes[axis_id].ref_table_id].interval_warning;
     }
@@ -1650,11 +1653,12 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
     extern int CMOR_TABLE;
 
     double approx_interval;
-    int i, iref, j, k, l;
+    int i, iref, j, k, l, cv_freq_found;
     cmor_axis_def_t refaxis;
     cmor_CV_def_t *frequencies_cv, *freq_cv, *interv_cv;
     char msg[CMOR_MAX_STRING];
     char ctmp[CMOR_MAX_STRING];
+    char freq[CMOR_MAX_STRING];
 
     cmor_add_traceback("cmor_axis");
     cmor_is_setup();
@@ -2106,25 +2110,27 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
                 }
                 ctmp[i] = '\0';
 
-                // Get the interval value from the CV if the user selected the frequency.
+                // Get the interval value from the CV if the current dataset has a frequency.
                 // Otherwise, use the interval value from the variable entry table.
-                if(strcmp(cmor_current_dataset.cv_frequency, "") != 0) {
+                cv_freq_found = 0;
+                if(cmor_has_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY) == 0) {
                     approx_interval = CMOR_APPROX_INTERVAL_DEFAULT;
-                    strncpy(cmor_axes[cmor_naxes].cv_frequency,
-                        cmor_current_dataset.cv_frequency, CMOR_MAX_STRING);
+                    cmor_get_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY, freq);
                     frequencies_cv = cmor_CV_rootsearch(cmor_tables[cmor_axes[cmor_naxes].
                         ref_table_id].CV, CV_KEY_FREQUENCY);
                     if(frequencies_cv != NULL) {
-                        freq_cv = cmor_CV_search_child_key(frequencies_cv,
-                            cmor_current_dataset.cv_frequency);
-                        if(freq_cv != NULL) {
+                        freq_cv = cmor_CV_search_child_key(frequencies_cv, freq);
+                        if(freq_cv != NULL && freq_cv->nbObjects > 0) {
+                            cv_freq_found = 1;
                             interv_cv = cmor_CV_search_child_key(freq_cv, CV_KEY_APRX_INTRVL);
                             if(interv_cv != NULL) {
                                 approx_interval = interv_cv->dValue;
                             }
                         }
                     }
-                } else {
+                }
+
+                if (cv_freq_found == 0) {
                     approx_interval = cmor_tables[cmor_axes[cmor_naxes].ref_table_id].interval;
                 }
 

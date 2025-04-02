@@ -1239,7 +1239,6 @@ int cmor_setup(char *path,
     cmor_generate_uuid();
     strncpy(cmor_current_dataset.associated_file_name, "", CMOR_MAX_STRING);
     strncpy(cmor_current_dataset.finalfilename, "", CMOR_MAX_STRING);
-    strncpy(cmor_current_dataset.cv_frequency, "", CMOR_MAX_STRING);
 
     for (i = 0; i < 12; i++)
         cmor_current_dataset.month_lengths[i] = 0;
@@ -1635,9 +1634,6 @@ int cmor_set_cur_dataset_attribute_internal(char *name, char *value,
     } else if (strcmp(msg, GLOBAL_ATT_HISTORYTMPL) == 0) {
         cmor_trim_string(value, msg);
         strncpytrim(cmor_current_dataset.history_template, msg, CMOR_MAX_STRING);
-    } else if (strcmp(msg, GLOBAL_ATT_CV_FREQUENCY) == 0) {
-        cmor_trim_string(value, msg);
-        strncpytrim(cmor_current_dataset.cv_frequency, msg, CMOR_MAX_STRING);
     } else {
         strncpy(cmor_current_dataset.attributes[n].names, msg, CMOR_MAX_STRING);
         cmor_trim_string(value, msg);
