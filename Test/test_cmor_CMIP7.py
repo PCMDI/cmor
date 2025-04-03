@@ -53,8 +53,7 @@ class TestCMIP7(unittest.TestCase):
         Write out a simple file using CMOR
         """
         # Set up CMOR
-        cmor.setup(inpath="TestTables", netcdf_file_action=cmor.CMOR_REPLACE,
-                   logfile="cmor.log")
+        cmor.setup(inpath="TestTables", netcdf_file_action=cmor.CMOR_REPLACE)
 
         # Define dataset using DATASET_INFO
         with open("Test/input_cmip7.json", "w") as input_file_handle:
