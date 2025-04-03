@@ -1033,7 +1033,6 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
     int i, iref, j, k, l;
     char msg[CMOR_MAX_STRING];
     char ctmp[CMOR_MAX_STRING];
-    char freq[CMOR_MAX_STRING];
     cmor_var_def_t refvar;
     cmor_CV_def_t *frequencies_cv, *freq_cv, 
     *interv_cv, *interv_warn_cv, *interv_err_cv;
@@ -1676,15 +1675,14 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
             cmor_pop_traceback();
             return (1);
         }
-        if (cmor_axes[laxes_ids[i]].type == 'T') {
+        if (cmor_axes[laxes_ids[i]].axis == 'T') {
             // Get approximate interval values from the CV if they are defined.
             // Otherwise, get them from the current table.
             cv_freq_found = 0;
-            cmor_get_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY, freq);
             frequencies_cv = cmor_CV_rootsearch(cmor_tables[cmor_axes[cmor_naxes].
                 ref_table_id].CV, CV_KEY_FREQUENCY);
             if(frequencies_cv != NULL) {
-                freq_cv = cmor_CV_search_child_key(frequencies_cv, freq);
+                freq_cv = cmor_CV_search_child_key(frequencies_cv, cmor_vars[vrid].frequency);
                 if(freq_cv != NULL && freq_cv->nbObjects > 0) {
                     cv_freq_found = 1;
                     interv_cv = cmor_CV_search_child_key(freq_cv, CV_KEY_APRX_INTRVL);
