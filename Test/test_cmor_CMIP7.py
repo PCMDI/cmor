@@ -38,7 +38,7 @@ DATASET_INFO = {
     "source_id": "PCMDI-test-1-0",
     "source_type": "AOGCM CHEM BGC",
     "tracking_prefix": "hdl:21.14100",
-    "host_collection": "?",
+    "host_collection": "CMIP7",
     "frequency": "mon",
     "region": "glb",
     "archive_id": "WCRP",
@@ -116,6 +116,7 @@ class TestCMIP7(unittest.TestCase):
             'archive_id': 'WCRP',
             'mip_era': 'CMIP7',
             'data_specs_version': 'CMIP-7.0.0.0',
+            'host_collection': 'CMIP7',
         }
         for attr, val in test_attrs.items():
             self.assertTrue(attr in attrs)

@@ -52,6 +52,7 @@
                 "end_year":"",
                 "experiment":"1 percent per year increase in CO2",
                 "experiment_id":"1pctCO2",
+                "host_collection":"CMIP7",
                 "min_number_yrs_per_sim":"150",
                 "parent_activity_id":[
                     "CMIP"
