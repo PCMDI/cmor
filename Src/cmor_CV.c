@@ -2168,6 +2168,7 @@ int cmor_CV_check_branding_suffix(cmor_CV_def_t *CV)
 
     // Compare value made from the template with the global attribute value
     cmor_get_cur_dataset_attribute(GLOBAL_ATT_BRANDINGSUFFIX, attr_value);
+    branding_suffix[0] = '\0';
     cmor_CreateFromTemplate(0, branding_template->szValue, branding_suffix, "-");
     if (strcmp(branding_suffix, attr_value) != 0) {
         cmor_handle_error_variadic(
