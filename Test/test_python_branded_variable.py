@@ -8,7 +8,7 @@ from netCDF4 import Dataset
 DATASET_INFO = {
     "_AXIS_ENTRY_FILE": "Tables/CMIP6_coordinate.json",
     "_FORMULA_VAR_FILE": "Tables/CMIP6_formula_terms.json",
-    "_control_vocabulary_file": "Tables/CMIP6_CV.json",
+    "_controlled_vocabulary_file": "Tables/CMIP6_CV.json",
     "activity_id": "CMIP",
     "branch_method": "standard",
     "branch_time_in_child": 30.0,

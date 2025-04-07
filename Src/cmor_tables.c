@@ -86,11 +86,17 @@ void cmor_init_table(cmor_table_t * table, int id)
     table->szTable_id[0] = '\0';
     table->realm[0] = '\0';
     table->date[0] = '\0';
+    table->positive = '\0';
+    table->type = 'f';
+    table->valid_min = 1.e20;
+    table->valid_max = 1.e20;
+    table->ok_min_mean_abs = 1.e20;
+    table->ok_max_mean_abs = 1.e20;
     table->missing_value = 1.0e+20;
     table->int_missing_value = 2147483647;
-    table->interval = 0.;
-    table->interval_warning = .1;
-    table->interval_error = .2;
+    table->interval = CMOR_APPROX_INTERVAL_DEFAULT;
+    table->interval_warning = CMOR_APPROX_INTERVAL_WARNING_DEFAULT;
+    table->interval_error = CMOR_APPROX_INTERVAL_ERROR_DEFAULT;
     table->URL[0] = '\0';
     strcpy(table->product, "model_output");
     table->path[0] = '\0';
@@ -425,6 +431,9 @@ int cmor_set_dataset_att(cmor_table_t * table, char att[CMOR_MAX_STRING],
     } else if (strcmp(att, TABLE_HEADER_CONVENTIONS) == 0) {
         strncpy(table->Conventions, val, CMOR_MAX_STRING);
 
+    } else if (strcmp(att, TABLE_HEADER_CHECKSUM) == 0) {
+        strncpy(table->checksum, val, CMOR_MAX_STRING);
+
     } else if (strcmp(att, TABLE_HEADER_DATASPECSVERSION) == 0) {
         strncpy(table->data_specs_version, val, CMOR_MAX_STRING);
 
@@ -549,6 +558,25 @@ int cmor_set_dataset_att(cmor_table_t * table, char att[CMOR_MAX_STRING],
         sscanf(value, "%lf", &table->missing_value);
     } else if (strcmp(att, TABLE_HEADER_INT_MISSING_VALUE) == 0) {
         sscanf(value, "%ld", &table->int_missing_value);
+    } else if (strcmp(att, TABLE_HEADER_POSITIVE) == 0) {
+        table->positive = value[0];
+    } else if (strcmp(att, TABLE_HEADER_TYPE) == 0) {
+        if (strcmp(value, "real") == 0)
+            table->type = 'f';
+        else if (strcmp(value, "double") == 0)
+            table->type = 'd';
+        else if (strcmp(value, "integer") == 0)
+            table->type = 'i';
+        else if (strcmp(value, "long") == 0)
+            table->type = 'l';
+    } else if (strcmp(att, TABLE_HEADER_VALIDMIN) == 0) {
+        sscanf(value, "%f", &table->valid_min);
+    } else if (strcmp(att, TABLE_HEADER_VALIDMAX) == 0) {
+        sscanf(value, "%f", &table->valid_max);
+    } else if (strcmp(att, TABLE_HEADER_MINMEANABS) == 0) {
+        sscanf(value, "%f", &table->ok_min_mean_abs);
+    } else if (strcmp(att, TABLE_HEADER_MAXMEANABS) == 0) {
+        sscanf(value, "%f", &table->ok_max_mean_abs);
     } else if (strcmp(att, TABLE_HEADER_MAGIC_NUMBER) == 0) {
 
     } else {
@@ -847,6 +875,36 @@ int cmor_load_table_internal(char szTable[CMOR_MAX_STRING], int *table_id)
         return (TABLE_ERROR);
     }
 
+/* -------------------------------------------------------------------- */
+/*     Process table header first as it will be used for default        */
+/*     values for the variable definitions.                             */
+/* -------------------------------------------------------------------- */
+    json_object_object_foreach(json_obj, header_key, header_value) {
+        if (header_key[0] == '#') {
+            continue;
+        }
+        if (header_value == 0) {
+            return (TABLE_ERROR);
+        }
+        strcpy(szVal, json_object_get_string(header_value));
+        if (strcmp(header_key, JSON_KEY_HEADER) == 0) {
+            json_object_object_foreach(header_value, header_key, globalAttr) {
+                if (header_key[0] == '#') {
+                    continue;
+                }
+                if (globalAttr == NULL) {
+                    return (TABLE_ERROR);
+                }
+                strcpy(szVal, json_object_get_string(globalAttr));
+                if (cmor_set_dataset_att(&cmor_tables[cmor_ntables], header_key,
+                                        szVal) == 1) {
+                    cmor_pop_traceback();
+                    return (TABLE_ERROR);
+                }
+            }
+        }
+    }
+
     json_object_object_foreach(json_obj, key, value) {
 
         if (key[0] == '#') {
@@ -860,25 +918,8 @@ int cmor_load_table_internal(char szTable[CMOR_MAX_STRING], int *table_id)
 /*      Now let's see what we found                                     */
 /* -------------------------------------------------------------------- */
         if (strcmp(key, JSON_KEY_HEADER) == 0) {
-/* -------------------------------------------------------------------- */
-/*      Fill up all global attributer found in header section           */
-/* -------------------------------------------------------------------- */
-            json_object_object_foreach(value, key, globalAttr) {
-                if (key[0] == '#') {
-                    continue;
-                }
-                if (globalAttr == NULL) {
-                    return (TABLE_ERROR);
-                }
-                strcpy(szVal, json_object_get_string(globalAttr));
-                if (cmor_set_dataset_att(&cmor_tables[cmor_ntables], key,
-                                         szVal) == 1) {
-                    cmor_pop_traceback();
-                    return (TABLE_ERROR);
-                }
-            }
+            // Header was processed before this loop
             done = 1;
-
         } else if (strcmp(key, JSON_KEY_EXPERIMENT) == 0) {
             json_object_object_foreach(value, shortname, experiment) {
                 if (shortname[0] == '#') {

@@ -152,6 +152,7 @@ extern int cmor_CV_setInstitution( cmor_CV_def_t *CV);
 extern int cmor_CV_set_entry(cmor_table_t* table, json_object *value);
 extern int  cmor_CV_ValidateGblAttributes( char *name);
 extern int cmor_CV_ValidateAttribute(cmor_CV_def_t *CV, char *szValue);
+extern int cmor_CV_check_branding_suffix(cmor_CV_def_t *CV);
 
 
 

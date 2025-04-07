@@ -1505,7 +1505,7 @@ int cmor_check_interval(int axis_id, char *interval, double *values,
 /* more than 20% diff issues an error                                   */
 /* -------------------------------------------------------------------- */
 
-        if (tmp > cmor_tables[cmor_axes[axis_id].ref_table_id].interval_error) {
+        if (tmp > cmor_axes[cmor_naxes].approx_interval_error) {
             if (isbounds == 1) {
                 cmor_handle_error_variadic(
                     "approximate time axis interval is defined as %f "
@@ -1516,30 +1516,17 @@ int cmor_check_interval(int axis_id, char *interval, double *values,
                     interv, interval, i + 1, diff2, diff, ctmp2,
                     tmp * 100.);
             } else {
-                if (isbounds == 1) {
-                    cmor_handle_error_variadic(
-                        "approximate time axis interval is defined as "
-                        "%f seconds (%s), for value %i we got a difference "
-                        "(based on bounds) of %f seconds (%f %s), which is "
-                        "%f %% , seems too big, check your values",
-                        CMOR_CRITICAL,
-                        interv, interval, i + 1, diff2, diff, ctmp2,
-                        tmp * 100.);
-                } else {
-                    cmor_handle_error_variadic(
-                        "approximate time axis interval is defined as %f "
-                        "seconds (%s), for value %i we got a difference of "
-                        "%f seconds (%f %s), which is %f %% , seems too big, "
-                        "check your values",
-                        CMOR_CRITICAL,
-                        interv, interval, i + 1, diff2, diff, ctmp2,
-                        tmp * 100.);
-                }
+                cmor_handle_error_variadic(
+                    "approximate time axis interval is defined as %f "
+                    "seconds (%s), for value %i we got a difference of "
+                    "%f seconds (%f %s), which is %f %% , seems too big, "
+                    "check your values",
+                    CMOR_CRITICAL,
+                    interv, interval, i + 1, diff2, diff, ctmp2,
+                    tmp * 100.);
             }
 
-        } else if (tmp >
-                   cmor_tables[cmor_axes[axis_id].ref_table_id].
-                   interval_warning) {
+        } else if (tmp > cmor_axes[cmor_naxes].approx_interval_warning) {
 /* -------------------------------------------------------------------- */
 /*      more than 10% diff issues a warning                             */
 /* -------------------------------------------------------------------- */
@@ -1628,10 +1615,14 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
     extern int cmor_naxes;
     extern int CMOR_TABLE;
 
-    int i, iref, j, k, l;
+    double approx_interval, interval_error, interval_warning;
+    int i, iref, j, k, l, cv_freq_found;
     cmor_axis_def_t refaxis;
+    cmor_CV_def_t *frequencies_cv, *freq_cv, *interv_cv,
+    *interv_error_cv, *interv_warning_cv;
     char msg[CMOR_MAX_STRING];
     char ctmp[CMOR_MAX_STRING];
+    char freq[CMOR_MAX_STRING];
 
     cmor_add_traceback("cmor_axis");
     cmor_is_setup();
@@ -1784,6 +1775,47 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
         cmor_set_axis_attribute(cmor_naxes, "interval", 'c', interval);
     }
 
+    // Get the interval values from the CV if the current dataset has a frequency.
+    // Otherwise, use the interval values from the variable entry table.
+    if (refaxis.axis == 'T') {
+        cv_freq_found = 0;
+        if(cmor_has_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY) == 0) {
+            approx_interval = CMOR_APPROX_INTERVAL_DEFAULT;
+            interval_error = CMOR_APPROX_INTERVAL_ERROR_DEFAULT;
+            interval_warning = CMOR_APPROX_INTERVAL_WARNING_DEFAULT;
+            cmor_get_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY, freq);
+            frequencies_cv = cmor_CV_rootsearch(cmor_tables[cmor_axes[cmor_naxes].
+                ref_table_id].CV, CV_KEY_FREQUENCY);
+            if(frequencies_cv != NULL) {
+                freq_cv = cmor_CV_search_child_key(frequencies_cv, freq);
+                if(freq_cv != NULL && freq_cv->nbObjects > 0) {
+                    cv_freq_found = 1;
+                    interv_cv = cmor_CV_search_child_key(freq_cv, CV_KEY_APRX_INTRVL);
+                    if(interv_cv != NULL) {
+                        approx_interval = interv_cv->dValue;
+                    }
+                    interv_error_cv = cmor_CV_search_child_key(freq_cv, CV_KEY_APRX_INTRVL_ERR);
+                    if(interv_error_cv != NULL) {
+                        interval_error = interv_error_cv->dValue;
+                    }
+                    interv_warning_cv = cmor_CV_search_child_key(freq_cv, CV_KEY_APRX_INTRVL_WRN);
+                    if(interv_warning_cv != NULL) {
+                        interval_warning = interv_warning_cv->dValue;
+                    }
+                }
+            }
+        }
+
+        if (cv_freq_found == 0) {
+            approx_interval = cmor_tables[cmor_axes[cmor_naxes].ref_table_id].interval;
+            interval_error = cmor_tables[cmor_axes[cmor_naxes].ref_table_id].interval_error;
+            interval_warning = cmor_tables[cmor_axes[cmor_naxes].ref_table_id].interval_warning;
+        }
+
+        cmor_axes[cmor_naxes].approx_interval = approx_interval;
+        cmor_axes[cmor_naxes].approx_interval_error = interval_error;
+        cmor_axes[cmor_naxes].approx_interval_warning = interval_warning;
+    }
 /* -------------------------------------------------------------------- */
 /*      test whether bounds are requested or not                        */
 /* -------------------------------------------------------------------- */
@@ -2082,9 +2114,9 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
                     i++;
                 }
                 ctmp[i] = '\0';
-                snprintf(msg, CMOR_MAX_STRING, "%lf %s",
-                         cmor_tables[cmor_axes[cmor_naxes].
-                                     ref_table_id].interval, ctmp);
+
+                snprintf(msg, CMOR_MAX_STRING, "%lf %s", 
+                    cmor_axes[cmor_naxes].approx_interval, ctmp);
 /* -------------------------------------------------------------------- */
 /*      skip this for non standard cal                                  */
 /* -------------------------------------------------------------------- */
