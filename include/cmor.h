@@ -48,6 +48,10 @@
 #define CMOR_APPEND CMOR_APPEND_4
 #define CMOR_REPLACE CMOR_REPLACE_4
 
+#define CMOR_APPROX_INTERVAL_DEFAULT          0.
+#define CMOR_APPROX_INTERVAL_WARNING_DEFAULT  .1
+#define CMOR_APPROX_INTERVAL_ERROR_DEFAULT    .2
+
 #define CMOR_INPUTFILENAME       GLOBAL_INTERNAL"dataset_json"
 #define CV_INPUTFILENAME         GLOBAL_INTERNAL"CV"
 #define CV_CHECK_ERROR           GLOBAL_INTERNAL"CV_ERROR"
@@ -143,11 +147,13 @@
 #define VARIABLE_ATT_FLAGVALUES       "flag_values"
 #define VARIABLE_ATT_FLAGMEANINGS     "flag_meanings"
 #define VARIABLE_ATT_OUTNAME          "out_name"
+#define VARIABLE_ATT_BRANDDESCRIPTION "brand_description"
 #define VARIABLE_ATT_BRANDINGSUFFIX   "branding_suffix"
 #define VARIABLE_ATT_TEMPORALLABEL    "temporal_label"
 #define VARIABLE_ATT_VERTICALLABEL    "vertical_label"
 #define VARIABLE_ATT_HORIZONTALLABEL  "horizontal_label"
 #define VARIABLE_ATT_AREALABEL        "area_label"
+#define VARIABLE_ATT_VARIABLE_TITLE   "variable_title"
 #define COMMENT_VARIABLE_ZFACTOR      "use formula table"
 #define GLOBAL_SEPARATORS             "><"
 #define GLOBAL_OPENOPTIONAL           "["
@@ -206,6 +212,7 @@
 #define GLOBAL_ATT_MIP_ERA            "mip_era"
 #define GLOBAL_CV_FILENAME            GLOBAL_INTERNAL"controlled_vocabulary_file"
 #define GLOBAL_IS_CMIP6               GLOBAL_INTERNAL"cmip6_option"
+#define GLOBAL_IS_CMIP7               GLOBAL_INTERNAL"cmip7_option"
 
 #define NO_PARENT                     "no parent"
 #define NONE                          "none"
@@ -228,6 +235,7 @@
 #define JSON_KEY_CV_ENTRY             "CV"
 
 #define CV_KEY_REQUIRED_GBL_ATTRS     "required_global_attributes"
+#define CV_KEY_FREQUENCY              "frequency"
 #define CV_KEY_INSTITUTION_ID         "institution_id"
 #define CV_KEY_EXPERIMENT_ID          "experiment_id"
 #define CV_KEY_SOURCE_IDS             "source_id"
@@ -236,6 +244,12 @@
 #define CV_KEY_GRIDLABEL_GR           "gr"
 #define CV_KEY_SOURCE_LABEL           "source"
 #define CV_KEY_SUB_EXPERIMENT_ID      "sub_experiment_id"
+#define CV_KEY_BRANDING_TEMPLATE      "branding_suffix"
+#define CV_KEY_APRX_INTRVL            "approx_interval"
+#define CV_KEY_APRX_INTRVL_ERR        "approx_interval_error"
+#define CV_KEY_APRX_INTRVL_WRN        "approx_interval_warning"
+#define CV_KEY_DATASPECSVERSION       "data_specs_version"
+#define CV_KEY_MIP_ERA                "mip_era"
 
 #define CV_EXP_ATTR_ADDSOURCETYPE     "additional_allowed_model_components"
 #define CV_EXP_ATTR_REQSOURCETYPE     "required_model_components"
@@ -262,6 +276,13 @@
 #define TABLE_HEADER_INT_MISSING_VALUE    "int_missing_value"
 #define TABLE_HEADER_MAGIC_NUMBER     "magic_number"
 #define TABLE_HEADER_DATASPECSVERSION "data_specs_version"
+#define TABLE_HEADER_VALIDMIN         "valid_min"
+#define TABLE_HEADER_VALIDMAX         "valid_max"
+#define TABLE_HEADER_MINMEANABS       "ok_min_mean_abs"
+#define TABLE_HEADER_MAXMEANABS       "ok_max_mean_abs"
+#define TABLE_HEADER_POSITIVE         "positive"
+#define TABLE_HEADER_CHECKSUM         "checksum"
+#define TABLE_HEADER_TYPE             "type"
 #define OUTPUT_TEMPLATE_RIPF          "run_variant"
 
 #define DIMENSION_LATITUDE            "latitude"
@@ -275,6 +296,7 @@
 #define AREA                          "area"
 #define VOLUME                        "volume"
 #define CMIP6                         "CMIP6"
+#define CMIP7                         "CMIP7"
 #define CMOR_DEFAULT_PATH_TEMPLATE    "<mip_era><activity_id><institution_id><source_id><experiment_id><member_id><table><variable_id><grid_label><version>"
 #define CMOR_DEFAULT_FILE_TEMPLATE    "<variable_id><table><source_id><experiment_id><member_id><grid_label>"
 #define CMOR_DEFAULT_FURTHERURL_TEMPLATE "https://furtherinfo.es-doc.org/<mip_era><institution_id><source_id><experiment_id><sub_experiment_id><variant_label>"
@@ -417,12 +439,17 @@ typedef struct cmor_axis_ {
     int hybrid_in;
     int hybrid_out;
     int store_in_netcdf;
+    double approx_interval;
+    double approx_interval_warning;
+    double approx_interval_error;
 } cmor_axis_t;
 extern cmor_axis_t cmor_axes[CMOR_MAX_AXES];
 
 typedef struct cmor_variable_def_ {
     int table_id;
     char id[CMOR_MAX_STRING];
+    char brand_description[CMOR_MAX_STRING];
+    char variable_title[CMOR_MAX_STRING];
     char standard_name[CMOR_MAX_STRING];
     char units[CMOR_MAX_STRING];
     char cell_methods[CMOR_MAX_STRING];
@@ -553,6 +580,7 @@ typedef struct cmor_table_ {
     float cf_version;
     float cmor_version;
     char mip_era[CMOR_MAX_STRING];
+    char checksum[CMOR_MAX_STRING];
     char Conventions[CMOR_MAX_STRING];
     char data_specs_version[CMOR_MAX_STRING];
     char szTable_id[CMOR_MAX_STRING];
@@ -564,6 +592,12 @@ typedef struct cmor_table_ {
     cmor_var_def_t formula[CMOR_MAX_FORMULA];
     cmor_mappings_t mappings[CMOR_MAX_ELEMENTS];
     cmor_CV_def_t *CV;
+    char positive;
+    char type;
+    float valid_min;
+    float valid_max;
+    float ok_min_mean_abs;
+    float ok_max_mean_abs;
     double missing_value;
     long    int_missing_value;
     double interval;

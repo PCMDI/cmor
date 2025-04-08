@@ -1016,6 +1016,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
     char szParentSourceId[CMOR_MAX_STRING];
     char szParentTimeUnits[CMOR_MAX_STRING];
     char szParentVariantLabel[CMOR_MAX_STRING];
+    char *parent_mip_era;
     regex_t regex;
 
     char CV_Filename[CMOR_MAX_STRING];
@@ -1330,12 +1331,17 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
                 ierr = -1;
             } else {
                 cmor_get_cur_dataset_attribute(PARENT_MIP_ERA, szValue);
-                if (strcmp(CMIP6, szValue) != 0) {
+                if (cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP7) == 0) {
+                    parent_mip_era = CMIP7;
+                } else {
+                    parent_mip_era = CMIP6;
+                }
+                if (strcmp(parent_mip_era, szValue) != 0) {
                     cmor_handle_error_variadic(
                              "Your input attribute \"%s\" defined as \"%s\" "
                              "will be replaced with \n! "
                              "\"%s\" as defined in your Control Vocabulary file.\n! ",
-                             CMOR_WARNING, PARENT_MIP_ERA, szValue, CMIP6);
+                             CMOR_WARNING, PARENT_MIP_ERA, szValue, parent_mip_era);
                     cmor_set_cur_dataset_attribute_internal(PARENT_MIP_ERA,
                                                             szValue, 1);
                 }
@@ -1908,6 +1914,7 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
     char szOutput[CMOR_MAX_STRING];
     char szTmp[CMOR_MAX_STRING];
     char tableValue[CMOR_MAX_STRING];
+    char *valueToken;
     int i, j;
     int nObjects;
     regex_t regex;
@@ -1983,10 +1990,40 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
 /* -------------------------------------------------------------------- */
     if (attr_CV->nbObjects != -1) {
         key_CV = cmor_CV_rootsearch(CV, szKey);
-        list_CV = cmor_CV_search_child_key(key_CV, szValue);
-        if (list_CV == NULL) {
+        // Realm and source type are attributes that can have multiple values
+        // in a string separated by spaces.
+        if (strcmp(szKey, GLOBAL_ATT_REALM) == 0
+            || strcmp(szKey, GLOBAL_ATT_SOURCE_TYPE) == 0) {
+            valueToken = strtok(szValue, " ");
+            while (valueToken != NULL) {
+                list_CV = cmor_CV_search_child_key(key_CV, valueToken);
+                if (list_CV == NULL) {
+                    cmor_handle_error_variadic(
+                        "The registered CV attribute \"%s\" as defined as \"%s\" "
+                        "contains values not found in the CV.",
+                        CMOR_NORMAL, szKey, szValue);
+                    cmor_pop_traceback();
+                    return (-1);
+                }
+                valueToken = strtok(NULL, " ");
+            }
             cmor_pop_traceback();
             return (0);
+        } else {
+            list_CV = cmor_CV_search_child_key(key_CV, szValue);
+            if (list_CV == NULL) {
+                cmor_handle_error_variadic(
+                    "The registered CV attribute \"%s\" as defined as \"%s\" "
+                    "does not match any value in the CV.",
+                    CMOR_NORMAL, szKey, szValue);
+                cmor_pop_traceback();
+                return (-1);
+            } else if (strcmp(szKey, GLOBAL_ATT_FREQUENCY) == 0) {
+                // The contents of the frequency object are not used
+                // as global attributes.
+                cmor_pop_traceback();
+                return (0);
+            }
         }
         nObjects = list_CV->nbObjects;
         required_attrs = cmor_CV_rootsearch(CV, CV_KEY_REQUIRED_GBL_ATTRS);
@@ -2081,6 +2118,68 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
         cmor_pop_traceback();
         return (-1);
     }
+    cmor_pop_traceback();
+    return (0);
+}
+
+/************************************************************************/
+/*                  cmor_CV_check_branding_suffix()                     */
+/************************************************************************/
+int cmor_CV_check_branding_suffix(cmor_CV_def_t *CV)
+{
+    cmor_CV_def_t *required_attrs;
+    cmor_CV_def_t *branding_template;
+    char *attr_name;
+    char attr_value[CMOR_MAX_STRING];
+    char branding_suffix[CMOR_MAX_STRING];
+    int i;
+
+    cmor_add_traceback("_CV_check_branding_suffix");
+
+    // Do nothing if required_global_attributes is not in the CV
+    // or if branding_suffix is not a required attribute
+    required_attrs = cmor_CV_rootsearch(CV, CV_KEY_REQUIRED_GBL_ATTRS);
+    if (required_attrs == NULL) {
+        cmor_pop_traceback();
+        return (0);
+    }
+
+    for (i = 0; i < required_attrs->anElements; i++) {
+        attr_name = required_attrs->aszValue[i];
+        if (strcmp(attr_name, GLOBAL_ATT_BRANDINGSUFFIX) == 0)
+            break;
+    }
+    if (i == required_attrs->anElements) {
+        cmor_pop_traceback();
+        return (0);
+    }
+
+    // Check if the template for the branding suffix is in the CV file
+    branding_template = cmor_CV_rootsearch(CV, CV_KEY_BRANDING_TEMPLATE);
+    if (branding_template == NULL) {
+        cmor_handle_error_variadic(
+            "The branding suffix template \"%s\" "
+            "was not found in your CV file. "
+            "It is required for building the \"%s\" attribute.",
+            CMOR_NORMAL, CV_KEY_BRANDING_TEMPLATE, GLOBAL_ATT_BRANDINGSUFFIX);
+        cmor_pop_traceback();
+        return (-1);
+    }
+
+    // Compare value made from the template with the global attribute value
+    cmor_get_cur_dataset_attribute(GLOBAL_ATT_BRANDINGSUFFIX, attr_value);
+    branding_suffix[0] = '\0';
+    cmor_CreateFromTemplate(0, branding_template->szValue, branding_suffix, "-");
+    if (strcmp(branding_suffix, attr_value) != 0) {
+        cmor_handle_error_variadic(
+            "Your branding label attribute \"%s\" "
+            "has the value \"%s\", which is not valid. "
+            "The value must be \"%s\"",
+            CMOR_NORMAL, attr_name, attr_value, branding_suffix);
+        cmor_pop_traceback();
+        return (-1);
+    }
+
     cmor_pop_traceback();
     return (0);
 }

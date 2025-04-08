@@ -27,3 +27,4 @@ setup.py
 include/cmor_locale.h
 recipes/cmor/meta.yaml
 CMOR.egg-info
+cmor.log*

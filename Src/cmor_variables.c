@@ -1034,6 +1034,8 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
     char msg[CMOR_MAX_STRING];
     char ctmp[CMOR_MAX_STRING];
     cmor_var_def_t refvar;
+    cmor_CV_def_t *frequencies_cv, *freq_cv, 
+    *interv_cv, *interv_warn_cv, *interv_err_cv;
     int laxes_ids[CMOR_MAX_DIMENSIONS];
     int grid_id = 1000;
     int lndims, olndims;
@@ -1042,6 +1044,8 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
     long along;
     int did_grid_reorder = 0;
     int vrid = -1;
+    int cv_freq_found;
+    double approx_interval, approx_interval_error, approx_interval_warning;
 
     cmor_add_traceback("cmor_variable");
     cmor_is_setup();
@@ -1110,7 +1114,15 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
     strcpy(cmor_vars[vrid].suffix, "");
     strcpy(cmor_vars[vrid].base_path, "");
     strcpy(cmor_vars[vrid].current_path, "");
-    strcpy(cmor_vars[vrid].frequency, refvar.frequency);
+
+    // Get the frequency from the variable definition from the current table
+    // if it exist. Otherwise, get the frequency from the current dataset.
+    if (refvar.frequency[0] != '\0') {
+        strncpy(cmor_vars[vrid].frequency, refvar.frequency, CMOR_MAX_STRING);
+    } else if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY) == 0) {
+        cmor_get_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY, cmor_vars[vrid].frequency);
+    }
+
     cmor_vars[vrid].suffix_has_date = 0;
 
 /* -------------------------------------------------------------------- */
@@ -1164,6 +1176,13 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
 
     cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_LONGNAME, 'c',
                                          refvar.long_name);
+
+    cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_BRANDDESCRIPTION, 'c',
+                                        refvar.brand_description);
+
+    cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_VARIABLE_TITLE, 'c',
+                                         refvar.variable_title);
+
     if (refvar.flag_values[0] != '\0') {
         cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_FLAGVALUES, 'c',
                                              refvar.flag_values);
@@ -1656,6 +1675,56 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
             cmor_pop_traceback();
             return (1);
         }
+        if (cmor_axes[laxes_ids[i]].axis == 'T') {
+            // Get approximate interval values from the CV if they are defined.
+            // Otherwise, get them from the current table.
+            cv_freq_found = 0;
+            frequencies_cv = cmor_CV_rootsearch(cmor_tables[cmor_axes[cmor_naxes].
+                ref_table_id].CV, CV_KEY_FREQUENCY);
+            if(frequencies_cv != NULL) {
+                freq_cv = cmor_CV_search_child_key(frequencies_cv, cmor_vars[vrid].frequency);
+                if(freq_cv != NULL && freq_cv->nbObjects > 0) {
+                    cv_freq_found = 1;
+                    interv_cv = cmor_CV_search_child_key(freq_cv, CV_KEY_APRX_INTRVL);
+                    if(interv_cv != NULL) {
+                        approx_interval = interv_cv->dValue;
+                    } else {
+                        approx_interval = CMOR_APPROX_INTERVAL_DEFAULT;
+                    }
+                    interv_err_cv = cmor_CV_search_child_key(freq_cv, CV_KEY_APRX_INTRVL_ERR);
+                    if(interv_err_cv != NULL) {
+                        approx_interval_error = interv_err_cv->dValue;
+                    } else {
+                        approx_interval_error = CMOR_APPROX_INTERVAL_ERROR_DEFAULT;
+                    }
+                    interv_warn_cv = cmor_CV_search_child_key(freq_cv, CV_KEY_APRX_INTRVL_WRN);
+                    if(interv_warn_cv != NULL) {
+                        approx_interval_warning = interv_warn_cv->dValue;
+                    } else {
+                        approx_interval_warning = CMOR_APPROX_INTERVAL_WARNING_DEFAULT;
+                    }
+                }
+            }
+            if (cv_freq_found == 0) {
+                approx_interval = cmor_tables[cmor_vars[vrid].ref_table_id].interval;
+                approx_interval_error = cmor_tables[cmor_vars[vrid].ref_table_id].interval_error;
+                approx_interval_warning = cmor_tables[cmor_vars[vrid].ref_table_id].interval_warning;
+            }
+
+            if((approx_interval != cmor_axes[laxes_ids[i]].approx_interval)
+            || (approx_interval_error != cmor_axes[laxes_ids[i]].approx_interval_error)
+            || (approx_interval_warning != cmor_axes[laxes_ids[i]].approx_interval_warning)){
+                cmor_handle_error_var_variadic(
+                    "The interval values used for the time axis differ "
+                    "from those defined for the frequency \"%s\" "
+                    "used for by variable '%s' (table %s)\n! ",
+                    CMOR_CRITICAL, vrid,
+                    cmor_vars[vrid].frequency,
+                    cmor_vars[vrid].id,
+                    cmor_tables[cmor_vars[vrid].ref_table_id].szTable_id
+                );
+            }
+        }
         if (cmor_axes[laxes_ids[i]].ref_table_id != CMOR_TABLE
             && cmor_axes[laxes_ids[i]].isgridaxis != 1) {
             cmor_handle_error_var_variadic(
@@ -1883,10 +1952,12 @@ void cmor_init_var_def(cmor_var_def_t * var, int table_id)
     cmor_is_setup();
     var->table_id = table_id;
     var->standard_name[0] = '\0';
+    var->variable_title[0] = '\0';
+    var->brand_description[0] = '\0';
     var->units[0] = '\0';
     var->cell_methods[0] = '\0';
     var->cell_measures[0] = '\0';
-    var->positive = '\0';
+    var->positive = cmor_tables[table_id].positive;
     var->long_name[0] = '\0';
     var->comment[0] = '\0';
     var->realm[0] = '\0';
@@ -1898,11 +1969,11 @@ void cmor_init_var_def(cmor_var_def_t * var, int table_id)
     var->chunking_dimensions[0] = '\0';
     for (n = 0; n < CMOR_MAX_DIMENSIONS; n++)
         var->dimensions[n] = -1;
-    var->type = 'f';
-    var->valid_min = 1.e20;     /* means no check */
-    var->valid_max = 1.e20;
-    var->ok_min_mean_abs = 1.e20;
-    var->ok_max_mean_abs = 1.e20;
+    var->type = cmor_tables[table_id].type;
+    var->valid_min = cmor_tables[table_id].valid_min;     /* means no check */
+    var->valid_max = cmor_tables[table_id].valid_max;
+    var->ok_min_mean_abs = cmor_tables[table_id].ok_min_mean_abs;
+    var->ok_max_mean_abs = cmor_tables[table_id].ok_max_mean_abs;
     var->shuffle = 0;
     var->deflate = 1;
     var->deflate_level = 1;
@@ -2185,6 +2256,14 @@ int cmor_set_var_def_att(cmor_var_def_t * var, char *att, char *val)
     } else if (strcmp(att, VARIABLE_ATT_AREALABEL) == 0) {
 
         strncpy(var->area_label, val, CMOR_MAX_STRING);
+
+    } else if (strcmp(att, VARIABLE_ATT_VARIABLE_TITLE) == 0) {
+
+        strncpy(var->variable_title, val, CMOR_MAX_STRING);
+
+    } else if (strcmp(att, VARIABLE_ATT_BRANDDESCRIPTION) == 0) {
+
+        strncpy(var->brand_description, val, CMOR_MAX_STRING);
 
     } else {
         cmor_handle_error_variadic(
