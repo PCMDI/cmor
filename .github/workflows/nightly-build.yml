@@ -32,7 +32,7 @@ jobs:
     runs-on: ${{ matrix.runner.RUNNER_OS }}
     env:
       PACKAGE_NAME: cmor
-      PACKAGE_VERSION: 3.9.0
+      PACKAGE_VERSION: 3.10.0
       PYTHON_VERSION: ${{ matrix.python_version }}
       CONDA_FORGE_CHANNEL: conda-forge
       CONDA_USER: pcmdi
