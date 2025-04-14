@@ -71,7 +71,7 @@ aliases:
        export BUILD_DIR=$HOME/cmor_conda_pkgs
        mkdir -p $BUILD_DIR
 
-       export ARTIFACT_DIR=$HOME/artifacts/$OS
+       export ARTIFACT_DIR=`pwd`/artifacts/$OS
        mkdir -p $ARTIFACT_DIR
 
        if [[ $OS == 'osx-64' ]]; then
@@ -109,7 +109,7 @@ aliases:
        source $WORKDIR/miniforge3/etc/profile.d/mamba.sh
        mamba activate base
        mamba install -n base -c conda-forge anaconda-client
-       export ARTIFACT_DIR=$HOME/artifacts
+       export ARTIFACT_DIR=`pwd`/artifacts
        anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL $ARTIFACT_DIR/*/*.conda --force
 
 
