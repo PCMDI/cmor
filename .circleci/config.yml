@@ -8,7 +8,7 @@ aliases:
   - &setup_env
     name: setup_env
     command: |
-       echo "export WORKDIR=`pwd`/$PROJECT_DIR" >> $BASH_ENV
+       echo "export WORKDIR=$HOME/$PROJECT_DIR" >> $BASH_ENV
        source $BASH_ENV
        mkdir -p $WORKDIR
 
