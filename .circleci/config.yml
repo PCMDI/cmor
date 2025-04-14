@@ -68,10 +68,10 @@ aliases:
        mamba activate base
        mamba activate smithy_env
 
-       export BUILD_DIR=`pwd`/cmor_conda_pkgs
+       export BUILD_DIR=$HOME/cmor_conda_pkgs
        mkdir -p $BUILD_DIR
 
-       export ARTIFACT_DIR=`pwd`/artifacts/$OS
+       export ARTIFACT_DIR=$HOME/artifacts/$OS
        mkdir -p $ARTIFACT_DIR
 
        if [[ $OS == 'osx-64' ]]; then
@@ -92,7 +92,7 @@ aliases:
        source $WORKDIR/miniforge3/etc/profile.d/conda.sh
        source $WORKDIR/miniforge3/etc/profile.d/mamba.sh
        mamba activate base
-       export CMOR_CHANNEL=`pwd`/cmor_conda_pkgs/
+       export CMOR_CHANNEL=$HOME/cmor_conda_pkgs/
        mamba search -c file://$CMOR_CHANNEL --override-channels
        set +e
        mamba create -y -n test_py$PYTHON_VERSION -c file://$CMOR_CHANNEL $CHANNELS python=$PYTHON_VERSION $PKG_NAME=$VERSION $CONDA_COMPILERS
@@ -109,7 +109,7 @@ aliases:
        source $WORKDIR/miniforge3/etc/profile.d/mamba.sh
        mamba activate base
        mamba install -n base -c conda-forge anaconda-client
-       export ARTIFACT_DIR=`pwd`/artifacts
+       export ARTIFACT_DIR=$HOME/artifacts
        anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL $ARTIFACT_DIR/*/*.conda --force
 
 
