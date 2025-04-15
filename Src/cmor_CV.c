@@ -374,6 +374,7 @@ int cmor_CV_checkFurtherInfoURL(int nVarRefTblID)
 /* If the template is an emtpy string, then skip this check.            */
 /* -------------------------------------------------------------------- */
     if (cmor_current_dataset.furtherinfourl[0] == '\0') {
+        cmor_pop_traceback();
         return (0);
     }
 
@@ -399,6 +400,7 @@ int cmor_CV_checkFurtherInfoURL(int nVarRefTblID)
     if (strcmp(szToken, cmor_current_dataset.furtherinfourl) == 0) {
         cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_FURTHERINFOURL,
                                                 cmor_current_dataset.furtherinfourl, 0);
+        cmor_pop_traceback();
         return (0);
     }
 
