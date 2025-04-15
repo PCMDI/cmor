@@ -58,15 +58,15 @@ jobs:
       - name: Setup Miniforge
         run: |
           curl -L $MINIFORGE_INSTALLER_URL -o miniforge3.sh
-          bash miniforge3.sh -b -p $PROJECT_DIR/miniforge3
-          source $PROJECT_DIR/miniforge3/etc/profile.d/conda.sh
-          source $PROJECT_DIR/miniforge3/etc/profile.d/mamba.sh
+          bash miniforge3.sh -b -p $HOME/miniforge3
+          source $HOME/miniforge3/etc/profile.d/conda.sh
+          source $HOME/miniforge3/etc/profile.d/mamba.sh
           mamba activate base
 
       - name: Conda Rerender
         run: |
-          source $PROJECT_DIR/miniforge3/etc/profile.d/conda.sh
-          source $PROJECT_DIR/miniforge3/etc/profile.d/mamba.sh
+          source $HOME/miniforge3/etc/profile.d/conda.sh
+          source $HOME/miniforge3/etc/profile.d/mamba.sh
           mamba activate base
 
           git clone -b main https://github.com/conda-forge/cmor-feedstock $PROJECT_DIR/cmor-feedstock
@@ -83,8 +83,7 @@ jobs:
             --package_name $PACKAGE_NAME \
             --version $PACKAGE_VERSION \
             --organization PCMDI \
-            --repo_name $PACKAGE_NAME \
-            --branch $GIT_BRANCH \
+            --local_repo `pwd` \
             --git_rev $GIT_REV \
             --build 0 \
             --src_meta_yaml $SRC_META_YAML \
@@ -98,12 +97,12 @@ jobs:
 
       - name: Conda Build
         run: |
-          source $PROJECT_DIR/miniforge3/etc/profile.d/conda.sh
-          source $PROJECT_DIR/miniforge3/etc/profile.d/mamba.sh
+          source $HOME/miniforge3/etc/profile.d/conda.sh
+          source $HOME/miniforge3/etc/profile.d/mamba.sh
           mamba activate base
           mamba activate smithy_env
 
-          export BUILD_DIR=`pwd`/cmor_conda_pkgs
+          export BUILD_DIR=$HOME/cmor_conda_pkgs
           mkdir -p $BUILD_DIR
 
           export ARTIFACT_DIR=`pwd`/artifacts/$OS
@@ -117,11 +116,11 @@ jobs:
 
       - name: Run Tests
         run: |
-          source $PROJECT_DIR/miniforge3/etc/profile.d/conda.sh
-          source $PROJECT_DIR/miniforge3/etc/profile.d/mamba.sh
+          source $HOME/miniforge3/etc/profile.d/conda.sh
+          source $HOME/miniforge3/etc/profile.d/mamba.sh
           mamba activate base
 
-          export CMOR_CHANNEL=file://`pwd`/cmor_conda_pkgs/
+          export CMOR_CHANNEL=file://$HOME/cmor_conda_pkgs/
           mamba search -c $CMOR_CHANNEL --override-channels
 
           mamba create -y -n test_py$PYTHON_VERSION -c $CMOR_CHANNEL -c $CONDA_FORGE_CHANNEL python=$PYTHON_VERSION $PACKAGE_NAME=$PACKAGE_VERSION $C_COMPILER $FORTRAN_COMPILER
@@ -135,8 +134,8 @@ jobs:
           CONDA_UPLOAD_TOKEN: ${{ secrets.CONDA_UPLOAD_TOKEN }}
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
-          source $PROJECT_DIR/miniforge3/etc/profile.d/conda.sh
-          source $PROJECT_DIR/miniforge3/etc/profile.d/mamba.sh
+          source $HOME/miniforge3/etc/profile.d/conda.sh
+          source $HOME/miniforge3/etc/profile.d/mamba.sh
           mamba activate base
           mamba install -n base -c conda-forge anaconda-client
           export ARTIFACT_DIR=`pwd`/artifacts

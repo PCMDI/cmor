@@ -8,7 +8,7 @@ aliases:
   - &setup_env
     name: setup_env
     command: |
-       echo "export WORKDIR=`pwd`/$PROJECT_DIR" >> $BASH_ENV
+       echo "export WORKDIR=$HOME/$PROJECT_DIR" >> $BASH_ENV
        source $BASH_ENV
        mkdir -p $WORKDIR
 
@@ -47,8 +47,7 @@ aliases:
        python rebuild_meta_yaml.py \
         --package_name $PKG_NAME \
         --version $VERSION \
-        --organization PCMDI \
-        --repo_name $PKG_NAME \
+        --local_repo `pwd` \
         --branch $CIRCLE_BRANCH \
         --git_rev $GIT_REV \
         --build 0 \
@@ -69,7 +68,7 @@ aliases:
        mamba activate base
        mamba activate smithy_env
 
-       export BUILD_DIR=`pwd`/cmor_conda_pkgs
+       export BUILD_DIR=$HOME/cmor_conda_pkgs
        mkdir -p $BUILD_DIR
 
        export ARTIFACT_DIR=`pwd`/artifacts/$OS
@@ -93,7 +92,7 @@ aliases:
        source $WORKDIR/miniforge3/etc/profile.d/conda.sh
        source $WORKDIR/miniforge3/etc/profile.d/mamba.sh
        mamba activate base
-       export CMOR_CHANNEL=`pwd`/cmor_conda_pkgs/
+       export CMOR_CHANNEL=$HOME/cmor_conda_pkgs/
        mamba search -c file://$CMOR_CHANNEL --override-channels
        set +e
        mamba create -y -n test_py$PYTHON_VERSION -c file://$CMOR_CHANNEL $CHANNELS python=$PYTHON_VERSION $PKG_NAME=$VERSION $CONDA_COMPILERS
