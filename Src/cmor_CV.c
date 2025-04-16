@@ -1887,6 +1887,142 @@ int cmor_CV_setInstitution(cmor_CV_def_t * CV)
 }
 
 /************************************************************************/
+/*                      cmor_CV_setLicense()                            */
+/************************************************************************/
+int cmor_CV_setLicense(cmor_CV_def_t * CV)
+{
+    cmor_CV_def_t *CV_license, *CV_lic_ids, *CV_lic_template;
+    cmor_CV_def_t *CV_lic, *CV_lic_type, *CV_lic_url;
+
+    char license[CMOR_MAX_STRING];
+    char license_from_template[CMOR_MAX_STRING];
+    char license_id[CMOR_MAX_STRING];
+    char license_type[CMOR_MAX_STRING];
+    char license_url[CMOR_MAX_STRING];
+    char CV_Filename[CMOR_MAX_STRING];
+    int has_license, has_lic_type, has_lic_url;
+
+    cmor_add_traceback("_CV_setLicense");
+
+    // Find current license ID
+    cmor_get_cur_dataset_attribute(GLOBAL_ATT_LICENSE_ID, license_id);
+    cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
+
+    // Find license dictionary in Control Vocabulary
+    CV_license = cmor_CV_rootsearch(CV, CV_KEY_LICENSE);
+    if (CV_license == NULL) {
+        cmor_handle_error_variadic(
+                    "Your \"%s\" key could not be found in\n! "
+                    "your Control Vocabulary file.(%s)\n! ",
+                    CMOR_NORMAL, CV_KEY_LICENSE, CV_Filename);
+
+        cmor_pop_traceback();
+        return (-1);
+    }
+
+    CV_lic_ids = cmor_CV_search_child_key(CV_license, CV_KEY_LICENSE_ID);
+    if (CV_lic_ids == NULL) {
+        cmor_handle_error_variadic(
+                    "Your \"%s\" key could not be found in\n! "
+                    "your Control Vocabulary file.(%s)\n! ",
+                    CMOR_NORMAL, CV_KEY_LICENSE_ID, CV_Filename);
+
+        cmor_pop_traceback();
+        return (-1);
+    }
+
+    CV_lic_template = cmor_CV_search_child_key(CV_license, CV_KEY_LICENSE_TEMPLATE);
+    if (CV_lic_template == NULL) {
+        cmor_handle_error_variadic(
+                    "License attribute, \"%s\", could not be found in "
+                    "your Controlled Vocabulary file. (%s)",
+                    CMOR_NORMAL, CV_KEY_LICENSE_TEMPLATE, CV_Filename);
+        cmor_pop_traceback();
+        return (-1);
+    }
+
+    CV_lic = cmor_CV_search_child_key(CV_lic_ids, license_id);
+    if (CV_lic == NULL) {
+        cmor_handle_error_variadic(
+                    "The license_id, \"%s\", could not be found in "
+                    "your Controlled Vocabulary file. (%s)",
+                    CMOR_NORMAL, license_id, CV_Filename);
+        cmor_pop_traceback();
+        return (-1);
+    }
+
+    CV_lic_type = cmor_CV_search_child_key(CV_lic, CV_KEY_LICENSE_TYPE);
+    if (CV_lic_type == NULL) {
+        cmor_handle_error_variadic(
+                    "License attribute, \"%s\", could not be found in "
+                    "your Controlled Vocabulary file. (%s)",
+                    CMOR_NORMAL, CV_KEY_LICENSE_TYPE, CV_Filename);
+        cmor_pop_traceback();
+        return (-1);
+    }
+
+    CV_lic_url = cmor_CV_search_child_key(CV_lic, CV_KEY_LICENSE_URL);
+    if (CV_lic_url == NULL) {
+        cmor_handle_error_variadic(
+                    "License attribute, \"%s\", could not be found in "
+                    "your Controlled Vocabulary file. (%s)",
+                    CMOR_NORMAL, CV_KEY_LICENSE_URL, CV_Filename);
+        cmor_pop_traceback();
+        return (-1);
+    }
+
+    // Check if user provided license type or URL
+    has_lic_type = cmor_has_cur_dataset_attribute(GLOBAL_ATT_LICENSE_TYPE);
+    if (has_lic_type == 0) {
+        cmor_get_cur_dataset_attribute(GLOBAL_ATT_LICENSE_TYPE, license_type);
+
+        if (strncmp(license_type, CV_lic_type->szValue, CMOR_MAX_STRING) !=
+            0) {
+            cmor_handle_error_variadic(
+                "Your input attribute license type \"%s\" will be replaced with \n! "
+                "\"%s\" as defined in your Control Vocabulary file.\n! ",
+                CMOR_WARNING, license_type, CV_lic_type->szValue);
+        }
+    }
+    cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_LICENSE_TYPE, CV_lic_type->szValue, 1);
+
+    has_lic_url = cmor_has_cur_dataset_attribute(GLOBAL_ATT_LICENSE_URL);
+    if (has_lic_url == 0) {
+        cmor_get_cur_dataset_attribute(GLOBAL_ATT_LICENSE_URL, license_url);
+
+        if (strncmp(license_url, CV_lic_url->szValue, CMOR_MAX_STRING) !=
+            0) {
+            cmor_handle_error_variadic(
+                "Your input attribute license URL \"%s\" will be replaced with \n! "
+                "\"%s\" as defined in your Control Vocabulary file.\n! ",
+                CMOR_WARNING, license_url, CV_lic_url->szValue);
+        }
+    }
+    cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_LICENSE_URL, CV_lic_url->szValue, 1);
+
+    // Build license string
+    license_from_template[0] = '\0';
+    cmor_CreateFromTemplate(0, CV_lic_template->szValue, license_from_template, "");
+
+    has_license = cmor_has_cur_dataset_attribute(GLOBAL_ATT_LICENSE);
+    if (has_license == 0) {
+        cmor_get_cur_dataset_attribute(GLOBAL_ATT_LICENSE, license);
+
+        if (strncmp(license, license_from_template, CMOR_MAX_STRING) !=
+            0) {
+            cmor_handle_error_variadic(
+                "Your input attribute license \"%s\" will be replaced with \n! "
+                "\"%s\" as defined in your Control Vocabulary file.\n! ",
+                CMOR_WARNING, license, license_from_template);
+        }
+    }
+    cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_LICENSE, license_from_template, 1);
+
+    cmor_pop_traceback();
+    return (0);
+}
+
+/************************************************************************/
 /*                    cmor_CV_ValidateAttribute()                       */
 /*                                                                      */
 /*  Search for attribute and verify that values is within a list        */
@@ -2012,6 +2148,13 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
             cmor_pop_traceback();
             return (0);
         } else {
+            if (strcmp(szKey, GLOBAL_ATT_LICENSE) == 0) {
+                // If the license attribute is an object in the CV,
+                // then the user needs to specify a license_id that
+                // is used to build the license from a template.
+                cmor_pop_traceback();
+                return (0);
+            }
             list_CV = cmor_CV_search_child_key(key_CV, szValue);
             if (list_CV == NULL) {
                 cmor_handle_error_variadic(
