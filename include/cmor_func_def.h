@@ -116,7 +116,7 @@ extern void create_singleton_dimensions(int var_id, int ncid,
 extern int copyfile(const char *source, const char *dest);
 
 /* ==================================================================== */
-/*      Control Vocabulary                                              */
+/*      Controlled Vocabulary                                              */
 /* ==================================================================== */
 
 extern int cmor_build_outname(int var_id, char *outname );
