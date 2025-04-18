@@ -374,6 +374,7 @@ int cmor_CV_checkFurtherInfoURL(int nVarRefTblID)
 /* If the template is an emtpy string, then skip this check.            */
 /* -------------------------------------------------------------------- */
     if (cmor_current_dataset.furtherinfourl[0] == '\0') {
+        cmor_pop_traceback();
         return (0);
     }
 
@@ -399,6 +400,7 @@ int cmor_CV_checkFurtherInfoURL(int nVarRefTblID)
     if (strcmp(szToken, cmor_current_dataset.furtherinfourl) == 0) {
         cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_FURTHERINFOURL,
                                                 cmor_current_dataset.furtherinfourl, 0);
+        cmor_pop_traceback();
         return (0);
     }
 
@@ -427,10 +429,10 @@ int cmor_CV_checkFurtherInfoURL(int nVarRefTblID)
             cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
             cmor_handle_error_variadic(
                      "The further info in attribute does not match "
-                     "the one found in your Control Vocabulary(CV) File. \n! "
+                     "the one found in your Controlled Vocabulary(CV) File. \n! "
                      "We found \"%s\" and \n! "
                      "CV requires \"%s\" \n! "
-                     "Check your Control Vocabulary file \"%s\".\n! ",
+                     "Check your Controlled Vocabulary file \"%s\".\n! ",
                      CMOR_WARNING, szValue, szFurtherInfoURL, CV_Filename);
             cmor_pop_traceback();
             return (-1);
@@ -552,7 +554,7 @@ int cmor_CV_checkSourceType(cmor_CV_def_t * CV_exp, char *szExptID)
                      "some source type(s) could not be found in your "
                      "input file. \n! "
                      "Your file contains a source type of \"%s\".\n! "
-                     "Check your Control Vocabulary file \"%s\".\n! ",
+                     "Check your Controlled Vocabulary file \"%s\".\n! ",
                      CMOR_NORMAL, szReqSourceTypeCpy, szSourceType, CV_Filename);
             regfree(&regex);
         } else {
@@ -595,7 +597,7 @@ int cmor_CV_checkSourceType(cmor_CV_def_t * CV_exp, char *szExptID)
                  "You source_type attribute contains invalid source types\n! "
                  "Your source type is set to \"%s\".  The required source types\n! "
                  "are \"%s\" and possible additional source types are \"%s\" \n! "
-                 "Check your Control Vocabulary file \"%s\".\n! ",
+                 "Check your Controlled Vocabulary file \"%s\".\n! ",
                  CMOR_NORMAL, szSourceType, szReqSourceTypeCpy, szAddSourceTypeCpy,
                  CV_Filename);
         cmor_pop_traceback();
@@ -638,14 +640,14 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
     }
     
 /* -------------------------------------------------------------------- */
-/*  Find experiment_ids dictionary in Control Vocabulary                */
+/*  Find experiment_ids dictionary in Controlled Vocabulary                */
 /* -------------------------------------------------------------------- */
     CV_source_ids = cmor_CV_rootsearch(CV, CV_KEY_SOURCE_IDS);
 
     if (CV_source_ids == NULL) {
         cmor_handle_error_variadic(
                  "Your \"source_ids\" key could not be found in\n! "
-                 "your Control Vocabulary file.(%s)\n! ", CMOR_NORMAL, CV_Filename);
+                 "your Controlled Vocabulary file.(%s)\n! ", CMOR_NORMAL, CV_Filename);
 
         cmor_pop_traceback();
         return (-1);
@@ -655,7 +657,7 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
     if (rc != 0) {
         cmor_handle_error_variadic(
                  "Your \"%s\" is not defined, check your required attributes\n! "
-                 "See Control Vocabulary JSON file.(%s)\n! ",
+                 "See Controlled Vocabulary JSON file.(%s)\n! ",
                  CMOR_NORMAL, GLOBAL_ATT_SOURCE_ID, CV_Filename);
         cmor_pop_traceback();
         return (-1);
@@ -674,7 +676,7 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
             if(CV_source_id->nbObjects < 1) {
                 cmor_handle_error_variadic(
                          "You did not define a %s section in your source_id %s.\n! \n! \n! "
-                         "See Control Vocabulary JSON file. (%s)\n! ",
+                         "See Controlled Vocabulary JSON file. (%s)\n! ",
                          CMOR_CRITICAL, CV_KEY_SOURCE_LABEL, szSource_ID, CV_Filename);
                 return(-1);
             }
@@ -687,7 +689,7 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
             if (j == CV_source_id->nbObjects) {
                 cmor_handle_error_variadic(
                          "Could not find %s string in source_id section.\n! \n! \n! "
-                         "See Control Vocabulary JSON file. (%s)\n! ",
+                         "See Controlled Vocabulary JSON file. (%s)\n! ",
                          CMOR_CRITICAL, CV_KEY_SOURCE_LABEL, CV_Filename);
                 return(-1);
             }
@@ -704,7 +706,7 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
                          "Your input attribute \"%s\" with value \n! \"%s\" "
                          "will be replaced with "
                          "value \n! \"%s\".\n! \n! \n!  "
-                         "See Control Vocabulary JSON file.(%s)\n! ",
+                         "See Controlled Vocabulary JSON file.(%s)\n! ",
                          CMOR_WARNING, GLOBAL_ATT_SOURCE, szSource,
                          CV_source_id->oValue[j].szValue, CV_Filename);
             }
@@ -757,14 +759,14 @@ int CV_VerifyNBElement(cmor_CV_def_t * CV)
         cmor_handle_error_variadic(
                  "Your %s has more than 1 element\n! "
                  "only the first one will be used\n! "
-                 "Check your Control Vocabulary file \"%s\".\n! ",
+                 "Check your Controlled Vocabulary file \"%s\".\n! ",
                  CMOR_NORMAL, CV->key, CV_Filename);
         cmor_pop_traceback();
         return (-1);
     } else if (CV->anElements == -1) {
         cmor_handle_error_variadic(
                  "Your %s has more than 0 element\n! "
-                 "Check your Control Vocabulary file \"%s\".\n! ",
+                 "Check your Controlled Vocabulary file \"%s\".\n! ",
                  CMOR_NORMAL, CV->key, CV_Filename);
 
         cmor_pop_traceback();
@@ -842,7 +844,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
     if (ierr != 0) {
         cmor_handle_error_variadic(
                  "Your \"%s\" is not defined, check your required attributes\n! "
-                 "See Control Vocabulary JSON file.(%s)\n! ",
+                 "See Controlled Vocabulary JSON file.(%s)\n! ",
                  CMOR_NORMAL, GLOBAL_ATT_EXPERIMENTID, CV_Filename);
         cmor_pop_traceback();
         return (-1);
@@ -852,7 +854,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
     if (CV_sub_experiment_id == NULL) {
         cmor_handle_error_variadic(
                  "Your \"sub_experiment_id\" key could not be found in\n! "
-                 "your Control Vocabulary file.(%s)\n! ", CMOR_NORMAL, CV_Filename);
+                 "your Controlled Vocabulary file.(%s)\n! ", CMOR_NORMAL, CV_Filename);
         cmor_pop_traceback();
         return (-1);
     }
@@ -861,7 +863,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
     if (CV_experiment_id == NULL) {
         cmor_handle_error_variadic(
                  "Your \"experiment_id\" key could not be found in\n! "
-                 "your Control Vocabulary file.(%s)\n! ", CMOR_NORMAL, CV_Filename);
+                 "your Controlled Vocabulary file.(%s)\n! ", CMOR_NORMAL, CV_Filename);
         cmor_pop_traceback();
         return (-1);
     }
@@ -870,7 +872,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
     if (CV_experiment == NULL) {
         cmor_handle_error_variadic(
                  "Your experiment_id \"%s\" defined in your input file\n! "
-                 "could not be found in your Control Vocabulary file.(%s)\n! ",
+                 "could not be found in your Controlled Vocabulary file.(%s)\n! ",
                  CMOR_NORMAL, szExperiment_ID, CV_Filename);
         cmor_pop_traceback();
         return (-1);
@@ -881,7 +883,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
     if (CV_experiment_sub_exp_id == NULL) {
         cmor_handle_error_variadic(
                  "Your \"%s\" defined in your input file\n! "
-                 "could not be found in your Control Vocabulary file.(%s)\n! ",
+                 "could not be found in your Controlled Vocabulary file.(%s)\n! ",
                  CMOR_NORMAL, GLOBAL_ATT_SUB_EXPT_ID, CV_Filename);
         cmor_pop_traceback();
         return (-1);
@@ -893,7 +895,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
             cmor_handle_error_variadic(
                      "Your input attribute \"%s\" was not defined and \n! "
                      "will be set to \"%s\"\n! "
-                     "as defined in your Control Vocabulary file \"%s\".\n! ",
+                     "as defined in your Controlled Vocabulary file \"%s\".\n! ",
                      CMOR_WARNING, GLOBAL_ATT_SUB_EXPT_ID, NONE, CV_Filename);
             cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_SUB_EXPT_ID,
                                                     NONE, 1);
@@ -902,7 +904,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
             cmor_handle_error_variadic(
                      "Your input attribute \"%s\" is not defined properly \n! "
                      "for your experiment \"%s\" \n! \n! "
-                     "See Control Vocabulary JSON file.(%s)\n! ",
+                     "See Controlled Vocabulary JSON file.(%s)\n! ",
                      CMOR_NORMAL, GLOBAL_ATT_SUB_EXPT_ID, szExperiment_ID, CV_Filename);
             cmor_pop_traceback();
             return (-1);
@@ -919,7 +921,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
                 cmor_handle_error_variadic(
                          "Your input attribute \"%s\" defined as \"%s\" "
                          "will be replaced with \n! "
-                         "\"%s\" as defined in your Control Vocabulary file.\n! ",
+                         "\"%s\" as defined in your Controlled Vocabulary file.\n! ",
                          CMOR_WARNING, GLOBAL_ATT_SUB_EXPT_ID, szSubExptID,
                          CV_experiment_sub_exp_id->aszValue[0]);
                 cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_SUB_EXPT_ID,
@@ -932,7 +934,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
                          "Your input attribute \"%s\" is not defined properly \n! "
                          "for your experiment \"%s\"\n! "
                          "There is more than 1 option for this sub_experiment.\n! "
-                         "See Control Vocabulary JSON file.(%s)\n! ",
+                         "See Controlled Vocabulary JSON file.(%s)\n! ",
                          CMOR_NORMAL, GLOBAL_ATT_SUB_EXPT_ID, szExperiment_ID, CV_Filename);
                 cmor_pop_traceback();
                 return (-1);
@@ -944,7 +946,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
         cmor_handle_error_variadic(
                  "Your input attribute \"%s\" was not defined and \n! "
                  "will be set to \"%s\" \n! "
-                 "as defined in your Control Vocabulary file \"%s\".\n! ",
+                 "as defined in your Controlled Vocabulary file \"%s\".\n! ",
                  CMOR_WARNING, GLOBAL_ATT_SUB_EXPT, NONE, CV_Filename);
         cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_SUB_EXPT, NONE, 1);
     } else {
@@ -955,7 +957,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
             cmor_handle_error_variadic(
                      "Your \"sub_experiment\" text describing  \n! "
                      "sub_experiment_id \"%s\" could not be found in \n! "
-                     "your Control Vocabulary file.(%s)\n! ", 
+                     "your Controlled Vocabulary file.(%s)\n! ", 
                      CMOR_NORMAL, szSubExptID, CV_Filename);
             cmor_pop_traceback();
             return (-1);
@@ -965,7 +967,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
             cmor_handle_error_variadic(
                      "Your input attribute \"%s\" defined as \"%s\" "
                      "will be replaced with \n! "
-                     "\"%s\" as defined in your Control Vocabulary file.\n! ",
+                     "\"%s\" as defined in your Controlled Vocabulary file.\n! ",
                      CMOR_WARNING, GLOBAL_ATT_SUB_EXPT, szValue,
                      CV_sub_experiment_id_key->szValue);
             cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_SUB_EXPT,
@@ -1031,7 +1033,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
     if (ierr != 0) {
         cmor_handle_error_variadic(
                  "Your \"%s\" is not defined, check your required attributes\n! "
-                 "See Control Vocabulary JSON file.(%s)\n! ",
+                 "See Controlled Vocabulary JSON file.(%s)\n! ",
                  CMOR_NORMAL, GLOBAL_ATT_EXPERIMENTID, CV_Filename);
         cmor_pop_traceback();
         return (-1);
@@ -1041,7 +1043,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
     if (CV_experiment_ids == NULL) {
         cmor_handle_error_variadic(
                  "Your \"experiment_id\" key could not be found in\n! "
-                 "your Control Vocabulary file.(%s)\n! ", CMOR_NORMAL, CV_Filename);
+                 "your Controlled Vocabulary file.(%s)\n! ", CMOR_NORMAL, CV_Filename);
 
         cmor_pop_traceback();
         return (-1);
@@ -1052,7 +1054,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
     if (CV_experiment == NULL) {
         cmor_handle_error_variadic(
                  "Your experiment_id \"%s\" defined in your input file\n! "
-                 "could not be found in your Control Vocabulary file.(%s)\n! ",
+                 "could not be found in your Controlled Vocabulary file.(%s)\n! ",
                  CMOR_NORMAL, szExperiment_ID, CV_Filename);
         cmor_pop_traceback();
         return (-1);
@@ -1065,7 +1067,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
             cmor_handle_error_variadic(
                     "Your input attribute \"%s\" defined as \"\" "
                     "will be replaced with \n! "
-                    "\"%s\" as defined in your Control Vocabulary file.\n! ",
+                    "\"%s\" as defined in your Controlled Vocabulary file.\n! ",
                     CMOR_WARNING, PARENT_EXPERIMENT_ID, NO_PARENT);
             cmor_set_cur_dataset_attribute_internal(PARENT_EXPERIMENT_ID,
                                                     NO_PARENT, 1);
@@ -1073,7 +1075,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
             cmor_handle_error_variadic(
                      "Your input attribute \"%s\" is not defined properly \n! "
                      "for your experiment \"%s\"\n!\n! "
-                     "See Control Vocabulary JSON file.(%s)\n! ",
+                     "See Controlled Vocabulary JSON file.(%s)\n! ",
                      CMOR_NORMAL, GLOBAL_ATT_PARENT_EXPT_ID, CV_experiment->key,
                      CV_Filename);
             cmor_pop_traceback();
@@ -1125,7 +1127,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
                 cmor_handle_error_variadic(
                          "Your input attribute \"%s\" is not defined properly \n! "
                          "for your experiment \"%s\"\n!\n! "
-                         "See Control Vocabulary JSON file.(%s)\n! ",
+                         "See Controlled Vocabulary JSON file.(%s)\n! ",
                          CMOR_NORMAL, PARENT_ACTIVITY_ID, CV_experiment->key, CV_Filename);
                 ierr = -1;
             } else {
@@ -1137,7 +1139,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
                         cmor_handle_error_variadic(
                                  "Your input attribute \"%s\" defined as \"%s\" "
                                  "will be replaced with \n! "
-                                 "\"%s\" as defined in your Control Vocabulary file.\n! ",
+                                 "\"%s\" as defined in your Controlled Vocabulary file.\n! ",
                                  CMOR_WARNING, PARENT_ACTIVITY_ID, szValue,
                                  CV_parent_activity_id->aszValue[0]);
                         cmor_set_cur_dataset_attribute_internal
@@ -1149,7 +1151,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
                                  "Your input attribute \"%s\" is not defined properly \n! "
                                  "for your experiment \"%s\"\n! "
                                  "There is more than 1 option for this experiment.\n! "
-                                 "See Control Vocabulary JSON file.(%s)\n! ",
+                                 "See Controlled Vocabulary JSON file.(%s)\n! ",
                                  CMOR_WARNING, PARENT_ACTIVITY_ID, CV_experiment->key,
                                  CV_Filename);
                     }
@@ -1303,7 +1305,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
                 if (CV_source_id == NULL) {
                     cmor_handle_error_variadic(
                              "Your \"source_id\" key could not be found in\n! "
-                             "your Control Vocabulary file.(%s)\n! ",
+                             "your Controlled Vocabulary file.(%s)\n! ",
                              CMOR_NORMAL, CV_Filename);
                     ierr = -1;
                 } else {
@@ -1315,7 +1317,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
                     if (CV_source == NULL) {
                         cmor_handle_error_variadic(
                                 "Your parent_source_id \"%s\" defined in your input file\n! "
-                                "could not be found in your Control Vocabulary file.(%s)\n! ",
+                                "could not be found in your Controlled Vocabulary file.(%s)\n! ",
                                 CMOR_NORMAL, szParentSourceId, CV_Filename);
                         ierr = -1;
                     }
@@ -1340,7 +1342,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
                     cmor_handle_error_variadic(
                              "Your input attribute \"%s\" defined as \"%s\" "
                              "will be replaced with \n! "
-                             "\"%s\" as defined in your Control Vocabulary file.\n! ",
+                             "\"%s\" as defined in your Controlled Vocabulary file.\n! ",
                              CMOR_WARNING, PARENT_MIP_ERA, szValue, parent_mip_era);
                     cmor_set_cur_dataset_attribute_internal(PARENT_MIP_ERA,
                                                             szValue, 1);
@@ -1379,19 +1381,19 @@ int cmor_CV_checkExperiment(cmor_CV_def_t * CV)
     if (ierr != 0) {
         cmor_handle_error_variadic(
                  "Your \"%s\" is not defined, check your required attributes\n! "
-                 "See Control Vocabulary JSON file.(%s)\n! ",
+                 "See Controlled Vocabulary JSON file.(%s)\n! ",
                  CMOR_NORMAL, GLOBAL_ATT_EXPERIMENTID, CV_Filename);
         cmor_pop_traceback();
         return (-1);
     }
 /* -------------------------------------------------------------------- */
-/*  Find experiment_ids dictionary in Control Vocabulary                */
+/*  Find experiment_ids dictionary in Controlled Vocabulary                */
 /* -------------------------------------------------------------------- */
     CV_experiment_ids = cmor_CV_rootsearch(CV, CV_KEY_EXPERIMENT_ID);
     if (CV_experiment_ids == NULL) {
         cmor_handle_error_variadic(
                  "Your \"experiment_ids\" key could not be found in\n! "
-                 "your Control Vocabulary file.(%s)\n! ", CMOR_NORMAL, CV_Filename);
+                 "your Controlled Vocabulary file.(%s)\n! ", CMOR_NORMAL, CV_Filename);
 
         cmor_pop_traceback();
         return (-1);
@@ -1402,7 +1404,7 @@ int cmor_CV_checkExperiment(cmor_CV_def_t * CV)
     if (CV_experiment == NULL) {
         cmor_handle_error_variadic(
                  "Your experiment_id \"%s\" defined in your input file\n! "
-                 "could not be found in your Control Vocabulary file.(%s)\n! ",
+                 "could not be found in your Controlled Vocabulary file.(%s)\n! ",
                  CMOR_NORMAL, szExperiment_ID, CV_Filename);
 
         cmor_pop_traceback();
@@ -1427,8 +1429,8 @@ int cmor_CV_checkExperiment(cmor_CV_def_t * CV)
             continue;
         }
         // Warn user if experiment value from input file is different than
-        // Control Vocabulary value.
-        // experiment from Control Vocabulary will replace User entry value.
+        // Controlled Vocabulary value.
+        // experiment from Controlled Vocabulary will replace User entry value.
         if (rc == 0) {
             cmor_get_cur_dataset_attribute(CV_experiment_attr->key, szValue);
             if (CV_experiment_attr->anElements > 0) {
@@ -1451,7 +1453,7 @@ int cmor_CV_checkExperiment(cmor_CV_def_t * CV)
                                  "is not set properly and \n! "
                                  "has multiple possible candidates \n! "
                                  "defined for experiment_id \"%s\".\n! \n!  "
-                                 "See Control Vocabulary JSON file.(%s)\n! ",
+                                 "See Controlled Vocabulary JSON file.(%s)\n! ",
                                  CMOR_CRITICAL,
                                  CV_experiment_attr->key, szValue,
                                  CV_experiment->key, CV_Filename);
@@ -1479,7 +1481,7 @@ int cmor_CV_checkExperiment(cmor_CV_def_t * CV)
                      "needs to be replaced with "
                      "value \"%s\"\n! "
                      "as defined for experiment_id \"%s\".\n! \n!  "
-                     "See Control Vocabulary JSON file.(%s)\n! ",
+                     "See Controlled Vocabulary JSON file.(%s)\n! ",
                      CMOR_NORMAL,
                      CV_experiment_attr->key, szValue, szExpValue,
                      CV_experiment->key, CV_Filename);
@@ -1765,7 +1767,7 @@ int cmor_CV_checkFilename(cmor_CV_def_t * CV, int var_id,
                 "\"%s\"\n! \n! "
                 "and should follow this template: \n!"
                 "\"%s\"\n! \n! "
-                "See your Control Vocabulary file.(%s)\n! ", 
+                "See your Controlled Vocabulary file.(%s)\n! ", 
                 CMOR_NORMAL, var_id, infile, outname,
                 cmor_current_dataset.file_template, CV_Filename);
 
@@ -1807,13 +1809,13 @@ int cmor_CV_setInstitution(cmor_CV_def_t * CV)
     cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
 
 /* -------------------------------------------------------------------- */
-/*  Find Institution dictionaries in Control Vocabulary                 */
+/*  Find Institution dictionaries in Controlled Vocabulary                 */
 /* -------------------------------------------------------------------- */
     CV_institution_ids = cmor_CV_rootsearch(CV, CV_KEY_INSTITUTION_ID);
     if (CV_institution_ids == NULL) {
         cmor_handle_error_variadic(
                  "Your \"%s\" key could not be found in\n! "
-                 "your Control Vocabulary file.(%s)\n! ",
+                 "your Controlled Vocabulary file.(%s)\n! ",
                  CMOR_NORMAL, CV_KEY_INSTITUTION_ID, CV_Filename);
 
         cmor_pop_traceback();
@@ -1846,7 +1848,7 @@ int cmor_CV_setInstitution(cmor_CV_def_t * CV)
     if (rc == 0) {
 /* -------------------------------------------------------------------- */
 /* Retrieve institution and compare with the one we have in the         */
-/* Control Vocabulary file.  If it does not matches tell the user       */
+/* Controlled Vocabulary file.  If it does not matches tell the user       */
 /* the we will supersede his definition with the one in the Control     */
 /* Vocabulary file.                                                     */
 /* -------------------------------------------------------------------- */
@@ -1858,7 +1860,7 @@ int cmor_CV_setInstitution(cmor_CV_def_t * CV)
         if (CV_institution->szValue[0] == '\0') {
             cmor_handle_error_variadic(
                      "There is no institution associated to institution_id \"%s\"\n! "
-                     "in your Control Vocabulary file.\n! "
+                     "in your Controlled Vocabulary file.\n! "
                      "Check your \"%s\" dictionary!!\n! ", 
                      CMOR_NORMAL, CV_KEY_INSTITUTION_ID, szInstitution_ID);
             cmor_pop_traceback();
@@ -1871,15 +1873,151 @@ int cmor_CV_setInstitution(cmor_CV_def_t * CV)
             0) {
             cmor_handle_error_variadic(
                      "Your input attribute institution \"%s\" will be replaced with \n! "
-                     "\"%s\" as defined in your Control Vocabulary file.\n! ",
+                     "\"%s\" as defined in your Controlled Vocabulary file.\n! ",
                      CMOR_WARNING, szInstitution, CV_institution->szValue);
         }
     }
 /* -------------------------------------------------------------------- */
-/*   Set institution according to the Control Vocabulary                */
+/*   Set institution according to the Controlled Vocabulary                */
 /* -------------------------------------------------------------------- */
     cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_INSTITUTION,
                                             CV_institution->szValue, 1);
+    cmor_pop_traceback();
+    return (0);
+}
+
+/************************************************************************/
+/*                      cmor_CV_setLicense()                            */
+/************************************************************************/
+int cmor_CV_setLicense(cmor_CV_def_t * CV)
+{
+    cmor_CV_def_t *CV_license, *CV_lic_ids, *CV_lic_template;
+    cmor_CV_def_t *CV_lic, *CV_lic_type, *CV_lic_url;
+
+    char license[CMOR_MAX_STRING];
+    char license_from_template[CMOR_MAX_STRING];
+    char license_id[CMOR_MAX_STRING];
+    char license_type[CMOR_MAX_STRING];
+    char license_url[CMOR_MAX_STRING];
+    char CV_Filename[CMOR_MAX_STRING];
+    int has_license, has_lic_type, has_lic_url;
+
+    cmor_add_traceback("_CV_setLicense");
+
+    // Find current license ID
+    cmor_get_cur_dataset_attribute(GLOBAL_ATT_LICENSE_ID, license_id);
+    cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
+
+    // Find license dictionary in Controlled Vocabulary
+    CV_license = cmor_CV_rootsearch(CV, CV_KEY_LICENSE);
+    if (CV_license == NULL) {
+        cmor_handle_error_variadic(
+                    "Your \"%s\" key could not be found in\n! "
+                    "your Controlled Vocabulary file.(%s)\n! ",
+                    CMOR_NORMAL, CV_KEY_LICENSE, CV_Filename);
+
+        cmor_pop_traceback();
+        return (-1);
+    }
+
+    CV_lic_ids = cmor_CV_search_child_key(CV_license, CV_KEY_LICENSE_ID);
+    if (CV_lic_ids == NULL) {
+        cmor_handle_error_variadic(
+                    "Your \"%s\" key could not be found in\n! "
+                    "your Controlled Vocabulary file.(%s)\n! ",
+                    CMOR_NORMAL, CV_KEY_LICENSE_ID, CV_Filename);
+
+        cmor_pop_traceback();
+        return (-1);
+    }
+
+    CV_lic_template = cmor_CV_search_child_key(CV_license, CV_KEY_LICENSE_TEMPLATE);
+    if (CV_lic_template == NULL) {
+        cmor_handle_error_variadic(
+                    "License attribute, \"%s\", could not be found in "
+                    "your Controlled Vocabulary file. (%s)",
+                    CMOR_NORMAL, CV_KEY_LICENSE_TEMPLATE, CV_Filename);
+        cmor_pop_traceback();
+        return (-1);
+    }
+
+    CV_lic = cmor_CV_search_child_key(CV_lic_ids, license_id);
+    if (CV_lic == NULL) {
+        cmor_handle_error_variadic(
+                    "The license_id, \"%s\", could not be found in "
+                    "your Controlled Vocabulary file. (%s)",
+                    CMOR_NORMAL, license_id, CV_Filename);
+        cmor_pop_traceback();
+        return (-1);
+    }
+
+    CV_lic_type = cmor_CV_search_child_key(CV_lic, CV_KEY_LICENSE_TYPE);
+    if (CV_lic_type == NULL) {
+        cmor_handle_error_variadic(
+                    "License attribute, \"%s\", could not be found in "
+                    "your Controlled Vocabulary file. (%s)",
+                    CMOR_NORMAL, CV_KEY_LICENSE_TYPE, CV_Filename);
+        cmor_pop_traceback();
+        return (-1);
+    }
+
+    CV_lic_url = cmor_CV_search_child_key(CV_lic, CV_KEY_LICENSE_URL);
+    if (CV_lic_url == NULL) {
+        cmor_handle_error_variadic(
+                    "License attribute, \"%s\", could not be found in "
+                    "your Controlled Vocabulary file. (%s)",
+                    CMOR_NORMAL, CV_KEY_LICENSE_URL, CV_Filename);
+        cmor_pop_traceback();
+        return (-1);
+    }
+
+    // Check if user provided license type or URL
+    has_lic_type = cmor_has_cur_dataset_attribute(GLOBAL_ATT_LICENSE_TYPE);
+    if (has_lic_type == 0) {
+        cmor_get_cur_dataset_attribute(GLOBAL_ATT_LICENSE_TYPE, license_type);
+
+        if (strncmp(license_type, CV_lic_type->szValue, CMOR_MAX_STRING) !=
+            0) {
+            cmor_handle_error_variadic(
+                "Your input attribute license type \"%s\" will be replaced with \n! "
+                "\"%s\" as defined in your Controlled Vocabulary file.\n! ",
+                CMOR_WARNING, license_type, CV_lic_type->szValue);
+        }
+    }
+    cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_LICENSE_TYPE, CV_lic_type->szValue, 1);
+
+    has_lic_url = cmor_has_cur_dataset_attribute(GLOBAL_ATT_LICENSE_URL);
+    if (has_lic_url == 0) {
+        cmor_get_cur_dataset_attribute(GLOBAL_ATT_LICENSE_URL, license_url);
+
+        if (strncmp(license_url, CV_lic_url->szValue, CMOR_MAX_STRING) !=
+            0) {
+            cmor_handle_error_variadic(
+                "Your input attribute license URL \"%s\" will be replaced with \n! "
+                "\"%s\" as defined in your Controlled Vocabulary file.\n! ",
+                CMOR_WARNING, license_url, CV_lic_url->szValue);
+        }
+    }
+    cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_LICENSE_URL, CV_lic_url->szValue, 1);
+
+    // Build license string
+    license_from_template[0] = '\0';
+    cmor_CreateFromTemplate(0, CV_lic_template->szValue, license_from_template, "");
+
+    has_license = cmor_has_cur_dataset_attribute(GLOBAL_ATT_LICENSE);
+    if (has_license == 0) {
+        cmor_get_cur_dataset_attribute(GLOBAL_ATT_LICENSE, license);
+
+        if (strncmp(license, license_from_template, CMOR_MAX_STRING) !=
+            0) {
+            cmor_handle_error_variadic(
+                "Your input attribute license \"%s\" will be replaced with \n! "
+                "\"%s\" as defined in your Controlled Vocabulary file.\n! ",
+                CMOR_WARNING, license, license_from_template);
+        }
+    }
+    cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_LICENSE, license_from_template, 1);
+
     cmor_pop_traceback();
     return (0);
 }
@@ -1960,7 +2098,7 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
         if (reti) {
             cmor_handle_error_variadic(
                      "You regular expression \"%s\" is invalid. \n! "
-                     "Check your Control Vocabulary file \"%s\".\n! ",
+                     "Check your Controlled Vocabulary file \"%s\".\n! ",
                      CMOR_NORMAL, attr_CV->aszValue[i], CV_Filename);
             regfree(&regex);
             cmor_pop_traceback();
@@ -2010,6 +2148,23 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
             cmor_pop_traceback();
             return (0);
         } else {
+            if (strcmp(szKey, GLOBAL_ATT_LICENSE) == 0) {
+                // If the license attribute is an object in the CV,
+                // then the user needs to specify a license_id that
+                // is used to build the license from a template.
+                if(cmor_has_cur_dataset_attribute(GLOBAL_ATT_LICENSE_ID) != 0){
+                    cmor_handle_error_variadic(
+                        "The CV contains license information that requires "
+                        "the attribute \"%s\" to be defined. \n! "
+                        "Please select a \"%s\" value from the \"%s\" section of the CV.",
+                        CMOR_NORMAL,
+                        GLOBAL_ATT_LICENSE_ID, GLOBAL_ATT_LICENSE_ID, GLOBAL_ATT_LICENSE);
+                    cmor_pop_traceback();
+                    return (-1);
+                }
+                cmor_pop_traceback();
+                return (0);
+            }
             list_CV = cmor_CV_search_child_key(key_CV, szValue);
             if (list_CV == NULL) {
                 cmor_handle_error_variadic(
@@ -2219,7 +2374,7 @@ int cmor_CV_checkGrids(cmor_CV_def_t * CV)
     if (CV_grid_labels == NULL) {
         cmor_handle_error_variadic(
                  "Your \"grid_label\" key could not be found in\n! "
-                 "your Control Vocabulary file.(%s)\n! ", CMOR_NORMAL, CV_Filename);
+                 "your Controlled Vocabulary file.(%s)\n! ", CMOR_NORMAL, CV_Filename);
 
         cmor_pop_traceback();
         return (-1);
@@ -2241,7 +2396,7 @@ int cmor_CV_checkGrids(cmor_CV_def_t * CV)
         if (i == CV_grid_labels->anElements) {
             cmor_handle_error_variadic(
                      "Your attribute grid_label is set to \"%s\" which is invalid."
-                     "\n! \n! Check your Control Vocabulary file \"%s\".\n! ",
+                     "\n! \n! Check your Controlled Vocabulary file \"%s\".\n! ",
                      CMOR_NORMAL, szGridLabel, CV_Filename);
             cmor_pop_traceback();
             return (-1);
@@ -2252,7 +2407,7 @@ int cmor_CV_checkGrids(cmor_CV_def_t * CV)
         if (CV_grid_child == NULL) {
             cmor_handle_error_variadic(
                     "Your attribute grid_label is set to \"%s\" which is invalid."
-                            "\n! \n! Check your Control Vocabulary file \"%s\".\n! ",
+                            "\n! \n! Check your Controlled Vocabulary file \"%s\".\n! ",
                     CMOR_NORMAL, szGridLabel, CV_Filename);
             cmor_pop_traceback();
             return (-1);
@@ -2262,7 +2417,7 @@ int cmor_CV_checkGrids(cmor_CV_def_t * CV)
     if (CV_grid_resolution == NULL) {
         cmor_handle_error_variadic(
                  "Your \"nominal_resolution\" key could not be found in\n! "
-                 "your Control Vocabulary file.(%s)\n! ", CMOR_NORMAL, CV_Filename);
+                 "your Controlled Vocabulary file.(%s)\n! ", CMOR_NORMAL, CV_Filename);
         cmor_pop_traceback();
         return (-1);
 
@@ -2287,7 +2442,7 @@ int cmor_CV_checkGrids(cmor_CV_def_t * CV)
         if (i == CV_grid_resolution->anElements) {
             cmor_handle_error_variadic(
                      "Your attribute grid_resolution is set to \"%s\" which is invalid."
-                     "\n! \n! Check your Control Vocabulary file \"%s\".\n! ",
+                     "\n! \n! Check your Controlled Vocabulary file \"%s\".\n! ",
                      CMOR_NORMAL, szGridResolution, CV_Filename);
             cmor_pop_traceback();
             return (-1);
@@ -2316,7 +2471,7 @@ int cmor_CV_checkGblAttributes(cmor_CV_def_t * CV)
             rc = cmor_has_cur_dataset_attribute(required_attrs->aszValue[i]);
             if (rc != 0) {
                 cmor_handle_error_variadic(
-                         "Your Control Vocabulary file specifies one or more\n! "
+                         "Your Controlled Vocabulary file specifies one or more\n! "
                          "required attributes.  The following\n! "
                          "attribute was not properly set.\n! \n! "
                          "Please set attribute: \"%s\" in your input file.",

@@ -116,7 +116,7 @@ extern void create_singleton_dimensions(int var_id, int ncid,
 extern int copyfile(const char *source, const char *dest);
 
 /* ==================================================================== */
-/*      Control Vocabulary                                              */
+/*      Controlled Vocabulary                                              */
 /* ==================================================================== */
 
 extern int cmor_build_outname(int var_id, char *outname );
@@ -148,6 +148,7 @@ extern cmor_CV_def_t * cmor_CV_rootsearch(cmor_CV_def_t *CV, char *key);
 extern int cmor_CV_checkFurtherInfoURL(int var_id);
 extern int cmor_CV_checkGrids(cmor_CV_def_t *CV);
 extern int cmor_CV_setInstitution( cmor_CV_def_t *CV);
+extern int cmor_CV_setLicense( cmor_CV_def_t *CV);
 
 extern int cmor_CV_set_entry(cmor_table_t* table, json_object *value);
 extern int  cmor_CV_ValidateGblAttributes( char *name);
