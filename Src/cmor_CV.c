@@ -2152,6 +2152,16 @@ int cmor_CV_ValidateAttribute(cmor_CV_def_t * CV, char *szKey)
                 // If the license attribute is an object in the CV,
                 // then the user needs to specify a license_id that
                 // is used to build the license from a template.
+                if(cmor_has_cur_dataset_attribute(GLOBAL_ATT_LICENSE_ID) != 0){
+                    cmor_handle_error_variadic(
+                        "The CV contains license information that requires "
+                        "the attribute \"%s\" to be defined. \n! "
+                        "Please select a \"%s\" value from the \"%s\" section of the CV.",
+                        CMOR_NORMAL,
+                        GLOBAL_ATT_LICENSE_ID, GLOBAL_ATT_LICENSE_ID, GLOBAL_ATT_LICENSE);
+                    cmor_pop_traceback();
+                    return (-1);
+                }
                 cmor_pop_traceback();
                 return (0);
             }
