@@ -245,7 +245,7 @@ def get_variable_attribute(var_id, name):
 
 def check_institution(table_id):
     '''
-        Verify institution against Control Vocabulary files
+        Verify institution against Controlled Vocabulary files
         Usage:
           cmip6_cv.set_institution(table_id)
         Where:
@@ -259,7 +259,7 @@ def check_institution(table_id):
 
 def check_sourceID(table_id):
     '''
-      Validate source and source id against Control Vocabulary file.
+      Validate source and source id against Controlled Vocabulary file.
       Usage:
         cmip6_cv.check_sourceID(table_id)
       Where:
@@ -291,7 +291,7 @@ def check_filename(table_id, var_id, calendar, timeunits, infile):
 
 def check_experiment(table_id):
     '''
-      Validate Experiment and Experiement_id against Control Vocabulary file.
+      Validate Experiment and Experiement_id against Controlled Vocabulary file.
 
       If required global attributes are not all set, warning will be displayed.
 
@@ -307,7 +307,7 @@ def check_experiment(table_id):
 
 def check_grids(table_id):
     '''
-      Validate grid and grid_resolution against Control Vocabulary file.
+      Validate grid and grid_resolution against Controlled Vocabulary file.
 
       Usage:
         cmip6_cv.check_grids(table_id)
@@ -321,7 +321,7 @@ def check_grids(table_id):
 
 def check_requiredattributes(table_id):
     '''
-      Validate all required attributes against Control Vocabulary file.
+      Validate all required attributes against Controlled Vocabulary file.
 
       Usage:
         cmip6_cv.check_requiredattributes(table_id)
@@ -436,7 +436,7 @@ def set_CV_Error():
 
 def check_furtherinfourl(table_id):
     '''
-      Validate further info URL attribute using REGEX found in Control Vocabulary file.
+      Validate further info URL attribute using REGEX found in Controlled Vocabulary file.
 
       Usage:
         cmip6_cv.furtherinfourl(table_id)

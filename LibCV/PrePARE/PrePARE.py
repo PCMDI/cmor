@@ -251,7 +251,7 @@ class checkCMIP6(object):
         # -------------------------------------------------------------------
         cmip6_cv.setup(inpath="../Tables", exit_control=cmip6_cv.CMOR_EXIT_ON_WARNING)
         # -------------------------------------------------------------------
-        # Set Control Vocabulary file to use (default from cmor.h)
+        # Set Controlled Vocabulary file to use (default from cmor.h)
         # -------------------------------------------------------------------
         cmip6_cv.set_cur_dataset_attribute(
             cmip6_cv.GLOBAL_CV_FILENAME,
@@ -362,7 +362,7 @@ class checkCMIP6(object):
 
     def ControlVocab(self, ncfile, variable=None, print_all=True, no_text_color=False):
         """
-        Check CMIP6 global attributes against Control Vocabulary file.
+        Check CMIP6 global attributes against Controlled Vocabulary file.
 
             1. Validate required attribute if presents and some values.
             2. Validate registered institution and institution_id
