@@ -667,6 +667,7 @@ int cmor_set_grid_mapping(int gid, char *name, int nparam,
 /* -------------------------------------------------------------------- */
 
     strncpy(cmor_grids[grid_id].mapping, name, CMOR_MAX_STRING);
+    strncpy(cmor_grids[grid_id].name, name, CMOR_MAX_STRING);
     cmor_pop_traceback();
     return (0);
 }

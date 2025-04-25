@@ -1245,6 +1245,7 @@ int cmor_setup(char *path,
     cmor_current_dataset.initiated = 0;
 
     for (i = 0; i < CMOR_MAX_GRIDS; i++) {
+        strncpy(cmor_grids[i].name, "", CMOR_MAX_STRING);
         strncpy(cmor_grids[i].mapping, "", CMOR_MAX_STRING);
         cmor_grids[i].ndims = 0;
         cmor_grids[i].nattributes = 0;
@@ -4203,7 +4204,7 @@ int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af,
 /*      first of all checks for grid_mapping                            */
 /* -------------------------------------------------------------------- */
 
-    if (strcmp(cmor_grids[nGridID].mapping, "") != 0) {
+    if (strcmp(cmor_grids[nGridID].name, "") != 0) {
 /* -------------------------------------------------------------------- */
 /*      ok we need to create this dummy variable                        */
 /*      that contains all the info                                      */
@@ -4211,9 +4212,9 @@ int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af,
 
         cmor_set_variable_attribute_internal(var_id,
                                              VARIALBE_ATT_GRIDMAPPING,
-                                             'c', cmor_grids[nGridID].mapping);
+                                             'c', cmor_grids[nGridID].name);
 
-        ierr = nc_def_var(ncafid, cmor_grids[nGridID].mapping, NC_INT, 0,
+        ierr = nc_def_var(ncafid, cmor_grids[nGridID].name, NC_INT, 0,
                           &nc_dims_associated[0], &m);
 
         if (ierr != NC_NOERR) {
@@ -4223,7 +4224,7 @@ int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af,
                 "variable %s (table: %s)",
                 CMOR_CRITICAL, var_id,
                 ierr, nc_strerror(ierr),
-                cmor_grids[nGridID].mapping, cmor_vars[var_id].id,
+                cmor_grids[nGridID].name, cmor_vars[var_id].id,
                 cmor_tables[nVarRefTblID].szTable_id);
         }
 /* -------------------------------------------------------------------- */
@@ -4275,7 +4276,7 @@ int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af,
                                                  'd',
                                                  cmor_grids
                                                  [nGridID].attributes_values[k],
-                                                 cmor_grids[nGridID].mapping);
+                                                 cmor_grids[nGridID].name);
             }
         }
     }
