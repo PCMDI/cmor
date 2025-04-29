@@ -4282,6 +4282,12 @@ int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af,
                                                  cmor_grids[nGridID].name);
             }
         }
+        // Add crs_wkt attribute if defined
+        if(cmor_grids[nGridID].crs_wkt != NULL) {
+            ierr = cmor_put_nc_char_attribute(ncafid, m, "crs_wkt",
+                                              cmor_grids[nGridID].crs_wkt,
+                                              cmor_vars[var_id].id);
+        }
     }
 /* -------------------------------------------------------------------- */
 /*      Preps the marker for vertices dimensions                        */
