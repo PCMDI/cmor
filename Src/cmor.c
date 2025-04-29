@@ -1263,11 +1263,14 @@ int cmor_setup(char *path,
             free(cmor_grids[i].blats);
         if (cmor_grids[i].blons != NULL)
             free(cmor_grids[i].blons);
+        if (cmor_grids[i].crs_wkt != NULL)
+            free(cmor_grids[i].crs_wkt);
 
         cmor_grids[i].lats = NULL;
         cmor_grids[i].lons = NULL;
         cmor_grids[i].blats = NULL;
         cmor_grids[i].blons = NULL;
+        cmor_grids[i].crs_wkt = NULL;
 
         cmor_grids[i].istimevarying = 0;
         cmor_grids[i].nvertices = 0;
@@ -6969,6 +6972,10 @@ int cmor_close(void)
         if (cmor_grids[i].blats != NULL) {
             free(cmor_grids[i].blats);
             cmor_grids[i].blats = NULL;
+        }
+        if (cmor_grids[i].crs_wkt != NULL) {
+            free(cmor_grids[i].crs_wkt);
+            cmor_grids[i].crs_wkt = NULL;
         }
     }
     if ((cmor_nerrors != 0 || cmor_nwarnings != 0)) {

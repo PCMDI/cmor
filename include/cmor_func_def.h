@@ -270,6 +270,11 @@ extern int cmor_set_grid_mapping( int gid, char *name, int nparam,
 				  double attributes_values[CMOR_MAX_GRID_ATTRIBUTES],
 				  char *units,
 				  int lnunits );
+extern int cmor_set_crs( int gid, char *grid_mapping, int nparam,
+                    char *attributes_names, int lparams,
+                    double attributes_values[CMOR_MAX_GRID_ATTRIBUTES],
+                    char *units, int lnunits,
+                    char *crs_wkt );
 extern int cmor_grid( int *grid_id, int ndims, int *axes_ids, char type,
 		      void *lat, void *lon, int nvertices, void *blat,
 		      void *blon );

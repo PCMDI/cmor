@@ -362,6 +362,7 @@ typedef struct cmor_grid_ {
 /*      for lon/lat/blon/blat/area/volumes                              */
 /* -------------------------------------------------------------------- */
     int associated_variables[6];
+    char *crs_wkt;
 } cmor_grid_t;
 
 extern cmor_grid_t cmor_grids[CMOR_MAX_GRIDS];

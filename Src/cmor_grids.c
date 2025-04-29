@@ -673,6 +673,36 @@ int cmor_set_grid_mapping(int gid, char *name, int nparam,
 }
 
 /************************************************************************/
+/*                       cmor_set_crs()                                 */
+/************************************************************************/
+
+int cmor_set_crs(int gid, char *grid_mapping, int nparam,
+    char *attributes_names, int lparams,
+    double attributes_values[CMOR_MAX_GRID_ATTRIBUTES],
+    char *units, int lnunits, char *crs_wkt)
+{
+    int ierr, grid_id, str_size;
+
+    ierr = cmor_set_grid_mapping(gid, grid_mapping, nparam,
+        attributes_names, lparams, attributes_values,
+        units, lnunits);
+
+    grid_id = -gid - CMOR_MAX_GRIDS;
+    strncpy(cmor_grids[grid_id].name, "crs", CMOR_MAX_STRING);
+
+    if (cmor_grids[grid_id].crs_wkt != NULL) {
+        free(cmor_grids[grid_id].crs_wkt);
+    }
+    str_size = strlen(crs_wkt);
+    cmor_grids[grid_id].crs_wkt = malloc(str_size * sizeof(char));
+    strncpy(cmor_grids[grid_id].crs_wkt, crs_wkt, str_size);
+
+    cmor_add_traceback("cmor_set_grid_mapping");
+    cmor_pop_traceback();
+    return (ierr);
+}
+
+/************************************************************************/
 /*                 cmor_time_varying_grid_coordinate()                  */
 /************************************************************************/
 
