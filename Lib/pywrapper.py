@@ -341,7 +341,7 @@ def set_crs(grid_id, mapping_name, parameter_names,
     if not isinstance(mapping_name, six.string_types):
         raise Exception("mapping name must be a string")
 
-    if crs_wkt is not None or not isinstance(mapping_name, six.string_types):
+    if crs_wkt is not None and not isinstance(mapping_name, six.string_types):
         raise Exception("CRS WKT must be a string or None")
 
     if isinstance(parameter_names, dict):
