@@ -683,6 +683,8 @@ int cmor_set_crs(int gid, char *grid_mapping, int nparam,
 {
     int ierr, grid_id, str_size;
 
+    cmor_add_traceback("cmor_set_grid_mapping");
+
     ierr = cmor_set_grid_mapping(gid, grid_mapping, nparam,
         attributes_names, lparams, attributes_values,
         units, lnunits);
@@ -692,12 +694,15 @@ int cmor_set_crs(int gid, char *grid_mapping, int nparam,
 
     if (cmor_grids[grid_id].crs_wkt != NULL) {
         free(cmor_grids[grid_id].crs_wkt);
+        cmor_grids[grid_id].crs_wkt = NULL;
     }
-    str_size = strlen(crs_wkt);
-    cmor_grids[grid_id].crs_wkt = malloc(str_size * sizeof(char));
-    strncpy(cmor_grids[grid_id].crs_wkt, crs_wkt, str_size);
 
-    cmor_add_traceback("cmor_set_grid_mapping");
+    if (crs_wkt != NULL) {
+        str_size = strlen(crs_wkt);
+        cmor_grids[grid_id].crs_wkt = malloc(str_size * sizeof(char));
+        strncpy(cmor_grids[grid_id].crs_wkt, crs_wkt, str_size);
+    }
+
     cmor_pop_traceback();
     return (ierr);
 }
