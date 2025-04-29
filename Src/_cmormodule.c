@@ -874,7 +874,7 @@ static PyObject *PyCMOR_set_crs(PyObject * self, PyObject * args)
 
     /* HUGE assumtion here is that the data is contiguous! */
     if (!PyArg_ParseTuple
-        (args, "isOOOs", &gid, &name, &param_nm_obj, &param_val_obj,
+        (args, "isOOOz", &gid, &name, &param_nm_obj, &param_val_obj,
          &param_un_obj, &crs_wkt))
         return NULL;
 
