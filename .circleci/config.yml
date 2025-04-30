@@ -93,7 +93,7 @@ aliases:
        source $WORKDIR/miniforge3/etc/profile.d/mamba.sh
        mamba activate base
        export CMOR_CHANNEL=$HOME/cmor_conda_pkgs/
-       mamba search -c file://$CMOR_CHANNEL --override-channels
+       # mamba search -c file://$CMOR_CHANNEL --override-channels
        set +e
        mamba create -y -n test_py$PYTHON_VERSION -c file://$CMOR_CHANNEL $CHANNELS python=$PYTHON_VERSION $PKG_NAME=$VERSION $CONDA_COMPILERS
        mamba activate test_py$PYTHON_VERSION
