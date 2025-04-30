@@ -121,7 +121,6 @@ jobs:
           mamba activate
 
           export CMOR_CHANNEL=file://$HOME/cmor_conda_pkgs/
-          mamba search -c $CMOR_CHANNEL --override-channels
 
           mamba create -y -n test_py$PYTHON_VERSION -c $CMOR_CHANNEL -c $CONDA_FORGE_CHANNEL python=$PYTHON_VERSION $PACKAGE_NAME=$PACKAGE_VERSION $C_COMPILER $FORTRAN_COMPILER
           mamba activate test_py$PYTHON_VERSION
