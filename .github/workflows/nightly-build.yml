@@ -60,14 +60,14 @@ jobs:
           curl -L $MINIFORGE_INSTALLER_URL -o miniforge3.sh
           bash miniforge3.sh -b -p $HOME/miniforge3
           source $HOME/miniforge3/etc/profile.d/conda.sh
-          mamba shell init
-          mamba activate base
+          eval "$(mamba shell hook --shell bash)"
+          mamba activate
 
       - name: Conda Rerender
         run: |
           source $HOME/miniforge3/etc/profile.d/conda.sh
-          mamba shell init
-          mamba activate base
+          eval "$(mamba shell hook --shell bash)"
+          mamba activate
 
           git clone -b main https://github.com/conda-forge/cmor-feedstock $PROJECT_DIR/cmor-feedstock
           export SRC_META_YAML=`pwd`/$PROJECT_DIR/cmor-feedstock/recipe/meta.yaml.SRC
@@ -98,8 +98,8 @@ jobs:
       - name: Conda Build
         run: |
           source $HOME/miniforge3/etc/profile.d/conda.sh
-          mamba shell init
-          mamba activate base
+          eval "$(mamba shell hook --shell bash)"
+          mamba activate
           mamba activate smithy_env
 
           export BUILD_DIR=$HOME/cmor_conda_pkgs
@@ -117,8 +117,8 @@ jobs:
       - name: Run Tests
         run: |
           source $HOME/miniforge3/etc/profile.d/conda.sh
-          mamba shell init
-          mamba activate base
+          eval "$(mamba shell hook --shell bash)"
+          mamba activate
 
           export CMOR_CHANNEL=file://$HOME/cmor_conda_pkgs/
           mamba search -c $CMOR_CHANNEL --override-channels
@@ -135,8 +135,8 @@ jobs:
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
           source $HOME/miniforge3/etc/profile.d/conda.sh
-          mamba shell init
-          mamba activate base
+          eval "$(mamba shell hook --shell bash)"
+          mamba activate
           mamba install -n base -c conda-forge anaconda-client
           export ARTIFACT_DIR=`pwd`/artifacts
           anaconda -t $CONDA_UPLOAD_TOKEN upload -u $CONDA_USER -l $CONDA_LABEL $ARTIFACT_DIR/*/*.conda --force

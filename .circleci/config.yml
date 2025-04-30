@@ -34,8 +34,8 @@ aliases:
     command: |
        source $BASH_ENV
        source $WORKDIR/miniforge3/etc/profile.d/conda.sh
-       mamba shell init
-       mamba activate base
+       eval "$(mamba shell hook --shell bash)"
+       mamba activate
 
        git clone -b main https://github.com/conda-forge/cmor-feedstock $WORKDIR/cmor-feedstock
        export SRC_META_YAML=$WORKDIR/cmor-feedstock/recipe/meta.yaml.SRC
@@ -64,8 +64,8 @@ aliases:
     command: |
        source $BASH_ENV
        source $WORKDIR/miniforge3/etc/profile.d/conda.sh
-       mamba shell init
-       mamba activate base
+       eval "$(mamba shell hook --shell bash)"
+       mamba activate
        mamba activate smithy_env
 
        export BUILD_DIR=$HOME/cmor_conda_pkgs
@@ -90,8 +90,8 @@ aliases:
     command: |
        source $BASH_ENV
        source $WORKDIR/miniforge3/etc/profile.d/conda.sh
-       mamba shell init
-       mamba activate base
+       eval "$(mamba shell hook --shell bash)"
+       mamba activate
        export CMOR_CHANNEL=$HOME/cmor_conda_pkgs/
        # mamba search -c file://$CMOR_CHANNEL --override-channels
        set +e
@@ -106,8 +106,8 @@ aliases:
     command: |
        source $BASH_ENV
        source $WORKDIR/miniforge3/etc/profile.d/conda.sh
-       mamba shell init
-       mamba activate base
+       eval "$(mamba shell hook --shell bash)"
+       mamba activate
        mamba install -n base -c conda-forge anaconda-client
        export ARTIFACT_DIR=`pwd`/artifacts
        anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL $ARTIFACT_DIR/*/*.conda --force
