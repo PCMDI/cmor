@@ -760,6 +760,17 @@ module cmor_users_functions
      end function cmor_set_grd_map_cff
   end interface
 
+  interface
+     function cmor_set_crs_cff(gid,nm,nparam,att_names,lparam,&
+          values,units,lunits,crs_wkt) result(ierr)
+       integer gid, nparam,lparam,lunits
+       character(*):: att_names,units
+       character(*) :: nm
+       double precision :: values
+       character(*) :: crs_wkt
+     end function cmor_set_crs_cff
+  end interface
+
   interface 
      function cmor_close_var_nofnm_cff(varid) result (ierr)
        integer ierr,varid
@@ -2450,6 +2461,35 @@ contains
     deallocate(paranm)
     deallocate(paraun)
   end function cmor_set_grid_mapping
+
+  function cmor_set_crs(grid_id,mapping_name,parameter_names,&
+       parameter_values,parameter_units,crs_wkt) result(ierr)
+    implicit none
+    integer :: ierr,grid_id
+    character(*) :: mapping_name
+    character(*) :: parameter_names(:),parameter_units(:)
+    double precision :: parameter_values(:)
+    character(*) :: crs_wkt
+    integer i,nparam,lparam,lunits
+    character(len=1024),allocatable ::  paranm(:),paraun(:)
+    nparam = size(parameter_values)
+    lparam = 1024
+    lunits = 1024
+    allocate(paranm(nparam))
+    allocate(paraun(nparam))
+    do i = 1,nparam
+       paranm(i) = trim(parameter_names(i))//char(0)
+       paraun(i) = trim(parameter_units(i))//char(0)
+    enddo
+    
+    ierr = cmor_set_crs_cff(grid_id,trim(mapping_name)//char(0),nparam,&
+                            paranm(1), lparam, &
+                            parameter_values(1), &
+                            paraun(1), lunits, &
+                            trim(crs_wkt)//char(0))
+    deallocate(paranm)
+    deallocate(paraun)
+  end function cmor_set_crs
 
 
   function cmor_grid_tvc_r(grid_id,table_entry,units,missing) result (ierr)
