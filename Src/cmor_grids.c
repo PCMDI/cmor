@@ -326,8 +326,8 @@ int cmor_grid_valid_mapping_attribute_names(char *name, int *natt, char (*att)
         strcpy(att[3], "false_easting");
         strcpy(att[4], "false_northing");
         *ndims = 2;
-        strcpy(dims[0], "projection_y_coordinate");
-        strcpy(dims[1], "projection_x_coordinate");
+        strcpy(dims[0], "projection_x_coordinate");
+        strcpy(dims[1], "projection_y_coordinate");
     } else if (strcmp(name, "azimuthal_equidistant") == 0) {
         *natt = 4;
         strcpy(att[0], "longitude_of_projection_origin");
@@ -335,17 +335,29 @@ int cmor_grid_valid_mapping_attribute_names(char *name, int *natt, char (*att)
         strcpy(att[2], "false_easting");
         strcpy(att[3], "false_northing");
         *ndims = 2;
-        strcpy(dims[0], "projection_y_coordinate");
-        strcpy(dims[1], "projection_x_coordinate");
+        strcpy(dims[0], "projection_x_coordinate");
+        strcpy(dims[1], "projection_y_coordinate");
+    } else if (strcmp(name, "geostationary") == 0) {
+        *natt = 7;
+        strcpy(att[0], "latitude_of_projection_origin");
+        strcpy(att[1], "longitude_of_projection_origin");
+        strcpy(att[2], "perspective_point_height");
+        strcpy(att[3], "sweep_angle_axis");
+        strcpy(att[4], "fixed_angle_axis");
+        strcpy(att[5], "false_easting");
+        strcpy(att[6], "false_northing");
+        *ndims = 2;
+        strcpy(dims[0], "projection_x_coordinate");
+        strcpy(dims[1], "projection_y_coordinate");
     } else if (strcmp(name, "lambert_azimuthal_equal_area") == 0) {
         *natt = 4;
-        strcpy(att[0], "longitude_of_projection_origin");
-        strcpy(att[1], "latitude_of_projection_origin");
+        strcpy(att[0], "latitude_of_projection_origin");
+        strcpy(att[1], "longitude_of_projection_origin");
         strcpy(att[2], "false_easting");
         strcpy(att[3], "false_northing");
         *ndims = 2;
-        strcpy(dims[0], "projection_y_coordinate");
-        strcpy(dims[1], "projection_x_coordinate");
+        strcpy(dims[0], "projection_x_coordinate");
+        strcpy(dims[1], "projection_y_coordinate");
     } else if (strcmp(name, "lambert_conformal_conic") == 0) {
         *natt = 5;
         strcpy(att[0], "standard_parallel");
@@ -354,52 +366,62 @@ int cmor_grid_valid_mapping_attribute_names(char *name, int *natt, char (*att)
         strcpy(att[3], "false_easting");
         strcpy(att[4], "false_northing");
         *ndims = 2;
-        strcpy(dims[0], "projection_y_coordinate");
-        strcpy(dims[1], "projection_x_coordinate");
+        strcpy(dims[0], "projection_x_coordinate");
+        strcpy(dims[1], "projection_y_coordinate");
     } else if (strcmp(name, "lambert_cylindrical_equal_area") == 0) {
-        *natt = 5;
+        *natt = 4;
         strcpy(att[0], "standard_parallel");
         strcpy(att[1], "longitude_of_central_meridian");
-        strcpy(att[2], "scale_factor_at_projection_origin");
-        strcpy(att[3], "false_easting");
-        strcpy(att[4], "false_northing");
+        strcpy(att[2], "false_easting");
+        strcpy(att[3], "false_northing");
         *ndims = 2;
-        strcpy(dims[0], "projection_y_coordinate");
-        strcpy(dims[1], "projection_x_coordinate");
+        strcpy(dims[0], "projection_x_coordinate");
+        strcpy(dims[1], "projection_y_coordinate");
     } else if (strcmp(name, "latitude_longitude") == 0) {
         *natt = 0;
-        *ndims = 0;
+        *ndims = 2;
+        strcpy(dims[0], "latitude");
+        strcpy(dims[1], "longitude");
     } else if (strcmp(name, "mercator") == 0) {
         *natt = 5;
-        strcpy(att[0], "standard_parallel");
-        strcpy(att[1], "longitude_of_projection_origin");
-        strcpy(att[2], "scale_factor_at_projection_origin");
-        strcpy(att[3], "false_easting");
-        strcpy(att[4], "false_northing");
-        *ndims = 2;
-        strcpy(dims[0], "projection_y_coordinate");
-        strcpy(dims[1], "projection_x_coordinate");
-    } else if (strcmp(name, "orthographic") == 0) {
-        *natt = 4;
         strcpy(att[0], "longitude_of_projection_origin");
-        strcpy(att[1], "latitude_of_projection_origin");
+        strcpy(att[1], "standard_parallel");
         strcpy(att[2], "scale_factor_at_projection_origin");
         strcpy(att[3], "false_easting");
         strcpy(att[4], "false_northing");
         *ndims = 2;
         strcpy(dims[0], "projection_x_coordinate");
         strcpy(dims[1], "projection_y_coordinate");
-    } else if (strcmp(name, "polar_stereographic") == 0) {
+    } else if (strcmp(name, "oblique_mercator") == 0) {
         *natt = 6;
-        strcpy(att[0], "straight_vertical_longitude_from_pole");
+        strcpy(att[0], "azimuth_of_central_line");
         strcpy(att[1], "latitude_of_projection_origin");
-        strcpy(att[2], "standard_parallel");
+        strcpy(att[2], "longitude_of_projection_origin");
         strcpy(att[3], "scale_factor_at_projection_origin");
         strcpy(att[4], "false_easting");
         strcpy(att[5], "false_northing");
         *ndims = 2;
-        strcpy(dims[0], "projection_y_coordinate");
-        strcpy(dims[1], "projection_x_coordinate");
+        strcpy(dims[0], "projection_x_coordinate");
+        strcpy(dims[1], "projection_y_coordinate");
+    } else if (strcmp(name, "orthographic") == 0) {
+        *natt = 4;
+        strcpy(att[0], "latitude_of_projection_origin");
+        strcpy(att[1], "longitude_of_projection_origin");
+        strcpy(att[2], "false_easting");
+        strcpy(att[3], "false_northing");
+        *ndims = 2;
+        strcpy(dims[0], "projection_x_coordinate");
+        strcpy(dims[1], "projection_y_coordinate");
+    } else if (strcmp(name, "polar_stereographic") == 0) {
+        *natt = 5;
+        strcpy(att[0], "latitude_of_projection_origin");
+        strcpy(att[1], "longitude_of_projection_origin");
+        strcpy(att[2], "standard_parallel");
+        strcpy(att[3], "false_easting");
+        strcpy(att[4], "false_northing");
+        *ndims = 2;
+        strcpy(dims[0], "projection_x_coordinate");
+        strcpy(dims[1], "projection_y_coordinate");
     } else if (strcmp(name, "rotated_latitude_longitude") == 0) {
         *natt = 3;
         strcpy(att[0], "grid_north_pole_latitude");
@@ -408,16 +430,24 @@ int cmor_grid_valid_mapping_attribute_names(char *name, int *natt, char (*att)
         *ndims = 2;
         strcpy(dims[0], "grid_latitude");
         strcpy(dims[1], "grid_longitude");
+    } else if (strcmp(name, "sinusoidal") == 0) {
+        *natt = 3;
+        strcpy(att[0], "longitude_of_projection_origin");
+        strcpy(att[1], "false_easting");
+        strcpy(att[2], "false_northing");
+        *ndims = 2;
+        strcpy(dims[0], "projection_x_coordinate");
+        strcpy(dims[1], "projection_y_coordinate");
     } else if (strcmp(name, "stereographic") == 0) {
         *natt = 5;
-        strcpy(att[0], "longitude_of_projection_origin");
-        strcpy(att[1], "latitude_of_projection_origin");
+        strcpy(att[0], "latitude_of_projection_origin");
+        strcpy(att[1], "longitude_of_projection_origin");
         strcpy(att[2], "scale_factor_at_projection_origin");
         strcpy(att[3], "false_easting");
         strcpy(att[4], "false_northing");
         *ndims = 2;
-        strcpy(dims[0], "projection_y_coordinate");
-        strcpy(dims[1], "projection_x_coordinate");
+        strcpy(dims[0], "projection_x_coordinate");
+        strcpy(dims[1], "projection_y_coordinate");
     } else if (strcmp(name, "transverse_mercator") == 0) {
         *natt = 5;
         strcpy(att[0], "scale_factor_at_central_meridian");
@@ -426,18 +456,18 @@ int cmor_grid_valid_mapping_attribute_names(char *name, int *natt, char (*att)
         strcpy(att[3], "false_easting");
         strcpy(att[4], "false_northing");
         *ndims = 2;
-        strcpy(dims[0], "projection_y_coordinate");
-        strcpy(dims[1], "projection_x_coordinate");
+        strcpy(dims[0], "projection_x_coordinate");
+        strcpy(dims[1], "projection_y_coordinate");
     } else if (strcmp(name, "vertical_perspective") == 0) {
         *natt = 5;
-        strcpy(att[0], "longitude_of_projection_origin");
-        strcpy(att[1], "latitude_of_projection_origin");
-        strcpy(att[2], "perspective_height_point");
+        strcpy(att[0], "latitude_of_projection_origin");
+        strcpy(att[1], "longitude_of_projection_origin");
+        strcpy(att[2], "perspective_point_height");
         strcpy(att[3], "false_easting");
         strcpy(att[4], "false_northing");
         *ndims = 2;
-        strcpy(dims[0], "projection_y_coordinate");
-        strcpy(dims[1], "projection_x_coordinate");
+        strcpy(dims[0], "projection_x_coordinate");
+        strcpy(dims[1], "projection_y_coordinate");
     }
 
     /* Now looks up in table */
@@ -458,10 +488,11 @@ int cmor_grid_valid_mapping_attribute_names(char *name, int *natt, char (*att)
         strcpy(att[*natt + 0], "earth_radius");
         strcpy(att[*natt + 1], "inverse_flattening");
         strcpy(att[*natt + 2], "longitude_of_prime_meridian");
-        strcpy(att[*natt + 3], "perspective_point_height");
-        strcpy(att[*natt + 4], "semi_major_axis");
-        strcpy(att[*natt + 5], "semi_minor_axis");
-        *natt = *natt + 6;
+        strcpy(att[*natt + 3], "prime_meridian_name");
+        strcpy(att[*natt + 4], "reference_ellipsoid_name");
+        strcpy(att[*natt + 5], "semi_major_axis");
+        strcpy(att[*natt + 6], "semi_minor_axis");
+        *natt = *natt + 7;
     }
     return (0);
 }
