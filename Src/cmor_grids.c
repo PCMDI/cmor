@@ -252,8 +252,7 @@ int cmor_set_grid_attribute(int gid, char *name, double *value, char *units)
                || strcmp(name, "longitude_of_prime_meridian") == 0
                || strcmp(name, "longitude_of_central_meridian") == 0
                || strcmp(name, "longitude_of_projection_origin") == 0
-               || strcmp(name, "north_pole_grid_longitude") == 0
-               || strcmp(name, "straight_vertical_longitude_from_pole") == 0) {
+               || strcmp(name, "north_pole_grid_longitude") == 0) {
         strcpy(ctmp, "degrees_east");
         cmor_convert_value(units, ctmp, &tmp);
         if ((tmp < -180) || (tmp > 180.)) {
