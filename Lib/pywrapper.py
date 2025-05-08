@@ -415,8 +415,6 @@ def set_crs(grid_id, mapping_name, parameter_names,
     else:
         raise Exception("parameter_names must be either dictionary or list")
 
-    print(tnms)
-    print(tvals)
     pvals = numpy.ascontiguousarray(pvals).astype('d')
     return _cmor.set_crs(grid_id, mapping_name, pnms, pvals, punit, tnms, tvals)
 
