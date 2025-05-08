@@ -860,6 +860,100 @@ static PyObject *PyCMOR_grid_mapping(PyObject * self, PyObject * args)
     return (Py_BuildValue("i", ierr));
 }
 
+static PyObject *PyCMOR_set_crs(PyObject * self, PyObject * args)
+{
+    signal(signal_to_catch, signal_handler);
+    int ierr;
+    PyObject *param_nm_obj, *param_val_obj, *param_un_obj, *tmp;
+    PyObject *param_text_nm_obj, *param_text_val_obj;
+    PyArrayObject *param_val_arr = NULL;
+    void *param_val;
+    char *name, *text_vals;
+    int gid, i, n, tn, tmp_size, total_size, idx;
+    char nms[CMOR_MAX_GRID_ATTRIBUTES][CMOR_MAX_STRING];
+    char units[CMOR_MAX_GRID_ATTRIBUTES][CMOR_MAX_STRING];
+    char text_nms[CMOR_MAX_GRID_ATTRIBUTES][CMOR_MAX_STRING];
+    int text_len[CMOR_MAX_GRID_ATTRIBUTES];
+
+    /* HUGE assumtion here is that the data is contiguous! */
+    if (!PyArg_ParseTuple
+        (args, "isOOOOO", &gid, &name, &param_nm_obj, &param_val_obj,
+         &param_un_obj, &param_text_nm_obj, &param_text_val_obj))
+        return NULL;
+
+    param_val_arr =
+      (PyArrayObject *) PyArray_ContiguousFromObject(param_val_obj,
+                                                     NPY_NOTYPE, 1, 0);
+    param_val = PyArray_DATA(param_val_arr);
+
+    n = PyList_Size(param_nm_obj);
+    for (i = 0; i < n; i++) {
+        tmp = PyList_GetItem(param_nm_obj, i);
+#if PY_MAJOR_VERSION >= 3
+        strcpy(nms[i], PyUnicode_AsUTF8(tmp));
+#else
+        strcpy(nms[i], PyString_AsString(tmp));
+#endif
+        //Py_DECREF(tmp); //Not needed get_item does not increase ref
+        tmp = PyList_GetItem(param_un_obj, i);
+#if PY_MAJOR_VERSION >= 3
+        strcpy(units[i], PyUnicode_AsUTF8(tmp));
+#else
+        strcpy(units[i], PyString_AsString(tmp));
+#endif
+        //Py_DECREF(tmp); // Not need get_item does not incref
+    }
+
+    total_size = 0;
+    tn = PyList_Size(param_text_nm_obj);
+    for (i = 0; i < tn; i++) {
+        tmp = PyList_GetItem(param_text_nm_obj, i);
+#if PY_MAJOR_VERSION >= 3
+        strcpy(text_nms[i], PyUnicode_AsUTF8(tmp));
+#else
+        strcpy(text_nms[i], PyString_AsString(tmp));
+#endif
+        tmp = PyList_GetItem(param_text_val_obj, i);
+        tmp_size = PyUnicode_GET_LENGTH(tmp) + 1;
+        text_len[i] = tmp_size;
+        total_size += tmp_size;
+    }
+
+    text_vals = (char *)malloc(total_size * sizeof(char));
+    idx = 0;
+    for (i = 0; i < tn; i++) {
+        tmp = PyList_GetItem(param_text_val_obj, i);
+        tmp_size = text_len[i];
+#if PY_MAJOR_VERSION >= 3
+        strncpy(&text_vals[idx], PyUnicode_AsUTF8(tmp), tmp_size);
+#else
+        strncpy(&text_vals[idx], PyString_AsString(tmp), tmp_size);
+#endif
+        idx += tmp_size;
+    }
+
+    ierr =
+      cmor_set_crs(gid, name, n, (char *)nms,
+                    CMOR_MAX_STRING, param_val,
+                    (char *)units, CMOR_MAX_STRING,
+                    tn, text_nms, CMOR_MAX_STRING,
+                    text_vals, text_len);
+
+    free(text_vals);
+
+    if (param_val_arr != NULL) {
+        Py_DECREF(param_val_arr);
+    }
+
+    if (ierr != 0 || raise_exception) {
+        raise_exception = 0;
+        PyErr_Format(CMORError, exception_message, "set_crs");
+        return NULL;
+    }
+
+    return (Py_BuildValue("i", ierr));
+}
+
 /************************************************************************/
 /*                            PyCMOR_write()                            */
 /************************************************************************/
@@ -1174,6 +1268,7 @@ static PyMethodDef MyExtractMethods[] = {
     {"time_varying_grid_coordinate", PyCMOR_time_varying_grid_coordinate,
      METH_VARARGS},
     {"set_grid_mapping", PyCMOR_grid_mapping, METH_VARARGS},
+    {"set_crs", PyCMOR_set_crs, METH_VARARGS},
     {"getCMOR_defaults_include", PyCMOR_getincvalues, METH_VARARGS},
     {"close", PyCMOR_close, METH_VARARGS},
     {"set_cur_dataset_attribute", PyCMOR_set_cur_dataset_attribute,

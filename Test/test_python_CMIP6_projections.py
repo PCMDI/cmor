@@ -98,7 +98,7 @@ class TestCase(unittest.TestCase):
         #    mapnm = 'polar_stereographic'
         param_dict = {
             'latitude_of_projection_origin': [90.0, 'degrees_north'],
-            'straight_vertical_longitude_from_pole': [135.0, 'degrees_east'],
+            'longitude_of_projection_origin': [135.0, 'degrees_east'],
             'standard_parallel': [70.0, 'degrees_north'],
             'false_northing': [0.0, 'meters'],
             'false_easting': [0.0, 'meters']

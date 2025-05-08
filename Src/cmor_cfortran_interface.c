@@ -179,6 +179,23 @@ int cmor_set_grd_map_cff_(int *gid, char *name, int *nparam,
 }
 
 /************************************************************************/
+/*                       cmor_set_crs_cff_()                            */
+/************************************************************************/
+int cmor_set_crs_cff_(int *gid, char *name, int *nparam,
+                      char *attributes_names, int *lparam,
+                      double *values, char *units, int *lnunits,
+                      int *ntextparam, char *text_attributes_names,
+                      int *ltextparams,
+                      char *text_attributes_values,
+                      int *text_attributes_length)
+{
+    return (cmor_set_crs(*gid, name, *nparam, attributes_names,
+                         *lparam, values, units, *lnunits, *ntextparam,
+                         text_attributes_names, *ltextparams,
+                         text_attributes_values, text_attributes_length));
+}
+
+/************************************************************************/
 /*                    cmor_grid_cff_noarea_double_()                    */
 /************************************************************************/
 int cmor_grid_cff_noarea_double_(int *grid_id, int *ndims, int *axes_ids,
