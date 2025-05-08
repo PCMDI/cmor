@@ -914,7 +914,7 @@ static PyObject *PyCMOR_set_crs(PyObject * self, PyObject * args)
         strcpy(text_nms[i], PyString_AsString(tmp));
 #endif
         tmp = PyList_GetItem(param_text_val_obj, i);
-        tmp_size = PyUnicode_GET_LENGTH(tmp);
+        tmp_size = PyUnicode_GET_LENGTH(tmp) + 1;
         text_len[i] = tmp_size;
         total_size += tmp_size;
     }
