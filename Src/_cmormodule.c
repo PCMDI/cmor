@@ -917,6 +917,7 @@ static PyObject *PyCMOR_set_crs(PyObject * self, PyObject * args)
         tmp_size = PyUnicode_GET_LENGTH(tmp);
         text_len[i] = tmp_size;
         total_size += tmp_size;
+        printf("text_len[%d] = %d, total_size = %d\n", i, tmp_size, total_size);
     }
 
     text_vals = (char *)malloc(total_size * sizeof(char));
@@ -929,6 +930,7 @@ static PyObject *PyCMOR_set_crs(PyObject * self, PyObject * args)
 #else
         strncpy(&text_vals[idx], PyString_AsString(tmp), tmp_size);
 #endif
+        printf("%d: textvals[%d] = %s\n", i, idx, &text_vals[idx]);
         idx += tmp_size;
     }
 
