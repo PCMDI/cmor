@@ -4287,6 +4287,7 @@ int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af,
         }
 
         for (k = 0; k < cmor_grids[cmor_vars[var_id].grid_id].ntextattributes; k++) {
+            printf("%s = %s\n",cmor_grids[nGridID].text_attributes_names[k],cmor_grids[nGridID].text_attributes_values[k]);
             ierr = cmor_put_nc_char_attribute(ncafid, m,
                                               cmor_grids[nGridID].text_attributes_names[k],
                                               cmor_grids[nGridID].text_attributes_values[k],
