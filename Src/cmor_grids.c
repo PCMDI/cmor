@@ -24,14 +24,8 @@ void cmor_init_grid_mapping(cmor_mappings_t * mapping, char *id)
     cmor_is_setup();
 
     mapping->nattributes = 0;
-    mapping->ntextattributes = 0;
     for (n = 0; n < CMOR_MAX_GRID_ATTRIBUTES; n++) {
         mapping->attributes_names[n][0] = '\0';
-        mapping->text_attributes_names[n][0] = '\0';
-        if (mapping->text_attributes_names[n] != NULL) {
-            free(mapping->text_attributes_names[n]);
-            mapping->text_attributes_names[n] = NULL;
-        }
     }
 
     strcpy(mapping->coordinates, "");

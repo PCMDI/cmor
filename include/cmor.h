@@ -363,7 +363,7 @@ typedef struct cmor_grid_ {
 /* -------------------------------------------------------------------- */
     int associated_variables[6];
     int ntextattributes;
-    char *text_attributes_names[CMOR_MAX_GRID_ATTRIBUTES];
+    char text_attributes_names[CMOR_MAX_GRID_ATTRIBUTES][CMOR_MAX_STRING];
     char *text_attributes_values[CMOR_MAX_GRID_ATTRIBUTES];
 } cmor_grid_t;
 

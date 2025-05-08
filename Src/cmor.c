@@ -1255,9 +1255,9 @@ int cmor_setup(char *path,
             cmor_grids[i].attributes_values[j] = 1.e20;
             cmor_grids[i].attributes_names[j][0] = '\0';
             cmor_grids[i].text_attributes_names[j][0] = '\0';
-            if (cmor_grids[i].text_attributes_names[j] != NULL) {
-                free(cmor_grids[i].text_attributes_names[j]);
-                cmor_grids[i].text_attributes_names[j] = NULL;
+            if (cmor_grids[i].text_attributes_values[j] != NULL) {
+                free(cmor_grids[i].text_attributes_values[j]);
+                cmor_grids[i].text_attributes_values[j] = NULL;
             }
         }
 
@@ -6967,9 +6967,9 @@ int cmor_close(void)
     }
 
     for (j = 0; j < CMOR_MAX_GRID_ATTRIBUTES; j++) {
-        if (cmor_grids[i].text_attributes_names[j] != NULL) {
-            free(cmor_grids[i].text_attributes_names[j]);
-            cmor_grids[i].text_attributes_names[j] = NULL;
+        if (cmor_grids[i].text_attributes_values[j] != NULL) {
+            free(cmor_grids[i].text_attributes_values[j]);
+            cmor_grids[i].text_attributes_values[j] = NULL;
         }
     }
 
