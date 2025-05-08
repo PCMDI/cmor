@@ -24,8 +24,14 @@ void cmor_init_grid_mapping(cmor_mappings_t * mapping, char *id)
     cmor_is_setup();
 
     mapping->nattributes = 0;
+    mapping->ntextattributes = 0;
     for (n = 0; n < CMOR_MAX_GRID_ATTRIBUTES; n++) {
         mapping->attributes_names[n][0] = '\0';
+        mapping->text_attributes_names[n][0] = '\0';
+        if (mapping->text_attributes_names[n] != NULL) {
+            free(mapping->text_attributes_names[n]);
+            mapping->text_attributes_names[n] = NULL;
+        }
     }
 
     strcpy(mapping->coordinates, "");
@@ -284,6 +290,82 @@ int cmor_set_grid_attribute(int gid, char *name, double *value, char *units)
     /*printf("setting: %s to %lf (orig: %lf)\n",name,tmp,value); */
     strncpy(cmor_grids[grid_id].attributes_names[iatt], name, CMOR_MAX_STRING);
     cmor_grids[grid_id].attributes_values[iatt] = tmp;
+    cmor_pop_traceback();
+    return (0);
+}
+
+/************************************************************************/
+/*                    cmor_has_grid_text_attribute()                    */
+/************************************************************************/
+
+int cmor_has_grid_text_attribute(int gid, char *name)
+{
+    int i;
+    int grid_id;
+
+    grid_id = -gid - CMOR_MAX_GRIDS;
+    for (i = 0; i < cmor_grids[grid_id].ntextattributes; i++) {
+        if (strcmp(name, cmor_grids[grid_id].text_attributes_names[i]) == 0)
+            return (0);
+    }
+    return (1);
+}
+
+/************************************************************************/
+/*                    cmor_get_grid_text_attribute()                    */
+/************************************************************************/
+
+int cmor_get_grid_text_attribute(int gid, char *name, char *value)
+{
+    int i, j;
+    int grid_id;
+
+    grid_id = -gid - CMOR_MAX_GRIDS;
+    j = -1;
+    for (i = 0; i < cmor_grids[grid_id].ntextattributes; i++) {
+        if (strcmp(name, cmor_grids[grid_id].text_attributes_names[i]) == 0)
+            j = i;
+    }
+    if (j != -1) {
+        value = cmor_grids[grid_id].text_attributes_values[j];
+        return (0);
+    }
+    return (1);
+}
+
+/************************************************************************/
+/*                    cmor_set_grid_text_attribute()                    */
+/************************************************************************/
+
+int cmor_set_grid_text_attribute(int gid, char *name, char *value, int size)
+{
+    int i, iatt;
+    int grid_id;
+
+    cmor_add_traceback("cmor_set_grid_text_attribute");
+    grid_id = -gid - CMOR_MAX_GRIDS;
+    iatt = cmor_grids[grid_id].ntextattributes;
+
+    for (i = 0; i < cmor_grids[grid_id].ntextattributes; i++) {
+        if (strcmp(name, cmor_grids[grid_id].text_attributes_names[i]) == 0)
+            iatt = i;
+    }
+
+    if (iatt == cmor_grids[grid_id].ntextattributes)
+        cmor_grids[grid_id].ntextattributes++;
+
+    strncpy(cmor_grids[grid_id].text_attributes_names[iatt], name, CMOR_MAX_STRING);
+
+    if (cmor_grids[grid_id].text_attributes_values[iatt] != NULL) {
+        free(cmor_grids[grid_id].text_attributes_values[iatt]);
+        cmor_grids[grid_id].text_attributes_values[iatt] = NULL;
+    }
+
+    if (value != NULL) {
+        cmor_grids[grid_id].text_attributes_values[iatt] = malloc(size * sizeof(char));
+        strncpy(cmor_grids[grid_id].text_attributes_values[iatt], value, size);
+    }
+
     cmor_pop_traceback();
     return (0);
 }
@@ -678,11 +760,11 @@ int cmor_set_grid_mapping(int gid, char *name, int nparam,
         }
     }
 /* -------------------------------------------------------------------- */
-/*      checks all parameter (but last 6 which are optional) have       */
+/*      checks all parameter (but last 7 which are optional) have       */
 /*      been set                                                        */
 /* -------------------------------------------------------------------- */
 
-    for (i = 0; i < nattributes - 6; i++) {
+    for (i = 0; i < nattributes - 7; i++) {
         if (cmor_has_grid_attribute(gid, grid_attributes[i]) == 1) {
             cmor_handle_error_variadic(
                 "Grid mapping attribute %s has not been set, "
@@ -709,9 +791,14 @@ int cmor_set_grid_mapping(int gid, char *name, int nparam,
 int cmor_set_crs(int gid, char *grid_mapping, int nparam,
     char *attributes_names, int lparams,
     double attributes_values[CMOR_MAX_GRID_ATTRIBUTES],
-    char *units, int lnunits, char *crs_wkt)
+    char *units, int lnunits,
+    int ntextparam, char *text_attributes_names, int ltextparams,
+    char *text_attributes_values,
+    int text_attributes_length[CMOR_MAX_GRID_ATTRIBUTES])
 {
-    int ierr, grid_id, str_size;
+    int i, ierr, grid_id, str_size;
+    char *achar, *bchar;
+    char ltext_attributes_name[CMOR_MAX_STRING];
 
     cmor_add_traceback("cmor_set_grid_mapping");
 
@@ -720,17 +807,25 @@ int cmor_set_crs(int gid, char *grid_mapping, int nparam,
         units, lnunits);
 
     grid_id = -gid - CMOR_MAX_GRIDS;
-    strncpy(cmor_grids[grid_id].name, "crs", CMOR_MAX_STRING);
 
-    if (cmor_grids[grid_id].crs_wkt != NULL) {
-        free(cmor_grids[grid_id].crs_wkt);
-        cmor_grids[grid_id].crs_wkt = NULL;
+    if (ntextparam >= CMOR_MAX_GRID_ATTRIBUTES) {
+        cmor_handle_error_variadic(
+            "CMOR allows only %i grid text parameters too be defined, "
+            "you are trying to define %i text parameters, if you really "
+            "need that many recompile cmor changing the value of "
+            "parameter: CMOR_MAX_GRID_ATTRIBUTES",
+            CMOR_CRITICAL,
+            CMOR_MAX_GRID_ATTRIBUTES, nparam);
     }
-
-    if (crs_wkt != NULL) {
-        str_size = strlen(crs_wkt);
-        cmor_grids[grid_id].crs_wkt = malloc(str_size * sizeof(char));
-        strncpy(cmor_grids[grid_id].crs_wkt, crs_wkt, str_size);
+    achar = (char *)text_attributes_names;
+    bchar = (char *)text_attributes_values;
+    for (i = 0; i < ntextparam; i++) {
+        strncpy(ltext_attributes_name, achar, CMOR_MAX_STRING);
+        achar += ltextparams;
+        cmor_set_grid_text_attribute(gid, ltext_attributes_name,
+                                     bchar,
+                                     text_attributes_length[i]);
+        bchar += text_attributes_length[i];
     }
 
     cmor_pop_traceback();

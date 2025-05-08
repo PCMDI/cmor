@@ -1249,10 +1249,16 @@ int cmor_setup(char *path,
         strncpy(cmor_grids[i].mapping, "", CMOR_MAX_STRING);
         cmor_grids[i].ndims = 0;
         cmor_grids[i].nattributes = 0;
+        cmor_grids[i].ntextattributes = 0;
 
         for (j = 0; j < CMOR_MAX_GRID_ATTRIBUTES; j++) {
             cmor_grids[i].attributes_values[j] = 1.e20;
             cmor_grids[i].attributes_names[j][0] = '\0';
+            cmor_grids[i].text_attributes_names[j][0] = '\0';
+            if (cmor_grids[i].text_attributes_names[j] != NULL) {
+                free(cmor_grids[i].text_attributes_names[j]);
+                cmor_grids[i].text_attributes_names[j] = NULL;
+            }
         }
 
         if (cmor_grids[i].lats != NULL)
@@ -1263,14 +1269,11 @@ int cmor_setup(char *path,
             free(cmor_grids[i].blats);
         if (cmor_grids[i].blons != NULL)
             free(cmor_grids[i].blons);
-        if (cmor_grids[i].crs_wkt != NULL)
-            free(cmor_grids[i].crs_wkt);
 
         cmor_grids[i].lats = NULL;
         cmor_grids[i].lons = NULL;
         cmor_grids[i].blats = NULL;
         cmor_grids[i].blons = NULL;
-        cmor_grids[i].crs_wkt = NULL;
 
         cmor_grids[i].istimevarying = 0;
         cmor_grids[i].nvertices = 0;
@@ -4282,10 +4285,11 @@ int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af,
                                                  cmor_grids[nGridID].name);
             }
         }
-        // Add crs_wkt attribute if defined
-        if(cmor_grids[nGridID].crs_wkt != NULL) {
-            ierr = cmor_put_nc_char_attribute(ncafid, m, "crs_wkt",
-                                              cmor_grids[nGridID].crs_wkt,
+
+        for (k = 0; k < cmor_grids[cmor_vars[var_id].grid_id].ntextattributes; k++) {
+            ierr = cmor_put_nc_char_attribute(ncafid, m,
+                                              cmor_grids[nGridID].text_attributes_names[k],
+                                              cmor_grids[nGridID].text_attributes_values[k],
                                               cmor_vars[var_id].id);
         }
     }
@@ -6962,6 +6966,13 @@ int cmor_close(void)
 
     }
 
+    for (j = 0; j < CMOR_MAX_GRID_ATTRIBUTES; j++) {
+        if (cmor_grids[i].text_attributes_names[j] != NULL) {
+            free(cmor_grids[i].text_attributes_names[j]);
+            cmor_grids[i].text_attributes_names[j] = NULL;
+        }
+    }
+
     for (i = 0; i < CMOR_MAX_GRIDS; i++) {
         if (cmor_grids[i].lons != NULL) {
             free(cmor_grids[i].lons);
@@ -6978,10 +6989,6 @@ int cmor_close(void)
         if (cmor_grids[i].blats != NULL) {
             free(cmor_grids[i].blats);
             cmor_grids[i].blats = NULL;
-        }
-        if (cmor_grids[i].crs_wkt != NULL) {
-            free(cmor_grids[i].crs_wkt);
-            cmor_grids[i].crs_wkt = NULL;
         }
     }
     if ((cmor_nerrors != 0 || cmor_nwarnings != 0)) {

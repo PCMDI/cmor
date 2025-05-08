@@ -762,12 +762,13 @@ module cmor_users_functions
 
   interface
      function cmor_set_crs_cff(gid,nm,nparam,att_names,lparam,&
-          values,units,lunits,crs_wkt) result(ierr)
+          values,units,lunits,ntextparam,text_att_names,&
+          ltextparams,text_att_values,text_att_len) result(ierr)
        integer gid, nparam,lparam,lunits
-       character(*):: att_names,units
-       character(*) :: nm
+       integer ntextparam,ltextparams,text_att_len
+       character(*) :: nm,att_names,units
+       character(*) :: text_att_names,text_att_values
        double precision :: values
-       character(*) :: crs_wkt
      end function cmor_set_crs_cff
   end interface
 
@@ -2463,15 +2464,20 @@ contains
   end function cmor_set_grid_mapping
 
   function cmor_set_crs(grid_id,mapping_name,parameter_names,&
-       parameter_values,parameter_units,crs_wkt) result(ierr)
+       parameter_values,parameter_units,text_parameter_names,&
+       text_parameter_values) result(ierr)
     implicit none
     integer :: ierr,grid_id
     character(*) :: mapping_name
     character(*) :: parameter_names(:),parameter_units(:)
     double precision :: parameter_values(:)
-    character(*) :: crs_wkt
+    character(*) :: text_parameter_names(:),text_parameter_values(:)
     integer i,nparam,lparam,lunits
+    integer ntextparam,ltextparams,tmp_len,concat_len
     character(len=1024),allocatable ::  paranm(:),paraun(:)
+    character(len=1024),allocatable ::  tparanm(:)
+    character(len=:), allocatable ::   tparavl
+    integer, allocatable :: tparaln(:)
     nparam = size(parameter_values)
     lparam = 1024
     lunits = 1024
@@ -2481,14 +2487,39 @@ contains
        paranm(i) = trim(parameter_names(i))//char(0)
        paraun(i) = trim(parameter_units(i))//char(0)
     enddo
+    ntextparam = size(text_parameter_values)
+    ltextparams = 1024
+    allocate(tparanm(ntextparam))
+    allocate(tparaln(ntextparam))
+    do i = 1,ntextparam
+        tparanm(i) = trim(text_parameter_names(i))//char(0)
+        tmp_len = len_trim(text_parameter_values(i)) + 1
+        concat_len = concat_len + tmp_len
+        tparaln(i) = tmp_len
+    enddo
+
+    allocate(character(len=concat_len) :: tparavl)
+    do i = 1,ntextparam
+        if (i.eq.1) then
+            tparavl = trim(text_parameter_values(i))//char(0)
+        else
+            tparavl = tparavl//trim(text_parameter_values(i))//char(0)
+        endif
+    enddo
     
     ierr = cmor_set_crs_cff(grid_id,trim(mapping_name)//char(0),nparam,&
                             paranm(1), lparam, &
                             parameter_values(1), &
                             paraun(1), lunits, &
-                            trim(crs_wkt)//char(0))
+                            ntextparam, tparanm(1), &
+                            ltextparams, tparavl, &
+                            tparaln(1))
+
     deallocate(paranm)
     deallocate(paraun)
+    deallocate(tparavl)
+    deallocate(tparanm)
+    deallocate(tparaln)
   end function cmor_set_crs
 
 

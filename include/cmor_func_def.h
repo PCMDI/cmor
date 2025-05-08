@@ -257,6 +257,9 @@ extern int cmor_get_grid_attribute( int gid, char *name, double *value );
 extern void cmor_convert_value( char *units, char *ctmp, double *tmp );
 extern int cmor_set_grid_attribute( int gid, char *name, double *value,
 				    char *units );
+extern int cmor_has_grid_text_attribute( int gid, char *name )
+extern int cmor_get_grid_text_attribute( int gid, char *name, char *value );
+extern int cmor_set_grid_text_attribute( int gid, char *name, char *value );
 extern int cmor_attribute_in_list( char *name, int n,
 				   char ( *atts )[CMOR_MAX_STRING] );
 extern int cmor_grid_valid_mapping_attribute_names( char *name, int *natt,
@@ -274,7 +277,9 @@ extern int cmor_set_crs( int gid, char *grid_mapping, int nparam,
                     char *attributes_names, int lparams,
                     double attributes_values[CMOR_MAX_GRID_ATTRIBUTES],
                     char *units, int lnunits,
-                    char *crs_wkt );
+                    int ntextparam, char *text_attributes_names, int ltextparams,
+                    char *text_attributes_values,
+                    int text_attributes_length[CMOR_MAX_GRID_ATTRIBUTES]);
 extern int cmor_grid( int *grid_id, int ndims, int *axes_ids, char type,
 		      void *lat, void *lon, int nvertices, void *blat,
 		      void *blon );
