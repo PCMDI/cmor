@@ -319,7 +319,7 @@ def set_grid_mapping(grid_id, mapping_name, parameter_names,
 
 
 def set_crs(grid_id, mapping_name, parameter_names,
-            parameter_values=None, parameter_units=None, crs_wkt=None):
+            parameter_values=None, parameter_units=None):
     """Sets the Coordinate Reference System (CRS) for CF convention
     Usage:
        set_crs(grid_id,mapping_name,parameter_names,parameter_values,parameter_units,crs_wkt)
@@ -329,7 +329,6 @@ def set_crs(grid_id, mapping_name, parameter_names,
        parameter_names  :: list of parameter names or dictionary with name as keys and values can be either [value,units] list/tuple or dictionary with "values"/"units" as keys
        parameter_values :: array/list of parameter values in the same order of parameter_names (ignored if parameter_names is ditcionary)
        parameter_units  :: array/list of parameter units  in the same order of parameter_names (ignored if parameter_names is ditcionary)
-       crs_wkt          :: Well-known text (WKT) string
     """
     if sys.version_info < (3, 0):
         if not isinstance(grid_id, (numpy.int32, numpy.int64, int, long)):
@@ -341,29 +340,31 @@ def set_crs(grid_id, mapping_name, parameter_names,
     if not isinstance(mapping_name, six.string_types):
         raise Exception("mapping name must be a string")
 
-    if crs_wkt is not None and not isinstance(mapping_name, six.string_types):
-        raise Exception("CRS WKT must be a string or None")
-
+    pnms = []
+    pvals = []
+    punit = []
+    tnms = []
+    tvals = []
     if isinstance(parameter_names, dict):
-        pnms = []
-        pvals = []
-        punit = []
-        for k in list(parameter_names.keys()):
-            pnms.append(k)
-            val = parameter_names[k]
-            if isinstance(val, dict):
+        for key, val in list(parameter_names.items()):
+            if isinstance(val, six.string_types):
+                tnms.append(key)
+                tvals.append(val)
+            elif isinstance(val, dict):
+                pnms.append(key)
                 ks = list(val.keys())
                 if not 'value' in ks or not 'units' in ks:
                     raise Exception(
                         "error parameter_names key '%s' dictionary does not contain both 'units' and 'value' keys" %
-                        k)
+                        key)
                 pvals.append(val['value'])
                 punit.append(val['units'])
             elif isinstance(val, (list, tuple)):
+                pnms.append(key)
                 if len(val) > 2:
                     raise Exception(
                         "parameter_names '%s' as more than 2 values" %
-                        k)
+                        key)
                 for v in val:
                     if isinstance(v, six.string_types):
                         punit.append(v)
@@ -374,13 +375,12 @@ def set_crs(grid_id, mapping_name, parameter_names,
                 if len(pvals) != len(punit) or len(pvals) != len(pnms):
                     raise Exception(
                         "could not figure out values for parameter_name: '%s' " %
-                        k)
+                        key)
             else:
                 raise Exception(
                     "could not figure out values for parameter_name: '%s' " %
-                    k)
+                    key)
     elif isinstance(parameter_names, (list, tuple)):
-        pnms = list(parameter_names)
         # now do code for parameter_units
         if parameter_values is None:
             raise Exception(
@@ -389,26 +389,36 @@ def set_crs(grid_id, mapping_name, parameter_names,
             raise Exception("you must pass a list for parameter_units")
         if not isinstance(parameter_units, (list, tuple)):
             raise Exception("you must pass a list for parameter_units")
-        if len(parameter_units) != len(pnms):
+        if len(parameter_units) != len(parameter_names):
             raise Exception(
                 "length of parameter_units list does not match length of parameter_names")
-        punit = list(parameter_units)
+        if len(parameter_values) != len(parameter_names):
+            raise Exception(
+                "length of parameter_values list does not match length of parameter_names")
         if isinstance(parameter_values, (list, tuple)):
-            pvals = list(parameter_values)
+            for n, v, u in zip(parameter_names, parameter_values, parameter_units):
+                if isinstance(v, six.string_types):
+                    tnms.append(n)
+                    tvals.append(v)
+                else:
+                    pnms.append(n)
+                    pvals.append(v)
+                    punit.append(u)
         else:
+            pnms = list(parameter_names)
+            punit = list(parameter_units)
             try:
                 pvals = numpy.ascontiguousarray(parameter_values.filled())
             except BaseException:
                 raise Exception(
                     "Error could not convert parameter_values to a numpy array")
-        if len(pvals) != len(parameter_names):
-            raise Exception(
-                "length of parameter_values list does not match length of parameter_names")
     else:
         raise Exception("parameter_names must be either dictionary or list")
 
+    print(tnms)
+    print(tvals)
     pvals = numpy.ascontiguousarray(pvals).astype('d')
-    return _cmor.set_crs(grid_id, mapping_name, pnms, pvals, punit, crs_wkt)
+    return _cmor.set_crs(grid_id, mapping_name, pnms, pvals, punit, tnms, tvals)
 
 def set_climatology(entry):
     global climatology 
