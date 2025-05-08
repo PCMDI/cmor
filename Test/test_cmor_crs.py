@@ -170,14 +170,14 @@ class TestLatLonGridMapping(unittest.TestCase):
             'crs_wkt': crs_wkt
             }
         
-        param_names = ['longitude_of_prime_meridian',
-                       'semi_major_axis',
-                       'long_name',
-                       'inverse_flattening',
-                       'GeoTransform',
-                       'crs_wkt']
-        param_values = [crs_params[n] for n in param_names]
-        param_units = ["" for n in param_names]
+        grid_params = {
+            'longitude_of_prime_meridian': [np.float64(0.0), "degrees_east"],
+            'semi_major_axis': {"value": np.float64(6378137.0), "units": "meters"},
+            'long_name': 'WGS 84',
+            'inverse_flattening': (np.float64(298.257223563), ""),
+            'GeoTransform': '-179.5 0.1 0 74.5 0.1',
+            'crs_wkt': crs_wkt
+            }
 
         cmor.setup(inpath='cmip6-cmor-tables/Tables',
                    netcdf_file_action=cmor.CMOR_REPLACE)
@@ -227,9 +227,7 @@ class TestLatLonGridMapping(unittest.TestCase):
         axis_ids.append(grid_id)
         cmor.set_crs(grid_id=grid_id,
                      mapping_name=crs_params['grid_mapping_name'],
-                     parameter_names=param_names,
-                     parameter_values=param_values,
-                     parameter_units=param_units)
+                     parameter_names=grid_params)
 
         cmor.set_table(lmon_table)
 
