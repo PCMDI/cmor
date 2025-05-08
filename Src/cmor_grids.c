@@ -801,6 +801,7 @@ int cmor_set_crs(int gid, char *grid_mapping, int nparam,
         units, lnunits);
 
     grid_id = -gid - CMOR_MAX_GRIDS;
+    strncpy(cmor_grids[grid_id].name, "crs", CMOR_MAX_STRING);
 
     if (ntextparam >= CMOR_MAX_GRID_ATTRIBUTES) {
         cmor_handle_error_variadic(
