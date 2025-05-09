@@ -7,9 +7,11 @@ import tempfile
 from collections import namedtuple
 from netCDF4 import Dataset
 
+
 ZSTDSettings = namedtuple('ZSTDSettings', ['level'])
 DeflateSettings = namedtuple('DeflateSettings', ['deflate', 'level', 'shuffle'])
 QuantizeSettings = namedtuple('QuantizeSettings', ['mode', 'nsd'])
+
 
 def run():
     unittest.main()
@@ -122,7 +124,8 @@ class TestCase(unittest.TestCase):
 
         return dst_path
 
-    def testZstandardCompression(self):
+
+    def test_zstandard_compression(self):
 
         seed = 123
         ntimes = 100
@@ -169,7 +172,45 @@ class TestCase(unittest.TestCase):
             self.assertTrue(zstd_shuffle_filters['shuffle'])
             self.assertEqual(zstd_shuffle_filters['complevel'], 3)
 
-    def testQuantize(self):
+
+    def test_no_zstandard_compression_if_deflate_still_enabled(self):
+
+        seed = 123
+        ntimes = 100
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            filename = self.gen_file(seed, tmp_dir, ntimes,
+                                     zstd_settings=ZSTDSettings(3))
+
+            nc = Dataset(filename, "r", format="NETCDF4")
+
+            filters = nc.variables['ta'].filters()
+            self.assertTrue(filters['zlib'])
+            self.assertFalse(filters['zstd'])
+            self.assertFalse(filters['shuffle'])
+            self.assertEqual(filters['complevel'], 1)
+
+
+    def test_no_zstandard_compression_if_level_out_of_range(self):
+
+        seed = 123
+        ntimes = 100
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            filename = self.gen_file(seed, tmp_dir, ntimes,
+                                     zstd_settings=ZSTDSettings(100),
+                                     deflate_settings=DeflateSettings(False, 0, True))
+
+            nc = Dataset(filename, "r", format="NETCDF4")
+
+            filters = nc.variables['ta'].filters()
+            self.assertFalse(filters['zlib'])
+            self.assertFalse(filters['zstd'])
+            self.assertTrue(filters['shuffle'])
+            self.assertEqual(filters['complevel'], 0)
+
+
+    def test_quantize(self):
 
         seed = 123
         ntimes = 100
@@ -224,7 +265,8 @@ class TestCase(unittest.TestCase):
             self.assertEqual(quantized_alg, 'bitgroom')
             self.assertTrue('libnetcdf version ' in quantized_impl)
 
-    def testQuantizationModes(self):
+
+    def test_quantization_modes(self):
 
         seed = 123
         ntimes = 100
