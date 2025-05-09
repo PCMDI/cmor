@@ -4,8 +4,12 @@ import unittest
 import os
 import shutil
 import tempfile
+from collections import namedtuple
 from netCDF4 import Dataset
 
+ZSTDSettings = namedtuple('ZSTDSettings', ['level'])
+DeflateSettings = namedtuple('DeflateSettings', ['deflate', 'level', 'shuffle'])
+QuantizeSettings = namedtuple('QuantizeSettings', ['mode', 'nsd'])
 
 def run():
     unittest.main()
@@ -13,9 +17,10 @@ def run():
 
 class TestCase(unittest.TestCase):
 
-    def gen_file(self, seed, ntimes, zstd_level,
-                 deflate, deflate_level, shuffle,
-                 quantize_mode, quantize_nsd, out_dir):
+    def gen_file(self, seed, out_dir, ntimes, 
+                 zstd_settings: ZSTDSettings = None,
+                 deflate_settings: DeflateSettings = None,
+                 quantize_settings: QuantizeSettings = None):
 
         numpy.random.seed(seed)
 
@@ -68,13 +73,17 @@ class TestCase(unittest.TestCase):
             missing_value=numpy.array([1.0e28, ], dtype=numpy.float32)[0],
             original_name='cloud')
 
-        cmor.set_quantize(var3d_ids, quantize_mode, quantize_nsd)
+        if quantize_settings is not None:
+            cmor.set_quantize(var3d_ids, quantize_settings.mode, quantize_settings.nsd)
 
-        use_deflate = 1 if deflate > 0 else 0
-        use_shuffle = 1 if shuffle else 0
-        cmor.set_deflate(var3d_ids, use_shuffle, use_deflate,
-                         deflate_level=deflate_level)
-        cmor.set_zstandard(var3d_ids, zstd_level)
+        if deflate_settings is not None:
+            use_deflate = 1 if deflate_settings.deflate > 0 else 0
+            use_shuffle = 1 if deflate_settings.shuffle else 0
+            cmor.set_deflate(var3d_ids, use_shuffle, use_deflate,
+                            deflate_level=deflate_settings.level)
+        
+        if zstd_settings is not None:
+            cmor.set_zstandard(var3d_ids, zstd_settings.level)
 
         for it in range(ntimes):
 
@@ -91,13 +100,21 @@ class TestCase(unittest.TestCase):
 
         nc_path = cmor.close(var3d_ids, file_name=True)
 
-        if deflate:
-            dst_file = f'deflate_level_{str(deflate_level)}'
+        dst_file = 'test_data'
+        if deflate_settings is not None:
+            if deflate_settings.deflate:
+                dst_file += f'_deflate_level_{str(deflate_settings.level)}'
         else:
-            dst_file = f'zstd_level_{str(zstd_level)}'
-        if shuffle:
+            dst_file += f'_deflate_level_1'
+
+        if zstd_settings is not None:
+            dst_file += f'_zstd_level_{str(zstd_settings.level)}'
+    
+        if deflate_settings is not None and deflate_settings.shuffle:
             dst_file += '_shuffle'
-        dst_file += f'qmode_{str(quantize_mode)}_nsd_{str(quantize_nsd)}.nc'
+        if quantize_settings is not None:
+            dst_file += f'_qmode_{str(quantize_settings.mode)}_nsd_{str(quantize_settings.nsd)}'
+        dst_file += '.nc'
 
         dst_path = os.path.join(out_dir, dst_file)
 
@@ -111,8 +128,12 @@ class TestCase(unittest.TestCase):
         ntimes = 100
 
         with tempfile.TemporaryDirectory() as tmp_dir:
-            no_compression = self.gen_file(seed, ntimes, 0, True, 0, False, 0, 0, tmp_dir)
-            zstd_shuffle = self.gen_file(seed, ntimes, 3, False, 0, True, 0, 0, tmp_dir)
+            default_deflate = self.gen_file(seed, tmp_dir, ntimes)
+            no_compression = self.gen_file(seed, tmp_dir, ntimes,
+                                           deflate_settings=DeflateSettings(False, 0, False))
+            zstd_shuffle = self.gen_file(seed, tmp_dir, ntimes, 
+                                         zstd_settings=ZSTDSettings(3),
+                                         deflate_settings=DeflateSettings(False, 0, True))
 
             no_comp_size = os.path.getsize(no_compression)
             zstd_shuffle_size = os.path.getsize(zstd_shuffle)
@@ -120,12 +141,33 @@ class TestCase(unittest.TestCase):
             print(f'File size with zstandard compression and shuffle: {zstd_shuffle_size} bytes')
             self.assertTrue(zstd_shuffle_size < no_comp_size)
 
+            default_deflate_nc = Dataset(default_deflate, "r", format="NETCDF4")
             no_comp_nc = Dataset(no_compression, "r", format="NETCDF4")
             zstd_shuffle_nc = Dataset(zstd_shuffle, "r", format="NETCDF4")
 
+            default_deflate_ta = default_deflate_nc.variables['ta'][:]
             no_comp_ta = no_comp_nc.variables['ta'][:]
             zstd_shuffle_ta = zstd_shuffle_nc.variables['ta'][:]
+            self.assertIsNone(numpy.testing.assert_array_equal(default_deflate_ta, zstd_shuffle_ta))
             self.assertIsNone(numpy.testing.assert_array_equal(no_comp_ta, zstd_shuffle_ta))
+
+            default_deflate_filters = default_deflate_nc.variables['ta'].filters()
+            self.assertTrue(default_deflate_filters['zlib'])
+            self.assertFalse(default_deflate_filters['zstd'])
+            self.assertFalse(default_deflate_filters['shuffle'])
+            self.assertEqual(default_deflate_filters['complevel'], 1)
+
+            no_comp_filters = no_comp_nc.variables['ta'].filters()
+            self.assertFalse(no_comp_filters['zlib'])
+            self.assertFalse(no_comp_filters['zstd'])
+            self.assertFalse(no_comp_filters['shuffle'])
+            self.assertEqual(no_comp_filters['complevel'], 0)
+
+            zstd_shuffle_filters = zstd_shuffle_nc.variables['ta'].filters()
+            self.assertFalse(zstd_shuffle_filters['zlib'])
+            self.assertTrue(zstd_shuffle_filters['zstd'])
+            self.assertTrue(zstd_shuffle_filters['shuffle'])
+            self.assertEqual(zstd_shuffle_filters['complevel'], 3)
 
     def testQuantize(self):
 
@@ -133,8 +175,10 @@ class TestCase(unittest.TestCase):
         ntimes = 100
 
         with tempfile.TemporaryDirectory() as tmp_dir:
-            default = self.gen_file(seed, ntimes, 0, True, 1, False, 0, 0, tmp_dir)
-            quantized = self.gen_file(seed, ntimes,  0, True, 1, False, 1, 4, tmp_dir)
+            default = self.gen_file(seed, tmp_dir, ntimes,
+                                    quantize_settings=QuantizeSettings(0, 0))
+            quantized = self.gen_file(seed, tmp_dir, ntimes,
+                                      quantize_settings=QuantizeSettings(1, 4))
 
             default_size = os.path.getsize(default)
             quantized_size = os.path.getsize(quantized)
@@ -186,8 +230,10 @@ class TestCase(unittest.TestCase):
         ntimes = 100
 
         with tempfile.TemporaryDirectory() as tmp_dir:
-            granular = self.gen_file(seed, ntimes, 0, True, 1, False, 2, 3, tmp_dir)
-            bitround = self.gen_file(seed, ntimes,  0, True, 1, False, 3, 6, tmp_dir)
+            granular = self.gen_file(seed, tmp_dir, ntimes,
+                                     quantize_settings=QuantizeSettings(2, 3))
+            bitround = self.gen_file(seed, tmp_dir, ntimes,
+                                     quantize_settings=QuantizeSettings(3, 6))
 
             granular_nc = Dataset(granular, "r", format="NETCDF4")
             bitround_nc = Dataset(bitround, "r", format="NETCDF4")
