@@ -1977,7 +1977,7 @@ void cmor_init_var_def(cmor_var_def_t * var, int table_id)
     var->shuffle = 0;
     var->deflate = 1;
     var->deflate_level = 1;
-    var->zstandard_level = -99999;
+    var->zstandard_level = -999999;
     var->generic_level_name[0] = '\0';
     var->branding_suffix[0] = '\0';
     var->temporal_label[0] = '\0';
