@@ -344,6 +344,7 @@ extern char cmor_traceback_info[CMOR_MAX_STRING];
 
 typedef struct cmor_grid_ {
     int id;
+    char name[CMOR_MAX_STRING];
     char mapping[CMOR_MAX_STRING];
     int nattributes;
     char attributes_names[CMOR_MAX_GRID_ATTRIBUTES][CMOR_MAX_STRING];
@@ -361,6 +362,9 @@ typedef struct cmor_grid_ {
 /*      for lon/lat/blon/blat/area/volumes                              */
 /* -------------------------------------------------------------------- */
     int associated_variables[6];
+    int ntextattributes;
+    char text_attributes_names[CMOR_MAX_GRID_ATTRIBUTES][CMOR_MAX_STRING];
+    char *text_attributes_values[CMOR_MAX_GRID_ATTRIBUTES];
 } cmor_grid_t;
 
 extern cmor_grid_t cmor_grids[CMOR_MAX_GRIDS];
