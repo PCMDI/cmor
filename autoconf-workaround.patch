@@ -1,0 +1,15 @@
+diff --git a/recipe/build.sh b/recipe/build.sh
+index 5fe27be..8d92b95 100644
+--- a/recipe/build.sh
++++ b/recipe/build.sh
+@@ -7,6 +7,10 @@ fi
+ # Get an updated config.sub and config.guess
+ cp $BUILD_PREFIX/share/gnuconfig/config.* .
+ 
++# set path to M4 to work around autoconf bug
++# see https://github.com/conda-forge/autoconf-feedstock/issues/41
++export M4=$(which m4)
++
+ autoconf
+ 
+ ./configure \

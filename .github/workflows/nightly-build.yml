@@ -91,7 +91,9 @@ jobs:
 
           mamba create -y -n smithy_env -c conda-forge conda-smithy
           mamba activate smithy_env
+          cp autoconf-workaround.patch $PROJECT_DIR/cmor-feedstock
           cd $PROJECT_DIR/cmor-feedstock
+          git apply autoconf-workaround.patch
           mamba run conda smithy rerender
           ls -lh .ci_support/
 
