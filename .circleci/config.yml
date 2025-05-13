@@ -56,8 +56,9 @@ aliases:
 
        mamba create -y -n smithy_env -c conda-forge conda-smithy
        mamba activate smithy_env
+       cp autoconf-workaround.patch $WORKDIR/cmor-feedstock
        cd $WORKDIR/cmor-feedstock
-       git apply $HOME/autoconf-workaround.patch
+       git apply autoconf-workaround.patch
        mamba run conda smithy rerender
        
   - &conda_build
