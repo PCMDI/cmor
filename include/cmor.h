@@ -2,7 +2,7 @@
 #define CMOR_H
 
 #define CMOR_VERSION_MAJOR 3
-#define CMOR_VERSION_MINOR 9
+#define CMOR_VERSION_MINOR 10
 #define CMOR_VERSION_PATCH 0
 
 #define CMOR_CF_VERSION_MAJOR 1
@@ -199,6 +199,9 @@
 #define GLOBAL_ATT_DATASPECSVERSION   "data_specs_version"
 #define GLOBAL_ATT_FREQUENCY          "frequency"
 #define GLOBAL_ATT_LICENSE            "license"
+#define GLOBAL_ATT_LICENSE_ID         GLOBAL_INTERNAL"license_id"
+#define GLOBAL_ATT_LICENSE_TYPE       GLOBAL_INTERNAL"license_type"
+#define GLOBAL_ATT_LICENSE_URL        GLOBAL_INTERNAL"license_url"
 #define GLOBAL_ATT_TRACKING_PREFIX    "tracking_prefix"
 #define GLOBAL_ATT_CALENDAR           "calendar"
 #define GLOBAL_ATT_INSTITUTION_ID     "institution_id"
@@ -250,6 +253,11 @@
 #define CV_KEY_APRX_INTRVL_WRN        "approx_interval_warning"
 #define CV_KEY_DATASPECSVERSION       "data_specs_version"
 #define CV_KEY_MIP_ERA                "mip_era"
+#define CV_KEY_LICENSE                "license"
+#define CV_KEY_LICENSE_ID             "license_id"
+#define CV_KEY_LICENSE_TEMPLATE       "license_template"
+#define CV_KEY_LICENSE_TYPE           "license_type"
+#define CV_KEY_LICENSE_URL            "license_url"
 
 #define CV_EXP_ATTR_ADDSOURCETYPE     "additional_allowed_model_components"
 #define CV_EXP_ATTR_REQSOURCETYPE     "required_model_components"
@@ -336,6 +344,7 @@ extern char cmor_traceback_info[CMOR_MAX_STRING];
 
 typedef struct cmor_grid_ {
     int id;
+    char name[CMOR_MAX_STRING];
     char mapping[CMOR_MAX_STRING];
     int nattributes;
     char attributes_names[CMOR_MAX_GRID_ATTRIBUTES][CMOR_MAX_STRING];
@@ -353,6 +362,9 @@ typedef struct cmor_grid_ {
 /*      for lon/lat/blon/blat/area/volumes                              */
 /* -------------------------------------------------------------------- */
     int associated_variables[6];
+    int ntextattributes;
+    char text_attributes_names[CMOR_MAX_GRID_ATTRIBUTES][CMOR_MAX_STRING];
+    char *text_attributes_values[CMOR_MAX_GRID_ATTRIBUTES];
 } cmor_grid_t;
 
 extern cmor_grid_t cmor_grids[CMOR_MAX_GRIDS];

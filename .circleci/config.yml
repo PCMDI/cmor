@@ -8,7 +8,7 @@ aliases:
   - &setup_env
     name: setup_env
     command: |
-       echo "export WORKDIR=`pwd`/$PROJECT_DIR" >> $BASH_ENV
+       echo "export WORKDIR=$HOME/$PROJECT_DIR" >> $BASH_ENV
        source $BASH_ENV
        mkdir -p $WORKDIR
 
@@ -34,8 +34,8 @@ aliases:
     command: |
        source $BASH_ENV
        source $WORKDIR/miniforge3/etc/profile.d/conda.sh
-       source $WORKDIR/miniforge3/etc/profile.d/mamba.sh
-       mamba activate base
+       eval "$(mamba shell hook --shell bash)"
+       mamba activate
 
        git clone -b main https://github.com/conda-forge/cmor-feedstock $WORKDIR/cmor-feedstock
        export SRC_META_YAML=$WORKDIR/cmor-feedstock/recipe/meta.yaml.SRC
@@ -47,8 +47,7 @@ aliases:
        python rebuild_meta_yaml.py \
         --package_name $PKG_NAME \
         --version $VERSION \
-        --organization PCMDI \
-        --repo_name $PKG_NAME \
+        --local_repo `pwd` \
         --branch $CIRCLE_BRANCH \
         --git_rev $GIT_REV \
         --build 0 \
@@ -57,7 +56,9 @@ aliases:
 
        mamba create -y -n smithy_env -c conda-forge conda-smithy
        mamba activate smithy_env
+       cp autoconf-workaround.patch $WORKDIR/cmor-feedstock
        cd $WORKDIR/cmor-feedstock
+       git apply autoconf-workaround.patch
        mamba run conda smithy rerender
        
   - &conda_build
@@ -65,11 +66,11 @@ aliases:
     command: |
        source $BASH_ENV
        source $WORKDIR/miniforge3/etc/profile.d/conda.sh
-       source $WORKDIR/miniforge3/etc/profile.d/mamba.sh
-       mamba activate base
+       eval "$(mamba shell hook --shell bash)"
+       mamba activate
        mamba activate smithy_env
 
-       export BUILD_DIR=`pwd`/cmor_conda_pkgs
+       export BUILD_DIR=$HOME/cmor_conda_pkgs
        mkdir -p $BUILD_DIR
 
        export ARTIFACT_DIR=`pwd`/artifacts/$OS
@@ -91,10 +92,9 @@ aliases:
     command: |
        source $BASH_ENV
        source $WORKDIR/miniforge3/etc/profile.d/conda.sh
-       source $WORKDIR/miniforge3/etc/profile.d/mamba.sh
-       mamba activate base
-       export CMOR_CHANNEL=`pwd`/cmor_conda_pkgs/
-       mamba search -c file://$CMOR_CHANNEL --override-channels
+       eval "$(mamba shell hook --shell bash)"
+       mamba activate
+       export CMOR_CHANNEL=$HOME/cmor_conda_pkgs/
        set +e
        mamba create -y -n test_py$PYTHON_VERSION -c file://$CMOR_CHANNEL $CHANNELS python=$PYTHON_VERSION $PKG_NAME=$VERSION $CONDA_COMPILERS
        mamba activate test_py$PYTHON_VERSION
@@ -107,8 +107,8 @@ aliases:
     command: |
        source $BASH_ENV
        source $WORKDIR/miniforge3/etc/profile.d/conda.sh
-       source $WORKDIR/miniforge3/etc/profile.d/mamba.sh
-       mamba activate base
+       eval "$(mamba shell hook --shell bash)"
+       mamba activate
        mamba install -n base -c conda-forge anaconda-client
        export ARTIFACT_DIR=`pwd`/artifacts
        anaconda -t $CONDA_UPLOAD_TOKEN upload -u $USER -l $LABEL $ARTIFACT_DIR/*/*.conda --force
@@ -141,7 +141,7 @@ jobs:
       executor: << parameters.os >>
       environment:
          PKG_NAME: "cmor"
-         VERSION: "3.9.0"
+         VERSION: "3.10.0"
          PYTHON_VERSION: << parameters.python_version >>
          CHANNELS: "-c conda-forge"
       steps:

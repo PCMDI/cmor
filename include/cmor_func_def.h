@@ -116,7 +116,7 @@ extern void create_singleton_dimensions(int var_id, int ncid,
 extern int copyfile(const char *source, const char *dest);
 
 /* ==================================================================== */
-/*      Control Vocabulary                                              */
+/*      Controlled Vocabulary                                              */
 /* ==================================================================== */
 
 extern int cmor_build_outname(int var_id, char *outname );
@@ -148,6 +148,7 @@ extern cmor_CV_def_t * cmor_CV_rootsearch(cmor_CV_def_t *CV, char *key);
 extern int cmor_CV_checkFurtherInfoURL(int var_id);
 extern int cmor_CV_checkGrids(cmor_CV_def_t *CV);
 extern int cmor_CV_setInstitution( cmor_CV_def_t *CV);
+extern int cmor_CV_setLicense( cmor_CV_def_t *CV);
 
 extern int cmor_CV_set_entry(cmor_table_t* table, json_object *value);
 extern int  cmor_CV_ValidateGblAttributes( char *name);
@@ -256,6 +257,9 @@ extern int cmor_get_grid_attribute( int gid, char *name, double *value );
 extern void cmor_convert_value( char *units, char *ctmp, double *tmp );
 extern int cmor_set_grid_attribute( int gid, char *name, double *value,
 				    char *units );
+extern int cmor_has_grid_text_attribute( int gid, char *name );
+extern int cmor_get_grid_text_attribute( int gid, char *name, char *value );
+extern int cmor_set_grid_text_attribute( int gid, char *name, char *value, int size );
 extern int cmor_attribute_in_list( char *name, int n,
 				   char ( *atts )[CMOR_MAX_STRING] );
 extern int cmor_grid_valid_mapping_attribute_names( char *name, int *natt,
@@ -269,6 +273,13 @@ extern int cmor_set_grid_mapping( int gid, char *name, int nparam,
 				  double attributes_values[CMOR_MAX_GRID_ATTRIBUTES],
 				  char *units,
 				  int lnunits );
+extern int cmor_set_crs( int gid, char *grid_mapping, int nparam,
+                    char *attributes_names, int lparams,
+                    double attributes_values[CMOR_MAX_GRID_ATTRIBUTES],
+                    char *units, int lnunits,
+                    int ntextparam, char *text_attributes_names, int ltextparams,
+                    char *text_attributes_values,
+                    int text_attributes_length[CMOR_MAX_GRID_ATTRIBUTES]);
 extern int cmor_grid( int *grid_id, int ndims, int *axes_ids, char type,
 		      void *lat, void *lon, int nvertices, void *blat,
 		      void *blon );

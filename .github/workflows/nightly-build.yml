@@ -32,7 +32,7 @@ jobs:
     runs-on: ${{ matrix.runner.RUNNER_OS }}
     env:
       PACKAGE_NAME: cmor
-      PACKAGE_VERSION: 3.9.0
+      PACKAGE_VERSION: 3.10.0
       PYTHON_VERSION: ${{ matrix.python_version }}
       CONDA_FORGE_CHANNEL: conda-forge
       CONDA_USER: pcmdi
@@ -58,16 +58,16 @@ jobs:
       - name: Setup Miniforge
         run: |
           curl -L $MINIFORGE_INSTALLER_URL -o miniforge3.sh
-          bash miniforge3.sh -b -p $PROJECT_DIR/miniforge3
-          source $PROJECT_DIR/miniforge3/etc/profile.d/conda.sh
-          source $PROJECT_DIR/miniforge3/etc/profile.d/mamba.sh
-          mamba activate base
+          bash miniforge3.sh -b -p $HOME/miniforge3
+          source $HOME/miniforge3/etc/profile.d/conda.sh
+          eval "$(mamba shell hook --shell bash)"
+          mamba activate
 
       - name: Conda Rerender
         run: |
-          source $PROJECT_DIR/miniforge3/etc/profile.d/conda.sh
-          source $PROJECT_DIR/miniforge3/etc/profile.d/mamba.sh
-          mamba activate base
+          source $HOME/miniforge3/etc/profile.d/conda.sh
+          eval "$(mamba shell hook --shell bash)"
+          mamba activate
 
           git clone -b main https://github.com/conda-forge/cmor-feedstock $PROJECT_DIR/cmor-feedstock
           export SRC_META_YAML=`pwd`/$PROJECT_DIR/cmor-feedstock/recipe/meta.yaml.SRC
@@ -83,8 +83,7 @@ jobs:
             --package_name $PACKAGE_NAME \
             --version $PACKAGE_VERSION \
             --organization PCMDI \
-            --repo_name $PACKAGE_NAME \
-            --branch $GIT_BRANCH \
+            --local_repo `pwd` \
             --git_rev $GIT_REV \
             --build 0 \
             --src_meta_yaml $SRC_META_YAML \
@@ -92,18 +91,20 @@ jobs:
 
           mamba create -y -n smithy_env -c conda-forge conda-smithy
           mamba activate smithy_env
+          cp autoconf-workaround.patch $PROJECT_DIR/cmor-feedstock
           cd $PROJECT_DIR/cmor-feedstock
+          git apply autoconf-workaround.patch
           mamba run conda smithy rerender
           ls -lh .ci_support/
 
       - name: Conda Build
         run: |
-          source $PROJECT_DIR/miniforge3/etc/profile.d/conda.sh
-          source $PROJECT_DIR/miniforge3/etc/profile.d/mamba.sh
-          mamba activate base
+          source $HOME/miniforge3/etc/profile.d/conda.sh
+          eval "$(mamba shell hook --shell bash)"
+          mamba activate
           mamba activate smithy_env
 
-          export BUILD_DIR=`pwd`/cmor_conda_pkgs
+          export BUILD_DIR=$HOME/cmor_conda_pkgs
           mkdir -p $BUILD_DIR
 
           export ARTIFACT_DIR=`pwd`/artifacts/$OS
@@ -117,12 +118,11 @@ jobs:
 
       - name: Run Tests
         run: |
-          source $PROJECT_DIR/miniforge3/etc/profile.d/conda.sh
-          source $PROJECT_DIR/miniforge3/etc/profile.d/mamba.sh
-          mamba activate base
+          source $HOME/miniforge3/etc/profile.d/conda.sh
+          eval "$(mamba shell hook --shell bash)"
+          mamba activate
 
-          export CMOR_CHANNEL=file://`pwd`/cmor_conda_pkgs/
-          mamba search -c $CMOR_CHANNEL --override-channels
+          export CMOR_CHANNEL=file://$HOME/cmor_conda_pkgs/
 
           mamba create -y -n test_py$PYTHON_VERSION -c $CMOR_CHANNEL -c $CONDA_FORGE_CHANNEL python=$PYTHON_VERSION $PACKAGE_NAME=$PACKAGE_VERSION $C_COMPILER $FORTRAN_COMPILER
           mamba activate test_py$PYTHON_VERSION
@@ -135,9 +135,9 @@ jobs:
           CONDA_UPLOAD_TOKEN: ${{ secrets.CONDA_UPLOAD_TOKEN }}
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
-          source $PROJECT_DIR/miniforge3/etc/profile.d/conda.sh
-          source $PROJECT_DIR/miniforge3/etc/profile.d/mamba.sh
-          mamba activate base
+          source $HOME/miniforge3/etc/profile.d/conda.sh
+          eval "$(mamba shell hook --shell bash)"
+          mamba activate
           mamba install -n base -c conda-forge anaconda-client
           export ARTIFACT_DIR=`pwd`/artifacts
           anaconda -t $CONDA_UPLOAD_TOKEN upload -u $CONDA_USER -l $CONDA_LABEL $ARTIFACT_DIR/*/*.conda --force
