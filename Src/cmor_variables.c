@@ -2408,6 +2408,14 @@ int cmor_set_zstandard(int var_id, int zstandard_level)
         return (-1);
     }
 
+    if (zstandard_level < -131072 || zstandard_level > 22) {
+        cmor_handle_error_variadic(
+            "Your zstandard level of %d is outside of the range [-131072, 22].\n! "
+            "Zstandard compression will not be applied to variable id(%d)",
+            CMOR_WARNING,
+            zstandard_level, var_id);
+    }
+
     cmor_vars[var_id].zstandard_level = zstandard_level;
     cmor_pop_traceback();
     return (0);
