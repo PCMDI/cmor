@@ -776,7 +776,9 @@ int cmor_load_table_internal(char szTable[CMOR_MAX_STRING], int *table_id)
     char szVal[1024000];
     char *buffer = NULL;
     int nTableSize, read_size;
-    json_object *json_obj;
+    struct json_object *json_obj;
+    struct json_tokener *tok;
+    enum json_tokener_error jerr;
 
     cmor_add_traceback("cmor_load_table_internal");
     cmor_is_setup();
@@ -851,14 +853,31 @@ int cmor_load_table_internal(char szTable[CMOR_MAX_STRING], int *table_id)
 /* -------------------------------------------------------------------- */
 /*     parse buffer into json object                                    */
 /* -------------------------------------------------------------------- */
-    json_obj = json_tokener_parse(buffer);
-    if (json_obj == NULL) {
+    tok = json_tokener_new();
+    if (tok == NULL) {
         cmor_handle_error_variadic(
-            "Please validate JSON File!\n"
-            "USE: http://jsonlint.com/\n"
-            "Syntax Error in table: %s\n " "%s", 
+            "Could not set up json_tokener", 
+            CMOR_CRITICAL);
+        free(buffer);
+        cmor_pop_traceback();
+        return (TABLE_ERROR);
+    }
+
+    json_obj = json_tokener_parse_ex(tok, buffer, nTableSize);
+
+    jerr = json_tokener_get_error(tok);
+    if (jerr != json_tokener_success 
+        || json_tokener_get_parse_end(tok) < nTableSize)
+    {
+        cmor_handle_error_variadic(
+            "Your JSON file is invalid! "
+            "Please use https://jsonlint.com/ to validate your file.\n"
+            "!\n! "
+            "Syntax Error in table: %s", 
             CMOR_CRITICAL,
-            szTable, buffer);
+            szTable);
+        free(buffer);
+        json_tokener_free(tok);
         cmor_pop_traceback();
         return (TABLE_ERROR);
     }
@@ -1098,6 +1117,7 @@ int cmor_load_table_internal(char szTable[CMOR_MAX_STRING], int *table_id)
     }
     cmor_pop_traceback();
     free(buffer);
+    json_tokener_free(tok);
     json_object_put(json_obj);
     return (TABLE_SUCCESS);
 }
