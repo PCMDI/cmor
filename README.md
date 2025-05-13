@@ -45,3 +45,9 @@ The content of this repository is developed by climate and computer scientists f
 [BER]: https://science.osti.gov/ber
 [DOE]: https://www.energy.gov/
 [OS]: https://science.osti.gov/
+
+## Release
+
+The code of this site is released under the BSD 3-Clause License. For more details, see the [LICENSE](LICENSE) File.
+
+LLNL-CODE-2005936
