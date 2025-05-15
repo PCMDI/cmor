@@ -4,7 +4,7 @@ dnl Process this file with autoconf to produce a configure script.
 dnl AC_PREREQ([2.71])
 AC_INIT([cmor],[3.10.0],[mauzey1@llnl.gov])
 
-GIT_TAG=`cd $srcdir ; ./get_git_version.sh`
+GIT_TAG=`cd $srcdir ; git log -n 1 --pretty="format:%H"`
 
 AC_CANONICAL_TARGET
 echo "TARGET: "${target_os}
