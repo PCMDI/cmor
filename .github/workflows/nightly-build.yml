@@ -79,7 +79,7 @@ jobs:
           export GIT_BRANCH=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
           echo "GIT_BRANCH=$GIT_BRANCH"
 
-          python rebuild_meta_yaml.py \
+          python ./ci-support/rebuild_meta_yaml.py \
             --package_name $PACKAGE_NAME \
             --version $PACKAGE_VERSION \
             --organization PCMDI \
@@ -91,7 +91,7 @@ jobs:
 
           mamba create -y -n smithy_env -c conda-forge conda-smithy
           mamba activate smithy_env
-          cp autoconf-workaround.patch $PROJECT_DIR/cmor-feedstock
+          cp ./ci-support/autoconf-workaround.patch $PROJECT_DIR/cmor-feedstock
           cd $PROJECT_DIR/cmor-feedstock
           git apply autoconf-workaround.patch
           mamba run conda smithy rerender
