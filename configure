@@ -2454,7 +2454,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 
-GIT_TAG=`cd $srcdir ; ./get_git_version.sh`
+GIT_TAG=`cd $srcdir ; git log -n 1 --pretty="format:%H"`
 
 
 

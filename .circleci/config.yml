@@ -44,7 +44,7 @@ aliases:
 
        export GIT_REV=$(git rev-parse --short HEAD)
 
-       python rebuild_meta_yaml.py \
+       python ./ci-support/rebuild_meta_yaml.py \
         --package_name $PKG_NAME \
         --version $VERSION \
         --local_repo `pwd` \
@@ -56,7 +56,7 @@ aliases:
 
        mamba create -y -n smithy_env -c conda-forge conda-smithy
        mamba activate smithy_env
-       cp autoconf-workaround.patch $WORKDIR/cmor-feedstock
+       cp ./ci-support/autoconf-workaround.patch $WORKDIR/cmor-feedstock
        cd $WORKDIR/cmor-feedstock
        git apply autoconf-workaround.patch
        mamba run conda smithy rerender
