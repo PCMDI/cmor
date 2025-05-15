@@ -2409,10 +2409,10 @@ int cmor_set_zstandard(int var_id, int zstandard_level)
     }
 
     if (zstandard_level < -131072 || zstandard_level > 22) {
-        cmor_handle_error_variadic(
+        cmor_handle_error_var_variadic(
             "Your zstandard level of %d is outside of the range [-131072, 22].\n! "
             "Zstandard compression will not be applied to variable id(%d)",
-            CMOR_WARNING,
+            CMOR_CRITICAL, var_id,
             zstandard_level, var_id);
     }
 

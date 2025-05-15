@@ -6,6 +6,7 @@ import shutil
 import tempfile
 from collections import namedtuple
 from netCDF4 import Dataset
+from base_CMIP6_CV import BaseCVsTest
 
 
 ZSTDSettings = namedtuple('ZSTDSettings', ['level'])
@@ -17,7 +18,7 @@ def run():
     unittest.main()
 
 
-class TestCase(unittest.TestCase):
+class TestCase(BaseCVsTest):
 
     def gen_file(self, seed, out_dir, ntimes, 
                  zstd_settings: ZSTDSettings = None,
@@ -26,7 +27,9 @@ class TestCase(unittest.TestCase):
 
         numpy.random.seed(seed)
 
-        cmor.setup(inpath='Test', netcdf_file_action=cmor.CMOR_REPLACE)
+        cmor.setup(inpath='Test',
+                   netcdf_file_action=cmor.CMOR_REPLACE,
+                   logfile=self.tmpfile)
 
         cmor.dataset_json("Test/CMOR_input_example.json")
 
@@ -197,17 +200,12 @@ class TestCase(unittest.TestCase):
         ntimes = 100
 
         with tempfile.TemporaryDirectory() as tmp_dir:
-            filename = self.gen_file(seed, tmp_dir, ntimes,
-                                     zstd_settings=ZSTDSettings(100),
-                                     deflate_settings=DeflateSettings(False, 0, True))
-
-            nc = Dataset(filename, "r", format="NETCDF4")
-
-            filters = nc.variables['ta'].filters()
-            self.assertFalse(filters['zlib'])
-            self.assertFalse(filters['zstd'])
-            self.assertTrue(filters['shuffle'])
-            self.assertEqual(filters['complevel'], 0)
+            with self.assertRaises(cmor.CMORError):
+                _ = self.gen_file(seed, tmp_dir, ntimes,
+                                  zstd_settings=ZSTDSettings(100),
+                                  deflate_settings=DeflateSettings(False, 0, True))
+            
+            self.assertCV("Your zstandard level of 100 is outside of the range [-131072, 22].")
 
 
     def test_quantize(self):
