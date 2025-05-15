@@ -48,6 +48,6 @@ The content of this repository is developed by climate and computer scientists f
 
 ## Release
 
-The code of this site is released under the BSD 3-Clause License. For more details, see the [LICENSE](LICENSE) File.
+The code of CMOR is released under the BSD 3-Clause License. For more details, see the [LICENSE](LICENSE) File.
 
 LLNL-CODE-2005936
