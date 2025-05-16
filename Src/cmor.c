@@ -801,7 +801,7 @@ void cmor_reset_variable(int var_id)
     cmor_vars[var_id].shuffle = 0;
     cmor_vars[var_id].deflate = 1;
     cmor_vars[var_id].deflate_level = 1;
-    cmor_vars[var_id].zstandard_level = 3;
+    cmor_vars[var_id].zstandard_level = -999999;
     cmor_vars[var_id].quantize_mode = NC_NOQUANTIZE;
     cmor_vars[var_id].quantize_nsd = 1;
     cmor_vars[var_id].nomissing = 1;
@@ -2149,14 +2149,9 @@ int cmor_define_zfactors_vars(int var_id, int ncid, int *nc_dim,
                         icz =
                           cmor_tables[nTableID].vars[nTableID].zstandard_level;
 
-                        if (icd != 0) {
-                            ierr |= nc_def_var_deflate(ncid, nc_zfactors[lnzfactors],
-                                                    ics, icd, icdl);
-                        } else {
-                            ierr |= nc_def_var_deflate(ncid, nc_zfactors[lnzfactors],
-                                                    ics, 0, 0);
-                            ierr |= nc_def_var_zstandard(ncid, nc_zfactors[lnzfactors],
-                                                    icz);
+                        ierr |= nc_def_var_deflate(ncid, nc_zfactors[lnzfactors], ics, icd, icdl);
+                        if (icd == 0 && (icz >= -131072 && icz <= 22)) {
+                            ierr |= nc_def_var_zstandard(ncid, nc_zfactors[lnzfactors], icz);
                         }
 
                         if (ierr != NC_NOERR) {
@@ -3939,15 +3934,11 @@ void cmor_define_dimensions(int var_id, int ncid,
                 icdl = pVar->deflate_level;
                 icz = pVar->zstandard_level;
 
-                if (icd != 0) {
-                    ierr |= nc_def_var_deflate(ncafid, nc_bnds_vars[i],
-                                            ics, icd, icdl);
-                } else {
-                    ierr |= nc_def_var_deflate(ncafid, nc_bnds_vars[i],
-                                            ics, 0, 0);
-                    ierr |= nc_def_var_zstandard(ncafid, nc_bnds_vars[i],
-                                            icz);
+                ierr |= nc_def_var_deflate(ncafid, nc_bnds_vars[i], ics, icd, icdl);
+                if (icd == 0 && (icz >= -131072 && icz <= 22)) {
+                    ierr |= nc_def_var_zstandard(ncafid, nc_bnds_vars[i], icz);
                 }
+
                 if (ierr != NC_NOERR) {
                     cmor_handle_error_var_variadic(
                         "NCError (%i: %s) defining compression\n! "
@@ -4486,15 +4477,11 @@ int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af,
                                                                   ref_var_id].
                       zstandard_level;
 
-                    if (icd != 0) {
-                        ierr |= nc_def_var_deflate(ncafid, nc_associated_vars[i],
-                                                ics, icd, icdl);
-                    } else {
-                        ierr |= nc_def_var_deflate(ncafid, nc_associated_vars[i],
-                                                ics, 0, 0);
-                        ierr |= nc_def_var_zstandard(ncafid, nc_associated_vars[i],
-                                                icz);
+                    ierr |= nc_def_var_deflate(ncafid, nc_associated_vars[i], ics, icd, icdl);
+                    if (icd == 0 && (icz >= -131072 && icz <= 22)) {
+                        ierr |= nc_def_var_zstandard(ncafid, nc_associated_vars[i], icz);
                     }
+
                     if (ierr != NC_NOERR) {
                         cmor_handle_error_var_variadic(
                             "NetCDF Error (%i: %s) defining\n! "
@@ -5476,11 +5463,8 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
             }
         }
 
-        // Only use zstandard compression if deflate is disabled
-        if (icd != 0) {
-            ierr |= nc_def_var_deflate(ncid, pVar->nc_var_id, ics, icd, icdl);
-        } else {
-            ierr |= nc_def_var_deflate(ncid, pVar->nc_var_id, ics, 0, 0);
+        ierr |= nc_def_var_deflate(ncid, pVar->nc_var_id, ics, icd, icdl);
+        if (icd == 0 && (icz >= -131072 && icz <= 22)) {
             ierr |= nc_def_var_zstandard(ncid, pVar->nc_var_id, icz);
         }
 

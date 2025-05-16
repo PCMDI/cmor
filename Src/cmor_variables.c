@@ -1977,7 +1977,7 @@ void cmor_init_var_def(cmor_var_def_t * var, int table_id)
     var->shuffle = 0;
     var->deflate = 1;
     var->deflate_level = 1;
-    var->zstandard_level = 3;
+    var->zstandard_level = -999999;
     var->generic_level_name[0] = '\0';
     var->branding_suffix[0] = '\0';
     var->temporal_label[0] = '\0';
@@ -2406,6 +2406,14 @@ int cmor_set_zstandard(int var_id, int zstandard_level)
         cmor_pop_traceback();
 
         return (-1);
+    }
+
+    if (zstandard_level < -131072 || zstandard_level > 22) {
+        cmor_handle_error_var_variadic(
+            "Your zstandard level of %d is outside of the range [-131072, 22].\n! "
+            "Zstandard compression will not be applied to variable id(%d)",
+            CMOR_CRITICAL, var_id,
+            zstandard_level, var_id);
     }
 
     cmor_vars[var_id].zstandard_level = zstandard_level;
