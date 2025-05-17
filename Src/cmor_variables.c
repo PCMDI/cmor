@@ -2516,6 +2516,7 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
     size_t counter2[CMOR_MAX_DIMENSIONS];
     size_t max_counter[CMOR_MAX_DIMENSIONS];
     size_t min_counter[CMOR_MAX_DIMENSIONS];
+    size_t nan_counter[CMOR_MAX_DIMENSIONS];
     size_t starts[CMOR_MAX_DIMENSIONS];
     size_t nelements, loc, add, nelts;
     double *data_tmp = NULL, tmp = 0., tmp2, amean;
@@ -2531,13 +2532,14 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
     ut_unit *user_units = NULL, *cmor_units = NULL;
     cv_converter *ut_cmor_converter = NULL;
     char local_unit[CMOR_MAX_STRING];
-    size_t n_lower_min = 0, n_greater_max = 0;
+    size_t n_lower_min = 0, n_greater_max = 0, n_nan = 0;
     double emax, emin, first_time;
     extern ut_system *ut_read;
     size_t tmpindex = 0;
     size_t index;
     char *msg_min;
     char *msg_max;
+    char *msg_nan;
     size_t msg_len;
 
     cmor_add_traceback("cmor_write_var_to_file");
@@ -2800,6 +2802,16 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
             tmp = (double)((double *)data)[loc];
         }
 
+        // check for NaN values
+        if (isnan(tmp) != 0) {
+            n_nan += 1;
+            if (n_nan == 1) {
+                for (j = 0; j < avar->ndims; j++) {
+                    nan_counter[j] = counter2[j];
+                }
+            }
+        }
+
         tmp2 = (double)fabs(tmp - avar->missing);
 
         if ((avar->nomissing == 0)
@@ -2857,6 +2869,51 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
             fdata_tmp[i] = (float)tmp;
         else if (mtype == 'd')
             data_tmp[i] = (double)tmp;
+
+    }
+    if (n_nan != 0) {
+        msg_len = 0;
+        for (j = 0; j < avar->ndims; j++) {
+            cmor_axis_t *pAxis;
+            pAxis = &cmor_axes[avar->axes_ids[j]];
+            double val = 0.f;
+            if (pAxis->values != NULL) {
+                val = pAxis->values[nan_counter[j]];
+            } else {
+                val = time_vals[nan_counter[j]];
+            }
+            msg_len += snprintf(NULL, 0, " %s: %lu/%.5g",
+                                pAxis->id, nan_counter[j], val);
+        }
+        msg_len += 1;
+
+        msg_nan = (char *)malloc(msg_len * sizeof(char));
+        
+        msg_len = 0;
+        for (j = 0; j < avar->ndims; j++) {
+            cmor_axis_t *pAxis;
+            pAxis = &cmor_axes[avar->axes_ids[j]];
+            double val = 0.f;
+            if (pAxis->values != NULL) {
+                val = pAxis->values[nan_counter[j]];
+            } else {
+                val = time_vals[nan_counter[j]];
+            }
+            msg_len += sprintf(&msg_nan[msg_len], " %s: %lu/%.5g",
+                    pAxis->id, nan_counter[j], val);
+        }
+    
+        cmor_handle_error_variadic(
+            "Invalid value(s) detected for variable '%s' "
+            "(table: %s): %zu values were NaNs. "
+            "First encountered NaN "
+            "was at (axis: index/value):%s",
+            CMOR_WARNING,
+            avar->id,
+            cmor_tables[avar->ref_table_id].szTable_id,
+            n_nan, msg_nan);
+
+        free(msg_nan);
 
     }
     if (n_lower_min != 0) {
