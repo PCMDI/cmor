@@ -2906,14 +2906,24 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
         cmor_handle_error_variadic(
             "Invalid value(s) detected for variable '%s' "
             "(table: %s): %zu values were NaNs. "
+            "\n! "
             "First encountered NaN "
-            "was at (axis: index/value):%s",
-            CMOR_WARNING,
+            "was at (axis: index/value):%s"
+            "\n!\n! "
+            "MIP data (missing values or otherwise) must "
+            "not include \"NaN's\". Please replace all \"NaN's\" "
+            "with an acceptable actual number.\n! If you consider "
+            "the \"NaN's\" to be missing, then replace them with "
+            "the official \"missing_value\", which for CMIP "
+            "floating point numbers is 1.e20.",
+            CMOR_CRITICAL,
             avar->id,
             cmor_tables[avar->ref_table_id].szTable_id,
             n_nan, msg_nan);
 
         free(msg_nan);
+        cmor_pop_traceback();
+        return (1);
 
     }
     if (n_lower_min != 0) {
