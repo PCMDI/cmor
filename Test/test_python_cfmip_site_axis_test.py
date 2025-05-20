@@ -96,7 +96,7 @@ if __name__ == '__main__':
     print('ok: created variable for "cl"')
 
     ofact_id = cmor.zfactor(zaxis_id, 'orog', 'm', [gaxis_id], 'd',
-                            zfactor_values=[123.0])
+                            zfactor_values=[123.0, 123.0, 123.0])
     print('ok: created orog zfactors')
     # Write some data to this variable. First convert raw data to numpy arrays.
     shape = (1, 3, 1)
