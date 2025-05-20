@@ -234,6 +234,7 @@ test_python: python
 	env TEST_NAME=Test/test_python_branded_variable.py make test_a_python
 	env TEST_NAME=Test/test_cmor_CMIP7.py make test_a_python
 	env TEST_NAME=Test/test_cmor_crs.py make test_a_python
+	env TEST_NAME=Test/test_cmor_nan_check.py make test_a_python
 test_cmip6_cv: python
 	env TEST_NAME=Test/test_python_CMIP6_CV_sub_experimentnotset.py make test_a_python
 	env TEST_NAME=Test/test_python_CMIP6_CV_sub_experimentbad.py make test_a_python
