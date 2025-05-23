@@ -34,7 +34,18 @@ int cmor_calendar_c2i(char *calendar, cdCalenType * ical)
         *ical = cdJulian;
     else if (strcmp(calendar, "none") == 0)
         *ical = cdClim;
-    else {
+    else if (strcmp(calendar, "utc") == 0
+            || strcmp(calendar, "tai") == 0
+            || strcmp(calendar, "all_leap") == 0
+            || strcmp(calendar, "366_day") == 0) {
+        cmor_handle_error_variadic(
+            "A %s calendar is not currently an option for MIP results."
+            "\n! "
+            "Please adopt a different, more common calendar used for "
+            "climate studies", CMOR_NORMAL, calendar);
+        cmor_pop_traceback();
+        return (1);
+    } else {
         cmor_pop_traceback();
         return (1);
     }
