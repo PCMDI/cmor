@@ -8,9 +8,11 @@
 
 int cuErrOpts = CU_VERBOSE;
 
-/************************************************************************/
-/*                         cmor_calendar_c2i()                          */
-/************************************************************************/
+/*****************************************************************************/
+/*                         cmor_calendar_c2i()                               */
+/* This function recognizes all valid calendars in the CF 1.12 release       */
+/* See https://cfconventions.org/cf-conventions/cf-conventions.html#calendar */
+/*****************************************************************************/
 int cmor_calendar_c2i(char *calendar, cdCalenType * ical)
 {
 
@@ -39,10 +41,13 @@ int cmor_calendar_c2i(char *calendar, cdCalenType * ical)
             || strcmp(calendar, "all_leap") == 0
             || strcmp(calendar, "366_day") == 0) {
         cmor_handle_error_variadic(
-            "A %s calendar is not currently an option for MIP results."
+            "A %s calendar is an invalid selection for Model Intercomparison Project (MIP) data."
             "\n! "
-            "Please adopt a different, more common calendar used for "
-            "climate studies", CMOR_NORMAL, calendar);
+            "Please adopt a different, more common calendar used for climate studies. "
+            "\n!\n! "
+            "This function recognizes all valid calendars in the CF 1.12 release. "
+            "See https://cfconventions.org/cf-conventions/cf-conventions.html#calendar",
+            CMOR_NORMAL, calendar);
         cmor_pop_traceback();
         return (1);
     } else {
