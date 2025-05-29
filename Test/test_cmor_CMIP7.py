@@ -24,7 +24,7 @@ DATASET_INFO = {
     "grid_label": "gn",
     "initialization_index": "1",
     "institution_id": "PCMDI",
-    "_license_id": "CC BY 4.0",
+    "license_id": "CC BY 4.0",
     "nominal_resolution": "250 km",
     "outpath": ".",
     "parent_mip_era": "CMIP7",
