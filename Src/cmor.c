@@ -6147,7 +6147,8 @@ int cmor_CreateFromTemplate(int nVarRefTblID, char *templateSTH,
 /* -------------------------------------------------------------------- */
         } else if (strcmp(szToken, GLOBAL_ATT_CONVENTIONS) == 0
                     || strcmp(szToken, GLOBAL_ATT_LICENSE_ID) == 0
-                    || strcmp(szToken, GLOBAL_ATT_LICENSE_TYPE) == 0) {
+                    || strcmp(szToken, GLOBAL_ATT_LICENSE_TYPE) == 0
+                    || strcmp(szToken, GLOBAL_ATT_LICENSE_URL) == 0) {
             cmor_get_cur_dataset_attribute(szToken, tmp);
             strncat(szJoin, tmp, CMOR_MAX_STRING);
             strcat(szJoin, separator);
