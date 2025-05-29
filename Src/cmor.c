@@ -6145,7 +6145,9 @@ int cmor_CreateFromTemplate(int nVarRefTblID, char *templateSTH,
 /*      or an internal attribute.  Otherwise we just skip it and the    */
 /*      user get a warning.                                             */
 /* -------------------------------------------------------------------- */
-        } else if (strcmp(szToken, GLOBAL_ATT_CONVENTIONS) == 0) {
+        } else if (strcmp(szToken, GLOBAL_ATT_CONVENTIONS) == 0
+                    || strcmp(szToken, GLOBAL_ATT_LICENSE_ID) == 0
+                    || strcmp(szToken, GLOBAL_ATT_LICENSE_TYPE) == 0) {
             cmor_get_cur_dataset_attribute(szToken, tmp);
             strncat(szJoin, tmp, CMOR_MAX_STRING);
             strcat(szJoin, separator);
