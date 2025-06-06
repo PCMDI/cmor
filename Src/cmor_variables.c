@@ -2528,6 +2528,7 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
     int ierr = 0, dounits = 1;
     char msg[CMOR_MAX_STRING];
     char msg2[CMOR_MAX_STRING];
+    char units[CMOR_MAX_STRING];
     double *tmp_vals;
     ut_unit *user_units = NULL, *cmor_units = NULL;
     cv_converter *ut_cmor_converter = NULL;
@@ -2541,6 +2542,9 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
     char *msg_max;
     char *msg_nan;
     size_t msg_len;
+    cmor_axis_def_t *refaxis;
+    size_t time_axis_start, time_axis_count;
+    double *time_axis_vals;
 
     cmor_add_traceback("cmor_write_var_to_file");
     cmor_is_setup();
@@ -3345,6 +3349,50 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
                         avar->ntimes_written);
                 }
             }
+
+            avar->ntimes_written += ntimes_passed;
+
+            refaxis = &cmor_tables[cmor_axes[avar->axes_ids[0]].ref_table_id].axes[cmor_axes[avar->axes_ids[0]].ref_axis_id];
+
+            j = 0;
+            while (refaxis->units[j] == ' ')
+                j++;
+            i = 0;
+            while ((refaxis->units[i + j] != ' ') &&
+                    (refaxis->units[i + j] != '\0')) {
+                msg[i] = refaxis->units[i + j];
+                i++;
+            }
+            msg[i] = '\0';
+
+            snprintf(units, CMOR_MAX_STRING, "%lf %s", 
+                cmor_axes[avar->axes_ids[0]].approx_interval, msg);
+
+            time_axis_start = 0;
+            time_axis_count = avar->ntimes_written;
+            time_axis_vals = (double *)malloc(time_axis_count * sizeof(double));
+            ierr = nc_get_vara_double(ncid, avar->time_nc_id, &time_axis_start, &time_axis_count, time_axis_vals);
+            if (ierr != NC_NOERR) {
+                cmor_handle_error_variadic(
+                    "NetCDF Error (%i: %s), cannot read time values",
+                    CMOR_CRITICAL,
+                    ierr, nc_strerror(ierr)
+                );
+            }
+
+            if (time_axis_count > 0) {
+                ierr = cmor_check_interval(avar->axes_ids[0], units,
+                                            time_axis_vals,
+                                            time_axis_count, 0);
+                if (ierr != 0) {
+                    cmor_handle_error_variadic(
+                        "Error from time interval check",
+                        CMOR_CRITICAL
+                    );
+                }
+            }
+
+            free(time_axis_vals);
         } else {
 /* -------------------------------------------------------------------- */
 /*      Ok we did not pass time values therefore it means they were     */
@@ -3430,6 +3478,8 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
                   cmor_axes[avar->axes_ids[0]].values[starts[0]];
             }
 
+            avar->ntimes_written += ntimes_passed;
+
             avar->last_time = cmor_axes[avar->axes_ids[0]].values[starts[0]
                                                                   + counts[0] -
                                                                   1];
@@ -3512,6 +3562,8 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
                     cmor_tables[avar->ref_table_id].szTable_id);
 
             }
+
+            avar->ntimes_written = cmor_axes[avar->axes_ids[0]].length;
 /* -------------------------------------------------------------------- */
 /*      ok now we need to store first and last stuff                    */
 /* -------------------------------------------------------------------- */
@@ -3549,8 +3601,6 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
             ierr, nc_strerror(ierr), avar->id,
             cmor_tables[avar->ref_table_id].szTable_id);
     }
-
-    avar->ntimes_written += ntimes_passed;
 
     if (mtype == 'd')
         free(data_tmp);
