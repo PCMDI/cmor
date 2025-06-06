@@ -853,6 +853,11 @@ int cmor_time_varying_grid_coordinate(int *coord_grid_id, int grid_id,
     cmor_add_traceback("cmor_time_varying_grid_coordinate");
     cmor_is_setup();
 
+    cmor_handle_error_variadic(
+        "DEPRECATED: cmor_time_varying_grid_coordinate is no longer supported "
+        "as of CMOR 3.11 and will be removed in future releases.",
+        CMOR_WARNING);
+
     strcpy(msg, "not found");
     if (coordinate_type == NULL) {
         for (j = 0; j < cmor_tables[table_id].nvars; j++) {
