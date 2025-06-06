@@ -30,6 +30,9 @@
     CASE ('tro3')
        factor = 1.
        offset = 0.
+    CASE ('o3')
+       factor = 1.
+       offset = 0.
     END SELECT
     
     DO k=1,SIZE(field, 3)
