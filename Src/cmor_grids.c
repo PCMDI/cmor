@@ -855,7 +855,7 @@ int cmor_time_varying_grid_coordinate(int *coord_grid_id, int grid_id,
 
     cmor_handle_error_variadic(
         "DEPRECATED: cmor_time_varying_grid_coordinate is no longer supported "
-        "as of CMOR 3.11 and will be removed in future releases.",
+        "as of CMOR 3.11 and will be removed in a future release.",
         CMOR_WARNING);
 
     strcpy(msg, "not found");
