@@ -10,11 +10,6 @@ void read_time(int it, double *time, double *time_bnds)
     time[0] = (it - 0.5) * 0.25;
     time_bnds[0] = (it - 1) * 0.25;
     time_bnds[1] = it * 0.25;
-
-    time[0] = it;
-    time_bnds[0] = it;
-    time_bnds[1] = it + 1;
-
 }
 
 #include "reader_2D_3D.h"
@@ -93,10 +88,10 @@ void loopRoutine(char *times, char *returnvalue)
         read_time(i, &Time[i-k*ntimes], &bnds_time[2 * (i-k*ntimes)]);
     
     if(times)
-        ierr = cmor_axis(&axes_ids[0], "time1", "months since 1980", 0, NULL, 'd',
+        ierr = cmor_axis(&axes_ids[0], "time1", "days since 1980", 0, NULL, 'd',
                 NULL, 0, NULL);
     else
-        ierr = cmor_axis(&axes_ids[0], "time1", "months since 1980", ntimes, &Time[0], 'd',
+        ierr = cmor_axis(&axes_ids[0], "time1", "days since 1980", ntimes, &Time[0], 'd',
                 NULL, 0, NULL);
 
 

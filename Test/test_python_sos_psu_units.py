@@ -73,20 +73,20 @@ class TestCase(unittest.TestCase):
                 ivar2 = self.prep_var("sos", "psu")
                 ivar3 = self.prep_var("sos", "pss-78")
                 for i in range(4):
-                    tval = [i / 4. + d]
-                    tbnd = [i / 4. + d - 0.125, i / 4. + d + 0.125]
+                    tval = [i * 30. + d]
+                    tbnd = [i * 30. + d - 15., i * 30. + d + 15.]
                     print('tvar', tval)
                     print('tbnd', tbnd)
-                    print('writing time:', i, i / 4.)
+                    print('writing time:', i, i * 30.)
                     data = numpy.random.random(
                         (ntimes, nlat, nlon)) * 30. + 273
                     data = data.astype("f")
                     cmor.write(ivar, data, time_vals=tval, time_bnds=tbnd)
-                    tval = [i / 4. + d + 100]
-                    tbnd = [i / 4. + d + 100 - 0.125, i / 4. + d + 100 + 0.125]
+                    tval = [i * 30. + d + 100]
+                    tbnd = [i * 30. + d + 100 - 15., i * 30. + d + 100 + 15.]
                     cmor.write(ivar2, data, time_vals=tval, time_bnds=tbnd)
-                    tval = [i / 4. + d + 200]
-                    tbnd = [i / 4. + d + 200 - 0.125, i / 4. + d + 200 + 0.125]
+                    tval = [i * 30. + d + 200]
+                    tbnd = [i * 30. + d + 200 - 15., i * 30. + d + 200 + 15.]
                     cmor.write(ivar3, data, time_vals=tval, time_bnds=tbnd)
                     print('wrote var 1 time:', i)
                 file = cmor.close(ivar, True)
