@@ -867,22 +867,23 @@ int cmor_load_table_internal(char szTable[CMOR_MAX_STRING], int *table_id)
     json_obj = json_tokener_parse_ex(tok, buffer, nTableSize);
 
     jerr = json_tokener_get_error(tok);
-    if (json_obj == NULL
-        || jerr != json_tokener_success 
-        || json_tokener_get_parse_end(tok) < nTableSize)
+    if (jerr != json_tokener_success)
     {
-        cmor_handle_error_variadic(
-            "Your JSON file is invalid! "
-            "Please use https://jsonlint.com/ to validate your file.\n"
-            "!\n! "
-            "Syntax Error in table: %s", 
-            CMOR_CRITICAL,
-            szTable);
         free(buffer);
         json_tokener_free(tok);
         if (json_obj != NULL) {
             json_object_put(json_obj);
         }
+        cmor_handle_error_variadic(
+            "Your JSON file is invalid! "
+            "Please use https://jsonlint.com/ to validate your file.\n"
+            "!\n! "
+            "Syntax Error in table: %s"
+            "!\n! "
+            "JSON error: %s", 
+            CMOR_CRITICAL,
+            szTable,
+            json_tokener_error_desc(jerr));
         cmor_pop_traceback();
         return (TABLE_ERROR);
     }

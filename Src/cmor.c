@@ -1380,22 +1380,23 @@ json_object *cmor_open_inpathFile(char *szFilename)
     json_obj = json_tokener_parse_ex(tok, buffer, nFileSize);
 
     jerr = json_tokener_get_error(tok);
-    if (json_obj == NULL
-        || jerr != json_tokener_success 
-        || json_tokener_get_parse_end(tok) < nFileSize)
+    if (jerr != json_tokener_success)
     {
-        cmor_handle_error_variadic(
-            "Your JSON file is invalid! "
-            "Please use https://jsonlint.com/ to validate your file.\n"
-            "!\n! "
-            "Syntax Error in input JSON: %s", 
-            CMOR_CRITICAL,
-            szFilename);
         free(buffer);
         json_tokener_free(tok);
         if (json_obj != NULL) {
             json_object_put(json_obj);
         }
+        cmor_handle_error_variadic(
+            "Your JSON file is invalid! "
+            "Please use https://jsonlint.com/ to validate your file.\n"
+            "!\n! "
+            "Syntax Error in input JSON: %s"
+            "!\n! "
+            "JSON error: %s", 
+            CMOR_CRITICAL,
+            szFilename,
+            json_tokener_error_desc(jerr));
         cmor_pop_traceback();
         return (NULL);
     }
