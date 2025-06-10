@@ -1296,7 +1296,9 @@ json_object *cmor_open_inpathFile(char *szFilename)
     char szFullName[CMOR_MAX_STRING];
     char *buffer;
     int nFileSize;
-    json_object *oJSON;
+    struct json_object *json_obj;
+    struct json_tokener *tok;
+    enum json_tokener_error jerr;
 
     cmor_add_traceback("cmor_open_inpathFile");
 
@@ -1364,14 +1366,40 @@ json_object *cmor_open_inpathFile(char *szFilename)
 /* -------------------------------------------------------------------- */
 /*     parse buffer into json object                                    */
 /* -------------------------------------------------------------------- */
-    oJSON = json_tokener_parse(buffer);
-    if (oJSON == NULL) {
+    tok = json_tokener_new();
+    if (tok == NULL) {
         cmor_handle_error_variadic(
-                 "Please validate JSON File!\n! "
-                 "USE: http://jsonlint.com/\n! "
-                 "Syntax Error in file: %s\n!  " "%s",
-                 CMOR_CRITICAL, szFullName, buffer);
+            "Could not set up json_tokener", 
+            CMOR_CRITICAL);
+        free(buffer);
+        cmor_pop_traceback();
+        return (NULL);
     }
+
+    json_tokener_set_flags(tok, JSON_TOKENER_STRICT);
+    json_obj = json_tokener_parse_ex(tok, buffer, nFileSize);
+
+    jerr = json_tokener_get_error(tok);
+    if (json_obj == NULL
+        || jerr != json_tokener_success 
+        || json_tokener_get_parse_end(tok) < nFileSize)
+    {
+        cmor_handle_error_variadic(
+            "Your JSON file is invalid! "
+            "Please use https://jsonlint.com/ to validate your file.\n"
+            "!\n! "
+            "Syntax Error in input JSON: %s", 
+            CMOR_CRITICAL,
+            szFilename);
+        free(buffer);
+        json_tokener_free(tok);
+        if (json_obj != NULL) {
+            json_object_put(json_obj);
+        }
+        cmor_pop_traceback();
+        return (NULL);
+    }
+
     cmor_pop_traceback();
     if (buffer != NULL) {
         free(buffer);
@@ -1380,7 +1408,8 @@ json_object *cmor_open_inpathFile(char *szFilename)
     if (table_file != NULL) {
         fclose(table_file);
     }
-    return (oJSON);
+    json_tokener_free(tok);
+    return (json_obj);
 }
 
 /************************************************************************/
