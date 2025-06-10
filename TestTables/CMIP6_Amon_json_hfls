@@ -63,7 +63,7 @@
             "cell_measures": "area: areacella", 
             "units": "1", 
             "out_name": "sci", 
-            "type": "real", 
+            "type": "real"
         }, 
         "depth_c": {
             "units": "", 
@@ -82,7 +82,7 @@
             "cell_measures": "area: areacella", 
             "units": "0.000000001", 
             "out_name": "tro3", 
-            "type": "real", 
+            "type": "real"
         }, 
         "rsutcs": {
             "comment": "", 
@@ -95,7 +95,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "rsutcs", 
-            "type": "real", 
+            "type": "real"
         }, 
         "rldscs": {
             "comment": "", 
@@ -108,7 +108,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "rldscs", 
-            "type": "real", 
+            "type": "real"
         }, 
         "n2oglobal": {
             "comment": "", 
@@ -121,7 +121,7 @@
             "cell_methods": "", 
             "units": "0.000000001", 
             "out_name": "n2oglobal", 
-            "type": "real", 
+            "type": "real"
         }, 
         "cli": {
             "comment": "Includes both large-scale and convective cloud. This is the mass of  cloud ice  in the grid cell divided by the mass of air (including the water in all phases) in the grid cell.  This includes precipitating hydrometeors ONLY if the precipitating hydrometeors affect the calculation of radiative transfer in model.", 
@@ -134,7 +134,7 @@
             "cell_measures": "area: areacella", 
             "units": "1", 
             "out_name": "cli", 
-            "type": "real", 
+            "type": "real"
         }, 
         "ts": {
             "comment": "''skin'' temperature (i.e., SST for open ocean)", 
@@ -147,7 +147,7 @@
             "cell_measures": "area: areacella", 
             "units": "K", 
             "out_name": "ts", 
-            "type": "real", 
+            "type": "real"
         }, 
         "clt": {
             "comment": "For the whole atmospheric column, as seen from the surface or the top of the atmosphere. Include both large-scale and convective cloud.", 
@@ -160,7 +160,7 @@
             "cell_measures": "area: areacella", 
             "units": "%", 
             "out_name": "clt", 
-            "type": "real", 
+            "type": "real"
         }, 
         "clw": {
             "comment": "Includes both large-scale and convective cloud.  This is the mass of  cloud liquid water in the grid cell divided by the mass of air (including the water in all phases) in the grid cell.  This includes precipitating hydrometeors ONLY if the precipitating hydrometeors affect the calculation of radiative transfer in model.", 
@@ -173,7 +173,7 @@
             "cell_measures": "area: areacella", 
             "units": "1", 
             "out_name": "clw", 
-            "type": "real", 
+            "type": "real"
         }, 
         "ta": {
             "comment": "", 
@@ -186,7 +186,7 @@
             "cell_measures": "area: areacella", 
             "units": "K", 
             "out_name": "ta", 
-            "type": "real", 
+            "type": "real"
         }, 
         "psl": {
             "comment": "", 
@@ -199,7 +199,7 @@
             "cell_measures": "area: areacella", 
             "units": "Pa", 
             "out_name": "psl", 
-            "type": "real", 
+            "type": "real"
         }, 
         "nsigma": {
             "units": "", 
@@ -218,7 +218,7 @@
             "cell_measures": "area: areacella", 
             "units": "0.000001", 
             "out_name": "co2Clim", 
-            "type": "real", 
+            "type": "real"
         }, 
         "sfcWind": {
             "comment": "near-surface (usually, 10 meters) wind speed.", 
@@ -231,7 +231,7 @@
             "cell_methods": "", 
             "units": "m s-1", 
             "out_name": "sfcWind", 
-            "type": "real", 
+            "type": "real"
         }, 
         "ch4Clim": {
             "comment": "", 
@@ -244,7 +244,7 @@
             "cell_measures": "area: areacella", 
             "units": "0.000000001", 
             "out_name": "ch4Clim", 
-            "type": "real", 
+            "type": "real"
         }, 
         "clwvi": {
             "comment": "Mass of condensed (liquid + ice) water in the column divided by the area of the column (not just the area of the cloudy portion of the column). Includes precipitating hydrometeors ONLY if the precipitating hydrometeors affect the calculation of radiative transfer in model.", 
@@ -257,7 +257,7 @@
             "cell_measures": "area: areacella", 
             "units": "kg m-2", 
             "out_name": "clwvi", 
-            "type": "real", 
+            "type": "real"
         }, 
         "rsdscs": {
             "comment": "", 
@@ -270,7 +270,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "rsdscs", 
-            "type": "real", 
+            "type": "real"
         }, 
         "huss": {
             "comment": "near-surface (usually, 2 meter) specific humidity.", 
@@ -283,7 +283,7 @@
             "cell_measures": "area: areacella", 
             "units": "1", 
             "out_name": "huss", 
-            "type": "real", 
+            "type": "real"
         }, 
         "rtmt": {
             "comment": "i.e., at the top of that portion of the atmosphere where dynamics are explicitly treated by the model. This is reported only if it differs from the net downward radiative flux at the top of the atmosphere.", 
@@ -296,7 +296,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "rtmt", 
-            "type": "real", 
+            "type": "real"
         }, 
         "evspsbl": {
             "comment": "at surface; flux of water into the atmosphere due to conversion of both liquid and solid phases to vapor (from underlying surface and vegetation)", 
@@ -309,7 +309,7 @@
             "cell_measures": "area: areacella", 
             "units": "kg m-2 s-1", 
             "out_name": "evspsbl", 
-            "type": "real", 
+            "type": "real"
         }, 
         "a_bnds": {
             "units": "", 
@@ -328,7 +328,7 @@
             "cell_measures": "area: areacella", 
             "units": "0.000001", 
             "out_name": "co2", 
-            "type": "real", 
+            "type": "real"
         }, 
         "cfc11global": {
             "comment": "", 
@@ -341,7 +341,7 @@
             "cell_methods": "", 
             "units": "1E-012", 
             "out_name": "cfc11global", 
-            "type": "real", 
+            "type": "real"
         }, 
         "rlds": {
             "comment": "This is the 3-hour mean flux.", 
@@ -354,7 +354,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "rlds", 
-            "type": "real", 
+            "type": "real"
         }, 
         "sigma_bnds": {
             "units": "", 
@@ -373,7 +373,7 @@
             "cell_methods": "", 
             "units": "0.000000001", 
             "out_name": "ch4globalClim", 
-            "type": "real", 
+            "type": "real"
         }, 
         "tauv": {
             "comment": "", 
@@ -386,7 +386,7 @@
             "cell_methods": "", 
             "units": "Pa", 
             "out_name": "tauv", 
-            "type": "real", 
+            "type": "real"
         }, 
         "rlut": {
             "comment": "at the top of the atmosphere.", 
@@ -399,7 +399,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "rlut", 
-            "type": "real", 
+            "type": "real"
         }, 
         "rsdt": {
             "comment": "at the top of the atmosphere", 
@@ -412,7 +412,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "rsdt", 
-            "type": "real", 
+            "type": "real"
         }, 
         "rsds": {
             "comment": "This is the 3-hour mean flux.", 
@@ -425,7 +425,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "rsds", 
-            "type": "real", 
+            "type": "real"
         }, 
         "z1": {
             "units": "", 
@@ -444,7 +444,7 @@
             "cell_measures": "area: areacella", 
             "units": "kg m-2 s-1", 
             "out_name": "sbl", 
-            "type": "real", 
+            "type": "real"
         }, 
         "cfc113global": {
             "comment": "", 
@@ -457,7 +457,7 @@
             "cell_methods": "", 
             "units": "1E-012", 
             "out_name": "cfc113global", 
-            "type": "real", 
+            "type": "real"
         }, 
         "rsus": {
             "comment": "", 
@@ -470,7 +470,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "rsus", 
-            "type": "real", 
+            "type": "real"
         }, 
         "cfc12global": {
             "comment": "", 
@@ -483,7 +483,7 @@
             "cell_methods": "", 
             "units": "1E-012", 
             "out_name": "cfc12global", 
-            "type": "real", 
+            "type": "real"
         }, 
         "rsut": {
             "comment": "at the top of the atmosphere", 
@@ -496,7 +496,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "rsut", 
-            "type": "real", 
+            "type": "real"
         }, 
         "ci": {
             "comment": "Fraction of time that convection occurs in the grid cell .", 
@@ -509,7 +509,7 @@
             "cell_measures": "area: areacella", 
             "units": "1", 
             "out_name": "ci", 
-            "type": "real", 
+            "type": "real"
         }, 
         "n2oClim": {
             "comment": "", 
@@ -522,7 +522,7 @@
             "cell_measures": "area: areacella", 
             "units": "0.000000001", 
             "out_name": "n2oClim", 
-            "type": "real", 
+            "type": "real"
         }, 
         "co2massClim": {
             "comment": "", 
@@ -535,7 +535,7 @@
             "cell_methods": "", 
             "units": "kg", 
             "out_name": "co2massClim", 
-            "type": "real", 
+            "type": "real"
         }, 
         "cl": {
             "comment": "Includes both large-scale and convective cloud.", 
@@ -548,7 +548,7 @@
             "cell_measures": "area: areacella", 
             "units": "%", 
             "out_name": "cl", 
-            "type": "real", 
+            "type": "real"
         }, 
         "n2oglobalClim": {
             "comment": "", 
@@ -561,7 +561,7 @@
             "cell_methods": "", 
             "units": "0.000000001", 
             "out_name": "n2oglobalClim", 
-            "type": "real", 
+            "type": "real"
         }, 
         "rlutcs": {
             "comment": "", 
@@ -574,7 +574,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "rlutcs", 
-            "type": "real", 
+            "type": "real"
         }, 
         "href": {
             "units": "", 
@@ -596,7 +596,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls0", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls1": {
@@ -611,7 +611,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls1", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls2": {
@@ -626,7 +626,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls2", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls3": {
@@ -641,7 +641,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls3", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls4": {
@@ -656,7 +656,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls4", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls5": {
@@ -671,7 +671,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls5", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls6": {
@@ -686,7 +686,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls6", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls7": {
@@ -701,7 +701,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls7", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls8": {
@@ -716,7 +716,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls8", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls9": {
@@ -731,7 +731,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls9", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls10": {
@@ -746,7 +746,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls10", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls11": {
@@ -761,7 +761,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls11", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls12": {
@@ -776,7 +776,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls12", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls13": {
@@ -791,7 +791,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls13", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls14": {
@@ -806,7 +806,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls14", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls15": {
@@ -821,7 +821,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls15", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls16": {
@@ -836,7 +836,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls16", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls17": {
@@ -851,7 +851,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls17", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls18": {
@@ -866,7 +866,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls18", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls19": {
@@ -881,7 +881,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls19", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls20": {
@@ -896,7 +896,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls20", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls21": {
@@ -911,7 +911,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls21", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls22": {
@@ -926,7 +926,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls22", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls23": {
@@ -941,7 +941,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls23", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls24": {
@@ -956,7 +956,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls24", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls25": {
@@ -971,7 +971,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls25", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls26": {
@@ -986,7 +986,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls26", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls27": {
@@ -1001,7 +1001,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls27", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls28": {
@@ -1016,7 +1016,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls28", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls29": {
@@ -1031,7 +1031,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls29", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls30": {
@@ -1046,7 +1046,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls30", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls31": {
@@ -1061,7 +1061,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls31", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls32": {
@@ -1076,7 +1076,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls32", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls33": {
@@ -1091,7 +1091,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls33", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls34": {
@@ -1106,7 +1106,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls34", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls35": {
@@ -1121,7 +1121,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls35", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls36": {
@@ -1136,7 +1136,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls36", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls37": {
@@ -1151,7 +1151,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls37", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls38": {
@@ -1166,7 +1166,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls38", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls39": {
@@ -1181,7 +1181,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls39", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls40": {
@@ -1196,7 +1196,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls40", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls41": {
@@ -1211,7 +1211,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls41", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls42": {
@@ -1226,7 +1226,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls42", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls43": {
@@ -1241,7 +1241,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls43", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls44": {
@@ -1256,7 +1256,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls44", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls45": {
@@ -1271,7 +1271,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls45", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls46": {
@@ -1286,7 +1286,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls46", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls47": {
@@ -1301,7 +1301,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls47", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls48": {
@@ -1316,7 +1316,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls48", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls49": {
@@ -1331,7 +1331,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls49", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls50": {
@@ -1346,7 +1346,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls50", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls51": {
@@ -1361,7 +1361,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls51", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls52": {
@@ -1376,7 +1376,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls52", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls53": {
@@ -1391,7 +1391,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls53", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls54": {
@@ -1406,7 +1406,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls54", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls55": {
@@ -1421,7 +1421,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls55", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls56": {
@@ -1436,7 +1436,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls56", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls57": {
@@ -1451,7 +1451,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls57", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls58": {
@@ -1466,7 +1466,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls58", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls59": {
@@ -1481,7 +1481,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls59", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls60": {
@@ -1496,7 +1496,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls60", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls61": {
@@ -1511,7 +1511,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls61", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls62": {
@@ -1526,7 +1526,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls62", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls63": {
@@ -1541,7 +1541,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls63", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls64": {
@@ -1556,7 +1556,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls64", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls65": {
@@ -1571,7 +1571,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls65", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls66": {
@@ -1586,7 +1586,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls66", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls67": {
@@ -1601,7 +1601,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls67", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls68": {
@@ -1616,7 +1616,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls68", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls69": {
@@ -1631,7 +1631,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls69", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls70": {
@@ -1646,7 +1646,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls70", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls71": {
@@ -1661,7 +1661,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls71", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls72": {
@@ -1676,7 +1676,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls72", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls73": {
@@ -1691,7 +1691,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls73", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls74": {
@@ -1706,7 +1706,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls74", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls75": {
@@ -1721,7 +1721,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls75", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls76": {
@@ -1736,7 +1736,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls76", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls77": {
@@ -1751,7 +1751,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls77", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls78": {
@@ -1766,7 +1766,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls78", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls79": {
@@ -1781,7 +1781,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls79", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls80": {
@@ -1796,7 +1796,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls80", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls81": {
@@ -1811,7 +1811,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls81", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls82": {
@@ -1826,7 +1826,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls82", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls83": {
@@ -1841,7 +1841,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls83", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls84": {
@@ -1856,7 +1856,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls84", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls85": {
@@ -1871,7 +1871,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls85", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls86": {
@@ -1886,7 +1886,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls86", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls87": {
@@ -1901,7 +1901,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls87", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls88": {
@@ -1916,7 +1916,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls88", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls89": {
@@ -1931,7 +1931,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls89", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls90": {
@@ -1946,7 +1946,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls90", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls91": {
@@ -1961,7 +1961,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls91", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls92": {
@@ -1976,7 +1976,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls92", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls93": {
@@ -1991,7 +1991,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls93", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls94": {
@@ -2006,7 +2006,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls94", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls95": {
@@ -2021,7 +2021,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls95", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls96": {
@@ -2036,7 +2036,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls96", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls97": {
@@ -2051,7 +2051,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls97", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls98": {
@@ -2066,7 +2066,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls98", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls99": {
@@ -2081,7 +2081,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls99", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls100": {
@@ -2096,7 +2096,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls100", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls101": {
@@ -2111,7 +2111,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls101", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls102": {
@@ -2126,7 +2126,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls102", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls103": {
@@ -2141,7 +2141,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls103", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls104": {
@@ -2156,7 +2156,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls104", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls105": {
@@ -2171,7 +2171,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls105", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls106": {
@@ -2186,7 +2186,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls106", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls107": {
@@ -2201,7 +2201,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls107", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls108": {
@@ -2216,7 +2216,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls108", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls109": {
@@ -2231,7 +2231,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls109", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls110": {
@@ -2246,7 +2246,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls110", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls111": {
@@ -2261,7 +2261,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls111", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls112": {
@@ -2276,7 +2276,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls112", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls113": {
@@ -2291,7 +2291,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls113", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls114": {
@@ -2306,7 +2306,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls114", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls115": {
@@ -2321,7 +2321,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls115", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls116": {
@@ -2336,7 +2336,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls116", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls117": {
@@ -2351,7 +2351,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls117", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls118": {
@@ -2366,7 +2366,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls118", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls119": {
@@ -2381,7 +2381,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls119", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls120": {
@@ -2396,7 +2396,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls120", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls121": {
@@ -2411,7 +2411,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls121", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls122": {
@@ -2426,7 +2426,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls122", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls123": {
@@ -2441,7 +2441,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls123", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls124": {
@@ -2456,7 +2456,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls124", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls125": {
@@ -2471,7 +2471,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls125", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls126": {
@@ -2486,7 +2486,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls126", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls127": {
@@ -2501,7 +2501,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls127", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls128": {
@@ -2516,7 +2516,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls128", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls129": {
@@ -2531,7 +2531,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls129", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls130": {
@@ -2546,7 +2546,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls130", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls131": {
@@ -2561,7 +2561,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls131", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls132": {
@@ -2576,7 +2576,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls132", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls133": {
@@ -2591,7 +2591,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls133", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls134": {
@@ -2606,7 +2606,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls134", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls135": {
@@ -2621,7 +2621,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls135", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls136": {
@@ -2636,7 +2636,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls136", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls137": {
@@ -2651,7 +2651,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls137", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls138": {
@@ -2666,7 +2666,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls138", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls139": {
@@ -2681,7 +2681,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls139", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls140": {
@@ -2696,7 +2696,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls140", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls141": {
@@ -2711,7 +2711,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls141", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls142": {
@@ -2726,7 +2726,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls142", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls143": {
@@ -2741,7 +2741,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls143", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls144": {
@@ -2756,7 +2756,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls144", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls145": {
@@ -2771,7 +2771,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls145", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls146": {
@@ -2786,7 +2786,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls146", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls147": {
@@ -2801,7 +2801,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls147", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls148": {
@@ -2816,7 +2816,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls148", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls149": {
@@ -2831,7 +2831,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls149", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls150": {
@@ -2846,7 +2846,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls150", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls151": {
@@ -2861,7 +2861,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls151", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls152": {
@@ -2876,7 +2876,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls152", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls153": {
@@ -2891,7 +2891,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls153", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls154": {
@@ -2906,7 +2906,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls154", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls155": {
@@ -2921,7 +2921,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls155", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls156": {
@@ -2936,7 +2936,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls156", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls157": {
@@ -2951,7 +2951,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls157", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls158": {
@@ -2966,7 +2966,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls158", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls159": {
@@ -2981,7 +2981,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls159", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls160": {
@@ -2996,7 +2996,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls160", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls161": {
@@ -3011,7 +3011,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls161", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls162": {
@@ -3026,7 +3026,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls162", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls163": {
@@ -3041,7 +3041,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls163", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls164": {
@@ -3056,7 +3056,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls164", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls165": {
@@ -3071,7 +3071,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls165", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls166": {
@@ -3086,7 +3086,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls166", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls167": {
@@ -3101,7 +3101,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls167", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls168": {
@@ -3116,7 +3116,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls168", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls169": {
@@ -3131,7 +3131,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls169", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls170": {
@@ -3146,7 +3146,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls170", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls171": {
@@ -3161,7 +3161,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls171", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls172": {
@@ -3176,7 +3176,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls172", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls173": {
@@ -3191,7 +3191,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls173", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls174": {
@@ -3206,7 +3206,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls174", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls175": {
@@ -3221,7 +3221,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls175", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls176": {
@@ -3236,7 +3236,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls176", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls177": {
@@ -3251,7 +3251,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls177", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls178": {
@@ -3266,7 +3266,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls178", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls179": {
@@ -3281,7 +3281,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls179", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls180": {
@@ -3296,7 +3296,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls180", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls181": {
@@ -3311,7 +3311,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls181", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls182": {
@@ -3326,7 +3326,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls182", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls183": {
@@ -3341,7 +3341,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls183", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls184": {
@@ -3356,7 +3356,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls184", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls185": {
@@ -3371,7 +3371,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls185", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls186": {
@@ -3386,7 +3386,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls186", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls187": {
@@ -3401,7 +3401,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls187", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls188": {
@@ -3416,7 +3416,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls188", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls189": {
@@ -3431,7 +3431,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls189", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls190": {
@@ -3446,7 +3446,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls190", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls191": {
@@ -3461,7 +3461,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls191", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls192": {
@@ -3476,7 +3476,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls192", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls193": {
@@ -3491,7 +3491,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls193", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls194": {
@@ -3506,7 +3506,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls194", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls195": {
@@ -3521,7 +3521,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls195", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls196": {
@@ -3536,7 +3536,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls196", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls197": {
@@ -3551,7 +3551,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls197", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls198": {
@@ -3566,7 +3566,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls198", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls199": {
@@ -3581,7 +3581,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls199", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls200": {
@@ -3596,7 +3596,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls200", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls201": {
@@ -3611,7 +3611,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls201", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls202": {
@@ -3626,7 +3626,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls202", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls203": {
@@ -3641,7 +3641,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls203", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls204": {
@@ -3656,7 +3656,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls204", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls205": {
@@ -3671,7 +3671,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls205", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls206": {
@@ -3686,7 +3686,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls206", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls207": {
@@ -3701,7 +3701,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls207", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls208": {
@@ -3716,7 +3716,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls208", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls209": {
@@ -3731,7 +3731,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls209", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls210": {
@@ -3746,7 +3746,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls210", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls211": {
@@ -3761,7 +3761,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls211", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls212": {
@@ -3776,7 +3776,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls212", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls213": {
@@ -3791,7 +3791,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls213", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls214": {
@@ -3806,7 +3806,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls214", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls215": {
@@ -3821,7 +3821,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls215", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls216": {
@@ -3836,7 +3836,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls216", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls217": {
@@ -3851,7 +3851,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls217", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls218": {
@@ -3866,7 +3866,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls218", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls219": {
@@ -3881,7 +3881,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls219", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls220": {
@@ -3896,7 +3896,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls220", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls221": {
@@ -3911,7 +3911,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls221", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls222": {
@@ -3926,7 +3926,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls222", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls223": {
@@ -3941,7 +3941,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls223", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls224": {
@@ -3956,7 +3956,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls224", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls225": {
@@ -3971,7 +3971,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls225", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls226": {
@@ -3986,7 +3986,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls226", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls227": {
@@ -4001,7 +4001,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls227", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls228": {
@@ -4016,7 +4016,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls228", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls229": {
@@ -4031,7 +4031,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls229", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls230": {
@@ -4046,7 +4046,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls230", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls231": {
@@ -4061,7 +4061,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls231", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls232": {
@@ -4076,7 +4076,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls232", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls233": {
@@ -4091,7 +4091,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls233", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls234": {
@@ -4106,7 +4106,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls234", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls235": {
@@ -4121,7 +4121,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls235", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls236": {
@@ -4136,7 +4136,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls236", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls237": {
@@ -4151,7 +4151,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls237", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls238": {
@@ -4166,7 +4166,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls238", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls239": {
@@ -4181,7 +4181,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls239", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls240": {
@@ -4196,7 +4196,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls240", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls241": {
@@ -4211,7 +4211,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls241", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls242": {
@@ -4226,7 +4226,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls242", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls243": {
@@ -4241,7 +4241,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls243", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls244": {
@@ -4256,7 +4256,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls244", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls245": {
@@ -4271,7 +4271,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls245", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls246": {
@@ -4286,7 +4286,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls246", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls247": {
@@ -4301,7 +4301,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls247", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls248": {
@@ -4316,7 +4316,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls248", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls249": {
@@ -4331,7 +4331,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls249", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls250": {
@@ -4346,7 +4346,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls250", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls251": {
@@ -4361,7 +4361,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls251", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls252": {
@@ -4376,7 +4376,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls252", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls253": {
@@ -4391,7 +4391,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls253", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls254": {
@@ -4406,7 +4406,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls254", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls255": {
@@ -4421,7 +4421,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls255", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls256": {
@@ -4436,7 +4436,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls256", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls257": {
@@ -4451,7 +4451,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls257", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls258": {
@@ -4466,7 +4466,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls258", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls259": {
@@ -4481,7 +4481,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls259", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls260": {
@@ -4496,7 +4496,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls260", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls261": {
@@ -4511,7 +4511,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls261", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls262": {
@@ -4526,7 +4526,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls262", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls263": {
@@ -4541,7 +4541,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls263", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls264": {
@@ -4556,7 +4556,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls264", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls265": {
@@ -4571,7 +4571,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls265", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls266": {
@@ -4586,7 +4586,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls266", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls267": {
@@ -4601,7 +4601,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls267", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls268": {
@@ -4616,7 +4616,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls268", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls269": {
@@ -4631,7 +4631,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls269", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls270": {
@@ -4646,7 +4646,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls270", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls271": {
@@ -4661,7 +4661,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls271", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls272": {
@@ -4676,7 +4676,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls272", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls273": {
@@ -4691,7 +4691,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls273", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls274": {
@@ -4706,7 +4706,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls274", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls275": {
@@ -4721,7 +4721,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls275", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls276": {
@@ -4736,7 +4736,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls276", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls277": {
@@ -4751,7 +4751,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls277", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls278": {
@@ -4766,7 +4766,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls278", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls279": {
@@ -4781,7 +4781,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls279", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls280": {
@@ -4796,7 +4796,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls280", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls281": {
@@ -4811,7 +4811,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls281", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls282": {
@@ -4826,7 +4826,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls282", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls283": {
@@ -4841,7 +4841,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls283", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls284": {
@@ -4856,7 +4856,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls284", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls285": {
@@ -4871,7 +4871,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls285", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls286": {
@@ -4886,7 +4886,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls286", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls287": {
@@ -4901,7 +4901,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls287", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls288": {
@@ -4916,7 +4916,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls288", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls289": {
@@ -4931,7 +4931,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls289", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls290": {
@@ -4946,7 +4946,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls290", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls291": {
@@ -4961,7 +4961,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls291", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls292": {
@@ -4976,7 +4976,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls292", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls293": {
@@ -4991,7 +4991,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls293", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls294": {
@@ -5006,7 +5006,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls294", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls295": {
@@ -5021,7 +5021,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls295", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls296": {
@@ -5036,7 +5036,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls296", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls297": {
@@ -5051,7 +5051,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls297", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls298": {
@@ -5066,7 +5066,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls298", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls299": {
@@ -5081,7 +5081,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls299", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls300": {
@@ -5096,7 +5096,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls300", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls301": {
@@ -5111,7 +5111,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls301", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls302": {
@@ -5126,7 +5126,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls302", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls303": {
@@ -5141,7 +5141,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls303", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls304": {
@@ -5156,7 +5156,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls304", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls305": {
@@ -5171,7 +5171,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls305", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls306": {
@@ -5186,7 +5186,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls306", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls307": {
@@ -5201,7 +5201,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls307", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls308": {
@@ -5216,7 +5216,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls308", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls309": {
@@ -5231,7 +5231,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls309", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls310": {
@@ -5246,7 +5246,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls310", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls311": {
@@ -5261,7 +5261,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls311", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls312": {
@@ -5276,7 +5276,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls312", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls313": {
@@ -5291,7 +5291,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls313", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls314": {
@@ -5306,7 +5306,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls314", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls315": {
@@ -5321,7 +5321,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls315", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls316": {
@@ -5336,7 +5336,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls316", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls317": {
@@ -5351,7 +5351,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls317", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls318": {
@@ -5366,7 +5366,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls318", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls319": {
@@ -5381,7 +5381,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls319", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls320": {
@@ -5396,7 +5396,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls320", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls321": {
@@ -5411,7 +5411,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls321", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls322": {
@@ -5426,7 +5426,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls322", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls323": {
@@ -5441,7 +5441,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls323", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls324": {
@@ -5456,7 +5456,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls324", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls325": {
@@ -5471,7 +5471,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls325", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls326": {
@@ -5486,7 +5486,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls326", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls327": {
@@ -5501,7 +5501,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls327", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls328": {
@@ -5516,7 +5516,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls328", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls329": {
@@ -5531,7 +5531,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls329", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls330": {
@@ -5546,7 +5546,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls330", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls331": {
@@ -5561,7 +5561,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls331", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls332": {
@@ -5576,7 +5576,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls332", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls333": {
@@ -5591,7 +5591,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls333", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls334": {
@@ -5606,7 +5606,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls334", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls335": {
@@ -5621,7 +5621,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls335", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls336": {
@@ -5636,7 +5636,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls336", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls337": {
@@ -5651,7 +5651,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls337", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls338": {
@@ -5666,7 +5666,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls338", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls339": {
@@ -5681,7 +5681,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls339", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls340": {
@@ -5696,7 +5696,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls340", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls341": {
@@ -5711,7 +5711,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls341", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls342": {
@@ -5726,7 +5726,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls342", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls343": {
@@ -5741,7 +5741,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls343", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls344": {
@@ -5756,7 +5756,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls344", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls345": {
@@ -5771,7 +5771,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls345", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls346": {
@@ -5786,7 +5786,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls346", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls347": {
@@ -5801,7 +5801,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls347", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls348": {
@@ -5816,7 +5816,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls348", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls349": {
@@ -5831,7 +5831,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls349", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls350": {
@@ -5846,7 +5846,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls350", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls351": {
@@ -5861,7 +5861,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls351", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls352": {
@@ -5876,7 +5876,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls352", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls353": {
@@ -5891,7 +5891,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls353", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls354": {
@@ -5906,7 +5906,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls354", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls355": {
@@ -5921,7 +5921,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls355", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls356": {
@@ -5936,7 +5936,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls356", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls357": {
@@ -5951,7 +5951,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls357", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls358": {
@@ -5966,7 +5966,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls358", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls359": {
@@ -5981,7 +5981,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls359", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls360": {
@@ -5996,7 +5996,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls360", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls361": {
@@ -6011,7 +6011,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls361", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls362": {
@@ -6026,7 +6026,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls362", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls363": {
@@ -6041,7 +6041,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls363", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls364": {
@@ -6056,7 +6056,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls364", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls365": {
@@ -6071,7 +6071,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls365", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls366": {
@@ -6086,7 +6086,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls366", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls367": {
@@ -6101,7 +6101,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls367", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls368": {
@@ -6116,7 +6116,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls368", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls369": {
@@ -6131,7 +6131,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls369", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls370": {
@@ -6146,7 +6146,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls370", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls371": {
@@ -6161,7 +6161,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls371", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls372": {
@@ -6176,7 +6176,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls372", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls373": {
@@ -6191,7 +6191,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls373", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls374": {
@@ -6206,7 +6206,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls374", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls375": {
@@ -6221,7 +6221,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls375", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls376": {
@@ -6236,7 +6236,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls376", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls377": {
@@ -6251,7 +6251,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls377", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls378": {
@@ -6266,7 +6266,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls378", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls379": {
@@ -6281,7 +6281,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls379", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls380": {
@@ -6296,7 +6296,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls380", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls381": {
@@ -6311,7 +6311,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls381", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls382": {
@@ -6326,7 +6326,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls382", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls383": {
@@ -6341,7 +6341,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls383", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls384": {
@@ -6356,7 +6356,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls384", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls385": {
@@ -6371,7 +6371,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls385", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls386": {
@@ -6386,7 +6386,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls386", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls387": {
@@ -6401,7 +6401,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls387", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls388": {
@@ -6416,7 +6416,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls388", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls389": {
@@ -6431,7 +6431,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls389", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls390": {
@@ -6446,7 +6446,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls390", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls391": {
@@ -6461,7 +6461,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls391", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls392": {
@@ -6476,7 +6476,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls392", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls393": {
@@ -6491,7 +6491,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls393", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls394": {
@@ -6506,7 +6506,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls394", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls395": {
@@ -6521,7 +6521,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls395", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls396": {
@@ -6536,7 +6536,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls396", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls397": {
@@ -6551,7 +6551,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls397", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls398": {
@@ -6566,7 +6566,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls398", 
-            "type": "real", 
+            "type": "real"
         }, 
 
         "hfls399": {
@@ -6581,7 +6581,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "hfls399", 
-            "type": "real", 
+            "type": "real"
         }, 
 
 
@@ -6596,7 +6596,7 @@
             "cell_methods": "", 
             "units": "kg", 
             "out_name": "co2mass", 
-            "type": "real", 
+            "type": "real"
         }, 
         "pr": {
             "comment": "at surface; includes both liquid and solid phases from all types of clouds (both large-scale and convective)", 
@@ -6609,7 +6609,7 @@
             "cell_measures": "area: areacella", 
             "units": "kg m-2 s-1", 
             "out_name": "pr", 
-            "type": "real", 
+            "type": "real"
         }, 
         "ps": {
             "comment": "surface pressure, not mean sea level pressure", 
@@ -6622,7 +6622,7 @@
             "cell_measures": "area: areacella", 
             "units": "Pa", 
             "out_name": "ps", 
-            "type": "real", 
+            "type": "real"
         }, 
         "rlus": {
             "comment": "", 
@@ -6635,7 +6635,7 @@
             "cell_measures": "area: areacella", 
             "units": "W m-2", 
             "out_name": "rlus", 
-            "type": "real", 
+            "type": "real"
         }, 
         "z2": {
             "units": "", 
@@ -6654,7 +6654,7 @@
             "cell_methods": "", 
             "units": "m s-1", 
             "out_name": "vas", 
-            "type": "real", 
+            "type": "real"
         }, 
         "wap": {
             "comment": "commonly referred to as ''omega'', this represents the vertical component of velocity in pressure coordinates (positive down)", 
@@ -6667,7 +6667,7 @@
             "cell_measures": "area: areacella", 
             "units": "Pa s-1", 
             "out_name": "wap", 
-            "type": "real", 
+            "type": "real"
         }, 
         "a": {
             "units": "", 
@@ -6686,7 +6686,7 @@
             "cell_measures": "area: areacella", 
             "units": "m", 
             "out_name": "zg", 
-            "type": "real", 
+            "type": "real"
         }, 
         "hurs": {
             "comment": "This is the relative humidity with respect to liquid water for T> 0 C, and with respect to ice for T<0 C.", 
@@ -6699,7 +6699,7 @@
             "cell_measures": "area: areacella", 
             "units": "%", 
             "out_name": "hurs", 
-            "type": "real", 
+            "type": "real"
         }, 
         "tsAdjust": {
             "comment": "''skin'' temperature (i.e., SST for open ocean)", 
@@ -6712,7 +6712,7 @@
             "cell_measures": "area: areacella", 
             "units": "K", 
             "out_name": "tsAdjust", 
-            "type": "real", 
+            "type": "real"
         }, 
         "pfull": {
             "comment": "", 
@@ -6725,7 +6725,7 @@
             "cell_measures": "area: areacella", 
             "units": "Pa", 
             "out_name": "pfull", 
-            "type": "real", 
+            "type": "real"
         }, 
         "ch4global": {
             "comment": "", 
@@ -6738,7 +6738,7 @@
             "cell_methods": "", 
             "units": "0.000000001", 
             "out_name": "ch4global", 
-            "type": "real", 
+            "type": "real"
         }, 
         "hur": {
             "comment": "This is the relative humidity with respect to liquid water for T> 0 C, and with respect to ice for T<0 C.", 
@@ -6751,7 +6751,7 @@
             "cell_measures": "area: areacella", 
             "units": "%", 
             "out_name": "hur", 
-            "type": "real", 
+            "type": "real"
         }, 
         "hus": {
             "comment": "", 
@@ -6764,7 +6764,7 @@
             "cell_measures": "area: areacella", 
             "units": "1", 
             "out_name": "hus", 
-            "type": "real", 
+            "type": "real"
         }, 
         "p0": {
             "units": "Pa", 
@@ -6789,7 +6789,7 @@
             "cell_measures": "area: areacella", 
             "units": "kg m-2 s-1", 
             "out_name": "mc", 
-            "type": "real", 
+            "type": "real"
         }, 
         "fco2antt": {
             "comment": "This is requested only for the emission-driven coupled carbon climate model runs.  Does not include natural fire sources but, includes all anthropogenic sources, including fossil fuel use, cement production, agricultural burning, and sources associated with anthropogenic land use change excluding forest regrowth.", 
@@ -6802,7 +6802,7 @@
             "cell_measures": "area: areacella", 
             "units": "kg  m-2 s-1", 
             "out_name": "fco2antt", 
-            "type": "real", 
+            "type": "real"
         }, 
         "ch4": {
             "comment": "", 
@@ -6815,7 +6815,7 @@
             "cell_measures": "area: areacella", 
             "units": "0.000000001", 
             "out_name": "ch4", 
-            "type": "real", 
+            "type": "real"
         }, 
         "tasmin": {
             "comment": "minimum near-surface (usually, 2 meter) air temperature (add cell_method attribute time: min)", 
@@ -6828,7 +6828,7 @@
             "cell_measures": "area: areacella", 
             "units": "K", 
             "out_name": "tasmin", 
-            "type": "real", 
+            "type": "real"
         }, 
         "tauu": {
             "comment": "", 
@@ -6841,7 +6841,7 @@
             "cell_methods": "", 
             "units": "Pa", 
             "out_name": "tauu", 
-            "type": "real", 
+            "type": "real"
         }, 
         "tasmax": {
             "comment": "maximum near-surface (usually, 2 meter) air temperature (add cell_method attribute time: max)", 
@@ -6854,7 +6854,7 @@
             "cell_measures": "area: areacella", 
             "units": "K", 
             "out_name": "tasmax", 
-            "type": "real", 
+            "type": "real"
         }, 
         "pslAdjust": {
             "comment": "not, in general, the same as surface pressure", 
@@ -6867,7 +6867,7 @@
             "cell_measures": "area: areacella", 
             "units": "Pa", 
             "out_name": "pslAdjust", 
-            "type": "real", 
+            "type": "real"
         }, 
         "k_c": {
             "units": "", 
@@ -6886,7 +6886,7 @@
             "cell_methods": "", 
             "units": "m s-1", 
             "out_name": "ua", 
-            "type": "real", 
+            "type": "real"
         }, 
         "orog": {
             "comment": "height above the geoid; as defined here, ''the geoid'' is a surface of constant geopotential that, if the ocean were at rest, would coincide with mean sea level. Under this definition, the geoid changes as the mean volume of the ocean changes (e.g., due to glacial melt, or global warming of the ocean).  Report here the height above the present-day geoid.  Over ocean, report as 0.0", 
@@ -6899,7 +6899,7 @@
             "cell_methods": "", 
             "units": "m", 
             "out_name": "orog", 
-            "type": "real", 
+            "type": "real"
         }, 
         "va": {
             "comment": "", 
@@ -6912,7 +6912,7 @@
             "cell_methods": "", 
             "units": "m s-1", 
             "out_name": "va", 
-            "type": "real", 
+            "type": "real"
         }, 
         "n2o": {
             "comment": "", 
@@ -6925,7 +6925,7 @@
             "cell_measures": "area: areacella", 
             "units": "0.000000001", 
             "out_name": "n2o", 
-            "type": "real", 
+            "type": "real"
         }, 
         "prc": {
             "comment": "at surface; includes both liquid and solid phases.", 
@@ -6938,7 +6938,7 @@
             "cell_measures": "area: areacella", 
             "units": "kg m-2 s-1", 
             "out_name": "prc", 
-            "type": "real", 
+            "type": "real"
         }, 
         "tas": {
             "comment": "near-surface (usually, 2 meter) air temperature", 
@@ -6951,7 +6951,7 @@
             "cell_measures": "area: areacella", 
             "units": "K", 
             "out_name": "tas", 
-            "type": "real", 
+            "type": "real"
         } 
     }
 }
