@@ -3390,17 +3390,21 @@ void cmor_generate_uuid()
 /************************************************************************/
 void cmor_write_all_attributes(int ncid, int ncafid, int var_id)
 {
+    cmor_CV_def_t *required_attrs;
     int ierr;
     char msg[CMOR_MAX_STRING];
     char value[CMOR_MAX_STRING];
     double tmps[2];
-    int i;
+    int i, j;
     int nVarRefTblID;
     int itmp2;
     int rc;
 
     cmor_add_traceback("cmor_write_all_attributes");
     nVarRefTblID = cmor_vars[var_id].ref_table_id;
+
+    required_attrs = cmor_CV_rootsearch(cmor_tables[nVarRefTblID].CV,
+                                        CV_KEY_REQUIRED_GBL_ATTRS);
 
     qsort(cmor_current_dataset.attributes, cmor_current_dataset.nattributes,
           sizeof(struct attributes), cmor_attNameCmp);
@@ -3419,6 +3423,23 @@ void cmor_write_all_attributes(int ncid, int ncafid, int var_id)
         if (strcmp(cmor_current_dataset.attributes[i].names,
                    GLOBAL_ATT_TRACKING_PREFIX) == 0) {
             continue;
+        }
+/* -------------------------------------------------------------------- */
+/*  Skip license attributes if they are not required                    */
+/* -------------------------------------------------------------------- */
+        if (strcmp(cmor_current_dataset.attributes[i].names,
+                   GLOBAL_ATT_LICENSE_ID) == 0
+            || strcmp(cmor_current_dataset.attributes[i].names,
+                   GLOBAL_ATT_LICENSE_TYPE) == 0
+            || strcmp(cmor_current_dataset.attributes[i].names,
+                   GLOBAL_ATT_LICENSE_URL) == 0) {
+            for (j = 0; j < required_attrs->anElements; j++) {
+                if (strcmp(required_attrs->aszValue[j],
+                    cmor_current_dataset.attributes[i].names) == 0)
+                        break;
+            }
+            if (j == required_attrs->anElements)
+                continue;
         }
 /* -------------------------------------------------------------------- */
 /* Write license last, not now!!                                        */

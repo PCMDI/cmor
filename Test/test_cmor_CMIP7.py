@@ -1,7 +1,6 @@
 import json
 import cmor
 import unittest
-import os
 import numpy
 
 from netCDF4 import Dataset
@@ -64,15 +63,14 @@ class TestCMIP7(unittest.TestCase):
         if error_flag:
             raise RuntimeError("CMOR dataset_json call failed")
 
-
     def test_cmip7(self):
         tos = numpy.array([27, 27, 27, 27,
-                            27, 27, 27, 27,
-                            27, 27, 27, 27,
-                            27, 27, 27, 27,
-                            27, 27, 27, 27,
-                            27, 27, 27, 27
-                            ])
+                           27, 27, 27, 27,
+                           27, 27, 27, 27,
+                           27, 27, 27, 27,
+                           27, 27, 27, 27,
+                           27, 27, 27, 27
+                           ])
         tos.shape = (2, 3, 4)
         lat = numpy.array([10, 20, 30])
         lat_bnds = numpy.array([5, 15, 25, 35])
@@ -94,9 +92,9 @@ class TestCMIP7(unittest.TestCase):
                             cell_bounds=lon_bnds,
                             units="degrees_east")
         cmortime = cmor.axis("time",
-                            coord_vals=time,
-                            cell_bounds=time_bnds,
-                            units="days since 2018")
+                             coord_vals=time,
+                             cell_bounds=time_bnds,
+                             units="days since 2018")
         axes = [cmortime, cmorlat, cmorlon]
         cmortos = cmor.variable("tos_tavg-u-hxy-sea", "degC", axes)
         self.assertEqual(cmor.write(cmortos, tos), 0)
@@ -127,16 +125,21 @@ class TestCMIP7(unittest.TestCase):
         license_type = "Creative Commons Attribution 4.0 International"
         license_url = "https://creativecommons.org/licenses/by/4.0/"
         license = \
-        (f"{license_id}; CMIP7 data produced by {institution_id} is licensed under a {license_type} "
-        f"License ({license_url}). Consult https://pcmdi.llnl.gov/CMIP7/TermsOfUse "
-        "for terms of use governing CMIP7 output, including citation requirements "
-        "and proper acknowledgment. The data producers and data providers make no "
-        "warranty, either express or implied, including, but not limited to, "
-        "warranties of merchantability and fitness for a particular purpose. All "
-        "liabilities arising from the supply of the information (including any "
-        "liability arising in negligence) are excluded to the fullest extent "
-        "permitted by law.")
+            (f"{license_id}; CMIP7 data produced by {institution_id} is "
+             f"licensed under a {license_type} License ({license_url}). "
+             "Consult https://pcmdi.llnl.gov/CMIP7/TermsOfUse for terms of "
+             "use governing CMIP7 output, including citation requirements and "
+             "proper acknowledgment. The data producers and data providers "
+             "make no warranty, either express or implied, including, but not "
+             "limited to, warranties of merchantability and fitness for a "
+             "particular purpose. All liabilities arising from the supply of "
+             "the information (including any liability arising in negligence) "
+             "are excluded to the fullest extent permitted by law."
+             )
         self.assertTrue("license" in attrs)
+        self.assertTrue("license_id" not in attrs)
+        self.assertTrue("license_type" not in attrs)
+        self.assertTrue("license_url" not in attrs)
         self.assertEqual(license, ds.getncattr("license"))
 
         ds.close()
