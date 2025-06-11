@@ -46,7 +46,7 @@ DATASET_INFO = {
 }
 
 
-class TestCMIP7(unittest.TestCase):
+class TestLicenseAttributes(unittest.TestCase):
     def setUp(self):
         """
         Write out a simple file using CMOR
@@ -54,7 +54,17 @@ class TestCMIP7(unittest.TestCase):
         # Set up CMOR
         cmor.setup(inpath="TestTables", netcdf_file_action=cmor.CMOR_REPLACE)
 
+        # Add 'license_id' and 'license_url' to required attributes of CV
+        updated_cv_path = "TestTables/CMIP7_CV_license_attrs.json"
+        with open("TestTables/CMIP7_CV.json", "r") as cv_infile:
+            cv = json.load(cv_infile)
+            cv["CV"]["required_global_attributes"].append("license_id")
+            cv["CV"]["required_global_attributes"].append("license_url")
+            with open(updated_cv_path, "w") as cv_outfile:
+                json.dump(cv, cv_outfile, sort_keys=True, indent=4)
+
         # Define dataset using DATASET_INFO
+        DATASET_INFO["_controlled_vocabulary_file"] = updated_cv_path
         with open("Test/input_cmip7.json", "w") as input_file_handle:
             json.dump(DATASET_INFO, input_file_handle, sort_keys=True, indent=4)
 
@@ -63,7 +73,7 @@ class TestCMIP7(unittest.TestCase):
         if error_flag:
             raise RuntimeError("CMOR dataset_json call failed")
 
-    def test_cmip7(self):
+    def test_cmip7_with_license_id_and_url(self):
         tos = numpy.array([27, 27, 27, 27,
                            27, 27, 27, 27,
                            27, 27, 27, 27,
@@ -137,9 +147,11 @@ class TestCMIP7(unittest.TestCase):
              "are excluded to the fullest extent permitted by law."
              )
         self.assertTrue("license" in attrs)
-        self.assertTrue("license_id" not in attrs)
+        self.assertTrue("license_id" in attrs)
+        self.assertTrue("license_url" in attrs)
         self.assertTrue("license_type" not in attrs)
-        self.assertTrue("license_url" not in attrs)
+        self.assertEqual(license_id, ds.getncattr("license_id"))
+        self.assertEqual(license_url, ds.getncattr("license_url"))
         self.assertEqual(license, ds.getncattr("license"))
 
         ds.close()
