@@ -81,7 +81,7 @@ void cmor_init_table(cmor_table_t * table, int id)
     table->nexps = -1;
     table->nmappings = -1;
     table->cf_version = 1.7;
-    table->cmor_version = 3.0;
+    table->cmor_version[0] = '\0';
     table->mip_era[0] = '\0';
     table->szTable_id[0] = '\0';
     table->realm[0] = '\0';
@@ -376,9 +376,10 @@ int cmor_set_dataset_att(cmor_table_t * table, char att[CMOR_MAX_STRING],
                          char val[CMOR_MAX_STRING])
 {
     int n, i, j;
-    float d, d2;
+    int version_major, version_minor;
     char value[CMOR_MAX_STRING];
     char value2[CMOR_MAX_STRING];
+    char *token;
     extern int cmor_ntables;
 
     cmor_add_traceback("cmor_set_dataset_att");
@@ -392,25 +393,30 @@ int cmor_set_dataset_att(cmor_table_t * table, char att[CMOR_MAX_STRING],
 /*      Read non-block metadata.                                        */
 /* -------------------------------------------------------------------- */
     if (strcmp(att, TABLE_HEADER_VERSION) == 0) {
-        d2 = CMOR_VERSION_MAJOR;
-        d = CMOR_VERSION_MINOR;
-        while (d > 1.)
-            d /= 10.;
-        d2 += d;
-        sscanf(value, "%f", &d);
-        if (d > d2) {
+        version_major = 0;
+        version_minor = 0;
+        strcpy(value2, value);
+        token = strtok(value2, ".");
+        if (token != NULL)
+            sscanf(token, "%d", &version_major);
+            token = strtok(NULL, ".");
+            if (token != NULL)
+                sscanf(token, "%d", &version_minor);
+        if (version_major > CMOR_VERSION_MAJOR
+            || (CMOR_VERSION_MAJOR == version_major 
+                && version_minor > CMOR_VERSION_MINOR)) {
             cmor_handle_error_variadic(
-                "Table %s is defined for cmor_version %f, "
-                "this library version is: %i.%i.%i, %f",
+                "Table %s is defined for cmor_version %s, "
+                "this library version is: %i.%i.%i",
                 CMOR_CRITICAL,
-                table->szTable_id, d,
+                table->szTable_id, value,
                 CMOR_VERSION_MAJOR, CMOR_VERSION_MINOR,
-                CMOR_VERSION_PATCH, d2);
+                CMOR_VERSION_PATCH);
             cmor_ntables--;
             cmor_pop_traceback();
             return (1);
         }
-        table->cmor_version = d;
+        strcpy(table->cmor_version, value);
 
     } else if (strcmp(att, TABLE_HEADER_GENERIC_LEVS) == 0) {
         n = 0;
