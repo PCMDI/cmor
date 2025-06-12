@@ -47,11 +47,15 @@ class TestCMIP6Plus(unittest.TestCase):
         self.assertEqual(
             cmor.write(ivar, data, ntimes_passed=ntimes_passed),
             0)
-        
+
         self.assertFalse(cmor.has_cur_dataset_attribute('further_info_url'))
-        
+
         realms = cmor.get_cur_dataset_attribute('realm')
         self.assertEqual(realms, "ocean seaIce")
+
+        title = cmor.get_cur_dataset_attribute('title')
+        self.assertEqual(title,
+                         'HadGEM3-GC31-LL output prepared for CMIP6Plus')
 
         self.assertEqual(cmor.close(), 0)
 
