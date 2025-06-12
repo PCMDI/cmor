@@ -2,7 +2,7 @@
 #define CMOR_H
 
 #define CMOR_VERSION_MAJOR 3
-#define CMOR_VERSION_MINOR 10
+#define CMOR_VERSION_MINOR 11
 #define CMOR_VERSION_PATCH 0
 
 #define CMOR_CF_VERSION_MAJOR 1
@@ -590,7 +590,7 @@ typedef struct cmor_table_ {
     int nexps;
     int nmappings;
     float cf_version;
-    float cmor_version;
+    char cmor_version[CMOR_MAX_STRING];
     char mip_era[CMOR_MAX_STRING];
     char checksum[CMOR_MAX_STRING];
     char Conventions[CMOR_MAX_STRING];
