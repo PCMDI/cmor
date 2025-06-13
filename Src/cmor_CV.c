@@ -2467,6 +2467,18 @@ int cmor_CV_checkGblAttributes(cmor_CV_def_t * CV)
     cmor_add_traceback("_CV_checkGblAttributes");
     required_attrs = cmor_CV_rootsearch(CV, CV_KEY_REQUIRED_GBL_ATTRS);
     if (required_attrs != NULL) {
+        // First, validate required attributes that are set by the user.
+        // This will also set attributes that are dependent on other
+        // attributes such as `source` when `source_id` is set.
+        for (i = 0; i < required_attrs->anElements; i++) {
+            rc = cmor_CV_ValidateAttribute(CV, required_attrs->aszValue[i]);
+            if (rc != 0) {
+                bCriticalError = 1;
+                ierr += -1;
+            }
+        }
+        // Check that all required attributes are set, including those set by 
+        // cmor_CV_ValidateAttribute in the above loop.
         for (i = 0; i < required_attrs->anElements; i++) {
             rc = cmor_has_cur_dataset_attribute(required_attrs->aszValue[i]);
             if (rc != 0) {
@@ -2476,11 +2488,6 @@ int cmor_CV_checkGblAttributes(cmor_CV_def_t * CV)
                          "attribute was not properly set.\n! \n! "
                          "Please set attribute: \"%s\" in your input file.",
                          CMOR_NORMAL, required_attrs->aszValue[i]);
-                bCriticalError = 1;
-                ierr += -1;
-            }
-            rc = cmor_CV_ValidateAttribute(CV, required_attrs->aszValue[i]);
-            if (rc != 0) {
                 bCriticalError = 1;
                 ierr += -1;
             }
