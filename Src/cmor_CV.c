@@ -2471,10 +2471,12 @@ int cmor_CV_checkGblAttributes(cmor_CV_def_t * CV)
         // This will also set attributes that are dependent on other
         // attributes such as `source` when `source_id` is set.
         for (i = 0; i < required_attrs->anElements; i++) {
-            rc = cmor_CV_ValidateAttribute(CV, required_attrs->aszValue[i]);
-            if (rc != 0) {
-                bCriticalError = 1;
-                ierr += -1;
+            if (cmor_has_cur_dataset_attribute(required_attrs->aszValue[i]) == 0) {
+                rc = cmor_CV_ValidateAttribute(CV, required_attrs->aszValue[i]);
+                if (rc != 0) {
+                    bCriticalError = 1;
+                    ierr += -1;
+                }
             }
         }
         // Check that all required attributes are set, including those set by 
@@ -2488,6 +2490,11 @@ int cmor_CV_checkGblAttributes(cmor_CV_def_t * CV)
                          "attribute was not properly set.\n! \n! "
                          "Please set attribute: \"%s\" in your input file.",
                          CMOR_NORMAL, required_attrs->aszValue[i]);
+                bCriticalError = 1;
+                ierr += -1;
+            }
+            rc = cmor_CV_ValidateAttribute(CV, required_attrs->aszValue[i]);
+            if (rc != 0) {
                 bCriticalError = 1;
                 ierr += -1;
             }
