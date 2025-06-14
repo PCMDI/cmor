@@ -2468,8 +2468,8 @@ int cmor_CV_checkGblAttributes(cmor_CV_def_t * CV)
     required_attrs = cmor_CV_rootsearch(CV, CV_KEY_REQUIRED_GBL_ATTRS);
     if (required_attrs != NULL) {
         // First, validate required attributes that are set by the user.
-        // This will also set attributes that are dependent on other
-        // attributes such as `source` when `source_id` is set.
+        // This will also set any attributes in the controlled vocabulary
+        // that are dependent on user input and only have one value.
         for (i = 0; i < required_attrs->anElements; i++) {
             if (cmor_has_cur_dataset_attribute(required_attrs->aszValue[i]) == 0) {
                 rc = cmor_CV_ValidateAttribute(CV, required_attrs->aszValue[i]);
