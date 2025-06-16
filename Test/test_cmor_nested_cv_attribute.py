@@ -79,7 +79,7 @@ class TestNestedCVAttribute(unittest.TestCase):
         if error_flag:
             raise RuntimeError("CMOR dataset_json call failed")
 
-    def test_nested_cv_variable(self):
+    def test_nested_cv_attribute(self):
         mip_table = "CMIP6_Omon.json"
         _ = cmor.load_table(mip_table)
 
