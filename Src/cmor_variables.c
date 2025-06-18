@@ -2970,7 +2970,7 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
             CMOR_WARNING,
             avar->id,
             cmor_tables[avar->ref_table_id].szTable_id,
-            n_lower_min, avar->valid_max, emin, msg_min);
+            n_lower_min, avar->valid_min, emin, msg_min);
 
         free(msg_min);
 
