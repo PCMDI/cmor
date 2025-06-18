@@ -3052,25 +3052,7 @@ int cmor_setGblAttr(int var_id)
     }
     ctmp[32] = '\0';
     strcat(msg, ctmp);
-
     cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_TABLE_INFO, msg, 0);
-
-    if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_SOURCE_ID) == 0) {
-        cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE_ID, ctmp);
-    } else {
-        ctmp[0] = '\0';
-    }
-/* -------------------------------------------------------------------- */
-/*    Set attribute Title for netCDF file (CMIP6)                       */
-/* -------------------------------------------------------------------- */
-    snprintf(msg, CMOR_MAX_STRING, GLOBAL_ATT_TITLE_MSG, ctmp,
-             cmor_tables[nVarRefTblID].mip_era);
-/* -------------------------------------------------------------------- */
-/*    Change Title if not provided by user.                             */
-/* -------------------------------------------------------------------- */
-    if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_TITLE) != 0) {
-        cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_TITLE, msg, 0);
-    }
 /* -------------------------------------------------------------------- */
 /*     check source and model_id are identical                          */
 /* -------------------------------------------------------------------- */
@@ -3079,7 +3061,26 @@ int cmor_setGblAttr(int var_id)
                                                 cmor_tables
                                                 [nVarRefTblID].mip_era, 0);
     }
-
+/* -------------------------------------------------------------------- */
+/*    Set attribute Title for netCDF file (CMIP6)                       */
+/* -------------------------------------------------------------------- */
+    if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_SOURCE_ID) == 0) {
+        cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE_ID, ctmp);
+    } else {
+        ctmp[0] = '\0';
+    }
+    if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_MIP_ERA) == 0) {
+        cmor_get_cur_dataset_attribute(GLOBAL_ATT_MIP_ERA, ctmp2);
+    } else {
+        ctmp2[0] = '\0';
+    }
+    snprintf(msg, CMOR_MAX_STRING, GLOBAL_ATT_TITLE_MSG, ctmp, ctmp2);
+/* -------------------------------------------------------------------- */
+/*    Change Title if not provided by user.                             */
+/* -------------------------------------------------------------------- */
+    if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_TITLE) != 0) {
+        cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_TITLE, msg, 0);
+    }
 /* -------------------------------------------------------------------- */
 /*      first check if the variable itself has a realm                  */
 /* -------------------------------------------------------------------- */
