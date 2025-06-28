@@ -258,6 +258,9 @@
 #define CV_KEY_LICENSE_TEMPLATE       "license_template"
 #define CV_KEY_LICENSE_TYPE           "license_type"
 #define CV_KEY_LICENSE_URL            "license_url"
+#define CV_KEY_DRS                    "DRS"
+#define CV_KEY_DIR_PATH_TEMPLATE      "directory_path_template"
+#define CV_KEY_FILENAME_TEMPLATE      "filename_template"
 
 #define CV_EXP_ATTR_ADDSOURCETYPE     "additional_allowed_model_components"
 #define CV_EXP_ATTR_REQSOURCETYPE     "required_model_components"
@@ -649,6 +652,8 @@ typedef struct cmor_dataset_def_ {
     int initiated;
     int associate_file;		/*flag to store associated variables separately */
     int associated_file;	/* ncid of associated file */
+    int default_path_template; /* 1 if default path template is in use */
+    int default_file_template; /* 1 if default file name template is in use */
     char associated_file_name[CMOR_MAX_STRING];	/*associated file path */
     char tracking_id[CMOR_MAX_STRING];	/*associated tracking id */
     char path_template[CMOR_MAX_STRING]; /* <keys> for each directory */
