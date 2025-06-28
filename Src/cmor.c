@@ -1429,9 +1429,11 @@ int cmor_dataset_json(char *ressource)
 
     strncpytrim(cmor_current_dataset.path_template,
                 CMOR_DEFAULT_PATH_TEMPLATE, CMOR_MAX_STRING);
+    cmor_current_dataset.default_path_template = 1;
 
     strncpytrim(cmor_current_dataset.file_template,
                 CMOR_DEFAULT_FILE_TEMPLATE, CMOR_MAX_STRING);
+    cmor_current_dataset.default_file_template = 1;
 
     strncpytrim(cmor_current_dataset.furtherinfourl,
                 "", CMOR_MAX_STRING);
@@ -1475,10 +1477,12 @@ int cmor_dataset_json(char *ressource)
         } else if (strcmp(key, FILE_PATH_TEMPLATE) == 0) {
             strncpytrim(cmor_current_dataset.path_template,
                         szVal, CMOR_MAX_STRING);
+            cmor_current_dataset.default_path_template = 0;
             continue;
         } else if (strcmp(key, FILE_NAME_TEMPLATE) == 0) {
             strncpytrim(cmor_current_dataset.file_template,
                         szVal, CMOR_MAX_STRING);
+            cmor_current_dataset.default_file_template = 0;
             continue;
         } else if (strcmp(key, GLOBAL_ATT_HISTORYTMPL) == 0) {
             strncpytrim(cmor_current_dataset.history_template,
@@ -1661,10 +1665,11 @@ int cmor_set_cur_dataset_attribute_internal(char *name, char *value,
     if (strcmp(msg, FILE_PATH_TEMPLATE) == 0) {
         cmor_trim_string(value, msg);
         strncpytrim(cmor_current_dataset.path_template, msg, CMOR_MAX_STRING);
+        cmor_current_dataset.default_path_template = 0;
     } else if (strcmp(msg, FILE_NAME_TEMPLATE) == 0) {
         cmor_trim_string(value, msg);
         strncpytrim(cmor_current_dataset.file_template, msg, CMOR_MAX_STRING);
-
+        cmor_current_dataset.default_file_template = 0;
     } else if (strcmp(msg, GLOBAL_ATT_FURTHERINFOURLTMPL) == 0) {
         cmor_trim_string(value, msg);
         strncpytrim(cmor_current_dataset.furtherinfourl, msg, CMOR_MAX_STRING);
@@ -2860,6 +2865,7 @@ int cmor_setDefaultGblAttr(int ref_table_id)
     cmor_CV_def_t *CV_source_id;
     cmor_CV_def_t *CV_source_ids;
     cmor_CV_def_t *required_attrs;
+    cmor_CV_def_t *CV_drs;
     char source_id[CMOR_MAX_STRING];
     char msg[CMOR_MAX_STRING];
     int i, j, k;
@@ -2943,6 +2949,32 @@ int cmor_setDefaultGblAttr(int ref_table_id)
             if (CV_value != NULL && CV_value->szValue[0] != '\0') {
                 cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_MIP_ERA,
                     CV_value->szValue, 0);
+            }
+        }
+    }
+
+/* -------------------------------------------------------------------- */
+/*  Set the path and file name template if they are in the CV and       */
+/*  the user didn't define them.                                        */
+/* -------------------------------------------------------------------- */
+    CV_drs = cmor_CV_rootsearch(cmor_tables[ref_table_id].CV, CV_KEY_DRS);
+    if (CV_drs != NULL) {
+        for(i = 0; i < CV_drs->nbObjects; i++){
+            CV_value = &CV_drs->oValue[i];
+            if(strcmp(CV_value->key, CV_KEY_DIR_PATH_TEMPLATE) == 0
+                && cmor_current_dataset.default_path_template == 1)
+            {
+                ierr |= cmor_set_cur_dataset_attribute_internal(
+                    FILE_PATH_TEMPLATE,
+                    CV_value->szValue, 0);
+                cmor_current_dataset.default_path_template = 0;
+            } else if(strcmp(CV_value->key, CV_KEY_FILENAME_TEMPLATE) == 0
+                && cmor_current_dataset.default_file_template == 1)
+            {
+                ierr |= cmor_set_cur_dataset_attribute_internal(
+                    FILE_NAME_TEMPLATE,
+                    CV_value->szValue, 0);
+                cmor_current_dataset.default_file_template = 0;
             }
         }
     }
