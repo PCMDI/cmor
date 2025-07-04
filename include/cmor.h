@@ -258,6 +258,9 @@
 #define CV_KEY_LICENSE_TEMPLATE       "license_template"
 #define CV_KEY_LICENSE_TYPE           "license_type"
 #define CV_KEY_LICENSE_URL            "license_url"
+#define CV_KEY_VERSION_METADATA       "version_metadata"
+#define CV_KEY_ARCHIVE_ID             "archive_id"
+#define CV_KEY_DRS                    "DRS"
 
 #define CV_EXP_ATTR_ADDSOURCETYPE     "additional_allowed_model_components"
 #define CV_EXP_ATTR_REQSOURCETYPE     "required_model_components"

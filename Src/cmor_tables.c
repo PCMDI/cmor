@@ -1018,6 +1018,8 @@ int cmor_load_table_internal(char szTable[CMOR_MAX_STRING], int *table_id)
             done = 1;
         } else if (strncmp(key, JSON_KEY_CV_ENTRY, 2) == 0) {
 
+            cmor_validate_cv(value, NULL);
+
             if (cmor_CV_set_entry(&cmor_tables[cmor_ntables], value) == 1) {
                 cmor_pop_traceback();
                 return (TABLE_ERROR);
@@ -1166,4 +1168,141 @@ int cmor_validate_json(json_object *json)
 
     return 0;
 
+}
+
+
+/************************************************************************/
+/*                         cmor_validate_cv()                           */
+/************************************************************************/
+void cmor_validate_cv(json_object *cv, char *parent_attr)
+{
+    array_list *array;
+    json_object *array_obj;
+    size_t length, i;
+    int single_value_pairs;
+
+    cmor_add_traceback("cmor_validate_cv");
+
+    json_object_object_foreach(cv, attr, value) {
+        single_value_pairs = 0;
+
+        if (parent_attr == NULL) {
+            if (strcmp(attr, CV_KEY_BRANDING_TEMPLATE) == 0
+                || strcmp(attr, CV_KEY_MIP_ERA) == 0
+                || strcmp(attr, CV_KEY_DATASPECSVERSION) == 0
+            ) {
+                if (json_object_is_type(value, json_type_object)
+                    || json_object_is_type(value, json_type_array)) {
+                    cmor_handle_error_variadic(
+                        "Attribute \"%s\" must be a single value; "
+                        "not an array or object",
+                        CMOR_WARNING,
+                        attr);
+                        continue;
+                }
+            } else if (strcmp(attr, CV_KEY_REQUIRED_GBL_ATTRS) == 0
+                || strcmp(attr, CV_KEY_GRID_RESOLUTION) == 0
+                || strcmp(attr, GLOBAL_ATT_CONVENTIONS) == 0
+                || strcmp(attr, GLOBAL_ATT_VARIANT_LABEL) == 0
+                || strcmp(attr, GLOBAL_ATT_REALIZATION) == 0
+                || strcmp(attr, GLOBAL_ATT_INITIA_IDX) == 0
+                || strcmp(attr, GLOBAL_ATT_PHYSICS_IDX) == 0
+                || strcmp(attr, GLOBAL_ATT_FORCING_IDX) == 0
+                || strcmp(attr, GLOBAL_ATT_TRACKING_ID) == 0
+            ) {
+                if (!json_object_is_type(value, json_type_array)) {
+                    cmor_handle_error_variadic(
+                        "Attribute \"%s\" must be an array",
+                        CMOR_WARNING,
+                        attr);
+                        continue;
+                }
+            } else if (strcmp(attr, CV_KEY_FREQUENCY) == 0
+                || strcmp(attr, CV_KEY_VERSION_METADATA) == 0
+            ) {
+                if (!json_object_is_type(value, json_type_object)) {
+                    cmor_handle_error_variadic(
+                        "Attribute \"%s\" must be an object",
+                        CMOR_WARNING,
+                        attr);
+                        continue;
+                }
+            } else if (strcmp(attr, CV_KEY_ARCHIVE_ID) == 0
+                || strcmp(attr, CV_KEY_INSTITUTION_ID) == 0
+                || strcmp(attr, CV_KEY_GRID_LABELS) == 0
+                || strcmp(attr, CV_KEY_DRS) == 0
+                || strcmp(attr, GLOBAL_ATT_REALM) == 0
+            ) {
+                if (!json_object_is_type(value, json_type_object)) {
+                    cmor_handle_error_variadic(
+                        "Attribute \"%s\" must be an object",
+                        CMOR_WARNING,
+                        attr);
+                        continue;
+                }
+                single_value_pairs = 1;
+            } else if (strcmp(attr, CV_KEY_LICENSE) == 0)
+            {
+                if (!(json_object_is_type(value, json_type_object)
+                     || json_object_is_type(value, json_type_array))) {
+                    cmor_handle_error_variadic(
+                        "Attribute \"%s\" must be an array or object",
+                        CMOR_WARNING,
+                        attr);
+                        continue;
+                }
+            } else if (strcmp(attr, GLOBAL_ATT_SOURCE_TYPE) == 0)
+            {
+                if (!(json_object_is_type(value, json_type_object)
+                     || !json_object_is_type(value, json_type_array))) {
+                    cmor_handle_error_variadic(
+                        "Attribute \"%s\" must be an array or object",
+                        CMOR_WARNING,
+                        attr);
+                        continue;
+                }
+                single_value_pairs = 1;
+            }
+        }
+
+        if (json_object_is_type(value, json_type_array)) {
+            array = json_object_get_array(value);
+            length = array_list_length(array);
+            for (i = 0; i < length; i++) {
+                array_obj = (json_object *) array_list_get_idx(array, i);
+                if (json_object_is_type(array_obj, json_type_object)
+                    || json_object_is_type(array_obj, json_type_array)) {
+                    cmor_handle_error_variadic(
+                        "Attribute \"%s\" has arrays or objects "
+                        "as elements in its array",
+                        CMOR_WARNING,
+                        attr);
+                        break;
+                }
+            }
+        } else if (json_object_is_type(value, json_type_array)) {
+            json_object_object_foreach(value, k, v) {
+                if (json_object_is_type(v, json_type_array)) {
+                    cmor_handle_error_variadic(
+                        "Value for \"%s\" in attribute \"%s\" "
+                        "cannot be an array",
+                        CMOR_WARNING,
+                        k, attr);
+                } else if (json_object_is_type(v, json_type_object)) {
+                    if (single_value_pairs != 0) {
+                        cmor_handle_error_variadic(
+                            "Value for \"%s\" in attribute \"%s\" "
+                            "cannot be an object",
+                            CMOR_WARNING,
+                            k, attr);
+                    } else if (parent_attr == NULL) {
+                        cmor_validate_cv(v, attr);
+                    }
+                }
+            }
+        }
+    }
+
+    cmor_pop_traceback();
+    return;
 }
