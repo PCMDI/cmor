@@ -429,9 +429,11 @@ static PyObject *PyCMOR_setup(PyObject * self, PyObject * args)
     }
     strncpytrim(cmor_current_dataset.path_template,
                 CMOR_DEFAULT_PATH_TEMPLATE, CMOR_MAX_STRING);
+    cmor_current_dataset.default_path_template = 1;
 
     strncpytrim(cmor_current_dataset.file_template,
                 CMOR_DEFAULT_FILE_TEMPLATE, CMOR_MAX_STRING);
+    cmor_current_dataset.default_file_template = 1;
 
     strncpytrim(cmor_current_dataset.furtherinfourl,
                 CMOR_DEFAULT_FURTHERURL_TEMPLATE, CMOR_MAX_STRING);
