@@ -1280,7 +1280,7 @@ void cmor_validate_cv(json_object *cv, char *parent_attr)
                         break;
                 }
             }
-        } else if (json_object_is_type(value, json_type_array)) {
+        } else if (json_object_is_type(value, json_type_object)) {
             json_object_object_foreach(value, k, v) {
                 if (json_object_is_type(v, json_type_array)) {
                     cmor_handle_error_variadic(
