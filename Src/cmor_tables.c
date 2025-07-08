@@ -1254,7 +1254,7 @@ void cmor_validate_cv(json_object *cv, char *parent_attr)
             } else if (strcmp(attr, GLOBAL_ATT_SOURCE_TYPE) == 0)
             {
                 if (!(json_object_is_type(value, json_type_object)
-                     || !json_object_is_type(value, json_type_array))) {
+                     || json_object_is_type(value, json_type_array))) {
                     cmor_handle_error_variadic(
                         "Attribute \"%s\" must be an array or object",
                         CMOR_WARNING,
