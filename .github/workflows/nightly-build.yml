@@ -69,7 +69,7 @@ jobs:
           eval "$(mamba shell hook --shell bash)"
           mamba activate
 
-          git clone -b main https://github.com/conda-forge/cmor-feedstock $PROJECT_DIR/cmor-feedstock
+          git clone -b rebuild https://github.com/mauzey1/cmor-feedstock $PROJECT_DIR/cmor-feedstock
           export SRC_META_YAML=`pwd`/$PROJECT_DIR/cmor-feedstock/recipe/meta.yaml.SRC
           export DST_META_YAML=`pwd`/$PROJECT_DIR/cmor-feedstock/recipe/meta.yaml
           mv $DST_META_YAML $SRC_META_YAML
