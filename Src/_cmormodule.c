@@ -936,7 +936,7 @@ static PyObject *PyCMOR_set_crs(PyObject * self, PyObject * args)
       cmor_set_crs(gid, name, n, (char *)nms,
                     CMOR_MAX_STRING, param_val,
                     (char *)units, CMOR_MAX_STRING,
-                    tn, text_nms, CMOR_MAX_STRING,
+                    tn, (char *)text_nms, CMOR_MAX_STRING,
                     text_vals, text_len);
 
     free(text_vals);
