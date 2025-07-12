@@ -1187,15 +1187,21 @@ void cmor_validate_cv(json_object *cv, char *parent_attr)
         single_value_pairs = 0;
 
         if (parent_attr == NULL) {
-            if (strcmp(attr, CV_KEY_BRANDING_TEMPLATE) == 0
-                || strcmp(attr, CV_KEY_MIP_ERA) == 0
+            if (strcmp(attr, CV_KEY_BRANDING_TEMPLATE) == 0) {
+                if (!json_object_is_type(value, json_type_string)) {
+                    cmor_handle_error_variadic(
+                        "Attribute \"%s\" must be a string",
+                        CMOR_WARNING,
+                        attr);
+                        continue;
+                }
+            } else if (strcmp(attr, CV_KEY_MIP_ERA) == 0
                 || strcmp(attr, CV_KEY_DATASPECSVERSION) == 0
             ) {
-                if (json_object_is_type(value, json_type_object)
-                    || json_object_is_type(value, json_type_array)) {
+                if (!(json_object_is_type(value, json_type_string)
+                    || json_object_is_type(value, json_type_array))) {
                     cmor_handle_error_variadic(
-                        "Attribute \"%s\" must be a single value; "
-                        "not an array or object",
+                        "Attribute \"%s\" must be a string or an array",
                         CMOR_WARNING,
                         attr);
                         continue;
@@ -1270,11 +1276,10 @@ void cmor_validate_cv(json_object *cv, char *parent_attr)
             length = array_list_length(array);
             for (i = 0; i < length; i++) {
                 array_obj = (json_object *) array_list_get_idx(array, i);
-                if (json_object_is_type(array_obj, json_type_object)
-                    || json_object_is_type(array_obj, json_type_array)) {
+                if (!json_object_is_type(array_obj, json_type_string)) {
                     cmor_handle_error_variadic(
-                        "Attribute \"%s\" has arrays or objects "
-                        "as elements in its array",
+                        "Attribute \"%s\" has elements in its "
+                        "array that are not strings",
                         CMOR_WARNING,
                         attr);
                         break;

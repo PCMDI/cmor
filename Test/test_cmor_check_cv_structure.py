@@ -57,7 +57,8 @@ class TestCheckCVStructure(BaseCVsTest):
 
         with open("TestTables/CMIP7_CV.json", "r") as cv_infile:
             cv = json.load(cv_infile)
-            cv["CV"]["mip_era"] = ["CMIP7"]
+            cv["CV"]["branding_suffix"] = ["template"]
+            cv["CV"]["mip_era"] = {"mip_era": "CMIP7"}
             cv["CV"]["nominal_resolution"] = "10000 km"
             cv["CV"]["frequency"] = ["1hr", "3hr", "day", "mon"]
             cv["CV"]["license"] = "PCMDI"
@@ -76,7 +77,12 @@ class TestCheckCVStructure(BaseCVsTest):
         cmor.load_table("CMIP7_ocean2d.json")
 
         self.assertCV(
-            "must be a single value; not an array or object",
+            "must be a string",
+            "Warning: Attribute \"branding_suffix\""
+        )
+
+        self.assertCV(
+            "must be a string or an array",
             "Warning: Attribute \"mip_era\""
         )
 
@@ -165,7 +171,7 @@ class TestCheckCVStructure(BaseCVsTest):
         cmor.load_table("CMIP7_ocean2d.json")
 
         self.assertCV(
-            "has arrays or objects as elements in its array",
+            "has elements in its array that are not strings",
             "Attribute \"source_type\""
         )
 
@@ -187,8 +193,8 @@ class TestCheckCVStructure(BaseCVsTest):
             cv["CV"]["nested_attr"] = {}
             cv["CV"]["nested_attr"]["nested_value"] = {
                 "sub_attr1": "value",
-                "sub_attr2": [1, 1, 3],
-                "sub_attr3": [1, [1], 3],
+                "sub_attr2": ["1", "2"],
+                "sub_attr3": ["1", ["2"], "3"],
                 "sub_attr4": {"key": "value"},
                 "sub_attr5": {"key": ["value"]}
             }
@@ -208,7 +214,7 @@ class TestCheckCVStructure(BaseCVsTest):
         cmor.load_table("CMIP7_ocean2d.json")
 
         self.assertCV(
-            "has arrays or objects as elements in its array",
+            "has elements in its array that are not strings",
             "Attribute \"sub_attr3\""
         )
 
