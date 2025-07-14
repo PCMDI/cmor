@@ -2368,7 +2368,7 @@ int cmor_set_chunking(int var_id, int nTableID, size_t nc_dim_chunking[])
 /************************************************************************/
 int cmor_set_deflate(int var_id, int shuffle, int deflate, int deflate_level)
 {
-    cmor_add_traceback("cmor_get_original_shape");
+    cmor_add_traceback("cmor_set_deflate");
     cmor_is_setup();
 
     if (cmor_vars[var_id].self != var_id) {
