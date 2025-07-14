@@ -2541,6 +2541,7 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
     char *msg_min;
     char *msg_max;
     char *msg_nan;
+    char *msg_start;
     size_t msg_len;
     cmor_axis_def_t *refaxis;
     size_t time_axis_start, time_axis_count;
@@ -2904,16 +2905,17 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
             cmor_axis_t *pAxis;
             pAxis = &cmor_axes[avar->axes_ids[j]];
             loc = nan_counter[j];
+            msg_start = &msg_nan[msg_len];
             if (pAxis->cvalues != NULL) {
-                msg_len += sprintf(&msg_nan[msg_len], " %s: %lu/%s",
+                msg_len += sprintf(msg_start, " %s: %lu/%s",
                                    pAxis->id, loc,
                                    pAxis->cvalues[loc]);
             } else if (pAxis->values != NULL) {
-                msg_len += sprintf(&msg_nan[msg_len], " %s: %lu/%.5g",
+                msg_len += sprintf(msg_start, " %s: %lu/%.5g",
                                    pAxis->id, loc,
                                    pAxis->values[loc]);
             } else if (pAxis->axis == 'T' && time_vals != NULL) {
-                msg_len += sprintf(&msg_nan[msg_len], " %s: %lu/%.5g",
+                msg_len += sprintf(msg_start, " %s: %lu/%.5g",
                                    pAxis->id, loc,
                                    time_vals[loc]);
             }
@@ -2971,16 +2973,17 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
             cmor_axis_t *pAxis;
             pAxis = &cmor_axes[avar->axes_ids[j]];
             loc = min_counter[j];
+            msg_start = &msg_min[msg_len];
             if (pAxis->cvalues != NULL) {
-                msg_len += sprintf(&msg_min[msg_len], " %s: %lu/%s",
+                msg_len += sprintf(msg_start, " %s: %lu/%s",
                                     pAxis->id, loc,
                                     pAxis->cvalues[loc]);
             } else if (pAxis->values != NULL) {
-                msg_len += sprintf(&msg_min[msg_len], " %s: %lu/%.5g",
+                msg_len += sprintf(msg_start, " %s: %lu/%.5g",
                                     pAxis->id, loc,
                                     pAxis->values[loc]);
             } else if (pAxis->axis == 'T' && time_vals != NULL) {
-                msg_len += sprintf(&msg_min[msg_len], " %s: %lu/%.5g",
+                msg_len += sprintf(msg_start, " %s: %lu/%.5g",
                                     pAxis->id, loc,
                                     time_vals[loc]);
             }
@@ -3028,16 +3031,17 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
             cmor_axis_t *pAxis;
             pAxis = &cmor_axes[avar->axes_ids[j]];
             loc = max_counter[j];
+            msg_start = &msg_max[msg_len];
             if (pAxis->cvalues != NULL) {
-                msg_len += sprintf(&msg_max[msg_len], " %s: %lu/%s",
+                msg_len += sprintf(msg_start, " %s: %lu/%s",
                                     pAxis->id, loc,
                                     pAxis->cvalues[loc]);
             } else if (pAxis->values != NULL) {
-                msg_len += sprintf(&msg_max[msg_len], " %s: %lu/%.5g",
+                msg_len += sprintf(msg_start, " %s: %lu/%.5g",
                                     pAxis->id, loc,
                                     pAxis->values[loc]);
             } else if (pAxis->axis == 'T' && time_vals != NULL) {
-                msg_len += sprintf(&msg_max[msg_len], " %s: %lu/%.5g",
+                msg_len += sprintf(msg_start, " %s: %lu/%.5g",
                                     pAxis->id, loc,
                                     time_vals[loc]);
             }
