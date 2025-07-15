@@ -1237,7 +1237,6 @@ void cmor_validate_cv(json_object *cv, char *parent_attr)
                 || strcmp(attr, CV_KEY_INSTITUTION_ID) == 0
                 || strcmp(attr, CV_KEY_GRID_LABELS) == 0
                 || strcmp(attr, CV_KEY_DRS) == 0
-                || strcmp(attr, GLOBAL_ATT_REALM) == 0
             ) {
                 if (!json_object_is_type(value, json_type_object)) {
                     cmor_handle_error_variadic(
@@ -1257,8 +1256,9 @@ void cmor_validate_cv(json_object *cv, char *parent_attr)
                         attr);
                         continue;
                 }
-            } else if (strcmp(attr, GLOBAL_ATT_SOURCE_TYPE) == 0)
-            {
+            } else if (strcmp(attr, GLOBAL_ATT_SOURCE_TYPE) == 0
+                || strcmp(attr, GLOBAL_ATT_REALM) == 0
+            ) {
                 if (!(json_object_is_type(value, json_type_object)
                      || json_object_is_type(value, json_type_array))) {
                     cmor_handle_error_variadic(
