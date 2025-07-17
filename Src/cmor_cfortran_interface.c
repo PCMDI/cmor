@@ -338,50 +338,6 @@ int cmor_grid_cff_nothg_int_(int *grid_id, int *ndims, int *axes_ids,
 }
 
 /************************************************************************/
-/*                        cmor_grid_cff_tvc_f_()                        */
-/************************************************************************/
-
-int cmor_grid_cff_tvc_f_(int *coord_grid_id, int *grid_id, char *name,
-                         char *units, void *missing)
-{
-    return (cmor_time_varying_grid_coordinate(coord_grid_id, *grid_id,
-                                              name, units, 'f', missing, NULL));
-}
-
-/************************************************************************/
-/*                        cmor_grid_cff_tvc_d_()                        */
-/************************************************************************/
-
-int cmor_grid_cff_tvc_d_(int *coord_grid_id, int *grid_id, char *name,
-                         char *units, void *missing)
-{
-    return (cmor_time_varying_grid_coordinate(coord_grid_id, *grid_id,
-                                              name, units, 'd', missing, NULL));
-}
-
-/************************************************************************/
-/*                        cmor_grid_cff_tvc_i_()                        */
-/************************************************************************/
-
-int cmor_grid_cff_tvc_i_(int *coord_grid_id, int *grid_id, char *name,
-                         char *units, void *missing)
-{
-    return (cmor_time_varying_grid_coordinate(coord_grid_id, *grid_id,
-                                              name, units, 'i', missing, NULL));
-}
-
-/************************************************************************/
-/*                       cmor_grid_cff_tvc_no_()                        */
-/************************************************************************/
-
-int cmor_grid_cff_tvc_no_(int *coord_grid_id, int *grid_id, char *name,
-                          char *units)
-{
-    return (cmor_time_varying_grid_coordinate(coord_grid_id, *grid_id,
-                                              name, units, 'f', NULL, NULL));
-}
-
-/************************************************************************/
 /*                        cmor_load_table_cff_()                        */
 /************************************************************************/
 

@@ -35,65 +35,17 @@ try:
 except BaseException:
     has_oldma = False
 
+
 def get_terminate_signal():
     """ Return the integer code currently used by CMOR for system signal when issuing an error
     -999 means not set yet, once cmor_setup is called -999 is turned to SIGTERM"""
     return _cmor.get_terminate_signal()
 
+
 def set_terminate_signal(signal):
     """Sets the signal code to be used by CMOR when issuing an error
     int has to match whateve rint the C uses"""
     _cmor.set_terminate_signal(signal)
-
-
-def time_varying_grid_coordinate(
-        grid_id, table_entry, units, data_type='f', missing_value=None):
-    """ Create a cmor variable for grid coordinates in case of time varying grids
-    Usage:
-    coord_grid_id = grid_time_varying_coordinate(
-    grid_id, table_entry,units,data_type='f',missing_value=None)
-    Where:
-    grid_id : The grid_id return by a call to cmor.grid
-    table_entry: The name of the variable in the CMOR table
-    units: variable units
-    data_type: data type of the missing_value, which must be the same as the type of the array  that will be passed to cmor_write.
-    The options are: 'd' (double), 'f' (float), 'l' (long) or 'i' (int).
-    missing_value : scalar that is used to indicate missing data for this variable.
-    It must be the same type as the data that will be passed to cmor_write.
-    This missing_value will in general be replaced by a standard missing_value specified in the MIP table.
-    If there are no missing data, and the user chooses not to declare the missing value, then this argument may be either
-    omitted or assigned the value 'none' (i.e., missing_value='none').
-    """
-    if not isinstance(table_entry, six.string_types):
-        raise Exception(
-            "Error you must pass a string for the variable table_entry")
-
-    if not isinstance(units, six.string_types):
-        raise Exception("Error you must pass a string for the variable units")
-    if not isinstance(data_type, six.string_types):
-        raise Exception("error data_type must be a string")
-    data_type = data_type.lower()
-    if data_type == 's' or data_type == 'u':
-        data_type = 'c'
-    if data_type not in ["c", "d", "f", "l", "i"]:
-        raise Exception(
-            'error unknown data_type: "%s", must be one of: "c","d","f","l","i"')
-
-    if not isinstance(grid_id, (int, numpy.int32, numpy.int64)):
-        raise Exception("error grid_id must be an integer")
-
-    grid_id = int(grid_id)
-
-    if missing_value is not None:
-        if not isinstance(missing_value, (float, int, numpy.float32, numpy.float64, 
-                                          numpy.int32, numpy.int64)):
-            raise Exception(
-                "error missing_value must be a number, you passed: %s" %
-                type(missing_value))
-        missing_value = float(missing_value)
-
-    return _cmor.time_varying_grid_coordinate(
-        grid_id, table_entry, units, str.encode(data_type), missing_value)
 
 
 def _to_numpy(vals, message):

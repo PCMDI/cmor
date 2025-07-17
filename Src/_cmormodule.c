@@ -1102,47 +1102,6 @@ static PyObject *PyCMOR_close(PyObject * self, PyObject * args)
 }
 
 /************************************************************************/
-/*                PyCMOR_time_varying_grid_coordinate()                 */
-/************************************************************************/
-
-static PyObject *PyCMOR_time_varying_grid_coordinate(PyObject * self,
-                                                     PyObject * args)
-{
-    signal(signal_to_catch, signal_handler);
-    int ierr, grid_id, coord_var_id;
-    char *table_entry;
-    char *units;
-    char type;
-    double missing;
-    PyObject *missing_obj;
-    void *pass_missing;
-
-    /* HUGE assumtion here is that the data is contiguous! */
-    if (!PyArg_ParseTuple
-        (args, "isscO", &grid_id, &table_entry, &units, &type, &missing_obj))
-        return NULL;
-    if (missing_obj == Py_None) {
-        pass_missing = NULL;
-    } else {
-        missing = PyFloat_AsDouble(missing_obj);
-        pass_missing = (void *)&missing;
-    }
-    ierr =
-      cmor_time_varying_grid_coordinate(&coord_var_id, grid_id,
-                                        table_entry, units, type,
-                                        pass_missing, NULL);
-
-    if (ierr != 0 || raise_exception) {
-        raise_exception = 0;
-        PyErr_Format(CMORError, exception_message,
-                     "time_varying_grid_coordinate");
-        return NULL;
-    }
-
-    return (Py_BuildValue("i", coord_var_id));
-}
-
-/************************************************************************/
 /*                            PyCMOR_grid()                             */
 /************************************************************************/
 static PyObject *PyCMOR_set_furtherinfourl(PyObject * self, PyObject * args) 
@@ -1265,8 +1224,6 @@ static PyMethodDef MyExtractMethods[] = {
     {"zfactor", PyCMOR_zfactor, METH_VARARGS},
     {"write", PyCMOR_write, METH_VARARGS},
     {"grid", PyCMOR_grid, METH_VARARGS},
-    {"time_varying_grid_coordinate", PyCMOR_time_varying_grid_coordinate,
-     METH_VARARGS},
     {"set_grid_mapping", PyCMOR_grid_mapping, METH_VARARGS},
     {"set_crs", PyCMOR_set_crs, METH_VARARGS},
     {"getCMOR_defaults_include", PyCMOR_getincvalues, METH_VARARGS},
