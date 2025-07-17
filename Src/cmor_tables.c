@@ -1207,7 +1207,6 @@ void cmor_validate_cv(json_object *cv, char *parent_attr)
                         continue;
                 }
             } else if (strcmp(attr, CV_KEY_REQUIRED_GBL_ATTRS) == 0
-                || strcmp(attr, CV_KEY_GRID_RESOLUTION) == 0
                 || strcmp(attr, GLOBAL_ATT_CONVENTIONS) == 0
                 || strcmp(attr, GLOBAL_ATT_VARIANT_LABEL) == 0
                 || strcmp(attr, GLOBAL_ATT_REALIZATION) == 0
@@ -1257,6 +1256,7 @@ void cmor_validate_cv(json_object *cv, char *parent_attr)
                         continue;
                 }
             } else if (strcmp(attr, GLOBAL_ATT_SOURCE_TYPE) == 0
+                || strcmp(attr, CV_KEY_GRID_RESOLUTION) == 0
                 || strcmp(attr, GLOBAL_ATT_REALM) == 0
             ) {
                 if (!(json_object_is_type(value, json_type_object)

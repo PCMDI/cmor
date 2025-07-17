@@ -87,7 +87,7 @@ class TestCheckCVStructure(BaseCVsTest):
         )
 
         self.assertCV(
-            "must be an array",
+            "must be an array or object",
             "Warning: Attribute \"nominal_resolution\""
         )
 
