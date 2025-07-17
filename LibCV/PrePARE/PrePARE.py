@@ -768,7 +768,7 @@ def processes_validator(value):
 def main():
     warnings.warn('PrePARE is a legacy application that is no longer '
                   'supported as of CMOR 3.12 and will be removed in a '
-                  'future release.', category=FutureWarning)
+                  'future release.', category=FutureWarning, stacklevel=3)
 
     parser = argparse.ArgumentParser(
         prog='PrePARE',
