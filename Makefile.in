@@ -316,11 +316,6 @@ test_fortran: cmor
 	env TEST_NAME="test_fortran_example_00" INPUT_FILE="Test/noinput" make test_case
 	env TEST_NAME="test_fortran_example_01" INPUT_FILE="Test/noinput" make test_case
 	env TEST_NAME="test_station_data" INPUT_FILE="Test/noinput" make test_case
-	# env TEST_NAME="test_cmor_grid_alejandro" INPUT_FILE="Test/alejandro.txt" make test_case
-	# env TEST_NAME="test_cmor_grid_alejandro" INPUT_FILE="Test/alejandro_1.txt" make test_case
-	# env TEST_NAME="test_cmor_grid_alejandro" INPUT_FILE="Test/alejandro_2.txt" make test_case
-	# env TEST_NAME="test_cmor_grid_time_varying" INPUT_FILE="Test/alejandro.txt" make test_case
-	# env TEST_NAME="test_cmor_grid_time_varying" INPUT_FILE="Test/alejandro_1.txt" make test_case
 	env TEST_NAME="test_region" INPUT_FILE="Test/noinput" make test_case
 	env TEST_NAME="test_sigma" INPUT_FILE="Test/noinput" make test_case
 	env TEST_NAME="test_singleton" INPUT_FILE="Test/noinput" make test_case
