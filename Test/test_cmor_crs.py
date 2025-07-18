@@ -266,7 +266,7 @@ class TestLatLonGridMapping(BaseCVsTest):
 
 class TestStandardParallel(BaseCVsTest):
 
-    def test_grid_mapping_without_standard_parallel(self, crs_wkt=None):
+    def test_grid_mapping_without_standard_parallel(self):
         cmor.setup(inpath='cmip6-cmor-tables/Tables',
                    netcdf_file_action=cmor.CMOR_REPLACE,
                    logfile=self.tmpfile)
@@ -308,11 +308,6 @@ class TestStandardParallel(BaseCVsTest):
                   "false_northing"]
         punits = ["", "", "", ""]
         pvalues = [175., 13., 8., 0.]
-
-        if crs_wkt is not None:
-            params.append("crs_wkt")
-            punits.append("")
-            pvalues.append(crs_wkt)
 
         cmor.set_crs(grid_id=grid_id,
                      mapping_name=mapnm,
