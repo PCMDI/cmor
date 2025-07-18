@@ -240,6 +240,7 @@ test_python: python
 	env TEST_NAME=Test/test_cmor_license_attributes.py make test_a_python
 	env TEST_NAME=Test/test_cmor_nested_cv_attribute.py make test_a_python
 	env TEST_NAME=Test/test_cmor_path_and_file_templates.py make test_a_python
+	env TEST_NAME=Test/test_cmor_check_cv_structure.py make test_a_python
 test_cmip6_cv: python
 	env TEST_NAME=Test/test_python_CMIP6_CV_sub_experimentnotset.py make test_a_python
 	env TEST_NAME=Test/test_python_CMIP6_CV_sub_experimentbad.py make test_a_python
