@@ -388,6 +388,12 @@ int cmor_grid_valid_mapping_attribute_names(char *name, int *natt, char (*att)
                                             char (*dims)
                                             [CMOR_MAX_STRING])
 {
+/* -------------------------------------------------------------------- */
+/*   The grid mapping attribute mappings below are consistent with      */
+/*   CF 1.12 (https://cfconventions.org/Data/cf-conventions/            */
+/*   cf-conventions-1.12/cf-conventions.html#appendix-grid-mappings)    */
+/* -------------------------------------------------------------------- */
+
     int i, j;
 
     *natt = -1;                 /* -1 means mapping name not found */
