@@ -760,11 +760,24 @@ int cmor_set_grid_mapping(int gid, char *name, int nparam,
 
     for (i = 0; i < nattributes - 7; i++) {
         if (cmor_has_grid_attribute(gid, grid_attributes[i]) == 1) {
-            cmor_handle_error_variadic(
-                "Grid mapping attribute %s has not been set, "
-                "you should consider setting it",
-                CMOR_WARNING,
-                grid_attributes[i]);
+            if (strcmp(grid_attributes[i], "standard_parallel") == 0) {
+                if (cmor_has_grid_attribute(gid, "standard_parallel1") == 1
+                || cmor_has_grid_attribute(gid, "standard_parallel2") == 1) {
+                    cmor_handle_error_variadic(
+                        "Grid mapping attribute %s has not been set, "
+                        "you should consider setting standard_parallel "
+                        "for one value or standard_parallel1 and "
+                        "standard_parallel2 for two values",
+                        CMOR_WARNING,
+                        grid_attributes[i]);
+                }
+            } else {
+                cmor_handle_error_variadic(
+                    "Grid mapping attribute %s has not been set, "
+                    "you should consider setting it",
+                    CMOR_WARNING,
+                    grid_attributes[i]);
+            }
         }
     }
 
