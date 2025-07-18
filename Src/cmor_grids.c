@@ -809,7 +809,7 @@ int cmor_set_crs(int gid, char *grid_mapping, int nparam,
     char *achar, *bchar;
     char ltext_attributes_name[CMOR_MAX_STRING];
 
-    cmor_add_traceback("cmor_set_grid_mapping");
+    cmor_add_traceback("cmor_set_crs");
 
     ierr = cmor_set_grid_mapping(gid, grid_mapping, nparam,
         attributes_names, lparams, attributes_values,
