@@ -388,6 +388,12 @@ int cmor_grid_valid_mapping_attribute_names(char *name, int *natt, char (*att)
                                             char (*dims)
                                             [CMOR_MAX_STRING])
 {
+/* -------------------------------------------------------------------- */
+/*   The grid mapping attribute mappings below are consistent with      */
+/*   CF 1.12 (https://cfconventions.org/Data/cf-conventions/            */
+/*   cf-conventions-1.12/cf-conventions.html#appendix-grid-mappings)    */
+/* -------------------------------------------------------------------- */
+
     int i, j;
 
     *natt = -1;                 /* -1 means mapping name not found */
@@ -730,7 +736,9 @@ int cmor_set_grid_mapping(int gid, char *name, int nparam,
                                    &grid_attributes[0]) == 1) {
             if ((strcmp(lattributes_names[i], "standard_parallel1") == 0
                  || strcmp(lattributes_names[i], "standard_parallel2") == 0)
-                && (strcmp(name, "lambert_conformal_conic") == 0)) {
+                && (strcmp(name, "lambert_conformal_conic") == 0
+                    || strcmp(name, "albers_conical_equal_area") == 0)
+            ) {
 
 /* -------------------------------------------------------------------- */
 /*      ok do nothing it is just that we need 2 values for this         */
@@ -760,11 +768,24 @@ int cmor_set_grid_mapping(int gid, char *name, int nparam,
 
     for (i = 0; i < nattributes - 7; i++) {
         if (cmor_has_grid_attribute(gid, grid_attributes[i]) == 1) {
-            cmor_handle_error_variadic(
-                "Grid mapping attribute %s has not been set, "
-                "you should consider setting it",
-                CMOR_WARNING,
-                grid_attributes[i]);
+            if (strcmp(grid_attributes[i], "standard_parallel") == 0) {
+                if (cmor_has_grid_attribute(gid, "standard_parallel1") == 1
+                || cmor_has_grid_attribute(gid, "standard_parallel2") == 1) {
+                    cmor_handle_error_variadic(
+                        "Grid mapping attribute %s has not been set, "
+                        "you should consider setting standard_parallel "
+                        "for one value or standard_parallel1 and "
+                        "standard_parallel2 for two values",
+                        CMOR_WARNING,
+                        grid_attributes[i]);
+                }
+            } else {
+                cmor_handle_error_variadic(
+                    "Grid mapping attribute %s has not been set, "
+                    "you should consider setting it",
+                    CMOR_WARNING,
+                    grid_attributes[i]);
+            }
         }
     }
 
@@ -794,7 +815,7 @@ int cmor_set_crs(int gid, char *grid_mapping, int nparam,
     char *achar, *bchar;
     char ltext_attributes_name[CMOR_MAX_STRING];
 
-    cmor_add_traceback("cmor_set_grid_mapping");
+    cmor_add_traceback("cmor_set_crs");
 
     ierr = cmor_set_grid_mapping(gid, grid_mapping, nparam,
         attributes_names, lparams, attributes_values,
