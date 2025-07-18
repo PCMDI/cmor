@@ -2,10 +2,11 @@ import cmor
 import unittest
 import numpy as np
 from netCDF4 import Dataset
+from base_CMIP6_CV import BaseCVsTest
 from test_python_common import *
 
 
-class TestCRS(unittest.TestCase):
+class TestCRS(BaseCVsTest):
 
     def make_crs_file(self, crs_wkt=None):
         cmor.setup(inpath='cmip6-cmor-tables/Tables',
@@ -140,7 +141,7 @@ class TestCRS(unittest.TestCase):
         ds.close()
 
 
-class TestLatLonGridMapping(unittest.TestCase):
+class TestLatLonGridMapping(BaseCVsTest):
 
     def test_latitude_longitude_grid_mapping(self):
         crs_wkt = \
@@ -191,6 +192,7 @@ class TestLatLonGridMapping(unittest.TestCase):
         nlat = 10
         nlon = 20
         lon_coords = np.arange(-120., -120. + 1.*nlon, 1.) + 0.5
+        lon_coords = lon_coords % 360.
         lat_coords = np.arange(60., 60 + 1.*nlat, 1.) + 0.5
         lon_bounds = np.zeros((lon_coords.shape[0], 2))
         lon_bounds[:, 0] = lon_coords - 0.5
@@ -260,6 +262,70 @@ class TestLatLonGridMapping(unittest.TestCase):
             self.assertEqual(val, attr_val)
         
         ds.close()
+
+
+class TestStandardParallel(BaseCVsTest):
+
+    def test_grid_mapping_without_standard_parallel(self, crs_wkt=None):
+        cmor.setup(inpath='cmip6-cmor-tables/Tables',
+                   netcdf_file_action=cmor.CMOR_REPLACE,
+                   logfile=self.tmpfile)
+        cmor.dataset_json("Test/CMOR_input_example.json")
+
+        grid_table = cmor.load_table("Tables/CMIP6_grids.json")
+
+        cmor.set_table(grid_table)
+
+        x, y, lon_coords, lat_coords, lon_vertices, lat_vertices \
+            = gen_irreg_grid(lon, lat)
+
+        axes = [
+                {
+                    'table_entry': 'y',
+                    'units': 'm',
+                    'coord_vals': y
+                },
+                {
+                    'table_entry': 'x',
+                    'units': 'm',
+                    'coord_vals': x
+                }
+            ]
+
+        axis_ids = [cmor.axis(**axis) for axis in axes]
+
+        grid_id = cmor.grid(axis_ids=axis_ids,
+                            latitude=lat_coords,
+                            longitude=lon_coords,
+                            latitude_vertices=lat_vertices,
+                            longitude_vertices=lon_vertices)
+        axis_ids.append(grid_id)
+
+        mapnm = 'lambert_conformal_conic'
+        params = ["longitude_of_central_meridian",
+                  "latitude_of_projection_origin",
+                  "false_easting",
+                  "false_northing"]
+        punits = ["", "", "", ""]
+        pvalues = [175., 13., 8., 0.]
+
+        if crs_wkt is not None:
+            params.append("crs_wkt")
+            punits.append("")
+            pvalues.append(crs_wkt)
+
+        cmor.set_crs(grid_id=grid_id,
+                     mapping_name=mapnm,
+                     parameter_names=params,
+                     parameter_values=pvalues,
+                     parameter_units=punits)
+
+        self.assertCV(
+            ("you should consider setting standard_parallel for one value "
+             "or standard_parallel1 and standard_parallel2 for two values"),
+            ("Warning: Grid mapping attribute standard_parallel "
+             "has not been set, ")
+        )
 
 
 if __name__ == '__main__':
