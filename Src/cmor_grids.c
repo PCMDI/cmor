@@ -730,7 +730,9 @@ int cmor_set_grid_mapping(int gid, char *name, int nparam,
                                    &grid_attributes[0]) == 1) {
             if ((strcmp(lattributes_names[i], "standard_parallel1") == 0
                  || strcmp(lattributes_names[i], "standard_parallel2") == 0)
-                && (strcmp(name, "lambert_conformal_conic") == 0)) {
+                && (strcmp(name, "lambert_conformal_conic") == 0
+                    || strcmp(name, "albers_conical_equal_area") == 0)
+            ) {
 
 /* -------------------------------------------------------------------- */
 /*      ok do nothing it is just that we need 2 values for this         */
