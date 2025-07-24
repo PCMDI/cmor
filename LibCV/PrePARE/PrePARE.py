@@ -26,6 +26,7 @@ import json
 import os
 import re
 import sys
+import warnings
 from argparse import ArgumentTypeError
 from contextlib import contextmanager
 from datetime import datetime
@@ -765,6 +766,10 @@ def processes_validator(value):
 #   main()
 #  =========================
 def main():
+    warnings.warn('PrePARE is a legacy application that is no longer '
+                  'supported as of CMOR 3.12 and will be removed in a '
+                  'future release.', category=FutureWarning, stacklevel=3)
+
     parser = argparse.ArgumentParser(
         prog='PrePARE',
         description='Validate CMIP6 file for ESGF publication.')
