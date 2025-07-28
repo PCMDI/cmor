@@ -715,42 +715,6 @@ module cmor_users_functions
 
 
   interface
-     function cmor_grid_cff_tvc_d(coord_grid_id,grid_id,name,units,&
-          missing) result (ierr)
-       integer,intent(out):: coord_grid_id
-       integer grid_id,ierr
-       character(*) name,units
-       double precision missing
-     end function cmor_grid_cff_tvc_d
-  end interface
-  interface
-     function cmor_grid_cff_tvc_f(coord_grid_id,grid_id,name,units,&
-          missing) result (ierr)
-       integer,intent(out):: coord_grid_id
-       integer grid_id,ierr
-       character(*) name,units
-       REAL missing
-     end function cmor_grid_cff_tvc_f
-  end interface
-  interface
-     function cmor_grid_cff_tvc_i(coord_grid_id,grid_id,name,units,&
-          missing) result (ierr)
-       integer,intent(out):: coord_grid_id
-       integer grid_id,ierr
-       character(*) name,units
-       integer missing
-     end function cmor_grid_cff_tvc_i
-  end interface
-  interface
-     function cmor_grid_cff_tvc_no(coord_grid_id,grid_id,name,units)&
-          result (ierr)
-       integer,intent(out):: coord_grid_id
-       integer grid_id,ierr
-       character(*) name,units
-     end function cmor_grid_cff_tvc_no
-  end interface
-
-  interface
      function cmor_set_grd_map_cff(gid,nm,nparam,att_names,lparam,&
           values,units,lunits) result(ierr)
        integer gid, nparam,lparam,lunits
@@ -918,13 +882,6 @@ module cmor_users_functions
 !!$     module procedure cmor_write_7d_l
      module procedure cmor_write_7d_r
      module procedure cmor_write_7d_d
-  end interface
-
-
-  interface cmor_time_varying_grid_coordinate
-     module procedure cmor_grid_tvc_r
-     module procedure cmor_grid_tvc_d
-     module procedure cmor_grid_tvc_i
   end interface
 
   interface cmor_grid
@@ -2522,56 +2479,6 @@ contains
     deallocate(tparaln)
   end function cmor_set_crs
 
-
-  function cmor_grid_tvc_r(grid_id,table_entry,units,missing) result (ierr)
-    implicit none
-    character (*) table_entry,units
-    integer var_id,grid_id
-    integer ierr
-    REAL,optional:: missing
-
-    if (present(missing)) then
-       ierr = cmor_grid_cff_tvc_f(var_id,grid_id,trim(table_entry)//char(0),trim(units)//char(0),missing)
-    else
-       ierr = cmor_grid_cff_tvc_no(var_id,grid_id,trim(table_entry)//char(0),trim(units)//char(0))
-    end if
-
-    if (ierr==0) then
-       ierr = var_id
-    else
-       ierr = -ierr
-    end if
-  end function cmor_grid_tvc_r
-  function cmor_grid_tvc_d(grid_id,table_entry,units,missing) result (ierr)
-    implicit none
-    character (*) table_entry,units
-    integer var_id,grid_id
-    integer ierr
-    double precision missing
-
-    ierr = cmor_grid_cff_tvc_d(var_id,grid_id,trim(table_entry)//char(0),trim(units)//char(0),missing)
-
-    if (ierr==0) then
-       ierr = var_id
-    else
-       ierr = -ierr
-    end if
-  end function cmor_grid_tvc_d
-  function cmor_grid_tvc_i(grid_id,table_entry,units,missing) result (ierr)
-    implicit none
-    character (*) table_entry,units
-    integer var_id,grid_id
-    integer ierr
-    integer missing
-
-    ierr = cmor_grid_cff_tvc_i(var_id,grid_id,trim(table_entry)//char(0),trim(units)//char(0),missing)
-
-    if (ierr==0) then
-       ierr = var_id
-    else
-       ierr = -ierr
-    end if
-  end function cmor_grid_tvc_i
 
   function cmor_grid_0d(axis_ids,nvertices) result (ierr)
     implicit none

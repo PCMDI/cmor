@@ -316,11 +316,6 @@ extern json_object *cmor_open_inpathFile( char *szFilename);
 
 extern int cmor_load_ressources( char *szFilename );
 
-extern int cmor_time_varying_grid_coordinate( int *coord_grid_id,
-					      int grid_id, char *name,
-					      char *units, char type,
-					      void *missing,
-					      int *coordinate_type );
 extern void cmor_cat_unique_string( char *dest, char *src );
 extern int cmor_stringinstring( char *dest, char *src );
 extern void cmor_checkMissing(int varid, int var_id, char type);
