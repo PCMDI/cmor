@@ -1268,6 +1268,15 @@ void cmor_validate_cv(json_object *cv, char *parent_attr)
                         continue;
                 }
                 single_value_pairs = 1;
+            } else {
+                if (!(json_object_is_type(value, json_type_object)
+                     || json_object_is_type(value, json_type_array))) {
+                    cmor_handle_error_variadic(
+                        "Attribute \"%s\" must be an array or object",
+                        CMOR_WARNING,
+                        attr);
+                        continue;
+                }
             }
         }
 
