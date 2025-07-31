@@ -586,6 +586,12 @@ typedef struct {
     char *value;
 } t_symstruct;
 
+enum cmor_table_type {
+    CMOR_TABLE_NONE,
+    CMOR_TABLE_CV,
+    CMOR_TABLE_FORMULA,
+    CMOR_TABLE_AXIS
+};
 
 typedef struct cmor_table_ {
     int id;

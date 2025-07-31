@@ -705,7 +705,8 @@ int cmor_load_table(char szTable[CMOR_MAX_STRING], int *table_id)
         strcpy(cmor_tables[cmor_ntables].path, szTable);
         cmor_set_cur_dataset_attribute_internal(CV_INPUTFILENAME,
                                                 szControlFilenameJSON, 1);
-        rc = cmor_load_table_internal(szAxisEntryFilenameJSON, table_id);
+        rc = cmor_load_table_internal(szAxisEntryFilenameJSON, table_id,
+                                      CMOR_TABLE_AXIS);
         if (rc != TABLE_SUCCESS) {
             cmor_handle_error_variadic(
                 "Can't open/read JSON table %s", 
@@ -713,7 +714,7 @@ int cmor_load_table(char szTable[CMOR_MAX_STRING], int *table_id)
                 szAxisEntryFilenameJSON);
             return (1);
         }
-        rc = cmor_load_table_internal(szTable, table_id);
+        rc = cmor_load_table_internal(szTable, table_id, CMOR_TABLE_NONE);
         if (rc != TABLE_SUCCESS) {
             cmor_handle_error_variadic(
                 "Can't open/read JSON table %s",
@@ -721,7 +722,8 @@ int cmor_load_table(char szTable[CMOR_MAX_STRING], int *table_id)
                 szTable);
             return (1);
         }
-        rc = cmor_load_table_internal(szFormulaVarFilenameJSON, table_id);
+        rc = cmor_load_table_internal(szFormulaVarFilenameJSON, table_id,
+                                      CMOR_TABLE_FORMULA);
         if (rc != TABLE_SUCCESS) {
             cmor_handle_error_variadic(
                 "Can't open/read JSON table %s",
@@ -729,7 +731,8 @@ int cmor_load_table(char szTable[CMOR_MAX_STRING], int *table_id)
                 szFormulaVarFilenameJSON);
             return (1);
         }
-        rc = cmor_load_table_internal(szControlFilenameJSON, table_id);
+        rc = cmor_load_table_internal(szControlFilenameJSON, table_id,
+                                      CMOR_TABLE_CV);
         if (rc != TABLE_SUCCESS) {
             cmor_handle_error_variadic(
                 "Can't open/read JSON table %s",
@@ -771,11 +774,13 @@ int cmor_search_table(char szTable[CMOR_MAX_STRING], int *table_id)
 /************************************************************************/
 /*                   cmor_load_table_internal()                         */
 /************************************************************************/
-int cmor_load_table_internal(char szTable[CMOR_MAX_STRING], int *table_id)
+int cmor_load_table_internal(char szTable[CMOR_MAX_STRING], int *table_id,
+                             enum cmor_table_type table_type)
 {
     FILE *table_file;
     char word[CMOR_MAX_STRING];
     int n;
+    int cv_found;
     int done = 0;
     extern int CMOR_TABLE, cmor_ntables;
     extern char cmor_input_path[CMOR_MAX_STRING];
@@ -936,6 +941,7 @@ int cmor_load_table_internal(char szTable[CMOR_MAX_STRING], int *table_id)
         }
     }
 
+    cv_found = 0;
     json_object_object_foreach(json_obj, key, value) {
 
         if (key[0] == '#') {
@@ -1024,6 +1030,7 @@ int cmor_load_table_internal(char szTable[CMOR_MAX_STRING], int *table_id)
                 cmor_pop_traceback();
                 return (TABLE_ERROR);
             }
+            cv_found = 1;
             done = 1;
 
         } else if (strcmp(key, JSON_KEY_MAPPING_ENTRY) == 0) {
@@ -1123,6 +1130,16 @@ int cmor_load_table_internal(char szTable[CMOR_MAX_STRING], int *table_id)
             /*printf("attribute for unknown section\n"); */
         }
     }
+
+    if (table_type == CMOR_TABLE_CV && cv_found == 0) {
+        cmor_handle_error_variadic(
+            "CV section was not found in table: %s",
+            CMOR_CRITICAL,
+            szTable);
+        cmor_pop_traceback();
+        return (TABLE_ERROR);
+    }
+
     *table_id = cmor_ntables;
     CMOR_TABLE = cmor_ntables;
     if (table_file != NULL) {
