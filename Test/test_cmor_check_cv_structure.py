@@ -45,6 +45,39 @@ USER_INPUT = {
 
 class TestCheckCVStructure(BaseCVsTest):
 
+    def test_check_for_cv_json_key(self):
+
+        test_name = "check_for_cv_json_key"
+        cv_path = f"TestTables/CMIP7_CV_{test_name}.json"
+        input_path = f"Test/input_{test_name}.json"
+
+        cmor.setup(inpath="TestTables",
+                   netcdf_file_action=cmor.CMOR_REPLACE,
+                   logfile=self.tmpfile)
+
+        with open("TestTables/CMIP7_CV.json", "r") as cv_infile:
+            cv = json.load(cv_infile)
+            no_cv_key = cv["CV"]
+            with open(cv_path, "w") as cv_outfile:
+                json.dump(no_cv_key, cv_outfile, sort_keys=True, indent=4)
+
+        with open(input_path, "w") as input_file:
+            user_input = USER_INPUT.copy()
+            user_input["_controlled_vocabulary_file"] = cv_path
+            json.dump(user_input, input_file, sort_keys=True, indent=4)
+
+        error_flag = cmor.dataset_json(input_path)
+        if error_flag:
+            raise RuntimeError("CMOR dataset_json call failed")
+
+        with self.assertRaises(cmor.CMORError):
+            cmor.load_table("CMIP7_ocean2d.json")
+
+        self.assertCV("CV section was not found in table: ")
+
+        os.remove(cv_path)
+        os.remove(input_path)
+
     def test_check_cv_attribute_values(self):
 
         test_name = "check_cv_attribute_values"
