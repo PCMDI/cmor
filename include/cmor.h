@@ -587,7 +587,7 @@ typedef struct {
 } t_symstruct;
 
 enum cmor_table_type {
-    CMOR_TABLE_NONE,
+    CMOR_TABLE_DEFAULT,
     CMOR_TABLE_CV,
     CMOR_TABLE_FORMULA,
     CMOR_TABLE_AXIS
