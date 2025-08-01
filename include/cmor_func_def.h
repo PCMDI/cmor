@@ -306,10 +306,12 @@ extern int cmor_set_formula_entry(cmor_table_t* table,
 extern int cmor_set_table( int table );
 extern int cmor_load_table( char table[CMOR_MAX_STRING], int *table_id );
 extern int cmor_load_table_internal( char table[CMOR_MAX_STRING],
-                                     int *table_id );
+                                     int *table_id,
+                                     enum cmor_table_type table_type);
 extern int cmor_search_table( char szTable[CMOR_MAX_STRING],
 								int *table_id);
 extern int cmor_validate_json(json_object *json);
+extern void cmor_validate_cv(json_object *json, char *parent_attr);
 
 extern json_object *cmor_open_inpathFile( char *szFilename);
 
