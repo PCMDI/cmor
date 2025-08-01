@@ -259,7 +259,6 @@
 #define CV_KEY_LICENSE_TYPE           "license_type"
 #define CV_KEY_LICENSE_URL            "license_url"
 #define CV_KEY_VERSION_METADATA       "version_metadata"
-#define CV_KEY_ARCHIVE_ID             "archive_id"
 #define CV_KEY_DRS                    "DRS"
 #define CV_KEY_DIR_PATH_TEMPLATE      "directory_path_template"
 #define CV_KEY_FILENAME_TEMPLATE      "filename_template"
