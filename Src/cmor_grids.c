@@ -772,7 +772,7 @@ int cmor_set_grid_mapping(int gid, char *name, int nparam,
         if (cmor_has_grid_attribute(gid, grid_attributes[i]) == 1) {
             if (strcmp(grid_attributes[i], "standard_parallel") == 0) {
                 if (strcmp(name, "mercator") == 0 || strcmp(name, "polar_stereographic") == 0) {
-                    continue;
+                    found_standard_parallel = 0;
                 } else if (cmor_has_grid_attribute(gid, "standard_parallel1") == 1
                 || cmor_has_grid_attribute(gid, "standard_parallel2") == 1) {
                     cmor_handle_error_variadic(
@@ -785,7 +785,7 @@ int cmor_set_grid_mapping(int gid, char *name, int nparam,
                 }
             } else if (strcmp(grid_attributes[i], "scale_factor_at_projection_origin") == 0
                        && (strcmp(name, "mercator") == 0 || strcmp(name, "polar_stereographic") == 0)) {
-                continue;
+                found_scale_factor_at_projection_origin = 0;
             } else {
                 cmor_handle_error_variadic(
                     "Grid mapping attribute %s has not been set, "
@@ -793,12 +793,12 @@ int cmor_set_grid_mapping(int gid, char *name, int nparam,
                     CMOR_WARNING,
                     grid_attributes[i]);
             }
-        } else if (cmor_has_grid_attribute(gid,
-                   "scale_factor_at_projection_origin") == 0) {
-            found_scale_factor_at_projection_origin = 1;
-        } else if (cmor_has_grid_attribute(gid,
-                   "standard_parallel") == 0) {
-            found_standard_parallel = 1;
+        } else {
+            if (strcmp(grid_attributes[i], "scale_factor_at_projection_origin") == 0) {
+                found_scale_factor_at_projection_origin = 1;
+            } else if (strcmp(grid_attributes[i], "standard_parallel") == 0) {
+                found_standard_parallel = 1;
+            }
         }
     }
 
