@@ -494,12 +494,13 @@ int cmor_grid_valid_mapping_attribute_names(char *name, int *natt, char (*att)
         strcpy(dims[0], "projection_x_coordinate");
         strcpy(dims[1], "projection_y_coordinate");
     } else if (strcmp(name, "polar_stereographic") == 0) {
-        *natt = 5;
+        *natt = 6;
         strcpy(att[0], "latitude_of_projection_origin");
         strcpy(att[1], "longitude_of_projection_origin");
         strcpy(att[2], "standard_parallel");
-        strcpy(att[3], "false_easting");
-        strcpy(att[4], "false_northing");
+        strcpy(att[3], "scale_factor_at_projection_origin");
+        strcpy(att[4], "false_easting");
+        strcpy(att[5], "false_northing");
         *ndims = 2;
         strcpy(dims[0], "projection_x_coordinate");
         strcpy(dims[1], "projection_y_coordinate");
@@ -631,6 +632,7 @@ int cmor_set_grid_mapping(int gid, char *name, int nparam,
                           char *units, int lnunits)
 {
     int grid_id, nattributes, ndims, msg_len;
+    int found_standard_parallel, found_scale_factor_at_projection_origin;
     int i, j, k, l;
     char *achar, *bchar, *axes_msg;
     char lattributes_names[CMOR_MAX_GRID_ATTRIBUTES][CMOR_MAX_STRING];
@@ -769,7 +771,9 @@ int cmor_set_grid_mapping(int gid, char *name, int nparam,
     for (i = 0; i < nattributes - 7; i++) {
         if (cmor_has_grid_attribute(gid, grid_attributes[i]) == 1) {
             if (strcmp(grid_attributes[i], "standard_parallel") == 0) {
-                if (cmor_has_grid_attribute(gid, "standard_parallel1") == 1
+                if (strcmp(name, "mercator") == 0 || strcmp(name, "polar_stereographic") == 0) {
+                    continue;
+                } else if (cmor_has_grid_attribute(gid, "standard_parallel1") == 1
                 || cmor_has_grid_attribute(gid, "standard_parallel2") == 1) {
                     cmor_handle_error_variadic(
                         "Grid mapping attribute %s has not been set, "
@@ -779,6 +783,9 @@ int cmor_set_grid_mapping(int gid, char *name, int nparam,
                         CMOR_WARNING,
                         grid_attributes[i]);
                 }
+            } else if (strcmp(grid_attributes[i], "scale_factor_at_projection_origin") == 0
+                       && (strcmp(name, "mercator") == 0 || strcmp(name, "polar_stereographic") == 0)) {
+                continue;
             } else {
                 cmor_handle_error_variadic(
                     "Grid mapping attribute %s has not been set, "
@@ -786,9 +793,42 @@ int cmor_set_grid_mapping(int gid, char *name, int nparam,
                     CMOR_WARNING,
                     grid_attributes[i]);
             }
+        } else if (cmor_has_grid_attribute(gid,
+                   "scale_factor_at_projection_origin") == 0) {
+            found_scale_factor_at_projection_origin = 1;
+        } else if (cmor_has_grid_attribute(gid,
+                   "standard_parallel") == 0) {
+            found_standard_parallel = 1;
         }
     }
 
+/* -------------------------------------------------------------------- */
+/*      If the grid mapping is mercator or polar_stereographic,         */
+/*      then check if either standard_parallel or                       */
+/*      scale_factor_at_projection_origin is set.                       */
+/*      Warn user if both are set.                                      */
+/* -------------------------------------------------------------------- */
+    if (strcmp(name, "mercator") == 0 || strcmp(name, "polar_stereographic") == 0) {
+        if (found_scale_factor_at_projection_origin == 0 &&
+            found_standard_parallel == 0) {
+            cmor_handle_error_variadic(
+                "Grid mapping attributes standard_parallel or "
+                "scale_factor_at_projection_origin were not set for "
+                "grid mapping %s. You should consider setting one of the "
+                "attributes",
+                CMOR_WARNING,
+                name);
+        } else if (found_scale_factor_at_projection_origin == 1 &&
+                   found_standard_parallel == 1) {
+            cmor_handle_error_variadic(
+                "Both grid mapping attributes standard_parallel and "
+                "scale_factor_at_projection_origin were set for "
+                "grid mapping %s. You should consider setting only one of the "
+                "attributes",
+                CMOR_WARNING,
+                name);
+        }
+    }
 /* -------------------------------------------------------------------- */
 /*      Ok finally we need to copy the name to the grid struct          */
 /* -------------------------------------------------------------------- */
