@@ -441,6 +441,47 @@ class TestPolarStereographicAttributeOptions(BaseCVsTest):
              f"grid mapping {mapnm}. ")
         )
 
+    def test_polar_stereographic_attribute_with_wrong_units(self):
+
+        cmor.setup(inpath='cmip6-cmor-tables/Tables',
+                   netcdf_file_action=cmor.CMOR_REPLACE,
+                   logfile=self.tmpfile)
+        cmor.dataset_json("Test/CMOR_input_example.json")
+
+        grid_table = cmor.load_table("Tables/CMIP6_grids.json")
+
+        cmor.set_table(grid_table)
+
+        axis_ids = [cmor.axis(**axis) for axis in self.axes]
+
+        grid_id = cmor.grid(axis_ids=axis_ids,
+                            latitude=self.lat_grid,
+                            longitude=self.lon_grid)
+        axis_ids.append(grid_id)
+
+        mapnm = 'polar_stereographic'
+        param_dict = {
+            'latitude_of_projection_origin': [90.0, 'degrees_north'],
+            'longitude_of_projection_origin': [135.0, 'degrees_east'],
+            'scale_factor_at_projection_origin': [1.0, 'xyz'],
+            'false_northing': [0.0, 'meters'],
+            'false_easting': [0.0, 'meters']
+        }
+
+        with self.assertRaises(cmor.CMORError):
+            _ = cmor.set_crs(grid_id=grid_id,
+                             mapping_name=mapnm,
+                             parameter_names=param_dict)
+
+        self.assertCV(
+            "(xyz)",
+            "Error: Udunits: analyzing units from cmor "
+        )
+        self.assertCV(
+            "xyz and m",
+            "Error: Udunits: Error preparing units "
+        )
+
 
 if __name__ == '__main__':
     unittest.main()
