@@ -2,12 +2,35 @@
     "CV":{
         "DRS":{
             "directory_path_example":"CMIP7/CMIP/PCMDI-test-1-0/glb/mon/historical/r1i1p1f3/tas/tavg-h2m-hxy-u/gn/v20191207/",
-            "directory_path_template":"<mip_era><activity_id><source_id><region><frequency><experiment_id><variant_label><variable_id><branding_suffix><grid_label><version>",
-            "filename_example":"tas_tavg-h2m-hxy-u_mon_glb_gn_PCMDI-test-1-0_historical_r1i1p1f3_185001-186912.nc",
-            "filename_template":"<variable_id><branding_suffix><frequency><region><grid_label><source_id><experiment_id><variant_label>"
+            "directory_path_template":"<mip_era>/<activity_id>/<source_id>/<region>/<frequency>/<experiment_id>/<variant_id>/<variable_id>/<branding_suffix>/<grid_label>/<version>",
+            "filename_example":"tas_tavg-h2m-hxy-u_mon_glb_gn_PCMDI-test-1-0 _historical_r1i1p1f3_185001-186912.nc",
+            "filename_template":"<variable_id>_<branding_suffix>_<frequency>_<region>_<grid_label>_<source_id>_<experiment_id>_<variant_id>[_<time_range>].nc"
         },
-        "archive_id":{
-            "WCRP":"a collection of datasets from the AMIP and CMIP project phases, along with project supporting datasets from the input4MIPs (forcing datasets used to drive CMIP simulations) and obs4MIPs (observational datasets used to evaluate CMIP simulations, and numerous other supporting activities"
+        "activity_id":{
+            "AerChemMIP":"Aerosols and Chemistry Model Intercomparison Project",
+            "C4MIP":"Coupled Climate Carbon Cycle Model Intercomparison Project",
+            "CDRMIP":"Carbon Dioxide Removal Model Intercomparison Project",
+            "CFMIP":"Cloud Feedback Model Intercomparison Project",
+            "CMIP":"CMIP DECK: 1pctCO2, abrupt4xCO2, amip, esm-piControl, esm-historical, historical, and piControl experiments",
+            "CORDEX":"Coordinated Regional Climate Downscaling Experiment",
+            "DAMIP":"Detection and Attribution Model Intercomparison Project",
+            "DCPP":"Decadal Climate Prediction Project",
+            "DynVarMIP":"Dynamics and Variability Model Intercomparison Project",
+            "FAFMIP":"Flux-Anomaly-Forced Model Intercomparison Project",
+            "GMMIP":"Global Monsoons Model Intercomparison Project",
+            "GeoMIP":"Geoengineering Model Intercomparison Project",
+            "HighResMIP":"High-Resolution Model Intercomparison Project",
+            "ISMIP6":"Ice Sheet Model Intercomparison Project for CMIP6",
+            "LS3MIP":"Land Surface, Snow and Soil Moisture",
+            "LUMIP":"Land-Use Model Intercomparison Project",
+            "OMIP":"Ocean Model Intercomparison Project",
+            "PAMIP":"Polar Amplification Model Intercomparison Project",
+            "PMIP":"Palaeoclimate Modelling Intercomparison Project",
+            "RFMIP":"Radiative Forcing Model Intercomparison Project",
+            "SIMIP":"Sea Ice Model Intercomparison Project",
+            "ScenarioMIP":"Scenario Model Intercomparison Project",
+            "VIACSAB":"Vulnerability, Impacts, Adaptation and Climate Services Advisory Board",
+            "VolMIP":"Volcanic Forcings Model Intercomparison Project"
         },
         "area_label":{
             "air":"air",
@@ -36,7 +59,10 @@
             "veg":"vegetation",
             "wl":"wetland"
         },
-        "branding_suffix":"<temporal_label><vertical_label><horizontal_label><area_label>",
+        "branding_suffix":"<temporal_label>-<vertical_label>-<horizontal_label>-<area_label>",
+        "data_archive_id":{
+            "WCRP":"a collection of datasets from the AMIP and CMIP project phases, along with project supporting datasets from the input4MIPs (forcing datasets used to drive CMIP simulations) and obs4MIPs (observational datasets used to evaluate CMIP simulations), and numerous other supporting activities"
+        },
         "data_specs_version":"CMIP-7.0.0.0",
         "experiment_id":{
             "1pctCO2":{
@@ -52,7 +78,6 @@
                 "end_year":"",
                 "experiment":"1 percent per year increase in CO2",
                 "experiment_id":"1pctCO2",
-                "host_collection":"CMIP7",
                 "min_number_yrs_per_sim":"150",
                 "parent_activity_id":[
                     "CMIP"
@@ -64,6 +89,9 @@
                     "AOGCM"
                 ],
                 "start_year":"",
+                "sub_experiment_id":[
+                    "none"
+                ],
                 "tier":"1"
             }
         },
@@ -124,19 +152,9 @@
         "institution_id":{
             "PCMDI":"Program for Climate Model Diagnosis and Intercomparison, Lawrence Livermore National Laboratory, Livermore, CA 94550, USA"
         },
-        "license":{
-            "license_id":{
-                "CC BY 4.0":{
-                    "license_type":"Creative Commons Attribution 4.0 International",
-                    "license_url":"https://creativecommons.org/licenses/by/4.0/"
-                },
-                "CC0 1.0":{
-                    "license_type":"Creative Commons CC0 1.0 Universal Public Domain Dedication",
-                    "license_url":"https://creativecommons.org/publicdomain/zero/1.0/"
-                }
-            },
-            "license_template":"<license_id>; CMIP7 data produced by <institution_id> is licensed under a <license_type> License (<license_url>). Consult https://pcmdi.llnl.gov/CMIP7/TermsOfUse for terms of use governing CMIP7 output, including citation requirements and proper acknowledgment. The data producers and data providers make no warranty, either express or implied, including, but not limited to, warranties of merchantability and fitness for a particular purpose. All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law."
-        },
+        "license":[
+            "^CMIP7 model data produced by .* is licensed under a Creative Commons .* License (https://creativecommons\\.org/.*)\\. *Consult https://pcmdi\\.llnl\\.gov/CMIP7/TermsOfUse for terms of use governing CMIP7 output, including citation requirements and proper acknowledgment\\. *Further information about this data, including some limitations, can be found via the further_info_url (recorded as a global attribute in this file).*\\. *The data producers and data providers make no warranty, either express or implied, including, but not limited to, warranties of merchantability and fitness for a particular purpose\\. *All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law\\.$"
+        ],
         "mip_era":"CMIP7",
         "nominal_resolution":[
             "0.25 km",
@@ -268,7 +286,6 @@
                     }
                 },
                 "release_year":"1989",
-                "source":"PCMDI-test 1.0 (1989): \naerosol: none\natmos: Earth1.0-gettingHotter (360 x 180 longitude/latitude; 50 levels; top level 0.1 mb)\natmosChem: none\nland: Earth1.0\nlandIce: none\nocean: BlueMarble1.0-warming (360 x 180 longitude/latitude; 50 levels; top grid cell 0-10 m)\nocnBgchem: none\nseaIce: Declining1.0-warming (360 x 180 longitude/latitude)",
                 "source_id":"PCMDI-test-1-0"
             }
         },
@@ -295,9 +312,6 @@
         },
         "tracking_id":[
             "hdl:21.14100/.*"
-        ],
-        "variant_label":[
-            "r[[:digit:]]\\{1,\\}i[[:digit:]]\\{1,\\}p[[:digit:]]\\{1,\\}f[[:digit:]]\\{1,\\}$"
         ],
         "vertical_label":{
             "1000hPa":"1000 hPa",
