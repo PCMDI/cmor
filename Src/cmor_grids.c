@@ -123,35 +123,53 @@ void cmor_convert_value(char *units, char *ctmp, double *tmp)
     ut_unit *user_units = NULL, *cmor_units = NULL;
     cv_converter *ut_cmor_converter = NULL;
     double value;
+    int ierr;
 
     cmor_add_traceback("cmor_convert_value");
 
     value = *tmp;
     if (units[0] != '\0') {
-        cmor_prep_units(ctmp, units, &cmor_units, &user_units,
-                        &ut_cmor_converter);
+        ierr = cmor_prep_units(ctmp, units, &cmor_units, &user_units,
+                               &ut_cmor_converter);
+        if (ierr != 0) {
+            cmor_handle_error_variadic(
+                "Udunits: Error preparing units %s and %s",
+                CMOR_CRITICAL,
+                units, ctmp);
+            cmor_pop_traceback();
+            return;
+        }
+
         *tmp = cv_convert_double(ut_cmor_converter, value);
         if (ut_get_status() != UT_SUCCESS) {
             cmor_handle_error_variadic(
                 "Udunits: Error converting units from %s to %s",
                 CMOR_CRITICAL,
                 units, ctmp);
+            cmor_pop_traceback();
+            return;
         }
 
         cv_free(ut_cmor_converter);
         if (ut_get_status() != UT_SUCCESS) {
             cmor_handle_error_variadic(
                 "Udunits: Error freeing converter", CMOR_CRITICAL);
+            cmor_pop_traceback();
+            return;
         }
         ut_free(cmor_units);
         if (ut_get_status() != UT_SUCCESS) {
             cmor_handle_error_variadic(
                 "Udunits: Error freeing units", CMOR_CRITICAL);
+            cmor_pop_traceback();
+            return;
         }
         ut_free(user_units);
         if (ut_get_status() != UT_SUCCESS) {
             cmor_handle_error_variadic(
                 "Udunits: Error freeing units", CMOR_CRITICAL);
+            cmor_pop_traceback();
+            return;
         }
     } else
         *tmp = value;
