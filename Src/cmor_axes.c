@@ -1639,7 +1639,8 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
     extern int CMOR_TABLE;
 
     double approx_interval, interval_error, interval_warning;
-    int i, iref, j, k, l, cv_freq_found;
+    double value_from_bounds, diff;
+    int i, iref, j, k, l, cv_freq_found, time_bound_mismatch_found;
     cmor_axis_def_t refaxis;
     cmor_CV_def_t *frequencies_cv, *freq_cv, *interv_cv,
     *interv_error_cv, *interv_warning_cv;
@@ -2118,10 +2119,33 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
 /* -------------------------------------------------------------------- */
 /*      ok now we need to overwrite the time values with mid point      */
 /* -------------------------------------------------------------------- */
-                for (i = 0; i < length; i++)
-                    cmor_axes[cmor_naxes].values[i] =
+                time_bound_mismatch_found = 0;
+                for (i = 0; i < length; i++) {
+                    value_from_bounds =
                       (cmor_axes[cmor_naxes].bounds[2 * i]
                        + cmor_axes[cmor_naxes].bounds[2 * i + 1]) / 2.;
+                    diff = fabs(cmor_axes[cmor_naxes].values[i]
+                                - value_from_bounds);
+                    if (time_bound_mismatch_found == 0 && diff > 0.5) {
+                        time_bound_mismatch_found = 1;
+                        cmor_handle_error_variadic(
+                            "The values you provided for axis %s are "
+                            "different from those computed from the "
+                            "bounds, which are used for the axis values "
+                            "instead of the user-provided values."
+                            "\n!\n! "
+                            "The first value found is at index %i: %lf "
+                            "will be replaced with %lf between bounds "
+                            "%lf and %lf",
+                            CMOR_WARNING,
+                            name, i,
+                            cmor_axes[cmor_naxes].values[i],
+                            value_from_bounds,
+                            cmor_axes[cmor_naxes].bounds[2 * i],
+                            cmor_axes[cmor_naxes].bounds[2 * i + 1]);
+                    }
+                    cmor_axes[cmor_naxes].values[i] = value_from_bounds;
+                }
 /* -------------------------------------------------------------------- */
 /*      here we check if interval is about right                        */
 /*      just keep the begining of units out                             */

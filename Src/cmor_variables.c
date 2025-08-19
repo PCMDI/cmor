@@ -2546,6 +2546,8 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
     cmor_axis_def_t *refaxis;
     size_t time_axis_start, time_axis_count;
     double *time_axis_vals;
+    int time_bound_mismatch_found;
+    double value_from_bounds, diff;
 
     cmor_add_traceback("cmor_write_var_to_file");
     cmor_is_setup();
@@ -3266,9 +3268,30 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
                 if (cmor_tables[cmor_axes[avar->axes_ids[0]].ref_table_id].axes
                     [cmor_axes[avar->axes_ids[0]].ref_axis_id].climatology ==
                     0) {
+                    time_bound_mismatch_found = 0;
                     for (i = 0; i < ntimes_passed; i++) {
-                        tmp_vals[i] =
+                        value_from_bounds =
                           (tmp_vals[2 * i] + tmp_vals[2 * i + 1]) / 2.;
+                        diff = fabs(tmp_vals[i] - value_from_bounds);
+                        if (time_bound_mismatch_found == 0 && diff > 0.5) {
+                            time_bound_mismatch_found = 1;
+                            cmor_handle_error_variadic(
+                                "The values you provided for axis %s are "
+                                "different from those computed from the "
+                                "bounds, which are used for the axis values "
+                                "instead of the user-provided values."
+                                "\n!\n! "
+                                "The first value found is at index %zu: %lf "
+                                "will be replaced with %lf between bounds "
+                                "%lf and %lf",
+                                CMOR_WARNING,
+                                cmor_axes[avar->axes_ids[0]].id, i,
+                                tmp_vals[i],
+                                value_from_bounds,
+                                tmp_vals[2 * i],
+                                tmp_vals[2 * i + 1]);
+                        }
+                        tmp_vals[i] = value_from_bounds;
                     }
 /* -------------------------------------------------------------------- */
 /*      store for later                                                 */
