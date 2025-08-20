@@ -2126,7 +2126,7 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
                        + cmor_axes[cmor_naxes].bounds[2 * i + 1]) / 2.;
                     diff = fabs(cmor_axes[cmor_naxes].values[i]
                                 - value_from_bounds);
-                    if (time_bound_mismatch_found == 0 && diff > 0.5) {
+                    if (time_bound_mismatch_found == 0 && diff > 1e-6) {
                         time_bound_mismatch_found = 1;
                         cmor_handle_error_variadic(
                             "The values you provided for axis %s are "

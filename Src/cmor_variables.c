@@ -3272,8 +3272,8 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
                     for (i = 0; i < ntimes_passed; i++) {
                         value_from_bounds =
                           (tmp_vals[2 * i] + tmp_vals[2 * i + 1]) / 2.;
-                        diff = fabs(tmp_vals[i] - value_from_bounds);
-                        if (time_bound_mismatch_found == 0 && diff > 0.5) {
+                        diff = fabs(time_vals[i] - value_from_bounds);
+                        if (time_bound_mismatch_found == 0 && diff > 1e-6) {
                             time_bound_mismatch_found = 1;
                             cmor_handle_error_variadic(
                                 "The values you provided for axis %s are "
@@ -3286,7 +3286,7 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
                                 "%lf and %lf",
                                 CMOR_WARNING,
                                 cmor_axes[avar->axes_ids[0]].id, i,
-                                tmp_vals[i],
+                                time_vals[i],
                                 value_from_bounds,
                                 tmp_vals[2 * i],
                                 tmp_vals[2 * i + 1]);
