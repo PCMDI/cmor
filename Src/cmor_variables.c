@@ -2546,8 +2546,6 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
     cmor_axis_def_t *refaxis;
     size_t time_axis_start, time_axis_count;
     double *time_axis_vals;
-    int time_bound_mismatch_found;
-    double value_from_bounds, diff;
 
     cmor_add_traceback("cmor_write_var_to_file");
     cmor_is_setup();

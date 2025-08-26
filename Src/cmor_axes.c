@@ -1676,8 +1676,7 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
     extern int CMOR_TABLE;
 
     double approx_interval, interval_error, interval_warning;
-    double value_from_bounds, diff;
-    int i, iref, j, k, l, cv_freq_found, time_bound_mismatch_found;
+    int i, iref, j, k, l, cv_freq_found;
     cmor_axis_def_t refaxis;
     cmor_CV_def_t *frequencies_cv, *freq_cv, *interv_cv,
     *interv_error_cv, *interv_warning_cv;
