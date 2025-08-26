@@ -1347,6 +1347,7 @@ void cmor_values_from_bounds(double *bounds, double *values_from_user,
     int bound_mismatch_found = 0;
     int i;
 
+    cmor_add_traceback("cmor_values_from_bounds");
     for (i = 0; i < length; i++) {
         value_user = values_from_user[i];
         value_bounds = (bounds[2 * i] + bounds[2 * i + 1]) / 2.;
@@ -1371,6 +1372,8 @@ void cmor_values_from_bounds(double *bounds, double *values_from_user,
         }
         values_from_bounds[i] = value_bounds;
     }
+    cmor_pop_traceback();
+    return;
 }
 
 /************************************************************************/
