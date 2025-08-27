@@ -190,6 +190,10 @@ extern int cmor_treat_axis_values( int axis_id, double *values, int length,
 extern int cmor_check_interval( int axis_id, char *interval,
 				double *values, int nvalues,
 				int isbounds );
+extern void cmor_values_from_bounds(double *bounds, 
+				double *values_from_user,
+				double *values_from_bounds, int length,
+				char *name);
 extern int cmor_axis( int *axis_id, char *name, char *units, int length,
 		      void *coord_vals, char type, void *cell_bounds,
 		      int cell_bounds_ndim, char *interval );
