@@ -714,14 +714,6 @@ int cmor_load_table(char szTable[CMOR_MAX_STRING], int *table_id)
                 szAxisEntryFilenameJSON);
             return (1);
         }
-        rc = cmor_load_table_internal(szTable, table_id, CMOR_TABLE_DEFAULT);
-        if (rc != TABLE_SUCCESS) {
-            cmor_handle_error_variadic(
-                "Can't open/read JSON table %s",
-                CMOR_CRITICAL,
-                szTable);
-            return (1);
-        }
         rc = cmor_load_table_internal(szFormulaVarFilenameJSON, table_id,
                                       CMOR_TABLE_FORMULA);
         if (rc != TABLE_SUCCESS) {
@@ -738,6 +730,14 @@ int cmor_load_table(char szTable[CMOR_MAX_STRING], int *table_id)
                 "Can't open/read JSON table %s",
                 CMOR_CRITICAL,
                 szControlFilenameJSON);
+            return (1);
+        }
+        rc = cmor_load_table_internal(szTable, table_id, CMOR_TABLE_DEFAULT);
+        if (rc != TABLE_SUCCESS) {
+            cmor_handle_error_variadic(
+                "Can't open/read JSON table %s",
+                CMOR_CRITICAL,
+                szTable);
             return (1);
         }
 
