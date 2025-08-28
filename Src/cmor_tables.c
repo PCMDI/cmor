@@ -714,14 +714,6 @@ int cmor_load_table(char szTable[CMOR_MAX_STRING], int *table_id)
                 szAxisEntryFilenameJSON);
             return (1);
         }
-        rc = cmor_load_table_internal(szTable, table_id, CMOR_TABLE_DEFAULT);
-        if (rc != TABLE_SUCCESS) {
-            cmor_handle_error_variadic(
-                "Can't open/read JSON table %s",
-                CMOR_CRITICAL,
-                szTable);
-            return (1);
-        }
         rc = cmor_load_table_internal(szFormulaVarFilenameJSON, table_id,
                                       CMOR_TABLE_FORMULA);
         if (rc != TABLE_SUCCESS) {
@@ -738,6 +730,14 @@ int cmor_load_table(char szTable[CMOR_MAX_STRING], int *table_id)
                 "Can't open/read JSON table %s",
                 CMOR_CRITICAL,
                 szControlFilenameJSON);
+            return (1);
+        }
+        rc = cmor_load_table_internal(szTable, table_id, CMOR_TABLE_VARIABLE);
+        if (rc != TABLE_SUCCESS) {
+            cmor_handle_error_variadic(
+                "Can't open/read JSON table %s",
+                CMOR_CRITICAL,
+                szTable);
             return (1);
         }
 
@@ -914,28 +914,32 @@ int cmor_load_table_internal(char szTable[CMOR_MAX_STRING], int *table_id,
 /* -------------------------------------------------------------------- */
 /*     Process table header first as it will be used for default        */
 /*     values for the variable definitions.                             */
+/*     We only care about the variable table's header.                  */
+/*     Ignore the headers in other tables.                              */
 /* -------------------------------------------------------------------- */
-    json_object_object_foreach(json_obj, header_key, header_value) {
-        if (header_key[0] == '#') {
-            continue;
-        }
-        if (header_value == 0) {
-            return (TABLE_ERROR);
-        }
-        strcpy(szVal, json_object_get_string(header_value));
-        if (strcmp(header_key, JSON_KEY_HEADER) == 0) {
-            json_object_object_foreach(header_value, header_key, globalAttr) {
-                if (header_key[0] == '#') {
-                    continue;
-                }
-                if (globalAttr == NULL) {
-                    return (TABLE_ERROR);
-                }
-                strcpy(szVal, json_object_get_string(globalAttr));
-                if (cmor_set_dataset_att(&cmor_tables[cmor_ntables], header_key,
-                                        szVal) == 1) {
-                    cmor_pop_traceback();
-                    return (TABLE_ERROR);
+    if (table_type == CMOR_TABLE_VARIABLE) {
+        json_object_object_foreach(json_obj, header_key, header_value) {
+            if (header_key[0] == '#') {
+                continue;
+            }
+            if (header_value == 0) {
+                return (TABLE_ERROR);
+            }
+            strcpy(szVal, json_object_get_string(header_value));
+            if (strcmp(header_key, JSON_KEY_HEADER) == 0) {
+                json_object_object_foreach(header_value, header_key, globalAttr) {
+                    if (header_key[0] == '#') {
+                        continue;
+                    }
+                    if (globalAttr == NULL) {
+                        return (TABLE_ERROR);
+                    }
+                    strcpy(szVal, json_object_get_string(globalAttr));
+                    if (cmor_set_dataset_att(&cmor_tables[cmor_ntables], header_key,
+                                            szVal) == 1) {
+                        cmor_pop_traceback();
+                        return (TABLE_ERROR);
+                    }
                 }
             }
         }
