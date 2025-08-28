@@ -2353,6 +2353,7 @@ int cmor_CV_checkGrids(cmor_CV_def_t * CV)
     cmor_CV_def_t *CV_grid_labels;
     cmor_CV_def_t *CV_grid_resolution;
     cmor_CV_def_t *CV_grid_child;
+    cmor_CV_def_t *CV_grid_res_child;
     int i;
 
     cmor_add_traceback("_CV_checkGrids");
@@ -2413,6 +2414,7 @@ int cmor_CV_checkGrids(cmor_CV_def_t * CV)
             return (-1);
         }
     }
+
     CV_grid_resolution = cmor_CV_rootsearch(CV, CV_KEY_GRID_RESOLUTION);
     if (CV_grid_resolution == NULL) {
         cmor_handle_error_variadic(
@@ -2422,7 +2424,6 @@ int cmor_CV_checkGrids(cmor_CV_def_t * CV)
         return (-1);
 
     }
-
     if (CV_grid_resolution->anElements > 0) {
         for (i = 0; i < CV_grid_resolution->anElements; i++) {
             strncpy(szCompare, CV_grid_resolution->aszValue[i],
@@ -2447,6 +2448,16 @@ int cmor_CV_checkGrids(cmor_CV_def_t * CV)
             cmor_pop_traceback();
             return (-1);
 
+        }
+    } else {
+        CV_grid_res_child = cmor_CV_search_child_key(CV_grid_resolution, szGridResolution);
+        if (CV_grid_res_child == NULL) {
+            cmor_handle_error_variadic(
+                    "Your attribute grid_resolution is set to \"%s\" which is invalid."
+                            "\n! \n! Check your Controlled Vocabulary file \"%s\".\n! ",
+                    CMOR_NORMAL, szGridResolution, CV_Filename);
+            cmor_pop_traceback();
+            return (-1);
         }
     }
 
