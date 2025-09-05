@@ -2,7 +2,12 @@
     "CV": {
         "activity_id": {
             "CMIP": "CMIP DECK: 1pctCO2, abrupt4xCO2, amip, esm-piControl, esm-historical, historical, and piControl experiments",
-            "LESFMIP": "The Large Ensemble Single Forcing Model Intercomparison Project"
+            "DCPP": "Decadal Climate Prediction Project",
+            "LESFMIP": "The Large Ensemble Single Forcing Model Intercomparison Project",
+            "MethaneMIP": "Methane Model Intercomparison Project",
+            "RAMIP": "Regional Aerosol Model Intercomparison Project",
+            "TBIMIP": "Tropical Basin Interaction Model Intercomparison Project",
+            "TIPMIP": "Tipping Point Model Intercomparison Project"
         },
         "Conventions": [
             "^CF-1.7 CMIP-6.[0-2,5]\\( UGRID-1.0\\)\\{0,\\}$"
@@ -10,10 +15,10 @@
         "DRS": {
             "directory_path_example": "CMIP6Plus/CMIP/MOHC/HadGEM3-GC31-MM/historical/r1i1p1f3/Amon/tas/gn/v20191207/",
             "directory_path_sub_experiment_example": "CMIP6Plus/DCPP/MOHC/HadGEM3-GC31-MM/dcppA-hindcast/s1960-r1i1p1f2/Amon/tas/gn/v20200417/",
-            "directory_path_template": "<mip_era>/<activity_id>/<institution_id>/<source_id>/<experiment_id>/<member_id>/<table_id>/<variable_id>/<grid_label>/<version>",
+            "directory_path_template": "<mip_era><activity_id><institution_id><source_id><experiment_id><member_id><table_id><variable_id><grid_label><version>",
             "filename_example": "tas_Amon_HadGEM3-GC31-MM_historical_r1i1p1f3_gn_185001-186912.nc",
             "filename_sub_experiment_example": "tas_Amon_HadGEM3-GC31-MM_dcppA-hindcast_s1960-r1i1p1f2_gn_196011-196012.nc",
-            "filename_template": "<variable_id>_<table_id>_<source_id>_<experiment_id >_<member_id>_<grid_label>[_<time_range>].nc"
+            "filename_template": "<variable_id><table_id><source_id><experiment_id><member_id><grid_label>"
         },
         "experiment_id": {
             "1pctCO2": {
@@ -26,10 +31,8 @@
                     "BGC"
                 ],
                 "description": "DECK: 1pctCO2",
-                "end": "",
                 "experiment": "1 percent per year increase in CO2",
                 "experiment_id": "1pctCO2",
-                "min_number_yrs_per_sim": 150,
                 "parent_activity_id": [
                     "CMIP"
                 ],
@@ -39,7 +42,6 @@
                 "required_model_components": [
                     "AOGCM"
                 ],
-                "start": "",
                 "sub_experiment_id": [
                     "none"
                 ],
@@ -55,10 +57,8 @@
                     "BGC"
                 ],
                 "description": "DECK: abrupt-4xCO2",
-                "end": "",
                 "experiment": "abrupt quadrupling of CO2",
                 "experiment_id": "abrupt-4xCO2",
-                "min_number_yrs_per_sim": 150,
                 "parent_activity_id": [
                     "CMIP"
                 ],
@@ -68,7 +68,6 @@
                 "required_model_components": [
                     "AOGCM"
                 ],
-                "start": "",
                 "sub_experiment_id": [
                     "none"
                 ],
@@ -84,10 +83,8 @@
                     "BGC"
                 ],
                 "description": "DECK: AMIP",
-                "end": 2022,
                 "experiment": "AMIP",
                 "experiment_id": "amip",
-                "min_number_yrs_per_sim": 43,
                 "parent_activity_id": [
                     "no parent"
                 ],
@@ -97,9 +94,333 @@
                 "required_model_components": [
                     "AGCM"
                 ],
-                "start": 1979,
                 "sub_experiment_id": [
                     "none"
+                ],
+                "tier": 1
+            },
+            "dcppA-assim": {
+                "activity_id": [
+                    "DCPP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "A2.3 Assimilation runs used to generate initial conditions for hindcasts",
+                "experiment": "Assimilation run paralleling the historical simulation, which may be used to generate hindcast initial conditions",
+                "experiment_id": "dcppA-assim",
+                "parent_activity_id": [
+                    "no parent"
+                ],
+                "parent_experiment_id": [
+                    "no parent"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 2
+            },
+            "dcppA-hindcast": {
+                "activity_id": [
+                    "DCPP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "A1 (and A2.1, A3.1, and A3.2) Decadal hindcasts begun near the end of each year from 1960 to 2019, or every other year at minimum. First full hindcast year follows start year (e.g., for s1960, first full hindcast year is 1961)",
+                "experiment": "hindcast initialized based on observations and using historical forcing",
+                "experiment_id": "dcppA-hindcast",
+                "parent_activity_id": [
+                    "no parent",
+                    "DCPP"
+                ],
+                "parent_experiment_id": [
+                    "no parent",
+                    "dcppA-assim"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "s1960",
+                    "s1961",
+                    "s1962",
+                    "s1963",
+                    "s1964",
+                    "s1965",
+                    "s1966",
+                    "s1967",
+                    "s1968",
+                    "s1969",
+                    "s1970",
+                    "s1971",
+                    "s1972",
+                    "s1973",
+                    "s1974",
+                    "s1975",
+                    "s1976",
+                    "s1977",
+                    "s1978",
+                    "s1979",
+                    "s1980",
+                    "s1981",
+                    "s1982",
+                    "s1983",
+                    "s1984",
+                    "s1985",
+                    "s1986",
+                    "s1987",
+                    "s1988",
+                    "s1989",
+                    "s1990",
+                    "s1991",
+                    "s1992",
+                    "s1993",
+                    "s1994",
+                    "s1995",
+                    "s1996",
+                    "s1997",
+                    "s1998",
+                    "s1999",
+                    "s2000",
+                    "s2001",
+                    "s2002",
+                    "s2003",
+                    "s2004",
+                    "s2005",
+                    "s2006",
+                    "s2007",
+                    "s2008",
+                    "s2009",
+                    "s2010",
+                    "s2011",
+                    "s2012",
+                    "s2013",
+                    "s2014",
+                    "s2015",
+                    "s2016",
+                    "s2017",
+                    "s2018",
+                    "s2019"
+                ],
+                "tier": 1
+            },
+            "dcppA-hindcast-niff": {
+                "activity_id": [
+                    "DCPP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "A4.1 Decadal hindcasts begun near the end of each year from 1960 to 2019, or every other year at minimum, but with no information from the future. First full hindcast year follows start year (e.g., for s1960, first full hindcast year is 1961)",
+                "experiment": "hindcast initialized based on observations but without using knowledge of subsequent historical forcing",
+                "experiment_id": "dcppA-hindcast-niff",
+                "parent_activity_id": [
+                    "no parent",
+                    "DCPP"
+                ],
+                "parent_experiment_id": [
+                    "no parent",
+                    "dcppA-assim"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "s1960",
+                    "s1961",
+                    "s1962",
+                    "s1963",
+                    "s1964",
+                    "s1965",
+                    "s1966",
+                    "s1967",
+                    "s1968",
+                    "s1969",
+                    "s1970",
+                    "s1971",
+                    "s1972",
+                    "s1973",
+                    "s1974",
+                    "s1975",
+                    "s1976",
+                    "s1977",
+                    "s1978",
+                    "s1979",
+                    "s1980",
+                    "s1981",
+                    "s1982",
+                    "s1983",
+                    "s1984",
+                    "s1985",
+                    "s1986",
+                    "s1987",
+                    "s1988",
+                    "s1989",
+                    "s1990",
+                    "s1991",
+                    "s1992",
+                    "s1993",
+                    "s1994",
+                    "s1995",
+                    "s1996",
+                    "s1997",
+                    "s1998",
+                    "s1999",
+                    "s2000",
+                    "s2001",
+                    "s2002",
+                    "s2003",
+                    "s2004",
+                    "s2005",
+                    "s2006",
+                    "s2007",
+                    "s2008",
+                    "s2009",
+                    "s2010",
+                    "s2011",
+                    "s2012",
+                    "s2013",
+                    "s2014",
+                    "s2015",
+                    "s2016",
+                    "s2017",
+                    "s2018",
+                    "s2019"
+                ],
+                "tier": 4
+            },
+            "dcppA-historical-niff": {
+                "activity_id": [
+                    "DCPP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "A4.2 Hindcasts initialized from historical climate simulations as in DCPP-A2.2, but with no information from the future. First full hindcast year follows start year (e.g., for s1960, first full hindcast year is 1961)",
+                "experiment": "hindcast initialized from historical climate simulation but without using knowledge of subsequent historical forcing",
+                "experiment_id": "dcppA-historical-niff",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "historical"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "s1960",
+                    "s1961",
+                    "s1962",
+                    "s1963",
+                    "s1964",
+                    "s1965",
+                    "s1966",
+                    "s1967",
+                    "s1968",
+                    "s1969",
+                    "s1970",
+                    "s1971",
+                    "s1972",
+                    "s1973",
+                    "s1974",
+                    "s1975",
+                    "s1976",
+                    "s1977",
+                    "s1978",
+                    "s1979",
+                    "s1980",
+                    "s1981",
+                    "s1982",
+                    "s1983",
+                    "s1984",
+                    "s1985",
+                    "s1986",
+                    "s1987",
+                    "s1988",
+                    "s1989",
+                    "s1990",
+                    "s1991",
+                    "s1992",
+                    "s1993",
+                    "s1994",
+                    "s1995",
+                    "s1996",
+                    "s1997",
+                    "s1998",
+                    "s1999",
+                    "s2000",
+                    "s2001",
+                    "s2002",
+                    "s2003",
+                    "s2004",
+                    "s2005",
+                    "s2006",
+                    "s2007",
+                    "s2008",
+                    "s2009",
+                    "s2010",
+                    "s2011",
+                    "s2012",
+                    "s2013",
+                    "s2014",
+                    "s2015",
+                    "s2016",
+                    "s2017",
+                    "s2018",
+                    "s2019"
+                ],
+                "tier": 4
+            },
+            "dcppB-forecast": {
+                "activity_id": [
+                    "DCPP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "B1 (and B2.1, B2.2) Ongoing decadal forecasts. First full forecast year follows start year (e.g., for s2017, first full forecast year is 2018)",
+                "experiment": "forecast initialized from observations with forcing from ssp245",
+                "experiment_id": "dcppB-forecast",
+                "parent_activity_id": [
+                    "no parent",
+                    "DCPP"
+                ],
+                "parent_experiment_id": [
+                    "no parent",
+                    "dcppA-assim"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "s2017",
+                    "s2018",
+                    "s2019",
+                    "s2020",
+                    "s2021",
+                    "s2022",
+                    "s2023",
+                    "s2024",
+                    "s2025",
+                    "s2026",
+                    "s2027",
+                    "s2028",
+                    "s2029"
                 ],
                 "tier": 1
             },
@@ -112,10 +433,8 @@
                     "CHEM"
                 ],
                 "description": "CMIP6 historical (CO2 emission-driven)",
-                "end": "2014",
                 "experiment": "all-forcing simulation of the recent past with atmospheric CO2 concentration calculated (CO2 emission-driven)",
                 "experiment_id": "esm-hist",
-                "min_number_yrs_per_sim": 165,
                 "parent_activity_id": [
                     "CMIP"
                 ],
@@ -126,7 +445,6 @@
                     "AOGCM",
                     "BGC"
                 ],
-                "start": "1850",
                 "sub_experiment_id": [
                     "none"
                 ],
@@ -141,10 +459,8 @@
                     "CHEM"
                 ],
                 "description": "DECK: control (emission-driven)",
-                "end": "",
                 "experiment": "pre-industrial control simulation with preindustrial CO2 emissions defined (CO2 emission-driven)",
                 "experiment_id": "esm-piControl",
-                "min_number_yrs_per_sim": 500,
                 "parent_activity_id": [
                     "CMIP"
                 ],
@@ -155,7 +471,6 @@
                     "AOGCM",
                     "BGC"
                 ],
-                "start": "",
                 "sub_experiment_id": [
                     "none"
                 ],
@@ -170,10 +485,8 @@
                     "CHEM"
                 ],
                 "description": "DECK: spin-up portion of the control (emission-driven)",
-                "end": "",
                 "experiment": "pre-industrial control simulation with CO2 concentration calculated (spin-up)",
                 "experiment_id": "esm-piControl-spinup",
-                "min_number_yrs_per_sim": 100,
                 "parent_activity_id": [
                     "no parent"
                 ],
@@ -184,7 +497,604 @@
                     "AOGCM",
                     "BGC"
                 ],
-                "start": "",
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 2
+            },
+            "esm-up2p0": {
+                "activity_id": [
+                    "TIPMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM"
+                ],
+                "description": "ramp up with constant CO2 emissions",
+                "experiment": "ramp up simulation with constant CO2 emissions yielding a warming of approximately 2 K/century (see TIPMIP experiment protocol for details)",
+                "experiment_id": "esm-up2p0",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "esm-piControl"
+                ],
+                "required_model_components": [
+                    "AOGCM",
+                    "BGC"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 1
+            },
+            "esm-up2p0-gwl1p5": {
+                "activity_id": [
+                    "TIPMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM"
+                ],
+                "description": "stabilisation at GWL1.5",
+                "experiment": "zero CO2 emissions simulation starting at global warming level of 1.5K, branching off from esm-up2p0",
+                "experiment_id": "esm-up2p0-gwl1p5",
+                "parent_activity_id": [
+                    "TIPMIP"
+                ],
+                "parent_experiment_id": [
+                    "esm-up2p0"
+                ],
+                "required_model_components": [
+                    "AOGCM",
+                    "BGC"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 2
+            },
+            "esm-up2p0-gwl1p5-50y-dn2p0": {
+                "activity_id": [
+                    "TIPMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM"
+                ],
+                "description": "ramp-down after GWL1.5",
+                "experiment": "ramp down from global warming level of 1.5K after 50 years, with CO2 emissions that are the negative of those used in esm-up2p0",
+                "experiment_id": "esm-up2p0-gwl1p5-50y-dn2p0",
+                "parent_activity_id": [
+                    "TIPMIP"
+                ],
+                "parent_experiment_id": [
+                    "esm-up2p0-gwl1p5"
+                ],
+                "required_model_components": [
+                    "AOGCM",
+                    "BGC"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 2
+            },
+            "esm-up2p0-gwl2p0": {
+                "activity_id": [
+                    "TIPMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM"
+                ],
+                "description": "stabilisation at GWL2",
+                "experiment": "zero CO2 emissions simulation starting at global warming level of 2K, branching off from esm-up2p0",
+                "experiment_id": "esm-up2p0-gwl2p0",
+                "parent_activity_id": [
+                    "TIPMIP"
+                ],
+                "parent_experiment_id": [
+                    "esm-up2p0"
+                ],
+                "required_model_components": [
+                    "AOGCM",
+                    "BGC"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 1
+            },
+            "esm-up2p0-gwl2p0-200y-dn2p0": {
+                "activity_id": [
+                    "TIPMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM"
+                ],
+                "description": "ramp-down after extended period of GWL2",
+                "experiment": "ramp down from global warming level of 2K after 200 years, with CO2 emissions that are the negative of those used in esm-up2p0",
+                "experiment_id": "esm-up2p0-gwl2p0-200y-dn2p0",
+                "parent_activity_id": [
+                    "TIPMIP"
+                ],
+                "parent_experiment_id": [
+                    "esm-up2p0-gwl2p0"
+                ],
+                "required_model_components": [
+                    "AOGCM",
+                    "BGC"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 2
+            },
+            "esm-up2p0-gwl2p0-50y-dn1p0": {
+                "activity_id": [
+                    "TIPMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM"
+                ],
+                "description": "slow ramp-down after GWL2",
+                "experiment": "ramp down from global warming level of 2K after 50 years, with CO2 emissions that are the negative and half the magnitude of those used in esm-up2p0",
+                "experiment_id": "esm-up2p0-gwl2p0-50y-dn1p0",
+                "parent_activity_id": [
+                    "TIPMIP"
+                ],
+                "parent_experiment_id": [
+                    "esm-up2p0-gwl2p0"
+                ],
+                "required_model_components": [
+                    "AOGCM",
+                    "BGC"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 2
+            },
+            "esm-up2p0-gwl2p0-50y-dn2p0": {
+                "activity_id": [
+                    "TIPMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM"
+                ],
+                "description": "ramp down after temporary overshoot to GWL2",
+                "experiment": "ramp down simulation with CO2 emissions that are the negative of those used in esm-up2p0, branching off from esm-up2p0-gwl2p0 after 50 years",
+                "experiment_id": "esm-up2p0-gwl2p0-50y-dn2p0",
+                "parent_activity_id": [
+                    "TIPMIP"
+                ],
+                "parent_experiment_id": [
+                    "esm-up2p0-gwl2p0"
+                ],
+                "required_model_components": [
+                    "AOGCM",
+                    "BGC"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 1
+            },
+            "esm-up2p0-gwl2p0-50y-dn2p0-gwl0p0": {
+                "activity_id": [
+                    "TIPMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM"
+                ],
+                "description": "stabilisation at piControl after temporary overshoot to GWL2",
+                "experiment": "zero CO2 emissions simulation branching off from esm-up2p0-gwl2p0-50y-dn2p0 after it passes the 0 K global warming level (piControl)",
+                "experiment_id": "esm-up2p0-gwl2p0-50y-dn2p0-gwl0p0",
+                "parent_activity_id": [
+                    "TIPMIP"
+                ],
+                "parent_experiment_id": [
+                    "esm-up2p0-gwl2p0-50y-dn2p0"
+                ],
+                "required_model_components": [
+                    "AOGCM",
+                    "BGC"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 2
+            },
+            "esm-up2p0-gwl3p0": {
+                "activity_id": [
+                    "TIPMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM"
+                ],
+                "description": "stabilisation at GWL3",
+                "experiment": "zero CO2 emissions simulation starting at global warming level of 3K, branching off from esm-up2p0",
+                "experiment_id": "esm-up2p0-gwl3p0",
+                "parent_activity_id": [
+                    "TIPMIP"
+                ],
+                "parent_experiment_id": [
+                    "esm-up2p0"
+                ],
+                "required_model_components": [
+                    "AOGCM",
+                    "BGC"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 2
+            },
+            "esm-up2p0-gwl3p0-200y-dn2p0": {
+                "activity_id": [
+                    "TIPMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM"
+                ],
+                "description": "ramp-down after extended period of GWL3",
+                "experiment": "ramp down from global warming level of 3K after 200 years, with CO2 emissions that are the negative of those used in esm-up2p0",
+                "experiment_id": "esm-up2p0-gwl3p0-200y-dn2p0",
+                "parent_activity_id": [
+                    "TIPMIP"
+                ],
+                "parent_experiment_id": [
+                    "esm-up2p0-gwl3p0"
+                ],
+                "required_model_components": [
+                    "AOGCM",
+                    "BGC"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 2
+            },
+            "esm-up2p0-gwl3p0-50y-dn1p0": {
+                "activity_id": [
+                    "TIPMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM"
+                ],
+                "description": "slow ramp-down after GWL3",
+                "experiment": "ramp down from global warming level of 3K after 50 years, with CO2 emissions that are the negative and half magnitude of those used in esm-up2p0",
+                "experiment_id": "esm-up2p0-gwl3p0-50y-dn1p0",
+                "parent_activity_id": [
+                    "TIPMIP"
+                ],
+                "parent_experiment_id": [
+                    "esm-up2p0-gwl3p0"
+                ],
+                "required_model_components": [
+                    "AOGCM",
+                    "BGC"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 2
+            },
+            "esm-up2p0-gwl3p0-50y-dn2p0": {
+                "activity_id": [
+                    "TIPMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM"
+                ],
+                "description": "ramp-down after GWL3",
+                "experiment": "ramp down from global warming level of 3K after 50 years, with CO2 emissions that are the negative of those used in esm-up2p0",
+                "experiment_id": "esm-up2p0-gwl3p0-50y-dn2p0",
+                "parent_activity_id": [
+                    "TIPMIP"
+                ],
+                "parent_experiment_id": [
+                    "esm-up2p0-gwl3p0"
+                ],
+                "required_model_components": [
+                    "AOGCM",
+                    "BGC"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 2
+            },
+            "esm-up2p0-gwl3p0-50y-dn2p0-gwl0p0": {
+                "activity_id": [
+                    "TIPMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM"
+                ],
+                "description": "stabilisation at piControl after temporary overshoot to GWL3",
+                "experiment": "zero CO2 emissions simulation branching off from esm-up2p0-gwl3p0-50y-dn2p0 after it passes the 0 K global warming level (piControl)",
+                "experiment_id": "esm-up2p0-gwl3p0-50y-dn2p0-gwl0p0",
+                "parent_activity_id": [
+                    "TIPMIP"
+                ],
+                "parent_experiment_id": [
+                    "esm-up2p0-gwl3p0-50y-dn2p0"
+                ],
+                "required_model_components": [
+                    "AOGCM",
+                    "BGC"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 2
+            },
+            "esm-up2p0-gwl3p0-50y-dn2p0-gwl1p5": {
+                "activity_id": [
+                    "TIPMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM"
+                ],
+                "description": "stabilisation at GWL1.5 after temporary overshoot to GWL3",
+                "experiment": "zero CO2 emissions simulation branching off from esm-up2p0-gwl3p0-50y-dn2p0 after it passes the 1.5 K global warming level",
+                "experiment_id": "esm-up2p0-gwl3p0-50y-dn2p0-gwl1p5",
+                "parent_activity_id": [
+                    "TIPMIP"
+                ],
+                "parent_experiment_id": [
+                    "esm-up2p0-gwl3p0-50y-dn2p0"
+                ],
+                "required_model_components": [
+                    "AOGCM",
+                    "BGC"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 2
+            },
+            "esm-up2p0-gwl3p0-50y-dn2p0-gwl2p0": {
+                "activity_id": [
+                    "TIPMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM"
+                ],
+                "description": "stabilisation at GWL2 after temporary overshoot to GWL3",
+                "experiment": "zero CO2 emissions simulation branching off from esm-up2p0-gwl3p0-50y-dn2p0 after it passes the 2 K global warming level",
+                "experiment_id": "esm-up2p0-gwl3p0-50y-dn2p0-gwl2p0",
+                "parent_activity_id": [
+                    "TIPMIP"
+                ],
+                "parent_experiment_id": [
+                    "esm-up2p0-gwl3p0-50y-dn2p0"
+                ],
+                "required_model_components": [
+                    "AOGCM",
+                    "BGC"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 2
+            },
+            "esm-up2p0-gwl4p0": {
+                "activity_id": [
+                    "TIPMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM"
+                ],
+                "description": "stabilisation at GWL4",
+                "experiment": "zero CO2 emissions simulation starting at global warming level of 4K, branching off from esm-up2p0",
+                "experiment_id": "esm-up2p0-gwl4p0",
+                "parent_activity_id": [
+                    "TIPMIP"
+                ],
+                "parent_experiment_id": [
+                    "esm-up2p0"
+                ],
+                "required_model_components": [
+                    "AOGCM",
+                    "BGC"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 1
+            },
+            "esm-up2p0-gwl4p0-200y-dn2p0": {
+                "activity_id": [
+                    "TIPMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM"
+                ],
+                "description": "ramp-down after extended period of GWL4",
+                "experiment": "ramp down from global warming level of 4K after 200 years, with CO2 emissions that are the negative of those used in esm-up2p0",
+                "experiment_id": "esm-up2p0-gwl4p0-200y-dn2p0",
+                "parent_activity_id": [
+                    "TIPMIP"
+                ],
+                "parent_experiment_id": [
+                    "esm-up2p0-gwl4p0"
+                ],
+                "required_model_components": [
+                    "AOGCM",
+                    "BGC"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 2
+            },
+            "esm-up2p0-gwl4p0-50y-dn1p0": {
+                "activity_id": [
+                    "TIPMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM"
+                ],
+                "description": "slow ramp-down after GWL4",
+                "experiment": "ramp down from global warming level of 4K after 50 years, with CO2 emissions that are the negative and half the magnitude of those used in esm-up2p0",
+                "experiment_id": "esm-up2p0-gwl4p0-50y-dn1p0",
+                "parent_activity_id": [
+                    "TIPMIP"
+                ],
+                "parent_experiment_id": [
+                    "esm-up2p0-gwl4p0"
+                ],
+                "required_model_components": [
+                    "AOGCM",
+                    "BGC"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 2
+            },
+            "esm-up2p0-gwl4p0-50y-dn2p0": {
+                "activity_id": [
+                    "TIPMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM"
+                ],
+                "description": "ramp down after temporary overshoot to GWL4",
+                "experiment": "ramp down simulation with CO2 emissions that are the negative of those used in esm-up2p0, branching off from esm-up2p0-gwl4p0 after 50 years",
+                "experiment_id": "esm-up2p0-gwl4p0-50y-dn2p0",
+                "parent_activity_id": [
+                    "TIPMIP"
+                ],
+                "parent_experiment_id": [
+                    "esm-up2p0-gwl4p0"
+                ],
+                "required_model_components": [
+                    "AOGCM",
+                    "BGC"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 1
+            },
+            "esm-up2p0-gwl4p0-50y-dn2p0-gwl0p0": {
+                "activity_id": [
+                    "TIPMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM"
+                ],
+                "description": "stabilisation at piControl after temporary overshoot to GWL4",
+                "experiment": "zero CO2 emissions simulation branching off from esm-up2p0-gwl4p0-50y-dn2p0 after it passes the 0 K global warming level (piControl)",
+                "experiment_id": "esm-up2p0-gwl4p0-50y-dn2p0-gwl0p0",
+                "parent_activity_id": [
+                    "TIPMIP"
+                ],
+                "parent_experiment_id": [
+                    "esm-up2p0-gwl4p0-50y-dn2p0"
+                ],
+                "required_model_components": [
+                    "AOGCM",
+                    "BGC"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 2
+            },
+            "esm-up2p0-gwl4p0-50y-dn2p0-gwl2p0": {
+                "activity_id": [
+                    "TIPMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM"
+                ],
+                "description": "stabilisation at GWL2 after temporary overshoot to GWL4",
+                "experiment": "zero CO2 emissions simulation starting at global warming level of 2K, branching off from esm-up2p0-gwl4p0-50y-dn2p0",
+                "experiment_id": "esm-up2p0-gwl4p0-50y-dn2p0-gwl2p0",
+                "parent_activity_id": [
+                    "TIPMIP"
+                ],
+                "parent_experiment_id": [
+                    "esm-up2p0-gwl4p0-50y-dn2p0"
+                ],
+                "required_model_components": [
+                    "AOGCM",
+                    "BGC"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 1
+            },
+            "esm-up2p0-gwl5p0": {
+                "activity_id": [
+                    "TIPMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM"
+                ],
+                "description": "stabilisation at GWL5",
+                "experiment": "zero CO2 emissions simulation starting at global warming level of 5K, branching off from esm-up2p0",
+                "experiment_id": "esm-up2p0-gwl5p0",
+                "parent_activity_id": [
+                    "TIPMIP"
+                ],
+                "parent_experiment_id": [
+                    "esm-up2p0"
+                ],
+                "required_model_components": [
+                    "AOGCM",
+                    "BGC"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 2
+            },
+            "esm-up2p0-gwl6p0": {
+                "activity_id": [
+                    "TIPMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM"
+                ],
+                "description": "stabilisation at GWL6",
+                "experiment": "zero CO2 emissions simulation starting at global warming level of 6 K, branching off from esm-up2p0",
+                "experiment_id": "esm-up2p0-gwl6p0",
+                "parent_activity_id": [
+                    "TIPMIP"
+                ],
+                "parent_experiment_id": [
+                    "esm-up2p0"
+                ],
+                "required_model_components": [
+                    "AOGCM",
+                    "BGC"
+                ],
                 "sub_experiment_id": [
                     "none"
                 ],
@@ -200,10 +1110,8 @@
                     "BGC"
                 ],
                 "description": "As hist-aer but with updated forcings",
-                "end": 2024,
                 "experiment": "future anthropogenic aerosols-only run",
                 "experiment_id": "fut-Aer",
-                "min_number_yrs_per_sim": "none",
                 "parent_activity_id": [
                     "LESFMIP"
                 ],
@@ -213,7 +1121,6 @@
                 "required_model_components": [
                     "AOGCM"
                 ],
-                "start": 2015,
                 "sub_experiment_id": [
                     "f2023"
                 ],
@@ -229,10 +1136,8 @@
                     "BGC"
                 ],
                 "description": "As hist-GHG but with updated forcings",
-                "end": 2024,
                 "experiment": "future well-mixed GHG-only run",
                 "experiment_id": "fut-GHG",
-                "min_number_yrs_per_sim": "none",
                 "parent_activity_id": [
                     "LESFMIP"
                 ],
@@ -242,7 +1147,6 @@
                 "required_model_components": [
                     "AOGCM"
                 ],
-                "start": 2015,
                 "sub_experiment_id": [
                     "f2023"
                 ],
@@ -258,10 +1162,8 @@
                     "BGC"
                 ],
                 "description": "As hist-lu but with updated forcings",
-                "end": 2024,
                 "experiment": "Single forcing projections",
                 "experiment_id": "fut-lu",
-                "min_number_yrs_per_sim": "none",
                 "parent_activity_id": [
                     "CMIP"
                 ],
@@ -271,7 +1173,6 @@
                 "required_model_components": [
                     "AOGCM"
                 ],
-                "start": 2015,
                 "sub_experiment_id": [
                     "f2023"
                 ],
@@ -287,10 +1188,8 @@
                     "BGC"
                 ],
                 "description": "As hist-sol but with updated forcings",
-                "end": 2024,
                 "experiment": "future solar-only run",
                 "experiment_id": "fut-sol",
-                "min_number_yrs_per_sim": "none",
                 "parent_activity_id": [
                     "LESFMIP"
                 ],
@@ -300,7 +1199,6 @@
                 "required_model_components": [
                     "AOGCM"
                 ],
-                "start": 2015,
                 "sub_experiment_id": [
                     "f2023"
                 ],
@@ -316,10 +1214,8 @@
                     "BGC"
                 ],
                 "description": "As hist-totalO3 but with updated forcings",
-                "end": 2024,
                 "experiment": "future total ozone-only run",
                 "experiment_id": "fut-totalO3",
-                "min_number_yrs_per_sim": "none",
                 "parent_activity_id": [
                     "LESFMIP"
                 ],
@@ -329,7 +1225,6 @@
                 "required_model_components": [
                     "AOGCM"
                 ],
-                "start": 2015,
                 "sub_experiment_id": [
                     "f2023"
                 ],
@@ -345,10 +1240,8 @@
                     "BGC"
                 ],
                 "description": "As hist-volc but with updated forcings",
-                "end": 2024,
                 "experiment": "future volcanic-only run",
                 "experiment_id": "fut-volc",
-                "min_number_yrs_per_sim": "none",
                 "parent_activity_id": [
                     "LESFMIP"
                 ],
@@ -358,7 +1251,6 @@
                 "required_model_components": [
                     "AOGCM"
                 ],
-                "start": 2015,
                 "sub_experiment_id": [
                     "f2023"
                 ],
@@ -374,10 +1266,8 @@
                     "BGC"
                 ],
                 "description": "Well-mixed greenhouse-gas-only historical simulations",
-                "end": 2020,
                 "experiment": "historical well-mixed GHG-only run",
                 "experiment_id": "hist-GHG",
-                "min_number_yrs_per_sim": "none",
                 "parent_activity_id": [
                     "CMIP"
                 ],
@@ -387,7 +1277,6 @@
                 "required_model_components": [
                     "AOGCM"
                 ],
-                "start": 1850,
                 "sub_experiment_id": [
                     "f2023"
                 ],
@@ -403,10 +1292,8 @@
                     "BGC"
                 ],
                 "description": "Anthropogenic-aerosol-only historical simulations",
-                "end": 2020,
                 "experiment": "historical anthropogenic aerosols-only run",
                 "experiment_id": "hist-aer",
-                "min_number_yrs_per_sim": "none",
                 "parent_activity_id": [
                     "CMIP"
                 ],
@@ -416,7 +1303,6 @@
                 "required_model_components": [
                     "AOGCM"
                 ],
-                "start": 1850,
                 "sub_experiment_id": [
                     "f2023"
                 ],
@@ -432,10 +1318,8 @@
                     "BGC"
                 ],
                 "description": "Historical simulations with only land use changes",
-                "end": 2020,
                 "experiment": "Single forcing historical simulations",
                 "experiment_id": "hist-lu",
-                "min_number_yrs_per_sim": "none",
                 "parent_activity_id": [
                     "CMIP"
                 ],
@@ -445,7 +1329,6 @@
                 "required_model_components": [
                     "AOGCM"
                 ],
-                "start": 1850,
                 "sub_experiment_id": [
                     "f2023"
                 ],
@@ -461,10 +1344,8 @@
                     "BGC"
                 ],
                 "description": "Natural forcings (solar + volcanic)",
-                "end": 2020,
                 "experiment": "historical natural-only run",
                 "experiment_id": "hist-nat",
-                "min_number_yrs_per_sim": "none",
                 "parent_activity_id": [
                     "CMIP"
                 ],
@@ -474,7 +1355,162 @@
                 "required_model_components": [
                     "AOGCM"
                 ],
-                "start": 1850,
+                "sub_experiment_id": [
+                    "f2023"
+                ],
+                "tier": 3
+            },
+            "hist-noLu": {
+                "activity_id": [
+                    "LESFMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "Same as CMIP6 historical but with land cover held at 1850, no human activity; concentration driven",
+                "experiment": "historical with no land-use change",
+                "experiment_id": "hist-noLu",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "piControl"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "f2023"
+                ],
+                "tier": 3
+            },
+            "hist-piAer": {
+                "activity_id": [
+                    "LESFMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "Historical WMGHG, halocarbon concentrations and O3 precursor emissions, 1850 aerosol precursor emissions.",
+                "experiment": "historical forcing, but with pre-industrial aerosol emissions",
+                "experiment_id": "hist-piAer",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "piControl"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "f2023"
+                ],
+                "tier": 3
+            },
+            "hist-piGHG": {
+                "activity_id": [
+                    "LESFMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "Pre-industrial WMGHG, halocarbon and O3 precursor emissions, other forcings as for the historical experiment",
+                "experiment": "historical forcing but with pre-industrial GHG",
+                "experiment_id": "hist-piGHG",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "piControl"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "f2023"
+                ],
+                "tier": 3
+            },
+            "hist-piSol": {
+                "activity_id": [
+                    "LESFMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "historical simulations with 1850 solar forcing",
+                "experiment": "historical all-but-solar run",
+                "experiment_id": "hist-piSol",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "piControl"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "f2023"
+                ],
+                "tier": 3
+            },
+            "hist-piTotalO3": {
+                "activity_id": [
+                    "LESFMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "historical simulations with 1850 total ozone",
+                "experiment": "historical all-but-ozone run",
+                "experiment_id": "hist-piTotalO3",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "piControl"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "f2023"
+                ],
+                "tier": 3
+            },
+            "hist-piVolc": {
+                "activity_id": [
+                    "LESFMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "historical simulations with 1850 volcanic emissions",
+                "experiment": "historical all-but-volcanic run",
+                "experiment_id": "hist-piVolc",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "piControl"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
                 "sub_experiment_id": [
                     "f2023"
                 ],
@@ -490,10 +1526,8 @@
                     "BGC"
                 ],
                 "description": "Solar-only historical simulations",
-                "end": 2020,
                 "experiment": "historical solar-only run",
                 "experiment_id": "hist-sol",
-                "min_number_yrs_per_sim": "none",
                 "parent_activity_id": [
                     "CMIP"
                 ],
@@ -503,7 +1537,6 @@
                 "required_model_components": [
                     "AOGCM"
                 ],
-                "start": 1850,
                 "sub_experiment_id": [
                     "f2023"
                 ],
@@ -519,10 +1552,8 @@
                     "BGC"
                 ],
                 "description": "Ozone-only historical simulations",
-                "end": 2020,
                 "experiment": "historical total ozone-only run",
                 "experiment_id": "hist-totalO3",
-                "min_number_yrs_per_sim": "none",
                 "parent_activity_id": [
                     "CMIP"
                 ],
@@ -532,7 +1563,6 @@
                 "required_model_components": [
                     "AOGCM"
                 ],
-                "start": 1850,
                 "sub_experiment_id": [
                     "f2023"
                 ],
@@ -548,10 +1578,8 @@
                     "BGC"
                 ],
                 "description": "Volcanic-only historical simulations",
-                "end": 2020,
                 "experiment": "historical volcanic-only run",
                 "experiment_id": "hist-volc",
-                "min_number_yrs_per_sim": "none",
                 "parent_activity_id": [
                     "CMIP"
                 ],
@@ -561,7 +1589,6 @@
                 "required_model_components": [
                     "AOGCM"
                 ],
-                "start": 1850,
                 "sub_experiment_id": [
                     "f2023"
                 ],
@@ -577,10 +1604,8 @@
                     "BGC"
                 ],
                 "description": "CMIP6 historical",
-                "end": "2014",
                 "experiment": "all-forcing simulation of the recent past (CO2 concentration-driven)",
                 "experiment_id": "historical",
-                "min_number_yrs_per_sim": 165,
                 "parent_activity_id": [
                     "CMIP"
                 ],
@@ -590,11 +1615,185 @@
                 "required_model_components": [
                     "AOGCM"
                 ],
-                "start": "1850",
                 "sub_experiment_id": [
                     "none"
                 ],
                 "tier": 1
+            },
+            "piClim-370": {
+                "activity_id": [
+                    "RAMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "",
+                "experiment": "pre-industrial climatological SSTs and forcing, but with 2050 anthropogenic emissions from SSP3-7.0.",
+                "experiment_id": "piClim-370",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "piControl"
+                ],
+                "required_model_components": [
+                    "AGCM",
+                    "AER"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ]
+            },
+            "piClim-370-126aer": {
+                "activity_id": [
+                    "RAMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "",
+                "experiment": "pre-industrial climatological SSTs and forcing, but with 2050 anthropogenic emissions. Aerosol and precursor emissions are taken from SSP1-2.6, while all other anthropogenic emissions follow SSP3-7.0.",
+                "experiment_id": "piClim-370-126aer",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "piControl"
+                ],
+                "required_model_components": [
+                    "AGCM",
+                    "AER"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ]
+            },
+            "piClim-370-126aer-nh3nox": {
+                "activity_id": [
+                    "RAMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "",
+                "experiment": "pre-industrial climatological SSTs and forcing, but with 2050 anthropogenic emissions. Aerosol and precursor emissions, including NH3 and NOx, are taken from SSP1-2.6, while all other anthropogenic emissions follow SSP3-7.0.",
+                "experiment_id": "piClim-370-126aer-nh3nox",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "piControl"
+                ],
+                "required_model_components": [
+                    "AGCM",
+                    "AER"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ]
+            },
+            "piClim-370-afr126aer": {
+                "activity_id": [
+                    "RAMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "",
+                "experiment": "pre-industrial climatological SSTs and forcing, but with 2050 anthropogenic emissions. Aerosol and precursor emissions over Africa and the Middle East are taken from SSP1-2.6, while all other anthropogenic emissions follow SSP3-7.0.",
+                "experiment_id": "piClim-370-afr126aer",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "piControl"
+                ],
+                "required_model_components": [
+                    "AGCM",
+                    "AER"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ]
+            },
+            "piClim-370-eas126aer": {
+                "activity_id": [
+                    "RAMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "",
+                "experiment": "pre-industrial climatological SSTs and forcing, but with 2050 anthropogenic emissions. Aerosol and precursor emissions over East Asia are taken from SSP1-2.6, while all other anthropogenic emissions follow SSP3-7.0.",
+                "experiment_id": "piClim-370-eas126aer",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "piControl"
+                ],
+                "required_model_components": [
+                    "AGCM",
+                    "AER"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ]
+            },
+            "piClim-370-nae126aer": {
+                "activity_id": [
+                    "RAMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "",
+                "experiment": "pre-industrial climatological SSTs and forcing, but with 2050 anthropogenic emissions. Aerosol and precursor emissions over North America and Europe are taken from SSP1-2.6, while all other anthropogenic emissions follow SSP3-7.0.",
+                "experiment_id": "piClim-370-nae126aer",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "piControl"
+                ],
+                "required_model_components": [
+                    "AGCM",
+                    "AER"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ]
+            },
+            "piClim-370-sas126aer": {
+                "activity_id": [
+                    "RAMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "",
+                "experiment": "pre-industrial climatological SSTs and forcing, but with 2050 anthropogenic emissions. Aerosol and precursor emissions over South Asia are taken from SSP1-2.6, while all other anthropogenic emissions follow SSP3-7.0.",
+                "experiment_id": "piClim-370-sas126aer",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "piControl"
+                ],
+                "required_model_components": [
+                    "AGCM",
+                    "AER"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ]
             },
             "piControl": {
                 "activity_id": [
@@ -606,10 +1805,8 @@
                     "BGC"
                 ],
                 "description": "DECK: control",
-                "end": "",
                 "experiment": "pre-industrial control (CO2 concentration-driven)",
                 "experiment_id": "piControl",
-                "min_number_yrs_per_sim": 500,
                 "parent_activity_id": [
                     "CMIP"
                 ],
@@ -619,7 +1816,6 @@
                 "required_model_components": [
                     "AOGCM"
                 ],
-                "start": "",
                 "sub_experiment_id": [
                     "none"
                 ],
@@ -635,10 +1831,8 @@
                     "BGC"
                 ],
                 "description": "DECK: spin-up portion of the control",
-                "end": "",
                 "experiment": "pre-industrial control (spin-up)",
                 "experiment_id": "piControl-spinup",
-                "min_number_yrs_per_sim": 100,
                 "parent_activity_id": [
                     "no parent"
                 ],
@@ -648,11 +1842,660 @@
                 "required_model_components": [
                     "AOGCM"
                 ],
-                "start": "",
                 "sub_experiment_id": [
                     "none"
                 ],
                 "tier": 2
+            },
+            "ssp245-ch4-tm": {
+                "activity_id": [
+                    "MethaneMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "fully coupled companion simulations to CMIP6 experiment ssp245 with methane concentrations (and potentially ozone concentrations) prescribed according to technical measures scenario 2020-2050, based on employing all plausible technical methane mitigation measures",
+                "experiment": "ssp245 with methane concentrations reduced according to technical measures mitigation scenario",
+                "experiment_id": "ssp370-126aer",
+                "parent_activity_id": [
+                    "ScenarioMIP"
+                ],
+                "parent_experiment_id": [
+                    "ssp245"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 1
+            },
+            "ssp245-ch4-tmbc": {
+                "activity_id": [
+                    "MethaneMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "fully coupled companion simulations to ssp245 with methane concentrations (and potentially ozone concentrations) prescribed according to ambitious scenario 2020-2050, based on employing all plausible technical methane mitigation measures as well as behavioural changes",
+                "experiment": "ssp245 with methane concentrations reduced according to ambitious mitigation scenario",
+                "experiment_id": "ssp370-126aer",
+                "parent_activity_id": [
+                    "ScenarioMIP"
+                ],
+                "parent_experiment_id": [
+                    "ssp245"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 1
+            },
+            "ssp370-126aer": {
+                "activity_id": [
+                    "RAMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "SSP3-7.0 anthropogenic emissions, but with anthropogenic aerosol and precursor emissions taken from SSP1-2.6.",
+                "experiment": "SSP3-7.0 forcing, but with SSP1-2.6 anthropogenic aerosol and precursor emissions",
+                "experiment_id": "ssp370-126aer",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "historical"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 1
+            },
+            "ssp370-126aer_nh3nox": {
+                "activity_id": [
+                    "RAMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "SSP3-7.0 anthropogenic emissions, but anthropogenic aerosol and precursor emissions, including NH3 and NOx, taken from SSP1-2.6.",
+                "experiment": "SSP3-7.0 forcing, but with SSP1-2.6 anthropogenic aerosol and precursor emissions, including NH3 and NOx.",
+                "experiment_id": "ssp370-126aer_nh3nox",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "historical"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": "2"
+            },
+            "ssp370-afr126aer": {
+                "activity_id": [
+                    "RAMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "SSP3-7.0 anthropogenic emissions, but with African and Middle Eastern anthropogenic aerosol and precursor emissions taken from SSP1-2.6. Africa and the Middle East is the region bounded by 20W, 60E, 35S and 35N.",
+                "experiment": "SSP3-7.0 forcing, but with SSP1-2.6 anthropogenic aerosol and precursor emissions over Africa and the Middle East",
+                "experiment_id": "ssp370-afr126aer",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "historical"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 1
+            },
+            "ssp370-asia126aer": {
+                "activity_id": [
+                    "RAMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "SSP3-7.0 anthropogenic emissions, but with Asian anthropogenic aerosol and precursor emissions taken from SSP1-2.6. Asia is defined as the combination of the East Asian and South Asian regions used in ssp370-eas126aer and ssp370-sas126aer. ",
+                "experiment": "SSP3-7.0 forcing, but with SSP1-2.6 anthropogenic aerosol and precursor emissions over Asia.",
+                "experiment_id": "ssp370-asia126aer",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "historical"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": "2"
+            },
+            "ssp370-eas126aer": {
+                "activity_id": [
+                    "RAMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "SSP3-7.0 anthropogenic emissions, but with East Asian anthropogenic aerosol and precursor emissions taken from SSP1-2.6. East Asia is the region bounded by 95 and 133E and 20 and 53N.",
+                "experiment": "SSP3-7.0 forcing, but with SSP1-2.6 anthropogenic aerosol and precursor emissions over East Asia",
+                "experiment_id": "ssp370-eas126aer",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "historical"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 1
+            },
+            "ssp370-nae126aer": {
+                "activity_id": [
+                    "RAMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "SSP3-7.0 anthropogenic emissions, but with North American and European anthropogenic aerosol and precursor emissions taken from SSP1-2.6. North America and Europe are the regions bounded by 150W, 45W, 25N and 70N, and 20W, 45E, 35N and 70N.",
+                "experiment": "SSP3-7.0 forcing, but with SSP1-2.6 anthropogenic aerosol and precursor emissions over North America and Europe",
+                "experiment_id": "ssp370-nae126aer",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "historical"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 1
+            },
+            "ssp370-saf126ca": {
+                "activity_id": [
+                    "RAMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "SSP3-7.0 anthropogenic emissions, but with sub-Saharan African black carbon and organic carbon emissions taken from SSP1-2.6. Sub-Saharan Africa is the region bounded by 20W, 50E, 35S, and 12N",
+                "experiment": "SSP3-7.0 forcing, but with SSP1-2.6 black carbon and organic carbon emissions over sub-Saharan Africa.",
+                "experiment_id": "ssp370-saf126ca",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "historical"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": "2"
+            },
+            "ssp370-sas126aer": {
+                "activity_id": [
+                    "RAMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "SSP3-7.0 anthropogenic emissions, but with South Asian anthropogenic aerosol and precursor emissions taken from SSP1-2.6. South Asia is the region bounded by 65 and 95E and 5 and 35N.",
+                "experiment": "SSP3-7.0 forcing, but with SSP1-2.6 anthropogenic aerosol and precursor emissions over South Asia",
+                "experiment_id": "ssp370-sas126aer",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "historical"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": 1
+            },
+            "ssp370-sas126ca": {
+                "activity_id": [
+                    "RAMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "SSP3-7.0 anthropogenic emissions, but with South Asian black carbon and organic carbon emissions taken from SSP1-2.6. South Asia is the region bounded by 65 and 95E and 5 and 35N.",
+                "experiment": "SSP3-7.0 forcing, but with SSP1-2.6 black carbon and organic carbon emissions over South Asia.",
+                "experiment_id": "ssp370-sas126ca",
+                "parent_activity_id": [
+                    "CMIP"
+                ],
+                "parent_experiment_id": [
+                    "historical"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": "2"
+            },
+            "tbi-hind-A": {
+                "activity_id": [
+                    "TBIMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "Hindcast experiment for the period 1982-2021 with ocean initialization in February (mandatory), May, August, and November (recommended). SSTs are restored to observations in the tropical Atlantic Ocean (10 S-10 N) during the forecasts.",
+                "experiment": "Hindcast with SST anomalies restored to observations in the tropical Atlantic",
+                "experiment_id": "tbi-hind-A",
+                "parent_activity_id": [
+                    "TBIMIP"
+                ],
+                "parent_experiment_id": [
+                    "tbi-hind-ctrl"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": "2"
+            },
+            "tbi-hind-A-anom": {
+                "activity_id": [
+                    "TBIMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "Hindcast experiment for the period 1982-2021 with ocean initialization in February (mandatory), May, August, and November (recommended). SSTs are restored to model climatology plus observed anomalies in the tropical Atlantic Ocean (10 S-10 N) during the forecasts.",
+                "experiment": "Hindcast with SST anomalies restored to observations in the tropical Atlantic",
+                "experiment_id": "tbi-hind-A-anom",
+                "parent_activity_id": [
+                    "TBIMIP"
+                ],
+                "parent_experiment_id": [
+                    "tbi-hind-ctrl"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": "1"
+            },
+            "tbi-hind-I": {
+                "activity_id": [
+                    "TBIMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "Hindcast experiment for the period 1982-2021 with ocean initialization in February (mandatory), May, August, and November (recommended). SSTs are restored to observations in the tropical Indian Ocean (10 S-10 N) during the forecasts.",
+                "experiment": "Hindcast with SST anomalies restored to observations in the tropical Indian Ocean",
+                "experiment_id": "tbi-hind-I",
+                "parent_activity_id": [
+                    "TBIMIP"
+                ],
+                "parent_experiment_id": [
+                    "tbi-hind-ctrl"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": "2"
+            },
+            "tbi-hind-I-anom": {
+                "activity_id": [
+                    "TBIMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "Hindcast experiment for the period 1982-2021 with ocean initialization in February (mandatory), May, August, and November (recommended). SSTs are restored to model climatology plus observed anomalies in the tropical Indian Ocean (10 S-10 N) during the forecasts.",
+                "experiment": "Hindcast with SST anomalies restored to observations in the tropical Indian Ocean",
+                "experiment_id": "tbi-hind-I-anom",
+                "parent_activity_id": [
+                    "TBIMIP"
+                ],
+                "parent_experiment_id": [
+                    "tbi-hind-ctrl"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": "1"
+            },
+            "tbi-hind-P": {
+                "activity_id": [
+                    "TBIMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "Hindcast experiment for the period 1982-2021 with ocean initialization in February (mandatory), May, August, and November (recommended). SSTs are restored to observations in the tropical Pacific Ocean (10 S-10 N) during the forecasts.",
+                "experiment": "Hindcast with SST anomalies restored to observations in the tropical Pacific Ocean",
+                "experiment_id": "tbi-hind-P",
+                "parent_activity_id": [
+                    "TBIMIP"
+                ],
+                "parent_experiment_id": [
+                    "tbi-hind-ctrl"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": "1"
+            },
+            "tbi-hind-P-anom": {
+                "activity_id": [
+                    "TBIMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "Hindcast experiment for the period 1982-2021 with ocean initialization in February (mandatory), May, August, and November (recommended). SSTs are restored to model climatology plus observed anomalies in the tropical Pacific Ocean (10 S-10 N) during the forecasts.",
+                "experiment": "Hindcast with SST anomalies restored to observations in the tropical Pacific Ocean",
+                "experiment_id": "tbi-hind-P-anom",
+                "parent_activity_id": [
+                    "TBIMIP"
+                ],
+                "parent_experiment_id": [
+                    "tbi-hind-ctrl"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": "1"
+            },
+            "tbi-hind-ctrl": {
+                "activity_id": [
+                    "TBIMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "Hindcast experiment for the period 1982-2021 with ocean initialization in February (mandatory), May, August, and November (recommended).",
+                "experiment": "Seasonal hindcast experiment",
+                "experiment_id": "tbi-hind-ctrl",
+                "parent_activity_id": [
+                    "no parent"
+                ],
+                "parent_experiment_id": [
+                    "no parent"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": "1"
+            },
+            "tbi-hist-ctrl": {
+                "activity_id": [
+                    "TBIMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "Reference experiment: coupled ocean-atmosphere simulation with radiative forcing from historical (up to 2014) and ssp585 (2015-2021). If historical and ssp585 have already been performed the output from these experiments can be used instead.",
+                "experiment": "Coupled ocean-atmosphere simulation with historical radiative forcing",
+                "experiment_id": "tbi-hist-ctrl",
+                "parent_activity_id": [
+                    "no parent"
+                ],
+                "parent_experiment_id": [
+                    "no parent"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": "1"
+            },
+            "tbi-pace-A": {
+                "activity_id": [
+                    "TBIMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "Pacemaker experiment with SST restoring in the tropical Atlantic Ocean (10 S-10 N). The restoring target is the observed SST.",
+                "experiment": "Pacemaker experiment with SST anomalies restored to observations in the tropical Atlantic",
+                "experiment_id": "tbi-pace-A",
+                "parent_activity_id": [
+                    "TBIMIP"
+                ],
+                "parent_experiment_id": [
+                    "tbi-hist-ctrl"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": "2"
+            },
+            "tbi-pace-A-anom": {
+                "activity_id": [
+                    "TBIMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "Pacemaker experiment with SST restoring in the tropical Atlantic Ocean (10 S-10 N). The restoring target is the model SST climatology plus observed SST anomalies.",
+                "experiment": "Pacemaker experiment with SST anomalies restored to observations in the tropical Atlantic",
+                "experiment_id": "tbi-pace-A-anom",
+                "parent_activity_id": [
+                    "TBIMIP"
+                ],
+                "parent_experiment_id": [
+                    "tbi-hist-ctrl"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": "1"
+            },
+            "tbi-pace-I": {
+                "activity_id": [
+                    "TBIMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "Pacemaker experiment with SST restoring in the tropical Indian Ocean (15 S-15 N). The restoring target is the observed SST.",
+                "experiment": "Pacemaker experiment with SST anomalies restored to observations in the tropical Indian Ocean",
+                "experiment_id": "tbi-pace-I",
+                "parent_activity_id": [
+                    "TBIMIP"
+                ],
+                "parent_experiment_id": [
+                    "tbi-hist-ctrl"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": "2"
+            },
+            "tbi-pace-I-anom": {
+                "activity_id": [
+                    "TBIMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "Pacemaker experiment with SST restoring in the tropical Indian Ocean (15 S-15 N). The restoring target is the model SST climatology plus observed SST anomalies.",
+                "experiment": "Pacemaker experiment with SST anomalies restored to observations in the tropical Indian Ocean",
+                "experiment_id": "tbi-pace-I-anom",
+                "parent_activity_id": [
+                    "TBIMIP"
+                ],
+                "parent_experiment_id": [
+                    "tbi-hist-ctrl"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": "1"
+            },
+            "tbi-pace-P": {
+                "activity_id": [
+                    "TBIMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "Pacemaker experiment with SST restoring in the tropical Pacific Ocean (15 S-15 N). The restoring target is the observed SST.",
+                "experiment": "Pacemaker experiment with SST anomalies restored to observations in the tropical Pacific",
+                "experiment_id": "tbi-pace-P",
+                "parent_activity_id": [
+                    "TBIMIP"
+                ],
+                "parent_experiment_id": [
+                    "tbi-hist-ctrl"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": "2"
+            },
+            "tbi-pace-P-anom": {
+                "activity_id": [
+                    "TBIMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "Pacemaker experiment with SST restoring in the tropical Pacific Ocean (15 S-15 N). The restoring target is the model SST climatology plus observed SST anomalies.",
+                "experiment": "Pacemaker experiment with SST anomalies restored to observations in the tropical Pacific",
+                "experiment_id": "tbi-pace-P-anom",
+                "parent_activity_id": [
+                    "TBIMIP"
+                ],
+                "parent_experiment_id": [
+                    "tbi-hist-ctrl"
+                ],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "sub_experiment_id": [
+                    "none"
+                ],
+                "tier": "1"
             }
         },
         "forcing_index": [
@@ -727,8 +2570,19 @@
             "^\\[\\{0,\\}[[:digit:]]\\{1,\\}\\]\\{0,\\}$"
         ],
         "institution_id": {
-            "MOHC": " - Met Office Hadley Centre",
-            "NERC": "02b5d8509 - Natural Environment Research Council"
+            "CCCma": "026ny0e17 - Environment and Climate Change Canada",
+            "CNRM-CERFACS": "CNRM-CERFACS - CNRM-CERFACS [consortium]",
+            "EC-Earth-Consortium": "EC-Earth-Consortium - EC-Earth-Consortium [consortium]",
+            "MIROC": "MIROC - MIROC [consortium]",
+            "MOHC": "Met Office Hadley Centre",
+            "MPI-M": "05esem239 - Max Planck Institute for Meteorology",
+            "MRI": "02772kk97 - Japan Meteorological Agency",
+            "NASA-GISS": "01cyfxe35 - Goddard Institute for Space Studies",
+            "NCAR": "05cvfcr44 - National Center for Atmospheric Research",
+            "NCC": "NCC - NCC [consortium]",
+            "NERC": "02b5d8509 - Natural Environment Research Council",
+            "NIMS-KMA": "NIMS-KMA - NIMS-KMA [consortium]",
+            "NIWA": "04hxcaz34 - National Institute of Water and Atmospheric Research"
         },
         "license": [
             "^CMIP6Plus model data produced by .* is licensed under a Creative Commons .* License (https://creativecommons\\.org/.*)\\. *Consult https://pcmdi\\.llnl\\.gov/CMIP6Plus/TermsOfUse for terms of use governing CMIP6Plus output, including citation requirements and proper acknowledgment\\. *The data producers and data providers make no warranty, either express or implied, including, but not limited to, warranties of merchantability and fitness for a particular purpose\\. *All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law\\.$"
@@ -753,6 +2607,9 @@
         ],
         "physics_index": [
             "^\\[\\{0,\\}[[:digit:]]\\{1,\\}\\]\\{0,\\}$"
+        ],
+        "product": [
+            "model-output"
         ],
         "realization_index": [
             "^\\[\\{0,\\}[[:digit:]]\\{1,\\}\\]\\{0,\\}$"
@@ -785,7 +2642,6 @@
             "mip_era",
             "nominal_resolution",
             "physics_index",
-            "product",
             "realization_index",
             "realm",
             "source",
@@ -799,6 +2655,160 @@
             "variant_label"
         ],
         "source_id": {
+            "CESM2": {
+                "activity_participation": [
+                    "CMIP",
+                    "RAMIP"
+                ],
+                "cohort": [
+                    "Published"
+                ],
+                "institution_id": [
+                    "NCAR"
+                ],
+                "license_info": {
+                    "exceptions_contact": "@ucar.edu <- cesm_cmip6",
+                    "history": "2019-02-18: initially published under CC BY-SA 4.0; 2022-06-16: relaxed to CC BY 4.0",
+                    "id": "CC BY 4.0",
+                    "license": "Creative Commons Attribution 4.0 International (CC BY 4.0; https://creativecommons.org/licenses/by/4.0/)",
+                    "source_specific_info": "",
+                    "url": "https://creativecommons.org/licenses/by/4.0/"
+                },
+                "source_id": "CESM2",
+                "source": "CESM2 (2018): \naerosol: MAM4 (same grid as atmos)\natmos: CAM6 (0.9x1.25 finite volume grid; 288 x 192 longitude/latitude; 32 levels; top level 2.25 mb)\natmosChem: MAM4 (same grid as atmos)\nland: CLM5 (same grid as atmos)\nlandIce: CISM2.1\nocean: POP2 (320x384 longitude/latitude; 60 levels; top grid cell 0-10 m)\nocnBgchem: MARBL (same grid as ocean)\nseaIce: CICE5.1 (same grid as ocean))"
+            },
+            "CNRM-ESM2-1": {
+                "activity_participation": [
+                    "CMIP",
+                    "RAMIP"
+                ],
+                "cohort": [
+                    "Published"
+                ],
+                "institution_id": [
+                    "CNRM-CERFACS"
+                ],
+                "license_info": {
+                    "exceptions_contact": "@meteo.fr <- contact.cmip",
+                    "history": "2018-09-14: initially published under CC BY-NC-SA 4.0; 2022-06-17: relaxed to CC BY 4.0",
+                    "id": "CC BY 4.0",
+                    "license": "Creative Commons Attribution 4.0 International (CC BY 4.0; https://creativecommons.org/licenses/by/4.0/)",
+                    "source_specific_info": "",
+                    "url": "https://creativecommons.org/licenses/by/4.0/"
+                },
+                "source_id": "CNRM-ESM2-1",
+                "source": "CNRM-ESM2-1 (2017): \naerosol: TACTIC_v2\natmos: Arpege 6.3 (T127; Gaussian Reduced with 24572 grid points in total distributed over 128 latitude circles (with 256 grid points per latitude circle between 30degN and 30degS reducing to 20 grid points per latitude circle at 88.9degN and 88.9degS); 91 levels; top level 78.4 km)\natmosChem: REPROBUS-C_v2\nland: Surfex 8.0c\nlandIce: none\nocean: Nemo 3.6 (eORCA1, tripolar primarily 1deg; 362 x 294 longitude/latitude; 75 levels; top grid cell 0-1 m)\nocnBgchem: Pisces 2.s\nseaIce: Gelato 6.1)"
+            },
+            "CanESM5": {
+                "activity_participation": [
+                    "CMIP",
+                    "DCPP"
+                ],
+                "cohort": [
+                    "Published"
+                ],
+                "institution_id": [
+                    "CCCma"
+                ],
+                "license_info": {
+                    "exceptions_contact": "@ec.gc.ca <- f.cccma.info-info.ccmac.f",
+                    "history": "2019-03-06: initially published under CC BY-SA 4.0; 2022-09-27: relaxed to CC BY 4.0",
+                    "id": "CC BY 4.0",
+                    "license": "Creative Commons Attribution 4.0 International (CC BY 4.0; https://creativecommons.org/licenses/by/4.0/)",
+                    "source_specific_info": "",
+                    "url": "https://creativecommons.org/licenses/by/4.0/"
+                },
+                "source_id": "CanESM5",
+                "source": "CanESM5 (2019): \naerosol: interactive\natmos: CanAM5 (T63L49 native atmosphere, T63 Linear Gaussian Grid; 128 x 64 longitude/latitude; 49 levels; top level 1 hPa)\natmosChem: specified oxidants for aerosols\nland: CLASS3.6/CTEM1.2\nlandIce: specified ice sheets\nocean: NEMO3.4.1 (ORCA1 tripolar grid, 1 deg with refinement to 1/3 deg within 20 degrees of the equator; 361 x 290 longitude/latitude; 45 vertical levels; top grid cell 0-6.19 m)\nocnBgchem: Canadian Model of Ocean Carbon (CMOC); NPZD ecosystem with OMIP prescribed carbonate chemistry\nseaIce: LIM2)"
+            },
+            "CanESM5-1": {
+                "activity_participation": [
+                    "CMIP",
+                    "LESFMIP"
+                ],
+                "cohort": [
+                    "Published"
+                ],
+                "institution_id": [
+                    "CCCma"
+                ],
+                "license_info": {
+                    "exceptions_contact": "@ec.gc.ca <- f.cccma.info-info.ccmac.f",
+                    "history": "2022-12-02: initially published under CC BY 4.0",
+                    "id": "CC BY 4.0",
+                    "license": "Creative Commons Attribution 4.0 International (CC BY 4.0; https://creativecommons.org/licenses/by/4.0/)",
+                    "source_specific_info": "",
+                    "url": "https://creativecommons.org/licenses/by/4.0/"
+                },
+                "source_id": "CanESM5-1",
+                "source": "CanESM5-1 (2022): \naerosol: interactive\natmos: CanAM5.1 (T63L49 native atmosphere, T63 Linear Gaussian Grid; 128 x 64 longitude/latitude; 49 levels; top level 1 hPa)\natmosChem: specified oxidants for aerosols\nland: CLASS3.6/CTEM1.2\nlandIce: specified ice sheets\nocean: NEMO3.4.1 (ORCA1 tripolar grid, 1 deg with refinement to 1/3 deg within 20 degrees of the equator; 361 x 290 longitude/latitude; 45 vertical levels; top grid cell 0-6.19 m)\nocnBgchem: Canadian Model of Ocean Carbon (CMOC); NPZD ecosystem with OMIP prescribed carbonate chemistry\nseaIce: LIM2)"
+            },
+            "EC-Earth3-AerChem": {
+                "activity_participation": [
+                    "CMIP",
+                    "RAMIP"
+                ],
+                "cohort": [
+                    "Published"
+                ],
+                "institution_id": [
+                    "EC-Earth-Consortium"
+                ],
+                "license_info": {
+                    "exceptions_contact": "@ec-earth.org <- cmip6-data",
+                    "history": "2020-06-22: initially published under CC BY-SA 4.0; 2022-06-02: relaxed to CC BY 4.0",
+                    "id": "CC BY 4.0",
+                    "license": "Creative Commons Attribution 4.0 International (CC BY 4.0; https://creativecommons.org/licenses/by/4.0/)",
+                    "source_specific_info": "",
+                    "url": "https://creativecommons.org/licenses/by/4.0/"
+                },
+                "source_id": "EC-Earth3-AerChem",
+                "source": "EC-Earth3-AerChem (2019): \naerosol: TM5 (3 x 2 degrees; 120 x 90 longitude/latitude; 34 levels; top level: 0.1 hPa)\natmos: IFS cy36r4 (TL255, linearly reduced Gaussian grid equivalent to 512 x 256 longitude/latitude; 91 levels; top level 0.01 hPa)\natmosChem: TM5 (3 x 2 degrees; 120 x 90 longitude/latitude; 34 levels; top level: 0.1 hPa)\nland: HTESSEL (land surface scheme built in IFS)\nlandIce: none\nocean: NEMO3.6 (ORCA1 tripolar primarily 1 degree with meridional refinement down to 1/3 degree in the tropics; 362 x 292 longitude/latitude; 75 levels; top grid cell 0-1 m)\nocnBgchem: none\nseaIce: LIM3)"
+            },
+            "EC-Earth3-ESM-1": {
+                "activity_participation": [
+                    "CMIP",
+                    "TIPMIP"
+                ],
+                "cohort": [
+                    "Published"
+                ],
+                "institution_id": [
+                    "EC-Earth-Consortium"
+                ],
+                "license_info": {
+                    "exceptions_contact": "@ec-earth.org <- cmip6-data",
+                    "history": "2024-03-15: initially published under CC BY 4.0",
+                    "id": "CC BY 4.0",
+                    "license": "Creative Commons Attribution 4.0 International (CC BY 4.0; https://creativecommons.org/licenses/by/4.0/)",
+                    "source_specific_info": "",
+                    "url": "https://creativecommons.org/licenses/by/4.0/"
+                },
+                "source_id": "EC-Earth3-ESM-1",
+                "source": "EC-Earth3-ESM-1 (2024): \naerosol: none\natmos: IFS cy36r4 (TL255, linearly reduced Gaussian grid equivalent to 512 x 256 longitude/latitude; 91 levels; top level 0.01 hPa) and co2box v1.0 (CO2 box model; global grid)\natmosChem: none\nland: HTESSEL (land surface scheme built in IFS) and LPJ-GUESS v4.1.2\nlandIce: PISM v1.2 (5 km x 5 km for Greenland, 31 levels)\nocean: NEMO3.6 (ORCA1 tripolar primarily 1 degree with meridional refinement down to 1/3 degree in the tropics; 362 x 292 longitude/latitude; 75 levels; top grid cell 0-1 m) and MWE v1.0 (Melt Water Emulator; same grid as ocean for the Antarctic surroundings) \nocnBgchem: PISCES v2 (same grid as ocean)\nseaIce: LIM3 (same grid as ocean))"
+            },
+            "GISS-E2-1-G": {
+                "activity_participation": [
+                    "LESFMIP",
+                    "CMIP",
+                    "RAMIP"
+                ],
+                "cohort": [
+                    "Published"
+                ],
+                "institution_id": [
+                    "NASA-GISS"
+                ],
+                "license_info": {
+                    "exceptions_contact": "@lists.nasa.gov <- cmip-giss-l",
+                    "id": "CC BY 4.0",
+                    "license": "Creative Commons Attribution 4.0 International",
+                    "source_specific_info": "",
+                    "url": "https://creativecommons.org/licenses/by/4.0/"
+                },
+                "source_id": "GISS-E2-1-G",
+                "source": "GISS-E2-1-G (2019): \naerosol: Varies with physics-version (p==1 none, p==3 OMA, p==4 TOMAS, p==5 MATRIX)\natmos: GISS-E2.1 (2.5x2 degree; 144 x 90 longitude/latitude; 40 levels; top level 0.1 hPa)\natmosChem: Varies with physics-version (p==1 Non-interactive, p>1 GPUCCINI)\nland: GISS LSM\nocean: GISS Ocean (GO1, 1 degree; 360 x 180 longitude/latitude; 40 levels; top grid cell 0-10 m)\nseaIce: GISS SI)"
+            },
             "HadGEM3-GC31-LL": {
                 "activity_participation": [
                     "CMIP",
@@ -820,24 +2830,249 @@
                     "url": "https://creativecommons.org/licenses/by/4.0/"
                 },
                 "source_id": "HadGEM3-GC31-LL",
-                "source": "HadGEM3-GC31-LL (2016: \naerosol: UKCA-GLOMAP-mode\natmos: MetUM-HadGEM3-GA7.1 (N96; 192 x 144 longitude/latitude; 85 levels; top level 85 km)\natmosChem: none\nland: JULES-HadGEM3-GL7.1\nlandIce: none\nocean: NEMO-HadGEM3-GO6.0 (eORCA1 tripolar primarily 1 deg with meridional refinement down to 1/3 degree in the tropics; 360 x 330 longitude/latitude; 75 levels; top grid cell 0-1 m)\nocnBgchem: none\nseaIce: CICE-HadGEM3-GSI8 (eORCA1 tripolar primarily 1 deg; 360 x 330 longitude/latitude))"
+                "source": "HadGEM3-GC31-LL (2016): \naerosol: UKCA-GLOMAP-mode\natmos: MetUM-HadGEM3-GA7.1 (N96; 192 x 144 longitude/latitude; 85 levels; top level 85 km)\natmosChem: none\nland: JULES-HadGEM3-GL7.1\nlandIce: none\nocean: NEMO-HadGEM3-GO6.0 (eORCA1 tripolar primarily 1 deg with meridional refinement down to 1/3 degree in the tropics; 360 x 330 longitude/latitude; 75 levels; top grid cell 0-1 m)\nocnBgchem: none\nseaIce: CICE-HadGEM3-GSI8 (eORCA1 tripolar primarily 1 deg; 360 x 330 longitude/latitude))"
+            },
+            "HadGEM3-GC31-MM": {
+                "activity_participation": [
+                    "CMIP",
+                    "DCPP"
+                ],
+                "cohort": [
+                    "Published"
+                ],
+                "institution_id": [
+                    "MOHC"
+                ],
+                "license_info": {
+                    "exceptions_contact": "@metoffice.gov.uk <- cmip6.hadgem3",
+                    "history": "2017-08-18: initially published under CC BY-SA 4.0; 2021-11-15: relaxed to CC BY 4.0",
+                    "id": "CC BY 4.0",
+                    "license": "Creative Commons Attribution 4.0 International License (CC BY 4.0; https://creativecommons.org/licenses/by/4.0/)",
+                    "source_specific_info": "https://ukesm.ac.uk/licensing-of-met-office-nerc-and-niwa-cmip6-data/",
+                    "url": "https://creativecommons.org/licenses/by/4.0/"
+                },
+                "source_id": "HadGEM3-GC31-MM",
+                "source": "HadGEM3-GC31-MM (2016): \naerosol: UKCA-GLOMAP-mode\natmos: MetUM-HadGEM3-GA7.1 (N216; 432 x 324 longitude/latitude; 85 levels; top level 85 km)\natmosChem: none\nland: JULES-HadGEM3-GL7.1\nlandIce: none\nocean: NEMO-HadGEM3-GO6.0 (eORCA025 tripolar primarily 0.25 deg; 1440 x 1205 longitude/latitude; 75 levels; top grid cell 0-1 m)\nocnBgchem: none\nseaIce: CICE-HadGEM3-GSI8 (eORCA025 tripolar primarily 0.25 deg; 1440 x 1205 longitude/latitude))"
+            },
+            "MIROC6": {
+                "activity_participation": [
+                    "CMIP",
+                    "LESFMIP",
+                    "RAMIP"
+                ],
+                "cohort": [
+                    "Published"
+                ],
+                "institution_id": [
+                    "MIROC"
+                ],
+                "license_info": {
+                    "exceptions_contact": "@jamstec.go.jp <- miroc-cmip6",
+                    "id": "CC BY 4.0",
+                    "license": "Creative Commons Attribution 4.0 International",
+                    "source_specific_info": "",
+                    "url": "https://creativecommons.org/licenses/by/4.0/"
+                },
+                "source_id": "MIROC6",
+                "source": "MIROC6 (2017): \naerosol: SPRINTARS6.0\natmos: CCSR AGCM (T85; 256 x 128 longitude/latitude; 81 levels; top level 0.004 hPa)\nland: MATSIRO6.0\nocean: COCO4.9 (tripolar primarily 1deg; 360 x 256 longitude/latitude; 63 levels; top grid cell 0-2 m)\nseaIce: COCO4.9)"
+            },
+            "MPI-ESM1-2-HR": {
+                "activity_participation": [
+                    "CMIP",
+                    "LESFMIP"
+                ],
+                "cohort": [
+                    "Published"
+                ],
+                "institution_id": [
+                    "MPI-M"
+                ],
+                "license_info": {
+                    "exceptions_contact": "@dkrz.de <- cmip6-mpi-esm",
+                    "id": "CC BY 4.0",
+                    "license": "Creative Commons Attribution 4.0 International",
+                    "source_specific_info": "",
+                    "url": "https://creativecommons.org/licenses/by/4.0/"
+                },
+                "source_id": "MPI-ESM1-2-HR",
+                "source": "MPI-ESM1-2-HR (2017): \naerosol: , prescribed MACv2-SP\natmos: ECHAM6.3 (spectral T127; 384 x 192 longitude/latitude; 95 levels; top level 0.01 hPa)\nland: JSBACH3.20\nlandIce: prescribed\nocean: MPIOM1.63 (tripolar TP04, approximately 0.4deg; 802 x 404 longitude/latitude; 40 levels; top grid cell 0-12 m)\nocnBgchem: HAMOCC6\nseaIce: unnamed (thermodynamic (Semtner zero-layer) dynamic (Hibler 79) sea ice model))"
+            },
+            "MPI-ESM1-2-LR": {
+                "activity_participation": [
+                    "CMIP",
+                    "LESFMIP"
+                ],
+                "cohort": [
+                    "Published"
+                ],
+                "institution_id": [
+                    "MPI-M"
+                ],
+                "license_info": {
+                    "exceptions_contact": "@dkrz.de <- cmip6-mpi-esm",
+                    "id": "CC BY 4.0",
+                    "license": "Creative Commons Attribution 4.0 International",
+                    "source_specific_info": "",
+                    "url": "https://creativecommons.org/licenses/by/4.0/"
+                },
+                "source_id": "MPI-ESM1-2-LR",
+                "source": "MPI-ESM1-2-LR (2017): \naerosol: , prescribed MACv2-SP\natmos: ECHAM6.3 (spectral T63; 192 x 96 longitude/latitude; 47 levels; top level 0.01 hPa)\nland: JSBACH3.20\nlandIce: prescribed\nocean: MPIOM1.63 (bipolar GR1.5, approximately 1.5deg; 256 x 220 longitude/latitude; 40 levels; top grid cell 0-12 m)\nocnBgchem: HAMOCC6\nseaIce: unnamed (thermodynamic (Semtner zero-layer) dynamic (Hibler 79) sea ice model))"
+            },
+            "MRI-ESM2-0": {
+                "activity_participation": [
+                    "CMIP",
+                    "RAMIP"
+                ],
+                "cohort": [
+                    "Published"
+                ],
+                "institution_id": [
+                    "MRI"
+                ],
+                "license_info": {
+                    "exceptions_contact": "@mri-jma.go.jp <- mdeushi",
+                    "history": "2019-02-22: initially published under CC BY-SA 4.0; 2022-08-07: relaxed to CC BY 4.0",
+                    "id": "CC BY 4.0",
+                    "license": "Creative Commons Attribution 4.0 International (CC BY 4.0; https://creativecommons.org/licenses/by/4.0/)",
+                    "source_specific_info": "",
+                    "url": "https://creativecommons.org/licenses/by/4.0/"
+                },
+                "source_id": "MRI-ESM2-0",
+                "source": "MRI-ESM2-0 (2017): \naerosol: MASINGAR mk2r4 (TL95; 192 x 96 longitude/latitude; 80 levels; top level 0.01 hPa)\natmos: MRI-AGCM3.5 (TL159; 320 x 160 longitude/latitude; 80 levels; top level 0.01 hPa)\natmosChem: MRI-CCM2.1 (T42; 128 x 64 longitude/latitude; 80 levels; top level 0.01 hPa)\nland: HAL 1.0\nlandIce: none\nocean: MRI.COM4.4 (tripolar primarily 0.5 deg latitude/1 deg longitude with meridional refinement down to 0.3 deg within 10 degrees north and south of the equator; 360 x 364 longitude/latitude; 61 levels; top grid cell 0-2 m)\nocnBgchem: MRI.COM4.4\nseaIce: MRI.COM4.4)"
+            },
+            "NorESM2-LM": {
+                "activity_participation": [
+                    "CMIP",
+                    "LESFMIP",
+                    "RAMIP"
+                ],
+                "cohort": [
+                    "Published"
+                ],
+                "institution_id": [
+                    "NCC"
+                ],
+                "license_info": {
+                    "exceptions_contact": "@met.no <- noresm-ncc",
+                    "id": "CC BY 4.0",
+                    "license": "Creative Commons Attribution 4.0 International",
+                    "source_specific_info": "",
+                    "url": "https://creativecommons.org/licenses/by/4.0/"
+                },
+                "source_id": "NorESM2-LM",
+                "source": "NorESM2-LM (2017): \naerosol: OsloAero\natmos: CAM-OSLO (2 degree resolution; 144 x 96; 32 levels; top level 3 mb)\natmosChem: OsloChemSimp\nland: CLM\nlandIce: CISM\nocean: MICOM (1 degree resolution; 360 x 384; 70 levels; top grid cell minimum 0-2.5 m [native model uses hybrid density and generic upper-layer coordinate interpolated to z-level for contributed data])\nocnBgchem: HAMOCC\nseaIce: CICE)"
+            },
+            "UKESM1-0-LL": {
+                "activity_participation": [
+                    "CMIP",
+                    "RAMIP"
+                ],
+                "cohort": [
+                    "Published"
+                ],
+                "institution_id": [
+                    "MOHC",
+                    "NERC",
+                    "NIMS-KMA",
+                    "NIWA"
+                ],
+                "license_info": {
+                    "exceptions_contact": "@metoffice.gov.uk <- cmip6.ukesm1",
+                    "history": "2019-04-04: initially published under CC BY-SA 4.0; 2021-11-15: relaxed to CC BY 4.0",
+                    "id": "CC BY 4.0",
+                    "license": "Creative Commons Attribution 4.0 International License (CC BY 4.0; https://creativecommons.org/licenses/by/4.0/)",
+                    "source_specific_info": "https://ukesm.ac.uk/licensing-of-met-office-nerc-and-niwa-cmip6-data/",
+                    "url": "https://creativecommons.org/licenses/by/4.0/"
+                },
+                "source_id": "UKESM1-0-LL",
+                "source": "UKESM1-0-LL (2018): \naerosol: UKCA-GLOMAP-mode\natmos: MetUM-HadGEM3-GA7.1 (N96; 192 x 144 longitude/latitude; 85 levels; top level 85 km)\natmosChem: UKCA-StratTrop\nland: JULES-ES-1.0\nlandIce: none\nocean: NEMO-HadGEM3-GO6.0 (eORCA1 tripolar primarily 1 deg with meridional refinement down to 1/3 degree in the tropics; 360 x 330 longitude/latitude; 75 levels; top grid cell 0-1 m)\nocnBgchem: MEDUSA2\nseaIce: CICE-HadGEM3-GSI8 (eORCA1 tripolar primarily 1 deg; 360 x 330 longitude/latitude))"
             }
         },
         "source_type": [
-            "LAND",
             "AER",
+            "AGCM",
             "AOGCM",
+            "BGC",
+            "CHEM",
+            "ISM",
+            "LAND",
             "OGCM",
             "RAD",
-            "ISM",
-            "AGCM",
-            "BGC",
-            "SLAB",
-            "CHEM"
+            "SLAB"
         ],
         "sub_experiment_id": {
             "f2023": "Forcings 2023",
-            "none": "none"
+            "none": "none",
+            "s1960": "initialized near end of year 1960",
+            "s1961": "initialized near end of year 1961",
+            "s1962": "initialized near end of year 1962",
+            "s1963": "initialized near end of year 1963",
+            "s1964": "initialized near end of year 1964",
+            "s1965": "initialized near end of year 1965",
+            "s1966": "initialized near end of year 1966",
+            "s1967": "initialized near end of year 1967",
+            "s1968": "initialized near end of year 1968",
+            "s1969": "initialized near end of year 1969",
+            "s1970": "initialized near end of year 1970",
+            "s1971": "initialized near end of year 1971",
+            "s1972": "initialized near end of year 1972",
+            "s1973": "initialized near end of year 1973",
+            "s1974": "initialized near end of year 1974",
+            "s1975": "initialized near end of year 1975",
+            "s1976": "initialized near end of year 1976",
+            "s1977": "initialized near end of year 1977",
+            "s1978": "initialized near end of year 1978",
+            "s1979": "initialized near end of year 1979",
+            "s1980": "initialized near end of year 1980",
+            "s1981": "initialized near end of year 1981",
+            "s1982": "initialized near end of year 1982",
+            "s1983": "initialized near end of year 1983",
+            "s1984": "initialized near end of year 1984",
+            "s1985": "initialized near end of year 1985",
+            "s1986": "initialized near end of year 1986",
+            "s1987": "initialized near end of year 1987",
+            "s1988": "initialized near end of year 1988",
+            "s1989": "initialized near end of year 1989",
+            "s1990": "initialized near end of year 1990",
+            "s1991": "initialized near end of year 1991",
+            "s1992": "initialized near end of year 1992",
+            "s1993": "initialized near end of year 1993",
+            "s1994": "initialized near end of year 1994",
+            "s1995": "initialized near end of year 1995",
+            "s1996": "initialized near end of year 1996",
+            "s1997": "initialized near end of year 1997",
+            "s1998": "initialized near end of year 1998",
+            "s1999": "initialized near end of year 1999",
+            "s2000": "initialized near end of year 2000",
+            "s2001": "initialized near end of year 2001",
+            "s2002": "initialized near end of year 2002",
+            "s2003": "initialized near end of year 2003",
+            "s2004": "initialized near end of year 2004",
+            "s2005": "initialized near end of year 2005",
+            "s2006": "initialized near end of year 2006",
+            "s2007": "initialized near end of year 2007",
+            "s2008": "initialized near end of year 2008",
+            "s2009": "initialized near end of year 2009",
+            "s2010": "initialized near end of year 2010",
+            "s2011": "initialized near end of year 2011",
+            "s2012": "initialized near end of year 2012",
+            "s2013": "initialized near end of year 2013",
+            "s2014": "initialized near end of year 2014",
+            "s2015": "initialized near end of year 2015",
+            "s2016": "initialized near end of year 2016",
+            "s2017": "initialized near end of year 2017",
+            "s2018": "initialized near end of year 2018",
+            "s2019": "initialized near end of year 2019",
+            "s2020": "initialized near end of year 2020",
+            "s2021": "initialized near end of year 2021",
+            "s2022": "initialized near end of year 2022",
+            "s2023": "initialized near end of year 2023",
+            "s2024": "initialized near end of year 2024",
+            "s2025": "initialized near end of year 2025",
+            "s2026": "initialized near end of year 2026",
+            "s2027": "initialized near end of year 2027",
+            "s2028": "initialized near end of year 2028",
+            "s2029": "initialized near end of year 2029"
         },
         "table_id": [
             ".scripts",
@@ -926,17 +3161,17 @@
             "r[[:digit:]]\\{1,\\}i[[:digit:]]\\{1,\\}p[[:digit:]]\\{1,\\}f[[:digit:]]\\{1,\\}$"
         ],
         "version_metadata": {
-            "file_updated": "Fri Dec 08 2023 16:40 UTC",
-            "checksum": "md5: e2ca260420aad72f1ed697bef0265fe3",
+            "file_updated": "Fri Sep 05 2025 10:21 UTC",
+            "checksum": "",
             "CVs": {
-                "updated": "2023-12-08T16:40:28Z",
-                "tag": "v6.5.0.0",
-                "commit": "c58fc1567673b28958a092af947c0d5324b26390"
+                "updated": "2025-09-05T10:21:24Z",
+                "tag": "v6.5.7.0",
+                "commit": "e9a1bb6d05436e974a8be1f83ca2b814c8990726"
             },
             "MIP tables": {
-                "updated": "2023-11-30T15:33:29Z",
-                "tag": "v6.5.0.0",
-                "commit": "49d4cfb8bca2f0bbed3608f278e7261f02e28c16",
+                "updated": "2024-10-09T09:26:10Z",
+                "tag": "v6.5.0.3",
+                "commit": "f42386929a0057ed15e66a3bac045b8c00d33c0f",
                 "url": "https://www.github.com/repos/PCMDI/mip-cmor-tables"
             },
             "autogenerated": "True"
