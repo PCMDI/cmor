@@ -6356,25 +6356,30 @@ int cmor_addRIPF(char *variant)
     for(i = 0; i < 4; i++) {
         if (cmor_has_cur_dataset_attribute(ripf_attr[i]) == 0) {
             cmor_get_cur_dataset_attribute(ripf_attr[i], tmp);
-            if (strlen(tmp) > 4) {
-                cmor_handle_error_variadic(
-                    "Your %s \"%s\" is invalid. \n! "
-                    "It cannot contains more than 4 digits. \n! ",
-                    CMOR_NORMAL, ripf_attr[i], tmp);
-                ierr += -1;
 
-            }
-            reti = regexec(&regex, tmp, 0, NULL, 0);
-            if (reti) {
-                cmor_handle_error_variadic(
-                    "Your %s \"%s\" is invalid. \n! "
-                    "It must contain only characters between 0 and 9 \n!",
-                    CMOR_NORMAL, ripf_attr[i], tmp);
-                ierr += -1;
-            }
+            if (cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP7) != 0) {
+                if (strlen(tmp) > 4) {
+                    cmor_handle_error_variadic(
+                        "Your %s \"%s\" is invalid. \n! "
+                        "It cannot contains more than 4 digits. \n! ",
+                        CMOR_NORMAL, ripf_attr[i], tmp);
+                    ierr += -1;
 
-            sscanf(tmp, "%d", &idx);
-            snprintf(tmp, CMOR_MAX_STRING, "%c%d", ripf_prefix[i], idx);
+                }
+                reti = regexec(&regex, tmp, 0, NULL, 0);
+                if (reti) {
+                    cmor_handle_error_variadic(
+                        "Your %s \"%s\" is invalid. \n! "
+                        "It must contain only characters "
+                        "between 0 and 9 \n!",
+                        CMOR_NORMAL, ripf_attr[i], tmp);
+                    ierr += -1;
+                }
+
+                sscanf(tmp, "%d", &idx);
+                snprintf(tmp, CMOR_MAX_STRING, "%c%d",
+                         ripf_prefix[i], idx);
+            }
             strncat(variant, tmp, CMOR_MAX_STRING - strlen(variant));
         }
     }
