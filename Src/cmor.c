@@ -6333,125 +6333,50 @@ int cmor_addVersion()
 int cmor_addRIPF(char *variant)
 {
     char tmp[CMOR_MAX_STRING];
-    int realization_index;
-    int initialization_index;
-    int physics_index;
-    int forcing_index;
+    int idx;
+    int i;
     int reti;
     regex_t regex;
     int ierr = 0;
     char szValue[CMOR_MAX_STRING];
     char szVariant[CMOR_MAX_STRING];
 
+    char *ripf_attr[] = {
+        GLOBAL_ATT_REALIZATION,
+        GLOBAL_ATT_INITIA_IDX,
+        GLOBAL_ATT_PHYSICS_IDX,
+        GLOBAL_ATT_FORCING_IDX
+    };
+    char ripf_prefix[] = {'r', 'i', 'p', 'f'};
+
     cmor_add_traceback("cmor_addRipf");
     cmor_is_setup();
     reti = regcomp(&regex, "^[[:digit:]]\\{1,\\}$", 0);
 
-/* -------------------------------------------------------------------- */
-/*      realization                                                     */
-/* -------------------------------------------------------------------- */
-    if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_REALIZATION) == 0) {
-        cmor_get_cur_dataset_attribute(GLOBAL_ATT_REALIZATION, tmp);
-        if (strlen(tmp) > 4) {
-            cmor_handle_error_variadic(
-                "Your realization_index \"%s\" is invalid. \n! "
-                "It cannot contains more than 4 digits. \n! ",
-                CMOR_NORMAL, tmp);
-            ierr += -1;
+    for(i = 0; i < 4; i++) {
+        if (cmor_has_cur_dataset_attribute(ripf_attr[i]) == 0) {
+            cmor_get_cur_dataset_attribute(ripf_attr[i], tmp);
+            if (strlen(tmp) > 4) {
+                cmor_handle_error_variadic(
+                    "Your %s \"%s\" is invalid. \n! "
+                    "It cannot contains more than 4 digits. \n! ",
+                    CMOR_NORMAL, ripf_attr[i], tmp);
+                ierr += -1;
 
+            }
+            reti = regexec(&regex, tmp, 0, NULL, 0);
+            if (reti) {
+                cmor_handle_error_variadic(
+                    "Your %s \"%s\" is invalid. \n! "
+                    "It must contain only characters between 0 and 9 \n!",
+                    CMOR_NORMAL, ripf_attr[i], tmp);
+                ierr += -1;
+            }
+
+            sscanf(tmp, "%d", &idx);
+            snprintf(tmp, CMOR_MAX_STRING, "%c%d", ripf_prefix[i], idx);
+            strncat(variant, tmp, CMOR_MAX_STRING - strlen(variant));
         }
-        reti = regexec(&regex, tmp, 0, NULL, 0);
-        if (reti) {
-            cmor_handle_error_variadic(
-                "Your realization_index \"%s\" is invalid. \n! "
-                "It must contain only characters between 0 and 9 \n!",
-                CMOR_NORMAL, tmp);
-            ierr += -1;
-        }
-
-        sscanf(tmp, "%d", &realization_index);
-        snprintf(tmp, CMOR_MAX_STRING, "r%d", realization_index);
-        strncat(variant, tmp, CMOR_MAX_STRING - strlen(variant));
-    }
-/* -------------------------------------------------------------------- */
-/*      initialization id (re== 0quired)                                */
-/* -------------------------------------------------------------------- */
-    if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_INITIA_IDX) == 0) {
-        cmor_get_cur_dataset_attribute(GLOBAL_ATT_INITIA_IDX, tmp);
-        if (strlen(tmp) > 4) {
-            cmor_handle_error_variadic(
-                "Your initialization_index \"%s\" is invalid. \n! "
-                "It cannot contains more than 4 digits. \n! ",
-                CMOR_NORMAL, tmp);
-            ierr += -1;
-
-        }
-        reti = regexec(&regex, tmp, 0, NULL, 0);
-        if (reti) {
-            cmor_handle_error_variadic(
-                "Your initialization_index \"%s\" is invalid. \n! "
-                "It must contain only characters between 0 and 9 \n!",
-                CMOR_NORMAL, tmp);
-            ierr += -1;
-
-        }
-        sscanf(tmp, "%d", &initialization_index);
-        snprintf(tmp, CMOR_MAX_STRING, "i%d", initialization_index);
-        strncat(variant, tmp, CMOR_MAX_STRING - strlen(variant));
-    }
-
-/* -------------------------------------------------------------------- */
-/*      physics id (required)                                           */
-/* -------------------------------------------------------------------- */
-    if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_PHYSICS_IDX) == 0) {
-        cmor_get_cur_dataset_attribute(GLOBAL_ATT_PHYSICS_IDX, tmp);
-        if (strlen(tmp) > 4) {
-            cmor_handle_error_variadic(
-                "Your physics_index \"%s\" is invalid. \n! "
-                "It cannot contains more than 4 digits. \n! ",
-                CMOR_NORMAL, tmp);
-            ierr += -1;
-
-        }
-        reti = regexec(&regex, tmp, 0, NULL, 0);
-        if (reti) {
-            cmor_handle_error_variadic(
-                "Your physics_index \"%s\" is invalid. \n! "
-                "It must contain only characters between 0 and 9 \n!",
-                CMOR_NORMAL, tmp);
-            ierr += -1;
-
-        }
-        sscanf(tmp, "%d", &physics_index);
-        snprintf(tmp, CMOR_MAX_STRING, "p%d", physics_index);
-        strncat(variant, tmp, CMOR_MAX_STRING - strlen(variant));
-    }
-/* -------------------------------------------------------------------- */
-/*      forcing id (required)                                           */
-/* -------------------------------------------------------------------- */
-    if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_FORCING_IDX) == 0) {
-        cmor_get_cur_dataset_attribute(GLOBAL_ATT_FORCING_IDX, tmp);
-        if (strlen(tmp) > 4) {
-            cmor_handle_error_variadic(
-                "Your forcing_index \"%s\" is invalid. \n! "
-                "It cannot contains more than 4 digits. \n! ",
-                CMOR_NORMAL, tmp);
-            ierr += -1;
-
-        }
-        reti = regexec(&regex, tmp, 0, NULL, 0);
-        if (reti) {
-            cmor_handle_error_variadic(
-                "Your forcing_index \"%s\" is invalid. \n! "
-                "It must contain only characters between 0 and 9 \n!",
-                CMOR_NORMAL, tmp);
-            ierr += -1;
-
-        }
-        sscanf(tmp, "%d", &forcing_index);
-
-        snprintf(tmp, CMOR_MAX_STRING, "f%d", forcing_index);
-        strncat(variant, tmp, CMOR_MAX_STRING - strlen(variant));
     }
     cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_VARIANT_LABEL, variant,
                                             1);
