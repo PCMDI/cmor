@@ -19,10 +19,10 @@ DATASET_INFO = {
     "cv_version": "6.2.19.0",
     "experiment": "1 percent per year increase in CO2",
     "experiment_id": "1pctCO2",
-    "forcing_index": "3",
+    "forcing_index": "f3",
     "grid": "N96",
     "grid_label": "gn",
-    "initialization_index": "1",
+    "initialization_index": "i1",
     "institution_id": "PCMDI",
     "license_id": "CC BY 4.0",
     "nominal_resolution": "250 km",
@@ -33,8 +33,8 @@ DATASET_INFO = {
     "parent_source_id": "PCMDI-test-1-0",
     "parent_experiment_id": "piControl",
     "parent_variant_label": "r1i1p1f3",
-    "physics_index": "1",
-    "realization_index": "9",
+    "physics_index": "p1",
+    "realization_index": "r9",
     "source_id": "PCMDI-test-1-0",
     "source_type": "AOGCM CHEM BGC",
     "tracking_prefix": "hdl:21.14100",
@@ -87,8 +87,8 @@ class TestPathAndFileTemplates(unittest.TestCase):
 
         # Attributes for reconstructing file path
         attrs = DATASET_INFO.copy()
-        variant_label = ('r{realization_index}i{initialization_index}'
-                         'p{physics_index}f{forcing_index}').format(**attrs)
+        variant_label = ('{realization_index}{initialization_index}'
+                         '{physics_index}{forcing_index}').format(**attrs)
         attrs['mip_era'] = 'CMIP7'
         attrs['table_id'] = 'ocean2d'
         attrs['variable_id'] = 'tos'
