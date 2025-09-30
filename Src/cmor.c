@@ -3522,14 +3522,15 @@ void cmor_write_all_attributes(int ncid, int ncafid, int var_id)
                         cmor_current_dataset.attributes[i].values);
                 }
             }
-        } else if ((strcmp(cmor_current_dataset.attributes[i].names,
+        } else if ((cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP7) != 0) &&
+                   ((strcmp(cmor_current_dataset.attributes[i].names,
                            GLOBAL_ATT_REALIZATION) == 0) ||
                    (strcmp(cmor_current_dataset.attributes[i].names,
                            GLOBAL_ATT_INITIA_IDX) == 0) ||
                    (strcmp(cmor_current_dataset.attributes[i].names,
                            GLOBAL_ATT_PHYSICS_IDX) == 0) ||
                    (strcmp(cmor_current_dataset.attributes[i].names,
-                           GLOBAL_ATT_FORCING_IDX) == 0)) {
+                           GLOBAL_ATT_FORCING_IDX) == 0))) {
             sscanf(cmor_current_dataset.attributes[i].values, "%d", &itmp2);
             ierr = nc_put_att_int(ncid, NC_GLOBAL,
                                   cmor_current_dataset.attributes[i].names,
