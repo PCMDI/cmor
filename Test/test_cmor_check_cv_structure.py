@@ -8,6 +8,7 @@ USER_INPUT = {
     "_AXIS_ENTRY_FILE": "Tables/CMIP6_coordinate.json",
     "_FORMULA_VAR_FILE": "Tables/CMIP6_formula_terms.json",
     "_cmip7_option": 1,
+    "_use_strings_for_indexes": 1,
     "_controlled_vocabulary_file": "",
     "activity_id": "CMIP",
     "branch_method": "standard",
