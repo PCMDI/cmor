@@ -74,8 +74,8 @@ def grid(axis_ids, latitude=None, longitude=None,
     longitude_vertices=None)
     Where:
     axis_ids : array contianing the axes ids for this grid.
-    latitude/longitude: the values for longitude/latitude arrays (unless it is a time varying grid)
-    latitude_vertices/longitude_vertices: coordinates of vertices for each latitude/latitude (unless it is a time varying grid)
+    latitude/longitude: the values for longitude/latitude arrays
+    latitude_vertices/longitude_vertices: coordinates of vertices for each latitude/latitude
     """
     if numpy.ma.isMA(axis_ids):
         axis_ids = numpy.ascontiguousarray(axis_ids.filled())
@@ -274,7 +274,7 @@ def set_crs(grid_id, mapping_name, parameter_names,
             parameter_values=None, parameter_units=None):
     """Sets the Coordinate Reference System (CRS) for CF convention
     Usage:
-       set_crs(grid_id,mapping_name,parameter_names,parameter_values,parameter_units,crs_wkt)
+       set_crs(grid_id,mapping_name,parameter_names,parameter_values,parameter_units)
     Where:
        grid_id :: grid_id return by cmor.grid
        mapping_name     :: name of the mapping (see CF conventions)
@@ -1058,7 +1058,7 @@ def set_furtherinfourl(varid):
 def set_variable_attribute(var_id, name, data_type, value):
     """Sets an attribute onto a cmor variable
     Usage:
-      cmor.set_variable_attribute(var_id,name,value)
+      cmor.set_variable_attribute(var_id,name,data_type,value)
     Where:
       var_id: is cmor variable id
       name  : is the name of the attribute
@@ -1123,7 +1123,7 @@ def set_quantize(var_id, quantize_mode, quantize_nsd):
 def has_variable_attribute(var_id, name):
     """determines if the a cmor variable has an attribute
     Usage:
-      cmor.het_variable_attribute(name)
+      cmor.has_variable_attribute(var_id, name)
     Where:
       var_id: is cmor variable id
       name: is the name of the attribute
@@ -1139,7 +1139,7 @@ def has_variable_attribute(var_id, name):
 def get_variable_attribute(var_id, name):
     """Gets an attribute from a cmor variable
     Usage:
-      cmor.get_variable_attribute(name)
+      cmor.get_variable_attribute(var_id, name)
     Where:
       var_id: is cmor variable id
       name: is the name of the attribute
