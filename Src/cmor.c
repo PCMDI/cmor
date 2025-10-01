@@ -3522,7 +3522,8 @@ void cmor_write_all_attributes(int ncid, int ncafid, int var_id)
                         cmor_current_dataset.attributes[i].values);
                 }
             }
-        } else if ((cmor_has_cur_dataset_attribute(GLOBAL_USE_STRING_INDEXES) != 0) &&
+        } else if ((cmor_has_cur_dataset_attribute(GLOBAL_USE_STRING_INDEXES) != 0
+                    && cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP7) != 0) &&
                    ((strcmp(cmor_current_dataset.attributes[i].names,
                            GLOBAL_ATT_REALIZATION) == 0) ||
                    (strcmp(cmor_current_dataset.attributes[i].names,
@@ -6358,7 +6359,8 @@ int cmor_addRIPF(char *variant)
         if (cmor_has_cur_dataset_attribute(ripf_attr[i]) == 0) {
             cmor_get_cur_dataset_attribute(ripf_attr[i], tmp);
 
-            if (cmor_has_cur_dataset_attribute(GLOBAL_USE_STRING_INDEXES) != 0) {
+            if (cmor_has_cur_dataset_attribute(GLOBAL_USE_STRING_INDEXES) != 0
+                && cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP7) != 0) {
                 if (strlen(tmp) > 4) {
                     cmor_handle_error_variadic(
                         "Your %s \"%s\" is invalid. \n! "
