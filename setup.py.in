@@ -26,7 +26,6 @@ for st in ["@NCLDFLAGS@", "@NCCFLAGS@",
         link_args.append(s)
 
 srcfiles = "@LIBSOURCES@".split()
-srcfiles_CV = "@LIBSOURCESCV@".split()
 
 macros=[]
 for m in "@MACROS@".split():
