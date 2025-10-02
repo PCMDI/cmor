@@ -320,8 +320,7 @@ MAINDIR=`pwd`
 # Library sources
 #LIBSOURCES="Src/cmor.c Src/cmor_variables.c Src/cmor_axes.c Src/cmor_tables.c Src/cmor_grids.c Src/cdTime/cdTimeConv.c Src/cdTime/cdUtil.c Src/cdTime/timeConv.c Src/cdTime/timeArith.c Src/cmor_cfortran_interface.c Src/cmor_md5.c"
 #LIBSOURCES=`ls -x --width=10000 Src/*.c Src/cdTime/*.c`
-LIBSOURCES=`cd $srcdir ; ls Src/*.c Src/cdTime/*.c | tr "\n" " " | sed  's#Src/_controlvocabulary.c##'`
-LIBSOURCESCV=`cd $srcdir ; ls Src/*.c Src/cdTime/*.c | tr "\n" " " | sed  's#Src/_cmormodule.c##'`
+LIBSOURCES=`cd $srcdir ; ls Src/*.c Src/cdTime/*.c | tr "\n" " "`
 
 
 LIBFSOURCES="Src/cmor_fortran_interface.f90"
