@@ -296,8 +296,20 @@
         "tracking_id":[
             "hdl:21.14100/.*"
         ],
+        "realization_index":[
+            "^r[[:digit:]]\\{1,6\\}$"
+        ],
+        "initialization_index":[
+            "^i[[:digit:]]\\{1,6\\}[abcde]\\{0,1\\}$"
+        ],
+        "physics_index":[
+            "^p[[:digit:]]\\{1,6\\}$"
+        ],
+        "forcing_index":[
+            "^f[[:digit:]]\\{1,6\\}$"
+        ],
         "variant_label":[
-            "r[[:digit:]]\\{1,\\}i[[:digit:]]\\{1,\\}p[[:digit:]]\\{1,\\}f[[:digit:]]\\{1,\\}$"
+            "^r[[:digit:]]\\{1,6\\}i[[:digit:]]\\{1,6\\}[abcde]\\{0,1\\}p[[:digit:]]\\{1,6\\}f[[:digit:]]\\{1,6\\}$"
         ],
         "vertical_label":{
             "1000hPa":"1000 hPa",
