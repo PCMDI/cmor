@@ -29,7 +29,7 @@
                 "time"
             ],
             "out_name":"pr",
-            "realm":[
+            "modeling_realm":[
                 "atmos",
                 "ocean"
             ],
