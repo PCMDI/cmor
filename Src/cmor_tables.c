@@ -225,22 +225,29 @@ int cmor_set_variable_entry(cmor_table_t * table,
         strncpy(variable->out_name, 
             &variable_entry[pmatch[1].rm_so], 
             pmatch[1].rm_eo - pmatch[1].rm_so);
+        variable->out_name[pmatch[1].rm_eo - pmatch[1].rm_so] = '\0';
         strncpy(variable->temporal_label, 
             &variable_entry[pmatch[2].rm_so], 
             pmatch[2].rm_eo - pmatch[2].rm_so);
+        variable->temporal_label[pmatch[2].rm_eo - pmatch[2].rm_so] = '\0';
         strncpy(variable->vertical_label, 
             &variable_entry[pmatch[3].rm_so], 
             pmatch[3].rm_eo - pmatch[3].rm_so);
+        variable->vertical_label[pmatch[3].rm_eo - pmatch[3].rm_so] = '\0';
         strncpy(variable->horizontal_label, 
             &variable_entry[pmatch[4].rm_so], 
             pmatch[4].rm_eo - pmatch[4].rm_so);
+        variable->horizontal_label[pmatch[4].rm_eo - pmatch[4].rm_so] = '\0';
         strncpy(variable->area_label, 
             &variable_entry[pmatch[5].rm_so], 
             pmatch[5].rm_eo - pmatch[5].rm_so);
+        variable->area_label[pmatch[5].rm_eo - pmatch[5].rm_so] = '\0';
         strncpy(variable->branding_suffix, 
             &variable_entry[pmatch[2].rm_so], 
             pmatch[5].rm_eo - pmatch[2].rm_so);
+        variable->branding_suffix[pmatch[5].rm_eo - pmatch[2].rm_so] = '\0';
     }
+    regfree(&regex);
 
     json_object_object_foreach(json, attr, value) {
 /* -------------------------------------------------------------------- */

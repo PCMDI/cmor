@@ -64,13 +64,8 @@ class TestCMIP7(unittest.TestCase):
             raise RuntimeError("CMOR dataset_json call failed")
 
     def test_cmip7(self):
-        tos = numpy.array([27, 27, 27, 27,
-                           27, 27, 27, 27,
-                           27, 27, 27, 27,
-                           27, 27, 27, 27,
-                           27, 27, 27, 27,
-                           27, 27, 27, 27
-                           ])
+        data = [27] * (2 * 3 * 4)
+        tos = numpy.array(data)
         tos.shape = (2, 3, 4)
         lat = numpy.array([10, 20, 30])
         lat_bnds = numpy.array([5, 15, 25, 35])
@@ -141,6 +136,62 @@ class TestCMIP7(unittest.TestCase):
         self.assertTrue("license_type" not in attrs)
         self.assertTrue("license_url" not in attrs)
         self.assertEqual(license, ds.getncattr("license"))
+
+        ds.close()
+
+    def test_secondary_modeling_realm(self):
+        data = [27] * (2 * 3 * 4)
+        pr = numpy.array(data)
+        pr.shape = (2, 3, 4)
+        lat = numpy.array([10, 20, 30])
+        lat_bnds = numpy.array([5, 15, 25, 35])
+        lon = numpy.array([0, 90, 180, 270])
+        lon_bnds = numpy.array([-45, 45,
+                                135,
+                                225,
+                                315
+                                ])
+        time = numpy.array([15.5, 45])
+        time_bnds = numpy.array([0, 31, 60])
+        cmor.load_table("CMIP7_atmos2d.json")
+        cmorlat = cmor.axis("latitude",
+                            coord_vals=lat,
+                            cell_bounds=lat_bnds,
+                            units="degrees_north")
+        cmorlon = cmor.axis("longitude",
+                            coord_vals=lon,
+                            cell_bounds=lon_bnds,
+                            units="degrees_east")
+        cmortime = cmor.axis("time",
+                             coord_vals=time,
+                             cell_bounds=time_bnds,
+                             units="days since 2018")
+        axes = [cmortime, cmorlat, cmorlon]
+        cmorpr = cmor.variable("pr_tavg-u-hxy-u", "kg m-2 s-1", axes)
+        self.assertEqual(cmor.write(cmorpr, pr), 0)
+        filename = cmor.close(cmorpr, file_name=True)
+        self.assertEqual(cmor.close(), 0)
+
+        ds = Dataset(filename)
+        attrs = ds.ncattrs()
+        test_attrs = {
+            'branding_suffix': 'tavg-u-hxy-u',
+            'temporal_label': 'tavg',
+            'vertical_label': 'u',
+            'horizontal_label': 'hxy',
+            'area_label': 'u',
+            'region': 'glb',
+            'frequency': 'mon',
+            'archive_id': 'WCRP',
+            'mip_era': 'CMIP7',
+            'data_specs_version': 'CMIP-7.0.0.0',
+            'host_collection': 'CMIP7',
+            'realm': 'atmos ocean',
+        }
+
+        for attr, val in test_attrs.items():
+            self.assertTrue(attr in attrs)
+            self.assertEqual(val, ds.getncattr(attr))
 
         ds.close()
 
