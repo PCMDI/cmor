@@ -18,7 +18,7 @@ import unittest
 import os
 import sys
 import tempfile
-import pkgutil
+import importlib.util
 import netCDF4
 import base_CMIP6_CV
 
@@ -63,7 +63,7 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
                 "https://furtherinfo.es-doc.org/CMIP6.PCMDI.PCMDI-test-1-0.piControl-withism.none.r3i1p1f1",
             a)
 
-    @unittest.skipIf(pkgutil.find_loader("cdms2") is None, "cdms2 not installed")
+    @unittest.skipIf(importlib.util.find_spec("cdms2") is None, "cdms2 not installed")
     def testCMIP6_CDMS2(self):
         import cdms2
         
