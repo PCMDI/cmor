@@ -18,7 +18,7 @@ import unittest
 import os
 import sys
 import tempfile
-import pkgutil
+import importlib.util
 import netCDF4
 import base_CMIP6_CV
 
@@ -61,7 +61,7 @@ class TestCase(base_CMIP6_CV.BaseCVsTest):
         self.assertEqual(f.country, "USA")
         f.close()
 
-    @unittest.skipIf(pkgutil.find_loader("cdms2") is None, "cdms2 not installed")
+    @unittest.skipIf(importlib.util.find_spec("cdms2") is None, "cdms2 not installed")
     def testCMIP6_CDMS2(self):
         import cdms2
 
