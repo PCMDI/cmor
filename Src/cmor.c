@@ -2931,26 +2931,27 @@ int cmor_setDefaultGblAttr(int ref_table_id)
 
 /* -------------------------------------------------------------------- */
 /*  Set further_info_url template if required and not already set.      */
-/*  Set data_specs_version and mip_era if they are in the CV.           */
 /* -------------------------------------------------------------------- */
     for (k = 0; k < required_attrs->anElements; k++) {
         if(strcmp(required_attrs->aszValue[k], GLOBAL_ATT_FURTHERINFOURL) == 0
             && cmor_current_dataset.furtherinfourl[0] == '\0')
         {
             ierr |= cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_FURTHERINFOURLTMPL, CMOR_DEFAULT_FURTHERURL_TEMPLATE, 0);
-        } else if(strcmp(required_attrs->aszValue[k], GLOBAL_ATT_DATASPECSVERSION) == 0) {
-            CV_value = cmor_CV_rootsearch(cmor_tables[ref_table_id].CV, CV_KEY_DATASPECSVERSION);
-            if (CV_value != NULL && CV_value->szValue[0] != '\0') {
-                cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_DATASPECSVERSION,
-                    CV_value->szValue, 0);
-            }
-        } else if(strcmp(required_attrs->aszValue[k], GLOBAL_ATT_MIP_ERA) == 0) {
-            CV_value = cmor_CV_rootsearch(cmor_tables[ref_table_id].CV, CV_KEY_MIP_ERA);
-            if (CV_value != NULL && CV_value->szValue[0] != '\0') {
-                cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_MIP_ERA,
-                    CV_value->szValue, 0);
-            }
         }
+    }
+
+/* -------------------------------------------------------------------- */
+/*  Set data_specs_version and mip_era if they are in the CV.           */
+/* -------------------------------------------------------------------- */
+    CV_value = cmor_CV_rootsearch(cmor_tables[ref_table_id].CV, CV_KEY_DATASPECSVERSION);
+    if (CV_value != NULL && CV_value->szValue[0] != '\0') {
+        cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_DATASPECSVERSION,
+            CV_value->szValue, 0);
+    }
+    CV_value = cmor_CV_rootsearch(cmor_tables[ref_table_id].CV, CV_KEY_MIP_ERA);
+    if (CV_value != NULL && CV_value->szValue[0] != '\0') {
+        cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_MIP_ERA,
+            CV_value->szValue, 0);
     }
 
 /* -------------------------------------------------------------------- */
