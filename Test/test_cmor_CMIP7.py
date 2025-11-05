@@ -6,18 +6,18 @@ import numpy
 from netCDF4 import Dataset
 
 DATASET_INFO = {
-    "_AXIS_ENTRY_FILE": "Tables/CMIP6_coordinate.json",
-    "_FORMULA_VAR_FILE": "Tables/CMIP6_formula_terms.json",
+    "_AXIS_ENTRY_FILE": "CMIP7_coordinate.json",
+    "_FORMULA_VAR_FILE": "CMIP7_formula_terms.json",
     "_cmip7_option": 1,
-    "_controlled_vocabulary_file": "TestTables/CMIP7_CV.json",
+    "_controlled_vocabulary_file": "cmip7-cmor-tables/test/CMIP7-CV_for-cmor.json",
     "activity_id": "CMIP",
     "branch_method": "standard",
     "branch_time_in_child": 30.0,
     "branch_time_in_parent": 10800.0,
     "calendar": "360_day",
     "cv_version": "6.2.19.0",
-    "experiment": "1 percent per year increase in CO2",
-    "experiment_id": "1pctCO2",
+    "experiment": "Simulation of the pre-industrial climate",
+    "experiment_id": "piControl",
     "forcing_index": "f30",
     "grid": "N96",
     "grid_label": "gn",
@@ -52,7 +52,7 @@ class TestCMIP7(unittest.TestCase):
         Write out a simple file using CMOR
         """
         # Set up CMOR
-        cmor.setup(inpath="TestTables", netcdf_file_action=cmor.CMOR_REPLACE)
+        cmor.setup(inpath="cmip7-cmor-tables/tables", netcdf_file_action=cmor.CMOR_REPLACE)
 
         # Define dataset using DATASET_INFO
         with open("Test/input_cmip7.json", "w") as input_file_handle:
@@ -77,7 +77,7 @@ class TestCMIP7(unittest.TestCase):
                                 ])
         time = numpy.array([15.5, 45])
         time_bnds = numpy.array([0, 31, 60])
-        cmor.load_table("CMIP7_ocean2d.json")
+        cmor.load_table("CMIP7_ocean.json")
         cmorlat = cmor.axis("latitude",
                             coord_vals=lat,
                             cell_bounds=lat_bnds,
@@ -108,7 +108,7 @@ class TestCMIP7(unittest.TestCase):
             'frequency': 'mon',
             'archive_id': 'WCRP',
             'mip_era': 'CMIP7',
-            'data_specs_version': 'CMIP-7.0.0.0',
+            'data_specs_version': 'CMIP-7.0.0.0-alpha',
             'host_collection': 'CMIP7',
         }
 
@@ -153,7 +153,7 @@ class TestCMIP7(unittest.TestCase):
                                 ])
         time = numpy.array([15.5, 45])
         time_bnds = numpy.array([0, 31, 60])
-        cmor.load_table("CMIP7_atmos2d.json")
+        cmor.load_table("CMIP7_atmos.json")
         cmorlat = cmor.axis("latitude",
                             coord_vals=lat,
                             cell_bounds=lat_bnds,
@@ -167,7 +167,7 @@ class TestCMIP7(unittest.TestCase):
                              cell_bounds=time_bnds,
                              units="days since 2018")
         axes = [cmortime, cmorlat, cmorlon]
-        cmorpr = cmor.variable("pr_tavg-u-hxy-u", "kg m-2 s-1", axes)
+        cmorpr = cmor.variable("prra_tavg-u-hxy-is", "kg m-2 s-1", axes)
         self.assertEqual(cmor.write(cmorpr, pr), 0)
         filename = cmor.close(cmorpr, file_name=True)
         self.assertEqual(cmor.close(), 0)
@@ -175,18 +175,18 @@ class TestCMIP7(unittest.TestCase):
         ds = Dataset(filename)
         attrs = ds.ncattrs()
         test_attrs = {
-            'branding_suffix': 'tavg-u-hxy-u',
+            'branding_suffix': 'tavg-u-hxy-is',
             'temporal_label': 'tavg',
             'vertical_label': 'u',
             'horizontal_label': 'hxy',
-            'area_label': 'u',
+            'area_label': 'is',
             'region': 'glb',
             'frequency': 'mon',
             'archive_id': 'WCRP',
             'mip_era': 'CMIP7',
-            'data_specs_version': 'CMIP-7.0.0.0',
+            'data_specs_version': 'CMIP-7.0.0.0-alpha',
             'host_collection': 'CMIP7',
-            'realm': 'atmos ocean',
+            'realm': 'atmos land landIce',
         }
 
         for attr, val in test_attrs.items():
