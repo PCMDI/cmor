@@ -113,7 +113,7 @@ class TestCMIP7(unittest.TestCase):
         }
 
         for attr, val in test_attrs.items():
-            self.assertTrue(attr in attrs)
+            self.assertIn(attr, attrs)
             self.assertEqual(val, ds.getncattr(attr))
         institution_id = DATASET_INFO["institution_id"]
         license_id = "CC BY 4.0"
@@ -190,7 +190,7 @@ class TestCMIP7(unittest.TestCase):
         }
 
         for attr, val in test_attrs.items():
-            self.assertTrue(attr in attrs)
+            self.assertIn(attr, attrs)
             self.assertEqual(val, ds.getncattr(attr))
 
         ds.close()
