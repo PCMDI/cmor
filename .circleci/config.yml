@@ -1,6 +1,7 @@
 version: 2.1
 
 checkout:
+  method: full
   post:
     - ./ci-support/checkout_merge_commit.sh
         
