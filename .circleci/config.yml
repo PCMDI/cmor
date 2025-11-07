@@ -146,7 +146,8 @@ jobs:
          PYTHON_VERSION: << parameters.python_version >>
          CHANNELS: "-c conda-forge"
       steps:
-         - checkout
+         - checkout:
+            method: full
          - attach_workspace:
             at: .
          - run: *setup_env
@@ -169,7 +170,8 @@ jobs:
          USER: "pcmdi"
          LABEL: "nightly"
       steps:
-         - checkout
+         - checkout:
+            method: full
          - attach_workspace:
               at: .
          - run: *setup_env
@@ -185,7 +187,8 @@ jobs:
          USER: "pcmdi"
          LABEL: "testing"
       steps:
-         - checkout
+         - checkout:
+            method: full
          - attach_workspace:
               at: .
          - run: *setup_env
