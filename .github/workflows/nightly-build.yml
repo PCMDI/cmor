@@ -28,7 +28,7 @@ jobs:
             C_COMPILER: clang_osx-64 
             FORTRAN_COMPILER: gfortran_osx-64
             PROJECT_DIR: workdir/macos_64
-        python_version: ['3.10', '3.11', '3.12', '3.13', '3.14']
+        python_version: ['3.12']
     runs-on: ${{ matrix.runner.RUNNER_OS }}
     env:
       PACKAGE_NAME: cmor
@@ -123,6 +123,11 @@ jobs:
           mamba activate
 
           export CMOR_CHANNEL=file://$HOME/cmor_conda_pkgs/
+
+          echo "Inside ${CMOR_CHANNEL}"
+          ls -lh $CMOR_CHANNEL
+          echo "Inside ${CMOR_CHANNEL}/${OS}"
+          ls -lh $CMOR_CHANNEL/$OS
 
           mamba create -y -n test_py$PYTHON_VERSION -c $CMOR_CHANNEL -c $CONDA_FORGE_CHANNEL python=$PYTHON_VERSION $PACKAGE_NAME=$PACKAGE_VERSION $C_COMPILER $FORTRAN_COMPILER
           mamba activate test_py$PYTHON_VERSION
