@@ -124,10 +124,10 @@ jobs:
 
           export CMOR_CHANNEL=file://$HOME/cmor_conda_pkgs/
 
-          echo "Inside ${CMOR_CHANNEL}"
-          ls -lh $CMOR_CHANNEL
-          echo "Inside ${CMOR_CHANNEL}/${OS}"
-          ls -lh $CMOR_CHANNEL/$OS
+          echo "Inside ${HOME}/cmor_conda_pkgs/"
+          ls -lh $HOME/cmor_conda_pkgs/
+          echo "Inside ${HOME}/cmor_conda_pkgs/${OS}"
+          ls -lh $HOME/cmor_conda_pkgs/$OS
 
           mamba create -y -n test_py$PYTHON_VERSION -c $CMOR_CHANNEL -c $CONDA_FORGE_CHANNEL python=$PYTHON_VERSION $PACKAGE_NAME=$PACKAGE_VERSION $C_COMPILER $FORTRAN_COMPILER
           mamba activate test_py$PYTHON_VERSION
