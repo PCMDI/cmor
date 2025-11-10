@@ -87,12 +87,6 @@ aliases:
           cp $BUILD_DIR/$OS/$PKG_NAME-$VERSION*.conda $ARTIFACT_DIR
        done
 
-       mamba run conda index $BUILD_DIR
-       echo "Search for ${PKG_NAME}=${VERSION} in local"
-       mamba search -c file://$BUILD_DIR $PKG_NAME=$VERSION
-       echo "Search for cmor in local"
-       mamba search -c file://$BUILD_DIR cmor
-
   - &run_cmor_tests
     name: run_cmor_tests
     command: |
@@ -101,19 +95,8 @@ aliases:
        eval "$(mamba shell hook --shell bash)"
        mamba activate
        export CMOR_CHANNEL=$HOME/cmor_conda_pkgs/
-       echo "Inside ${CMOR_CHANNEL}"
-       ls -lh $CMOR_CHANNEL
-       echo "Inside ${CMOR_CHANNEL}/${OS}"
-       ls -lh $CMOR_CHANNEL/$OS
-       mamba config list
-       conda config --prepend channels file://$CMOR_CHANNEL
-       mamba config list
-       echo "Search for ${PKG_NAME}=${VERSION} in local"
-       mamba search -c file://$CMOR_CHANNEL $PKG_NAME=$VERSION
-       echo "Search for cmor in local"
-       mamba search -c file://$CMOR_CHANNEL cmor
        set +e
-       mamba create -y -n test_py$PYTHON_VERSION --override-channels -c file://$CMOR_CHANNEL $CHANNELS file://$CMOR_CHANNEL::$PKG_NAME=$VERSION python=$PYTHON_VERSION $CONDA_COMPILERS
+       mamba create -y -n test_py$PYTHON_VERSION -c file://$CMOR_CHANNEL $CHANNELS file://$CMOR_CHANNEL::$PKG_NAME=$VERSION python=$PYTHON_VERSION $CONDA_COMPILERS
        mamba activate test_py$PYTHON_VERSION
        set -e
        ./configure --prefix=$CONDA_PREFIX --with-python --with-uuid=$CONDA_PREFIX --with-json-c=$CONDA_PREFIX --with-udunits2=$CONDA_PREFIX --with-netcdf=$CONDA_PREFIX  --enable-verbose-test
