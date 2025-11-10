@@ -87,6 +87,8 @@ aliases:
           cp $BUILD_DIR/$OS/$PKG_NAME-$VERSION*.conda $ARTIFACT_DIR
        done
 
+       mamba run conda index $BUILD_DIR
+
   - &run_cmor_tests
     name: run_cmor_tests
     command: |
