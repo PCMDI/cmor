@@ -97,8 +97,12 @@ aliases:
        eval "$(mamba shell hook --shell bash)"
        mamba activate
        export CMOR_CHANNEL=$HOME/cmor_conda_pkgs/
+       echo "Inside ${CMOR_CHANNEL}"
+       ls -lh $CMOR_CHANNEL
+       echo "Inside ${CMOR_CHANNEL}/${OS}"
+       ls -lh $CMOR_CHANNEL/$OS
        set +e
-       mamba create -y -n test_py$PYTHON_VERSION -c file://$CMOR_CHANNEL $CHANNELS python=$PYTHON_VERSION $PKG_NAME=$VERSION $CONDA_COMPILERS
+       mamba create -y -n test_py$PYTHON_VERSION --override-channels -c file://$CMOR_CHANNEL $CHANNELS python=$PYTHON_VERSION $PKG_NAME=$VERSION $CONDA_COMPILERS
        mamba activate test_py$PYTHON_VERSION
        set -e
        ./configure --prefix=$CONDA_PREFIX --with-python --with-uuid=$CONDA_PREFIX --with-json-c=$CONDA_PREFIX --with-udunits2=$CONDA_PREFIX --with-netcdf=$CONDA_PREFIX  --enable-verbose-test
