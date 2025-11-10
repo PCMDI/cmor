@@ -113,7 +113,7 @@ aliases:
        echo "Search for cmor in local"
        mamba search -c file://$CMOR_CHANNEL cmor
        set +e
-       mamba create -y -n test_py$PYTHON_VERSION --override-channels -c file://$CMOR_CHANNEL $CHANNELS python=$PYTHON_VERSION $PKG_NAME=$VERSION $CONDA_COMPILERS
+       mamba create -y -n test_py$PYTHON_VERSION --override-channels -c file://$CMOR_CHANNEL $CHANNELS --override-channels $PKG_NAME=$VERSION python=$PYTHON_VERSION $CONDA_COMPILERS
        mamba activate test_py$PYTHON_VERSION
        set -e
        ./configure --prefix=$CONDA_PREFIX --with-python --with-uuid=$CONDA_PREFIX --with-json-c=$CONDA_PREFIX --with-udunits2=$CONDA_PREFIX --with-netcdf=$CONDA_PREFIX  --enable-verbose-test
