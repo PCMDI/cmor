@@ -116,6 +116,11 @@ jobs:
             cp $BUILD_DIR/$OS/$PACKAGE_NAME-$PACKAGE_VERSION*.conda $ARTIFACT_DIR
           done
 
+          echo "Search for ${PACKAGE_NAME}=${PACKAGE_VERSION} in local"
+          mamba search -c $BUILD_DIR $PACKAGE_NAME=$PACKAGE_VERSION
+          echo "Search for cmor in local"
+          mamba search -c $BUILD_DIR cmor
+
       - name: Run Tests
         run: |
           source $HOME/miniforge3/etc/profile.d/conda.sh
@@ -129,10 +134,14 @@ jobs:
           echo "Inside ${HOME}/cmor_conda_pkgs/${OS}"
           ls -lh $HOME/cmor_conda_pkgs/$OS
 
+          mamba config list
+          conda config --prepend channels $CMOR_CHANNEL
+          mamba config list
+
           echo "Search for ${PACKAGE_NAME}=${PACKAGE_VERSION} in local"
-          conda search -c $CMOR_CHANNEL $PACKAGE_NAME=$PACKAGE_VERSION
+          mamba search -c $CMOR_CHANNEL $PACKAGE_NAME=$PACKAGE_VERSION
           echo "Search for cmor in local"
-          conda search -c $CMOR_CHANNEL cmor
+          mamba search -c $CMOR_CHANNEL cmor
 
           mamba create -y -n test_py$PYTHON_VERSION -c $CMOR_CHANNEL -c $CONDA_FORGE_CHANNEL python=$PYTHON_VERSION $PACKAGE_NAME=$PACKAGE_VERSION $C_COMPILER $FORTRAN_COMPILER
           mamba activate test_py$PYTHON_VERSION
