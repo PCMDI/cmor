@@ -5,11 +5,14 @@ import numpy
 
 from netCDF4 import Dataset
 
-DATASET_INFO = {
+CMIP7_TABLES_PATH = "cmip7-cmor-tables/tables"
+CV_PATH = "cmip7-cmor-tables/test/CMIP7-CV_for-cmor.json"
+
+USER_INPUT = {
     "_AXIS_ENTRY_FILE": "CMIP7_coordinate.json",
     "_FORMULA_VAR_FILE": "CMIP7_formula_terms.json",
     "_cmip7_option": 1,
-    "_controlled_vocabulary_file": "cmip7-cmor-tables/test/CMIP7-CV_for-cmor.json",
+    "_controlled_vocabulary_file": CV_PATH,
     "activity_id": "CMIP",
     "branch_method": "standard",
     "branch_time_in_child": 30.0,
@@ -41,6 +44,7 @@ DATASET_INFO = {
     "frequency": "mon",
     "region": "glb",
     "archive_id": "WCRP",
+    "drs_specs": "MIP-DRS7",
     "output_path_template": "<activity_id><source_id><experiment_id><member_id><variable_id><branding_suffix><grid_label>",
     "output_file_template": "<variable_id><branding_suffix><frequency><region><grid_label><source_id><experiment_id><variant_id>[<time_range>].nc",
 }
@@ -52,11 +56,11 @@ class TestCMIP7(unittest.TestCase):
         Write out a simple file using CMOR
         """
         # Set up CMOR
-        cmor.setup(inpath="cmip7-cmor-tables/tables", netcdf_file_action=cmor.CMOR_REPLACE)
+        cmor.setup(inpath=CMIP7_TABLES_PATH, netcdf_file_action=cmor.CMOR_REPLACE)
 
-        # Define dataset using DATASET_INFO
+        # Define dataset using USER_INPUT
         with open("Test/input_cmip7.json", "w") as input_file_handle:
-            json.dump(DATASET_INFO, input_file_handle, sort_keys=True, indent=4)
+            json.dump(USER_INPUT, input_file_handle, sort_keys=True, indent=4)
 
         # read dataset info
         error_flag = cmor.dataset_json("Test/input_cmip7.json")
@@ -115,7 +119,7 @@ class TestCMIP7(unittest.TestCase):
         for attr, val in test_attrs.items():
             self.assertIn(attr, attrs)
             self.assertEqual(val, ds.getncattr(attr))
-        institution_id = DATASET_INFO["institution_id"]
+        institution_id = USER_INPUT["institution_id"]
         license_id = "CC BY 4.0"
         license_type = "Creative Commons Attribution 4.0 International"
         license_url = "https://creativecommons.org/licenses/by/4.0/"

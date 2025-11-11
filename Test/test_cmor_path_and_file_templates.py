@@ -4,25 +4,26 @@ import unittest
 import os
 import numpy
 
-CV_PATH = "TestTables/CMIP7_CV_DRS.json"
+CMIP7_TABLES_PATH = "cmip7-cmor-tables/tables"
+CV_PATH = "cmip7-cmor-tables/test/CMIP7-CV_for-cmor.json"
 
-DATASET_INFO = {
-    "_AXIS_ENTRY_FILE": "Tables/CMIP6_coordinate.json",
-    "_FORMULA_VAR_FILE": "Tables/CMIP6_formula_terms.json",
+USER_INPUT = {
+    "_AXIS_ENTRY_FILE": "CMIP7_coordinate.json",
+    "_FORMULA_VAR_FILE": "CMIP7_formula_terms.json",
     "_cmip7_option": 1,
-    "_controlled_vocabulary_file": CV_PATH,
+    "_controlled_vocabulary_file": None,
     "activity_id": "CMIP",
     "branch_method": "standard",
     "branch_time_in_child": 30.0,
     "branch_time_in_parent": 10800.0,
     "calendar": "360_day",
     "cv_version": "6.2.19.0",
-    "experiment": "1 percent per year increase in CO2",
-    "experiment_id": "1pctCO2",
-    "forcing_index": "f3",
+    "experiment": "Simulation of the pre-industrial climate",
+    "experiment_id": "piControl",
+    "forcing_index": "f30",
     "grid": "N96",
     "grid_label": "gn",
-    "initialization_index": "i1",
+    "initialization_index": "i000001d",
     "institution_id": "PCMDI",
     "license_id": "CC BY 4.0",
     "nominal_resolution": "250 km",
@@ -34,14 +35,15 @@ DATASET_INFO = {
     "parent_experiment_id": "piControl",
     "parent_variant_label": "r1i1p1f3",
     "physics_index": "p1",
-    "realization_index": "r9",
+    "realization_index": "r009",
     "source_id": "PCMDI-test-1-0",
     "source_type": "AOGCM CHEM BGC",
     "tracking_prefix": "hdl:21.14100",
     "host_collection": "CMIP7",
     "frequency": "mon",
     "region": "glb",
-    "archive_id": "WCRP"
+    "archive_id": "WCRP",
+    "drs_specs": "MIP-DRS7"
 }
 
 
@@ -66,7 +68,7 @@ class TestPathAndFileTemplates(unittest.TestCase):
                                 ])
         time = numpy.array([15.5, 45])
         time_bnds = numpy.array([0, 31, 60])
-        cmor.load_table("CMIP7_ocean2d.json")
+        cmor.load_table("CMIP7_ocean.json")
         cmorlat = cmor.axis("latitude",
                             coord_vals=lat,
                             cell_bounds=lat_bnds,
@@ -86,11 +88,11 @@ class TestPathAndFileTemplates(unittest.TestCase):
         filepath = cmor.close(cmortos, file_name=True)
 
         # Attributes for reconstructing file path
-        attrs = DATASET_INFO.copy()
+        attrs = USER_INPUT.copy()
         variant_label = ('{realization_index}{initialization_index}'
                          '{physics_index}{forcing_index}').format(**attrs)
         attrs['mip_era'] = 'CMIP7'
-        attrs['table_id'] = 'ocean2d'
+        attrs['table_id'] = 'ocean'
         attrs['variable_id'] = 'tos'
         attrs['version'] = version
         attrs['variant_label'] = variant_label
@@ -99,21 +101,27 @@ class TestPathAndFileTemplates(unittest.TestCase):
         return (filepath, attrs)
 
     def test_default_path_and_file_templates(self):
+
+        test_name = "default_path_and_file_templates"
+        test_cv_path = f"TestTables/CMIP7_CV_{test_name}.json"
+
         # Set up CMOR
-        cmor.setup(inpath="TestTables",
+        cmor.setup(inpath=CMIP7_TABLES_PATH,
                    netcdf_file_action=cmor.CMOR_REPLACE)
 
         # Remove "DRS" section from CV to use default
         # directory path and file name templates in CMOR
-        with open("TestTables/CMIP7_CV.json", "r") as cv_infile:
+        with open(CV_PATH, "r") as cv_infile:
             cv = json.load(cv_infile)
             cv["CV"].pop("DRS")
-            with open(CV_PATH, "w") as cv_outfile:
+            with open(test_cv_path, "w") as cv_outfile:
                 json.dump(cv, cv_outfile, sort_keys=True, indent=4)
 
-        # Define dataset using DATASET_INFO
+        # Define dataset using USER_INPUT
         with open("Test/input_drs.json", "w") as input_file:
-            json.dump(DATASET_INFO, input_file, sort_keys=True, indent=4)
+            user_input = USER_INPUT.copy()
+            user_input["_controlled_vocabulary_file"] = test_cv_path
+            json.dump(user_input, input_file, sort_keys=True, indent=4)
 
         # read dataset info
         error_flag = cmor.dataset_json("Test/input_drs.json")
@@ -133,22 +141,30 @@ class TestPathAndFileTemplates(unittest.TestCase):
         self.assertEqual(filepath, predicted_filepath)
 
         os.remove(filepath)
-        os.remove(CV_PATH)
+        os.remove(test_cv_path)
 
     def test_cv_path_and_file_templates(self):
+
+        test_name = "cv_path_and_file_templates"
+        test_cv_path = f"TestTables/CMIP7_CV_{test_name}.json"
+
         # Set up CMOR
-        cmor.setup(inpath="TestTables",
+        cmor.setup(inpath=CMIP7_TABLES_PATH,
                    netcdf_file_action=cmor.CMOR_REPLACE)
 
         # Use "DRS" section from CV
-        with open("TestTables/CMIP7_CV.json", "r") as cv_infile:
+        drs = {}
+        with open(CV_PATH, "r") as cv_infile:
             cv = json.load(cv_infile)
-            with open(CV_PATH, "w") as cv_outfile:
+            drs = cv["CV"]["DRS"]
+            with open(test_cv_path, "w") as cv_outfile:
                 json.dump(cv, cv_outfile, sort_keys=True, indent=4)
 
-        # Define dataset using DATASET_INFO
+        # Define dataset using USER_INPUT
         with open("Test/input_drs.json", "w") as input_file:
-            json.dump(DATASET_INFO, input_file, sort_keys=True, indent=4)
+            user_input = USER_INPUT.copy()
+            user_input["_controlled_vocabulary_file"] = test_cv_path
+            json.dump(user_input, input_file, sort_keys=True, indent=4)
 
         # read dataset info
         error_flag = cmor.dataset_json("Test/input_drs.json")
@@ -157,33 +173,42 @@ class TestPathAndFileTemplates(unittest.TestCase):
 
         filepath, attrs = self.gen_cmor_file()
 
-        predicted_path = ('./{mip_era}/{activity_id}/{source_id}/{region}/'
-                          '{frequency}/{experiment_id}/{variant_label}/'
-                          '{variable_id}/{branding_suffix}/{grid_label}/'
-                          '{version}/').format(**attrs)
-        predicted_file = ('{variable_id}_{branding_suffix}_{frequency}_'
-                          '{region}_{grid_label}_{source_id}_{experiment_id}_'
-                          '{variant_label}_201801-201802.nc').format(**attrs)
+        predicted_path_template = drs["directory_path_template"].replace("/","")
+        predicted_path_template = predicted_path_template.replace("<","{").replace(">","}")
+        predicted_path_template = predicted_path_template.replace("}{","}/{")
+
+        predicted_file_template = drs["filename_template"]
+        predicted_file_template = predicted_file_template.replace("<","{").replace(">","}")
+        predicted_file_template = predicted_file_template.replace("}{","}_{")
+
+        predicted_path = f'./{predicted_path_template.format(**attrs)}'
+        predicted_file = f'{predicted_file_template.format(**attrs)}_201801-201802.nc'
         predicted_filepath = os.path.join(predicted_path, predicted_file)
-        self.assertEqual(filepath, predicted_filepath)
+
+        self.assertEqual(filepath.replace('//','/'), predicted_filepath)
 
         os.remove(filepath)
-        os.remove(CV_PATH)
+        os.remove(test_cv_path)
 
     def test_user_input_path_and_file_templates(self):
+
+        test_name = "user_input_path_and_file_templates"
+        test_cv_path = f"TestTables/CMIP7_CV_{test_name}.json"
+
         # Set up CMOR
-        cmor.setup(inpath="TestTables",
+        cmor.setup(inpath=CMIP7_TABLES_PATH,
                    netcdf_file_action=cmor.CMOR_REPLACE)
 
         # Use "DRS" section from CV
-        with open("TestTables/CMIP7_CV.json", "r") as cv_infile:
+        with open(CV_PATH, "r") as cv_infile:
             cv = json.load(cv_infile)
-            with open(CV_PATH, "w") as cv_outfile:
+            with open(test_cv_path, "w") as cv_outfile:
                 json.dump(cv, cv_outfile, sort_keys=True, indent=4)
 
         # Use directory path and file name templates from user input
         with open("Test/input_drs.json", "w") as input_file:
-            user_input = DATASET_INFO.copy()
+            user_input = USER_INPUT.copy()
+            user_input["_controlled_vocabulary_file"] = test_cv_path
             user_input["output_path_template"] = (
                 "<activity_id><source_id><experiment_id>"
                 "<frequency><variable_id><branding_suffix>"
@@ -209,7 +234,7 @@ class TestPathAndFileTemplates(unittest.TestCase):
         self.assertEqual(filepath, predicted_filepath)
 
         os.remove(filepath)
-        os.remove(CV_PATH)
+        os.remove(test_cv_path)
 
 
 if __name__ == '__main__':

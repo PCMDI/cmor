@@ -5,11 +5,12 @@ import os
 import numpy
 import base_CMIP6_CV
 
-CV_PATH = "TestTables/CMIP7_CV.json"
+CMIP7_TABLES_PATH = "cmip7-cmor-tables/tables"
+CV_PATH = "cmip7-cmor-tables/test/CMIP7-CV_for-cmor.json"
 
 USER_INPUT = {
-    "_AXIS_ENTRY_FILE": "Tables/CMIP6_coordinate.json",
-    "_FORMULA_VAR_FILE": "Tables/CMIP6_formula_terms.json",
+    "_AXIS_ENTRY_FILE": "CMIP7_coordinate.json",
+    "_FORMULA_VAR_FILE": "CMIP7_formula_terms.json",
     "_cmip7_option": 1,
     "_controlled_vocabulary_file": CV_PATH,
     "activity_id": "CMIP",
@@ -18,12 +19,12 @@ USER_INPUT = {
     "branch_time_in_parent": 10800.0,
     "calendar": "360_day",
     "cv_version": "6.2.19.0",
-    "experiment": "1 percent per year increase in CO2",
-    "experiment_id": "1pctCO2",
-    "forcing_index": "f3",
+    "experiment": "Simulation of the pre-industrial climate",
+    "experiment_id": "piControl",
+    "forcing_index": "f30",
     "grid": "N96",
     "grid_label": "gn",
-    "initialization_index": "i1",
+    "initialization_index": "i000001d",
     "institution_id": "PCMDI",
     "license_id": "CC BY 4.0",
     "nominal_resolution": "250 km",
@@ -35,14 +36,15 @@ USER_INPUT = {
     "parent_experiment_id": "piControl",
     "parent_variant_label": "r1i1p1f3",
     "physics_index": "p1",
-    "realization_index": "r9",
+    "realization_index": "r009",
     "source_id": "PCMDI-test-1-0",
     "source_type": "AOGCM CHEM BGC",
     "tracking_prefix": "hdl:21.14100",
     "host_collection": "CMIP7",
-    "frequency": "xxxxxxxxxxxx",
+    "frequency": "mon",
     "region": "glb",
-    "archive_id": "WCRP"
+    "archive_id": "WCRP",
+    "drs_specs": "MIP-DRS7"
 }
 
 
@@ -54,7 +56,7 @@ class TestTimeBoundsMismatchMakingMonthlyAxis(base_CMIP6_CV.BaseCVsTest):
         frequency = "mon"
         self.input_path = f"Test/input_making_{frequency}_axis.json"
 
-        cmor.setup(inpath="TestTables",
+        cmor.setup(inpath=CMIP7_TABLES_PATH,
                    netcdf_file_action=cmor.CMOR_REPLACE,
                    logfile=self.tmpfile)
 
@@ -68,7 +70,7 @@ class TestTimeBoundsMismatchMakingMonthlyAxis(base_CMIP6_CV.BaseCVsTest):
         if error_flag:
             raise RuntimeError("CMOR dataset_json call failed")
         
-        cmor.load_table("CMIP7_ocean2d.json")
+        cmor.load_table("CMIP7_ocean.json")
 
     def tearDown(self):
         os.remove(self.input_path)
@@ -140,7 +142,7 @@ class TestTimeBoundsMismatchMaking6HourlyAxis(base_CMIP6_CV.BaseCVsTest):
         frequency = "6hr"
         self.input_path = f"Test/input_making_{frequency}_axis.json"
 
-        cmor.setup(inpath="TestTables",
+        cmor.setup(inpath=CMIP7_TABLES_PATH,
                    netcdf_file_action=cmor.CMOR_REPLACE,
                    logfile=self.tmpfile)
 
@@ -154,7 +156,7 @@ class TestTimeBoundsMismatchMaking6HourlyAxis(base_CMIP6_CV.BaseCVsTest):
         if error_flag:
             raise RuntimeError("CMOR dataset_json call failed")
         
-        cmor.load_table("CMIP7_ocean2d.json")
+        cmor.load_table("CMIP7_ocean.json")
 
     def tearDown(self):
         os.remove(self.input_path)
@@ -209,7 +211,7 @@ class TestTimeBoundsMismatchMakingYearlyAxis(base_CMIP6_CV.BaseCVsTest):
         frequency = "yr"
         self.input_path = f"Test/input_making_{frequency}_axis.json"
 
-        cmor.setup(inpath="TestTables",
+        cmor.setup(inpath=CMIP7_TABLES_PATH,
                    netcdf_file_action=cmor.CMOR_REPLACE,
                    logfile=self.tmpfile)
 
@@ -223,7 +225,7 @@ class TestTimeBoundsMismatchMakingYearlyAxis(base_CMIP6_CV.BaseCVsTest):
         if error_flag:
             raise RuntimeError("CMOR dataset_json call failed")
         
-        cmor.load_table("CMIP7_ocean2d.json")
+        cmor.load_table("CMIP7_ocean.json")
 
     def tearDown(self):
         os.remove(self.input_path)
@@ -318,7 +320,7 @@ class TestTimeBoundsMismatchTimesPassed(base_CMIP6_CV.BaseCVsTest):
         input_path = f"Test/input_{test_name}.json"
         frequency = "mon"
 
-        cmor.setup(inpath="TestTables",
+        cmor.setup(inpath=CMIP7_TABLES_PATH,
                    netcdf_file_action=cmor.CMOR_REPLACE,
                    logfile=self.tmpfile)
 
@@ -340,7 +342,7 @@ class TestTimeBoundsMismatchTimesPassed(base_CMIP6_CV.BaseCVsTest):
         time_bnds = numpy.array([0, 31, 60])
         tos_shape = (time.shape[0], lat.shape[0], lon.shape[0])
         tos = numpy.full(tos_shape, 27)
-        cmor.load_table("CMIP7_ocean2d.json")
+        cmor.load_table("CMIP7_ocean.json")
         cmorlat = cmor.axis("latitude",
                             coord_vals=lat,
                             cell_bounds=lat_bnds,

@@ -5,23 +5,26 @@ import numpy
 
 from netCDF4 import Dataset
 
-DATASET_INFO = {
-    "_AXIS_ENTRY_FILE": "Tables/CMIP6_coordinate.json",
-    "_FORMULA_VAR_FILE": "Tables/CMIP6_formula_terms.json",
+CMIP7_TABLES_PATH = "cmip7-cmor-tables/tables"
+CV_PATH = "cmip7-cmor-tables/test/CMIP7-CV_for-cmor.json"
+
+USER_INPUT = {
+    "_AXIS_ENTRY_FILE": "CMIP7_coordinate.json",
+    "_FORMULA_VAR_FILE": "CMIP7_formula_terms.json",
     "_cmip7_option": 1,
-    "_controlled_vocabulary_file": "TestTables/CMIP7_CV.json",
+    "_controlled_vocabulary_file": None,
     "activity_id": "CMIP",
     "branch_method": "standard",
     "branch_time_in_child": 30.0,
     "branch_time_in_parent": 10800.0,
     "calendar": "360_day",
     "cv_version": "6.2.19.0",
-    "experiment": "1 percent per year increase in CO2",
-    "experiment_id": "1pctCO2",
-    "forcing_index": "f3",
+    "experiment": "Simulation of the pre-industrial climate",
+    "experiment_id": "piControl",
+    "forcing_index": "f30",
     "grid": "N96",
     "grid_label": "gn",
-    "initialization_index": "i1",
+    "initialization_index": "i000001d",
     "institution_id": "PCMDI",
     "license_id": "CC BY 4.0",
     "nominal_resolution": "250 km",
@@ -33,7 +36,7 @@ DATASET_INFO = {
     "parent_experiment_id": "piControl",
     "parent_variant_label": "r1i1p1f3",
     "physics_index": "p1",
-    "realization_index": "r9",
+    "realization_index": "r009",
     "source_id": "PCMDI-test-1-0",
     "source_type": "AOGCM CHEM BGC",
     "tracking_prefix": "hdl:21.14100",
@@ -41,6 +44,7 @@ DATASET_INFO = {
     "frequency": "mon",
     "region": "glb",
     "archive_id": "WCRP",
+    "drs_specs": "MIP-DRS7",
     "output_path_template": "<activity_id><source_id><experiment_id><member_id><variable_id><branding_suffix><grid_label>",
     "output_file_template": "<variable_id><branding_suffix><frequency><region><grid_label><source_id><experiment_id><variant_id>[<time_range>].nc",
 }
@@ -52,21 +56,21 @@ class TestLicenseAttributes(unittest.TestCase):
         Write out a simple file using CMOR
         """
         # Set up CMOR
-        cmor.setup(inpath="TestTables", netcdf_file_action=cmor.CMOR_REPLACE)
+        cmor.setup(inpath=CMIP7_TABLES_PATH, netcdf_file_action=cmor.CMOR_REPLACE)
 
         # Add 'license_id' and 'license_url' to required attributes of CV
         updated_cv_path = "TestTables/CMIP7_CV_license_attrs.json"
-        with open("TestTables/CMIP7_CV.json", "r") as cv_infile:
+        with open(CV_PATH, "r") as cv_infile:
             cv = json.load(cv_infile)
             cv["CV"]["required_global_attributes"].append("license_id")
             cv["CV"]["required_global_attributes"].append("license_url")
             with open(updated_cv_path, "w") as cv_outfile:
                 json.dump(cv, cv_outfile, sort_keys=True, indent=4)
 
-        # Define dataset using DATASET_INFO
-        DATASET_INFO["_controlled_vocabulary_file"] = updated_cv_path
+        # Define dataset using USER_INPUT
+        USER_INPUT["_controlled_vocabulary_file"] = updated_cv_path
         with open("Test/input_cmip7.json", "w") as input_file_handle:
-            json.dump(DATASET_INFO, input_file_handle, sort_keys=True, indent=4)
+            json.dump(USER_INPUT, input_file_handle, sort_keys=True, indent=4)
 
         # read dataset info
         error_flag = cmor.dataset_json("Test/input_cmip7.json")
@@ -92,7 +96,7 @@ class TestLicenseAttributes(unittest.TestCase):
                                 ])
         time = numpy.array([15.5, 45])
         time_bnds = numpy.array([0, 31, 60])
-        cmor.load_table("CMIP7_ocean2d.json")
+        cmor.load_table("CMIP7_ocean.json")
         cmorlat = cmor.axis("latitude",
                             coord_vals=lat,
                             cell_bounds=lat_bnds,
@@ -123,14 +127,14 @@ class TestLicenseAttributes(unittest.TestCase):
             'frequency': 'mon',
             'archive_id': 'WCRP',
             'mip_era': 'CMIP7',
-            'data_specs_version': 'CMIP-7.0.0.0',
+            'data_specs_version': 'CMIP-7.0.0.0-alpha',
             'host_collection': 'CMIP7',
         }
 
         for attr, val in test_attrs.items():
             self.assertTrue(attr in attrs)
             self.assertEqual(val, ds.getncattr(attr))
-        institution_id = DATASET_INFO["institution_id"]
+        institution_id = USER_INPUT["institution_id"]
         license_id = "CC BY 4.0"
         license_type = "Creative Commons Attribution 4.0 International"
         license_url = "https://creativecommons.org/licenses/by/4.0/"

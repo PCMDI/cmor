@@ -4,23 +4,26 @@ import cmor
 import unittest
 from base_CMIP6_CV import BaseCVsTest
 
+CMIP7_TABLES_PATH = "cmip7-cmor-tables/tables"
+CV_PATH = "cmip7-cmor-tables/test/CMIP7-CV_for-cmor.json"
+
 USER_INPUT = {
-    "_AXIS_ENTRY_FILE": "Tables/CMIP6_coordinate.json",
-    "_FORMULA_VAR_FILE": "Tables/CMIP6_formula_terms.json",
+    "_AXIS_ENTRY_FILE": "CMIP7_coordinate.json",
+    "_FORMULA_VAR_FILE": "CMIP7_formula_terms.json",
     "_cmip7_option": 1,
-    "_controlled_vocabulary_file": "",
+    "_controlled_vocabulary_file": None,
     "activity_id": "CMIP",
     "branch_method": "standard",
     "branch_time_in_child": 30.0,
     "branch_time_in_parent": 10800.0,
     "calendar": "360_day",
     "cv_version": "6.2.19.0",
-    "experiment": "1 percent per year increase in CO2",
-    "experiment_id": "1pctCO2",
-    "forcing_index": "3",
+    "experiment": "Simulation of the pre-industrial climate",
+    "experiment_id": "piControl",
+    "forcing_index": "f30",
     "grid": "N96",
     "grid_label": "gn",
-    "initialization_index": "1",
+    "initialization_index": "i000001d",
     "institution_id": "PCMDI",
     "license_id": "CC BY 4.0",
     "nominal_resolution": "250 km",
@@ -31,15 +34,16 @@ USER_INPUT = {
     "parent_source_id": "PCMDI-test-1-0",
     "parent_experiment_id": "piControl",
     "parent_variant_label": "r1i1p1f3",
-    "physics_index": "1",
-    "realization_index": "9",
+    "physics_index": "p1",
+    "realization_index": "r009",
     "source_id": "PCMDI-test-1-0",
     "source_type": "AOGCM CHEM BGC",
     "tracking_prefix": "hdl:21.14100",
     "host_collection": "CMIP7",
     "frequency": "mon",
     "region": "glb",
-    "archive_id": "WCRP"
+    "archive_id": "WCRP",
+    "drs_specs": "MIP-DRS7"
 }
 
 
@@ -51,11 +55,11 @@ class TestCheckCVStructure(BaseCVsTest):
         cv_path = f"TestTables/CMIP7_CV_{test_name}.json"
         input_path = f"Test/input_{test_name}.json"
 
-        cmor.setup(inpath="TestTables",
+        cmor.setup(inpath=CMIP7_TABLES_PATH,
                    netcdf_file_action=cmor.CMOR_REPLACE,
                    logfile=self.tmpfile)
 
-        with open("TestTables/CMIP7_CV.json", "r") as cv_infile:
+        with open(CV_PATH, "r") as cv_infile:
             cv = json.load(cv_infile)
             no_cv_key = cv["CV"]
             with open(cv_path, "w") as cv_outfile:
@@ -71,7 +75,7 @@ class TestCheckCVStructure(BaseCVsTest):
             raise RuntimeError("CMOR dataset_json call failed")
 
         with self.assertRaises(cmor.CMORError):
-            cmor.load_table("CMIP7_ocean2d.json")
+            cmor.load_table("CMIP7_ocean.json")
 
         self.assertCV("CV section was not found in table: ")
 
@@ -84,11 +88,11 @@ class TestCheckCVStructure(BaseCVsTest):
         cv_path = f"TestTables/CMIP7_CV_{test_name}.json"
         input_path = f"Test/input_{test_name}.json"
 
-        cmor.setup(inpath="TestTables",
+        cmor.setup(inpath=CMIP7_TABLES_PATH,
                    netcdf_file_action=cmor.CMOR_REPLACE,
                    logfile=self.tmpfile)
 
-        with open("TestTables/CMIP7_CV.json", "r") as cv_infile:
+        with open(CV_PATH, "r") as cv_infile:
             cv = json.load(cv_infile)
             cv["CV"]["branding_suffix"] = ["template"]
             cv["CV"]["mip_era"] = {"mip_era": "CMIP7"}
@@ -107,7 +111,7 @@ class TestCheckCVStructure(BaseCVsTest):
         if error_flag:
             raise RuntimeError("CMOR dataset_json call failed")
 
-        cmor.load_table("CMIP7_ocean2d.json")
+        cmor.load_table("CMIP7_ocean.json")
 
         self.assertCV(
             "must be a string",
@@ -143,11 +147,11 @@ class TestCheckCVStructure(BaseCVsTest):
         cv_path = f"TestTables/CMIP7_CV_{test_name}.json"
         input_path = f"Test/input_{test_name}.json"
 
-        cmor.setup(inpath="TestTables",
+        cmor.setup(inpath=CMIP7_TABLES_PATH,
                    netcdf_file_action=cmor.CMOR_REPLACE,
                    logfile=self.tmpfile)
 
-        with open("TestTables/CMIP7_CV.json", "r") as cv_infile:
+        with open(CV_PATH, "r") as cv_infile:
             cv = json.load(cv_infile)
             cv["CV"]["institution_id"]["PCMDI"] = {"LLNL": "Livermore, CA"}
             with open(cv_path, "w") as cv_outfile:
@@ -162,7 +166,7 @@ class TestCheckCVStructure(BaseCVsTest):
         if error_flag:
             raise RuntimeError("CMOR dataset_json call failed")
 
-        cmor.load_table("CMIP7_ocean2d.json")
+        cmor.load_table("CMIP7_ocean.json")
 
         self.assertCV(
             "in attribute \"institution_id\" cannot be an object",
@@ -178,7 +182,7 @@ class TestCheckCVStructure(BaseCVsTest):
         cv_path = f"TestTables/CMIP7_CV_{test_name}.json"
         input_path = f"Test/input_{test_name}.json"
 
-        cmor.setup(inpath="TestTables",
+        cmor.setup(inpath=CMIP7_TABLES_PATH,
                    netcdf_file_action=cmor.CMOR_REPLACE,
                    logfile=self.tmpfile)
 
@@ -201,7 +205,7 @@ class TestCheckCVStructure(BaseCVsTest):
         if error_flag:
             raise RuntimeError("CMOR dataset_json call failed")
 
-        cmor.load_table("CMIP7_ocean2d.json")
+        cmor.load_table("CMIP7_ocean.json")
 
         self.assertCV(
             "has elements in its array that are not strings",
@@ -217,7 +221,7 @@ class TestCheckCVStructure(BaseCVsTest):
         cv_path = f"TestTables/CMIP7_CV_{test_name}.json"
         input_path = f"Test/input_{test_name}.json"
 
-        cmor.setup(inpath="TestTables",
+        cmor.setup(inpath=CMIP7_TABLES_PATH,
                    netcdf_file_action=cmor.CMOR_REPLACE,
                    logfile=self.tmpfile)
 
@@ -244,7 +248,7 @@ class TestCheckCVStructure(BaseCVsTest):
         if error_flag:
             raise RuntimeError("CMOR dataset_json call failed")
 
-        cmor.load_table("CMIP7_ocean2d.json")
+        cmor.load_table("CMIP7_ocean.json")
 
         self.assertCV(
             "has elements in its array that are not strings",
