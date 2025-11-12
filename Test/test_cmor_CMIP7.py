@@ -6,7 +6,7 @@ import numpy
 from netCDF4 import Dataset
 
 CMIP7_TABLES_PATH = "cmip7-cmor-tables/tables"
-CV_PATH = "cmip7-cmor-tables/test/CMIP7-CV_for-cmor.json"
+CV_PATH = "TestTables/CMIP7_CV.json"
 
 USER_INPUT = {
     "_AXIS_ENTRY_FILE": "CMIP7_coordinate.json",
@@ -44,7 +44,6 @@ USER_INPUT = {
     "frequency": "mon",
     "region": "glb",
     "archive_id": "WCRP",
-    "drs_specs": "MIP-DRS7",
     "output_path_template": "<activity_id><source_id><experiment_id><member_id><variable_id><branding_suffix><grid_label>",
     "output_file_template": "<variable_id><branding_suffix><frequency><region><grid_label><source_id><experiment_id><variant_id>[<time_range>].nc",
 }
@@ -112,7 +111,7 @@ class TestCMIP7(unittest.TestCase):
             'frequency': 'mon',
             'archive_id': 'WCRP',
             'mip_era': 'CMIP7',
-            'data_specs_version': 'CMIP-7.0.0.0-alpha',
+            'data_specs_version': 'CMIP-7.0.0.0',
             'host_collection': 'CMIP7',
         }
 
@@ -188,7 +187,7 @@ class TestCMIP7(unittest.TestCase):
             'frequency': 'mon',
             'archive_id': 'WCRP',
             'mip_era': 'CMIP7',
-            'data_specs_version': 'CMIP-7.0.0.0-alpha',
+            'data_specs_version': 'CMIP-7.0.0.0',
             'host_collection': 'CMIP7',
             'realm': 'atmos land landIce',
         }

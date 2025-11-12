@@ -6,7 +6,7 @@ import numpy
 import base_CMIP6_CV
 
 CMIP7_TABLES_PATH = "cmip7-cmor-tables/tables"
-CV_PATH = "cmip7-cmor-tables/test/CMIP7-CV_for-cmor.json"
+CV_PATH = "TestTables/CMIP7_CV.json"
 
 USER_INPUT = {
     "_AXIS_ENTRY_FILE": "CMIP7_coordinate.json",
@@ -43,8 +43,7 @@ USER_INPUT = {
     "host_collection": "CMIP7",
     "frequency": "mon",
     "region": "glb",
-    "archive_id": "WCRP",
-    "drs_specs": "MIP-DRS7"
+    "archive_id": "WCRP"
 }
 
 
