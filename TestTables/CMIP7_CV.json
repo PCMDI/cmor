@@ -6,6 +6,32 @@
             "filename_example":"tas_tavg-h2m-hxy-u_mon_glb_gn_PCMDI-test-1-0_historical_r1i1p1f3_185001-186912.nc",
             "filename_template":"<variable_id><branding_suffix><frequency><region><grid_label><source_id><experiment_id><variant_label>"
         },
+        "activity_id":{
+            "AerChemMIP":"Aerosols and Chemistry Model Intercomparison Project",
+            "C4MIP":"Coupled Climate Carbon Cycle Model Intercomparison Project",
+            "CDRMIP":"Carbon Dioxide Removal Model Intercomparison Project",
+            "CFMIP":"Cloud Feedback Model Intercomparison Project",
+            "CMIP":"CMIP DECK: 1pctCO2, abrupt4xCO2, amip, esm-piControl, esm-historical, historical, and piControl experiments",
+            "CORDEX":"Coordinated Regional Climate Downscaling Experiment",
+            "DAMIP":"Detection and Attribution Model Intercomparison Project",
+            "DCPP":"Decadal Climate Prediction Project",
+            "DynVarMIP":"Dynamics and Variability Model Intercomparison Project",
+            "FAFMIP":"Flux-Anomaly-Forced Model Intercomparison Project",
+            "GMMIP":"Global Monsoons Model Intercomparison Project",
+            "GeoMIP":"Geoengineering Model Intercomparison Project",
+            "HighResMIP":"High-Resolution Model Intercomparison Project",
+            "ISMIP6":"Ice Sheet Model Intercomparison Project for CMIP6",
+            "LS3MIP":"Land Surface, Snow and Soil Moisture",
+            "LUMIP":"Land-Use Model Intercomparison Project",
+            "OMIP":"Ocean Model Intercomparison Project",
+            "PAMIP":"Polar Amplification Model Intercomparison Project",
+            "PMIP":"Palaeoclimate Modelling Intercomparison Project",
+            "RFMIP":"Radiative Forcing Model Intercomparison Project",
+            "SIMIP":"Sea Ice Model Intercomparison Project",
+            "ScenarioMIP":"Scenario Model Intercomparison Project",
+            "VIACSAB":"Vulnerability, Impacts, Adaptation and Climate Services Advisory Board",
+            "VolMIP":"Volcanic Forcings Model Intercomparison Project"
+        },
         "archive_id":{
             "WCRP":"a collection of datasets from the AMIP and CMIP project phases, along with project supporting datasets from the input4MIPs (forcing datasets used to drive CMIP simulations) and obs4MIPs (observational datasets used to evaluate CMIP simulations, and numerous other supporting activities"
         },
@@ -38,33 +64,56 @@
         },
         "branding_suffix":"<temporal_label><vertical_label><horizontal_label><area_label>",
         "data_specs_version":"CMIP-7.0.0.0",
-        "experiment_id":{
-            "1pctCO2":{
-                "activity_id":[
+        "experiment_id": {
+            "historical": {
+                "activity_id": [
                     "CMIP"
                 ],
-                "additional_allowed_model_components":[
+                "additional_allowed_model_components": [
                     "AER",
                     "CHEM",
                     "BGC"
                 ],
-                "description":"DECK: 1pctCO2",
-                "end_year":"",
-                "experiment":"1 percent per year increase in CO2",
-                "experiment_id":"1pctCO2",
-                "host_collection":"CMIP7",
-                "min_number_yrs_per_sim":"150",
-                "parent_activity_id":[
+                "description": "DECK: historical simulation of the recent past (TODO: add details)",
+                "end_year": "2021 (TODO make clear it is end of 2021, not start)",
+                "experiment": "Simulation of the recent past",
+                "experiment_id": "historical",
+                "host_collection": "CMIP7",
+                "min_number_yrs_per_sim": 171,
+                "parent_activity_id": [
                     "CMIP"
                 ],
-                "parent_experiment_id":[
+                "parent_experiment_id": [
                     "piControl"
                 ],
-                "required_model_components":[
+                "required_model_components": [
                     "AOGCM"
                 ],
-                "start_year":"",
-                "tier":"1"
+                "start_year": "1850",
+                "tier": 0
+            },
+            "piControl": {
+                "activity_id": [
+                    "CMIP"
+                ],
+                "additional_allowed_model_components": [
+                    "AER",
+                    "CHEM",
+                    "BGC"
+                ],
+                "description": "DECK: pre-industrial control simulation (TODO: add details)",
+                "end_year": "",
+                "experiment": "Simulation of the pre-industrial climate",
+                "experiment_id": "piControl",
+                "host_collection": "CMIP7",
+                "min_number_yrs_per_sim": 150,
+                "parent_activity_id": [],
+                "parent_experiment_id": [],
+                "required_model_components": [
+                    "AOGCM"
+                ],
+                "start_year": "",
+                "tier": 0
             }
         },
         "frequency":{
