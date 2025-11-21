@@ -5561,7 +5561,7 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
             if (cmor_axes[pVar->axes_ids[i]].axis == 'T') {
                 
                 // Set chunking size of the time axis to the size of the
-                // time axis it it is greater than zero. Otherwise, set it
+                // time axis if it is greater than zero. Otherwise, set it
                 // to the default time chunking size.
                 size_t time_chunk_size = CMOR_DEFAULT_TIME_CHUNK_SIZE;
                 if (cmor_axes[pVar->axes_ids[i]].length > 0) {
