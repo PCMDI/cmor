@@ -5553,7 +5553,9 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
 /* -------------------------------------------------------------------- */
 /*      Chunking stuff                                                  */
 /* -------------------------------------------------------------------- */
-
+#ifndef NC_CHUNKED
+#define NC_CHUNKED 0
+#endif
         // time and time_bnds chunking
         for (i = 0; i < pVar->ndims; i++) {
             if (cmor_axes[pVar->axes_ids[i]].axis == 'T') {
@@ -5596,9 +5598,6 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
             }
         }
 
-#ifndef NC_CHUNKED
-#define NC_CHUNKED 0
-#endif
         size_t nc_dim_chunking[cmor_vars[var_id].ndims];
         bChunk = cmor_set_chunking(var_id, nVarRefTblID, nc_dim_chunking);
         if (bChunk != -1 && (!((cmor_vars[var_id].grid_id > -1)
