@@ -5656,7 +5656,13 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
 /*      Done with NetCDF file definitions                               */
 /* -------------------------------------------------------------------- */
 
-    ierr = nc_enddef(ncid);
+    // Use nc__enddef to control file layout
+    // Reserve header space and align data to ensure clean layout
+    size_t h_minfree = 8192;      // Reserve space for header/B-tree growth
+    size_t v_align = 4096;         // Align data to 4K boundaries  
+    size_t v_minfree = 0;
+    size_t r_align = 4096;
+    ierr = nc__enddef(ncid, h_minfree, v_align, v_minfree, r_align);
     if (ierr != NC_NOERR && ierr != NC_ENOTINDEFINE) {
         cmor_handle_error_var_variadic(
             "NetCDF Error (%i: %s) leaving definition mode for file %s",
@@ -5666,7 +5672,7 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
         return;
 
     }
-    ierr = nc_enddef(ncafid);
+    ierr = nc__enddef(ncafid, h_minfree, v_align, v_minfree, r_align);
     if (ierr != NC_NOERR && ierr != NC_ENOTINDEFINE) {
         cmor_handle_error_var_variadic(
             "NetCDF Error (%i: %s) leaving definition mode for metafile %s",
