@@ -4,3 +4,6 @@
 [submodule "mip-cmor-tables"]
 	path = mip-cmor-tables
 	url = https://github.com/PCMDI/mip-cmor-tables.git
+[submodule "cmip7-cmor-tables"]
+	path = cmip7-cmor-tables
+	url = https://github.com/WCRP-CMIP/cmip7-cmor-tables
