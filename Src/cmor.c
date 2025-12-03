@@ -5610,8 +5610,7 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
             bytes_per_elem = sizeof(int);
         else if (pVar->type == 'l')
             bytes_per_elem = sizeof(long);
-        
-        size_t max_bytes_per_chunk = CMOR_TIMESTEP_CHUNK_MAX_BYTES;
+
         size_t nc_dim_chunking[pVar->ndims];
 
         // Create chunking dimensions where multiple timesteps can fit
@@ -5619,19 +5618,22 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
         size_t bytes_per_timestep = bytes_per_elem;
         for (i = 0; i < pVar->ndims; i++) {
             if(cmor_axes[pVar->axes_ids[i]].axis != 'T') {
-                nc_dim_chunking[i] = cmor_axes[pVar->axes_ids[i]].length;
                 bytes_per_timestep *= cmor_axes[pVar->axes_ids[i]].length;
             }
         }
-        size_t timesteps_per_chunk = max_bytes_per_chunk / bytes_per_timestep;
+        size_t timesteps_per_chunk = CMOR_TIMESTEP_CHUNK_MAX_BYTES / bytes_per_timestep;
         for (i = 0; i < pVar->ndims; i++) {
             if(cmor_axes[pVar->axes_ids[i]].axis == 'T') {
-                if (timesteps_per_chunk == 0 || cmor_axes[pVar->axes_ids[i]].length == 0) {
-                    nc_dim_chunking[i] = 1;
-                } else if (timesteps_per_chunk > cmor_axes[pVar->axes_ids[i]].length) {
+                if (timesteps_per_chunk > cmor_axes[pVar->axes_ids[i]].length) {
                     nc_dim_chunking[i] = cmor_axes[pVar->axes_ids[i]].length;
                 } else {
                     nc_dim_chunking[i] = timesteps_per_chunk;
+                }
+            } else {
+                if (timesteps_per_chunk == 0) {
+                    nc_dim_chunking[i] = 0;
+                } else {
+                    nc_dim_chunking[i] = cmor_axes[pVar->axes_ids[i]].length;
                 }
             }
         }
