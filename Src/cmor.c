@@ -3141,6 +3141,11 @@ int cmor_setGblAttr(int var_id)
 /* -------------------------------------------------------------------- */
 /*     Set branded variable attributes                                  */
 /* -------------------------------------------------------------------- */
+    if (cmor_vars[var_id].branded_variable[0] != '\0') {
+        cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_BRANDEDVARIABLE,
+                                                cmor_vars[var_id].branded_variable,
+                                                0);
+    }
     if (cmor_vars[var_id].branding_suffix[0] != '\0') {
         cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_BRANDINGSUFFIX,
                                                 cmor_vars[var_id].branding_suffix,
