@@ -246,6 +246,7 @@ int cmor_set_variable_entry(cmor_table_t * table,
             &variable_entry[pmatch[2].rm_so], 
             pmatch[5].rm_eo - pmatch[2].rm_so);
         variable->branding_suffix[pmatch[5].rm_eo - pmatch[2].rm_so] = '\0';
+        cmor_set_var_def_att(variable, VARIABLE_ATT_BRANDEDVARIABLE, variable_entry);
     }
     regfree(&regex);
 

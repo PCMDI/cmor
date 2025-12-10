@@ -102,6 +102,7 @@ class TestCMIP7(unittest.TestCase):
         ds = Dataset(filename)
         attrs = ds.ncattrs()
         test_attrs = {
+            'branded_variable': 'tos_tavg-u-hxy-sea',
             'branding_suffix': 'tavg-u-hxy-sea',
             'temporal_label': 'tavg',
             'vertical_label': 'u',
@@ -178,6 +179,7 @@ class TestCMIP7(unittest.TestCase):
         ds = Dataset(filename)
         attrs = ds.ncattrs()
         test_attrs = {
+            'branded_variable': 'prra_tavg-u-hxy-is',
             'branding_suffix': 'tavg-u-hxy-is',
             'temporal_label': 'tavg',
             'vertical_label': 'u',
