@@ -1165,6 +1165,7 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
         strncpy(cmor_vars[vrid].id, refvar.out_name, CMOR_MAX_STRING);
     }
 
+    strncpy(cmor_vars[vrid].branded_variable, refvar.branded_variable, CMOR_MAX_STRING);
     strncpy(cmor_vars[vrid].branding_suffix, refvar.branding_suffix, CMOR_MAX_STRING);
     strncpy(cmor_vars[vrid].temporal_label, refvar.temporal_label, CMOR_MAX_STRING);
     strncpy(cmor_vars[vrid].vertical_label, refvar.vertical_label, CMOR_MAX_STRING);
@@ -1979,6 +1980,7 @@ void cmor_init_var_def(cmor_var_def_t * var, int table_id)
     var->deflate_level = 1;
     var->zstandard_level = -999999;
     memset(var->generic_level_name, 0, sizeof(var->generic_level_name));
+    memset(var->branded_variable, 0, sizeof(var->branded_variable));
     memset(var->branding_suffix, 0, sizeof(var->branding_suffix));
     memset(var->temporal_label, 0, sizeof(var->temporal_label));
     memset(var->vertical_label, 0, sizeof(var->vertical_label));
@@ -2236,6 +2238,10 @@ int cmor_set_var_def_att(cmor_var_def_t * var, char *att, char *val)
     } else if (strcmp(att, VARIABLE_ATT_OUTNAME) == 0) {
 
         strncpy(var->out_name, val, CMOR_MAX_STRING);
+
+    } else if (strcmp(att, VARIABLE_ATT_BRANDEDVARIABLE) == 0) {
+
+        strncpy(var->branded_variable, val, CMOR_MAX_STRING);
 
     } else if (strcmp(att, VARIABLE_ATT_BRANDINGSUFFIX) == 0) {
 

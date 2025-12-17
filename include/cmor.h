@@ -3,7 +3,7 @@
 
 #define CMOR_VERSION_MAJOR 3
 #define CMOR_VERSION_MINOR 13
-#define CMOR_VERSION_PATCH 0
+#define CMOR_VERSION_PATCH 1
 
 #define CMOR_CF_VERSION_MAJOR 1
 #define CMOR_CF_VERSION_MINOR 7
@@ -151,6 +151,7 @@
 #define VARIABLE_ATT_FLAGMEANINGS     "flag_meanings"
 #define VARIABLE_ATT_OUTNAME          "out_name"
 #define VARIABLE_ATT_BRANDDESCRIPTION "brand_description"
+#define VARIABLE_ATT_BRANDEDVARIABLE  "branded_variable"
 #define VARIABLE_ATT_BRANDINGSUFFIX   "branding_suffix"
 #define VARIABLE_ATT_TEMPORALLABEL    "temporal_label"
 #define VARIABLE_ATT_VERTICALLABEL    "vertical_label"
@@ -175,6 +176,7 @@
 #define GLOBAL_ATT_ACTIVITY_ID        "activity_id"
 #define GLOBAL_ATT_VAL_NODRIVER       "no-driver"
 #define GLOBAL_ATT_VARIABLE_ID        "variable_id"
+#define GLOBAL_ATT_BRANDEDVARIABLE    "branded_variable"
 #define GLOBAL_ATT_BRANDINGSUFFIX     "branding_suffix"
 #define GLOBAL_ATT_TEMPORALLABEL      "temporal_label"
 #define GLOBAL_ATT_VERTICALLABEL      "vertical_label"
@@ -497,6 +499,7 @@ typedef struct cmor_variable_def_ {
     char frequency[CMOR_MAX_STRING];
     char out_name[CMOR_MAX_STRING];
     char generic_level_name[CMOR_MAX_STRING];
+    char branded_variable[CMOR_MAX_STRING];
     char branding_suffix[CMOR_MAX_STRING];
     char temporal_label[CMOR_MAX_STRING];
     char vertical_label[CMOR_MAX_STRING];
@@ -567,6 +570,7 @@ typedef struct cmor_var_ {
     char suffix[CMOR_MAX_STRING];
     int suffix_has_date;
     char frequency[CMOR_MAX_STRING];
+    char branded_variable[CMOR_MAX_STRING];
     char branding_suffix[CMOR_MAX_STRING];
     char temporal_label[CMOR_MAX_STRING];
     char vertical_label[CMOR_MAX_STRING];
