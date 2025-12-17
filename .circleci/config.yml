@@ -142,7 +142,7 @@ jobs:
       executor: << parameters.os >>
       environment:
          PKG_NAME: "cmor"
-         VERSION: "3.13.0"
+         VERSION: "3.13.1"
          PYTHON_VERSION: << parameters.python_version >>
          CHANNELS: "-c conda-forge"
       steps:
