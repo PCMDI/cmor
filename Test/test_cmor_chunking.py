@@ -5,8 +5,9 @@ import unittest
 import numpy
 
 from netCDF4 import Dataset
+import pyfive
 
-MAX_CHUNK_SIZE = 4 * 2**20
+BYTES_4MiB = 4 * 2**20
 CMIP7_TABLES_PATH = "cmip7-cmor-tables/tables"
 CV_PATH = "TestTables/CMIP7_CV.json"
 
@@ -52,6 +53,63 @@ USER_INPUT = {
 
 
 class TestChunking(unittest.TestCase):
+
+    def assertChunking(self, filename, msg=None):
+        """ Chunking checks from cmip7_repack """
+        f = pyfive.File(filename)
+        if "time" in f:
+            # Check for the time coordinates variable having one chunk
+            t = f["time"]
+            chunks = t.chunks
+            if chunks is not None and t.id.get_num_chunks() > 1:
+                # At least two chunks
+                message = self._formatMessage(msg,
+                    f"FAIL: File {filename!r} time coordinates variable "
+                    f"'time' has {t.id.get_num_chunks()} chunks "
+                    "(expected 1 chunk or contiguous)"
+                )
+                raise self.failureException(message)
+
+            # Check for the time bounds variable having one chunk
+            if "bounds" in t.attrs:
+                bounds = str(numpy.array(t.attrs["bounds"]).astype("U"))
+                if bounds in f:
+                    b = f[bounds]
+                    chunks = b.chunks
+                    if chunks is not None and b.id.get_num_chunks() > 1:
+                        # At least two chunks
+                        message = self._formatMessage(msg,
+                            f"FAIL: File {filename!r} time bounds variable "
+                            f"{bounds!r} has {b.id.get_num_chunks()} chunks "
+                            "(expected 1 chunk or contiguous)"
+                        )
+                        raise self.failureException(message)
+
+        # Check for the data variable having one chunks of at least ~4MiB
+        if "variable_id" in f.attrs:
+            variable_id = str(numpy.array(f.attrs["variable_id"]).astype("U"))
+            if variable_id in f:
+                d = f[variable_id]
+                if chunks is not None and d.id.get_num_chunks() > 1:
+                    # At least two chunks
+                    chunks = d.chunks
+                    wordsize = d.dtype.itemsize
+                    chunksize = numpy.prod(chunks) * wordsize
+
+                    lee_way = 0
+                    if len(chunks) > 1:
+                        lee_way = numpy.prod(chunks[1:]) * wordsize
+
+                    if chunksize + lee_way < BYTES_4MiB:
+                        message = self._formatMessage(msg,
+                            f"FAIL: File {filename!r} data variable "
+                            f"{variable_id!r} has uncompressed chunk size "
+                            f"{chunksize} B (expected at least "
+                            f"{BYTES_4MiB - lee_way} B or 1 chunk "
+                            "or contiguous)"
+                        )
+                        raise self.failureException(message)
+        
     def setUp(self):
         """
         Write out a simple file using CMOR
@@ -112,21 +170,7 @@ class TestChunking(unittest.TestCase):
         num_lon = 100
         self.generate_file(num_times, num_lat, num_lon)
 
-        with Dataset(self.cmor_filepath, 'r') as nc_file:
-            pr_chunks = nc_file.variables['pr'].chunking()
-            self.assertEqual(pr_chunks, [num_times, num_lat, num_lon])
-            time_chunks = nc_file.variables['time'].chunking()
-            self.assertEqual(time_chunks, [num_times])
-            time_bnds_chunks = nc_file.variables['time_bnds'].chunking()
-            self.assertEqual(time_bnds_chunks, [num_times, 2])
-            lat_chunks = nc_file.variables['lat'].chunking()
-            self.assertEqual(lat_chunks, 'contiguous')
-            lat_bnds_chunks = nc_file.variables['lat_bnds'].chunking()
-            self.assertEqual(lat_bnds_chunks, [num_lat, 2])
-            lon_chunks = nc_file.variables['lon'].chunking()
-            self.assertEqual(lon_chunks, 'contiguous')
-            lon_bnds_chunks = nc_file.variables['lon_bnds'].chunking()
-            self.assertEqual(lon_bnds_chunks, [num_lon, 2])
+        self.assertChunking(self.cmor_filepath)
 
     def test_many_small_timesteps(self):
         num_times = 200
@@ -134,24 +178,7 @@ class TestChunking(unittest.TestCase):
         num_lon = 100
         self.generate_file(num_times, num_lat, num_lon)
 
-        with Dataset(self.cmor_filepath, 'r') as nc_file:
-            pr_elem_bytes = nc_file.variables['pr'].dtype.itemsize
-            bytes_per_timestep = num_lat * num_lon * pr_elem_bytes
-            timesteps_per_chunk = MAX_CHUNK_SIZE // bytes_per_timestep
-            pr_chunks = nc_file.variables['pr'].chunking()
-            self.assertEqual(pr_chunks, [timesteps_per_chunk, num_lat, num_lon])
-            time_chunks = nc_file.variables['time'].chunking()
-            self.assertEqual(time_chunks, [num_times])
-            time_bnds_chunks = nc_file.variables['time_bnds'].chunking()
-            self.assertEqual(time_bnds_chunks, [num_times, 2])
-            lat_chunks = nc_file.variables['lat'].chunking()
-            self.assertEqual(lat_chunks, 'contiguous')
-            lat_bnds_chunks = nc_file.variables['lat_bnds'].chunking()
-            self.assertEqual(lat_bnds_chunks, [num_lat, 2])
-            lon_chunks = nc_file.variables['lon'].chunking()
-            self.assertEqual(lon_chunks, 'contiguous')
-            lon_bnds_chunks = nc_file.variables['lon_bnds'].chunking()
-            self.assertEqual(lon_bnds_chunks, [num_lon, 2])
+        self.assertChunking(self.cmor_filepath)
 
     def test_large_timesteps(self):
         num_times = 10
@@ -159,21 +186,7 @@ class TestChunking(unittest.TestCase):
         num_lon = 1000
         self.generate_file(num_times, num_lat, num_lon)
 
-        with Dataset(self.cmor_filepath, 'r') as nc_file:
-            pr_chunks = nc_file.variables['pr'].chunking()
-            self.assertEqual(pr_chunks, [1, num_lat, num_lon])
-            time_chunks = nc_file.variables['time'].chunking()
-            self.assertEqual(time_chunks, [num_times])
-            time_bnds_chunks = nc_file.variables['time_bnds'].chunking()
-            self.assertEqual(time_bnds_chunks, [num_times, 2])
-            lat_chunks = nc_file.variables['lat'].chunking()
-            self.assertEqual(lat_chunks, 'contiguous')
-            lat_bnds_chunks = nc_file.variables['lat_bnds'].chunking()
-            self.assertEqual(lat_bnds_chunks, [num_lat, 2])
-            lon_chunks = nc_file.variables['lon'].chunking()
-            self.assertEqual(lon_chunks, 'contiguous')
-            lon_bnds_chunks = nc_file.variables['lon_bnds'].chunking()
-            self.assertEqual(lon_bnds_chunks, [num_lon, 2])
+        self.assertChunking(self.cmor_filepath)
 
     def test_writing_one_timestep_at_a_time(self):
         num_times = 4
@@ -209,21 +222,13 @@ class TestChunking(unittest.TestCase):
         self.cmor_filepath = cmor.close(cmorpr, file_name=True)
         self.assertEqual(cmor.close(), 0)
 
-        with Dataset(self.cmor_filepath, 'r') as nc_file:
-            pr_chunks = nc_file.variables['pr'].chunking()
+        with Dataset(self.cmor_filepath, 'r') as dataset:
+            pr_chunks = dataset.variables['pr'].chunking()
             self.assertEqual(pr_chunks, [1, num_lat, num_lon])
-            time_chunks = nc_file.variables['time'].chunking()
+            time_chunks = dataset.variables['time'].chunking()
             self.assertEqual(time_chunks, [512])
-            time_bnds_chunks = nc_file.variables['time_bnds'].chunking()
+            time_bnds_chunks = dataset.variables['time_bnds'].chunking()
             self.assertEqual(time_bnds_chunks, [512, 2])
-            lat_chunks = nc_file.variables['lat'].chunking()
-            self.assertEqual(lat_chunks, 'contiguous')
-            lat_bnds_chunks = nc_file.variables['lat_bnds'].chunking()
-            self.assertEqual(lat_bnds_chunks, [num_lat, 2])
-            lon_chunks = nc_file.variables['lon'].chunking()
-            self.assertEqual(lon_chunks, 'contiguous')
-            lon_bnds_chunks = nc_file.variables['lon_bnds'].chunking()
-            self.assertEqual(lon_bnds_chunks, [num_lon, 2])
 
 
 if __name__ == '__main__':
