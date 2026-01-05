@@ -48,7 +48,7 @@ USER_INPUT = {
     "region": "glb",
     "archive_id": "WCRP",
     "output_path_template": "<activity_id><source_id><experiment_id><member_id><variable_id><branding_suffix><grid_label>",
-    "output_file_template": "<variable_id><branding_suffix><frequency><region><grid_label><source_id><experiment_id><variant_id>[<time_range>].nc",
+    "output_file_template": "<variable_id><branding_suffix><frequency><region><grid_label><source_id><experiment_id><variant_label>",
 }
 
 
