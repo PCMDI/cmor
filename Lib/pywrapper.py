@@ -1120,6 +1120,19 @@ def set_quantize(var_id, quantize_mode, quantize_nsd):
     return _cmor.set_quantize(var_id, quantize_mode, quantize_nsd)
 
 
+def set_chunking(var_id, chunking_dimensions):
+    """Sets chunking dimensions on a cmor variable
+    Usage:
+      cmor.set_chunking(var_id, chunking_dimensions)
+    Where:
+      var_id: is cmor variable id
+      chunking_dimensions: 
+
+    """
+    chunk_dims = numpy.ascontiguousarray(chunking_dimensions, dtype=numpy.uintp)
+    return _cmor.set_chunking(var_id, chunk_dims)
+
+
 def has_variable_attribute(var_id, name):
     """determines if the a cmor variable has an attribute
     Usage:
