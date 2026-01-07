@@ -489,7 +489,6 @@ typedef struct cmor_variable_def_ {
     float valid_max;
     float ok_min_mean_abs;
     float ok_max_mean_abs;
-    char chunking_dimensions[CMOR_MAX_STRING];
     int shuffle;
     int deflate;
     int deflate_level;
@@ -547,7 +546,7 @@ typedef struct cmor_var_ {
     float valid_max;
     float ok_min_mean_abs;
     float ok_max_mean_abs;
-    char chunking_dimensions[CMOR_MAX_STRING];
+    size_t *chunking_dimensions;
     int shuffle;
     int deflate;
     int deflate_level;
