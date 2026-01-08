@@ -5616,34 +5616,35 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
             else if (pVar->type == 'l')
                 bytes_per_elem = sizeof(long);
 
-            // Create chunking dimensions where multiple timesteps can fit
-            // if the chunk size stays under a maximum size.
-            size_t bytes_per_timestep = bytes_per_elem;
-            for (i = 0; i < pVar->ndims; i++) {
-                if(cmor_axes[pVar->axes_ids[i]].axis != 'T') {
-                    bytes_per_timestep *= cmor_axes[pVar->axes_ids[i]].length;
-                }
+        size_t chunking_dims[pVar->ndims];
+
+        // Create chunking dimensions where multiple timesteps can fit
+        // if the chunk size stays under a maximum size.
+        size_t bytes_per_timestep = bytes_per_elem;
+        for (i = 0; i < pVar->ndims; i++) {
+            if(cmor_axes[pVar->axes_ids[i]].axis != 'T') {
+                bytes_per_timestep *= cmor_axes[pVar->axes_ids[i]].length;
             }
-            size_t timesteps_per_chunk = CMOR_TIMESTEP_CHUNK_MAX_BYTES / bytes_per_timestep;
-            for (i = 0; i < pVar->ndims; i++) {
-                if(cmor_axes[pVar->axes_ids[i]].axis == 'T') {
-                    if (timesteps_per_chunk > cmor_axes[pVar->axes_ids[i]].length) {
-                        nc_dim_chunking[i] = cmor_axes[pVar->axes_ids[i]].length;
-                    } else {
-                        nc_dim_chunking[i] = timesteps_per_chunk;
-                    }
+        }
+        size_t timesteps_per_chunk = CMOR_TIMESTEP_CHUNK_MAX_BYTES / bytes_per_timestep;
+        for (i = 0; i < pVar->ndims; i++) {
+            if(cmor_axes[pVar->axes_ids[i]].axis == 'T') {
+                if (timesteps_per_chunk > cmor_axes[pVar->axes_ids[i]].length) {
+                    chunking_dims[i] = cmor_axes[pVar->axes_ids[i]].length;
                 } else {
-                    if (timesteps_per_chunk == 0) {
-                        nc_dim_chunking[i] = 0;
-                    } else {
-                        nc_dim_chunking[i] = cmor_axes[pVar->axes_ids[i]].length;
-                    }
+                    chunking_dims[i] = timesteps_per_chunk;
+                }
+            } else {
+                if (timesteps_per_chunk == 0) {
+                    chunking_dims[i] = 0;
+                } else {
+                    chunking_dims[i] = cmor_axes[pVar->axes_ids[i]].length;
                 }
             }
         }
 
         if (!((pVar->grid_id > -1) && (cmor_grids[pVar->grid_id].istimevarying == 1))) {
-            ierr = nc_def_var_chunking(ncid, pVar->nc_var_id, NC_CHUNKED, nc_dim_chunking);
+            ierr = nc_def_var_chunking(ncid, pVar->nc_var_id, NC_CHUNKED, chunking_dims);
             if (ierr != NC_NOERR) {
                 cmor_handle_error_var_variadic(
                     "NetCDFTestTables/CMIP6_chunking.json: Error (%i: %s) defining chunking\n! "
