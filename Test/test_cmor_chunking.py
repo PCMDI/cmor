@@ -230,6 +230,50 @@ class TestChunking(unittest.TestCase):
             time_bnds_chunks = dataset.variables['time_bnds'].chunking()
             self.assertEqual(time_bnds_chunks, [512, 2])
 
+    def test_user_defined_variable_chunking(self):
+        num_times = 40
+        num_lat = 100
+        num_lon = 100
+        chunking_dims = [8, 20, 20]
+
+        data = [27] * (num_times * num_lat * num_lon)
+        pr = numpy.array(data)
+        pr.shape = (num_times, num_lat, num_lon)
+        lat_bnds = numpy.linspace(-90., 90., num_lat + 1)
+        lat = (lat_bnds[:-1] + lat_bnds[1:]) / 2
+        lon_bnds = numpy.linspace(0., 180., num_lon + 1)
+        lon = (lon_bnds[:-1] + lon_bnds[1:]) / 2
+
+        time = numpy.arange(num_times) + 0.5
+        time_bnds = numpy.arange(num_times + 1)
+
+        cmor.load_table("CMIP7_atmos.json")
+        cmorlat = cmor.axis("latitude",
+                            coord_vals=lat,
+                            cell_bounds=lat_bnds,
+                            units="degrees_north")
+        cmorlon = cmor.axis("longitude",
+                            coord_vals=lon,
+                            cell_bounds=lon_bnds,
+                            units="degrees_east")
+        cmortime = cmor.axis("time",
+                             units="days since 2018")
+        axes = [cmortime, cmorlat, cmorlon]
+        cmorpr = cmor.variable("pr_tavg-u-hxy-u", "kg m-2 s-1", axes)
+        cmor.set_chunking(cmorpr, chunking_dims)
+        for i in range(num_times):
+            self.assertEqual(cmor.write(cmorpr, pr[i,:,:], time_vals=time[i], time_bnds=time_bnds[i:i+2]), 0)
+        self.cmor_filepath = cmor.close(cmorpr, file_name=True)
+        self.assertEqual(cmor.close(), 0)
+
+        with Dataset(self.cmor_filepath, 'r') as dataset:
+            pr_chunks = dataset.variables['pr'].chunking()
+            self.assertEqual(pr_chunks, chunking_dims)
+            time_chunks = dataset.variables['time'].chunking()
+            self.assertEqual(time_chunks, [512])
+            time_bnds_chunks = dataset.variables['time_bnds'].chunking()
+            self.assertEqual(time_bnds_chunks, [512, 2])
+
 
 if __name__ == '__main__':
     unittest.main()
