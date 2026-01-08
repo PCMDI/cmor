@@ -5555,6 +5555,48 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
 #ifndef NC_CHUNKED
 #define NC_CHUNKED 0
 #endif
+        // time and time_bnds chunking
+        for (i = 0; i < pVar->ndims; i++) {
+            if (cmor_axes[pVar->axes_ids[i]].axis == 'T') {
+                
+                // Set chunking size of the time axis to the size of the
+                // time axis if it is greater than zero. Otherwise, set it
+                // to the default time chunking size.
+                size_t time_chunk_size = CMOR_DEFAULT_TIME_CHUNK_SIZE;
+                if (cmor_axes[pVar->axes_ids[i]].length > 0) {
+                    time_chunk_size = cmor_axes[pVar->axes_ids[i]].length;
+                }
+
+                ierr = nc_def_var_chunking(ncid, nc_vars[i], NC_CHUNKED, &time_chunk_size);
+                
+                if (ierr != NC_NOERR) {
+                    cmor_handle_error_var_variadic(
+                        "NetCDF Error (%i: %s) defining time coordinate chunking "
+                        "for variable '%s'",
+                        CMOR_NORMAL, var_id,
+                        ierr, nc_strerror(ierr), pVar->id);
+                }
+                
+                // Set chunking size of the time bounds axis with the first
+                // dimension set to time's chunking size and the second dimension
+                // set to 2.
+                if (nc_bnds_vars[i] != -1) {
+                    size_t time_bnds_chunk_sizes[2] = {time_chunk_size, 2};
+                    ierr = nc_def_var_chunking(ncafid, nc_bnds_vars[i], 
+                                                NC_CHUNKED, time_bnds_chunk_sizes);
+                    
+                    if (ierr != NC_NOERR) {
+                        cmor_handle_error_var_variadic(
+                            "NetCDF Error (%i: %s) defining time_bnds chunking "
+                            "for variable '%s'",
+                            CMOR_NORMAL, var_id,
+                            ierr, nc_strerror(ierr), pVar->id);
+                    }
+                }
+                break;
+            }
+        }
+
         size_t chunking_dims[pVar->ndims];
 
         if (pVar->chunking_dimensions != NULL) {
@@ -5562,48 +5604,6 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
                 chunking_dims[i] = pVar->chunking_dimensions[i];
             }
         } else {
-            // time and time_bnds chunking
-            for (i = 0; i < pVar->ndims; i++) {
-                if (cmor_axes[pVar->axes_ids[i]].axis == 'T') {
-                    
-                    // Set chunking size of the time axis to the size of the
-                    // time axis if it is greater than zero. Otherwise, set it
-                    // to the default time chunking size.
-                    size_t time_chunk_size = CMOR_DEFAULT_TIME_CHUNK_SIZE;
-                    if (cmor_axes[pVar->axes_ids[i]].length > 0) {
-                        time_chunk_size = cmor_axes[pVar->axes_ids[i]].length;
-                    }
-
-                    ierr = nc_def_var_chunking(ncid, nc_vars[i], NC_CHUNKED, &time_chunk_size);
-                    
-                    if (ierr != NC_NOERR) {
-                        cmor_handle_error_var_variadic(
-                            "NetCDF Error (%i: %s) defining time coordinate chunking "
-                            "for variable '%s'",
-                            CMOR_NORMAL, var_id,
-                            ierr, nc_strerror(ierr), pVar->id);
-                    }
-                    
-                    // Set chunking size of the time bounds axis with the first
-                    // dimension set to time's chunking size and the second dimension
-                    // set to 2.
-                    if (nc_bnds_vars[i] != -1) {
-                        size_t time_bnds_chunk_sizes[2] = {time_chunk_size, 2};
-                        ierr = nc_def_var_chunking(ncafid, nc_bnds_vars[i], 
-                                                    NC_CHUNKED, time_bnds_chunk_sizes);
-                        
-                        if (ierr != NC_NOERR) {
-                            cmor_handle_error_var_variadic(
-                                "NetCDF Error (%i: %s) defining time_bnds chunking "
-                                "for variable '%s'",
-                                CMOR_NORMAL, var_id,
-                                ierr, nc_strerror(ierr), pVar->id);
-                        }
-                    }
-                    break;
-                }
-            }
-
             size_t bytes_per_elem = 0;
             if (pVar->type == 'c')
                 bytes_per_elem = sizeof(char);
