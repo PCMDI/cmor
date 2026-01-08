@@ -5555,11 +5555,11 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
 #ifndef NC_CHUNKED
 #define NC_CHUNKED 0
 #endif
-        size_t nc_dim_chunking[pVar->ndims];
+        size_t chunking_dims[pVar->ndims];
 
         if (pVar->chunking_dimensions != NULL) {
             for (i = 0; i < pVar->ndims; i++) {
-                nc_dim_chunking[i] = pVar->chunking_dimensions[i];
+                chunking_dims[i] = pVar->chunking_dimensions[i];
             }
         } else {
             // time and time_bnds chunking
@@ -5615,8 +5615,6 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
                 bytes_per_elem = sizeof(int);
             else if (pVar->type == 'l')
                 bytes_per_elem = sizeof(long);
-
-        size_t chunking_dims[pVar->ndims];
 
         // Create chunking dimensions where multiple timesteps can fit
         // if the chunk size stays under a maximum size.
