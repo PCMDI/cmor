@@ -205,7 +205,6 @@ int cmor_set_variable_attribute(int id, char *attribute_name, char type,
         (strcmp(attribute_name, VARIABLE_ATT_MISSINGVALUES) == 0) ||
         (strcmp(attribute_name, VARIABLE_ATT_FILLVAL) == 0) ||
         (strcmp(attribute_name, VARIABLE_ATT_STANDARDNAME) == 0) ||
-        (strcmp(attribute_name, VARIABLE_ATT_LONGNAME) == 0) ||
         (strcmp(attribute_name, VARIABLE_ATT_FLAGVALUES) == 0) ||
         (strcmp(attribute_name, VARIABLE_ATT_FLAGMEANING) == 0) ||
         (strcmp(attribute_name, VARIABLE_ATT_COMMENT) == 0) ||
