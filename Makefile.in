@@ -166,7 +166,6 @@ test_python: python
 	env TEST_NAME=Test/test_python_sos_psu_units.py make test_a_python
 	env TEST_NAME=Test/test_python_CMIP6_projections.py make test_a_python
 	env TEST_NAME=Test/test_python_toomany_tables.py make test_a_python
-	env TEST_NAME=Test/test_chunking.py make test_a_python
 	env TEST_NAME=Test/test_python_direct_calls.py make test_a_python
 	env TEST_NAME=Test/test_python_user_interface_00.py make test_a_python
 	env TEST_NAME=Test/test_python_user_interface_01.py make test_a_python
@@ -242,6 +241,7 @@ test_python: python
 	env TEST_NAME=Test/test_cmor_path_and_file_templates.py make test_a_python
 	env TEST_NAME=Test/test_cmor_check_cv_structure.py make test_a_python
 	env TEST_NAME=Test/test_cmor_time_value_and_bounds_mismatch.py make test_a_python
+	env TEST_NAME=Test/test_cmor_chunking.py make test_a_python
 test_cmip6_cv: python
 	env TEST_NAME=Test/test_python_CMIP6_CV_sub_experimentnotset.py make test_a_python
 	env TEST_NAME=Test/test_python_CMIP6_CV_sub_experimentbad.py make test_a_python
