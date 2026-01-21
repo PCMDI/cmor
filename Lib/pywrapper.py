@@ -2,13 +2,12 @@ import numpy
 import os
 import warnings
 import sys
-import six
 
 from cmor import cmor_const
 from cmor import _cmor
 from cmor._cmor import CMORError
 
-global climatology 
+global climatology
 climatology = False
 
 try:
@@ -200,7 +199,7 @@ def set_grid_mapping(grid_id, mapping_name, parameter_names,
         if not isinstance(grid_id, (numpy.int32, numpy.int64, int)):
             raise Exception("grid_id must be an integer: %s" % type(grid_id))
         grid_id = int(grid_id)
-    if not isinstance(mapping_name, six.string_types):
+    if not isinstance(mapping_name, str):
         raise Exception("mapping name must be a string")
 
     if isinstance(parameter_names, dict):
@@ -224,7 +223,7 @@ def set_grid_mapping(grid_id, mapping_name, parameter_names,
                         "parameter_names '%s' as more than 2 values" %
                         k)
                 for v in val:
-                    if isinstance(v, six.string_types):
+                    if isinstance(v, str):
                         punit.append(v)
                     try:
                         pvals.append(float(v))
@@ -289,7 +288,7 @@ def set_crs(grid_id, mapping_name, parameter_names,
         if not isinstance(grid_id, (numpy.int32, numpy.int64, int)):
             raise Exception("grid_id must be an integer: %s" % type(grid_id))
         grid_id = int(grid_id)
-    if not isinstance(mapping_name, six.string_types):
+    if not isinstance(mapping_name, str):
         raise Exception("mapping name must be a string")
 
     pnms = []
@@ -299,7 +298,7 @@ def set_crs(grid_id, mapping_name, parameter_names,
     tvals = []
     if isinstance(parameter_names, dict):
         for key, val in list(parameter_names.items()):
-            if isinstance(val, six.string_types):
+            if isinstance(val, str):
                 tnms.append(key)
                 tvals.append(val)
             elif isinstance(val, dict):
@@ -318,7 +317,7 @@ def set_crs(grid_id, mapping_name, parameter_names,
                         "parameter_names '%s' as more than 2 values" %
                         key)
                 for v in val:
-                    if isinstance(v, six.string_types):
+                    if isinstance(v, str):
                         punit.append(v)
                     try:
                         pvals.append(float(v))
@@ -349,7 +348,7 @@ def set_crs(grid_id, mapping_name, parameter_names,
                 "length of parameter_values list does not match length of parameter_names")
         if isinstance(parameter_values, (list, tuple)):
             for n, v, u in zip(parameter_names, parameter_values, parameter_units):
-                if isinstance(v, six.string_types):
+                if isinstance(v, str):
                     tnms.append(n)
                     tvals.append(v)
                 else:
@@ -400,7 +399,7 @@ def axis(table_entry, units=None, length=None,
     cell_bounds: numpy or MV2 array, if coord_vals is a cdms2 axis then will try to obtain bounds from it
     interval: a string used for time axes only (???)
     """
-    if not isinstance(table_entry, six.string_types):
+    if not isinstance(table_entry, str):
         raise Exception(
             "You need to pass a table_entry to match in the cmor table")
 
@@ -514,29 +513,29 @@ def axis(table_entry, units=None, length=None,
 def variable(table_entry, units, axis_ids, data_type='f', missing_value=None,
              tolerance=1.e-4, positive=None, original_name=None, history=None, comment=None):
 
-    if not isinstance(table_entry, six.string_types):
+    if not isinstance(table_entry, str):
         raise Exception(
             "Error you must pass a string for the variable table_entry")
 
-    if not isinstance(units, six.string_types):
+    if not isinstance(units, str):
         raise Exception("Error you must pass a string for the variable units")
 
     if original_name is not None:
-        if not isinstance(original_name, six.string_types):
+        if not isinstance(original_name, str):
             raise Exception(
                 "Error you must pass a string for the variable original_name")
     else:
         original_name = ""
 
     if history is not None:
-        if not isinstance(history, six.string_types):
+        if not isinstance(history, str):
             raise Exception(
                 "Error you must pass a string for the variable history")
     else:
         history = ""
 
     if comment is not None:
-        if not isinstance(comment, six.string_types):
+        if not isinstance(comment, str):
             raise Exception(
                 "Error you must pass a string for the variable comment")
     else:
@@ -557,7 +556,7 @@ def variable(table_entry, units, axis_ids, data_type='f', missing_value=None,
     if numpy.ndim(axis_ids) > 1:
         raise Exception("error axis_ids list/array must be 1D")
 
-    if not isinstance(data_type, six.string_types):
+    if not isinstance(data_type, str):
         raise Exception("error data_type must be a string")
     data_type = data_type.lower()
     if data_type == 's' or data_type == 'u':
@@ -610,11 +609,11 @@ def zfactor(zaxis_id, zfactor_name, units="", axis_ids=None,
         raise Exception("error zaxis_id must be a number")
     zaxis_id = int(zaxis_id)
 
-    if not isinstance(zfactor_name, six.string_types):
+    if not isinstance(zfactor_name, str):
         raise Exception(
             "Error you must pass a string for the variable zfactor_name")
 
-    if not isinstance(units, six.string_types):
+    if not isinstance(units, str):
         raise Exception("Error you must pass a string for the variable units")
 
     if numpy.ma.isMA(axis_ids):
@@ -673,7 +672,7 @@ def zfactor(zaxis_id, zfactor_name, units="", axis_ids=None,
     elif data_type is None:
         data_type = 'd'
 
-    if not isinstance(data_type, six.string_types):
+    if not isinstance(data_type, str):
         raise Exception("error data_type must be a string")
     data_type = data_type.lower()
     if data_type == 's' or data_type == 'u':
@@ -729,7 +728,7 @@ def write(var_id, data, ntimes_passed=None, file_suffix="",
         raise Exception("error var_id must be an integer")
     var_id = int(var_id)
 
-    if not isinstance(file_suffix, six.string_types):
+    if not isinstance(file_suffix, str):
         raise Exception("Error file_suffix must be a string")
 
     if store_with is not None:
@@ -953,7 +952,7 @@ def load_table(table):
     Usage:
     load_table(table)
     """
-    if not isinstance(table, six.string_types):
+    if not isinstance(table, str):
         raise Exception("Error, must pass a string")
 # if not os.path.exists(table):
 ##         raise Exception, "Error, the table you specified (%s) does not exists" % table
@@ -965,7 +964,7 @@ def dataset_json(rcfile):
     Usage:
     dataset_json(rcfile)
     """
-    if not isinstance(rcfile, six.string_types):
+    if not isinstance(rcfile, str):
         raise Exception("Error, must pass a string")
 # if not os.path.exists(table):
 ##         raise Exception, "Error, the table you specified (%s) does not exists" % table
