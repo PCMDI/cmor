@@ -1,7 +1,6 @@
 import numpy
 import os
 import warnings
-import sys
 
 from cmor import cmor_const
 from cmor import _cmor
@@ -192,13 +191,10 @@ def set_grid_mapping(grid_id, mapping_name, parameter_names,
        parameter_values :: array/list of parameter values in the same order of parameter_names (ignored if parameter_names is ditcionary)
        parameter_units  :: array/list of parameter units  in the same order of parameter_names (ignored if parameter_names is ditcionary)
     """
-    if sys.version_info < (3, 0):
-        if not isinstance(grid_id, (numpy.int32, numpy.int64, int, long)):
-            raise Exception("grid_id must be an integer: %s" % type(grid_id))
-    else:
-        if not isinstance(grid_id, (numpy.int32, numpy.int64, int)):
-            raise Exception("grid_id must be an integer: %s" % type(grid_id))
-        grid_id = int(grid_id)
+    if not isinstance(grid_id, (numpy.int32, numpy.int64, int)):
+        raise Exception("grid_id must be an integer: %s" % type(grid_id))
+    grid_id = int(grid_id)
+
     if not isinstance(mapping_name, str):
         raise Exception("mapping name must be a string")
 
@@ -281,13 +277,10 @@ def set_crs(grid_id, mapping_name, parameter_names,
        parameter_values :: array/list of parameter values in the same order of parameter_names (ignored if parameter_names is ditcionary)
        parameter_units  :: array/list of parameter units  in the same order of parameter_names (ignored if parameter_names is ditcionary)
     """
-    if sys.version_info < (3, 0):
-        if not isinstance(grid_id, (numpy.int32, numpy.int64, int, long)):
-            raise Exception("grid_id must be an integer: %s" % type(grid_id))
-    else:
-        if not isinstance(grid_id, (numpy.int32, numpy.int64, int)):
-            raise Exception("grid_id must be an integer: %s" % type(grid_id))
-        grid_id = int(grid_id)
+    if not isinstance(grid_id, (numpy.int32, numpy.int64, int)):
+        raise Exception("grid_id must be an integer: %s" % type(grid_id))
+    grid_id = int(grid_id)
+
     if not isinstance(mapping_name, str):
         raise Exception("mapping name must be a string")
 

@@ -1,4 +1,3 @@
-from __future__ import print_function
 import cmor
 import glob
 import unittest

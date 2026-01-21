@@ -1,4 +1,3 @@
-from __future__ import print_function
 import cmor
 
 # Hypothetical data are going from April 2049 thru March 2050
