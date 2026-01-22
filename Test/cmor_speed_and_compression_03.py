@@ -1,4 +1,3 @@
-from __future__ import print_function
 import cmor
 import numpy
 import sys

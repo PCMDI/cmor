@@ -1,4 +1,3 @@
-from __future__ import print_function
 from out_files import out
 from in_files import input_tables
 import sys

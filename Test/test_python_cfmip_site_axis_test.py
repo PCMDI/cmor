@@ -28,7 +28,6 @@ variables:
       lev:formula_terms = "a: lev b: b orog: orog";
       ...
 '''
-from __future__ import print_function
 import cmor
 import numpy
 
