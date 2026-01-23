@@ -1121,7 +1121,7 @@ def set_chunking(var_id, chunking_dimensions):
       chunking_dimensions: 
 
     """
-    chunk_dims = numpy.ascontiguousarray(chunking_dimensions, dtype=numpy.uintp)
+    chunk_dims = numpy.ascontiguousarray(chunking_dimensions, dtype=numpy.int32)
     return _cmor.set_chunking(var_id, chunk_dims)
 
 

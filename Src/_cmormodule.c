@@ -206,7 +206,7 @@ static PyObject *PyCMOR_set_chunking(PyObject * self, PyObject * args)
     int ierr, var_id;
     PyObject *chunk_dims_obj;
     PyArrayObject *chunk_dims_arr = NULL;
-    size_t *chunk_dims;
+    int *chunk_dims;
     char *name, *text_vals;
 
     if (!PyArg_ParseTuple
@@ -219,14 +219,14 @@ static PyObject *PyCMOR_set_chunking(PyObject * self, PyObject * args)
     } else {
         chunk_dims_arr =
         (PyArrayObject *) PyArray_ContiguousFromObject(chunk_dims_obj,
-                                                        NPY_UINTP, 1, 0);
+                                                        NPY_INT, 1, 0);
 
         if (PyArray_NDIM(chunk_dims_arr) != 1) {
             printf("ok we need to pass contiguous flattened arrays only!\n");
             return NULL;
         }
 
-        chunk_dims = (size_t *)PyArray_DATA(chunk_dims_arr);
+        chunk_dims = (int *)PyArray_DATA(chunk_dims_arr);
     }
 
     ierr = cmor_set_chunking(var_id, chunk_dims);

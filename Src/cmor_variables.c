@@ -2280,7 +2280,7 @@ int cmor_set_var_def_att(cmor_var_def_t * var, char *att, char *val)
 /************************************************************************/
 /*                        cmor_set_chunking()                           */
 /************************************************************************/
-int cmor_set_chunking(int var_id, size_t *nc_dim_chunking)
+int cmor_set_chunking(int var_id, int *nc_dim_chunking)
 {
     int ndims = cmor_vars[var_id].ndims;
 
@@ -2292,7 +2292,7 @@ int cmor_set_chunking(int var_id, size_t *nc_dim_chunking)
     }
 
     if (nc_dim_chunking != NULL) {
-        cmor_vars[var_id].chunking_dimensions = (size_t *)malloc(ndims * sizeof(size_t));
+        cmor_vars[var_id].chunking_dimensions = (int *)malloc(ndims * sizeof(int));
         for(int i = 0; i < ndims; i++) {
             cmor_vars[var_id].chunking_dimensions[i] = nc_dim_chunking[i];
         }

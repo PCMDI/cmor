@@ -5601,7 +5601,7 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
 
         if (pVar->chunking_dimensions != NULL) {
             for (i = 0; i < pVar->ndims; i++) {
-                chunking_dims[i] = pVar->chunking_dimensions[i];
+                chunking_dims[i] = (size_t)pVar->chunking_dimensions[i];
             }
         } else {
             size_t bytes_per_elem = 0;

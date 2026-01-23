@@ -546,7 +546,7 @@ typedef struct cmor_var_ {
     float valid_max;
     float ok_min_mean_abs;
     float ok_max_mean_abs;
-    size_t *chunking_dimensions;
+    int *chunking_dimensions;
     int shuffle;
     int deflate;
     int deflate_level;
