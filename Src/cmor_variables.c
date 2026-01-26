@@ -2294,7 +2294,16 @@ int cmor_set_chunking(int var_id, int *nc_dim_chunking)
     if (nc_dim_chunking != NULL) {
         cmor_vars[var_id].chunking_dimensions = (int *)malloc(ndims * sizeof(int));
         for(int i = 0; i < ndims; i++) {
-            cmor_vars[var_id].chunking_dimensions[i] = nc_dim_chunking[i];
+            int chunking_dim = nc_dim_chunking[i];
+            if (chunking_dim < 0) {
+                cmor_handle_error_variadic(
+                    "Chunking dimension for variable %s is %d, "
+                    "which is invalid and will be replaced with 0.",
+                    CMOR_WARNING,
+                    cmor_vars[var_id].id, chunking_dim);
+                chunking_dim = 0;
+            }
+            cmor_vars[var_id].chunking_dimensions[i] = chunking_dim;
         }
     } else {
         cmor_vars[var_id].chunking_dimensions = NULL;
