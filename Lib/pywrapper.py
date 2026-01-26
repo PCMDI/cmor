@@ -1123,7 +1123,7 @@ def set_chunking(var_id, chunking_dimensions):
         positive integers that is the same length as the number of axes
         for the variable. The list must follow the order of the
         variable's list of axes.
-        
+
         Any negative values in chunking_dimensions will make CMOR warn
         that the value will be replaced with zero.
 
