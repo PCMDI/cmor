@@ -7,7 +7,6 @@ import numpy
 from netCDF4 import Dataset
 import pyfive
 
-BYTES_4MiB = 4 * 2**20
 CMIP7_TABLES_PATH = "cmip7-cmor-tables/tables"
 CV_PATH = "TestTables/CMIP7_CV.json"
 
@@ -54,7 +53,9 @@ USER_INPUT = {
 
 class TestChunking(unittest.TestCase):
 
-    def assertChunking(self, filename, msg=None):
+    def assertCMIP7RepackChunking(self, filename, msg=None):
+        BYTES_4MiB = 4 * 2**20
+
         """ Chunking checks from cmip7_repack """
         f = pyfive.File(filename)
         if "time" in f:
@@ -170,7 +171,7 @@ class TestChunking(unittest.TestCase):
         num_lon = 100
         self.generate_file(num_times, num_lat, num_lon)
 
-        self.assertChunking(self.cmor_filepath)
+        self.assertCMIP7RepackChunking(self.cmor_filepath)
 
     def test_many_small_timesteps(self):
         num_times = 200
@@ -178,7 +179,7 @@ class TestChunking(unittest.TestCase):
         num_lon = 100
         self.generate_file(num_times, num_lat, num_lon)
 
-        self.assertChunking(self.cmor_filepath)
+        self.assertCMIP7RepackChunking(self.cmor_filepath)
 
     def test_large_timesteps(self):
         num_times = 10
@@ -186,7 +187,7 @@ class TestChunking(unittest.TestCase):
         num_lon = 1000
         self.generate_file(num_times, num_lat, num_lon)
 
-        self.assertChunking(self.cmor_filepath)
+        self.assertCMIP7RepackChunking(self.cmor_filepath)
 
     def test_writing_one_timestep_at_a_time(self):
         num_times = 4
