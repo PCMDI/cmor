@@ -1118,7 +1118,14 @@ def set_chunking(var_id, chunking_dimensions):
       cmor.set_chunking(var_id, chunking_dimensions)
     Where:
       var_id: is cmor variable id
-      chunking_dimensions: 
+      chunking_dimensions: A list of NetCDF chunking dimensions for
+        the variable. The chunking dimensions must be a list of
+        positive integers that is the same length as the number of axes
+        for the variable. The list must follow the order of the
+        variable's list of axes.
+        
+        Any negative values in chunking_dimensions will make CMOR warn
+        that the value will be replaced with zero.
 
     """
     chunk_dims = numpy.ascontiguousarray(chunking_dimensions, dtype=numpy.int32)
