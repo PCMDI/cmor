@@ -2297,10 +2297,12 @@ int cmor_set_chunking(int var_id, int *nc_dim_chunking)
             int chunking_dim = nc_dim_chunking[i];
             if (chunking_dim < 0) {
                 cmor_handle_error_variadic(
-                    "Chunking dimension for variable %s is %d, "
+                    "Chunking dimension for variable '%s' along axis '%s' is %d, "
                     "which is invalid and will be replaced with 0.",
                     CMOR_WARNING,
-                    cmor_vars[var_id].id, chunking_dim);
+                    cmor_vars[var_id].id,
+                    cmor_axes[cmor_vars[var_id].axes_ids[i]].id,
+                    chunking_dim);
                 chunking_dim = 0;
             }
             cmor_vars[var_id].chunking_dimensions[i] = chunking_dim;
