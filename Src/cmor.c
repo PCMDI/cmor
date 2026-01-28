@@ -5259,38 +5259,6 @@ int cmor_write(int var_id, void *data, char type, char *file_suffix,
 
     }
 
-/* -------------------------------------------------------------------- */
-/*      here we add the number of time                                  */
-/*      written for the associated variable                             */
-/* -------------------------------------------------------------------- */
-    if ((refvar != NULL) && (cmor_vars[refvarid].grid_id > -1)
-        && (cmor_grids[cmor_vars[refvarid].grid_id].istimevarying == 1)) {
-        for (i = 0; i < 4; i++) {
-            if (cmor_grids[cmor_vars[refvarid].grid_id].associated_variables
-                [i] == var_id) {
-                if (cmor_vars[refvarid].ntimes_written_coords[i] == -1) {
-                    cmor_vars[refvarid].ntimes_written_coords[i] =
-                      ntimes_passed;
-                } else {
-                    cmor_vars[refvarid].ntimes_written_coords[i] +=
-                      ntimes_passed;
-                }
-            }
-        }
-    }
-    if (refvar != NULL) {
-        for (i = 0; i < 10; i++) {
-            if (cmor_vars[*refvar].associated_ids[i] == var_id) {
-                if (cmor_vars[*refvar].ntimes_written_associated[i] == 0) {
-                    cmor_vars[*refvar].ntimes_written_associated[i] =
-                      ntimes_passed;
-                } else {
-                    cmor_vars[*refvar].ntimes_written_associated[i] +=
-                      ntimes_passed;
-                }
-            }
-        }
-    }
     if(bAppendMode && refvar != NULL) {
       size_t starts[2];
       if ( cmor_vars[var_id].last_time == -999 ) {
@@ -5309,6 +5277,30 @@ int cmor_write(int var_id, void *data, char type, char *file_suffix,
     }
     cmor_write_var_to_file(ncid, &cmor_vars[var_id], data, type,
                            ntimes_passed, time_vals, time_bounds);
+
+/* -------------------------------------------------------------------- */
+/*      here we add the number of time                                  */
+/*      written for the associated variable                             */
+/* -------------------------------------------------------------------- */
+    if ((refvar != NULL) && (cmor_vars[refvarid].grid_id > -1)
+        && (cmor_grids[cmor_vars[refvarid].grid_id].istimevarying == 1)) {
+        for (i = 0; i < 4; i++) {
+            if (cmor_grids[cmor_vars[refvarid].grid_id].associated_variables
+                [i] == var_id) {
+                cmor_vars[refvarid].ntimes_written_coords[i] =
+                cmor_vars[var_id].ntimes_written;
+            }
+        }
+    }
+    if (refvar != NULL) {
+        for (i = 0; i < 10; i++) {
+            if (cmor_vars[refvarid].associated_ids[i] == var_id) {
+                cmor_vars[refvarid].ntimes_written_associated[i] =
+                cmor_vars[var_id].ntimes_written;
+            }
+        }
+    }
+
 /* -------------------------------------------------------------------- */
 /*      Check if we need to add leadtime coordinate                     */
 /* -------------------------------------------------------------------- */
