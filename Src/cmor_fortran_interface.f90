@@ -104,6 +104,15 @@ module cmor_users_functions
      end function cmor_set_quantize_cff
   end interface
 
+  interface
+     function cmor_set_chunking_cff(var_id, chunking_dims )result (ierr)
+       use iso_c_binding
+       integer, intent(in) :: var_id
+       integer, intent(in) :: chunking_dims
+       integer :: ierr
+     end function cmor_set_chunking_cff
+  end interface
+
   interface 
      function cmor_setup_cff_nolog(path,ncmode,verbosity,mode,crsub) result (j)
        integer ncmode,verbosity,mode, j, crsub
@@ -7183,6 +7192,14 @@ contains
     ierr = cmor_set_quantize_cff(var_id, quantize_mode, quantize_nsd)
   end function cmor_set_quantize
 
+  function cmor_set_chunking(var_id, chunking_dims) result (ierr)
+    implicit none
+    integer, intent (in) :: var_id
+    integer, intent (in) :: chunking_dims(:)
+    integer ierr
+    ierr = cmor_set_chunking_cff(var_id, chunking_dims(1))
+  end function cmor_set_chunking
+
   function cmor_setup_ints(inpath,netcdf_file_action, set_verbosity,&
        exit_control, logfile, create_subdirectories) result(ierr)
     implicit none
@@ -7308,6 +7325,12 @@ contains
        nc = CMOR_APPEND_3
     else if (similar(netcdf_file_action,"replace_3") ) then
        nc = CMOR_REPLACE_3
+    else if (similar(netcdf_file_action,"preserve_4") ) then
+       nc = CMOR_PRESERVE_4
+    else if (similar(netcdf_file_action,"append_4") ) then
+       nc = CMOR_APPEND_4
+    else if (similar(netcdf_file_action,"replace_4") ) then
+       nc = CMOR_REPLACE_4
     else !dummy value to generate error from C
        nc =1000
     endif

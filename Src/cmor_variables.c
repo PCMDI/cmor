@@ -1153,7 +1153,6 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
     cmor_vars[vrid].deflate = refvar.deflate;
     cmor_vars[vrid].deflate_level = refvar.deflate_level;
     cmor_vars[vrid].zstandard_level = refvar.zstandard_level;
-    strcpy(cmor_vars[vrid].chunking_dimensions, refvar.chunking_dimensions);
 
     cmor_vars[vrid].quantize_mode = NC_NOQUANTIZE;
     cmor_vars[vrid].quantize_nsd = 1;
@@ -1170,6 +1169,8 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
     strncpy(cmor_vars[vrid].vertical_label, refvar.vertical_label, CMOR_MAX_STRING);
     strncpy(cmor_vars[vrid].horizontal_label, refvar.horizontal_label, CMOR_MAX_STRING);
     strncpy(cmor_vars[vrid].area_label, refvar.area_label, CMOR_MAX_STRING);
+
+    cmor_set_chunking(vrid, NULL);
 
     cmor_set_variable_attribute_internal(vrid, VARIABLE_ATT_STANDARDNAME, 'c',
                                          refvar.standard_name);
@@ -1966,7 +1967,6 @@ void cmor_init_var_def(cmor_var_def_t * var, int table_id)
     var->ndims = 0;
     memset(var->flag_values, 0, sizeof(var->flag_values));
     memset(var->flag_meanings, 0, sizeof(var->flag_meanings));
-    memset(var->chunking_dimensions, 0, sizeof(var->chunking_dimensions));
     for (n = 0; n < CMOR_MAX_DIMENSIONS; n++)
         var->dimensions[n] = -1;
     var->type = cmor_tables[table_id].type;
@@ -2164,9 +2164,6 @@ int cmor_set_var_def_att(cmor_var_def_t * var, char *att, char *val)
     } else if (strcmp(att, VARIABLE_ATT_MAXMEANABS) == 0) {
 
         var->ok_max_mean_abs = atof(val);
-    } else if (strcmp(att, VARIABLE_ATT_CHUNKING) == 0) {
-        strncpy(var->chunking_dimensions, val, CMOR_MAX_STRING);
-
     } else if (strcmp(att, VARIABLE_ATT_SHUFFLE) == 0) {
 
         var->shuffle = atoi(val);
@@ -2281,88 +2278,39 @@ int cmor_set_var_def_att(cmor_var_def_t * var, char *att, char *val)
 }
 
 /************************************************************************/
-/*                      cmor_set_var_chunking()                         */
+/*                        cmor_set_chunking()                           */
 /************************************************************************/
-int cmor_set_chunking(int var_id, int nTableID, size_t nc_dim_chunking[])
+int cmor_set_chunking(int var_id, int *nc_dim_chunking)
 {
-
-    char chunk_dimensions[CMOR_MAX_STRING];
-    char *token;
-    int n;
     int ndims = cmor_vars[var_id].ndims;
-    int nChunks[CMOR_MAX_DIMENSIONS];   // T, Z, Y,X
-    int nAxisID;
 
     cmor_add_traceback("cmor_set_chunking");
     cmor_is_setup();
 
-    strcpy(chunk_dimensions, cmor_vars[var_id].chunking_dimensions);
-    if (chunk_dimensions[0] == '\0') {
-        cmor_pop_traceback();
-        return (-1);
+    if (cmor_vars[var_id].chunking_dimensions != NULL) {
+        free(cmor_vars[var_id].chunking_dimensions);
     }
 
-    token = strtok(chunk_dimensions, " ");
-    n = 0;
-    // Read in all chunks
-    while (token != NULL) {
-        nChunks[n] = atoi(token);
-        n++;
-        token = strtok(NULL, " ");
-    }
-    // We need 4 dimensions corresponding to T, Z, Y,X
-    if (n != 4) {
-        return (-1);
-    }
-    // Validate Chunks size.
-    for (n = 0; n < ndims; n++) {
-        nAxisID = cmor_vars[var_id].axes_ids[n];
-        if (cmor_axes[nAxisID].axis == 'X') {
-            if (nChunks[3] > cmor_axes[nAxisID].length) {
-                nChunks[3] = cmor_axes[nAxisID].length;
-            } else if (nChunks[3] <= 0) {
-                nChunks[3] = 1;
+    if (nc_dim_chunking != NULL) {
+        cmor_vars[var_id].chunking_dimensions = (int *)malloc(ndims * sizeof(int));
+        for(int i = 0; i < ndims; i++) {
+            int chunking_dim = nc_dim_chunking[i];
+            if (chunking_dim < 0) {
+                cmor_handle_error_variadic(
+                    "Chunking dimension for variable '%s' along axis '%s' is %d, "
+                    "which is invalid and will be replaced with 0.",
+                    CMOR_WARNING,
+                    cmor_vars[var_id].id,
+                    cmor_axes[cmor_vars[var_id].axes_ids[i]].id,
+                    chunking_dim);
+                chunking_dim = 0;
             }
+            cmor_vars[var_id].chunking_dimensions[i] = chunking_dim;
         }
-        if (cmor_axes[nAxisID].axis == 'Y') {
-            if (nChunks[2] > cmor_axes[nAxisID].length) {
-                nChunks[2] = cmor_axes[nAxisID].length;
-            } else if (nChunks[2] <= 0) {
-                nChunks[2] = 1;
-            }
-        }
-        if (cmor_axes[nAxisID].axis == 'Z') {
-            if (nChunks[1] > cmor_axes[nAxisID].length) {
-                nChunks[1] = cmor_axes[nAxisID].length;
-            } else if (nChunks[1] <= 0) {
-                nChunks[1] = 1;
-            }
-        }
-        if (cmor_axes[nAxisID].axis == 'T') {
-            if (nChunks[0] > cmor_axes[nAxisID].length) {
-                nChunks[0] = cmor_axes[nAxisID].length;
-            } else if (nChunks[0] <= 0) {
-                nChunks[0] = 1;
-            }
-        }
+    } else {
+        cmor_vars[var_id].chunking_dimensions = NULL;
     }
-    // Assign chunks;
-    n = 0;
-    while (n < ndims) {
-        nAxisID = cmor_vars[var_id].axes_ids[n];
-        if (cmor_axes[nAxisID].axis == 'X') {
-            nc_dim_chunking[n] = nChunks[3];
-        } else if (cmor_axes[nAxisID].axis == 'Y') {
-            nc_dim_chunking[n] = nChunks[2];
-        } else if (cmor_axes[nAxisID].axis == 'Z') {
-            nc_dim_chunking[n] = nChunks[1];
-        } else if (cmor_axes[nAxisID].axis == 'T') {
-            nc_dim_chunking[n] = nChunks[0];
-        } else {
-            nc_dim_chunking[n] = 1;
-        }
-        n++;
-    }
+
     cmor_pop_traceback();
     return (0);
 

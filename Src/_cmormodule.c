@@ -198,6 +198,53 @@ static PyObject *PyCMOR_set_quantize(PyObject * self, PyObject * args)
 }
 
 /************************************************************************/
+/*                   PyCMOR_set_chunking()                              */
+/************************************************************************/
+static PyObject *PyCMOR_set_chunking(PyObject * self, PyObject * args)
+{
+    signal(signal_to_catch, signal_handler);
+    int ierr, var_id;
+    PyObject *chunk_dims_obj;
+    PyArrayObject *chunk_dims_arr = NULL;
+    int *chunk_dims;
+    char *name, *text_vals;
+
+    if (!PyArg_ParseTuple
+        (args, "iO", &var_id, &chunk_dims_obj))
+        return NULL;
+
+
+    if (chunk_dims_obj == Py_None) {
+        chunk_dims = NULL;
+    } else {
+        chunk_dims_arr =
+        (PyArrayObject *) PyArray_ContiguousFromObject(chunk_dims_obj,
+                                                        NPY_INT, 1, 0);
+
+        if (PyArray_NDIM(chunk_dims_arr) != 1) {
+            printf("ok we need to pass contiguous flattened arrays only!\n");
+            return NULL;
+        }
+
+        chunk_dims = (int *)PyArray_DATA(chunk_dims_arr);
+    }
+
+    ierr = cmor_set_chunking(var_id, chunk_dims);
+
+    if (chunk_dims_arr != NULL) {
+        Py_DECREF(chunk_dims_arr);
+    }
+
+    if (ierr != 0 || raise_exception) {
+        raise_exception = 0;
+        PyErr_Format(CMORError, exception_message, "set_chunking");
+        return NULL;
+    }
+
+    return (Py_BuildValue("i", ierr));
+}
+
+/************************************************************************/
 /*                   PyCMOR_set_variable_attribute()                    */
 /************************************************************************/
 static PyObject *PyCMOR_set_variable_attribute(PyObject * self, PyObject * args)
@@ -1246,6 +1293,7 @@ static PyMethodDef MyExtractMethods[] = {
     {"set_deflate", PyCMOR_set_deflate, METH_VARARGS},
     {"set_zstandard", PyCMOR_set_zstandard, METH_VARARGS},
     {"set_quantize", PyCMOR_set_quantize, METH_VARARGS},
+    {"set_chunking", PyCMOR_set_chunking, METH_VARARGS},
     {"set_terminate_signal", PyCMOR_set_terminate_signal, METH_VARARGS},
     {"get_terminate_signal", PyCMOR_get_terminate_signal, METH_VARARGS},
     {NULL, NULL}                /*sentinel */

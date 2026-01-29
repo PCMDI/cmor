@@ -94,8 +94,7 @@ extern void cmor_define_dimensions(int var_id, int ncid,
                             int ncafid, double *time_bounds,
                             int *nc_dim,
                             int *nc_vars, int *nc_bnds_vars,
-                            int *nc_vars_af,
-                            size_t *nc_dim_chunking, int *dim_bnds,
+                            int *nc_vars_af, int *dim_bnds,
                             int *zfactors, int *nc_zfactors,
                             int *nc_dim_af, int *nzfactors);
 
@@ -104,7 +103,7 @@ extern void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
                                        int *nc_vars_af, int *nc_associated_vars,
                                        int *nc_singletons, int *nc_singletons_bnds,
                                        int *nc_zfactors, int *zfactors, int nzfactors,
-                                       size_t *nc_dim_chunking, char *outname);
+                                       char *outname);
 
 extern int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af,
         int *nc_associated_vars);
@@ -234,8 +233,7 @@ extern int cmor_set_deflate( int var_id, int shuffle,
 extern int cmor_set_zstandard( int var_id, int zstandard_level );
 extern int cmor_set_quantize( int var_id, int quantize_mode, 
                               int quantize_nsd );
-extern int cmor_set_chunking( int var_id, int nTableID,
-							    size_t nc_dim_chunking[]);
+extern int cmor_set_chunking( int var_id, int *nc_dim_chunking);
 
 extern int cmor_set_var_def_att( cmor_var_def_t * var, char *att,
                                     char *val);

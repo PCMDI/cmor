@@ -1112,6 +1112,26 @@ def set_quantize(var_id, quantize_mode, quantize_nsd):
     return _cmor.set_quantize(var_id, quantize_mode, quantize_nsd)
 
 
+def set_chunking(var_id, chunking_dimensions):
+    """Sets chunking dimensions on a cmor variable
+    Usage:
+      cmor.set_chunking(var_id, chunking_dimensions)
+    Where:
+      var_id: is cmor variable id
+      chunking_dimensions: A list of NetCDF chunking dimensions for
+        the variable. The chunking dimensions must be a list of
+        positive integers that is the same length as the number of axes
+        for the variable. The list must follow the order of the
+        variable's list of axes.
+
+        Any negative values in chunking_dimensions will make CMOR warn
+        that the value will be replaced with zero.
+
+    """
+    chunk_dims = numpy.ascontiguousarray(chunking_dimensions, dtype=numpy.int32)
+    return _cmor.set_chunking(var_id, chunk_dims)
+
+
 def has_variable_attribute(var_id, name):
     """determines if the a cmor variable has an attribute
     Usage:
