@@ -37,11 +37,7 @@ static PyObject *PyCMOR_get_original_shape(PyObject * self, PyObject * args)
     mylist = PyList_New(0);
     for (i = 0; i < CMOR_MAX_DIMENSIONS; i++) {
         if (shape_array[i] != -1) {
-#if PY_MAJOR_VERSION >= 3
             PyList_Append(mylist, PyLong_FromLong(shape_array[i]));
-#else
-            PyList_Append(mylist, PyInt_FromLong(shape_array[i]));
-#endif
         }
     }
     Py_INCREF(mylist);
@@ -263,13 +259,8 @@ static PyObject *PyCMOR_set_variable_attribute(PyObject * self, PyObject * args)
     if (!PyArg_ParseTuple(args, "issO", &var_id, &name, &type, &oValue))
         return NULL;
 
-#if PY_MAJOR_VERSION >= 3
     if(PyUnicode_Check(oValue)) {
         value = PyUnicode_AsUTF8(oValue);
-#else
-    if(PyString_Check(oValue)) {
-        value = PyString_AsString(oValue);
-#endif
     } else if(PyLong_Check(oValue)) {
         lValue = PyLong_AsLong(oValue);
     } else if (PyFloat_Check(oValue)) {
@@ -600,11 +591,7 @@ static PyObject *PyCMOR_axis(PyObject * self, PyObject * args)
             max_string_length = 0;
             for (i = 0; i < length; i++) {
                 tmp = PyArray_GETITEM(coords, dataptr);
-#if PY_MAJOR_VERSION >= 3
                 string_length = PyUnicode_GET_LENGTH(tmp);
-#else
-                string_length = PyString_Size(tmp);
-#endif
                 if(string_length > max_string_length){
                     max_string_length = string_length;
                 }
@@ -617,15 +604,9 @@ static PyObject *PyCMOR_axis(PyObject * self, PyObject * args)
               (char *)malloc(sizeof(char) * length * (max_string_length + 1));
             for (i = 0; i < length; i++) {
                 tmp = PyArray_GETITEM(coords, dataptr);
-#if PY_MAJOR_VERSION >= 3
                 strncpy(&tmpstr[i * (max_string_length + 1)],
                         PyUnicode_AsUTF8(tmp), max_string_length);
                 tmpstr[i * (max_string_length + 1) + max_string_length] = '\0';
-#else
-                strncpy(&tmpstr[i * (max_string_length + 1)],
-                        PyString_AsString(tmp), max_string_length);
-                tmpstr[i * (max_string_length + 1) + max_string_length] = '\0';
-#endif
                 dataptr += stride;
             }
             coord_vals = &tmpstr[0];
@@ -799,11 +780,7 @@ static PyObject *PyCMOR_zfactor(PyObject * self, PyObject * args)
                                                              NPY_NOTYPE, 1, 0);
             axes_ids = (void *)PyArray_DATA(axes);
         } else {
-#if PY_MAJOR_VERSION >= 3
             itmp = (int)PyLong_AsLong(axes_obj);
-#else
-            itmp = (int)PyInt_AsLong(axes_obj);
-#endif
             axes_ids = &itmp;
         }
     }
@@ -874,19 +851,9 @@ static PyObject *PyCMOR_grid_mapping(PyObject * self, PyObject * args)
     n = PyList_Size(param_nm_obj);
     for (i = 0; i < n; i++) {
         tmp = PyList_GetItem(param_nm_obj, i);
-#if PY_MAJOR_VERSION >= 3
         strcpy(nms[i], PyUnicode_AsUTF8(tmp));
-#else
-        strcpy(nms[i], PyString_AsString(tmp));
-#endif
-        //Py_DECREF(tmp); //Not needed get_item does not increase ref
         tmp = PyList_GetItem(param_un_obj, i);
-#if PY_MAJOR_VERSION >= 3
         strcpy(units[i], PyUnicode_AsUTF8(tmp));
-#else
-        strcpy(units[i], PyString_AsString(tmp));
-#endif
-        //Py_DECREF(tmp); // Not need get_item does not incref
     }
 
     ierr =
@@ -936,30 +903,16 @@ static PyObject *PyCMOR_set_crs(PyObject * self, PyObject * args)
     n = PyList_Size(param_nm_obj);
     for (i = 0; i < n; i++) {
         tmp = PyList_GetItem(param_nm_obj, i);
-#if PY_MAJOR_VERSION >= 3
         strcpy(nms[i], PyUnicode_AsUTF8(tmp));
-#else
-        strcpy(nms[i], PyString_AsString(tmp));
-#endif
-        //Py_DECREF(tmp); //Not needed get_item does not increase ref
         tmp = PyList_GetItem(param_un_obj, i);
-#if PY_MAJOR_VERSION >= 3
         strcpy(units[i], PyUnicode_AsUTF8(tmp));
-#else
-        strcpy(units[i], PyString_AsString(tmp));
-#endif
-        //Py_DECREF(tmp); // Not need get_item does not incref
     }
 
     total_size = 0;
     tn = PyList_Size(param_text_nm_obj);
     for (i = 0; i < tn; i++) {
         tmp = PyList_GetItem(param_text_nm_obj, i);
-#if PY_MAJOR_VERSION >= 3
         strcpy(text_nms[i], PyUnicode_AsUTF8(tmp));
-#else
-        strcpy(text_nms[i], PyString_AsString(tmp));
-#endif
         tmp = PyList_GetItem(param_text_val_obj, i);
         tmp_size = PyUnicode_GET_LENGTH(tmp) + 1;
         text_len[i] = tmp_size;
@@ -971,11 +924,7 @@ static PyObject *PyCMOR_set_crs(PyObject * self, PyObject * args)
     for (i = 0; i < tn; i++) {
         tmp = PyList_GetItem(param_text_val_obj, i);
         tmp_size = text_len[i];
-#if PY_MAJOR_VERSION >= 3
         strncpy(&text_vals[idx], PyUnicode_AsUTF8(tmp), tmp_size);
-#else
-        strncpy(&text_vals[idx], PyString_AsString(tmp), tmp_size);
-#endif
         idx += tmp_size;
     }
 
@@ -1061,11 +1010,7 @@ static PyObject *PyCMOR_write(PyObject * self, PyObject * args)
     if (ref_obj == Py_None) {
         ref = NULL;
     } else {
-#if PY_MAJOR_VERSION >= 3
         iref = (int)PyLong_AsLong(ref_obj);
-#else
-        iref = (int)PyInt_AsLong(ref_obj);
-#endif
         ref = &iref;
     }
     type = itype[0];
@@ -1114,11 +1059,7 @@ static PyObject *PyCMOR_close(PyObject * self, PyObject * args)
             return (Py_BuildValue("i", ierr));
         }
     } else {
-#if PY_MAJOR_VERSION >= 3
         varid = (int)PyLong_AsLong(var);
-#else
-        varid = (int)PyInt_AsLong(var);
-#endif
 
         if (dopreserve == 1) {
             if (dofile == 1) {
@@ -1299,7 +1240,6 @@ static PyMethodDef MyExtractMethods[] = {
     {NULL, NULL}                /*sentinel */
 };
 
-#if PY_MAJOR_VERSION >= 3
 static struct PyModuleDef moduledef = {
         PyModuleDef_HEAD_INIT,
         "_cmor",
@@ -1307,9 +1247,7 @@ static struct PyModuleDef moduledef = {
         -1,
         MyExtractMethods
 };
-#endif
 
-#if PY_MAJOR_VERSION >= 3
 PyMODINIT_FUNC PyInit__cmor(void)
 {
     PyObject *cmor_module;
@@ -1319,13 +1257,3 @@ PyMODINIT_FUNC PyInit__cmor(void)
     PyModule_AddObject(cmor_module, "CMORError", CMORError);
     return cmor_module;
 }
-#else
-void init_cmor(void)
-{
-    PyObject *cmor_module;
-    cmor_module = Py_InitModule("_cmor", MyExtractMethods);
-    import_array();
-    CMORError = PyErr_NewException("_cmor.CMORError", NULL, NULL);
-    PyModule_AddObject(cmor_module, "CMORError", CMORError);
-}
-#endif
