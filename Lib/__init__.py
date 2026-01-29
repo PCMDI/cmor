@@ -13,7 +13,7 @@ from cmor.pywrapper import (
     has_cur_dataset_attribute, set_variable_attribute, get_variable_attribute,
     has_variable_attribute, get_final_filename, set_deflate, set_zstandard,
     set_quantize, set_furtherinfourl, set_climatology, get_climatology,
-    set_terminate_signal, get_terminate_signal)
+    set_terminate_signal, get_terminate_signal, set_chunking)
 
 try:
     from check_CMOR_compliant import checkCMOR

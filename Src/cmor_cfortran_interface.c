@@ -110,6 +110,14 @@ int cmor_set_quantize_cff_(int *var_id, int *quantize_mode,
 }
 
 /************************************************************************/
+/*                       cmor_set_chunking_cff_()                       */
+/************************************************************************/
+int cmor_set_chunking_cff_(int *var_id, int *chunking_dims)
+{
+    return (cmor_set_chunking(*var_id, chunking_dims));
+}
+
+/************************************************************************/
 /*                  cmor_get_variable_attribute_cff_()                  */
 /************************************************************************/
 int cmor_get_variable_attribute_cff_(int *varid, char *name, char *value)
