@@ -1386,7 +1386,7 @@ int cmor_check_interval(int axis_id, char *interval, double *values,
     char ctmp2[CMOR_MAX_STRING];
     char msg[CMOR_MAX_STRING];
     int i, j, n, nval;
-    double interv, diff, diff2, tmp;
+    double interv_user_units, interv_cmor_units, diff, diff2, tmp;
     extern ut_system *ut_read;
     ut_unit *user_units = NULL, *cmor_units = NULL;
     cv_converter *ut_cmor_converter = NULL;
@@ -1431,7 +1431,7 @@ int cmor_check_interval(int axis_id, char *interval, double *values,
         }
         ctmp2[i] = ctmp[i];
     }
-    interv = atof(ctmp2);
+    interv_user_units = atof(ctmp2);
     for (j = 0; j < n - i; j++) {
         ctmp2[j] = ctmp[j + i + 1];
     }
@@ -1475,7 +1475,7 @@ int cmor_check_interval(int axis_id, char *interval, double *values,
             cmor_axes[axis_id].id,
             cmor_tables[cmor_axes[axis_id].ref_table_id].szTable_id);
     }
-    tmp = cv_convert_double(ut_cmor_converter, interv);
+    tmp = cv_convert_double(ut_cmor_converter, interv_user_units);
     if (ut_get_status() != UT_SUCCESS) {
         cmor_handle_error_variadic(
             "In udunuits converting, axis: %s (table: %s)",
@@ -1483,7 +1483,7 @@ int cmor_check_interval(int axis_id, char *interval, double *values,
             cmor_axes[axis_id].id,
             cmor_tables[cmor_axes[axis_id].ref_table_id].szTable_id);
     }
-    interv = tmp;
+    interv_cmor_units = tmp;
 
     cv_free(ut_cmor_converter);
 
@@ -1562,44 +1562,33 @@ int cmor_check_interval(int axis_id, char *interval, double *values,
         }
 
         diff2 = tmp;
-        tmp = (double)fabs(diff2 - interv);
-        tmp = tmp / interv;
+        tmp = (double)fabs(diff2 - interv_cmor_units);
+        tmp = tmp / interv_cmor_units;
 /* -------------------------------------------------------------------- */
 /* more than 20% diff issues an error                                   */
 /* -------------------------------------------------------------------- */
 
         if (tmp > cmor_axes[axis_id].approx_interval_error) {
-            if (isbounds == 1) {
-                cmor_handle_error_variadic(
-                    "approximate time axis interval is defined as %f "
-                    "seconds (%s), for value %i we got a difference "
-                    "(based on bounds) of %f seconds, (%f %s), which "
-                    "is %f %% , seems too big, check your values",
-                    CMOR_CRITICAL,
-                    interv, interval, i + 1, diff2, diff, ctmp2,
-                    tmp * 100.);
-            } else {
-                cmor_handle_error_variadic(
-                    "approximate time axis interval is defined as %f "
-                    "seconds (%s), for value %i we got a difference of "
-                    "%f seconds (%f %s), which is %f %% , seems too big, "
-                    "check your values",
-                    CMOR_CRITICAL,
-                    interv, interval, i + 1, diff2, diff, ctmp2,
-                    tmp * 100.);
-            }
-
+            cmor_handle_error_variadic(
+                "Dataset was defined with an approximate time interval of %g %s, "
+                "but time %s values %i and %i have a difference of %g %s, "
+                "which is %g %%, seems too big, check your values",
+                CMOR_CRITICAL,
+                interv_user_units, ctmp2,
+                (isbounds == 1) ? "bounds" : "axis",
+                i, i + 1 , diff, ctmp2, tmp * 100.);
         } else if (tmp > cmor_axes[axis_id].approx_interval_warning) {
 /* -------------------------------------------------------------------- */
 /*      more than 10% diff issues a warning                             */
 /* -------------------------------------------------------------------- */
             cmor_handle_error_variadic(
-                "approximate time axis interval is defined as %f "
-                "seconds (%s), for value %i we got a difference of %f "
-                "seconds (%f %s), which is %f %% , seems too big, check "
-                "your values",
+                "Dataset was defined with an approximate time interval of %g %s, "
+                "but time %s values %i and %i have a difference of %g %s, "
+                "which is %g %%, seems too big, check your values",
                 CMOR_WARNING,
-                interv, interval, i + 1, diff2, diff, ctmp2, tmp * 100.);
+                interv_user_units, ctmp2,
+                (isbounds == 1) ? "bounds" : "axis",
+                i, i + 1, diff, ctmp2, tmp * 100.);
         }
     }
 
@@ -1607,7 +1596,7 @@ int cmor_check_interval(int axis_id, char *interval, double *values,
 /*      bounds being at begining and end of the month                   */
 /* -------------------------------------------------------------------- */
     if ((isbounds == 1)
-        && (fabs(interv - 2592000.) / 2592000. < .1)) {
+        && (fabs(interv_cmor_units - 2592000.) / 2592000. < .1)) {
         cmor_get_cur_dataset_attribute("calendar", ctmp);
         if (cmor_calendar_c2i(ctmp, &icali) != 0) {
             cmor_handle_error_variadic(

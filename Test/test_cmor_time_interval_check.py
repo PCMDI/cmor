@@ -24,10 +24,9 @@ class TestTimeIntervalCheck(BaseCVsTest):
                           cell_bounds=[0, 30, 60, 120])
 
         self.assertCV(
-            "approximate time axis interval is defined as 2592000.000000 "
-            "seconds (30.000000 days), for value 2 we got a difference of "
-            "3888000.000000 seconds (45.000000 days), which is 50.000000 % ,"
-            " seems too big, check your values"
+            "Dataset was defined with an approximate time interval of 30 days, "
+            "but time axis values 1 and 2 have a difference of 45 days, which "
+            "is 50 %, seems too big, check your values"
         )
 
     def test_interval_too_small_for_passed_time(self):
@@ -61,10 +60,9 @@ class TestTimeIntervalCheck(BaseCVsTest):
                            time_vals=[35], time_bnds=[30, 40])
 
         self.assertCV(
-            "approximate time axis interval is defined as 2592000.000000 "
-            "seconds (30.000000 days), for value 1 we got a difference of "
-            "1728000.000000 seconds (20.000000 days), which is 33.333333 % ,"
-            " seems too big, check your values"
+            "Dataset was defined with an approximate time interval of 30 days, "
+            "but time axis values 0 and 1 have a difference of 20 days, which "
+            "is 33.3333 %, seems too big, check your values"
         )
 
 
