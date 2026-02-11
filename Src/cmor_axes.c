@@ -1385,8 +1385,9 @@ int cmor_check_interval(int axis_id, char *interval, double *values,
     char ctmp[CMOR_MAX_STRING];
     char ctmp2[CMOR_MAX_STRING];
     char msg[CMOR_MAX_STRING];
-    int i, j, n, nval;
+    int i, j, n, nval, interv_msg_level;
     double interv_user_units, interv_cmor_units, diff, diff2, tmp;
+    double interv_error_thres, interv_warn_thres;
     extern ut_system *ut_read;
     ut_unit *user_units = NULL, *cmor_units = NULL;
     cv_converter *ut_cmor_converter = NULL;
@@ -1547,6 +1548,8 @@ int cmor_check_interval(int axis_id, char *interval, double *values,
     }
 
     tmp = 0.;
+    interv_error_thres = cmor_axes[axis_id].approx_interval_error;
+    interv_warn_thres = cmor_axes[axis_id].approx_interval_warning;
     for (i = 0; i < nval - 1; i++) {
         diff = tmp_values[i + 1] - tmp_values[i];       /* still in user units */
 /* -------------------------------------------------------------------- */
@@ -1564,31 +1567,25 @@ int cmor_check_interval(int axis_id, char *interval, double *values,
         diff2 = tmp;
         tmp = (double)fabs(diff2 - interv_cmor_units);
         tmp = tmp / interv_cmor_units;
-/* -------------------------------------------------------------------- */
-/* more than 20% diff issues an error                                   */
-/* -------------------------------------------------------------------- */
 
-        if (tmp > cmor_axes[axis_id].approx_interval_error) {
+        if (tmp > interv_error_thres || tmp > interv_warn_thres) {
+            // If the interval difference percentage is greater than the
+            // error thrshold (default of 20%), then throw an error.
+            // If the interval difference percentage is greater than the
+            // warning thrshold (default of 10%), then throw an warning.
+            if (tmp > interv_error_thres)
+                interv_msg_level = CMOR_CRITICAL;
+            else if (tmp > interv_warn_thres)
+                interv_msg_level = CMOR_WARNING;
+
             cmor_handle_error_variadic(
                 "Dataset was defined with an approximate time interval of %g %s, "
                 "but time %s values %i and %i have a difference of %g %s, "
                 "which is %g %%, seems too big, check your values",
-                CMOR_CRITICAL,
+                interv_msg_level,
                 interv_user_units, ctmp2,
                 (isbounds == 1) ? "bounds" : "axis",
                 i, i + 1 , diff, ctmp2, tmp * 100.);
-        } else if (tmp > cmor_axes[axis_id].approx_interval_warning) {
-/* -------------------------------------------------------------------- */
-/*      more than 10% diff issues a warning                             */
-/* -------------------------------------------------------------------- */
-            cmor_handle_error_variadic(
-                "Dataset was defined with an approximate time interval of %g %s, "
-                "but time %s values %i and %i have a difference of %g %s, "
-                "which is %g %%, seems too big, check your values",
-                CMOR_WARNING,
-                interv_user_units, ctmp2,
-                (isbounds == 1) ? "bounds" : "axis",
-                i, i + 1, diff, ctmp2, tmp * 100.);
         }
     }
 
