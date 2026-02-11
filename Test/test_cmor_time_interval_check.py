@@ -65,6 +65,27 @@ class TestTimeIntervalCheck(BaseCVsTest):
             "is 33.3333 %, seems too big, check your values"
         )
 
+    def test_interval_warning(self):
+        cmor.setup(inpath='Tables',
+                   netcdf_file_action=cmor.CMOR_REPLACE_4,
+                   logfile=self.tmpfile)
+
+        cmor.dataset_json("Test/CMOR_input_example.json")    
+        cmor.load_table("CMIP6_Amon.json")
+
+        _ = cmor.axis(table_entry='time',
+                      units='days since 2000-01-01 00:00:00',
+                      coord_vals=[15, 45, 75],
+                      cell_bounds=[0, 30, 60, 100])
+
+        self.assertCV(
+            "but time axis values 1 and 2 have a difference of 35 days, "
+            "which is 16.6667 %, seems too big, check your values",
+            line_trigger=(
+                "Warning: Dataset was defined with an approximate "
+                "time interval of 30 days, ")
+        )
+
 
 if __name__ == '__main__':
     run()
