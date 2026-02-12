@@ -26,8 +26,7 @@ class TestTimeIntervalCheck(BaseCVsTest):
         self.assertCV(
             "Dataset was defined with an approximate time interval of "
             "30 days, but time axis values 1 and 2 have an interval of "
-            "45 days. Please adjust the time values in your data to be "
-            "consistent with the defined approximate time interval."
+            "45 days."
         )
 
     def test_interval_too_small_for_passed_time(self):
@@ -63,9 +62,7 @@ class TestTimeIntervalCheck(BaseCVsTest):
         self.assertCV(
             "Dataset was defined with the frequency 'mon', which has "
             "an approximate time interval of 30 days, "
-            "but time axis values 0 and 1 have an interval of 20 days. "
-            "Please adjust the time values in your data to be consistent "
-            "with the selected frequency."
+            "but time axis values 0 and 1 have an interval of 20 days."
         )
 
     def test_interval_warning(self):
@@ -82,9 +79,7 @@ class TestTimeIntervalCheck(BaseCVsTest):
                       cell_bounds=[0, 30, 60, 100])
 
         self.assertCV(
-            "but time axis values 1 and 2 have an interval of 35 days. "
-            "Please adjust the time values in your data to be consistent "
-            "with the defined approximate time interval.",
+            "but time axis values 1 and 2 have an interval of 35 days.",
             "Warning: Dataset was defined with an approximate time "
             "interval of 30 days, "
         )

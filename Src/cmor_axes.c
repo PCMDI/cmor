@@ -1584,7 +1584,7 @@ int cmor_check_interval(int axis_id, char *interval, double *values,
                 cmor_handle_error_variadic(
                     "Dataset was defined with the frequency '%s', which has an "
                     "approximate time interval of %g %s, "
-                    "but time %s values %i and %i have an interval of %g %s. "
+                    "but time %s values %i and %i have an interval of %g %s.\n! "
                     "Please adjust the time values in your data to be consistent "
                     "with the selected frequency.",
                     interv_msg_level,
@@ -1595,7 +1595,7 @@ int cmor_check_interval(int axis_id, char *interval, double *values,
             } else {
                 cmor_handle_error_variadic(
                     "Dataset was defined with an approximate time interval of %g %s, "
-                    "but time %s values %i and %i have an interval of %g %s. "
+                    "but time %s values %i and %i have an interval of %g %s.\n! "
                     "Please adjust the time values in your data to be consistent "
                     "with the defined approximate time interval.",
                     interv_msg_level,
