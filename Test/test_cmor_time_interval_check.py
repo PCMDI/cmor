@@ -24,9 +24,10 @@ class TestTimeIntervalCheck(BaseCVsTest):
                           cell_bounds=[0, 30, 60, 120])
 
         self.assertCV(
-            "Dataset was defined with an approximate time interval of 30 days, "
-            "but time axis values 1 and 2 have a difference of 45 days, which "
-            "is 50 %, seems too big, check your values"
+            "Dataset was defined with an approximate time interval of "
+            "30 days, but time axis values 1 and 2 have an interval of "
+            "45 days. Please adjust the time values in your data to be "
+            "consistent with the defined approximate time interval."
         )
 
     def test_interval_too_small_for_passed_time(self):
@@ -60,9 +61,11 @@ class TestTimeIntervalCheck(BaseCVsTest):
                            time_vals=[35], time_bnds=[30, 40])
 
         self.assertCV(
-            "Dataset was defined with an approximate time interval of 30 days, "
-            "but time axis values 0 and 1 have a difference of 20 days, which "
-            "is 33.3333 %, seems too big, check your values"
+            "Dataset was defined with the frequency 'mon', which has "
+            "an approximate time interval of 30 days, "
+            "but time axis values 0 and 1 have an interval of 20 days. "
+            "Please adjust the time values in your data to be consistent "
+            "with the selected frequency."
         )
 
     def test_interval_warning(self):
@@ -79,11 +82,11 @@ class TestTimeIntervalCheck(BaseCVsTest):
                       cell_bounds=[0, 30, 60, 100])
 
         self.assertCV(
-            "but time axis values 1 and 2 have a difference of 35 days, "
-            "which is 16.6667 %, seems too big, check your values",
-            line_trigger=(
-                "Warning: Dataset was defined with an approximate "
-                "time interval of 30 days, ")
+            "but time axis values 1 and 2 have an interval of 35 days. "
+            "Please adjust the time values in your data to be consistent "
+            "with the defined approximate time interval.",
+            "Warning: Dataset was defined with an approximate time "
+            "interval of 30 days, "
         )
 
 

@@ -1385,6 +1385,7 @@ int cmor_check_interval(int axis_id, char *interval, double *values,
     char ctmp[CMOR_MAX_STRING];
     char ctmp2[CMOR_MAX_STRING];
     char msg[CMOR_MAX_STRING];
+    char freq_str[CMOR_MAX_STRING];
     int i, j, n, nval, interv_msg_level;
     double interv_user_units, interv_cmor_units, diff, diff2, tmp;
     double interv_error_thres, interv_warn_thres;
@@ -1578,14 +1579,30 @@ int cmor_check_interval(int axis_id, char *interval, double *values,
             else if (tmp > interv_warn_thres)
                 interv_msg_level = CMOR_WARNING;
 
-            cmor_handle_error_variadic(
-                "Dataset was defined with an approximate time interval of %g %s, "
-                "but time %s values %i and %i have a difference of %g %s, "
-                "which is %g %%, seems too big, check your values",
-                interv_msg_level,
-                interv_user_units, ctmp2,
-                (isbounds == 1) ? "bounds" : "axis",
-                i, i + 1 , diff, ctmp2, tmp * 100.);
+            if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY) == 0) {
+                cmor_get_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY, freq_str);
+                cmor_handle_error_variadic(
+                    "Dataset was defined with the frequency '%s', which has an "
+                    "approximate time interval of %g %s, "
+                    "but time %s values %i and %i have an interval of %g %s. "
+                    "Please adjust the time values in your data to be consistent "
+                    "with the selected frequency.",
+                    interv_msg_level,
+                    freq_str,
+                    interv_user_units, ctmp2,
+                    (isbounds == 1) ? "bounds" : "axis",
+                    i, i + 1 , diff, ctmp2);
+            } else {
+                cmor_handle_error_variadic(
+                    "Dataset was defined with an approximate time interval of %g %s, "
+                    "but time %s values %i and %i have an interval of %g %s. "
+                    "Please adjust the time values in your data to be consistent "
+                    "with the defined approximate time interval.",
+                    interv_msg_level,
+                    interv_user_units, ctmp2,
+                    (isbounds == 1) ? "bounds" : "axis",
+                    i, i + 1 , diff, ctmp2);
+            }
         }
     }
 
