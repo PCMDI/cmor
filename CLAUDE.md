@@ -8,19 +8,73 @@ CMOR (Climate Model Output Rewriter) is a C library with Fortran and Python inte
 
 ## Build System
 
-### Configure and Build
+### Recommended: Build with Mamba
 
-The project uses GNU Autotools. Basic build sequence:
+The recommended approach is to use Miniforge/mamba to manage dependencies. This ensures all required libraries are properly configured.
+
+1. **Install Miniforge** for your operating system from https://github.com/conda-forge/miniforge
+
+2. **Create a development environment** with all dependencies:
 
 ```bash
-./configure
-make
+# Linux
+mamba create -n cmor_dev -c conda-forge libuuid json-c udunits2 hdf5 \
+  libnetcdf openblas netcdf4 numpy openssl python pyfive typing-extensions \
+  gcc_linux-64 gfortran_linux-64
+
+# macOS on x86-64
+mamba create -n cmor_dev -c conda-forge libuuid json-c udunits2 hdf5 \
+  libnetcdf openblas netcdf4 numpy openssl python pyfive typing-extensions \
+  clang_osx-64 gfortran_osx-64
+
+# macOS on Apple Silicon
+mamba create -n cmor_dev -c conda-forge libuuid json-c udunits2 hdf5 \
+  libnetcdf openblas netcdf4 numpy openssl python pyfive typing-extensions \
+  clang_osx-arm64 gfortran_osx-arm64
+```
+
+3. **Activate the environment**:
+
+```bash
+mamba activate cmor_dev
+```
+
+4. **Set environment variables**:
+
+```bash
+# Linux
+export LDSHARED_FLAGS="-shared -pthread"
+
+# macOS
+export LDSHARED_FLAGS=" -bundle -undefined dynamic_lookup"
+
+# Both platforms
+export PREFIX=$(python -c "import sys; print(sys.prefix)")
+```
+
+5. **Configure CMOR**:
+
+```bash
+./configure --prefix=$PREFIX --with-python --with-uuid=$PREFIX \
+  --with-json-c=$PREFIX --with-udunits2=$PREFIX --with-netcdf=$PREFIX \
+  --enable-verbose-test
+```
+
+6. **Build and install**:
+
+```bash
 make install
 ```
 
-### Configure Options
+7. **Run tests**:
 
-Key dependencies must be specified if installed in non-standard locations:
+```bash
+make test
+```
+
+### Alternative: Manual Build with Autotools
+
+If building without mamba, dependencies must be specified if installed in non-standard locations:
 
 ```bash
 ./configure \
@@ -31,19 +85,22 @@ Key dependencies must be specified if installed in non-standard locations:
   --with-uuid=/path/to/uuid \
   --with-python \
   --enable-fortran
+
+make
+make install
 ```
 
 Use `--disable-fortran` to skip Fortran support if not needed.
 
-### Python Module
+### Python Module Only
 
-Build Python module (requires numpy):
+Build Python module directly (requires numpy and all C dependencies):
 
 ```bash
 make python
 ```
 
-Or install directly:
+Or install with pip:
 
 ```bash
 python -m pip install .
