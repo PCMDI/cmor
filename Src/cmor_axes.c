@@ -1571,37 +1571,66 @@ int cmor_check_interval(int axis_id, char *interval, double *values,
 
         if (tmp > interv_error_thres || tmp > interv_warn_thres) {
             // If the interval difference percentage is greater than the
-            // error thrshold (default of 20%), then throw an error.
+            // error threshold (default of 20%), then throw an error.
             // If the interval difference percentage is greater than the
-            // warning thrshold (default of 10%), then throw an warning.
+            // warning threshold (default of 10%), then throw a warning.
             if (tmp > interv_error_thres)
                 interv_msg_level = CMOR_CRITICAL;
             else if (tmp > interv_warn_thres)
                 interv_msg_level = CMOR_WARNING;
 
+            // Gather context information for enhanced error message
+            char input_json[CMOR_MAX_STRING];
+            if (cmor_has_cur_dataset_attribute(CMOR_INPUTFILENAME) == 0) {
+                cmor_get_cur_dataset_attribute(CMOR_INPUTFILENAME, input_json);
+            } else {
+                strcpy(input_json, "(not specified)");
+            }
+
+            char table_json[CMOR_MAX_STRING];
+            strncpy(table_json,
+                    cmor_tables[cmor_axes[axis_id].ref_table_id].path,
+                    CMOR_MAX_STRING);
+
+            // Check if frequency was provided
             if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY) == 0) {
                 cmor_get_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY, freq_str);
+
+                // Message when frequency IS provided
                 cmor_handle_error_variadic(
-                    "Dataset was defined with the frequency '%s', which has an "
-                    "approximate time interval of %g %s, "
-                    "but time %s values %i and %i have an interval of %g %s.\n! "
-                    "Please adjust the time values in your data to be consistent "
-                    "with the selected frequency.",
+                    "Time interval mismatch detected for frequency: '%s'\n! "
+                    "Expected interval between time %s values: %g %s (from table approx_interval)\n! "
+                    "Actual interval between time axis values %i and %i: %g %s (%.1f%% difference)\n! "
+                    "Input JSON: %s\n! "
+                    "Table JSON: %s\n! "
+                    "\n! "
+                    "Please adjust the time values in your data to be consistent with frequency '%s',\n! "
+                    "or update the frequency attribute if your data has a different temporal resolution.",
                     interv_msg_level,
                     freq_str,
-                    interv_user_units, ctmp2,
-                    (isbounds == 1) ? "bounds" : "axis",
-                    i, i + 1 , diff, ctmp2);
+                    (isbounds == 1) ? "bounds" : "axis", interv_user_units, ctmp2,
+                    i, i + 1, diff, ctmp2, tmp * 100.0,
+                    input_json,
+                    table_json,
+                    freq_str);
             } else {
+                // Message when frequency is NOT provided (should be rare after v3.14.1)
                 cmor_handle_error_variadic(
-                    "Dataset was defined with an approximate time interval of %g %s, "
-                    "but time %s values %i and %i have an interval of %g %s.\n! "
-                    "Please adjust the time values in your data to be consistent "
-                    "with the defined approximate time interval.",
+                    "Time interval mismatch detected\n! "
+                    "WARNING: No frequency attribute provided in dataset configuration.\n! "
+                    "Expected interval from table: %g %s\n! "
+                    "Actual interval between time %s values %i and %i: %g %s (%.1f%% difference)\n! "
+                    "Input JSON: %s\n! "
+                    "Table JSON: %s\n! "
+                    "\n! "
+                    "Please add a 'frequency' attribute to your input JSON or table definition,\n! "
+                    "and ensure time values are consistent with that frequency.",
                     interv_msg_level,
                     interv_user_units, ctmp2,
                     (isbounds == 1) ? "bounds" : "axis",
-                    i, i + 1 , diff, ctmp2);
+                    i, i + 1, diff, ctmp2, tmp * 100.0,
+                    input_json,
+                    table_json);
             }
         }
     }
@@ -1841,41 +1870,51 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
         cmor_set_axis_attribute(cmor_naxes, "interval", 'c', interval);
     }
 
-    // Get the interval values from the CV if the current dataset has a frequency.
-    // Otherwise, use the interval values from the variable entry table.
+    // For time axes, get interval from CV, table, or hardcoded defaults
+    // Uses hierarchical precedence: CV > Table > Hardcoded mappings
     if (refaxis.axis == 'T') {
+        approx_interval = CMOR_APPROX_INTERVAL_DEFAULT;
+        interval_error = CMOR_APPROX_INTERVAL_ERROR_DEFAULT;
+        interval_warning = CMOR_APPROX_INTERVAL_WARNING_DEFAULT;
         cv_freq_found = 0;
+
         if(cmor_has_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY) == 0) {
-            approx_interval = CMOR_APPROX_INTERVAL_DEFAULT;
-            interval_error = CMOR_APPROX_INTERVAL_ERROR_DEFAULT;
-            interval_warning = CMOR_APPROX_INTERVAL_WARNING_DEFAULT;
             cmor_get_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY, freq);
+
+            // Priority 1: Try CV frequency entry
             frequencies_cv = cmor_CV_rootsearch(cmor_tables[cmor_axes[cmor_naxes].
                 ref_table_id].CV, CV_KEY_FREQUENCY);
             if(frequencies_cv != NULL) {
                 freq_cv = cmor_CV_search_child_key(frequencies_cv, freq);
-                if(freq_cv != NULL && freq_cv->nbObjects > 0) {
-                    cv_freq_found = 1;
+                if(freq_cv != NULL) {
                     interv_cv = cmor_CV_search_child_key(freq_cv, CV_KEY_APRX_INTRVL);
                     if(interv_cv != NULL) {
                         approx_interval = interv_cv->dValue;
+                        cv_freq_found = 1;
                     }
+                    // Also get error/warning thresholds if present
                     interv_error_cv = cmor_CV_search_child_key(freq_cv, CV_KEY_APRX_INTRVL_ERR);
-                    if(interv_error_cv != NULL) {
-                        interval_error = interv_error_cv->dValue;
-                    }
+                    if(interv_error_cv != NULL) interval_error = interv_error_cv->dValue;
+
                     interv_warning_cv = cmor_CV_search_child_key(freq_cv, CV_KEY_APRX_INTRVL_WRN);
-                    if(interv_warning_cv != NULL) {
-                        interval_warning = interv_warning_cv->dValue;
-                    }
+                    if(interv_warning_cv != NULL) interval_warning = interv_warning_cv->dValue;
                 }
             }
         }
 
-        if (cv_freq_found == 0) {
+        // Priority 2: If not in CV, try table header
+        if (!cv_freq_found && cmor_tables[cmor_axes[cmor_naxes].ref_table_id].interval > 0) {
             approx_interval = cmor_tables[cmor_axes[cmor_naxes].ref_table_id].interval;
             interval_error = cmor_tables[cmor_axes[cmor_naxes].ref_table_id].interval_error;
             interval_warning = cmor_tables[cmor_axes[cmor_naxes].ref_table_id].interval_warning;
+        }
+        // Priority 3: If not in CV or table, use hardcoded mapping
+        else if (!cv_freq_found && freq[0] != '\0') {
+            double hardcoded = cmor_get_frequency_interval(freq);
+            if (hardcoded >= 0.0) {
+                approx_interval = hardcoded;
+                // Keep default error/warning thresholds
+            }
         }
 
         cmor_axes[cmor_naxes].approx_interval = approx_interval;
