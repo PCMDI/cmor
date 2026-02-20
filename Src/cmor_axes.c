@@ -1599,8 +1599,8 @@ int cmor_check_interval(int axis_id, char *interval, double *values,
                 // Message when frequency IS provided
                 cmor_handle_error_variadic(
                     "Time interval mismatch detected for frequency: '%s'\n! "
-                    "Expected interval between time %s values: %g %s (from table approx_interval)\n! "
-                    "Actual interval between time axis values %i and %i: %g %s (%.1f%% difference)\n! "
+                    "Expected interval between time %s values: %g %s\n! "
+                    "Actual interval between time %s values %i and %i: %g %s (%.1f%% difference)\n! "
                     "Input JSON: %s\n! "
                     "Table JSON: %s\n! "
                     "\n! "
@@ -1609,6 +1609,7 @@ int cmor_check_interval(int axis_id, char *interval, double *values,
                     interv_msg_level,
                     freq_str,
                     (isbounds == 1) ? "bounds" : "axis", interv_user_units, ctmp2,
+                    (isbounds == 1) ? "bounds" : "axis",
                     i, i + 1, diff, ctmp2, tmp * 100.0,
                     input_json,
                     table_json,
@@ -1616,16 +1617,17 @@ int cmor_check_interval(int axis_id, char *interval, double *values,
             } else {
                 // Message when frequency is NOT provided (should be rare after v3.14.1)
                 cmor_handle_error_variadic(
-                    "Time interval mismatch detected\n! "
-                    "WARNING: No frequency attribute provided in dataset configuration.\n! "
-                    "Expected interval from table: %g %s\n! "
+                    "No frequency attribute provided in dataset configuration.\n! "
+                    "Expected interval between time %s values: %g %s\n! "
                     "Actual interval between time %s values %i and %i: %g %s (%.1f%% difference)\n! "
                     "Input JSON: %s\n! "
                     "Table JSON: %s\n! "
                     "\n! "
-                    "Please add a 'frequency' attribute to your input JSON or table definition,\n! "
+                    "Please add a 'frequency' attribute to your input JSON \n! "
+                    "or use a variable definition that has a 'frequency' value,\n! "
                     "and ensure time values are consistent with that frequency.",
                     interv_msg_level,
+                    (isbounds == 1) ? "bounds" : "axis",
                     interv_user_units, ctmp2,
                     (isbounds == 1) ? "bounds" : "axis",
                     i, i + 1, diff, ctmp2, tmp * 100.0,
