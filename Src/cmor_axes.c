@@ -1880,27 +1880,29 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
         interval_warning = CMOR_APPROX_INTERVAL_WARNING_DEFAULT;
         cv_freq_found = 0;
 
-        if(cmor_has_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY) == 0) {
+        if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY) == 0) {
             cmor_get_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY, freq);
+        } else {
+            freq[0] = '\0';
+        }
 
-            // Priority 1: Try CV frequency entry
-            frequencies_cv = cmor_CV_rootsearch(cmor_tables[cmor_axes[cmor_naxes].
-                ref_table_id].CV, CV_KEY_FREQUENCY);
-            if(frequencies_cv != NULL) {
-                freq_cv = cmor_CV_search_child_key(frequencies_cv, freq);
-                if(freq_cv != NULL) {
-                    interv_cv = cmor_CV_search_child_key(freq_cv, CV_KEY_APRX_INTRVL);
-                    if(interv_cv != NULL) {
-                        approx_interval = interv_cv->dValue;
-                        cv_freq_found = 1;
-                    }
-                    // Also get error/warning thresholds if present
-                    interv_error_cv = cmor_CV_search_child_key(freq_cv, CV_KEY_APRX_INTRVL_ERR);
-                    if(interv_error_cv != NULL) interval_error = interv_error_cv->dValue;
-
-                    interv_warning_cv = cmor_CV_search_child_key(freq_cv, CV_KEY_APRX_INTRVL_WRN);
-                    if(interv_warning_cv != NULL) interval_warning = interv_warning_cv->dValue;
+        // Priority 1: Try CV frequency entry
+        frequencies_cv = cmor_CV_rootsearch(cmor_tables[cmor_axes[cmor_naxes].
+            ref_table_id].CV, CV_KEY_FREQUENCY);
+        if(frequencies_cv != NULL && freq[0] != '\0') {
+            freq_cv = cmor_CV_search_child_key(frequencies_cv, freq);
+            if(freq_cv != NULL) {
+                interv_cv = cmor_CV_search_child_key(freq_cv, CV_KEY_APRX_INTRVL);
+                if(interv_cv != NULL) {
+                    approx_interval = interv_cv->dValue;
+                    cv_freq_found = 1;
                 }
+                // Also get error/warning thresholds if present
+                interv_error_cv = cmor_CV_search_child_key(freq_cv, CV_KEY_APRX_INTRVL_ERR);
+                if(interv_error_cv != NULL) interval_error = interv_error_cv->dValue;
+
+                interv_warning_cv = cmor_CV_search_child_key(freq_cv, CV_KEY_APRX_INTRVL_WRN);
+                if(interv_warning_cv != NULL) interval_warning = interv_warning_cv->dValue;
             }
         }
 
