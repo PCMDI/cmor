@@ -1151,11 +1151,13 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
         cmor_handle_error_variadic(
             "Starting with CMOR version 3.14.1, the 'frequency' attribute is required\n! "
             "for all variables with a time axis.\n! "
-            "Please add 'frequency' to your input JSON file (%s) or use a variable definintion\n! "
-            "with a 'frequency' value from a table with 'approx_interval' in the header.\n! "
+            "Input JSON: %s\n! "
+            "Table JSON: %s\n! "
+            "Please add 'frequency' to your input JSON file, or use a variable definition that has a 'frequency' value.\n! "
             "Valid frequencies: 1hr, 3hr, 6hr, day, mon, yr, dec, fx (see CMIP documentation).",
             CMOR_CRITICAL,
-            input_json);
+            input_json,
+            table_json);
     }
 
     // For CMIP6 tables: validate user frequency matches table frequency
