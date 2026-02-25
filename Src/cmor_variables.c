@@ -1087,7 +1087,7 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
             "Could not find a matching variable for name: '%s'", CMOR_CRITICAL, ctmp);
     }
 
-    if (iref > CMOR_MAX_ELEMENTS) {
+    if (iref >= CMOR_MAX_ELEMENTS) {
         refvar = cmor_tables[CMOR_TABLE].formula[iref - CMOR_MAX_ELEMENTS];
     } else {
         refvar = cmor_tables[CMOR_TABLE].vars[iref];
