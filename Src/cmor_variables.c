@@ -1129,57 +1129,39 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
     // Get the frequency from the variable definition from the current table
     // if it exists. Otherwise, get the frequency from the current dataset.
     int has_frequency = 0;
+    char user_freq[CMOR_MAX_STRING];
+    user_freq[0] = '\0';
+
+    // Get user-provided frequency if it exists
+    if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY) == 0) {
+        cmor_get_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY, user_freq);
+    }
+
+    // Check for frequency mismatch (table frequency vs user frequency)
+    if (refvar.frequency[0] != '\0' && user_freq[0] != '\0') {
+        if (strcmp(user_freq, refvar.frequency) != 0) {
+            cmor_handle_error_variadic(
+                "Frequency mismatch detected.\n! "
+                "Input JSON frequency: '%s' (from %s)\n! "
+                "Table frequency: '%s' (from %s)\n! "
+                "For CMIP6 tables, the frequency in your input JSON must match the table frequency.\n! "
+                "Please update your input JSON to use frequency='%s'.",
+                CMOR_WARNING,
+                user_freq,
+                input_json,
+                refvar.frequency,
+                table_json,
+                refvar.frequency);
+        }
+    }
+
+    // Set frequency with priority: table > user
     if (refvar.frequency[0] != '\0') {
         strncpy(cmor_vars[vrid].frequency, refvar.frequency, CMOR_MAX_STRING);
         has_frequency = 1;
-    } else if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY) == 0) {
-        cmor_get_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY, cmor_vars[vrid].frequency);
+    } else if (user_freq[0] != '\0') {
+        strncpy(cmor_vars[vrid].frequency, user_freq, CMOR_MAX_STRING);
         has_frequency = 1;
-    }
-
-    // Check if this variable has a time axis
-    int has_time_axis = 0;
-    for (i = 0; i < cmor_vars[vrid].ndims; i++) {
-        if (cmor_axes[cmor_vars[vrid].axes_ids[i]].axis == 'T') {
-            has_time_axis = 1;
-            break;
-        }
-    }
-
-    // Starting v3.14.1: require frequency for variables with time axes
-    if (has_time_axis && !has_frequency) {
-        cmor_handle_error_variadic(
-            "Starting with CMOR version 3.14.1, the 'frequency' attribute is required\n! "
-            "for all variables with a time axis.\n! "
-            "Input JSON: %s\n! "
-            "Table JSON: %s\n! "
-            "Please add 'frequency' to your input JSON file, or use a variable definition that has a 'frequency' value.\n! "
-            "Valid frequencies: 1hr, 3hr, 6hr, day, mon, yr, dec, fx (see CMIP documentation).",
-            CMOR_CRITICAL,
-            input_json,
-            table_json);
-    }
-
-    // For CMIP6 tables: validate user frequency matches table frequency
-    if (has_frequency && refvar.frequency[0] != '\0') {
-        char user_freq[CMOR_MAX_STRING];
-        if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY) == 0) {
-            cmor_get_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY, user_freq);
-            if (strcmp(user_freq, refvar.frequency) != 0) {
-                cmor_handle_error_variadic(
-                    "Frequency mismatch detected.\n! "
-                    "Input JSON frequency: '%s' (from %s)\n! "
-                    "Table frequency: '%s' (from %s)\n! "
-                    "For CMIP6 tables, the frequency in your input JSON must match the table frequency.\n! "
-                    "Please update your input JSON to use frequency='%s'.",
-                    CMOR_CRITICAL,
-                    user_freq,
-                    input_json,
-                    refvar.frequency,
-                    table_json,
-                    refvar.frequency);
-            }
-        }
     }
 
     cmor_vars[vrid].suffix_has_date = 0;
@@ -1737,9 +1719,28 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
             return (1);
         }
         if (cmor_axes[laxes_ids[i]].axis == 'T') {
+            // Starting v3.14.1: require frequency for variables with time axes
+            if (!has_frequency) {
+                cmor_handle_error_variadic(
+                    "Starting with CMOR version 3.14.1, the 'frequency' attribute is required\n! "
+                    "for all variables with a time axis.\n! "
+                    "Input JSON: %s\n! "
+                    "Table JSON: %s\n! "
+                    "Please add 'frequency' to your input JSON file, or use a variable definition that has a 'frequency' value.\n! "
+                    "Valid frequencies: 1hr, 3hr, 6hr, day, mon, yr, dec, fx (see CMIP documentation).",
+                    CMOR_CRITICAL,
+                    input_json,
+                    table_json);
+            }
+
             // Get approximate interval values from the CV if they are defined.
             // Otherwise, get them from the current table.
+            // As a final fallback, use hardcoded default frequency mappings.
             cv_freq_found = 0;
+            approx_interval = CMOR_APPROX_INTERVAL_DEFAULT;
+            approx_interval_error = CMOR_APPROX_INTERVAL_ERROR_DEFAULT;
+            approx_interval_warning = CMOR_APPROX_INTERVAL_WARNING_DEFAULT;
+
             frequencies_cv = cmor_CV_rootsearch(cmor_tables[cmor_axes[cmor_naxes].
                 ref_table_id].CV, CV_KEY_FREQUENCY);
             if(frequencies_cv != NULL) {
@@ -1749,29 +1750,34 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
                     interv_cv = cmor_CV_search_child_key(freq_cv, CV_KEY_APRX_INTRVL);
                     if(interv_cv != NULL) {
                         approx_interval = interv_cv->dValue;
-                    } else {
-                        approx_interval = CMOR_APPROX_INTERVAL_DEFAULT;
                     }
                     interv_err_cv = cmor_CV_search_child_key(freq_cv, CV_KEY_APRX_INTRVL_ERR);
                     if(interv_err_cv != NULL) {
                         approx_interval_error = interv_err_cv->dValue;
-                    } else {
-                        approx_interval_error = CMOR_APPROX_INTERVAL_ERROR_DEFAULT;
                     }
                     interv_warn_cv = cmor_CV_search_child_key(freq_cv, CV_KEY_APRX_INTRVL_WRN);
                     if(interv_warn_cv != NULL) {
                         approx_interval_warning = interv_warn_cv->dValue;
-                    } else {
-                        approx_interval_warning = CMOR_APPROX_INTERVAL_WARNING_DEFAULT;
                     }
                 }
             }
-            if (cv_freq_found == 0) {
+
+            // Priority 2: If not in CV, try table header
+            if (cv_freq_found == 0 && cmor_tables[cmor_vars[vrid].ref_table_id].interval > 0) {
                 approx_interval = cmor_tables[cmor_vars[vrid].ref_table_id].interval;
                 approx_interval_error = cmor_tables[cmor_vars[vrid].ref_table_id].interval_error;
                 approx_interval_warning = cmor_tables[cmor_vars[vrid].ref_table_id].interval_warning;
             }
+            // Priority 3: If not in CV or table, use hardcoded mapping
+            else if (cv_freq_found == 0 && cmor_vars[vrid].frequency[0] != '\0') {
+                double hardcoded = cmor_get_frequency_interval(cmor_vars[vrid].frequency);
+                if (hardcoded >= 0.0) {
+                    approx_interval = hardcoded;
+                    // Keep default error/warning thresholds
+                }
+            }
 
+            // Verify the time axis interval matches the frequency-based interval
             if((approx_interval != cmor_axes[laxes_ids[i]].approx_interval)
             || (approx_interval_error != cmor_axes[laxes_ids[i]].approx_interval_error)
             || (approx_interval_warning != cmor_axes[laxes_ids[i]].approx_interval_warning)){

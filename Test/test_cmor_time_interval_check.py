@@ -24,7 +24,7 @@ class TestTimeIntervalCheck(BaseCVsTest):
                           cell_bounds=[0, 30, 60, 120])
 
         # Check for enhanced error message components
-        self.assertCV("No frequency attribute provided in dataset configuration.")
+        self.assertCV("Time interval mismatch detected for frequency: 'mon'")
         self.assertCV("30 days", "Expected interval between time axis values:")
         self.assertCV("45 days", "Actual interval between time axis values 1 and 2:")
         self.assertCV("Test/CMOR_input_example.json", "Input JSON:")
@@ -81,7 +81,7 @@ class TestTimeIntervalCheck(BaseCVsTest):
                       cell_bounds=[0, 30, 60, 100])
 
         # Check for warning message
-        self.assertCV("provided in dataset configuration.", "Warning: No frequency attribute ")
+        self.assertCV("Time interval mismatch detected for frequency: 'mon'", "Time interval mismatch")
         self.assertCV("30 days", "Expected interval between time axis values:")
         self.assertCV("35 days", "Actual interval between time axis values 1 and 2:")
         self.assertCV("Test/CMOR_input_example.json", "Input JSON:")
