@@ -70,8 +70,8 @@ jobs:
           mamba activate
 
           git clone -b main https://github.com/conda-forge/cmor-feedstock $PROJECT_DIR/cmor-feedstock
-          export SRC_META_YAML=`pwd`/$PROJECT_DIR/cmor-feedstock/recipe/meta.yaml.SRC
-          export DST_META_YAML=`pwd`/$PROJECT_DIR/cmor-feedstock/recipe/meta.yaml
+          export SRC_META_YAML=`pwd`/$PROJECT_DIR/cmor-feedstock/recipe/recipe_src.yaml
+          export DST_META_YAML=`pwd`/$PROJECT_DIR/cmor-feedstock/recipe/recipe.yaml
           mv $DST_META_YAML $SRC_META_YAML
 
           export GIT_REV=$(git rev-parse --short "$GITHUB_SHA")
@@ -111,7 +111,7 @@ jobs:
           mkdir -p $ARTIFACT_DIR
 
           for i in ${PROJECT_DIR}'/cmor-feedstock/.ci_support/'${OS_NAME}'_*python'${PYTHON_VERSION}'*.yaml'; do
-            mamba run conda build -c conda-forge --output-folder $BUILD_DIR -m $i $PROJECT_DIR/cmor-feedstock/recipe/
+            rattler-build build -c conda-forge --output-dir $BUILD_DIR -m $i $PROJECT_DIR/cmor-feedstock/recipe/
             ls -lh $BUILD_DIR
             cp $BUILD_DIR/$OS/$PACKAGE_NAME-$PACKAGE_VERSION*.conda $ARTIFACT_DIR
           done

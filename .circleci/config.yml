@@ -39,8 +39,8 @@ aliases:
        mamba activate
 
        git clone -b main https://github.com/conda-forge/cmor-feedstock $WORKDIR/cmor-feedstock
-       export SRC_META_YAML=$WORKDIR/cmor-feedstock/recipe/meta.yaml.SRC
-       export DST_META_YAML=$WORKDIR/cmor-feedstock/recipe/meta.yaml
+       export SRC_META_YAML=$WORKDIR/cmor-feedstock/recipe/recipe_src.yaml
+       export DST_META_YAML=$WORKDIR/cmor-feedstock/recipe/recipe.yaml
        mv $DST_META_YAML $SRC_META_YAML
 
        export GIT_REV=$(git rev-parse --short HEAD)
@@ -84,7 +84,7 @@ aliases:
        fi
 
        for i in ${WORKDIR}'/cmor-feedstock/.ci_support/'${OS_NAME}'_*python'${PYTHON_VERSION}'*.yaml'; do
-          mamba run conda build -c conda-forge --output-folder $BUILD_DIR -m $i $WORKDIR/cmor-feedstock/recipe/
+          rattler-build build -c conda-forge --output-dir $BUILD_DIR -m $i $WORKDIR/cmor-feedstock/recipe/
           cp $BUILD_DIR/$OS/$PKG_NAME-$VERSION*.conda $ARTIFACT_DIR
        done
 
