@@ -84,7 +84,7 @@ aliases:
        fi
 
        for i in ${WORKDIR}'/cmor-feedstock/.ci_support/'${OS_NAME}'_*python'${PYTHON_VERSION}'*.yaml'; do
-          rattler-build build -c conda-forge --output-dir $BUILD_DIR -m $i $WORKDIR/cmor-feedstock/recipe/
+          rattler-build build -c conda-forge --output-dir $BUILD_DIR -m $i
           cp $BUILD_DIR/$OS/$PKG_NAME-$VERSION*.conda $ARTIFACT_DIR
        done
 
