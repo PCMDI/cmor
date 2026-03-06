@@ -87,6 +87,7 @@ aliases:
 
        for i in ${WORKDIR}'/cmor-feedstock/.ci_support/'${OS_NAME}'_*python'${PYTHON_VERSION}'*.yaml'; do
           rattler-build build --output-dir $BUILD_DIR -m $i -r $RECIPE_YAML
+          ls -lh $BUILD_DIR
           cp $BUILD_DIR/$OS/$PKG_NAME-$VERSION*.conda $ARTIFACT_DIR
        done
 

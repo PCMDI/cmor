@@ -110,8 +110,10 @@ jobs:
           export ARTIFACT_DIR=`pwd`/artifacts/$OS
           mkdir -p $ARTIFACT_DIR
 
+          export RECIPE_YAML=`pwd`/$PROJECT_DIR/cmor-feedstock/recipe/recipe.yaml
+
           for i in ${PROJECT_DIR}'/cmor-feedstock/.ci_support/'${OS_NAME}'_*python'${PYTHON_VERSION}'*.yaml'; do
-            rattler-build build -c conda-forge --output-dir $BUILD_DIR -m $i $PROJECT_DIR/cmor-feedstock/recipe/
+            rattler-build build --output-dir $BUILD_DIR -m $i -r $RECIPE_YAML
             ls -lh $BUILD_DIR
             cp $BUILD_DIR/$OS/$PACKAGE_NAME-$PACKAGE_VERSION*.conda $ARTIFACT_DIR
           done
@@ -124,10 +126,11 @@ jobs:
 
           export CMOR_CHANNEL=file://$HOME/cmor_conda_pkgs/
 
-          mamba create -y -n test_py$PYTHON_VERSION -c $CMOR_CHANNEL -c $CONDA_FORGE_CHANNEL $CMOR_CHANNEL::$PACKAGE_NAME=$PACKAGE_VERSION python=$PYTHON_VERSION $C_COMPILER $FORTRAN_COMPILER pyfive
+          mamba create -y -n test_py$PYTHON_VERSION -c $CMOR_CHANNEL -c $CONDA_FORGE_CHANNEL $CMOR_CHANNEL::$PACKAGE_NAME=$PACKAGE_VERSION python=$PYTHON_VERSION $C_COMPILER $FORTRAN_COMPILER pyfive hdf5plugin
           mamba activate test_py$PYTHON_VERSION
 
-          ./configure --prefix=$CONDA_PREFIX --with-python --with-uuid=$CONDA_PREFIX --with-json-c=$CONDA_PREFIX --with-udunits2=$CONDA_PREFIX --with-netcdf=$CONDA_PREFIX  --enable-verbose-test
+          ./configure --prefix=$CONDA_PREFIX --with-python --with-uuid=$CONDA_PREFIX --with-json-c=$CONDA_PREFIX --with-netcdf=$CONDA_PREFIX  --enable-verbose-test
+          export HDF5_PLUGIN_PATH="$(python -c 'import hdf5plugin; print(hdf5plugin.PLUGINS_PATH)')"
           make test -o cmor -o python
 
       - name: Conda Upload
