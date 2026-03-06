@@ -1,11 +1,10 @@
-import os
 import re
 import sys
 import time
 import argparse
 
 parser = argparse.ArgumentParser(
-    description='Rebuild meta.yaml from conda-forge feedstock',
+    description='Rebuild recipe YAML file from conda-forge feedstock',
     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
 parser.add_argument("-p", "--package_name",
@@ -22,12 +21,12 @@ parser.add_argument("-g", "--git_rev",
 parser.add_argument("-B", "--build", default="0",
                     help="build number, this should be 0 for nightly")
 parser.add_argument("--local_repo", help="Path to local project repository")
-parser.add_argument("--src_meta_yaml", help="Path to source meta.yaml")
-parser.add_argument("--dst_meta_yaml", help="Path to destination meta.yaml")
+parser.add_argument("--src_meta_yaml", help="Path to source YAML file")
+parser.add_argument("--dst_meta_yaml", help="Path to destination YAML file")
 
 args = parser.parse_args(sys.argv[1:])
 
-print("Rebuilding meta.yaml with the following...")
+print("Rebuilding recipe YAML file with the following...")
 for k, v in vars(args).items():
     print(f"{k}: {v}")
 
@@ -41,12 +40,15 @@ with open(args.src_meta_yaml, "r") as src, \
     start_copy = True
     lines = src.readlines()
     for line in lines:
-        match_obj = re.match("package:", line)
+        match_obj = re.match("context:", line)
         if match_obj:
             start_copy = False
+            dst.write("context:\n")
+            dst.write(f"  version: {version}\n\n")
+
             dst.write("package:\n")
             dst.write(f"  name: {args.package_name}\n")
-            dst.write(f"  version: {version}\n\n")
+            dst.write("  version: ${{ version }}\n\n")
 
             dst.write("source:\n")
             if args.local_repo is None:
