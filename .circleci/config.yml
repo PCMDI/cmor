@@ -45,7 +45,7 @@ aliases:
 
        export GIT_REV=$(git rev-parse --short HEAD)
 
-       python ./ci-support/rebuild_meta_yaml.py \
+       python ./ci-support/rebuild_recipe_yaml.py \
         --package_name $PKG_NAME \
         --version $VERSION \
         --local_repo `pwd` \
