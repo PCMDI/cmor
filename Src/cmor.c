@@ -90,6 +90,31 @@ const char CMOR_VALID_CALENDARS[CMOR_N_VALID_CALS][CMOR_MAX_STRING] =
     "none"
 };
 
+/* -------------------------------------------------------------------- */
+/*      Hardcoded frequency/interval mappings from CMIP7_CV.json        */
+/*      These provide fallback defaults when CV or table files          */
+/*      don't specify frequency intervals                               */
+/* -------------------------------------------------------------------- */
+typedef struct cmor_frequency_mapping_ {
+    char frequency[CMOR_MAX_STRING];
+    double approx_interval;  // in days
+    char description[CMOR_MAX_STRING];
+} cmor_frequency_mapping_t;
+
+const cmor_frequency_mapping_t CMOR_DEFAULT_FREQUENCY_MAPPINGS[] = {
+    {"1hr",    0.041666666666666664, "sampled hourly"},
+    {"1hrCM",  0.041666666666666664, "monthly-mean diurnal cycle"},
+    {"3hr",    0.125,                "3 hourly samples"},
+    {"6hr",    0.25,                 "6 hourly samples"},
+    {"day",    1.0,                  "daily mean samples"},
+    {"dec",    3650.0,               "decadal mean samples"},
+    {"fx",     0.0,                  "fixed (time invariant) field"},
+    {"mon",    30.0,                 "monthly mean samples"},
+    {"yr",     365.0,                "annual mean samples"}
+};
+
+const int CMOR_N_FREQUENCY_MAPPINGS = 9;
+
 int CMOR_HAS_BEEN_SETUP = 0;
 int CMOR_TERMINATE_SIGNAL = -999;  /* not set by default */
 int CV_ERROR = 0;
@@ -829,6 +854,23 @@ void cmor_reset_variable(int var_id)
     cmor_vars[var_id].suffix[0] = '\0';
     cmor_vars[var_id].suffix_has_date = 0;
     cmor_vars[var_id].frequency[0] = '\0';
+}
+
+/************************************************************************/
+/*                  cmor_get_frequency_interval()                       */
+/*  Returns approx_interval for a frequency from hardcoded mappings    */
+/*  Returns -1.0 if frequency not found                                */
+/************************************************************************/
+double cmor_get_frequency_interval(char *frequency)
+{
+    int i;
+
+    for (i = 0; i < CMOR_N_FREQUENCY_MAPPINGS; i++) {
+        if (strcmp(frequency, CMOR_DEFAULT_FREQUENCY_MAPPINGS[i].frequency) == 0) {
+            return CMOR_DEFAULT_FREQUENCY_MAPPINGS[i].approx_interval;
+        }
+    }
+    return -1.0;  // not found
 }
 
 /************************************************************************/
