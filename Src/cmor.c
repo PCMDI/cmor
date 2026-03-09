@@ -110,8 +110,7 @@ const cmor_frequency_mapping_t CMOR_DEFAULT_FREQUENCY_MAPPINGS[] = {
     {"dec",    3650.0,               "decadal mean samples"},
     {"fx",     0.0,                  "fixed (time invariant) field"},
     {"mon",    30.0,                 "monthly mean samples"},
-    {"yr",     365.0,                "annual mean samples"},
-    {"",       0.0,                  ""}  // sentinel
+    {"yr",     365.0,                "annual mean samples"}
 };
 
 const int CMOR_N_FREQUENCY_MAPPINGS = 9;
