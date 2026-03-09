@@ -32,7 +32,6 @@
     "source_id":              "PCMDI-test-1-0",
  
     "calendar":               "360_day",
-    "frequency":              "mon",
 
     "grid":                   "native atmosphere regular grid (3x4 latxlon)",
     "grid_label":             "gn",
