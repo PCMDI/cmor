@@ -39,13 +39,13 @@ aliases:
        mamba activate
 
        git clone -b main https://github.com/conda-forge/cmor-feedstock $WORKDIR/cmor-feedstock
-       export SRC_META_YAML=$WORKDIR/cmor-feedstock/recipe/meta.yaml.SRC
-       export DST_META_YAML=$WORKDIR/cmor-feedstock/recipe/meta.yaml
+       export SRC_META_YAML=$WORKDIR/cmor-feedstock/recipe/recipe_src.yaml
+       export DST_META_YAML=$WORKDIR/cmor-feedstock/recipe/recipe.yaml
        mv $DST_META_YAML $SRC_META_YAML
 
        export GIT_REV=$(git rev-parse --short HEAD)
 
-       python ./ci-support/rebuild_meta_yaml.py \
+       python ./ci-support/rebuild_recipe_yaml.py \
         --package_name $PKG_NAME \
         --version $VERSION \
         --local_repo `pwd` \
@@ -83,8 +83,11 @@ aliases:
           export OS_NAME="linux_64"
        fi
 
+       export RECIPE_YAML=$WORKDIR/cmor-feedstock/recipe/recipe.yaml
+
        for i in ${WORKDIR}'/cmor-feedstock/.ci_support/'${OS_NAME}'_*python'${PYTHON_VERSION}'*.yaml'; do
-          mamba run conda build -c conda-forge --output-folder $BUILD_DIR -m $i $WORKDIR/cmor-feedstock/recipe/
+          rattler-build build --output-dir $BUILD_DIR -m $i -r $RECIPE_YAML
+          ls -lh $BUILD_DIR
           cp $BUILD_DIR/$OS/$PKG_NAME-$VERSION*.conda $ARTIFACT_DIR
        done
 
@@ -97,10 +100,11 @@ aliases:
        mamba activate
        export CMOR_CHANNEL=$HOME/cmor_conda_pkgs/
        set +e
-       mamba create -y -n test_py$PYTHON_VERSION -c file://$CMOR_CHANNEL $CHANNELS file://$CMOR_CHANNEL::$PKG_NAME=$VERSION python=$PYTHON_VERSION $CONDA_COMPILERS pyfive typing-extensions
+       mamba create -y -n test_py$PYTHON_VERSION -c file://$CMOR_CHANNEL $CHANNELS file://$CMOR_CHANNEL::$PKG_NAME=$VERSION python=$PYTHON_VERSION $CONDA_COMPILERS udunits2 pyfive hdf5plugin
        mamba activate test_py$PYTHON_VERSION
        set -e
        ./configure --prefix=$CONDA_PREFIX --with-python --with-uuid=$CONDA_PREFIX --with-json-c=$CONDA_PREFIX --with-udunits2=$CONDA_PREFIX --with-netcdf=$CONDA_PREFIX  --enable-verbose-test
+       export HDF5_PLUGIN_PATH="$(python -c 'import hdf5plugin; print(hdf5plugin.PLUGINS_PATH)')"
        make test -o cmor -o python
 
   - &conda_upload
