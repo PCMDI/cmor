@@ -3259,13 +3259,13 @@ int cmor_setGblAttr(int var_id)
         ierr += cmor_CV_checkSourceID(cmor_tables[nVarRefTblID].CV);
         ierr += cmor_CV_checkExperiment(cmor_tables[nVarRefTblID].CV);
         ierr += cmor_CV_checkGrids(cmor_tables[nVarRefTblID].CV);
-        ierr += cmor_CV_checkParentExpID(cmor_tables[nVarRefTblID].CV);
+        ierr += cmor_CV_checkParentExpID(cmor_tables[nVarRefTblID].CV, 1);
         ierr += cmor_CV_checkSubExpID(cmor_tables[nVarRefTblID].CV);
     } else if (cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP7) == 0) {
         ierr += cmor_CV_checkSourceID(cmor_tables[nVarRefTblID].CV);
         ierr += cmor_CV_checkExperiment(cmor_tables[nVarRefTblID].CV);
         ierr += cmor_CV_checkGrids(cmor_tables[nVarRefTblID].CV);
-        ierr += cmor_CV_checkParentExpID(cmor_tables[nVarRefTblID].CV);
+        ierr += cmor_CV_checkParentExpID(cmor_tables[nVarRefTblID].CV, 0);
     }
     //
     // Set user defined attributes and explicit {} sets.
