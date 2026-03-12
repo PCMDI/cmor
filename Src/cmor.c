@@ -57,6 +57,45 @@ int nc_def_var_quantize(int i, int j, int k, int l)
 };
 #endif
 
+/* ==================================================================== */
+/*      netcdf/hdf5 filter helpers (zstandard / H5Z_FILTER_ZSTD)        */
+/* ==================================================================== */
+
+static int cmor_nc_def_var_zstandard_checked(int ncid, int varid,
+                                             int zstandard_level,
+                                             int cmor_var_id,
+                                             const char *var_name,
+                                             const char *table_id)
+{
+    char *missing_zstd_filter_msg =
+        "This usually means the HDF5 Zstandard filter plugin "
+        "(H5Z_FILTER_ZSTD) was not found at runtime.\n! "
+        "If you are using a conda/mamba environment, install the plugin package:\n! "
+        "  mamba install -c conda-forge hdf5plugin\n! "
+        "  # or: conda install -c conda-forge hdf5plugin\n! "
+        "Then set HDF5_PLUGIN_PATH to the directory containing "
+        "the plugin (e.g. libh5zstd.*), for example:\n! "
+        "  export HDF5_PLUGIN_PATH=\"$(python -c 'import hdf5plugin; "
+        "print(hdf5plugin.PLUGINS_PATH)')\"\n! "
+        "or point HDF5_PLUGIN_PATH to a directory like:\n! "
+        "  $CONDA_PREFIX/lib/pythonX.Y/site-packages/hdf5plugin/plugins\n! ";
+
+    int ierr = nc_def_var_zstandard(ncid, varid, zstandard_level);
+    if (ierr != NC_NOERR) {
+        cmor_handle_error_var_variadic(
+            "NetCDF Error (%i: %s) enabling zstandard compression on "
+            "variable '%s' (table: %s)\n! %s",
+            CMOR_CRITICAL, cmor_var_id,
+            ierr, nc_strerror(ierr),
+            (var_name != NULL) ? var_name : "(unknown)",
+            (table_id != NULL) ? table_id : "(unknown)",
+            (ierr == NC_ENOFILTER) ? missing_zstd_filter_msg : ""
+        );
+    }
+
+    return ierr;
+}
+
 /* -------------------------------------------------------------------- */
 /*      function declaration                                            */
 /* -------------------------------------------------------------------- */
@@ -2230,10 +2269,13 @@ int cmor_define_zfactors_vars(int var_id, int ncid, int *nc_dim,
                         icz =
                           cmor_tables[nTableID].vars[nTableID].zstandard_level;
 
-                        ierr |= nc_def_var_deflate(ncid, nc_zfactors[lnzfactors], ics, icd, icdl);
-                        if (icd == 0 && (icz >= -131072 && icz <= 22)) {
-                            ierr |= nc_def_var_zstandard(ncid, nc_zfactors[lnzfactors], icz);
-                        }
+	                        ierr |= nc_def_var_deflate(ncid, nc_zfactors[lnzfactors], ics, icd, icdl);
+	                        if (icd == 0 && (icz >= -131072 && icz <= 22)) {
+	                            ierr |= cmor_nc_def_var_zstandard_checked(
+	                                ncid, nc_zfactors[lnzfactors], icz,
+	                                var_id, cmor_vars[l].id,
+	                                cmor_tables[nTableID].szTable_id);
+	                        }
 
                         if (ierr != NC_NOERR) {
                             cmor_handle_error_var_variadic(
@@ -4047,10 +4089,13 @@ void cmor_define_dimensions(int var_id, int ncid,
                 icdl = pVar->deflate_level;
                 icz = pVar->zstandard_level;
 
-                ierr |= nc_def_var_deflate(ncafid, nc_bnds_vars[i], ics, icd, icdl);
-                if (icd == 0 && (icz >= -131072 && icz <= 22)) {
-                    ierr |= nc_def_var_zstandard(ncafid, nc_bnds_vars[i], icz);
-                }
+	                ierr |= nc_def_var_deflate(ncafid, nc_bnds_vars[i], ics, icd, icdl);
+	                if (icd == 0 && (icz >= -131072 && icz <= 22)) {
+	                    ierr |= cmor_nc_def_var_zstandard_checked(
+	                        ncafid, nc_bnds_vars[i], icz,
+	                        var_id, ctmp,
+	                        cmor_tables[nVarRefTblID].szTable_id);
+	                }
 
                 if (ierr != NC_NOERR) {
                     cmor_handle_error_var_variadic(
@@ -4590,10 +4635,13 @@ int cmor_grids_def(int var_id, int nGridID, int ncafid, int *nc_dim_af,
                                                                   ref_var_id].
                       zstandard_level;
 
-                    ierr |= nc_def_var_deflate(ncafid, nc_associated_vars[i], ics, icd, icdl);
-                    if (icd == 0 && (icz >= -131072 && icz <= 22)) {
-                        ierr |= nc_def_var_zstandard(ncafid, nc_associated_vars[i], icz);
-                    }
+	                    ierr |= nc_def_var_deflate(ncafid, nc_associated_vars[i], ics, icd, icdl);
+	                    if (icd == 0 && (icz >= -131072 && icz <= 22)) {
+	                        ierr |= cmor_nc_def_var_zstandard_checked(
+	                            ncafid, nc_associated_vars[i], icz,
+	                            var_id, cmor_vars[j].id,
+	                            cmor_tables[nVarRefTblID].szTable_id);
+	                    }
 
                     if (ierr != NC_NOERR) {
                         cmor_handle_error_var_variadic(
@@ -5567,10 +5615,13 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
             }
         }
 
-        ierr |= nc_def_var_deflate(ncid, pVar->nc_var_id, ics, icd, icdl);
-        if (icd == 0 && (icz >= -131072 && icz <= 22)) {
-            ierr |= nc_def_var_zstandard(ncid, pVar->nc_var_id, icz);
-        }
+	        ierr |= nc_def_var_deflate(ncid, pVar->nc_var_id, ics, icd, icdl);
+	        if (icd == 0 && (icz >= -131072 && icz <= 22)) {
+	            ierr |= cmor_nc_def_var_zstandard_checked(
+	                ncid, pVar->nc_var_id, icz,
+	                var_id, pVar->id,
+	                cmor_tables[nVarRefTblID].szTable_id);
+	        }
 
         if (ierr != NC_NOERR) {
             cmor_handle_error_var_variadic(
