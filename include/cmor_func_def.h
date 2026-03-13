@@ -17,6 +17,7 @@ extern void cmor_set_terminate_signal_to_sigint();
 extern void cmor_set_terminate_signal_to_sigterm();
 extern void cmor_set_terminate_signal( int );
 extern int cmor_get_terminate_signal();
+extern double cmor_get_frequency_interval( char *frequency );
 extern void cmor_is_setup( void );
 extern void cmor_add_traceback( char *name );
 extern void cmor_pop_traceback( void );
