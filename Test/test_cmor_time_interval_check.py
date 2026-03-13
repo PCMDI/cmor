@@ -14,7 +14,7 @@ class TestTimeIntervalCheck(BaseCVsTest):
                    netcdf_file_action=cmor.CMOR_REPLACE_4,
                    logfile=self.tmpfile)
 
-        cmor.dataset_json("Test/CMOR_input_example.json")    
+        cmor.dataset_json("Test/CMOR_input_example.json")
         cmor.load_table("CMIP6_Amon.json")
 
         with self.assertRaises(cmor.CMORError):
@@ -23,12 +23,12 @@ class TestTimeIntervalCheck(BaseCVsTest):
                           coord_vals=[15, 45, 75],
                           cell_bounds=[0, 30, 60, 120])
 
-        self.assertCV(
-            "approximate time axis interval is defined as 2592000.000000 "
-            "seconds (30.000000 days), for value 2 we got a difference of "
-            "3888000.000000 seconds (45.000000 days), which is 50.000000 % ,"
-            " seems too big, check your values"
-        )
+        # Check for enhanced error message components
+        self.assertCV("No frequency attribute provided in dataset configuration.")
+        self.assertCV("30 days", "Expected interval between time axis values:")
+        self.assertCV("45 days", "Actual interval between time axis values 1 and 2:")
+        self.assertCV("Test/CMOR_input_example.json", "Input JSON:")
+        self.assertCV("CMIP6_Amon.json", "Table JSON:")
 
     def test_interval_too_small_for_passed_time(self):
         cmor.setup(inpath='Tables',
@@ -60,12 +60,32 @@ class TestTimeIntervalCheck(BaseCVsTest):
             _ = cmor.write(varid, [273, 273, 273], ntimes_passed=1,
                            time_vals=[35], time_bnds=[30, 40])
 
-        self.assertCV(
-            "approximate time axis interval is defined as 2592000.000000 "
-            "seconds (30.000000 days), for value 1 we got a difference of "
-            "1728000.000000 seconds (20.000000 days), which is 33.333333 % ,"
-            " seems too big, check your values"
-        )
+        # Check for enhanced error message components
+        self.assertCV("Time interval mismatch detected for frequency: 'mon'")
+        self.assertCV("30 days", "Expected interval between time axis values:")
+        self.assertCV("20 days", "Actual interval between time axis values 0 and 1:")
+        self.assertCV("Test/CMOR_input_example.json", "Input JSON:")
+        self.assertCV("CMIP6_Amon.json", "Table JSON:")
+
+    def test_interval_warning(self):
+        cmor.setup(inpath='Tables',
+                   netcdf_file_action=cmor.CMOR_REPLACE_4,
+                   logfile=self.tmpfile)
+
+        cmor.dataset_json("Test/CMOR_input_example.json")
+        cmor.load_table("CMIP6_Amon.json")
+
+        _ = cmor.axis(table_entry='time',
+                      units='days since 2000-01-01 00:00:00',
+                      coord_vals=[15, 45, 75],
+                      cell_bounds=[0, 30, 60, 100])
+
+        # Check for warning message
+        self.assertCV("provided in dataset configuration.", "Warning: No frequency attribute")
+        self.assertCV("30 days", "Expected interval between time axis values:")
+        self.assertCV("35 days", "Actual interval between time axis values 1 and 2:")
+        self.assertCV("Test/CMOR_input_example.json", "Input JSON:")
+        self.assertCV("CMIP6_Amon.json", "Table JSON:")
 
 
 if __name__ == '__main__':

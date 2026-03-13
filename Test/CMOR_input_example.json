@@ -32,7 +32,7 @@
     "source_id":              "PCMDI-test-1-0",
  
     "calendar":               "360_day",
- 
+
     "grid":                   "native atmosphere regular grid (3x4 latxlon)",
     "grid_label":             "gn",
     "nominal_resolution":     "10000 km",
