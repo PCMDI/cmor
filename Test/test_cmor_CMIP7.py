@@ -14,15 +14,13 @@ USER_INPUT = {
     "_cmip7_option": 1,
     "_controlled_vocabulary_file": CV_PATH,
     "activity_id": "CMIP",
-    "branch_method": "standard",
     "branch_time_in_child": 30.0,
     "branch_time_in_parent": 10800.0,
     "calendar": "360_day",
     "cv_version": "6.2.19.0",
-    "experiment": "Simulation of the pre-industrial climate",
+    "drs_specs": "MIP-DRS7",
     "experiment_id": "piControl",
     "forcing_index": "f30",
-    "grid": "N96",
     "grid_label": "gn",
     "initialization_index": "i000001d",
     "institution_id": "PCMDI",
@@ -38,7 +36,6 @@ USER_INPUT = {
     "physics_index": "p1",
     "realization_index": "r009",
     "source_id": "PCMDI-test-1-0",
-    "source_type": "AOGCM CHEM BGC",
     "tracking_prefix": "hdl:21.14100",
     "host_collection": "CMIP7",
     "frequency": "mon",
@@ -136,10 +133,11 @@ class TestCMIP7(unittest.TestCase):
              "are excluded to the fullest extent permitted by law."
              )
         self.assertTrue("license" in attrs)
-        self.assertTrue("license_id" not in attrs)
+        self.assertTrue("license_id" in attrs)
         self.assertTrue("license_type" not in attrs)
         self.assertTrue("license_url" not in attrs)
         self.assertEqual(license, ds.getncattr("license"))
+        self.assertEqual(license_id, ds.getncattr("license_id"))
 
         ds.close()
 

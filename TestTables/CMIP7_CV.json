@@ -64,15 +64,13 @@
         },
         "branding_suffix":"<temporal_label><vertical_label><horizontal_label><area_label>",
         "data_specs_version":"CMIP-7.0.0.0",
+        "drs_specs": {
+            "MIP-DRS7": "Data reference syntax (DRS) initially designed for use with CMIP7"
+        },
         "experiment_id": {
             "historical": {
                 "activity_id": [
                     "CMIP"
-                ],
-                "additional_allowed_model_components": [
-                    "AER",
-                    "CHEM",
-                    "BGC"
                 ],
                 "description": "DECK: historical simulation of the recent past (TODO: add details)",
                 "end_year": "2021 (TODO make clear it is end of 2021, not start)",
@@ -86,20 +84,12 @@
                 "parent_experiment_id": [
                     "piControl"
                 ],
-                "required_model_components": [
-                    "AOGCM"
-                ],
                 "start_year": "1850",
                 "tier": 0
             },
             "piControl": {
                 "activity_id": [
                     "CMIP"
-                ],
-                "additional_allowed_model_components": [
-                    "AER",
-                    "CHEM",
-                    "BGC"
                 ],
                 "description": "DECK: pre-industrial control simulation (TODO: add details)",
                 "end_year": "",
@@ -109,9 +99,6 @@
                 "min_number_yrs_per_sim": 150,
                 "parent_activity_id": [],
                 "parent_experiment_id": [],
-                "required_model_components": [
-                    "AOGCM"
-                ],
                 "start_year": "",
                 "tier": 0
             }
@@ -225,44 +212,30 @@
             "shem":"the complete Earth surface from the equator to the South Pole, 0 to 90 degrees South latitude"
         },
         "required_global_attributes":[
-            "Conventions",
             "activity_id",
-            "archive_id",
             "area_label",
-            "branch_method",
-            "branch_time_in_child",
-            "branch_time_in_parent",
+            "branded_variable",
             "branding_suffix",
+            "Conventions",
             "creation_date",
             "data_specs_version",
-            "experiment",
+            "drs_specs",
             "experiment_id",
             "forcing_index",
             "frequency",
-            "grid",
             "grid_label",
             "horizontal_label",
-            "host_collection",
             "initialization_index",
-            "institution",
             "institution_id",
-            "license",
+            "license_id",
             "mip_era",
             "nominal_resolution",
-            "parent_activity_id",
-            "parent_experiment_id",
-            "parent_mip_era",
-            "parent_source_id",
-            "parent_time_units",
-            "parent_variant_label",
             "physics_index",
+            "product",
             "realization_index",
             "realm",
             "region",
-            "source",
             "source_id",
-            "source_type",
-            "table_id",
             "temporal_label",
             "tracking_id",
             "variable_id",
@@ -320,18 +293,6 @@
                 "source":"PCMDI-test 1.0 (1989): \naerosol: none\natmos: Earth1.0-gettingHotter (360 x 180 longitude/latitude; 50 levels; top level 0.1 mb)\natmosChem: none\nland: Earth1.0\nlandIce: none\nocean: BlueMarble1.0-warming (360 x 180 longitude/latitude; 50 levels; top grid cell 0-10 m)\nocnBgchem: none\nseaIce: Declining1.0-warming (360 x 180 longitude/latitude)",
                 "source_id":"PCMDI-test-1-0"
             }
-        },
-        "source_type":{
-            "AER":"aerosol treatment in an atmospheric model where concentrations are calculated based on emissions, transformation, and removal processes (rather than being prescribed or omitted entirely)",
-            "AGCM":"atmospheric general circulation model run with prescribed ocean surface conditions and usually a model of the land surface",
-            "AOGCM":"coupled atmosphere-ocean global climate model, additionally including explicit representation of at least the land and sea ice",
-            "BGC":"biogeochemistry model component that at the very least accounts for carbon reservoirs and fluxes in the atmosphere, terrestrial biosphere, and ocean",
-            "CHEM":"chemistry treatment in an atmospheric model that calculates atmospheric oxidant concentrations (including at least ozone), rather than prescribing them",
-            "ISM":"ice-sheet model that includes ice-flow",
-            "LAND":"land model run uncoupled from the atmosphere",
-            "OGCM":"ocean general circulation model run uncoupled from an AGCM but, usually including a sea-ice model",
-            "RAD":"radiation component of an atmospheric model run 'offline'",
-            "SLAB":"slab-ocean used with an AGCM in representing the atmosphere-ocean coupled system"
         },
         "temporal_label":{
             "tavg":"mean",
