@@ -227,7 +227,7 @@
             "horizontal_label",
             "initialization_index",
             "institution_id",
-            "license",
+            "license_id",
             "mip_era",
             "nominal_resolution",
             "physics_index",

@@ -133,10 +133,11 @@ class TestCMIP7(unittest.TestCase):
              "are excluded to the fullest extent permitted by law."
              )
         self.assertTrue("license" in attrs)
-        self.assertTrue("license_id" not in attrs)
+        self.assertTrue("license_id" in attrs)
         self.assertTrue("license_type" not in attrs)
         self.assertTrue("license_url" not in attrs)
         self.assertEqual(license, ds.getncattr("license"))
+        self.assertEqual(license_id, ds.getncattr("license_id"))
 
         ds.close()
 
