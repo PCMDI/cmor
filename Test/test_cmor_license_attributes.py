@@ -137,7 +137,8 @@ class TestLicenseAttributes(unittest.TestCase):
         license = \
             (f"{license_id}; CMIP7 data produced by {institution_id} is "
              f"licensed under a {license_type} License ({license_url}). "
-             "Consult https://pcmdi.llnl.gov/CMIP7/TermsOfUse for terms of "
+             "Consult https://wcrp-cmip.github.io/cmip7-guidance/docs/CMIP7/"
+             "Guidance_for_users for terms of "
              "use governing CMIP7 output, including citation requirements and "
              "proper acknowledgment. The data producers and data providers "
              "make no warranty, either express or implied, including, but not "
