@@ -998,7 +998,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
 /************************************************************************/
 /*                    cmor_CV_checkParentExpID()                        */
 /************************************************************************/
-int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
+int cmor_CV_checkParentExpID(cmor_CV_def_t * CV, int check_branch_method)
 {
     cmor_CV_def_t *CV_experiment_ids;
     cmor_CV_def_t *CV_experiment;
@@ -1093,7 +1093,9 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
             CV_CompareNoParent(PARENT_SOURCE_ID);
             CV_CompareNoParent(PARENT_TIME_UNITS);
             CV_CompareNoParent(PARENT_VARIANT_LABEL);
-            CV_CompareNoParent(BRANCH_METHOD);
+            if (check_branch_method != 0) {
+                CV_CompareNoParent(BRANCH_METHOD);
+            }
             // Do we have branch_time_in_child?
             if (cmor_has_cur_dataset_attribute(BRANCH_TIME_IN_CHILD) == 0) {
                 cmor_get_cur_dataset_attribute(BRANCH_TIME_IN_CHILD,
@@ -1158,23 +1160,25 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
                 }
             }
             // branch method
-            if (cmor_has_cur_dataset_attribute(BRANCH_METHOD) != 0) {
-                cmor_handle_error_variadic(
-                         "Your input attribute \"%s\" is not defined \n! "
-                         "properly for %s \n! "
-                         "Please describe the spin-up procedure as defined \n! "
-                         "in CMIP6 documentations.\n! ",
-                         CMOR_NORMAL, BRANCH_METHOD, szExperiment_ID);
-                ierr = -1;
-
-            } else {
-                cmor_get_cur_dataset_attribute(BRANCH_METHOD, szBranchMethod);
-                if (strlen(szBranchMethod) == 0) {
+            if (check_branch_method != 0) {
+                    if (cmor_has_cur_dataset_attribute(BRANCH_METHOD) != 0) {
                     cmor_handle_error_variadic(
-                             "Your input attribute %s is an empty string\n! "
-                             "Please describe the spin-up procedure as defined \n! "
-                             "in CMIP6 documentations.\n! ", CMOR_NORMAL, BRANCH_METHOD);
+                            "Your input attribute \"%s\" is not defined \n! "
+                            "properly for %s \n! "
+                            "Please describe the spin-up procedure as defined \n! "
+                            "in CMIP6 documentations.\n! ",
+                            CMOR_NORMAL, BRANCH_METHOD, szExperiment_ID);
                     ierr = -1;
+
+                } else {
+                    cmor_get_cur_dataset_attribute(BRANCH_METHOD, szBranchMethod);
+                    if (strlen(szBranchMethod) == 0) {
+                        cmor_handle_error_variadic(
+                                "Your input attribute %s is an empty string\n! "
+                                "Please describe the spin-up procedure as defined \n! "
+                                "in CMIP6 documentations.\n! ", CMOR_NORMAL, BRANCH_METHOD);
+                        ierr = -1;
+                    }
                 }
             }
             // branch_time_in_child

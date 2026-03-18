@@ -14,15 +14,13 @@ USER_INPUT = {
     "_cmip7_option": 1,
     "_controlled_vocabulary_file": None,
     "activity_id": "CMIP",
-    "branch_method": "standard",
     "branch_time_in_child": 30.0,
     "branch_time_in_parent": 10800.0,
     "calendar": "360_day",
     "cv_version": "6.2.19.0",
-    "experiment": "Simulation of the pre-industrial climate",
+    "drs_specs": "MIP-DRS7",
     "experiment_id": "piControl",
     "forcing_index": "f30",
-    "grid": "N96",
     "grid_label": "gn",
     "initialization_index": "i000001d",
     "institution_id": "PCMDI",
@@ -38,7 +36,6 @@ USER_INPUT = {
     "physics_index": "p1",
     "realization_index": "r009",
     "source_id": "PCMDI-test-1-0",
-    "source_type": "AOGCM CHEM BGC",
     "tracking_prefix": "hdl:21.14100",
     "host_collection": "CMIP7",
     "frequency": "mon",
@@ -140,7 +137,8 @@ class TestLicenseAttributes(unittest.TestCase):
         license = \
             (f"{license_id}; CMIP7 data produced by {institution_id} is "
              f"licensed under a {license_type} License ({license_url}). "
-             "Consult https://pcmdi.llnl.gov/CMIP7/TermsOfUse for terms of "
+             "Consult https://wcrp-cmip.github.io/cmip7-guidance/docs/CMIP7/"
+             "Guidance_for_users for terms of "
              "use governing CMIP7 output, including citation requirements and "
              "proper acknowledgment. The data producers and data providers "
              "make no warranty, either express or implied, including, but not "
