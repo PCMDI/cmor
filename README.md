@@ -51,3 +51,20 @@ The content of this repository is developed by climate and computer scientists f
 The code of CMOR is released under the BSD 3-Clause License. For more details, see the [LICENSE](LICENSE) File.
 
 LLNL-CODE-2005936
+
+## Wheels
+
+GitHub Actions wheel builds are defined in `.github/workflows/wheel-build.yml`.
+The workflow follows the existing nightly conda build pattern on macOS Intel and Apple Silicon, then:
+
+- builds a Python wheel after running `./configure` against conda-forge dependencies
+- vendors non-system shared libraries into the wheel with `delocate`
+- bundles `udunits2.xml` so `pip install` does not require a local UDUNITS2 data install
+- smoke-tests the installed wheel by importing `cmor` and running `cmor.setup()`
+
+Each workflow run uploads the repaired wheels as GitHub Actions artifacts.
+
+For local Apple Silicon validation with an existing `mamba` install, run:
+`./ci-support/run-wheel-ci-macos-arm64.sh`
+You can limit the run to specific interpreters, for example:
+`./ci-support/run-wheel-ci-macos-arm64.sh 3.12 3.13`

@@ -55,8 +55,10 @@ setup (name = "CMOR",
        description = "Python Interface to CMOR output library",
        url = "https://cmor.llnl.gov/",
        zip_safe=False,
+       install_requires = ['numpy'],
        packages = ['cmor', 'cmor.Test'],
        package_dir = {'cmor': 'Lib', 'cmor.Test':'Test'},
+       package_data = {'cmor': ['data/*.xml']},
 #       scripts=['scripts/PrePARE.py' ],
        ext_modules = [
             Extension('cmor._cmor',
@@ -70,4 +72,3 @@ setup (name = "CMOR",
                   ),
         ]
       )
-

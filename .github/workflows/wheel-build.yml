@@ -1,0 +1,92 @@
+name: CMOR Wheel Build
+run-name: CMOR Wheel Build
+
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - "main"
+  workflow_dispatch:
+
+jobs:
+  wheels:
+    name: Build wheels
+    strategy:
+      fail-fast: false
+      matrix:
+        runner:
+          - RUNNER_OS: "macos-14"
+            OS: osx-arm64
+            OS_NAME: osx_arm64
+            MINIFORGE_INSTALLER_URL: https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh
+            C_COMPILER: clang_osx-arm64
+          - RUNNER_OS: "macos-15-intel"
+            OS: osx-64
+            OS_NAME: osx_64
+            MINIFORGE_INSTALLER_URL: https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh
+            C_COMPILER: clang_osx-64
+        python_version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+    runs-on: ${{ matrix.runner.RUNNER_OS }}
+    env:
+      PYTHON_VERSION: ${{ matrix.python_version }}
+      CONDA_FORGE_CHANNEL: conda-forge
+      MINIFORGE_INSTALLER_URL: ${{ matrix.runner.MINIFORGE_INSTALLER_URL }}
+      C_COMPILER: ${{ matrix.runner.C_COMPILER }}
+      WHEEL_DIR: ${{ github.workspace }}/wheelhouse
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Pull Submodules
+        run: |
+          git submodule init
+          git submodule update
+
+      - name: Setup Miniforge
+        run: |
+          curl -L "$MINIFORGE_INSTALLER_URL" -o miniforge3.sh
+          bash miniforge3.sh -b -p "$HOME/miniforge3"
+
+      - name: Create wheel build environment
+        run: |
+          source "$HOME/miniforge3/etc/profile.d/conda.sh"
+          eval "$(mamba shell hook --shell bash)"
+          mamba activate
+
+          mamba create -y -n "wheel_py${PYTHON_VERSION//./}" -c "$CONDA_FORGE_CHANNEL" \
+            "python=$PYTHON_VERSION" \
+            pip \
+            setuptools \
+            wheel \
+            numpy \
+            delocate \
+            json-c \
+            udunits2 \
+            libnetcdf \
+            libuuid \
+            "$C_COMPILER"
+
+      - name: Build wheel
+        run: |
+          source "$HOME/miniforge3/etc/profile.d/conda.sh"
+          eval "$(mamba shell hook --shell bash)"
+          mamba activate "wheel_py${PYTHON_VERSION//./}"
+
+          bash ./ci-support/build-wheel.sh
+
+      - name: Smoke test wheel
+        run: |
+          source "$HOME/miniforge3/etc/profile.d/conda.sh"
+          eval "$(mamba shell hook --shell bash)"
+          mamba activate "wheel_py${PYTHON_VERSION//./}"
+
+          bash ./ci-support/test-wheel.sh
+
+      - name: Upload wheel artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheels-${{ matrix.runner.OS_NAME }}-py${{ matrix.python_version }}
+          path: wheelhouse/*.whl
+          if-no-files-found: error
