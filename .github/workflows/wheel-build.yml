@@ -17,16 +17,24 @@ jobs:
       fail-fast: false
       matrix:
         runner:
+          - RUNNER_OS: "ubuntu-24.04"
+            OS: linux-64
+            OS_NAME: linux_64
+            MINIFORGE_INSTALLER_URL: https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+            C_COMPILER: gcc_linux-64
+            WHEEL_REPAIR_PACKAGES: "auditwheel patchelf"
           - RUNNER_OS: "macos-14"
             OS: osx-arm64
             OS_NAME: osx_arm64
             MINIFORGE_INSTALLER_URL: https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh
             C_COMPILER: clang_osx-arm64
+            WHEEL_REPAIR_PACKAGES: "delocate"
           - RUNNER_OS: "macos-15-intel"
             OS: osx-64
             OS_NAME: osx_64
             MINIFORGE_INSTALLER_URL: https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh
             C_COMPILER: clang_osx-64
+            WHEEL_REPAIR_PACKAGES: "delocate"
         python_version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
     runs-on: ${{ matrix.runner.RUNNER_OS }}
     env:
@@ -34,6 +42,7 @@ jobs:
       CONDA_FORGE_CHANNEL: conda-forge
       MINIFORGE_INSTALLER_URL: ${{ matrix.runner.MINIFORGE_INSTALLER_URL }}
       C_COMPILER: ${{ matrix.runner.C_COMPILER }}
+      WHEEL_REPAIR_PACKAGES: ${{ matrix.runner.WHEEL_REPAIR_PACKAGES }}
       WHEEL_DIR: ${{ github.workspace }}/wheelhouse
     steps:
       - name: Checkout
@@ -61,11 +70,11 @@ jobs:
             setuptools \
             wheel \
             numpy \
-            delocate \
             json-c \
             udunits2 \
             libnetcdf \
             libuuid \
+            $WHEEL_REPAIR_PACKAGES \
             "$C_COMPILER"
 
       - name: Build wheel

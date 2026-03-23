@@ -55,10 +55,10 @@ LLNL-CODE-2005936
 ## Wheels
 
 GitHub Actions wheel builds are defined in `.github/workflows/wheel-build.yml`.
-The workflow follows the existing nightly conda build pattern on macOS Intel and Apple Silicon, then:
+The workflow follows the existing nightly conda build pattern on Linux, macOS Intel, and Apple Silicon, then:
 
 - builds a Python wheel after running `./configure` against conda-forge dependencies
-- vendors non-system shared libraries into the wheel with `delocate`
+- vendors non-system shared libraries into the wheel with `auditwheel` on Linux and `delocate` on macOS
 - bundles `udunits2.xml` so `pip install` does not require a local UDUNITS2 data install
 - smoke-tests the installed wheel by importing `cmor` and running `cmor.setup()`
 

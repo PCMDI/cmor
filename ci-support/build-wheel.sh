@@ -10,6 +10,7 @@ RAW_WHEEL_DIR="${WHEEL_DIR}/raw"
 REPAIRED_WHEEL_DIR="${WHEEL_DIR}/repaired"
 PYTHON_BIN=${PYTHON_BIN:-python}
 DELOCATE_WHEEL_BIN=${DELOCATE_WHEEL_BIN:-delocate-wheel}
+AUDITWHEEL_BIN=${AUDITWHEEL_BIN:-auditwheel}
 
 if [ -z "${CONDA_PREFIX:-}" ]; then
     echo "CONDA_PREFIX must be set to build wheels" >&2
@@ -48,7 +49,19 @@ pushd "${STAGE_DIR}" >/dev/null
     --with-netcdf="${CONDA_PREFIX}"
 
 "${PYTHON_BIN}" -m pip wheel --no-build-isolation --no-deps --wheel-dir "${RAW_WHEEL_DIR}" .
-"${DELOCATE_WHEEL_BIN}" -w "${REPAIRED_WHEEL_DIR}" -v "${RAW_WHEEL_DIR}"/*.whl
+
+case "$(uname -s)" in
+    Darwin)
+        "${DELOCATE_WHEEL_BIN}" -w "${REPAIRED_WHEEL_DIR}" -v "${RAW_WHEEL_DIR}"/*.whl
+        ;;
+    Linux)
+        "${AUDITWHEEL_BIN}" repair -w "${REPAIRED_WHEEL_DIR}" "${RAW_WHEEL_DIR}"/*.whl
+        ;;
+    *)
+        echo "Unsupported platform for wheel repair: $(uname -s)" >&2
+        exit 1
+        ;;
+esac
 
 popd >/dev/null
 
