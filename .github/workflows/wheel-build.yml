@@ -64,7 +64,7 @@ jobs:
           eval "$(mamba shell hook --shell bash)"
           mamba activate
 
-          mamba create -y -n "wheel_py${PYTHON_VERSION//./}" -c "$CONDA_FORGE_CHANNEL" \
+          mamba create -y -n "wheel_build_py${PYTHON_VERSION//./}" -c "$CONDA_FORGE_CHANNEL" \
             "python=$PYTHON_VERSION" \
             pip \
             setuptools \
@@ -77,11 +77,26 @@ jobs:
             $WHEEL_REPAIR_PACKAGES \
             "$C_COMPILER"
 
+      - name: Create wheel test environment
+        run: |
+          source "$HOME/miniforge3/etc/profile.d/conda.sh"
+          eval "$(mamba shell hook --shell bash)"
+          mamba activate
+
+          mamba create -y -n "wheel_test_py${PYTHON_VERSION//./}" -c "$CONDA_FORGE_CHANNEL" \
+            "python=$PYTHON_VERSION" \
+            pip \
+            numpy \
+            typing-extensions \
+            netcdf4 \
+            pyfive \
+            hdf5plugin
+
       - name: Build wheel
         run: |
           source "$HOME/miniforge3/etc/profile.d/conda.sh"
           eval "$(mamba shell hook --shell bash)"
-          mamba activate "wheel_py${PYTHON_VERSION//./}"
+          mamba activate "wheel_build_py${PYTHON_VERSION//./}"
 
           bash ./ci-support/build-wheel.sh
 
@@ -89,7 +104,7 @@ jobs:
         run: |
           source "$HOME/miniforge3/etc/profile.d/conda.sh"
           eval "$(mamba shell hook --shell bash)"
-          mamba activate "wheel_py${PYTHON_VERSION//./}"
+          mamba activate "wheel_test_py${PYTHON_VERSION//./}"
 
           bash ./ci-support/test-wheel.sh
 

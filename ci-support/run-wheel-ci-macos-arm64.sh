@@ -38,21 +38,8 @@ fi
 
 ensure_env() {
     local env_name=$1
-    local python_version=$2
-
-    local packages=(
-        "python=${python_version}"
-        pip
-        setuptools
-        wheel
-        numpy
-        delocate
-        json-c
-        udunits2
-        libnetcdf
-        libuuid
-        "${C_COMPILER}"
-    )
+    shift
+    local packages=("$@")
 
     if "${MAMBA_BIN}" run -n "${env_name}" python --version >/dev/null 2>&1; then
         "${MAMBA_BIN}" install -y -n "${env_name}" -c "${CONDA_FORGE_CHANNEL}" "${packages[@]}"
@@ -74,21 +61,48 @@ deactivate_env() {
 }
 
 for python_version in "${PYTHON_VERSIONS[@]}"; do
-    env_name="${ENV_PREFIX}-py${python_version//./}"
+    build_env_name="${ENV_PREFIX}-build-py${python_version//./}"
+    test_env_name="${ENV_PREFIX}-test-py${python_version//./}"
     wheel_dir="${ROOT_DIR}/wheelhouse/py${python_version}"
     build_root="${ROOT_DIR}/build/wheel-build-py${python_version//./}"
     test_venv_dir="${ROOT_DIR}/build/wheel-test-venv-py${python_version//./}"
 
-    echo "==> Preparing ${env_name}"
-    ensure_env "${env_name}" "${python_version}"
+    echo "==> Preparing ${build_env_name}"
+    ensure_env \
+        "${build_env_name}" \
+        "python=${python_version}" \
+        pip \
+        setuptools \
+        wheel \
+        numpy \
+        delocate \
+        json-c \
+        udunits2 \
+        libnetcdf \
+        libuuid \
+        "${C_COMPILER}"
 
-    activate_env "${env_name}"
+    echo "==> Preparing ${test_env_name}"
+    ensure_env \
+        "${test_env_name}" \
+        "python=${python_version}" \
+        pip \
+        numpy \
+        typing-extensions \
+        netcdf4 \
+        pyfive \
+        hdf5plugin
+
+    activate_env "${build_env_name}"
     rm -rf "${wheel_dir}" "${build_root}" "${test_venv_dir}"
 
     echo "==> Building wheel for Python ${python_version}"
     WHEEL_DIR="${wheel_dir}" \
     BUILD_ROOT="${build_root}" \
     bash "${ROOT_DIR}/ci-support/build-wheel.sh"
+
+    deactivate_env
+    activate_env "${test_env_name}"
 
     echo "==> Testing wheel for Python ${python_version}"
     WHEEL_DIR="${wheel_dir}" \
