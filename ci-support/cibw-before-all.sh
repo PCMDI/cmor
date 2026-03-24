@@ -37,6 +37,9 @@ if [ ! -x "${CMOR_DEPS_PREFIX}/bin/mamba" ]; then
                     make \
                     binutils \
                     glibc-devel \
+                    glibc-headers \
+                    kernel-headers \
+                    libstdc++-devel \
                     json-c-devel \
                     udunits2-devel \
                     netcdf-devel \
@@ -49,6 +52,9 @@ if [ ! -x "${CMOR_DEPS_PREFIX}/bin/mamba" ]; then
                     make \
                     binutils \
                     glibc-devel \
+                    glibc-headers \
+                    kernel-headers \
+                    libstdc++-devel \
                     json-c-devel \
                     udunits2-devel \
                     netcdf-devel \
