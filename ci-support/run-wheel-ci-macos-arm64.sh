@@ -137,6 +137,7 @@ run_with_cibuildwheel() {
     CIBW_BEFORE_ALL=":" \
     CIBW_BEFORE_BUILD="bash {project}/ci-support/cibw-before-build.sh" \
     CIBW_ENVIRONMENT="CMOR_DEPS_PREFIX=${CMOR_DEPS_PREFIX}" \
+    CIBW_REPAIR_WHEEL_COMMAND_MACOS="DYLD_FALLBACK_LIBRARY_PATH=${CMOR_DEPS_PREFIX}/lib delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}" \
     CIBW_TEST_REQUIRES="numpy typing-extensions netcdf4 pyfive hdf5plugin" \
     CIBW_TEST_COMMAND="CMOR_WHEEL_ALREADY_INSTALLED=1 bash {project}/ci-support/test-wheel.sh" \
     python -m cibuildwheel --platform macos --output-dir "${WHEEL_DIR}"

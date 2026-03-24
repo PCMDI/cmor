@@ -40,6 +40,10 @@ jobs:
       CIBW_ENVIRONMENT: >-
         CMOR_DEPS_PREFIX=/tmp/cmor-miniforge
       CIBW_MANYLINUX_X86_64_IMAGE: "manylinux_2_28"
+      CIBW_REPAIR_WHEEL_COMMAND_LINUX: >-
+        LD_LIBRARY_PATH=$CMOR_DEPS_PREFIX/lib auditwheel repair -w {dest_dir} {wheel}
+      CIBW_REPAIR_WHEEL_COMMAND_MACOS: >-
+        DYLD_FALLBACK_LIBRARY_PATH=$CMOR_DEPS_PREFIX/lib delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}
       CIBW_TEST_REQUIRES: "numpy typing-extensions netcdf4 pyfive hdf5plugin"
       CIBW_TEST_COMMAND: "CMOR_WHEEL_ALREADY_INSTALLED=1 bash {project}/ci-support/test-wheel.sh"
       WHEEL_DIR: ${{ github.workspace }}/wheelhouse
