@@ -22,31 +22,26 @@ jobs:
       matrix:
         runner:
           - RUNNER_OS: "ubuntu-24.04"
-            OS: linux-64
             OS_NAME: linux_64
-            MINIFORGE_INSTALLER_URL: https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
-            C_COMPILER: gcc_linux-64
-            WHEEL_REPAIR_PACKAGES: "auditwheel patchelf"
+            CIBW_ARCHS: "x86_64"
           - RUNNER_OS: "macos-14"
-            OS: osx-arm64
             OS_NAME: osx_arm64
-            MINIFORGE_INSTALLER_URL: https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh
-            C_COMPILER: clang_osx-arm64
-            WHEEL_REPAIR_PACKAGES: "delocate"
+            CIBW_ARCHS: "arm64"
           - RUNNER_OS: "macos-15-intel"
-            OS: osx-64
             OS_NAME: osx_64
-            MINIFORGE_INSTALLER_URL: https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh
-            C_COMPILER: clang_osx-64
-            WHEEL_REPAIR_PACKAGES: "delocate"
-        python_version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+            CIBW_ARCHS: "x86_64"
     runs-on: ${{ matrix.runner.RUNNER_OS }}
     env:
-      PYTHON_VERSION: ${{ matrix.python_version }}
-      CONDA_FORGE_CHANNEL: conda-forge
-      MINIFORGE_INSTALLER_URL: ${{ matrix.runner.MINIFORGE_INSTALLER_URL }}
-      C_COMPILER: ${{ matrix.runner.C_COMPILER }}
-      WHEEL_REPAIR_PACKAGES: ${{ matrix.runner.WHEEL_REPAIR_PACKAGES }}
+      CIBW_ARCHS: ${{ matrix.runner.CIBW_ARCHS }}
+      CIBW_BUILD: "cp310-* cp311-* cp312-* cp313-* cp314-*"
+      CIBW_SKIP: "*-musllinux*"
+      CIBW_BEFORE_ALL: "bash {project}/ci-support/cibw-before-all.sh"
+      CIBW_BEFORE_BUILD: "bash {project}/ci-support/cibw-before-build.sh"
+      CIBW_ENVIRONMENT: >-
+        CMOR_DEPS_PREFIX=/tmp/cmor-miniforge
+      CIBW_MANYLINUX_X86_64_IMAGE: "manylinux_2_28"
+      CIBW_TEST_REQUIRES: "numpy typing-extensions netcdf4 pyfive hdf5plugin"
+      CIBW_TEST_COMMAND: "CMOR_WHEEL_ALREADY_INSTALLED=1 bash {project}/ci-support/test-wheel.sh"
       WHEEL_DIR: ${{ github.workspace }}/wheelhouse
     steps:
       - name: Checkout branch
@@ -64,60 +59,19 @@ jobs:
           git submodule init
           git submodule update
 
-      - name: Setup Miniforge
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install cibuildwheel
         run: |
-          curl -L "$MINIFORGE_INSTALLER_URL" -o miniforge3.sh
-          bash miniforge3.sh -b -p "$HOME/miniforge3"
+          python -m pip install --upgrade pip
+          python -m pip install cibuildwheel
 
-      - name: Create wheel build environment
+      - name: Build and test wheels
         run: |
-          source "$HOME/miniforge3/etc/profile.d/conda.sh"
-          eval "$(mamba shell hook --shell bash)"
-          mamba activate
-
-          mamba create -y -n "wheel_build_py${PYTHON_VERSION//./}" -c "$CONDA_FORGE_CHANNEL" \
-            "python=$PYTHON_VERSION" \
-            pip \
-            setuptools \
-            wheel \
-            numpy \
-            json-c \
-            udunits2 \
-            libnetcdf \
-            libuuid \
-            $WHEEL_REPAIR_PACKAGES \
-            "$C_COMPILER"
-
-      - name: Create wheel test environment
-        run: |
-          source "$HOME/miniforge3/etc/profile.d/conda.sh"
-          eval "$(mamba shell hook --shell bash)"
-          mamba activate
-
-          mamba create -y -n "wheel_test_py${PYTHON_VERSION//./}" -c "$CONDA_FORGE_CHANNEL" \
-            "python=$PYTHON_VERSION" \
-            pip \
-            numpy \
-            typing-extensions \
-            netcdf4 \
-            pyfive \
-            hdf5plugin
-
-      - name: Build wheel
-        run: |
-          source "$HOME/miniforge3/etc/profile.d/conda.sh"
-          eval "$(mamba shell hook --shell bash)"
-          mamba activate "wheel_build_py${PYTHON_VERSION//./}"
-
-          bash ./ci-support/build-wheel.sh
-
-      - name: Smoke test wheel
-        run: |
-          source "$HOME/miniforge3/etc/profile.d/conda.sh"
-          eval "$(mamba shell hook --shell bash)"
-          mamba activate "wheel_test_py${PYTHON_VERSION//./}"
-
-          bash ./ci-support/test-wheel.sh
+          python -m cibuildwheel --output-dir wheelhouse
 
       - name: Upload wheels to release
         if: ${{ github.event_name == 'release' }}

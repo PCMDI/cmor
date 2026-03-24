@@ -16,6 +16,7 @@ Makefile
 build
 dist
 wheelhouse
+Lib/data/
 test_bin
 tests
 tests_html

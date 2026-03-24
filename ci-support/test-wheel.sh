@@ -4,12 +4,19 @@ set -euo pipefail
 
 ROOT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 WHEEL_DIR=${WHEEL_DIR:-"${ROOT_DIR}/wheelhouse"}
+WHEEL_FILE=${WHEEL_FILE:-}
 PYTHON_BIN=${PYTHON_BIN:-python}
 
 cd "${ROOT_DIR}"
 
-"${PYTHON_BIN}" -m pip uninstall -y cmor >/dev/null 2>&1 || true
-"${PYTHON_BIN}" -m pip install --force-reinstall --no-deps "${WHEEL_DIR}"/*.whl
+if [ "${CMOR_WHEEL_ALREADY_INSTALLED:-0}" != "1" ]; then
+    "${PYTHON_BIN}" -m pip uninstall -y cmor >/dev/null 2>&1 || true
+    if [ -n "${WHEEL_FILE}" ]; then
+        "${PYTHON_BIN}" -m pip install --force-reinstall --no-deps "${WHEEL_FILE}"
+    else
+        "${PYTHON_BIN}" -m pip install --force-reinstall --no-deps "${WHEEL_DIR}"/*.whl
+    fi
+fi
 export HDF5_PLUGIN_PATH
 HDF5_PLUGIN_PATH="$("${PYTHON_BIN}" -c 'import hdf5plugin; print(hdf5plugin.PLUGINS_PATH)')"
 
