@@ -2,6 +2,12 @@ name: CMOR Wheel Build
 run-name: CMOR Wheel Build
 
 on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - "main"
   release:
     types: [published]
 
@@ -43,7 +49,12 @@ jobs:
       WHEEL_REPAIR_PACKAGES: ${{ matrix.runner.WHEEL_REPAIR_PACKAGES }}
       WHEEL_DIR: ${{ github.workspace }}/wheelhouse
     steps:
-      - name: Checkout
+      - name: Checkout branch
+        if: ${{ github.event_name != 'release' }}
+        uses: actions/checkout@v4
+
+      - name: Checkout release tag
+        if: ${{ github.event_name == 'release' }}
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.release.tag_name }}
@@ -109,6 +120,7 @@ jobs:
           bash ./ci-support/test-wheel.sh
 
       - name: Upload wheels to release
+        if: ${{ github.event_name == 'release' }}
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.event.release.tag_name }}
