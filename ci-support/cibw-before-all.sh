@@ -108,6 +108,7 @@ if [ ! -x "${CMOR_DEPS_PREFIX}/bin/mamba" ]; then
                 --prefix="${CMOR_DEPS_PREFIX}" \
                 --disable-dap \
                 --disable-byterange \
+                --disable-libxml2 \
                 --enable-netcdf-4
             make -j"$(getconf _NPROCESSORS_ONLN 2>/dev/null || echo 2)"
             make install
