@@ -25,6 +25,19 @@ download_installer() {
 if [ ! -x "${CMOR_DEPS_PREFIX}/bin/mamba" ]; then
     case "$(uname -s)" in
         Linux)
+            NETCDF_C_VERSION=${NETCDF_C_VERSION:-4.9.2}
+            NETCDF_C_TARBALL="v${NETCDF_C_VERSION}.tar.gz"
+            NETCDF_C_URL="https://github.com/Unidata/netcdf-c/archive/refs/tags/${NETCDF_C_TARBALL}"
+            NETCDF_C_BUILD_ROOT="/tmp/netcdf-c-${NETCDF_C_VERSION}"
+            NETCDF_CPPFLAGS=""
+            NETCDF_LDFLAGS=""
+
+            if [ -x "${CMOR_DEPS_PREFIX}/bin/nc-config" ]; then
+                mkdir -p "${CMOR_DEPS_PREFIX}/share"
+                ln -sfn /usr/share/udunits "${CMOR_DEPS_PREFIX}/share/udunits"
+                exit 0
+            fi
+
             if command -v dnf >/dev/null 2>&1; then
                 dnf install -y epel-release || true
                 dnf install -y dnf-plugins-core || true
@@ -40,6 +53,10 @@ if [ ! -x "${CMOR_DEPS_PREFIX}/bin/mamba" ]; then
                     glibc-headers \
                     kernel-headers \
                     libstdc++-devel \
+                    pkgconf-pkg-config \
+                    curl-devel \
+                    zlib-devel \
+                    hdf5-devel \
                     json-c-devel \
                     udunits2-devel \
                     netcdf-devel \
@@ -55,6 +72,10 @@ if [ ! -x "${CMOR_DEPS_PREFIX}/bin/mamba" ]; then
                     glibc-headers \
                     kernel-headers \
                     libstdc++-devel \
+                    pkgconfig \
+                    curl-devel \
+                    zlib-devel \
+                    hdf5-devel \
                     json-c-devel \
                     udunits2-devel \
                     netcdf-devel \
@@ -65,15 +86,34 @@ if [ ! -x "${CMOR_DEPS_PREFIX}/bin/mamba" ]; then
             fi
 
             rm -rf "${CMOR_DEPS_PREFIX}"
-            mkdir -p "${CMOR_DEPS_PREFIX}/bin" "${CMOR_DEPS_PREFIX}/share"
-            ln -sfn /usr/include "${CMOR_DEPS_PREFIX}/include"
-            ln -sfn /usr/share/udunits "${CMOR_DEPS_PREFIX}/share/udunits"
-            ln -sfn /usr/bin/nc-config "${CMOR_DEPS_PREFIX}/bin/nc-config"
-            if [ -d /usr/lib64 ]; then
-                ln -sfn /usr/lib64 "${CMOR_DEPS_PREFIX}/lib"
-            else
-                ln -sfn /usr/lib "${CMOR_DEPS_PREFIX}/lib"
+            rm -rf "${NETCDF_C_BUILD_ROOT}"
+            mkdir -p "${CMOR_DEPS_PREFIX}" "${NETCDF_C_BUILD_ROOT}"
+
+            download_installer "${NETCDF_C_URL}" "/tmp/${NETCDF_C_TARBALL}"
+            tar -C /tmp -xf "/tmp/${NETCDF_C_TARBALL}"
+
+            if [ -d /usr/include/hdf5/serial ]; then
+                NETCDF_CPPFLAGS="${NETCDF_CPPFLAGS} -I/usr/include/hdf5/serial"
             fi
+            if [ -d /usr/lib64/hdf5/serial ]; then
+                NETCDF_LDFLAGS="${NETCDF_LDFLAGS} -L/usr/lib64/hdf5/serial"
+            elif [ -d /usr/lib/hdf5/serial ]; then
+                NETCDF_LDFLAGS="${NETCDF_LDFLAGS} -L/usr/lib/hdf5/serial"
+            fi
+
+            cd "${NETCDF_C_BUILD_ROOT}"
+            CPPFLAGS="${NETCDF_CPPFLAGS}" \
+            LDFLAGS="${NETCDF_LDFLAGS}" \
+            ./configure \
+                --prefix="${CMOR_DEPS_PREFIX}" \
+                --disable-dap \
+                --disable-byterange \
+                --enable-netcdf-4
+            make -j"$(getconf _NPROCESSORS_ONLN 2>/dev/null || echo 2)"
+            make install
+
+            mkdir -p "${CMOR_DEPS_PREFIX}/share"
+            ln -sfn /usr/share/udunits "${CMOR_DEPS_PREFIX}/share/udunits"
             exit 0
             ;;
         Darwin)
