@@ -39,7 +39,10 @@ jobs:
       CIBW_BEFORE_BUILD: "bash {project}/ci-support/cibw-before-build.sh"
       CIBW_ENVIRONMENT: >-
         CMOR_DEPS_PREFIX=/tmp/cmor-miniforge
-      CIBW_MANYLINUX_X86_64_IMAGE: "manylinux_2_28"
+      CIBW_ENVIRONMENT_MACOS: >-
+        CMOR_DEPS_PREFIX=/tmp/cmor-miniforge
+        LDFLAGS='-Wl,-headerpad_max_install_names'
+      CIBW_MANYLINUX_X86_64_IMAGE: "manylinux_2_34"
       CIBW_REPAIR_WHEEL_COMMAND_LINUX: >-
         LD_LIBRARY_PATH=$CMOR_DEPS_PREFIX/lib auditwheel repair -w {dest_dir} {wheel}
       CIBW_REPAIR_WHEEL_COMMAND_MACOS: >-

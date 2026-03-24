@@ -136,7 +136,7 @@ run_with_cibuildwheel() {
     CIBW_SKIP="*-musllinux*" \
     CIBW_BEFORE_ALL=":" \
     CIBW_BEFORE_BUILD="bash {project}/ci-support/cibw-before-build.sh" \
-    CIBW_ENVIRONMENT="CMOR_DEPS_PREFIX=${CMOR_DEPS_PREFIX}" \
+    CIBW_ENVIRONMENT="CMOR_DEPS_PREFIX=${CMOR_DEPS_PREFIX} LDFLAGS='-Wl,-headerpad_max_install_names'" \
     CIBW_REPAIR_WHEEL_COMMAND_MACOS="DYLD_FALLBACK_LIBRARY_PATH=${CMOR_DEPS_PREFIX}/lib delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}" \
     CIBW_TEST_REQUIRES="numpy typing-extensions netcdf4 pyfive hdf5plugin" \
     CIBW_TEST_COMMAND="CMOR_WHEEL_ALREADY_INSTALLED=1 bash {project}/ci-support/test-wheel.sh" \
@@ -182,7 +182,9 @@ run_manual_build_and_test() {
     MACOSX_DEPLOYMENT_TARGET=11.0 \
     CMOR_DEPS_PREFIX="${CMOR_DEPS_PREFIX}" \
     bash "${ROOT_DIR}/ci-support/cibw-before-build.sh"
-    MACOSX_DEPLOYMENT_TARGET=11.0 python -m build --wheel --no-isolation
+    MACOSX_DEPLOYMENT_TARGET=11.0 \
+    LDFLAGS="-Wl,-headerpad_max_install_names" \
+    python -m build --wheel --no-isolation
     delocate-wheel -w "${WHEEL_DIR}" -v "${ROOT_DIR}/dist/"*.whl
     wheel_file=$(ls -t "${WHEEL_DIR}"/*.whl | head -n 1)
 
