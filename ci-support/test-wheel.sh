@@ -4,20 +4,16 @@ set -euo pipefail
 
 ROOT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 WHEEL_DIR=${WHEEL_DIR:-"${ROOT_DIR}/wheelhouse"}
-TEST_VENV_DIR=${TEST_VENV_DIR:-"${ROOT_DIR}/build/wheel-test-venv"}
 PYTHON_BIN=${PYTHON_BIN:-python}
 
 cd "${ROOT_DIR}"
 
-rm -rf "${TEST_VENV_DIR}"
-"${PYTHON_BIN}" -m venv --system-site-packages "${TEST_VENV_DIR}"
-source "${TEST_VENV_DIR}/bin/activate"
-
-python -m pip install --no-deps "${WHEEL_DIR}"/*.whl
+"${PYTHON_BIN}" -m pip uninstall -y cmor >/dev/null 2>&1 || true
+"${PYTHON_BIN}" -m pip install --force-reinstall --no-deps "${WHEEL_DIR}"/*.whl
 export HDF5_PLUGIN_PATH
-HDF5_PLUGIN_PATH="$(python -c 'import hdf5plugin; print(hdf5plugin.PLUGINS_PATH)')"
+HDF5_PLUGIN_PATH="$("${PYTHON_BIN}" -c 'import hdf5plugin; print(hdf5plugin.PLUGINS_PATH)')"
 
-CMOR_REPO_ROOT="${ROOT_DIR}" python - <<'PY'
+CMOR_REPO_ROOT="${ROOT_DIR}" "${PYTHON_BIN}" - <<'PY'
 import os
 import pathlib
 import tempfile
@@ -163,5 +159,5 @@ wheel_python_tests=(
 
 for test_name in "${wheel_python_tests[@]}"; do
     echo "Running ${test_name}"
-    CMOR_REPO_ROOT="${ROOT_DIR}" python "${ROOT_DIR}/${test_name}"
+    CMOR_REPO_ROOT="${ROOT_DIR}" "${PYTHON_BIN}" "${ROOT_DIR}/${test_name}"
 done
