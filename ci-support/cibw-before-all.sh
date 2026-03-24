@@ -32,6 +32,11 @@ if [ ! -x "${CMOR_DEPS_PREFIX}/bin/mamba" ]; then
                     dnf config-manager --set-enabled crb || true
                 fi
                 dnf install -y \
+                    gcc \
+                    gcc-c++ \
+                    make \
+                    binutils \
+                    glibc-devel \
                     json-c-devel \
                     udunits2-devel \
                     netcdf-devel \
@@ -39,6 +44,11 @@ if [ ! -x "${CMOR_DEPS_PREFIX}/bin/mamba" ]; then
             elif command -v yum >/dev/null 2>&1; then
                 yum install -y epel-release || true
                 yum install -y \
+                    gcc \
+                    gcc-c++ \
+                    make \
+                    binutils \
+                    glibc-devel \
                     json-c-devel \
                     udunits2-devel \
                     netcdf-devel \
