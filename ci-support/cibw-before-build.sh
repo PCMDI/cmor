@@ -14,9 +14,6 @@ case "$(uname -s)" in
     Darwin)
         export DYLD_FALLBACK_LIBRARY_PATH="${CMOR_DEPS_PREFIX}/lib${DYLD_FALLBACK_LIBRARY_PATH:+:${DYLD_FALLBACK_LIBRARY_PATH}}"
         ;;
-    Linux)
-        export LD_LIBRARY_PATH="${CMOR_DEPS_PREFIX}/lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
-        ;;
 esac
 
 mkdir -p Lib/data
