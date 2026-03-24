@@ -2,13 +2,11 @@ name: CMOR Wheel Build
 run-name: CMOR Wheel Build
 
 on:
-  push:
-    branches:
-      - "main"
-  pull_request:
-    branches:
-      - "main"
-  workflow_dispatch:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
 
 jobs:
   wheels:
@@ -47,6 +45,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
 
       - name: Pull Submodules
         run: |
@@ -108,9 +108,9 @@ jobs:
 
           bash ./ci-support/test-wheel.sh
 
-      - name: Upload wheel artifacts
-        uses: actions/upload-artifact@v4
+      - name: Upload wheels to release
+        uses: softprops/action-gh-release@v2
         with:
-          name: wheels-${{ matrix.runner.OS_NAME }}-py${{ matrix.python_version }}
-          path: wheelhouse/*.whl
-          if-no-files-found: error
+          tag_name: ${{ github.event.release.tag_name }}
+          files: wheelhouse/*.whl
+          fail_on_unmatched_files: true

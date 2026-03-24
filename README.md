@@ -61,8 +61,9 @@ The workflow follows the existing nightly conda build pattern on Linux, macOS In
 - vendors non-system shared libraries into the wheel with `auditwheel` on Linux and `delocate` on macOS
 - bundles `udunits2.xml` so `pip install` does not require a local UDUNITS2 data install
 - smoke-tests the installed wheel by importing `cmor` and running `cmor.setup()`
+- uploads the repaired wheels as assets on the published GitHub release
 
-Each workflow run uploads the repaired wheels as GitHub Actions artifacts.
+The workflow runs when a GitHub release is published and builds wheels from that release tag.
 
 For local Apple Silicon validation with an existing `mamba` install, run:
 `./ci-support/run-wheel-ci-macos-arm64.sh`
