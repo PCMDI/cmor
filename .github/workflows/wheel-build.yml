@@ -23,10 +23,13 @@ jobs:
         runner:
           - RUNNER_OS: "ubuntu-24.04"
             CIBW_ARCHS: "x86_64"
+            MACOSX_DEPLOYMENT_TARGET: ""
           - RUNNER_OS: "macos-14"
             CIBW_ARCHS: "arm64"
+            MACOSX_DEPLOYMENT_TARGET: "11.0"
           - RUNNER_OS: "macos-15-intel"
             CIBW_ARCHS: "x86_64"
+            MACOSX_DEPLOYMENT_TARGET: "10.13"
     runs-on: ${{ matrix.runner.RUNNER_OS }}
     env:
       CIBW_ARCHS: ${{ matrix.runner.CIBW_ARCHS }}
@@ -39,6 +42,7 @@ jobs:
         NETCDF_C_VERSION=4.9.2
       CIBW_ENVIRONMENT_MACOS: >-
         CMOR_DEPS_PREFIX=/tmp/cmor-miniforge
+        MACOSX_DEPLOYMENT_TARGET=${{ matrix.runner.MACOSX_DEPLOYMENT_TARGET }}
         LDFLAGS='-Wl,-headerpad_max_install_names'
       CIBW_MANYLINUX_X86_64_IMAGE: "manylinux_2_28"
       CIBW_REPAIR_WHEEL_COMMAND_LINUX: >-
