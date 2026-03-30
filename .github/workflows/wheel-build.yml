@@ -29,7 +29,7 @@ jobs:
             MACOSX_DEPLOYMENT_TARGET: "11.0"
           - RUNNER_OS: "macos-15-intel"
             CIBW_ARCHS: "x86_64"
-            MACOSX_DEPLOYMENT_TARGET: "10.15"
+            MACOSX_DEPLOYMENT_TARGET: "11.0"
     runs-on: ${{ matrix.runner.RUNNER_OS }}
     env:
       CIBW_ARCHS: ${{ matrix.runner.CIBW_ARCHS }}
