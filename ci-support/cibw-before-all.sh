@@ -47,6 +47,7 @@ link_linux_system_deps() {
     for lib_path in \
         "${system_libdir}"/libjson-c.so* \
         "${system_libdir}"/libudunits2.so* \
+        "${system_libdir}"/libzstd.so* \
         "${system_libdir}"/libuuid.so*
     do
         ln -sfn "${lib_path}" "${CMOR_DEPS_PREFIX}/lib/$(basename "${lib_path}")"
@@ -71,6 +72,7 @@ install_linux_build_deps() {
             libstdc++-devel \
             pkgconf-pkg-config \
             zlib-devel \
+            libzstd-devel \
             hdf5-devel \
             json-c-devel \
             udunits2-devel
@@ -92,6 +94,7 @@ install_linux_build_deps() {
             libstdc++-devel \
             pkgconfig \
             zlib-devel \
+            libzstd-devel \
             hdf5-devel \
             json-c-devel \
             udunits2-devel
@@ -111,6 +114,7 @@ build_linux_netcdf_c() {
     local netcdf_source_dir
     local cppflags
     local ldflags
+    local libs
 
     netcdf_c_version=${NETCDF_C_VERSION:-4.9.2}
     netcdf_tarball="v${netcdf_c_version}.tar.gz"
@@ -119,6 +123,7 @@ build_linux_netcdf_c() {
     netcdf_source_dir="/tmp/netcdf-c-${netcdf_c_version}"
     cppflags=""
     ldflags=""
+    libs=""
 
     if [ -x "${CMOR_DEPS_PREFIX}/bin/nc-config" ]; then
         return
@@ -140,10 +145,20 @@ build_linux_netcdf_c() {
         ldflags="${ldflags} -L/usr/lib/hdf5/serial"
     fi
 
+    if ! pkg-config --exists libzstd; then
+        echo "Could not find libzstd pkg-config metadata; cannot build zstd-enabled netcdf-c" >&2
+        exit 1
+    fi
+
+    cppflags="${cppflags} $(pkg-config --cflags libzstd)"
+    ldflags="${ldflags} $(pkg-config --libs-only-L libzstd)"
+    libs="${libs} $(pkg-config --libs-only-l libzstd)"
+
     (
         cd "${netcdf_source_dir}"
         CPPFLAGS="${cppflags}" \
         LDFLAGS="${ldflags}" \
+        LIBS="${libs}" \
         ./configure \
             --prefix="${CMOR_DEPS_PREFIX}" \
             --disable-dap \
@@ -155,6 +170,18 @@ build_linux_netcdf_c() {
     )
 
     link_linux_system_deps
+
+    "${CMOR_DEPS_PREFIX}/bin/nc-config" --version
+
+    if ! grep -Rqs "H5Z_FILTER_ZSTD" "${CMOR_DEPS_PREFIX}/include"; then
+        echo "Installed netcdf-c does not expose H5Z_FILTER_ZSTD in its headers" >&2
+        exit 1
+    fi
+
+    if ! grep -Rqs "nc_def_var_zstandard" "${CMOR_DEPS_PREFIX}/include"; then
+        echo "Installed netcdf-c does not expose nc_def_var_zstandard in its headers" >&2
+        exit 1
+    fi
 }
 
 setup_macos_miniforge() {

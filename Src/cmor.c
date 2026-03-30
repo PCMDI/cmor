@@ -43,13 +43,6 @@ int nc_def_var_chunking(int i, int j, int k, size_t * l)
 };
 #endif
 
-#ifndef H5Z_FILTER_ZSTD
-int nc_def_var_zstandard(int i, int j, int k)
-{
-    return (0);
-};
-#endif
-
 #ifndef NC_QUANTIZE_BITGROOM
 int nc_def_var_quantize(int i, int j, int k, int l)
 {
@@ -67,7 +60,12 @@ static int cmor_nc_def_var_zstandard_checked(int ncid, int varid,
                                              const char *var_name,
                                              const char *table_id)
 {
-    char *missing_zstd_filter_msg =
+    const char *missing_compile_time_zstd_msg =
+        "This CMOR build was compiled against a netcdf-c installation "
+        "that does not expose zstandard filter support "
+        "(H5Z_FILTER_ZSTD / nc_def_var_zstandard).\n! "
+        "Rebuild CMOR against a zstd-enabled netcdf-c installation.";
+    const char *missing_runtime_zstd_filter_msg =
         "This usually means the HDF5 Zstandard filter plugin "
         "(H5Z_FILTER_ZSTD) was not found at runtime.\n! "
         "If you are using a conda/mamba environment, install the plugin package:\n! "
@@ -79,9 +77,28 @@ static int cmor_nc_def_var_zstandard_checked(int ncid, int varid,
         "print(hdf5plugin.PLUGINS_PATH)')\"\n! "
         "or point HDF5_PLUGIN_PATH to a directory like:\n! "
         "  $CONDA_PREFIX/lib/pythonX.Y/site-packages/hdf5plugin/plugins\n! ";
-
+    const char *zstd_detail_msg = "";
+#ifdef H5Z_FILTER_ZSTD
     int ierr = nc_def_var_zstandard(ncid, varid, zstandard_level);
+#else
+#if defined(NC_ENOTBUILT)
+    int ierr = NC_ENOTBUILT;
+#elif defined(NC_EFILTER)
+    int ierr = NC_EFILTER;
+#elif defined(NC_ENOFILTER)
+    int ierr = NC_ENOFILTER;
+#else
+    int ierr = NC_EINVAL;
+#endif
+    zstd_detail_msg = missing_compile_time_zstd_msg;
+#endif
+
     if (ierr != NC_NOERR) {
+#ifdef H5Z_FILTER_ZSTD
+        if (ierr == NC_ENOFILTER) {
+            zstd_detail_msg = missing_runtime_zstd_filter_msg;
+        }
+#endif
         cmor_handle_error_var_variadic(
             "NetCDF Error (%i: %s) enabling zstandard compression on "
             "variable '%s' (table: %s)\n! %s",
@@ -89,7 +106,7 @@ static int cmor_nc_def_var_zstandard_checked(int ncid, int varid,
             ierr, nc_strerror(ierr),
             (var_name != NULL) ? var_name : "(unknown)",
             (table_id != NULL) ? table_id : "(unknown)",
-            (ierr == NC_ENOFILTER) ? missing_zstd_filter_msg : ""
+            zstd_detail_msg
         );
     }
 
