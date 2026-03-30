@@ -9,17 +9,25 @@ PYTHON_BIN=${PYTHON_BIN:-python}
 
 cd "${ROOT_DIR}"
 
-rm -rf "${TEST_VENV_DIR}"
-"${PYTHON_BIN}" -m venv --system-site-packages "${TEST_VENV_DIR}"
-source "${TEST_VENV_DIR}/bin/activate"
+if [ "${CMOR_WHEEL_ALREADY_INSTALLED:-0}" != "1" ]; then
+    rm -rf "${TEST_VENV_DIR}"
+    "${PYTHON_BIN}" -m venv --system-site-packages "${TEST_VENV_DIR}"
+    source "${TEST_VENV_DIR}/bin/activate"
+fi
 
-python -m pip install --upgrade pip
-python -m pip install \
-    typing-extensions \
-    netcdf4 \
-    pyfive \
-    hdf5plugin
-python -m pip install --no-deps "${WHEEL_DIR}"/*.whl
+if [ "${CMOR_TEST_DEPS_ALREADY_INSTALLED:-0}" != "1" ]; then
+    python -m pip install --upgrade pip
+    python -m pip install \
+        typing-extensions \
+        netcdf4 \
+        pyfive \
+        hdf5plugin
+fi
+
+if [ "${CMOR_WHEEL_ALREADY_INSTALLED:-0}" != "1" ]; then
+    python -m pip install --no-deps "${WHEEL_DIR}"/*.whl
+fi
+
 export HDF5_PLUGIN_PATH
 HDF5_PLUGIN_PATH="$(python -c 'import hdf5plugin; print(hdf5plugin.PLUGINS_PATH)')"
 

@@ -55,12 +55,13 @@ LLNL-CODE-2005936
 ## Wheels
 
 GitHub Actions wheel builds are defined in `.github/workflows/wheel-build.yml`.
-The workflow follows the existing nightly conda build pattern on Linux, macOS Intel, and Apple Silicon, then:
+The workflow uses `cibuildwheel` to build and test Linux, macOS Intel, and Apple Silicon wheels, and then:
 
-- builds a Python wheel after running `./configure` against conda-forge dependencies
-- vendors non-system shared libraries into the wheel with `auditwheel` on Linux and `delocate` on macOS
+- builds Linux wheels inside a manylinux container and macOS wheels against a Miniforge dependency prefix
+- builds `netcdf-c` from source on Linux so the wheel uses a manylinux-compatible libnetcdf with quantization and zstandard filter support
+- repairs wheels with `auditwheel` on Linux and `delocate` on macOS so they install into standard Python environments
 - bundles `udunits2.xml` so `pip install` does not require a local UDUNITS2 data install
-- smoke-tests the installed wheel by importing `cmor` and running `cmor.setup()`
+- smoke-tests the installed wheel by importing `cmor`, running `cmor.setup()`, and executing the wheel Python test list
 - uploads the repaired wheels as assets on the published GitHub release only
 
 The workflow builds and tests wheels on pushes to `main` and pull requests targeting `main`.
