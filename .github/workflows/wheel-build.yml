@@ -94,14 +94,9 @@ jobs:
           eval "$(mamba shell hook --shell bash)"
           mamba activate
 
-          mamba create -y -n "wheel_test_py${PYTHON_VERSION//./}" -c "$CONDA_FORGE_CHANNEL" \
-            "python=$PYTHON_VERSION" \
-            pip \
-            numpy \
-            typing-extensions \
-            netcdf4 \
-            pyfive \
-            hdf5plugin
+          conda env remove -y -n "wheel_test_py${PYTHON_VERSION//./}" >/dev/null 2>&1 || true
+          conda create -y -n "wheel_test_py${PYTHON_VERSION//./}" \
+            --clone "wheel_build_py${PYTHON_VERSION//./}"
 
       - name: Build wheel
         run: |

@@ -13,6 +13,12 @@ rm -rf "${TEST_VENV_DIR}"
 "${PYTHON_BIN}" -m venv --system-site-packages "${TEST_VENV_DIR}"
 source "${TEST_VENV_DIR}/bin/activate"
 
+python -m pip install --upgrade pip
+python -m pip install \
+    typing-extensions \
+    netcdf4 \
+    pyfive \
+    hdf5plugin
 python -m pip install --no-deps "${WHEEL_DIR}"/*.whl
 export HDF5_PLUGIN_PATH
 HDF5_PLUGIN_PATH="$(python -c 'import hdf5plugin; print(hdf5plugin.PLUGINS_PATH)')"

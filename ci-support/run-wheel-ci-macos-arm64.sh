@@ -60,6 +60,17 @@ deactivate_env() {
     set -u
 }
 
+recreate_test_env() {
+    local build_env_name=$1
+    local test_env_name=$2
+
+    if "${MAMBA_BIN}" run -n "${test_env_name}" python --version >/dev/null 2>&1; then
+        conda env remove -y -n "${test_env_name}"
+    fi
+
+    conda create -y -n "${test_env_name}" --clone "${build_env_name}"
+}
+
 for python_version in "${PYTHON_VERSIONS[@]}"; do
     build_env_name="${ENV_PREFIX}-build-py${python_version//./}"
     test_env_name="${ENV_PREFIX}-test-py${python_version//./}"
@@ -83,15 +94,7 @@ for python_version in "${PYTHON_VERSIONS[@]}"; do
         "${C_COMPILER}"
 
     echo "==> Preparing ${test_env_name}"
-    ensure_env \
-        "${test_env_name}" \
-        "python=${python_version}" \
-        pip \
-        numpy \
-        typing-extensions \
-        netcdf4 \
-        pyfive \
-        hdf5plugin
+    recreate_test_env "${build_env_name}" "${test_env_name}"
 
     activate_env "${build_env_name}"
     rm -rf "${wheel_dir}" "${build_root}" "${test_venv_dir}"
