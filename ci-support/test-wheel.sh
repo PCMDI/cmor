@@ -11,7 +11,7 @@ cd "${ROOT_DIR}"
 
 if [ "${CMOR_WHEEL_ALREADY_INSTALLED:-0}" != "1" ]; then
     rm -rf "${TEST_VENV_DIR}"
-    "${PYTHON_BIN}" -m venv --system-site-packages "${TEST_VENV_DIR}"
+    "${PYTHON_BIN}" -m venv "${TEST_VENV_DIR}"
     source "${TEST_VENV_DIR}/bin/activate"
 fi
 
