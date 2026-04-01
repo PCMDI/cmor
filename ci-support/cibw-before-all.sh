@@ -33,7 +33,7 @@ stage_udunits_xml_in_prefix() {
     local staged_dir="${CMOR_DEPS_PREFIX}/share/cmor"
 
     mkdir -p "${staged_dir}"
-    cp "${xml_source}" "${staged_dir}/udunits2.xml"
+    find "$(dirname "${xml_source}")" -maxdepth 1 -type f -name 'udunits2*.xml' -exec cp {} "${staged_dir}/" \;
 }
 
 run_macos_prefix_mamba() {
