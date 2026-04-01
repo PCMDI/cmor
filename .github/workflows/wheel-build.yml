@@ -39,9 +39,11 @@ jobs:
       CIBW_BEFORE_BUILD: "bash {project}/ci-support/cibw-before-build.sh"
       CIBW_ENVIRONMENT_LINUX: >-
         CMOR_DEPS_PREFIX=/tmp/cmor-deps
+        CMOR_UDUNITS2_XML=/tmp/cmor-deps/share/cmor/udunits2.xml
         NETCDF_C_VERSION=4.9.2
       CIBW_ENVIRONMENT_MACOS: >-
         CMOR_DEPS_PREFIX=/tmp/cmor-miniforge
+        CMOR_UDUNITS2_XML=/tmp/cmor-miniforge/share/cmor/udunits2.xml
         MACOSX_DEPLOYMENT_TARGET=${{ matrix.runner.MACOSX_DEPLOYMENT_TARGET }}
         LDFLAGS='-Wl,-headerpad_max_install_names'
       CIBW_MANYLINUX_X86_64_IMAGE: "manylinux_2_28"

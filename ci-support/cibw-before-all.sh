@@ -22,6 +22,35 @@ download_file() {
     exit 1
 }
 
+find_udunits_xml() {
+    local search_root=$1
+
+    find "${search_root}" -type f -name 'udunits2*.xml' 2>/dev/null | sort | head -n 1
+}
+
+stage_udunits_xml_in_prefix() {
+    local xml_source=$1
+    local staged_dir="${CMOR_DEPS_PREFIX}/share/cmor"
+
+    mkdir -p "${staged_dir}"
+    cp "${xml_source}" "${staged_dir}/udunits2.xml"
+}
+
+run_macos_prefix_mamba() {
+    env \
+        -u CONDA_DEFAULT_ENV \
+        -u CONDA_EXE \
+        -u CONDA_PREFIX \
+        -u CONDA_PROMPT_MODIFIER \
+        -u CONDA_PYTHON_EXE \
+        -u CONDA_SHLVL \
+        -u MAMBA_EXE \
+        -u MAMBA_ROOT_PREFIX \
+        -u _CE_CONDA \
+        -u _CE_M \
+        "${CMOR_DEPS_PREFIX}/bin/mamba" "$@"
+}
+
 linux_system_libdir() {
     if [ -d /usr/lib64 ]; then
         echo /usr/lib64
@@ -182,6 +211,8 @@ build_linux_netcdf_c() {
         echo "Installed netcdf-c does not expose nc_def_var_zstandard in its headers" >&2
         exit 1
     fi
+
+    stage_udunits_xml_in_prefix "${CMOR_DEPS_PREFIX}/share/udunits/udunits2.xml"
 }
 
 setup_macos_miniforge() {
@@ -209,12 +240,27 @@ setup_macos_miniforge() {
 }
 
 install_macos_build_deps() {
+    local udunits_xml_path=""
+
     setup_macos_miniforge
-    "${CMOR_DEPS_PREFIX}/bin/mamba" install -y -n base -c conda-forge \
+    run_macos_prefix_mamba install -y -p "${CMOR_DEPS_PREFIX}" -c conda-forge \
         json-c \
         udunits2 \
         libnetcdf \
         libuuid
+
+    if [ ! -f "${CMOR_DEPS_PREFIX}/include/udunits2.h" ]; then
+        echo "udunits2 headers were not installed under ${CMOR_DEPS_PREFIX}" >&2
+        exit 1
+    fi
+
+    udunits_xml_path=$(find_udunits_xml "${CMOR_DEPS_PREFIX}")
+    if [ -z "${udunits_xml_path}" ]; then
+        echo "udunits2 XML data was not installed under ${CMOR_DEPS_PREFIX}" >&2
+        exit 1
+    fi
+
+    stage_udunits_xml_in_prefix "${udunits_xml_path}"
 }
 
 case "$(uname -s)" in

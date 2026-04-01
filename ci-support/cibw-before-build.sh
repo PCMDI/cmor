@@ -16,9 +16,6 @@ case "$(uname -s)" in
         ;;
 esac
 
-mkdir -p Lib/data
-cp "${CMOR_DEPS_PREFIX}"/share/udunits/udunits2*.xml Lib/data/
-
 python_prefix="$(python -c 'import sys; print(sys.prefix)')"
 
 configure_args=(

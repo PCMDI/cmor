@@ -71,3 +71,4 @@ For local Apple Silicon validation with an existing `mamba` install, run:
 `./ci-support/run-wheel-ci-macos-arm64.sh`
 You can limit the run to specific interpreters, for example:
 `./ci-support/run-wheel-ci-macos-arm64.sh 3.12 3.13`
+Local macOS `cibuildwheel` runs require the requested CPython framework installs from python.org in `/Library/Frameworks/Python.framework/Versions/`.
