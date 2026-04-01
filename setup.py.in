@@ -1,6 +1,8 @@
 import numpy
 import os
+import shutil
 from setuptools import setup, Extension
+from setuptools.command.build_py import build_py as _build_py
 
 include_dirs = [numpy.get_include(),"include","include/cdTime"]
 
@@ -49,6 +51,33 @@ print('incdir',include_dirs)
 print('src:',srcfiles)
 print('macros:',macros)
 
+
+class build_py(_build_py):
+   def run(self):
+      self._cmor_udunits_output = None
+      super().run()
+
+      xml_source = os.environ.get("CMOR_UDUNITS2_XML")
+      if not xml_source:
+         return
+
+      if not os.path.isfile(xml_source):
+         raise RuntimeError(f"CMOR_UDUNITS2_XML does not exist: {xml_source}")
+
+      target_dir = os.path.join(self.build_lib, "cmor", "data")
+      os.makedirs(target_dir, exist_ok=True)
+
+      target_path = os.path.join(target_dir, "udunits2.xml")
+      shutil.copy2(xml_source, target_path)
+      self._cmor_udunits_output = target_path
+
+   def get_outputs(self, include_bytecode=1):
+      outputs = super().get_outputs(include_bytecode=include_bytecode)
+      xml_output = getattr(self, "_cmor_udunits_output", None)
+      if xml_output is not None:
+         outputs.append(xml_output)
+      return outputs
+
 setup (name = "CMOR",
        version='3.14.1',
        author='Chris Mauzey, LLNL',
@@ -59,6 +88,7 @@ setup (name = "CMOR",
        packages = ['cmor', 'cmor.Test'],
        package_dir = {'cmor': 'Lib', 'cmor.Test':'Test'},
        package_data = {'cmor': ['data/*.xml']},
+       cmdclass = {'build_py': build_py},
 #       scripts=['scripts/PrePARE.py' ],
        ext_modules = [
             Extension('cmor._cmor',
