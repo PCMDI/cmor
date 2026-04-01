@@ -36,6 +36,23 @@ stage_udunits_xml_in_prefix() {
     find "$(dirname "${xml_source}")" -maxdepth 1 -type f -name 'udunits2*.xml' -exec cp {} "${staged_dir}/" \;
 }
 
+ensure_staged_udunits_xml_in_prefix() {
+    local udunits_xml_path=""
+
+    udunits_xml_path=$(find_udunits_xml "${CMOR_DEPS_PREFIX}")
+    if [ -z "${udunits_xml_path}" ]; then
+        echo "Could not find udunits2 XML data under ${CMOR_DEPS_PREFIX}" >&2
+        exit 1
+    fi
+
+    stage_udunits_xml_in_prefix "${udunits_xml_path}"
+
+    if [ ! -f "${CMOR_DEPS_PREFIX}/share/cmor/udunits2.xml" ]; then
+        echo "Failed to stage udunits2 XML data under ${CMOR_DEPS_PREFIX}/share/cmor" >&2
+        exit 1
+    fi
+}
+
 run_macos_prefix_mamba() {
     env \
         -u CONDA_DEFAULT_ENV \
@@ -155,6 +172,7 @@ build_linux_netcdf_c() {
     libs=""
 
     if [ -x "${CMOR_DEPS_PREFIX}/bin/nc-config" ]; then
+        ensure_staged_udunits_xml_in_prefix
         return
     fi
 
@@ -212,7 +230,7 @@ build_linux_netcdf_c() {
         exit 1
     fi
 
-    stage_udunits_xml_in_prefix "${CMOR_DEPS_PREFIX}/share/udunits/udunits2.xml"
+    ensure_staged_udunits_xml_in_prefix
 }
 
 setup_macos_miniforge() {
@@ -254,13 +272,7 @@ install_macos_build_deps() {
         exit 1
     fi
 
-    udunits_xml_path=$(find_udunits_xml "${CMOR_DEPS_PREFIX}")
-    if [ -z "${udunits_xml_path}" ]; then
-        echo "udunits2 XML data was not installed under ${CMOR_DEPS_PREFIX}" >&2
-        exit 1
-    fi
-
-    stage_udunits_xml_in_prefix "${udunits_xml_path}"
+    ensure_staged_udunits_xml_in_prefix
 }
 
 case "$(uname -s)" in
