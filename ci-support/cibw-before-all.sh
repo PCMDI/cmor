@@ -25,7 +25,7 @@ download_file() {
 find_udunits_xml() {
     local search_root=$1
 
-    find "${search_root}" -type f -name 'udunits2*.xml' 2>/dev/null | sort | head -n 1
+    find -L "${search_root}" -type f -name 'udunits2*.xml' 2>/dev/null | sort | head -n 1
 }
 
 stage_udunits_xml_in_prefix() {
@@ -33,7 +33,7 @@ stage_udunits_xml_in_prefix() {
     local staged_dir="${CMOR_DEPS_PREFIX}/share/cmor"
 
     mkdir -p "${staged_dir}"
-    find "$(dirname "${xml_source}")" -maxdepth 1 -type f -name 'udunits2*.xml' -exec cp {} "${staged_dir}/" \;
+    find -L "$(dirname "${xml_source}")" -maxdepth 1 -type f -name 'udunits2*.xml' -exec cp {} "${staged_dir}/" \;
 }
 
 ensure_staged_udunits_xml_in_prefix() {
