@@ -101,6 +101,27 @@ link_linux_system_deps() {
     shopt -u nullglob
 }
 
+append_pkg_config_package() {
+    local package_name=$1
+    local package_cflags
+    local package_ldflags
+    local package_libs
+
+    if ! pkg-config --exists "${package_name}"; then
+        return 1
+    fi
+
+    package_cflags=$(pkg-config --cflags "${package_name}")
+    package_ldflags=$(pkg-config --libs-only-L "${package_name}")
+    package_libs=$(pkg-config --libs-only-l "${package_name}")
+
+    cppflags="${cppflags}${package_cflags:+ ${package_cflags}}"
+    ldflags="${ldflags}${package_ldflags:+ ${package_ldflags}}"
+    libs="${libs}${package_libs:+ ${package_libs}}"
+
+    return 0
+}
+
 install_linux_build_deps() {
     if command -v dnf >/dev/null 2>&1; then
         dnf install -y epel-release || true
@@ -161,8 +182,9 @@ build_linux_netcdf_c() {
     local cppflags
     local ldflags
     local libs
+    local make_jobs
 
-    netcdf_c_version=${NETCDF_C_VERSION:-4.9.2}
+    netcdf_c_version=${NETCDF_C_VERSION:-4.10.0}
     netcdf_tarball="v${netcdf_c_version}.tar.gz"
     netcdf_url="https://github.com/Unidata/netcdf-c/archive/refs/tags/${netcdf_tarball}"
     netcdf_archive_path="/tmp/netcdf-c-${netcdf_c_version}.tar.gz"
@@ -182,15 +204,19 @@ build_linux_netcdf_c() {
     download_file "${netcdf_url}" "${netcdf_archive_path}"
     tar -C /tmp -xf "${netcdf_archive_path}"
 
-    if [ -d /usr/include/hdf5/serial ]; then
-        cppflags="${cppflags} -I/usr/include/hdf5/serial"
+    if ! append_pkg_config_package hdf5; then
+        if [ -d /usr/include/hdf5/serial ]; then
+            cppflags="${cppflags} -I/usr/include/hdf5/serial"
+        fi
+
+        if [ -d /usr/lib64/hdf5/serial ]; then
+            ldflags="${ldflags} -L/usr/lib64/hdf5/serial"
+        elif [ -d /usr/lib/hdf5/serial ]; then
+            ldflags="${ldflags} -L/usr/lib/hdf5/serial"
+        fi
     fi
 
-    if [ -d /usr/lib64/hdf5/serial ]; then
-        ldflags="${ldflags} -L/usr/lib64/hdf5/serial"
-    elif [ -d /usr/lib/hdf5/serial ]; then
-        ldflags="${ldflags} -L/usr/lib/hdf5/serial"
-    fi
+    append_pkg_config_package hdf5_hl || true
 
     if ! pkg-config --exists libzstd; then
         echo "Could not find libzstd pkg-config metadata; cannot build zstd-enabled netcdf-c" >&2
@@ -200,19 +226,36 @@ build_linux_netcdf_c() {
     cppflags="${cppflags} $(pkg-config --cflags libzstd)"
     ldflags="${ldflags} $(pkg-config --libs-only-L libzstd)"
     libs="${libs} $(pkg-config --libs-only-l libzstd)"
+    make_jobs=$(getconf _NPROCESSORS_ONLN 2>/dev/null || echo 2)
+    if [ "${make_jobs}" -lt 1 ]; then
+        make_jobs=1
+    fi
 
     (
         cd "${netcdf_source_dir}"
-        CPPFLAGS="${cppflags}" \
-        LDFLAGS="${ldflags}" \
-        LIBS="${libs}" \
-        ./configure \
+        if ! CPPFLAGS="${cppflags}" \
+            LDFLAGS="${ldflags}" \
+            LIBS="${libs}" \
+            ./configure \
             --prefix="${CMOR_DEPS_PREFIX}" \
             --disable-dap \
             --disable-byterange \
             --disable-libxml2 \
+            --disable-utilities \
+            --disable-silent-rules \
             --enable-netcdf-4
-        make -j"$(getconf _NPROCESSORS_ONLN 2>/dev/null || echo 2)"
+        then
+            if [ -f config.log ]; then
+                echo "===== netcdf-c config.log (tail) =====" >&2
+                tail -n 200 config.log >&2 || true
+            fi
+            exit 1
+        fi
+        echo "Building netcdf-c ${netcdf_c_version} with make -j${make_jobs}" >&2
+        if ! make -j"${make_jobs}"; then
+            echo "Parallel netcdf-c build failed; retrying with make -j1 V=1 for clearer diagnostics" >&2
+            make -j1 V=1
+        fi
         make install
     )
 

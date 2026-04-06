@@ -40,7 +40,7 @@ jobs:
       CIBW_ENVIRONMENT_LINUX: >-
         CMOR_DEPS_PREFIX=/tmp/cmor-deps
         CMOR_UDUNITS2_XML=/tmp/cmor-deps/share/cmor/udunits2.xml
-        NETCDF_C_VERSION=4.9.2
+        NETCDF_C_VERSION=4.10.0
       CIBW_ENVIRONMENT_MACOS: >-
         CMOR_DEPS_PREFIX=/tmp/cmor-miniforge
         CMOR_UDUNITS2_XML=/tmp/cmor-miniforge/share/cmor/udunits2.xml
