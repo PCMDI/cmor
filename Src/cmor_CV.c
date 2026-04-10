@@ -1063,7 +1063,13 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
     if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_PARENT_EXPT_ID) != 0) {
         CV_parent_exp_id = cmor_CV_search_child_key(CV_experiment,
                                                     PARENT_EXPERIMENT_ID);
-        if (CV_IsStringInArray(CV_parent_exp_id, NO_PARENT)) {
+
+        if (CV_parent_exp_id->anElements == 0) {
+            // We don't need to look at parent attributes
+            // if the parent_experiment_id list is empty.
+            cmor_pop_traceback();
+            return 0;
+        } else if (CV_IsStringInArray(CV_parent_exp_id, NO_PARENT)) {
             cmor_handle_error_variadic(
                     "Your input attribute \"%s\" defined as \"\" "
                     "will be replaced with \n! "
