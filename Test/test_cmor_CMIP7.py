@@ -2,6 +2,7 @@ import json
 import cmor
 import unittest
 import numpy
+from pathlib import Path
 
 from netCDF4 import Dataset
 
@@ -19,7 +20,7 @@ USER_INPUT = {
     "calendar": "360_day",
     "cv_version": "6.2.19.0",
     "drs_specs": "MIP-DRS7",
-    "experiment_id": "piControl",
+    "experiment_id": "historical",
     "forcing_index": "f30",
     "grid_label": "gn",
     "initialization_index": "i000001d",
@@ -51,17 +52,22 @@ class TestCMIP7(unittest.TestCase):
         """
         Write out a simple file using CMOR
         """
+        self.input_json = Path("Test/input_cmip7.json")
+
         # Set up CMOR
         cmor.setup(inpath=CMIP7_TABLES_PATH, netcdf_file_action=cmor.CMOR_REPLACE)
 
         # Define dataset using USER_INPUT
-        with open("Test/input_cmip7.json", "w") as input_file_handle:
+        with open(self.input_json, "w") as input_file_handle:
             json.dump(USER_INPUT, input_file_handle, sort_keys=True, indent=4)
 
         # read dataset info
-        error_flag = cmor.dataset_json("Test/input_cmip7.json")
+        error_flag = cmor.dataset_json(str(self.input_json))
         if error_flag:
             raise RuntimeError("CMOR dataset_json call failed")
+
+    def tearDown(self):
+        self.input_json.unlink(missing_ok=True)
 
     def test_cmip7(self):
         data = [27] * (2 * 3 * 4)
