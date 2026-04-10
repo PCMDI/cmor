@@ -998,7 +998,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
 /************************************************************************/
 /*                    cmor_CV_checkParentExpID()                        */
 /************************************************************************/
-int cmor_CV_checkParentExpID(cmor_CV_def_t * CV, int check_branch_method)
+int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
 {
     cmor_CV_def_t *CV_experiment_ids;
     cmor_CV_def_t *CV_experiment;
@@ -1082,6 +1082,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV, int check_branch_method)
             return (-1);
         }
     }
+
     // The provider defined a parent experiment.
     if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_PARENT_EXPT_ID) == 0) {
         cmor_get_cur_dataset_attribute(GLOBAL_ATT_PARENT_EXPT_ID,
@@ -1093,7 +1094,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV, int check_branch_method)
             CV_CompareNoParent(PARENT_SOURCE_ID);
             CV_CompareNoParent(PARENT_TIME_UNITS);
             CV_CompareNoParent(PARENT_VARIANT_LABEL);
-            if (check_branch_method != 0) {
+            if (cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP7) != 0) {
                 CV_CompareNoParent(BRANCH_METHOD);
             }
             // Do we have branch_time_in_child?
@@ -1160,8 +1161,8 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV, int check_branch_method)
                 }
             }
             // branch method
-            if (check_branch_method != 0) {
-                    if (cmor_has_cur_dataset_attribute(BRANCH_METHOD) != 0) {
+            if (cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP7) != 0) {
+                if (cmor_has_cur_dataset_attribute(BRANCH_METHOD) != 0) {
                     cmor_handle_error_variadic(
                             "Your input attribute \"%s\" is not defined \n! "
                             "properly for %s \n! "
@@ -1169,7 +1170,6 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV, int check_branch_method)
                             "in CMIP6 documentations.\n! ",
                             CMOR_NORMAL, BRANCH_METHOD, szExperiment_ID);
                     ierr = -1;
-
                 } else {
                     cmor_get_cur_dataset_attribute(BRANCH_METHOD, szBranchMethod);
                     if (strlen(szBranchMethod) == 0) {
