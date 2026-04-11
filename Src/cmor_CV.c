@@ -1059,17 +1059,54 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
         cmor_pop_traceback();
         return (-1);
     }
+
+    CV_parent_exp_id = cmor_CV_search_child_key(CV_experiment, PARENT_EXPERIMENT_ID);
+
     // Do we have a parent_experiment_id?
     if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_PARENT_EXPT_ID) != 0) {
-        CV_parent_exp_id = cmor_CV_search_child_key(CV_experiment,
-                                                    PARENT_EXPERIMENT_ID);
 
-        if (CV_parent_exp_id->anElements == 0) {
-            // We don't need to look at parent attributes
-            // if the parent_experiment_id list is empty.
-            cmor_pop_traceback();
-            return 0;
-        } else if (CV_IsStringInArray(CV_parent_exp_id, NO_PARENT)) {
+        // For CMIP7 compliance, experiments that don't have a parent experiment
+        // must not have parent attributes in their datasets
+        if (cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP7) == 0) {
+            if (CV_parent_exp_id->anElements == 0) {
+                // Check that other parent attributes are not set
+                char *parent_attrs[] = {
+                    PARENT_ACTIVITY_ID,
+                    PARENT_MIP_ERA,
+                    PARENT_SOURCE_ID,
+                    PARENT_TIME_UNITS,
+                    PARENT_VARIANT_LABEL,
+                    BRANCH_TIME_IN_CHILD,
+                    BRANCH_TIME_IN_PARENT
+                };
+                for (int i = 0; i < 7; i++) {
+                    if (cmor_has_cur_dataset_attribute(parent_attrs[i]) == 0) {
+                        cmor_handle_error_variadic(
+                            "Your dataset does not have a \"%s\" defined "
+                            "but has a \"%s\" defined.\n!\n! "
+                            "For CIMP7 compliance, experiments without a \"%s\" "
+                            "must not have other parent attributes defined.\n! ",
+                            CMOR_WARNING,
+                            GLOBAL_ATT_PARENT_EXPT_ID,
+                            parent_attrs[i],
+                            GLOBAL_ATT_PARENT_EXPT_ID);
+                    }
+                }
+                cmor_pop_traceback();
+                return 0;
+            } else {
+                cmor_handle_error_variadic(
+                        "Your input attribute \"%s\" is not defined properly \n! "
+                        "for your experiment \"%s\"\n!\n! "
+                        "See Controlled Vocabulary JSON file.(%s)\n! ",
+                        CMOR_NORMAL, GLOBAL_ATT_PARENT_EXPT_ID, CV_experiment->key,
+                        CV_Filename);
+                cmor_pop_traceback();
+                return (-1);
+            }
+        }
+        
+        if (CV_IsStringInArray(CV_parent_exp_id, NO_PARENT)) {
             cmor_handle_error_variadic(
                     "Your input attribute \"%s\" defined as \"\" "
                     "will be replaced with \n! "
@@ -1131,6 +1168,15 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
             }
         } else {
             // real parent case
+            if (CV_IsStringInArray(CV_parent_exp_id, szParentExpValue) == 0) {
+                cmor_handle_error_variadic(
+                            "Your input attribute \"%s\" is not defined properly \n! "
+                            "for your experiment \"%s\"\n! "
+                            "There is more than 1 option for this experiment.\n! "
+                            "See Controlled Vocabulary JSON file.(%s)\n! ",
+                            CMOR_WARNING, PARENT_ACTIVITY_ID, CV_experiment->key,
+                            CV_Filename);
+            }
             // Parent Activity ID
             if (cmor_has_cur_dataset_attribute(PARENT_ACTIVITY_ID) != 0) {
                 cmor_handle_error_variadic(
