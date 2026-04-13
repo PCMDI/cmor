@@ -15,10 +15,12 @@ USER_INPUT = {
     "_cmip7_option": 1,
     "_controlled_vocabulary_file": CV_PATH,
     "activity_id": "CMIP",
+    "branch_time_in_child": 30.0,
+    "branch_time_in_parent": 10800.0,
     "calendar": "360_day",
     "cv_version": "6.2.19.0",
     "drs_specs": "MIP-DRS7",
-    "experiment_id": "piControl",
+    "experiment_id": "historical",
     "forcing_index": "f30",
     "grid_label": "gn",
     "initialization_index": "i000001d",
@@ -26,6 +28,12 @@ USER_INPUT = {
     "license_id": "CC BY 4.0",
     "nominal_resolution": "250 km",
     "outpath": ".",
+    "parent_mip_era": "CMIP7",
+    "parent_time_units": "days since 1850-01-01",
+    "parent_activity_id": "CMIP",
+    "parent_source_id": "PCMDI-test-1-0",
+    "parent_experiment_id": "piControl",
+    "parent_variant_label": "r1i1p1f3",
     "physics_index": "p1",
     "realization_index": "r009",
     "source_id": "PCMDI-test-1-0",
@@ -39,12 +47,12 @@ USER_INPUT = {
 }
 
 
-class TestCMIP7WithoutParentAttributes(unittest.TestCase):
+class TestCMIP7WithParentAttributes(unittest.TestCase):
     def setUp(self):
         """
         Write out a simple file using CMOR
         """
-        self.input_json = Path("Test/input_no_parent_attrs.json")
+        self.input_json = Path("Test/input_parent_attrs.json")
 
         # Set up CMOR
         cmor.setup(inpath=CMIP7_TABLES_PATH, netcdf_file_action=cmor.CMOR_REPLACE)
@@ -61,7 +69,7 @@ class TestCMIP7WithoutParentAttributes(unittest.TestCase):
     def tearDown(self):
         self.input_json.unlink(missing_ok=True)
 
-    def test_cmip7_without_parent_attributes(self):
+    def test_cmip7_with_parent_attributes(self):
         data = [27] * (2 * 3 * 4)
         tos = numpy.array(data)
         tos.shape = (2, 3, 4)
@@ -97,19 +105,20 @@ class TestCMIP7WithoutParentAttributes(unittest.TestCase):
         ds = Dataset(filename)
         attrs = ds.ncattrs()
 
-        parent_attrs = [
-            "branch_time_in_child",
-            "branch_time_in_parent",
-            "parent_mip_era",
-            "parent_time_units",
-            "parent_activity_id",
-            "parent_source_id",
-            "parent_experiment_id",
-            "parent_variant_label"
-        ]
+        parent_attrs = {
+            "branch_time_in_child": 30.0,
+            "branch_time_in_parent": 10800.0,
+            "parent_mip_era": "CMIP7",
+            "parent_time_units": "days since 1850-01-01",
+            "parent_activity_id": "CMIP",
+            "parent_source_id": "PCMDI-test-1-0",
+            "parent_experiment_id": "piControl",
+            "parent_variant_label": "r1i1p1f3"
+        }
 
-        for attr in parent_attrs:
-            self.assertNotIn(attr, attrs)
+        for attr, value in parent_attrs.items():
+            self.assertIn(attr, attrs)
+            self.assertEqual(value, ds.getncattr(attr))
 
         ds.close()
 

@@ -244,7 +244,7 @@ test_python: python
 	env TEST_NAME=Test/test_cmor_chunking.py make test_a_python
 	env TEST_NAME=Test/test_cmor_associated_variable.py make test_a_python
 	env TEST_NAME=Test/test_cmor_frequency_required.py make test_a_python
-	env TEST_NAME=Test/test_cmor_no_parent_attrs.py make test_a_python
+	env TEST_NAME=Test/test_cmor_parent_attrs.py make test_a_python
 test_cmip6_cv: python
 	env TEST_NAME=Test/test_python_CMIP6_CV_sub_experimentnotset.py make test_a_python
 	env TEST_NAME=Test/test_python_CMIP6_CV_sub_experimentbad.py make test_a_python
