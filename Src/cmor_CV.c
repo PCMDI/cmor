@@ -1130,6 +1130,30 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
     if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_PARENT_EXPT_ID) == 0) {
         cmor_get_cur_dataset_attribute(GLOBAL_ATT_PARENT_EXPT_ID,
                                        szParentExpValue);
+        // Catches parent experiments that were defined by the user when they are
+        // not defined for the experiment, or parent experiments that are not defined
+        // for the experiment.
+        if (cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP7) == 0) {
+            if (CV_IsStringInArray(CV_parent_exp_id, szParentExpValue) == 0) {
+                if (CV_parent_exp_id->anElements == 0) {
+                    cmor_handle_error_variadic(
+                        "Your experiment \"%s\" does not have parent experiments. \n! "
+                        "For CIMP7 compliance, experiments that do not list parent experiments \n! "
+                        "should not define \"%s\" in their datasets.\n! ",
+                        CMOR_WARNING, CV_experiment->key, GLOBAL_ATT_PARENT_EXPT_ID);
+                } else {
+                    cmor_handle_error_variadic(
+                            "Your input attribute \"%s\" is not defined properly \n! "
+                            "for your experiment \"%s\"\n!\n! "
+                            "See Controlled Vocabulary JSON file.(%s)\n! ",
+                            CMOR_NORMAL, GLOBAL_ATT_PARENT_EXPT_ID, CV_experiment->key,
+                            CV_Filename);
+                    cmor_pop_traceback();
+                    return (-1);
+                }
+            }
+        }
+
         // "no parent" case
         if (strcmp(szParentExpValue, NO_PARENT) == 0) {
             CV_CompareNoParent(PARENT_ACTIVITY_ID);
@@ -1168,15 +1192,6 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
             }
         } else {
             // real parent case
-            if (CV_IsStringInArray(CV_parent_exp_id, szParentExpValue) == 0) {
-                cmor_handle_error_variadic(
-                            "Your input attribute \"%s\" is not defined properly \n! "
-                            "for your experiment \"%s\"\n! "
-                            "There is more than 1 option for this experiment.\n! "
-                            "See Controlled Vocabulary JSON file.(%s)\n! ",
-                            CMOR_WARNING, PARENT_ACTIVITY_ID, CV_experiment->key,
-                            CV_Filename);
-            }
             // Parent Activity ID
             if (cmor_has_cur_dataset_attribute(PARENT_ACTIVITY_ID) != 0) {
                 cmor_handle_error_variadic(
