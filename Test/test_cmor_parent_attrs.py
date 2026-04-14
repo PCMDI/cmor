@@ -168,26 +168,37 @@ class TestCMIP7WithParentAttributes(BaseCVsTest):
 
         ds.close()
 
-    def test_cmip7_warns_on_branch_time_in_child_without_parent_experiment(self):
+    def test_cmip7_warns_on_parent_attributes_without_parent_experiment(self):
         self._load_dataset(
             overrides={
                 "branch_time_in_child": 30.0,
+                "parent_activity_id": "CMIP",
             },
         )
         filename = self._write_tos_file()
 
         with Dataset(filename) as ds:
             self.assertNotIn("branch_time_in_child", ds.ncattrs())
+            self.assertNotIn("parent_activity_id", ds.ncattrs())
 
-        self.assertCV(
-            'but your dataset has a "branch_time_in_child" defined',
-            'Warning: Your experiment does not have a "parent_experiment_id" defined',
-            number_of_lines_to_scan=8,
+        log_contents = Path(self.tmpfile).read_text()
+        self.assertIn(
+            'Warning: Your experiment does not have a "parent_experiment_id" '
+            'defined but your dataset has a "branch_time_in_child" defined.',
+            log_contents,
         )
-        self.assertCV(
+        self.assertIn(
             'The "branch_time_in_child" will be removed from your dataset.',
-            'Warning: Your experiment does not have a "parent_experiment_id" defined',
-            number_of_lines_to_scan=8,
+            log_contents,
+        )
+        self.assertIn(
+            'Warning: Your experiment does not have a "parent_experiment_id" '
+            'defined but your dataset has a "parent_activity_id" defined.',
+            log_contents,
+        )
+        self.assertIn(
+            'The "parent_activity_id" will be removed from your dataset.',
+            log_contents,
         )
 
     def test_cmip7_errors_on_parent_experiment_without_cv_parent(self):
