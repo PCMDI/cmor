@@ -109,6 +109,29 @@ class TestCMIP7WithParentAttributes(BaseCVsTest):
         self.assertEqual(cmor.close(), 0)
         return filename
 
+    def test_cmip7_without_parent_attributes(self):
+        self._load_dataset()
+        filename = self._write_tos_file()
+
+        ds = Dataset(filename)
+        attrs = ds.ncattrs()
+
+        parent_attrs = [
+            "branch_time_in_child",
+            "branch_time_in_parent",
+            "parent_mip_era",
+            "parent_time_units",
+            "parent_activity_id",
+            "parent_source_id",
+            "parent_experiment_id",
+            "parent_variant_label"
+        ]
+
+        for attr in parent_attrs:
+            self.assertNotIn(attr, attrs)
+
+        ds.close()
+
     def test_cmip7_with_parent_attributes(self):
         self._load_dataset(
             overrides={
