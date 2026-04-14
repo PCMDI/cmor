@@ -167,6 +167,32 @@ class TestCMIP7WithParentAttributes(BaseCVsTest):
             number_of_lines_to_scan=8,
         )
 
+    def test_cmip7_errors_on_parent_experiment_without_cv_parent(self):
+        self._load_dataset(
+            overrides={
+                "parent_experiment_id": "historical",
+            },
+        )
+
+        with self.assertRaises(cmor.CMORError):
+            self._write_tos_file()
+
+        try:
+            cmor.close()
+        except BaseException:
+            pass
+
+        self.assertCV(
+            'Your experiment "piControl" does not have parent experiments.',
+            'Error:',
+            number_of_lines_to_scan=6,
+        )
+        self.assertCV(
+            'should not define "parent_experiment_id" in their datasets.',
+            'Error:',
+            number_of_lines_to_scan=6,
+        )
+
 
 if __name__ == '__main__':
     unittest.main()
