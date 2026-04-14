@@ -193,6 +193,32 @@ class TestCMIP7WithParentAttributes(BaseCVsTest):
             number_of_lines_to_scan=6,
         )
 
+    def test_cmip7_errors_when_parent_experiment_required_but_missing(self):
+        self._load_dataset(
+            overrides={
+                "experiment_id": "historical",
+            },
+        )
+
+        with self.assertRaises(cmor.CMORError):
+            self._write_tos_file()
+
+        try:
+            cmor.close()
+        except BaseException:
+            pass
+
+        self.assertCV(
+            'Your input attribute "parent_experiment_id" is not defined properly',
+            'Error:',
+            number_of_lines_to_scan=6,
+        )
+        self.assertCV(
+            'for your experiment "historical"',
+            'Error:',
+            number_of_lines_to_scan=6,
+        )
+
 
 if __name__ == '__main__':
     unittest.main()
