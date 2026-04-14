@@ -4,6 +4,7 @@ import unittest
 import numpy
 from pathlib import Path
 
+from base_CMIP6_CV import BaseCVsTest
 from netCDF4 import Dataset
 
 CMIP7_TABLES_PATH = "cmip7-cmor-tables/tables"
@@ -15,12 +16,10 @@ USER_INPUT = {
     "_cmip7_option": 1,
     "_controlled_vocabulary_file": CV_PATH,
     "activity_id": "CMIP",
-    "branch_time_in_child": 30.0,
-    "branch_time_in_parent": 10800.0,
     "calendar": "360_day",
     "cv_version": "6.2.19.0",
     "drs_specs": "MIP-DRS7",
-    "experiment_id": "historical",
+    "experiment_id": "piControl",
     "forcing_index": "f30",
     "grid_label": "gn",
     "initialization_index": "i000001d",
@@ -28,12 +27,6 @@ USER_INPUT = {
     "license_id": "CC BY 4.0",
     "nominal_resolution": "250 km",
     "outpath": ".",
-    "parent_mip_era": "CMIP7",
-    "parent_time_units": "days since 1850-01-01",
-    "parent_activity_id": "CMIP",
-    "parent_source_id": "PCMDI-test-1-0",
-    "parent_experiment_id": "piControl",
-    "parent_variant_label": "r1i1p1f3",
     "physics_index": "p1",
     "realization_index": "r009",
     "source_id": "PCMDI-test-1-0",
@@ -47,29 +40,41 @@ USER_INPUT = {
 }
 
 
-class TestCMIP7WithParentAttributes(unittest.TestCase):
+class TestCMIP7WithParentAttributes(BaseCVsTest):
     def setUp(self):
         """
         Write out a simple file using CMOR
         """
+        super().setUp()
         self.input_json = Path("Test/input_parent_attrs.json")
 
         # Set up CMOR
-        cmor.setup(inpath=CMIP7_TABLES_PATH, netcdf_file_action=cmor.CMOR_REPLACE)
+        cmor.setup(inpath=CMIP7_TABLES_PATH,
+                   netcdf_file_action=cmor.CMOR_REPLACE,
+                   logfile=self.tmpfile)
 
-        # Define dataset using USER_INPUT
+    def tearDown(self):
+        self.input_json.unlink(missing_ok=True)
+        super().tearDown()
+
+    def _load_dataset(self, overrides=None, removed_fields=None):
+        input_data = USER_INPUT.copy()
+
+        if removed_fields is not None:
+            for field in removed_fields:
+                input_data.pop(field, None)
+
+        if overrides is not None:
+            input_data.update(overrides)
+
         with open(self.input_json, "w") as input_file_handle:
-            json.dump(USER_INPUT, input_file_handle, sort_keys=True, indent=4)
+            json.dump(input_data, input_file_handle, sort_keys=True, indent=4)
 
-        # read dataset info
         error_flag = cmor.dataset_json(str(self.input_json))
         if error_flag:
             raise RuntimeError("CMOR dataset_json call failed")
 
-    def tearDown(self):
-        self.input_json.unlink(missing_ok=True)
-
-    def test_cmip7_with_parent_attributes(self):
+    def _write_tos_file(self):
         data = [27] * (2 * 3 * 4)
         tos = numpy.array(data)
         tos.shape = (2, 3, 4)
@@ -81,7 +86,7 @@ class TestCMIP7WithParentAttributes(unittest.TestCase):
                                 225,
                                 315
                                 ])
-        time = numpy.array([15.5, 45])
+        time = numpy.array([15.5, 45.5])
         time_bnds = numpy.array([0, 31, 60])
         cmor.load_table("CMIP7_ocean.json")
         cmorlat = cmor.axis("latitude",
@@ -100,7 +105,25 @@ class TestCMIP7WithParentAttributes(unittest.TestCase):
         cmortos = cmor.variable("tos_tavg-u-hxy-sea", "degC", axes)
         self.assertEqual(cmor.write(cmortos, tos), 0)
         filename = cmor.close(cmortos, file_name=True)
+        self.delete_files.append(filename)
         self.assertEqual(cmor.close(), 0)
+        return filename
+
+    def test_cmip7_with_parent_attributes(self):
+        self._load_dataset(
+            overrides={
+                "branch_time_in_child": 30.0,
+                "branch_time_in_parent": 10800.0,
+                "experiment_id": "historical",
+                "parent_mip_era": "CMIP7",
+                "parent_time_units": "days since 1850-01-01",
+                "parent_source_id": "PCMDI-test-1-0",
+                "parent_experiment_id": "piControl",
+                "parent_activity_id": "CMIP",
+                "parent_variant_label": "r1i1p1f3",
+            },
+        )
+        filename = self._write_tos_file()
 
         ds = Dataset(filename)
         attrs = ds.ncattrs()
@@ -121,6 +144,28 @@ class TestCMIP7WithParentAttributes(unittest.TestCase):
             self.assertEqual(value, ds.getncattr(attr))
 
         ds.close()
+
+    def test_cmip7_warns_on_parent_activity_without_parent_experiment(self):
+        self._load_dataset(
+            overrides={
+                "parent_activity_id": "CMIP",
+            },
+        )
+        filename = self._write_tos_file()
+
+        with Dataset(filename) as ds:
+            self.assertNotIn("parent_activity_id", ds.ncattrs())
+
+        self.assertCV(
+            'but your dataset has a "parent_activity_id" defined',
+            'Warning: Your experiment does not have a "parent_experiment_id" defined',
+            number_of_lines_to_scan=8,
+        )
+        self.assertCV(
+            'The "parent_activity_id" will be removed from your dataset.',
+            'Warning: Your experiment does not have a "parent_experiment_id" defined',
+            number_of_lines_to_scan=8,
+        )
 
 
 if __name__ == '__main__':

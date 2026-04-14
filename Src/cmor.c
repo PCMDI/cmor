@@ -1773,6 +1773,37 @@ int cmor_set_cur_dataset_attribute_internal(char *name, char *value,
 }
 
 /************************************************************************/
+/*                 cmor_remove_cur_dataset_attribute()                  */
+/************************************************************************/
+int cmor_remove_cur_dataset_attribute(char *name)
+{
+    int i, j;
+    extern cmor_dataset_def cmor_current_dataset;
+
+    cmor_add_traceback("cmor_remove_cur_dataset_attribute");
+    cmor_is_setup();
+
+    for (i = 0; i < cmor_current_dataset.nattributes; i++) {
+        if (strcmp(name, cmor_current_dataset.attributes[i].names) == 0) {
+            for (j = i; j < cmor_current_dataset.nattributes - 1; j++) {
+                cmor_current_dataset.attributes[j] =
+                  cmor_current_dataset.attributes[j + 1];
+            }
+            cmor_current_dataset.nattributes -= 1;
+            cmor_current_dataset.attributes[cmor_current_dataset.nattributes].
+              names[0] = '\0';
+            cmor_current_dataset.attributes[cmor_current_dataset.nattributes].
+              values[0] = '\0';
+            cmor_pop_traceback();
+            return (0);
+        }
+    }
+
+    cmor_pop_traceback();
+    return (1);
+}
+
+/************************************************************************/
 /*                   cmor_get_cur_dataset_attribute()                   */
 /************************************************************************/
 int cmor_get_cur_dataset_attribute(char *name, char *value)

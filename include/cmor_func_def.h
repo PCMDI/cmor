@@ -49,6 +49,7 @@ extern int cmor_set_cur_dataset_attribute( char *name, char *value,
 					   int optional );
 extern int cmor_set_cur_dataset_attribute_internal( char *name, char *value,
                                            int optional );
+extern int cmor_remove_cur_dataset_attribute( char *name );
 
 extern int cmor_get_cur_dataset_attribute( char *name, char *value );
 extern int cmor_has_cur_dataset_attribute( char *name );

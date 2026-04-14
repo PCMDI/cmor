@@ -1082,14 +1082,17 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
                 for (int i = 0; i < 7; i++) {
                     if (cmor_has_cur_dataset_attribute(parent_attrs[i]) == 0) {
                         cmor_handle_error_variadic(
-                            "Your dataset does not have a \"%s\" defined "
-                            "but has a \"%s\" defined.\n!\n! "
+                            "Your experiment does not have a \"%s\" defined "
+                            "but your dataset has a \"%s\" defined.\n!\n! "
                             "For CIMP7 compliance, experiments without a \"%s\" "
-                            "must not have other parent attributes defined.\n! ",
+                            "must not have other parent attributes defined.\n! "
+                            "The \"%s\" will be removed from your dataset.\n! ",
                             CMOR_WARNING,
                             GLOBAL_ATT_PARENT_EXPT_ID,
                             parent_attrs[i],
-                            GLOBAL_ATT_PARENT_EXPT_ID);
+                            GLOBAL_ATT_PARENT_EXPT_ID,
+                            parent_attrs[i]);
+                        cmor_remove_cur_dataset_attribute(parent_attrs[i]);
                     }
                 }
                 cmor_pop_traceback();
