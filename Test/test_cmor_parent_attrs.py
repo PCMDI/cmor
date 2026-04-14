@@ -168,24 +168,24 @@ class TestCMIP7WithParentAttributes(BaseCVsTest):
 
         ds.close()
 
-    def test_cmip7_warns_on_parent_activity_without_parent_experiment(self):
+    def test_cmip7_warns_on_branch_time_in_child_without_parent_experiment(self):
         self._load_dataset(
             overrides={
-                "parent_activity_id": "CMIP",
+                "branch_time_in_child": 30.0,
             },
         )
         filename = self._write_tos_file()
 
         with Dataset(filename) as ds:
-            self.assertNotIn("parent_activity_id", ds.ncattrs())
+            self.assertNotIn("branch_time_in_child", ds.ncattrs())
 
         self.assertCV(
-            'but your dataset has a "parent_activity_id" defined',
+            'but your dataset has a "branch_time_in_child" defined',
             'Warning: Your experiment does not have a "parent_experiment_id" defined',
             number_of_lines_to_scan=8,
         )
         self.assertCV(
-            'The "parent_activity_id" will be removed from your dataset.',
+            'The "branch_time_in_child" will be removed from your dataset.',
             'Warning: Your experiment does not have a "parent_experiment_id" defined',
             number_of_lines_to_scan=8,
         )
@@ -240,6 +240,74 @@ class TestCMIP7WithParentAttributes(BaseCVsTest):
             'for your experiment "historical"',
             'Error:',
             number_of_lines_to_scan=6,
+        )
+
+    def test_cmip7_errors_on_parent_experiment_not_in_cv(self):
+        self._load_dataset(
+            overrides={
+                "branch_time_in_child": 30.0,
+                "branch_time_in_parent": 10800.0,
+                "experiment_id": "historical",
+                "parent_mip_era": "CMIP7",
+                "parent_time_units": "days since 1850-01-01",
+                "parent_source_id": "PCMDI-test-1-0",
+                "parent_experiment_id": "badParent",
+                "parent_activity_id": "CMIP",
+                "parent_variant_label": "r1i1p1f3",
+            },
+        )
+
+        with self.assertRaises(cmor.CMORError):
+            self._write_tos_file()
+
+        try:
+            cmor.close()
+        except BaseException:
+            pass
+
+        self.assertCV(
+            'Your input attribute "parent_experiment_id" with value',
+            'Error:',
+            number_of_lines_to_scan=8,
+        )
+        self.assertCV(
+            '"badParent" needs to be replaced with value "piControl"',
+            'Error:',
+            number_of_lines_to_scan=8,
+        )
+
+    def test_cmip7_errors_on_incorrect_parent_activity_id(self):
+        self._load_dataset(
+            overrides={
+                "branch_time_in_child": 30.0,
+                "branch_time_in_parent": 10800.0,
+                "experiment_id": "historical",
+                "parent_mip_era": "CMIP7",
+                "parent_time_units": "days since 1850-01-01",
+                "parent_source_id": "PCMDI-test-1-0",
+                "parent_experiment_id": "piControl",
+                "parent_activity_id": "BadMIP",
+                "parent_variant_label": "r1i1p1f3",
+            },
+        )
+
+        with self.assertRaises(cmor.CMORError):
+            self._write_tos_file()
+
+        try:
+            cmor.close()
+        except BaseException:
+            pass
+
+        self.assertCV(
+            'Your input attribute "parent_activity_id" with value',
+            'Error:',
+            number_of_lines_to_scan=8,
+        )
+        self.assertCV(
+            '"BadMIP" needs to be replaced with value "CMIP"',
+            'Error:',
+            number_of_lines_to_scan=8,
         )
 
 
