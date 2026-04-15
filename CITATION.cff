@@ -67,7 +67,7 @@ authors:
   orcid: "https://orcid.org/0000-0002-4040-0215"
   affiliation: "German Climate Computing Centre (DKRZ)"
 title: "The Climate Model Output Rewriter (CMOR)"
-version: 3.14.1
+version: 3.14.2
 doi: 10.5281/zenodo.592733 
-date-released: 2026-03-18
+date-released: 2026-04-15
 url: "https://github.com/PCMDI/cmor"
