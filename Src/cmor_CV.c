@@ -1840,7 +1840,7 @@ int cmor_CV_setInstitution(cmor_CV_def_t * CV)
                  "For additional guidance, contact \"pcmdi-cmip@llnl.gov\".  \n! \n! "
                  "See \"http://cmor.llnl.gov/mydoc_cmor3_CV/\" for further information about\n! "
                  "the \"institution_id\" and \"institution\" global attributes.  ", 
-                 CMOR_NORMAL, szSource_ID, CMOR_Filename, CV_Filename, CV_Filename);
+                 CMOR_NORMAL, szInstitution_ID, CMOR_Filename, CV_Filename, CV_Filename);
         cmor_pop_traceback();
         return (-1);
     }
