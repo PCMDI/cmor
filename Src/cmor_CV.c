@@ -722,8 +722,8 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
                  "Please correct your input file by using a valid source_id listed in your MIP tables' CV file.\n! "
                  "To add a new source_id to the %s file, open an issue with WCRP-CMIP/CMIP7-CVs at\n! "
                  "https://github.com/WCRP-CMIP/CMIP7-CVs/issues/new?template=source.yml. \n! " 
-                 "For more information, please see the the CMIP7 CV registration guide at\n!"
-                 "https://wcrp-cmip.github.io/cmip7-guidance/docs/CMIP7/cv_registration/. \n!"
+                 "For more information, please see the the CMIP7 CV registration guide at\n! "
+                 "https://wcrp-cmip.github.io/cmip7-guidance/docs/CMIP7/cv_registration/. \n! "
                  "For additional guidance, contact \"pcmdi-cmip@llnl.gov\".  \n! \n! "
                  "See \"http://cmor.llnl.gov/mydoc_cmor3_CV/\" for further information about\n! "
                  "the \"source_id\" and \"source\" global attributes.  ", 
