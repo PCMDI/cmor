@@ -49,6 +49,7 @@ extern int cmor_set_cur_dataset_attribute( char *name, char *value,
 					   int optional );
 extern int cmor_set_cur_dataset_attribute_internal( char *name, char *value,
                                            int optional );
+extern int cmor_remove_cur_dataset_attribute( char *name );
 
 extern int cmor_get_cur_dataset_attribute( char *name, char *value );
 extern int cmor_has_cur_dataset_attribute( char *name );
@@ -128,7 +129,7 @@ extern int cmor_CV_checkFilename(cmor_CV_def_t *CV, int var_id,
         char *szInTimeCalendar,
         char *szInTimeUnits,
         char *infile);
-extern int cmor_CV_checkParentExpID(cmor_CV_def_t *CV, int check_branch_method);
+extern int cmor_CV_checkParentExpID(cmor_CV_def_t *CV);
 extern int cmor_CV_checkSubExpID(cmor_CV_def_t *CV);
 extern int cmor_CV_checkExperiment( cmor_CV_def_t *CV);
 extern int cmor_CV_checkSourceID(cmor_CV_def_t *CV);
