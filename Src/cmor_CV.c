@@ -717,14 +717,14 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
     if (i == CV_source_ids->nbObjects) {
 
         cmor_handle_error_variadic(
-                 "The source_id, \"%s\", found in your \n! "
-                 "input file (%s) could not be found in \n! "
+                 "The source_id, \"%s\", found in your input file (%s) could not be found in \n! "
                  "your Controlled Vocabulary file. (%s) \n! \n! "
                  "Please correct your input file by using a valid source_id listed in your MIP tables' CV file.\n! "
-                 "To add a new source_id to the %s file, open a new issue in the\n! "
-                 "table's Github repository. Managed project CMOR and MIP tables are listed at\n! "
-                 "https://wcrp-cmip.github.io/WGCM_Infrastructure_Panel/cmor_and_mip_tables.html. \n! "
-                 "Contact \"pcmdi-cmip@llnl.gov\" for additional guidance.  \n! \n! "
+                 "To add a new source_id to the %s file, open an issue with WCRP-CMIP/CMIP7-CVs at\n! "
+                 "https://github.com/WCRP-CMIP/CMIP7-CVs/issues/new?template=source.yml. \n! " 
+                 "For more information, please see the the CMIP7 CV registration guide at\n! "
+                 "https://wcrp-cmip.github.io/cmip7-guidance/docs/CMIP7/cv_registration/. \n! "
+                 "For additional guidance, contact \"pcmdi-cmip@llnl.gov\".  \n! \n! "
                  "See \"http://cmor.llnl.gov/mydoc_cmor3_CV/\" for further information about\n! "
                  "the \"source_id\" and \"source\" global attributes.  ", 
                  CMOR_NORMAL, szSource_ID, CMOR_Filename, CV_Filename, CV_Filename);
@@ -998,7 +998,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
 /************************************************************************/
 /*                    cmor_CV_checkParentExpID()                        */
 /************************************************************************/
-int cmor_CV_checkParentExpID(cmor_CV_def_t * CV, int check_branch_method)
+int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
 {
     cmor_CV_def_t *CV_experiment_ids;
     cmor_CV_def_t *CV_experiment;
@@ -1059,10 +1059,56 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV, int check_branch_method)
         cmor_pop_traceback();
         return (-1);
     }
+
+    CV_parent_exp_id = cmor_CV_search_child_key(CV_experiment, PARENT_EXPERIMENT_ID);
+
     // Do we have a parent_experiment_id?
     if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_PARENT_EXPT_ID) != 0) {
-        CV_parent_exp_id = cmor_CV_search_child_key(CV_experiment,
-                                                    PARENT_EXPERIMENT_ID);
+
+        // For CMIP7 compliance, experiments that don't have a parent experiment
+        // must not have parent attributes in their datasets
+        if (cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP7) == 0) {
+            if (CV_parent_exp_id->anElements == 0) {
+                // Check that other parent attributes are not set
+                char *parent_attrs[] = {
+                    PARENT_ACTIVITY_ID,
+                    PARENT_MIP_ERA,
+                    PARENT_SOURCE_ID,
+                    PARENT_TIME_UNITS,
+                    PARENT_VARIANT_LABEL,
+                    BRANCH_TIME_IN_CHILD,
+                    BRANCH_TIME_IN_PARENT
+                };
+                for (int i = 0; i < 7; i++) {
+                    if (cmor_has_cur_dataset_attribute(parent_attrs[i]) == 0) {
+                        cmor_handle_error_variadic(
+                            "Your experiment does not have a \"%s\" defined "
+                            "but your dataset has a \"%s\" defined.\n!\n! "
+                            "For CIMP7 compliance, experiments without a \"%s\" "
+                            "must not have other parent attributes defined.\n! "
+                            "The \"%s\" will be removed from your dataset.\n! ",
+                            CMOR_WARNING,
+                            GLOBAL_ATT_PARENT_EXPT_ID,
+                            parent_attrs[i],
+                            GLOBAL_ATT_PARENT_EXPT_ID,
+                            parent_attrs[i]);
+                        cmor_remove_cur_dataset_attribute(parent_attrs[i]);
+                    }
+                }
+                cmor_pop_traceback();
+                return 0;
+            } else {
+                cmor_handle_error_variadic(
+                        "Your input attribute \"%s\" is not defined properly \n! "
+                        "for your experiment \"%s\"\n!\n! "
+                        "See Controlled Vocabulary JSON file.(%s)\n! ",
+                        CMOR_NORMAL, GLOBAL_ATT_PARENT_EXPT_ID, CV_experiment->key,
+                        CV_Filename);
+                cmor_pop_traceback();
+                return (-1);
+            }
+        }
+        
         if (CV_IsStringInArray(CV_parent_exp_id, NO_PARENT)) {
             cmor_handle_error_variadic(
                     "Your input attribute \"%s\" defined as \"\" "
@@ -1082,10 +1128,25 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV, int check_branch_method)
             return (-1);
         }
     }
+
     // The provider defined a parent experiment.
     if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_PARENT_EXPT_ID) == 0) {
         cmor_get_cur_dataset_attribute(GLOBAL_ATT_PARENT_EXPT_ID,
                                        szParentExpValue);
+        // Catches parent experiments that were defined by the user when there
+        // are none defined for the experiment.
+        if (cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP7) == 0) {
+            if (CV_parent_exp_id->anElements == 0) {
+                cmor_handle_error_variadic(
+                    "Your experiment \"%s\" does not have parent experiments. \n! "
+                    "For CIMP7 compliance, experiments that do not list parent experiments \n! "
+                    "should not define \"%s\" in their datasets.\n! ",
+                    CMOR_NORMAL, CV_experiment->key, GLOBAL_ATT_PARENT_EXPT_ID);
+                cmor_pop_traceback();
+                return (-1);
+            }
+        }
+
         // "no parent" case
         if (strcmp(szParentExpValue, NO_PARENT) == 0) {
             CV_CompareNoParent(PARENT_ACTIVITY_ID);
@@ -1093,7 +1154,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV, int check_branch_method)
             CV_CompareNoParent(PARENT_SOURCE_ID);
             CV_CompareNoParent(PARENT_TIME_UNITS);
             CV_CompareNoParent(PARENT_VARIANT_LABEL);
-            if (check_branch_method != 0) {
+            if (cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP7) != 0) {
                 CV_CompareNoParent(BRANCH_METHOD);
             }
             // Do we have branch_time_in_child?
@@ -1160,8 +1221,8 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV, int check_branch_method)
                 }
             }
             // branch method
-            if (check_branch_method != 0) {
-                    if (cmor_has_cur_dataset_attribute(BRANCH_METHOD) != 0) {
+            if (cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP7) != 0) {
+                if (cmor_has_cur_dataset_attribute(BRANCH_METHOD) != 0) {
                     cmor_handle_error_variadic(
                             "Your input attribute \"%s\" is not defined \n! "
                             "properly for %s \n! "
@@ -1169,7 +1230,6 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV, int check_branch_method)
                             "in CMIP6 documentations.\n! ",
                             CMOR_NORMAL, BRANCH_METHOD, szExperiment_ID);
                     ierr = -1;
-
                 } else {
                     cmor_get_cur_dataset_attribute(BRANCH_METHOD, szBranchMethod);
                     if (strlen(szBranchMethod) == 0) {
@@ -1830,16 +1890,16 @@ int cmor_CV_setInstitution(cmor_CV_def_t * CV)
 
     if (CV_institution == NULL) {
         cmor_handle_error_variadic(
-                 "The institution_id, \"%s\", found in your \n! "
-                 "input file (%s) could not be found in \n! "
+                 "The institution_id, \"%s\", found in your input file (%s) could not be found in \n! "
                  "your Controlled Vocabulary file. (%s) \n! \n! "
                  "Please correct your input file by using a valid institution_id listed in your MIP tables' CV file.\n! "
-                 "To add a new institution_id to the %s file, open a new issue in the\n! "
-                 "table's Github repository. Managed project CMOR and MIP tables are listed at\n! "
-                 "https://wcrp-cmip.github.io/WGCM_Infrastructure_Panel/cmor_and_mip_tables.html. \n! "
-                 "Contact \"pcmdi-cmip@llnl.gov\" for additional guidance.  \n! \n! "
+                 "To add a new institution_id to the %s file, open an issue with WCRP-CMIP/WCRP-constants at\n! "
+                 "https://github.com/WCRP-CMIP/WCRP-constants/issues/new?template=organisation.yml. \n! " 
+                 "For more information, please see the the CMIP7 CV registration guide at\n! "
+                 "https://wcrp-cmip.github.io/cmip7-guidance/docs/CMIP7/cv_registration/. \n! "
+                 "For additional guidance, contact \"pcmdi-cmip@llnl.gov\".  \n! \n! "
                  "See \"http://cmor.llnl.gov/mydoc_cmor3_CV/\" for further information about\n! "
-                 "the \"institution_id\" and \"institution\" global attributes.  ",
+                 "the \"institution_id\" and \"institution\" global attributes.  ", 
                  CMOR_NORMAL, szInstitution_ID, CMOR_Filename, CV_Filename, CV_Filename);
         cmor_pop_traceback();
         return (-1);
