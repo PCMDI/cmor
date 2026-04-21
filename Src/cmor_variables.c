@@ -1168,8 +1168,6 @@ int cmor_variable(int *var_id, char *name, char *units, int ndims,
         }
     }
 
-    cmor_vars[vrid].suffix_has_date = 0;
-
 /* -------------------------------------------------------------------- */
 /*      output missing value                                            */
 /* -------------------------------------------------------------------- */
