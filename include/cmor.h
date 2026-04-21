@@ -566,7 +566,6 @@ typedef struct cmor_var_ {
     char base_path[CMOR_MAX_STRING];
     char current_path[CMOR_MAX_STRING];
     char suffix[CMOR_MAX_STRING];
-    int suffix_has_date;
     char frequency[CMOR_MAX_STRING];
     char branded_variable[CMOR_MAX_STRING];
     char branding_suffix[CMOR_MAX_STRING];
