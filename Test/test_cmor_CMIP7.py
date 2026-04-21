@@ -197,6 +197,31 @@ class TestCMIP7(unittest.TestCase):
 
         ds.close()
 
+    def test_climatology(self):
+        data = numpy.array([27, 28])
+        time = numpy.array([15, 45])
+        time_bnds = numpy.array([[0, 31], [31, 60]])
+        cmor.load_table("CMIP7_atmos.json")
+        cmortime = cmor.axis("time2",
+                             coord_vals=time,
+                             cell_bounds=time_bnds,
+                             units="days since 2018")
+        cmorco2 = cmor.variable("co2_tclm-u-hm-u", "mol mol-1", [cmortime])
+        self.assertEqual(cmor.write(cmorco2, data), 0)
+        filename = cmor.close(cmorco2, file_name=True)
+        self.assertEqual(cmor.close(), 0)
+
+        basename = Path(filename).name
+        self.assertTrue(basename.endswith("_201801-201802.nc"))
+
+        ds = Dataset(filename)
+        self.assertEqual("mon", ds.getncattr("frequency"))
+        time_var = ds.variables["time"]
+        self.assertEqual("climatology_bnds", time_var.getncattr("climatology"))
+        self.assertEqual("Monthly Climatology", time_var.getncattr("long_name"))
+
+        ds.close()
+
 
 if __name__ == '__main__':
     unittest.main()
