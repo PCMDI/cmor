@@ -6599,12 +6599,15 @@ int cmor_build_outname(int var_id, char *outname ) {
     int i,j;
     int n;
 
+    const int time_axis_id = cmor_vars[var_id].axes_ids[0];
+    const cmor_axis_t *time_axis = &cmor_axes[time_axis_id];
+    const cmor_axis_def_t *time_axis_def = 
+            &cmor_tables[time_axis->ref_table_id].axes[time_axis->ref_axis_id];
+
     /* -------------------------------------------------------------------- */
     /*      ok at that point we need to construct the final name!           */
     /* -------------------------------------------------------------------- */
-    if (cmor_tables[cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_table_id].
-            axes[cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_axis_id].axis
-            == 'T') {
+    if (time_axis_def->axis == 'T') {
         cmor_get_axis_attribute(cmor_vars[var_id].axes_ids[0], "units", 'c',
                 &msg);
         cmor_get_cur_dataset_attribute("calendar", msg2);
@@ -6669,7 +6672,10 @@ int cmor_build_outname(int var_id, char *outname ) {
 
         strncpy(frequency, cmor_vars[var_id].frequency, CMOR_MAX_STRING);
 
-        if (strstr(frequency, "yr") != NULL) {
+        if (time_axis_def->climatology == 1 
+            && cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP7) == 0) {
+            frequency_code = 6;
+        } else if (strstr(frequency, "yr") != NULL) {
             frequency_code = 1;
         } else if (strstr(frequency, "dec") != NULL) {
             frequency_code = 1;
@@ -6778,10 +6784,6 @@ int cmor_build_outname(int var_id, char *outname ) {
         strncat(outname, "-", CMOR_MAX_STRING - strlen(outname));
         strncat(outname, end_string, CMOR_MAX_STRING - strlen(outname));
 
-        const int time_axis_id = cmor_vars[var_id].axes_ids[0];
-        const cmor_axis_t *time_axis = &cmor_axes[time_axis_id];
-        const cmor_axis_def_t *time_axis_def = 
-            &cmor_tables[time_axis->ref_table_id].axes[time_axis->ref_axis_id];
         if (time_axis_def->climatology == 1 
             && cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP7) != 0) {
             strncat(outname, "-clim", CMOR_MAX_STRING - strlen(outname));
