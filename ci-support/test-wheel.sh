@@ -2,12 +2,86 @@
 
 set -euo pipefail
 
-ROOT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
-WHEEL_DIR=${WHEEL_DIR:-"${ROOT_DIR}/wheelhouse"}
-TEST_VENV_DIR=${TEST_VENV_DIR:-"${ROOT_DIR}/build/wheel-test-venv"}
+SOURCE_ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+WHEEL_DIR=${WHEEL_DIR:-"${SOURCE_ROOT}/wheelhouse"}
+TEST_ROOT_DIR=${TEST_ROOT_DIR:-}
+TEST_VENV_DIR=${TEST_VENV_DIR:-}
+WHEEL_TEST_ISOLATE=${WHEEL_TEST_ISOLATE:-1}
+KEEP_TEST_ROOT_ON_FAILURE=${KEEP_TEST_ROOT_ON_FAILURE:-1}
 PYTHON_BIN=${PYTHON_BIN:-python}
+ROOT_DIR=""
+CURRENT_TEST_NAME=""
+TEST_ROOT_IS_TEMP=0
+
+cleanup_test_root() {
+    local status=$?
+
+    set +e
+
+    if [ "${status}" -ne 0 ] && [ -n "${CURRENT_TEST_NAME}" ]; then
+        echo "Last wheel test: ${CURRENT_TEST_NAME}" >&2
+    fi
+
+    if [ "${status}" -ne 0 ]; then
+        echo "Wheel test workspace: ${ROOT_DIR}" >&2
+    fi
+
+    if [ "${TEST_ROOT_IS_TEMP}" = "1" ]; then
+        if [ "${status}" -eq 0 ] || [ "${KEEP_TEST_ROOT_ON_FAILURE}" != "1" ]; then
+            rm -rf "${ROOT_DIR}"
+        fi
+    fi
+}
+
+trap cleanup_test_root EXIT
+
+prepare_test_root() {
+    local untracked_path
+
+    if [ "${WHEEL_TEST_ISOLATE}" != "1" ]; then
+        ROOT_DIR="${SOURCE_ROOT}"
+        return
+    fi
+
+    if [ -z "${TEST_ROOT_DIR}" ]; then
+        TEST_ROOT_DIR=$(mktemp -d "${TMPDIR:-/tmp}/cmor-wheel-test.XXXXXX")
+        TEST_ROOT_IS_TEMP=1
+    fi
+
+    mkdir -p "${TEST_ROOT_DIR}"
+    rm -rf \
+        "${TEST_ROOT_DIR}/Test" \
+        "${TEST_ROOT_DIR}/TestTables" \
+        "${TEST_ROOT_DIR}/Tables" \
+        "${TEST_ROOT_DIR}/cmip6-cmor-tables" \
+        "${TEST_ROOT_DIR}/cmip7-cmor-tables" \
+        "${TEST_ROOT_DIR}/mip-cmor-tables"
+    cp -a "${SOURCE_ROOT}/Test" "${TEST_ROOT_DIR}/"
+    cp -a "${SOURCE_ROOT}/TestTables" "${TEST_ROOT_DIR}/"
+    cp -a "${SOURCE_ROOT}/cmip6-cmor-tables" "${TEST_ROOT_DIR}/"
+    cp -a "${SOURCE_ROOT}/cmip7-cmor-tables" "${TEST_ROOT_DIR}/"
+    cp -a "${SOURCE_ROOT}/mip-cmor-tables" "${TEST_ROOT_DIR}/"
+    ln -sfn "cmip6-cmor-tables/Tables" "${TEST_ROOT_DIR}/Tables"
+
+    if command -v git >/dev/null 2>&1; then
+        while IFS= read -r untracked_path; do
+            rm -rf "${TEST_ROOT_DIR}/${untracked_path}"
+        done < <(git -C "${SOURCE_ROOT}" ls-files --others --exclude-standard -- Test TestTables)
+    fi
+
+    ROOT_DIR="${TEST_ROOT_DIR}"
+}
+
+prepare_test_root
 
 cd "${ROOT_DIR}"
+
+if [ -z "${TEST_VENV_DIR}" ]; then
+    TEST_VENV_DIR="${ROOT_DIR}/build/wheel-test-venv"
+fi
+
+export PYTHONFAULTHANDLER=1
+ulimit -c unlimited >/dev/null 2>&1 || true
 
 if [ "${CMOR_WHEEL_ALREADY_INSTALLED:-0}" != "1" ]; then
     rm -rf "${TEST_VENV_DIR}"
@@ -130,6 +204,7 @@ wheel_python_tests=(
     "Test/test_cmor_license_attributes.py"
     "Test/test_cmor_nested_cv_attribute.py"
     "Test/test_cmor_path_and_file_templates.py"
+    "Test/test_cmor_parent_attrs.py"
     "Test/test_cmor_check_cv_structure.py"
     "Test/test_cmor_time_value_and_bounds_mismatch.py"
     "Test/test_cmor_chunking.py"
@@ -176,6 +251,9 @@ wheel_python_tests=(
 )
 
 for test_name in "${wheel_python_tests[@]}"; do
+    CURRENT_TEST_NAME="${test_name}"
     echo "Running ${test_name}"
     CMOR_REPO_ROOT="${ROOT_DIR}" python "${ROOT_DIR}/${test_name}"
 done
+
+CURRENT_TEST_NAME=""
