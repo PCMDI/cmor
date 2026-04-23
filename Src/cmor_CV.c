@@ -717,14 +717,14 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
     if (i == CV_source_ids->nbObjects) {
 
         cmor_handle_error_variadic(
-                 "The source_id, \"%s\", found in your \n! "
-                 "input file (%s) could not be found in \n! "
+                 "The source_id, \"%s\", found in your input file (%s) could not be found in \n! "
                  "your Controlled Vocabulary file. (%s) \n! \n! "
                  "Please correct your input file by using a valid source_id listed in your MIP tables' CV file.\n! "
-                 "To add a new source_id to the %s file, open a new issue in the\n! "
-                 "table's Github repository. Managed project CMOR and MIP tables are listed at\n! "
-                 "https://wcrp-cmip.github.io/WGCM_Infrastructure_Panel/cmor_and_mip_tables.html. \n! "
-                 "Contact \"pcmdi-cmip@llnl.gov\" for additional guidance.  \n! \n! "
+                 "To add a new source_id to the %s file, open an issue with WCRP-CMIP/CMIP7-CVs at\n! "
+                 "https://github.com/WCRP-CMIP/CMIP7-CVs/issues/new?template=source.yml. \n! " 
+                 "For more information, please see the the CMIP7 CV registration guide at\n! "
+                 "https://wcrp-cmip.github.io/cmip7-guidance/docs/CMIP7/cv_registration/. \n! "
+                 "For additional guidance, contact \"pcmdi-cmip@llnl.gov\".  \n! \n! "
                  "See \"http://cmor.llnl.gov/mydoc_cmor3_CV/\" for further information about\n! "
                  "the \"source_id\" and \"source\" global attributes.  ", 
                  CMOR_NORMAL, szSource_ID, CMOR_Filename, CV_Filename, CV_Filename);
@@ -998,7 +998,7 @@ int cmor_CV_checkSubExpID(cmor_CV_def_t * CV)
 /************************************************************************/
 /*                    cmor_CV_checkParentExpID()                        */
 /************************************************************************/
-int cmor_CV_checkParentExpID(cmor_CV_def_t * CV, int check_branch_method)
+int cmor_CV_checkParentExpID(cmor_CV_def_t * CV)
 {
     cmor_CV_def_t *CV_experiment_ids;
     cmor_CV_def_t *CV_experiment;
@@ -1059,10 +1059,56 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV, int check_branch_method)
         cmor_pop_traceback();
         return (-1);
     }
+
+    CV_parent_exp_id = cmor_CV_search_child_key(CV_experiment, PARENT_EXPERIMENT_ID);
+
     // Do we have a parent_experiment_id?
     if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_PARENT_EXPT_ID) != 0) {
-        CV_parent_exp_id = cmor_CV_search_child_key(CV_experiment,
-                                                    PARENT_EXPERIMENT_ID);
+
+        // For CMIP7 compliance, experiments that don't have a parent experiment
+        // must not have parent attributes in their datasets
+        if (cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP7) == 0) {
+            if (CV_parent_exp_id->anElements == 0) {
+                // Check that other parent attributes are not set
+                char *parent_attrs[] = {
+                    PARENT_ACTIVITY_ID,
+                    PARENT_MIP_ERA,
+                    PARENT_SOURCE_ID,
+                    PARENT_TIME_UNITS,
+                    PARENT_VARIANT_LABEL,
+                    BRANCH_TIME_IN_CHILD,
+                    BRANCH_TIME_IN_PARENT
+                };
+                for (int i = 0; i < 7; i++) {
+                    if (cmor_has_cur_dataset_attribute(parent_attrs[i]) == 0) {
+                        cmor_handle_error_variadic(
+                            "Your experiment does not have a \"%s\" defined "
+                            "but your dataset has a \"%s\" defined.\n!\n! "
+                            "For CIMP7 compliance, experiments without a \"%s\" "
+                            "must not have other parent attributes defined.\n! "
+                            "The \"%s\" will be removed from your dataset.\n! ",
+                            CMOR_WARNING,
+                            GLOBAL_ATT_PARENT_EXPT_ID,
+                            parent_attrs[i],
+                            GLOBAL_ATT_PARENT_EXPT_ID,
+                            parent_attrs[i]);
+                        cmor_remove_cur_dataset_attribute(parent_attrs[i]);
+                    }
+                }
+                cmor_pop_traceback();
+                return 0;
+            } else {
+                cmor_handle_error_variadic(
+                        "Your input attribute \"%s\" is not defined properly \n! "
+                        "for your experiment \"%s\"\n!\n! "
+                        "See Controlled Vocabulary JSON file.(%s)\n! ",
+                        CMOR_NORMAL, GLOBAL_ATT_PARENT_EXPT_ID, CV_experiment->key,
+                        CV_Filename);
+                cmor_pop_traceback();
+                return (-1);
+            }
+        }
+        
         if (CV_IsStringInArray(CV_parent_exp_id, NO_PARENT)) {
             cmor_handle_error_variadic(
                     "Your input attribute \"%s\" defined as \"\" "
@@ -1082,10 +1128,25 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV, int check_branch_method)
             return (-1);
         }
     }
+
     // The provider defined a parent experiment.
     if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_PARENT_EXPT_ID) == 0) {
         cmor_get_cur_dataset_attribute(GLOBAL_ATT_PARENT_EXPT_ID,
                                        szParentExpValue);
+        // Catches parent experiments that were defined by the user when there
+        // are none defined for the experiment.
+        if (cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP7) == 0) {
+            if (CV_parent_exp_id->anElements == 0) {
+                cmor_handle_error_variadic(
+                    "Your experiment \"%s\" does not have parent experiments. \n! "
+                    "For CIMP7 compliance, experiments that do not list parent experiments \n! "
+                    "should not define \"%s\" in their datasets.\n! ",
+                    CMOR_NORMAL, CV_experiment->key, GLOBAL_ATT_PARENT_EXPT_ID);
+                cmor_pop_traceback();
+                return (-1);
+            }
+        }
+
         // "no parent" case
         if (strcmp(szParentExpValue, NO_PARENT) == 0) {
             CV_CompareNoParent(PARENT_ACTIVITY_ID);
@@ -1093,7 +1154,7 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV, int check_branch_method)
             CV_CompareNoParent(PARENT_SOURCE_ID);
             CV_CompareNoParent(PARENT_TIME_UNITS);
             CV_CompareNoParent(PARENT_VARIANT_LABEL);
-            if (check_branch_method != 0) {
+            if (cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP7) != 0) {
                 CV_CompareNoParent(BRANCH_METHOD);
             }
             // Do we have branch_time_in_child?
@@ -1160,8 +1221,8 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV, int check_branch_method)
                 }
             }
             // branch method
-            if (check_branch_method != 0) {
-                    if (cmor_has_cur_dataset_attribute(BRANCH_METHOD) != 0) {
+            if (cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP7) != 0) {
+                if (cmor_has_cur_dataset_attribute(BRANCH_METHOD) != 0) {
                     cmor_handle_error_variadic(
                             "Your input attribute \"%s\" is not defined \n! "
                             "properly for %s \n! "
@@ -1169,7 +1230,6 @@ int cmor_CV_checkParentExpID(cmor_CV_def_t * CV, int check_branch_method)
                             "in CMIP6 documentations.\n! ",
                             CMOR_NORMAL, BRANCH_METHOD, szExperiment_ID);
                     ierr = -1;
-
                 } else {
                     cmor_get_cur_dataset_attribute(BRANCH_METHOD, szBranchMethod);
                     if (strlen(szBranchMethod) == 0) {
@@ -1504,286 +1564,6 @@ int cmor_CV_checkExperiment(cmor_CV_def_t * CV)
 }
 
 /************************************************************************/
-/*                      cmor_CV_checkFilename()                         */
-/************************************************************************/
-int cmor_CV_checkFilename(cmor_CV_def_t * CV, int var_id,
-        char *szInTimeCalendar, char *szInTimeUnits, char *infile) {
-
-    cdCalenType icalo;
-    char outname[CMOR_MAX_STRING];
-    char CV_Filename[CMOR_MAX_STRING];
-    char szTmp[CMOR_MAX_STRING];
-    cdCompTime comptime;
-    int i, j, n;
-    int timeDim;
-    int refvarid;
-    cdCompTime starttime, endtime;
-    int axis_id;
-    refvarid = cmor_vars[var_id].ref_var_id;
-    outname[0] = '\0';
-    cmor_CreateFromTemplate(0, cmor_current_dataset.file_template,
-            outname, "_");
-    cmor_get_cur_dataset_attribute(CV_INPUTFILENAME, CV_Filename);
-    timeDim = -1;
-    for (i = 0; i < cmor_tables[0].vars[refvarid].ndims; i++) {
-        int dim = cmor_tables[0].vars[refvarid].dimensions[i];
-        if (cmor_tables[0].axes[dim].axis == 'T') {
-            timeDim = dim;
-            break;
-        }
-    }
-
-    if (timeDim != -1) {
-        cmor_set_cur_dataset_attribute(GLOBAL_ATT_CALENDAR, szInTimeCalendar,0);
-        cmor_vars[var_id].axes_ids[0] = timeDim;
-        cmor_axes[timeDim].ref_table_id = 0;
-        cmor_axes[timeDim].ref_axis_id = timeDim;
-        cmor_axis(&axis_id, cmor_tables[0].axes[timeDim].id,
-                szInTimeUnits, 1,
-                &cmor_tables[0].axes[timeDim].value,
-                cmor_tables[0].axes[timeDim].type,
-                cmor_tables[0].axes[timeDim].bounds_value, 0, "");
-
-        // retrieve calendar
-
-        if (cmor_calendar_c2i(szInTimeCalendar, &icalo) != 0) {
-            cmor_handle_error_var_variadic(
-                    "Cannot convert times for calendar: %s,\n! "
-                    "closing variable %s (table: %s)", 
-                    CMOR_CRITICAL, var_id, szInTimeCalendar, cmor_vars[var_id].id,
-                    cmor_tables[cmor_vars[var_id].ref_table_id].szTable_id);
-            cmor_pop_traceback();
-            return (-1);
-        }
-        //Compute timestamps
-
-        if ((cmor_tables[0].axes[timeDim].climatology == 1)
-                && (cmor_vars[0].first_bound != 1.e20)) {
-            cdRel2Comp(icalo, szInTimeUnits, cmor_vars[0].first_bound,
-                    &comptime);
-        } else {
-            cdRel2Comp(icalo, szInTimeUnits, cmor_vars[0].first_time,
-                    &comptime);
-        }
-        /* -------------------------------------------------------------------- */
-        /*      need to figure out the approximate interval                     */
-        /* -------------------------------------------------------------------- */
-
-        if (cmor_tables[0].axes[timeDim].climatology == 1) {
-            starttime.year = 0;
-            starttime.month = 0;
-            starttime.day = 0;
-            starttime.hour = 0.0;
-            endtime = starttime;
-            cdRel2Comp(icalo, szInTimeUnits, cmor_vars[var_id].first_bound, &starttime);
-            cdRel2Comp(icalo, szInTimeUnits, cmor_vars[var_id].last_bound, &endtime);
-        } else {
-            cdRel2Comp(icalo, szInTimeUnits, cmor_vars[var_id].first_time, &starttime);
-            cdRel2Comp(icalo, szInTimeUnits, cmor_vars[var_id].last_time, &endtime);
-        }
-
-        /* -------------------------------------------------------------------- */
-        /*      We want start and end times that are greater than               */
-        /*      x minutes 59.5 seconds to be set to x+1 minutes 0 seconds       */
-        /*      so add a half second so that when floats are converted to       */
-        /*       integers, this will round to nearest second (we know that      */
-        /*       the time coordinates are positive                              */
-        /*                                                                      */
-        /*    note that in the following, cdCompAdd expects the increment added */
-        /*      to be expressed in units of hours                               */
-        /* -------------------------------------------------------------------- */
-
-        if (icalo == cdMixed) {
-            cdCompAddMixed(starttime, 0.5 / 3600., &starttime);
-            cdCompAddMixed(endtime, 0.5 / 3600., &endtime);
-
-        } else {
-            cdCompAdd(starttime, 0.5 / 3600., icalo, &starttime);
-            cdCompAdd(endtime, 0.5 / 3600., icalo, &endtime);
-        }
-        /* -------------------------------------------------------------------- */
-        /*      need to figure out the frequency                                */
-        /* -------------------------------------------------------------------- */
-        int frequency_code;
-        char frequency[CMOR_MAX_STRING];
-        char start_string[CMOR_MAX_STRING];
-        char end_string[CMOR_MAX_STRING];
-        int start_seconds, end_seconds, start_minutes, end_minutes;
-
-        if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY) == 0) {
-            cmor_get_cur_dataset_attribute(GLOBAL_ATT_FREQUENCY, frequency);
-        }
-
-        if (strstr(frequency, "yr") != NULL) {
-            frequency_code = 1;
-        } else if (strstr(frequency, "dec") != NULL) {
-            frequency_code = 1;
-        } else if (strstr(frequency, "monC") != NULL) {
-            frequency_code = 6;
-        } else if (strstr(frequency, "mon") != NULL) {
-            frequency_code = 2;
-        } else if (strstr(frequency, "day") != NULL) {
-            frequency_code = 3;
-        } else if (strstr(frequency, "subhr") != NULL) {
-            frequency_code = 5;
-        } else if (strstr(frequency, "hr") != NULL) {
-            frequency_code = 4;
-        } else if (strstr(frequency, "fx") != NULL) {
-            frequency_code = 99;
-        } else {
-            frequency_code = 0;
-        }
-
-        switch (frequency_code) {
-        case 1:
-            /* frequency is yr, decadal */
-            snprintf(start_string, CMOR_MAX_STRING, "%.4ld", starttime.year);
-            snprintf(end_string, CMOR_MAX_STRING, "%.4ld", endtime.year);
-            break;
-        case 2:
-            /* frequency is mon */
-            snprintf(start_string, CMOR_MAX_STRING, "%.4ld%.2i", starttime.year,
-                    starttime.month);
-            snprintf(end_string, CMOR_MAX_STRING, "%.4ld%.2i", endtime.year,
-                    endtime.month);
-            break;
-        case 3:
-            /* frequency is day */
-            snprintf(start_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i",
-                    starttime.year, starttime.month, starttime.day);
-            snprintf(end_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i", endtime.year,
-                    endtime.month, endtime.day);
-            break;
-        case 4:
-            /* frequency is 6hr, 3hr, 1hr */
-            /* round to the nearest minute */
-            start_minutes = round((starttime.hour - (int) starttime.hour) * 60.);
-            end_minutes = round((endtime.hour - (int) endtime.hour) * 60.);
-            snprintf(start_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i%.2i%.2i",
-                    starttime.year, starttime.month, starttime.day,
-                    (int) starttime.hour, start_minutes);
-            snprintf(end_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i%.2i%.2i",
-                    endtime.year, endtime.month, endtime.day,
-                    (int) endtime.hour, end_minutes);
-            break;
-        case 5:
-            /* frequency is subhr */
-            /* round to the nearest second */
-            start_seconds = (int) ((starttime.hour - (int) starttime.hour)
-                    * 3600);
-            end_seconds = (int) ((endtime.hour - (int) endtime.hour) * 3600);
-            snprintf(start_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i%.2i%.2i%.2i",
-                    starttime.year, starttime.month, starttime.day,
-                    (int) starttime.hour, (int) (start_seconds / 60),
-                    (start_seconds % 60));
-            snprintf(end_string, CMOR_MAX_STRING, "%.4ld%.2i%.2i%.2i%.2i%.2i",
-                    endtime.year, endtime.month, endtime.day,
-                    (int) endtime.hour, (int) (end_seconds / 60),
-                    (end_seconds % 60));
-
-            break;
-        case 6:
-            // frequency is monC
-            // add/subtract 1 hour (this is overkill, but safe)
-            // to prevent truncation errors from possibly leading you to
-            // the wrong month
-            //
-            // note that cdCompAdd expects the increment added to be
-            //      expressed in units of hours
-
-            if (icalo == cdMixed) {
-                cdCompAddMixed(starttime, 1.0, &starttime);
-                cdCompAddMixed(endtime, -1.0, &endtime);
-            } else {
-                cdCompAdd(starttime, 1.0, icalo, &starttime);
-                cdCompAdd(endtime, -1.0, icalo, &endtime);
-            }
-            snprintf(start_string, CMOR_MAX_STRING, "%.4ld%.2i", starttime.year,
-                    starttime.month);
-            snprintf(end_string, CMOR_MAX_STRING, "%.4ld%.2i", endtime.year,
-                    endtime.month);
-            break;
-        case 99:
-            /* frequency is fx */
-            /* don't need to do anything, time string will ignored in next step */
-            break;
-        default:
-            cmor_handle_error_var_variadic(
-                    "Cannot find frequency %s. Closing variable %s (table: %s)",
-                    CMOR_CRITICAL, var_id, frequency, cmor_vars[var_id].id,
-                    cmor_tables[cmor_vars[var_id].ref_table_id].szTable_id);
-            cmor_pop_traceback();
-            return (-1);
-        }
-
-        strncat(outname, "_", CMOR_MAX_STRING - strlen(outname));
-        strncat(outname, start_string, CMOR_MAX_STRING - strlen(outname));
-        strncat(outname, "-", CMOR_MAX_STRING - strlen(outname));
-        strncat(outname, end_string, CMOR_MAX_STRING - strlen(outname));
-
-        if (cmor_tables[cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_table_id].
-                axes[cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_axis_id].
-                climatology == 1) {
-            strncat(outname, "-clim", CMOR_MAX_STRING - strlen(outname));
-        }
-
-        if (cmor_vars[0].suffix_has_date == 1) {
-            /* -------------------------------------------------------------------- */
-            /*      all right we need to pop out the date part....                  */
-            /* -------------------------------------------------------------------- */
-            n = strlen(cmor_vars[0].suffix);
-            i = 0;
-            while (cmor_vars[0].suffix[i] != '_')
-                i++;
-            i++;
-            while ((cmor_vars[0].suffix[i] != '_') && i < n)
-                i++;
-            /* -------------------------------------------------------------------- */
-            /*      ok now we have the length of dates                              */
-            /*      at this point we are either at the                              */
-            /*      _clim the actual _suffix or the end (==nosuffix)                */
-            /*      checking if _clim needs to be added                             */
-            /* -------------------------------------------------------------------- */
-            if (cmor_tables[0].axes[timeDim].climatology == 1) {
-                i += 5;
-            }
-            strcpy(szTmp, "");
-            for (j = i; j < n; j++) {
-                szTmp[j - i] = cmor_vars[var_id].suffix[i];
-                szTmp[j - i + 1] = '\0';
-            }
-        } else {
-            strncpy(szTmp, cmor_vars[0].suffix, CMOR_MAX_STRING);
-        }
-
-        if (strlen(szTmp) > 0) {
-            strncat(outname, "_", CMOR_MAX_STRING - strlen(outname));
-            strncat(outname, szTmp, CMOR_MAX_STRING - strlen(outname));
-        }
-    }
-    strncat(outname, ".nc", CMOR_MAX_STRING - strlen(outname));
-    if (strcmp(infile, outname) != 0) {
-        cmor_handle_error_var_variadic(
-                "Your filename \n! "
-                "\"%s\" \n! "
-                "does not match the CMIP6 requirement.\n! \n! "
-                "Your output filename should be: \n! "
-                "\"%s\"\n! \n! "
-                "and should follow this template: \n!"
-                "\"%s\"\n! \n! "
-                "See your Controlled Vocabulary file.(%s)\n! ", 
-                CMOR_NORMAL, var_id, infile, outname,
-                cmor_current_dataset.file_template, CV_Filename);
-
-        cmor_pop_traceback();
-        return (-1);
-    }
-    cmor_pop_traceback();
-    return (0);
-
-}
-
-/************************************************************************/
 /*                      cmor_CV_setInstitution()                        */
 /************************************************************************/
 int cmor_CV_setInstitution(cmor_CV_def_t * CV)
@@ -1830,16 +1610,16 @@ int cmor_CV_setInstitution(cmor_CV_def_t * CV)
 
     if (CV_institution == NULL) {
         cmor_handle_error_variadic(
-                 "The institution_id, \"%s\", found in your \n! "
-                 "input file (%s) could not be found in \n! "
+                 "The institution_id, \"%s\", found in your input file (%s) could not be found in \n! "
                  "your Controlled Vocabulary file. (%s) \n! \n! "
                  "Please correct your input file by using a valid institution_id listed in your MIP tables' CV file.\n! "
-                 "To add a new institution_id to the %s file, open a new issue in the\n! "
-                 "table's Github repository. Managed project CMOR and MIP tables are listed at\n! "
-                 "https://wcrp-cmip.github.io/WGCM_Infrastructure_Panel/cmor_and_mip_tables.html. \n! "
-                 "Contact \"pcmdi-cmip@llnl.gov\" for additional guidance.  \n! \n! "
+                 "To add a new institution_id to the %s file, open an issue with WCRP-CMIP/WCRP-constants at\n! "
+                 "https://github.com/WCRP-CMIP/WCRP-constants/issues/new?template=organisation.yml. \n! " 
+                 "For more information, please see the the CMIP7 CV registration guide at\n! "
+                 "https://wcrp-cmip.github.io/cmip7-guidance/docs/CMIP7/cv_registration/. \n! "
+                 "For additional guidance, contact \"pcmdi-cmip@llnl.gov\".  \n! \n! "
                  "See \"http://cmor.llnl.gov/mydoc_cmor3_CV/\" for further information about\n! "
-                 "the \"institution_id\" and \"institution\" global attributes.  ",
+                 "the \"institution_id\" and \"institution\" global attributes.  ", 
                  CMOR_NORMAL, szInstitution_ID, CMOR_Filename, CV_Filename, CV_Filename);
         cmor_pop_traceback();
         return (-1);
@@ -2713,7 +2493,6 @@ int cmor_CV_variable(int *var_id, char *name, char *units,
     strcpy(cmor_vars[vrid].suffix, "");
     strcpy(cmor_vars[vrid].base_path, "");
     strcpy(cmor_vars[vrid].current_path, "");
-    cmor_vars[vrid].suffix_has_date = 0;
 
 /* -------------------------------------------------------------------- */
 /*      output missing value                                            */

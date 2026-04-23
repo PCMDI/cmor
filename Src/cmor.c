@@ -908,7 +908,6 @@ void cmor_reset_variable(int var_id)
     cmor_vars[var_id].base_path[0] = '\0';
     cmor_vars[var_id].current_path[0] = '\0';
     cmor_vars[var_id].suffix[0] = '\0';
-    cmor_vars[var_id].suffix_has_date = 0;
     cmor_vars[var_id].frequency[0] = '\0';
 }
 
@@ -1787,6 +1786,37 @@ int cmor_set_cur_dataset_attribute_internal(char *name, char *value,
     }
     cmor_pop_traceback();
     return (0);
+}
+
+/************************************************************************/
+/*                 cmor_remove_cur_dataset_attribute()                  */
+/************************************************************************/
+int cmor_remove_cur_dataset_attribute(char *name)
+{
+    int i, j;
+    extern cmor_dataset_def cmor_current_dataset;
+
+    cmor_add_traceback("cmor_remove_cur_dataset_attribute");
+    cmor_is_setup();
+
+    for (i = 0; i < cmor_current_dataset.nattributes; i++) {
+        if (strcmp(name, cmor_current_dataset.attributes[i].names) == 0) {
+            for (j = i; j < cmor_current_dataset.nattributes - 1; j++) {
+                cmor_current_dataset.attributes[j] =
+                  cmor_current_dataset.attributes[j + 1];
+            }
+            cmor_current_dataset.nattributes -= 1;
+            cmor_current_dataset.attributes[cmor_current_dataset.nattributes].
+              names[0] = '\0';
+            cmor_current_dataset.attributes[cmor_current_dataset.nattributes].
+              values[0] = '\0';
+            cmor_pop_traceback();
+            return (0);
+        }
+    }
+
+    cmor_pop_traceback();
+    return (1);
 }
 
 /************************************************************************/
@@ -3361,13 +3391,13 @@ int cmor_setGblAttr(int var_id)
         ierr += cmor_CV_checkSourceID(cmor_tables[nVarRefTblID].CV);
         ierr += cmor_CV_checkExperiment(cmor_tables[nVarRefTblID].CV);
         ierr += cmor_CV_checkGrids(cmor_tables[nVarRefTblID].CV);
-        ierr += cmor_CV_checkParentExpID(cmor_tables[nVarRefTblID].CV, 1);
+        ierr += cmor_CV_checkParentExpID(cmor_tables[nVarRefTblID].CV);
         ierr += cmor_CV_checkSubExpID(cmor_tables[nVarRefTblID].CV);
     } else if (cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP7) == 0) {
         ierr += cmor_CV_checkSourceID(cmor_tables[nVarRefTblID].CV);
         ierr += cmor_CV_checkExperiment(cmor_tables[nVarRefTblID].CV);
         ierr += cmor_CV_checkGrids(cmor_tables[nVarRefTblID].CV);
-        ierr += cmor_CV_checkParentExpID(cmor_tables[nVarRefTblID].CV, 0);
+        ierr += cmor_CV_checkParentExpID(cmor_tables[nVarRefTblID].CV);
     }
     //
     // Set user defined attributes and explicit {} sets.
@@ -6586,12 +6616,15 @@ int cmor_build_outname(int var_id, char *outname ) {
     int i,j;
     int n;
 
+    const int time_axis_id = cmor_vars[var_id].axes_ids[0];
+    const cmor_axis_t *time_axis = &cmor_axes[time_axis_id];
+    const cmor_axis_def_t *time_axis_def = 
+            &cmor_tables[time_axis->ref_table_id].axes[time_axis->ref_axis_id];
+
     /* -------------------------------------------------------------------- */
     /*      ok at that point we need to construct the final name!           */
     /* -------------------------------------------------------------------- */
-    if (cmor_tables[cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_table_id].
-            axes[cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_axis_id].axis
-            == 'T') {
+    if (time_axis_def->axis == 'T') {
         cmor_get_axis_attribute(cmor_vars[var_id].axes_ids[0], "units", 'c',
                 &msg);
         cmor_get_cur_dataset_attribute("calendar", msg2);
@@ -6656,7 +6689,10 @@ int cmor_build_outname(int var_id, char *outname ) {
 
         strncpy(frequency, cmor_vars[var_id].frequency, CMOR_MAX_STRING);
 
-        if (strstr(frequency, "yr") != NULL) {
+        if (time_axis_def->climatology == 1 
+            && cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP7) == 0) {
+            frequency_code = 6;
+        } else if (strstr(frequency, "yr") != NULL) {
             frequency_code = 1;
         } else if (strstr(frequency, "dec") != NULL) {
             frequency_code = 1;
@@ -6765,42 +6801,13 @@ int cmor_build_outname(int var_id, char *outname ) {
         strncat(outname, "-", CMOR_MAX_STRING - strlen(outname));
         strncat(outname, end_string, CMOR_MAX_STRING - strlen(outname));
 
-        if (cmor_tables[cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_table_id].axes[cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_axis_id].climatology
-                == 1) {
+        if (time_axis_def->climatology == 1 
+            && cmor_has_cur_dataset_attribute(GLOBAL_IS_CMIP7) != 0) {
             strncat(outname, "-clim", CMOR_MAX_STRING - strlen(outname));
         }
     }
 
-    if (cmor_vars[var_id].suffix_has_date == 1) {
-        /* -------------------------------------------------------------------- */
-        /*      all right we need to pop out the date part....                  */
-        /* -------------------------------------------------------------------- */
-
-        n = strlen(cmor_vars[var_id].suffix);
-        i = 0;
-        while (cmor_vars[var_id].suffix[i] != '_')
-            i++;
-        i++;
-        while ((cmor_vars[var_id].suffix[i] != '_') && i < n)
-            i++;
-        /* -------------------------------------------------------------------- */
-        /*      ok now we have the length of dates                              */
-        /*      at this point we are either at the                              */
-        /*      _clim the actual _suffix or the end (==nosuffix)                */
-        /*      checking if _clim needs to be added                             */
-        /* -------------------------------------------------------------------- */
-        if (cmor_tables[cmor_axes[cmor_vars[var_id].axes_ids[i]].ref_table_id].axes[cmor_axes[cmor_vars[var_id].axes_ids[0]].ref_axis_id].climatology
-                == 1) {
-            i += 5;
-        }
-        strcpy(msg, "");
-        for (j = i; j < n; j++) {
-            msg[j - i] = cmor_vars[var_id].suffix[i];
-            msg[j - i + 1] = '\0';
-        }
-    } else {
-        strncpy(msg, cmor_vars[var_id].suffix, CMOR_MAX_STRING);
-    }
+    strncpy(msg, cmor_vars[var_id].suffix, CMOR_MAX_STRING);
 
     if (strlen(msg) > 0) {
         strncat(outname, "_", CMOR_MAX_STRING - strlen(outname));
