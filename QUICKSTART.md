@@ -2,6 +2,12 @@
 
 This document provides a set of quick-start instructions for compiling and installing a local checkout of CMOR (Climate Model Output Rewriter)
 from source. CMOR is typically compiled within a Conda/Mamba environment to easily satisfy its C, Fortran, and Python library dependencies.
+It is based on instructions from [PCMDI/cmor3_documentation](https://cmor.llnl.gov/mydoc_cmor3_github/).
+
+
+### Prerequisites
+- `miniforge` installation, as seen in the [PCMDI/cmor3_documentation](https://cmor.llnl.gov/mydoc_cmor3_github/#installing-miniforge).
+- `mamba` or `conda` executables in your `$PATH`
 
 
 ### 1. Obtain the Source Code and CMIP Tables
@@ -18,25 +24,21 @@ development libraries. Set your compiler variables based on your operating syste
 
 **For Linux:**
 ```bash
-# checked, seems good
 export CONDA_COMPILERS="gcc_linux-64 gfortran_linux-64"
 ```
 
 **For Apple Silicon Mac (M1/M2/M3):**
 ```bash
-# not checked
 export CONDA_COMPILERS="clang_osx-arm64 gfortran_osx-arm64"
 ```
 
 **For Intel Mac:**
 ```bash
-# not checked
 export CONDA_COMPILERS="clang_osx-64 gfortran_osx-64"
 ```
 
 Create and activate the `cmor_dev` environment with all dependencies:
 ```bash
-# conda works too, checked
 mamba create -n cmor_dev -c conda-forge \
   libuuid \
   json-c \
@@ -62,19 +64,16 @@ Set your shared linking flags based on your operating system:
 
 **For Linux:**
 ```bash
-# checked, good
 export LDSHARED_FLAGS="-shared -pthread"
 ```
 
 **For Mac:**
 ```bash
-# not checked
 export LDSHARED_FLAGS="-bundle -undefined dynamic_lookup"
 ```
 
 Run the `configure` script, using Python to dynamically find the path to your active Conda environment:
 ```bash
-# checked, linux
 export PREFIX=$(python -c "import sys; print(sys.prefix)")
 ./configure \
   --prefix=$PREFIX \
