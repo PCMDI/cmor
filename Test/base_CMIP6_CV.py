@@ -7,12 +7,6 @@ debug = False
 
 
 class BaseCVsTest(unittest.TestCase):
-    def remove_file_and_directories(self, filename):
-        os.remove(filename)
-        filename = os.path.dirname(filename)
-        while glob.glob(os.path.join(filename, "*")) == []:
-            os.rmdir(filename)
-            filename = os.path.dirname(filename)
 
     def setUp(self, *args, **kwargs):
         # --------------
@@ -29,7 +23,7 @@ class BaseCVsTest(unittest.TestCase):
             return
         os.unlink(self.tmpfile)
         for filename in self.delete_files:
-            self.remove_file_and_directories(filename)
+            os.remove(filename)
             self.delete_files.remove(filename)
 
     def assertCV(self, text_to_find, line_trigger='Error:', number_of_lines_to_scan=1):
