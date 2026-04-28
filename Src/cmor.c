@@ -3161,9 +3161,11 @@ int cmor_setGblAttr(int var_id)
 /* -------------------------------------------------------------------- */
 /*    Set attribute Conventions for netCDF file metadata                */
 /* -------------------------------------------------------------------- */
-    snprintf(msg, CMOR_MAX_STRING, "%s", cmor_tables[nVarRefTblID].Conventions);
 
-    cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_CONVENTIONS, msg, 0);
+    if (cmor_has_cur_dataset_attribute(GLOBAL_ATT_CONVENTIONS) != 0) {
+        snprintf(msg, CMOR_MAX_STRING, "%s", cmor_tables[nVarRefTblID].Conventions);
+        cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_CONVENTIONS, msg, 0);
+    }
 
 /* -------------------------------------------------------------------- */
 /*    Set attribute data_specs_versions for netCDF file (CMIP6)         */

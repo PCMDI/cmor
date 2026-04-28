@@ -1,5 +1,10 @@
 {
     "CV":{
+        "Conventions": [
+            "CF-1.11",
+            "CF-1.12",
+            "CF-1.13"
+        ],
         "DRS":{
             "directory_path_example":"CMIP7/CMIP/PCMDI-test-1-0/glb/mon/historical/r1i1p1f3/tas/tavg-h2m-hxy-u/gn/v20191207/",
             "directory_path_template":"<mip_era><activity_id><source_id><region><frequency><experiment_id><variant_label><variable_id><branding_suffix><grid_label><version>",
