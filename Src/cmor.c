@@ -43,6 +43,10 @@ int nc_def_var_chunking(int i, int j, int k, size_t * l)
 };
 #endif
 
+#ifndef NC_CHUNKED
+#define NC_CHUNKED 0
+#endif
+
 #ifndef NC_QUANTIZE_BITGROOM
 int nc_def_var_quantize(int i, int j, int k, int l)
 {
@@ -111,6 +115,62 @@ static int cmor_nc_def_var_zstandard_checked(int ncid, int varid,
     }
 
     return ierr;
+}
+
+/*
+ * Apply NetCDF chunking after clamping each requested chunk length to the
+ * variable's fixed dimension length. This keeps small coordinate and bounds
+ * variables from inheriting oversized chunk shapes that some NetCDF builds
+ * reject as "bad chunk sizes".
+ */
+static int cmor_nc_def_var_chunking_clamped(int ncid, int varid, int storage,
+                                            const size_t *requested_chunks)
+{
+    int ierr;
+    int ndims;
+    int dimids[CMOR_MAX_DIMENSIONS];
+    size_t chunk_sizes[CMOR_MAX_DIMENSIONS];
+    size_t dim_length;
+    int i;
+
+    if ((storage != NC_CHUNKED) || (requested_chunks == NULL)) {
+        return nc_def_var_chunking(ncid, varid, storage,
+                                   (size_t *)requested_chunks);
+    }
+
+    ierr = nc_inq_varndims(ncid, varid, &ndims);
+    if (ierr != NC_NOERR) {
+        return ierr;
+    }
+
+    if (ndims > CMOR_MAX_DIMENSIONS) {
+        return nc_def_var_chunking(ncid, varid, storage,
+                                   (size_t *)requested_chunks);
+    }
+
+    ierr = nc_inq_vardimid(ncid, varid, dimids);
+    if (ierr != NC_NOERR) {
+        return ierr;
+    }
+
+    for (i = 0; i < ndims; i++) {
+        chunk_sizes[i] = requested_chunks[i];
+        if (chunk_sizes[i] == 0) {
+            chunk_sizes[i] = 1;
+        }
+
+        ierr = nc_inq_dimlen(ncid, dimids[i], &dim_length);
+        if (ierr != NC_NOERR) {
+            return ierr;
+        }
+
+        /* Leave unlimited dimensions alone, but clamp fixed dimensions. */
+        if ((dim_length > 0) && (chunk_sizes[i] > dim_length)) {
+            chunk_sizes[i] = dim_length;
+        }
+    }
+
+    return nc_def_var_chunking(ncid, varid, storage, &chunk_sizes[0]);
 }
 
 /* -------------------------------------------------------------------- */
@@ -5685,9 +5745,6 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
 /* -------------------------------------------------------------------- */
 /*      Chunking stuff                                                  */
 /* -------------------------------------------------------------------- */
-#ifndef NC_CHUNKED
-#define NC_CHUNKED 0
-#endif
         // time and time_bnds chunking
         for (i = 0; i < pVar->ndims; i++) {
             if (cmor_axes[pVar->axes_ids[i]].axis == 'T') {
@@ -5700,7 +5757,9 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
                     time_chunk_size = cmor_axes[pVar->axes_ids[i]].length;
                 }
 
-                ierr = nc_def_var_chunking(ncid, nc_vars[i], NC_CHUNKED, &time_chunk_size);
+                ierr = cmor_nc_def_var_chunking_clamped(ncid, nc_vars[i],
+                                                        NC_CHUNKED,
+                                                        &time_chunk_size);
                 
                 if (ierr != NC_NOERR) {
                     cmor_handle_error_var_variadic(
@@ -5715,8 +5774,10 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
                 // set to 2.
                 if (nc_bnds_vars[i] != -1) {
                     size_t time_bnds_chunk_sizes[2] = {time_chunk_size, 2};
-                    ierr = nc_def_var_chunking(ncafid, nc_bnds_vars[i], 
-                                                NC_CHUNKED, time_bnds_chunk_sizes);
+                    ierr = cmor_nc_def_var_chunking_clamped(ncafid,
+                                                            nc_bnds_vars[i],
+                                                            NC_CHUNKED,
+                                                            time_bnds_chunk_sizes);
                     
                     if (ierr != NC_NOERR) {
                         cmor_handle_error_var_variadic(
