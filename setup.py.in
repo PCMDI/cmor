@@ -80,7 +80,7 @@ class build_py(_build_py):
       return outputs
 
 setup (name = "CMOR",
-       version='3.14.2',
+       version='3.14.3',
        author='Chris Mauzey, LLNL',
        description = "Python Interface to CMOR output library",
        url = "https://cmor.llnl.gov/",
