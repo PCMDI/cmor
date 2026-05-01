@@ -3059,16 +3059,26 @@ int cmor_setDefaultGblAttr(int ref_table_id)
     }
 
 /* -------------------------------------------------------------------- */
-/*  Set data_specs_version and mip_era if they are in the CV.           */
+/*  Set root-level CV string attributes if they are present.            */
 /* -------------------------------------------------------------------- */
     CV_value = cmor_CV_rootsearch(cmor_tables[ref_table_id].CV, CV_KEY_DATASPECSVERSION);
     if (CV_value != NULL && CV_value->szValue[0] != '\0') {
         cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_DATASPECSVERSION,
             CV_value->szValue, 0);
     }
+    CV_value = cmor_CV_rootsearch(cmor_tables[ref_table_id].CV, CV_KEY_DRS_SPECS);
+    if (CV_value != NULL && CV_value->szValue[0] != '\0') {
+        cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_DRS_SPECS,
+            CV_value->szValue, 0);
+    }
     CV_value = cmor_CV_rootsearch(cmor_tables[ref_table_id].CV, CV_KEY_MIP_ERA);
     if (CV_value != NULL && CV_value->szValue[0] != '\0') {
         cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_MIP_ERA,
+            CV_value->szValue, 0);
+    }
+    CV_value = cmor_CV_rootsearch(cmor_tables[ref_table_id].CV, CV_KEY_TRACKING_PREFIX);
+    if (CV_value != NULL && CV_value->szValue[0] != '\0') {
+        cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_TRACKING_PREFIX,
             CV_value->szValue, 0);
     }
 

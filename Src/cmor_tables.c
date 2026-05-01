@@ -1222,10 +1222,11 @@ void cmor_validate_cv(json_object *cv, char *parent_attr)
                         "Attribute \"%s\" must be a string",
                         CMOR_WARNING,
                         attr);
-                        continue;
+                    continue;
                 }
             } else if (strcmp(attr, CV_KEY_MIP_ERA) == 0
                 || strcmp(attr, CV_KEY_DATASPECSVERSION) == 0
+                || strcmp(attr, CV_KEY_TRACKING_PREFIX) == 0
             ) {
                 if (!(json_object_is_type(value, json_type_string)
                     || json_object_is_type(value, json_type_array))) {
@@ -1233,7 +1234,20 @@ void cmor_validate_cv(json_object *cv, char *parent_attr)
                         "Attribute \"%s\" must be a string or an array",
                         CMOR_WARNING,
                         attr);
-                        continue;
+                    continue;
+                }
+            } else if (strcmp(attr, CV_KEY_DRS_SPECS) == 0) {
+                if (!(json_object_is_type(value, json_type_string)
+                    || json_object_is_type(value, json_type_array)
+                    || json_object_is_type(value, json_type_object))) {
+                    cmor_handle_error_variadic(
+                        "Attribute \"%s\" must be a string, an array, or an object",
+                        CMOR_WARNING,
+                        attr);
+                    continue;
+                }
+                if (json_object_is_type(value, json_type_object)) {
+                    single_value_pairs = 1;
                 }
             } else if (strcmp(attr, CV_KEY_REQUIRED_GBL_ATTRS) == 0
                 || strcmp(attr, GLOBAL_ATT_CONVENTIONS) == 0
