@@ -84,8 +84,29 @@ jobs:
         run: |
           python -m cibuildwheel --output-dir wheelhouse
 
-      - name: Upload wheels to release
+      - name: Upload wheels as workflow artifacts
         if: ${{ github.event_name == 'release' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheelhouse-${{ matrix.runner.RUNNER_OS }}-${{ matrix.runner.CIBW_ARCHS }}
+          path: wheelhouse/*.whl
+          if-no-files-found: error
+          retention-days: 1
+
+  publish_release:
+    name: Publish wheels
+    if: ${{ github.event_name == 'release' }}
+    needs: wheels
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Download wheel artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: wheelhouse-*
+          merge-multiple: true
+          path: wheelhouse
+
+      - name: Upload wheels to release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.event.release.tag_name }}
