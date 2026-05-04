@@ -22,6 +22,50 @@ download_file() {
     exit 1
 }
 
+sha256_file() {
+    local file_path=$1
+
+    if command -v sha256sum >/dev/null 2>&1; then
+        sha256sum "${file_path}" | awk '{print $1}'
+        return
+    fi
+
+    if command -v shasum >/dev/null 2>&1; then
+        shasum -a 256 "${file_path}" | awk '{print $1}'
+        return
+    fi
+
+    echo "Could not find sha256sum or shasum to verify ${file_path}" >&2
+    exit 1
+}
+
+verify_sha256() {
+    local file_path=$1
+    local expected_sha256=$2
+    local actual_sha256
+
+    actual_sha256=$(sha256_file "${file_path}")
+    if [ "${actual_sha256}" != "${expected_sha256}" ]; then
+        echo "SHA-256 mismatch for ${file_path}" >&2
+        echo "Expected: ${expected_sha256}" >&2
+        echo "Actual:   ${actual_sha256}" >&2
+        exit 1
+    fi
+}
+
+netcdf_c_sha256_for_version() {
+    local netcdf_c_version=$1
+
+    case "${netcdf_c_version}" in
+        4.10.0)
+            echo "bd4bfa239385802a6cbea71a2f038dadcaba756a38c56804f829ed8262e7912f"
+            ;;
+        *)
+            return 1
+            ;;
+    esac
+}
+
 find_udunits_xml() {
     local search_root=$1
 
@@ -179,19 +223,28 @@ build_linux_netcdf_c() {
     local netcdf_url
     local netcdf_archive_path
     local netcdf_source_dir
+    local netcdf_sha256
     local cppflags
     local ldflags
     local libs
     local make_jobs
 
     netcdf_c_version=${NETCDF_C_VERSION:-4.10.0}
-    netcdf_tarball="v${netcdf_c_version}.tar.gz"
-    netcdf_url="https://github.com/Unidata/netcdf-c/archive/refs/tags/${netcdf_tarball}"
+    netcdf_tarball="netcdf-c-${netcdf_c_version}.tar.gz"
+    netcdf_url="https://downloads.unidata.ucar.edu/netcdf-c/${netcdf_c_version}/${netcdf_tarball}"
     netcdf_archive_path="/tmp/netcdf-c-${netcdf_c_version}.tar.gz"
     netcdf_source_dir="/tmp/netcdf-c-${netcdf_c_version}"
+    netcdf_sha256=${NETCDF_C_SHA256:-}
     cppflags=""
     ldflags=""
     libs=""
+
+    if [ -z "${netcdf_sha256}" ]; then
+        if ! netcdf_sha256=$(netcdf_c_sha256_for_version "${netcdf_c_version}"); then
+            echo "No pinned SHA-256 is available for netcdf-c ${netcdf_c_version}; set NETCDF_C_SHA256 explicitly" >&2
+            exit 1
+        fi
+    fi
 
     if [ -x "${CMOR_DEPS_PREFIX}/bin/nc-config" ]; then
         ensure_staged_udunits_xml_in_prefix
@@ -202,6 +255,7 @@ build_linux_netcdf_c() {
     mkdir -p "${CMOR_DEPS_PREFIX}"
 
     download_file "${netcdf_url}" "${netcdf_archive_path}"
+    verify_sha256 "${netcdf_archive_path}" "${netcdf_sha256}"
     tar -C /tmp -xf "${netcdf_archive_path}"
 
     if ! append_pkg_config_package hdf5; then
