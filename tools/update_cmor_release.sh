@@ -72,14 +72,12 @@ done
 configure_ac="${repo_root}/configure.ac"
 configure_sh="${repo_root}/configure"
 cmor_h="${repo_root}/include/cmor.h"
-setup_py_in="${repo_root}/setup.py.in"
 citation="${repo_root}/CITATION.cff"
 nightly_workflow="${repo_root}/.github/workflows/nightly-build.yml"
 
 [[ -f "${configure_ac}" ]] || die "missing file: ${configure_ac}"
 [[ -f "${configure_sh}" ]] || die "missing file: ${configure_sh}"
 [[ -f "${cmor_h}" ]] || die "missing file: ${cmor_h}"
-[[ -f "${setup_py_in}" ]] || die "missing file: ${setup_py_in}"
 [[ -f "${citation}" ]] || die "missing file: ${citation}"
 [[ -f "${nightly_workflow}" ]] || die "missing file: ${nightly_workflow}"
 
@@ -127,7 +125,6 @@ cleanup() {
     cp -p "${backup_dir}/configure.ac" "${configure_ac}" 2>/dev/null || true
     cp -p "${backup_dir}/configure" "${configure_sh}" 2>/dev/null || true
     cp -p "${backup_dir}/cmor.h" "${cmor_h}" 2>/dev/null || true
-    cp -p "${backup_dir}/setup.py.in" "${setup_py_in}" 2>/dev/null || true
     cp -p "${backup_dir}/CITATION.cff" "${citation}" 2>/dev/null || true
     cp -p "${backup_dir}/nightly-build.yml" "${nightly_workflow}" 2>/dev/null || true
   fi
@@ -138,7 +135,6 @@ trap cleanup EXIT
 cp -p "${configure_ac}" "${backup_dir}/configure.ac"
 cp -p "${configure_sh}" "${backup_dir}/configure"
 cp -p "${cmor_h}" "${backup_dir}/cmor.h"
-cp -p "${setup_py_in}" "${backup_dir}/setup.py.in"
 cp -p "${citation}" "${backup_dir}/CITATION.cff"
 cp -p "${nightly_workflow}" "${backup_dir}/nightly-build.yml"
 
@@ -159,10 +155,6 @@ perl_inplace_or_die "${cmor_h}" \
   'BEGIN{$c=0} $c += s/^(\s*#define\s+CMOR_VERSION_PATCH\s+)[0-9]+\s*$/$1 . $ENV{CMOR_NEW_PATCH}/mse; END{exit($c?0:2)}' \
   "set CMOR_VERSION_PATCH"
 
-perl_inplace_or_die "${setup_py_in}" \
-  'BEGIN{$c=0} $c += s/(\bversion=\x27)[0-9]+\.[0-9]+\.[0-9]+(\x27)/$1 . $ENV{CMOR_NEW_VERSION} . $2/gse; END{exit($c?0:2)}' \
-  "set setup.py.in version"
-
 perl_inplace_or_die "${citation}" \
   'BEGIN{$c=0} $c += s/^(version:\s*)[0-9]+\.[0-9]+\.[0-9]+\s*$/$1 . $ENV{CMOR_NEW_VERSION}/mse; END{exit($c?0:2)}' \
   "set CITATION.cff version"
@@ -177,7 +169,7 @@ perl_inplace_or_die "${nightly_workflow}" \
 
 (
   cd -- "${repo_root}"
-  autoconf || die "autoconf failed; revert changes with: git checkout -- configure.ac configure include/cmor.h setup.py.in CITATION.cff .github/workflows/nightly-build.yml"
+  autoconf || die "autoconf failed; revert changes with: git checkout -- configure.ac configure include/cmor.h CITATION.cff .github/workflows/nightly-build.yml"
 
 )
 
@@ -185,6 +177,5 @@ echo "Updated:"
 echo "  ${configure_ac}"
 echo "  ${configure_sh}"
 echo "  ${cmor_h}"
-echo "  ${setup_py_in}"
 echo "  ${citation}"
 echo "  ${nightly_workflow}"

@@ -12,7 +12,7 @@ on:
     types: [published]
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   wheels:
@@ -37,13 +37,16 @@ jobs:
       CIBW_SKIP: "*-musllinux*"
       CIBW_BEFORE_ALL: "bash {project}/ci-support/cibw-before-all.sh"
       CIBW_BEFORE_BUILD: "bash {project}/ci-support/cibw-before-build.sh"
+      CIBW_ENVIRONMENT_PASS_LINUX: "CMOR_PYTHON_PACKAGE_VERSION"
       CIBW_ENVIRONMENT_LINUX: >-
         CMOR_DEPS_PREFIX=/tmp/cmor-deps
         CMOR_UDUNITS2_XML=/tmp/cmor-deps/share/cmor/udunits2.xml
+        CMOR_PYTHON_PACKAGE_VERSION='${CMOR_PYTHON_PACKAGE_VERSION}'
         NETCDF_C_VERSION=4.10.0
       CIBW_ENVIRONMENT_MACOS: >-
         CMOR_DEPS_PREFIX=/tmp/cmor-miniforge
         CMOR_UDUNITS2_XML=/tmp/cmor-miniforge/share/cmor/udunits2.xml
+        CMOR_PYTHON_PACKAGE_VERSION='${CMOR_PYTHON_PACKAGE_VERSION}'
         MACOSX_DEPLOYMENT_TARGET=${{ matrix.runner.MACOSX_DEPLOYMENT_TARGET }}
         LDFLAGS='-Wl,-headerpad_max_install_names'
       CIBW_MANYLINUX_X86_64_IMAGE: "manylinux_2_28"
@@ -75,6 +78,23 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Set Python package version
+        run: |
+          package_version=$(sed -n "s/^AC_INIT(\\[cmor\\],\\[\\([^]]*\\)\\].*/\\1/p" configure.ac)
+
+          if [ -z "$package_version" ]; then
+            echo "Could not determine package version from configure.ac" >&2
+            exit 1
+          fi
+
+          if [ "${GITHUB_EVENT_NAME}" = "push" ] && [ "${GITHUB_REF}" = "refs/heads/main" ]; then
+            python_package_version="${package_version}+${GITHUB_SHA}"
+          else
+            python_package_version="${package_version}"
+          fi
+
+          echo "CMOR_PYTHON_PACKAGE_VERSION=${python_package_version}" >> "$GITHUB_ENV"
+
       - name: Install cibuildwheel
         run: |
           python -m pip install --upgrade pip
@@ -85,7 +105,7 @@ jobs:
           python -m cibuildwheel --output-dir wheelhouse
 
       - name: Upload wheels as workflow artifacts
-        if: ${{ github.event_name == 'release' }}
+        if: ${{ github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main') }}
         uses: actions/upload-artifact@v4
         with:
           name: wheelhouse-${{ matrix.runner.RUNNER_OS }}-${{ matrix.runner.CIBW_ARCHS }}
@@ -98,6 +118,8 @@ jobs:
     if: ${{ github.event_name == 'release' }}
     needs: wheels
     runs-on: ubuntu-24.04
+    permissions:
+      contents: write
     steps:
       - name: Download wheel artifacts
         uses: actions/download-artifact@v4
@@ -112,3 +134,47 @@ jobs:
           tag_name: ${{ github.event.release.tag_name }}
           files: wheelhouse/*.whl
           fail_on_unmatched_files: true
+
+  build_pages_index:
+    name: Build Pages wheel index
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    needs: wheels
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Download wheel artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: wheelhouse-*
+          merge-multiple: true
+          path: wheelhouse
+
+      - name: Build Pages site
+        run: |
+          bash ci-support/build-wheel-pages-index.sh wheelhouse site
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy_pages:
+    name: Deploy wheel index
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    needs: build_pages_index
+    runs-on: ubuntu-24.04
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

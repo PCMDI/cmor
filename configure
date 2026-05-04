@@ -662,6 +662,7 @@ NCCFLAGS
 PATH
 FTAG
 RTAG
+CMOR_PYTHON_PACKAGE_VERSION
 target_os
 target_vendor
 target_cpu
@@ -730,6 +731,7 @@ with_netcdf
       ac_precious_vars='build_alias
 host_alias
 target_alias
+CMOR_PYTHON_PACKAGE_VERSION
 CC
 CFLAGS
 LDFLAGS
@@ -1379,6 +1381,8 @@ Optional Packages:
   --with-netcdf           enable support for NetCDF in none standard location
 
 Some influential environment variables:
+  CMOR_PYTHON_PACKAGE_VERSION
+              Python package version override
   CC          C compiler command
   CFLAGS      C compiler flags
   LDFLAGS     linker flags, e.g. -L<lib dir> if you have libraries in a
@@ -2607,10 +2611,16 @@ esac
 CMOR_VERSION=${PACKAGE_VERSION}" (commit: ${GIT_TAG})"
 
 
+if test -z "${CMOR_PYTHON_PACKAGE_VERSION}" ; then
+  CMOR_PYTHON_PACKAGE_VERSION="${PACKAGE_VERSION}"
+fi
+
+
 ac_config_files="$ac_config_files Makefile setup.py compile_line.txt include/cmor_locale.h"
 
 
 INCFILES="include/cmor.h include/cmor_func_def.h include/cmor_md5.h `cd $srcdir ; ls include/cdTime/*.h include/cdTime/cdunifpp/*.h | tr \"\n\" \" \" `"
+
 
 
 
