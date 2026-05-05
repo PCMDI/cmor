@@ -15,6 +15,7 @@ CMIP5
 Makefile
 build
 dist
+wheelhouse
 test_bin
 tests
 tests_html

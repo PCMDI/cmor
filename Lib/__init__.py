@@ -1,8 +1,14 @@
 import os
 import sys
-xml_pth = os.path.join(sys.prefix, "share", "udunits", "udunits2.xml")
-if os.path.exists(xml_pth):
-    os.environ["UDUNITS2_XML_PATH"] = xml_pth
+
+prefix_xml_pth = os.path.join(sys.prefix, "share", "udunits", "udunits2.xml")
+wheel_xml_pth = os.path.join(os.path.dirname(__file__), "data", "udunits2.xml")
+
+if not os.environ.get("UDUNITS2_XML_PATH"):
+    if os.path.exists(wheel_xml_pth):
+        os.environ["UDUNITS2_XML_PATH"] = wheel_xml_pth
+    elif os.path.exists(prefix_xml_pth):
+        os.environ["UDUNITS2_XML_PATH"] = prefix_xml_pth
 
 from cmor.cmor_const import *
 

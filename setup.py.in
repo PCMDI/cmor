@@ -1,6 +1,9 @@
 import numpy
 import os
+import shutil
+import glob
 from setuptools import setup, Extension
+from setuptools.command.build_py import build_py as _build_py
 
 include_dirs = [numpy.get_include(),"include","include/cdTime"]
 
@@ -49,14 +52,44 @@ print('incdir',include_dirs)
 print('src:',srcfiles)
 print('macros:',macros)
 
+
+class build_py(_build_py):
+   def run(self):
+      self._cmor_udunits_output = []
+      super().run()
+
+      xml_source = os.environ.get("CMOR_UDUNITS2_XML")
+      if not xml_source:
+         return
+
+      if not os.path.isfile(xml_source):
+         raise RuntimeError(f"CMOR_UDUNITS2_XML does not exist: {xml_source}")
+
+      target_dir = os.path.join(self.build_lib, "cmor", "data")
+      os.makedirs(target_dir, exist_ok=True)
+
+      for source_path in sorted(glob.glob(os.path.join(os.path.dirname(xml_source), "udunits2*.xml"))):
+         target_path = os.path.join(target_dir, os.path.basename(source_path))
+         shutil.copy2(source_path, target_path)
+         self._cmor_udunits_output.append(target_path)
+
+   def get_outputs(self, include_bytecode=1):
+      outputs = super().get_outputs(include_bytecode=include_bytecode)
+      xml_outputs = getattr(self, "_cmor_udunits_output", [])
+      outputs.extend(xml_outputs)
+      return outputs
+
 setup (name = "CMOR",
-       version='3.14.3',
+       version='@CMOR_PYTHON_PACKAGE_VERSION@',
        author='Chris Mauzey, LLNL',
        description = "Python Interface to CMOR output library",
        url = "https://cmor.llnl.gov/",
        zip_safe=False,
+       install_requires = ['numpy'],
        packages = ['cmor', 'cmor.Test'],
        package_dir = {'cmor': 'Lib', 'cmor.Test':'Test'},
+       package_data = {'cmor': ['data/*.xml']},
+       cmdclass = {'build_py': build_py},
 #       scripts=['scripts/PrePARE.py' ],
        ext_modules = [
             Extension('cmor._cmor',
@@ -70,4 +103,3 @@ setup (name = "CMOR",
                   ),
         ]
       )
-

@@ -22,12 +22,18 @@ esac
 
 CMOR_VERSION=${PACKAGE_VERSION}" (commit: ${GIT_TAG})"
 
+AC_ARG_VAR([CMOR_PYTHON_PACKAGE_VERSION],[Python package version override])
+if test -z "${CMOR_PYTHON_PACKAGE_VERSION}" ; then
+  CMOR_PYTHON_PACKAGE_VERSION="${PACKAGE_VERSION}"
+fi
+
 AC_PREFIX_DEFAULT([/usr/local/cmor])
 AC_CONFIG_FILES([Makefile setup.py compile_line.txt include/cmor_locale.h])
 
 INCFILES="include/cmor.h include/cmor_func_def.h include/cmor_md5.h `cd $srcdir ; ls include/cdTime/*.h include/cdTime/cdunifpp/*.h | tr \"\n\" \" \" `"
 AC_SUBST(RTAG)
 AC_SUBST(FTAG)
+AC_SUBST([CMOR_PYTHON_PACKAGE_VERSION])
 
 AC_SUBST(PATH)
 AC_SUBST(NCCFLAGS)

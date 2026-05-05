@@ -43,11 +43,8 @@ int nc_def_var_chunking(int i, int j, int k, size_t * l)
 };
 #endif
 
-#ifndef H5Z_FILTER_ZSTD
-int nc_def_var_zstandard(int i, int j, int k)
-{
-    return (0);
-};
+#ifndef NC_CHUNKED
+#define NC_CHUNKED 0
 #endif
 
 #ifndef NC_QUANTIZE_BITGROOM
@@ -67,7 +64,12 @@ static int cmor_nc_def_var_zstandard_checked(int ncid, int varid,
                                              const char *var_name,
                                              const char *table_id)
 {
-    char *missing_zstd_filter_msg =
+    const char *missing_compile_time_zstd_msg =
+        "This CMOR build was compiled against a netcdf-c installation "
+        "that does not expose zstandard filter support "
+        "(H5Z_FILTER_ZSTD / nc_def_var_zstandard).\n! "
+        "Rebuild CMOR against a zstd-enabled netcdf-c installation.";
+    const char *missing_runtime_zstd_filter_msg =
         "This usually means the HDF5 Zstandard filter plugin "
         "(H5Z_FILTER_ZSTD) was not found at runtime.\n! "
         "If you are using a conda/mamba environment, install the plugin package:\n! "
@@ -79,9 +81,28 @@ static int cmor_nc_def_var_zstandard_checked(int ncid, int varid,
         "print(hdf5plugin.PLUGINS_PATH)')\"\n! "
         "or point HDF5_PLUGIN_PATH to a directory like:\n! "
         "  $CONDA_PREFIX/lib/pythonX.Y/site-packages/hdf5plugin/plugins\n! ";
-
+    const char *zstd_detail_msg = "";
+#ifdef H5Z_FILTER_ZSTD
     int ierr = nc_def_var_zstandard(ncid, varid, zstandard_level);
+#else
+#if defined(NC_ENOTBUILT)
+    int ierr = NC_ENOTBUILT;
+#elif defined(NC_EFILTER)
+    int ierr = NC_EFILTER;
+#elif defined(NC_ENOFILTER)
+    int ierr = NC_ENOFILTER;
+#else
+    int ierr = NC_EINVAL;
+#endif
+    zstd_detail_msg = missing_compile_time_zstd_msg;
+#endif
+
     if (ierr != NC_NOERR) {
+#ifdef H5Z_FILTER_ZSTD
+        if (ierr == NC_ENOFILTER) {
+            zstd_detail_msg = missing_runtime_zstd_filter_msg;
+        }
+#endif
         cmor_handle_error_var_variadic(
             "NetCDF Error (%i: %s) enabling zstandard compression on "
             "variable '%s' (table: %s)\n! %s",
@@ -89,11 +110,67 @@ static int cmor_nc_def_var_zstandard_checked(int ncid, int varid,
             ierr, nc_strerror(ierr),
             (var_name != NULL) ? var_name : "(unknown)",
             (table_id != NULL) ? table_id : "(unknown)",
-            (ierr == NC_ENOFILTER) ? missing_zstd_filter_msg : ""
+            zstd_detail_msg
         );
     }
 
     return ierr;
+}
+
+/*
+ * Apply NetCDF chunking after clamping each requested chunk length to the
+ * variable's fixed dimension length. This keeps small coordinate and bounds
+ * variables from inheriting oversized chunk shapes that some NetCDF builds
+ * reject as "bad chunk sizes".
+ */
+static int cmor_nc_def_var_chunking_clamped(int ncid, int varid, int storage,
+                                            const size_t *requested_chunks)
+{
+    int ierr;
+    int ndims;
+    int dimids[CMOR_MAX_DIMENSIONS];
+    size_t chunk_sizes[CMOR_MAX_DIMENSIONS];
+    size_t dim_length;
+    int i;
+
+    if ((storage != NC_CHUNKED) || (requested_chunks == NULL)) {
+        return nc_def_var_chunking(ncid, varid, storage,
+                                   (size_t *)requested_chunks);
+    }
+
+    ierr = nc_inq_varndims(ncid, varid, &ndims);
+    if (ierr != NC_NOERR) {
+        return ierr;
+    }
+
+    if (ndims > CMOR_MAX_DIMENSIONS) {
+        return nc_def_var_chunking(ncid, varid, storage,
+                                   (size_t *)requested_chunks);
+    }
+
+    ierr = nc_inq_vardimid(ncid, varid, dimids);
+    if (ierr != NC_NOERR) {
+        return ierr;
+    }
+
+    for (i = 0; i < ndims; i++) {
+        chunk_sizes[i] = requested_chunks[i];
+        if (chunk_sizes[i] == 0) {
+            chunk_sizes[i] = 1;
+        }
+
+        ierr = nc_inq_dimlen(ncid, dimids[i], &dim_length);
+        if (ierr != NC_NOERR) {
+            return ierr;
+        }
+
+        /* Leave unlimited dimensions alone, but clamp fixed dimensions. */
+        if ((dim_length > 0) && (chunk_sizes[i] > dim_length)) {
+            chunk_sizes[i] = dim_length;
+        }
+    }
+
+    return nc_def_var_chunking(ncid, varid, storage, &chunk_sizes[0]);
 }
 
 /* -------------------------------------------------------------------- */
@@ -5668,9 +5745,6 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
 /* -------------------------------------------------------------------- */
 /*      Chunking stuff                                                  */
 /* -------------------------------------------------------------------- */
-#ifndef NC_CHUNKED
-#define NC_CHUNKED 0
-#endif
         // time and time_bnds chunking
         for (i = 0; i < pVar->ndims; i++) {
             if (cmor_axes[pVar->axes_ids[i]].axis == 'T') {
@@ -5683,7 +5757,9 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
                     time_chunk_size = cmor_axes[pVar->axes_ids[i]].length;
                 }
 
-                ierr = nc_def_var_chunking(ncid, nc_vars[i], NC_CHUNKED, &time_chunk_size);
+                ierr = cmor_nc_def_var_chunking_clamped(ncid, nc_vars[i],
+                                                        NC_CHUNKED,
+                                                        &time_chunk_size);
                 
                 if (ierr != NC_NOERR) {
                     cmor_handle_error_var_variadic(
@@ -5698,8 +5774,10 @@ void cmor_create_var_attributes(int var_id, int ncid, int ncafid,
                 // set to 2.
                 if (nc_bnds_vars[i] != -1) {
                     size_t time_bnds_chunk_sizes[2] = {time_chunk_size, 2};
-                    ierr = nc_def_var_chunking(ncafid, nc_bnds_vars[i], 
-                                                NC_CHUNKED, time_bnds_chunk_sizes);
+                    ierr = cmor_nc_def_var_chunking_clamped(ncafid,
+                                                            nc_bnds_vars[i],
+                                                            NC_CHUNKED,
+                                                            time_bnds_chunk_sizes);
                     
                     if (ierr != NC_NOERR) {
                         cmor_handle_error_var_variadic(
