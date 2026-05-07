@@ -98,7 +98,7 @@ void cmor_init_table(cmor_table_t * table, int id)
     table->interval_warning = CMOR_APPROX_INTERVAL_WARNING_DEFAULT;
     table->interval_error = CMOR_APPROX_INTERVAL_ERROR_DEFAULT;
     table->URL[0] = '\0';
-    strcpy(table->product, "model_output");
+    strcpy(table->product, "model-output");
     table->path[0] = '\0';
 //    table->frequency[0] = '\0';
     table->nforcings = 0;
