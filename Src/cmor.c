@@ -3285,7 +3285,8 @@ int cmor_setGblAttr(int var_id)
 /* -------------------------------------------------------------------- */
 /*    Set attribute Table_Info for netCDF file (CMIP6)                  */
 /* -------------------------------------------------------------------- */
-    snprintf(msg, CMOR_MAX_STRING, "Creation Date:(%s) MD5:",
+    snprintf(msg, CMOR_MAX_STRING, "Name: %s; Creation Date:(%s) MD5:",
+             cmor_tables[nVarRefTblID].path,
              cmor_tables[nVarRefTblID].date);
 
     for (i = 0; i < 16; i++) {
