@@ -152,6 +152,7 @@ class TestCMIP7(unittest.TestCase):
         self.assertTrue("license_url" not in attrs)
         self.assertEqual(license, ds.getncattr("license"))
         self.assertEqual(license_id, ds.getncattr("license_id"))
+        self.assertIn("Name: CMIP7_ocean.json;", ds.getncattr("table_info"))
 
         ds.close()
 
