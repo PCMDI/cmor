@@ -390,7 +390,7 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
         axes = [
             {'table_entry': 'time1',
              'units': 'minutes since 2000-01-01 00:00:00',
-             'coord_vals': np.array([12.6, 37.4])},
+             'coord_vals': np.array([12.6, 77.4])},
             {'table_entry': 'latitude',
              'units': 'degrees_north',
              'coord_vals': [0],
@@ -411,7 +411,7 @@ class TestHasCurDatasetAttribute(unittest.TestCase):
 
         self.assertEqual(os.path.basename(self.path),
                          'psl_E1hr_PCMDI-test-1-0_piControl-withism_'
-                         'r3i1p1f1_gn_200001010013-200001010037.nc')
+                         'r3i1p1f1_gn_200001010013-200001010117.nc')
 
     def test_subhr_rounds_seconds(self):
         table = 'Tables/CMIP6_Esubhr.json'
