@@ -3450,7 +3450,7 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
                 );
             }
 
-            if (time_axis_count > 0) {
+            if (time_axis_count > 0 && refaxis->climatology == 0) {
                 ierr = cmor_check_interval(avar->axes_ids[0], units,
                                             time_axis_vals,
                                             time_axis_count, 0);

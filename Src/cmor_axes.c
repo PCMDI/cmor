@@ -2210,31 +2210,34 @@ int cmor_axis(int *axis_id, char *name, char *units, int length,
                                         length,
                                         name
                                         );
+            }
+        }
+
+        if ((refaxis.axis == 'T') && (refaxis.climatology == 0)) {
 /* -------------------------------------------------------------------- */
 /*      here we check if interval is about right                        */
 /*      just keep the begining of units out                             */
 /*      no need to know the since par                                   */
 /* -------------------------------------------------------------------- */
-                j = 0;
-                while (refaxis.units[j] == ' ')
-                    j++;
-                i = 0;
-                while ((refaxis.units[i + j] != ' ') &&
-                       (refaxis.units[i + j] != '\0')) {
-                    ctmp[i] = refaxis.units[i + j];
-                    i++;
-                }
-                ctmp[i] = '\0';
+            j = 0;
+            while (refaxis.units[j] == ' ')
+                j++;
+            i = 0;
+            while ((refaxis.units[i + j] != ' ') &&
+                    (refaxis.units[i + j] != '\0')) {
+                ctmp[i] = refaxis.units[i + j];
+                i++;
+            }
+            ctmp[i] = '\0';
 
-                snprintf(msg, CMOR_MAX_STRING, "%lf %s", 
-                    cmor_axes[cmor_naxes].approx_interval, ctmp);
+            snprintf(msg, CMOR_MAX_STRING, "%lf %s", 
+                cmor_axes[cmor_naxes].approx_interval, ctmp);
 /* -------------------------------------------------------------------- */
 /*      skip this for non standard cal                                  */
 /* -------------------------------------------------------------------- */
-                i = cmor_check_interval(cmor_naxes, msg,
-                                        &cmor_axes[cmor_naxes].values[0],
-                                        length, 0);
-            }
+            i = cmor_check_interval(cmor_naxes, msg,
+                                    &cmor_axes[cmor_naxes].values[0],
+                                    length, 0);
         }
     } else {
         if ((refaxis.axis != 'T') && (refaxis.index_only == 'n')) {
