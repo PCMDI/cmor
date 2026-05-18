@@ -115,9 +115,9 @@ class TestTimeIntervalCheck(BaseCVsTest):
                           units='minutes since 2000-01-01 00:00:00',
                           coord_vals=[12.6, 90.0])
 
-        self.assertCV("Expected interval between time axis values:",
+        self.assertCV("0.041667 days",
                       "Expected interval between time axis values:")
-        self.assertCV("Actual interval between time axis values 0 and 1:",
+        self.assertCV("0.05375 days (29.0% difference)",
                       "Actual interval between time axis values 0 and 1:")
         self.assertCV("CMIP6_E1hr.json", "Table JSON:")
 
