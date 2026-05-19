@@ -2,6 +2,7 @@ import json
 import cmor
 import unittest
 import os
+from pathlib import Path
 
 from netCDF4 import Dataset
 
@@ -46,19 +47,23 @@ class TestBrandedVariable(unittest.TestCase):
         """
         Write out a simple file using CMOR
         """
+        self.user_input_file = Path("Test/input_branded_variable.json")
+
         # Set up CMOR
         cmor.setup(inpath="TestTables", netcdf_file_action=cmor.CMOR_REPLACE,
                    logfile="cmor.log", create_subdirectories=0)
 
         # Define dataset using DATASET_INFO
-        with open("Test/input_branded_variable.json", "w") as input_file_handle:
+        with open(self.user_input_file, "w") as input_file_handle:
             json.dump(DATASET_INFO, input_file_handle, sort_keys=True, indent=4)
 
         # read dataset info
-        error_flag = cmor.dataset_json("Test/input_branded_variable.json")
+        error_flag = cmor.dataset_json(str(self.user_input_file))
         if error_flag:
             raise RuntimeError("CMOR dataset_json call failed")
 
+    def tearDown(self):
+        self.user_input_file.unlink()
 
     def test_variable_without_branding_suffix(self):
         mip_table = "CMIP6_Omon_branded_variable.json"
