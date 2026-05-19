@@ -7,7 +7,7 @@ from pathlib import Path
 from netCDF4 import Dataset
 
 CMIP7_TABLES_PATH = "cmip7-cmor-tables/tables"
-CV_PATH = "TestTables/CMIP7_CV.json"
+CV_PATH = "cmip7-cmor-tables/tables-cvs/cmor-cvs.json"
 
 USER_INPUT = {
     "_AXIS_ENTRY_FILE": "CMIP7_coordinate.json",
@@ -17,19 +17,17 @@ USER_INPUT = {
     "activity_id": "CMIP",
     "calendar": "360_day",
     "cv_version": "6.2.19.0",
-    "drs_specs": "MIP-DRS7",
-    "experiment_id": "piControl",
-    "forcing_index": "f30",
-    "grid_label": "gn",
-    "initialization_index": "i000001d",
-    "institution_id": "PCMDI",
-    "license_id": "CC BY 4.0",
-    "nominal_resolution": "250 km",
+    "experiment_id": "amip",
+    "forcing_index": "f3",
+    "grid_label": "g999",
+    "initialization_index": "i1",
+    "institution_id": "CCCma",
+    "license_id": "CC-BY-4.0",
+    "nominal_resolution": "100 km",
     "outpath": ".",
     "physics_index": "p1",
-    "realization_index": "r009",
-    "source_id": "PCMDI-test-1-0",
-    "tracking_prefix": "hdl:21.14100",
+    "realization_index": "r9",
+    "source_id": "DUMMY-MODEL",
     "host_collection": "CMIP7",
     "frequency": "mon",
     "region": "glb",
@@ -122,7 +120,7 @@ class TestCMIP7(unittest.TestCase):
             'frequency': 'mon',
             'archive_id': 'WCRP',
             'mip_era': 'CMIP7',
-            'data_specs_version': 'CMIP-7.0.0.0',
+            'data_specs_version': 'MIP-DS7.1.0.0',
             'host_collection': 'CMIP7',
         }
 
@@ -130,14 +128,15 @@ class TestCMIP7(unittest.TestCase):
             self.assertIn(attr, attrs)
             self.assertEqual(val, ds.getncattr(attr))
         institution_id = USER_INPUT["institution_id"]
-        license_id = "CC BY 4.0"
+        license_id = "CC-BY-4.0"
         license_type = "Creative Commons Attribution 4.0 International"
-        license_url = "https://creativecommons.org/licenses/by/4.0/"
+        license_url = "https://creativecommons.org/licenses/by/4.0"
         license = \
             (f"{license_id}; CMIP7 data produced by {institution_id} is "
              f"licensed under a {license_type} License ({license_url}). "
              "Consult https://wcrp-cmip.github.io/cmip7-guidance/docs/CMIP7/"
-             "Guidance_for_users for terms of "
+             "Guidance_for_users/#2-terms-of-use-and-citations-requirements "
+             "for terms of "
              "use governing CMIP7 output, including citation requirements and "
              "proper acknowledgment. The data producers and data providers "
              "make no warranty, either express or implied, including, but not "
@@ -204,7 +203,7 @@ class TestCMIP7(unittest.TestCase):
             'frequency': 'mon',
             'archive_id': 'WCRP',
             'mip_era': 'CMIP7',
-            'data_specs_version': 'CMIP-7.0.0.0',
+            'data_specs_version': 'MIP-DS7.1.0.0',
             'host_collection': 'CMIP7',
             'realm': 'atmos land landIce',
         }

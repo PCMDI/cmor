@@ -5,7 +5,7 @@ import unittest
 from base_CMIP6_CV import BaseCVsTest
 
 CMIP7_TABLES_PATH = "cmip7-cmor-tables/tables"
-CV_PATH = "TestTables/CMIP7_CV.json"
+CV_PATH = "cmip7-cmor-tables/tables-cvs/cmor-cvs.json"
 
 
 def run():
@@ -21,13 +21,18 @@ class TestFrequencyRequired(BaseCVsTest):
             "_cmip7_option": 1,
             "_controlled_vocabulary_file": CV_PATH,
             "mip_era": "CMIP7",
-            "institution_id": "PCMDI",
-            "source_id": "PCMDI-test-1-0",
-            "experiment_id": "piControl",
+            "forcing_index": "f3",
+            "grid_label": "g999",
+            "initialization_index": "i1",
+            "institution_id": "CCCma",
+            "license_id": "CC-BY-4.0",
+            "nominal_resolution": "100 km",
+            "physics_index": "p1",
+            "realization_index": "r9",
+            "source_id": "DUMMY-MODEL",
+            "experiment_id": "amip",
             "activity_id": "CMIP",
             "source_type": "AOGCM",
-            "grid_label": "gn",
-            "nominal_resolution": "250 km",
             "calendar": "360_day",
             "region": "glb",
             "outpath": ".",

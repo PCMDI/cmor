@@ -6,7 +6,7 @@ import numpy
 from pathlib import Path
 
 CMIP7_TABLES_PATH = "cmip7-cmor-tables/tables"
-CV_PATH = "TestTables/CMIP7_CV.json"
+CV_PATH = "cmip7-cmor-tables/tables-cvs/cmor-cvs.json"
 
 USER_INPUT = {
     "_AXIS_ENTRY_FILE": "CMIP7_coordinate.json",
@@ -16,19 +16,17 @@ USER_INPUT = {
     "activity_id": "CMIP",
     "calendar": "360_day",
     "cv_version": "6.2.19.0",
-    "drs_specs": "MIP-DRS7",
-    "experiment_id": "piControl",
-    "forcing_index": "f30",
-    "grid_label": "gn",
-    "initialization_index": "i000001d",
-    "institution_id": "PCMDI",
-    "license_id": "CC BY 4.0",
-    "nominal_resolution": "250 km",
+    "experiment_id": "amip",
+    "forcing_index": "f3",
+    "grid_label": "g999",
+    "initialization_index": "i1",
+    "institution_id": "CCCma",
+    "license_id": "CC-BY-4.0",
+    "nominal_resolution": "100 km",
     "outpath": ".",
     "physics_index": "p1",
-    "realization_index": "r009",
-    "source_id": "PCMDI-test-1-0",
-    "tracking_prefix": "hdl:21.14100",
+    "realization_index": "r9",
+    "source_id": "DUMMY-MODEL",
     "host_collection": "CMIP7",
     "frequency": "mon",
     "region": "glb",
@@ -167,14 +165,21 @@ class TestPathAndFileTemplates(unittest.TestCase):
             raise RuntimeError("CMOR dataset_json call failed")
 
         filepath, attrs = self.gen_cmor_file()
+        attrs["drs_specs"] = cv["CV"]["drs_specs"]
 
         predicted_path_template = drs["directory_path_template"].replace("/","")
         predicted_path_template = predicted_path_template.replace("<","{").replace(">","}")
         predicted_path_template = predicted_path_template.replace("}{","}/{")
+        predicted_path_template = predicted_path_template.replace(
+            "{table}", "{table_id}"
+        )
 
         predicted_file_template = drs["filename_template"]
         predicted_file_template = predicted_file_template.replace("<","{").replace(">","}")
         predicted_file_template = predicted_file_template.replace("}{","}_{")
+        predicted_file_template = predicted_file_template.replace(
+            "{table}", "{table_id}"
+        )
 
         predicted_path = f'./{predicted_path_template.format(**attrs)}'
         predicted_file = f'{predicted_file_template.format(**attrs)}_201801-201802.nc'
