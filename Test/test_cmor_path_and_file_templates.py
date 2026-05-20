@@ -3,9 +3,10 @@ import cmor
 import unittest
 import os
 import numpy
+from pathlib import Path
 
 CMIP7_TABLES_PATH = "cmip7-cmor-tables/tables"
-CV_PATH = "TestTables/CMIP7_CV.json"
+CV_PATH = "cmip7-cmor-tables/tables-cvs/cmor-cvs.json"
 
 USER_INPUT = {
     "_AXIS_ENTRY_FILE": "CMIP7_coordinate.json",
@@ -15,19 +16,17 @@ USER_INPUT = {
     "activity_id": "CMIP",
     "calendar": "360_day",
     "cv_version": "6.2.19.0",
-    "drs_specs": "MIP-DRS7",
-    "experiment_id": "piControl",
-    "forcing_index": "f30",
-    "grid_label": "gn",
-    "initialization_index": "i000001d",
-    "institution_id": "PCMDI",
-    "license_id": "CC BY 4.0",
-    "nominal_resolution": "250 km",
+    "experiment_id": "amip",
+    "forcing_index": "f3",
+    "grid_label": "g999",
+    "initialization_index": "i1",
+    "institution_id": "CCCma",
+    "license_id": "CC-BY-4.0",
+    "nominal_resolution": "100 km",
     "outpath": ".",
     "physics_index": "p1",
-    "realization_index": "r009",
-    "source_id": "PCMDI-test-1-0",
-    "tracking_prefix": "hdl:21.14100",
+    "realization_index": "r9",
+    "source_id": "DUMMY-MODEL",
     "host_collection": "CMIP7",
     "frequency": "mon",
     "region": "glb",
@@ -36,6 +35,12 @@ USER_INPUT = {
 
 
 class TestPathAndFileTemplates(unittest.TestCase):
+
+    def setUp(self):
+        self.user_input_file = Path("Test/input_drs.json")
+
+    def tearDown(self):
+        self.user_input_file.unlink()
 
     def gen_cmor_file(self):
         tos = numpy.array([27, 27, 27, 27,
@@ -106,13 +111,13 @@ class TestPathAndFileTemplates(unittest.TestCase):
                 json.dump(cv, cv_outfile, sort_keys=True, indent=4)
 
         # Define dataset using USER_INPUT
-        with open("Test/input_drs.json", "w") as input_file:
+        with open(self.user_input_file, "w") as input_file:
             user_input = USER_INPUT.copy()
             user_input["_controlled_vocabulary_file"] = test_cv_path
             json.dump(user_input, input_file, sort_keys=True, indent=4)
 
         # read dataset info
-        error_flag = cmor.dataset_json("Test/input_drs.json")
+        error_flag = cmor.dataset_json(str(self.user_input_file))
         if error_flag:
             raise RuntimeError("CMOR dataset_json call failed")
 
@@ -149,25 +154,32 @@ class TestPathAndFileTemplates(unittest.TestCase):
                 json.dump(cv, cv_outfile, sort_keys=True, indent=4)
 
         # Define dataset using USER_INPUT
-        with open("Test/input_drs.json", "w") as input_file:
+        with open(self.user_input_file, "w") as input_file:
             user_input = USER_INPUT.copy()
             user_input["_controlled_vocabulary_file"] = test_cv_path
             json.dump(user_input, input_file, sort_keys=True, indent=4)
 
         # read dataset info
-        error_flag = cmor.dataset_json("Test/input_drs.json")
+        error_flag = cmor.dataset_json(str(self.user_input_file))
         if error_flag:
             raise RuntimeError("CMOR dataset_json call failed")
 
         filepath, attrs = self.gen_cmor_file()
+        attrs["drs_specs"] = cv["CV"]["drs_specs"]
 
         predicted_path_template = drs["directory_path_template"].replace("/","")
         predicted_path_template = predicted_path_template.replace("<","{").replace(">","}")
         predicted_path_template = predicted_path_template.replace("}{","}/{")
+        predicted_path_template = predicted_path_template.replace(
+            "{table}", "{table_id}"
+        )
 
         predicted_file_template = drs["filename_template"]
         predicted_file_template = predicted_file_template.replace("<","{").replace(">","}")
         predicted_file_template = predicted_file_template.replace("}{","}_{")
+        predicted_file_template = predicted_file_template.replace(
+            "{table}", "{table_id}"
+        )
 
         predicted_path = f'./{predicted_path_template.format(**attrs)}'
         predicted_file = f'{predicted_file_template.format(**attrs)}_201801-201802.nc'
@@ -194,7 +206,7 @@ class TestPathAndFileTemplates(unittest.TestCase):
                 json.dump(cv, cv_outfile, sort_keys=True, indent=4)
 
         # Use directory path and file name templates from user input
-        with open("Test/input_drs.json", "w") as input_file:
+        with open(self.user_input_file, "w") as input_file:
             user_input = USER_INPUT.copy()
             user_input["_controlled_vocabulary_file"] = test_cv_path
             user_input["output_path_template"] = (
@@ -207,7 +219,7 @@ class TestPathAndFileTemplates(unittest.TestCase):
             json.dump(user_input, input_file, sort_keys=True, indent=4)
 
         # read dataset info
-        error_flag = cmor.dataset_json("Test/input_drs.json")
+        error_flag = cmor.dataset_json(str(self.user_input_file))
         if error_flag:
             raise RuntimeError("CMOR dataset_json call failed")
 

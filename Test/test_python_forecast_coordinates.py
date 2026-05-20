@@ -3,6 +3,7 @@ import numpy as np
 import cmor
 import unittest
 import os
+from pathlib import Path
 
 from netCDF4 import Dataset
 
@@ -47,19 +48,23 @@ class TestHasForecastCoordinates(unittest.TestCase):
         """
         Write out a simple file using CMOR
         """
+        self.user_input_file = Path("Test/input_forecast_coordinates.json")
+
         # Set up CMOR
         cmor.setup(inpath="TestTables", netcdf_file_action=cmor.CMOR_REPLACE,
                    logfile="cmor.log", create_subdirectories=0)
 
         # Define dataset using DATASET_INFO
-        with open("Test/input_leadtime.json", "w") as input_file_handle:
+        with open(self.user_input_file, "w") as input_file_handle:
             json.dump(DATASET_INFO, input_file_handle, sort_keys=True, indent=4)
 
         # read dataset info
-        error_flag = cmor.dataset_json("Test/input_leadtime.json")
+        error_flag = cmor.dataset_json(str(self.user_input_file))
         if error_flag:
             raise RuntimeError("CMOR dataset_json call failed")
 
+    def tearDown(self):
+        self.user_input_file.unlink()
 
     def test_has_forcast_coordinates(self):
         # load MIP table
@@ -100,19 +105,23 @@ class TestWriteSlices(unittest.TestCase):
         """
         Write out a simple file using CMOR
         """
+        self.user_input_file = Path("Test/input_leadtime.json")
+
         # Set up CMOR
         cmor.setup(inpath="TestTables", netcdf_file_action=cmor.CMOR_REPLACE,
                    logfile="cmor.log", create_subdirectories=0)
 
         # Define dataset using DATASET_INFO
-        with open("Test/input_leadtime.json", "w") as input_file_handle:
+        with open(self.user_input_file, "w") as input_file_handle:
             json.dump(DATASET_INFO, input_file_handle, sort_keys=True, indent=4)
 
         # read dataset info
-        error_flag = cmor.dataset_json("Test/input_leadtime.json")
+        error_flag = cmor.dataset_json(str(self.user_input_file))
         if error_flag:
             raise RuntimeError("CMOR dataset_json call failed")
 
+    def tearDown(self):
+        self.user_input_file.unlink()
 
     def test_multiple_writes(self):
         # load MIP table

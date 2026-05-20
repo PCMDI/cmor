@@ -2,15 +2,14 @@ import json
 import cmor
 import unittest
 import os
+from pathlib import Path
 
 from netCDF4 import Dataset
-
-CV_PATH = "TestTables/CMIP6_CV_nested_attribute.json"
 
 DATASET_INFO = {
     "_AXIS_ENTRY_FILE": "Tables/CMIP6_coordinate.json",
     "_FORMULA_VAR_FILE": "Tables/CMIP6_formula_terms.json",
-    "_controlled_vocabulary_file": CV_PATH,
+    "_controlled_vocabulary_file": "",
     "activity_id": "CMIP",
     "branch_method": "standard",
     "branch_time_in_child": 30.0,
@@ -49,6 +48,9 @@ class TestNestedCVAttribute(unittest.TestCase):
         """
         Write out a simple file using CMOR
         """
+        self.cv_file = Path("Test/CMIP6_CV_nested_attribute.json")
+        self.user_input_file = Path("Test/input_nested_attribute.json")
+
         # Set up CMOR
         cmor.setup(inpath="Tables", netcdf_file_action=cmor.CMOR_REPLACE,
                    logfile="cmor.log", create_subdirectories=0)
@@ -67,17 +69,23 @@ class TestNestedCVAttribute(unittest.TestCase):
                 }
             }
             cv["CV"]["domain_id"] = domain_id
-            with open(CV_PATH, "w") as cv_outfile:
+            with open(self.cv_file, "w") as cv_outfile:
                 json.dump(cv, cv_outfile, sort_keys=True, indent=4)
 
         # Define dataset using DATASET_INFO
-        with open("Test/input_nested_attribute.json", "w") as input_file:
-            json.dump(DATASET_INFO, input_file, sort_keys=True, indent=4)
+        with open(self.user_input_file, "w") as input_file:
+            user_input = DATASET_INFO.copy()
+            user_input["_controlled_vocabulary_file"] = str(self.cv_file)
+            json.dump(user_input, input_file, sort_keys=True, indent=4)
 
         # read dataset info
-        error_flag = cmor.dataset_json("Test/input_nested_attribute.json")
+        error_flag = cmor.dataset_json(str(self.user_input_file))
         if error_flag:
             raise RuntimeError("CMOR dataset_json call failed")
+
+    def tearDown(self):
+        self.cv_file.unlink()
+        self.user_input_file.unlink()
 
     def test_nested_cv_attribute(self):
         mip_table = "CMIP6_Omon.json"

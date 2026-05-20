@@ -8,7 +8,7 @@ from base_CMIP6_CV import BaseCVsTest
 from netCDF4 import Dataset
 
 CMIP7_TABLES_PATH = "cmip7-cmor-tables/tables"
-CV_PATH = "TestTables/CMIP7_CV.json"
+CV_PATH = "cmip7-cmor-tables/tables-cvs/cmor-cvs.json"
 
 USER_INPUT = {
     "_AXIS_ENTRY_FILE": "CMIP7_coordinate.json",
@@ -18,19 +18,17 @@ USER_INPUT = {
     "activity_id": "CMIP",
     "calendar": "360_day",
     "cv_version": "6.2.19.0",
-    "drs_specs": "MIP-DRS7",
-    "experiment_id": "piControl",
-    "forcing_index": "f30",
-    "grid_label": "gn",
-    "initialization_index": "i000001d",
-    "institution_id": "PCMDI",
-    "license_id": "CC BY 4.0",
-    "nominal_resolution": "250 km",
+    "experiment_id": "amip",
+    "forcing_index": "f3",
+    "grid_label": "g999",
+    "initialization_index": "i1",
+    "institution_id": "CCCma",
+    "license_id": "CC-BY-4.0",
+    "nominal_resolution": "100 km",
     "outpath": ".",
     "physics_index": "p1",
-    "realization_index": "r009",
-    "source_id": "PCMDI-test-1-0",
-    "tracking_prefix": "hdl:21.14100",
+    "realization_index": "r9",
+    "source_id": "DUMMY-MODEL",
     "host_collection": "CMIP7",
     "frequency": "mon",
     "region": "glb",
@@ -140,7 +138,7 @@ class TestCMIP7WithParentAttributes(BaseCVsTest):
                 "experiment_id": "historical",
                 "parent_mip_era": "CMIP7",
                 "parent_time_units": "days since 1850-01-01",
-                "parent_source_id": "PCMDI-test-1-0",
+                "parent_source_id": "DUMMY-MODEL",
                 "parent_experiment_id": "piControl",
                 "parent_activity_id": "CMIP",
                 "parent_variant_label": "r1i1p1f3",
@@ -157,7 +155,7 @@ class TestCMIP7WithParentAttributes(BaseCVsTest):
             "parent_mip_era": "CMIP7",
             "parent_time_units": "days since 1850-01-01",
             "parent_activity_id": "CMIP",
-            "parent_source_id": "PCMDI-test-1-0",
+            "parent_source_id": "DUMMY-MODEL",
             "parent_experiment_id": "piControl",
             "parent_variant_label": "r1i1p1f3"
         }
@@ -217,7 +215,7 @@ class TestCMIP7WithParentAttributes(BaseCVsTest):
             pass
 
         self.assertCV(
-            'Your experiment "piControl" does not have parent experiments.',
+            'Your experiment "amip" does not have parent experiments.',
             'Error:',
             number_of_lines_to_scan=6,
         )
@@ -261,7 +259,7 @@ class TestCMIP7WithParentAttributes(BaseCVsTest):
                 "experiment_id": "historical",
                 "parent_mip_era": "CMIP7",
                 "parent_time_units": "days since 1850-01-01",
-                "parent_source_id": "PCMDI-test-1-0",
+                "parent_source_id": "DUMMY-MODEL",
                 "parent_experiment_id": "badParent",
                 "parent_activity_id": "CMIP",
                 "parent_variant_label": "r1i1p1f3",
@@ -295,7 +293,7 @@ class TestCMIP7WithParentAttributes(BaseCVsTest):
                 "experiment_id": "historical",
                 "parent_mip_era": "CMIP7",
                 "parent_time_units": "days since 1850-01-01",
-                "parent_source_id": "PCMDI-test-1-0",
+                "parent_source_id": "DUMMY-MODEL",
                 "parent_experiment_id": "piControl",
                 "parent_activity_id": "BadMIP",
                 "parent_variant_label": "r1i1p1f3",
