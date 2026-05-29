@@ -1,21 +1,22 @@
 # CMIP7 CMOR Example Notebooks
 
-These notebooks demonstrate how to use CMOR to create CMIP7 dataset files from synthetic data. Each notebook is self-contained and downloads `cmip7-cmor-tables` if the tables are not already present in the repository.
+These notebooks demonstrate how to use CMOR to create CMIP7 dataset files from synthetic data. They use the `cmip7-cmor-tables` checkout in this repository.
 
 ## Setup
 
 Create the notebook environment from the repository root:
 
 ```bash
-python3.14 -m venv notebook-env
-notebook-env/bin/python -m pip install cmor --extra-index-url https://pcmdi.github.io/cmor
-notebook-env/bin/python -m pip install jupyterlab xarray matplotlib netCDF4
+python-m venv venv
+source venv/bin/activate
+pip install cmor --extra-index-url https://pcmdi.github.io/cmor
+pip install jupyterlab xarray matplotlib netCDF4 basemap
 ```
 
 Start JupyterLab:
 
 ```bash
-notebook-env/bin/jupyter lab notebooks
+jupyter lab notebooks
 ```
 
 The notebooks write generated NetCDF files under `notebooks/output/`.
