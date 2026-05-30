@@ -28,4 +28,4 @@ The notebooks write generated NetCDF files under `notebooks/output/`.
 3. `03_pressure_level_air_temperature.ipynb`: writes air temperature (`ta_tavg-p19-hxy-air`) on the CMIP7 19 pressure levels.
 4. `04_hybrid_sigma_zfactors.ipynb`: writes air temperature (`ta_tavg-al-hxy-u`) on a hybrid sigma pressure coordinate with CMOR zfactors.
 5. `05_curvilinear_ocean_grid.ipynb`: writes sea surface temperature (`tos_tavg-u-hxy-sea`) using `cmor.grid` with two-dimensional latitude and longitude coordinates.
-6. `06_non_lat_lon_sea_ice_concentration.ipynb`: writes sea-ice area percentage (`siconc_tavg-u-hxy-u`) using the projected Northern Hemisphere EASE2 grid from `notebooks/data/ice_conc_nh_ease2-250_cdr-v3p1_202002.nc`.
+6. `06_non_lat_lon_sea_ice_concentration.ipynb`: writes sea-ice area percentage (`siconc_tavg-u-hxy-u`) using the projected Northern and Southern Hemisphere EASE2 grids from the NetCDF files in `notebooks/data/`.
