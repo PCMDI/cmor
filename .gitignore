@@ -1,6 +1,7 @@
 *.[oa]
 *~
 *.nc
+!notebooks/data/*.nc
 *.pyc
 *.gcno
 *.gcda
