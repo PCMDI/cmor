@@ -28,4 +28,5 @@ The notebooks write generated NetCDF files under `notebooks/output/`.
 3. [Atmospheric Temperature On Pressure Levels](03_pressure_level_air_temperature.ipynb): writes air temperature (`ta_tavg-p19-hxy-air`) on the CMIP7 19 pressure levels.
 4. [Hybrid Sigma Humidity Tendency With Z-Factors](04_hybrid_sigma_humidity_tendency.ipynb): writes humidity tendency (`tnhusscpbl_tavg-al-hxy-u`) on a hybrid sigma pressure coordinate with CMOR zfactors and surface pressure.
 5. [Ocean Heat Transport By Basin](05_ocean_heat_transport_by_basin.ipynb): writes northward ocean heat transport (`htovgyre_tavg-u-hyb-sea`) using latitude and ocean basin coordinates.
-6. [Sea Ice Concentration On Projected Grids](06_non_lat_lon_sea_ice_concentration.ipynb): writes sea-ice area percentage (`siconc_tavg-u-hxy-u`) on projected Northern and Southern Hemisphere grids.
+6. [Land-Use Fraction](06_land_use_fraction.ipynb): writes land-use fraction (`fracLut_tpt-u-hxy-u`) using time-point, land-use, latitude, and longitude coordinates.
+7. [Sea Ice Concentration On Projected Grids](07_non_lat_lon_sea_ice_concentration.ipynb): writes sea-ice area percentage (`siconc_tavg-u-hxy-u`) on projected Northern and Southern Hemisphere grids.
