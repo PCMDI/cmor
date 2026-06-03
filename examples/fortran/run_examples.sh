@@ -41,24 +41,45 @@ detect_fortran_compiler() {
 mkdir -p "$BUILD_DIR" "$OUTPUT_ROOT"
 
 FC="$(detect_fortran_compiler)"
-CMOR_LIB="${CMOR_LIB:-$REPO_ROOT/libcmor.a}"
-CMOR_MOD_DIR="${CMOR_MOD_DIR:-$REPO_ROOT}"
+CMOR_PREFIX="${CMOR_PREFIX:-$CONDA_PREFIX}"
+CMOR_MOD_DIR="${CMOR_MOD_DIR:-$CMOR_PREFIX/include}"
 
-if [[ ! -f "$CMOR_LIB" ]]; then
-  echo "Could not find $CMOR_LIB. Build CMOR first or set CMOR_LIB." >&2
+if [[ -n "${CMOR_LIB:-}" ]]; then
+  CMOR_LINK_FLAGS=("$CMOR_LIB")
+elif [[ -f "$CMOR_PREFIX/lib/libcmor.a" ]]; then
+  CMOR_LINK_FLAGS=("$CMOR_PREFIX/lib/libcmor.a")
+elif [[ -f "$CMOR_PREFIX/lib/libcmor.dylib" || -f "$CMOR_PREFIX/lib/libcmor.so" ]]; then
+  CMOR_LINK_FLAGS=("-L$CMOR_PREFIX/lib" "-lcmor")
+else
+  echo "Could not find CMOR in $CMOR_PREFIX. Install cmor in the active conda environment or set CMOR_PREFIX/CMOR_LIB." >&2
   exit 2
 fi
 
 if [[ ! -f "$CMOR_MOD_DIR/cmor_users_functions.mod" ]]; then
-  echo "Could not find cmor_users_functions.mod in $CMOR_MOD_DIR. Build CMOR first or set CMOR_MOD_DIR." >&2
+  echo "Could not find cmor_users_functions.mod in $CMOR_MOD_DIR. Install cmor in the active conda environment or set CMOR_MOD_DIR." >&2
   exit 2
 fi
 
 FFLAGS_DEFAULT="-g -O2 -ffree-line-length-none"
 FFLAGS="${FFLAGS:-$FFLAGS_DEFAULT}"
 EXTRA_LDFLAGS="${EXTRA_LDFLAGS:-}"
-LINK_FLAGS="$CMOR_LIB -L$CONDA_PREFIX/lib -lnetcdf -ludunits2 -ljson-c -luuid -lm -Wl,-rpath,$CONDA_PREFIX/lib $EXTRA_LDFLAGS"
-INCLUDES="-I$CMOR_MOD_DIR -I$REPO_ROOT/include -I$BUILD_DIR -I$CONDA_PREFIX/include"
+LINK_DIRS=("$CMOR_PREFIX/lib")
+if [[ "$CONDA_PREFIX/lib" != "$CMOR_PREFIX/lib" ]]; then
+  LINK_DIRS+=("$CONDA_PREFIX/lib")
+fi
+
+LINK_FLAGS=("${CMOR_LINK_FLAGS[@]}")
+for link_dir in "${LINK_DIRS[@]}"; do
+  LINK_FLAGS+=("-L$link_dir")
+done
+LINK_FLAGS+=("-lnetcdf" "-ludunits2" "-ljson-c" "-luuid" "-lm")
+for link_dir in "${LINK_DIRS[@]}"; do
+  if [[ "$(uname -s)" != "Darwin" || "$link_dir" != "$CONDA_PREFIX/lib" ]]; then
+    LINK_FLAGS+=("-Wl,-rpath,$link_dir")
+  fi
+done
+
+INCLUDES=("-I$CMOR_MOD_DIR" "-I$BUILD_DIR" "-I$CONDA_PREFIX/include")
 COMMON_SRC="$SCRIPT_DIR/cmip7_fortran_common.f90"
 
 examples=(
@@ -78,7 +99,7 @@ for example in "${examples[@]}"; do
   mkdir -p "$run_output"
 
   echo "Compiling $example"
-  "$FC" $FFLAGS -J "$BUILD_DIR" $INCLUDES "$COMMON_SRC" "$src" $LINK_FLAGS -o "$exe"
+  "$FC" $FFLAGS -J "$BUILD_DIR" "${INCLUDES[@]}" "$COMMON_SRC" "$src" "${LINK_FLAGS[@]}" $EXTRA_LDFLAGS -o "$exe"
 
   echo "Running $example"
   "$exe" "$REPO_ROOT" "$run_output"
