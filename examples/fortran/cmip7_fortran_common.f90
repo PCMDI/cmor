@@ -43,9 +43,8 @@ contains
          exit_control=CMOR_EXIT_ON_MAJOR)
     call check_status("cmor_setup", ierr)
 
-    ! This wrapper's return value is unreliable in current CMOR builds;
-    ! CMOR still exits on major errors because of the setup mode above.
     ierr = cmor_dataset_json(trim(input_path))
+    call check_status("cmor_dataset_json", ierr)
   end subroutine configure_cmor
 
   subroutine write_user_input(repo_root, output_dir, input_path, frequency, &
