@@ -7,6 +7,8 @@ program example_06_curvilinear_grid
   integer, parameter :: nvertices = 4
   character(len=1024) :: repo_root
   character(len=1024) :: output_dir
+  character(len=2048) :: tables_path
+  character(len=2048) :: input_path
   integer :: x_id
   integer :: y_id
   integer :: time_id
@@ -33,8 +35,16 @@ program example_06_curvilinear_grid
   double precision :: parameter_values(6)
 
   call get_example_args(repo_root, output_dir)
-  call configure_cmor(repo_root, output_dir, "example_06_input.json", &
-       "mon", "r1", "f1")
+  call prepare_cmor_paths(repo_root, output_dir, "example_06_input.json", &
+       "mon", "r1", "f1", tables_path, input_path)
+
+  ierr = cmor_setup(inpath=trim(tables_path), &
+       netcdf_file_action=CMOR_REPLACE, &
+       exit_control=CMOR_EXIT_ON_MAJOR)
+  call check_status("cmor_setup", ierr)
+
+  ierr = cmor_dataset_json(trim(input_path))
+  call check_status("cmor_dataset_json", ierr)
 
   grid_table_id = cmor_load_table("CMIP7_grids.json")
   call cmor_set_table(grid_table_id)

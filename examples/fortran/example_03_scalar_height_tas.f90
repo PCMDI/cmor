@@ -4,6 +4,8 @@ program example_03_scalar_height_tas
 
   character(len=1024) :: repo_root
   character(len=1024) :: output_dir
+  character(len=2048) :: tables_path
+  character(len=2048) :: input_path
   integer :: lat_id
   integer :: lon_id
   integer :: time_id
@@ -19,8 +21,16 @@ program example_03_scalar_height_tas
   double precision :: time_bnds(2, ntimes)
 
   call get_example_args(repo_root, output_dir)
-  call configure_cmor(repo_root, output_dir, "example_03_input.json", &
-       "mon", "r9", "f2")
+  call prepare_cmor_paths(repo_root, output_dir, "example_03_input.json", &
+       "mon", "r9", "f2", tables_path, input_path)
+
+  ierr = cmor_setup(inpath=trim(tables_path), &
+       netcdf_file_action=CMOR_REPLACE, &
+       exit_control=CMOR_EXIT_ON_MAJOR)
+  call check_status("cmor_setup", ierr)
+
+  ierr = cmor_dataset_json(trim(input_path))
+  call check_status("cmor_dataset_json", ierr)
 
   ierr = cmor_load_table("CMIP7_atmos.json")
 

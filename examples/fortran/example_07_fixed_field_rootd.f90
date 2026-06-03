@@ -4,6 +4,8 @@ program example_07_fixed_field_rootd
 
   character(len=1024) :: repo_root
   character(len=1024) :: output_dir
+  character(len=2048) :: tables_path
+  character(len=2048) :: input_path
   integer :: lat_id
   integer :: lon_id
   integer :: var_id
@@ -15,8 +17,16 @@ program example_07_fixed_field_rootd
   double precision :: lon_bnds(2, nlon)
 
   call get_example_args(repo_root, output_dir)
-  call configure_cmor(repo_root, output_dir, "example_07_input.json", &
-       "fx", "r1", "f1")
+  call prepare_cmor_paths(repo_root, output_dir, "example_07_input.json", &
+       "fx", "r1", "f1", tables_path, input_path)
+
+  ierr = cmor_setup(inpath=trim(tables_path), &
+       netcdf_file_action=CMOR_REPLACE, &
+       exit_control=CMOR_EXIT_ON_MAJOR)
+  call check_status("cmor_setup", ierr)
+
+  ierr = cmor_dataset_json(trim(input_path))
+  call check_status("cmor_dataset_json", ierr)
 
   ierr = cmor_load_table("CMIP7_land.json")
 

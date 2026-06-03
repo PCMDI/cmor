@@ -20,32 +20,23 @@ contains
     if (len_trim(output_dir) == 0) output_dir = "examples/fortran/output"
   end subroutine get_example_args
 
-  subroutine configure_cmor(repo_root, output_dir, input_name, frequency, &
-       realization_index, forcing_index)
+  subroutine prepare_cmor_paths(repo_root, output_dir, input_name, frequency, &
+       realization_index, forcing_index, tables_path, input_path)
     character(len=*), intent(in) :: repo_root
     character(len=*), intent(in) :: output_dir
     character(len=*), intent(in) :: input_name
     character(len=*), intent(in) :: frequency
     character(len=*), intent(in) :: realization_index
     character(len=*), intent(in) :: forcing_index
-    character(len=2048) :: tables_path
-    character(len=2048) :: input_path
-    integer :: ierr
+    character(len=*), intent(out) :: tables_path
+    character(len=*), intent(out) :: input_path
 
     tables_path = trim(repo_root)//"/cmip7-cmor-tables/tables"
     input_path = trim(output_dir)//"/"//trim(input_name)
 
     call write_user_input(repo_root, output_dir, input_path, frequency, &
          realization_index, forcing_index)
-
-    ierr = cmor_setup(inpath=trim(tables_path), &
-         netcdf_file_action=CMOR_REPLACE, &
-         exit_control=CMOR_EXIT_ON_MAJOR)
-    call check_status("cmor_setup", ierr)
-
-    ierr = cmor_dataset_json(trim(input_path))
-    call check_status("cmor_dataset_json", ierr)
-  end subroutine configure_cmor
+  end subroutine prepare_cmor_paths
 
   subroutine write_user_input(repo_root, output_dir, input_path, frequency, &
        realization_index, forcing_index)
