@@ -10,7 +10,9 @@ program example_07_fixed_field_rootd
   integer :: lon_id
   integer :: var_id
   integer :: ierr
+  integer :: nul_pos
   real :: rootd(nlon, nlat)
+  character(len=2048) :: filename
   double precision :: lat(nlat)
   double precision :: lon(nlon)
   double precision :: lat_bnds(2, nlat)
@@ -69,5 +71,14 @@ program example_07_fixed_field_rootd
 
   ierr = cmor_write(var_id, rootd)
   call check_status("cmor_write", ierr)
-  call close_example(var_id)
+
+  filename = ""
+  ierr = cmor_close(var_id, file_name=filename)
+  call check_status("cmor_close(var)", ierr)
+  nul_pos = index(filename, char(0))
+  if (nul_pos > 0) filename(nul_pos:) = " "
+  write(*, '(a)') trim(filename)
+
+  ierr = cmor_close()
+  call check_status("cmor_close", ierr)
 end program example_07_fixed_field_rootd

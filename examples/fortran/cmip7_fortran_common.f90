@@ -30,23 +30,10 @@ contains
     character(len=*), intent(in) :: forcing_index
     character(len=*), intent(out) :: tables_path
     character(len=*), intent(out) :: input_path
+    integer :: unit
 
     tables_path = trim(repo_root)//"/cmip7-cmor-tables/tables"
     input_path = trim(output_dir)//"/"//trim(input_name)
-
-    call write_user_input(repo_root, output_dir, input_path, frequency, &
-         realization_index, forcing_index)
-  end subroutine prepare_cmor_paths
-
-  subroutine write_user_input(repo_root, output_dir, input_path, frequency, &
-       realization_index, forcing_index)
-    character(len=*), intent(in) :: repo_root
-    character(len=*), intent(in) :: output_dir
-    character(len=*), intent(in) :: input_path
-    character(len=*), intent(in) :: frequency
-    character(len=*), intent(in) :: realization_index
-    character(len=*), intent(in) :: forcing_index
-    integer :: unit
 
     open(newunit=unit, file=trim(input_path), status="replace", &
          action="write")
@@ -75,7 +62,7 @@ contains
     call json_string(unit, "source_id", "DUMMY-MODEL", .false.)
     write(unit, '(a)') "}"
     close(unit)
-  end subroutine write_user_input
+  end subroutine prepare_cmor_paths
 
   subroutine json_string(unit, key, value, comma)
     integer, intent(in) :: unit
@@ -122,22 +109,5 @@ contains
       stop 1
     endif
   end subroutine check_id
-
-  subroutine close_example(var_id)
-    integer, intent(in) :: var_id
-    character(len=2048) :: filename
-    integer :: ierr
-    integer :: nul_pos
-
-    filename = ""
-    ierr = cmor_close(var_id, file_name=filename)
-    call check_status("cmor_close(var)", ierr)
-    nul_pos = index(filename, char(0))
-    if (nul_pos > 0) filename(nul_pos:) = " "
-    write(*, '(a)') trim(filename)
-
-    ierr = cmor_close()
-    call check_status("cmor_close", ierr)
-  end subroutine close_example
 
 end module cmip7_fortran_common

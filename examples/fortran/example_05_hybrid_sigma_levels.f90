@@ -14,12 +14,14 @@ program example_05_hybrid_sigma_levels
   integer :: ps_id
   integer :: var_id
   integer :: ierr
+  integer :: nul_pos
   integer :: i
   integer :: j
   integer :: k
   integer :: t
   real :: cl(nlon, nlat, nlev, ntimes)
   real :: ps(nlon, nlat, ntimes)
+  character(len=2048) :: filename
   double precision :: lat(nlat)
   double precision :: lon(nlon)
   double precision :: time(ntimes)
@@ -155,5 +157,14 @@ program example_05_hybrid_sigma_levels
   call check_status("cmor_write(cl)", ierr)
   ierr = cmor_write(ps_id, ps, store_with=var_id)
   call check_status("cmor_write(ps)", ierr)
-  call close_example(var_id)
+
+  filename = ""
+  ierr = cmor_close(var_id, file_name=filename)
+  call check_status("cmor_close(var)", ierr)
+  nul_pos = index(filename, char(0))
+  if (nul_pos > 0) filename(nul_pos:) = " "
+  write(*, '(a)') trim(filename)
+
+  ierr = cmor_close()
+  call check_status("cmor_close", ierr)
 end program example_05_hybrid_sigma_levels

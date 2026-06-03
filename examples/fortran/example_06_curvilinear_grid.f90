@@ -16,10 +16,12 @@ program example_06_curvilinear_grid
   integer :: grid_table_id
   integer :: var_id
   integer :: ierr
+  integer :: nul_pos
   integer :: i
   integer :: j
   integer :: t
   real :: hfls(nx, ny, ntimes)
+  character(len=2048) :: filename
   double precision :: x(nx)
   double precision :: y(ny)
   double precision :: x_bnds(2, nx)
@@ -125,5 +127,14 @@ program example_06_curvilinear_grid
 
   ierr = cmor_write(var_id, hfls)
   call check_status("cmor_write", ierr)
-  call close_example(var_id)
+
+  filename = ""
+  ierr = cmor_close(var_id, file_name=filename)
+  call check_status("cmor_close(var)", ierr)
+  nul_pos = index(filename, char(0))
+  if (nul_pos > 0) filename(nul_pos:) = " "
+  write(*, '(a)') trim(filename)
+
+  ierr = cmor_close()
+  call check_status("cmor_close", ierr)
 end program example_06_curvilinear_grid

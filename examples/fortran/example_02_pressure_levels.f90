@@ -13,11 +13,13 @@ program example_02_pressure_levels
   integer :: plev_id
   integer :: var_id
   integer :: ierr
+  integer :: nul_pos
   integer :: i
   integer :: j
   integer :: k
   integer :: t
   real :: ta(nlon, nlat, nplev, ntimes)
+  character(len=2048) :: filename
   double precision :: lat(nlat)
   double precision :: lon(nlon)
   double precision :: time(ntimes)
@@ -107,5 +109,14 @@ program example_02_pressure_levels
 
   ierr = cmor_write(var_id, ta)
   call check_status("cmor_write", ierr)
-  call close_example(var_id)
+
+  filename = ""
+  ierr = cmor_close(var_id, file_name=filename)
+  call check_status("cmor_close(var)", ierr)
+  nul_pos = index(filename, char(0))
+  if (nul_pos > 0) filename(nul_pos:) = " "
+  write(*, '(a)') trim(filename)
+
+  ierr = cmor_close()
+  call check_status("cmor_close", ierr)
 end program example_02_pressure_levels

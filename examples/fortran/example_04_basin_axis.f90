@@ -13,7 +13,9 @@ program example_04_basin_axis
   integer :: basin_id
   integer :: var_id
   integer :: ierr
+  integer :: nul_pos
   real :: heat_transport(nlat, nbasin, ntimes)
+  character(len=2048) :: filename
   double precision :: lat(nlat)
   double precision :: lat_bnds(2, nlat)
   double precision :: time(ntimes)
@@ -83,5 +85,14 @@ program example_04_basin_axis
 
   ierr = cmor_write(var_id, heat_transport)
   call check_status("cmor_write", ierr)
-  call close_example(var_id)
+
+  filename = ""
+  ierr = cmor_close(var_id, file_name=filename)
+  call check_status("cmor_close(var)", ierr)
+  nul_pos = index(filename, char(0))
+  if (nul_pos > 0) filename(nul_pos:) = " "
+  write(*, '(a)') trim(filename)
+
+  ierr = cmor_close()
+  call check_status("cmor_close", ierr)
 end program example_04_basin_axis
