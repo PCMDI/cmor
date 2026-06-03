@@ -49,6 +49,7 @@ program example_05_hybrid_sigma_levels
   call check_status("cmor_dataset_json", ierr)
 
   ierr = cmor_load_table("CMIP7_atmos.json")
+  call check_id("cmor_load_table(CMIP7_atmos)", ierr)
 
   lat = (/ 10.0d0, 20.0d0, 30.0d0 /)
   lat_bnds(:, 1) = (/ 5.0d0, 15.0d0 /)
@@ -71,6 +72,7 @@ program example_05_hybrid_sigma_levels
        length=nlon, &
        coord_vals=lon, &
        cell_bounds=lon_bnds)
+  call check_id("cmor_axis(longitude)", lon_id)
 
   lat_id = cmor_axis(table="CMIP7_atmos.json", &
        table_entry="latitude", &
@@ -78,6 +80,7 @@ program example_05_hybrid_sigma_levels
        length=nlat, &
        coord_vals=lat, &
        cell_bounds=lat_bnds)
+  call check_id("cmor_axis(latitude)", lat_id)
 
   time_id = cmor_axis(table="CMIP7_atmos.json", &
        table_entry="time", &
@@ -85,6 +88,7 @@ program example_05_hybrid_sigma_levels
        length=ntimes, &
        coord_vals=time, &
        cell_bounds=time_bnds)
+  call check_id("cmor_axis(time)", time_id)
 
   lev = (/ 0.92d0, 0.72d0, 0.50d0, 0.30d0, 0.10d0 /)
   lev_bnds = (/ 1.00d0, 0.83d0, 0.61d0, 0.40d0, 0.20d0, 0.00d0 /)
@@ -94,6 +98,7 @@ program example_05_hybrid_sigma_levels
        length=nlev, &
        coord_vals=lev, &
        cell_bounds=lev_bnds)
+  call check_id("cmor_axis(standard_hybrid_sigma)", lev_id)
 
   a_coeff = (/ 0.12d0, 0.22d0, 0.30d0, 0.20d0, 0.10d0 /)
   b_coeff = (/ 0.80d0, 0.50d0, 0.20d0, 0.10d0, 0.00d0 /)
@@ -152,6 +157,7 @@ program example_05_hybrid_sigma_levels
        units="%", &
        axis_ids=(/ lon_id, lat_id, lev_id, time_id /), &
        missing_value=missing_value)
+  call check_id("cmor_variable(cl)", var_id)
 
   ierr = cmor_write(var_id, cl)
   call check_status("cmor_write(cl)", ierr)

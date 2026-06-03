@@ -49,6 +49,7 @@ program example_06_curvilinear_grid
   call check_status("cmor_dataset_json", ierr)
 
   grid_table_id = cmor_load_table("CMIP7_grids.json")
+  call check_id("cmor_load_table(CMIP7_grids)", grid_table_id)
   call cmor_set_table(grid_table_id)
 
   x = (/ 0.0d0, 10000.0d0, 20000.0d0, 30000.0d0 /)
@@ -63,8 +64,10 @@ program example_06_curvilinear_grid
 
   x_id = cmor_axis(table_entry="x", units="m", length=nx, &
        coord_vals=x, cell_bounds=x_bnds)
+  call check_id("cmor_axis(x)", x_id)
   y_id = cmor_axis(table_entry="y", units="m", length=ny, &
        coord_vals=y, cell_bounds=y_bnds)
+  call check_id("cmor_axis(y)", y_id)
 
   do j = 1, ny
     do i = 1, nx
@@ -85,6 +88,7 @@ program example_06_curvilinear_grid
        longitude=longitude, &
        latitude_vertices=latitude_vertices, &
        longitude_vertices=longitude_vertices)
+  call check_grid_id("cmor_grid", grid_id)
 
   parameter_names = (/ "standard_parallel1           ", &
        "longitude_of_central_meridian", &
@@ -99,6 +103,7 @@ program example_06_curvilinear_grid
   call check_status("cmor_set_grid_mapping", ierr)
 
   ierr = cmor_load_table("CMIP7_atmos.json")
+  call check_id("cmor_load_table(CMIP7_atmos)", ierr)
   time = (/ 15.5d0, 45.5d0 /)
   time_bnds(:, 1) = (/ 0.0d0, 31.0d0 /)
   time_bnds(:, 2) = (/ 31.0d0, 60.0d0 /)
@@ -108,6 +113,7 @@ program example_06_curvilinear_grid
        length=ntimes, &
        coord_vals=time, &
        cell_bounds=time_bnds)
+  call check_id("cmor_axis(time)", time_id)
 
   do t = 1, ntimes
     do j = 1, ny
@@ -124,6 +130,7 @@ program example_06_curvilinear_grid
        axis_ids=(/ grid_id, time_id /), &
        positive="up", &
        missing_value=missing_value)
+  call check_id("cmor_variable(hfls)", var_id)
 
   ierr = cmor_write(var_id, hfls)
   call check_status("cmor_write", ierr)

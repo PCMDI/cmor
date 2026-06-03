@@ -34,6 +34,7 @@ program example_01_regular_grid_tos
   call check_status("cmor_dataset_json", ierr)
 
   ierr = cmor_load_table("CMIP7_ocean.json")
+  call check_id("cmor_load_table(CMIP7_ocean)", ierr)
 
   lat = (/ 10.0d0, 20.0d0, 30.0d0 /)
   lat_bnds(:, 1) = (/ 5.0d0, 15.0d0 /)
@@ -56,6 +57,7 @@ program example_01_regular_grid_tos
        length=nlon, &
        coord_vals=lon, &
        cell_bounds=lon_bnds)
+  call check_id("cmor_axis(longitude)", lon_id)
 
   lat_id = cmor_axis(table="CMIP7_ocean.json", &
        table_entry="latitude", &
@@ -63,6 +65,7 @@ program example_01_regular_grid_tos
        length=nlat, &
        coord_vals=lat, &
        cell_bounds=lat_bnds)
+  call check_id("cmor_axis(latitude)", lat_id)
 
   time_id = cmor_axis(table="CMIP7_ocean.json", &
        table_entry="time", &
@@ -70,6 +73,7 @@ program example_01_regular_grid_tos
        length=ntimes, &
        coord_vals=time, &
        cell_bounds=time_bnds)
+  call check_id("cmor_axis(time)", time_id)
 
   tos(:, :, 1) = reshape((/ &
        254.0895, 258.4085, missing_value, 258.7101, &
@@ -87,6 +91,7 @@ program example_01_regular_grid_tos
        units="degC", &
        axis_ids=(/ lon_id, lat_id, time_id /), &
        missing_value=missing_value)
+  call check_id("cmor_variable(tos)", var_id)
 
   ierr = cmor_write(var_id, tos)
   call check_status("cmor_write", ierr)

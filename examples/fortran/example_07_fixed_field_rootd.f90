@@ -31,6 +31,7 @@ program example_07_fixed_field_rootd
   call check_status("cmor_dataset_json", ierr)
 
   ierr = cmor_load_table("CMIP7_land.json")
+  call check_id("cmor_load_table(CMIP7_land)", ierr)
 
   lat = (/ 10.0d0, 20.0d0, 30.0d0 /)
   lat_bnds(:, 1) = (/ 5.0d0, 15.0d0 /)
@@ -49,6 +50,7 @@ program example_07_fixed_field_rootd
        length=nlon, &
        coord_vals=lon, &
        cell_bounds=lon_bnds)
+  call check_id("cmor_axis(longitude)", lon_id)
 
   lat_id = cmor_axis(table="CMIP7_land.json", &
        table_entry="latitude", &
@@ -56,6 +58,7 @@ program example_07_fixed_field_rootd
        length=nlat, &
        coord_vals=lat, &
        cell_bounds=lat_bnds)
+  call check_id("cmor_axis(latitude)", lat_id)
 
   rootd = reshape((/ &
        0.50, 0.45, missing_value, 0.55, &
@@ -68,6 +71,7 @@ program example_07_fixed_field_rootd
        units="m", &
        axis_ids=(/ lon_id, lat_id /), &
        missing_value=missing_value)
+  call check_id("cmor_variable(rootd)", var_id)
 
   ierr = cmor_write(var_id, rootd)
   call check_status("cmor_write", ierr)

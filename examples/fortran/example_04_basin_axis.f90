@@ -34,6 +34,7 @@ program example_04_basin_axis
   call check_status("cmor_dataset_json", ierr)
 
   ierr = cmor_load_table("CMIP7_ocean.json")
+  call check_id("cmor_load_table(CMIP7_ocean)", ierr)
 
   lat = (/ 10.0d0, 20.0d0, 30.0d0 /)
   lat_bnds(:, 1) = (/ 5.0d0, 15.0d0 /)
@@ -46,6 +47,7 @@ program example_04_basin_axis
        length=nlat, &
        coord_vals=lat, &
        cell_bounds=lat_bnds)
+  call check_id("cmor_axis(latitude)", lat_id)
 
   time = (/ 15.5d0, 45.5d0 /)
   time_bnds(:, 1) = (/ 0.0d0, 31.0d0 /)
@@ -56,6 +58,7 @@ program example_04_basin_axis
        length=ntimes, &
        coord_vals=time, &
        cell_bounds=time_bnds)
+  call check_id("cmor_axis(time)", time_id)
 
   basin_names(1) = "atlantic_arctic_ocean"
   basin_names(2) = "indian_pacific_ocean"
@@ -65,6 +68,7 @@ program example_04_basin_axis
        units="", &
        length=nbasin, &
        coord_vals=basin_names)
+  call check_id("cmor_axis(basin)", basin_id)
 
   heat_transport(:, :, 1) = reshape((/ &
        -80.0, -84.0, -88.0, &
@@ -82,6 +86,7 @@ program example_04_basin_axis
        units="W", &
        axis_ids=(/ lat_id, basin_id, time_id /), &
        missing_value=missing_value)
+  call check_id("cmor_variable(htovgyre)", var_id)
 
   ierr = cmor_write(var_id, heat_transport)
   call check_status("cmor_write", ierr)

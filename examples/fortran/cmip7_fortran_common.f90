@@ -110,4 +110,14 @@ contains
     endif
   end subroutine check_id
 
+  subroutine check_grid_id(call_name, cmor_id)
+    character(len=*), intent(in) :: call_name
+    integer, intent(in) :: cmor_id
+
+    if (cmor_id > -CMOR_MAX_GRIDS) then
+      write(*, '(a, i0)') trim(call_name)//" failed with grid id ", cmor_id
+      stop 1
+    endif
+  end subroutine check_grid_id
+
 end module cmip7_fortran_common

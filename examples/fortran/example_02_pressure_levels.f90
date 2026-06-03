@@ -41,6 +41,7 @@ program example_02_pressure_levels
   call check_status("cmor_dataset_json", ierr)
 
   ierr = cmor_load_table("CMIP7_atmos.json")
+  call check_id("cmor_load_table(CMIP7_atmos)", ierr)
 
   lat = (/ 10.0d0, 20.0d0, 30.0d0 /)
   lat_bnds(:, 1) = (/ 5.0d0, 15.0d0 /)
@@ -63,6 +64,7 @@ program example_02_pressure_levels
        length=nlon, &
        coord_vals=lon, &
        cell_bounds=lon_bnds)
+  call check_id("cmor_axis(longitude)", lon_id)
 
   lat_id = cmor_axis(table="CMIP7_atmos.json", &
        table_entry="latitude", &
@@ -70,6 +72,7 @@ program example_02_pressure_levels
        length=nlat, &
        coord_vals=lat, &
        cell_bounds=lat_bnds)
+  call check_id("cmor_axis(latitude)", lat_id)
 
   time_id = cmor_axis(table="CMIP7_atmos.json", &
        table_entry="time", &
@@ -77,6 +80,7 @@ program example_02_pressure_levels
        length=ntimes, &
        coord_vals=time, &
        cell_bounds=time_bnds)
+  call check_id("cmor_axis(time)", time_id)
 
   plev = (/ 100000.0d0, 92500.0d0, 85000.0d0, 70000.0d0, 60000.0d0, &
        50000.0d0, 40000.0d0, 30000.0d0, 25000.0d0, 20000.0d0, &
@@ -88,6 +92,7 @@ program example_02_pressure_levels
        units="Pa", &
        length=nplev, &
        coord_vals=plev)
+  call check_id("cmor_axis(plev19)", plev_id)
 
   do t = 1, ntimes
     do k = 1, nplev
@@ -106,6 +111,7 @@ program example_02_pressure_levels
        units="K", &
        axis_ids=(/ lon_id, lat_id, plev_id, time_id /), &
        missing_value=missing_value)
+  call check_id("cmor_variable(ta)", var_id)
 
   ierr = cmor_write(var_id, ta)
   call check_status("cmor_write", ierr)
