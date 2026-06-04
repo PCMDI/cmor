@@ -7371,10 +7371,11 @@ contains
     endif
   end function cmor_setup_nc_char
 
-  function cmor_dataset_json(json_file)
+  function cmor_dataset_json(json_file) result(ierr)
     character(*) json_file
-    ierr = cmor_dataset_json_cff(trim(json_file)//char(0))
-    ierr = -ierr
+    integer :: ierr
+
+    ierr = -cmor_dataset_json_cff(trim(json_file)//char(0))
   end function cmor_dataset_json
 
 

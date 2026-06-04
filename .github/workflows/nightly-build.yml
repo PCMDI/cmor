@@ -140,6 +140,9 @@ jobs:
           export HDF5_PLUGIN_PATH="$(python -c 'import hdf5plugin; print(hdf5plugin.PLUGINS_PATH)')"
           make test -o cmor -o python
 
+          cd examples/fortran
+          ./run_examples.sh
+
       - name: Conda Upload
         env:
           CONDA_UPLOAD_TOKEN: ${{ secrets.CONDA_UPLOAD_TOKEN }}
