@@ -9,7 +9,7 @@ from pathlib import Path
 import cmor
 import numpy as np
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = Path(__file__).resolve().parents[2]
 TABLES_PATH = REPO_ROOT / "cmip7-cmor-tables" / "tables"
 CV_PATH = REPO_ROOT / "cmip7-cmor-tables" / "tables-cvs" / "cmor-cvs.json"
 CMOR_CV_PATH = Path("..") / CV_PATH.relative_to(TABLES_PATH.parent)
