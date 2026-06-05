@@ -10,7 +10,7 @@ Create the notebook environment from the repository root:
 python -m venv venv
 source venv/bin/activate
 pip install cmor --extra-index-url https://pcmdi.github.io/cmor
-pip install jupyterlab xarray matplotlib netCDF4 basemap pyproj
+pip install jupyterlab xarray matplotlib netCDF4 basemap pyproj nbstripout
 ```
 
 Start JupyterLab:
@@ -20,6 +20,17 @@ jupyter lab notebooks
 ```
 
 The notebooks write generated NetCDF files under `notebooks/output/`.
+
+### Rebuilding notebook output
+To rebuild checked-in example notebook output from the repository root:
+
+```bash
+tools/rebuild_notebook_output.sh notebooks/01_basic_ocean_surface_temperature.ipynb
+```
+
+Use `tools/rebuild_notebook_output.sh --all` to rebuild every example notebook.
+The tool executes notebooks in place, keeps the regenerated outputs, and strips
+notebook metadata with `nbstripout`.
 
 ## Notebooks
 
