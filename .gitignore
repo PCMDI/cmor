@@ -1,6 +1,7 @@
 *.[oa]
 *~
 *.nc
+!notebooks/data/*.nc
 *.pyc
 *.gcno
 *.gcda
@@ -29,3 +30,6 @@ include/cmor_locale.h
 recipes/cmor/meta.yaml
 CMOR.egg-info
 cmor.log*
+venv/
+notebooks/output/
+.ipynb_checkpoints/
