@@ -1036,7 +1036,10 @@ int cmor_load_table_internal(char szTable[CMOR_MAX_STRING], int *table_id,
             done = 1;
         } else if (strncmp(key, JSON_KEY_CV_ENTRY, 2) == 0) {
 
-            cmor_validate_cv(value, NULL);
+            if (cmor_validate_cv(value, NULL) == TABLE_ERROR) {
+                cmor_pop_traceback();
+                return (TABLE_ERROR);
+            }
 
             if (cmor_CV_set_entry(&cmor_tables[cmor_ntables], value) == 1) {
                 cmor_pop_traceback();
@@ -1203,7 +1206,7 @@ int cmor_validate_json(json_object *json)
 /************************************************************************/
 /*                         cmor_validate_cv()                           */
 /************************************************************************/
-void cmor_validate_cv(json_object *cv, char *parent_attr)
+int cmor_validate_cv(json_object *cv, char *parent_attr)
 {
     array_list *array;
     json_object *array_obj;
@@ -1214,6 +1217,21 @@ void cmor_validate_cv(json_object *cv, char *parent_attr)
 
     json_object_object_foreach(cv, attr, value) {
         single_value_pairs = 0;
+
+        // String values must be 1023 or less characters long
+        if (json_object_is_type(value, json_type_string)) {
+            length = json_object_get_string_len(value);
+            if (length >= CMOR_MAX_STRING) {
+                cmor_handle_error_variadic(
+                    "Attribute \"%s\" has a string value "
+                    "with a length of %d characters, which "
+                    "exceeds the %d character limit.",
+                    CMOR_CRITICAL,
+                    attr, length, CMOR_MAX_STRING - 1);
+                cmor_pop_traceback();
+                return TABLE_ERROR;
+            }
+        }
 
         if (parent_attr == NULL) {
             if (strcmp(attr, CV_KEY_BRANDING_TEMPLATE) == 0) {
@@ -1360,5 +1378,5 @@ void cmor_validate_cv(json_object *cv, char *parent_attr)
     }
 
     cmor_pop_traceback();
-    return;
+    return TABLE_SUCCESS;
 }
