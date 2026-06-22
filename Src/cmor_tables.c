@@ -1210,7 +1210,7 @@ int cmor_validate_cv(json_object *cv, char *parent_attr)
 {
     array_list *array;
     json_object *array_obj;
-    size_t length, i;
+    size_t length, str_len, i;
     int single_value_pairs;
 
     size_t partial_len = 25;
@@ -1222,22 +1222,22 @@ int cmor_validate_cv(json_object *cv, char *parent_attr)
         single_value_pairs = 0;
 
         // String values must be 1023 or less characters long
-        length = strlen(attr);
-        if (length >= CMOR_MAX_STRING) {
+        str_len = strlen(attr);
+        if (str_len >= CMOR_MAX_STRING) {
             strncpy(partial_str, attr, partial_len);
             partial_str[partial_len - 1] = '\0';
             cmor_handle_error_variadic(
                 "Attribute \"%s...\" has a length of %d characters, "
                 "which exceeds the %d character limit.",
                 CMOR_CRITICAL,
-                partial_str, length, CMOR_MAX_STRING - 1);
+                partial_str, str_len, CMOR_MAX_STRING - 1);
             cmor_pop_traceback();
             return TABLE_ERROR;
         }
 
         if (json_object_is_type(value, json_type_string)) {
-            length = json_object_get_string_len(value);
-            if (length >= CMOR_MAX_STRING) {
+            str_len = json_object_get_string_len(value);
+            if (str_len >= CMOR_MAX_STRING) {
                 strncpy(partial_str,
                         json_object_get_string(value),
                         partial_len);
@@ -1247,7 +1247,7 @@ int cmor_validate_cv(json_object *cv, char *parent_attr)
                     "with a length of %d characters, which "
                     "exceeds the %d character limit.",
                     CMOR_CRITICAL,
-                    attr, partial_str, length, CMOR_MAX_STRING - 1);
+                    attr, partial_str, str_len, CMOR_MAX_STRING - 1);
                 cmor_pop_traceback();
                 return TABLE_ERROR;
             }
@@ -1373,8 +1373,8 @@ int cmor_validate_cv(json_object *cv, char *parent_attr)
                         attr);
                         break;
                 } else {
-                    length = json_object_get_string_len(array_obj);
-                    if (length >= CMOR_MAX_STRING) {
+                    str_len = json_object_get_string_len(array_obj);
+                    if (str_len >= CMOR_MAX_STRING) {
                         strncpy(partial_str,
                                 json_object_get_string(array_obj),
                                 partial_len);
@@ -1384,7 +1384,7 @@ int cmor_validate_cv(json_object *cv, char *parent_attr)
                             "array with a length of %d characters, which "
                             "exceeds the %d character limit.",
                             CMOR_CRITICAL,
-                            attr, partial_str, length, CMOR_MAX_STRING - 1);
+                            attr, partial_str, str_len, CMOR_MAX_STRING - 1);
                         cmor_pop_traceback();
                         return TABLE_ERROR;
                     }
@@ -1392,8 +1392,8 @@ int cmor_validate_cv(json_object *cv, char *parent_attr)
             }
         } else if (json_object_is_type(value, json_type_object)) {
             json_object_object_foreach(value, k, v) {
-                length = strlen(k);
-                if (length >= CMOR_MAX_STRING) {
+                str_len = strlen(k);
+                if (str_len >= CMOR_MAX_STRING) {
                     strncpy(partial_str, k, partial_len);
                     partial_str[partial_len - 1] = '\0';
                     cmor_handle_error_variadic(
@@ -1401,7 +1401,7 @@ int cmor_validate_cv(json_object *cv, char *parent_attr)
                         "has a length of %d characters, which "
                         "exceeds the %d character limit.",
                         CMOR_CRITICAL,
-                        partial_str, attr, length, CMOR_MAX_STRING - 1);
+                        partial_str, attr, str_len, CMOR_MAX_STRING - 1);
                     cmor_pop_traceback();
                     return TABLE_ERROR;
                 } else if (json_object_is_type(v, json_type_array)) {
