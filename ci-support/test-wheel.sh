@@ -212,6 +212,7 @@ wheel_python_tests=(
     "Test/test_cmor_frequency_required.py"
     "Test/test_cmor_parent_attrs.py"
     "Test/test_cmor_variable_attr_comment.py"
+    "Test/test_cmor_cv_string_too_long.py"
     "Test/test_python_CMIP6_CV_sub_experimentnotset.py"
     "Test/test_python_CMIP6_CV_sub_experimentbad.py"
     "Test/test_python_CMIP6_CV_furtherinfourl.py"
