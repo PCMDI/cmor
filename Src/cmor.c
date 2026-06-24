@@ -722,7 +722,7 @@ int cmor_have_NetCDF41min(void)
 }
 
 /************************************************************************/
-/*                         cmor_handle_error_internal()                          */
+/*                   cmor_handle_error_internal()                       */
 /************************************************************************/
 void cmor_handle_error_internal(char *error_msg, int level)
 {
@@ -732,83 +732,68 @@ void cmor_handle_error_internal(char *error_msg, int level)
     if (output_logfile == NULL)
         output_logfile = stderr;
 
+#ifdef COLOREDOUTPUT
+    int use_color = isatty(fileno(output_logfile));
+    #define ANSI_COLOR(f, ...) do { if (use_color) fprintf(f, __VA_ARGS__); } while(0)
+#else
+    #define ANSI_COLOR(f, ...) do {} while(0)
+#endif
+
     if (CMOR_VERBOSITY != CMOR_QUIET) {
         fprintf(output_logfile, "\n");
     }
+
     if (level == CMOR_WARNING) {
         cmor_nwarnings++;
         if (CMOR_VERBOSITY != CMOR_QUIET) {
-
-#ifdef COLOREDOUTPUT
-            fprintf(output_logfile, "%c[%d;%d;%dm", 0X1B, 2, 34, 47);
-#endif
-
+            ANSI_COLOR(output_logfile, "%c[%d;%d;%dm", 0x1B, 2, 34, 47);
             fprintf(output_logfile, "C Traceback:\nIn function: %s",
                     cmor_traceback_info);
-
-#ifdef COLOREDOUTPUT
-            fprintf(output_logfile, "%c[%dm", 0X1B, 0);
-#endif
-
+            ANSI_COLOR(output_logfile, "%c[%dm", 0x1B, 0);
             fprintf(output_logfile, "\n\n");
-
-#ifdef COLOREDOUTPUT
-            fprintf(output_logfile, "%c[%d;%d;%dm", 0X1B, 1, 34, 47);
-#endif
         }
     } else {
         cmor_nerrors++;
-
-#ifdef COLOREDOUTPUT
-        fprintf(output_logfile, "%c[%d;%d;%dm", 0X1B, 2, 31, 47);
-#endif
-
+        ANSI_COLOR(output_logfile, "%c[%d;%d;%dm", 0x1B, 2, 31, 47);
         fprintf(output_logfile, "C Traceback:\n! In function: %s",
                 cmor_traceback_info);
-
-#ifdef COLOREDOUTPUT
-        fprintf(output_logfile, "%c[%dm", 0X1B, 0);
-#endif
-
+        ANSI_COLOR(output_logfile, "%c[%dm", 0x1B, 0);
         fprintf(output_logfile, "\n\n");
-
-#ifdef COLOREDOUTPUT
-        fprintf(output_logfile, "%c[%d;%d;%dm", 0X1B, 1, 31, 47);
-#endif
     }
-    // fprintf(stderr, "%s ERROR LEVEL %d\n", error_msg, level);
+
     if (CMOR_VERBOSITY != CMOR_QUIET || level != CMOR_WARNING) {
-        for (i = 0; i < 25; i++) {
-            fprintf(output_logfile, "!");
+        /* Color the entire box: borders and message in one region */
+        if (level == CMOR_WARNING) {
+            ANSI_COLOR(output_logfile, "%c[%d;%d;%dm", 0x1B, 1, 34, 47);
+        } else {
+            ANSI_COLOR(output_logfile, "%c[%d;%d;%dm", 0x1B, 1, 31, 47);
         }
+
+        for (i = 0; i < 25; i++)
+            fprintf(output_logfile, "!");
         fprintf(output_logfile, "\n");
         fprintf(output_logfile, "!\n");
-        
+
         if (level == CMOR_WARNING)
             fprintf(output_logfile, "! Warning: %s\n", error_msg);
         else
             fprintf(output_logfile, "! Error: %s\n", error_msg);
 
         fprintf(output_logfile, "!\n");
-
         for (i = 0; i < 25; i++)
             fprintf(output_logfile, "!");
 
-#ifdef COLOREDOUTPUT
-        fprintf(output_logfile, "%c[%dm", 0X1B, 0);
-#endif
-
+        ANSI_COLOR(output_logfile, "%c[%dm", 0x1B, 0);
         fprintf(output_logfile, "\n\n");
     }
 
     CV_ERROR = 1;
     if (level == CMOR_NOT_SETUP) {
         exit(1);
-
     }
     if ((CMOR_MODE == CMOR_EXIT_ON_WARNING) || (level == CMOR_CRITICAL)) {
-        fflush(stdout); 
-        fflush(output_logfile); 
+        fflush(stdout);
+        fflush(output_logfile);
         kill(getpid(), SIGTERM);
     }
     fflush(output_logfile);
