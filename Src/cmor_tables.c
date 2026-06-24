@@ -1036,7 +1036,10 @@ int cmor_load_table_internal(char szTable[CMOR_MAX_STRING], int *table_id,
             done = 1;
         } else if (strncmp(key, JSON_KEY_CV_ENTRY, 2) == 0) {
 
-            cmor_validate_cv(value, NULL);
+            if (cmor_validate_cv(value, NULL) == TABLE_ERROR) {
+                cmor_pop_traceback();
+                return (TABLE_ERROR);
+            }
 
             if (cmor_CV_set_entry(&cmor_tables[cmor_ntables], value) == 1) {
                 cmor_pop_traceback();
@@ -1203,17 +1206,52 @@ int cmor_validate_json(json_object *json)
 /************************************************************************/
 /*                         cmor_validate_cv()                           */
 /************************************************************************/
-void cmor_validate_cv(json_object *cv, char *parent_attr)
+int cmor_validate_cv(json_object *cv, char *parent_attr)
 {
     array_list *array;
     json_object *array_obj;
-    size_t length, i;
+    size_t length, str_len, i;
     int single_value_pairs;
+
+    size_t partial_len = 25;
+    char partial_str[partial_len];
 
     cmor_add_traceback("cmor_validate_cv");
 
     json_object_object_foreach(cv, attr, value) {
         single_value_pairs = 0;
+
+        // String values must be 1023 or less characters long
+        str_len = strlen(attr);
+        if (str_len >= CMOR_MAX_STRING) {
+            strncpy(partial_str, attr, partial_len);
+            partial_str[partial_len - 1] = '\0';
+            cmor_handle_error_variadic(
+                "Attribute \"%s...\" has a length of %d characters, "
+                "which exceeds the %d character limit.",
+                CMOR_CRITICAL,
+                partial_str, str_len, CMOR_MAX_STRING - 1);
+            cmor_pop_traceback();
+            return TABLE_ERROR;
+        }
+
+        if (json_object_is_type(value, json_type_string)) {
+            str_len = json_object_get_string_len(value);
+            if (str_len >= CMOR_MAX_STRING) {
+                strncpy(partial_str,
+                        json_object_get_string(value),
+                        partial_len);
+                partial_str[partial_len - 1] = '\0';
+                cmor_handle_error_variadic(
+                    "Attribute \"%s\" has value \"%s...\" "
+                    "with a length of %d characters, which "
+                    "exceeds the %d character limit.",
+                    CMOR_CRITICAL,
+                    attr, partial_str, str_len, CMOR_MAX_STRING - 1);
+                cmor_pop_traceback();
+                return TABLE_ERROR;
+            }
+        }
 
         if (parent_attr == NULL) {
             if (strcmp(attr, CV_KEY_BRANDING_TEMPLATE) == 0) {
@@ -1334,11 +1372,39 @@ void cmor_validate_cv(json_object *cv, char *parent_attr)
                         CMOR_WARNING,
                         attr);
                         break;
+                } else {
+                    str_len = json_object_get_string_len(array_obj);
+                    if (str_len >= CMOR_MAX_STRING) {
+                        strncpy(partial_str,
+                                json_object_get_string(array_obj),
+                                partial_len);
+                        partial_str[partial_len - 1] = '\0';
+                        cmor_handle_error_variadic(
+                            "Attribute \"%s\" has value \"%s...\" in its "
+                            "array with a length of %d characters, which "
+                            "exceeds the %d character limit.",
+                            CMOR_CRITICAL,
+                            attr, partial_str, str_len, CMOR_MAX_STRING - 1);
+                        cmor_pop_traceback();
+                        return TABLE_ERROR;
+                    }
                 }
             }
         } else if (json_object_is_type(value, json_type_object)) {
             json_object_object_foreach(value, k, v) {
-                if (json_object_is_type(v, json_type_array)) {
+                str_len = strlen(k);
+                if (str_len >= CMOR_MAX_STRING) {
+                    strncpy(partial_str, k, partial_len);
+                    partial_str[partial_len - 1] = '\0';
+                    cmor_handle_error_variadic(
+                        "Key value \"%s...\" in attribute \"%s\" "
+                        "has a length of %d characters, which "
+                        "exceeds the %d character limit.",
+                        CMOR_CRITICAL,
+                        partial_str, attr, str_len, CMOR_MAX_STRING - 1);
+                    cmor_pop_traceback();
+                    return TABLE_ERROR;
+                } else if (json_object_is_type(v, json_type_array)) {
                     cmor_handle_error_variadic(
                         "Value for \"%s\" in attribute \"%s\" "
                         "cannot be an array",
@@ -1360,5 +1426,5 @@ void cmor_validate_cv(json_object *cv, char *parent_attr)
     }
 
     cmor_pop_traceback();
-    return;
+    return TABLE_SUCCESS;
 }
