@@ -59,7 +59,7 @@ contains
     call json_string(unit, "physics_index", "p1", .true.)
     call json_string(unit, "realization_index", trim(realization_index), .true.)
     call json_string(unit, "region", "glb", .true.)
-    call json_string(unit, "source_id", "DUMMY-MODEL", .false.)
+    call json_string(unit, "source_id", "ACCESS-ESM1-6", .false.)
     write(unit, '(a)') "}"
     close(unit)
   end subroutine prepare_cmor_paths
