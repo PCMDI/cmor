@@ -112,6 +112,8 @@ program example_02_pressure_levels
        axis_ids=(/ lon_id, lat_id, plev_id, time_id /), &
        missing_value=missing_value)
   call check_id("cmor_variable(ta)", var_id)
+  call apply_cmip7_variable_metadata(var_id, tables_path, "atmos", &
+       "ta_tavg-p19-hxy-air", "mon", "glb")
 
   ierr = cmor_write(var_id, ta)
   call check_status("cmor_write", ierr)

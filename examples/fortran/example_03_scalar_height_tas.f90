@@ -100,6 +100,8 @@ program example_03_scalar_height_tas
        axis_ids=(/ lon_id, lat_id, time_id /), &
        missing_value=missing_value)
   call check_id("cmor_variable(tas)", var_id)
+  call apply_cmip7_variable_metadata(var_id, tables_path, "atmos", &
+       "tas_tavg-h2m-hxy-u", "mon", "glb")
 
   ierr = cmor_write(var_id, tas)
   call check_status("cmor_write", ierr)
