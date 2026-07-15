@@ -11,14 +11,14 @@ Create a Conda or Mamba environment with CMOR, a C compiler, and the CMOR link
 dependencies.
 
 ```bash
-mamba create -n cmor-c -c conda-forge cmor c-compiler netcdf-c udunits2 json-c libuuid
+mamba create -n cmor-c -c conda-forge cmor c-compiler libnetcdf udunits2 json-c libuuid
 mamba activate cmor-c
 ```
 
 The equivalent Conda command is:
 
 ```bash
-conda create -n cmor-c -c conda-forge cmor c-compiler netcdf-c udunits2 json-c libuuid
+conda create -n cmor-c -c conda-forge cmor c-compiler libnetcdf udunits2 json-c libuuid
 conda activate cmor-c
 ```
 

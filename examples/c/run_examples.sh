@@ -3,8 +3,11 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+TABLES_PATH="${CMOR_TABLES_PATH:-$REPO_ROOT/cmip7-cmor-tables/tables}"
 OUTPUT_ROOT="${1:-$SCRIPT_DIR/output}"
 BUILD_DIR="${BUILD_DIR:-$SCRIPT_DIR/build}"
+
+cd "$SCRIPT_DIR"
 
 if [[ -z "${CONDA_PREFIX:-}" ]]; then
   echo "Activate your conda environment or run: conda run -n <env-name> $0" >&2
@@ -39,6 +42,11 @@ detect_c_compiler() {
 }
 
 mkdir -p "$BUILD_DIR" "$OUTPUT_ROOT"
+
+if [[ ! -d "$TABLES_PATH" ]]; then
+  echo "Could not find CMIP7 tables under $TABLES_PATH. Clone cmip7-cmor-tables or set CMOR_TABLES_PATH." >&2
+  exit 2
+fi
 
 CC="$(detect_c_compiler)"
 CMOR_PREFIX="${CMOR_PREFIX:-$CONDA_PREFIX}"
@@ -79,9 +87,7 @@ for link_dir in "${LINK_DIRS[@]}"; do
 done
 LINK_FLAGS+=("-lnetcdf" "-ludunits2" "-ljson-c" "-luuid" "-lm")
 for link_dir in "${LINK_DIRS[@]}"; do
-  if [[ "$(uname -s)" != "Darwin" || "$link_dir" != "$CONDA_PREFIX/lib" ]]; then
-    LINK_FLAGS+=("-Wl,-rpath,$link_dir")
-  fi
+  LINK_FLAGS+=("-Wl,-rpath,$link_dir")
 done
 
 INCLUDES=("-I$SCRIPT_DIR" "-I$CMOR_INCLUDE_DIR" "-I$CMOR_CDTIME_INCLUDE_DIR" "-I$CONDA_PREFIX/include")
@@ -110,4 +116,4 @@ for example in "${examples[@]}"; do
   "$exe" "$REPO_ROOT" "$run_output"
 done
 
-echo "Wrote CMIP7 example output under $OUTPUT_ROOT"
+echo "Wrote CMIP7 example output under $run_output"
