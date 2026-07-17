@@ -33,7 +33,7 @@ jobs:
     runs-on: ${{ matrix.runner.RUNNER_OS }}
     env:
       CIBW_ARCHS: ${{ matrix.runner.CIBW_ARCHS }}
-      CIBW_BUILD: "cp310-* cp311-* cp312-* cp313-* cp314-*"
+      CIBW_BUILD: "cp311-* cp312-* cp313-* cp314-*"
       CIBW_SKIP: "*-musllinux*"
       CIBW_BEFORE_ALL: "bash {project}/ci-support/cibw-before-all.sh"
       CIBW_BEFORE_BUILD: "bash {project}/ci-support/cibw-before-build.sh"
