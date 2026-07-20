@@ -183,6 +183,17 @@ class TestStoreWithTime1(unittest.TestCase):
                     100000.0 + numpy.arange(self.ntime, dtype="f"),
                 )
 
+    def test_store_with_time1_without_axis_or_passed_time_values_raises(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            output_dir = Path(tmpdir)
+            input_path = write_user_input(output_dir, "6hr")
+            var_id, ps_id = self._cmor_time1_setup(input_path, time_axis_with_values=False)
+
+            for i in range(self.ntime):
+                cmor.write(var_id, self.hus_data[i:i + 1], time_vals=self.time_vals[i], ntimes_passed=1)
+            with self.assertRaises(cmor.CMORError):
+                cmor.write(ps_id, self.ps_data, store_with=var_id)
+
 
 class TestStoreWithTimeBounds(unittest.TestCase):
 
