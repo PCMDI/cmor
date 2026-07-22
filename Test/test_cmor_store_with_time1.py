@@ -123,6 +123,26 @@ class TestStoreWithTime1(unittest.TestCase):
                 self.assertEqual(dataset.variables["hus"].shape, (self.ntime, self.nlev, self.nlat, self.nlon))
                 self.assertEqual(dataset.variables["ps"].shape, (self.ntime, self.nlat, self.nlon))
 
+    def test_store_with_time1_axis_values_supports_chunked_writes(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            output_dir = Path(tmpdir)
+            input_path = write_user_input(output_dir, "6hr")
+            var_id, ps_id = self._cmor_time1_setup(input_path)
+
+            for i in range(self.ntime):
+                cmor.write(var_id, self.hus_data[i:i + 1], ntimes_passed=1)
+                cmor.write(ps_id, self.ps_data[i:i + 1], ntimes_passed=1, store_with=var_id)
+            filename = cmor.close(var_id, file_name=True)
+            cmor.close()
+
+            with netCDF4.Dataset(filename) as dataset:
+                self.assertEqual(len(dataset.dimensions["time"]), self.ntime)
+                numpy.testing.assert_allclose(dataset.variables["time"][:], self.time_vals)
+                numpy.testing.assert_allclose(
+                    dataset.variables["ps"][:, 0, 0],
+                    100000.0 + numpy.arange(self.ntime, dtype="f"),
+                )
+
     def test_store_with_time1_axis_values_supports_chunked_associated_writes(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             output_dir = Path(tmpdir)
@@ -163,6 +183,25 @@ class TestStoreWithTime1(unittest.TestCase):
                     100000.0 + numpy.arange(self.ntime, dtype="f"),
                 )
 
+    def test_store_with_time1_axis_values_supports_time_val_writes(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            output_dir = Path(tmpdir)
+            input_path = write_user_input(output_dir, "6hr")
+            var_id, ps_id = self._cmor_time1_setup(input_path, time_axis_with_values=False)
+
+            cmor.write(var_id, self.hus_data, time_vals=self.time_vals)
+            cmor.write(ps_id, self.ps_data, time_vals=self.time_vals, store_with=var_id)
+            filename = cmor.close(var_id, file_name=True)
+            cmor.close()
+
+            with netCDF4.Dataset(filename) as dataset:
+                self.assertEqual(len(dataset.dimensions["time"]), self.ntime)
+                numpy.testing.assert_allclose(dataset.variables["time"][:], self.time_vals)
+                numpy.testing.assert_allclose(
+                    dataset.variables["ps"][:, 0, 0],
+                    100000.0 + numpy.arange(self.ntime, dtype="f"),
+                )
+
     def test_store_with_time1_axis_values_supports_chunked_time_val_writes(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             output_dir = Path(tmpdir)
@@ -171,7 +210,47 @@ class TestStoreWithTime1(unittest.TestCase):
 
             for i in range(self.ntime):
                 cmor.write(var_id, self.hus_data[i:i + 1], time_vals=self.time_vals[i], ntimes_passed=1)
+                cmor.write(ps_id, self.ps_data[i:i + 1], time_vals=self.time_vals[i], ntimes_passed=1, store_with=var_id)
+            filename = cmor.close(var_id, file_name=True)
+            cmor.close()
+
+            with netCDF4.Dataset(filename) as dataset:
+                self.assertEqual(len(dataset.dimensions["time"]), self.ntime)
+                numpy.testing.assert_allclose(dataset.variables["time"][:], self.time_vals)
+                numpy.testing.assert_allclose(
+                    dataset.variables["ps"][:, 0, 0],
+                    100000.0 + numpy.arange(self.ntime, dtype="f"),
+                )
+
+    def test_store_with_time1_axis_values_supports_chunked_time_val_variable_writes(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            output_dir = Path(tmpdir)
+            input_path = write_user_input(output_dir, "6hr")
+            var_id, ps_id = self._cmor_time1_setup(input_path, time_axis_with_values=False)
+
+            for i in range(self.ntime):
+                cmor.write(var_id, self.hus_data[i:i + 1], time_vals=self.time_vals[i], ntimes_passed=1)
             cmor.write(ps_id, self.ps_data, time_vals=self.time_vals, store_with=var_id)
+            filename = cmor.close(var_id, file_name=True)
+            cmor.close()
+
+            with netCDF4.Dataset(filename) as dataset:
+                self.assertEqual(len(dataset.dimensions["time"]), self.ntime)
+                numpy.testing.assert_allclose(dataset.variables["time"][:], self.time_vals)
+                numpy.testing.assert_allclose(
+                    dataset.variables["ps"][:, 0, 0],
+                    100000.0 + numpy.arange(self.ntime, dtype="f"),
+                )
+
+    def test_store_with_time1_axis_values_supports_chunked_time_val_associated_writes(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            output_dir = Path(tmpdir)
+            input_path = write_user_input(output_dir, "6hr")
+            var_id, ps_id = self._cmor_time1_setup(input_path, time_axis_with_values=False)
+
+            cmor.write(var_id, self.hus_data, time_vals=self.time_vals)
+            for i in range(self.ntime):
+                cmor.write(ps_id, self.ps_data[i:i + 1], time_vals=self.time_vals[i], ntimes_passed=1, store_with=var_id)
             filename = cmor.close(var_id, file_name=True)
             cmor.close()
 
