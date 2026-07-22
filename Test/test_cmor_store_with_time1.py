@@ -7,6 +7,11 @@ import cmor
 import netCDF4
 import numpy
 
+try:
+    from base_CMIP6_CV import BaseCVsTest
+except ModuleNotFoundError:
+    from Test.base_CMIP6_CV import BaseCVsTest
+
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 TABLES_PATH = REPO_ROOT / "cmip7-cmor-tables" / "tables"
@@ -43,9 +48,10 @@ def write_user_input(output_dir, frequency):
     return input_path
 
 
-class TestStoreWithTime1(unittest.TestCase):
+class TestStoreWithTime1(BaseCVsTest):
 
     def setUp(self):
+        super().setUp()
         self.ntime = 4
         self.time_vals = numpy.arange(self.ntime, dtype="d") * 0.25
         self.lat_vals = numpy.array([-60.0, 0.0, 60.0], dtype="d")
@@ -65,7 +71,7 @@ class TestStoreWithTime1(unittest.TestCase):
             self.ps_data[i, :, :] = 100000.0 + i
 
     def _cmor_time1_setup(self, input_path, time_axis_with_values=True):
-        cmor.setup(inpath=str(TABLES_PATH), netcdf_file_action=cmor.CMOR_REPLACE)
+        cmor.setup(inpath=str(TABLES_PATH), netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.tmpfile)
         cmor.dataset_json(str(input_path))
         cmor.load_table("CMIP7_atmos.json")
 
@@ -272,9 +278,30 @@ class TestStoreWithTime1(unittest.TestCase):
                 cmor.write(var_id, self.hus_data[i:i + 1], time_vals=self.time_vals[i], ntimes_passed=1)
             with self.assertRaises(cmor.CMORError):
                 cmor.write(ps_id, self.ps_data, store_with=var_id)
+            self.assertCV(
+                "variable 'ps' (table: atmos) you are passing 0 times but no "
+                "values and you did not define them via cmor_axis"
+            )
+
+    def test_store_with_time1_associated_write_past_parent_time_raises(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            output_dir = Path(tmpdir)
+            input_path = write_user_input(output_dir, "6hr")
+            var_id, ps_id = self._cmor_time1_setup(input_path)
+
+            cmor.write(var_id, self.hus_data[:1], ntimes_passed=1)
+            with self.assertRaises(cmor.CMORError):
+                cmor.write(ps_id, self.ps_data, store_with=var_id)
+
+            self.assertCV(
+                "You are trying to write 4 time steps for associated variable "
+                "'ps' (table: atmos), starting at time step 0, but associated "
+                "variable 'hus' only has 1 time steps available.",
+                number_of_lines_to_scan=4,
+            )
 
 
-class TestStoreWithTimeBounds(unittest.TestCase):
+class TestStoreWithTimeBounds(BaseCVsTest):
 
     def test_store_with_bounded_time_axis_still_writes_expected_records(self):
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -291,7 +318,7 @@ class TestStoreWithTimeBounds(unittest.TestCase):
             lev_vals = numpy.array([0.92, 0.72, 0.50, 0.30, 0.10], dtype="d")
             lev_bnds = numpy.array([1.00, 0.83, 0.61, 0.40, 0.20, 0.00], dtype="d")
 
-            cmor.setup(inpath=str(TABLES_PATH), netcdf_file_action=cmor.CMOR_REPLACE)
+            cmor.setup(inpath=str(TABLES_PATH), netcdf_file_action=cmor.CMOR_REPLACE, logfile=self.tmpfile)
             cmor.dataset_json(str(input_path))
             cmor.load_table("CMIP7_atmos.json")
 
