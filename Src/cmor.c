@@ -2710,7 +2710,10 @@ int cmor_set_refvar(int var_id, int *refvar, int ntimes_passed)
 /* -------------------------------------------------------------------- */
     int nRefVarID = var_id;
     int nVarRefTblID = cmor_vars[var_id].ref_table_id;
+    int nTimesToWrite = ntimes_passed;
+    int nAssociatedIndex = -1;
     int ierr;
+    int i;
 
     cmor_add_traceback("cmor_set_refvar");
     if (refvar != NULL) {
@@ -2743,8 +2746,43 @@ int cmor_set_refvar(int var_id, int *refvar, int ntimes_passed)
                 cmor_tables[nVarRefTblID].szTable_id,
                 cmor_vars[*refvar].id);
         }
-        cmor_vars[var_id].ntimes_written =
-          cmor_vars[nRefVarID].ntimes_written - ntimes_passed;
+
+        if ((nTimesToWrite == 0) && (cmor_vars[var_id].ndims > 0)
+            && (cmor_axes[cmor_vars[var_id].axes_ids[0]].axis == 'T')
+            && (cmor_axes[cmor_vars[var_id].axes_ids[0]].values != NULL)) {
+            nTimesToWrite = cmor_axes[cmor_vars[var_id].axes_ids[0]].length;
+        }
+
+        for (i = 0; i < 10; i++) {
+            if (cmor_vars[nRefVarID].associated_ids[i] == var_id) {
+                nAssociatedIndex = i;
+                break;
+            }
+        }
+
+        if (nAssociatedIndex != -1) {
+            cmor_vars[var_id].ntimes_written =
+              cmor_vars[nRefVarID].ntimes_written_associated[nAssociatedIndex];
+
+            if ((nTimesToWrite > 0) &&
+                (cmor_vars[var_id].ntimes_written + nTimesToWrite >
+                 cmor_vars[nRefVarID].ntimes_written)) {
+                cmor_handle_error_var_variadic(
+                    "You are trying to write %i time steps for associated "
+                    "variable '%s' (table: %s), starting at time step %i, "
+                    "but associated variable '%s' only has %i time steps "
+                    "available.",
+                    CMOR_CRITICAL, var_id,
+                    nTimesToWrite, cmor_vars[var_id].id,
+                    cmor_tables[nVarRefTblID].szTable_id,
+                    cmor_vars[var_id].ntimes_written,
+                    cmor_vars[nRefVarID].id,
+                    cmor_vars[nRefVarID].ntimes_written);
+            }
+        } else {
+            cmor_vars[var_id].ntimes_written =
+              cmor_vars[nRefVarID].ntimes_written - nTimesToWrite;
+        }
     }
     cmor_pop_traceback();
     return (nRefVarID);

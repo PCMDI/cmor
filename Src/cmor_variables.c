@@ -3477,6 +3477,17 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
                     avar->id,
                     cmor_tables[avar->ref_table_id].szTable_id,
                     ntimes_passed);
+                if (mtype == 'd')
+                    free(data_tmp);
+                else if (mtype == 'f')
+                    free(fdata_tmp);
+                else if (mtype == 'l')
+                    free(ldata_tmp);
+                else if (mtype == 'i')
+                    free(idata_tmp);
+
+                cmor_pop_traceback();
+                return (1);
             }
             if (cmor_axes[avar->axes_ids[0]].bounds != NULL) {
 /* -------------------------------------------------------------------- */
@@ -3580,7 +3591,17 @@ int cmor_write_var_to_file(int ncid, cmor_var_t * avar, void *data,
                     avar->id,
                     cmor_tables[avar->ref_table_id].szTable_id,
                     ntimes_passed);
+                if (mtype == 'd')
+                    free(data_tmp);
+                else if (mtype == 'f')
+                    free(fdata_tmp);
+                else if (mtype == 'l')
+                    free(ldata_tmp);
+                else if (mtype == 'i')
+                    free(idata_tmp);
 
+                cmor_pop_traceback();
+                return (1);
             }
 
             avar->first_bound = 1.e20;
