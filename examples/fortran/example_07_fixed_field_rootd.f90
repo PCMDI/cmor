@@ -72,6 +72,8 @@ program example_07_fixed_field_rootd
        axis_ids=(/ lon_id, lat_id /), &
        missing_value=missing_value)
   call check_id("cmor_variable(rootd)", var_id)
+  call apply_cmip7_variable_metadata(var_id, tables_path, "land", &
+       "rootd_ti-u-hxy-lnd", "fx", "glb")
 
   ierr = cmor_write(var_id, rootd)
   call check_status("cmor_write", ierr)

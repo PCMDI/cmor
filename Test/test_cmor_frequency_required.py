@@ -29,7 +29,7 @@ class TestFrequencyRequired(BaseCVsTest):
             "nominal_resolution": "100 km",
             "physics_index": "p1",
             "realization_index": "r9",
-            "source_id": "DUMMY-MODEL",
+            "source_id": "ACCESS-ESM1-6",
             "experiment_id": "amip",
             "activity_id": "CMIP",
             "source_type": "AOGCM",

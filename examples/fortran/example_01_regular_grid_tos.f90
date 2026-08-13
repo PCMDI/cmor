@@ -92,6 +92,8 @@ program example_01_regular_grid_tos
        axis_ids=(/ lon_id, lat_id, time_id /), &
        missing_value=missing_value)
   call check_id("cmor_variable(tos)", var_id)
+  call apply_cmip7_variable_metadata(var_id, tables_path, "ocean", &
+       "tos_tavg-u-hxy-sea", "mon", "glb")
 
   ierr = cmor_write(var_id, tos)
   call check_status("cmor_write", ierr)

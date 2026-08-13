@@ -36,12 +36,45 @@ def configure(output_dir: Path) -> None:
         "physics_index": "p1",
         "realization_index": "r1",
         "region": "glb",
-        "source_id": "DUMMY-MODEL",
+        "source_id": "ACCESS-ESM1-6",
     }
     input_path = output_dir / "example_04_input.json"
     input_path.write_text(json.dumps(user_input, indent=2, sort_keys=True))
     cmor.setup(inpath=str(TABLES_PATH), netcdf_file_action=cmor.CMOR_REPLACE)
     cmor.dataset_json(str(input_path))
+
+
+def apply_cmip7_variable_metadata(
+    var_id: int,
+    realm: str,
+    table_entry: str,
+    frequency: str,
+    region: str,
+) -> str:
+    compound_name = ".".join(
+        [realm] + table_entry.split("_") + [frequency, region]
+    )
+
+    with (TABLES_PATH / "CMIP7_cell_measures.json").open() as handle:
+        cell_measures = json.load(handle)["cell_measures"]
+    cmor.set_variable_attribute(
+        var_id,
+        "cell_measures",
+        "c",
+        cell_measures.get(compound_name, ""),
+    )
+
+    with (TABLES_PATH / "CMIP7_long_name_overrides.json").open() as handle:
+        long_name_overrides = json.load(handle)["long_name_overrides"]
+    if compound_name in long_name_overrides:
+        cmor.set_variable_attribute(
+            var_id,
+            "long_name",
+            "c",
+            long_name_overrides[compound_name],
+        )
+
+    return compound_name
 
 
 def write_example(output_dir: Path) -> str:
@@ -76,6 +109,13 @@ def write_example(output_dir: Path) -> str:
         "W",
         [time_id, basin_id, lat_id],
         missing_value=1.0e20,
+    )
+    apply_cmip7_variable_metadata(
+        var_id,
+        "ocean",
+        "htovgyre_tavg-u-hyb-sea",
+        "mon",
+        "glb",
     )
     data = np.array(
         [

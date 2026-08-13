@@ -87,6 +87,8 @@ program example_04_basin_axis
        axis_ids=(/ lat_id, basin_id, time_id /), &
        missing_value=missing_value)
   call check_id("cmor_variable(htovgyre)", var_id)
+  call apply_cmip7_variable_metadata(var_id, tables_path, "ocean", &
+       "htovgyre_tavg-u-hyb-sea", "mon", "glb")
 
   ierr = cmor_write(var_id, heat_transport)
   call check_status("cmor_write", ierr)
