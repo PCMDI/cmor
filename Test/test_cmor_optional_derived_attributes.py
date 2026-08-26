@@ -102,32 +102,45 @@ class TestOptionalDerivedAttributes(unittest.TestCase):
             for attribute, value in expected.items():
                 self.assertEqual(dataset.getncattr(attribute), value)
 
-    def test_user_values_do_not_override_required_cv_values(self):
+    def test_user_values_do_not_override_required_source_and_institution(self):
         required = self.cv["CV"]["required_global_attributes"]
-        required.extend(DERIVED_ATTRIBUTES)
+        required.extend(("source", "institution"))
         with self.cv_path.open("w") as cv_file:
             json.dump(self.cv, cv_file)
 
         user_values = {
             "source": "User supplied source description",
-            "experiment": "User supplied experiment description",
             "institution": "User supplied institution description",
         }
-        with self.assertRaises(cmor.CMORError):
-            self._create_output(user_values)
+        filename = self._create_output(user_values)
 
         cv = self.cv["CV"]
         expected = {
             "source": cv["source_id"][self.user_input["source_id"]]["source"],
-            "experiment": cv["experiment_id"][
-                self.user_input["experiment_id"]
-            ]["experiment"],
             "institution": cv["institution_id"][
                 self.user_input["institution_id"]
             ],
         }
-        for attribute, value in expected.items():
-            self.assertEqual(cmor.get_cur_dataset_attribute(attribute), value)
+
+        with Dataset(filename) as dataset:
+            for attribute, value in expected.items():
+                self.assertEqual(dataset.getncattr(attribute), value)
+
+    def test_user_value_does_not_override_required_experiment(self):
+        required = self.cv["CV"]["required_global_attributes"]
+        required.append("experiment")
+        with self.cv_path.open("w") as cv_file:
+            json.dump(self.cv, cv_file)
+
+        with self.assertRaises(cmor.CMORError):
+            self._create_output(
+                {"experiment": "User supplied experiment description"}
+            )
+
+        expected = self.cv["CV"]["experiment_id"][
+            self.user_input["experiment_id"]
+        ]["experiment"]
+        self.assertEqual(cmor.get_cur_dataset_attribute("experiment"), expected)
 
 
 if __name__ == "__main__":
