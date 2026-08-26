@@ -20,6 +20,7 @@ class TestOptionalDerivedAttributes(unittest.TestCase):
         self.tmpdir = Path(tempfile.mkdtemp(dir=str(Path("Test").resolve())))
         self.cv_path = self.tmpdir / "CMIP6_CV.json"
         self.input_path = self.tmpdir / "input.json"
+        self.log_path = self.tmpdir / "cmor.log"
         self.output_path = self.tmpdir / "output"
         self.output_path.mkdir()
 
@@ -58,6 +59,7 @@ class TestOptionalDerivedAttributes(unittest.TestCase):
             inpath="Tables",
             netcdf_file_action=cmor.CMOR_REPLACE,
             create_subdirectories=1,
+            logfile=str(self.log_path),
         )
         self.assertEqual(cmor.dataset_json(str(self.input_path)), 0)
         cmor.load_table("CMIP6_Omon.json")
@@ -126,6 +128,16 @@ class TestOptionalDerivedAttributes(unittest.TestCase):
             for attribute, value in expected.items():
                 self.assertEqual(dataset.getncattr(attribute), value)
 
+        log = self.log_path.read_text()
+        self.assertIn(
+            'Warning: Your input attribute "source" with value', log
+        )
+        self.assertIn(
+            'Warning: Your input attribute institution '
+            '"User supplied institution description" will be replaced with',
+            log,
+        )
+
     def test_user_value_does_not_override_required_experiment(self):
         required = self.cv["CV"]["required_global_attributes"]
         required.append("experiment")
@@ -137,10 +149,15 @@ class TestOptionalDerivedAttributes(unittest.TestCase):
                 {"experiment": "User supplied experiment description"}
             )
 
-        expected = self.cv["CV"]["experiment_id"][
-            self.user_input["experiment_id"]
-        ]["experiment"]
-        self.assertEqual(cmor.get_cur_dataset_attribute("experiment"), expected)
+        log = self.log_path.read_text()
+        self.assertIn(
+            'Error: Your input attribute "experiment" with value', log
+        )
+        self.assertIn(
+            'needs to be replaced with value '
+            '"preindustrial control with interactive ice sheet"',
+            log,
+        )
 
 
 if __name__ == "__main__":
