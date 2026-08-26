@@ -202,6 +202,7 @@ wheel_python_tests=(
     "Test/test_cmor_unsupported_calendar.py"
     "Test/test_cmor_time_interval_check.py"
     "Test/test_cmor_license_attributes.py"
+    "Test/test_cmor_optional_derived_attributes.py"
     "Test/test_cmor_nested_cv_attribute.py"
     "Test/test_cmor_path_and_file_templates.py"
     "Test/test_cmor_parent_attrs.py"

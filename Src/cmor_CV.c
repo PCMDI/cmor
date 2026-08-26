@@ -282,6 +282,26 @@ cmor_CV_def_t *cmor_CV_rootsearch(cmor_CV_def_t * CV, char *key)
     return (NULL);
 }
 
+/* Return whether an attribute is listed as required by the CV. */
+static int cmor_CV_is_required_global_attribute(cmor_CV_def_t *CV,
+                                                 const char *attribute)
+{
+    cmor_CV_def_t *required_attrs;
+    int i;
+
+    required_attrs = cmor_CV_rootsearch(CV, CV_KEY_REQUIRED_GBL_ATTRS);
+    if (required_attrs == NULL) {
+        return (0);
+    }
+
+    for (i = 0; i < required_attrs->anElements; i++) {
+        if (strcmp(attribute, required_attrs->aszValue[i]) == 0) {
+            return (1);
+        }
+    }
+    return (0);
+}
+
 /************************************************************************/
 /*                      cmor_CV_get_value()                             */
 /************************************************************************/
@@ -626,6 +646,8 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
     char CV_Filename[CMOR_MAX_STRING];
     char CMOR_Filename[CMOR_MAX_STRING];
     int rc;
+    int source_is_required;
+    int user_defined_source;
     int i;
     int j = 0;
 
@@ -652,6 +674,10 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
         cmor_pop_traceback();
         return (-1);
     }
+    source_is_required = cmor_CV_is_required_global_attribute(
+        CV, GLOBAL_ATT_SOURCE);
+    user_defined_source = (cmor_has_cur_dataset_attribute(
+        GLOBAL_ATT_SOURCE) == 0);
     // retrieve source_id
     rc = cmor_get_cur_dataset_attribute(GLOBAL_ATT_SOURCE_ID, szSource_ID);
     if (rc != 0) {
@@ -701,7 +727,8 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
                 nLen = pos - CV_source_id->oValue[j].szValue + 1;
             }
             szSubstring[nLen] = '\0';
-            if (strncmp(szSubstring, szSource, nLen) != 0) {
+            if (source_is_required &&
+                strncmp(szSubstring, szSource, nLen) != 0) {
                 cmor_handle_error_variadic(
                          "Your input attribute \"%s\" with value \n! \"%s\" "
                          "will be replaced with "
@@ -735,8 +762,10 @@ int cmor_CV_checkSourceID(cmor_CV_def_t * CV)
     // Set/replace attribute.
     cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_SOURCE_ID,
                                             CV_source_id->key, 1);
-    cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_SOURCE,
-                                            CV_source_id->oValue[j].szValue, 1);
+    if (source_is_required || !user_defined_source) {
+        cmor_set_cur_dataset_attribute_internal(
+            GLOBAL_ATT_SOURCE, CV_source_id->oValue[j].szValue, 1);
+    }
 
     cmor_pop_traceback();
     return (0);
@@ -1492,6 +1521,14 @@ int cmor_CV_checkExperiment(cmor_CV_def_t * CV)
                 ierr = -1;
             continue;
         }
+        /* The experiment_id supplies a default experiment label.  A CV may
+         * leave that label optional, in which case an explicit user value
+         * takes precedence over the registered default. */
+        if (strcmp(CV_experiment_attr->key, GLOBAL_ATT_EXPERIMENT) == 0 &&
+            !cmor_CV_is_required_global_attribute(
+                CV, GLOBAL_ATT_EXPERIMENT) && rc == 0) {
+            continue;
+        }
         // Warn user if experiment value from input file is different than
         // Controlled Vocabulary value.
         // experiment from Controlled Vocabulary will replace User entry value.
@@ -1577,6 +1614,7 @@ int cmor_CV_setInstitution(cmor_CV_def_t * CV)
     char CMOR_Filename[CMOR_MAX_STRING];
     char CV_Filename[CMOR_MAX_STRING];
     int rc;
+    int institution_is_required;
 
     cmor_add_traceback("_CV_setInstitution");
 /* -------------------------------------------------------------------- */
@@ -1624,6 +1662,8 @@ int cmor_CV_setInstitution(cmor_CV_def_t * CV)
         cmor_pop_traceback();
         return (-1);
     }
+    institution_is_required = cmor_CV_is_required_global_attribute(
+        CV, GLOBAL_ATT_INSTITUTION);
 /* -------------------------------------------------------------------- */
 /* Did the user defined an Institution Attribute?                       */
 /* -------------------------------------------------------------------- */
@@ -1653,8 +1693,9 @@ int cmor_CV_setInstitution(cmor_CV_def_t * CV)
 /* -------------------------------------------------------------------- */
 /*  Check if they have the same string                                  */
 /* -------------------------------------------------------------------- */
-        if (strncmp(szInstitution, CV_institution->szValue, CMOR_MAX_STRING) !=
-            0) {
+        if (institution_is_required &&
+            strncmp(szInstitution, CV_institution->szValue,
+                    CMOR_MAX_STRING) != 0) {
             cmor_handle_error_variadic(
                      "Your input attribute institution \"%s\" will be replaced with \n! "
                      "\"%s\" as defined in your Controlled Vocabulary file.\n! ",
@@ -1664,8 +1705,10 @@ int cmor_CV_setInstitution(cmor_CV_def_t * CV)
 /* -------------------------------------------------------------------- */
 /*   Set institution according to the Controlled Vocabulary                */
 /* -------------------------------------------------------------------- */
-    cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_INSTITUTION,
-                                            CV_institution->szValue, 1);
+    if (institution_is_required || rc != 0) {
+        cmor_set_cur_dataset_attribute_internal(GLOBAL_ATT_INSTITUTION,
+                                                CV_institution->szValue, 1);
+    }
     cmor_pop_traceback();
     return (0);
 }
