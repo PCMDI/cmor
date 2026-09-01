@@ -91,6 +91,15 @@ class TestCRS(BaseCVsTest):
     def test_crs_without_crs_wkt(self):
         ds = Dataset(self.make_crs_file())
 
+        self.assertEqual(ds.variables['baresoilFrac'].dimensions,
+                         ('time', 'y', 'x'))
+        self.assertEqual(ds.variables['latitude'].dimensions, ('y', 'x'))
+        self.assertEqual(ds.variables['longitude'].dimensions, ('y', 'x'))
+        self.assertEqual(ds.variables['vertices_latitude'].dimensions,
+                         ('y', 'x', 'vertices'))
+        self.assertEqual(ds.variables['vertices_longitude'].dimensions,
+                         ('y', 'x', 'vertices'))
+
         self.assertTrue('crs' in ds.variables)
         attrs = ds.variables['crs'].ncattrs()
         test_attrs = {
