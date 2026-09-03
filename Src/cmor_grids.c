@@ -479,8 +479,8 @@ int cmor_grid_valid_mapping_attribute_names(char *name, int *natt, char (*att)
     } else if (strcmp(name, "latitude_longitude") == 0) {
         *natt = 0;
         *ndims = 2;
-        strcpy(dims[0], "longitude");
-        strcpy(dims[1], "latitude");
+        strcpy(dims[0], "latitude");
+        strcpy(dims[1], "longitude");
     } else if (strcmp(name, "mercator") == 0) {
         *natt = 5;
         strcpy(att[0], "longitude_of_projection_origin");
@@ -528,8 +528,8 @@ int cmor_grid_valid_mapping_attribute_names(char *name, int *natt, char (*att)
         strcpy(att[1], "grid_north_pole_longitude");
         strcpy(att[2], "north_pole_grid_longitude");
         *ndims = 2;
-        strcpy(dims[0], "grid_longitude");
-        strcpy(dims[1], "grid_latitude");
+        strcpy(dims[0], "grid_latitude");
+        strcpy(dims[1], "grid_longitude");
     } else if (strcmp(name, "sinusoidal") == 0) {
         *natt = 3;
         strcpy(att[0], "longitude_of_projection_origin");
