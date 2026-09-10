@@ -91,6 +91,15 @@ class TestCRS(BaseCVsTest):
     def test_crs_without_crs_wkt(self):
         ds = Dataset(self.make_crs_file())
 
+        self.assertEqual(ds.variables['baresoilFrac'].dimensions,
+                         ('time', 'y', 'x'))
+        self.assertEqual(ds.variables['latitude'].dimensions, ('y', 'x'))
+        self.assertEqual(ds.variables['longitude'].dimensions, ('y', 'x'))
+        self.assertEqual(ds.variables['vertices_latitude'].dimensions,
+                         ('y', 'x', 'vertices'))
+        self.assertEqual(ds.variables['vertices_longitude'].dimensions,
+                         ('y', 'x', 'vertices'))
+
         self.assertTrue('crs' in ds.variables)
         attrs = ds.variables['crs'].ncattrs()
         test_attrs = {
@@ -203,8 +212,8 @@ class TestLatLonGridMapping(BaseCVsTest):
         lat_bounds[:, 1] = lat_coords + 0.5
 
         lat_grid, lon_grid = np.broadcast_arrays(
-            np.expand_dims(lat_coords, 0),
-            np.expand_dims(lon_coords, 1)
+            np.expand_dims(lat_coords, 1),
+            np.expand_dims(lon_coords, 0)
             )
 
         axes = [
@@ -253,6 +262,14 @@ class TestLatLonGridMapping(BaseCVsTest):
 
         filename = cmor.close(ivar, file_name=True)
         ds = Dataset(filename)
+
+        self.assertEqual(ds.variables['baresoilFrac'].dimensions,
+                         ('time', 'lat', 'lon'))
+        self.assertEqual(ds.variables['latitude'].dimensions, ('lat', 'lon'))
+        self.assertEqual(ds.variables['longitude'].dimensions, ('lat', 'lon'))
+        self.assertEqual(ds.variables['type'].dimensions, ('strlen',))
+        np.testing.assert_array_equal(ds.variables['latitude'][:], lat_grid)
+        np.testing.assert_array_equal(ds.variables['longitude'][:], lon_grid)
 
         self.assertTrue('crs' in ds.variables)
         attrs = ds.variables['crs'].ncattrs()
