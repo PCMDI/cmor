@@ -3,7 +3,7 @@
 These examples mirror the CMIP7 Python and Fortran examples with the CMOR C
 API. They write small synthetic fields for regular grids, pressure levels,
 scalar coordinates, basin coordinates, hybrid-sigma model levels,
-curvilinear grids, and fixed fields.
+curvilinear grids, fixed fields, and point-site grids.
 
 ## Setup
 
