@@ -101,6 +101,7 @@ examples=(
   example_05_hybrid_sigma_levels
   example_06_curvilinear_grid
   example_07_fixed_field_rootd
+  example_08_site_dimension
 )
 
 for example in "${examples[@]}"; do
