@@ -29,7 +29,7 @@ def write_user_input(output_dir, frequency):
         "experiment_id": "amip",
         "forcing_index": "f3",
         "frequency": frequency,
-        "grid_label": "g999",
+        "grid_label": "g010",
         "host_collection": "CMIP7",
         "initialization_index": "i1",
         "institution_id": "CCCma",
