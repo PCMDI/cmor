@@ -59,7 +59,7 @@ void cmip7_write_user_input_json(const char *output_dir, const char *input_name,
   fprintf(file, "  \"experiment_id\": \"amip\",\n");
   fprintf(file, "  \"forcing_index\": \"%s\",\n", forcing_index);
   fprintf(file, "  \"frequency\": \"%s\",\n", frequency);
-  fprintf(file, "  \"grid_label\": \"g999\",\n");
+  fprintf(file, "  \"grid_label\": \"g010\",\n");
   fprintf(file, "  \"host_collection\": \"CMIP7\",\n");
   fprintf(file, "  \"initialization_index\": \"i1\",\n");
   fprintf(file, "  \"institution_id\": \"MOHC\",\n");
