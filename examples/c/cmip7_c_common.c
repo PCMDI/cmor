@@ -54,13 +54,11 @@ void cmip7_write_user_input_json(const char *output_dir, const char *input_name,
   fprintf(file, "  \"_controlled_vocabulary_file\": "
                 "\"../tables-cvs/cmor-cvs.json\",\n");
   fprintf(file, "  \"activity_id\": \"CMIP\",\n");
-  fprintf(file, "  \"archive_id\": \"WCRP\",\n");
   fprintf(file, "  \"calendar\": \"360_day\",\n");
   fprintf(file, "  \"experiment_id\": \"amip\",\n");
   fprintf(file, "  \"forcing_index\": \"%s\",\n", forcing_index);
   fprintf(file, "  \"frequency\": \"%s\",\n", frequency);
   fprintf(file, "  \"grid_label\": \"g010\",\n");
-  fprintf(file, "  \"host_collection\": \"CMIP7\",\n");
   fprintf(file, "  \"initialization_index\": \"i1\",\n");
   fprintf(file, "  \"institution_id\": \"MOHC\",\n");
   fprintf(file, "  \"license_id\": \"CC-BY-4.0\",\n");

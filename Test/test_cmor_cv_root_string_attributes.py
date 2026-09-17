@@ -30,10 +30,8 @@ USER_INPUT = {
     "physics_index": "p1",
     "realization_index": "r9",
     "source_id": "ACCESS-ESM1-6",
-    "host_collection": "CMIP7",
     "frequency": "mon",
     "region": "glb",
-    "archive_id": "WCRP",
 }
 
 
