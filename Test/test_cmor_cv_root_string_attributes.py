@@ -21,7 +21,7 @@ USER_INPUT = {
     "cv_version": "6.2.19.0",
     "experiment_id": "amip",
     "forcing_index": "f3",
-    "grid_label": "g999",
+    "grid_label": "g010",
     "initialization_index": "i1",
     "institution_id": "CCCma",
     "license_id": "CC-BY-4.0",

@@ -22,7 +22,7 @@ class TestFrequencyRequired(BaseCVsTest):
             "_controlled_vocabulary_file": CV_PATH,
             "mip_era": "CMIP7",
             "forcing_index": "f3",
-            "grid_label": "g999",
+            "grid_label": "g010",
             "initialization_index": "i1",
             "institution_id": "CCCma",
             "license_id": "CC-BY-4.0",

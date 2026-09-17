@@ -28,7 +28,7 @@ def configure(output_dir: Path) -> None:
         "experiment_id": "amip",
         "forcing_index": "f1",
         "frequency": "mon",
-        "grid_label": "g999",
+        "grid_label": "g010",
         "initialization_index": "i1",
         "institution_id": "MOHC",
         "license_id": "CC-BY-4.0",

@@ -49,7 +49,7 @@ contains
     call json_string(unit, "experiment_id", "amip", .true.)
     call json_string(unit, "forcing_index", trim(forcing_index), .true.)
     call json_string(unit, "frequency", trim(frequency), .true.)
-    call json_string(unit, "grid_label", "g999", .true.)
+    call json_string(unit, "grid_label", "g010", .true.)
     call json_string(unit, "host_collection", "CMIP7", .true.)
     call json_string(unit, "initialization_index", "i1", .true.)
     call json_string(unit, "institution_id", "MOHC", .true.)
