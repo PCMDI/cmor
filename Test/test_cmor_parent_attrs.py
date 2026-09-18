@@ -29,10 +29,8 @@ USER_INPUT = {
     "physics_index": "p1",
     "realization_index": "r9",
     "source_id": "ACCESS-ESM1-6",
-    "host_collection": "CMIP7",
     "frequency": "mon",
     "region": "glb",
-    "archive_id": "WCRP",
     "output_path_template": "<activity_id><source_id><experiment_id><member_id><variable_id><branding_suffix><grid_label>",
     "output_file_template": "<variable_id><branding_suffix><frequency><region><grid_label><source_id><experiment_id><variant_label>",
 }

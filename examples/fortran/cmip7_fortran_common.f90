@@ -44,13 +44,11 @@ contains
     call json_string(unit, "_controlled_vocabulary_file", &
          "../tables-cvs/cmor-cvs.json", .true.)
     call json_string(unit, "activity_id", "CMIP", .true.)
-    call json_string(unit, "archive_id", "WCRP", .true.)
     call json_string(unit, "calendar", "360_day", .true.)
     call json_string(unit, "experiment_id", "amip", .true.)
     call json_string(unit, "forcing_index", trim(forcing_index), .true.)
     call json_string(unit, "frequency", trim(frequency), .true.)
     call json_string(unit, "grid_label", "g010", .true.)
-    call json_string(unit, "host_collection", "CMIP7", .true.)
     call json_string(unit, "initialization_index", "i1", .true.)
     call json_string(unit, "institution_id", "MOHC", .true.)
     call json_string(unit, "license_id", "CC-BY-4.0", .true.)
